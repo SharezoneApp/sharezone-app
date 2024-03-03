@@ -16,7 +16,6 @@ concurrency:
   group: app-release
 
 on:
-  pull_request:
   push:
     branches:
       - main
@@ -103,213 +102,213 @@ jobs:
             --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
             --flavor ${{ matrix.environment.flavor }}
 
-  # deploy-alpha-android-app:
-  #   runs-on: ubuntu-22.04
-  #   steps:
-  #     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+  deploy-alpha-android-app:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-  #     - name: Set Flutter version from FVM config file to environment variables
-  #       id: fvm-config-action
-  #       uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+      - name: Set Flutter version from FVM config file to environment variables
+        id: fvm-config-action
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-  #     - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
-  #       with:
-  #         flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-  #         channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-  #     - name: Install Codemagic CLI Tools
-  #       run: pip3 install codemagic-cli-tools==0.50.3
+      - name: Install Codemagic CLI Tools
+        run: pip3 install codemagic-cli-tools==0.50.3
 
-  #     - name: Setup signing
-  #       working-directory: app/android
-  #       env:
-  #         KEYSTORE_STRING: ${{ secrets.SHAREZONE_ANDROID_APP_KEYSTORE_STRING }}
-  #         KEY_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_PASSWORD }}
-  #         KEY_ALIAS: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_ALIAS }}
-  #         STORE_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_STORE_PASSWORD }}
-  #       run: |
-  #         echo $KEYSTORE_STRING | base64 -di > app/key.jks
-  #         echo "storePassword=$STORE_PASSWORD" >> key.properties
-  #         echo "keyPassword=$KEY_PASSWORD" >> key.properties
-  #         echo "keyAlias=$KEY_ALIAS" >> key.properties
-  #         echo "storeFile=key.jks" >> key.properties
+      - name: Setup signing
+        working-directory: app/android
+        env:
+          KEYSTORE_STRING: ${{ secrets.SHAREZONE_ANDROID_APP_KEYSTORE_STRING }}
+          KEY_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.SHAREZONE_ANDROID_APP_KEY_ALIAS }}
+          STORE_PASSWORD: ${{ secrets.SHAREZONE_ANDROID_APP_STORE_PASSWORD }}
+        run: |
+          echo $KEYSTORE_STRING | base64 -di > app/key.jks
+          echo "storePassword=$STORE_PASSWORD" >> key.properties
+          echo "keyPassword=$KEY_PASSWORD" >> key.properties
+          echo "keyAlias=$KEY_ALIAS" >> key.properties
+          echo "storeFile=key.jks" >> key.properties
 
-  #     - name: Build Android
-  #       working-directory: app
-  #       env:
-  #         # The iOS and App Store environment variables are used by the Codemagic
-  #         # CLI tool. It's important to use the same names as the CLI tool
-  #         # expects.
-  #         #
-  #         # From https://appstoreconnect.apple.com/apps/1434868489/
-  #         IOS_APP_ID: 1434868489
-  #         # The following secrets are used by the Codemagic CLI tool. It's important
-  #         # to use the same names as the CLI tool expects.
-  #         APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
-  #         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
-  #         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-  #       run: |
-  #         # Even when Firebase Distribution does not require a new build number,
-  #         # we still bump it to identify the different builds easier. Therefore,
-  #         # users can easier say in which version of the app they encountered a
-  #         # bug.
-  #         #
-  #         # We use the latest build number from the App Store Connect API, because
-  #         # this build number is always the the newest one and there is no easy
-  #         # API to get the latest build number from Firebase Distribution and the
-  #         # build number from App Store Connect is the same as the one from
-  #         # Firebase Distribution.
-  #         #
-  #         # Bumping the build number for Firebase Distribution has no effect on
-  #         # the PlayStore build number.
-  #         LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $IOS_APP_ID --platform IOS | head -2 | tail -1)
-  #         BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
+      - name: Build Android
+        working-directory: app
+        env:
+          # The iOS and App Store environment variables are used by the Codemagic
+          # CLI tool. It's important to use the same names as the CLI tool
+          # expects.
+          #
+          # From https://appstoreconnect.apple.com/apps/1434868489/
+          IOS_APP_ID: 1434868489
+          # The following secrets are used by the Codemagic CLI tool. It's important
+          # to use the same names as the CLI tool expects.
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: |
+          # Even when Firebase Distribution does not require a new build number,
+          # we still bump it to identify the different builds easier. Therefore,
+          # users can easier say in which version of the app they encountered a
+          # bug.
+          #
+          # We use the latest build number from the App Store Connect API, because
+          # this build number is always the the newest one and there is no easy
+          # API to get the latest build number from Firebase Distribution and the
+          # build number from App Store Connect is the same as the one from
+          # Firebase Distribution.
+          #
+          # Bumping the build number for Firebase Distribution has no effect on
+          # the PlayStore build number.
+          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-build-number $IOS_APP_ID --platform IOS | head -2 | tail -1)
+          BUMPED_BUILD_NUMBER=$(expr $LATEST_BUILD_NUMBER + 1)
 
-  #         # We are publishing APKs instead of App Bundles to Firebase Distribution
-  #         # because they easier to install. App Bundles are installed via the
-  #         # PlayStore which resulted in problems in the past.
+          # We are publishing APKs instead of App Bundles to Firebase Distribution
+          # because they easier to install. App Bundles are installed via the
+          # PlayStore which resulted in problems in the past.
 
-  #         flutter build apk \
-  #           --release \
-  #           --flavor prod \
-  #           --target=lib/main_prod.dart \
-  #           --dart-define DEVELOPMENT_STAGE=ALPHA \
-  #           --build-number $BUMPED_BUILD_NUMBER
+          flutter build apk \
+            --release \
+            --flavor prod \
+            --target=lib/main_prod.dart \
+            --dart-define DEVELOPMENT_STAGE=ALPHA \
+            --build-number $BUMPED_BUILD_NUMBER
 
-  #     - name: Install Firebase CLI
-  #       run: sudo npm i -g firebase-tools@11.24.1
+      - name: Install Firebase CLI
+        run: sudo npm i -g firebase-tools@11.24.1
 
-  #     - name: Publish to Firebase Distribution
-  #       working-directory: app
-  #       env:
-  #         FIREBASE_DISTRIBUTION_KEY: ${{ secrets.GCP_SA_FIREBASE_DISTRIBUTION_PROD_KEY }}
-  #       run: |
-  #         # Set up credentials for Firebase Distribution
-  #         echo $FIREBASE_DISTRIBUTION_KEY > sharezone-prod-key.json
-  #         export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
+      - name: Publish to Firebase Distribution
+        working-directory: app
+        env:
+          FIREBASE_DISTRIBUTION_KEY: ${{ secrets.GCP_SA_FIREBASE_DISTRIBUTION_PROD_KEY }}
+        run: |
+          # Set up credentials for Firebase Distribution
+          echo $FIREBASE_DISTRIBUTION_KEY > sharezone-prod-key.json
+          export GOOGLE_APPLICATION_CREDENTIALS=sharezone-prod-key.json
 
-  #         # Because we are publishing every commit a new alpha version, we are
-  #         # able to use the last commit message (title and description) as release
-  #         # note for the alpha builds. This is not the most user friendly note but
-  #         # it's better than nothing.
-  #         export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          # Because we are publishing every commit a new alpha version, we are
+          # able to use the last commit message (title and description) as release
+          # note for the alpha builds. This is not the most user friendly note but
+          # it's better than nothing.
+          export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 
-  #         firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
-  #           --app 1:730263787697:android:f0a3b3b856fd1383 \
-  #           --groups "alpha" \
-  #           --release-notes "$LAST_COMMIT_MESSAGE"
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
+            --app 1:730263787697:android:f0a3b3b856fd1383 \
+            --groups "alpha" \
+            --release-notes "$LAST_COMMIT_MESSAGE"
 
-  # deploy-alpha-ios-app:
-  #   runs-on: macos-13
-  #   timeout-minutes: 120
-  #   steps:
-  #     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+  deploy-alpha-ios-app:
+    runs-on: macos-13
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-  #     - name: Install Codemagic CLI Tools
-  #       run: pip3 install codemagic-cli-tools==0.50.3
+      - name: Install Codemagic CLI Tools
+        run: pip3 install codemagic-cli-tools==0.50.3
 
-  #     - name: Set Flutter version from FVM config file to environment variables
-  #       id: fvm-config-action
-  #       uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+      - name: Set Flutter version from FVM config file to environment variables
+        id: fvm-config-action
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-  #     - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
-  #       with:
-  #         flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-  #         channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-  #     - name: Activate sz_repo_cli package
-  #       run: flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+      - name: Activate sz_repo_cli package
+        run: flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
 
-  #     # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
-  #     - run: echo $(pwd)/bin >> $GITHUB_PATH
+      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+      - run: echo $(pwd)/bin >> $GITHUB_PATH
 
-  #     - name: Deploy iOS alpha to TestFlight
-  #       env:
-  #         # The following secrets are used by the Codemagic CLI tool. It's important
-  #         # to use the same names as the CLI tool expects.
-  #         CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
-  #         APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
-  #         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
-  #         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-  #       run: |
-  #         # Because we are publishing every commit a new alpha version, we are
-  #         # able to use the last commit message (title and description) as release
-  #         # note for the alpha builds. This is not the most user friendly note but
-  #         # it's better than nothing.
-  #         #
-  #         # The "sed 's/[<>]//g'" part is to remove the "<" and ">" characters
-  #         # because the App Store doesn't allow them.
-  #         export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | sed 's/[<>]//g')
+      - name: Deploy iOS alpha to TestFlight
+        env:
+          # The following secrets are used by the Codemagic CLI tool. It's important
+          # to use the same names as the CLI tool expects.
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: |
+          # Because we are publishing every commit a new alpha version, we are
+          # able to use the last commit message (title and description) as release
+          # note for the alpha builds. This is not the most user friendly note but
+          # it's better than nothing.
+          #
+          # The "sed 's/[<>]//g'" part is to remove the "<" and ">" characters
+          # because the App Store doesn't allow them.
+          export LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | sed 's/[<>]//g')
 
-  #         # The App Store Connect API only allows a maximum of 4000 characters for
-  #         # the release notes. So we need to truncate the commit message if it's
-  #         # longer than 4000 characters.
-  #         export SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
+          # The App Store Connect API only allows a maximum of 4000 characters for
+          # the release notes. So we need to truncate the commit message if it's
+          # longer than 4000 characters.
+          export SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
-  #         # Note that we use '--whats-new "$SHORT_LAST_COMMIT_MESSAGE"' instead
-  #         # of '--whats-new="$SHORT_LAST_COMMIT_MESSAGE"' to correctly pass the
-  #         # multiline string stored in the $SHORT_LAST_COMMIT_MESSAGE variable
-  #         # as a single argument. Including "=" can cause issues with argument
-  #         # parsing in the shell, potentially leading to incorrect handling of
-  #         # the multiline string argument.
+          # Note that we use '--whats-new "$SHORT_LAST_COMMIT_MESSAGE"' instead
+          # of '--whats-new="$SHORT_LAST_COMMIT_MESSAGE"' to correctly pass the
+          # multiline string stored in the $SHORT_LAST_COMMIT_MESSAGE variable
+          # as a single argument. Including "=" can cause issues with argument
+          # parsing in the shell, potentially leading to incorrect handling of
+          # the multiline string argument.
 
-  #         sz deploy ios \
-  #           --stage alpha \
-  #           --whats-new "$SHORT_LAST_COMMIT_MESSAGE" \
-  #           --export-options-plist=$HOME/export_options.plist
+          sz deploy ios \
+            --stage alpha \
+            --whats-new "$SHORT_LAST_COMMIT_MESSAGE" \
+            --export-options-plist=$HOME/export_options.plist
 
-  # deploy-alpha-macos-app:
-  #   runs-on: macos-13
-  #   timeout-minutes: 60
-  #   steps:
-  #     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+  deploy-alpha-macos-app:
+    runs-on: macos-13
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-  #     - name: Install Codemagic CLI Tools
-  #       run: pip3 install codemagic-cli-tools==0.50.3
+      - name: Install Codemagic CLI Tools
+        run: pip3 install codemagic-cli-tools==0.50.3
 
-  #     - name: Set Flutter version from FVM config file to environment variables
-  #       id: fvm-config-action
-  #       uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+      - name: Set Flutter version from FVM config file to environment variables
+        id: fvm-config-action
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-  #     - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
-  #       with:
-  #         flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-  #         channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-  #     - name: Install Sharezone Repo CLI
-  #       run: |
-  #         flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-  #         echo $(realpath ./bin) >> $GITHUB_PATH
+      - name: Install Sharezone Repo CLI
+        run: |
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(realpath ./bin) >> $GITHUB_PATH
 
-  #     # We need to install the FlutterFire CLI because we have Build Phases in
-  #     # XCode configured which are using the FlutterFire CLI. Without the CLI,
-  #     # the build would fail.
-  #     - name: Install FlutterFire CLI
-  #       run: flutter pub global activate flutterfire_cli 0.3.0-dev.19
+      # We need to install the FlutterFire CLI because we have Build Phases in
+      # XCode configured which are using the FlutterFire CLI. Without the CLI,
+      # the build would fail.
+      - name: Install FlutterFire CLI
+        run: flutter pub global activate flutterfire_cli 0.3.0-dev.19
 
-  #     - name: Deploy macOS to TestFlight
-  #       env:
-  #         # The following secrets are used by the Codemagic CLI tool. It's important
-  #         # to use the same names as the CLI tool expects.
-  #         CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
-  #         APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
-  #         APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
-  #         APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
-  #       run: |
-  #         # Because we are publishing every commit a new alpha version, we are
-  #         # able to use the last commit message (title and description) as release
-  #         # note for the alpha builds. This is not the most user friendly note but
-  #         # it's better than nothing.
-  #         #
-  #         # The "sed 's/[<>]//g'" part is to remove the "<" and ">" characters
-  #         # because the App Store doesn't allow them.
-  #         LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | sed 's/[<>]//g')
+      - name: Deploy macOS to TestFlight
+        env:
+          # The following secrets are used by the Codemagic CLI tool. It's important
+          # to use the same names as the CLI tool expects.
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.SHAREZONE_CERTIFICATE_PRIVATE_KEY }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: |
+          # Because we are publishing every commit a new alpha version, we are
+          # able to use the last commit message (title and description) as release
+          # note for the alpha builds. This is not the most user friendly note but
+          # it's better than nothing.
+          #
+          # The "sed 's/[<>]//g'" part is to remove the "<" and ">" characters
+          # because the App Store doesn't allow them.
+          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B | sed 's/[<>]//g')
 
-  #         # The App Store Connect API only allows a maximum of 4000 characters for
-  #         # the release notes. So we need to truncate the commit message if it's
-  #         # longer than 4000 characters.
-  #         SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
+          # The App Store Connect API only allows a maximum of 4000 characters for
+          # the release notes. So we need to truncate the commit message if it's
+          # longer than 4000 characters.
+          SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
-  #         sz deploy macos \
-  #           --stage alpha \
-  #           --whats-new "$SHORT_LAST_COMMIT_MESSAGE"
+          sz deploy macos \
+            --stage alpha \
+            --whats-new "$SHORT_LAST_COMMIT_MESSAGE"
