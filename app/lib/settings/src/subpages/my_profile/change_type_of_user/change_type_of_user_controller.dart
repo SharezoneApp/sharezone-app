@@ -68,14 +68,12 @@ class ChangeTypeOfUserController extends ChangeNotifier {
         to: typeOfUser,
       );
       initialTypeOfUser = typeOfUser;
-      state = const ChangedTypeOfUserSuccessfully();
     } on FirebaseFunctionsException catch (e) {
-      state = const ChangeTypeOfUserInitial();
       _parseException(e);
     } catch (e) {
-      state = const ChangeTypeOfUserInitial();
       throw ChangeTypeOfUserUnknownException(e);
     } finally {
+      state = const ChangeTypeOfUserInitial();
       notifyListeners();
     }
   }
@@ -119,10 +117,6 @@ class ChangeTypeOfUserInitial extends ChangeTypeOfUserState {
 
 class ChangeTypeOfUserLoading extends ChangeTypeOfUserState {
   const ChangeTypeOfUserLoading();
-}
-
-class ChangedTypeOfUserSuccessfully extends ChangeTypeOfUserState {
-  const ChangedTypeOfUserSuccessfully();
 }
 
 sealed class ChangeTypeOfUserFailed {
