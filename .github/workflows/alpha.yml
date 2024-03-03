@@ -37,9 +37,6 @@ on:
       - "!**/*.md"
       - "!**/*.mdx"
       - "!**/*.gitignore"
-      # The macOS version of our app has no alpha program. Therefore, we don't
-      # need to build it.
-      - "!app/macos/**"
       # Test files are not relevant for the alpha program.
       - "!**/test/**"
       - "!**/test_driver/**"
