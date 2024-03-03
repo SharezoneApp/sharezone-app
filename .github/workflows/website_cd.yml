@@ -38,7 +38,6 @@ on:
       - "!**/test/**"
       - "!**/test_driver/**"
       - "!**/integration_test/**"
-      # Example files are not relevant for the alpha program.
       - "!**/analysis_options.yaml"
       - "!**/dart_test.yaml"
 
