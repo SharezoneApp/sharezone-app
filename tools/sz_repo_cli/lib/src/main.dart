@@ -25,6 +25,7 @@ import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart'
 import 'package:sz_repo_cli/src/commands/src/deploy_android_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_macos_command.dart';
+import 'package:sz_repo_cli/src/commands/src/deploy_website_command.dart';
 import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
 
@@ -67,7 +68,8 @@ Future<void> main(List<String> args) async {
           ..addSubcommand(DeployWebAppCommand(context))
           ..addSubcommand(DeployIosCommand(context))
           ..addSubcommand(DeployMacOsCommand(context))
-          ..addSubcommand(DeployAndroidCommand(context)))
+          ..addSubcommand(DeployAndroidCommand(context))
+          ..addSubcommand(DeployWebsiteCommand(context)))
         ..addCommand(BuildCommand()
           ..addSubcommand(BuildAndroidCommand(context))
           ..addSubcommand(BuildMacOsCommand(context))
