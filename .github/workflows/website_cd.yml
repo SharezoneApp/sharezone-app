@@ -17,6 +17,30 @@ on:
   push:
     branches:
       - main
+    paths:
+      # We only build and deploy a new version, when a user relevant files
+      # changed.
+      - "website/**"
+      # We trigger also this workflow, if this workflow is changed, so that new
+      # changes will be applied.
+      - ".github/workflows/website_cd.yml"
+      # The following paths are excluded from the above paths. It's important to
+      # list the paths at the end of the file, so that the exclude paths are
+      # applied.
+      #
+      # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+      - "!**/*.md"
+      - "!**/*.mdx"
+      - "!**/*.gitignore"
+      # The macOS version is only used for debugging.
+      - "!website/macos/**"
+      # Test files are not relevant for the website deployment.
+      - "!**/test/**"
+      - "!**/test_driver/**"
+      - "!**/integration_test/**"
+      # Example files are not relevant for the alpha program.
+      - "!**/analysis_options.yaml"
+      - "!**/dart_test.yaml"
 
 # Set permissions to none.
 #
