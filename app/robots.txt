@@ -1,9 +1,0 @@
-# File will be renamed to robots.txt when deploying with "sz deploy web"
-User-agent: *
-Allow: /
-
-# Host
-Host: https://sharezone.net
-
-# Sitemaps
-Sitemap: https://sharezone.net/sitemap.xml
