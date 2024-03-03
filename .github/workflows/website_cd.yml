@@ -41,6 +41,15 @@ on:
       - "!**/analysis_options.yaml"
       - "!**/dart_test.yaml"
 
+  # Allows you to run this workflow manually from the Actions tab.
+  #
+  # Since the website depends on the /lib folder, it could be that the website
+  # requires a new deployment. In this case, the developer needs to trigger the
+  # deployment manually or wait until the next change "website/**" is pushed. We
+  # do this to avoid unnecessary deployments since a new deployment invalidates
+  # the cache.
+  workflow_dispatch:
+
 # Set permissions to none.
 #
 # Using the broad default permissions is considered a bad security practice
