@@ -63,15 +63,15 @@ You should now be able to run `sz` or `sharezone` in your terminal.
 
 #### Windows
 
-At the moment, there is no Windows support for a command alias like `sz` or `sharezone`. Instead you need to run `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart`, like `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart pub get`. Please keep this in mind when reading commands like `sz pub get`.
-
 Execute the following steps to install the Sharezone CLI:
 
 1. [Clone this repository](#clone-this-repository)
 2. Navigate to the repository (`cd sharezone-app`)
 3. Run `dart pub get -C tools/sz_repo_cli`
+4. Add the `./bin` to your PATH environment variables ([tutorial](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/))
+5. Restart your terminal / code editor
 
-You should now be able to run `dart run tools/sz_repo_cli/bin/sz_repo_cli.dart`.
+You should now be able to run `sz` or `sharezone` in your terminal.
 
 ### Clone this repository
 

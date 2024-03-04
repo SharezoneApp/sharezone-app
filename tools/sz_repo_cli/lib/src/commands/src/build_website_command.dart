@@ -34,6 +34,10 @@ class BuildWebsiteCommand extends CommandBase {
   @override
   String get name => 'website';
 
+  /// Path to the web folder of the website: `website/web/`.
+  String get _getWebFolderPath =>
+      repo.sharezoneWebsite.location.childDirectory('web').path;
+
   @override
   Future<void> run() async {
     // Is used so that runProcess commands print the command that was run. Right
@@ -42,7 +46,13 @@ class BuildWebsiteCommand extends CommandBase {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
-    await _buildWebsite();
+    try {
+      await _renameRobotsTxt();
+      await _buildWebsite();
+    } finally {
+      await _revertRenamedRobotsTxt();
+    }
+
     stdout.writeln('Build finished 🎉 ');
   }
 
@@ -66,5 +76,18 @@ class BuildWebsiteCommand extends CommandBase {
     } catch (e) {
       throw Exception('Failed to build website: $e');
     }
+  }
+
+  Future<void> _renameRobotsTxt() async {
+    final flavor = argResults![flavorOptionName] as String;
+    stdout.writeln(_getWebFolderPath);
+    final file = File('$_getWebFolderPath/robots_$flavor.txt');
+    await file.rename('$_getWebFolderPath/robots.txt');
+  }
+
+  Future<void> _revertRenamedRobotsTxt() async {
+    final flavor = argResults![flavorOptionName] as String;
+    final file = File('$_getWebFolderPath/robots.txt');
+    await file.rename('$_getWebFolderPath/robots_$flavor.txt');
   }
 }
