@@ -964,6 +964,7 @@ void main() {
 
       await controller.selectCourse('foo_course');
       await controller.createCustomChip(inXLessons: 3);
+      await tester.ensureVisible(find.byKey(HwDialogKeys.lessonChipDeleteIcon));
       await controller.deleteCustomChip(inXLessons: 3);
       await controller.selectCourse('bar_course');
 
