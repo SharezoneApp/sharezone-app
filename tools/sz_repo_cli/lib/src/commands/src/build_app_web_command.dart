@@ -24,8 +24,8 @@ final _webFlavors = [
   'dev',
 ];
 
-class BuildWebCommand extends CommandBase {
-  BuildWebCommand(super.context) {
+class BuildAppWebCommand extends CommandBase {
+  BuildAppWebCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -48,7 +48,7 @@ class BuildWebCommand extends CommandBase {
   String get description => 'Build the Sharezone web app in release mode.';
 
   @override
-  String get name => 'web';
+  String get name => 'app:web';
 
   @override
   Future<void> run() async {

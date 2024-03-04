@@ -9,40 +9,27 @@
 import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
-import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
-final _androidStages = [
+final _iosStages = [
   'stable',
   'beta',
   'alpha',
 ];
 
 /// The different flavors of the Android app.
-final _androidFlavors = [
+final _iosFlavors = [
   'prod',
   'dev',
 ];
 
-/// The different output types of the Android app.
-final _androidOutputType = [
-  'appbundle',
-  'apk',
-];
-
-class BuildAndroidCommand extends CommandBase {
-  BuildAndroidCommand(super.context) {
+class BuildAppIosCommand extends CommandBase {
+  BuildAppIosCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
         abbr: 's',
-        allowed: _androidStages,
+        allowed: _iosStages,
         defaultsTo: 'stable',
-      )
-      ..addOption(
-        outputTypeName,
-        help: 'The type of output type, either "appbundle" or "apk".',
-        allowed: _androidOutputType,
-        defaultsTo: 'appbundle',
       )
       ..addOption(
         buildNumberOptionName,
@@ -53,8 +40,13 @@ another, with higher numbers indicating more recent build.
 When none is specified, the value from pubspec.yaml is used.''',
       )
       ..addOption(
+        exportOptionsPlistName,
+        help:
+            'Export an IPA with these options. See "xcodebuild -h" for available exportOptionsPlist keys.',
+      )
+      ..addOption(
         flavorOptionName,
-        allowed: _androidFlavors,
+        allowed: _iosFlavors,
         help: 'The flavor to build for.',
         defaultsTo: 'prod',
       );
@@ -63,13 +55,13 @@ When none is specified, the value from pubspec.yaml is used.''',
   static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
   static const buildNumberOptionName = 'build-number';
-  static const outputTypeName = 'output-type';
+  static const exportOptionsPlistName = 'export-options-plist';
 
   @override
-  String get description => 'Build the Sharezone Android app in release mode.';
+  String get description => 'Build the Sharezone iOS app in release mode.';
 
   @override
-  String get name => 'android';
+  String get name => 'app:ios';
 
   @override
   Future<void> run() async {
@@ -87,16 +79,14 @@ When none is specified, the value from pubspec.yaml is used.''',
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      final outputType = argResults![outputTypeName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
-      final buildNameWithStage =
-          getBuildNameWithStage(repo.sharezoneFlutterApp, stage);
+      final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
       await processRunner.runCommand(
         [
           'fvm',
           'flutter',
           'build',
-          outputType,
+          'ipa',
           '--target',
           'lib/main_$flavor.dart',
           '--flavor',
@@ -105,12 +95,22 @@ When none is specified, the value from pubspec.yaml is used.''',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
           if (buildNumber != null) ...['--build-number', buildNumber],
-          if (stage != 'stable') ...['--build-name', buildNameWithStage]
+          // For Android we add the stage to the build name (using
+          // --build-name), but for iOS we can't do that because Flutter removes
+          // the stage from the build name.
+          //
+          // See:
+          //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
+          //  * https://github.com/flutter/flutter/issues/115483
+          if (exportOptionsPlist != null) ...[
+            '--export-options-plist',
+            exportOptionsPlist
+          ],
         ],
         workingDirectory: repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
-      throw Exception('Failed to build Android app: $e');
+      throw Exception('Failed to build iOS app: $e');
     }
   }
 }

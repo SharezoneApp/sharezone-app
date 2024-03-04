@@ -252,7 +252,7 @@ jobs:
           # parsing in the shell, potentially leading to incorrect handling of
           # the multiline string argument.
 
-          sz deploy ios \
+          sz deploy app:ios \
             --stage alpha \
             --whats-new "$SHORT_LAST_COMMIT_MESSAGE" \
             --export-options-plist=$HOME/export_options.plist
@@ -309,6 +309,6 @@ jobs:
           # longer than 4000 characters.
           SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
-          sz deploy macos \
+          sz deploy app:macos \
             --stage alpha \
             --whats-new "$SHORT_LAST_COMMIT_MESSAGE"

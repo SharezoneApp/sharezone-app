@@ -25,7 +25,7 @@ final _iosFlavors = [
   'prod',
 ];
 
-/// [DeployIosCommand] provides functionality for deploying the Sharezone iOS
+/// [DeployAppIosCommand] provides functionality for deploying the Sharezone iOS
 /// app to the App Store or TestFlight.
 ///
 /// This command automatically increments the build number and builds the app.
@@ -49,8 +49,8 @@ final _iosFlavors = [
 /// These options can either be provided via the command line or set as
 /// environment variables (only applies for some of them). If any required
 /// argument is missing, the deployment will fail.
-class DeployIosCommand extends CommandBase {
-  DeployIosCommand(super.context) {
+class DeployAppIosCommand extends CommandBase {
+  DeployAppIosCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -89,7 +89,7 @@ class DeployIosCommand extends CommandBase {
       'Deploys the Sharezone iOS app to the App Store or TestFlight. Automatically bumps the build number and builds the app. Codemagic CLI tools are required.';
 
   @override
-  String get name => 'ios';
+  String get name => 'app:ios';
 
   @override
   Future<void> run() async {

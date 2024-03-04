@@ -21,8 +21,8 @@ final _macOsFlavors = [
   'dev',
 ];
 
-class BuildMacOsCommand extends CommandBase {
-  BuildMacOsCommand(super.context) {
+class BuildAppMacOsCommand extends CommandBase {
+  BuildAppMacOsCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -52,7 +52,7 @@ When none is specified, the value from pubspec.yaml is used.''')
   String get description => 'Build the Sharezone macOS app in release mode.';
 
   @override
-  String get name => 'macos';
+  String get name => 'app:macos';
 
   @override
   Future<void> run() async {

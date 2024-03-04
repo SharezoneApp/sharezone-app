@@ -31,7 +31,7 @@ final _macOsFlavors = [
   'dev',
 ];
 
-/// [DeployMacOsCommand] provides functionality for deploying the Sharezone macOS
+/// [DeployAppMacOsCommand] provides functionality for deploying the Sharezone macOS
 /// app to the App Store or TestFlight.
 ///
 /// This command automatically increments the build number and builds the app.
@@ -53,8 +53,8 @@ final _macOsFlavors = [
 /// These options can either be provided via the command line or set as
 /// environment variables (only applies for some of them). If any required
 /// argument is missing, the deployment will fail.
-class DeployMacOsCommand extends CommandBase {
-  DeployMacOsCommand(super.context) {
+class DeployAppMacOsCommand extends CommandBase {
+  DeployAppMacOsCommand(super.context) {
     argParser.addOption(
       releaseStageOptionName,
       abbr: 's',
@@ -86,7 +86,7 @@ class DeployMacOsCommand extends CommandBase {
       'Deploys the Sharezone macOS app to the App Store or TestFlight. Automatically bumps the build number and builds the app. Codemagic CLI tools are required.';
 
   @override
-  String get name => 'macos';
+  String get name => 'app:macos';
 
   @override
   Future<void> run() async {

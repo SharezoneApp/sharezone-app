@@ -38,8 +38,8 @@ final _webFlavors = [
 ///
 /// The command will automatically use the right firebase config as configured
 /// inside [_stageToTarget].
-class DeployWebAppCommand extends CommandBase {
-  DeployWebAppCommand(super.context) {
+class DeployAppWebCommand extends CommandBase {
+  DeployAppWebCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -70,7 +70,7 @@ class DeployWebAppCommand extends CommandBase {
       'Deploy the Sharezone web app in the given environment';
 
   @override
-  String get name => 'web';
+  String get name => 'app:web';
 
   @override
   Future<void> run() async {

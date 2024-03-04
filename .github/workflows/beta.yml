@@ -99,7 +99,7 @@ jobs:
           CHANGELOG="${{ github.event.inputs.ios-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
-          sz deploy ios \
+          sz deploy app:ios \
             --stage beta \
             --whats-new "$CHANGELOG_WITH_NEW_LINES" \
             --export-options-plist=$HOME/export_options.plist
@@ -201,7 +201,7 @@ jobs:
           CHANGELOG="${{ github.event.inputs.android-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
-          sz deploy android \
+          sz deploy app:android \
             --stage beta \
             --whats-new "$CHANGELOG_WITH_NEW_LINES" \
             --rollout-percentage ${{ github.event.inputs.android-rollout-percentage }}
@@ -252,6 +252,6 @@ jobs:
           CHANGELOG="${{ github.event.inputs.macos-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
-          sz deploy macos \
+          sz deploy app:macos \
             --stage beta \
             --whats-new "$CHANGELOG_WITH_NEW_LINES"

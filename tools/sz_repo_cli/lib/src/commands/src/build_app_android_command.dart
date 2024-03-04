@@ -9,27 +9,40 @@
 import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
-final _iosStages = [
+final _androidStages = [
   'stable',
   'beta',
   'alpha',
 ];
 
 /// The different flavors of the Android app.
-final _iosFlavors = [
+final _androidFlavors = [
   'prod',
   'dev',
 ];
 
-class BuildIosCommand extends CommandBase {
-  BuildIosCommand(super.context) {
+/// The different output types of the Android app.
+final _androidOutputType = [
+  'appbundle',
+  'apk',
+];
+
+class BuildAppAndroidCommand extends CommandBase {
+  BuildAppAndroidCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
         abbr: 's',
-        allowed: _iosStages,
+        allowed: _androidStages,
         defaultsTo: 'stable',
+      )
+      ..addOption(
+        outputTypeName,
+        help: 'The type of output type, either "appbundle" or "apk".',
+        allowed: _androidOutputType,
+        defaultsTo: 'appbundle',
       )
       ..addOption(
         buildNumberOptionName,
@@ -40,13 +53,8 @@ another, with higher numbers indicating more recent build.
 When none is specified, the value from pubspec.yaml is used.''',
       )
       ..addOption(
-        exportOptionsPlistName,
-        help:
-            'Export an IPA with these options. See "xcodebuild -h" for available exportOptionsPlist keys.',
-      )
-      ..addOption(
         flavorOptionName,
-        allowed: _iosFlavors,
+        allowed: _androidFlavors,
         help: 'The flavor to build for.',
         defaultsTo: 'prod',
       );
@@ -55,13 +63,13 @@ When none is specified, the value from pubspec.yaml is used.''',
   static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
   static const buildNumberOptionName = 'build-number';
-  static const exportOptionsPlistName = 'export-options-plist';
+  static const outputTypeName = 'output-type';
 
   @override
-  String get description => 'Build the Sharezone iOS app in release mode.';
+  String get description => 'Build the Sharezone Android app in release mode.';
 
   @override
-  String get name => 'ios';
+  String get name => 'app:android';
 
   @override
   Future<void> run() async {
@@ -79,14 +87,16 @@ When none is specified, the value from pubspec.yaml is used.''',
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
+      final outputType = argResults![outputTypeName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
-      final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
+      final buildNameWithStage =
+          getBuildNameWithStage(repo.sharezoneFlutterApp, stage);
       await processRunner.runCommand(
         [
           'fvm',
           'flutter',
           'build',
-          'ipa',
+          outputType,
           '--target',
           'lib/main_$flavor.dart',
           '--flavor',
@@ -95,22 +105,12 @@ When none is specified, the value from pubspec.yaml is used.''',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
           if (buildNumber != null) ...['--build-number', buildNumber],
-          // For Android we add the stage to the build name (using
-          // --build-name), but for iOS we can't do that because Flutter removes
-          // the stage from the build name.
-          //
-          // See:
-          //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
-          //  * https://github.com/flutter/flutter/issues/115483
-          if (exportOptionsPlist != null) ...[
-            '--export-options-plist',
-            exportOptionsPlist
-          ],
+          if (stage != 'stable') ...['--build-name', buildNameWithStage]
         ],
         workingDirectory: repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
-      throw Exception('Failed to build iOS app: $e');
+      throw Exception('Failed to build Android app: $e');
     }
   }
 }
