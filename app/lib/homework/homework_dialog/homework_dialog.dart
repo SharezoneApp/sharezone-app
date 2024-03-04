@@ -1034,6 +1034,7 @@ class _DescriptionFieldBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MarkdownField(
+      textFieldKey: HwDialogKeys.descriptionField,
       inputDecoration: const InputDecoration(
         hintText: "Zusatzinformationen eingeben",
         border: InputBorder.none,
