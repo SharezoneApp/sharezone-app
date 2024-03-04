@@ -100,7 +100,7 @@ jobs:
           CHANGELOG="${{ github.event.inputs.ios-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
-          sz deploy ios \
+          sz deploy app ios \
             --stage stable \
             --whats-new "$CHANGELOG_WITH_NEW_LINES" \
             --export-options-plist=$HOME/export_options.plist
@@ -144,7 +144,7 @@ jobs:
         run: |
           echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/firebase-hosting-key.json
-          sz deploy web \
+          sz deploy app web \
             --stage stable \
             --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
             --flavor ${{ matrix.environment.flavor }}
@@ -203,7 +203,7 @@ jobs:
           CHANGELOG="${{ github.event.inputs.android-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
-          sz deploy android \
+          sz deploy app android \
             --stage stable \
             --whats-new "$CHANGELOG_WITH_NEW_LINES" \
             --rollout-percentage ${{ github.event.inputs.android-rollout-percentage }}
@@ -254,6 +254,6 @@ jobs:
           CHANGELOG="${{ github.event.inputs.macos-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
-          sz deploy macos \
+          sz deploy app macos \
             --stage stable \
             --whats-new "$CHANGELOG_WITH_NEW_LINES"

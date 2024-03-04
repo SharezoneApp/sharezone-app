@@ -9,62 +9,55 @@
 import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
-final _iosStages = [
+final _macOsStages = [
   'stable',
-  'beta',
   'alpha',
 ];
 
-/// The different flavors of the Android app.
-final _iosFlavors = [
+final _macOsFlavors = [
   'prod',
   'dev',
 ];
 
-class BuildIosCommand extends CommandBase {
-  BuildIosCommand(super.context) {
+class BuildAppMacOsCommand extends CommandBase {
+  BuildAppMacOsCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
         abbr: 's',
-        allowed: _iosStages,
+        allowed: _macOsStages,
         defaultsTo: 'stable',
       )
-      ..addOption(
-        buildNumberOptionName,
-        help: '''An identifier used as an internal version number.
+      ..addOption(buildNumberOptionName,
+          help: '''An identifier used as an internal version number.
 Each build must have a unique identifier to differentiate it from previous builds.
 It is used to determine whether one build is more recent than
 another, with higher numbers indicating more recent build.
-When none is specified, the value from pubspec.yaml is used.''',
-      )
-      ..addOption(
-        exportOptionsPlistName,
-        help:
-            'Export an IPA with these options. See "xcodebuild -h" for available exportOptionsPlist keys.',
-      )
+When none is specified, the value from pubspec.yaml is used.''')
       ..addOption(
         flavorOptionName,
-        allowed: _iosFlavors,
+        allowed: _macOsFlavors,
         help: 'The flavor to build for.',
         defaultsTo: 'prod',
       );
   }
 
-  static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
+  static const releaseStageOptionName = 'stage';
   static const buildNumberOptionName = 'build-number';
-  static const exportOptionsPlistName = 'export-options-plist';
 
   @override
-  String get description => 'Build the Sharezone iOS app in release mode.';
+  String get description => 'Build the Sharezone macOS app in release mode.';
 
   @override
-  String get name => 'ios';
+  String get name => 'macos';
 
   @override
   Future<void> run() async {
+    await throwIfFlutterFireCliIsNotInstalled();
+
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
     //
@@ -75,18 +68,26 @@ When none is specified, the value from pubspec.yaml is used.''',
     stdout.writeln('Build finished 🎉 ');
   }
 
+  Future<void> throwIfFlutterFireCliIsNotInstalled() async {
+    await throwIfCommandIsNotInstalled(
+      processRunner,
+      command: 'flutterfire',
+      instructionsToInstall:
+          'Docs to install them: https://pub.dev/packages/flutterfire_cli',
+    );
+  }
+
   Future<void> _buildApp() async {
     try {
-      final flavor = argResults![flavorOptionName] as String;
+      const flavor = 'prod';
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
-      final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
       await processRunner.runCommand(
         [
           'fvm',
           'flutter',
           'build',
-          'ipa',
+          'macos',
           '--target',
           'lib/main_$flavor.dart',
           '--flavor',
@@ -102,15 +103,11 @@ When none is specified, the value from pubspec.yaml is used.''',
           // See:
           //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
           //  * https://github.com/flutter/flutter/issues/115483
-          if (exportOptionsPlist != null) ...[
-            '--export-options-plist',
-            exportOptionsPlist
-          ],
         ],
         workingDirectory: repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
-      throw Exception('Failed to build iOS app: $e');
+      throw Exception('Failed to build macOS app: $e');
     }
   }
 }
