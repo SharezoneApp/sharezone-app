@@ -20,7 +20,7 @@ _tl;dr: We recommend macOS._
 
 You can use the operating system you like. But we recommend to use macOS because you might have some issues with other operating systems.
 
-#### Known issues
+#### Known issues:
 
 - Golden tests are only passing with macOS
 - The Sharezone CLI (used for development) only officially supports macOS and Windows (should also work with other operating systems, but might cause problems in some cases)
