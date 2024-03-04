@@ -97,7 +97,7 @@ jobs:
         run: |
           echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/firebase-hosting-key.json
-          sz deploy web \
+          sz deploy app web \
             --stage alpha \
             --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
             --flavor ${{ matrix.environment.flavor }}
@@ -250,7 +250,7 @@ jobs:
           # parsing in the shell, potentially leading to incorrect handling of
           # the multiline string argument.
 
-          sz deploy ios \
+          sz deploy app ios \
             --stage alpha \
             --whats-new "$SHORT_LAST_COMMIT_MESSAGE" \
             --export-options-plist=$HOME/export_options.plist
@@ -307,6 +307,6 @@ jobs:
           # longer than 4000 characters.
           SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
-          sz deploy macos \
+          sz deploy app macos \
             --stage alpha \
             --whats-new "$SHORT_LAST_COMMIT_MESSAGE"

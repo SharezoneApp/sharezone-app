@@ -1,4 +1,4 @@
-# File will be renamed to robots.txt when deploying with "sz deploy web"
+# File will be renamed to robots.txt when deploying with "sz deploy website"
 User-agent: *
 Allow: /
 

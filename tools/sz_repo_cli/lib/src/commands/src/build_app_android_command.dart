@@ -9,55 +9,70 @@
 import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
-import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
+import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
-final _macOsStages = [
+final _androidStages = [
   'stable',
+  'beta',
   'alpha',
 ];
 
-final _macOsFlavors = [
+/// The different flavors of the Android app.
+final _androidFlavors = [
   'prod',
   'dev',
 ];
 
-class BuildMacOsCommand extends CommandBase {
-  BuildMacOsCommand(super.context) {
+/// The different output types of the Android app.
+final _androidOutputType = [
+  'appbundle',
+  'apk',
+];
+
+class BuildAppAndroidCommand extends CommandBase {
+  BuildAppAndroidCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
         abbr: 's',
-        allowed: _macOsStages,
+        allowed: _androidStages,
         defaultsTo: 'stable',
       )
-      ..addOption(buildNumberOptionName,
-          help: '''An identifier used as an internal version number.
+      ..addOption(
+        outputTypeName,
+        help: 'The type of output type, either "appbundle" or "apk".',
+        allowed: _androidOutputType,
+        defaultsTo: 'appbundle',
+      )
+      ..addOption(
+        buildNumberOptionName,
+        help: '''An identifier used as an internal version number.
 Each build must have a unique identifier to differentiate it from previous builds.
 It is used to determine whether one build is more recent than
 another, with higher numbers indicating more recent build.
-When none is specified, the value from pubspec.yaml is used.''')
+When none is specified, the value from pubspec.yaml is used.''',
+      )
       ..addOption(
         flavorOptionName,
-        allowed: _macOsFlavors,
+        allowed: _androidFlavors,
         help: 'The flavor to build for.',
         defaultsTo: 'prod',
       );
   }
 
-  static const flavorOptionName = 'flavor';
   static const releaseStageOptionName = 'stage';
+  static const flavorOptionName = 'flavor';
   static const buildNumberOptionName = 'build-number';
+  static const outputTypeName = 'output-type';
 
   @override
-  String get description => 'Build the Sharezone macOS app in release mode.';
+  String get description => 'Build the Sharezone Android app in release mode.';
 
   @override
-  String get name => 'macos';
+  String get name => 'android';
 
   @override
   Future<void> run() async {
-    await throwIfFlutterFireCliIsNotInstalled();
-
     // Is used so that runProcess commands print the command that was run. Right
     // now this can't be done via an argument.
     //
@@ -68,26 +83,20 @@ When none is specified, the value from pubspec.yaml is used.''')
     stdout.writeln('Build finished 🎉 ');
   }
 
-  Future<void> throwIfFlutterFireCliIsNotInstalled() async {
-    await throwIfCommandIsNotInstalled(
-      processRunner,
-      command: 'flutterfire',
-      instructionsToInstall:
-          'Docs to install them: https://pub.dev/packages/flutterfire_cli',
-    );
-  }
-
   Future<void> _buildApp() async {
     try {
-      const flavor = 'prod';
+      final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
+      final outputType = argResults![outputTypeName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
+      final buildNameWithStage =
+          getBuildNameWithStage(repo.sharezoneFlutterApp, stage);
       await processRunner.runCommand(
         [
           'fvm',
           'flutter',
           'build',
-          'macos',
+          outputType,
           '--target',
           'lib/main_$flavor.dart',
           '--flavor',
@@ -96,18 +105,12 @@ When none is specified, the value from pubspec.yaml is used.''')
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
           if (buildNumber != null) ...['--build-number', buildNumber],
-          // For Android we add the stage to the build name (using
-          // --build-name), but for iOS we can't do that because Flutter removes
-          // the stage from the build name.
-          //
-          // See:
-          //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
-          //  * https://github.com/flutter/flutter/issues/115483
+          if (stage != 'stable') ...['--build-name', buildNameWithStage]
         ],
         workingDirectory: repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
-      throw Exception('Failed to build macOS app: $e');
+      throw Exception('Failed to build Android app: $e');
     }
   }
 }

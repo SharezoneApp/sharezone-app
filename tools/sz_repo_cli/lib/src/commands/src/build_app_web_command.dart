@@ -11,50 +11,31 @@ import 'dart:io';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
-final _androidStages = [
+final _webStages = [
   'stable',
   'beta',
   'alpha',
+  'preview',
 ];
 
-/// The different flavors of the Android app.
-final _androidFlavors = [
+/// The different flavors of the Web app.
+final _webFlavors = [
   'prod',
   'dev',
 ];
 
-/// The different output types of the Android app.
-final _androidOutputType = [
-  'appbundle',
-  'apk',
-];
-
-class BuildAndroidCommand extends CommandBase {
-  BuildAndroidCommand(super.context) {
+class BuildAppWebCommand extends CommandBase {
+  BuildAppWebCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
         abbr: 's',
-        allowed: _androidStages,
+        allowed: _webStages,
         defaultsTo: 'stable',
       )
       ..addOption(
-        outputTypeName,
-        help: 'The type of output type, either "appbundle" or "apk".',
-        allowed: _androidOutputType,
-        defaultsTo: 'appbundle',
-      )
-      ..addOption(
-        buildNumberOptionName,
-        help: '''An identifier used as an internal version number.
-Each build must have a unique identifier to differentiate it from previous builds.
-It is used to determine whether one build is more recent than
-another, with higher numbers indicating more recent build.
-When none is specified, the value from pubspec.yaml is used.''',
-      )
-      ..addOption(
         flavorOptionName,
-        allowed: _androidFlavors,
+        allowed: _webFlavors,
         help: 'The flavor to build for.',
         defaultsTo: 'prod',
       );
@@ -62,14 +43,12 @@ When none is specified, the value from pubspec.yaml is used.''',
 
   static const releaseStageOptionName = 'stage';
   static const flavorOptionName = 'flavor';
-  static const buildNumberOptionName = 'build-number';
-  static const outputTypeName = 'output-type';
 
   @override
-  String get description => 'Build the Sharezone Android app in release mode.';
+  String get description => 'Build the Sharezone web app in release mode.';
 
   @override
-  String get name => 'android';
+  String get name => 'web';
 
   @override
   Future<void> run() async {
@@ -87,8 +66,6 @@ When none is specified, the value from pubspec.yaml is used.''',
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      final outputType = argResults![outputTypeName] as String;
-      final buildNumber = argResults![buildNumberOptionName] as String?;
       final buildNameWithStage =
           getBuildNameWithStage(repo.sharezoneFlutterApp, stage);
       await processRunner.runCommand(
@@ -96,21 +73,20 @@ When none is specified, the value from pubspec.yaml is used.''',
           'fvm',
           'flutter',
           'build',
-          outputType,
+          'web',
           '--target',
           'lib/main_$flavor.dart',
-          '--flavor',
-          flavor,
           '--release',
+          '--web-renderer',
+          'canvaskit',
           '--dart-define',
           'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
-          if (buildNumber != null) ...['--build-number', buildNumber],
           if (stage != 'stable') ...['--build-name', buildNameWithStage]
         ],
         workingDirectory: repo.sharezoneFlutterApp.location,
       );
     } catch (e) {
-      throw Exception('Failed to build Android app: $e');
+      throw Exception('Failed to build web app: $e');
     }
   }
 }

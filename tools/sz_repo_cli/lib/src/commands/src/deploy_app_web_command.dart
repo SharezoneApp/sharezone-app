@@ -38,8 +38,8 @@ final _webFlavors = [
 ///
 /// The command will automatically use the right firebase config as configured
 /// inside [_stageToTarget].
-class DeployWebAppCommand extends CommandBase {
-  DeployWebAppCommand(super.context) {
+class DeployAppWebCommand extends CommandBase {
+  DeployAppWebCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
