@@ -165,6 +165,7 @@ class DeployAppMacOsCommand extends CommandBase {
           'run',
           'sz_repo_cli',
           'build',
+          'app',
           'macos',
           '--flavor',
           flavor,
