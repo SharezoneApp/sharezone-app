@@ -90,6 +90,7 @@ class DeployAppWebCommand extends CommandBase {
       'run',
       'sz_repo_cli',
       'build',
+      'app',
       'web',
       '--flavor',
       flavor,

@@ -148,6 +148,7 @@ class DeployAndroidCommand extends CommandBase {
           'run',
           'sz_repo_cli',
           'build',
+          'app',
           'android',
           '--flavor',
           flavor,

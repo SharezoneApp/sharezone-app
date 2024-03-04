@@ -172,6 +172,7 @@ class DeployAppIosCommand extends CommandBase {
           'run',
           'sz_repo_cli',
           'build',
+          'app',
           'ios',
           '--flavor',
           flavor,
