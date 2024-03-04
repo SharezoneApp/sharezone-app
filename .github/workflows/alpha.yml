@@ -168,12 +168,10 @@ jobs:
           # because they easier to install. App Bundles are installed via the
           # PlayStore which resulted in problems in the past.
 
-          flutter build apk \
-            --release \
-            --flavor prod \
-            --target=lib/main_prod.dart \
-            --dart-define DEVELOPMENT_STAGE=ALPHA \
-            --build-number $BUMPED_BUILD_NUMBER
+          sz build android \
+            --stage alpha \
+            --build-number $BUMPED_BUILD_NUMBER \
+            --output-type apk
 
       - name: Install Firebase CLI
         run: sudo npm i -g firebase-tools@11.24.1
