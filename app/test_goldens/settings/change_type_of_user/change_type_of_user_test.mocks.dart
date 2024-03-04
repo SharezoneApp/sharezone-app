@@ -13,7 +13,7 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/c
     as _i3;
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_controller.dart'
     as _i5;
-import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_repository.dart'
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart'
     as _i4;
 import 'package:user/user.dart' as _i7;
 
@@ -51,9 +51,9 @@ class _FakeChangeTypeOfUserAnalytics_1 extends _i1.SmartFake
         );
 }
 
-class _FakeChangeTypeOfUserRepository_2 extends _i1.SmartFake
-    implements _i4.ChangeTypeOfUserRepository {
-  _FakeChangeTypeOfUserRepository_2(
+class _FakeChangeTypeOfUserService_2 extends _i1.SmartFake
+    implements _i4.ChangeTypeOfUserService {
+  _FakeChangeTypeOfUserService_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -92,17 +92,17 @@ class MockChangeTypeOfUserController extends _i1.Mock
         ),
       ) as _i3.ChangeTypeOfUserAnalytics);
   @override
-  _i4.ChangeTypeOfUserRepository get repository => (super.noSuchMethod(
-        Invocation.getter(#repository),
-        returnValue: _FakeChangeTypeOfUserRepository_2(
+  _i4.ChangeTypeOfUserService get service => (super.noSuchMethod(
+        Invocation.getter(#service),
+        returnValue: _FakeChangeTypeOfUserService_2(
           this,
-          Invocation.getter(#repository),
+          Invocation.getter(#service),
         ),
-        returnValueForMissingStub: _FakeChangeTypeOfUserRepository_2(
+        returnValueForMissingStub: _FakeChangeTypeOfUserService_2(
           this,
-          Invocation.getter(#repository),
+          Invocation.getter(#service),
         ),
-      ) as _i4.ChangeTypeOfUserRepository);
+      ) as _i4.ChangeTypeOfUserService);
   @override
   _i5.ChangeTypeOfUserState get state => (super.noSuchMethod(
         Invocation.getter(#state),
