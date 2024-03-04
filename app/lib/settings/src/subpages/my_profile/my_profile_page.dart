@@ -15,14 +15,15 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
+import 'package:sharezone/account/change_data_bloc.dart';
+import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
-import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
@@ -30,10 +31,8 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/c
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_bloc.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
-import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 import 'user_view.dart';
 
