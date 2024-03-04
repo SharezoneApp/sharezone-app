@@ -1,5 +1,22 @@
 {
   "projects": {
-    "default": "sharezone-c2bd8"
+    "prod": "sharezone-c2bd8",
+    "dev": "sharezone-debug"
+  },
+  "targets": {
+    "sharezone-debug": {
+      "hosting": {
+        "docs": [
+          "sharezone-docs-dev"
+        ]
+      }
+    },
+    "sharezone-c2bd8": {
+      "hosting": {
+        "docs": [
+          "sharezone-docs-prod"
+        ]
+      }
+    }
   }
 }

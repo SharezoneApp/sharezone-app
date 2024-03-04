@@ -1,7 +1,7 @@
 # Sharezone Plus
 
 In our app users can subscribe to a paid tier called "Sharezone Plus". With this
-subscription features can be unlocked that are only accessible to paid users. 
+subscription features can be unlocked that are only accessible to paid users.
 
 Sharezone Plus is available for the different user types under the same name but
 technically as different subscriptions (i.e. `sharezone_plus_teacher`,
@@ -23,10 +23,11 @@ for the case that the user switches account types and has a subscription for the
 old account type that is still active or that the user activates another
 subscription from "outside" (e.g. via the Play Store).
 
-For now 
-* we will warn the user if they switch account types that they should cancel
+For now
+
+- we will warn the user if they switch account types that they should cancel
   their old subscription
-* only consider the last subscription that was activated as the active
+- only consider the last subscription that was activated as the active
   subscription inside Firestore/`AppUser`.
 
 If this leads to confusion we may need to change this behavior.

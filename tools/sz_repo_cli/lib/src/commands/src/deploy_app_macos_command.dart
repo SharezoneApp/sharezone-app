@@ -6,6 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// We need to ignore the lint "unnecessary_string_escapes" because in the
+// "_createSignedPackage" method we need to use the escape character "\" to
+// escape the "$" character in the bash command.
+//
+// ignore_for_file: unnecessary_string_escapes
+
 import 'dart:io';
 
 import 'package:process_runner/process_runner.dart';
@@ -14,23 +20,23 @@ import 'package:sz_repo_cli/src/common/src/app_store_connect_utils.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
 
 /// A map that maps the stage to the corresponding [AppleTrack].
-final _iosStageToTracks = {
+final _macOsStageToTracks = {
   'stable': const AppStoreTrack(),
   'alpha': const TestFlightTrack('alpha'),
-  'beta': const TestFlightTrack('beta'),
 };
 
-/// The different flavors of the iOS app that support deployment.
-final _iosFlavors = [
+/// The different flavors of the macOS app that support deployment.
+final _macOsFlavors = [
   'prod',
+  'dev',
 ];
 
-/// [DeployIosCommand] provides functionality for deploying the Sharezone iOS
+/// [DeployAppMacOsCommand] provides functionality for deploying the Sharezone macOS
 /// app to the App Store or TestFlight.
 ///
 /// This command automatically increments the build number and builds the app.
 /// The Codemagic CLI tools are required for this process. Note that only the
-/// "prod" flavor of the app is currently supported for iOS deployment.
+/// "prod" flavor of the app is currently supported for macOS deployment.
 ///
 /// You can customize deployment using command line arguments. Some of these
 /// include:
@@ -41,36 +47,28 @@ final _iosFlavors = [
 ///    authenticate.
 ///  - `stage`: The stage to deploy to. Supports "stable" for App Store releases
 ///    and "alpha" for TestFlight releases.
-///  - `flavor`: The flavor to build for. Currently only "prod" flavor is
-///    supported.
 ///  - `whats-new`: Release notes either for TestFlight or App Store review
 ///    submission.
 ///
 /// These options can either be provided via the command line or set as
 /// environment variables (only applies for some of them). If any required
 /// argument is missing, the deployment will fail.
-class DeployIosCommand extends CommandBase {
-  DeployIosCommand(super.context) {
-    argParser
-      ..addOption(
-        releaseStageOptionName,
-        abbr: 's',
-        allowed: _iosStages,
-        help:
-            'The deployment stage to deploy to. The "stable" stage is used for App Store releases, the "alpha" stage is used for TestFlight releases. The value will be forwarded to the "sz build" command.',
-        defaultsTo: 'stable',
-      )
-      ..addOption(
-        exportOptionsPlistName,
-        help:
-            'Export an IPA with these options. See "xcodebuild -h" for available exportOptionsPlist keys.',
-      )
-      ..addOption(
-        flavorOptionName,
-        allowed: _iosFlavors,
-        help: 'The flavor to build for. Only the "prod" flavor is supported.',
-        defaultsTo: 'prod',
-      );
+class DeployAppMacOsCommand extends CommandBase {
+  DeployAppMacOsCommand(super.context) {
+    argParser.addOption(
+      releaseStageOptionName,
+      abbr: 's',
+      allowed: _macOsStages,
+      help:
+          'The deployment stage to deploy to. The "stable" stage is used for App Store releases, the "alpha" stage is used for TestFlight releases. The value will be forwarded to the "sz build" command.',
+      defaultsTo: 'stable',
+    );
+    argParser.addOption(
+      flavorOptionName,
+      allowed: _macOsFlavors,
+      help: 'The flavor to build for. Only the "prod" flavor is supported.',
+      defaultsTo: 'prod',
+    );
 
     addAppStoreConnectKeyIdOption(argParser);
     addAppStoreConnectIssuerIdOption(argParser);
@@ -80,20 +78,18 @@ class DeployIosCommand extends CommandBase {
   }
 
   static const flavorOptionName = 'flavor';
-  static const exportOptionsPlistName = 'export-options-plist';
 
-  List<String> get _iosStages => _iosStageToTracks.keys.toList();
+  List<String> get _macOsStages => _macOsStageToTracks.keys.toList();
 
   @override
   String get description =>
-      'Deploys the Sharezone iOS app to the App Store or TestFlight. Automatically bumps the build number and builds the app. Codemagic CLI tools are required.';
+      'Deploys the Sharezone macOS app to the App Store or TestFlight. Automatically bumps the build number and builds the app. Codemagic CLI tools are required.';
 
   @override
-  String get name => 'ios';
+  String get name => 'macos';
 
   @override
   Future<void> run() async {
-    _throwIfFlavorIsNotSupportForDeployment();
     await throwIfCodemagicCliToolsAreNotInstalled(processRunner);
 
     // Is used so that runProcess commands print the command that was run. Right
@@ -102,7 +98,7 @@ class DeployIosCommand extends CommandBase {
     // This workaround should be addressed in the future.
     isVerbose = true;
 
-    const platform = ApplePlatform.iOS;
+    const platform = ApplePlatform.macOS;
 
     try {
       await setUpSigning(
@@ -110,8 +106,13 @@ class DeployIosCommand extends CommandBase {
         config: AppleSigningConfig.create(
           argResults: argResults!,
           environment: Platform.environment,
-          platform: platform,
-          type: ProvisioningProfileType.iOsAppStore,
+          // Even though we deploy for macOS, we need to use the iOS platform
+          // here because our bundle ID is only registered for iOS. However,
+          // this doesn't matter for the signing process.
+          //
+          // More details: https://github.com/codemagic-ci-cd/cli-tools/issues/314
+          platform: ApplePlatform.iOS,
+          type: ProvisioningProfileType.macAppStore,
         ),
         platform: platform,
       );
@@ -131,31 +132,24 @@ class DeployIosCommand extends CommandBase {
         // app/private_keys/AuthKey_{keyIdentifier}.p8.
         workingDirectory: repo.sharezoneFlutterApp.path,
       );
+
       await _buildApp(processRunner, buildNumber: buildNumber);
+
+      await _createSignedPackage();
       await publishToAppStoreConnect(
         processRunner,
         appStoreConnectConfig: appStoreConnectConfig,
         stage: argResults![releaseStageOptionName] as String,
         whatsNew: argResults![whatsNewOptionName] as String?,
-        path: 'build/ios/ipa/*.ipa',
+        path: '*.pkg',
         repo: repo,
-        stageToTracks: _iosStageToTracks,
+        stageToTracks: _macOsStageToTracks,
       );
+      stdout.writeln('Deployment finished 🎉 ');
     } finally {
       // Fixes potential authentication issues after running keychain commands.
       // Only really necessary when running on local machines.
       await keychainUseLogin(processRunner);
-    }
-
-    stdout.writeln('Deployment finished 🎉 ');
-  }
-
-  void _throwIfFlavorIsNotSupportForDeployment() {
-    final flavor = argResults![flavorOptionName] as String;
-    if (flavor != 'prod') {
-      throw Exception(
-        'Only the "prod" flavor is supported for iOS deployment.',
-      );
     }
   }
 
@@ -164,7 +158,6 @@ class DeployIosCommand extends CommandBase {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
       await processRunner.runCommand(
         [
           'fvm',
@@ -172,22 +165,41 @@ class DeployIosCommand extends CommandBase {
           'run',
           'sz_repo_cli',
           'build',
-          'ios',
+          'macos',
           '--flavor',
           flavor,
           '--stage',
           stage,
           '--build-number',
           '$buildNumber',
-          if (exportOptionsPlist != null) ...[
-            '--export-options-plist',
-            exportOptionsPlist,
-          ],
         ],
         workingDirectory: repo.sharezoneCiCdTool.location,
       );
     } catch (e) {
-      throw Exception('Failed to build iOS app: $e');
+      throw Exception('Failed to build macOS app: $e');
     }
+  }
+
+  /// Creates a signed macOS package from the built app and stores it in the
+  /// working directory.
+  ///
+  /// Usually the path to the signed macOS package is `app/Sharezone.pkg`.
+  ///
+  /// The steps are copied from the Flutter docs. You can find more details
+  /// here: https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
+  Future<void> _createSignedPackage() async {
+    await processRunner.run(
+      [
+        'bash',
+        '-c',
+        '''APP_NAME=\$(find \$(pwd) -name "*.app") && \
+PACKAGE_NAME=\$(basename "\$APP_NAME" .app).pkg && \
+xcrun productbuild --component "\$APP_NAME" /Applications/ unsigned.pkg && \
+INSTALLER_CERT_NAME=\$(keychain list-certificates | jq -r '.[] | select(.common_name | contains("Mac Developer Installer")) | .common_name' | head -1) && \
+xcrun productsign --sign "\$INSTALLER_CERT_NAME" unsigned.pkg "\$PACKAGE_NAME" && \
+rm -f unsigned.pkg'''
+      ],
+      workingDirectory: repo.sharezoneFlutterApp.location,
+    );
   }
 }

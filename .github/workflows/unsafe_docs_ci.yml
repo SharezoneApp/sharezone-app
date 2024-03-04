@@ -6,16 +6,16 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-# This workflow handles the CI for the website.
+# This workflow handles the CI for the docs.
 #
 # Therefore, it's only triggered on pull requests that make changes to the
-# website. It only contains jobs that require secrets. The jobs that don't
-# require secrets are handled in the "safe_website_ci.yml" workflow.
+# docs. It only contains jobs that require secrets. The jobs that don't
+# require secrets are handled in the "safe_docs_ci.yml" workflow.
 
-name: unsafe-website-ci
+name: unsafe-docs-ci
 
 concurrency:
-  group: unsafe-website-ci-${{ github.head_ref }}
+  group: unsafe-docs-ci-${{ github.head_ref }}
   # In order to conserve the use of GitHub Actions, we cancel the running action
   # of the previous commit. This means that if you first commit "A" and then
   # commit "B" to the pull request a few minutes later, the workflow for commit
@@ -49,10 +49,6 @@ on:
 # and would cause alerts from our scanning tools.
 permissions: {}
 
-env:
-  CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # It's important that we run this job first, because we need to remove the
   # "safe to test" label when the PR comes from a fork in order to ensure that
@@ -91,25 +87,12 @@ jobs:
         with:
           filters: |
             changesFound:
-              # When we change the Flutter version, we need to trigger this workflow.
-              - ".fvm/fvm_config.json"
               # We only build and deploy a new version, when a user relevant files
               # changed.
-              - "website/**"
-              - "lib/**"
+              - "docs/**"
               # We trigger also this workflow, if this workflow is changed, so that new
               # changes will be applied.
-              - ".github/workflows/unsafe_website_ci.yml"
-              # The following paths are excluded from the above paths. It's important to
-              # list the paths at the end of the file, so that the exclude paths are
-              # applied.
-              #
-              # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
-              - "!**/*.md"
-              - "!**/*.mdx"
-              - "!**/*.gitignore"
-              - "!**/firebase.json"
-              - "!**/.firebaserc"
+              - ".github/workflows/unsafe_docs_ci.yml"
 
   # We are building for every PR a web preview, which will be deployed to
   # Firebase Hosting. The link to the website will posted as comment (like:
@@ -127,9 +110,6 @@ jobs:
   # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
     needs: changes
-    # We only want to build the website only for PRs.
-    #
-    # Otherwise this will be triggered inside a merge-queue.
     if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
     runs-on: ubuntu-22.04
     permissions:
@@ -145,31 +125,20 @@ jobs:
           # checkout the PR head commit instead of the merge commit.
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Set Flutter version from FVM config file to environment variables
-        id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+      - name: Install dependencies
+        run: npm install -C docs/
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
-        with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-
-      - name: Install Sharezone CLI
-        run: |
-          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-          echo $(pwd)/bin >> $GITHUB_PATH
-
-      - name: Build
-        run: sz build website --flavor dev
-
-      - name: Deploy to Firebase Hosting (sharezone-debug)
+      - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG }}
           projectId: sharezone-debug
-          entryPoint: "./website"
+          entryPoint: "./docs"
           # The expiration date shouldn't be too high, because if we open a lot
           # of pull requests, we will run out of quota (we get 429 errors).
           expires: "3d"
-          target: "sharezone-website"
+          target: "docs"
+        env:
+          # Required to deploy Next.js applications to Firebase Hosting
+          FIREBASE_CLI_EXPERIMENTS: webframeworks

@@ -38,8 +38,8 @@ final _webFlavors = [
 ///
 /// The command will automatically use the right firebase config as configured
 /// inside [_stageToTarget].
-class DeployWebAppCommand extends CommandBase {
-  DeployWebAppCommand(super.context) {
+class DeployAppWebCommand extends CommandBase {
+  DeployAppWebCommand(super.context) {
     argParser
       ..addOption(
         releaseStageOptionName,
@@ -50,11 +50,6 @@ class DeployWebAppCommand extends CommandBase {
         firebaseDeployMessageOptionName,
         help:
             '(Optional) The message given to "firebase deploy --only:hosting" via the "--message" flag. Will default to the current commit hash.',
-      )
-      ..addOption(
-        googleApplicationCredentialsOptionName,
-        help:
-            'Path to location of credentials .json file used to authenticate deployment. Should only be used for CI/CD, developers should use "firebase login" instead.',
       )
       ..addOption(
         flavorOptionName,
@@ -69,7 +64,6 @@ class DeployWebAppCommand extends CommandBase {
   static const releaseStageOptionName = 'stage';
   static const firebaseDeployMessageOptionName = 'message';
   static const flavorOptionName = 'flavor';
-  static const googleApplicationCredentialsOptionName = 'credentials';
 
   @override
   String get description =>
@@ -85,8 +79,6 @@ class DeployWebAppCommand extends CommandBase {
     // One might add non-verbose output in the future but right now this is
     // easier.
     isVerbose = true;
-
-    final googleApplicationCredentialsFile = _parseCredentialsFile(argResults!);
 
     final overriddenDeployMessage = _parseDeployMessage(argResults!);
     final releaseStage = _parseReleaseStage(argResults!);
@@ -125,39 +117,7 @@ class DeployWebAppCommand extends CommandBase {
         deployMessage ?? overriddenDeployMessage!,
       ],
       workingDirectory: repo.sharezoneFlutterApp.location,
-      addedEnvironment: {
-        // If we run this inside the CI/CD system we want this call to be
-        // authenticated via the GOOGLE_APPLICATION_CREDENTIALS environment
-        // variable.
-        //
-        // Unfortunately it doesn't work to export the environment variable
-        // inside the CI/CD job and let the firebase cli use it automatically.
-        // Even when using [Process.includeParentEnvironment] the variables
-        // are not passed to the firebase cli.
-        //
-        // Thus the CI/CD script can pass the
-        // [googleApplicationCredentialsFile] manually via an command line
-        // option and we set the GOOGLE_APPLICATION_CREDENTIALS manually
-        // below.
-        if (googleApplicationCredentialsFile != null)
-          'GOOGLE_APPLICATION_CREDENTIALS':
-              googleApplicationCredentialsFile.absolute.path
-      },
     );
-  }
-
-  File? _parseCredentialsFile(ArgResults argResults) {
-    File? googleApplicationCredentialsFile;
-    final path = argResults[googleApplicationCredentialsOptionName] as String?;
-    if (path != null) {
-      googleApplicationCredentialsFile = fileSystem.file(path);
-      final exists = googleApplicationCredentialsFile.existsSync();
-      if (!exists) {
-        stdout.writeln(
-            "--$googleApplicationCredentialsOptionName passed '$path' but the file doesn't exist at this path. Working directory is ${Directory.current}");
-      }
-    }
-    return googleApplicationCredentialsFile;
   }
 
   String _parseReleaseStage(ArgResults argResults) {

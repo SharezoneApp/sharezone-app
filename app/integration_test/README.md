@@ -6,7 +6,6 @@ Integration tests for Android are written using the [patrol ](https://pub.dev/pa
 
 Integration tests for all other platforms are written using the [integration_test](https://github.com/flutter/flutter/tree/master/packages/integration_test) package, provided by the SDK.
 
-
 ## How to run integration tests
 
 In order to run the integration tests, you need specific credentials for the
