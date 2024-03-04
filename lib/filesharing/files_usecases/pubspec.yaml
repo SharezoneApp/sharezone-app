@@ -43,16 +43,12 @@ dependencies:
   #
   # When a version >= 2.5.1 is published, we can remove the git dependency and
   # use the published version.
-  pdfx:
-    git:
-      url: https://github.com/ScerIO/packages.flutter
-      path: packages/pdfx
-      ref: 8b105a7dfc6b90220c1d79fcb805fb764cab00c5
+  pdfx: ^2.6.0
   open_file_plus: ^3.4.1
   path: ^1.8.3
   path_provider: ^2.0.11
   photo_view: any
-  url_launcher: ^6.1.10
+  url_launcher: ^6.2.5
   video_player: any
   collection: ^1.15.0-nullsafety.4
 

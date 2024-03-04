@@ -13,7 +13,25 @@ import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
 import 'package:time/time.dart';
 
-import 'calendrical_event_types.dart';
+enum EventType {
+  event('meeting'),
+  exam('exam');
+
+  /// Database key for the event type.
+  final String key;
+
+  const EventType(this.key);
+
+  static EventType fromString(String s) {
+    switch (s) {
+      case 'meeting':
+        return event;
+      case 'exam':
+        return exam;
+    }
+    throw ArgumentError("Couldn't parse $EventType from unkown event type: $s");
+  }
+}
 
 class CalendricalEvent {
   /// The date and time when the event was created.
@@ -25,7 +43,7 @@ class CalendricalEvent {
 
   final String eventID, groupID, authorID;
   final GroupType groupType;
-  final CalendricalEventType eventType;
+  final EventType eventType;
   final Date date;
   final Time startTime, endTime;
   final String title;
@@ -64,7 +82,7 @@ class CalendricalEvent {
       endTime: Time.parse(data['endTime'] as String),
       title: data['title'] as String,
       groupType: GroupType.values.byName(data['groupType'] as String),
-      eventType: getEventTypeFromString(data['eventType'] as String),
+      eventType: EventType.fromString(data['eventType'] as String),
       detail: data['detail'] as String?,
       place: data['place'] as String?,
       sendNotification: (data['sendNotification'] as bool?) ?? false,
@@ -77,7 +95,7 @@ class CalendricalEvent {
       'createdOn': createdOn,
       'groupID': groupID,
       'groupType': groupType.name,
-      'eventType': getEventTypeToString(eventType),
+      'eventType': eventType.key,
       'authorID': authorID,
       'date': date.toDateString,
       'startTime': startTime.time,
@@ -95,7 +113,7 @@ class CalendricalEvent {
     String? groupID,
     String? authorID,
     GroupType? groupType,
-    CalendricalEventType? eventType,
+    EventType? eventType,
     Date? date,
     Time? startTime,
     Time? endTime,

@@ -32,11 +32,11 @@ class _DashboardPageFAB extends StatelessWidget {
         break;
       case _DashboardFabResult.event:
         analytics.logEventAdd();
-        showTimetableAddEventPage(context, isExam: false);
+        openEventDialogAndShowConfirmationIfSuccessful(context, isExam: false);
         break;
       case _DashboardFabResult.exam:
         analytics.logExamAdd();
-        showTimetableAddEventPage(context, isExam: true);
+        openEventDialogAndShowConfirmationIfSuccessful(context, isExam: true);
         break;
       case _DashboardFabResult.homework:
         analytics.logHomeworkAdd();

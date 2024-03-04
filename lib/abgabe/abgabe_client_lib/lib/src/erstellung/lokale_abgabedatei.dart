@@ -50,7 +50,7 @@ class LokaleAbgabedatei extends Abgabedatei {
   int get hashCode => pfad.hashCode ^ localFile.hashCode;
 
   @override
-  bool operator ==(Object? other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is LokaleAbgabedatei &&

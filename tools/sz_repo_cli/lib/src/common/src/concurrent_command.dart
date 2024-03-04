@@ -9,6 +9,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:clock/clock.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 /// Run a task via [runTaskForPackage] for many [Package] concurrently.
@@ -91,7 +92,7 @@ abstract class ConcurrentCommand extends CommandBase {
         : null;
 
     final taskRunner = ConcurrentPackageTaskRunner(
-      getCurrentDateTime: () => DateTime.now(),
+      getCurrentDateTime: () => clock.now(),
     );
 
     final res = taskRunner

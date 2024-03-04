@@ -7,7 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:built_collection/built_collection.dart';
+import 'package:clock/clock.dart';
 import 'package:key_value_store/key_value_store.dart';
+
 import 'api/holiday.dart';
 import 'state.dart';
 
@@ -21,7 +23,7 @@ class HolidayCache {
   HolidayCache(this.cache,
       {this.maxValidDurationTillLastSaved = const Duration(days: 30),
       this.getCurrentTime}) {
-    getCurrentTime ??= () => DateTime.now();
+    getCurrentTime ??= () => clock.now();
   }
 
   CacheResponse? load(State state) {

@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:files_basics/files_models.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
+import 'package:files_basics/files_models.dart';
 
 import 'change_activity.dart';
 import 'folder_path.dart';
@@ -83,7 +84,7 @@ class CloudFile {
       name: '',
       downloadURL: null,
       thumbnailURL: null,
-      createdOn: DateTime.now(),
+      createdOn: clock.now(),
       sizeBytes: null,
       fileFormat: FileFormat.unknown,
       forUsers: {},

@@ -17,7 +17,7 @@ class HomeworkPageStatus {
   bool get hasOpenHomeworks => nrOfOpenHomeworks > 0;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is HomeworkPageStatus &&
             nrOfCompletedHomeworks == other.nrOfCompletedHomeworks &&

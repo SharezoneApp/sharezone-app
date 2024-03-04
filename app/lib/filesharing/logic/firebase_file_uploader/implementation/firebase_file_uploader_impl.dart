@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
@@ -45,7 +46,7 @@ class FirebaseFileUploaderImplementation {
         ChangeActivity(
           authorID: creatorID,
           authorName: creatorName,
-          changedOn: DateTime.now(),
+          changedOn: clock.now(),
         )
       ],
       name: localFile.getName(),

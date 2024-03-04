@@ -163,6 +163,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
         isDefaultAction: true,
       ),
     );
+    if (!mounted) {
+      return;
+    }
 
     if (result == true && context.mounted) {
       bloc.enterValue(sharecode.value);

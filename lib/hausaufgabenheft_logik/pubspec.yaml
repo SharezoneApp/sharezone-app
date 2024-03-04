@@ -29,6 +29,7 @@ dependencies:
   # For teacher fake bloc currently in use (can be removed when bloc is implemented)
   # https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1460
   random_string: ^2.0.1
+  clock: ^1.1.1
 
 dev_dependencies:
   async: ^2.11.0

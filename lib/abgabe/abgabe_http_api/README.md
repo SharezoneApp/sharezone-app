@@ -16,6 +16,7 @@ Dart 1.20.0 or later OR Flutter 0.0.20 or later
 ### Github
 
 If this Dart package is published to Github, please include the following in pubspec.yaml
+
 ```
 name: abgabe_http_api
 version: 1.0.0
@@ -29,6 +30,7 @@ dependencies:
 ### Local
 
 To use the package in your local drive, please include the following in pubspec.yaml
+
 ```
 dependencies:
   abgabe_http_api:
@@ -44,8 +46,8 @@ import 'package:abgabe_http_api/api.dart';
 
 
 var api_instance = new AbgabeApi();
-var id = id_example; // String | 
-var submissionDto = new SubmissionDto(); // SubmissionDto | 
+var id = id_example; // String |
+var submissionDto = new SubmissionDto(); // SubmissionDto |
 
 try {
     api_instance.publishSubmission(id, submissionDto);
@@ -59,26 +61,24 @@ try {
 
 All URIs are relative to *https://api.sharezone.net*
 
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*AbgabeApi* | [**publishSubmission**](doc//AbgabeApi.md#publishsubmission) | **patch** /v1/submissions/{id} | 
-*AbgabedateiApi* | [**addFile**](doc//AbgabedateiApi.md#addfile) | **post** /v1/submissions/{submissionId}/files | 
-*AbgabedateiApi* | [**deleteFile**](doc//AbgabedateiApi.md#deletefile) | **delete** /v1/submissions/{submissionId}/files/{fileId} | 
-*AbgabedateiApi* | [**renameFile**](doc//AbgabedateiApi.md#renamefile) | **post** /v1/submissions/{submissionId}/files/{fileId} | 
-*AbgabedateienApi* | [**addFiles**](doc//AbgabedateienApi.md#addfiles) | **post** /v1/submissions/{submissionId}/files/addList | 
-
+| Class              | Method                                                       | HTTP request                                             | Description |
+| ------------------ | ------------------------------------------------------------ | -------------------------------------------------------- | ----------- |
+| _AbgabeApi_        | [**publishSubmission**](doc//AbgabeApi.md#publishsubmission) | **patch** /v1/submissions/{id}                           |
+| _AbgabedateiApi_   | [**addFile**](doc//AbgabedateiApi.md#addfile)                | **post** /v1/submissions/{submissionId}/files            |
+| _AbgabedateiApi_   | [**deleteFile**](doc//AbgabedateiApi.md#deletefile)          | **delete** /v1/submissions/{submissionId}/files/{fileId} |
+| _AbgabedateiApi_   | [**renameFile**](doc//AbgabedateiApi.md#renamefile)          | **post** /v1/submissions/{submissionId}/files/{fileId}   |
+| _AbgabedateienApi_ | [**addFiles**](doc//AbgabedateienApi.md#addfiles)            | **post** /v1/submissions/{submissionId}/files/addList    |
 
 ## Documentation For Models
 
- - [DateiHinzufuegenCommandDto](doc//DateiHinzufuegenCommandDto.md)
- - [DateiHinzufuegenCommandDto1](doc//DateiHinzufuegenCommandDto1.md)
- - [DateienHinzufuegenCommandDto](doc//DateienHinzufuegenCommandDto.md)
- - [DateinameDto](doc//DateinameDto.md)
- - [InlineResponse400](doc//InlineResponse400.md)
- - [InlineResponse403](doc//InlineResponse403.md)
- - [SubmissionDto](doc//SubmissionDto.md)
-
+- [DateiHinzufuegenCommandDto](doc//DateiHinzufuegenCommandDto.md)
+- [DateiHinzufuegenCommandDto1](doc//DateiHinzufuegenCommandDto1.md)
+- [DateienHinzufuegenCommandDto](doc//DateienHinzufuegenCommandDto.md)
+- [DateinameDto](doc//DateinameDto.md)
+- [InlineResponse400](doc//InlineResponse400.md)
+- [InlineResponse403](doc//InlineResponse403.md)
+- [SubmissionDto](doc//SubmissionDto.md)
 
 ## Documentation For Authorization
 
- All endpoints do not require authorization.
+All endpoints do not require authorization.

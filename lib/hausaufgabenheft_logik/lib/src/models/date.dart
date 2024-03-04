@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
+
 class Date implements Comparable<Date> {
   final int day;
   final int month;
@@ -18,7 +20,7 @@ class Date implements Comparable<Date> {
   });
 
   factory Date.now() {
-    final now = DateTime.now();
+    final now = clock.now();
     return Date(day: now.day, month: now.month, year: now.year);
   }
 
@@ -37,8 +39,13 @@ class Date implements Comparable<Date> {
   }
 
   @override
-  bool operator ==(dynamic other) {
-    return compareTo(other) == 0;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Date &&
+        other.day == day &&
+        other.month == month &&
+        other.year == year;
   }
 
   @override

@@ -7,7 +7,7 @@ package with a custom UI to display a scan area, a description, etc.
 
 | Android | iOS | macOS | Web |
 | :-----: | :-: | :---: | :-: |
-|   ✔️     |  ✔️  |   ✔️   |  ✔️  |
+|   ✔️    | ✔️  |  ✔️   | ✔️  |
 
 **Android:** SDK +21
 **iOS:** +11.0
@@ -21,9 +21,13 @@ To get more information about the platform support, checkout the `README.md` of
 ### Web
 
 Add this `script` to the `head` of your `web/index.html`.
+
 ```html
 <!-- Required for the "mobile_scanner" package -->
-<script src="https://unpkg.com/@zxing/library@0.19.1" type="application/javascript"></script>
+<script
+  src="https://unpkg.com/@zxing/library@0.19.1"
+  type="application/javascript"
+></script>
 ```
 
 _Note: It's recommended to download the library and host it yourself (more GDPR friendly)._
