@@ -80,18 +80,22 @@ class ChangeTypeOfUserController extends ChangeNotifier {
 
   void _parseException(FirebaseFunctionsException e) {
     final unknownErrorMessage = '[${e.plugin}/${e.code}] ${e.message}';
-    if (e.code == 'failed-precondition') {
-      try {
-        final json = jsonDecode(e.message!);
+    if (e.code != 'failed-precondition') {
+      throw ChangeTypeOfUserUnknownException(unknownErrorMessage);
+    }
+
+    try {
+      final json = jsonDecode(e.message!);
+      if (json['errorId'] == 'typeofuser-change-limit-reached') {
         final blockedUntil = DateTime.parse(json['blockedUntil']);
         throw ChangedTypeOfUserTooOftenException(
           blockedUntil: blockedUntil,
         );
-      } catch (e) {
-        if (e is ChangedTypeOfUserTooOftenException) rethrow;
+      } else {
         throw ChangeTypeOfUserUnknownException(unknownErrorMessage);
       }
-    } else {
+    } catch (e) {
+      if (e is ChangedTypeOfUserTooOftenException) rethrow;
       throw ChangeTypeOfUserUnknownException(unknownErrorMessage);
     }
   }
