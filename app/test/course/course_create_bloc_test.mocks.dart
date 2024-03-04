@@ -98,6 +98,7 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#courseGateway),
         ),
       ) as _i2.CourseGateway);
+
   @override
   _i3.SchoolClassGateway get schoolClassGateway => (super.noSuchMethod(
         Invocation.getter(#schoolClassGateway),
@@ -110,6 +111,7 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#schoolClassGateway),
         ),
       ) as _i3.SchoolClassGateway);
+
   @override
   _i4.UserGateway get userGateway => (super.noSuchMethod(
         Invocation.getter(#userGateway),
@@ -122,12 +124,14 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#userGateway),
         ),
       ) as _i4.UserGateway);
+
   @override
   List<_i5.Course> get currentCourses => (super.noSuchMethod(
         Invocation.getter(#currentCourses),
         returnValue: <_i5.Course>[],
         returnValueForMissingStub: <_i5.Course>[],
       ) as List<_i5.Course>);
+
   @override
   _i5.Course createCourse(_i8.UserInput? userInput) => (super.noSuchMethod(
         Invocation.method(
@@ -149,6 +153,7 @@ class MockCourseCreateGateway extends _i1.Mock
           ),
         ),
       ) as _i5.Course);
+
   @override
   _i9.Future<_i6.AppFunctionsResult<bool>> createSchoolClassCourse(
     _i8.UserInput? userInput,

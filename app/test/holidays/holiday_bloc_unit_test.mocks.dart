@@ -82,12 +82,14 @@ class MockHolidayApi extends _i1.Mock implements _i2.HolidayApi {
           Invocation.getter(#apiClient),
         ),
       ) as _i2.HolidayApiClient);
+
   @override
   bool get returnPassedHolidays => (super.noSuchMethod(
         Invocation.getter(#returnPassedHolidays),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   DateTime Function() get getCurrentTime => (super.noSuchMethod(
         Invocation.getter(#getCurrentTime),
@@ -100,6 +102,7 @@ class MockHolidayApi extends _i1.Mock implements _i2.HolidayApi {
           Invocation.getter(#getCurrentTime),
         ),
       ) as DateTime Function());
+
   @override
   set getCurrentTime(DateTime Function()? _getCurrentTime) =>
       super.noSuchMethod(
@@ -109,6 +112,7 @@ class MockHolidayApi extends _i1.Mock implements _i2.HolidayApi {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i4.Future<List<_i5.Holiday>> load(
     int? yearsInAdvance,
@@ -128,6 +132,7 @@ class MockHolidayApi extends _i1.Mock implements _i2.HolidayApi {
         returnValueForMissingStub:
             _i4.Future<List<_i5.Holiday>>.value(<_i5.Holiday>[]),
       ) as _i4.Future<List<_i5.Holiday>>);
+
   @override
   void removePassedHolidays(List<_i5.Holiday>? holidayList) =>
       super.noSuchMethod(
@@ -155,6 +160,7 @@ class MockHolidayCache extends _i1.Mock implements _i7.HolidayCache {
           Invocation.getter(#cache),
         ),
       ) as _i3.KeyValueStore);
+
   @override
   Duration get maxValidDurationTillLastSaved => (super.noSuchMethod(
         Invocation.getter(#maxValidDurationTillLastSaved),
@@ -167,6 +173,7 @@ class MockHolidayCache extends _i1.Mock implements _i7.HolidayCache {
           Invocation.getter(#maxValidDurationTillLastSaved),
         ),
       ) as Duration);
+
   @override
   set getCurrentTime(_i7.SavingDateTimeFunction? _getCurrentTime) =>
       super.noSuchMethod(
@@ -176,6 +183,7 @@ class MockHolidayCache extends _i1.Mock implements _i7.HolidayCache {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i7.CacheResponse? load(_i6.State? state) => (super.noSuchMethod(
         Invocation.method(
@@ -184,6 +192,7 @@ class MockHolidayCache extends _i1.Mock implements _i7.HolidayCache {
         ),
         returnValueForMissingStub: null,
       ) as _i7.CacheResponse?);
+
   @override
   List<_i5.Holiday> removePassedHolidays(List<_i5.Holiday>? holidays) =>
       (super.noSuchMethod(
@@ -194,6 +203,7 @@ class MockHolidayCache extends _i1.Mock implements _i7.HolidayCache {
         returnValue: <_i5.Holiday>[],
         returnValueForMissingStub: <_i5.Holiday>[],
       ) as List<_i5.Holiday>);
+
   @override
   _i4.Future<void> save(
     List<_i5.Holiday?>? holidays,
@@ -210,6 +220,7 @@ class MockHolidayCache extends _i1.Mock implements _i7.HolidayCache {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   bool isCacheDataValid(
     _i5.HolidayCacheData? cacheData,

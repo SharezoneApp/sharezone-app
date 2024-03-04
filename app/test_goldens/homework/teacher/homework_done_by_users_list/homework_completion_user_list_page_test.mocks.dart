@@ -92,6 +92,7 @@ class MockHomeworkCompletionUserListBlocFactory extends _i1.Mock
           ),
         ),
       ) as _i2.HomeworkCompletionUserListBloc);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -115,6 +116,7 @@ class MockHomeworkCompletionUserListBloc extends _i1.Mock
         returnValueForMissingStub:
             _i7.Stream<List<_i8.UserHasCompletedHomeworkView>>.empty(),
       ) as _i7.Stream<List<_i8.UserHasCompletedHomeworkView>>);
+
   @override
   void logOpenHomeworkDoneByUsersList() => super.noSuchMethod(
         Invocation.method(
@@ -123,6 +125,7 @@ class MockHomeworkCompletionUserListBloc extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -144,6 +147,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i7.Stream<_i10.AppUser?>.empty(),
         returnValueForMissingStub: _i7.Stream<_i10.AppUser?>.empty(),
       ) as _i7.Stream<_i10.AppUser?>);
+
   @override
   _i3.Clock get clock => (super.noSuchMethod(
         Invocation.getter(#clock),
@@ -156,6 +160,7 @@ class MockSubscriptionService extends _i1.Mock
           Invocation.getter(#clock),
         ),
       ) as _i3.Clock);
+
   @override
   _i4.SubscriptionEnabledFlag get isSubscriptionEnabledFlag =>
       (super.noSuchMethod(
@@ -169,6 +174,7 @@ class MockSubscriptionService extends _i1.Mock
           Invocation.getter(#isSubscriptionEnabledFlag),
         ),
       ) as _i4.SubscriptionEnabledFlag);
+
   @override
   bool isSubscriptionActive([_i10.AppUser? appUser]) => (super.noSuchMethod(
         Invocation.method(
@@ -178,6 +184,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i7.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
         Invocation.method(
@@ -187,6 +194,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i7.Stream<bool>.empty(),
         returnValueForMissingStub: _i7.Stream<bool>.empty(),
       ) as _i7.Stream<bool>);
+
   @override
   bool hasFeatureUnlocked(_i9.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
@@ -197,6 +205,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i7.Stream<bool> hasFeatureUnlockedStream(
           _i9.SharezonePlusFeature? feature) =>

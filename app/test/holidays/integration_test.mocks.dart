@@ -86,6 +86,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<dynamic>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<dynamic>> enterActivationCode(
           {required String? enteredActivationCode}) =>
@@ -115,6 +116,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<dynamic>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> joinWithGroupId({
     required String? id,
@@ -159,6 +161,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> leave({
     required String? id,
@@ -203,6 +206,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> groupEdit({
     required String? id,
@@ -247,6 +251,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> groupEditSettings({
     required String? id,
@@ -291,6 +296,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> groupDelete({
     required String? groupID,
@@ -335,6 +341,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> groupCreate({
     required String? id,
@@ -383,6 +390,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> userUpdate({
     required String? userID,
@@ -423,6 +431,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> memberUpdateRole({
     required String? memberID,
@@ -471,6 +480,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> userDelete(
           {required String? userID}) =>
@@ -500,6 +510,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> schoolClassAddCourse({
     required String? schoolClassID,
@@ -540,6 +551,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> schoolClassRemoveCourse({
     required String? schoolClassID,
@@ -580,6 +592,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> authenticateUserViaQrCodeId({
     required String? uid,
@@ -620,6 +633,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+
   @override
   _i4.Future<_i2.AppFunctionsResult<Map<String, dynamic>>> loadHolidays({
     required String? stateCode,

@@ -139,6 +139,7 @@ class MockUpdateReminderBloc extends _i1.Mock
           Invocation.getter(#getLatestRelease),
         )),
       ) as _i9.Future<_i2.Release> Function());
+
   @override
   _i9.Future<_i3.Version> Function() get getCurrentVersion =>
       (super.noSuchMethod(
@@ -153,6 +154,7 @@ class MockUpdateReminderBloc extends _i1.Mock
           Invocation.getter(#getCurrentVersion),
         )),
       ) as _i9.Future<_i3.Version> Function());
+
   @override
   Duration get updateGracePeriod => (super.noSuchMethod(
         Invocation.getter(#updateGracePeriod),
@@ -165,6 +167,7 @@ class MockUpdateReminderBloc extends _i1.Mock
           Invocation.getter(#updateGracePeriod),
         ),
       ) as Duration);
+
   @override
   DateTime Function() get getCurrentDateTime => (super.noSuchMethod(
         Invocation.getter(#getCurrentDateTime),
@@ -177,6 +180,7 @@ class MockUpdateReminderBloc extends _i1.Mock
           Invocation.getter(#getCurrentDateTime),
         ),
       ) as DateTime Function());
+
   @override
   _i9.Future<bool> shouldRemindToUpdate() => (super.noSuchMethod(
         Invocation.method(
@@ -186,6 +190,7 @@ class MockUpdateReminderBloc extends _i1.Mock
         returnValue: _i9.Future<bool>.value(false),
         returnValueForMissingStub: _i9.Future<bool>.value(false),
       ) as _i9.Future<bool>);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -212,6 +217,7 @@ class MockHolidayBloc extends _i1.Mock implements _i5.HolidayBloc {
           Invocation.getter(#holidayManager),
         ),
       ) as _i4.HolidayService);
+
   @override
   set getCurrentTime(DateTime Function()? _getCurrentTime) =>
       super.noSuchMethod(
@@ -221,6 +227,7 @@ class MockHolidayBloc extends _i1.Mock implements _i5.HolidayBloc {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i5.HolidayStateGateway get stateGateway => (super.noSuchMethod(
         Invocation.getter(#stateGateway),
@@ -233,24 +240,28 @@ class MockHolidayBloc extends _i1.Mock implements _i5.HolidayBloc {
           Invocation.getter(#stateGateway),
         ),
       ) as _i5.HolidayStateGateway);
+
   @override
   _i9.Stream<List<_i4.Holiday?>> get holidays => (super.noSuchMethod(
         Invocation.getter(#holidays),
         returnValue: _i9.Stream<List<_i4.Holiday?>>.empty(),
         returnValueForMissingStub: _i9.Stream<List<_i4.Holiday?>>.empty(),
       ) as _i9.Stream<List<_i4.Holiday?>>);
+
   @override
   _i9.Stream<_i10.StateEnum?> get userState => (super.noSuchMethod(
         Invocation.getter(#userState),
         returnValue: _i9.Stream<_i10.StateEnum?>.empty(),
         returnValueForMissingStub: _i9.Stream<_i10.StateEnum?>.empty(),
       ) as _i9.Stream<_i10.StateEnum?>);
+
   @override
   _i9.Stream<bool> get hasStateSelected => (super.noSuchMethod(
         Invocation.getter(#hasStateSelected),
         returnValue: _i9.Stream<bool>.empty(),
         returnValueForMissingStub: _i9.Stream<bool>.empty(),
       ) as _i9.Stream<bool>);
+
   @override
   _i9.Future<void> Function(_i10.StateEnum?) get changeState =>
       (super.noSuchMethod(
@@ -259,6 +270,7 @@ class MockHolidayBloc extends _i1.Mock implements _i5.HolidayBloc {
         returnValueForMissingStub: (_i10.StateEnum? state) =>
             _i9.Future<void>.value(),
       ) as _i9.Future<void> Function(_i10.StateEnum?));
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -286,6 +298,7 @@ class MockDashboardTipSystem extends _i1.Mock
           Invocation.getter(#cache),
         ),
       ) as _i6.DashboardTipCache);
+
   @override
   _i7.NavigationBloc get navigationBloc => (super.noSuchMethod(
         Invocation.getter(#navigationBloc),
@@ -298,12 +311,14 @@ class MockDashboardTipSystem extends _i1.Mock
           Invocation.getter(#navigationBloc),
         ),
       ) as _i7.NavigationBloc);
+
   @override
   _i9.Stream<_i12.DashboardTip?> get dashboardTip => (super.noSuchMethod(
         Invocation.getter(#dashboardTip),
         returnValue: _i9.Stream<_i12.DashboardTip?>.empty(),
         returnValueForMissingStub: _i9.Stream<_i12.DashboardTip?>.empty(),
       ) as _i9.Stream<_i12.DashboardTip?>);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -330,6 +345,7 @@ class MockDashboardBloc extends _i1.Mock implements _i13.DashboardBloc {
           Invocation.getter(#todayDateTimeWithoutTime),
         ),
       ) as DateTime);
+
   @override
   _i9.Stream<List<_i14.HomeworkView>> get urgentHomeworks =>
       (super.noSuchMethod(
@@ -337,6 +353,7 @@ class MockDashboardBloc extends _i1.Mock implements _i13.DashboardBloc {
         returnValue: _i9.Stream<List<_i14.HomeworkView>>.empty(),
         returnValueForMissingStub: _i9.Stream<List<_i14.HomeworkView>>.empty(),
       ) as _i9.Stream<List<_i14.HomeworkView>>);
+
   @override
   _i9.Stream<List<_i15.BlackboardView>> get unreadBlackboardViews =>
       (super.noSuchMethod(
@@ -345,48 +362,56 @@ class MockDashboardBloc extends _i1.Mock implements _i13.DashboardBloc {
         returnValueForMissingStub:
             _i9.Stream<List<_i15.BlackboardView>>.empty(),
       ) as _i9.Stream<List<_i15.BlackboardView>>);
+
   @override
   _i9.Stream<bool> get urgentHomeworksEmpty => (super.noSuchMethod(
         Invocation.getter(#urgentHomeworksEmpty),
         returnValue: _i9.Stream<bool>.empty(),
         returnValueForMissingStub: _i9.Stream<bool>.empty(),
       ) as _i9.Stream<bool>);
+
   @override
   _i9.Stream<List<_i16.EventView>> get upcomingEvents => (super.noSuchMethod(
         Invocation.getter(#upcomingEvents),
         returnValue: _i9.Stream<List<_i16.EventView>>.empty(),
         returnValueForMissingStub: _i9.Stream<List<_i16.EventView>>.empty(),
       ) as _i9.Stream<List<_i16.EventView>>);
+
   @override
   _i9.Stream<int> get numberOfUrgentHomeworks => (super.noSuchMethod(
         Invocation.getter(#numberOfUrgentHomeworks),
         returnValue: _i9.Stream<int>.empty(),
         returnValueForMissingStub: _i9.Stream<int>.empty(),
       ) as _i9.Stream<int>);
+
   @override
   _i9.Stream<List<_i17.LessonView>> get lessonViews => (super.noSuchMethod(
         Invocation.getter(#lessonViews),
         returnValue: _i9.Stream<List<_i17.LessonView>>.empty(),
         returnValueForMissingStub: _i9.Stream<List<_i17.LessonView>>.empty(),
       ) as _i9.Stream<List<_i17.LessonView>>);
+
   @override
   _i9.Stream<int> get numberOfUnreadBlackboardViews => (super.noSuchMethod(
         Invocation.getter(#numberOfUnreadBlackboardViews),
         returnValue: _i9.Stream<int>.empty(),
         returnValueForMissingStub: _i9.Stream<int>.empty(),
       ) as _i9.Stream<int>);
+
   @override
   _i9.Stream<bool> get unreadBlackboardViewsEmpty => (super.noSuchMethod(
         Invocation.getter(#unreadBlackboardViewsEmpty),
         returnValue: _i9.Stream<bool>.empty(),
         returnValueForMissingStub: _i9.Stream<bool>.empty(),
       ) as _i9.Stream<bool>);
+
   @override
   _i9.Stream<int> get numberOfUpcomingEvents => (super.noSuchMethod(
         Invocation.getter(#numberOfUpcomingEvents),
         returnValue: _i9.Stream<int>.empty(),
         returnValueForMissingStub: _i9.Stream<int>.empty(),
       ) as _i9.Stream<int>);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(

@@ -75,6 +75,7 @@ class MockDocumentController extends _i1.Mock
           Invocation.getter(#anchorController),
         ),
       ) as _i2.AnchorController);
+
   @override
   _i3.CurrentlyReadThreshold get threshold => (super.noSuchMethod(
         Invocation.getter(#threshold),
@@ -87,6 +88,7 @@ class MockDocumentController extends _i1.Mock
           Invocation.getter(#threshold),
         ),
       ) as _i3.CurrentlyReadThreshold);
+
   @override
   _i4.ValueListenable<_i5.IList<_i3.DocumentSectionHeadingPosition>>
       get sortedSectionHeadings => (super.noSuchMethod(
@@ -103,6 +105,7 @@ class MockDocumentController extends _i1.Mock
             ),
           ) as _i4
               .ValueListenable<_i5.IList<_i3.DocumentSectionHeadingPosition>>);
+
   @override
   _i6.Future<void> scrollToDocumentSection(
           _i3.DocumentSectionId? documentSectionId) =>

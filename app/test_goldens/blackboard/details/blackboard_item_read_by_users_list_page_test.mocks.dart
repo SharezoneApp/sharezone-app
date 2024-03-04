@@ -62,6 +62,7 @@ class MockBlackboardItemReadByUsersListBloc extends _i1.Mock
         returnValue: _i5.Stream<List<_i6.UserView>>.empty(),
         returnValueForMissingStub: _i5.Stream<List<_i6.UserView>>.empty(),
       ) as _i5.Stream<List<_i6.UserView>>);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -83,6 +84,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i5.Stream<_i8.AppUser?>.empty(),
         returnValueForMissingStub: _i5.Stream<_i8.AppUser?>.empty(),
       ) as _i5.Stream<_i8.AppUser?>);
+
   @override
   _i2.Clock get clock => (super.noSuchMethod(
         Invocation.getter(#clock),
@@ -95,6 +97,7 @@ class MockSubscriptionService extends _i1.Mock
           Invocation.getter(#clock),
         ),
       ) as _i2.Clock);
+
   @override
   _i3.SubscriptionEnabledFlag get isSubscriptionEnabledFlag =>
       (super.noSuchMethod(
@@ -108,6 +111,7 @@ class MockSubscriptionService extends _i1.Mock
           Invocation.getter(#isSubscriptionEnabledFlag),
         ),
       ) as _i3.SubscriptionEnabledFlag);
+
   @override
   bool isSubscriptionActive([_i8.AppUser? appUser]) => (super.noSuchMethod(
         Invocation.method(
@@ -117,6 +121,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i5.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
         Invocation.method(
@@ -126,6 +131,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i5.Stream<bool>.empty(),
         returnValueForMissingStub: _i5.Stream<bool>.empty(),
       ) as _i5.Stream<bool>);
+
   @override
   bool hasFeatureUnlocked(_i7.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
@@ -136,6 +142,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i5.Stream<bool> hasFeatureUnlockedStream(
           _i7.SharezonePlusFeature? feature) =>

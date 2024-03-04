@@ -47,6 +47,7 @@ class MockSupportPageController extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   set hasPlusSupportUnlocked(bool? _hasPlusSupportUnlocked) =>
       super.noSuchMethod(
@@ -56,12 +57,14 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool get isUserInGroupOnboarding => (super.noSuchMethod(
         Invocation.getter(#isUserInGroupOnboarding),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   set isUserInGroupOnboarding(bool? _isUserInGroupOnboarding) =>
       super.noSuchMethod(
@@ -71,6 +74,7 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   set userId(_i4.UserId? _userId) => super.noSuchMethod(
         Invocation.setter(
@@ -79,6 +83,7 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   set userEmail(String? _userEmail) => super.noSuchMethod(
         Invocation.setter(
@@ -87,6 +92,7 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   set userName(String? _userName) => super.noSuchMethod(
         Invocation.setter(
@@ -95,18 +101,21 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool get isUserSignedIn => (super.noSuchMethod(
         Invocation.getter(#isUserSignedIn),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   String getVideoCallAppointmentsUnencodedUrlWithPrefills() =>
       (super.noSuchMethod(
@@ -129,6 +138,7 @@ class MockSupportPageController extends _i1.Mock
           ),
         ),
       ) as String);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -137,6 +147,7 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -145,6 +156,7 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -153,6 +165,7 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(
@@ -180,18 +193,21 @@ class MockSubscriptionEnabledFlag extends _i1.Mock
           Invocation.getter(#keyValueStore),
         ),
       ) as _i2.KeyValueStore);
+
   @override
   bool get isEnabled => (super.noSuchMethod(
         Invocation.getter(#isEnabled),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   void toggle() => super.noSuchMethod(
         Invocation.method(
@@ -200,6 +216,7 @@ class MockSubscriptionEnabledFlag extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -208,6 +225,7 @@ class MockSubscriptionEnabledFlag extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -216,6 +234,7 @@ class MockSubscriptionEnabledFlag extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -224,6 +243,7 @@ class MockSubscriptionEnabledFlag extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(

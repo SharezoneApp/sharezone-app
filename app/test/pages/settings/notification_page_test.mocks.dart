@@ -88,6 +88,7 @@ class MockNotificationsBloc extends _i1.Mock implements _i3.NotificationsBloc {
           Invocation.getter(#subscription),
         ),
       ) as _i2.StreamSubscription<dynamic>);
+
   @override
   set subscription(_i2.StreamSubscription<dynamic>? _subscription) =>
       super.noSuchMethod(
@@ -97,24 +98,28 @@ class MockNotificationsBloc extends _i1.Mock implements _i3.NotificationsBloc {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i2.Stream<bool> get notificationsForHomeworks => (super.noSuchMethod(
         Invocation.getter(#notificationsForHomeworks),
         returnValue: _i2.Stream<bool>.empty(),
         returnValueForMissingStub: _i2.Stream<bool>.empty(),
       ) as _i2.Stream<bool>);
+
   @override
   _i2.Stream<bool> get notificationsForBlackboard => (super.noSuchMethod(
         Invocation.getter(#notificationsForBlackboard),
         returnValue: _i2.Stream<bool>.empty(),
         returnValueForMissingStub: _i2.Stream<bool>.empty(),
       ) as _i2.Stream<bool>);
+
   @override
   _i2.Stream<bool> get notificationsForComments => (super.noSuchMethod(
         Invocation.getter(#notificationsForComments),
         returnValue: _i2.Stream<bool>.empty(),
         returnValueForMissingStub: _i2.Stream<bool>.empty(),
       ) as _i2.Stream<bool>);
+
   @override
   dynamic Function(bool) get changeNotificationsForHomeworks =>
       (super.noSuchMethod(
@@ -122,6 +127,7 @@ class MockNotificationsBloc extends _i1.Mock implements _i3.NotificationsBloc {
         returnValue: (bool __p0) => null,
         returnValueForMissingStub: (bool __p0) => null,
       ) as dynamic Function(bool));
+
   @override
   dynamic Function(bool) get changeNotificationsForBlackboard =>
       (super.noSuchMethod(
@@ -129,6 +135,7 @@ class MockNotificationsBloc extends _i1.Mock implements _i3.NotificationsBloc {
         returnValue: (bool __p0) => null,
         returnValueForMissingStub: (bool __p0) => null,
       ) as dynamic Function(bool));
+
   @override
   dynamic Function(bool) get changeNotificationsForComments =>
       (super.noSuchMethod(
@@ -136,6 +143,7 @@ class MockNotificationsBloc extends _i1.Mock implements _i3.NotificationsBloc {
         returnValue: (bool __p0) => null,
         returnValueForMissingStub: (bool __p0) => null,
       ) as dynamic Function(bool));
+
   @override
   _i2.Stream<_i6.TimeOfDay?> get notificationsTimeForHomeworks =>
       (super.noSuchMethod(
@@ -143,6 +151,7 @@ class MockNotificationsBloc extends _i1.Mock implements _i3.NotificationsBloc {
         returnValue: _i2.Stream<_i6.TimeOfDay?>.empty(),
         returnValueForMissingStub: _i2.Stream<_i6.TimeOfDay?>.empty(),
       ) as _i2.Stream<_i6.TimeOfDay?>);
+
   @override
   dynamic Function(_i6.TimeOfDay) get changeNotificationsTimeForHomeworks =>
       (super.noSuchMethod(
@@ -150,6 +159,7 @@ class MockNotificationsBloc extends _i1.Mock implements _i3.NotificationsBloc {
         returnValue: (_i6.TimeOfDay __p0) => null,
         returnValueForMissingStub: (_i6.TimeOfDay __p0) => null,
       ) as dynamic Function(_i6.TimeOfDay));
+
   @override
   List<_i6.TimeOfDay> getTimeForHomeworkNotifications() => (super.noSuchMethod(
         Invocation.method(
@@ -159,6 +169,7 @@ class MockNotificationsBloc extends _i1.Mock implements _i3.NotificationsBloc {
         returnValue: <_i6.TimeOfDay>[],
         returnValueForMissingStub: <_i6.TimeOfDay>[],
       ) as List<_i6.TimeOfDay>);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -195,6 +206,7 @@ class MockNotificationsBlocFactory extends _i1.Mock
           ),
         ),
       ) as _i3.NotificationsBloc);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -216,6 +228,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i2.Stream<_i9.AppUser?>.empty(),
         returnValueForMissingStub: _i2.Stream<_i9.AppUser?>.empty(),
       ) as _i2.Stream<_i9.AppUser?>);
+
   @override
   _i4.Clock get clock => (super.noSuchMethod(
         Invocation.getter(#clock),
@@ -228,6 +241,7 @@ class MockSubscriptionService extends _i1.Mock
           Invocation.getter(#clock),
         ),
       ) as _i4.Clock);
+
   @override
   _i5.SubscriptionEnabledFlag get isSubscriptionEnabledFlag =>
       (super.noSuchMethod(
@@ -241,6 +255,7 @@ class MockSubscriptionService extends _i1.Mock
           Invocation.getter(#isSubscriptionEnabledFlag),
         ),
       ) as _i5.SubscriptionEnabledFlag);
+
   @override
   bool isSubscriptionActive([_i9.AppUser? appUser]) => (super.noSuchMethod(
         Invocation.method(
@@ -250,6 +265,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i2.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
         Invocation.method(
@@ -259,6 +275,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i2.Stream<bool>.empty(),
         returnValueForMissingStub: _i2.Stream<bool>.empty(),
       ) as _i2.Stream<bool>);
+
   @override
   bool hasFeatureUnlocked(_i8.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
@@ -269,6 +286,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i2.Stream<bool> hasFeatureUnlockedStream(
           _i8.SharezonePlusFeature? feature) =>

@@ -21,7 +21,7 @@ dependencies:
   retry: ^3.1.2
 
 dev_dependencies:
-  build_runner: ^2.4.7
+  build_runner: ^2.4.8
   mockito: ^5.4.4
   test: ^1.23.1
   sharezone_lints:
