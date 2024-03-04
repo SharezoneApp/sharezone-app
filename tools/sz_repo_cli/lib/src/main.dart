@@ -14,6 +14,7 @@ import 'package:file/local.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_app_android_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_app_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_app_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_app_macos_command.dart';
@@ -23,6 +24,7 @@ import 'package:sz_repo_cli/src/commands/src/build_app_web_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_website_command.dart';
 import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_app_android_command.dart';
+import 'package:sz_repo_cli/src/commands/src/deploy_app_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_app_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_app_macos_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_website_command.dart';
@@ -65,16 +67,18 @@ Future<void> main(List<String> args) async {
           ..addSubcommand(CheckLicenseHeadersCommand(context))
           ..addSubcommand(AddLicenseHeadersCommand(context)))
         ..addCommand(DeployCommand()
-          ..addSubcommand(DeployAppWebCommand(context))
-          ..addSubcommand(DeployAppIosCommand(context))
-          ..addSubcommand(DeployAppMacOsCommand(context))
-          ..addSubcommand(DeployAndroidCommand(context))
+          ..addSubcommand(DeployAppCommand(context)
+            ..addSubcommand(DeployAppWebCommand(context))
+            ..addSubcommand(DeployAppIosCommand(context))
+            ..addSubcommand(DeployAppMacOsCommand(context))
+            ..addSubcommand(DeployAndroidCommand(context)))
           ..addSubcommand(DeployWebsiteCommand(context)))
         ..addCommand(BuildCommand()
-          ..addSubcommand(BuildAppAndroidCommand(context))
-          ..addSubcommand(BuildAppMacOsCommand(context))
-          ..addSubcommand(BuildAppWebCommand(context))
-          ..addSubcommand(BuildAppIosCommand(context))
+          ..addSubcommand(BuildAppCommand(context)
+            ..addSubcommand(BuildAppAndroidCommand(context))
+            ..addSubcommand(BuildAppMacOsCommand(context))
+            ..addSubcommand(BuildAppWebCommand(context))
+            ..addSubcommand(BuildAppIosCommand(context)))
           ..addSubcommand(BuildWebsiteCommand(context)))
         ..addCommand(
             BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(context)));

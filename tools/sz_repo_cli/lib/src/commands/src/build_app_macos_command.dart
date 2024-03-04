@@ -52,7 +52,7 @@ When none is specified, the value from pubspec.yaml is used.''')
   String get description => 'Build the Sharezone macOS app in release mode.';
 
   @override
-  String get name => 'app:macos';
+  String get name => 'macos';
 
   @override
   Future<void> run() async {

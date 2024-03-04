@@ -86,7 +86,7 @@ class DeployAppMacOsCommand extends CommandBase {
       'Deploys the Sharezone macOS app to the App Store or TestFlight. Automatically bumps the build number and builds the app. Codemagic CLI tools are required.';
 
   @override
-  String get name => 'app:macos';
+  String get name => 'macos';
 
   @override
   Future<void> run() async {

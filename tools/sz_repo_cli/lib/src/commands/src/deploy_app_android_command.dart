@@ -69,7 +69,7 @@ class DeployAndroidCommand extends CommandBase {
       'Deploys the Sharezone Android app to the Play Store. Automatically bumps the build number and builds the app. Codemagic CLI tools & Fastlane are required.';
 
   @override
-  String get name => 'app:android';
+  String get name => 'android';
 
   @override
   Future<void> run() async {

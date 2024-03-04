@@ -48,7 +48,7 @@ class BuildAppWebCommand extends CommandBase {
   String get description => 'Build the Sharezone web app in release mode.';
 
   @override
-  String get name => 'app:web';
+  String get name => 'web';
 
   @override
   Future<void> run() async {

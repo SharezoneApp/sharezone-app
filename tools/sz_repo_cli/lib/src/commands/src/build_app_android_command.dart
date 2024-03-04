@@ -69,7 +69,7 @@ When none is specified, the value from pubspec.yaml is used.''',
   String get description => 'Build the Sharezone Android app in release mode.';
 
   @override
-  String get name => 'app:android';
+  String get name => 'android';
 
   @override
   Future<void> run() async {

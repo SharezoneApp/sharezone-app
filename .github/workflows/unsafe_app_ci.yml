@@ -164,7 +164,7 @@ jobs:
       - name: Build web app
         working-directory: app
         run: |
-          sz build web \
+          sz build app web \
             --flavor dev \
             --stage preview
 
