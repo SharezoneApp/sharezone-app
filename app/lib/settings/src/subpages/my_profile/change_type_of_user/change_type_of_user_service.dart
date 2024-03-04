@@ -9,10 +9,10 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:user/user.dart';
 
-class ChangeTypeOfUserRepository {
+class ChangeTypeOfUserService {
   final FirebaseFunctions _functions;
 
-  const ChangeTypeOfUserRepository({
+  const ChangeTypeOfUserService({
     required FirebaseFunctions functions,
   }) : _functions = functions;
 

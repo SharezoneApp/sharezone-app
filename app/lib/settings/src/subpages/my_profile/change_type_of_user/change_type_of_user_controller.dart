@@ -13,13 +13,13 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_analytics.dart';
-import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_repository.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart';
 import 'package:user/user.dart';
 
 class ChangeTypeOfUserController extends ChangeNotifier {
   final UserId userId;
   final ChangeTypeOfUserAnalytics analytics;
-  final ChangeTypeOfUserRepository repository;
+  final ChangeTypeOfUserService service;
   StreamSubscription<TypeOfUser?>? _typeOfUserSubscription;
 
   late ChangeTypeOfUserState state;
@@ -33,7 +33,7 @@ class ChangeTypeOfUserController extends ChangeNotifier {
   ChangeTypeOfUserController({
     required this.userId,
     required this.analytics,
-    required this.repository,
+    required this.service,
     required Stream<TypeOfUser?> typeOfUserStream,
   }) {
     state = const ChangeTypeOfUserInitial();
@@ -61,7 +61,7 @@ class ChangeTypeOfUserController extends ChangeNotifier {
       state = const ChangeTypeOfUserLoading();
       notifyListeners();
 
-      await repository.changeTypeOfUser(typeOfUser);
+      await service.changeTypeOfUser(typeOfUser);
 
       analytics.logChangedOrder(
         from: initialTypeOfUser,
