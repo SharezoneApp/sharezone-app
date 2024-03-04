@@ -15,7 +15,6 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_date.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
@@ -362,9 +361,9 @@ class _DetailField extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            PrefilledTextField(
+            MarkdownField(
               prefilledText: initialEvent.detail,
-              decoration: InputDecoration(
+              inputDecoration: InputDecoration(
                 icon: const Padding(
                   padding: EdgeInsets.only(left: 6),
                   child: Icon(Icons.details),
@@ -373,8 +372,6 @@ class _DetailField extends StatelessWidget {
                 labelText: isExam ? "Themen der Prüfung" : "Details",
               ),
               onChanged: bloc.changeDetail,
-              textInputAction: TextInputAction.newline,
-              maxLines: null,
             ),
             const SizedBox(height: 8),
             const MarkdownSupport(),
