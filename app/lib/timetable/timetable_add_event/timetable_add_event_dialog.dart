@@ -563,15 +563,18 @@ class _SendNotification extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: SendNotificationBase(
-          switchKey: EventDialogKeys.notifyCourseMembersSwitch,
-          title: "Kursmitglieder benachrichtigen",
-          onChanged: (newValue) {
-            controller.notifyCourseMembers = newValue;
-          },
-          sendNotification: controller.notifyCourseMembers,
-          description:
-              "Sende eine Benachrichtigung an deine Kursmitglieder, dass du ${isExam ? 'eine neue Klausur' : 'einen neuen Termin'} erstellt hast.",
+        child: Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: SendNotificationBase(
+            switchKey: EventDialogKeys.notifyCourseMembersSwitch,
+            title: "Kursmitglieder benachrichtigen",
+            onChanged: (newValue) {
+              controller.notifyCourseMembers = newValue;
+            },
+            sendNotification: controller.notifyCourseMembers,
+            description:
+                "Sende eine Benachrichtigung an deine Kursmitglieder, dass du ${isExam ? 'eine neue Klausur' : 'einen neuen Termin'} erstellt hast.",
+          ),
         ),
       ),
     );
