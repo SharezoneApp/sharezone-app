@@ -134,18 +134,7 @@ class TimetableAddEventDialog extends StatelessWidget {
                         const _MobileDivider(),
                         const _DateAndTimePicker(),
                         const _MobileDivider(),
-                        DescriptionFieldBase(
-                          textFieldKey: EventDialogKeys.descriptionTextField,
-                          hintText: isExam
-                              ? 'Themen der Prüfung'
-                              : 'Zusatzinformationen',
-                          onChanged: (newDescription) {
-                            Provider.of<AddEventDialogController>(context,
-                                    listen: false)
-                                .description = newDescription;
-                          },
-                          prefilledDescription: '',
-                        ),
+                        _DescriptionField(isExam: isExam),
                         const _MobileDivider(),
                         const _Location(),
                         const _MobileDivider(),
@@ -535,6 +524,28 @@ class _DateAndTimeTile extends StatelessWidget {
   }
 }
 
+class _DescriptionField extends StatelessWidget {
+  const _DescriptionField({required this.isExam});
+
+  final bool isExam;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: DescriptionFieldBase(
+        textFieldKey: EventDialogKeys.descriptionTextField,
+        hintText: isExam ? 'Themen der Prüfung' : 'Zusatzinformationen',
+        onChanged: (newDescription) {
+          Provider.of<AddEventDialogController>(context, listen: false)
+              .description = newDescription;
+        },
+        prefilledDescription: '',
+      ),
+    );
+  }
+}
+
 class _Location extends StatelessWidget {
   const _Location();
 
@@ -563,18 +574,15 @@ class _SendNotification extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: SendNotificationBase(
-            switchKey: EventDialogKeys.notifyCourseMembersSwitch,
-            title: "Kursmitglieder benachrichtigen",
-            onChanged: (newValue) {
-              controller.notifyCourseMembers = newValue;
-            },
-            sendNotification: controller.notifyCourseMembers,
-            description:
-                "Sende eine Benachrichtigung an deine Kursmitglieder, dass du ${isExam ? 'eine neue Klausur' : 'einen neuen Termin'} erstellt hast.",
-          ),
+        child: SendNotificationBase(
+          switchKey: EventDialogKeys.notifyCourseMembersSwitch,
+          title: "Kursmitglieder benachrichtigen",
+          onChanged: (newValue) {
+            controller.notifyCourseMembers = newValue;
+          },
+          sendNotification: controller.notifyCourseMembers,
+          description:
+              "Sende eine Benachrichtigung an deine Kursmitglieder, dass du ${isExam ? 'eine neue Klausur' : 'einen neuen Termin'} erstellt hast.",
         ),
       ),
     );
