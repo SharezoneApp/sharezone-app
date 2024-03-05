@@ -14,6 +14,39 @@ We might expand to more languages and regions in the future 🌍🚀
 
 [Join our Discord](https://sharezone.net/discord) for active discussions, announcements, feedback and more!
 
+## Repository Overview
+
+- 🛠 **.github/**: Our fully automated CI/CD pipeline using GitHub Actions and
+  [`codemagic-cli-tools`](https://github.com/codemagic-ci-cd/cli-tools). We
+  seamlessly publish alpha, beta, and stable versions to Google Play Store
+  (Android), App Store (iOS, macOS), TestFlight (iOS, macOS), and Firebase
+  Hosting (Web), ensuring our app is always up to date and ready for our users.
+
+- 📱 **app/**: The heart of Sharezone with our client app, crafted in
+  [Flutter](https://flutter.dev). Some parts of the code are still from 2018 and
+  don't have the best code quality. However, we are working on improving this,
+  making it easier for you to contribute and adding more and more tests (unit,
+  widget, golden, and integration) to guarantee a robust and user-friendly
+  experience.
+
+- 📚 **lib/**: Our internal packages sit here, allowing us to modularize our app
+  and share code across different applications (website, console, app). It’s all
+  about reusability and efficiency.
+
+- 📖 **docs/**: Powered by [Nextra](https://nextra.site/), our documentation is
+  the go-to resource for understanding our ecosystem, offering insights and
+  guides to contribute effectively.
+
+- 🌐 **website/**: Our website, also built in Flutter, represent us to the
+  public.
+
+- 🔧 **console/**: Our admin console, designed for the Sharezone team to assist
+  with support cases and more, is also built in Flutter.
+
+- 🛠️ **tools/sz_repo_cli/**: Our custom CLI tool, written in Dart, makes
+  repository management a breeze, simplifying tasks like deploying apps,
+  building projects, formatting code, and running analyses and tests.
+
 ## Open-Source
 
 We are currently in the process of open-sourcing this repository.\
