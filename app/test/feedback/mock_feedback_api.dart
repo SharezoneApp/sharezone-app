@@ -22,4 +22,9 @@ class MockFeedbackApi extends FeedbackApi {
   Future<void> sendFeedback(UserFeedback feedback) async {
     invocations.add(feedback);
   }
+
+  @override
+  Stream<List<UserFeedback>> streamFeedbacks(String userId) {
+    throw UnimplementedError();
+  }
 }
