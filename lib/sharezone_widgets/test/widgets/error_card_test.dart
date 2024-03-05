@@ -25,13 +25,13 @@ void main() {
       expect(find.byType(Wrap), findsNothing);
     });
 
-    testWidgets('Does not show retry button if onRetry is null',
+    testWidgets('Does not show retry button if onRetryPressed is null',
         (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: ErrorCard(
             message: const Text('Test Message'),
-            onContactSupport: () {},
+            onContactSupportPressed: () {},
           ),
         ),
       ));
@@ -39,13 +39,13 @@ void main() {
       expect(find.byKey(const Key('retry-button')), findsNothing);
     });
 
-    testWidgets('Does show retry button if onRetry is not null',
+    testWidgets('Does show retry button if onRetryPressed is not null',
         (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: ErrorCard(
             message: const Text('Test Message'),
-            onRetry: () {},
+            onRetryPressed: () {},
           ),
         ),
       ));
@@ -53,7 +53,7 @@ void main() {
       expect(find.byKey(const Key('retry-button')), findsOneWidget);
     });
 
-    testWidgets('onRetry is called when retry button is pressed',
+    testWidgets('onRetryPressed is called when retry button is pressed',
         (WidgetTester tester) async {
       bool wasCalled = false;
 
@@ -61,7 +61,7 @@ void main() {
         home: Scaffold(
           body: ErrorCard(
             message: const Text('Test Message'),
-            onRetry: () {
+            onRetryPressed: () {
               wasCalled = true;
             },
           ),
@@ -73,13 +73,13 @@ void main() {
     });
 
     testWidgets(
-        'Does not show contact support button if onContactSupport is null',
+        'Does not show contact support button if onContactSupportPressed is null',
         (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: ErrorCard(
             message: const Text('Test Message'),
-            onRetry: () {},
+            onRetryPressed: () {},
           ),
         ),
       ));
@@ -88,13 +88,13 @@ void main() {
     });
 
     testWidgets(
-        'Does show contact support button if onContactSupport is not null',
+        'Does show contact support button if onContactSupportPressed is not null',
         (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: ErrorCard(
             message: const Text('Test Message'),
-            onContactSupport: () {},
+            onContactSupportPressed: () {},
           ),
         ),
       ));
@@ -103,7 +103,7 @@ void main() {
     });
 
     testWidgets(
-        'onContactSupport is called when contact support button is pressed',
+        'onContactSupportPressed is called when contact support button is pressed',
         (WidgetTester tester) async {
       bool wasCalled = false;
 
@@ -111,7 +111,7 @@ void main() {
         home: Scaffold(
           body: ErrorCard(
             message: const Text('Test Message'),
-            onContactSupport: () {
+            onContactSupportPressed: () {
               wasCalled = true;
             },
           ),
