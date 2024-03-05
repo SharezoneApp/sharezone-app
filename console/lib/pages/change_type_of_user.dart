@@ -46,7 +46,7 @@ class _TypeOfUserChangeDialogsState extends State<TypeOfUserChangeDialogs> {
       children: <Widget>[
         Text(
           'Nutzertyp ändern:',
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         Form(
           key: _formKey,
@@ -147,7 +147,7 @@ class _TypeOfUserChangeDialogsState extends State<TypeOfUserChangeDialogs> {
         if (_cloudFunctionResult != null)
           Text(
             '$_cloudFunctionResult',
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
       ],
     );
