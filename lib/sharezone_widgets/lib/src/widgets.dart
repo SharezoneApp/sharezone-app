@@ -394,6 +394,7 @@ class CustomCard extends StatelessWidget {
     this.onLongPress,
     this.withBorder = true,
     this.borderWidth = 1.5,
+    this.borderColor,
     super.key,
   });
 
@@ -413,6 +414,7 @@ class CustomCard extends StatelessWidget {
     this.onLongPress,
     this.withBorder = false,
     this.borderWidth = 1,
+    this.borderColor,
     super.key,
   });
 
@@ -430,6 +432,7 @@ class CustomCard extends StatelessWidget {
   final Offset offset;
   final Color? color;
   final bool withBorder;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -453,9 +456,10 @@ class CustomCard extends StatelessWidget {
                 borderRadius: borderRadius,
                 border: withBorder
                     ? Border.all(
-                        color: Theme.of(context).isDarkTheme
-                            ? Colors.grey[800]!
-                            : Colors.grey[300]!,
+                        color: borderColor ??
+                            (Theme.of(context).isDarkTheme
+                                ? Colors.grey[800]!
+                                : Colors.grey[300]!),
                         width: borderWidth)
                     : null,
               ),
