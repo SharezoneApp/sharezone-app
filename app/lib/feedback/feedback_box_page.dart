@@ -67,7 +67,7 @@ class FeedbackPageBody extends StatelessWidget {
               const _DislikeField(),
               const _MissingField(),
               const _HeardFromField(),
-              const _AnonymousCheckbox(),
+              const _ContactInformation(),
               const FeedbackPageSubmitButton(key: Key("submitButton")),
               const SizedBox(height: _padding)
             ],
@@ -94,59 +94,20 @@ class FeedbackPageBody extends StatelessWidget {
 //   }
 // }
 
-class _AnonymousCheckbox extends StatelessWidget {
-  const _AnonymousCheckbox();
+class _ContactInformation extends StatelessWidget {
+  const _ContactInformation();
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<FeedbackBloc>(context);
-    return StreamBuilder<bool>(
-      stream: bloc.isAnonymous,
-      builder: (context, isAnonymousSnapshot) {
-        final isAnonymous = isAnonymousSnapshot.data ?? false;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Divider(),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              child: CheckboxListTile(
-                value: isAnonymous,
-                onChanged: (v) {
-                  if (v == null) return;
-                  bloc.changeIsAnonymous(v);
-                },
-                secondary: const Icon(Icons.security),
-                title: const Text(
-                  "Ich möchte mein Feedback anonym abschicken",
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
-                child: isAnonymous
-                    ? const Text(
-                        "Bitte beachte, dass wenn du einen Fehler bei dir melden möchtest, wir dir nicht weiterhelfen können, wenn du das Feedback anonym abschickst.",
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: _FeedbackTextField(
-                          labelText: "Kontaktdaten für Rückfragen",
-                          icon: const Icon(Icons.question_answer),
-                          onChanged: bloc.changeContactOptions,
-                          stream: bloc.contactOptions,
-                        ),
-                      ),
-              ),
-            ),
-            SizedBox(height: isAnonymous ? 8 : 16),
-          ],
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: _FeedbackTextField(
+        labelText: "Kontaktdaten für Rückfragen",
+        icon: const Icon(Icons.question_answer),
+        onChanged: bloc.changeContactOptions,
+        stream: bloc.contactOptions,
+      ),
     );
   }
 }

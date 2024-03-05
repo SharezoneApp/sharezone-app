@@ -36,7 +36,6 @@ void main() {
     MockPlatformInformationRetriever platformInformationRetriever;
     late FeedbackBloc bloc;
     UserFeedback? expectedResponseWithIdentifiableInfo;
-    UserFeedback? expectedAnonymousResponse;
 
     setUp(() {
       api = MockFeedbackApi();
@@ -58,16 +57,6 @@ void main() {
             appName: "appName",
             packageName: "packageName",
           ));
-
-      expectedAnonymousResponse = UserFeedback.create().copyWith(
-        likes: likes,
-        dislikes: dislikes,
-        missing: missing,
-        heardFrom: heardFrom,
-        uid: "",
-        userContactInformation: "",
-        deviceInformation: null,
-      );
     });
 
     tearDown(() {
@@ -87,19 +76,7 @@ void main() {
       );
     }
 
-    test(
-        "Feedback is send with no identifiable information if the anonymous option is enable",
-        () async {
-      fillInAllFields(bloc);
-      bloc.changeIsAnonymous(true);
-
-      await bloc.submit();
-
-      expect(api.wasOnlyInvokedWith(expectedAnonymousResponse), true);
-    });
-    test(
-        "Feedback is send with uid, contact and device information, when not anonymous",
-        () async {
+    test("Feedback is send with uid, contact and device information", () async {
       writeRdmValues(bloc);
       fillInAllFields(bloc);
 
@@ -146,7 +123,6 @@ void fillInAllFields(FeedbackBloc bloc) {
   bloc.changeDislike(dislikes);
   bloc.changeMissing(missing);
   bloc.changeHeardFrom(heardFrom);
-  bloc.changeIsAnonymous(false);
   bloc.changeContactOptions(contactInfo);
 }
 
