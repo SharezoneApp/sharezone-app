@@ -32,27 +32,27 @@ class ErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.error;
-    return SelectionArea(
-      child: CustomCard(
-        padding: const EdgeInsets.all(12),
-        color: color.withOpacity(0.1),
-        borderColor: color.withOpacity(0.2),
-        child: Row(
-          children: [
-            Icon(
-              Icons.error,
-              size: 40,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            const SizedBox(width: 12),
-            Flexible(
-              child: DefaultTextStyle.merge(
-                style: TextStyle(color: color),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12),
+    return CustomCard(
+      padding: const EdgeInsets.all(12),
+      color: color.withOpacity(0.1),
+      borderColor: color.withOpacity(0.2),
+      child: Row(
+        children: [
+          Icon(
+            Icons.error,
+            size: 40,
+            color: Theme.of(context).colorScheme.error,
+          ),
+          const SizedBox(width: 12),
+          Flexible(
+            child: DefaultTextStyle.merge(
+              style: TextStyle(color: color),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: SelectionArea(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -68,24 +68,23 @@ class ErrorCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (onRetry != null || onContactSupport != null) ...[
-                      const SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        children: [
-                          if (onRetry != null)
-                            _RetryButton(onPressed: onRetry!),
-                          if (onContactSupport != null)
-                            _ContactSupport(onPressed: onContactSupport!),
-                        ],
-                      ),
-                    ]
-                  ],
-                ),
+                  ),
+                  if (onRetry != null || onContactSupport != null) ...[
+                    const SizedBox(height: 12),
+                    Wrap(
+                      spacing: 8,
+                      children: [
+                        if (onRetry != null) _RetryButton(onPressed: onRetry!),
+                        if (onContactSupport != null)
+                          _ContactSupport(onPressed: onContactSupport!),
+                      ],
+                    ),
+                  ]
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
