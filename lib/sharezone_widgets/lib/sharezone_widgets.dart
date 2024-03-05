@@ -106,7 +106,3 @@ export 'src/expanded_chip.dart';
 
 // wrapper
 export 'src/wrapper.dart';
-
-// markdown
-export 'src/markdown/markdown_field.dart';
-export 'src/markdown/markdown_support.dart';
