@@ -139,6 +139,11 @@
       - "bin/sz"
       - "bin/sharezone"
 
+"admin console":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "console/**"
+
 "ui / ux":
   - changed-files:
     - any-glob-to-any-file:
