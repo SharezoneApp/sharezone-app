@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "sharezone-c2bd8"
+  },
+  "targets": {
+    "sharezone-c2bd8": {
+      "hosting": {
+        "sharezone-console": [
+          "sharezone-console"
+        ]
+      }
+    }
+  }
+}
