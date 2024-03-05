@@ -582,7 +582,7 @@ class _SendNotification extends StatelessWidget {
           },
           sendNotification: controller.notifyCourseMembers,
           description:
-              "Sende eine Benachrichtigung an deine Kursmitglieder, dass du ${isExam ? 'eine neue Klausur' : 'einen neuen Termin'} erstellt hast.",
+              "Kursmitglieder über ${isExam ? 'neue Klausur' : 'neuen Termin'} benachrichtigen.",
         ),
       ),
     );
