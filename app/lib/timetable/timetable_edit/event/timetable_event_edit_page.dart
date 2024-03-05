@@ -361,9 +361,9 @@ class _DetailField extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            PrefilledTextField(
+            MarkdownField(
               prefilledText: initialEvent.detail,
-              decoration: InputDecoration(
+              inputDecoration: InputDecoration(
                 icon: const Padding(
                   padding: EdgeInsets.only(left: 6),
                   child: Icon(Icons.details),
@@ -372,8 +372,6 @@ class _DetailField extends StatelessWidget {
                 labelText: isExam ? "Themen der Prüfung" : "Details",
               ),
               onChanged: bloc.changeDetail,
-              textInputAction: TextInputAction.newline,
-              maxLines: null,
             ),
             const SizedBox(height: 8),
             const MarkdownSupport(),

@@ -47,7 +47,7 @@ class MimeType {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is MimeType && other.toData() == toData();
   }

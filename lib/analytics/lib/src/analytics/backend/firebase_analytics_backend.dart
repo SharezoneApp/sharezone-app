@@ -37,7 +37,7 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
 
   @override
   Future<void> setCurrentScreen({String? screenName}) async {
-    await _firebaseAnalytics.setCurrentScreen(screenName: screenName);
+    await _firebaseAnalytics.logScreenView(screenName: screenName);
     crashAnalytics.log('setCurrentScreen: $screenName');
   }
 

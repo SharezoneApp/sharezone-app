@@ -49,7 +49,7 @@ export 'src/list_tile_with_description.dart';
 export 'src/placeholder.dart';
 
 // creation_editing_dialogs
-export 'src/creation_editing_dialogs/creation_editing_dialogs.dart';
+export 'src/creation_editing_dialog_widgets/creation_editing_dialog_widgets.dart';
 
 // rounded_simple_dialog
 export 'src/rounded_simple_dialog.dart';
@@ -106,3 +106,7 @@ export 'src/expanded_chip.dart';
 
 // wrapper
 export 'src/wrapper.dart';
+
+// markdown
+export 'src/markdown/markdown_field.dart';
+export 'src/markdown/markdown_support.dart';

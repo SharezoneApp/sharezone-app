@@ -12,7 +12,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
@@ -418,7 +418,7 @@ class _AddToMyCalendarButton extends StatelessWidget {
   // dieses Widget niemals für Web & macOS gebuildet wird, wird hier kein Fehler
   // geworfen.
   Future<String> _getTimezoneForMobile() async {
-    return FlutterNativeTimezone.getLocalTimezone();
+    return FlutterTimezone.getLocalTimezone();
   }
 
   void _logAddEventToMyCalendarEvent(BuildContext context) {

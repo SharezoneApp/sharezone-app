@@ -27,11 +27,11 @@ import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_de
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
-import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 import 'user_view.dart';
 
@@ -162,25 +162,7 @@ class _TypeOfUserTile extends StatelessWidget {
       title: const Text("Account-Typ"),
       subtitle: Text(user!.typeOfUser),
       leading: const Icon(Icons.accessibility),
-      onTap: () async {
-        final confirmed = (await showLeftRightAdaptiveDialog<bool>(
-          context: context,
-          defaultValue: false,
-          title: 'Account-Typ',
-          content: const Text(
-              "Der Typ des Accounts kann nur vom Support geändert werden."),
-          right: const AdaptiveDialogAction(
-            isDefaultAction: true,
-            popResult: true,
-            title: "Support kontaktieren",
-          ),
-        ))!;
-
-        if (confirmed) {
-          UrlLauncherExtended().tryLaunchMailOrThrow("support@sharezone.net",
-              subject: "Typ des Accounts ändern [${user!.id}]");
-        }
-      },
+      onTap: () => Navigator.pushNamed(context, ChangeTypeOfUserPage.tag),
     );
   }
 }

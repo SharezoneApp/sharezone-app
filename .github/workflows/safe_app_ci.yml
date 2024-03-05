@@ -102,9 +102,9 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -131,9 +131,9 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -151,6 +151,54 @@ jobs:
             --package-timeout-minutes 15 \
             --exclude-goldens
 
+  # We split the tests into two jobs, because we want to run the golden tests on
+  # a macOS runner, because the golden tests were generated on macOS. To reduce
+  # the time that macOS runner are used, we run the other tests on a Linux
+  # runner.
+  test-with-goldens:
+    needs: changes
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
+    # Due to https://github.com/flutter/flutter/issues/111739 our golden tests
+    # require macOS arm64. Therefore, we need to use macos-14.
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+
+      - name: Set Flutter version from FVM config file to environment variables
+        id: fvm-config-action
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+
+      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+
+      - name: Install Sharezone CLI
+        run: |
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(pwd)/bin >> $GITHUB_PATH
+
+      - name: Run tests via "sz test"
+        run: |
+          sz test \
+            -c 4 \
+            --package-timeout-minutes 15 \
+            --only-goldens
+
+      # Uploads the results of failed tests as .zip to GitHub.
+      #
+      # You can find the file under the "Summary" Tab on GitHub when all jobs of
+      # this workflows finished.
+      - name: Upload failed golden tests
+        if: failure()
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        with:
+          name: failed-golden-tests
+          # When golden test fail then the results are stored in "failures"
+          # folders. Since golden tests run in several different places (e.g. /app,
+          # or packages in /lib) the failures folder will be spread in different places.
+          path: "**/failures/*.png"
+
   # Checks if the generated files are up to date.
   check-code-generation:
     needs: changes
@@ -161,9 +209,9 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}

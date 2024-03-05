@@ -104,7 +104,7 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
   Future<void> leaveDialog() async {
     if (widget.bloc.hasInputChanged()) {
       final leaveDialog = await warnUserAboutLeavingForm(context);
-      if (leaveDialog && context.mounted) {
+      if (leaveDialog && mounted) {
         Navigator.pop(context);
       }
     } else {
@@ -454,28 +454,14 @@ class _TextField extends StatelessWidget {
     final bloc = BlocProvider.of<BlackboardDialogBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ListTile(
-            leading: const Icon(Icons.subject),
-            title: PrefilledTextField(
-              prefilledText: initialText,
-              maxLines: null,
-              scrollPadding: const EdgeInsets.all(16.0),
-              keyboardType: TextInputType.multiline,
-              decoration: const InputDecoration(
-                hintText: "Nachricht verfassen",
-                border: InputBorder.none,
-              ),
-              onChanged: bloc.changeText,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: MarkdownSupport(),
-          ),
-        ],
+      child: MarkdownField(
+        icon: const Icon(Icons.subject),
+        prefilledText: initialText,
+        inputDecoration: const InputDecoration(
+          hintText: "Nachricht verfassen",
+          border: InputBorder.none,
+        ),
+        onChanged: bloc.changeText,
       ),
     );
   }

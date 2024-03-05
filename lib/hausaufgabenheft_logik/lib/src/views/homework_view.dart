@@ -37,7 +37,7 @@ class StudentHomeworkView {
   });
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is StudentHomeworkView &&
             other.id == id &&

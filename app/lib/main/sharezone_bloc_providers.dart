@@ -90,6 +90,9 @@ import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
 import 'package:sharezone/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
 import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_analytics.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_controller.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart';
 import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
@@ -360,6 +363,16 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       StreamProvider<TypeOfUser?>.value(
         value: typeOfUserStream,
         initialData: null,
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ChangeTypeOfUserController(
+          service: ChangeTypeOfUserService(
+            functions: widget.blocDependencies.functions,
+          ),
+          typeOfUserStream: typeOfUserStream,
+          analytics: ChangeTypeOfUserAnalytics(analytics),
+          userId: UserId(api.uID),
+        ),
       ),
       Provider(
         create: (context) => PastCalendricalEventsPageControllerFactory(
