@@ -541,38 +541,12 @@ class _Location extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<AddEventDialogController>(context);
-    return MaxWidthConstraintBox(
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            ListTile(
-              leading: const Icon(Icons.location_pin),
-              title: PrefilledTextField(
-                key: EventDialogKeys.locationField,
-                prefilledText: controller.location,
-                maxLines: null,
-                scrollPadding: const EdgeInsets.all(16.0),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  hintText: "Ort/Raum",
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  fillColor: Colors.transparent,
-                ),
-                onChanged: (newLocation) {
-                  controller.location = newLocation;
-                },
-                textCapitalization: TextCapitalization.sentences,
-              ),
-            ),
-          ],
-        ),
-      ),
+    return LocationBase(
+      textFieldKey: EventDialogKeys.locationField,
+      prefilledText: controller.location,
+      onChanged: (newLocation) {
+        controller.location = newLocation;
+      },
     );
   }
 }
