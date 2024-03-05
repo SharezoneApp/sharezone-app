@@ -19,7 +19,6 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -560,41 +559,20 @@ class _DescriptionFieldBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.subject),
-                title: PrefilledTextField(
-                  key: textFieldKey,
-                  prefilledText: prefilledDescription,
-                  maxLines: null,
-                  scrollPadding: const EdgeInsets.all(16.0),
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    fillColor: Colors.transparent,
-                  ),
-                  onChanged: onChanged,
-                  textCapitalization: TextCapitalization.sentences,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-                child: MarkdownSupport(),
-              ),
-            ],
-          ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: MarkdownField(
+        textFieldKey: textFieldKey,
+        onChanged: onChanged,
+        icon: const Icon(Icons.subject),
+        prefilledText: prefilledDescription,
+        inputDecoration: InputDecoration(
+          hintText: hintText,
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          fillColor: Colors.transparent,
         ),
       ),
     );

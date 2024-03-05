@@ -40,6 +40,7 @@ import 'package:sharezone/settings/src/subpages/changelog_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_page.dart';
 import 'package:sharezone/settings/src/subpages/notification.dart';
 import 'package:sharezone/settings/src/subpages/about/about_page.dart';
@@ -187,6 +188,8 @@ class _SharezoneAppState extends State<SharezoneApp>
                 ImprintPage.tag: (context) => const ImprintPage(),
                 PastCalendricalEventsPage.tag: (context) =>
                     const PastCalendricalEventsPage(),
+                ChangeTypeOfUserPage.tag: (context) =>
+                    const ChangeTypeOfUserPage(),
               },
               navigatorKey: navigationService.navigatorKey,
             ),

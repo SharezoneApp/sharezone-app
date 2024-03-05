@@ -95,7 +95,7 @@ class UserFeedback {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other is UserFeedback &&
             rating == other.rating &&
@@ -171,7 +171,7 @@ class FeedbackDeviceInformation {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other is FeedbackDeviceInformation &&
             appName == other.appName &&

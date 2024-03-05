@@ -32,10 +32,8 @@ import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -192,7 +190,7 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
   Future<void> leaveDialog() async {
     if (hasModifiedData()) {
       final confirmedLeave = await warnUserAboutLeavingForm(context);
-      if (confirmedLeave && context.mounted) Navigator.pop(context);
+      if (confirmedLeave && mounted) Navigator.pop(context);
     } else {
       Navigator.pop(context);
     }
@@ -684,7 +682,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
                         Icons.edit,
                         color: Theme.of(context).iconTheme.color,
                       ),
-                      label: const Text('Benutzerdefiniert'),
+                      label: const Text('In X Stunden'),
                       onPressed: lessonChipsSelectable
                           ? () async {
                               // The normal context would cause material3 to be
@@ -960,7 +958,6 @@ class _SendNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
-
     return MaxWidthConstraintBox(
       child: SafeArea(
         top: false,
@@ -973,7 +970,7 @@ class _SendNotification extends StatelessWidget {
           sendNotification: state.notifyCourseMembers,
           description: state.isEditing
               ? null
-              : "Sende eine Benachrichtigung an deine Kursmitglieder, dass du eine neue Hausaufgabe erstellt hast.",
+              : "Kursmitglieder über neue Hausaufgabe benachrichtigen.",
         ),
       ),
     );
@@ -995,7 +992,7 @@ class _SendNotificationBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileWithDescription(
+    return ListTile(
       key: HwDialogKeys.notifyCourseMembersTile,
       leading: const Icon(Icons.notifications_active),
       title: Text(title),
@@ -1004,7 +1001,7 @@ class _SendNotificationBase extends StatelessWidget {
         value: sendNotification,
       ),
       onTap: () => onChanged(!sendNotification),
-      description: description != null ? Text(description!) : null,
+      subtitle: description != null ? Text(description!) : null,
     );
   }
 }
@@ -1036,43 +1033,19 @@ class _DescriptionFieldBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.subject),
-                title: PrefilledTextField(
-                  key: HwDialogKeys.descriptionField,
-                  prefilledText: prefilledDescription,
-                  maxLines: null,
-                  scrollPadding: const EdgeInsets.all(16.0),
-                  keyboardType: TextInputType.multiline,
-                  decoration: const InputDecoration(
-                    hintText: "Zusatzinformationen eingeben",
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    fillColor: Colors.transparent,
-                  ),
-                  onChanged: onChanged,
-                  textCapitalization: TextCapitalization.sentences,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-                child: MarkdownSupport(),
-              ),
-            ],
-          ),
-        ),
+    return MarkdownField(
+      textFieldKey: HwDialogKeys.descriptionField,
+      inputDecoration: const InputDecoration(
+        hintText: "Zusatzinformationen eingeben",
+        border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        errorBorder: InputBorder.none,
+        fillColor: Colors.transparent,
       ),
+      onChanged: onChanged,
+      prefilledText: prefilledDescription,
+      icon: const Icon(Icons.subject),
     );
   }
 }
@@ -1249,7 +1222,7 @@ class _PrivateHomeworkSwitchBase extends StatelessWidget {
   Widget build(BuildContext context) {
     final isEnabled = onChanged != null;
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      contentPadding: const EdgeInsets.only(left: 18, right: 24),
       leading: const Icon(Icons.security),
       title: const Text("Privat"),
       subtitle: const Text("Hausaufgabe nicht mit dem Kurs teilen."),

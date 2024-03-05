@@ -36,7 +36,7 @@ abstract class Abgabedatei {
   int get hashCode => name.hashCode ^ format.hashCode;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is Abgabedatei && other.name == name && other.format == format;
   }

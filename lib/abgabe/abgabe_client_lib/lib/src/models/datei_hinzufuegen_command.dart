@@ -25,7 +25,7 @@ class DateiHinzufuegenCommand extends AbgabeCommand {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is DateiHinzufuegenCommand &&
             other.dateiId == dateiId &&
