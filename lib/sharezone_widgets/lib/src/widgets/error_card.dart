@@ -13,8 +13,8 @@ class ErrorCard extends StatelessWidget {
   const ErrorCard({
     super.key,
     required this.message,
-    this.onRetry,
-    this.onContactSupport,
+    this.onRetryPressed,
+    this.onContactSupportPressed,
   });
 
   final Widget message;
@@ -22,12 +22,12 @@ class ErrorCard extends StatelessWidget {
   /// Called presses the retry button.
   ///
   /// If `null`, the retry button is not shown.
-  final VoidCallback? onRetry;
+  final VoidCallback? onRetryPressed;
 
   /// Called when the user presses the contact support button.
   ///
   /// If `null`, the contact support button is not shown.
-  final VoidCallback? onContactSupport;
+  final VoidCallback? onContactSupportPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +69,16 @@ class ErrorCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (onRetry != null || onContactSupport != null) ...[
+                  if (onRetryPressed != null ||
+                      onContactSupportPressed != null) ...[
                     const SizedBox(height: 12),
                     Wrap(
                       spacing: 8,
                       children: [
-                        if (onRetry != null) _RetryButton(onPressed: onRetry!),
-                        if (onContactSupport != null)
-                          _ContactSupport(onPressed: onContactSupport!),
+                        if (onRetryPressed != null)
+                          _RetryButton(onPressed: onRetryPressed!),
+                        if (onContactSupportPressed != null)
+                          _ContactSupport(onPressed: onContactSupportPressed!),
                       ],
                     ),
                   ]

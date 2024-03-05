@@ -25,8 +25,8 @@ void main() {
               ErrorCard(
                 message: const Text(
                     '[cloud_firestore/permission-denied] The caller does not have permission to execute the specified operation.'),
-                onContactSupport: () {},
-                onRetry: () {},
+                onContactSupportPressed: () {},
+                onRetryPressed: () {},
               ),
             ],
           ),
