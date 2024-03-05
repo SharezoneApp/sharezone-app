@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SendNotificationBase extends StatelessWidget {
   const SendNotificationBase({
@@ -29,7 +28,7 @@ class SendNotificationBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileWithDescription(
+    return ListTile(
       key: listTileKey,
       leading: const Icon(Icons.notifications_active),
       title: Text(title),
@@ -39,7 +38,7 @@ class SendNotificationBase extends StatelessWidget {
         value: sendNotification,
       ),
       onTap: () => onChanged(!sendNotification),
-      description: description != null ? Text(description!) : null,
+      subtitle: description != null ? Text(description!) : null,
     );
   }
 }
