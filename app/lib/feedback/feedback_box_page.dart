@@ -11,7 +11,11 @@ import 'dart:developer';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:platform_check/platform_check.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/feedback/history/feedback_history_page.dart';
+import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/widgets/thank_you_bottom_sheet.dart';
@@ -19,7 +23,6 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const double _padding = 12.0;
@@ -38,10 +41,38 @@ class FeedbackPage extends StatelessWidget {
         popToOverview(context);
       },
       child: const SharezoneMainScaffold(
-        appBarConfiguration: AppBarConfiguration(title: "Feedback-Box"),
+        appBarConfiguration: AppBarConfiguration(
+          title: "Feedback-Box",
+          actions: [_HistoryButton()],
+        ),
         navigationItem: NavigationItem.feedbackBox,
         body: FeedbackPageBody(),
       ),
+    );
+  }
+}
+
+class _HistoryButton extends StatelessWidget {
+  const _HistoryButton();
+
+  void _logAnalytics(BuildContext context) {
+    final controller = context.read<FeedbackHistoryPageController>();
+    controller.logOpenedPage();
+  }
+
+  void _openHistoryPage(BuildContext context) {
+    Navigator.pushNamed(context, FeedbackHistoryPage.tag);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: "Meine Feedbacks",
+      icon: const Icon(Icons.history),
+      onPressed: () {
+        _logAnalytics(context);
+        _openHistoryPage(context);
+      },
     );
   }
 }
