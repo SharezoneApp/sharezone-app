@@ -20,6 +20,7 @@ class SharezoneRepo {
   final Package sharezoneFlutterApp;
   final Package sharezoneCiCdTool;
   final Package sharezoneWebsite;
+  final Package sharezoneAdminConsole;
   final DartLibraries dartLibraries;
 
   File get commandsSourceOfTruthYamlFile => fileSystem.file(path.join(
@@ -35,6 +36,7 @@ class SharezoneRepo {
     required this.dartLibraries,
     required this.sharezoneCiCdTool,
     required this.sharezoneWebsite,
+    required this.sharezoneAdminConsole,
   });
 
   factory SharezoneRepo(FileSystem fileSystem, Directory rootDirectory) {
@@ -54,6 +56,9 @@ class SharezoneRepo {
       ),
       sharezoneWebsite: Package.fromDirectory(
         fileSystem.directory(path.join(root, 'website')),
+      ),
+      sharezoneAdminConsole: Package.fromDirectory(
+        fileSystem.directory(path.join(root, 'console')),
       ),
     );
   }
@@ -100,6 +105,7 @@ class SharezoneRepo {
     return dartLibraries.streamPackages().endWithMany([
       sharezoneFlutterApp,
       sharezoneCiCdTool,
+      sharezoneAdminConsole,
       sharezoneWebsite,
     ]);
   }
