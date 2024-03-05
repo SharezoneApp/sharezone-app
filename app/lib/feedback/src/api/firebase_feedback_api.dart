@@ -12,14 +12,23 @@ import 'package:sharezone/feedback/src/models/user_feedback.dart';
 import 'feedback_api.dart';
 
 class FirebaseFeedbackApi implements FeedbackApi {
-  final FirebaseFirestore _firestore;
+  FirebaseFeedbackApi(FirebaseFirestore firestore)
+      : feedbackCollection = firestore.collection('Feedback');
 
-  FirebaseFeedbackApi(this._firestore);
+  final CollectionReference feedbackCollection;
 
   @override
   Future<void> sendFeedback(UserFeedback feedback) async {
-    CollectionReference feedbackCollection = _firestore.collection("Feedback");
     feedbackCollection.add(feedback.toJson());
     return;
+  }
+
+  @override
+  Stream<List<UserFeedback>> streamFeedbacks(String userId) {
+    final stream =
+        feedbackCollection.where('uid', isEqualTo: userId).snapshots();
+    return stream.map((snapshot) => snapshot.docs
+        .map((doc) => UserFeedback.fromJson(doc.data() as Map<String, dynamic>))
+        .toList());
   }
 }

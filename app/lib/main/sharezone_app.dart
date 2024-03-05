@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/use_account_on_multiple_devices_instruction.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
+import 'package:sharezone/feedback/history/feedback_history_page.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
@@ -190,6 +191,8 @@ class _SharezoneAppState extends State<SharezoneApp>
                     const PastCalendricalEventsPage(),
                 ChangeTypeOfUserPage.tag: (context) =>
                     const ChangeTypeOfUserPage(),
+                FeedbackHistoryPage.tag: (context) =>
+                    const FeedbackHistoryPage(),
               },
               navigatorKey: navigationService.navigatorKey,
             ),
