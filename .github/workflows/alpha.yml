@@ -173,7 +173,7 @@ jobs:
           # because they easier to install. App Bundles are installed via the
           # PlayStore which resulted in problems in the past.
 
-          sz build android \
+          sz build app android \
             --stage alpha \
             --build-number $BUMPED_BUILD_NUMBER \
             --output-type apk
