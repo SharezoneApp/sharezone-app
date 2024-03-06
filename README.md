@@ -17,35 +17,23 @@ We might expand to more languages and regions in the future 🌍🚀
 ## Repository Overview
 
 - 🛠 **.github/**: Our fully automated CI/CD pipeline using GitHub Actions and
-  [`codemagic-cli-tools`](https://github.com/codemagic-ci-cd/cli-tools). We
-  seamlessly publish alpha, beta, and stable versions to Google Play Store
+  [`codemagic-cli-tools`](https://github.com/codemagic-ci-cd/cli-tools). Used to publish alpha, beta, and stable versions to Google Play Store
   (Android), App Store (iOS, macOS), TestFlight (iOS, macOS), and Firebase
-  Hosting (Web), ensuring our app is always up to date and ready for our users.
+  Hosting (Web).
 
-- 📱 **app/**: The heart of Sharezone with our client app, crafted in
-  [Flutter](https://flutter.dev). Some parts of the code are still from 2018 and
-  don't have the best code quality. However, we are working on improving this,
-  making it easier for you to contribute and adding more and more tests (unit,
-  widget, golden, and integration) to guarantee a robust and user-friendly
-  experience.
+- 📱 **app/**: The main "Sharezone" app, created with
+  [Flutter](https://flutter.dev).
+  
+- 📚 **lib/**: A place for our internal Dart/Flutter packages. Used to modularize and share code between app, website and admin console.
 
-- 📚 **lib/**: Our internal packages sit here, allowing us to modularize our app
-  and share code across different applications (website, console, app). It’s all
-  about reusability and efficiency.
+- 📖 **docs/**: Our end user documentation [docs.sharezone.net](https://docs.sharezone.net), built with [Nextra](https://nextra.site/). Is currently pretty sparse, but we are working on improving it.
 
-- 📖 **docs/**: Powered by [Nextra](https://nextra.site/), our documentation is
-  the go-to resource for understanding our ecosystem, offering insights and
-  guides to contribute effectively.
+- 🌐 **website/**: Our [sharezone.net](https://sharezone.net) website (not the web app)  built with Flutter.
 
-- 🌐 **website/**: Our website, also built in Flutter, represent us to the
-  public.
+- 🔧 **console/**: Our admin console used by the Sharezone team for support / administrative tasks. Also built with Flutter.
 
-- 🔧 **console/**: Our admin console, designed for the Sharezone team to assist
-  with support cases and more, is also built in Flutter.
-
-- 🛠️ **tools/sz_repo_cli/**: Our custom CLI tool, written in Dart, makes
-  repository management a breeze, simplifying tasks like deploying apps,
-  building projects, formatting code, and running analyses and tests.
+- 🛠️ **tools/sz_repo_cli/**: Our custom `sz` CLI used by developers and CI/CD pipelines.
+  Helps with tasks like testing, analyzing, building, deploying etc.
 
 ## Open-Source
 
