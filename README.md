@@ -17,14 +17,14 @@ We might expand to more languages and regions in the future 🌍🚀
 ## Repository Overview
 
 - 🛠 **.github/**: Our fully automated CI/CD pipeline using GitHub Actions and [`codemagic-cli-tools`](https://github.com/codemagic-ci-cd/cli-tools).
-Used to publish alpha, beta, and stable versions to Google Play Store (Android), App Store (iOS, macOS), TestFlight (iOS, macOS), and Firebase Hosting (Web).
+  Used to publish alpha, beta, and stable versions to Google Play Store (Android), App Store (iOS, macOS), TestFlight (iOS, macOS), and Firebase Hosting (Web).
 
 - 📱 **app/**: The main "Sharezone" app, created with [Flutter](https://flutter.dev).
   
 - 📚 **lib/**: A place for our internal Dart/Flutter packages. Used to modularize and share code between app, website and admin console.
 
 - 📖 **docs/**: Our end user documentation [docs.sharezone.net](https://docs.sharezone.net), built with [Nextra](https://nextra.site/).
-Is currently pretty sparse, but we are working on improving it.
+  Is currently pretty sparse, but we are working on improving it.
 
 - 🌐 **website/**: Our [sharezone.net](https://sharezone.net) website (not the web app)  built with Flutter.
 
