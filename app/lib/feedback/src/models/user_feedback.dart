@@ -7,9 +7,15 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:helper_functions/helper_functions.dart';
 
 class UserFeedback {
+  /// The date and time the feedback was created.
+  ///
+  /// Old feedbacks might not have this field set because it was added later.
+  final DateTime? createdOn;
+
   final double? rating;
   final String likes;
   final String dislikes;
@@ -28,6 +34,7 @@ class UserFeedback {
   bool _isWhitespaceOrNull(String s) => isEmptyOrNull(s.trim());
 
   const UserFeedback._({
+    required this.createdOn,
     required this.rating,
     required this.likes,
     required this.dislikes,
@@ -40,6 +47,7 @@ class UserFeedback {
 
   factory UserFeedback.create() {
     return const UserFeedback._(
+      createdOn: null,
       rating: null,
       likes: "",
       dislikes: "",
@@ -66,6 +74,22 @@ class UserFeedback {
         object == null || (object is String && object.isEmpty));
   }
 
+  factory UserFeedback.fromJson(Map<String, dynamic> map) {
+    return UserFeedback._(
+      createdOn: dateTimeFromTimestampOrNull(map['createdOn']),
+      rating: double.tryParse(map['rating']),
+      likes: map['likes'] ?? '',
+      dislikes: map['dislikes'] ?? '',
+      missing: map['missing'] ?? '',
+      heardFrom: map['heardFrom'] ?? '',
+      uid: map['uid'] ?? '',
+      userContactInformation: map['userContactInformation'] ?? '',
+      deviceInformation: map['deviceInformation'] != null
+          ? FeedbackDeviceInformation.fromJson(map['deviceInformation'])
+          : null,
+    );
+  }
+
   String? _ratingToString() {
     if (rating != null) return rating.toString();
     return null;
@@ -82,6 +106,7 @@ class UserFeedback {
     FeedbackDeviceInformation? deviceInformation,
   }) {
     return UserFeedback._(
+      createdOn: createdOn,
       rating: rating ?? this.rating,
       likes: likes ?? this.likes,
       dislikes: dislikes ?? this.dislikes,
@@ -96,32 +121,36 @@ class UserFeedback {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is UserFeedback &&
-            rating == other.rating &&
-            likes == other.likes &&
-            dislikes == other.dislikes &&
-            missing == other.missing &&
-            heardFrom == other.heardFrom &&
-            uid == other.uid &&
-            userContactInformation == other.userContactInformation &&
-            deviceInformation == other.deviceInformation);
+    if (identical(this, other)) return true;
+
+    return other is UserFeedback &&
+        other.createdOn == createdOn &&
+        other.rating == rating &&
+        other.likes == likes &&
+        other.dislikes == dislikes &&
+        other.missing == missing &&
+        other.heardFrom == heardFrom &&
+        other.uid == uid &&
+        other.userContactInformation == userContactInformation &&
+        other.deviceInformation == deviceInformation;
   }
 
   @override
-  int get hashCode =>
-      rating.hashCode ^
-      likes.hashCode ^
-      dislikes.hashCode ^
-      missing.hashCode ^
-      heardFrom.hashCode ^
-      uid.hashCode ^
-      userContactInformation.hashCode ^
-      deviceInformation.hashCode;
+  int get hashCode {
+    return createdOn.hashCode ^
+        rating.hashCode ^
+        likes.hashCode ^
+        dislikes.hashCode ^
+        missing.hashCode ^
+        heardFrom.hashCode ^
+        uid.hashCode ^
+        userContactInformation.hashCode ^
+        deviceInformation.hashCode;
+  }
 
   @override
   String toString() {
-    return "UserFeedback(rating: $rating: likes: $likes, dislikes: $dislikes, missing: $missing, heardFrom: $heardFrom, uid: $uid, userContactInformation: $userContactInformation, deviceInformation: $deviceInformation)";
+    return 'UserFeedback(createdOn: $createdOn, rating: $rating, likes: $likes, dislikes: $dislikes, missing: $missing, heardFrom: $heardFrom, uid: $uid, userContactInformation: $userContactInformation, deviceInformation: $deviceInformation)';
   }
 }
 
@@ -168,6 +197,15 @@ class FeedbackDeviceInformation {
       'versionName': versionName,
       'versionNumber': versionNumber,
     };
+  }
+
+  factory FeedbackDeviceInformation.fromJson(Map<String, dynamic> map) {
+    return FeedbackDeviceInformation._(
+      appName: map['appName'] ?? '',
+      packageName: map['packageName'] ?? '',
+      versionName: map['versionName'] ?? '',
+      versionNumber: map['versionNumber'] ?? '',
+    );
   }
 
   @override

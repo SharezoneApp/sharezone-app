@@ -116,6 +116,11 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
+      - name: Install Sharezone Repo CLI
+        run: |
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(realpath ./bin) >> $GITHUB_PATH
+
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.3
 
@@ -168,7 +173,7 @@ jobs:
           # because they easier to install. App Bundles are installed via the
           # PlayStore which resulted in problems in the past.
 
-          sz build android \
+          sz build app android \
             --stage alpha \
             --build-number $BUMPED_BUILD_NUMBER \
             --output-type apk

@@ -178,10 +178,14 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
+      # Running with -c 1 as using -c 4 would lead to to this dependency error:
+      # https://github.com/SharezoneApp/sharezone-app/pull/1322#issuecomment-1981410505
+      # We don't know why this happens.
+      # In the future please try to use a higher concurrency value again.
       - name: Run tests via "sz test"
         run: |
           sz test \
-            -c 4 \
+            -c 1 \
             --package-timeout-minutes 15 \
             --only-goldens
 

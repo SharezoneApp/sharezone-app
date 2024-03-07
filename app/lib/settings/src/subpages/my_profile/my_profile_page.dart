@@ -29,7 +29,6 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart'
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_bloc.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
