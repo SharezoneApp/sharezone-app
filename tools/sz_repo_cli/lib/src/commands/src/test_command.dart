@@ -158,11 +158,23 @@ Future<void> _runTestsFlutter(
       [
         'fvm',
         'flutter',
+        'pub',
+        'get',
+        '--enforce-lockfile',
+      ],
+      workingDirectory: package.location,
+    );
+
+    await processRunner.runCommand(
+      [
+        'fvm',
+        'flutter',
         'test',
         'test_goldens',
         if (updateGoldens) '--update-goldens',
         '--test-randomize-ordering-seed',
         testRandomizeOrderingSeed,
+        '--no-pub',
       ],
       workingDirectory: package.location,
     );
