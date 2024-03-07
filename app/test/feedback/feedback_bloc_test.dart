@@ -9,12 +9,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
-import 'package:random_string/random_string.dart' as random;
 import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/feedback/src/models/user_feedback.dart';
+import 'package:test_randomness/test_randomness.dart' as random;
 
 import 'mock_feedback_api.dart';
 import 'mock_platform_information_retreiver.dart';

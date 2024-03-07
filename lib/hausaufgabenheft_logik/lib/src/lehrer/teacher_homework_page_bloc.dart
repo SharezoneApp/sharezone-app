@@ -14,7 +14,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:meta/meta.dart';
-import 'package:random_string/random_string.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 export 'events.dart';
 export 'states.dart';

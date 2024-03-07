@@ -85,5 +85,4 @@ packageLicenseOverride:
   url_launcher_extended: EUPL-1.2-or-later
   user: EUPL-1.2-or-later
   util: EUPL-1.2-or-later
-
-
+  test_randomness: EUPL-1.2-or-later

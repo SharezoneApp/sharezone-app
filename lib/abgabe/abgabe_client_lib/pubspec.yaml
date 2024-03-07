@@ -46,6 +46,7 @@ dev_dependencies:
     sdk: flutter
   async: ^2.4.1
   mockito: ^5.4.4
-  random_string: ^2.0.1
+  test_randomness:
+    path: ../../test_randomness
   sharezone_lints:
     path: ../../sharezone_lints

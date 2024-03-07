@@ -6,12 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:math';
-
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/models_used_by_homework.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 HomeworkReadModel createHomework(
     {Date todoDate = const Date(day: 1, month: 1, year: 2019),
@@ -22,7 +21,7 @@ HomeworkReadModel createHomework(
     bool withSubmissions = false,
     Color? subjectColor,
     String abbreviation = 'Abb'}) {
-  id = id == 'willBeRandom' ? randomString(5) : id;
+  id = id == 'willBeRandom' ? randomAlphaNumeric(5) : id;
   return HomeworkReadModel(
     id: HomeworkId(id),
     todoDate: todoDate.asDateTime(),
@@ -31,13 +30,4 @@ HomeworkReadModel createHomework(
     withSubmissions: withSubmissions,
     status: done ? CompletionStatus.completed : CompletionStatus.open,
   );
-}
-
-String randomString(int length) {
-  var rand = Random();
-  var codeUnits = List.generate(length, (index) {
-    return rand.nextInt(33) + 89;
-  });
-
-  return String.fromCharCodes(codeUnits);
 }
