@@ -181,7 +181,7 @@ jobs:
       - name: Run tests via "sz test"
         run: |
           sz test \
-            -c 4 \
+            -c 1 \
             --package-timeout-minutes 15 \
             --only-goldens
 
