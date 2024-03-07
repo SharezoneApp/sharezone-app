@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
@@ -91,8 +93,14 @@ Future<void> runTests(
   required bool excludeGoldens,
   required bool onlyGoldens,
   required bool updateGoldens,
-  required String testRandomizeOrderingSeed,
+  String testRandomizeOrderingSeed = 'random',
 }) {
+  // Copied from https://github.com/dart-lang/test/blob/ba64bbbaa26f09e139c26f9ad6409995806aac6e/pkgs/test_core/lib/src/runner/configuration/args.dart#L277
+  final seed = testRandomizeOrderingSeed == 'random'
+      ? Random().nextInt(4294967295)
+      : int.parse(testRandomizeOrderingSeed).toUnsigned(32);
+  stdout.writeln('Using seed for test randomization: $seed');
+
   if (package.isFlutterPackage) {
     return _runTestsFlutter(
       processRunner,
@@ -100,7 +108,7 @@ Future<void> runTests(
       excludeGoldens: excludeGoldens,
       onlyGoldens: onlyGoldens,
       updateGoldens: updateGoldens,
-      testRandomizeOrderingSeed: testRandomizeOrderingSeed,
+      testRandomizeOrderingSeed: seed,
     );
   } else {
     return _runTestsDart(
@@ -108,7 +116,7 @@ Future<void> runTests(
       package,
       excludeGoldens: excludeGoldens,
       onlyGoldens: onlyGoldens,
-      testRandomizeOrderingSeed: testRandomizeOrderingSeed,
+      testRandomizeOrderingSeed: seed,
     );
   }
 }
@@ -120,7 +128,7 @@ Future<void> _runTestsDart(
   // don't have golden tests.
   required bool excludeGoldens,
   required bool onlyGoldens,
-  required String testRandomizeOrderingSeed,
+  required int testRandomizeOrderingSeed,
 }) async {
   if (onlyGoldens) {
     // Golden tests are only run in the flutter package.
@@ -133,10 +141,13 @@ Future<void> _runTestsDart(
     [
       'fvm',
       'dart',
+      '--define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
       'test',
       '--test-randomize-ordering-seed',
-      testRandomizeOrderingSeed,
-      '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
+      '$testRandomizeOrderingSeed',
+      // --define only works with this flag, seems to be a bug in Dart.
+      // See: https://github.com/dart-lang/test/issues/1794
+      '--use-data-isolate-strategy',
     ],
     workingDirectory: package.location,
   );
@@ -148,7 +159,7 @@ Future<void> _runTestsFlutter(
   required bool excludeGoldens,
   required bool onlyGoldens,
   required bool updateGoldens,
-  required String testRandomizeOrderingSeed,
+  required int testRandomizeOrderingSeed,
 }) async {
   if (onlyGoldens || !excludeGoldens) {
     if (!package.hasGoldenTestsDirectory) {
@@ -161,7 +172,7 @@ Future<void> _runTestsFlutter(
         'flutter',
         'test',
         '--test-randomize-ordering-seed',
-        testRandomizeOrderingSeed,
+        '$testRandomizeOrderingSeed',
         '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
         'test_goldens',
         if (updateGoldens) '--update-goldens',
@@ -181,7 +192,7 @@ Future<void> _runTestsFlutter(
         'flutter',
         'test',
         '--test-randomize-ordering-seed',
-        testRandomizeOrderingSeed,
+        '$testRandomizeOrderingSeed',
         '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
       ],
       workingDirectory: package.location,
@@ -202,7 +213,7 @@ Future<void> _runTestsFlutter(
       // Directory for unit and widget tests.
       'test',
       '--test-randomize-ordering-seed',
-      testRandomizeOrderingSeed,
+      '$testRandomizeOrderingSeed',
       '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
     ],
     workingDirectory: package.location,
