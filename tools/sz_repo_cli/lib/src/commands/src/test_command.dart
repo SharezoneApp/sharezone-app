@@ -159,10 +159,10 @@ Future<void> _runTestsFlutter(
         'fvm',
         'flutter',
         'test',
-        '--test-randomize-ordering-seed',
-        testRandomizeOrderingSeed,
         'test_goldens',
         if (updateGoldens) '--update-goldens',
+        '--test-randomize-ordering-seed',
+        testRandomizeOrderingSeed,
       ],
       workingDirectory: package.location,
     );

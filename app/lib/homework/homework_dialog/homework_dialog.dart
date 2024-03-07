@@ -962,7 +962,8 @@ class _SendNotification extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: _SendNotificationBase(
+        child: SendNotificationBase(
+          listTileKey: HwDialogKeys.notifyCourseMembersTile,
           title:
               "Kursmitglieder ${state.isEditing ? "über die Änderungen " : ""}benachrichtigen",
           onChanged: (newValue) =>
@@ -977,35 +978,6 @@ class _SendNotification extends StatelessWidget {
   }
 }
 
-class _SendNotificationBase extends StatelessWidget {
-  const _SendNotificationBase({
-    required this.title,
-    required this.sendNotification,
-    required this.onChanged,
-    this.description,
-  });
-
-  final String title;
-  final String? description;
-  final bool sendNotification;
-  final Function(bool) onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      key: HwDialogKeys.notifyCourseMembersTile,
-      leading: const Icon(Icons.notifications_active),
-      title: Text(title),
-      trailing: Switch.adaptive(
-        onChanged: onChanged,
-        value: sendNotification,
-      ),
-      onTap: () => onChanged(!sendNotification),
-      subtitle: description != null ? Text(description!) : null,
-    );
-  }
-}
-
 class _DescriptionField extends StatelessWidget {
   const _DescriptionField({required this.state});
 
@@ -1014,38 +986,12 @@ class _DescriptionField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
-    return _DescriptionFieldBase(
+    return DescriptionFieldBase(
+      textFieldKey: HwDialogKeys.descriptionField,
+      hintText: 'Zusatzinformationen eingeben',
       onChanged: (newDescription) =>
           bloc.add(DescriptionChanged(newDescription)),
       prefilledDescription: state.description,
-    );
-  }
-}
-
-class _DescriptionFieldBase extends StatelessWidget {
-  const _DescriptionFieldBase({
-    required this.onChanged,
-    required this.prefilledDescription,
-  });
-
-  final Function(String) onChanged;
-  final String? prefilledDescription;
-
-  @override
-  Widget build(BuildContext context) {
-    return MarkdownField(
-      textFieldKey: HwDialogKeys.descriptionField,
-      inputDecoration: const InputDecoration(
-        hintText: "Zusatzinformationen eingeben",
-        border: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        fillColor: Colors.transparent,
-      ),
-      onChanged: onChanged,
-      prefilledText: prefilledDescription,
-      icon: const Icon(Icons.subject),
     );
   }
 }
