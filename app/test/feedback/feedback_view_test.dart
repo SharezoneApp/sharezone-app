@@ -12,7 +12,7 @@ import 'package:sharezone/feedback/src/models/user_feedback.dart';
 
 void main() {
   group(FeedbackView, () {
-    test('.fromUserFeedback()', () {
+    test('.fromUserFeedback() empty', () {
       final feedback = UserFeedback.create();
       final view = FeedbackView.fromUserFeedback(feedback);
 
@@ -21,6 +21,24 @@ void main() {
       expect(view.dislikes, '');
       expect(view.heardFrom, '');
       expect(view.missing, '');
+      expect(view.createdOn, isNull);
+    });
+
+    test('.fromUserFeedback() with data', () {
+      final feedback = UserFeedback.create().copyWith(
+        rating: 5.0,
+        dislikes: 'd',
+        heardFrom: 'h',
+        likes: 'l',
+        missing: 'm',
+      );
+      final view = FeedbackView.fromUserFeedback(feedback);
+
+      expect(view.rating, '5.0/5.0');
+      expect(view.likes, 'l');
+      expect(view.dislikes, 'd');
+      expect(view.heardFrom, 'h');
+      expect(view.missing, 'm');
       expect(view.createdOn, isNull);
     });
 
