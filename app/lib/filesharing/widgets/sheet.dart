@@ -154,7 +154,7 @@ class FileSheet extends StatelessWidget {
                           ),
                           if (createdOn != null)
                             Text(
-                              "Hochgeladen am: ${"${DateFormat.yMd().format(createdOn!)} ${DateFormat.Hm().format(createdOn!)}"}",
+                              "Hochgeladen am: ${"${DateFormat.yMMMEd().format(createdOn!)} - ${DateFormat.Hm().format(createdOn!)} Uhr"}",
                               style: greyTextStyle,
                             ),
                           if (isPrivate == true)
