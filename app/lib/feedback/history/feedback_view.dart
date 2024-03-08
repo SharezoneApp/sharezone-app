@@ -36,7 +36,7 @@ class FeedbackView {
 
   factory FeedbackView.fromUserFeedback(UserFeedback feedback) {
     return FeedbackView(
-      rating: '${feedback.rating}/5.0',
+      rating: feedback.rating == null ? null : '${feedback.rating}/5.0',
       likes: feedback.likes,
       dislikes: feedback.dislikes,
       heardFrom: feedback.heardFrom,

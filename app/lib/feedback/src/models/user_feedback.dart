@@ -77,7 +77,7 @@ class UserFeedback {
   factory UserFeedback.fromJson(Map<String, dynamic> map) {
     return UserFeedback._(
       createdOn: dateTimeFromTimestampOrNull(map['createdOn']),
-      rating: double.tryParse(map['rating']),
+      rating: map['rating'] == null ? null : double.tryParse(map['rating']),
       likes: map['likes'] ?? '',
       dislikes: map['dislikes'] ?? '',
       missing: map['missing'] ?? '',
