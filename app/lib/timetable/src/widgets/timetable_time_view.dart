@@ -112,7 +112,8 @@ class _PeriodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final length = period.endTime.differenceInMinutes(period.startTime);
+    final lengthInMinutes =
+        period.endTime.differenceInMinutes(period.startTime);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -138,7 +139,7 @@ class _PeriodTile extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12.5,
                 fontWeight: FontWeight.w700,
-                height: length < 60 ? 0.99 : 1.5,
+                height: lengthInMinutes < 60 ? 0.99 : 1.5,
               ),
             ),
             Text(
