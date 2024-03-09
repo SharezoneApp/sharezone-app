@@ -37,15 +37,18 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SharezoneMainScaffold(
-      body: _SettingsPageBody(),
+    return const SharezoneMainScaffold(
+      body: SettingsPageBody(),
       navigationItem: NavigationItem.settings,
     );
   }
 }
 
-class _SettingsPageBody extends StatelessWidget {
+class SettingsPageBody extends StatelessWidget {
   static const double _spaceBetween = 16.0;
+
+  const SettingsPageBody({super.key});
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
