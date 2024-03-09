@@ -9,6 +9,7 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -22,6 +23,7 @@ import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_pag
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/util/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/subpages/my_profile/my_profile_page.dart';
@@ -84,7 +86,7 @@ class _LegalSection extends StatelessWidget {
         children: <Widget>[
           _SettingsOption(
             title: "Datenschutzerklärung",
-            icon: Icons.security,
+            icon: const Icon(Icons.security),
             onTap: () {
               _logOpenPrivacyPolicy(analytics);
               Navigator.pushNamed(context, PrivacyPolicyPage.tag);
@@ -92,7 +94,7 @@ class _LegalSection extends StatelessWidget {
           ),
           _SettingsOption(
             title: "Impressum",
-            icon: Icons.account_balance,
+            icon: const Icon(Icons.account_balance),
             onTap: () {
               _logOpenImprint(context);
               Navigator.pushNamed(context, ImprintPage.tag);
@@ -100,7 +102,7 @@ class _LegalSection extends StatelessWidget {
           ),
           _SettingsOption(
             title: "Lizenzen",
-            icon: Icons.layers,
+            icon: const Icon(Icons.layers),
             onTap: () => _openLicensePage(context),
           ),
         ],
@@ -136,22 +138,22 @@ class _AppSettingsSection extends StatelessWidget {
       children: <Widget>[
         _SettingsOption(
           title: "Mein Konto",
-          icon: Icons.account_circle,
+          icon: Icon(Icons.account_circle),
           tag: MyProfilePage.tag,
         ),
         _SettingsOption(
           title: "Benachrichtigungen",
-          icon: Icons.notifications_active,
+          icon: Icon(Icons.notifications_active),
           tag: NotificationPage.tag,
         ),
         _SettingsOption(
           title: "Erscheinungsbild",
-          icon: Icons.color_lens,
+          icon: Icon(Icons.color_lens),
           tag: ThemePage.tag,
         ),
         _SettingsOption(
           title: "Stundenplan",
-          icon: Icons.access_time,
+          icon: Icon(Icons.access_time),
           tag: TimetableSettingsPage.tag,
         )
       ],
@@ -167,23 +169,37 @@ class _MoreSection extends StatelessWidget {
       children: <Widget>[
         const _SettingsOption(
           title: "Über uns",
-          icon: Icons.info,
+          icon: Icon(Icons.info),
           tag: AboutPage.tag,
+        ),
+        _SettingsOption(
+          title: "Quellcode",
+          icon: SvgPicture.asset(
+            'assets/icons/github.svg',
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).listTileTheme.iconColor!,
+              BlendMode.srcIn,
+            ),
+          ),
+          onTap: () => launchURL(
+            'https://sharezone.net/github',
+            context: context,
+          ),
         ),
         if (!PlatformCheck.isDesktopOrWeb)
           const _SettingsOption(
             title: "Web-App",
-            icon: Icons.desktop_mac,
+            icon: Icon(Icons.desktop_mac),
             tag: WebAppSettingsPage.tag,
           ),
         const _SettingsOption(
           title: "Support",
-          icon: Icons.question_answer,
+          icon: Icon(Icons.question_answer),
           tag: SupportPage.tag,
         ),
         const _SettingsOption(
           title: "Was ist neu?",
-          icon: Icons.assignment,
+          icon: Icon(Icons.assignment),
           tag: ChangelogPage.tag,
         ),
       ],
@@ -224,7 +240,7 @@ class _SettingsOption extends StatelessWidget {
   });
 
   final String? title;
-  final IconData? icon;
+  final Widget? icon;
   final GestureTapCallback? onTap;
   final String? tag;
 
@@ -232,7 +248,7 @@ class _SettingsOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title!),
-      leading: Icon(icon),
+      leading: icon,
       onTap: onTap ?? () => Navigator.pushNamed(context, tag!),
     );
   }
