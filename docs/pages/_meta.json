@@ -1,5 +1,8 @@
 {
     "index": "Übersicht",
+    "firststeps" : "Erste Schritte",
     "account": "Konto",
-    "more": "Weiteres"
+    "app-settings": "App-Einstellungen",
+    "more": "Weiteres",
+    "aboutUs": "Über uns"
 }

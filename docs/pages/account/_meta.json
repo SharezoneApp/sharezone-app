@@ -1,3 +1,7 @@
 {
-    "delete-account": "Konto löschen"
+    "changeEmail" : "E-Mail ändern",
+    "changeName" : "Namen ändern",
+    "changePassword" : "Passwort ändern",
+    "changeProvince" : "Bundesland ändern",
+    "deleteAccount": "Konto löschen"
 }
