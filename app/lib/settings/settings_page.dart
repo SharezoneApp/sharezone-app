@@ -86,7 +86,7 @@ class _LegalSection extends StatelessWidget {
         children: <Widget>[
           _SettingsOption(
             title: "Datenschutzerklärung",
-            icon: Icon(Icons.security),
+            icon: const Icon(Icons.security),
             onTap: () {
               _logOpenPrivacyPolicy(analytics);
               Navigator.pushNamed(context, PrivacyPolicyPage.tag);
@@ -94,7 +94,7 @@ class _LegalSection extends StatelessWidget {
           ),
           _SettingsOption(
             title: "Impressum",
-            icon: Icon(Icons.account_balance),
+            icon: const Icon(Icons.account_balance),
             onTap: () {
               _logOpenImprint(context);
               Navigator.pushNamed(context, ImprintPage.tag);
@@ -102,7 +102,7 @@ class _LegalSection extends StatelessWidget {
           ),
           _SettingsOption(
             title: "Lizenzen",
-            icon: Icon(Icons.layers),
+            icon: const Icon(Icons.layers),
             onTap: () => _openLicensePage(context),
           ),
         ],
