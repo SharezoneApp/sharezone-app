@@ -11,6 +11,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:sharezone/keys.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/flavor.dart';
@@ -144,6 +145,13 @@ void main() {
       // We don't check the text of the information sheet for now because the
       // `find.text()` can't find text `MarkdownBody` which it a bit more
       // complex.
+
+      log("Test: User should be able to load feedback");
+      await tester.tap(find.byKey(const Key('nav-item-feedback-E2E')));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(K.openFeedbackHistory));
+      await tester.pumpUntil(find.text('Feedback for our integration tests'));
     });
   });
 }

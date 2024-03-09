@@ -19,6 +19,7 @@ import 'package:sharezone/feedback/history/feedback_history_page_controller.dart
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/widgets/thank_you_bottom_sheet.dart';
+import 'package:sharezone/keys.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
@@ -67,6 +68,7 @@ class _HistoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      key: K.openFeedbackHistory,
       tooltip: "Meine Feedbacks",
       icon: const Icon(Icons.history),
       onPressed: () {

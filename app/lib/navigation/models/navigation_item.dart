@@ -110,8 +110,13 @@ extension NavigationItemExtension on NavigationItem {
         return Icon(themeIconData(Icons.settings,
             cupertinoIcon: SFSymbols.gear_alt_fill));
       case NavigationItem.feedbackBox:
-        return Icon(themeIconData(Icons.message,
-            cupertinoIcon: SFSymbols.exclamationmark_bubble_fill));
+        return Icon(
+          key: K.feedbackNavigationItem,
+          themeIconData(
+            Icons.message,
+            cupertinoIcon: SFSymbols.exclamationmark_bubble_fill,
+          ),
+        );
       case NavigationItem.accountPage:
         return Icon(
             themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill));
