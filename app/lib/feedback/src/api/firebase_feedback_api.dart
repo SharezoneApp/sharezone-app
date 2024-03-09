@@ -25,8 +25,10 @@ class FirebaseFeedbackApi implements FeedbackApi {
 
   @override
   Stream<List<UserFeedback>> streamFeedbacks(String userId) {
-    final stream =
-        feedbackCollection.where('uid', isEqualTo: userId).snapshots();
+    final stream = feedbackCollection
+        .where('uid', isEqualTo: userId)
+        .orderBy('createdOn', descending: true)
+        .snapshots();
     return stream.map((snapshot) => snapshot.docs
         .map((doc) => UserFeedback.fromJson(doc.data() as Map<String, dynamic>))
         .toList());
