@@ -147,10 +147,12 @@ void main() {
       // complex.
 
       log("Test: User should be able to load feedback");
-      await tester.tap(find.byKey(const Key('nav-item-feedback-E2E')));
+      await tester.tap(find.byKey(K.feedbackNavigationItem));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byKey(K.openFeedbackHistory));
+      await tester.pumpAndSettle();
+
       await tester.pumpUntil(find.text('Feedback for our integration tests'));
     });
   });

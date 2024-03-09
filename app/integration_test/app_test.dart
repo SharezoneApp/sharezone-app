@@ -99,6 +99,15 @@ void main() {
       // We a searching for an information sheet that is already created.
       expect($('German Course Trip to Berlin'), findsOneWidget);
     });
+
+    patrolTest('User should be able to load feedback', config: config,
+        ($) async {
+      await login($);
+      await $(K.feedbackNavigationItem).tap();
+
+      await $(K.openFeedbackHistory).tap();
+      await $('Feedback for our integration tests').waitUntilExists();
+    });
   });
 }
 
