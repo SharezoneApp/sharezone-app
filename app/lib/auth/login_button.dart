@@ -24,31 +24,14 @@ class ContinueRoundButton extends StatelessWidget {
       button: true,
       onTap: onTap,
       label: tooltip,
-      child: IconButton(
-        tooltip: tooltip,
-        icon: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 250),
-              child: Container(
-                width: 35,
-                key: ValueKey('ContinueRoundButton: ${onTap == null}'),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: onTap == null
-                      ? Colors.grey
-                      : Theme.of(context).primaryColor,
-                ),
-              ),
-            ),
-            const Icon(
-              Icons.chevron_right,
-              color: Colors.white,
-            )
-          ],
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 250),
+        child: IconButton.filled(
+          key: ValueKey(onTap == null),
+          tooltip: tooltip,
+          icon: const Icon(Icons.chevron_right),
+          onPressed: onTap,
         ),
-        onPressed: onTap,
       ),
     );
   }
