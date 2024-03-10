@@ -7,55 +7,43 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
+import 'package:sharezone/groups/src/pages/shared/course_template.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-Future<Course?> openCourseCreatePage(
+Future<(CourseId, CourseName)?> openCourseCreatePage(
   BuildContext context, {
-  Course? course,
-  String? schoolClassId,
+  CourseTemplate? template,
+  required SchoolClassId? schoolClassId,
 }) async {
-  // We use `dynamic` as type because we return either a `Course?` or `bool`.
-  final createdCourse = await Navigator.push<dynamic>(
+  return Navigator.push<(CourseId, CourseName)?>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
       builder: (context) => _CourseCreatePage(
-        course: course,
+        template: template,
         schoolClassId: schoolClassId,
       ),
       settings: const RouteSettings(name: _CourseCreatePage.tag),
     ),
   );
-  await waitingForPopAnimation();
-  if (createdCourse != null && context.mounted) {
-    final name = createdCourse is Course ? ' "${createdCourse.name}"' : '';
-    showSnackSec(
-      context: context,
-      text: 'Kurs$name wurde erstellt.',
-      seconds: 2,
-    );
-  }
-  return createdCourse is Course ? createdCourse : null;
 }
 
 Future<void> submit(BuildContext context) async {
   final bloc = BlocProvider.of<CourseCreateBloc>(context);
-  Course createdCourse;
 
   try {
     if (bloc.hasSchoolClassId) {
       sendDataToFrankfurtSnackBar(context, behavior: SnackBarBehavior.fixed);
-      final successful = await bloc.submitSchoolClassCourse();
-      if (context.mounted) {
-        Navigator.pop(context, successful);
-      }
-    } else {
-      createdCourse = bloc.submitCourse();
-      Navigator.pop(context, createdCourse);
+    }
+
+    final course = await bloc.submitCourse();
+    if (context.mounted) {
+      Navigator.pop(context, course);
     }
   } catch (e, s) {
     if (context.mounted) {
@@ -69,13 +57,13 @@ Future<void> submit(BuildContext context) async {
 
 class _CourseCreatePage extends StatefulWidget {
   const _CourseCreatePage({
-    this.course,
+    this.template,
     this.schoolClassId,
   });
 
   static const tag = "course-create-page";
-  final Course? course;
-  final String? schoolClassId;
+  final CourseTemplate? template;
+  final SchoolClassId? schoolClassId;
 
   @override
   _CourseCreatePageState createState() => _CourseCreatePageState();
@@ -89,13 +77,13 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
 
   @override
   void initState() {
+    super.initState();
     bloc = BlocProvider.of<CourseCreateBlocFactory>(context).create(
       schoolClassId: widget.schoolClassId,
     );
-    if (widget.course != null) {
-      bloc.setInitialCourse(widget.course!);
+    if (widget.template != null) {
+      bloc.setInitialTemplate(widget.template!);
     }
-    super.initState();
   }
 
   @override
@@ -127,11 +115,11 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
             child: Column(
               children: <Widget>[
                 _Subject(
-                    subject: widget.course?.subject,
+                    subject: widget.template?.subject,
                     nextFocusNode: abbreviationNode),
                 const SizedBox(height: 28),
                 _Abbreviation(
-                    abbreviation: widget.course?.abbreviation,
+                    abbreviation: widget.template?.abbreviation,
                     focusNode: abbreviationNode,
                     nextFocusNode: nameNode),
                 const SizedBox(height: 12),
@@ -246,7 +234,7 @@ class _CourseName extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
       ),
       description:
-          "Der Kursname dient hauptsächlich für die Lehrkraft zur Unterscheidung der einzelnen Kurse. Denn würden bei der Lehrkraft alle Kurse Mathematik heißen, könnte diese nicht mehr Kurse unterscheiden.",
+          "Der Kursname dient hauptsächlich für die Lehrkräfte damit diese Kurse mit dem gleichen Fach unterscheiden können (z.B. 'Mathematik Klasse 8A' und 'Mathematik Klasse 8B').",
     );
   }
 }

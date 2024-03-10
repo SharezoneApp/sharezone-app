@@ -320,6 +320,8 @@ class CourseData {
   }
 }
 
+typedef CourseName = String;
+
 @immutable
 class CourseSettings {
   final bool isPublic;

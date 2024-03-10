@@ -7,12 +7,13 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:sharezone/groups/src/pages/shared/course_template_list.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
-import 'package:sharezone/groups/src/pages/school_class/create_course/school_class_course_template_page.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -228,9 +229,8 @@ class _AddNewCourse extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              SchoolClassCourseTemplatePage(schoolClassID: schoolClassID),
-          settings:
-              const RouteSettings(name: SchoolClassCourseTemplatePage.tag),
+              CourseTemplatePage(schoolClassId: SchoolClassId(schoolClassID)),
+          settings: const RouteSettings(name: CourseTemplatePage.tag),
         ),
       ),
     );

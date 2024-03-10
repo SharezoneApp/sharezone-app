@@ -7,16 +7,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
-
-import 'package:sharezone/groups/src/pages/course/create/course_create_page.dart';
-import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
-import 'package:sharezone/groups/src/pages/school_class/create_course/school_class_course_template_page.dart';
-import 'package:sharezone/groups/src/pages/school_class/create_course/school_class_create_course.dart';
+import 'package:sharezone/groups/src/pages/shared/course_template_list.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'share_sharecode.dart';
 
@@ -47,13 +43,13 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
       ),
       children: [
         if (schoolClassId != null)
-          SchoolClassCourseCreateTemplateBody(
-            schoolClassID: schoolClassId!,
-            bottom: _CreateCustomCourse(schoolClassId: schoolClassId),
+          CourseTemplatePageBody(
+            schoolClassId: SchoolClassId(schoolClassId!),
+            withCreateCustomCourseSection: true,
           )
         else
-          CourseTemplatePageBody(
-            bottom: _CreateCustomCourse(schoolClassId: schoolClassId),
+          const CourseTemplatePageBody(
+            withCreateCustomCourseSection: true,
           )
       ],
     );
@@ -65,49 +61,5 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
       return 'Welche Kurse unterrichtest du?';
     }
     return 'Welche Kurse sollen mit der Klasse verbunden werden?';
-  }
-}
-
-class _CreateCustomCourse extends StatelessWidget {
-  const _CreateCustomCourse({
-    required this.schoolClassId,
-  });
-
-  final String? schoolClassId;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        children: <Widget>[
-          const Headline("Dein Kurs ist nicht dabei?"),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.lightBlueAccent,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(Icons.add_circle, color: Colors.white),
-                SizedBox(width: 8.0),
-                Text("EIGENEN KURS ERSTELLEN",
-                    style: TextStyle(color: Colors.white)),
-              ],
-            ),
-            onPressed: () {
-              if (schoolClassId != null) {
-                openSchoolClassCourseCreatePage(context, schoolClassId!);
-              } else {
-                openCourseCreatePage(context);
-              }
-            },
-          )
-        ],
-      ),
-    );
   }
 }

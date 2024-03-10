@@ -6,12 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:app_functions/app_functions.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/school_class_gateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
+
 import '../bloc/user_input.dart';
 
 class CourseCreateGateway {
@@ -22,23 +22,37 @@ class CourseCreateGateway {
   CourseCreateGateway(
       this.courseGateway, this.userGateway, this.schoolClassGateway);
 
-  Course createCourse(UserInput userInput) {
+  (CourseId, CourseName) createCourse(UserInput userInput) {
     final courseData = CourseData.create().copyWith(
       name: userInput.name,
       subject: userInput.subject,
       abbreviation: userInput.abbreviation,
     );
-    return courseGateway.createCourse(courseData, userGateway);
+
+    final course = courseGateway.createCourse(courseData, userGateway);
+    return (CourseId(course.id), course.name);
   }
 
-  Future<AppFunctionsResult<bool>> createSchoolClassCourse(
-      UserInput userInput, String schoolClassId) async {
+  Future<(CourseId, CourseName)> createSchoolClassCourse(
+    UserInput userInput,
+    SchoolClassId schoolClassId,
+  ) async {
+    final courseId = courseGateway.generateCourseId();
     final courseData = CourseData.create().copyWith(
       name: userInput.name,
       subject: userInput.subject,
       abbreviation: userInput.abbreviation,
     );
-    return schoolClassGateway.createCourse(schoolClassId, courseData);
+    await schoolClassGateway.createCourse(
+      '$schoolClassId',
+      courseData,
+      '$courseId',
+    );
+    return (courseId, courseData.name);
+  }
+
+  Future<void> deleteCourse(CourseId courseId) async {
+    await courseGateway.deleteCourse('$courseId');
   }
 
   List<Course> get currentCourses => courseGateway.getCurrentCourses();
