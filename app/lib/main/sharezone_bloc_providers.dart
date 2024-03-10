@@ -62,6 +62,7 @@ import 'package:sharezone/feedback/src/api/firebase_feedback_api.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
+import 'package:sharezone/groups/src/pages/course/create/my_admin_school_classes_provider.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/gateway/course_create_gateway.dart';
@@ -392,6 +393,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           api: FirebaseFeedbackApi(widget.blocDependencies.firestore),
           userId: api.userId,
           crashAnalytics: crashAnalytics,
+        ),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => MyAdminSchoolClassesProvider(
+          connectionsGateway: api.connectionsGateway,
         ),
       )
     ];
