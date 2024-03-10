@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_create_page.dart';
@@ -235,54 +236,64 @@ class CourseTemplatePageFinishButton extends StatelessWidget {
 class _CreateCustomCourseSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).isDarkTheme
-          ? Theme.of(context).scaffoldBackgroundColor
-          : Colors.grey[100],
-      child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Divider(height: 0),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
-              child: MaxWidthConstraintBox(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlueAccent,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                  ),
-                  onPressed: () async {
-                    final bloc = BlocProvider.of<CourseCreateBloc>(context);
-                    final course = await openCourseCreatePage(
-                      context,
-                      schoolClassId: bloc.schoolClassId,
-                    );
-                    if (course != null && context.mounted) {
-                      showSnackSec(
-                        context: context,
-                        text: 'Kurs "${course.$2}" wurde erstellt.',
-                      );
-                    }
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.add_circle, color: Colors.white),
-                      SizedBox(width: 8.0),
-                      Text(
-                        "EIGENEN KURS ERSTELLEN",
-                        style: TextStyle(color: Colors.white),
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const Divider(height: 0),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
+            child: MaxWidthConstraintBox(
+              child: Column(
+                children: [
+                  const Opacity(
+                    opacity: 0.8,
+                    child: Text(
+                      'Dein Kurs ist nicht dabei?',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlueAccent,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                    ),
+                    onPressed: () async {
+                      final bloc = BlocProvider.of<CourseCreateBloc>(context);
+                      final course = await openCourseCreatePage(
+                        context,
+                        schoolClassId: bloc.schoolClassId,
+                      );
+                      if (course != null && context.mounted) {
+                        showSnackSec(
+                          context: context,
+                          text: 'Kurs "${course.$2}" wurde erstellt.',
+                        );
+                      }
+                    },
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.add_circle, color: Colors.white),
+                        SizedBox(width: 8.0),
+                        Text(
+                          "EIGENEN KURS ERSTELLEN",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
