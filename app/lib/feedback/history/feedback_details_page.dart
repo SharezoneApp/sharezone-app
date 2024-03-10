@@ -50,7 +50,6 @@ class FeedbackDetailsPage extends StatelessWidget {
 
 class _CreatedOn extends StatelessWidget {
   const _CreatedOn({
-    super.key,
     required this.createdOn,
   });
 
