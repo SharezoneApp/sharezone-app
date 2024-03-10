@@ -95,14 +95,6 @@ class MockFeedbackDetailsPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void reset() => super.noSuchMethod(
-        Invocation.method(
-          #reset,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
   void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
