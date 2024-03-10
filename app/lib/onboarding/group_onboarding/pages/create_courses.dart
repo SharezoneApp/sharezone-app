@@ -9,7 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/groups/src/pages/shared/course_template_page.dart';
+import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/pages/group_onboarding_page_template.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';

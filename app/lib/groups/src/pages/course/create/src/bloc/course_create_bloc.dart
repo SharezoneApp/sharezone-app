@@ -12,7 +12,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/events/course_create_event.dart';
-import 'package:sharezone/groups/src/pages/shared/course_template.dart';
+import 'package:sharezone/groups/src/pages/course/create/course_template.dart';
 import 'package:sharezone/util/string_utils.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';

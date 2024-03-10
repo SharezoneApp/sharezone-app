@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
-import 'package:sharezone/groups/src/pages/shared/course_template.dart';
+import 'package:sharezone/groups/src/pages/course/create/course_template.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
