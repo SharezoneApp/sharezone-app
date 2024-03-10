@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone_console/activation_codes/activation_codes_page.dart';
 import 'package:sharezone_console/pages/change_type_of_user.dart';
+import 'package:sharezone_console/pages/feedbacks/feedbacks_page.dart';
 
 Future<void> openPage(BuildContext context, Widget widget) {
   return Navigator.push(
@@ -39,7 +40,14 @@ class HomePage extends StatelessWidget {
             onTap: () {
               openActivationCodesPage(context);
             },
-          )
+          ),
+          ListTile(
+            leading: Icon(Icons.message),
+            title: const Text("Feedbacks"),
+            onTap: () {
+              openPage(context, FeedbacksPage());
+            },
+          ),
         ],
       ),
     );

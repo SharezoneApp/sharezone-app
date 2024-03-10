@@ -17,12 +17,14 @@ environment:
 
 dependencies:
   cloud_functions: ^4.6.6
+  cloud_firestore: ^4.15.5
   firebase_auth: ^4.17.6
   firebase_core: ^2.25.5
   flutter:
     sdk: flutter
   intl: ^0.17.0
   rxdart: ^0.27.7
+  very_good_infinite_list: ^0.7.1
 
 dev_dependencies:
   flutter_test:
