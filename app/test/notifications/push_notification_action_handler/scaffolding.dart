@@ -275,6 +275,7 @@ PushHandlerInvocationResult handlePushNotification(
     showBlackboardItem: handle,
     showHomework: handle,
     showNotificationDialog: handle,
+    showFeedback: handle,
     showTimetableEvent: handle,
     showErrorNotificationDialog: (notification, errorReason, error) =>
         showErrorDialogException =
