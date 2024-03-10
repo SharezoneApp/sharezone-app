@@ -10,9 +10,9 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/analytics/events/course_create_event.dart';
-import 'package:sharezone/groups/src/pages/course/create/course_template.dart';
+import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
+import 'package:sharezone/groups/src/pages/course/create/analytics/events/course_create_event.dart';
+import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart';
 import 'package:sharezone/util/string_utils.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';
@@ -20,7 +20,7 @@ import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_common/validators.dart';
 
 import '../gateway/course_create_gateway.dart';
-import 'user_input.dart';
+import '../models/user_input.dart';
 
 class CourseCreateBloc extends BlocBase with CourseValidators {
   final CourseCreateAnalytics _analytics;

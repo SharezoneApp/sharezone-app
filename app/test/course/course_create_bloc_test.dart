@@ -11,10 +11,10 @@ import 'package:async/async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/bloc/user_input.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/gateway/course_create_gateway.dart';
+import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
+import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc.dart';
+import 'package:sharezone/groups/src/pages/course/create/models/user_input.dart';
+import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_gateway.dart';
 import 'package:sharezone_common/course_validators.dart';
 import 'package:sharezone_common/validators.dart';
 

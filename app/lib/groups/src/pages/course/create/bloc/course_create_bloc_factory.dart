@@ -8,7 +8,7 @@
 
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
+import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
 
 import '../gateway/course_create_gateway.dart';
 import 'course_create_bloc.dart';

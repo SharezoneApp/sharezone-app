@@ -10,9 +10,9 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
-import 'package:sharezone/groups/src/pages/course/create/course_template.dart';
+import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc.dart';
+import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
+import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -62,6 +62,7 @@ class _CourseCreatePage extends StatefulWidget {
   });
 
   static const tag = "course-create-page";
+
   final CourseTemplate? template;
   final SchoolClassId? schoolClassId;
 

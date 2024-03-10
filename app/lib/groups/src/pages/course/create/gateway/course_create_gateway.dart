@@ -12,7 +12,7 @@ import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/school_class_gateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
 
-import '../bloc/user_input.dart';
+import '../models/user_input.dart';
 
 class CourseCreateGateway {
   final CourseGateway courseGateway;
