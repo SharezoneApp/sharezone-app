@@ -34,7 +34,7 @@ class CourseTemplatePage extends StatelessWidget {
           schoolClassId: schoolClassId,
         ),
       ),
-      bottomNavigationBar: CreateCustomCourseSection(
+      bottomNavigationBar: _CreateCustomCourseSection(
         onTap: () => openCourseCreatePage(
           context,
           schoolClassId: schoolClassId,
@@ -86,9 +86,7 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
       onCreateCoursePressed: (template) =>
           bloc.submitWithCourseTemplate(template),
       bottom: widget.withCreateCustomCourseSection
-          ? CreateCustomCourseSection(
-              onTap: () => openCourseCreatePage(context,
-                  schoolClassId: widget.schoolClassId))
+          ? _CreateCustomCourseSection()
           : null,
     );
   }
@@ -206,13 +204,12 @@ class CourseTemplatePageFinishButton extends StatelessWidget {
   }
 }
 
-class CreateCustomCourseSection extends StatelessWidget {
-  const CreateCustomCourseSection({
-    super.key,
-    required this.onTap,
+class _CreateCustomCourseSection extends StatelessWidget {
+  const _CreateCustomCourseSection({
+    required this.schoolClassId,
   });
 
-  final VoidCallback onTap;
+  final SchoolClassId? schoolClassId;
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +232,16 @@ class CreateCustomCourseSection extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                   ),
-                  onPressed: onTap,
+                  onPressed: () async {
+                    final course = await openCourseCreatePage(context,
+                        schoolClassId: schoolClassId);
+                    if (course != null && context.mounted) {
+                      showSnackSec(
+                        context: context,
+                        text: 'Kurs "${course.$2}" wurde erstellt.',
+                      );
+                    }
+                  },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
