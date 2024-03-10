@@ -17,11 +17,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class FeedbackDetailsPage extends StatefulWidget {
   const FeedbackDetailsPage({
     super.key,
-    required this.feedbackId,
+    this.feedbackId,
     this.feedback,
-  });
+  }) : assert(feedbackId != null || feedback != null);
 
-  final String feedbackId;
+  final String? feedbackId;
   final FeedbackView? feedback;
 
   static const tag = 'feedback-details-page';
@@ -39,17 +39,11 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
       if (feedback == null) {
         context
             .read<FeedbackDetailsPageController>()
-            .loadFeedback(widget.feedbackId);
+            .loadFeedback(widget.feedbackId!);
       } else {
         context.read<FeedbackDetailsPageController>().setFeedback(feedback);
       }
     });
-  }
-
-  @override
-  void dispose() {
-    context.read<FeedbackDetailsPageController>().reset();
-    super.dispose();
   }
 
   @override
@@ -244,7 +238,6 @@ class _FeedbackTile extends StatelessWidget {
       enabled: isLoading,
       child: ListTile(
         leading: leading,
-        mouseCursor: SystemMouseCursors.click,
         title: isLoading
             ? Container(
                 height: 20,

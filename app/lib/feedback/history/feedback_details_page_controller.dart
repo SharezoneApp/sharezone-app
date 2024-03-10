@@ -34,10 +34,6 @@ class FeedbackDetailsPageController extends ChangeNotifier {
     state = FeedbackDetailsPageLoaded(feedback);
     notifyListeners();
   }
-
-  void reset() {
-    state = FeedbackDetailsPageLoading();
-  }
 }
 
 sealed class FeedbackDetailsPageState {
