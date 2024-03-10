@@ -58,6 +58,7 @@ class _Loading extends StatelessWidget {
 
   static const dummyFeedbacks = [
     FeedbackView(
+      feedbackId: '1',
       createdOn: '2022-01-01',
       rating: '5',
       likes: '10',
@@ -66,6 +67,7 @@ class _Loading extends StatelessWidget {
       heardFrom: 'Friend',
     ),
     FeedbackView(
+      feedbackId: '2',
       createdOn: '2022-01-02',
       rating: '4',
       likes: '5',
@@ -144,7 +146,10 @@ class _FeedbackCard extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FeedbackDetailsPage(feedback: feedback),
+        builder: (context) => FeedbackDetailsPage(
+          feedbackId: feedback.feedbackId,
+          feedback: feedback,
+        ),
         settings: const RouteSettings(name: FeedbackDetailsPage.tag),
       ),
     );

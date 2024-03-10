@@ -16,6 +16,8 @@ class UserFeedback {
   /// Old feedbacks might not have this field set because it was added later.
   final DateTime? createdOn;
 
+  /// The id of the feedback.
+  final String id;
   final double? rating;
   final String likes;
   final String dislikes;
@@ -34,6 +36,7 @@ class UserFeedback {
   bool _isWhitespaceOrNull(String s) => isEmptyOrNull(s.trim());
 
   const UserFeedback._({
+    required this.id,
     required this.createdOn,
     required this.rating,
     required this.likes,
@@ -47,6 +50,7 @@ class UserFeedback {
 
   factory UserFeedback.create() {
     return const UserFeedback._(
+      id: "",
       createdOn: null,
       rating: null,
       likes: "",
@@ -74,8 +78,9 @@ class UserFeedback {
         object == null || (object is String && object.isEmpty));
   }
 
-  factory UserFeedback.fromJson(Map<String, dynamic> map) {
+  factory UserFeedback.fromJson(String feedbackId, Map<String, dynamic> map) {
     return UserFeedback._(
+      id: feedbackId,
       createdOn: dateTimeFromTimestampOrNull(map['createdOn']),
       rating: map['rating'] == null ? null : double.tryParse(map['rating']),
       likes: map['likes'] ?? '',
@@ -96,6 +101,7 @@ class UserFeedback {
   }
 
   UserFeedback copyWith({
+    String? id,
     double? rating,
     String? likes,
     String? dislikes,
@@ -106,6 +112,7 @@ class UserFeedback {
     FeedbackDeviceInformation? deviceInformation,
   }) {
     return UserFeedback._(
+      id: id ?? this.id,
       createdOn: createdOn,
       rating: rating ?? this.rating,
       likes: likes ?? this.likes,
@@ -125,6 +132,7 @@ class UserFeedback {
 
     return other is UserFeedback &&
         other.createdOn == createdOn &&
+        other.id == id &&
         other.rating == rating &&
         other.likes == likes &&
         other.dislikes == dislikes &&
@@ -138,6 +146,7 @@ class UserFeedback {
   @override
   int get hashCode {
     return createdOn.hashCode ^
+        id.hashCode ^
         rating.hashCode ^
         likes.hashCode ^
         dislikes.hashCode ^
@@ -150,7 +159,7 @@ class UserFeedback {
 
   @override
   String toString() {
-    return 'UserFeedback(createdOn: $createdOn, rating: $rating, likes: $likes, dislikes: $dislikes, missing: $missing, heardFrom: $heardFrom, uid: $uid, userContactInformation: $userContactInformation, deviceInformation: $deviceInformation)';
+    return 'UserFeedback(createdOn: $createdOn, id: $id, rating: $rating, likes: $likes, dislikes: $dislikes, missing: $missing, heardFrom: $heardFrom, uid: $uid, userContactInformation: $userContactInformation, deviceInformation: $deviceInformation)';
   }
 }
 

@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:sharezone/feedback/src/models/user_feedback.dart';
 
 class FeedbackView {
+  final String feedbackId;
   final String? createdOn;
   final String? rating;
   final String? likes;
@@ -26,6 +27,7 @@ class FeedbackView {
   bool get hasMissing => isNotEmptyOrNull(missing);
 
   const FeedbackView({
+    required this.feedbackId,
     required this.createdOn,
     required this.rating,
     required this.likes,
@@ -36,6 +38,7 @@ class FeedbackView {
 
   factory FeedbackView.fromUserFeedback(UserFeedback feedback) {
     return FeedbackView(
+      feedbackId: feedback.id,
       rating: feedback.rating == null ? null : '${feedback.rating}/5.0',
       likes: feedback.likes,
       dislikes: feedback.dislikes,
