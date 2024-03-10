@@ -44,6 +44,7 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
   void setInitialTemplate(CourseTemplate template) {
     _subjectSubject.sink.add(template.subject);
     _abbreviationSubject.sink.add(template.abbreviation);
+    _nameSubject.sink.add('');
   }
 
   void setSchoolClassId(SchoolClassId? schoolClassId) {

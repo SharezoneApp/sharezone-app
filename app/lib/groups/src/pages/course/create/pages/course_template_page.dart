@@ -20,7 +20,7 @@ import 'package:sharezone/groups/src/pages/course/create/models/course_template.
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-class CourseTemplatePage extends StatelessWidget {
+class CourseTemplatePage extends StatefulWidget {
   const CourseTemplatePage({
     super.key,
     this.schoolClassId,
@@ -31,6 +31,20 @@ class CourseTemplatePage extends StatelessWidget {
   final SchoolClassId? schoolClassId;
 
   @override
+  State<CourseTemplatePage> createState() => _CourseTemplatePageState();
+}
+
+class _CourseTemplatePageState extends State<CourseTemplatePage> {
+  late CourseCreateBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = BlocProvider.of<CourseCreateBlocFactory>(context)
+        .create(schoolClassId: widget.schoolClassId);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -39,11 +53,13 @@ class CourseTemplatePage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: CourseTemplatePageBody(
-          schoolClassId: schoolClassId,
+          schoolClassId: widget.schoolClassId,
+          bloc: bloc,
         ),
       ),
-      bottomNavigationBar: _CreateCustomCourseSection(
-        schoolClassId: schoolClassId,
+      bottomNavigationBar: BlocProvider(
+        bloc: bloc,
+        child: _CreateCustomCourseSection(),
       ),
     );
   }
@@ -54,9 +70,11 @@ class CourseTemplatePageBody extends StatefulWidget {
     super.key,
     this.withCreateCustomCourseSection = false,
     this.schoolClassId,
+    this.bloc,
   });
 
   final SchoolClassId? schoolClassId;
+  final CourseCreateBloc? bloc;
   final bool withCreateCustomCourseSection;
 
   @override
@@ -69,32 +87,34 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<CourseCreateBlocFactory>(context)
-        .create(schoolClassId: widget.schoolClassId);
+    bloc = widget.bloc ??
+        BlocProvider.of<CourseCreateBlocFactory>(context)
+            .create(schoolClassId: widget.schoolClassId);
   }
 
   @override
   Widget build(BuildContext context) {
     final hasSchoolClassId = widget.schoolClassId != null;
-    return CourseTemplateList(
-      header: hasSchoolClassId
-          ? null
-          : _SelectSchoolClass(onSelected: (id) => bloc.setSchoolClassId(id)),
-      hasAlreadyCreated: (template) =>
-          bloc.isCourseTemplateAlreadyAdded(template),
-      onDeletePressed: (courseId) => bloc.deleteCourse(courseId),
-      onEditCourseTemplatePressed: (template) => openCourseCreatePage(
-        context,
-        template: template,
-        schoolClassId: widget.schoolClassId,
+    return BlocProvider(
+      bloc: bloc,
+      child: CourseTemplateList(
+        header: hasSchoolClassId
+            ? null
+            : _SelectSchoolClass(onSelected: (id) => bloc.setSchoolClassId(id)),
+        hasAlreadyCreated: (template) =>
+            bloc.isCourseTemplateAlreadyAdded(template),
+        onDeletePressed: (courseId) => bloc.deleteCourse(courseId),
+        onEditCourseTemplatePressed: (template) => openCourseCreatePage(
+          context,
+          template: template,
+          schoolClassId: widget.schoolClassId,
+        ),
+        onCreateCoursePressed: (template) =>
+            bloc.submitWithCourseTemplate(template),
+        bottom: widget.withCreateCustomCourseSection
+            ? _CreateCustomCourseSection()
+            : null,
       ),
-      onCreateCoursePressed: (template) =>
-          bloc.submitWithCourseTemplate(template),
-      bottom: widget.withCreateCustomCourseSection
-          ? _CreateCustomCourseSection(
-              schoolClassId: widget.schoolClassId,
-            )
-          : null,
     );
   }
 }
@@ -213,12 +233,6 @@ class CourseTemplatePageFinishButton extends StatelessWidget {
 }
 
 class _CreateCustomCourseSection extends StatelessWidget {
-  const _CreateCustomCourseSection({
-    required this.schoolClassId,
-  });
-
-  final SchoolClassId? schoolClassId;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -241,8 +255,11 @@ class _CreateCustomCourseSection extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30)),
                   ),
                   onPressed: () async {
-                    final course = await openCourseCreatePage(context,
-                        schoolClassId: schoolClassId);
+                    final bloc = BlocProvider.of<CourseCreateBloc>(context);
+                    final course = await openCourseCreatePage(
+                      context,
+                      schoolClassId: bloc.schoolClassId,
+                    );
                     if (course != null && context.mounted) {
                       showSnackSec(
                         context: context,
