@@ -33,5 +33,23 @@
                 "--dart-define=FLAVOR=dev"
             ]
         },
+        {
+            "name": "Console (prod)",
+            "request": "launch",
+            "type": "dart",
+            "program": "console/lib/main.dart",
+            "args": [
+                "--dart-define=FLAVOR=prod"
+            ]
+        },
+        {
+            "name": "Console (dev)",
+            "request": "launch",
+            "type": "dart",
+            "program": "console/lib/main.dart",
+            "args": [
+                "--dart-define=FLAVOR=dev"
+            ]
+        },
     ]
 }
