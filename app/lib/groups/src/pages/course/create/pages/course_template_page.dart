@@ -140,6 +140,7 @@ class _CourseTemplateListState extends State<CourseTemplateList> {
       CourseTemplate("Biologie", "BI"),
       CourseTemplate("Chemie", "CH"),
       CourseTemplate("Physik", "PH"),
+      CourseTemplate("Ethik", "ETH"),
       CourseTemplate("Informatik", "IF"),
       CourseTemplate("Naturwissenschaften", "NW"),
       CourseTemplate("Technik", "TK"),
