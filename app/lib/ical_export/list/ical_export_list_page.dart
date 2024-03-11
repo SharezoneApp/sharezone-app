@@ -74,26 +74,35 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final color = Theme.of(context).colorScheme.primary.withOpacity(0.1);
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Was ist ein iCal Export?',
-                style: TextStyle(fontSize: 18),
+              ExpansionCard(
+                header: const Text('Was ist ein iCal Export?'),
+                body: const Text(
+                  'Mit einem iCal Export kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.',
+                ),
+                backgroundColor: color,
               ),
-              SizedBox(height: 8),
-              Text(
-                'Mit einem iCal Export kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender-Apps aktualisiert.',
+              const SizedBox(height: 16),
+              ExpansionCard(
+                header: const Text(
+                    'Wie füge ich einen iCal Export zu meinem Kalender hinzu?'),
+                body: const Text(
+                  'Wenn du auf einen Termin klickst, kannst du ihn direkt zu deinem Kalender hinzufügen. Das ist praktisch, wenn du nur einen einzelnen Termin in deinem Kalender haben möchtest. Mit einem iCal Export kannst du deinen gesamten Stundenplan oder alle Termine in deinem Kalender einbinden und musst diese nicht manuell ändern, wenn sich etwas ändert.',
+                ),
+                backgroundColor: color,
               ),
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
       ],
     );
   }
@@ -191,7 +200,7 @@ class _Subtitle extends StatelessWidget {
 
     return switch (export.status) {
       ICalExportStatus.available => 'Link wird geladen...',
-      ICalExportStatus.creating => 'Wird erstellt...',
+      ICalExportStatus.building => 'Wird erstellt...',
       ICalExportStatus.locked => 'Gesperrt',
     };
   }
@@ -201,7 +210,7 @@ class _Subtitle extends StatelessWidget {
       return false;
     }
 
-    if (export.status == ICalExportStatus.creating) {
+    if (export.status == ICalExportStatus.building) {
       return true;
     }
 

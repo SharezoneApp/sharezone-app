@@ -69,6 +69,9 @@ import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
+import 'package:sharezone/ical_export/create/ical_export_create_controller.dart';
+import 'package:sharezone/ical_export/shared/ical_export_analytics.dart';
+import 'package:sharezone/ical_export/shared/ical_export_gateway.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/onboarding/onboarding_navigator.dart';
@@ -393,7 +396,16 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           userId: api.userId,
           crashAnalytics: crashAnalytics,
         ),
-      )
+      ),
+      ChangeNotifierProvider(
+        create: (context) => CreateICalExportController(
+          gateway: ICalExportGateway(
+            firestore: widget.blocDependencies.firestore,
+            functions: widget.blocDependencies.functions,
+          ),
+          analytics: ICalExportAnalytics(analytics),
+        ),
+      ),
     ];
 
     final mainBlocProviders = <BlocProvider>[

@@ -1,6 +1,6 @@
 enum ICalExportStatus {
-  /// The export is in the process of being created.
-  creating,
+  /// The export is in the process of being created or updated.
+  building,
 
   /// The export is available for use.
   available,
