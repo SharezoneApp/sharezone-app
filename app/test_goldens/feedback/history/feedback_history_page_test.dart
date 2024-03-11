@@ -34,13 +34,13 @@ void main() {
       //
       // Ticket: https://github.com/dart-lang/mockito/issues/675
       provideDummy<FeedbackHistoryPageState>(state);
-      provideDummy<FeedbackHistoryPageState>(state);
       when(controller.state).thenReturn(state);
     }
 
     void setLoadedState() {
       const views = <FeedbackView>[
         FeedbackView(
+          feedbackId: '1',
           createdOn: '2022-01-01',
           rating: '4.0',
           likes: 'Everything!',

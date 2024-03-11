@@ -44,6 +44,7 @@ void main() {
 
     test('.hasX returns null even it is empty', () {
       const view = FeedbackView(
+        feedbackId: '',
         createdOn: '',
         rating: '',
         likes: '',
