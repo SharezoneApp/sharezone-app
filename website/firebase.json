@@ -201,7 +201,7 @@
       },
       {
         "source": "/sharezone-plus-video-call-support",
-        "destination": "https://app.reclaim.ai/m/sharezone/plus-support",
+        "destination": "https://cal.com/sharezone/plus-support",
         "type": 302
       }
     ],
