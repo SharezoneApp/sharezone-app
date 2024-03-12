@@ -15,19 +15,20 @@ import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/commands/src/add_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_app_android_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_app_command.dart';
-import 'package:sz_repo_cli/src/commands/src/build_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_app_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_app_macos_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_app_web_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_console_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_runner_build_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_runner_command.dart';
-import 'package:sz_repo_cli/src/commands/src/build_app_web_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_website_command.dart';
 import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_app_android_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_app_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_app_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_app_macos_command.dart';
+import 'package:sz_repo_cli/src/commands/src/deploy_console_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_website_command.dart';
 import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
@@ -73,6 +74,7 @@ Future<void> main(List<String> args) async {
             ..addSubcommand(DeployAppIosCommand(context))
             ..addSubcommand(DeployAppMacOsCommand(context))
             ..addSubcommand(DeployAndroidCommand(context)))
+          ..addSubcommand(DeployConsoleCommand(context))
           ..addSubcommand(DeployWebsiteCommand(context)))
         ..addCommand(BuildCommand()
           ..addSubcommand(BuildAppCommand(context)
