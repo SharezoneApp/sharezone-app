@@ -7,11 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/deploy_utils.dart';
 
 /// Maps the different flavors to the corresponding Firebase project ID.
 final _flavorToProjectId = {
@@ -106,7 +105,7 @@ class DeployConsoleCommand extends CommandBase {
 
     String? deployMessage;
     if (overriddenDeployMessage == null) {
-      final currentCommit = await _getCurrentCommitHash(processRunner);
+      final currentCommit = await getCurrentCommitHash(processRunner);
       deployMessage = 'Commit: $currentCommit';
     }
 
@@ -117,19 +116,5 @@ class DeployConsoleCommand extends CommandBase {
     final overriddenDeployMessageOrNull =
         argResults[firebaseDeployMessageOptionName] as String?;
     return overriddenDeployMessageOrNull;
-  }
-
-  Future<String> _getCurrentCommitHash(ProcessRunner processRunner) async {
-    final res = await processRunner.run(['git', 'rev-parse', 'HEAD']);
-    if (res.stdout.isEmpty) {
-      stderr.writeln(
-          'Could not receive the current commit hash: (${res.exitCode}) ${res.stderr}.');
-      throw ToolExit(15);
-    }
-    final currentCommit = res.stdout;
-    if (isVerbose) {
-      stdout.writeln('Got current commit hash: $currentCommit');
-    }
-    return currentCommit;
   }
 }
