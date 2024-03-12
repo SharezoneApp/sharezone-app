@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:sharezone/account/account_page.dart';
@@ -105,7 +106,7 @@ extension NavigationItemExtension on NavigationItem {
         return Icon(themeIconData(Icons.new_releases,
             cupertinoIcon: SFSymbols.info_circle_fill));
       case NavigationItem.grades:
-        return const Icon(Icons.star);
+        return const Icon(Icons.emoji_events);
       case NavigationItem.filesharing:
         return Icon(themeIconData(Icons.insert_drive_file,
             cupertinoIcon: SFSymbols.folder_fill));
