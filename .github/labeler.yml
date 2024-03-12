@@ -324,6 +324,12 @@
       - "**/qr_code_scanner/**"
       - "**/**qr_code_scanner**"
 
+"feature: grades":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/grades/**"
+      - "**/**grade**"
+
 "user: parent":
   - changed-files:
     - any-glob-to-any-file:
