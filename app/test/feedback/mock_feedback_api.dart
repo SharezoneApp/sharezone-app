@@ -27,4 +27,9 @@ class MockFeedbackApi extends FeedbackApi {
   Stream<List<UserFeedback>> streamFeedbacks(String userId) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<UserFeedback> getFeedback(String feedbackId) {
+    throw UnimplementedError();
+  }
 }

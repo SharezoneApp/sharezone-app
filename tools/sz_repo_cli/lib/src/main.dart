@@ -19,6 +19,7 @@ import 'package:sz_repo_cli/src/commands/src/build_app_ios_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_app_macos_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_app_web_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_command.dart';
+import 'package:sz_repo_cli/src/commands/src/build_console_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_runner_build_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_runner_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_website_command.dart';
@@ -81,6 +82,7 @@ Future<void> main(List<String> args) async {
             ..addSubcommand(BuildAppMacOsCommand(context))
             ..addSubcommand(BuildAppWebCommand(context))
             ..addSubcommand(BuildAppIosCommand(context)))
+          ..addSubcommand(BuildConsoleCommand(context))
           ..addSubcommand(BuildWebsiteCommand(context)))
         ..addCommand(
             BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(context)));
