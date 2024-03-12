@@ -11,11 +11,14 @@ import 'dart:async';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:stripe_checkout_session/stripe_checkout_session.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:user/user.dart';
 
 /// A fallback price if the price cannot be fetched from the backend.
 ///
@@ -32,6 +35,8 @@ class SharezonePlusPageController extends ChangeNotifier {
   late StripeCheckoutSession _stripeCheckoutSession;
   late UserId _userId;
 
+  late BuyingFlagApi _buyingFlagApi;
+
   StreamSubscription<bool>? _hasPlusSubscription;
 
   SharezonePlusPageController({
@@ -39,18 +44,15 @@ class SharezonePlusPageController extends ChangeNotifier {
     required SubscriptionService subscriptionService,
     required StripeCheckoutSession stripeCheckoutSession,
     required UserId userId,
+    required BuyingFlagApi buyingFlagApi,
   }) {
     _purchaseService = purchaseService;
     _subscriptionService = subscriptionService;
     _stripeCheckoutSession = stripeCheckoutSession;
     _userId = userId;
-
-    // Fake loading for development purposes.
-    Future.delayed(const Duration(seconds: 1)).then((value) {
-      hasPlus = false;
-      price = fallbackPlusPrice;
-      notifyListeners();
-    });
+    hasPlus = subscriptionService.isSubscriptionActive();
+    price = fallbackPlusPrice;
+    _buyingFlagApi = buyingFlagApi;
   }
 
   /// Whether the user has a Sharezone Plus subscription.
@@ -72,10 +74,23 @@ class SharezonePlusPageController extends ChangeNotifier {
   Future<void> buySubscription() async {
     if (PlatformCheck.isWeb) {
       await _buyOnWeb();
+    } else {
+      await _purchaseService
+          .purchase(ProductId('default-dev-plus-subscription'));
     }
 
     hasPlus = true;
     notifyListeners();
+  }
+
+  Future<bool> isBuyingEnabled() async {
+    final flag = await _buyingFlagApi.isBuyingEnabled();
+
+    return switch (flag) {
+      BuyingFlag.enabled => true,
+      BuyingFlag.disabled => false,
+      BuyingFlag.unknown => throw const CouldNotDetermineIsBuyingEnabled(),
+    };
   }
 
   Future<void> _buyOnWeb() async {
@@ -105,8 +120,35 @@ class SharezonePlusPageController extends ChangeNotifier {
   }
 
   Future<void> cancelSubscription() async {
-    hasPlus = false;
-    notifyListeners();
+    final source = _subscriptionService.getSource();
+    if (source == null) {
+      throw StateError(
+          '$SubscriptionSource was null, can not cancel subscription.');
+    }
+
+    if (!canCancelSubscription(source)) {
+      throw CanNotCancelOnThisPlatform(source);
+    }
+
+    if (PlatformCheck.isWeb) {
+      // ...
+    } else {
+      final managementUrl = await _purchaseService.getManagementUrl();
+      if (managementUrl != null) {
+        await launchUrl(Uri.parse(managementUrl));
+      } else {
+        throw const CouldNotGetManagementUrl();
+      }
+    }
+  }
+
+  bool canCancelSubscription(SubscriptionSource source) {
+    return switch (source) {
+      SubscriptionSource.appStore => PlatformCheck.isIOS,
+      SubscriptionSource.playStore => PlatformCheck.isAndroid,
+      SubscriptionSource.stripe => true,
+      SubscriptionSource.unknown => false,
+    };
   }
 
   @override
@@ -114,4 +156,18 @@ class SharezonePlusPageController extends ChangeNotifier {
     _hasPlusSubscription?.cancel();
     super.dispose();
   }
+}
+
+class CanNotCancelOnThisPlatform implements Exception {
+  final SubscriptionSource? source;
+
+  const CanNotCancelOnThisPlatform(this.source);
+}
+
+class CouldNotGetManagementUrl implements Exception {
+  const CouldNotGetManagementUrl();
+}
+
+class CouldNotDetermineIsBuyingEnabled implements Exception {
+  const CouldNotDetermineIsBuyingEnabled();
 }

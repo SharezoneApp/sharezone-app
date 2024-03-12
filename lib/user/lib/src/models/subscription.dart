@@ -6,17 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:helper_functions/helper_functions.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
-
-enum SubscriptionTier {
-  teacherPlus,
-  unknown,
-}
+import 'package:helper_functions/helper_functions.dart';
 
 class Subscription {
-  final SubscriptionTier tier;
-
   /// The date the user last purchased the subscription.
   ///
   /// This will be updated every month as the subscription is renewed.
@@ -25,19 +18,14 @@ class Subscription {
   /// The date the latest user's subscription expires.
   final DateTime expiresAt;
 
+  /// The source where the subscription was purchased.
+  final SubscriptionSource source;
+
   const Subscription(
-    this.tier,
     this.purchasedAt,
     this.expiresAt,
+    this.source,
   );
-
-  Map<String, dynamic> toJson() {
-    return {
-      'tier': tier.name,
-      'purchasedAt': purchasedAt,
-      'expiresAt': expiresAt,
-    };
-  }
 
   static Subscription? fromData(Map<String, dynamic>? map) {
     if (map == null) return null;
@@ -46,29 +34,41 @@ class Subscription {
 
   factory Subscription.fromJson(Map<String, dynamic> map) {
     return Subscription(
-      SubscriptionTier.values.tryByName(
-        map['tier'],
-        defaultValue: SubscriptionTier.unknown,
-      ),
       dateTimeFromTimestamp(map['purchasedAt']),
       dateTimeFromTimestamp(map['expiresAt']),
+      SubscriptionSource.values.tryByName(
+        map['source'],
+        defaultValue: SubscriptionSource.unknown,
+      ),
     );
   }
 
   @override
   String toString() =>
-      'Subscription(tier: $tier, purchasedAt: $purchasedAt, expiresAt: $expiresAt)';
+      'Subscription(purchasedAt: $purchasedAt, expiresAt: $expiresAt, source: $source)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is Subscription &&
-        other.tier == tier &&
         other.purchasedAt == purchasedAt &&
-        other.expiresAt == expiresAt;
+        other.expiresAt == expiresAt &&
+        other.source == source;
   }
 
   @override
-  int get hashCode => tier.hashCode ^ purchasedAt.hashCode ^ expiresAt.hashCode;
+  int get hashCode =>
+      purchasedAt.hashCode ^ expiresAt.hashCode ^ source.hashCode;
+}
+
+enum SubscriptionSource {
+  playStore('Play Store'),
+  appStore('App Store'),
+  stripe('Stripe'),
+  unknown('Unknown');
+
+  const SubscriptionSource(this.uiString);
+
+  final String uiString;
 }

@@ -164,11 +164,42 @@ class _UnsubscribeButton extends StatelessWidget {
     const flatRed = Color(0xFFF55F4B);
     return CallToActionButton(
       onPressed: () async {
+        await showDialog(
+          context: context,
+          builder: (context) => const _UnsubscribeNoteDialog(),
+        );
+        if (!context.mounted) {
+          return;
+        }
+
         final controller = context.read<SharezonePlusPageController>();
-        await controller.cancelSubscription();
+        try {
+          await controller.cancelSubscription();
+        } on Exception catch (e) {
+          // TODO
+        }
       },
       text: const Text('Kündigen'),
       backgroundColor: flatRed,
+    );
+  }
+}
+
+class _UnsubscribeNoteDialog extends StatelessWidget {
+  const _UnsubscribeNoteDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Kündigen-Button weiterhin sichtbar'),
+      content: const Text(
+          'Beachte, dass auch bei einer erfolgreichen Kündigung, der Kündigen-Button solange angezeigt wird, bis das Abonnement ausgelaufen ist.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }
@@ -217,10 +248,80 @@ class _SubscribeButton extends StatelessWidget {
                 : () async {
                     final controller =
                         context.read<SharezonePlusPageController>();
-                    await controller.buySubscription();
+
+                    try {
+                      final isBuyingEnabled =
+                          await controller.isBuyingEnabled();
+
+                      if (!context.mounted) {
+                        return;
+                      }
+
+                      if (!isBuyingEnabled) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const BuyingDisabledDialog(),
+                        );
+                        return;
+                      }
+
+                      await controller.buySubscription();
+                    } catch (e) {
+                      if (!context.mounted) {
+                        return;
+                      }
+                      showDialog(
+                        context: context,
+                        builder: (context) => const BuyingFailedDialog(),
+                      );
+                    }
                   },
             backgroundColor: Theme.of(context).primaryColor,
           ),
+        )
+      ],
+    );
+  }
+}
+
+class BuyingDisabledDialog extends StatelessWidget {
+  const BuyingDisabledDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: const Text("Buying disabled, piss off alder"),
+      actions: <Widget>[
+        TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).primaryColor,
+          ),
+          onPressed: () => Navigator.pop(context),
+          child: const Text("OK"),
+        )
+      ],
+    );
+  }
+}
+
+class BuyingFailedDialog extends StatelessWidget {
+  const BuyingFailedDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: const Text("Buying failed, contact support "),
+      actions: <Widget>[
+        TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Theme.of(context).primaryColor,
+          ),
+          onPressed: () => Navigator.pop(context),
+          child: const Text("OK"),
         )
       ],
     );
