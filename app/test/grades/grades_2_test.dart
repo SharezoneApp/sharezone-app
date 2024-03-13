@@ -20,6 +20,24 @@ void main() {
 
       expect(term.getAverageGradeForSubject(mathe.id), 3.0);
     });
+
+    test(
+        'the average grade of the term should equal the average of the average grades of every subject',
+        () {
+      var term = Term();
+      final englisch = Subject('Englisch');
+
+      term = term.addSubject(englisch);
+      term = term.addGrade(3.0, toSubject: englisch.id);
+      term = term.addGrade(1.0, toSubject: englisch.id);
+
+      final mathe = Subject('Mathe');
+      term = term.addSubject(mathe);
+      term = term.addGrade(2.0, toSubject: mathe.id);
+      term = term.addGrade(4.0, toSubject: mathe.id);
+
+      expect(term.getAverageGrade(), 2.5);
+    });
   });
 }
 
@@ -54,6 +72,11 @@ class Term {
     IMap<String, ({num total, int nrOfGrades})>? subjects,
   }) {
     return Term.internal(subjects ?? _subjects);
+  }
+
+  num getAverageGrade() {
+    final averageGrades = _subjects.values.map((e) => e.total / e.nrOfGrades);
+    return averageGrades.reduce((a, b) => a + b) / _subjects.length;
   }
 }
 
