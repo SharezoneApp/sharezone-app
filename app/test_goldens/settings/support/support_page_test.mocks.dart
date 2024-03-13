@@ -3,13 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i5;
+import 'dart:ui' as _i6;
 
+import 'package:common_domain_models/common_domain_models.dart' as _i4;
 import 'package:key_value_store/key_value_store.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i4;
+import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart'
-    as _i6;
+    as _i7;
 import 'package:sharezone/support/support_page_controller.dart' as _i3;
 
 // ignore_for_file: type=lint
@@ -71,7 +72,7 @@ class MockSupportPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  set userId(dynamic _userId) => super.noSuchMethod(
+  set userId(_i4.UserId? _userId) => super.noSuchMethod(
         Invocation.setter(
           #userId,
           _userId,
@@ -113,14 +114,14 @@ class MockSupportPageController extends _i1.Mock
           #getVideoCallAppointmentsUnencodedUrlWithPrefills,
           [],
         ),
-        returnValue: _i4.dummyValue<String>(
+        returnValue: _i5.dummyValue<String>(
           this,
           Invocation.method(
             #getVideoCallAppointmentsUnencodedUrlWithPrefills,
             [],
           ),
         ),
-        returnValueForMissingStub: _i4.dummyValue<String>(
+        returnValueForMissingStub: _i5.dummyValue<String>(
           this,
           Invocation.method(
             #getVideoCallAppointmentsUnencodedUrlWithPrefills,
@@ -137,7 +138,7 @@ class MockSupportPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -145,7 +146,7 @@ class MockSupportPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i5.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -166,7 +167,7 @@ class MockSupportPageController extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSubscriptionEnabledFlag extends _i1.Mock
-    implements _i6.SubscriptionEnabledFlag {
+    implements _i7.SubscriptionEnabledFlag {
   @override
   _i2.KeyValueStore get keyValueStore => (super.noSuchMethod(
         Invocation.getter(#keyValueStore),
@@ -200,7 +201,7 @@ class MockSubscriptionEnabledFlag extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -208,7 +209,7 @@ class MockSubscriptionEnabledFlag extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i5.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

@@ -16,7 +16,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/grades/grades_flag.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -40,7 +39,6 @@ import 'sharezone_plus_page_test.mocks.dart';
   MockSpec<NavigationAnalytics>(),
   MockSpec<SharezoneContext>(),
   MockSpec<SharezoneGateway>(),
-  MockSpec<GradesEnabledFlag>(),
   MockSpec<UserGateway>()
 ])
 void main() {
@@ -95,9 +93,6 @@ void main() {
               create: (context) => controller,
             ),
             Provider<TypeOfUser?>.value(value: TypeOfUser.student),
-            ChangeNotifierProvider<GradesEnabledFlag>(
-              create: (context) => MockGradesEnabledFlag(),
-            ),
           ],
           child: MultiBlocProvider(
             blocProviders: [
