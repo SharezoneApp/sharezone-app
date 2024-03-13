@@ -17,7 +17,7 @@ class GradesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SharezoneMainScaffold(
+    return const SharezoneMainScaffold(
       navigationItem: NavigationItem.grades,
       body: Text('Grades'),
     );
