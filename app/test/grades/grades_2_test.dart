@@ -38,8 +38,8 @@ void main() {
         'the average grade of the term should equal the average of the average grades of every subject taking weightings into account',
         () {
       var term = Term();
-      // final englisch = Subject('Englisch');
-      // term = term.addGrade(3.0, toSubject: englisch.id);
+      final englisch = Subject('Englisch');
+      term = term.addGrade(3.0, toSubject: englisch.id);
 
       final mathe = Subject('Mathe');
       term = term.addGrade(2.0, toSubject: mathe.id);
@@ -47,11 +47,11 @@ void main() {
       final informatik = Subject('Informatik');
       term = term.addGrade(1.0, toSubject: informatik.id);
 
-      // term.changeWeighting(englisch.id, 1);
-      // term.changeWeighting(mathe.id, 1);
+      term = term.changeWeighting(englisch.id, 0.5);
+      term = term.changeWeighting(mathe.id, 1);
       term = term.changeWeighting(informatik.id, 2);
 
-      expect(term.getAverageGrade(), 1.25);
+      expect(term.getAverageGrade(), moreOrLessEquals(8.5 / 3));
     });
   });
 }
