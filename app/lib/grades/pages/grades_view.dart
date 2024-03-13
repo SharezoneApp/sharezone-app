@@ -18,7 +18,7 @@ enum GradePerformance {
 
   Color toColor() {
     return switch (this) {
-      GradePerformance.good => Colors.green,
+      GradePerformance.good => const Color(0xFF6FCF97),
       GradePerformance.satisfactory => Colors.orange,
       GradePerformance.bad => Colors.red,
     };
