@@ -41,7 +41,7 @@ void main() {
       controller.addSubjectToTerm(englisch, term.id);
       controller.addSubjectToTerm(mathe, term.id);
 
-      expect(controller.getAverageGradeWithAllSubjects(), 2.5);
+      expect(controller.getAverageGradeWithAllSubjects(term.id), 2.5);
     });
 
     test('create two different terms and get average note', () {
@@ -74,8 +74,8 @@ void main() {
       controller.addSubjectToTerm(deutsch, secondTerm.id);
       controller.addSubjectToTerm(informatik, secondTerm.id);
 
-      expect(controller.getAverageGradeWithAllSubjects(firstTerm), 3);
-      expect(controller.getAverageGradeWithAllSubjects(secondTerm), 2);
+      expect(controller.getAverageGradeWithAllSubjects(firstTerm.id), 3);
+      expect(controller.getAverageGradeWithAllSubjects(secondTerm.id), 2);
     });
   });
 }
@@ -93,24 +93,22 @@ class GradesTestController {
     return subject.getAverageGrade();
   }
 
-  num getAverageGradeWithAllSubjects([Term? term]) {
-    if (term != null) {
-      final subjects =
-          _subjects.where((subject) => subject.termId == term.id).toList();
-      return subjects
-              .map((subject) => subject.getAverageGrade())
-              .reduce((a, b) => a + b) /
-          subjects.length;
-    }
+  Term getTerm(TermId id) {
+    return _terms.firstWhere((term) => term.id == id);
+  }
 
-    return _subjects
-            .map((subject) => subject.getAverageGrade())
-            .reduce((a, b) => a + b) /
-        _subjects.length;
+  num getAverageGradeWithAllSubjects(TermId termId) {
+    final _term = getTerm(termId);
+
+    return _term.getAverageGrade();
   }
 
   void addSubjectToTerm(Subject subject, TermId id) {
-    addSubject(subject.copyWith(termId: id));
+    final term = _terms.where((term) => term.id == id).first;
+    final subjectWithTerm = subject.copyWith(termId: id);
+    term.addSubject(subjectWithTerm);
+
+    addSubject(subjectWithTerm);
   }
 
   void addTerm(Term term) {
@@ -125,8 +123,24 @@ Term termWith({required String name}) {
 class Term {
   final TermId id;
   final String name;
+  IList<Subject> subjects;
 
-  Term({required this.id, required this.name});
+  Term({
+    required this.id,
+    required this.name,
+    this.subjects = const IListConst([]),
+  });
+
+  void addSubject(Subject subject) {
+    subjects = subjects.add(subject);
+  }
+
+  double getAverageGrade() {
+    return subjects
+            .map((subject) => subject.getAverageGrade())
+            .reduce((a, b) => a + b) /
+        subjects.length;
+  }
 }
 
 class Subject {
