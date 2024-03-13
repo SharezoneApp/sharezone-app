@@ -100,10 +100,10 @@ void main() {
           .addGrade(Grade(value: 1.0, type: GradeType('vocabulary test')));
       term = term
           .subject(englisch.id)
-          .changeWeightingForGradeType(GradeType('presentation'), weight: 0.7);
+          .changeGradeTypeWeighting(GradeType('presentation'), weight: 0.7);
       term = term
           .subject(englisch.id)
-          .changeWeightingForGradeType(GradeType('exam'), weight: 1.5);
+          .changeGradeTypeWeighting(GradeType('exam'), weight: 1.5);
 
       const expected = (2 * (1 / 0.7) + 1 * (1 / 1.5) + 1 * (1 / 1)) / 3;
       expect(term.subject(englisch.id).grade, expected);
@@ -137,7 +137,7 @@ class Term {
           (subject) => SubjectResult(
             this,
             id: subject.id,
-            grade: subject.getAverageGrade(),
+            grade: subject.getGrade(),
           ),
         )
         .first;
@@ -151,9 +151,9 @@ class Term {
 
   num getTermGrade() {
     return _subjects
-            .where((element) => element.getAverageGrade() != null)
+            .where((element) => element.getGrade() != null)
             .map((subject) =>
-                subject.getAverageGrade()! / subject.weightingForTermGrade)
+                subject.getGrade()! / subject.weightingForTermGrade)
             .reduce(
               (a, b) => a + b,
             ) /
@@ -193,8 +193,7 @@ class Term {
   Term _changeWeightingOfGradeTypeInSubject(
       String id, GradeType gradeType, double weight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
-    final newSubject =
-        subject.changeWeightingForGradeType(gradeType, weight: weight);
+    final newSubject = subject.changeGradeTypeWeight(gradeType, weight: weight);
 
     return _copyWith(
       subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
@@ -228,8 +227,7 @@ class SubjectResult {
     return _term._changeWeighting(id, newWeight);
   }
 
-  Term changeWeightingForGradeType(GradeType gradeType,
-      {required double weight}) {
+  Term changeGradeTypeWeighting(GradeType gradeType, {required double weight}) {
     return _term._changeWeightingOfGradeTypeInSubject(id, gradeType, weight);
   }
 }
@@ -251,18 +249,21 @@ class _Subject {
     return copyWith(grades: grades.add(grade));
   }
 
-  num? getAverageGrade() {
+  num? getGrade() {
     final grds = grades.where((grade) => grade.takenIntoAccount);
     if (grds.isEmpty) return null;
 
-    return grds.map((grade) {
-          final weight = gradeTypeWeightings[grade.gradeType] ?? 1;
-          return grade.value * 1 / weight;
-        }).reduce((a, b) => a + b) /
+    return grds
+            .map((grade) => grade.value * 1 / _weightFor(grade))
+            .reduce((a, b) => a + b) /
         grds.length;
   }
 
-  _Subject changeWeightingForGradeType(GradeType gradeType,
+  num _weightFor(_Grade grade) {
+    return gradeTypeWeightings[grade.gradeType] ?? 1;
+  }
+
+  _Subject changeGradeTypeWeight(GradeType gradeType,
       {required double weight}) {
     return copyWith(
         gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
