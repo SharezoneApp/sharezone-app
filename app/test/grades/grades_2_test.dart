@@ -52,7 +52,7 @@ void main() {
       term = term.changeWeighting(informatik.id, 2);
 
       expect(term.getAverageGrade(), 1.25);
-    }, skip: true);
+    });
   });
 }
 
@@ -85,24 +85,37 @@ class Term {
   }
 
   num getAverageGrade() {
-    return _subjects.map((subject) => subject.getAverageGrade()).reduce(
+    return _subjects
+            .map((subject) => subject.getAverageGrade() / subject.weighting)
+            .reduce(
               (a, b) => a + b,
             ) /
         _subjects.length;
   }
 
-  Term changeWeighting(String id, int newWeight) {
-    return this;
+  Term changeWeighting(String id, num newWeight) {
+    final subject = _subjects.firstWhere((s) => s.id == id);
+    final newSubject = _Subject(
+      id: id,
+      grades: subject.grades,
+      weighting: newWeight,
+    );
+
+    return _copyWith(
+      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+    );
   }
 }
 
 class _Subject {
   final String id;
   final IList<_Grade> grades;
+  final num weighting;
 
   _Subject({
     required this.id,
     this.grades = const IListConst([]),
+    this.weighting = 1,
   });
 
   _Subject addGrade(_Grade grade) {
