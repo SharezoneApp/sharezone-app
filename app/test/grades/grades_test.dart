@@ -16,6 +16,25 @@ void main() {
 
       expect(controller.getAverageGradeForSubject(englisch.id), 2.0);
     });
+
+    test('term', () {
+      final controller = GradesTestController();
+
+      final englisch = subjectWith(name: 'Englisch', withGrades: [
+        gradeWith(value: 2),
+        gradeWith(value: 4),
+      ]);
+
+      final mathe = subjectWith(name: 'Mathe', withGrades: [
+        gradeWith(value: 1),
+        gradeWith(value: 3),
+      ]);
+
+      controller.addSubject(englisch);
+      controller.addSubject(mathe);
+
+      expect(controller.getAverageGradeWithAllSubjects(), 2.5);
+    });
   });
 }
 
@@ -29,6 +48,13 @@ class GradesTestController {
   double getAverageGradeForSubject(SubjectId id) {
     final subject = _subjects.firstWhere((subject) => subject.id == id);
     return subject.getAverageGrade();
+  }
+
+  num getAverageGradeWithAllSubjects() {
+    return _subjects
+            .map((subject) => subject.getAverageGrade())
+            .reduce((a, b) => a + b) /
+        _subjects.length;
   }
 }
 
