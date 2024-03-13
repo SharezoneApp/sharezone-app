@@ -7,13 +7,16 @@ void main() {
     test('test name', () {
       final controller = GradesTestController();
 
+      final term = termWith(name: '1. Halbjahr');
+      controller.addTerm(term);
+
       final englisch = subjectWith(name: 'Englisch', withGrades: [
         gradeWith(value: 2),
         gradeWith(value: 3),
         gradeWith(value: 1),
       ]);
 
-      controller.addSubject(englisch);
+      controller.addSubjectToTerm(englisch, term.id);
 
       expect(controller.getAverageGradeForSubject(englisch.id), 2.0);
     });
