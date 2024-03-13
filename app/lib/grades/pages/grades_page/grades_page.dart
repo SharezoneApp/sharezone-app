@@ -6,7 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/models/term_id.dart';
@@ -117,7 +119,105 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Center(
+      child: SizedBox(
+        width: 400,
+        child: AnimationLimiter(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: AnimationConfiguration.toStaggeredList(
+              delay: const Duration(milliseconds: 750),
+              duration: const Duration(milliseconds: 750),
+              childAnimationBuilder: (widget) => SlideAnimation(
+                verticalOffset: 20,
+                child: FadeInAnimation(child: widget),
+              ),
+              children: [
+                AnimationLimiter(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: AnimationConfiguration.toStaggeredList(
+                      delay: const Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 750),
+                      childAnimationBuilder: (widget) => SlideAnimation(
+                        verticalOffset: 20,
+                        child: FadeInAnimation(child: widget),
+                      ),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: CircleAvatar(
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.2),
+                            radius: 150,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 70),
+                          child: Transform.scale(
+                            scale: 0.8,
+                            child: Transform(
+                              transform: Matrix4.translationValues(0, -110, 0),
+                              child: const CustomCard(
+                                child: _TermTile(
+                                  displayName: 'Vergangenes Halbjahr',
+                                  avgGrade: ("3,8", GradePerformance.bad),
+                                  title: '8/2',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 70),
+                          child: Transform.scale(
+                            scale: 0.9,
+                            child: Transform(
+                              transform: Matrix4.translationValues(0, -55, 0),
+                              child: const CustomCard(
+                                child: _TermTile(
+                                  displayName: 'Vergangenes Halbjahr',
+                                  avgGrade: (
+                                    "2,6",
+                                    GradePerformance.satisfactory
+                                  ),
+                                  title: '9/1',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 70),
+                          child: CustomCard(
+                            child: _TermTile(
+                              displayName: 'Aktuelles Halbjahr',
+                              avgGrade: ("1,3", GradePerformance.good),
+                              title: '9/2',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 320,
+                  child: CardListTile(
+                    leading: const Icon(Icons.add_circle_outline),
+                    centerTitle: true,
+                    title: const Text("Note eintragen"),
+                    onTap: () {},
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -290,6 +390,7 @@ class _TermTile extends StatelessWidget {
         children: [
           Expanded(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
