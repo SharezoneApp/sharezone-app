@@ -14,6 +14,7 @@ import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
+import 'package:sharezone/grades/grades_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/homework/parent/homework_page.dart';
 import 'package:sharezone/keys.dart';
@@ -28,6 +29,7 @@ enum NavigationItem {
   homework,
   timetable,
   blackboard,
+  grades,
   filesharing,
   events,
   sharezonePlus,
@@ -66,6 +68,8 @@ extension NavigationItemExtension on NavigationItem {
         return 'blackboard';
       case NavigationItem.filesharing:
         return 'file_sharing';
+      case NavigationItem.grades:
+        return 'grades';
       case NavigationItem.sharezonePlus:
         return 'sharezone_plus';
       case NavigationItem.settings:
@@ -100,6 +104,8 @@ extension NavigationItemExtension on NavigationItem {
       case NavigationItem.blackboard:
         return Icon(themeIconData(Icons.new_releases,
             cupertinoIcon: SFSymbols.info_circle_fill));
+      case NavigationItem.grades:
+        return const Icon(Icons.emoji_events);
       case NavigationItem.filesharing:
         return Icon(themeIconData(Icons.insert_drive_file,
             cupertinoIcon: SFSymbols.folder_fill));
@@ -135,6 +141,8 @@ extension NavigationItemExtension on NavigationItem {
         return 'Termine';
       case NavigationItem.blackboard:
         return 'Infozettel';
+      case NavigationItem.grades:
+        return 'Noten';
       case NavigationItem.filesharing:
         return 'Dateien';
       case NavigationItem.sharezonePlus:
@@ -162,6 +170,8 @@ extension NavigationItemExtension on NavigationItem {
         return TimetablePage();
       case NavigationItem.blackboard:
         return const BlackboardPage();
+      case NavigationItem.grades:
+        return const GradesPage();
       case NavigationItem.filesharing:
         return const FileSharingPage();
       case NavigationItem.events:
@@ -195,6 +205,8 @@ extension NavigationItemExtension on NavigationItem {
         return CalendricalEventsPage.tag;
       case NavigationItem.blackboard:
         return BlackboardPage.tag;
+      case NavigationItem.grades:
+        return GradesPage.tag;
       case NavigationItem.filesharing:
         return FileSharingPage.tag;
       case NavigationItem.sharezonePlus:

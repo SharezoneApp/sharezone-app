@@ -14,6 +14,7 @@ import 'drawer_tile.dart';
 const settingsPageTile = DrawerTile(NavigationItem.settings);
 const feedbackBoxTile = DrawerTile(NavigationItem.feedbackBox);
 const sharezonePlusTile = DrawerTile(NavigationItem.sharezonePlus);
+const gradesTile = DrawerTile(NavigationItem.grades);
 const onlyDesktopTiles = <Widget>[
   DrawerTile(NavigationItem.overview),
   DrawerTile(NavigationItem.group),
