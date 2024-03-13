@@ -172,7 +172,7 @@ class GradesPageLoaded extends GradesPageState {
 
   /// Returns `true` if the user has any grades in any term.
   bool hasGrades() {
-    return currentTerm != null || pastTerms.isNotEmpty;
+    return !(currentTerm == null && pastTerms.isEmpty);
   }
 }
 
