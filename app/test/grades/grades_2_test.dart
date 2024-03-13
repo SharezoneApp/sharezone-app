@@ -57,42 +57,71 @@ void main() {
 }
 
 class Term {
-  final IMap<String, ({num total, int nrOfGrades})> _subjects;
+  final IList<_Subject> _subjects;
 
-  Term() : _subjects = const IMapConst({});
+  Term() : _subjects = const IListConst([]);
   Term.internal(this._subjects);
 
   Term addGrade(double grade, {required String toSubject}) {
-    final total = _subjects[toSubject]?.total ?? 0;
-    final nrOfGrades = _subjects[toSubject]?.nrOfGrades ?? 0;
+    var subject = _subjects.firstWhere((s) => s.id == toSubject,
+        orElse: () => _Subject(id: toSubject));
+    subject = subject.addGrade(_Grade(value: grade));
 
-    final s = _subjects
-        .add(toSubject, (total: total + grade, nrOfGrades: nrOfGrades + 1));
-
-    return _copyWith(subjects: s);
+    return _subjects.where((element) => element.id == toSubject).isNotEmpty
+        ? _copyWith(
+            subjects: _subjects.replaceAllWhere(
+                (element) => element.id == toSubject, subject))
+        : _copyWith(subjects: _subjects.add(subject));
   }
 
   num getAverageGradeForSubject(String id) {
-    final total = _subjects[id]!.total;
-    final nrOfGrades = _subjects[id]!.nrOfGrades;
-
-    return total / nrOfGrades;
+    return _subjects.firstWhere((s) => s.id == id).getAverageGrade();
   }
 
   Term _copyWith({
-    IMap<String, ({num total, int nrOfGrades})>? subjects,
+    IList<_Subject>? subjects,
   }) {
     return Term.internal(subjects ?? _subjects);
   }
 
   num getAverageGrade() {
-    final averageGrades = _subjects.values.map((e) => e.total / e.nrOfGrades);
-    return averageGrades.reduce((a, b) => a + b) / _subjects.length;
+    return _subjects.map((subject) => subject.getAverageGrade()).reduce(
+              (a, b) => a + b,
+            ) /
+        _subjects.length;
   }
 
   Term changeWeighting(String id, int newWeight) {
     return this;
   }
+}
+
+class _Subject {
+  final String id;
+  final IList<_Grade> grades;
+
+  _Subject({
+    required this.id,
+    this.grades = const IListConst([]),
+  });
+
+  _Subject addGrade(_Grade grade) {
+    return _Subject(
+      id: id,
+      grades: grades.add(grade),
+    );
+  }
+
+  num getAverageGrade() {
+    return grades.map((grade) => grade.value).reduce((a, b) => a + b) /
+        grades.length;
+  }
+}
+
+class _Grade {
+  final num value;
+
+  _Grade({required this.value});
 }
 
 class Subject {
