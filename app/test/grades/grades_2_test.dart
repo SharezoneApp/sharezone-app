@@ -7,14 +7,12 @@ void main() {
       var term = Term();
       final englisch = Subject('Englisch');
 
-      term = term.addSubject(englisch);
       term = term.addGrade(3.0, toSubject: englisch.id);
       term = term.addGrade(1.0, toSubject: englisch.id);
 
       expect(term.getAverageGradeForSubject(englisch.id), 2.0);
 
       final mathe = Subject('Mathe');
-      term = term.addSubject(mathe);
       term = term.addGrade(2.0, toSubject: mathe.id);
       term = term.addGrade(4.0, toSubject: mathe.id);
 
@@ -27,12 +25,10 @@ void main() {
       var term = Term();
       final englisch = Subject('Englisch');
 
-      term = term.addSubject(englisch);
       term = term.addGrade(3.0, toSubject: englisch.id);
       term = term.addGrade(1.0, toSubject: englisch.id);
 
       final mathe = Subject('Mathe');
-      term = term.addSubject(mathe);
       term = term.addGrade(2.0, toSubject: mathe.id);
       term = term.addGrade(4.0, toSubject: mathe.id);
 
@@ -55,10 +51,6 @@ class Term {
         .add(toSubject, (total: total + grade, nrOfGrades: nrOfGrades + 1));
 
     return _copyWith(subjects: s);
-  }
-
-  Term addSubject(Subject subject) {
-    return this;
   }
 
   num getAverageGradeForSubject(String id) {
