@@ -70,9 +70,8 @@ class _Loaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!state.hasGrades()) {
-      return const _Empty();
-    }
+    return const _Empty();
+    if (!state.hasGrades()) {}
 
     final currentTerm = state.currentTerm;
     return SingleChildScrollView(
@@ -119,6 +118,7 @@ class _Empty extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
+        padding: const EdgeInsets.all(12),
         child: SafeArea(
           child: SizedBox(
             width: 400,
@@ -435,6 +435,7 @@ class _TermTile extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(width: 6),
           _TermGrade(grade: avgGrade)
         ],
       ),
