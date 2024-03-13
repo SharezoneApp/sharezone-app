@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -82,7 +83,41 @@ void main() {
 
       expect(term.getTermGrade(), 1.0);
     });
+
+    test('subjects can have custom weights per grade type (e.g. presentation)',
+        () {
+      var term = Term();
+      final englisch = Subject('Englisch');
+      term = term.addSubject(englisch);
+      term = term
+          .getSubject(englisch.id)
+          .addGrade(Grade(value: 2.0, gradeType: GradeType('presentation')));
+      term = term
+          .getSubject(englisch.id)
+          .addGrade(Grade(value: 1.0, gradeType: GradeType('exam')));
+      term = term
+          .getSubject(englisch.id)
+          .addGrade(Grade(value: 1.0, gradeType: GradeType('vocabulary test')));
+      term = term
+          .getSubject(englisch.id)
+          .changeWeightingForGradeType(GradeType('presentation'), weight: 0.7);
+      term = term
+          .getSubject(englisch.id)
+          .changeWeightingForGradeType(GradeType('exam'), weight: 1.5);
+
+      final expected = (2 * (1 / 0.7) + 1 * (1 / 1.5) + 1 * (1 / 1)) / 3;
+      expect(term.getSubject(englisch.id).grade, expected);
+    });
   });
+}
+
+class GradeType extends Equatable {
+  final String name;
+
+  @override
+  List<Object?> get props => [name];
+
+  const GradeType(this.name);
 }
 
 class Term {
@@ -91,26 +126,15 @@ class Term {
   Term() : _subjects = const IListConst([]);
   Term.internal(this._subjects);
 
-  Term addGrade(double grade,
-      {required String toSubject, bool takenIntoAccount = true}) {
-    var subject = _subjects.firstWhere((s) => s.id == toSubject,
-        orElse: () => _Subject(id: toSubject));
-    subject = subject
-        .addGrade(_Grade(value: grade, takenIntoAccount: takenIntoAccount));
-
-    return _subjects.where((element) => element.id == toSubject).isNotEmpty
-        ? _copyWith(
-            subjects: _subjects.replaceAllWhere(
-                (element) => element.id == toSubject, subject))
-        : _copyWith(subjects: _subjects.add(subject));
-  }
-
   Term _addGrade(Grade grade,
       {required String toSubject, bool takenIntoAccount = true}) {
     var subject = _subjects.firstWhere((s) => s.id == toSubject,
         orElse: () => _Subject(id: toSubject));
-    subject = subject.addGrade(
-        _Grade(value: grade.value, takenIntoAccount: takenIntoAccount));
+    subject = subject.addGrade(_Grade(
+      value: grade.value,
+      takenIntoAccount: takenIntoAccount,
+      gradeType: grade.gradeType,
+    ));
 
     return _subjects.where((element) => element.id == toSubject).isNotEmpty
         ? _copyWith(
@@ -161,6 +185,17 @@ class Term {
     );
   }
 
+  Term _changeWeightingOfGradeTypeInSubject(
+      String id, GradeType gradeType, double weight) {
+    final subject = _subjects.firstWhere((s) => s.id == id);
+    final newSubject =
+        subject.changeWeightingForGradeType(gradeType, weight: weight);
+
+    return _copyWith(
+      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+    );
+  }
+
   Term addSubject(Subject subject) {
     return _copyWith(subjects: _subjects.add(_Subject(id: subject.id)));
   }
@@ -168,8 +203,12 @@ class Term {
 
 class Grade {
   final num value;
+  final GradeType gradeType;
 
-  Grade({required this.value});
+  Grade({
+    required this.value,
+    this.gradeType = const GradeType('testGradeType'),
+  });
 }
 
 class SubjectResult {
@@ -187,40 +226,71 @@ class SubjectResult {
   Term changeWeighting(num newWeight) {
     return _term._changeWeighting(id, newWeight);
   }
+
+  Term changeWeightingForGradeType(GradeType gradeType,
+      {required double weight}) {
+    return _term._changeWeightingOfGradeTypeInSubject(id, gradeType, weight);
+  }
 }
 
 class _Subject {
   final String id;
   final IList<_Grade> grades;
   final num weighting;
+  final IMap<GradeType, double> weightings;
 
   _Subject({
     required this.id,
     this.grades = const IListConst([]),
     this.weighting = 1,
+    this.weightings = const IMapConst({}),
   });
 
   _Subject addGrade(_Grade grade) {
-    return _Subject(
-      id: id,
-      grades: grades.add(grade),
-    );
+    return copyWith(grades: grades.add(grade));
   }
 
   num? getAverageGrade() {
     final grds = grades.where((grade) => grade.takenIntoAccount);
     if (grds.isEmpty) return null;
 
-    return grds.map((grade) => grade.value).reduce((a, b) => a + b) /
+    return grds.map((grade) {
+          final weight = weightings[grade.gradeType] ?? 1;
+          return grade.value * 1 / weight;
+        }).reduce((a, b) => a + b) /
         grds.length;
+  }
+
+  _Subject changeWeightingForGradeType(GradeType gradeType,
+      {required double weight}) {
+    return copyWith(weightings: weightings.add(gradeType, weight));
+  }
+
+  _Subject copyWith({
+    String? id,
+    IList<_Grade>? grades,
+    num? weighting,
+    IMap<GradeType, double>? weightings,
+  }) {
+    return _Subject(
+      id: id ?? this.id,
+      grades: grades ?? this.grades,
+      weighting: weighting ?? this.weighting,
+      weightings: weightings ?? this.weightings,
+    );
   }
 }
 
 class _Grade {
   final num value;
+  final GradeType gradeType;
   final bool takenIntoAccount;
 
-  _Grade({required this.value, this.takenIntoAccount = true});
+  _Grade({
+    required this.value,
+    required this.gradeType,
+    this.takenIntoAccount = true,
+  });
 }
 
 class Subject {
