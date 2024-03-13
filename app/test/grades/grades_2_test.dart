@@ -10,13 +10,13 @@ void main() {
       term = term.addGrade(3.0, toSubject: englisch.id);
       term = term.addGrade(1.0, toSubject: englisch.id);
 
-      expect(term.getAverageGradeForSubject(englisch.id), 2.0);
+      expect(term.getSubject(englisch.id).grade, 2.0);
 
       final mathe = Subject('Mathe');
       term = term.addGrade(2.0, toSubject: mathe.id);
       term = term.addGrade(4.0, toSubject: mathe.id);
 
-      expect(term.getAverageGradeForSubject(mathe.id), 3.0);
+      expect(term.getSubject(mathe.id).grade, 3.0);
     });
 
     test(
@@ -62,12 +62,12 @@ void main() {
       term = term.addGrade(1.0, toSubject: englisch.id);
       term =
           term.addGrade(2.0, toSubject: englisch.id, takenIntoAccount: false);
-      expect(term.getAverageGradeForSubject(englisch.id), 1.0);
+      expect(term.getSubject(englisch.id).grade, 1.0);
 
       final mathe = Subject('Mathe');
       term = term.addGrade(1.0, toSubject: mathe.id);
       term = term.addGrade(3.0, toSubject: mathe.id, takenIntoAccount: false);
-      expect(term.getAverageGradeForSubject(mathe.id), 1.0);
+      expect(term.getSubject(mathe.id).grade, 1.0);
 
       expect(term.getTermGrade(), 1.0);
     });
@@ -94,8 +94,16 @@ class Term {
         : _copyWith(subjects: _subjects.add(subject));
   }
 
-  num getAverageGradeForSubject(String id) {
-    return _subjects.firstWhere((s) => s.id == id).getAverageGrade();
+  SubjectResult getSubject(String id) {
+    return _subjects
+        .where((s) => s.id == id)
+        .map(
+          (subject) => SubjectResult(
+            id: subject.id,
+            grade: subject.getAverageGrade(),
+          ),
+        )
+        .first;
   }
 
   Term _copyWith({
@@ -125,6 +133,13 @@ class Term {
       subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
   }
+}
+
+class SubjectResult {
+  final String id;
+  final num grade;
+
+  SubjectResult({required this.id, required this.grade});
 }
 
 class _Subject {
