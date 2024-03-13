@@ -7,14 +7,15 @@ void main() {
       var term = Term();
       final englisch = Subject('Englisch');
 
-      term = term.addGrade(3.0, toSubject: englisch.id);
-      term = term.addGrade(1.0, toSubject: englisch.id);
-
+      term = term.addSubject(englisch);
+      term = term.getSubject(englisch.id).addGrade(Grade(value: 3.0));
+      term = term.getSubject(englisch.id).addGrade(Grade(value: 1.0));
       expect(term.getSubject(englisch.id).grade, 2.0);
 
       final mathe = Subject('Mathe');
-      term = term.addGrade(2.0, toSubject: mathe.id);
-      term = term.addGrade(4.0, toSubject: mathe.id);
+      term = term.addSubject(mathe);
+      term = term.getSubject(mathe.id).addGrade(Grade(value: 2.0));
+      term = term.getSubject(mathe.id).addGrade(Grade(value: 4.0));
 
       expect(term.getSubject(mathe.id).grade, 3.0);
     });
@@ -25,12 +26,14 @@ void main() {
       var term = Term();
       final englisch = Subject('Englisch');
 
-      term = term.addGrade(3.0, toSubject: englisch.id);
-      term = term.addGrade(1.0, toSubject: englisch.id);
+      term = term.addSubject(englisch);
+      term = term.getSubject(englisch.id).addGrade(Grade(value: 3.0));
+      term = term.getSubject(englisch.id).addGrade(Grade(value: 1.0));
 
       final mathe = Subject('Mathe');
-      term = term.addGrade(2.0, toSubject: mathe.id);
-      term = term.addGrade(4.0, toSubject: mathe.id);
+      term = term.addSubject(mathe);
+      term = term.getSubject(mathe.id).addGrade(Grade(value: 2.0));
+      term = term.getSubject(mathe.id).addGrade(Grade(value: 4.0));
 
       expect(term.getTermGrade(), 2.5);
     });
@@ -39,17 +42,20 @@ void main() {
         () {
       var term = Term();
       final englisch = Subject('Englisch');
-      term = term.addGrade(3.0, toSubject: englisch.id);
+      term = term.addSubject(englisch);
+      term = term.getSubject(englisch.id).addGrade(Grade(value: 3.0));
 
       final mathe = Subject('Mathe');
-      term = term.addGrade(2.0, toSubject: mathe.id);
+      term = term.addSubject(mathe);
+      term = term.getSubject(mathe.id).addGrade(Grade(value: 2.0));
 
       final informatik = Subject('Informatik');
-      term = term.addGrade(1.0, toSubject: informatik.id);
+      term = term.addSubject(informatik);
+      term = term.getSubject(informatik.id).addGrade(Grade(value: 1.0));
 
-      term = term.changeWeighting(englisch.id, 0.5);
-      term = term.changeWeighting(mathe.id, 1);
-      term = term.changeWeighting(informatik.id, 2);
+      term = term.getSubject(englisch.id).changeWeighting(0.5);
+      term = term.getSubject(mathe.id).changeWeighting(1);
+      term = term.getSubject(informatik.id).changeWeighting(2);
 
       const expected = (3 * (1 / 0.5) + 2 * (1 / 1) + 1 * (1 / 2)) / 3;
       expect(term.getTermGrade(), expected);
@@ -59,14 +65,19 @@ void main() {
         () {
       var term = Term();
       final englisch = Subject('Englisch');
-      term = term.addGrade(1.0, toSubject: englisch.id);
-      term =
-          term.addGrade(2.0, toSubject: englisch.id, takenIntoAccount: false);
+      term = term.addSubject(englisch);
+      term = term.getSubject(englisch.id).addGrade(Grade(value: 1.0));
+      term = term
+          .getSubject(englisch.id)
+          .addGrade(Grade(value: 1.0), takeIntoAccount: false);
       expect(term.getSubject(englisch.id).grade, 1.0);
 
       final mathe = Subject('Mathe');
-      term = term.addGrade(1.0, toSubject: mathe.id);
-      term = term.addGrade(3.0, toSubject: mathe.id, takenIntoAccount: false);
+      term = term.addSubject(mathe);
+      term = term.getSubject(mathe.id).addGrade(Grade(value: 1.0));
+      term = term
+          .getSubject(mathe.id)
+          .addGrade(Grade(value: 3.0), takeIntoAccount: false);
       expect(term.getSubject(mathe.id).grade, 1.0);
 
       expect(term.getTermGrade(), 1.0);
@@ -94,11 +105,26 @@ class Term {
         : _copyWith(subjects: _subjects.add(subject));
   }
 
+  Term _addGrade(Grade grade,
+      {required String toSubject, bool takenIntoAccount = true}) {
+    var subject = _subjects.firstWhere((s) => s.id == toSubject,
+        orElse: () => _Subject(id: toSubject));
+    subject = subject.addGrade(
+        _Grade(value: grade.value, takenIntoAccount: takenIntoAccount));
+
+    return _subjects.where((element) => element.id == toSubject).isNotEmpty
+        ? _copyWith(
+            subjects: _subjects.replaceAllWhere(
+                (element) => element.id == toSubject, subject))
+        : _copyWith(subjects: _subjects.add(subject));
+  }
+
   SubjectResult getSubject(String id) {
     return _subjects
         .where((s) => s.id == id)
         .map(
           (subject) => SubjectResult(
+            this,
             id: subject.id,
             grade: subject.getAverageGrade(),
           ),
@@ -114,14 +140,15 @@ class Term {
 
   num getTermGrade() {
     return _subjects
-            .map((subject) => subject.getAverageGrade() / subject.weighting)
+            .where((element) => element.getAverageGrade() != null)
+            .map((subject) => subject.getAverageGrade()! / subject.weighting)
             .reduce(
               (a, b) => a + b,
             ) /
         _subjects.length;
   }
 
-  Term changeWeighting(String id, num newWeight) {
+  Term _changeWeighting(String id, num newWeight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = _Subject(
       id: id,
@@ -133,13 +160,33 @@ class Term {
       subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
   }
+
+  Term addSubject(Subject subject) {
+    return _copyWith(subjects: _subjects.add(_Subject(id: subject.id)));
+  }
+}
+
+class Grade {
+  final num value;
+
+  Grade({required this.value});
 }
 
 class SubjectResult {
+  final Term _term;
   final String id;
-  final num grade;
+  final num? grade;
 
-  SubjectResult({required this.id, required this.grade});
+  SubjectResult(this._term, {required this.id, required this.grade});
+
+  Term addGrade(Grade grade, {bool takeIntoAccount = true}) {
+    return _term._addGrade(grade,
+        toSubject: id, takenIntoAccount: takeIntoAccount);
+  }
+
+  Term changeWeighting(num newWeight) {
+    return _term._changeWeighting(id, newWeight);
+  }
 }
 
 class _Subject {
@@ -160,8 +207,9 @@ class _Subject {
     );
   }
 
-  num getAverageGrade() {
+  num? getAverageGrade() {
     final grds = grades.where((grade) => grade.takenIntoAccount);
+    if (grds.isEmpty) return null;
 
     return grds.map((grade) => grade.value).reduce((a, b) => a + b) /
         grds.length;
