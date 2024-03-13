@@ -3,17 +3,16 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
-import 'dart:ui' as _i9;
+import 'dart:async' as _i7;
+import 'dart:ui' as _i8;
 
-import 'package:common_domain_models/common_domain_models.dart' as _i3;
-import 'package:crash_analytics/crash_analytics.dart' as _i4;
+import 'package:crash_analytics/crash_analytics.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:sharezone/feedback/history/feedback_history_page_analytics.dart'
-    as _i5;
+    as _i4;
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart'
-    as _i6;
+    as _i5;
 import 'package:sharezone/feedback/src/api/feedback_api.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -39,8 +38,9 @@ class _FakeFeedbackApi_0 extends _i1.SmartFake implements _i2.FeedbackApi {
         );
 }
 
-class _FakeUserId_1 extends _i1.SmartFake implements _i3.UserId {
-  _FakeUserId_1(
+class _FakeCrashAnalytics_1 extends _i1.SmartFake
+    implements _i3.CrashAnalytics {
+  _FakeCrashAnalytics_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -49,20 +49,9 @@ class _FakeUserId_1 extends _i1.SmartFake implements _i3.UserId {
         );
 }
 
-class _FakeCrashAnalytics_2 extends _i1.SmartFake
-    implements _i4.CrashAnalytics {
-  _FakeCrashAnalytics_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeFeedbackHistoryPageAnalytics_3 extends _i1.SmartFake
-    implements _i5.FeedbackHistoryPageAnalytics {
-  _FakeFeedbackHistoryPageAnalytics_3(
+class _FakeFeedbackHistoryPageAnalytics_2 extends _i1.SmartFake
+    implements _i4.FeedbackHistoryPageAnalytics {
+  _FakeFeedbackHistoryPageAnalytics_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -75,7 +64,7 @@ class _FakeFeedbackHistoryPageAnalytics_3 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFeedbackHistoryPageController extends _i1.Mock
-    implements _i6.FeedbackHistoryPageController {
+    implements _i5.FeedbackHistoryPageController {
   @override
   _i2.FeedbackApi get api => (super.noSuchMethod(
         Invocation.getter(#api),
@@ -89,53 +78,41 @@ class MockFeedbackHistoryPageController extends _i1.Mock
         ),
       ) as _i2.FeedbackApi);
   @override
-  _i3.UserId get userId => (super.noSuchMethod(
-        Invocation.getter(#userId),
-        returnValue: _FakeUserId_1(
-          this,
-          Invocation.getter(#userId),
-        ),
-        returnValueForMissingStub: _FakeUserId_1(
-          this,
-          Invocation.getter(#userId),
-        ),
-      ) as _i3.UserId);
-  @override
-  _i4.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
+  _i3.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
         Invocation.getter(#crashAnalytics),
-        returnValue: _FakeCrashAnalytics_2(
+        returnValue: _FakeCrashAnalytics_1(
           this,
           Invocation.getter(#crashAnalytics),
         ),
-        returnValueForMissingStub: _FakeCrashAnalytics_2(
+        returnValueForMissingStub: _FakeCrashAnalytics_1(
           this,
           Invocation.getter(#crashAnalytics),
         ),
-      ) as _i4.CrashAnalytics);
+      ) as _i3.CrashAnalytics);
   @override
-  _i5.FeedbackHistoryPageAnalytics get analytics => (super.noSuchMethod(
+  _i4.FeedbackHistoryPageAnalytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
-        returnValue: _FakeFeedbackHistoryPageAnalytics_3(
+        returnValue: _FakeFeedbackHistoryPageAnalytics_2(
           this,
           Invocation.getter(#analytics),
         ),
-        returnValueForMissingStub: _FakeFeedbackHistoryPageAnalytics_3(
+        returnValueForMissingStub: _FakeFeedbackHistoryPageAnalytics_2(
           this,
           Invocation.getter(#analytics),
         ),
-      ) as _i5.FeedbackHistoryPageAnalytics);
+      ) as _i4.FeedbackHistoryPageAnalytics);
   @override
-  _i6.FeedbackHistoryPageState get state => (super.noSuchMethod(
+  _i5.FeedbackHistoryPageState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i7.dummyValue<_i6.FeedbackHistoryPageState>(
+        returnValue: _i6.dummyValue<_i5.FeedbackHistoryPageState>(
           this,
           Invocation.getter(#state),
         ),
-        returnValueForMissingStub: _i7.dummyValue<_i6.FeedbackHistoryPageState>(
+        returnValueForMissingStub: _i6.dummyValue<_i5.FeedbackHistoryPageState>(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i6.FeedbackHistoryPageState);
+      ) as _i5.FeedbackHistoryPageState);
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
@@ -143,14 +120,14 @@ class MockFeedbackHistoryPageController extends _i1.Mock
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  _i8.Future<void> startStreaming() => (super.noSuchMethod(
+  _i7.Future<void> startStreaming() => (super.noSuchMethod(
         Invocation.method(
           #startStreaming,
           [],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
   @override
   void logOpenedPage() => super.noSuchMethod(
         Invocation.method(
@@ -168,7 +145,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -176,7 +153,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i9.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i8.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

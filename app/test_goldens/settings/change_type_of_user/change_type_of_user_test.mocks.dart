@@ -3,19 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
-import 'dart:ui' as _i9;
+import 'dart:async' as _i7;
+import 'dart:ui' as _i8;
 
-import 'package:common_domain_models/common_domain_models.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i6;
+import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_analytics.dart'
-    as _i3;
+    as _i2;
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_controller.dart'
-    as _i5;
-import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart'
     as _i4;
-import 'package:user/user.dart' as _i7;
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart'
+    as _i3;
+import 'package:user/user.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -30,8 +29,9 @@ import 'package:user/user.dart' as _i7;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeUserId_0 extends _i1.SmartFake implements _i2.UserId {
-  _FakeUserId_0(
+class _FakeChangeTypeOfUserAnalytics_0 extends _i1.SmartFake
+    implements _i2.ChangeTypeOfUserAnalytics {
+  _FakeChangeTypeOfUserAnalytics_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -40,20 +40,9 @@ class _FakeUserId_0 extends _i1.SmartFake implements _i2.UserId {
         );
 }
 
-class _FakeChangeTypeOfUserAnalytics_1 extends _i1.SmartFake
-    implements _i3.ChangeTypeOfUserAnalytics {
-  _FakeChangeTypeOfUserAnalytics_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeChangeTypeOfUserService_2 extends _i1.SmartFake
-    implements _i4.ChangeTypeOfUserService {
-  _FakeChangeTypeOfUserService_2(
+class _FakeChangeTypeOfUserService_1 extends _i1.SmartFake
+    implements _i3.ChangeTypeOfUserService {
+  _FakeChangeTypeOfUserService_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -66,57 +55,45 @@ class _FakeChangeTypeOfUserService_2 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockChangeTypeOfUserController extends _i1.Mock
-    implements _i5.ChangeTypeOfUserController {
+    implements _i4.ChangeTypeOfUserController {
   @override
-  _i2.UserId get userId => (super.noSuchMethod(
-        Invocation.getter(#userId),
-        returnValue: _FakeUserId_0(
-          this,
-          Invocation.getter(#userId),
-        ),
-        returnValueForMissingStub: _FakeUserId_0(
-          this,
-          Invocation.getter(#userId),
-        ),
-      ) as _i2.UserId);
-  @override
-  _i3.ChangeTypeOfUserAnalytics get analytics => (super.noSuchMethod(
+  _i2.ChangeTypeOfUserAnalytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
-        returnValue: _FakeChangeTypeOfUserAnalytics_1(
+        returnValue: _FakeChangeTypeOfUserAnalytics_0(
           this,
           Invocation.getter(#analytics),
         ),
-        returnValueForMissingStub: _FakeChangeTypeOfUserAnalytics_1(
+        returnValueForMissingStub: _FakeChangeTypeOfUserAnalytics_0(
           this,
           Invocation.getter(#analytics),
         ),
-      ) as _i3.ChangeTypeOfUserAnalytics);
+      ) as _i2.ChangeTypeOfUserAnalytics);
   @override
-  _i4.ChangeTypeOfUserService get service => (super.noSuchMethod(
+  _i3.ChangeTypeOfUserService get service => (super.noSuchMethod(
         Invocation.getter(#service),
-        returnValue: _FakeChangeTypeOfUserService_2(
+        returnValue: _FakeChangeTypeOfUserService_1(
           this,
           Invocation.getter(#service),
         ),
-        returnValueForMissingStub: _FakeChangeTypeOfUserService_2(
+        returnValueForMissingStub: _FakeChangeTypeOfUserService_1(
           this,
           Invocation.getter(#service),
         ),
-      ) as _i4.ChangeTypeOfUserService);
+      ) as _i3.ChangeTypeOfUserService);
   @override
-  _i5.ChangeTypeOfUserState get state => (super.noSuchMethod(
+  _i4.ChangeTypeOfUserState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i6.dummyValue<_i5.ChangeTypeOfUserState>(
+        returnValue: _i5.dummyValue<_i4.ChangeTypeOfUserState>(
           this,
           Invocation.getter(#state),
         ),
-        returnValueForMissingStub: _i6.dummyValue<_i5.ChangeTypeOfUserState>(
+        returnValueForMissingStub: _i5.dummyValue<_i4.ChangeTypeOfUserState>(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i5.ChangeTypeOfUserState);
+      ) as _i4.ChangeTypeOfUserState);
   @override
-  set state(_i5.ChangeTypeOfUserState? _state) => super.noSuchMethod(
+  set state(_i4.ChangeTypeOfUserState? _state) => super.noSuchMethod(
         Invocation.setter(
           #state,
           _state,
@@ -124,7 +101,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  set initialTypeOfUser(_i7.TypeOfUser? _initialTypeOfUser) =>
+  set initialTypeOfUser(_i6.TypeOfUser? _initialTypeOfUser) =>
       super.noSuchMethod(
         Invocation.setter(
           #initialTypeOfUser,
@@ -133,7 +110,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  set selectedTypeOfUser(_i7.TypeOfUser? _selectedTypeOfUser) =>
+  set selectedTypeOfUser(_i6.TypeOfUser? _selectedTypeOfUser) =>
       super.noSuchMethod(
         Invocation.setter(
           #selectedTypeOfUser,
@@ -148,16 +125,16 @@ class MockChangeTypeOfUserController extends _i1.Mock
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  _i8.Future<void> changeTypeOfUser() => (super.noSuchMethod(
+  _i7.Future<void> changeTypeOfUser() => (super.noSuchMethod(
         Invocation.method(
           #changeTypeOfUser,
           [],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
   @override
-  void setSelectedTypeOfUser(_i7.TypeOfUser? typeOfUser) => super.noSuchMethod(
+  void setSelectedTypeOfUser(_i6.TypeOfUser? typeOfUser) => super.noSuchMethod(
         Invocation.method(
           #setSelectedTypeOfUser,
           [typeOfUser],
@@ -173,7 +150,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -181,7 +158,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i9.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i8.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

@@ -3,40 +3,39 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i24;
+import 'dart:async' as _i23;
 
 import 'package:analytics/analytics.dart' as _i4;
-import 'package:app_functions/app_functions.dart' as _i19;
-import 'package:authentification_base/authentification.dart' as _i27;
+import 'package:app_functions/app_functions.dart' as _i18;
+import 'package:authentification_base/authentification.dart' as _i26;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i2;
 import 'package:cloud_firestore_platform_interface/cloud_firestore_platform_interface.dart'
-    as _i25;
-import 'package:common_domain_models/common_domain_models.dart' as _i8;
-import 'package:design/design.dart' as _i30;
-import 'package:firebase_auth/firebase_auth.dart' as _i28;
+    as _i24;
+import 'package:design/design.dart' as _i29;
+import 'package:firebase_auth/firebase_auth.dart' as _i27;
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart'
-    as _i20;
-import 'package:flutter/material.dart' as _i29;
-import 'package:group_domain_models/group_domain_accessors.dart' as _i21;
-import 'package:group_domain_models/group_domain_models.dart' as _i22;
+    as _i19;
+import 'package:flutter/material.dart' as _i28;
+import 'package:group_domain_models/group_domain_accessors.dart' as _i20;
+import 'package:group_domain_models/group_domain_models.dart' as _i21;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i23;
+import 'package:mockito/src/dummies.dart' as _i22;
 import 'package:shared_preferences/shared_preferences.dart' as _i6;
-import 'package:sharezone/filesharing/file_sharing_api.dart' as _i11;
-import 'package:sharezone/main/application_bloc.dart' as _i26;
+import 'package:sharezone/filesharing/file_sharing_api.dart' as _i10;
+import 'package:sharezone/main/application_bloc.dart' as _i25;
 import 'package:sharezone/util/api.dart' as _i3;
-import 'package:sharezone/util/api/blackboard_api.dart' as _i10;
-import 'package:sharezone/util/api/connections_gateway.dart' as _i14;
-import 'package:sharezone/util/api/course_gateway.dart' as _i15;
-import 'package:sharezone/util/api/homework_api.dart' as _i9;
-import 'package:sharezone/util/api/school_class_gateway.dart' as _i16;
-import 'package:sharezone/util/api/timetable_gateway.dart' as _i17;
-import 'package:sharezone/util/api/user_api.dart' as _i12;
+import 'package:sharezone/util/api/blackboard_api.dart' as _i9;
+import 'package:sharezone/util/api/connections_gateway.dart' as _i13;
+import 'package:sharezone/util/api/course_gateway.dart' as _i14;
+import 'package:sharezone/util/api/homework_api.dart' as _i8;
+import 'package:sharezone/util/api/school_class_gateway.dart' as _i15;
+import 'package:sharezone/util/api/timetable_gateway.dart' as _i16;
+import 'package:sharezone/util/api/user_api.dart' as _i11;
 import 'package:sharezone/util/navigation_service.dart' as _i7;
-import 'package:sharezone_common/references.dart' as _i13;
+import 'package:sharezone_common/references.dart' as _i12;
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart'
     as _i5;
-import 'package:user/user.dart' as _i18;
+import 'package:user/user.dart' as _i17;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -149,8 +148,9 @@ class _FakeNavigationService_8 extends _i1.SmartFake
         );
 }
 
-class _FakeUserId_9 extends _i1.SmartFake implements _i8.UserId {
-  _FakeUserId_9(
+class _FakeHomeworkGateway_9 extends _i1.SmartFake
+    implements _i8.HomeworkGateway {
+  _FakeHomeworkGateway_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -159,9 +159,9 @@ class _FakeUserId_9 extends _i1.SmartFake implements _i8.UserId {
         );
 }
 
-class _FakeHomeworkGateway_10 extends _i1.SmartFake
-    implements _i9.HomeworkGateway {
-  _FakeHomeworkGateway_10(
+class _FakeBlackboardGateway_10 extends _i1.SmartFake
+    implements _i9.BlackboardGateway {
+  _FakeBlackboardGateway_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -170,9 +170,9 @@ class _FakeHomeworkGateway_10 extends _i1.SmartFake
         );
 }
 
-class _FakeBlackboardGateway_11 extends _i1.SmartFake
-    implements _i10.BlackboardGateway {
-  _FakeBlackboardGateway_11(
+class _FakeFileSharingGateway_11 extends _i1.SmartFake
+    implements _i10.FileSharingGateway {
+  _FakeFileSharingGateway_11(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -181,9 +181,8 @@ class _FakeBlackboardGateway_11 extends _i1.SmartFake
         );
 }
 
-class _FakeFileSharingGateway_12 extends _i1.SmartFake
-    implements _i11.FileSharingGateway {
-  _FakeFileSharingGateway_12(
+class _FakeUserGateway_12 extends _i1.SmartFake implements _i11.UserGateway {
+  _FakeUserGateway_12(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -192,8 +191,8 @@ class _FakeFileSharingGateway_12 extends _i1.SmartFake
         );
 }
 
-class _FakeUserGateway_13 extends _i1.SmartFake implements _i12.UserGateway {
-  _FakeUserGateway_13(
+class _FakeReferences_13 extends _i1.SmartFake implements _i12.References {
+  _FakeReferences_13(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -202,8 +201,9 @@ class _FakeUserGateway_13 extends _i1.SmartFake implements _i12.UserGateway {
         );
 }
 
-class _FakeReferences_14 extends _i1.SmartFake implements _i13.References {
-  _FakeReferences_14(
+class _FakeConnectionsGateway_14 extends _i1.SmartFake
+    implements _i13.ConnectionsGateway {
+  _FakeConnectionsGateway_14(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -212,9 +212,9 @@ class _FakeReferences_14 extends _i1.SmartFake implements _i13.References {
         );
 }
 
-class _FakeConnectionsGateway_15 extends _i1.SmartFake
-    implements _i14.ConnectionsGateway {
-  _FakeConnectionsGateway_15(
+class _FakeCourseGateway_15 extends _i1.SmartFake
+    implements _i14.CourseGateway {
+  _FakeCourseGateway_15(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -223,9 +223,9 @@ class _FakeConnectionsGateway_15 extends _i1.SmartFake
         );
 }
 
-class _FakeCourseGateway_16 extends _i1.SmartFake
-    implements _i15.CourseGateway {
-  _FakeCourseGateway_16(
+class _FakeSchoolClassGateway_16 extends _i1.SmartFake
+    implements _i15.SchoolClassGateway {
+  _FakeSchoolClassGateway_16(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -234,9 +234,9 @@ class _FakeCourseGateway_16 extends _i1.SmartFake
         );
 }
 
-class _FakeSchoolClassGateway_17 extends _i1.SmartFake
-    implements _i16.SchoolClassGateway {
-  _FakeSchoolClassGateway_17(
+class _FakeTimetableGateway_17 extends _i1.SmartFake
+    implements _i16.TimetableGateway {
+  _FakeTimetableGateway_17(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -245,9 +245,8 @@ class _FakeSchoolClassGateway_17 extends _i1.SmartFake
         );
 }
 
-class _FakeTimetableGateway_18 extends _i1.SmartFake
-    implements _i17.TimetableGateway {
-  _FakeTimetableGateway_18(
+class _FakeAppUser_18 extends _i1.SmartFake implements _i17.AppUser {
+  _FakeAppUser_18(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -256,8 +255,9 @@ class _FakeTimetableGateway_18 extends _i1.SmartFake
         );
 }
 
-class _FakeAppUser_19 extends _i1.SmartFake implements _i18.AppUser {
-  _FakeAppUser_19(
+class _FakeAppFunctionsResult_19<T> extends _i1.SmartFake
+    implements _i18.AppFunctionsResult<T> {
+  _FakeAppFunctionsResult_19(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -266,9 +266,8 @@ class _FakeAppUser_19 extends _i1.SmartFake implements _i18.AppUser {
         );
 }
 
-class _FakeAppFunctionsResult_20<T> extends _i1.SmartFake
-    implements _i19.AppFunctionsResult<T> {
-  _FakeAppFunctionsResult_20(
+class _FakeHomeworkDto_20 extends _i1.SmartFake implements _i19.HomeworkDto {
+  _FakeHomeworkDto_20(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -277,8 +276,9 @@ class _FakeAppFunctionsResult_20<T> extends _i1.SmartFake
         );
 }
 
-class _FakeHomeworkDto_21 extends _i1.SmartFake implements _i20.HomeworkDto {
-  _FakeHomeworkDto_21(
+class _FakeCourseMemberAccessor_21 extends _i1.SmartFake
+    implements _i20.CourseMemberAccessor {
+  _FakeCourseMemberAccessor_21(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -287,19 +287,8 @@ class _FakeHomeworkDto_21 extends _i1.SmartFake implements _i20.HomeworkDto {
         );
 }
 
-class _FakeCourseMemberAccessor_22 extends _i1.SmartFake
-    implements _i21.CourseMemberAccessor {
-  _FakeCourseMemberAccessor_22(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeCourse_23 extends _i1.SmartFake implements _i22.Course {
-  _FakeCourse_23(
+class _FakeCourse_22 extends _i1.SmartFake implements _i21.Course {
+  _FakeCourse_22(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -329,11 +318,11 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
   @override
   String get id => (super.noSuchMethod(
         Invocation.getter(#id),
-        returnValue: _i23.dummyValue<String>(
+        returnValue: _i22.dummyValue<String>(
           this,
           Invocation.getter(#id),
         ),
-        returnValueForMissingStub: _i23.dummyValue<String>(
+        returnValueForMissingStub: _i22.dummyValue<String>(
           this,
           Invocation.getter(#id),
         ),
@@ -353,11 +342,11 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
   @override
   String get path => (super.noSuchMethod(
         Invocation.getter(#path),
-        returnValue: _i23.dummyValue<String>(
+        returnValue: _i22.dummyValue<String>(
           this,
           Invocation.getter(#path),
         ),
-        returnValueForMissingStub: _i23.dummyValue<String>(
+        returnValueForMissingStub: _i22.dummyValue<String>(
           this,
           Invocation.getter(#path),
         ),
@@ -387,31 +376,31 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
         ),
       ) as _i2.CollectionReference<Map<String, dynamic>>);
   @override
-  _i24.Future<void> delete() => (super.noSuchMethod(
+  _i23.Future<void> delete() => (super.noSuchMethod(
         Invocation.method(
           #delete,
           [],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  _i24.Future<void> update(Map<Object, Object?>? data) => (super.noSuchMethod(
+  _i23.Future<void> update(Map<Object, Object?>? data) => (super.noSuchMethod(
         Invocation.method(
           #update,
           [data],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  _i24.Future<_i2.DocumentSnapshot<T>> get([_i25.GetOptions? options]) =>
+  _i23.Future<_i2.DocumentSnapshot<T>> get([_i24.GetOptions? options]) =>
       (super.noSuchMethod(
         Invocation.method(
           #get,
           [options],
         ),
-        returnValue: _i24.Future<_i2.DocumentSnapshot<T>>.value(
+        returnValue: _i23.Future<_i2.DocumentSnapshot<T>>.value(
             _FakeDocumentSnapshot_2<T>(
           this,
           Invocation.method(
@@ -419,7 +408,7 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
             [options],
           ),
         )),
-        returnValueForMissingStub: _i24.Future<_i2.DocumentSnapshot<T>>.value(
+        returnValueForMissingStub: _i23.Future<_i2.DocumentSnapshot<T>>.value(
             _FakeDocumentSnapshot_2<T>(
           this,
           Invocation.method(
@@ -427,9 +416,9 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
             [options],
           ),
         )),
-      ) as _i24.Future<_i2.DocumentSnapshot<T>>);
+      ) as _i23.Future<_i2.DocumentSnapshot<T>>);
   @override
-  _i24.Stream<_i2.DocumentSnapshot<T>> snapshots(
+  _i23.Stream<_i2.DocumentSnapshot<T>> snapshots(
           {bool? includeMetadataChanges = false}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -437,13 +426,13 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
           [],
           {#includeMetadataChanges: includeMetadataChanges},
         ),
-        returnValue: _i24.Stream<_i2.DocumentSnapshot<T>>.empty(),
-        returnValueForMissingStub: _i24.Stream<_i2.DocumentSnapshot<T>>.empty(),
-      ) as _i24.Stream<_i2.DocumentSnapshot<T>>);
+        returnValue: _i23.Stream<_i2.DocumentSnapshot<T>>.empty(),
+        returnValueForMissingStub: _i23.Stream<_i2.DocumentSnapshot<T>>.empty(),
+      ) as _i23.Stream<_i2.DocumentSnapshot<T>>);
   @override
-  _i24.Future<void> set(
+  _i23.Future<void> set(
     T? data, [
-    _i25.SetOptions? options,
+    _i24.SetOptions? options,
   ]) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -453,9 +442,9 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
             options,
           ],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
   _i2.DocumentReference<R> withConverter<R>({
     required _i2.FromFirestore<R>? fromFirestore,
@@ -498,7 +487,7 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
 /// A class which mocks [SharezoneContext].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSharezoneContext extends _i1.Mock implements _i26.SharezoneContext {
+class MockSharezoneContext extends _i1.Mock implements _i25.SharezoneContext {
   @override
   _i3.SharezoneGateway get api => (super.noSuchMethod(
         Invocation.getter(#api),
@@ -577,225 +566,213 @@ class MockSharezoneGateway extends _i1.Mock implements _i3.SharezoneGateway {
   @override
   String get uID => (super.noSuchMethod(
         Invocation.getter(#uID),
-        returnValue: _i23.dummyValue<String>(
+        returnValue: _i22.dummyValue<String>(
           this,
           Invocation.getter(#uID),
         ),
-        returnValueForMissingStub: _i23.dummyValue<String>(
+        returnValueForMissingStub: _i22.dummyValue<String>(
           this,
           Invocation.getter(#uID),
         ),
       ) as String);
   @override
-  _i8.UserId get userId => (super.noSuchMethod(
-        Invocation.getter(#userId),
-        returnValue: _FakeUserId_9(
-          this,
-          Invocation.getter(#userId),
-        ),
-        returnValueForMissingStub: _FakeUserId_9(
-          this,
-          Invocation.getter(#userId),
-        ),
-      ) as _i8.UserId);
-  @override
-  _i9.HomeworkGateway get homework => (super.noSuchMethod(
+  _i8.HomeworkGateway get homework => (super.noSuchMethod(
         Invocation.getter(#homework),
-        returnValue: _FakeHomeworkGateway_10(
+        returnValue: _FakeHomeworkGateway_9(
           this,
           Invocation.getter(#homework),
         ),
-        returnValueForMissingStub: _FakeHomeworkGateway_10(
+        returnValueForMissingStub: _FakeHomeworkGateway_9(
           this,
           Invocation.getter(#homework),
         ),
-      ) as _i9.HomeworkGateway);
+      ) as _i8.HomeworkGateway);
   @override
-  _i10.BlackboardGateway get blackboard => (super.noSuchMethod(
+  _i9.BlackboardGateway get blackboard => (super.noSuchMethod(
         Invocation.getter(#blackboard),
-        returnValue: _FakeBlackboardGateway_11(
+        returnValue: _FakeBlackboardGateway_10(
           this,
           Invocation.getter(#blackboard),
         ),
-        returnValueForMissingStub: _FakeBlackboardGateway_11(
+        returnValueForMissingStub: _FakeBlackboardGateway_10(
           this,
           Invocation.getter(#blackboard),
         ),
-      ) as _i10.BlackboardGateway);
+      ) as _i9.BlackboardGateway);
   @override
-  _i11.FileSharingGateway get fileSharing => (super.noSuchMethod(
+  _i10.FileSharingGateway get fileSharing => (super.noSuchMethod(
         Invocation.getter(#fileSharing),
-        returnValue: _FakeFileSharingGateway_12(
+        returnValue: _FakeFileSharingGateway_11(
           this,
           Invocation.getter(#fileSharing),
         ),
-        returnValueForMissingStub: _FakeFileSharingGateway_12(
+        returnValueForMissingStub: _FakeFileSharingGateway_11(
           this,
           Invocation.getter(#fileSharing),
         ),
-      ) as _i11.FileSharingGateway);
+      ) as _i10.FileSharingGateway);
   @override
-  _i12.UserGateway get user => (super.noSuchMethod(
+  _i11.UserGateway get user => (super.noSuchMethod(
         Invocation.getter(#user),
-        returnValue: _FakeUserGateway_13(
+        returnValue: _FakeUserGateway_12(
           this,
           Invocation.getter(#user),
         ),
-        returnValueForMissingStub: _FakeUserGateway_13(
+        returnValueForMissingStub: _FakeUserGateway_12(
           this,
           Invocation.getter(#user),
         ),
-      ) as _i12.UserGateway);
+      ) as _i11.UserGateway);
   @override
-  _i13.References get references => (super.noSuchMethod(
+  _i12.References get references => (super.noSuchMethod(
         Invocation.getter(#references),
-        returnValue: _FakeReferences_14(
+        returnValue: _FakeReferences_13(
           this,
           Invocation.getter(#references),
         ),
-        returnValueForMissingStub: _FakeReferences_14(
+        returnValueForMissingStub: _FakeReferences_13(
           this,
           Invocation.getter(#references),
         ),
-      ) as _i13.References);
+      ) as _i12.References);
   @override
   String get memberID => (super.noSuchMethod(
         Invocation.getter(#memberID),
-        returnValue: _i23.dummyValue<String>(
+        returnValue: _i22.dummyValue<String>(
           this,
           Invocation.getter(#memberID),
         ),
-        returnValueForMissingStub: _i23.dummyValue<String>(
+        returnValueForMissingStub: _i22.dummyValue<String>(
           this,
           Invocation.getter(#memberID),
         ),
       ) as String);
   @override
-  _i14.ConnectionsGateway get connectionsGateway => (super.noSuchMethod(
+  _i13.ConnectionsGateway get connectionsGateway => (super.noSuchMethod(
         Invocation.getter(#connectionsGateway),
-        returnValue: _FakeConnectionsGateway_15(
+        returnValue: _FakeConnectionsGateway_14(
           this,
           Invocation.getter(#connectionsGateway),
         ),
-        returnValueForMissingStub: _FakeConnectionsGateway_15(
+        returnValueForMissingStub: _FakeConnectionsGateway_14(
           this,
           Invocation.getter(#connectionsGateway),
         ),
-      ) as _i14.ConnectionsGateway);
+      ) as _i13.ConnectionsGateway);
   @override
-  _i15.CourseGateway get course => (super.noSuchMethod(
+  _i14.CourseGateway get course => (super.noSuchMethod(
         Invocation.getter(#course),
-        returnValue: _FakeCourseGateway_16(
+        returnValue: _FakeCourseGateway_15(
           this,
           Invocation.getter(#course),
         ),
-        returnValueForMissingStub: _FakeCourseGateway_16(
+        returnValueForMissingStub: _FakeCourseGateway_15(
           this,
           Invocation.getter(#course),
         ),
-      ) as _i15.CourseGateway);
+      ) as _i14.CourseGateway);
   @override
-  _i16.SchoolClassGateway get schoolClassGateway => (super.noSuchMethod(
+  _i15.SchoolClassGateway get schoolClassGateway => (super.noSuchMethod(
         Invocation.getter(#schoolClassGateway),
-        returnValue: _FakeSchoolClassGateway_17(
+        returnValue: _FakeSchoolClassGateway_16(
           this,
           Invocation.getter(#schoolClassGateway),
         ),
-        returnValueForMissingStub: _FakeSchoolClassGateway_17(
+        returnValueForMissingStub: _FakeSchoolClassGateway_16(
           this,
           Invocation.getter(#schoolClassGateway),
         ),
-      ) as _i16.SchoolClassGateway);
+      ) as _i15.SchoolClassGateway);
   @override
-  _i17.TimetableGateway get timetable => (super.noSuchMethod(
+  _i16.TimetableGateway get timetable => (super.noSuchMethod(
         Invocation.getter(#timetable),
-        returnValue: _FakeTimetableGateway_18(
+        returnValue: _FakeTimetableGateway_17(
           this,
           Invocation.getter(#timetable),
         ),
-        returnValueForMissingStub: _FakeTimetableGateway_18(
+        returnValueForMissingStub: _FakeTimetableGateway_17(
           this,
           Invocation.getter(#timetable),
         ),
-      ) as _i17.TimetableGateway);
+      ) as _i16.TimetableGateway);
   @override
-  _i24.Future<void> dispose() => (super.noSuchMethod(
+  _i23.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
           #dispose,
           [],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
 }
 
 /// A class which mocks [UserGateway].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserGateway extends _i1.Mock implements _i12.UserGateway {
+class MockUserGateway extends _i1.Mock implements _i11.UserGateway {
   @override
-  _i13.References get references => (super.noSuchMethod(
+  _i12.References get references => (super.noSuchMethod(
         Invocation.getter(#references),
-        returnValue: _FakeReferences_14(
+        returnValue: _FakeReferences_13(
           this,
           Invocation.getter(#references),
         ),
-        returnValueForMissingStub: _FakeReferences_14(
+        returnValueForMissingStub: _FakeReferences_13(
           this,
           Invocation.getter(#references),
         ),
-      ) as _i13.References);
+      ) as _i12.References);
   @override
   String get uID => (super.noSuchMethod(
         Invocation.getter(#uID),
-        returnValue: _i23.dummyValue<String>(
+        returnValue: _i22.dummyValue<String>(
           this,
           Invocation.getter(#uID),
         ),
-        returnValueForMissingStub: _i23.dummyValue<String>(
+        returnValueForMissingStub: _i22.dummyValue<String>(
           this,
           Invocation.getter(#uID),
         ),
       ) as String);
   @override
-  _i24.Stream<_i18.AppUser?> get userStream => (super.noSuchMethod(
+  _i23.Stream<_i17.AppUser?> get userStream => (super.noSuchMethod(
         Invocation.getter(#userStream),
-        returnValue: _i24.Stream<_i18.AppUser?>.empty(),
-        returnValueForMissingStub: _i24.Stream<_i18.AppUser?>.empty(),
-      ) as _i24.Stream<_i18.AppUser?>);
+        returnValue: _i23.Stream<_i17.AppUser?>.empty(),
+        returnValueForMissingStub: _i23.Stream<_i17.AppUser?>.empty(),
+      ) as _i23.Stream<_i17.AppUser?>);
   @override
-  _i24.Stream<_i27.AuthUser?> get authUserStream => (super.noSuchMethod(
+  _i23.Stream<_i26.AuthUser?> get authUserStream => (super.noSuchMethod(
         Invocation.getter(#authUserStream),
-        returnValue: _i24.Stream<_i27.AuthUser?>.empty(),
-        returnValueForMissingStub: _i24.Stream<_i27.AuthUser?>.empty(),
-      ) as _i24.Stream<_i27.AuthUser?>);
+        returnValue: _i23.Stream<_i26.AuthUser?>.empty(),
+        returnValueForMissingStub: _i23.Stream<_i26.AuthUser?>.empty(),
+      ) as _i23.Stream<_i26.AuthUser?>);
   @override
-  _i24.Stream<bool> get isSignedInStream => (super.noSuchMethod(
+  _i23.Stream<bool> get isSignedInStream => (super.noSuchMethod(
         Invocation.getter(#isSignedInStream),
-        returnValue: _i24.Stream<bool>.empty(),
-        returnValueForMissingStub: _i24.Stream<bool>.empty(),
-      ) as _i24.Stream<bool>);
+        returnValue: _i23.Stream<bool>.empty(),
+        returnValueForMissingStub: _i23.Stream<bool>.empty(),
+      ) as _i23.Stream<bool>);
   @override
-  _i24.Stream<_i2.DocumentSnapshot<Object?>> get userDocument =>
+  _i23.Stream<_i2.DocumentSnapshot<Object?>> get userDocument =>
       (super.noSuchMethod(
         Invocation.getter(#userDocument),
-        returnValue: _i24.Stream<_i2.DocumentSnapshot<Object?>>.empty(),
+        returnValue: _i23.Stream<_i2.DocumentSnapshot<Object?>>.empty(),
         returnValueForMissingStub:
-            _i24.Stream<_i2.DocumentSnapshot<Object?>>.empty(),
-      ) as _i24.Stream<_i2.DocumentSnapshot<Object?>>);
+            _i23.Stream<_i2.DocumentSnapshot<Object?>>.empty(),
+      ) as _i23.Stream<_i2.DocumentSnapshot<Object?>>);
   @override
-  _i24.Stream<_i27.Provider?> get providerStream => (super.noSuchMethod(
+  _i23.Stream<_i26.Provider?> get providerStream => (super.noSuchMethod(
         Invocation.getter(#providerStream),
-        returnValue: _i24.Stream<_i27.Provider?>.empty(),
-        returnValueForMissingStub: _i24.Stream<_i27.Provider?>.empty(),
-      ) as _i24.Stream<_i27.Provider?>);
+        returnValue: _i23.Stream<_i26.Provider?>.empty(),
+        returnValueForMissingStub: _i23.Stream<_i26.Provider?>.empty(),
+      ) as _i23.Stream<_i26.Provider?>);
   @override
-  _i24.Future<_i18.AppUser> get() => (super.noSuchMethod(
+  _i23.Future<_i17.AppUser> get() => (super.noSuchMethod(
         Invocation.method(
           #get,
           [],
         ),
-        returnValue: _i24.Future<_i18.AppUser>.value(_FakeAppUser_19(
+        returnValue: _i23.Future<_i17.AppUser>.value(_FakeAppUser_18(
           this,
           Invocation.method(
             #get,
@@ -803,23 +780,23 @@ class MockUserGateway extends _i1.Mock implements _i12.UserGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i18.AppUser>.value(_FakeAppUser_19(
+            _i23.Future<_i17.AppUser>.value(_FakeAppUser_18(
           this,
           Invocation.method(
             #get,
             [],
           ),
         )),
-      ) as _i24.Future<_i18.AppUser>);
+      ) as _i23.Future<_i17.AppUser>);
   @override
-  _i24.Future<void> logOut() => (super.noSuchMethod(
+  _i23.Future<void> logOut() => (super.noSuchMethod(
         Invocation.method(
           #logOut,
           [],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
   bool isAnonymous() => (super.noSuchMethod(
         Invocation.method(
@@ -830,42 +807,42 @@ class MockUserGateway extends _i1.Mock implements _i12.UserGateway {
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  _i24.Stream<bool?> isAnonymousStream() => (super.noSuchMethod(
+  _i23.Stream<bool?> isAnonymousStream() => (super.noSuchMethod(
         Invocation.method(
           #isAnonymousStream,
           [],
         ),
-        returnValue: _i24.Stream<bool?>.empty(),
-        returnValueForMissingStub: _i24.Stream<bool?>.empty(),
-      ) as _i24.Stream<bool?>);
+        returnValue: _i23.Stream<bool?>.empty(),
+        returnValueForMissingStub: _i23.Stream<bool?>.empty(),
+      ) as _i23.Stream<bool?>);
   @override
-  _i24.Future<void> linkWithCredential(_i28.AuthCredential? credential) =>
+  _i23.Future<void> linkWithCredential(_i27.AuthCredential? credential) =>
       (super.noSuchMethod(
         Invocation.method(
           #linkWithCredential,
           [credential],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  _i24.Future<void> changeState(_i18.StateEnum? state) => (super.noSuchMethod(
+  _i23.Future<void> changeState(_i17.StateEnum? state) => (super.noSuchMethod(
         Invocation.method(
           #changeState,
           [state],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  _i24.Future<void> addNotificationToken(String? token) => (super.noSuchMethod(
+  _i23.Future<void> addNotificationToken(String? token) => (super.noSuchMethod(
         Invocation.method(
           #addNotificationToken,
           [token],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
   void removeNotificationToken(String? token) => super.noSuchMethod(
         Invocation.method(
@@ -875,27 +852,27 @@ class MockUserGateway extends _i1.Mock implements _i12.UserGateway {
         returnValueForMissingStub: null,
       );
   @override
-  _i24.Future<void> setHomeworkReminderTime(_i29.TimeOfDay? timeOfDay) =>
+  _i23.Future<void> setHomeworkReminderTime(_i28.TimeOfDay? timeOfDay) =>
       (super.noSuchMethod(
         Invocation.method(
           #setHomeworkReminderTime,
           [timeOfDay],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  _i24.Future<void> updateSettings(_i18.UserSettings? userSettings) =>
+  _i23.Future<void> updateSettings(_i17.UserSettings? userSettings) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSettings,
           [userSettings],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  _i24.Future<void> updateSettingsSingleFiled(
+  _i23.Future<void> updateSettingsSingleFiled(
     String? fieldName,
     dynamic data,
   ) =>
@@ -907,12 +884,12 @@ class MockUserGateway extends _i1.Mock implements _i12.UserGateway {
             data,
           ],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  _i24.Future<void> updateUserTip(
-    _i18.UserTipKey? userTipKey,
+  _i23.Future<void> updateUserTip(
+    _i17.UserTipKey? userTipKey,
     bool? value,
   ) =>
       (super.noSuchMethod(
@@ -923,9 +900,9 @@ class MockUserGateway extends _i1.Mock implements _i12.UserGateway {
             value,
           ],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
   void setBlackboardNotifications(bool? enabled) => super.noSuchMethod(
         Invocation.method(
@@ -943,17 +920,17 @@ class MockUserGateway extends _i1.Mock implements _i12.UserGateway {
         returnValueForMissingStub: null,
       );
   @override
-  _i24.Future<void> changeEmail(String? email) => (super.noSuchMethod(
+  _i23.Future<void> changeEmail(String? email) => (super.noSuchMethod(
         Invocation.method(
           #changeEmail,
           [email],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  _i24.Future<void> addUser({
-    required _i18.AppUser? user,
+  _i23.Future<void> addUser({
+    required _i17.AppUser? user,
     bool? merge = false,
   }) =>
       (super.noSuchMethod(
@@ -965,29 +942,29 @@ class MockUserGateway extends _i1.Mock implements _i12.UserGateway {
             #merge: merge,
           },
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  _i24.Future<bool> deleteUser(_i3.SharezoneGateway? gateway) =>
+  _i23.Future<bool> deleteUser(_i3.SharezoneGateway? gateway) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteUser,
           [gateway],
         ),
-        returnValue: _i24.Future<bool>.value(false),
-        returnValueForMissingStub: _i24.Future<bool>.value(false),
-      ) as _i24.Future<bool>);
+        returnValue: _i23.Future<bool>.value(false),
+        returnValueForMissingStub: _i23.Future<bool>.value(false),
+      ) as _i23.Future<bool>);
   @override
-  _i24.Future<_i19.AppFunctionsResult<bool>> updateUser(
-          _i18.AppUser? userData) =>
+  _i23.Future<_i18.AppFunctionsResult<bool>> updateUser(
+          _i17.AppUser? userData) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateUser,
           [userData],
         ),
-        returnValue: _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_20<bool>(
+        returnValue: _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+            _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #updateUser,
@@ -995,38 +972,38 @@ class MockUserGateway extends _i1.Mock implements _i12.UserGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_20<bool>(
+            _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+                _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #updateUser,
             [userData],
           ),
         )),
-      ) as _i24.Future<_i19.AppFunctionsResult<bool>>);
+      ) as _i23.Future<_i18.AppFunctionsResult<bool>>);
   @override
-  _i24.Future<void> dispose() => (super.noSuchMethod(
+  _i23.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
           #dispose,
           [],
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
 }
 
 /// A class which mocks [HomeworkGateway].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
+class MockHomeworkGateway extends _i1.Mock implements _i8.HomeworkGateway {
   @override
   String get userId => (super.noSuchMethod(
         Invocation.getter(#userId),
-        returnValue: _i23.dummyValue<String>(
+        returnValue: _i22.dummyValue<String>(
           this,
           Invocation.getter(#userId),
         ),
-        returnValueForMissingStub: _i23.dummyValue<String>(
+        returnValueForMissingStub: _i22.dummyValue<String>(
           this,
           Invocation.getter(#userId),
         ),
@@ -1046,38 +1023,38 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
         ),
       ) as _i2.CollectionReference<Map<String, dynamic>>);
   @override
-  _i24.Stream<_i18.TypeOfUser?> get typeOfUserStream => (super.noSuchMethod(
+  _i23.Stream<_i17.TypeOfUser?> get typeOfUserStream => (super.noSuchMethod(
         Invocation.getter(#typeOfUserStream),
-        returnValue: _i24.Stream<_i18.TypeOfUser?>.empty(),
-        returnValueForMissingStub: _i24.Stream<_i18.TypeOfUser?>.empty(),
-      ) as _i24.Stream<_i18.TypeOfUser?>);
+        returnValue: _i23.Stream<_i17.TypeOfUser?>.empty(),
+        returnValueForMissingStub: _i23.Stream<_i17.TypeOfUser?>.empty(),
+      ) as _i23.Stream<_i17.TypeOfUser?>);
   @override
-  _i24.Stream<List<_i20.HomeworkDto>> get homeworkForNowAndInFutureStream =>
+  _i23.Stream<List<_i19.HomeworkDto>> get homeworkForNowAndInFutureStream =>
       (super.noSuchMethod(
         Invocation.getter(#homeworkForNowAndInFutureStream),
-        returnValue: _i24.Stream<List<_i20.HomeworkDto>>.empty(),
-        returnValueForMissingStub: _i24.Stream<List<_i20.HomeworkDto>>.empty(),
-      ) as _i24.Stream<List<_i20.HomeworkDto>>);
+        returnValue: _i23.Stream<List<_i19.HomeworkDto>>.empty(),
+        returnValueForMissingStub: _i23.Stream<List<_i19.HomeworkDto>>.empty(),
+      ) as _i23.Stream<List<_i19.HomeworkDto>>);
   @override
-  _i24.Stream<List<_i20.HomeworkDto>> get homeworkStream => (super.noSuchMethod(
+  _i23.Stream<List<_i19.HomeworkDto>> get homeworkStream => (super.noSuchMethod(
         Invocation.getter(#homeworkStream),
-        returnValue: _i24.Stream<List<_i20.HomeworkDto>>.empty(),
-        returnValueForMissingStub: _i24.Stream<List<_i20.HomeworkDto>>.empty(),
-      ) as _i24.Stream<List<_i20.HomeworkDto>>);
+        returnValue: _i23.Stream<List<_i19.HomeworkDto>>.empty(),
+        returnValueForMissingStub: _i23.Stream<List<_i19.HomeworkDto>>.empty(),
+      ) as _i23.Stream<List<_i19.HomeworkDto>>);
   @override
-  _i24.Stream<_i20.HomeworkDto> singleHomeworkStream(String? homeworkId) =>
+  _i23.Stream<_i19.HomeworkDto> singleHomeworkStream(String? homeworkId) =>
       (super.noSuchMethod(
         Invocation.method(
           #singleHomeworkStream,
           [homeworkId],
         ),
-        returnValue: _i24.Stream<_i20.HomeworkDto>.empty(),
-        returnValueForMissingStub: _i24.Stream<_i20.HomeworkDto>.empty(),
-      ) as _i24.Stream<_i20.HomeworkDto>);
+        returnValue: _i23.Stream<_i19.HomeworkDto>.empty(),
+        returnValueForMissingStub: _i23.Stream<_i19.HomeworkDto>.empty(),
+      ) as _i23.Stream<_i19.HomeworkDto>);
   @override
-  _i24.Future<_i20.HomeworkDto> singleHomework(
+  _i23.Future<_i19.HomeworkDto> singleHomework(
     String? homeworkId, {
-    _i25.Source? source = _i25.Source.serverAndCache,
+    _i24.Source? source = _i24.Source.serverAndCache,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1085,7 +1062,7 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
           [homeworkId],
           {#source: source},
         ),
-        returnValue: _i24.Future<_i20.HomeworkDto>.value(_FakeHomeworkDto_21(
+        returnValue: _i23.Future<_i19.HomeworkDto>.value(_FakeHomeworkDto_20(
           this,
           Invocation.method(
             #singleHomework,
@@ -1094,7 +1071,7 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i20.HomeworkDto>.value(_FakeHomeworkDto_21(
+            _i23.Future<_i19.HomeworkDto>.value(_FakeHomeworkDto_20(
           this,
           Invocation.method(
             #singleHomework,
@@ -1102,11 +1079,11 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
             {#source: source},
           ),
         )),
-      ) as _i24.Future<_i20.HomeworkDto>);
+      ) as _i23.Future<_i19.HomeworkDto>);
   @override
-  _i24.Future<void> deleteHomework(
-    _i20.HomeworkDto? homework, {
-    _i11.FileSharingGateway? fileSharingGateway,
+  _i23.Future<void> deleteHomework(
+    _i19.HomeworkDto? homework, {
+    _i10.FileSharingGateway? fileSharingGateway,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1114,11 +1091,11 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
           [homework],
           {#fileSharingGateway: fileSharingGateway},
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
-  void deleteHomeworkOnlyForCurrentUser(_i20.HomeworkDto? homework) =>
+  void deleteHomeworkOnlyForCurrentUser(_i19.HomeworkDto? homework) =>
       super.noSuchMethod(
         Invocation.method(
           #deleteHomeworkOnlyForCurrentUser,
@@ -1127,10 +1104,10 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
         returnValueForMissingStub: null,
       );
   @override
-  _i24.Future<_i2.DocumentReference<Object?>> addHomeworkToCourse(
-    _i20.HomeworkDto? homework, {
+  _i23.Future<_i2.DocumentReference<Object?>> addHomeworkToCourse(
+    _i19.HomeworkDto? homework, {
     List<String>? attachments,
-    required _i11.FileSharingGateway? fileSharingGateway,
+    required _i10.FileSharingGateway? fileSharingGateway,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1141,7 +1118,7 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
             #fileSharingGateway: fileSharingGateway,
           },
         ),
-        returnValue: _i24.Future<_i2.DocumentReference<Object?>>.value(
+        returnValue: _i23.Future<_i2.DocumentReference<Object?>>.value(
             _FakeDocumentReference_3<Object?>(
           this,
           Invocation.method(
@@ -1154,7 +1131,7 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i2.DocumentReference<Object?>>.value(
+            _i23.Future<_i2.DocumentReference<Object?>>.value(
                 _FakeDocumentReference_3<Object?>(
           this,
           Invocation.method(
@@ -1166,13 +1143,13 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
             },
           ),
         )),
-      ) as _i24.Future<_i2.DocumentReference<Object?>>);
+      ) as _i23.Future<_i2.DocumentReference<Object?>>);
   @override
-  _i24.Future<void> addPrivateHomework(
-    _i20.HomeworkDto? homework,
+  _i23.Future<void> addPrivateHomework(
+    _i19.HomeworkDto? homework,
     bool? merge, {
     List<String>? attachments,
-    _i11.FileSharingGateway? fileSharingGateway,
+    _i10.FileSharingGateway? fileSharingGateway,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1186,9 +1163,9 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
             #fileSharingGateway: fileSharingGateway,
           },
         ),
-        returnValue: _i24.Future<void>.value(),
-        returnValueForMissingStub: _i24.Future<void>.value(),
-      ) as _i24.Future<void>);
+        returnValue: _i23.Future<void>.value(),
+        returnValueForMissingStub: _i23.Future<void>.value(),
+      ) as _i23.Future<void>);
   @override
   void changeIsHomeworkDoneTo(
     String? homeworkDocumentID,
@@ -1217,47 +1194,47 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
 /// A class which mocks [CourseGateway].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
+class MockCourseGateway extends _i1.Mock implements _i14.CourseGateway {
   @override
-  _i13.References get references => (super.noSuchMethod(
+  _i12.References get references => (super.noSuchMethod(
         Invocation.getter(#references),
-        returnValue: _FakeReferences_14(
+        returnValue: _FakeReferences_13(
           this,
           Invocation.getter(#references),
         ),
-        returnValueForMissingStub: _FakeReferences_14(
+        returnValueForMissingStub: _FakeReferences_13(
           this,
           Invocation.getter(#references),
         ),
-      ) as _i13.References);
+      ) as _i12.References);
   @override
   String get memberID => (super.noSuchMethod(
         Invocation.getter(#memberID),
-        returnValue: _i23.dummyValue<String>(
+        returnValue: _i22.dummyValue<String>(
           this,
           Invocation.getter(#memberID),
         ),
-        returnValueForMissingStub: _i23.dummyValue<String>(
+        returnValueForMissingStub: _i22.dummyValue<String>(
           this,
           Invocation.getter(#memberID),
         ),
       ) as String);
   @override
-  _i21.CourseMemberAccessor get memberAccessor => (super.noSuchMethod(
+  _i20.CourseMemberAccessor get memberAccessor => (super.noSuchMethod(
         Invocation.getter(#memberAccessor),
-        returnValue: _FakeCourseMemberAccessor_22(
+        returnValue: _FakeCourseMemberAccessor_21(
           this,
           Invocation.getter(#memberAccessor),
         ),
-        returnValueForMissingStub: _FakeCourseMemberAccessor_22(
+        returnValueForMissingStub: _FakeCourseMemberAccessor_21(
           this,
           Invocation.getter(#memberAccessor),
         ),
-      ) as _i21.CourseMemberAccessor);
+      ) as _i20.CourseMemberAccessor);
   @override
-  _i22.Course createCourse(
-    _i22.CourseData? courseData,
-    _i12.UserGateway? userGateway,
+  _i21.Course createCourse(
+    _i21.CourseData? courseData,
+    _i11.UserGateway? userGateway,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1267,7 +1244,7 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             userGateway,
           ],
         ),
-        returnValue: _FakeCourse_23(
+        returnValue: _FakeCourse_22(
           this,
           Invocation.method(
             #createCourse,
@@ -1277,7 +1254,7 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             ],
           ),
         ),
-        returnValueForMissingStub: _FakeCourse_23(
+        returnValueForMissingStub: _FakeCourse_22(
           this,
           Invocation.method(
             #createCourse,
@@ -1287,16 +1264,16 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             ],
           ),
         ),
-      ) as _i22.Course);
+      ) as _i21.Course);
   @override
-  _i24.Future<_i19.AppFunctionsResult<bool>> joinCourse(String? courseID) =>
+  _i23.Future<_i18.AppFunctionsResult<bool>> joinCourse(String? courseID) =>
       (super.noSuchMethod(
         Invocation.method(
           #joinCourse,
           [courseID],
         ),
-        returnValue: _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_20<bool>(
+        returnValue: _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+            _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #joinCourse,
@@ -1304,24 +1281,24 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_20<bool>(
+            _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+                _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #joinCourse,
             [courseID],
           ),
         )),
-      ) as _i24.Future<_i19.AppFunctionsResult<bool>>);
+      ) as _i23.Future<_i18.AppFunctionsResult<bool>>);
   @override
-  _i24.Future<_i19.AppFunctionsResult<bool>> leaveCourse(String? courseID) =>
+  _i23.Future<_i18.AppFunctionsResult<bool>> leaveCourse(String? courseID) =>
       (super.noSuchMethod(
         Invocation.method(
           #leaveCourse,
           [courseID],
         ),
-        returnValue: _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_20<bool>(
+        returnValue: _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+            _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #leaveCourse,
@@ -1329,17 +1306,17 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_20<bool>(
+            _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+                _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #leaveCourse,
             [courseID],
           ),
         )),
-      ) as _i24.Future<_i19.AppFunctionsResult<bool>>);
+      ) as _i23.Future<_i18.AppFunctionsResult<bool>>);
   @override
-  _i24.Future<_i19.AppFunctionsResult<bool>> kickMember(
+  _i23.Future<_i18.AppFunctionsResult<bool>> kickMember(
     String? courseID,
     String? kickedMemberID,
   ) =>
@@ -1351,8 +1328,8 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             kickedMemberID,
           ],
         ),
-        returnValue: _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_20<bool>(
+        returnValue: _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+            _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #kickMember,
@@ -1363,8 +1340,8 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_20<bool>(
+            _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+                _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #kickMember,
@@ -1374,16 +1351,16 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             ],
           ),
         )),
-      ) as _i24.Future<_i19.AppFunctionsResult<bool>>);
+      ) as _i23.Future<_i18.AppFunctionsResult<bool>>);
   @override
-  _i24.Future<_i19.AppFunctionsResult<bool>> editCourse(_i22.Course? course) =>
+  _i23.Future<_i18.AppFunctionsResult<bool>> editCourse(_i21.Course? course) =>
       (super.noSuchMethod(
         Invocation.method(
           #editCourse,
           [course],
         ),
-        returnValue: _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_20<bool>(
+        returnValue: _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+            _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #editCourse,
@@ -1391,27 +1368,27 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_20<bool>(
+            _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+                _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #editCourse,
             [course],
           ),
         )),
-      ) as _i24.Future<_i19.AppFunctionsResult<bool>>);
+      ) as _i23.Future<_i18.AppFunctionsResult<bool>>);
   @override
-  _i22.Course? getCourse(String? id) => (super.noSuchMethod(
+  _i21.Course? getCourse(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getCourse,
           [id],
         ),
         returnValueForMissingStub: null,
-      ) as _i22.Course?);
+      ) as _i21.Course?);
   @override
-  _i24.Future<_i19.AppFunctionsResult<bool>> editCourseSettings(
+  _i23.Future<_i18.AppFunctionsResult<bool>> editCourseSettings(
     String? courseID,
-    _i22.CourseSettings? courseSettings,
+    _i21.CourseSettings? courseSettings,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1421,8 +1398,8 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             courseSettings,
           ],
         ),
-        returnValue: _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_20<bool>(
+        returnValue: _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+            _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #editCourseSettings,
@@ -1433,8 +1410,8 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_20<bool>(
+            _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+                _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #editCourseSettings,
@@ -1444,16 +1421,16 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             ],
           ),
         )),
-      ) as _i24.Future<_i19.AppFunctionsResult<bool>>);
+      ) as _i23.Future<_i18.AppFunctionsResult<bool>>);
   @override
-  _i24.Future<_i19.AppFunctionsResult<bool>> deleteCourse(String? courseID) =>
+  _i23.Future<_i18.AppFunctionsResult<bool>> deleteCourse(String? courseID) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteCourse,
           [courseID],
         ),
-        returnValue: _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_20<bool>(
+        returnValue: _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+            _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #deleteCourse,
@@ -1461,19 +1438,19 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_20<bool>(
+            _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+                _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #deleteCourse,
             [courseID],
           ),
         )),
-      ) as _i24.Future<_i19.AppFunctionsResult<bool>>);
+      ) as _i23.Future<_i18.AppFunctionsResult<bool>>);
   @override
-  _i24.Future<bool> editCourseGeneralDesign({
+  _i23.Future<bool> editCourseGeneralDesign({
     required String? courseID,
-    _i30.Design? design,
+    _i29.Design? design,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1484,13 +1461,13 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             #design: design,
           },
         ),
-        returnValue: _i24.Future<bool>.value(false),
-        returnValueForMissingStub: _i24.Future<bool>.value(false),
-      ) as _i24.Future<bool>);
+        returnValue: _i23.Future<bool>.value(false),
+        returnValueForMissingStub: _i23.Future<bool>.value(false),
+      ) as _i23.Future<bool>);
   @override
-  _i24.Future<bool> editCoursePersonalDesign({
+  _i23.Future<bool> editCoursePersonalDesign({
     required String? courseID,
-    _i30.Design? personalDesign,
+    _i29.Design? personalDesign,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1501,24 +1478,24 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             #personalDesign: personalDesign,
           },
         ),
-        returnValue: _i24.Future<bool>.value(false),
-        returnValueForMissingStub: _i24.Future<bool>.value(false),
-      ) as _i24.Future<bool>);
+        returnValue: _i23.Future<bool>.value(false),
+        returnValueForMissingStub: _i23.Future<bool>.value(false),
+      ) as _i23.Future<bool>);
   @override
-  _i24.Future<bool> removeCoursePersonalDesign(String? courseID) =>
+  _i23.Future<bool> removeCoursePersonalDesign(String? courseID) =>
       (super.noSuchMethod(
         Invocation.method(
           #removeCoursePersonalDesign,
           [courseID],
         ),
-        returnValue: _i24.Future<bool>.value(false),
-        returnValueForMissingStub: _i24.Future<bool>.value(false),
-      ) as _i24.Future<bool>);
+        returnValue: _i23.Future<bool>.value(false),
+        returnValueForMissingStub: _i23.Future<bool>.value(false),
+      ) as _i23.Future<bool>);
   @override
-  _i24.Future<_i19.AppFunctionsResult<bool>> memberUpdateRole({
+  _i23.Future<_i18.AppFunctionsResult<bool>> memberUpdateRole({
     required String? courseID,
     required String? newMemberID,
-    required _i22.MemberRole? newRole,
+    required _i21.MemberRole? newRole,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1530,8 +1507,8 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             #newRole: newRole,
           },
         ),
-        returnValue: _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_20<bool>(
+        returnValue: _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+            _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #memberUpdateRole,
@@ -1544,8 +1521,8 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
           ),
         )),
         returnValueForMissingStub:
-            _i24.Future<_i19.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_20<bool>(
+            _i23.Future<_i18.AppFunctionsResult<bool>>.value(
+                _FakeAppFunctionsResult_19<bool>(
           this,
           Invocation.method(
             #memberUpdateRole,
@@ -1557,68 +1534,68 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
             },
           ),
         )),
-      ) as _i24.Future<_i19.AppFunctionsResult<bool>>);
+      ) as _i23.Future<_i18.AppFunctionsResult<bool>>);
   @override
-  _i22.MemberRole? getRoleFromCourseNoSync(String? courseID) =>
+  _i21.MemberRole? getRoleFromCourseNoSync(String? courseID) =>
       (super.noSuchMethod(
         Invocation.method(
           #getRoleFromCourseNoSync,
           [courseID],
         ),
         returnValueForMissingStub: null,
-      ) as _i22.MemberRole?);
+      ) as _i21.MemberRole?);
   @override
-  _i24.Stream<_i22.Course?> streamCourse(String? courseID) =>
+  _i23.Stream<_i21.Course?> streamCourse(String? courseID) =>
       (super.noSuchMethod(
         Invocation.method(
           #streamCourse,
           [courseID],
         ),
-        returnValue: _i24.Stream<_i22.Course?>.empty(),
-        returnValueForMissingStub: _i24.Stream<_i22.Course?>.empty(),
-      ) as _i24.Stream<_i22.Course?>);
+        returnValue: _i23.Stream<_i21.Course?>.empty(),
+        returnValueForMissingStub: _i23.Stream<_i21.Course?>.empty(),
+      ) as _i23.Stream<_i21.Course?>);
   @override
-  _i24.Stream<List<_i22.Course>> streamCourses() => (super.noSuchMethod(
+  _i23.Stream<List<_i21.Course>> streamCourses() => (super.noSuchMethod(
         Invocation.method(
           #streamCourses,
           [],
         ),
-        returnValue: _i24.Stream<List<_i22.Course>>.empty(),
-        returnValueForMissingStub: _i24.Stream<List<_i22.Course>>.empty(),
-      ) as _i24.Stream<List<_i22.Course>>);
+        returnValue: _i23.Stream<List<_i21.Course>>.empty(),
+        returnValueForMissingStub: _i23.Stream<List<_i21.Course>>.empty(),
+      ) as _i23.Stream<List<_i21.Course>>);
   @override
-  _i24.Stream<Map<String, _i22.GroupInfo>> getGroupInfoStream(
-          _i16.SchoolClassGateway? schoolClassGateway) =>
+  _i23.Stream<Map<String, _i21.GroupInfo>> getGroupInfoStream(
+          _i15.SchoolClassGateway? schoolClassGateway) =>
       (super.noSuchMethod(
         Invocation.method(
           #getGroupInfoStream,
           [schoolClassGateway],
         ),
-        returnValue: _i24.Stream<Map<String, _i22.GroupInfo>>.empty(),
+        returnValue: _i23.Stream<Map<String, _i21.GroupInfo>>.empty(),
         returnValueForMissingStub:
-            _i24.Stream<Map<String, _i22.GroupInfo>>.empty(),
-      ) as _i24.Stream<Map<String, _i22.GroupInfo>>);
+            _i23.Stream<Map<String, _i21.GroupInfo>>.empty(),
+      ) as _i23.Stream<Map<String, _i21.GroupInfo>>);
   @override
-  _i24.Future<List<_i22.Course>> getCourses() => (super.noSuchMethod(
+  _i23.Future<List<_i21.Course>> getCourses() => (super.noSuchMethod(
         Invocation.method(
           #getCourses,
           [],
         ),
-        returnValue: _i24.Future<List<_i22.Course>>.value(<_i22.Course>[]),
+        returnValue: _i23.Future<List<_i21.Course>>.value(<_i21.Course>[]),
         returnValueForMissingStub:
-            _i24.Future<List<_i22.Course>>.value(<_i22.Course>[]),
-      ) as _i24.Future<List<_i22.Course>>);
+            _i23.Future<List<_i21.Course>>.value(<_i21.Course>[]),
+      ) as _i23.Future<List<_i21.Course>>);
   @override
-  List<_i22.Course> getCurrentCourses() => (super.noSuchMethod(
+  List<_i21.Course> getCurrentCourses() => (super.noSuchMethod(
         Invocation.method(
           #getCurrentCourses,
           [],
         ),
-        returnValue: <_i22.Course>[],
-        returnValueForMissingStub: <_i22.Course>[],
-      ) as List<_i22.Course>);
+        returnValue: <_i21.Course>[],
+        returnValueForMissingStub: <_i21.Course>[],
+      ) as List<_i21.Course>);
   @override
-  bool canEditCourse(_i22.Course? course) => (super.noSuchMethod(
+  bool canEditCourse(_i21.Course? course) => (super.noSuchMethod(
         Invocation.method(
           #canEditCourse,
           [course],
