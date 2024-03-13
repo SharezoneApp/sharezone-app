@@ -85,7 +85,7 @@ class _Loaded extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: AnimationConfiguration.toStaggeredList(
-                duration: const Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 350),
                 childAnimationBuilder: (widget) => SlideAnimation(
                   verticalOffset: 20,
                   child: FadeInAnimation(child: widget),
