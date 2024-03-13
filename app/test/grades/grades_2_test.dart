@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('grades', () {
-    test('get average grade of two different subjects in term', () {
+    test('the term grade of two different subjects in term', () {
       var term = Term();
       final englisch = Subject('Englisch');
 
@@ -20,7 +20,7 @@ void main() {
     });
 
     test(
-        'the average grade of the term should equal the average of the average grades of every subject',
+        'the term grade should equal the average of the average grades of every subject',
         () {
       var term = Term();
       final englisch = Subject('Englisch');
@@ -32,10 +32,10 @@ void main() {
       term = term.addGrade(2.0, toSubject: mathe.id);
       term = term.addGrade(4.0, toSubject: mathe.id);
 
-      expect(term.getAverageGrade(), 2.5);
+      expect(term.getTermGrade(), 2.5);
     });
     test(
-        'the average grade of the term should equal the average of the average grades of every subject taking weightings into account',
+        'the term grade should equal the average of the average grades of every subject taking weightings into account',
         () {
       var term = Term();
       final englisch = Subject('Englisch');
@@ -52,7 +52,24 @@ void main() {
       term = term.changeWeighting(informatik.id, 2);
 
       const expected = (3 * (1 / 0.5) + 2 * (1 / 1) + 1 * (1 / 2)) / 3;
-      expect(term.getAverageGrade(), expected);
+      expect(term.getTermGrade(), expected);
+    });
+    test(
+        'one can add grades that are not taken into account for the term and subject grade',
+        () {
+      var term = Term();
+      final englisch = Subject('Englisch');
+      term = term.addGrade(1.0, toSubject: englisch.id);
+      term =
+          term.addGrade(2.0, toSubject: englisch.id, takenIntoAccount: false);
+      expect(term.getAverageGradeForSubject(englisch.id), 1.0);
+
+      final mathe = Subject('Mathe');
+      term = term.addGrade(1.0, toSubject: mathe.id);
+      term = term.addGrade(3.0, toSubject: mathe.id, takenIntoAccount: false);
+      expect(term.getAverageGradeForSubject(mathe.id), 1.0);
+
+      expect(term.getTermGrade(), 1.0);
     });
   });
 }
@@ -63,10 +80,12 @@ class Term {
   Term() : _subjects = const IListConst([]);
   Term.internal(this._subjects);
 
-  Term addGrade(double grade, {required String toSubject}) {
+  Term addGrade(double grade,
+      {required String toSubject, bool takenIntoAccount = true}) {
     var subject = _subjects.firstWhere((s) => s.id == toSubject,
         orElse: () => _Subject(id: toSubject));
-    subject = subject.addGrade(_Grade(value: grade));
+    subject = subject
+        .addGrade(_Grade(value: grade, takenIntoAccount: takenIntoAccount));
 
     return _subjects.where((element) => element.id == toSubject).isNotEmpty
         ? _copyWith(
@@ -85,7 +104,7 @@ class Term {
     return Term.internal(subjects ?? _subjects);
   }
 
-  num getAverageGrade() {
+  num getTermGrade() {
     return _subjects
             .map((subject) => subject.getAverageGrade() / subject.weighting)
             .reduce(
@@ -127,15 +146,18 @@ class _Subject {
   }
 
   num getAverageGrade() {
-    return grades.map((grade) => grade.value).reduce((a, b) => a + b) /
-        grades.length;
+    final grds = grades.where((grade) => grade.takenIntoAccount);
+
+    return grds.map((grade) => grade.value).reduce((a, b) => a + b) /
+        grds.length;
   }
 }
 
 class _Grade {
   final num value;
+  final bool takenIntoAccount;
 
-  _Grade({required this.value});
+  _Grade({required this.value, this.takenIntoAccount = true});
 }
 
 class Subject {
