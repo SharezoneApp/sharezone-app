@@ -154,53 +154,9 @@ class _Empty extends StatelessWidget {
                                 radius: 150,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 70),
-                              child: Transform.scale(
-                                scale: 0.8,
-                                child: Transform(
-                                  transform:
-                                      Matrix4.translationValues(0, -110, 0),
-                                  child: const CustomCard(
-                                    child: _TermTile(
-                                      displayName: 'Vergangenes Halbjahr',
-                                      avgGrade: ("3,8", GradePerformance.bad),
-                                      title: '8/2',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 70),
-                              child: Transform.scale(
-                                scale: 0.9,
-                                child: Transform(
-                                  transform:
-                                      Matrix4.translationValues(0, -55, 0),
-                                  child: const CustomCard(
-                                    child: _TermTile(
-                                      displayName: 'Vergangenes Halbjahr',
-                                      avgGrade: (
-                                        "2,6",
-                                        GradePerformance.satisfactory
-                                      ),
-                                      title: '9/1',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 70),
-                              child: CustomCard(
-                                child: _TermTile(
-                                  displayName: 'Aktuelles Halbjahr',
-                                  avgGrade: ("1,3", GradePerformance.good),
-                                  title: '9/2',
-                                ),
-                              ),
-                            ),
+                            const _EmptyTerm3(),
+                            const _EmptyTerm2(),
+                            const _EmptyTerm1(),
                           ],
                         ),
                       ),
@@ -219,6 +175,72 @@ class _Empty extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _EmptyTerm3 extends StatelessWidget {
+  const _EmptyTerm3();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 70),
+      child: Transform.scale(
+        scale: 0.8,
+        child: Transform(
+          transform: Matrix4.translationValues(0, -110, 0),
+          child: const CustomCard(
+            child: _TermTile(
+              displayName: 'Vergangenes Halbjahr',
+              avgGrade: ("3,8", GradePerformance.bad),
+              title: '8/2',
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _EmptyTerm2 extends StatelessWidget {
+  const _EmptyTerm2();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 70),
+      child: Transform.scale(
+        scale: 0.9,
+        child: Transform(
+          transform: Matrix4.translationValues(0, -55, 0),
+          child: const CustomCard(
+            child: _TermTile(
+              displayName: 'Vergangenes Halbjahr',
+              avgGrade: ("2,6", GradePerformance.satisfactory),
+              title: '9/1',
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _EmptyTerm1 extends StatelessWidget {
+  const _EmptyTerm1();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(top: 70),
+      child: CustomCard(
+        child: _TermTile(
+          displayName: 'Aktuelles Halbjahr',
+          avgGrade: ("1,3", GradePerformance.good),
+          title: '9/2',
         ),
       ),
     );
