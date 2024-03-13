@@ -51,7 +51,8 @@ void main() {
       term = term.changeWeighting(mathe.id, 1);
       term = term.changeWeighting(informatik.id, 2);
 
-      expect(term.getAverageGrade(), moreOrLessEquals(8.5 / 3));
+      const expected = (3 * (1 / 0.5) + 2 * (1 / 1) + 1 * (1 / 2)) / 3;
+      expect(term.getAverageGrade(), expected);
     });
   });
 }
