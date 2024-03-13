@@ -6,9 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/models/term_id.dart';
