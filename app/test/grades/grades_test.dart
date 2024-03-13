@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/grades/subject_id.dart';
+import 'package:sharezone/grades/term_id.dart';
 
 void main() {
   group('grades', () {
@@ -20,6 +21,9 @@ void main() {
     test('term', () {
       final controller = GradesTestController();
 
+      final term = termWith(name: '1. Halbjahr');
+      controller.addTerm(term);
+
       final englisch = subjectWith(name: 'Englisch', withGrades: [
         gradeWith(value: 2),
         gradeWith(value: 4),
@@ -30,8 +34,8 @@ void main() {
         gradeWith(value: 3),
       ]);
 
-      controller.addSubject(englisch);
-      controller.addSubject(mathe);
+      controller.addSubjectToTerm(englisch, term.id);
+      controller.addSubjectToTerm(mathe, term.id);
 
       expect(controller.getAverageGradeWithAllSubjects(), 2.5);
     });
@@ -56,6 +60,23 @@ class GradesTestController {
             .reduce((a, b) => a + b) /
         _subjects.length;
   }
+
+  void addSubjectToTerm(Subject subject, TermId id) {
+    addSubject(subject);
+  }
+
+  void addTerm(Term term) {}
+}
+
+Term termWith({required String name}) {
+  return Term(id: TermId(name), name: name);
+}
+
+class Term {
+  final TermId id;
+  final String name;
+
+  Term({required this.id, required this.name});
 }
 
 class Subject {
