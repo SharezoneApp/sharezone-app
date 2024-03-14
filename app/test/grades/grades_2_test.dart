@@ -92,6 +92,10 @@ void main() {
       var term = Term();
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
+
+      term = term
+          .subject(englisch.id)
+          .changeWeightingType(WeightType.perGradeType);
       term = term
           .subject(englisch.id)
           .addGrade(gradeWith(value: 2.0, type: GradeType('presentation')));
