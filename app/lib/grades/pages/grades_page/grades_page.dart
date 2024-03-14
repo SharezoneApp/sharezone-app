@@ -70,8 +70,9 @@ class _Loaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _Empty();
-    if (!state.hasGrades()) {}
+    if (!state.hasGrades()) {
+      return const _Empty();
+    }
 
     final currentTerm = state.currentTerm;
     return SingleChildScrollView(
