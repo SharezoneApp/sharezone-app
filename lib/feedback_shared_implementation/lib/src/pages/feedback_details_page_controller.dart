@@ -37,11 +37,11 @@ class FeedbackDetailsPageController extends ChangeNotifier {
   FeedbackDetailsPageState state = FeedbackDetailsPageLoading();
 
   void init() {
-    initFeedbackStream();
-    initMessagesStream();
+    _initFeedbackStream();
+    _initMessagesStream();
   }
 
-  void initFeedbackStream() {
+  void _initFeedbackStream() {
     _feedbackSubscription =
         feedbackApi.streamFeedback(feedbackId).listen((feedback) {
       // Since we are listening to the feedback, we can assume that the user has
@@ -62,7 +62,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
     });
   }
 
-  void initMessagesStream() {
+  void _initMessagesStream() {
     _chatMessagesSubscription =
         feedbackApi.streamChatMessages(feedbackId).listen((messages) {
       final messageViews = messages
