@@ -15,7 +15,8 @@ abstract class FeedbackApi {
   Future<void> sendFeedback(UserFeedback feedback);
   Stream<List<UserFeedback>> streamFeedbacks(String userId);
   Stream<List<FeedbackChatMessage>> streamChatMessages(FeedbackId feedbackId);
-  Future<UserFeedback> getFeedback(FeedbackId feedbackId);
+  Stream<UserFeedback> streamFeedback(FeedbackId feedbackId);
+  void markMessageAsRead(FeedbackId feedbackId, UserId userId);
   void sendResponse({
     required FeedbackId feedbackId,
     required UserId userId,

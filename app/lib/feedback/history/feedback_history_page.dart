@@ -147,10 +147,7 @@ class _FeedbackCard extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FeedbackDetailsPage(
-          feedbackId: view.id,
-          feedback: view,
-        ),
+        builder: (context) => FeedbackDetailsPage(feedbackId: view.id),
         settings: const RouteSettings(name: FeedbackDetailsPage.tag),
       ),
     );

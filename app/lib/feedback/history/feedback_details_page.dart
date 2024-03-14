@@ -23,11 +23,9 @@ class FeedbackDetailsPage extends StatefulWidget {
   const FeedbackDetailsPage({
     super.key,
     required this.feedbackId,
-    this.feedback,
   });
 
   final FeedbackId feedbackId;
-  final FeedbackView? feedback;
 
   static const tag = 'feedback-details-page';
 
@@ -49,13 +47,7 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
     scrollController = ScrollController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final feedback = widget.feedback;
-      if (feedback == null) {
-        controller.loadFeedback();
-      } else {
-        controller.setFeedback(feedback);
-      }
-      controller.initMessagesStream();
+      controller.init();
     });
   }
 
@@ -148,7 +140,7 @@ class _Error extends StatelessWidget {
       child: ErrorCard(
         message: Text(state.message),
         onRetryPressed: () =>
-            context.read<FeedbackDetailsPageController>().loadFeedback(),
+            context.read<FeedbackDetailsPageController>().initFeedbackStream(),
         onContactSupportPressed: () =>
             Navigator.pushNamed(context, SupportPage.tag),
       ),

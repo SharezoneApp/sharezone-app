@@ -9,14 +9,12 @@ class FeedbackChatMessage extends Equatable {
   final DateTime sentAt;
   final String text;
   final UserId senderId;
-  final bool isRead;
 
   const FeedbackChatMessage({
     required this.id,
     required this.text,
     required this.sentAt,
     required this.senderId,
-    required this.isRead,
   });
 
   factory FeedbackChatMessage.fromJson(String id, Map<String, dynamic> map) {
@@ -25,7 +23,6 @@ class FeedbackChatMessage extends Equatable {
       sentAt: dateTimeFromTimestamp(map['sentAt']),
       text: map['body']['plain'],
       senderId: UserId(map['senderId']),
-      isRead: map['isRead'],
     );
   }
 
@@ -36,11 +33,9 @@ class FeedbackChatMessage extends Equatable {
         'plain': text,
       },
       'senderId': '$senderId',
-      'isRead': false,
-      'readAt': null,
     };
   }
 
   @override
-  List<Object?> get props => [id, sentAt, text, senderId, isRead];
+  List<Object?> get props => [id, sentAt, text, senderId];
 }

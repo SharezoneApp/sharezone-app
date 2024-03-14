@@ -16,6 +16,7 @@ import 'package:sharezone/feedback/history/feedback_view.dart';
 import 'package:sharezone/feedback/shared/feedback_id.dart';
 import 'package:sharezone/feedback/src/api/feedback_api.dart';
 import 'package:sharezone/feedback/src/models/feedback_chat_message.dart';
+import 'package:sharezone/feedback/src/models/user_feedback.dart';
 
 class FeedbackDetailsPageController extends ChangeNotifier {
   final FeedbackApi feedbackApi;
@@ -24,6 +25,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
   final CrashAnalytics crashAnalytics;
 
   StreamSubscription<List<FeedbackChatMessage>>? _chatMessagesSubscription;
+  StreamSubscription<UserFeedback>? _feedbackSubscription;
 
   FeedbackDetailsPageController({
     required this.feedbackApi,
@@ -34,18 +36,28 @@ class FeedbackDetailsPageController extends ChangeNotifier {
 
   FeedbackDetailsPageState state = FeedbackDetailsPageLoading();
 
-  void loadFeedback() {
-    state = FeedbackDetailsPageLoading();
-    notifyListeners();
-    feedbackApi.getFeedback(feedbackId).then((feedback) {
+  void init() {
+    initFeedbackStream();
+    initMessagesStream();
+  }
+
+  void initFeedbackStream() {
+    _feedbackSubscription =
+        feedbackApi.streamFeedback(feedbackId).listen((feedback) {
+      // Since we are listening to the feedback, we can assume that the user has
+      // read all unread messages.
+      if (feedback.hasUnreadMessages(userId)) {
+        _markMessagesAsRead();
+      }
+
       state = FeedbackDetailsPageLoaded(
         feedback: FeedbackView.fromUserFeedback(feedback),
         chatMessages: _getCurrentMessages(),
       );
       notifyListeners();
-    }).catchError((e, s) {
+    }, onError: (e, s) {
       state = FeedbackDetailsPageError('$e');
-      crashAnalytics.recordError('Error when loading feedback: $e', s);
+      crashAnalytics.recordError('Error when streaming feedback: $e', s);
       notifyListeners();
     });
   }
@@ -69,17 +81,9 @@ class FeedbackDetailsPageController extends ChangeNotifier {
       notifyListeners();
     }, onError: (e, s) {
       state = FeedbackDetailsPageError('$e');
-      crashAnalytics.recordError('Error when loading messages: $e', s);
+      crashAnalytics.recordError('Error when streaming messages: $e', s);
       notifyListeners();
     });
-  }
-
-  void setFeedback(FeedbackView feedback) {
-    state = FeedbackDetailsPageLoaded(
-      feedback: feedback,
-      chatMessages: null,
-    );
-    notifyListeners();
   }
 
   void sendResponse(String message) {
@@ -93,6 +97,10 @@ class FeedbackDetailsPageController extends ChangeNotifier {
       crashAnalytics.recordError('Error when sending response: $e', s);
       rethrow;
     }
+  }
+
+  void _markMessagesAsRead() {
+    feedbackApi.markMessageAsRead(feedbackId, userId);
   }
 
   FeedbackView? _getCurrentFeedbackView() {
@@ -111,6 +119,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _feedbackSubscription?.cancel();
     _chatMessagesSubscription?.cancel();
     super.dispose();
   }

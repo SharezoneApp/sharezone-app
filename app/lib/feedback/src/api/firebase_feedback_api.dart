@@ -40,8 +40,8 @@ class FirebaseFeedbackApi implements FeedbackApi {
   }
 
   @override
-  Future<UserFeedback> getFeedback(FeedbackId feedbackId) {
-    return feedbackCollection.doc('$feedbackId').get().then((doc) =>
+  Stream<UserFeedback> streamFeedback(FeedbackId feedbackId) {
+    return feedbackCollection.doc('$feedbackId').snapshots().map((doc) =>
         UserFeedback.fromJson(doc.id, doc.data() as Map<String, dynamic>));
   }
 
@@ -59,7 +59,6 @@ class FirebaseFeedbackApi implements FeedbackApi {
       id: _generateMessageId(),
       text: message,
       senderId: userId,
-      isRead: false,
       sentAt: DateTime.now(), // Will be overwritten in the toJson method
     );
     // We don't await this because in offline mode we don't want to block the UI
@@ -80,5 +79,17 @@ class FirebaseFeedbackApi implements FeedbackApi {
         .map((snapshot) => snapshot.docs
             .map((doc) => FeedbackChatMessage.fromJson(doc.id, doc.data()))
             .toList());
+  }
+
+  @override
+  void markMessageAsRead(FeedbackId feedbackId, UserId userId) {
+    feedbackCollection.doc('$feedbackId').update(
+      {
+        'unreadMessagesStatus.$userId': {
+          'hasUnreadMessages': false,
+          'updatedAt': FieldValue.serverTimestamp(),
+        }
+      },
+    );
   }
 }

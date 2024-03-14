@@ -32,11 +32,6 @@ class MockFeedbackApi extends FeedbackApi {
   }
 
   @override
-  Future<UserFeedback> getFeedback(FeedbackId feedbackId) {
-    throw UnimplementedError();
-  }
-
-  @override
   void sendResponse({
     required FeedbackId feedbackId,
     required UserId userId,
@@ -47,6 +42,14 @@ class MockFeedbackApi extends FeedbackApi {
 
   @override
   Stream<List<FeedbackChatMessage>> streamChatMessages(FeedbackId feedbackId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  void markMessageAsRead(FeedbackId feedbackId, UserId userId) {}
+
+  @override
+  Stream<UserFeedback> streamFeedback(FeedbackId feedbackId) {
     throw UnimplementedError();
   }
 }

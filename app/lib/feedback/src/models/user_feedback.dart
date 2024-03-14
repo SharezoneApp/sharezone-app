@@ -8,6 +8,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
+import 'package:common_domain_models/common_domain_models.dart';
+import 'package:equatable/equatable.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone/feedback/shared/feedback_id.dart';
 
@@ -27,6 +29,7 @@ class UserFeedback {
   final String uid;
   final String userContactInformation;
   final FeedbackDeviceInformation? deviceInformation;
+  final Map<UserId, UnreadMessageStatus>? unreadMessagesStatus;
 
   bool get requiredUserInputIsEmpty =>
       _isWhitespaceOrNull(likes) &&
@@ -47,6 +50,7 @@ class UserFeedback {
     required this.uid,
     required this.userContactInformation,
     required this.deviceInformation,
+    required this.unreadMessagesStatus,
   });
 
   factory UserFeedback.create() {
@@ -61,6 +65,7 @@ class UserFeedback {
       uid: "",
       userContactInformation: "",
       deviceInformation: null,
+      unreadMessagesStatus: null,
     );
   }
 
@@ -93,12 +98,21 @@ class UserFeedback {
       deviceInformation: map['deviceInformation'] != null
           ? FeedbackDeviceInformation.fromJson(map['deviceInformation'])
           : null,
+      unreadMessagesStatus: map['unreadMessagesStatus'] == null
+          ? null
+          : (map['unreadMessagesStatus'] as Map<String, dynamic>).map((key,
+                  value) =>
+              MapEntry(UserId(key), UnreadMessageStatus.fromJson(key, value))),
     );
   }
 
   String? _ratingToString() {
     if (rating != null) return rating.toString();
     return null;
+  }
+
+  bool hasUnreadMessages(UserId userId) {
+    return unreadMessagesStatus?[userId]?.hasUnreadMessages ?? false;
   }
 
   UserFeedback copyWith({
@@ -111,6 +125,7 @@ class UserFeedback {
     String? uid,
     String? userContactInformation,
     FeedbackDeviceInformation? deviceInformation,
+    Map<UserId, UnreadMessageStatus>? unreadMessagesStatus,
   }) {
     return UserFeedback._(
       id: id ?? this.id,
@@ -124,6 +139,7 @@ class UserFeedback {
       userContactInformation:
           userContactInformation ?? this.userContactInformation,
       deviceInformation: deviceInformation ?? this.deviceInformation,
+      unreadMessagesStatus: unreadMessagesStatus ?? this.unreadMessagesStatus,
     );
   }
 
@@ -162,6 +178,33 @@ class UserFeedback {
   String toString() {
     return 'UserFeedback(createdOn: $createdOn, id: $id, rating: $rating, likes: $likes, dislikes: $dislikes, missing: $missing, heardFrom: $heardFrom, uid: $uid, userContactInformation: $userContactInformation, deviceInformation: $deviceInformation)';
   }
+}
+
+class UnreadMessageStatus extends Equatable {
+  final UserId userId;
+  final bool hasUnreadMessages;
+
+  const UnreadMessageStatus({
+    required this.hasUnreadMessages,
+    required this.userId,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'hasUnreadMessages': hasUnreadMessages,
+    };
+  }
+
+  factory UnreadMessageStatus.fromJson(
+      String userId, Map<String, dynamic> map) {
+    return UnreadMessageStatus(
+      userId: UserId(userId),
+      hasUnreadMessages: map['hasUnreadMessages'] ?? false,
+    );
+  }
+
+  @override
+  List<Object?> get props => [hasUnreadMessages];
 }
 
 class FeedbackDeviceInformation {
