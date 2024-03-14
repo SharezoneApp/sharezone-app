@@ -577,7 +577,7 @@ class _SelectSchoolClass extends StatefulWidget {
 }
 
 class _SelectSchoolClassState extends State<_SelectSchoolClass> {
-  SchoolClassId? selectedId;
+  (SchoolClassId, SchoolClassName)? selectedSchoolClass;
 
   @override
   void initState() {
@@ -586,12 +586,31 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
     bloc.loadAdminSchoolClasses();
   }
 
-  void setSelectId(SchoolClassId? id) {
+  void setSelectId((SchoolClassId, SchoolClassName)? schoolClass) {
     setState(() {
-      selectedId = id;
+      selectedSchoolClass = schoolClass;
     });
     final bloc = BlocProvider.of<CourseCreateBloc>(context);
-    bloc.setSchoolClassId(id);
+    bloc.setSchoolClassId(schoolClass?.$1);
+    showSelectedSnackBar(schoolClass?.$2);
+  }
+
+  void showSelectedSnackBar(SchoolClassName? name) {
+    late String text;
+
+    if (name == null) {
+      text =
+          'Kurse, die ab jetzt erstellt werden, werden mit keiner Schulklasse verknüpft.';
+    } else {
+      text =
+          'Kurse, die ab jetzt erstellt werden, werden mit der Schulklasse "$name" verknüpft.';
+    }
+
+    showSnackSec(
+      context: context,
+      text: text,
+      seconds: 5,
+    );
   }
 
   @override
@@ -628,10 +647,10 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
                         name: schoolClass.$2,
                       ),
                       title: Text(schoolClass.$2),
-                      onTap: () => setSelectId(schoolClass.$1),
-                      trailing: Radio<SchoolClassId?>(
-                        value: schoolClass.$1,
-                        groupValue: selectedId,
+                      onTap: () => setSelectId(schoolClass),
+                      trailing: Radio<(SchoolClassId, SchoolClassName)?>(
+                        value: schoolClass,
+                        groupValue: selectedSchoolClass,
                         onChanged: setSelectId,
                       ),
                     ),
@@ -647,9 +666,9 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
                     padding: EdgeInsets.only(left: 8),
                     child: Text("Mit keiner Schulklasse verknüpften"),
                   ),
-                  trailing: Radio<SchoolClassId?>(
+                  trailing: Radio<(SchoolClassId, SchoolClassName)?>(
                     value: null,
-                    groupValue: selectedId,
+                    groupValue: selectedSchoolClass,
                     onChanged: setSelectId,
                   ),
                 ),
