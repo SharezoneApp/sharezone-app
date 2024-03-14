@@ -8,8 +8,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/feedback/history/feedback_details_page.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone/feedback/history/feedback_view.dart';
+import 'package:sharezone/feedback/shared/feedback_icons.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -56,6 +58,7 @@ class _Loading extends StatelessWidget {
 
   static const dummyFeedbacks = [
     FeedbackView(
+      feedbackId: '1',
       createdOn: '2022-01-01',
       rating: '5',
       likes: '10',
@@ -64,6 +67,7 @@ class _Loading extends StatelessWidget {
       heardFrom: 'Friend',
     ),
     FeedbackView(
+      feedbackId: '2',
       createdOn: '2022-01-02',
       rating: '4',
       likes: '5',
@@ -138,6 +142,16 @@ class _FeedbackCard extends StatelessWidget {
 
   final FeedbackView feedback;
 
+  void pushDetailsPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FeedbackDetailsPage(feedback: feedback),
+        settings: const RouteSettings(name: FeedbackDetailsPage.tag),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaxWidthConstraintBox(
@@ -145,6 +159,7 @@ class _FeedbackCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           child: CustomCard(
+            onTap: () => pushDetailsPage(context),
             padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,7 +207,7 @@ class _Rating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _FeedbackCardTile(
-      leading: const Icon(Icons.star),
+      leading: const FeedbackRatingIcon(),
       title: Text(rating),
     );
   }
@@ -206,7 +221,7 @@ class _Likes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _FeedbackCardTile(
-      leading: const Icon(Icons.thumb_up),
+      leading: const FeedbackLikesIcon(),
       title: Text(likes),
     );
   }
@@ -220,7 +235,7 @@ class _Dislikes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _FeedbackCardTile(
-      leading: const Icon(Icons.thumb_down),
+      leading: const FeedbackDislikesIcon(),
       title: Text(dislikes),
     );
   }
@@ -234,7 +249,7 @@ class _Missing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _FeedbackCardTile(
-      leading: const Icon(Icons.comment),
+      leading: const FeedbackMissingIcon(),
       title: Text(missing),
     );
   }
@@ -248,7 +263,7 @@ class _HeardFrom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _FeedbackCardTile(
-      leading: const Icon(Icons.search),
+      leading: const FeedbackHeardFromIcon(),
       title: Text(heardFrom),
     );
   }
@@ -272,6 +287,7 @@ class _FeedbackCardTile extends StatelessWidget {
       enabled: isLoading,
       child: ListTile(
         leading: leading,
+        mouseCursor: SystemMouseCursors.click,
         title: isLoading
             ? Container(
                 height: 20,
