@@ -13,14 +13,14 @@ void main() {
       term = term.addSubject(englisch);
       term = term.subject(englisch.id).addGrade(gradeWith(value: 3.0));
       term = term.subject(englisch.id).addGrade(gradeWith(value: 1.0));
-      expect(term.subject(englisch.id).grade, 2.0);
+      expect(term.subject(englisch.id).gradeVal, 2.0);
 
       final mathe = Subject('Mathe');
       term = term.addSubject(mathe);
       term = term.subject(mathe.id).addGrade(gradeWith(value: 2.0));
       term = term.subject(mathe.id).addGrade(gradeWith(value: 4.0));
 
-      expect(term.subject(mathe.id).grade, 3.0);
+      expect(term.subject(mathe.id).gradeVal, 3.0);
     });
 
     test(
@@ -73,7 +73,7 @@ void main() {
       term = term
           .subject(englisch.id)
           .addGrade(gradeWith(value: 1.0), takeIntoAccount: false);
-      expect(term.subject(englisch.id).grade, 1.0);
+      expect(term.subject(englisch.id).gradeVal, 1.0);
 
       final mathe = Subject('Mathe');
       term = term.addSubject(mathe);
@@ -81,7 +81,7 @@ void main() {
       term = term
           .subject(mathe.id)
           .addGrade(gradeWith(value: 3.0), takeIntoAccount: false);
-      expect(term.subject(mathe.id).grade, 1.0);
+      expect(term.subject(mathe.id).gradeVal, 1.0);
 
       expect(term.getTermGrade(), 1.0);
     });
@@ -108,7 +108,7 @@ void main() {
           .changeGradeTypeWeighting(GradeType('exam'), weight: 1.5);
 
       const expected = (2 * (1 / 0.7) + 1 * (1 / 1.5) + 1 * (1 / 1)) / 3;
-      expect(term.subject(englisch.id).grade, expected);
+      expect(term.subject(englisch.id).gradeVal, expected);
     });
   });
 }
@@ -146,7 +146,7 @@ class Term {
           (subject) => SubjectResult(
             this,
             id: subject.id,
-            grade: subject.getGrade(),
+            gradeVal: subject.getGrade(),
           ),
         )
         .first;
@@ -229,9 +229,9 @@ class Grade {
 class SubjectResult {
   final Term _term;
   final String id;
-  final num? grade;
+  final num? gradeVal;
 
-  SubjectResult(this._term, {required this.id, required this.grade});
+  SubjectResult(this._term, {required this.id, required this.gradeVal});
 
   Term addGrade(Grade grade, {bool takeIntoAccount = true}) {
     return _term._addGrade(grade,
