@@ -3,20 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i8;
+import 'dart:ui' as _i7;
 
 import 'package:common_domain_models/common_domain_models.dart' as _i3;
-import 'package:crash_analytics/crash_analytics.dart' as _i5;
 import 'package:feedback_shared_implementation/src/api/feedback_api.dart'
     as _i2;
 import 'package:feedback_shared_implementation/src/models/feedback_id.dart'
     as _i4;
 import 'package:feedback_shared_implementation/src/pages/feedback_details_page_controller.dart'
-    as _i6;
+    as _i5;
 import 'package:feedback_shared_implementation/src/pages/feedback_details_page_controller_factory.dart'
-    as _i9;
+    as _i8;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:mockito/src/dummies.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -61,20 +60,9 @@ class _FakeFeedbackId_2 extends _i1.SmartFake implements _i4.FeedbackId {
         );
 }
 
-class _FakeCrashAnalytics_3 extends _i1.SmartFake
-    implements _i5.CrashAnalytics {
-  _FakeCrashAnalytics_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeFeedbackDetailsPageController_4 extends _i1.SmartFake
-    implements _i6.FeedbackDetailsPageController {
-  _FakeFeedbackDetailsPageController_4(
+class _FakeFeedbackDetailsPageController_3 extends _i1.SmartFake
+    implements _i5.FeedbackDetailsPageController {
+  _FakeFeedbackDetailsPageController_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -87,7 +75,7 @@ class _FakeFeedbackDetailsPageController_4 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFeedbackDetailsPageController extends _i1.Mock
-    implements _i6.FeedbackDetailsPageController {
+    implements _i5.FeedbackDetailsPageController {
   @override
   _i2.FeedbackApi get feedbackApi => (super.noSuchMethod(
         Invocation.getter(#feedbackApi),
@@ -128,33 +116,20 @@ class MockFeedbackDetailsPageController extends _i1.Mock
       ) as _i4.FeedbackId);
 
   @override
-  _i5.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
-        Invocation.getter(#crashAnalytics),
-        returnValue: _FakeCrashAnalytics_3(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-        returnValueForMissingStub: _FakeCrashAnalytics_3(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-      ) as _i5.CrashAnalytics);
-
-  @override
-  _i6.FeedbackDetailsPageState get state => (super.noSuchMethod(
+  _i5.FeedbackDetailsPageState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i7.dummyValue<_i6.FeedbackDetailsPageState>(
+        returnValue: _i6.dummyValue<_i5.FeedbackDetailsPageState>(
           this,
           Invocation.getter(#state),
         ),
-        returnValueForMissingStub: _i7.dummyValue<_i6.FeedbackDetailsPageState>(
+        returnValueForMissingStub: _i6.dummyValue<_i5.FeedbackDetailsPageState>(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i6.FeedbackDetailsPageState);
+      ) as _i5.FeedbackDetailsPageState);
 
   @override
-  set state(_i6.FeedbackDetailsPageState? _state) => super.noSuchMethod(
+  set state(_i5.FeedbackDetailsPageState? _state) => super.noSuchMethod(
         Invocation.setter(
           #state,
           _state,
@@ -215,7 +190,7 @@ class MockFeedbackDetailsPageController extends _i1.Mock
       );
 
   @override
-  void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -224,7 +199,7 @@ class MockFeedbackDetailsPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(_i8.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -246,7 +221,7 @@ class MockFeedbackDetailsPageController extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFeedbackDetailsPageControllerFactory extends _i1.Mock
-    implements _i9.FeedbackDetailsPageControllerFactory {
+    implements _i8.FeedbackDetailsPageControllerFactory {
   @override
   _i2.FeedbackApi get feedbackApi => (super.noSuchMethod(
         Invocation.getter(#feedbackApi),
@@ -274,38 +249,25 @@ class MockFeedbackDetailsPageControllerFactory extends _i1.Mock
       ) as _i3.UserId);
 
   @override
-  _i5.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
-        Invocation.getter(#crashAnalytics),
-        returnValue: _FakeCrashAnalytics_3(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-        returnValueForMissingStub: _FakeCrashAnalytics_3(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-      ) as _i5.CrashAnalytics);
-
-  @override
-  _i6.FeedbackDetailsPageController create(_i4.FeedbackId? feedbackId) =>
+  _i5.FeedbackDetailsPageController create(_i4.FeedbackId? feedbackId) =>
       (super.noSuchMethod(
         Invocation.method(
           #create,
           [feedbackId],
         ),
-        returnValue: _FakeFeedbackDetailsPageController_4(
+        returnValue: _FakeFeedbackDetailsPageController_3(
           this,
           Invocation.method(
             #create,
             [feedbackId],
           ),
         ),
-        returnValueForMissingStub: _FakeFeedbackDetailsPageController_4(
+        returnValueForMissingStub: _FakeFeedbackDetailsPageController_3(
           this,
           Invocation.method(
             #create,
             [feedbackId],
           ),
         ),
-      ) as _i6.FeedbackDetailsPageController);
+      ) as _i5.FeedbackDetailsPageController);
 }

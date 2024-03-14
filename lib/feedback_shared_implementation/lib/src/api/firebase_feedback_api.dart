@@ -101,4 +101,21 @@ class FirebaseFeedbackApi implements FeedbackApi {
         .snapshots()
         .map((snapshot) => snapshot.docs.isNotEmpty);
   }
+
+  @override
+  Future<List<UserFeedback>> getFeedbacksForSupportTeam({
+    DateTime? startAfter,
+    int? limit,
+  }) {
+    Query query = feedbackCollection
+        .orderBy('createdOn', descending: true)
+        .limit(limit ?? 0);
+    if (startAfter != null) {
+      query = query.startAfter([startAfter]);
+    }
+    return query.get().then((snapshot) => snapshot.docs
+        .map((doc) =>
+            UserFeedback.fromJson(doc.id, doc.data() as Map<String, dynamic>))
+        .toList());
+  }
 }

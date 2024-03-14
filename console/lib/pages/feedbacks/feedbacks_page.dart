@@ -9,8 +9,18 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:common_domain_models/common_domain_models.dart';
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:very_good_infinite_list/very_good_infinite_list.dart';
+
+/// The user ID of the support team.
+///
+/// We use a shared user ID to enable multiple Sharezone members can work on the
+/// feedbacks. For example the status of unread messages is grouped by user ID.
+/// This way, all members of the support team see the same unread messages.
+final supportTeamUserId = UserId('support-team');
 
 class FeedbacksPage extends StatefulWidget {
   const FeedbacksPage({super.key});
@@ -20,9 +30,12 @@ class FeedbacksPage extends StatefulWidget {
 }
 
 class _FeedbacksPageState extends State<FeedbacksPage> {
-  var _items = <Map<String, dynamic>>[];
+  var _items = <FeedbackView>[];
+  DateTime? _lastCreatedAt;
   var _isLoading = false;
   var _hasReachedMax = false;
+  final queryLimit = 10;
+  final FeedbackApi _api = FirebaseFeedbackApi(FirebaseFirestore.instance);
 
   void _fetchData() async {
     setState(() {
@@ -32,24 +45,22 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
     log('Fetching data...');
 
     // Load 10 more feedbacks from Firestore
-    Query<Map<String, dynamic>> query = await FirebaseFirestore.instance
-        .collection('Feedback')
-        .orderBy('createdOn', descending: true)
-        .limit(20);
 
-    if (_items.isNotEmpty) {
-      query = query.startAfter([
-        _items.last['createdOn'] as Timestamp,
-      ]);
-    }
-
-    final snapshot = await query.get();
+    final newFeedbacks = await _api.getFeedbacksForSupportTeam(
+      startAfter: _lastCreatedAt,
+      limit: queryLimit,
+    );
 
     if (!mounted) {
       return;
     }
 
-    if (snapshot.docs.isEmpty) {
+    if (newFeedbacks.isNotEmpty) {
+      _lastCreatedAt = newFeedbacks.last.createdOn;
+    }
+
+    final isFinished = newFeedbacks.length < queryLimit;
+    if (isFinished) {
       setState(() {
         _isLoading = false;
         _hasReachedMax = true;
@@ -61,7 +72,8 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
       _isLoading = false;
       _items = [
         ..._items,
-        ...snapshot.docs.map((doc) => doc.data()).toList(),
+        ...newFeedbacks
+            .map((f) => FeedbackView.fromUserFeedback(f, supportTeamUserId)),
       ];
     });
   }
@@ -77,14 +89,51 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
         isLoading: _isLoading,
         onFetchData: _fetchData,
         hasReachedMax: _hasReachedMax,
-        separatorBuilder: (context, index) => const Divider(),
+        loadingBuilder: (context) => _Loading(),
+        errorBuilder: (context) => _Error(),
         itemBuilder: (context, index) {
-          return ListTile(
-            dense: true,
-            title: Text(_items[index].toString()),
+          final feedback = _items[index];
+          return FeedbackCard(
+            view: feedback,
+            isLoading: false,
+            onContactSupportPressed: null,
           );
         },
       ),
+    );
+  }
+}
+
+class _Error extends StatelessWidget {
+  const _Error();
+
+  @override
+  Widget build(BuildContext context) {
+    return ErrorCard(
+      message: Text('Error loading feedbacks :('),
+    );
+  }
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading();
+
+  @override
+  Widget build(BuildContext context) {
+    return FeedbackCard(
+      view: FeedbackView(
+        id: FeedbackId('1'),
+        createdOn: '2022-01-01',
+        rating: '5',
+        likes: '10',
+        dislikes: '2',
+        missing: 'Great app!',
+        heardFrom: 'Friend',
+        hasUnreadMessages: false,
+        lastMessage: null,
+      ),
+      onContactSupportPressed: null,
+      isLoading: true,
     );
   }
 }

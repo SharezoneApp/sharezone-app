@@ -22,7 +22,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
   final FeedbackApi feedbackApi;
   final UserId userId;
   final FeedbackId feedbackId;
-  final CrashAnalytics crashAnalytics;
+  final CrashAnalytics? crashAnalytics;
 
   StreamSubscription<List<FeedbackChatMessage>>? _chatMessagesSubscription;
   StreamSubscription<UserFeedback>? _feedbackSubscription;
@@ -57,7 +57,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
       notifyListeners();
     }, onError: (e, s) {
       state = FeedbackDetailsPageError('$e');
-      crashAnalytics.recordError('Error when streaming feedback: $e', s);
+      crashAnalytics?.recordError('Error when streaming feedback: $e', s);
       notifyListeners();
     });
   }
@@ -81,7 +81,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
       notifyListeners();
     }, onError: (e, s) {
       state = FeedbackDetailsPageError('$e');
-      crashAnalytics.recordError('Error when streaming messages: $e', s);
+      crashAnalytics?.recordError('Error when streaming messages: $e', s);
       notifyListeners();
     });
   }
@@ -94,7 +94,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
         message: message,
       );
     } on Exception catch (e, s) {
-      crashAnalytics.recordError('Error when sending response: $e', s);
+      crashAnalytics?.recordError('Error when sending response: $e', s);
       rethrow;
     }
   }

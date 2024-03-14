@@ -15,7 +15,7 @@ import 'package:feedback_shared_implementation/src/pages/feedback_details_page_c
 class FeedbackDetailsPageControllerFactory {
   final FeedbackApi feedbackApi;
   final UserId userId;
-  final CrashAnalytics crashAnalytics;
+  final CrashAnalytics? crashAnalytics;
 
   const FeedbackDetailsPageControllerFactory({
     required this.feedbackApi,

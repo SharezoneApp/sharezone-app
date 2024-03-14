@@ -128,7 +128,7 @@ packages:
     source: hosted
     version: "1.18.0"
   common_domain_models:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../lib/common_domain_models"
       relative: true
@@ -459,7 +459,7 @@ packages:
     source: hosted
     version: "3.7.4"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
@@ -491,7 +491,7 @@ packages:
     source: hosted
     version: "0.3.8"
   sharezone_widgets:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../lib/sharezone_widgets"
       relative: true

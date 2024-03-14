@@ -17,6 +17,10 @@ abstract class FeedbackApi {
   Stream<List<FeedbackChatMessage>> streamChatMessages(FeedbackId feedbackId);
   Stream<UserFeedback> streamFeedback(FeedbackId feedbackId);
   Stream<bool> streamHasUnreadFeedbackMessages(UserId userId);
+  Future<List<UserFeedback>> getFeedbacksForSupportTeam({
+    DateTime? startAfter,
+    int limit = 0,
+  });
   void markMessageAsRead(FeedbackId feedbackId, UserId userId);
   void sendResponse({
     required FeedbackId feedbackId,
