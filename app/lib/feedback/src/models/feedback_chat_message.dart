@@ -6,7 +6,7 @@ import 'package:sharezone/feedback/src/models/feedback_chat_message_id.dart';
 
 class FeedbackChatMessage extends Equatable {
   final FeedbackChatMessageId id;
-  final DateTime sendAt;
+  final DateTime sentAt;
   final String text;
   final UserId senderId;
   final bool isRead;
@@ -14,15 +14,15 @@ class FeedbackChatMessage extends Equatable {
   const FeedbackChatMessage({
     required this.id,
     required this.text,
-    required this.sendAt,
+    required this.sentAt,
     required this.senderId,
     required this.isRead,
   });
 
   factory FeedbackChatMessage.fromJson(String id, Map<String, dynamic> map) {
     return FeedbackChatMessage(
-      id: FeedbackChatMessageId(map['id']),
-      sendAt: dateTimeFromTimestamp(map['sendAt']),
+      id: FeedbackChatMessageId(id),
+      sentAt: dateTimeFromTimestamp(map['sentAt']),
       text: map['body']['plain'],
       senderId: UserId(map['senderId']),
       isRead: map['isRead'],
@@ -31,7 +31,7 @@ class FeedbackChatMessage extends Equatable {
 
   Map<String, dynamic> toCreateJson() {
     return {
-      'sendAt': FieldValue.serverTimestamp(),
+      'sentAt': FieldValue.serverTimestamp(),
       'body': {
         'plain': text,
       },
@@ -42,5 +42,5 @@ class FeedbackChatMessage extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, sendAt, text, senderId, isRead];
+  List<Object?> get props => [id, sentAt, text, senderId, isRead];
 }

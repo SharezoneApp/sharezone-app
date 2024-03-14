@@ -9,7 +9,9 @@
 import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sharezone/feedback/history/feedback_view.dart';
 import 'package:sharezone/feedback/shared/feedback_id.dart';
 import 'package:sharezone/feedback/src/api/feedback_api.dart';
@@ -19,6 +21,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
   final FeedbackApi feedbackApi;
   final UserId userId;
   final FeedbackId feedbackId;
+  final CrashAnalytics crashAnalytics;
 
   StreamSubscription<List<FeedbackChatMessage>>? _chatMessagesSubscription;
 
@@ -26,6 +29,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
     required this.feedbackApi,
     required this.userId,
     required this.feedbackId,
+    required this.crashAnalytics,
   });
 
   FeedbackDetailsPageState state = FeedbackDetailsPageLoading();
@@ -34,16 +38,14 @@ class FeedbackDetailsPageController extends ChangeNotifier {
     state = FeedbackDetailsPageLoading();
     notifyListeners();
     feedbackApi.getFeedback(feedbackId).then((feedback) {
-      final currentMessages = state is FeedbackDetailsPageLoaded
-          ? (state as FeedbackDetailsPageLoaded).chatMessages
-          : null;
       state = FeedbackDetailsPageLoaded(
         feedback: FeedbackView.fromUserFeedback(feedback),
-        chatMessages: currentMessages,
+        chatMessages: _getCurrentMessages(),
       );
       notifyListeners();
-    }).catchError((e) {
+    }).catchError((e, s) {
       state = FeedbackDetailsPageError('$e');
+      crashAnalytics.recordError('Error when loading feedback: $e', s);
       notifyListeners();
     });
   }
@@ -51,11 +53,23 @@ class FeedbackDetailsPageController extends ChangeNotifier {
   void initMessagesStream() {
     _chatMessagesSubscription =
         feedbackApi.streamChatMessages(feedbackId).listen((messages) {
-      final feedback = (state as FeedbackDetailsPageLoaded).feedback;
+      final messageViews = messages
+          .map(
+            (e) => FeedbackMessageView(
+              message: e.text,
+              isMyMessage: e.senderId == userId,
+              sentAt: DateFormat.yMd().add_jm().format(e.sentAt),
+            ),
+          )
+          .toList();
       state = FeedbackDetailsPageLoaded(
-        feedback: feedback,
-        chatMessages: messages,
+        feedback: _getCurrentFeedbackView(),
+        chatMessages: messageViews,
       );
+      notifyListeners();
+    }, onError: (e, s) {
+      state = FeedbackDetailsPageError('$e');
+      crashAnalytics.recordError('Error when loading messages: $e', s);
       notifyListeners();
     });
   }
@@ -69,11 +83,30 @@ class FeedbackDetailsPageController extends ChangeNotifier {
   }
 
   void sendResponse(String message) {
-    feedbackApi.sendResponse(
-      feedbackId: feedbackId,
-      userId: userId,
-      message: message,
-    );
+    try {
+      feedbackApi.sendResponse(
+        feedbackId: feedbackId,
+        userId: userId,
+        message: message,
+      );
+    } on Exception catch (e, s) {
+      crashAnalytics.recordError('Error when sending response: $e', s);
+      rethrow;
+    }
+  }
+
+  FeedbackView? _getCurrentFeedbackView() {
+    final currentFeedback = state is FeedbackDetailsPageLoaded
+        ? (state as FeedbackDetailsPageLoaded).feedback
+        : null;
+    return currentFeedback;
+  }
+
+  List<FeedbackMessageView>? _getCurrentMessages() {
+    final currentMessages = state is FeedbackDetailsPageLoaded
+        ? (state as FeedbackDetailsPageLoaded).chatMessages
+        : null;
+    return currentMessages;
   }
 
   @override
@@ -97,7 +130,7 @@ class FeedbackDetailsPageLoading extends FeedbackDetailsPageState {}
 
 class FeedbackDetailsPageLoaded extends FeedbackDetailsPageState {
   final FeedbackView? feedback;
-  final List<FeedbackChatMessage>? chatMessages;
+  final List<FeedbackMessageView>? chatMessages;
 
   FeedbackDetailsPageLoaded({
     required this.feedback,

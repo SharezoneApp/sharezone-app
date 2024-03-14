@@ -6,7 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/feedback/history/feedback_details_page_controller.dart';
@@ -35,6 +37,7 @@ class FeedbackDetailsPage extends StatefulWidget {
 
 class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
   late FeedbackDetailsPageController controller;
+  late ScrollController scrollController;
 
   @override
   void initState() {
@@ -43,6 +46,7 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
     controller = context
         .read<FeedbackDetailsPageControllerFactory>()
         .create(widget.feedbackId);
+    scrollController = ScrollController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final feedback = widget.feedback;
@@ -51,7 +55,21 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
       } else {
         controller.setFeedback(feedback);
       }
+      controller.initMessagesStream();
     });
+  }
+
+  void _scrollToBottom() {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -60,20 +78,17 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
       value: controller,
       child: Scaffold(
         appBar: AppBar(title: const Text('Mein Feedback')),
-        body: const SingleChildScrollView(
-          child: SafeArea(
+        body: SingleChildScrollView(
+          controller: scrollController,
+          child: const SafeArea(
             child: MaxWidthConstraintBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _FeedbackTiles(),
-                  _Messages(),
-                ],
-              ),
+              child: _FeedbackTiles(),
             ),
           ),
         ),
-        bottomNavigationBar: const _WriteResponseField(),
+        bottomNavigationBar: _WriteResponseField(
+          scrollToBottom: () => _scrollToBottom(),
+        ),
       ),
     );
   }
@@ -90,8 +105,10 @@ class _FeedbackTiles extends StatelessWidget {
       child: switch (state) {
         FeedbackDetailsPageError() => _Error(state: state),
         FeedbackDetailsPageLoading() => const _Loading(),
-        FeedbackDetailsPageLoaded(feedback: final feedback) =>
-          _Items(feedback: feedback),
+        FeedbackDetailsPageLoaded() => _Items(
+            feedback: state.feedback,
+            messages: state.chatMessages,
+          ),
       },
     );
   }
@@ -112,6 +129,7 @@ class _Loading extends StatelessWidget {
         missing: 'Great app!',
         heardFrom: 'Friend',
       ),
+      messages: null,
     );
   }
 }
@@ -141,9 +159,11 @@ class _Error extends StatelessWidget {
 class _Items extends StatelessWidget {
   const _Items({
     required this.feedback,
+    required this.messages,
   });
 
   final FeedbackView? feedback;
+  final List<FeedbackMessageView>? messages;
 
   @override
   Widget build(BuildContext context) {
@@ -159,16 +179,26 @@ class _Items extends StatelessWidget {
         if (feedback.hasDislikes) _Dislikes(dislikes: feedback.dislikes!),
         if (feedback.hasMissing) _Missing(missing: feedback.missing!),
         if (feedback.hasHeardFrom) _HeardFrom(heardFrom: feedback.heardFrom!),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 250),
+          child: messages != null ? _Messages(messages) : null,
+        ),
       ],
     );
   }
 }
 
 class _Messages extends StatelessWidget {
-  const _Messages();
+  const _Messages(this.messages);
+
+  final List<FeedbackMessageView>? messages;
 
   @override
   Widget build(BuildContext context) {
+    if (messages == null) {
+      return const SizedBox();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -178,31 +208,13 @@ class _Messages extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Rückmeldung vom Sharezone-Team:',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+              const Text('Kommentare:', style: TextStyle(fontSize: 18)),
               const SizedBox(height: 12),
-              _ChatBubble(
-                text: 'Vielen Dank für Ihr Feedback!',
-                backgroundColor: Colors.grey[300]!,
-                alignment: Alignment.centerLeft,
-              ),
-              const SizedBox(height: 6),
-              _ChatBubble(
-                text: 'Wir freuen uns, dass Sie unsere App nutzen!',
-                backgroundColor: Colors.grey[300]!,
-                alignment: Alignment.centerLeft,
-              ),
-              const SizedBox(height: 6),
-              _ChatBubble(
-                text: 'Selbst meine Oma kann eine bessere App programmieren!',
-                backgroundColor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                alignment: Alignment.centerRight,
-              ),
+              for (final message in messages!)
+                if (message.isMyMessage)
+                  _MyChatBubble(message)
+                else
+                  _SupportTeamChatBubble(message)
             ],
           ),
         ),
@@ -211,8 +223,46 @@ class _Messages extends StatelessWidget {
   }
 }
 
+class _MyChatBubble extends StatelessWidget {
+  const _MyChatBubble(this.view);
+
+  final FeedbackMessageView view;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ChatBubble(
+      text: view.message,
+      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      alignment: Alignment.centerRight,
+      sentAt: view.sentAt,
+    );
+  }
+}
+
+class _SupportTeamChatBubble extends StatelessWidget {
+  const _SupportTeamChatBubble(this.view);
+
+  final FeedbackMessageView view;
+
+  @override
+  Widget build(BuildContext context) {
+    final color =
+        context.isDarkThemeEnabled ? Colors.grey[800]! : Colors.grey[300]!;
+    return _ChatBubble(
+      text: view.message,
+      backgroundColor: color,
+      alignment: Alignment.centerLeft,
+      sentAt: view.sentAt,
+    );
+  }
+}
+
 class _WriteResponseField extends StatefulWidget {
-  const _WriteResponseField();
+  const _WriteResponseField({
+    required this.scrollToBottom,
+  });
+
+  final VoidCallback scrollToBottom;
 
   @override
   State<_WriteResponseField> createState() => _WriteResponseFieldState();
@@ -220,51 +270,181 @@ class _WriteResponseField extends StatefulWidget {
 
 class _WriteResponseFieldState extends State<_WriteResponseField> {
   String? message;
+  late TextEditingController? textEditingController;
+  late FocusNode focusNode;
+  bool get isMessageValid => message != null && message!.isNotEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    textEditingController = TextEditingController();
+    focusNode = FocusNode(
+      onKeyEvent: (node, event) {
+        final pressedKeys = HardwareKeyboard.instance.physicalKeysPressed;
+        final isShiftLeftPressed =
+            pressedKeys.contains(PhysicalKeyboardKey.shiftLeft);
+        final isShiftRightPressed =
+            pressedKeys.contains(PhysicalKeyboardKey.shiftRight);
+        final enterPressedWithoutShift = event is KeyDownEvent &&
+            event.physicalKey == PhysicalKeyboardKey.enter &&
+            !isShiftLeftPressed &&
+            !isShiftRightPressed;
+
+        if (enterPressedWithoutShift) {
+          sendMessage();
+          return KeyEventResult.handled;
+        }
+
+        if (event is KeyRepeatEvent) {
+          // Disable holding enter
+          return KeyEventResult.handled;
+        }
+
+        return KeyEventResult.ignored;
+      },
+    );
+
+    focusNode.addListener(() async {
+      if (focusNode.hasFocus) {
+        await waitForKeyboardOpen();
+        widget.scrollToBottom();
+      }
+    });
+  }
+
+  Future<void> waitForKeyboardOpen() async {
+    await Future.delayed(const Duration(milliseconds: 375));
+  }
+
+  @override
+  void dispose() {
+    textEditingController?.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  Future<void> sendMessage() async {
+    if (!isMessageValid) return;
+
+    try {
+      final controller = context.read<FeedbackDetailsPageController>();
+      controller.sendResponse(message!);
+      setState(() => message = null);
+      textEditingController?.clear();
+      // Wait a moment to make sure the message is visible in the UI so that we
+      // can so that we can scroll to the message.
+      await Future.delayed(const Duration(milliseconds: 100));
+      widget.scrollToBottom();
+    } on Exception catch (e) {
+      if (!mounted) return;
+      showSnackSec(
+        context: context,
+        text: 'Fehler beim Senden der Nachricht: $e',
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Divider(),
-        MaxWidthConstraintBox(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      hintText: 'Antwort schreiben...',
-                    ),
-                    onChanged: (value) => setState(() => message = value),
+        const Divider(height: 0),
+        SafeArea(
+          child: MaxWidthConstraintBox(
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.3,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              TextField(
+                                controller: textEditingController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Antwort schreiben...',
+                                ),
+                                focusNode: focusNode,
+                                onChanged: (value) {
+                                  setState(() => message = value);
+                                },
+                                textInputAction: TextInputAction.newline,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                maxLines: null,
+                              ),
+                              if (context.isDesktopModus) const _NewLineHint(),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      _SendMessageButton(
+                        onPressed: isMessageValid ? () => sendMessage() : null,
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(width: 12),
-                IconButton.filled(
-                  tooltip: 'Senden',
-                  icon: const Icon(Icons.send),
-                  onPressed: () {
-                    final isMessageValid =
-                        message != null && message!.isNotEmpty;
-                    if (!isMessageValid) {
-                      showSnackSec(
-                        context: context,
-                        text: 'Bitte gebe eine Nachricht ein!',
-                      );
-                      return;
-                    }
-
-                    final controller =
-                        context.read<FeedbackDetailsPageController>();
-                    controller.sendResponse(message!);
-                  },
-                ),
-              ],
+                  SizedBox(
+                    height: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SendMessageButton extends StatelessWidget {
+  const _SendMessageButton({
+    required this.onPressed,
+  });
+
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final isEnabled = onPressed != null;
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 350),
+        child: IconButton.filled(
+          key: ValueKey(isEnabled),
+          tooltip: 'Senden (Enter)',
+          icon: const Icon(Icons.send),
+          onPressed: isEnabled ? () => onPressed!() : null,
+        ),
+      ),
+    );
+  }
+}
+
+class _NewLineHint extends StatelessWidget {
+  const _NewLineHint();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: Text(
+        'Shift + Enter für neue Zeile',
+        style: TextStyle(
+          fontSize: 11,
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+        ),
+      ),
     );
   }
 }
@@ -274,23 +454,58 @@ class _ChatBubble extends StatelessWidget {
     required this.text,
     required this.backgroundColor,
     required this.alignment,
+    required this.sentAt,
   });
 
   final String text;
   final Color backgroundColor;
   final Alignment alignment;
+  final String sentAt;
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: alignment,
-      child: Container(
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(10),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Container(
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(12),
+                topRight: const Radius.circular(12),
+                bottomLeft: alignment == Alignment.centerRight
+                    ? const Radius.circular(12)
+                    : const Radius.circular(0),
+                bottomRight: alignment == Alignment.centerLeft
+                    ? const Radius.circular(12)
+                    : const Radius.circular(0),
+              ),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: alignment == Alignment.centerRight
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                MarkdownBody(data: text),
+                const SizedBox(height: 4),
+                Text(
+                  sentAt,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        padding: const EdgeInsets.all(12),
-        child: MarkdownBody(data: text),
       ),
     );
   }

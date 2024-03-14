@@ -69,3 +69,18 @@ extension UserFeedbacksToViews on List<UserFeedback> {
     return map((feedback) => FeedbackView.fromUserFeedback(feedback)).toList();
   }
 }
+
+class FeedbackMessageView extends Equatable {
+  final String message;
+  final bool isMyMessage;
+  final String sentAt;
+
+  const FeedbackMessageView({
+    required this.message,
+    required this.isMyMessage,
+    required this.sentAt,
+  });
+
+  @override
+  List<Object?> get props => [message, isMyMessage];
+}

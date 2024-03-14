@@ -401,6 +401,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => FeedbackDetailsPageControllerFactory(
           userId: api.userId,
           feedbackApi: feedbackApi,
+          crashAnalytics: crashAnalytics,
         ),
       ),
     ];

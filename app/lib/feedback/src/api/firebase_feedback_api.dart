@@ -54,14 +54,16 @@ class FirebaseFeedbackApi implements FeedbackApi {
     required FeedbackId feedbackId,
     required UserId userId,
     required String message,
-  }) {
+  }) async {
     final dto = FeedbackChatMessage(
       id: _generateMessageId(),
       text: message,
       senderId: userId,
       isRead: false,
-      sendAt: DateTime.now(), // Will be overwritten in the toJson method
+      sentAt: DateTime.now(), // Will be overwritten in the toJson method
     );
+    // We don't await this because in offline mode we don't want to block the UI
+    // (request will await until online again).
     feedbackCollection
         .doc('$feedbackId')
         .collection('Messages')
@@ -73,7 +75,7 @@ class FirebaseFeedbackApi implements FeedbackApi {
     return feedbackCollection
         .doc('$feedbackId')
         .collection('Messages')
-        .orderBy('sendAt', descending: true)
+        .orderBy('sentAt')
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => FeedbackChatMessage.fromJson(doc.id, doc.data()))
