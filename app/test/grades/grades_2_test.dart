@@ -9,14 +9,14 @@ void main() {
       final englisch = Subject('Englisch');
 
       term = term.addSubject(englisch);
-      term = term.subject(englisch.id).addGrade(Grade(value: 3.0));
-      term = term.subject(englisch.id).addGrade(Grade(value: 1.0));
+      term = term.subject(englisch.id).addGrade(gradeWith(value: 3.0));
+      term = term.subject(englisch.id).addGrade(gradeWith(value: 1.0));
       expect(term.subject(englisch.id).grade, 2.0);
 
       final mathe = Subject('Mathe');
       term = term.addSubject(mathe);
-      term = term.subject(mathe.id).addGrade(Grade(value: 2.0));
-      term = term.subject(mathe.id).addGrade(Grade(value: 4.0));
+      term = term.subject(mathe.id).addGrade(gradeWith(value: 2.0));
+      term = term.subject(mathe.id).addGrade(gradeWith(value: 4.0));
 
       expect(term.subject(mathe.id).grade, 3.0);
     });
@@ -28,13 +28,13 @@ void main() {
       final englisch = Subject('Englisch');
 
       term = term.addSubject(englisch);
-      term = term.subject(englisch.id).addGrade(Grade(value: 3.0));
-      term = term.subject(englisch.id).addGrade(Grade(value: 1.0));
+      term = term.subject(englisch.id).addGrade(gradeWith(value: 3.0));
+      term = term.subject(englisch.id).addGrade(gradeWith(value: 1.0));
 
       final mathe = Subject('Mathe');
       term = term.addSubject(mathe);
-      term = term.subject(mathe.id).addGrade(Grade(value: 2.0));
-      term = term.subject(mathe.id).addGrade(Grade(value: 4.0));
+      term = term.subject(mathe.id).addGrade(gradeWith(value: 2.0));
+      term = term.subject(mathe.id).addGrade(gradeWith(value: 4.0));
 
       expect(term.getTermGrade(), 2.5);
     });
@@ -44,15 +44,15 @@ void main() {
       var term = Term();
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
-      term = term.subject(englisch.id).addGrade(Grade(value: 3.0));
+      term = term.subject(englisch.id).addGrade(gradeWith(value: 3.0));
 
       final mathe = Subject('Mathe');
       term = term.addSubject(mathe);
-      term = term.subject(mathe.id).addGrade(Grade(value: 2.0));
+      term = term.subject(mathe.id).addGrade(gradeWith(value: 2.0));
 
       final informatik = Subject('Informatik');
       term = term.addSubject(informatik);
-      term = term.subject(informatik.id).addGrade(Grade(value: 1.0));
+      term = term.subject(informatik.id).addGrade(gradeWith(value: 1.0));
 
       term = term.subject(englisch.id).changeWeightingForTermGrade(0.5);
       term = term.subject(mathe.id).changeWeightingForTermGrade(1);
@@ -67,18 +67,18 @@ void main() {
       var term = Term();
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
-      term = term.subject(englisch.id).addGrade(Grade(value: 1.0));
+      term = term.subject(englisch.id).addGrade(gradeWith(value: 1.0));
       term = term
           .subject(englisch.id)
-          .addGrade(Grade(value: 1.0), takeIntoAccount: false);
+          .addGrade(gradeWith(value: 1.0), takeIntoAccount: false);
       expect(term.subject(englisch.id).grade, 1.0);
 
       final mathe = Subject('Mathe');
       term = term.addSubject(mathe);
-      term = term.subject(mathe.id).addGrade(Grade(value: 1.0));
+      term = term.subject(mathe.id).addGrade(gradeWith(value: 1.0));
       term = term
           .subject(mathe.id)
-          .addGrade(Grade(value: 3.0), takeIntoAccount: false);
+          .addGrade(gradeWith(value: 3.0), takeIntoAccount: false);
       expect(term.subject(mathe.id).grade, 1.0);
 
       expect(term.getTermGrade(), 1.0);
@@ -91,13 +91,13 @@ void main() {
       term = term.addSubject(englisch);
       term = term
           .subject(englisch.id)
-          .addGrade(Grade(value: 2.0, type: GradeType('presentation')));
+          .addGrade(gradeWith(value: 2.0, type: GradeType('presentation')));
       term = term
           .subject(englisch.id)
-          .addGrade(Grade(value: 1.0, type: GradeType('exam')));
+          .addGrade(gradeWith(value: 1.0, type: GradeType('exam')));
       term = term
           .subject(englisch.id)
-          .addGrade(Grade(value: 1.0, type: GradeType('vocabulary test')));
+          .addGrade(gradeWith(value: 1.0, type: GradeType('vocabulary test')));
       term = term
           .subject(englisch.id)
           .changeGradeTypeWeighting(GradeType('presentation'), weight: 0.7);
@@ -109,6 +109,13 @@ void main() {
       expect(term.subject(englisch.id).grade, expected);
     });
   });
+}
+
+Grade gradeWith({
+  required double value,
+  GradeType type = const GradeType('testGradeType'),
+}) {
+  return Grade(value: value, type: type);
 }
 
 class GradeType extends Equatable {
