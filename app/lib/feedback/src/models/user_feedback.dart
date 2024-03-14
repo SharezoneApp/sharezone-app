@@ -9,6 +9,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:sharezone/feedback/shared/feedback_id.dart';
 
 class UserFeedback {
   /// The date and time the feedback was created.
@@ -17,7 +18,7 @@ class UserFeedback {
   final DateTime? createdOn;
 
   /// The id of the feedback.
-  final String id;
+  final FeedbackId id;
   final double? rating;
   final String likes;
   final String dislikes;
@@ -49,8 +50,8 @@ class UserFeedback {
   });
 
   factory UserFeedback.create() {
-    return const UserFeedback._(
-      id: "",
+    return UserFeedback._(
+      id: FeedbackId("feedbackId"),
       createdOn: null,
       rating: null,
       likes: "",
@@ -80,7 +81,7 @@ class UserFeedback {
 
   factory UserFeedback.fromJson(String feedbackId, Map<String, dynamic> map) {
     return UserFeedback._(
-      id: feedbackId,
+      id: FeedbackId(feedbackId),
       createdOn: dateTimeFromTimestampOrNull(map['createdOn']),
       rating: map['rating'] == null ? null : double.tryParse(map['rating']),
       likes: map['likes'] ?? '',
@@ -101,7 +102,7 @@ class UserFeedback {
   }
 
   UserFeedback copyWith({
-    String? id,
+    FeedbackId? id,
     double? rating,
     String? likes,
     String? dislikes,

@@ -10,6 +10,7 @@ import 'dart:async';
 
 import 'package:notifications/notifications.dart';
 import 'package:sharezone/feedback/history/feedback_details_page.dart';
+import 'package:sharezone/feedback/shared/feedback_id.dart';
 import 'package:sharezone/util/navigation_service.dart';
 
 ActionRegistration<ShowFeedbackRequest> showFeedbackRegistrationWith(
@@ -22,7 +23,7 @@ ActionRegistration<ShowFeedbackRequest> showFeedbackRegistrationWith(
 
 ShowFeedbackRequest _toShowFeedbackActionRequest(PushNotification notification,
         PushNotificationParserInstrumentation instrumentation) =>
-    ShowFeedbackRequest(notification.actionData['id'] as String);
+    ShowFeedbackRequest(FeedbackId(notification.actionData['id'] as String));
 
 /// Show the detailed view of a single feedback with the given [feedbackId].
 ///
@@ -30,7 +31,7 @@ ShowFeedbackRequest _toShowFeedbackActionRequest(PushNotification notification,
 class ShowFeedbackRequest extends ActionRequest {
   static const Set<String> actionTypes = {'show-feedback-with-id'};
 
-  final String feedbackId;
+  final FeedbackId feedbackId;
 
   @override
   List<Object> get props => [feedbackId];

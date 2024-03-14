@@ -55,7 +55,7 @@ import 'package:sharezone/download_app_tip/analytics/download_app_tip_analytics.
 import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
 import 'package:sharezone/download_app_tip/cache/download_app_tip_cache.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
-import 'package:sharezone/feedback/history/feedback_details_page_controller.dart';
+import 'package:sharezone/feedback/history/feedback_details_page_controller_factory.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_analytics.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
@@ -397,8 +397,9 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
         ),
       ),
-      ChangeNotifierProvider(
-        create: (context) => FeedbackDetailsPageController(
+      Provider(
+        create: (context) => FeedbackDetailsPageControllerFactory(
+          userId: api.userId,
           feedbackApi: feedbackApi,
         ),
       ),

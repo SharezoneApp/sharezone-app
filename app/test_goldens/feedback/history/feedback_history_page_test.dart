@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/feedback/history/feedback_history_page.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone/feedback/history/feedback_view.dart';
+import 'package:sharezone/feedback/shared/feedback_id.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'feedback_history_page_test.mocks.dart';
@@ -38,9 +39,9 @@ void main() {
     }
 
     void setLoadedState() {
-      const views = <FeedbackView>[
+      final views = <FeedbackView>[
         FeedbackView(
-          feedbackId: '1',
+          id: FeedbackId('1'),
           createdOn: '2022-01-01',
           rating: '4.0',
           likes: 'Everything!',

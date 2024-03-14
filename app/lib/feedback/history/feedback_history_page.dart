@@ -12,6 +12,7 @@ import 'package:sharezone/feedback/history/feedback_details_page.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone/feedback/history/feedback_view.dart';
 import 'package:sharezone/feedback/shared/feedback_icons.dart';
+import 'package:sharezone/feedback/shared/feedback_id.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -56,9 +57,9 @@ class _FeedbackHistoryPageState extends State<FeedbackHistoryPage> {
 class _Loading extends StatelessWidget {
   const _Loading();
 
-  static const dummyFeedbacks = [
+  static final dummyFeedbacks = [
     FeedbackView(
-      feedbackId: '1',
+      id: FeedbackId('1'),
       createdOn: '2022-01-01',
       rating: '5',
       likes: '10',
@@ -67,7 +68,7 @@ class _Loading extends StatelessWidget {
       heardFrom: 'Friend',
     ),
     FeedbackView(
-      feedbackId: '2',
+      id: FeedbackId('2'),
       createdOn: '2022-01-02',
       rating: '4',
       likes: '5',
@@ -79,7 +80,7 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _List(feedbacks: dummyFeedbacks);
+    return _List(feedbacks: dummyFeedbacks);
   }
 }
 
@@ -128,7 +129,7 @@ class _List extends StatelessWidget {
             top: isFirst ? 6 : 0,
             bottom: isLast ? 6 : 0,
           ),
-          child: _FeedbackCard(feedback: feedback),
+          child: _FeedbackCard(view: feedback),
         );
       },
     );
@@ -137,16 +138,19 @@ class _List extends StatelessWidget {
 
 class _FeedbackCard extends StatelessWidget {
   const _FeedbackCard({
-    required this.feedback,
+    required this.view,
   });
 
-  final FeedbackView feedback;
+  final FeedbackView view;
 
   void pushDetailsPage(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FeedbackDetailsPage(feedback: feedback),
+        builder: (context) => FeedbackDetailsPage(
+          feedbackId: view.id,
+          feedback: view,
+        ),
         settings: const RouteSettings(name: FeedbackDetailsPage.tag),
       ),
     );
@@ -164,15 +168,12 @@ class _FeedbackCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (feedback.hasCreatedOn)
-                  _CreatedOn(createdOn: feedback.createdOn!),
-                if (feedback.hasRating) _Rating(rating: feedback.rating!),
-                if (feedback.hasLikes) _Likes(likes: feedback.likes!),
-                if (feedback.hasDislikes)
-                  _Dislikes(dislikes: feedback.dislikes!),
-                if (feedback.hasMissing) _Missing(missing: feedback.missing!),
-                if (feedback.hasHeardFrom)
-                  _HeardFrom(heardFrom: feedback.heardFrom!),
+                if (view.hasCreatedOn) _CreatedOn(createdOn: view.createdOn!),
+                if (view.hasRating) _Rating(rating: view.rating!),
+                if (view.hasLikes) _Likes(likes: view.likes!),
+                if (view.hasDislikes) _Dislikes(dislikes: view.dislikes!),
+                if (view.hasMissing) _Missing(missing: view.missing!),
+                if (view.hasHeardFrom) _HeardFrom(heardFrom: view.heardFrom!),
               ],
             ),
           ),

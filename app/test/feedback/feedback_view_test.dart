@@ -8,6 +8,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/feedback/history/feedback_view.dart';
+import 'package:sharezone/feedback/shared/feedback_id.dart';
 import 'package:sharezone/feedback/src/models/user_feedback.dart';
 
 void main() {
@@ -43,8 +44,8 @@ void main() {
     });
 
     test('.hasX returns null even it is empty', () {
-      const view = FeedbackView(
-        feedbackId: '',
+      final view = FeedbackView(
+        id: FeedbackId('id'),
         createdOn: '',
         rating: '',
         likes: '',

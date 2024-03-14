@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/feedback/history/feedback_details_page.dart';
 import 'package:sharezone/feedback/history/feedback_details_page_controller.dart';
 import 'package:sharezone/feedback/history/feedback_view.dart';
+import 'package:sharezone/feedback/shared/feedback_id.dart';
 
 import 'feedback_details_page_test.mocks.dart';
 
@@ -22,7 +23,7 @@ import 'feedback_details_page_test.mocks.dart';
 void main() {
   group(FeedbackDetailsPage, () {
     late MockFeedbackDetailsPageController controller;
-    const feedbackId = 'feedbackId';
+    final feedbackId = FeedbackId('feedbackId');
 
     setUp(() {
       controller = MockFeedbackDetailsPageController();
@@ -42,7 +43,7 @@ void main() {
       await tester.pumpWidgetBuilder(
         ChangeNotifierProvider<FeedbackDetailsPageController>.value(
           value: controller,
-          child: const FeedbackDetailsPage(feedbackId: feedbackId),
+          child: FeedbackDetailsPage(feedbackId: feedbackId),
         ),
         wrapper: materialAppWrapper(theme: theme),
       );
@@ -52,8 +53,8 @@ void main() {
       setUp(() {
         setControllerState(
           FeedbackDetailsPageLoaded(
-            const FeedbackView(
-              feedbackId: feedbackId,
+            feedback: FeedbackView(
+              id: feedbackId,
               createdOn: '2022-01-01',
               rating: '4.0',
               likes: 'Everything!',
@@ -63,6 +64,7 @@ void main() {
               heardFrom: 'Google Play Store',
               missing: 'Nothing! 😊',
             ),
+            chatMessages: null,
           ),
         );
       });
@@ -81,7 +83,7 @@ void main() {
     group('error', () {
       setUp(() {
         setControllerState(
-          FeedbackDetailsPageError('An error occurred', feedbackId),
+          FeedbackDetailsPageError('An error occurred'),
         );
       });
 

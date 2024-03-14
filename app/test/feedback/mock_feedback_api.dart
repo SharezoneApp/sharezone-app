@@ -6,7 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:common_domain_models/src/ids/user_id.dart';
+import 'package:sharezone/feedback/shared/feedback_id.dart';
 import 'package:sharezone/feedback/src/api/feedback_api.dart';
+import 'package:sharezone/feedback/src/models/feedback_chat_message.dart';
 import 'package:sharezone/feedback/src/models/user_feedback.dart';
 
 class MockFeedbackApi extends FeedbackApi {
@@ -29,7 +32,21 @@ class MockFeedbackApi extends FeedbackApi {
   }
 
   @override
-  Future<UserFeedback> getFeedback(String feedbackId) {
+  Future<UserFeedback> getFeedback(FeedbackId feedbackId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  void sendResponse({
+    required FeedbackId feedbackId,
+    required UserId userId,
+    required String message,
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<FeedbackChatMessage>> streamChatMessages(FeedbackId feedbackId) {
     throw UnimplementedError();
   }
 }

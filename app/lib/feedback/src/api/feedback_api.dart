@@ -6,10 +6,19 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:common_domain_models/common_domain_models.dart';
+import 'package:sharezone/feedback/shared/feedback_id.dart';
+import 'package:sharezone/feedback/src/models/feedback_chat_message.dart';
 import 'package:sharezone/feedback/src/models/user_feedback.dart';
 
 abstract class FeedbackApi {
   Future<void> sendFeedback(UserFeedback feedback);
   Stream<List<UserFeedback>> streamFeedbacks(String userId);
-  Future<UserFeedback> getFeedback(String feedbackId);
+  Stream<List<FeedbackChatMessage>> streamChatMessages(FeedbackId feedbackId);
+  Future<UserFeedback> getFeedback(FeedbackId feedbackId);
+  void sendResponse({
+    required FeedbackId feedbackId,
+    required UserId userId,
+    required String message,
+  });
 }

@@ -6,12 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:equatable/equatable.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:intl/intl.dart';
+import 'package:sharezone/feedback/shared/feedback_id.dart';
 import 'package:sharezone/feedback/src/models/user_feedback.dart';
 
-class FeedbackView {
-  final String feedbackId;
+class FeedbackView extends Equatable {
+  final FeedbackId id;
   final String? createdOn;
   final String? rating;
   final String? likes;
@@ -27,7 +29,7 @@ class FeedbackView {
   bool get hasMissing => isNotEmptyOrNull(missing);
 
   const FeedbackView({
-    required this.feedbackId,
+    required this.id,
     required this.createdOn,
     required this.rating,
     required this.likes,
@@ -38,7 +40,7 @@ class FeedbackView {
 
   factory FeedbackView.fromUserFeedback(UserFeedback feedback) {
     return FeedbackView(
-      feedbackId: feedback.id,
+      id: feedback.id,
       rating: feedback.rating == null ? null : '${feedback.rating}/5.0',
       likes: feedback.likes,
       dislikes: feedback.dislikes,
@@ -51,30 +53,15 @@ class FeedbackView {
   }
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is FeedbackView &&
-        other.rating == rating &&
-        other.likes == likes &&
-        other.dislikes == dislikes &&
-        other.heardFrom == heardFrom &&
-        other.missing == missing;
-  }
-
-  @override
-  int get hashCode {
-    return rating.hashCode ^
-        likes.hashCode ^
-        dislikes.hashCode ^
-        heardFrom.hashCode ^
-        missing.hashCode;
-  }
-
-  @override
-  String toString() {
-    return 'FeedbackView(rating: $rating, likes: $likes, dislikes: $dislikes, heardFrom: $heardFrom, missing: $missing)';
-  }
+  List<Object?> get props => [
+        id,
+        createdOn,
+        rating,
+        likes,
+        dislikes,
+        heardFrom,
+        missing,
+      ];
 }
 
 extension UserFeedbacksToViews on List<UserFeedback> {
