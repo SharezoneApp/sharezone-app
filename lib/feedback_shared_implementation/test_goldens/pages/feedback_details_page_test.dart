@@ -61,19 +61,30 @@ void main() {
         setControllerState(
           FeedbackDetailsPageLoaded(
             feedback: FeedbackView(
-              id: feedbackId,
-              createdOn: '2022-01-01',
-              rating: '4.0',
-              likes: 'Everything!',
-              // Long text to test overflow
-              dislikes:
-                  'I do not like rainy days 🌧️ Here my reasons: First, it can disrupt outdoor plans, events, and activities, leading to cancellations or the need for last-minute changes. Second, heavy rainfall can cause traffic delays and hazardous driving conditions, increasing the risk of accidents. Lastly, persistent or heavy rain can lead to flooding, causing damage to homes and infrastructure, and potentially displacing residents.',
-              heardFrom: 'Google Play Store',
-              missing: 'Nothing! 😊',
-              hasUnreadMessages: null,
-              lastMessage: null,
-            ),
-            chatMessages: null,
+                id: feedbackId,
+                createdOn: '2022-01-01',
+                rating: '4.0',
+                likes: 'Everything!',
+                // Long text to test overflow
+                dislikes:
+                    'I do not like rainy days 🌧️ Here my reasons: First, it can disrupt outdoor plans, events, and activities, leading to cancellations or the need for last-minute changes. Second, heavy rainfall can cause traffic delays and hazardous driving conditions, increasing the risk of accidents. Lastly, persistent or heavy rain can lead to flooding, causing damage to homes and infrastructure, and potentially displacing residents.',
+                heardFrom: 'Google Play Store',
+                missing: 'Nothing! 😊',
+                hasUnreadMessages: null,
+                lastMessage: null),
+            chatMessages: const [
+              FeedbackMessageView(
+                isMyMessage: true,
+                message: 'Hello!',
+                sentAt: '2022-01-01',
+              ),
+              FeedbackMessageView(
+                isMyMessage: false,
+                message:
+                    'I do not like rainy days 🌧️ Here my reasons: First, it can disrupt outdoor plans, events, and activities, leading to cancellations or the need for last-minute changes. Second, heavy rainfall can cause traffic delays and hazardous driving conditions, increasing the risk of accidents. Lastly, persistent or heavy rain can lead to flooding, causing damage to homes and infrastructure, and potentially displacing residents.',
+                sentAt: '2022-01-01',
+              ),
+            ],
           ),
         );
       });

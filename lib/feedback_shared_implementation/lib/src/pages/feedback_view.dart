@@ -23,6 +23,7 @@ class FeedbackView extends Equatable {
   final String? missing;
   final String? lastMessage;
   final bool? hasUnreadMessages;
+  final String? deviceInformation;
 
   bool get hasCreatedOn => isNotEmptyOrNull(createdOn);
   bool get hasRating => isNotEmptyOrNull(rating);
@@ -31,6 +32,7 @@ class FeedbackView extends Equatable {
   bool get hasHeardFrom => isNotEmptyOrNull(heardFrom);
   bool get hasMissing => isNotEmptyOrNull(missing);
   bool get hasLastMessage => isNotEmptyOrNull(lastMessage);
+  bool get hasDeviceInformation => isNotEmptyOrNull(deviceInformation);
 
   const FeedbackView({
     required this.id,
@@ -42,6 +44,7 @@ class FeedbackView extends Equatable {
     required this.missing,
     required this.lastMessage,
     required this.hasUnreadMessages,
+    this.deviceInformation,
   });
 
   factory FeedbackView.fromUserFeedback(UserFeedback feedback, UserId userId) {
@@ -63,6 +66,7 @@ class FeedbackView extends Equatable {
       hasUnreadMessages: feedback.unreadMessagesStatus?[userId] == null
           ? false
           : feedback.unreadMessagesStatus?[userId]?.hasUnreadMessages == true,
+      deviceInformation: feedback.deviceInformation.toString(),
     );
   }
 

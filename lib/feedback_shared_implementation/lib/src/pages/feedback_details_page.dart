@@ -23,10 +23,12 @@ class FeedbackDetailsPage extends StatefulWidget {
     super.key,
     required this.feedbackId,
     required this.onContactSupportPressed,
+    this.showDeviceInformation = false,
   });
 
   final FeedbackId feedbackId;
   final VoidCallback? onContactSupportPressed;
+  final bool showDeviceInformation;
 
   static const tag = 'feedback-details-page';
 
@@ -77,6 +79,7 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
             child: MaxWidthConstraintBox(
               child: _FeedbackTiles(
                 onContactSupportPressed: widget.onContactSupportPressed,
+                showDeviceInformation: widget.showDeviceInformation,
               ),
             ),
           ),
@@ -92,9 +95,11 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
 class _FeedbackTiles extends StatelessWidget {
   const _FeedbackTiles({
     required this.onContactSupportPressed,
+    required this.showDeviceInformation,
   });
 
   final VoidCallback? onContactSupportPressed;
+  final bool showDeviceInformation;
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +115,7 @@ class _FeedbackTiles extends StatelessWidget {
         FeedbackDetailsPageLoaded() => _Items(
             feedback: state.feedback,
             messages: state.chatMessages,
+            showDeviceInformation: showDeviceInformation,
           ),
       },
     );
@@ -133,6 +139,7 @@ class _Loading extends StatelessWidget {
         lastMessage: null,
         hasUnreadMessages: null,
       ),
+      showDeviceInformation: false,
       messages: null,
     );
   }
@@ -163,10 +170,12 @@ class _Items extends StatelessWidget {
   const _Items({
     required this.feedback,
     required this.messages,
+    required this.showDeviceInformation,
   });
 
   final FeedbackView? feedback;
   final List<FeedbackMessageView>? messages;
+  final bool showDeviceInformation;
 
   @override
   Widget build(BuildContext context) {
@@ -182,6 +191,8 @@ class _Items extends StatelessWidget {
         if (feedback.hasDislikes) _Dislikes(dislikes: feedback.dislikes!),
         if (feedback.hasMissing) _Missing(missing: feedback.missing!),
         if (feedback.hasHeardFrom) _HeardFrom(heardFrom: feedback.heardFrom!),
+        if (feedback.hasDeviceInformation)
+          _DeviceInformation(deviceInformation: feedback.deviceInformation!),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
           child: messages != null ? _Messages(messages) : null,
@@ -510,6 +521,22 @@ class _ChatBubble extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _DeviceInformation extends StatelessWidget {
+  const _DeviceInformation({
+    required this.deviceInformation,
+  });
+
+  final String deviceInformation;
+
+  @override
+  Widget build(BuildContext context) {
+    return _FeedbackTile(
+      leading: const Icon(Icons.phone_android),
+      title: Text(deviceInformation),
     );
   }
 }

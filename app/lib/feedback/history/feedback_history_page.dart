@@ -113,9 +113,20 @@ class _List extends StatelessWidget {
             bottom: isLast ? 6 : 0,
           ),
           child: FeedbackCard(
+            pushDetailsPage: (feedbackId) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedbackDetailsPage(
+                    feedbackId: feedbackId,
+                    onContactSupportPressed: () =>
+                        Navigator.pushNamed(context, SupportPage.tag),
+                  ),
+                  settings: const RouteSettings(name: FeedbackDetailsPage.tag),
+                ),
+              );
+            },
             view: feedback,
-            onContactSupportPressed: () =>
-                Navigator.pushNamed(context, SupportPage.tag),
             isLoading: isLoading,
           ),
         );

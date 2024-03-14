@@ -96,7 +96,18 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
           return FeedbackCard(
             view: feedback,
             isLoading: false,
-            onContactSupportPressed: null,
+            pushDetailsPage: (feedbackId) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedbackDetailsPage(
+                    feedbackId: feedbackId,
+                    onContactSupportPressed: null,
+                  ),
+                  settings: const RouteSettings(name: FeedbackDetailsPage.tag),
+                ),
+              );
+            },
           );
         },
       ),
@@ -132,7 +143,7 @@ class _Loading extends StatelessWidget {
         hasUnreadMessages: false,
         lastMessage: null,
       ),
-      onContactSupportPressed: null,
+      pushDetailsPage: null,
       isLoading: true,
     );
   }

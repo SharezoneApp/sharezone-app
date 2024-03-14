@@ -108,7 +108,8 @@ class UserFeedback {
                   value) =>
               MapEntry(UserId(key), UnreadMessageStatus.fromJson(key, value))),
       lastMessage: map['lastMessage'] != null
-          ? FeedbackChatMessage.fromJson(map['id'], map['lastMessage'])
+          ? FeedbackChatMessage.fromJson(
+              map['lastMessage']['id'], map['lastMessage'])
           : null,
     );
   }

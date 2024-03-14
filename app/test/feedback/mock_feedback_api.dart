@@ -54,4 +54,10 @@ class MockFeedbackApi extends FeedbackApi {
   Stream<bool> streamHasUnreadFeedbackMessages(UserId userId) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<UserFeedback>> getFeedbacksForSupportTeam(
+      {DateTime? startAfter, int limit = 0}) {
+    throw UnimplementedError();
+  }
 }

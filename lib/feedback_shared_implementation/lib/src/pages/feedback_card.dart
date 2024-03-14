@@ -17,26 +17,13 @@ class FeedbackCard extends StatelessWidget {
   const FeedbackCard({
     super.key,
     required this.view,
-    required this.onContactSupportPressed,
     required this.isLoading,
+    required this.pushDetailsPage,
   });
 
   final FeedbackView view;
-  final VoidCallback? onContactSupportPressed;
   final bool isLoading;
-
-  void pushDetailsPage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FeedbackDetailsPage(
-          feedbackId: view.id,
-          onContactSupportPressed: onContactSupportPressed,
-        ),
-        settings: const RouteSettings(name: FeedbackDetailsPage.tag),
-      ),
-    );
-  }
+  final void Function(FeedbackId)? pushDetailsPage;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +34,7 @@ class FeedbackCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             child: CustomCard(
-              onTap: () => pushDetailsPage(context),
+              onTap: isLoading ? null : () => pushDetailsPage!(view.id),
               padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +94,7 @@ class _LastMessage extends StatelessWidget {
                 fontWeight: hasUnreadMessages ? FontWeight.w500 : null),
           ),
           subtitle: Text(
-            'Sharezone Team: Vielen Dank für dein Feedback!',
+            view.lastMessage!,
             style: TextStyle(
                 fontWeight: hasUnreadMessages ? FontWeight.w500 : null),
             maxLines: 1,
