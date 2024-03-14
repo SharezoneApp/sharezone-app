@@ -14,7 +14,7 @@ import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
-import 'package:sharezone/grades/grades_page.dart';
+import 'package:sharezone/grades/pages/grades_page/grades_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/homework/parent/homework_page.dart';
 import 'package:sharezone/keys.dart';
