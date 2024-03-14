@@ -64,6 +64,9 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
 
   @override
   void dispose() {
+    // For some reason, the controller is not disposed automatically  when the
+    // page is popped.
+    controller.dispose();
     super.dispose();
   }
 

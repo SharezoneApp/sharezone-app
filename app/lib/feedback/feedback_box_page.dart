@@ -129,7 +129,8 @@ class _UnreadMessagesIndicatorState extends State<_UnreadMessagesIndicator> {
         child: AnimatedSwap(
           duration: const Duration(milliseconds: 350),
           child: _hasUnreadFeedbackMessages
-              ? const Icon(Icons.brightness_1, color: Colors.red, size: 13)
+              ? Icon(Icons.brightness_1,
+                  color: Theme.of(context).primaryColor, size: 13)
               : const SizedBox.shrink(),
         ),
       ),
