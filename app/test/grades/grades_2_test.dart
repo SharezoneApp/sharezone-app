@@ -61,7 +61,13 @@ void main() {
       term = term.subject(mathe.id).changeWeightingForTermGrade(1);
       term = term.subject(informatik.id).changeWeightingForTermGrade(2);
 
-      const expected = (3 * (1 / 0.5) + 2 * (1 / 1) + 1 * (1 / 2)) / 3;
+      const weight1 = 0.5; // weight for English
+      const weight2 = 1; // weight for Math
+      const weight3 = 2; // weight for Computer Science
+
+      const sumOfWeights = weight1 + weight2 + weight3;
+
+      const expected = (3 * weight1 + 2 * weight2 + 1 * weight3) / sumOfWeights;
       expect(term.getTermGrade(), expected);
     });
     test(
@@ -112,7 +118,13 @@ void main() {
           .subject(englisch.id)
           .changeGradeTypeWeighting(GradeType('exam'), weight: 1.5);
 
-      const expected = (2 * (1 / 0.7) + 1 * (1 / 1.5) + 1 * (1 / 1)) / 3;
+      const weight1 = 0.7; // weight for presentation
+      const weight2 = 1.5; // weight for exam
+      const weight3 = 1; // default weight for vocabulary test
+
+      const sumOfWeights = weight1 + weight2 + weight3;
+
+      const expected = (2 * weight1 + 1 * weight2 + 1 * weight3) / sumOfWeights;
       expect(term.subject(englisch.id).gradeVal, expected);
     });
     test('subjects can have custom weights per grade', () {
@@ -134,7 +146,14 @@ void main() {
       term = term.subject(englisch.id).grade(grade2.id).changeWeight(weight: 2);
       // grade3 has the default weight of 1
 
-      const expected = (1 * (1 / 0.2) + 4 * (1 / 2) + 3 * (1 / 1)) / 3;
+      const weight1 = 0.2;
+      const weight2 = 2;
+      const weight3 = 1; // default weight
+
+      const sumOfWeights = weight1 + weight2 + weight3;
+
+      const expected = (1 * weight1 + 4 * weight2 + 3 * weight3) / sumOfWeights;
+      expect(expected, closeTo(3.5, 0.01));
       expect(term.subject(englisch.id).gradeVal, expected);
     });
   });
@@ -193,14 +212,17 @@ class Term {
   }
 
   num getTermGrade() {
-    return _subjects
-            .where((element) => element.getGrade() != null)
+    final gradedSubjects =
+        _subjects.where((element) => element.getGrade() != null);
+    return gradedSubjects
             .map((subject) =>
-                subject.getGrade()! / subject.weightingForTermGrade)
+                subject.getGrade()! * subject.weightingForTermGrade)
             .reduce(
               (a, b) => a + b,
             ) /
-        _subjects.length;
+        gradedSubjects
+            .map((e) => e.weightingForTermGrade)
+            .reduce((a, b) => a + b);
   }
 
   Term _addGrade(Grade grade,
@@ -351,9 +373,9 @@ class _Subject {
     if (grds.isEmpty) return null;
 
     return grds
-            .map((grade) => grade.value * 1 / _weightFor(grade))
+            .map((grade) => grade.value * _weightFor(grade))
             .reduce((a, b) => a + b) /
-        grds.length;
+        grds.map((e) => _weightFor(e)).reduce((a, b) => a + b);
   }
 
   num _weightFor(_Grade grade) {
