@@ -16,6 +16,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -39,7 +40,8 @@ import 'sharezone_plus_page_test.mocks.dart';
   MockSpec<NavigationAnalytics>(),
   MockSpec<SharezoneContext>(),
   MockSpec<SharezoneGateway>(),
-  MockSpec<UserGateway>()
+  MockSpec<UserGateway>(),
+  MockSpec<HasUnreadFeedbackMessagesProvider>(),
 ])
 void main() {
   group(SharezonePlusPage, () {
@@ -49,6 +51,8 @@ void main() {
     late MockSharezoneContext sharezoneContext;
     late MockUserGateway userGateway;
     late MockSharezoneGateway sharezoneGateway;
+    late MockHasUnreadFeedbackMessagesProvider
+        hasUnreadFeedbackMessagesProvider;
 
     setUp(() {
       controller = MockSharezonePlusPageController();
@@ -57,6 +61,8 @@ void main() {
       sharezoneContext = MockSharezoneContext();
       sharezoneGateway = MockSharezoneGateway();
       userGateway = MockUserGateway();
+      hasUnreadFeedbackMessagesProvider =
+          MockHasUnreadFeedbackMessagesProvider();
 
       when(sharezoneContext.api).thenAnswer((_) => sharezoneGateway);
       when(sharezoneGateway.user).thenAnswer((_) => userGateway);
@@ -71,6 +77,8 @@ void main() {
           .thenAnswer((_) => NavigationItem.sharezonePlus);
       when(navigationBloc.scaffoldKey)
           .thenAnswer((_) => GlobalKey<State<StatefulWidget>>());
+      when(hasUnreadFeedbackMessagesProvider.hasUnreadFeedbackMessages)
+          .thenAnswer((_) => false);
 
       when(controller.price).thenAnswer((_) => fallbackPlusPrice);
     });
@@ -93,6 +101,8 @@ void main() {
               create: (context) => controller,
             ),
             Provider<TypeOfUser?>.value(value: TypeOfUser.student),
+            ChangeNotifierProvider<HasUnreadFeedbackMessagesProvider>.value(
+                value: hasUnreadFeedbackMessagesProvider),
           ],
           child: MultiBlocProvider(
             blocProviders: [

@@ -73,6 +73,8 @@ dependencies:
     path: ../lib/dynamic_links
   equatable: ^2.0.5
   fast_immutable_collections: ^9.1.5
+  feedback_shared_implementation:
+    path: ../lib/feedback_shared_implementation
   files_basics:
     path: ../lib/filesharing/files_basics
   files_usecases:

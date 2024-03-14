@@ -3,16 +3,23 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i4;
 
-import 'package:analytics/analytics.dart' as _i3;
-import 'package:crash_analytics/src/crash_analytics.dart' as _i6;
-import 'package:flutter/foundation.dart' as _i7;
+import 'package:analytics/analytics.dart' as _i2;
+import 'package:common_domain_models/common_domain_models.dart' as _i8;
+import 'package:crash_analytics/src/crash_analytics.dart' as _i9;
+import 'package:feedback_shared_implementation/src/api/feedback_api.dart'
+    as _i3;
+import 'package:feedback_shared_implementation/src/models/feedback_chat_message.dart'
+    as _i6;
+import 'package:feedback_shared_implementation/src/models/feedback_id.dart'
+    as _i7;
+import 'package:feedback_shared_implementation/src/models/user_feedback.dart'
+    as _i5;
+import 'package:flutter/foundation.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sharezone/feedback/history/feedback_history_page_analytics.dart'
-    as _i8;
-import 'package:sharezone/feedback/src/api/feedback_api.dart' as _i4;
-import 'package:sharezone/feedback/src/models/user_feedback.dart' as _i2;
+    as _i11;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -27,18 +34,8 @@ import 'package:sharezone/feedback/src/models/user_feedback.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeUserFeedback_0 extends _i1.SmartFake implements _i2.UserFeedback {
-  _FakeUserFeedback_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeAnalytics_1 extends _i1.SmartFake implements _i3.Analytics {
-  _FakeAnalytics_1(
+class _FakeAnalytics_0 extends _i1.SmartFake implements _i2.Analytics {
+  _FakeAnalytics_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -50,56 +47,98 @@ class _FakeAnalytics_1 extends _i1.SmartFake implements _i3.Analytics {
 /// A class which mocks [FeedbackApi].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFeedbackApi extends _i1.Mock implements _i4.FeedbackApi {
+class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
   @override
-  _i5.Future<void> sendFeedback(_i2.UserFeedback? feedback) =>
+  _i4.Future<void> sendFeedback(_i5.UserFeedback? feedback) =>
       (super.noSuchMethod(
         Invocation.method(
           #sendFeedback,
           [feedback],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
   @override
-  _i5.Stream<List<_i2.UserFeedback>> streamFeedbacks(String? userId) =>
+  _i4.Stream<List<_i5.UserFeedback>> streamFeedbacks(String? userId) =>
       (super.noSuchMethod(
         Invocation.method(
           #streamFeedbacks,
           [userId],
         ),
-        returnValue: _i5.Stream<List<_i2.UserFeedback>>.empty(),
-        returnValueForMissingStub: _i5.Stream<List<_i2.UserFeedback>>.empty(),
-      ) as _i5.Stream<List<_i2.UserFeedback>>);
+        returnValue: _i4.Stream<List<_i5.UserFeedback>>.empty(),
+        returnValueForMissingStub: _i4.Stream<List<_i5.UserFeedback>>.empty(),
+      ) as _i4.Stream<List<_i5.UserFeedback>>);
   @override
-  _i5.Future<_i2.UserFeedback> getFeedback(String? feedbackId) =>
+  _i4.Stream<List<_i6.FeedbackChatMessage>> streamChatMessages(
+          _i7.FeedbackId? feedbackId) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getFeedback,
+          #streamChatMessages,
           [feedbackId],
         ),
-        returnValue: _i5.Future<_i2.UserFeedback>.value(_FakeUserFeedback_0(
-          this,
-          Invocation.method(
-            #getFeedback,
-            [feedbackId],
-          ),
-        )),
+        returnValue: _i4.Stream<List<_i6.FeedbackChatMessage>>.empty(),
         returnValueForMissingStub:
-            _i5.Future<_i2.UserFeedback>.value(_FakeUserFeedback_0(
-          this,
-          Invocation.method(
-            #getFeedback,
-            [feedbackId],
-          ),
-        )),
-      ) as _i5.Future<_i2.UserFeedback>);
+            _i4.Stream<List<_i6.FeedbackChatMessage>>.empty(),
+      ) as _i4.Stream<List<_i6.FeedbackChatMessage>>);
+  @override
+  _i4.Stream<_i5.UserFeedback> streamFeedback(_i7.FeedbackId? feedbackId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #streamFeedback,
+          [feedbackId],
+        ),
+        returnValue: _i4.Stream<_i5.UserFeedback>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i5.UserFeedback>.empty(),
+      ) as _i4.Stream<_i5.UserFeedback>);
+  @override
+  _i4.Stream<bool> streamHasUnreadFeedbackMessages(_i8.UserId? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #streamHasUnreadFeedbackMessages,
+          [userId],
+        ),
+        returnValue: _i4.Stream<bool>.empty(),
+        returnValueForMissingStub: _i4.Stream<bool>.empty(),
+      ) as _i4.Stream<bool>);
+  @override
+  void markMessageAsRead(
+    _i7.FeedbackId? feedbackId,
+    _i8.UserId? userId,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #markMessageAsRead,
+          [
+            feedbackId,
+            userId,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void sendResponse({
+    required _i7.FeedbackId? feedbackId,
+    required _i8.UserId? userId,
+    required String? message,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #sendResponse,
+          [],
+          {
+            #feedbackId: feedbackId,
+            #userId: userId,
+            #message: message,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [CrashAnalytics].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCrashAnalytics extends _i1.Mock implements _i6.CrashAnalytics {
+class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
   @override
   set enableInDevMode(bool? _enableInDevMode) => super.noSuchMethod(
         Invocation.setter(
@@ -117,17 +156,17 @@ class MockCrashAnalytics extends _i1.Mock implements _i6.CrashAnalytics {
         returnValueForMissingStub: null,
       );
   @override
-  _i5.Future<void> recordFlutterError(_i7.FlutterErrorDetails? details) =>
+  _i4.Future<void> recordFlutterError(_i10.FlutterErrorDetails? details) =>
       (super.noSuchMethod(
         Invocation.method(
           #recordFlutterError,
           [details],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
   @override
-  _i5.Future<void> recordError(
+  _i4.Future<void> recordError(
     dynamic exception,
     StackTrace? stack, {
     bool? fatal = false,
@@ -141,9 +180,9 @@ class MockCrashAnalytics extends _i1.Mock implements _i6.CrashAnalytics {
           ],
           {#fatal: fatal},
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
   @override
   void log(String? msg) => super.noSuchMethod(
         Invocation.method(
@@ -153,7 +192,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i6.CrashAnalytics {
         returnValueForMissingStub: null,
       );
   @override
-  _i5.Future<void> setCustomKey(
+  _i4.Future<void> setCustomKey(
     String? key,
     dynamic value,
   ) =>
@@ -165,47 +204,47 @@ class MockCrashAnalytics extends _i1.Mock implements _i6.CrashAnalytics {
             value,
           ],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
   @override
-  _i5.Future<void> setUserIdentifier(String? identifier) => (super.noSuchMethod(
+  _i4.Future<void> setUserIdentifier(String? identifier) => (super.noSuchMethod(
         Invocation.method(
           #setUserIdentifier,
           [identifier],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
   @override
-  _i5.Future<void> setCrashAnalyticsEnabled(bool? enabled) =>
+  _i4.Future<void> setCrashAnalyticsEnabled(bool? enabled) =>
       (super.noSuchMethod(
         Invocation.method(
           #setCrashAnalyticsEnabled,
           [enabled],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [FeedbackHistoryPageAnalytics].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFeedbackHistoryPageAnalytics extends _i1.Mock
-    implements _i8.FeedbackHistoryPageAnalytics {
+    implements _i11.FeedbackHistoryPageAnalytics {
   @override
-  _i3.Analytics get analytics => (super.noSuchMethod(
+  _i2.Analytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
-        returnValue: _FakeAnalytics_1(
+        returnValue: _FakeAnalytics_0(
           this,
           Invocation.getter(#analytics),
         ),
-        returnValueForMissingStub: _FakeAnalytics_1(
+        returnValueForMissingStub: _FakeAnalytics_0(
           this,
           Invocation.getter(#analytics),
         ),
-      ) as _i3.Analytics);
+      ) as _i2.Analytics);
   @override
   void logOpenedPage() => super.noSuchMethod(
         Invocation.method(

@@ -7,10 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/src/ids/user_id.dart';
-import 'package:sharezone/feedback/shared/feedback_id.dart';
-import 'package:sharezone/feedback/src/api/feedback_api.dart';
-import 'package:sharezone/feedback/src/models/feedback_chat_message.dart';
-import 'package:sharezone/feedback/src/models/user_feedback.dart';
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 
 class MockFeedbackApi extends FeedbackApi {
   bool get wasInvoked => invocations.isNotEmpty;

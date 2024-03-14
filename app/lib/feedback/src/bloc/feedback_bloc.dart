@@ -7,12 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_base/bloc_base.dart';
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
-import 'package:sharezone/feedback/src/api/feedback_api.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
-import 'package:sharezone/feedback/src/models/user_feedback.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 
 class FeedbackBloc extends BlocBase {

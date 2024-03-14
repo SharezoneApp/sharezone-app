@@ -1,0 +1,52 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: feedback_shared_implementation
+description: A package containing the shared implementation of the feedback feature. Used by the app and the console.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  equatable: ^2.0.5
+  flutter:
+    sdk: flutter
+  provider: ^6.0.3
+  crash_analytics:
+    path: ../crash_analytics
+  build_context:
+    path: ../build_context
+  intl: ^0.18.1
+  common_domain_models:
+    path: ../common_domain_models
+  sharezone_widgets:
+    path: ../sharezone_widgets
+  helper_functions:
+    path: ../helper_functions
+  cloud_firestore: ^4.15.5
+  cloud_firestore_helper:
+    path: ../cloud_firestore_helper
+  flutter_markdown:
+    git:
+      url: https://github.com/SharezoneApp/packages
+      path: packages/flutter_markdown
+      ref: 2f680bb80119f6fd037a7bda0984bc811b5dccb8
+
+dev_dependencies:
+  build_runner: ^2.4.7
+  flutter_test:
+    sdk: flutter
+  golden_toolkit: ^0.15.0
+  mockito: ^5.4.4
+  sharezone_lints:
+    path: ../sharezone_lints
+
+flutter:
+  uses-material-design: true

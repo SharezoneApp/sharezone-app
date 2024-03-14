@@ -8,9 +8,9 @@
 
 import 'dart:async';
 
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:notifications/notifications.dart';
-import 'package:sharezone/feedback/history/feedback_details_page.dart';
-import 'package:sharezone/feedback/shared/feedback_id.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
 
 ActionRegistration<ShowFeedbackRequest> showFeedbackRegistrationWith(
@@ -47,7 +47,11 @@ class ShowFeedbackExecutor extends ActionRequestExecutor<ShowFeedbackRequest> {
   @override
   FutureOr<void> execute(ShowFeedbackRequest actionRequest) {
     return _navigationService!.pushWidget(
-      FeedbackDetailsPage(feedbackId: actionRequest.feedbackId),
+      FeedbackDetailsPage(
+        feedbackId: actionRequest.feedbackId,
+        onContactSupportPressed: () =>
+            _navigationService!.pushNamed(SupportPage.tag),
+      ),
       name: FeedbackDetailsPage.tag,
     );
   }

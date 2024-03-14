@@ -571,6 +571,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.1"
+  feedback_shared_implementation:
+    dependency: "direct main"
+    description:
+      path: "../lib/feedback_shared_implementation"
+      relative: true
+    source: path
+    version: "0.0.1"
   ffi:
     dependency: transitive
     description:

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sharezone/feedback/src/api/feedback_api.dart';
 
 class HasUnreadFeedbackMessagesProvider extends ChangeNotifier {
   final FeedbackApi feedbackApi;
