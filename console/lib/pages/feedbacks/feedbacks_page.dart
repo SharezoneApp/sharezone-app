@@ -8,10 +8,10 @@
 
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:very_good_infinite_list/very_good_infinite_list.dart';
 
@@ -35,7 +35,6 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
   var _isLoading = false;
   var _hasReachedMax = false;
   final queryLimit = 10;
-  final FeedbackApi _api = FirebaseFeedbackApi(FirebaseFirestore.instance);
 
   void _fetchData() async {
     setState(() {
@@ -46,7 +45,8 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
 
     // Load 10 more feedbacks from Firestore
 
-    final newFeedbacks = await _api.getFeedbacksForSupportTeam(
+    final api = context.read<FeedbackApi>();
+    final newFeedbacks = await api.getFeedbacksForSupportTeam(
       startAfter: _lastCreatedAt,
       limit: queryLimit,
     );

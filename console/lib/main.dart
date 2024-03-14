@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
 
     final feedbackApi = FirebaseFeedbackApi(FirebaseFirestore.instance);
     providers = [
-      Provider.value(value: feedbackApi),
+      Provider<FeedbackApi>.value(value: feedbackApi),
       Provider(
         create: (context) => FeedbackDetailsPageControllerFactory(
           feedbackApi: feedbackApi,
