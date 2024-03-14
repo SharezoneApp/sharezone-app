@@ -17,7 +17,7 @@ import 'package:very_good_infinite_list/very_good_infinite_list.dart';
 
 /// The user ID of the support team.
 ///
-/// We use a shared user ID to enable multiple Sharezone members can work on the
+/// We use a shared user ID so that multiple Sharezone members can work on the
 /// feedbacks. For example the status of unread messages is grouped by user ID.
 /// This way, all members of the support team see the same unread messages.
 final supportTeamUserId = UserId('support-team');
