@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/feedback/history/feedback_view.dart';
 import 'package:sharezone/feedback/shared/feedback_id.dart';
@@ -15,7 +16,7 @@ void main() {
   group(FeedbackView, () {
     test('.fromUserFeedback() empty', () {
       final feedback = UserFeedback.create();
-      final view = FeedbackView.fromUserFeedback(feedback);
+      final view = FeedbackView.fromUserFeedback(feedback, UserId('1'));
 
       expect(view.rating, isNull);
       expect(view.likes, '');
@@ -33,7 +34,7 @@ void main() {
         likes: 'l',
         missing: 'm',
       );
-      final view = FeedbackView.fromUserFeedback(feedback);
+      final view = FeedbackView.fromUserFeedback(feedback, UserId('1'));
 
       expect(view.rating, '5.0/5.0');
       expect(view.likes, 'l');
@@ -52,6 +53,8 @@ void main() {
         dislikes: '',
         heardFrom: '',
         missing: '',
+        hasUnreadMessages: null,
+        lastMessage: null,
       );
 
       expect(view.hasCreatedOn, isFalse);

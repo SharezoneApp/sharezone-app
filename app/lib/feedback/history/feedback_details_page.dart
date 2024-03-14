@@ -120,6 +120,8 @@ class _Loading extends StatelessWidget {
         dislikes: '2',
         missing: 'Great app!',
         heardFrom: 'Friend',
+        lastMessage: null,
+        hasUnreadMessages: null,
       ),
       messages: null,
     );

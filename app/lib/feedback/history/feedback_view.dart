@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,8 @@ class FeedbackView extends Equatable {
   final String? dislikes;
   final String? heardFrom;
   final String? missing;
+  final String? lastMessage;
+  final bool? hasUnreadMessages;
 
   bool get hasCreatedOn => isNotEmptyOrNull(createdOn);
   bool get hasRating => isNotEmptyOrNull(rating);
@@ -27,6 +30,7 @@ class FeedbackView extends Equatable {
   bool get hasDislikes => isNotEmptyOrNull(dislikes);
   bool get hasHeardFrom => isNotEmptyOrNull(heardFrom);
   bool get hasMissing => isNotEmptyOrNull(missing);
+  bool get hasLastMessage => isNotEmptyOrNull(lastMessage);
 
   const FeedbackView({
     required this.id,
@@ -36,9 +40,13 @@ class FeedbackView extends Equatable {
     required this.dislikes,
     required this.heardFrom,
     required this.missing,
+    required this.lastMessage,
+    required this.hasUnreadMessages,
   });
 
-  factory FeedbackView.fromUserFeedback(UserFeedback feedback) {
+  factory FeedbackView.fromUserFeedback(UserFeedback feedback, UserId userId) {
+    final lastMessage = feedback.lastMessage;
+    final isMyMessage = lastMessage?.senderId == userId;
     return FeedbackView(
       id: feedback.id,
       rating: feedback.rating == null ? null : '${feedback.rating}/5.0',
@@ -49,7 +57,17 @@ class FeedbackView extends Equatable {
       createdOn: feedback.createdOn == null
           ? null
           : DateFormat.yMd().format(feedback.createdOn!),
+      lastMessage: lastMessage == null
+          ? null
+          : _addAuthorToMessage(lastMessage.text, isMyMessage),
+      hasUnreadMessages: feedback.unreadMessagesStatus?[userId] == null
+          ? false
+          : feedback.unreadMessagesStatus?[userId]?.hasUnreadMessages == true,
     );
+  }
+
+  static String _addAuthorToMessage(String message, bool isMyMessage) {
+    return isMyMessage ? 'Du: $message' : message;
   }
 
   @override
@@ -65,8 +83,9 @@ class FeedbackView extends Equatable {
 }
 
 extension UserFeedbacksToViews on List<UserFeedback> {
-  List<FeedbackView> toFeedbackViews() {
-    return map((feedback) => FeedbackView.fromUserFeedback(feedback)).toList();
+  List<FeedbackView> toFeedbackViews(UserId userId) {
+    return map((feedback) => FeedbackView.fromUserFeedback(feedback, userId))
+        .toList();
   }
 }
 

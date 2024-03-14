@@ -51,7 +51,7 @@ class FeedbackDetailsPageController extends ChangeNotifier {
       }
 
       state = FeedbackDetailsPageLoaded(
-        feedback: FeedbackView.fromUserFeedback(feedback),
+        feedback: FeedbackView.fromUserFeedback(feedback, userId),
         chatMessages: _getCurrentMessages(),
       );
       notifyListeners();

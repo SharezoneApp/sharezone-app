@@ -63,6 +63,8 @@ void main() {
                   'I do not like rainy days 🌧️ Here my reasons: First, it can disrupt outdoor plans, events, and activities, leading to cancellations or the need for last-minute changes. Second, heavy rainfall can cause traffic delays and hazardous driving conditions, increasing the risk of accidents. Lastly, persistent or heavy rain can lead to flooding, causing damage to homes and infrastructure, and potentially displacing residents.',
               heardFrom: 'Google Play Store',
               missing: 'Nothing! 😊',
+              hasUnreadMessages: null,
+              lastMessage: null,
             ),
             chatMessages: null,
           ),

@@ -39,7 +39,7 @@ class FeedbackHistoryPageController extends ChangeNotifier {
       if (feedbacks.isEmpty) {
         _state = FeedbackHistoryPageEmpty();
       } else {
-        _state = FeedbackHistoryPageLoaded(feedbacks.toFeedbackViews());
+        _state = FeedbackHistoryPageLoaded(feedbacks.toFeedbackViews(userId));
       }
       notifyListeners();
     }, onError: (e, s) async {

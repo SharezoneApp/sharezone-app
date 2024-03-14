@@ -12,6 +12,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone/feedback/shared/feedback_id.dart';
+import 'package:sharezone/feedback/src/models/feedback_chat_message.dart';
 
 class UserFeedback {
   /// The date and time the feedback was created.
@@ -30,6 +31,7 @@ class UserFeedback {
   final String userContactInformation;
   final FeedbackDeviceInformation? deviceInformation;
   final Map<UserId, UnreadMessageStatus>? unreadMessagesStatus;
+  final FeedbackChatMessage? lastMessage;
 
   bool get requiredUserInputIsEmpty =>
       _isWhitespaceOrNull(likes) &&
@@ -51,6 +53,7 @@ class UserFeedback {
     required this.userContactInformation,
     required this.deviceInformation,
     required this.unreadMessagesStatus,
+    required this.lastMessage,
   });
 
   factory UserFeedback.create() {
@@ -66,6 +69,7 @@ class UserFeedback {
       userContactInformation: "",
       deviceInformation: null,
       unreadMessagesStatus: null,
+      lastMessage: null,
     );
   }
 
@@ -103,6 +107,9 @@ class UserFeedback {
           : (map['unreadMessagesStatus'] as Map<String, dynamic>).map((key,
                   value) =>
               MapEntry(UserId(key), UnreadMessageStatus.fromJson(key, value))),
+      lastMessage: map['lastMessage'] != null
+          ? FeedbackChatMessage.fromJson(map['id'], map['lastMessage'])
+          : null,
     );
   }
 
@@ -126,6 +133,7 @@ class UserFeedback {
     String? userContactInformation,
     FeedbackDeviceInformation? deviceInformation,
     Map<UserId, UnreadMessageStatus>? unreadMessagesStatus,
+    FeedbackChatMessage? lastMessage,
   }) {
     return UserFeedback._(
       id: id ?? this.id,
@@ -140,6 +148,7 @@ class UserFeedback {
           userContactInformation ?? this.userContactInformation,
       deviceInformation: deviceInformation ?? this.deviceInformation,
       unreadMessagesStatus: unreadMessagesStatus ?? this.unreadMessagesStatus,
+      lastMessage: lastMessage ?? this.lastMessage,
     );
   }
 

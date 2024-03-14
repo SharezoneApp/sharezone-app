@@ -66,6 +66,8 @@ class _Loading extends StatelessWidget {
       dislikes: '2',
       missing: 'Great app!',
       heardFrom: 'Friend',
+      hasUnreadMessages: false,
+      lastMessage: null,
     ),
     FeedbackView(
       id: FeedbackId('2'),
@@ -75,6 +77,8 @@ class _Loading extends StatelessWidget {
       dislikes: '1',
       missing: 'Good app!',
       heardFrom: 'Colleague',
+      hasUnreadMessages: false,
+      lastMessage: null,
     ),
   ];
 
@@ -171,11 +175,62 @@ class _FeedbackCard extends StatelessWidget {
                 if (view.hasDislikes) _Dislikes(dislikes: view.dislikes!),
                 if (view.hasMissing) _Missing(missing: view.missing!),
                 if (view.hasHeardFrom) _HeardFrom(heardFrom: view.heardFrom!),
+                _LastMessage(view),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _LastMessage extends StatelessWidget {
+  const _LastMessage(this.view);
+
+  final FeedbackView view;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasMessage = view.hasLastMessage;
+    if (!hasMessage) return const SizedBox();
+
+    final hasUnreadMessages = view.hasUnreadMessages ?? false;
+    return Column(
+      children: [
+        const Divider(),
+        ListTile(
+          leading: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              const Icon(Icons.question_answer),
+              if (hasUnreadMessages)
+                Positioned(
+                  top: -5,
+                  left: -5,
+                  child: Icon(
+                    Icons.brightness_1,
+                    size: 15,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+            ],
+          ),
+          mouseCursor: SystemMouseCursors.click,
+          title: Text(
+            'Letzte Nachricht ${hasUnreadMessages ? '(ungelesen)' : ''}',
+            style: TextStyle(
+                fontWeight: hasUnreadMessages ? FontWeight.w500 : null),
+          ),
+          subtitle: Text(
+            'Sharezone Team: Vielen Dank für dein Feedback!',
+            style: TextStyle(
+                fontWeight: hasUnreadMessages ? FontWeight.w500 : null),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
     );
   }
 }
