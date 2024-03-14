@@ -154,24 +154,6 @@ class MockFeedbackDetailsPageController extends _i1.Mock
       );
 
   @override
-  void initFeedbackStream() => super.noSuchMethod(
-        Invocation.method(
-          #initFeedbackStream,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void initMessagesStream() => super.noSuchMethod(
-        Invocation.method(
-          #initMessagesStream,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
   void sendResponse(String? message) => super.noSuchMethod(
         Invocation.method(
           #sendResponse,

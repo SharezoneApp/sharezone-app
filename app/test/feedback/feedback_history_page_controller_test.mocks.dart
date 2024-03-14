@@ -101,6 +101,25 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
         returnValueForMissingStub: _i4.Stream<bool>.empty(),
       ) as _i4.Stream<bool>);
   @override
+  _i4.Future<List<_i5.UserFeedback>> getFeedbacksForSupportTeam({
+    DateTime? startAfter,
+    int? limit = 0,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getFeedbacksForSupportTeam,
+          [],
+          {
+            #startAfter: startAfter,
+            #limit: limit,
+          },
+        ),
+        returnValue:
+            _i4.Future<List<_i5.UserFeedback>>.value(<_i5.UserFeedback>[]),
+        returnValueForMissingStub:
+            _i4.Future<List<_i5.UserFeedback>>.value(<_i5.UserFeedback>[]),
+      ) as _i4.Future<List<_i5.UserFeedback>>);
+  @override
   void markMessageAsRead(
     _i7.FeedbackId? feedbackId,
     _i8.UserId? userId,
