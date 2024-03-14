@@ -43,8 +43,6 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
 
     log('Fetching data...');
 
-    // Load 10 more feedbacks from Firestore
-
     final api = context.read<FeedbackApi>();
     final newFeedbacks = await api.getFeedbacksForSupportTeam(
       startAfter: _lastCreatedAt,
