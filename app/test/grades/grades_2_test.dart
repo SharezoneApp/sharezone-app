@@ -127,6 +127,52 @@ void main() {
       const expected = (2 * weight1 + 1 * weight2 + 1 * weight3) / sumOfWeights;
       expect(term.subject(englisch.id).gradeVal, expected);
     });
+
+    test(
+        'subjects can have custom weights per grade type 2 (e.g. presentation)',
+        () {
+      // Aus Beispiel: https://www.notenapp.com/2023/08/01/notendurchschnitt-berechnen-wie-mache-ich-es-richtig/
+      var term = Term();
+      final mathe = Subject('Mathe');
+      term = term.addSubject(mathe);
+
+      term =
+          term.subject(mathe.id).changeWeightingType(WeightType.perGradeType);
+
+      term = term
+          .subject(mathe.id)
+          .changeGradeTypeWeighting(GradeType('Schulaufgabe'), weight: 2);
+      term = term
+          .subject(mathe.id)
+          .changeGradeTypeWeighting(GradeType('Abfrage'), weight: 1);
+      term = term
+          .subject(mathe.id)
+          .changeGradeTypeWeighting(GradeType('Mitarbeitsnote'), weight: 1);
+      term = term
+          .subject(mathe.id)
+          .changeGradeTypeWeighting(GradeType('Referat'), weight: 1);
+
+      term = term
+          .subject(mathe.id)
+          .addGrade(gradeWith(value: 2.0, type: GradeType('Schulaufgabe')));
+      term = term
+          .subject(mathe.id)
+          .addGrade(gradeWith(value: 3.0, type: GradeType('Schulaufgabe')));
+      term = term
+          .subject(mathe.id)
+          .addGrade(gradeWith(value: 1.0, type: GradeType('Abfrage')));
+      term = term
+          .subject(mathe.id)
+          .addGrade(gradeWith(value: 3.0, type: GradeType('Abfrage')));
+      term = term
+          .subject(mathe.id)
+          .addGrade(gradeWith(value: 2.0, type: GradeType('Mitarbeitsnote')));
+      term = term
+          .subject(mathe.id)
+          .addGrade(gradeWith(value: 1.0, type: GradeType('Referat')));
+
+      expect(term.subject(mathe.id).gradeVal, 2.125);
+    });
     test('subjects can have custom weights per grade', () {
       var term = Term();
       final englisch = Subject('Englisch');
