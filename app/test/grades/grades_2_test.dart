@@ -1,6 +1,8 @@
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 void main() {
   group('grades', () {
@@ -115,7 +117,7 @@ Grade gradeWith({
   required double value,
   GradeType type = const GradeType('testGradeType'),
 }) {
-  return Grade(value: value, type: type);
+  return Grade(id: GradeId(randomAlphaNumeric(5)), value: value, type: type);
 }
 
 class GradeType extends Equatable {
@@ -208,11 +210,17 @@ class Term {
   }
 }
 
+class GradeId extends Id {
+  GradeId(String id) : super(id, 'GradeId');
+}
+
 class Grade {
+  final GradeId id;
   final num value;
   final GradeType type;
 
   Grade({
+    required this.id,
     required this.value,
     this.type = const GradeType('testGradeType'),
   });
