@@ -22,9 +22,11 @@ dependencies:
   firebase_core: ^2.25.5
   flutter:
     sdk: flutter
-  intl: ^0.17.0
+  intl: ^0.18.1
   rxdart: ^0.27.7
   very_good_infinite_list: ^0.7.1
+  feedback_shared_implementation:
+    path: ../lib/feedback_shared_implementation
 
 dev_dependencies:
   flutter_test:
