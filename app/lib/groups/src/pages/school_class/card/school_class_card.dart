@@ -46,7 +46,7 @@ class SchoolClassCard extends StatelessWidget {
       child: ListTile(
         leading: Hero(
           tag: schoolClass.id,
-          child: _AbbreviationAvatar(name: schoolClass.name),
+          child: SchoolClassAbbreviationAvatar(name: schoolClass.name),
         ),
         title: Text(schoolClass.name),
         trailing: ShareIconButton(schoolClass: schoolClass),
@@ -108,8 +108,9 @@ class SchoolClassCard extends StatelessWidget {
   }
 }
 
-class _AbbreviationAvatar extends StatelessWidget {
-  const _AbbreviationAvatar({
+class SchoolClassAbbreviationAvatar extends StatelessWidget {
+  const SchoolClassAbbreviationAvatar({
+    super.key,
     required this.name,
   });
 

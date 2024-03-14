@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/models/course_template.dart';
+import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart';
 
 import 'events/course_create_event.dart';
 

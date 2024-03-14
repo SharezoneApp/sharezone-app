@@ -7,46 +7,43 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/util/navigation_service.dart';
+import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc.dart';
+import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
+import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import 'school_class_create_course_bloc.dart';
-
-Future<void> openSchoolClassCourseCreatePage(
-  BuildContext context,
-  String schoolClassID, {
-  Course? course,
+Future<(CourseId, CourseName)?> openCourseCreatePage(
+  BuildContext context, {
+  CourseTemplate? template,
+  required SchoolClassId? schoolClassId,
 }) async {
-  final createdCourse = await pushWithDefault(
+  return Navigator.push<(CourseId, CourseName)?>(
     context,
-    _CourseCreatePage(course: course, schoolClassId: schoolClassID),
-    defaultValue: false,
-    name: _CourseCreatePage.tag,
+    IgnoreWillPopScopeWhenIosSwipeBackRoute(
+      builder: (context) => _CourseCreatePage(
+        template: template,
+        schoolClassId: schoolClassId,
+      ),
+      settings: const RouteSettings(name: _CourseCreatePage.tag),
+    ),
   );
-  await waitingForPopAnimation();
-  if (createdCourse && context.mounted) {
-    showSnackSec(
-      context: context,
-      text: 'Kurs wurde erstellt.',
-      seconds: 2,
-    );
-  }
 }
 
 Future<void> submit(BuildContext context) async {
-  sendDataToFrankfurtSnackBar(context);
-
-  final bloc = BlocProvider.of<SchoolClassCourseCreateBloc>(context);
-  bool result;
+  final bloc = BlocProvider.of<CourseCreateBloc>(context);
 
   try {
-    result = await bloc.submit();
+    if (bloc.hasSchoolClassId) {
+      sendDataToFrankfurtSnackBar(context, behavior: SnackBarBehavior.fixed);
+    }
+
+    final course = await bloc.submitCourse();
     if (context.mounted) {
-      Navigator.pop(context, result);
+      Navigator.pop(context, course);
     }
   } catch (e, s) {
     if (context.mounted) {
@@ -60,33 +57,34 @@ Future<void> submit(BuildContext context) async {
 
 class _CourseCreatePage extends StatefulWidget {
   const _CourseCreatePage({
-    this.course,
-    required this.schoolClassId,
+    this.template,
+    this.schoolClassId,
   });
 
-  static const tag = "school-class-course-create-page";
+  static const tag = "course-create-page";
 
-  final Course? course;
-  final String schoolClassId;
+  final CourseTemplate? template;
+  final SchoolClassId? schoolClassId;
 
   @override
   _CourseCreatePageState createState() => _CourseCreatePageState();
 }
 
 class _CourseCreatePageState extends State<_CourseCreatePage> {
-  late SchoolClassCourseCreateBloc bloc;
+  late CourseCreateBloc bloc;
 
   final abbreviationNode = FocusNode();
   final nameNode = FocusNode();
 
   @override
   void initState() {
-    final api = BlocProvider.of<SharezoneContext>(context).api;
-    bloc = SchoolClassCourseCreateBloc(
-      schoolClassID: widget.schoolClassId,
-      gateway: api,
-    );
     super.initState();
+    bloc = BlocProvider.of<CourseCreateBlocFactory>(context).create(
+      schoolClassId: widget.schoolClassId,
+    );
+    if (widget.template != null) {
+      bloc.setInitialTemplate(widget.template!);
+    }
   }
 
   @override
@@ -118,12 +116,14 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
             child: Column(
               children: <Widget>[
                 _Subject(
-                    subject: widget.course?.subject,
+                    subject: widget.template?.subject,
                     nextFocusNode: abbreviationNode),
+                const SizedBox(height: 28),
                 _Abbreviation(
-                    abbreviation: widget.course?.abbreviation,
+                    abbreviation: widget.template?.abbreviation,
                     focusNode: abbreviationNode,
                     nextFocusNode: nameNode),
+                const SizedBox(height: 12),
                 _CourseName(focusNode: nameNode),
               ],
             ),
@@ -149,15 +149,15 @@ class _CreateCourseFAB extends StatelessWidget {
 class _Subject extends StatelessWidget {
   const _Subject({
     this.subject,
-    this.nextFocusNode,
+    required this.nextFocusNode,
   });
 
   final String? subject;
-  final FocusNode? nextFocusNode;
+  final FocusNode nextFocusNode;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<SchoolClassCourseCreateBloc>(context);
+    final bloc = BlocProvider.of<CourseCreateBloc>(context);
     return StreamBuilder<Object>(
       stream: bloc.subject,
       builder: (context, snapshot) {
@@ -166,7 +166,7 @@ class _Subject extends StatelessWidget {
           child: PrefilledTextField(
             prefilledText: subject,
             decoration: InputDecoration(
-              labelText: "Fach des Kurses",
+              labelText: "Fach des Kurses (erforderlich)",
               hintText: "z.B. Mathematik",
               errorText: snapshot.error?.toString(),
             ),
@@ -186,17 +186,17 @@ class _Subject extends StatelessWidget {
 class _Abbreviation extends StatelessWidget {
   const _Abbreviation({
     this.abbreviation,
-    this.focusNode,
-    this.nextFocusNode,
+    required this.focusNode,
+    required this.nextFocusNode,
   });
 
   final String? abbreviation;
-  final FocusNode? focusNode;
-  final FocusNode? nextFocusNode;
+  final FocusNode focusNode;
+  final FocusNode nextFocusNode;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<SchoolClassCourseCreateBloc>(context);
+    final bloc = BlocProvider.of<CourseCreateBloc>(context);
     return PrefilledTextField(
       prefilledText: abbreviation,
       focusNode: focusNode,
@@ -215,14 +215,14 @@ class _Abbreviation extends StatelessWidget {
 
 class _CourseName extends StatelessWidget {
   const _CourseName({
-    this.focusNode,
+    required this.focusNode,
   });
 
-  final FocusNode? focusNode;
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<SchoolClassCourseCreateBloc>(context);
+    final bloc = BlocProvider.of<CourseCreateBloc>(context);
     return TextFieldWithDescription(
       textField: TextField(
         focusNode: focusNode,
@@ -235,7 +235,7 @@ class _CourseName extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
       ),
       description:
-          "Der Kursname dient hauptsächlich für die Lehrkraft zur Unterscheidung der einzelnen Kurse. Denn würden bei der Lehrkraft alle Kurse Mathematik heißen, könnte diese nicht mehr Kurse unterscheiden.",
+          "Der Kursname dient hauptsächlich für die Lehrkräfte damit diese Kurse mit dem gleichen Fach unterscheiden können (z.B. 'Mathematik Klasse 8A' und 'Mathematik Klasse 8B').",
     );
   }
 }

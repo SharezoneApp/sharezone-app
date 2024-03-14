@@ -65,9 +65,9 @@ import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/grades/grades_flag.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/gateway/course_create_gateway.dart';
+import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
+import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
+import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_gateway.dart';
 import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
@@ -595,7 +595,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       )),
       BlocProvider<CourseCreateBlocFactory>(
         bloc: CourseCreateBlocFactory(
-            CourseCreateGateway(api.course, api.user, api.schoolClassGateway),
+            CourseCreateGateway(
+              api.course,
+              api.user,
+              api.schoolClassGateway,
+              api.connectionsGateway,
+            ),
             CourseCreateAnalytics(Analytics(getBackend()))),
       ),
     ];
