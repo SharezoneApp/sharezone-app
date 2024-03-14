@@ -11,4 +11,5 @@ import 'package:sharezone/feedback/src/models/user_feedback.dart';
 abstract class FeedbackApi {
   Future<void> sendFeedback(UserFeedback feedback);
   Stream<List<UserFeedback>> streamFeedbacks(String userId);
+  Future<UserFeedback> getFeedback(String feedbackId);
 }

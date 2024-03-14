@@ -30,7 +30,14 @@ class FirebaseFeedbackApi implements FeedbackApi {
         .orderBy('createdOn', descending: true)
         .snapshots();
     return stream.map((snapshot) => snapshot.docs
-        .map((doc) => UserFeedback.fromJson(doc.data() as Map<String, dynamic>))
+        .map((doc) =>
+            UserFeedback.fromJson(doc.id, doc.data() as Map<String, dynamic>))
         .toList());
+  }
+
+  @override
+  Future<UserFeedback> getFeedback(String feedbackId) {
+    return feedbackCollection.doc(feedbackId).get().then((doc) =>
+        UserFeedback.fromJson(doc.id, doc.data() as Map<String, dynamic>));
   }
 }
