@@ -100,14 +100,19 @@ void main() {
       expect($('German Course Trip to Berlin'), findsOneWidget);
     });
 
-    patrolTest('User should be able to load feedback', config: config,
-        ($) async {
-      await login($);
-      await $(K.feedbackNavigationItem).tap();
+    patrolTest(
+      'User should be able to load feedback',
+      config: config,
+      ($) async {
+        await login($);
+        await $(K.feedbackNavigationItem).tap();
 
-      await $(K.openFeedbackHistory).tap();
-      await $('Feedback for our integration tests').waitUntilExists();
-    });
+        await $(K.openFeedbackHistory).tap();
+        await $('Feedback for our integration tests').waitUntilExists();
+      },
+      // See "Test: User should be able to load feedback" in "integration_test_old.dart"
+      skip: !PlatformCheck.isDesktopOrWeb,
+    );
   });
 }
 

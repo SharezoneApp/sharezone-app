@@ -147,13 +147,19 @@ void main() {
       // complex.
 
       log("Test: User should be able to load feedback");
-      await tester.tap(find.byKey(K.feedbackNavigationItem));
-      await tester.pumpAndSettle();
+      if (PlatformCheck.isDesktopOrWeb) {
+        // We currently, only test on desktop and web, because the feedback
+        // button on mobile is in the drawer and it's not worth implement this
+        // behavior for the integration tests because we change the navigation
+        // in the next weeks.
+        await tester.tap(find.byKey(K.feedbackNavigationItem));
+        await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(K.openFeedbackHistory));
-      await tester.pumpAndSettle();
+        await tester.tap(find.byKey(K.openFeedbackHistory));
+        await tester.pumpAndSettle();
 
-      await tester.pumpUntil(find.text('Feedback for our integration tests'));
+        await tester.pumpUntil(find.text('Feedback for our integration tests'));
+      }
     });
   });
 }
