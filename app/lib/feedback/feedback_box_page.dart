@@ -10,6 +10,7 @@ import 'dart:developer';
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ import 'package:sharezone/feedback/history/feedback_history_page_controller.dart
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/widgets/thank_you_bottom_sheet.dart';
+import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
@@ -66,13 +68,72 @@ class _HistoryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      tooltip: "Meine Feedbacks",
-      icon: const Icon(Icons.history),
-      onPressed: () {
-        _logAnalytics(context);
-        _openHistoryPage(context);
-      },
+    return Stack(
+      children: [
+        IconButton(
+          tooltip: "Meine Feedbacks",
+          icon: const Icon(Icons.history),
+          onPressed: () {
+            _logAnalytics(context);
+            _openHistoryPage(context);
+          },
+        ),
+        const _UnreadMessagesIndicator(),
+      ],
+    );
+  }
+}
+
+class _UnreadMessagesIndicator extends StatefulWidget {
+  const _UnreadMessagesIndicator();
+
+  @override
+  State<_UnreadMessagesIndicator> createState() =>
+      _UnreadMessagesIndicatorState();
+}
+
+class _UnreadMessagesIndicatorState extends State<_UnreadMessagesIndicator> {
+  bool _hasUnreadFeedbackMessages = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // We use a listener instead of context.watch to force an animation of the
+      // unread messages indicator. This should bring more attention to the user
+      // that there are unread messages.
+      context
+          .read<HasUnreadFeedbackMessagesProvider>()
+          .addListener(() => updateUnreadStatus());
+      updateUnreadStatus();
+    });
+  }
+
+  void updateUnreadStatus() {
+    if (mounted) {
+      final value = context
+          .read<HasUnreadFeedbackMessagesProvider>()
+          .hasUnreadFeedbackMessages;
+      setState(() {
+        _hasUnreadFeedbackMessages = value;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 5,
+      left: 7,
+      child: IgnorePointer(
+        child: AnimatedSwap(
+          duration: const Duration(milliseconds: 350),
+          child: _hasUnreadFeedbackMessages
+              ? const Icon(Icons.brightness_1, color: Colors.red, size: 13)
+              : const SizedBox.shrink(),
+        ),
+      ),
     );
   }
 }

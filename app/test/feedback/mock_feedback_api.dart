@@ -52,4 +52,9 @@ class MockFeedbackApi extends FeedbackApi {
   Stream<UserFeedback> streamFeedback(FeedbackId feedbackId) {
     throw UnimplementedError();
   }
+
+  @override
+  Stream<bool> streamHasUnreadFeedbackMessages(UserId userId) {
+    throw UnimplementedError();
+  }
 }

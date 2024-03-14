@@ -62,6 +62,7 @@ import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
 import 'package:sharezone/feedback/src/api/firebase_feedback_api.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
+import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
@@ -402,6 +403,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           userId: api.userId,
           feedbackApi: feedbackApi,
           crashAnalytics: crashAnalytics,
+        ),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => HasUnreadFeedbackMessagesProvider(
+          feedbackApi: feedbackApi,
+          userId: api.userId,
         ),
       ),
     ];

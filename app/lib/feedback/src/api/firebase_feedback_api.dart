@@ -92,4 +92,14 @@ class FirebaseFeedbackApi implements FeedbackApi {
       },
     );
   }
+
+  @override
+  Stream<bool> streamHasUnreadFeedbackMessages(UserId userId) {
+    return feedbackCollection
+        .where('uid', isEqualTo: '$userId')
+        .where('unreadMessagesStatus.$userId.hasUnreadMessages',
+            isEqualTo: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.isNotEmpty);
+  }
 }

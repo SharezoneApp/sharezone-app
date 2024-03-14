@@ -16,6 +16,7 @@ abstract class FeedbackApi {
   Stream<List<UserFeedback>> streamFeedbacks(String userId);
   Stream<List<FeedbackChatMessage>> streamChatMessages(FeedbackId feedbackId);
   Stream<UserFeedback> streamFeedback(FeedbackId feedbackId);
+  Stream<bool> streamHasUnreadFeedbackMessages(UserId userId);
   void markMessageAsRead(FeedbackId feedbackId, UserId userId);
   void sendResponse({
     required FeedbackId feedbackId,
