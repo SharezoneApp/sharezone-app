@@ -62,6 +62,8 @@ import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
+import 'package:sharezone/grades/grades_flag.dart';
+import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
@@ -328,6 +330,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
 
     final feedbackApi = FirebaseFeedbackApi(firestore);
+    final gradesEnabledFlag =
+        GradesEnabledFlag(widget.blocDependencies.keyValueStore);
 
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
@@ -410,6 +414,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           userId: api.userId,
         ),
       ),
+      ChangeNotifierProvider.value(value: gradesEnabledFlag),
+      ChangeNotifierProvider(
+        create: (context) => GradesPageController(),
+      )
     ];
 
     final mainBlocProviders = <BlocProvider>[
@@ -501,6 +509,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           analytics: analytics,
           appFunctions: api.references.functions,
           subscriptionEnabledFlag: subscriptionEnabledFlag,
+          gradesEnabledFlag: gradesEnabledFlag,
           keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),

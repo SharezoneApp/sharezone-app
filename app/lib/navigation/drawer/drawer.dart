@@ -11,6 +11,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:provider/provider.dart';
+import 'package:sharezone/grades/grades_flag.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -71,6 +72,7 @@ class _DrawerItems extends StatelessWidget {
   Widget build(BuildContext context) {
     final isSubscriptionEnabled =
         context.watch<SubscriptionEnabledFlag>().isEnabled;
+    final isGradesEnabled = context.watch<GradesEnabledFlag>().isEnabled;
     return SafeArea(
       right: false,
       child: Column(
@@ -86,6 +88,9 @@ class _DrawerItems extends StatelessWidget {
                   if (isDesktopModus) ...[
                     ...onlyDesktopTiles,
                     const Divider(),
+                  ],
+                  if (isGradesEnabled) ...[
+                    gradesTile,
                   ],
                   ...functionTiles,
                   const Divider(),

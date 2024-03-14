@@ -17,6 +17,7 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
+import 'package:sharezone/grades/grades_flag.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -42,6 +43,8 @@ import 'sharezone_plus_page_test.mocks.dart';
   MockSpec<SharezoneGateway>(),
   MockSpec<UserGateway>(),
   MockSpec<HasUnreadFeedbackMessagesProvider>(),
+  MockSpec<GradesEnabledFlag>(),
+  MockSpec<UserGateway>()
 ])
 void main() {
   group(SharezonePlusPage, () {
@@ -103,6 +106,9 @@ void main() {
             Provider<TypeOfUser?>.value(value: TypeOfUser.student),
             ChangeNotifierProvider<HasUnreadFeedbackMessagesProvider>.value(
                 value: hasUnreadFeedbackMessagesProvider),
+            ChangeNotifierProvider<GradesEnabledFlag>(
+              create: (context) => MockGradesEnabledFlag(),
+            ),
           ],
           child: MultiBlocProvider(
             blocProviders: [

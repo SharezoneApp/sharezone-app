@@ -15,6 +15,7 @@ import 'package:feedback_shared_implementation/feedback_shared_implementation.da
     as _i21;
 import 'package:firebase_auth/firebase_auth.dart' as _i34;
 import 'package:flutter/material.dart' as _i1;
+import 'package:key_value_store/key_value_store.dart' as _i19;
 import 'package:mockito/mockito.dart' as _i2;
 import 'package:mockito/src/dummies.dart' as _i31;
 import 'package:rxdart/rxdart.dart' as _i3;
@@ -45,7 +46,7 @@ import 'package:sharezone/util/navigation_service.dart' as _i8;
 import 'package:sharezone_common/references.dart' as _i14;
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart'
     as _i6;
-import 'package:user/user.dart' as _i19;
+import 'package:user/user.dart' as _i20;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -243,8 +244,9 @@ class _FakeTimetableGateway_16 extends _i2.SmartFake
         );
 }
 
-class _FakeAppUser_17 extends _i2.SmartFake implements _i19.AppUser {
-  _FakeAppUser_17(
+class _FakeKeyValueStore_17 extends _i2.SmartFake
+    implements _i19.KeyValueStore {
+  _FakeKeyValueStore_17(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -253,9 +255,19 @@ class _FakeAppUser_17 extends _i2.SmartFake implements _i19.AppUser {
         );
 }
 
-class _FakeAppFunctionsResult_18<T> extends _i2.SmartFake
-    implements _i20.AppFunctionsResult<T> {
-  _FakeAppFunctionsResult_18(
+class _FakeAppUser_18 extends _i2.SmartFake implements _i20.AppUser {
+  _FakeAppUser_18(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeAppFunctionsResult_19<T> extends _i2.SmartFake
+    implements _i21.AppFunctionsResult<T> {
+  _FakeAppFunctionsResult_19(
     Object parent,
     Invocation parentInvocation,
   ) : super(

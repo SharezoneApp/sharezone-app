@@ -18,19 +18,19 @@ final _flavorToProjectId = {
   'dev': 'sharezone-debug',
 };
 
-/// The different flavors of the web app that support deployment.
-final _webFlavors = [
+/// The different flavors of the console that support deployment.
+final _consoleFlavors = [
   'prod',
   'dev',
 ];
 
-/// Deploy the Sharezone web app to one of the several deploy sites (e.g. alpha
-/// or production).
+/// Deploy the Sharezone admin console to one of the several deploy sites (e.g.
+/// alpha or production).
 ///
 /// The command will automatically use the right firebase config as configured
 /// inside [_stageToTarget].
-class DeployWebsiteCommand extends CommandBase {
-  DeployWebsiteCommand(super.context) {
+class DeployConsoleCommand extends CommandBase {
+  DeployConsoleCommand(super.context) {
     argParser
       ..addOption(
         firebaseDeployMessageOptionName,
@@ -39,7 +39,7 @@ class DeployWebsiteCommand extends CommandBase {
       )
       ..addOption(
         flavorOptionName,
-        allowed: _webFlavors,
+        allowed: _consoleFlavors,
         help: 'The flavor to build for.',
         defaultsTo: 'prod',
       );
@@ -50,10 +50,10 @@ class DeployWebsiteCommand extends CommandBase {
 
   @override
   String get description =>
-      'Deploy the Sharezone website in the given environment';
+      'Deploy the Sharezone admin console in the given environment';
 
   @override
-  String get name => 'website';
+  String get name => 'console';
 
   @override
   Future<void> run() async {
@@ -75,7 +75,7 @@ class DeployWebsiteCommand extends CommandBase {
       'run',
       'sz_repo_cli',
       'build',
-      'website',
+      'console',
       '--flavor',
       flavor,
     ], workingDirectory: repo.sharezoneCiCdTool.location);
@@ -96,7 +96,7 @@ class DeployWebsiteCommand extends CommandBase {
         '--message',
         deployMessage,
       ],
-      workingDirectory: repo.sharezoneWebsite.location,
+      workingDirectory: repo.sharezoneAdminConsole.location,
     );
   }
 
