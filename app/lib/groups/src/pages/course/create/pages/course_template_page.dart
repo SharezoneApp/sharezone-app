@@ -625,7 +625,7 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
         }
 
         return Padding(
-          padding: const EdgeInsets.only(bottom: 12, top: 12),
+          padding: const EdgeInsets.all(12),
           child: CustomCard(
             padding: const EdgeInsets.all(12),
             child: Column(
