@@ -8,6 +8,7 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/school_class_gateway.dart';
 import 'package:sharezone/util/api/user_api.dart';
@@ -18,9 +19,26 @@ class CourseCreateGateway {
   final CourseGateway courseGateway;
   final SchoolClassGateway schoolClassGateway;
   final UserGateway userGateway;
+  final ConnectionsGateway connectionsGateway;
 
   CourseCreateGateway(
-      this.courseGateway, this.userGateway, this.schoolClassGateway);
+    this.courseGateway,
+    this.userGateway,
+    this.schoolClassGateway,
+    this.connectionsGateway,
+  );
+
+  Stream<List<SchoolClass>?> streamSchoolClasses() {
+    return connectionsGateway.streamConnectionsData().map((data) {
+      final schoolClasses = data?.schoolClass;
+      return schoolClasses?.values.map((value) => value).toList();
+    });
+  }
+
+  List<SchoolClass>? getCurrentSchoolClasses() {
+    final schoolClasses = connectionsGateway.current()?.schoolClass;
+    return schoolClasses?.values.map((value) => value).toList();
+  }
 
   (CourseId, CourseName) createCourse(UserInput userInput) {
     final courseData = CourseData.create().copyWith(

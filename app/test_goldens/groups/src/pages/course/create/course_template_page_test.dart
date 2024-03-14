@@ -14,10 +14,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
-import 'package:sharezone/groups/src/pages/course/create/bloc/my_admin_school_classes_provider.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -25,7 +23,6 @@ import 'course_template_page_test.mocks.dart';
 
 @GenerateNiceMocks([
   MockSpec<CourseCreateBlocFactory>(),
-  MockSpec<MyAdminSchoolClassesProvider>(),
   MockSpec<CourseCreateBloc>(),
 ])
 void main() {
@@ -47,12 +44,9 @@ void main() {
     Future<void> pushCourseTemplatePage(
         WidgetTester tester, ThemeData theme) async {
       await tester.pumpWidgetBuilder(
-        ChangeNotifierProvider<MyAdminSchoolClassesProvider>.value(
-          value: MockMyAdminSchoolClassesProvider(),
-          child: BlocProvider<CourseCreateBlocFactory>(
-            bloc: courseCreateBlocFactory,
-            child: const CourseTemplatePage(),
-          ),
+        BlocProvider<CourseCreateBlocFactory>(
+          bloc: courseCreateBlocFactory,
+          child: const CourseTemplatePage(),
         ),
         wrapper: materialAppWrapper(theme: theme),
       );

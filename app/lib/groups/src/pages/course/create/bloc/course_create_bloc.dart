@@ -6,10 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/analytics/events/course_create_event.dart';
 import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart';
@@ -28,10 +31,13 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
 
   SchoolClassId? schoolClassId;
   bool get hasSchoolClassId => schoolClassId != null;
+  StreamSubscription<List<SchoolClass>?>? _schoolClassesSubscription;
 
   final _nameSubject = BehaviorSubject<String>();
   final _subjectSubject = BehaviorSubject<String>();
   final _abbreviationSubject = BehaviorSubject<String>();
+  final _myAdminSchoolClassesSubject =
+      BehaviorSubject<List<(SchoolClassId, SchoolClassName)>?>();
 
   Course? initialCourse;
 
@@ -40,6 +46,29 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
     this._analytics, {
     this.schoolClassId,
   });
+
+  void loadAdminSchoolClasses() {
+    final initialData = _gateway.getCurrentSchoolClasses();
+    _setAdminSchoolClasses(initialData);
+
+    _schoolClassesSubscription = _gateway.streamSchoolClasses().listen((data) {
+      _setAdminSchoolClasses(data);
+    });
+  }
+
+  void _setAdminSchoolClasses(List<SchoolClass>? allSchoolClasses) {
+    _myAdminSchoolClassesSubject.sink.add([]);
+    if (allSchoolClasses == null) {
+      return;
+    }
+
+    final adminList = allSchoolClasses
+        .where((schoolClass) =>
+            schoolClass.myRole.hasPermission(GroupPermission.administration))
+        .map((s) => (SchoolClassId(s.id), s.name))
+        .toList();
+    _myAdminSchoolClassesSubject.sink.add(adminList);
+  }
 
   void setInitialTemplate(CourseTemplate template) {
     _subjectSubject.sink.add(template.subject);
@@ -69,6 +98,8 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
 
   Stream<String> get subject =>
       _subjectSubject.stream.transform(validateSubject);
+  Stream<List<(SchoolClassId, SchoolClassName)>?> get myAdminSchoolClasses =>
+      _myAdminSchoolClassesSubject.stream;
 
   // Change data
   Function(String) get changeName => _nameSubject.sink.add;
@@ -139,6 +170,8 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
 
   @override
   void dispose() {
+    _schoolClassesSubscription?.cancel();
+    _myAdminSchoolClassesSubject.close();
     _nameSubject.close();
     _subjectSubject.close();
     _abbreviationSubject.close();

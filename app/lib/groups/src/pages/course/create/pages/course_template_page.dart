@@ -10,10 +10,8 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:provider/provider.dart';
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
-import 'package:sharezone/groups/src/pages/course/create/bloc/my_admin_school_classes_provider.dart';
 import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_create_page.dart';
 import 'package:sharezone/groups/src/pages/school_class/card/school_class_card.dart';
@@ -98,9 +96,7 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
     return BlocProvider(
       bloc: bloc,
       child: CourseTemplateList(
-        header: hasSchoolClassId
-            ? null
-            : _SelectSchoolClass(onSelected: (id) => bloc.setSchoolClassId(id)),
+        header: hasSchoolClassId ? null : const _SelectSchoolClass(),
         hasAlreadyCreated: (template) =>
             bloc.isCourseTemplateAlreadyAdded(template),
         onDeletePressed: (courseId) => bloc.deleteCourse(courseId),
@@ -574,11 +570,7 @@ class _YouAlreadyHaveThisCourseDialog extends StatelessWidget {
 }
 
 class _SelectSchoolClass extends StatefulWidget {
-  const _SelectSchoolClass({
-    required this.onSelected,
-  });
-
-  final ValueChanged<SchoolClassId?> onSelected;
+  const _SelectSchoolClass();
 
   @override
   State<_SelectSchoolClass> createState() => _SelectSchoolClassState();
@@ -590,75 +582,82 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MyAdminSchoolClassesProvider>().init();
-    });
+    final bloc = BlocProvider.of<CourseCreateBloc>(context);
+    bloc.loadAdminSchoolClasses();
   }
 
   void setSelectId(SchoolClassId? id) {
     setState(() {
       selectedId = id;
     });
-    widget.onSelected(id);
+    final bloc = BlocProvider.of<CourseCreateBloc>(context);
+    bloc.setSchoolClassId(id);
   }
 
   @override
   Widget build(BuildContext context) {
-    final schoolClasses =
-        context.watch<MyAdminSchoolClassesProvider>().schoolClasses;
-    if (schoolClasses.isEmpty) return const SizedBox();
+    final bloc = BlocProvider.of<CourseCreateBloc>(context);
+    return StreamBuilder<List<(SchoolClassId, SchoolClassName)>?>(
+      stream: bloc.myAdminSchoolClasses,
+      builder: (context, snapshot) {
+        final schoolClasses = snapshot.data;
+        if (schoolClasses == null || schoolClasses.isEmpty) {
+          return const SizedBox();
+        }
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12, top: 12),
-      child: CustomCard(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Text(
-              "Schulklasse auswählen",
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-                "Du bist in einer oder mehreren Schulklasse(n) Administrator. Wähle eine Schulklasse aus, um festzulegen, zu welcher Schulklasse die Kurse verknüpft werden sollen."),
-            const SizedBox(height: 12),
-            for (final schoolClass in schoolClasses)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: ListTile(
-                  leading: SchoolClassAbbreviationAvatar(
-                    name: schoolClass.$2,
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12, top: 12),
+          child: CustomCard(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text(
+                  "Schulklasse auswählen",
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                    "Du bist in einer oder mehreren Schulklasse(n) Administrator. Wähle eine Schulklasse aus, um festzulegen, zu welcher Schulklasse die Kurse verknüpft werden sollen."),
+                const SizedBox(height: 12),
+                for (final schoolClass in schoolClasses)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: ListTile(
+                      leading: SchoolClassAbbreviationAvatar(
+                        name: schoolClass.$2,
+                      ),
+                      title: Text(schoolClass.$2),
+                      onTap: () => setSelectId(schoolClass.$1),
+                      trailing: Radio<SchoolClassId?>(
+                        value: schoolClass.$1,
+                        groupValue: selectedId,
+                        onChanged: setSelectId,
+                      ),
+                    ),
                   ),
-                  title: Text(schoolClass.$2),
-                  onTap: () => setSelectId(schoolClass.$1),
+                const SizedBox(height: 4),
+                ListTile(
+                  onTap: () => setSelectId(null),
+                  leading: const Padding(
+                    padding: EdgeInsets.only(left: 8),
+                    child: Icon(Icons.remove_circle_outline),
+                  ),
+                  title: const Padding(
+                    padding: EdgeInsets.only(left: 8),
+                    child: Text("Mit keiner Schulklasse verknüpften"),
+                  ),
                   trailing: Radio<SchoolClassId?>(
-                    value: schoolClass.$1,
+                    value: null,
                     groupValue: selectedId,
                     onChanged: setSelectId,
                   ),
                 ),
-              ),
-            const SizedBox(height: 4),
-            ListTile(
-              onTap: () => setSelectId(null),
-              leading: const Padding(
-                padding: EdgeInsets.only(left: 8),
-                child: Icon(Icons.remove_circle_outline),
-              ),
-              title: const Padding(
-                padding: EdgeInsets.only(left: 8),
-                child: Text("Mit keiner Schulklasse verknüpften"),
-              ),
-              trailing: Radio<SchoolClassId?>(
-                value: null,
-                groupValue: selectedId,
-                onChanged: setSelectId,
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

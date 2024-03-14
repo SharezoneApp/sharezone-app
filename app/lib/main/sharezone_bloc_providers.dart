@@ -62,7 +62,6 @@ import 'package:sharezone/feedback/src/api/firebase_feedback_api.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
-import 'package:sharezone/groups/src/pages/course/create/bloc/my_admin_school_classes_provider.dart';
 import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
 import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_gateway.dart';
@@ -395,11 +394,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
         ),
       ),
-      ChangeNotifierProvider(
-        create: (context) => MyAdminSchoolClassesProvider(
-          connectionsGateway: api.connectionsGateway,
-        ),
-      )
     ];
 
     final mainBlocProviders = <BlocProvider>[
@@ -584,7 +578,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       )),
       BlocProvider<CourseCreateBlocFactory>(
         bloc: CourseCreateBlocFactory(
-            CourseCreateGateway(api.course, api.user, api.schoolClassGateway),
+            CourseCreateGateway(
+              api.course,
+              api.user,
+              api.schoolClassGateway,
+              api.connectionsGateway,
+            ),
             CourseCreateAnalytics(Analytics(getBackend()))),
       ),
     ];

@@ -3,22 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
-import 'dart:ui' as _i8;
+import 'dart:async' as _i3;
 
-import 'package:common_domain_models/common_domain_models.dart' as _i5;
-import 'package:group_domain_models/group_domain_models.dart' as _i9;
+import 'package:common_domain_models/common_domain_models.dart' as _i4;
+import 'package:group_domain_models/group_domain_models.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i11;
+import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc.dart'
     as _i2;
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart'
-    as _i6;
-import 'package:sharezone/groups/src/pages/course/create/bloc/my_admin_school_classes_provider.dart'
-    as _i7;
+    as _i5;
 import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart'
-    as _i10;
-import 'package:sharezone/util/api/connections_gateway.dart' as _i3;
+    as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -44,9 +40,9 @@ class _FakeCourseCreateBloc_0 extends _i1.SmartFake
         );
 }
 
-class _FakeConnectionsGateway_1 extends _i1.SmartFake
-    implements _i3.ConnectionsGateway {
-  _FakeConnectionsGateway_1(
+class _FakeStreamTransformer_1<S, T> extends _i1.SmartFake
+    implements _i3.StreamTransformer<S, T> {
+  _FakeStreamTransformer_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -55,19 +51,8 @@ class _FakeConnectionsGateway_1 extends _i1.SmartFake
         );
 }
 
-class _FakeStreamTransformer_2<S, T> extends _i1.SmartFake
-    implements _i4.StreamTransformer<S, T> {
-  _FakeStreamTransformer_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeCourseId_3 extends _i1.SmartFake implements _i5.CourseId {
-  _FakeCourseId_3(
+class _FakeCourseId_2 extends _i1.SmartFake implements _i4.CourseId {
+  _FakeCourseId_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -80,9 +65,9 @@ class _FakeCourseId_3 extends _i1.SmartFake implements _i5.CourseId {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCourseCreateBlocFactory extends _i1.Mock
-    implements _i6.CourseCreateBlocFactory {
+    implements _i5.CourseCreateBlocFactory {
   @override
-  _i2.CourseCreateBloc create({_i5.SchoolClassId? schoolClassId}) =>
+  _i2.CourseCreateBloc create({_i4.SchoolClassId? schoolClassId}) =>
       (super.noSuchMethod(
         Invocation.method(
           #create,
@@ -116,92 +101,12 @@ class MockCourseCreateBlocFactory extends _i1.Mock
       );
 }
 
-/// A class which mocks [MyAdminSchoolClassesProvider].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockMyAdminSchoolClassesProvider extends _i1.Mock
-    implements _i7.MyAdminSchoolClassesProvider {
-  @override
-  _i3.ConnectionsGateway get connectionsGateway => (super.noSuchMethod(
-        Invocation.getter(#connectionsGateway),
-        returnValue: _FakeConnectionsGateway_1(
-          this,
-          Invocation.getter(#connectionsGateway),
-        ),
-        returnValueForMissingStub: _FakeConnectionsGateway_1(
-          this,
-          Invocation.getter(#connectionsGateway),
-        ),
-      ) as _i3.ConnectionsGateway);
-  @override
-  List<(_i5.SchoolClassId, String)> get schoolClasses => (super.noSuchMethod(
-        Invocation.getter(#schoolClasses),
-        returnValue: <(_i5.SchoolClassId, String)>[],
-        returnValueForMissingStub: <(_i5.SchoolClassId, String)>[],
-      ) as List<(_i5.SchoolClassId, String)>);
-  @override
-  set schoolClasses(List<(_i5.SchoolClassId, String)>? _schoolClasses) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #schoolClasses,
-          _schoolClasses,
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-  @override
-  void init() => super.noSuchMethod(
-        Invocation.method(
-          #init,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void removeListener(_i8.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-}
-
 /// A class which mocks [CourseCreateBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
   @override
-  set schoolClassId(_i5.SchoolClassId? _schoolClassId) => super.noSuchMethod(
+  set schoolClassId(_i4.SchoolClassId? _schoolClassId) => super.noSuchMethod(
         Invocation.setter(
           #schoolClassId,
           _schoolClassId,
@@ -209,7 +114,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         returnValueForMissingStub: null,
       );
   @override
-  set initialCourse(_i9.Course? _initialCourse) => super.noSuchMethod(
+  set initialCourse(_i6.Course? _initialCourse) => super.noSuchMethod(
         Invocation.setter(
           #initialCourse,
           _initialCourse,
@@ -223,11 +128,19 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  _i4.Stream<String> get subject => (super.noSuchMethod(
+  _i3.Stream<String> get subject => (super.noSuchMethod(
         Invocation.getter(#subject),
-        returnValue: _i4.Stream<String>.empty(),
-        returnValueForMissingStub: _i4.Stream<String>.empty(),
-      ) as _i4.Stream<String>);
+        returnValue: _i3.Stream<String>.empty(),
+        returnValueForMissingStub: _i3.Stream<String>.empty(),
+      ) as _i3.Stream<String>);
+  @override
+  _i3.Stream<List<(_i4.SchoolClassId, String)>?> get myAdminSchoolClasses =>
+      (super.noSuchMethod(
+        Invocation.getter(#myAdminSchoolClasses),
+        returnValue: _i3.Stream<List<(_i4.SchoolClassId, String)>?>.empty(),
+        returnValueForMissingStub:
+            _i3.Stream<List<(_i4.SchoolClassId, String)>?>.empty(),
+      ) as _i3.Stream<List<(_i4.SchoolClassId, String)>?>);
   @override
   dynamic Function(String) get changeName => (super.noSuchMethod(
         Invocation.getter(#changeName),
@@ -247,20 +160,28 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         returnValueForMissingStub: (String __p0) => null,
       ) as dynamic Function(String));
   @override
-  _i4.StreamTransformer<String, String> get validateSubject =>
+  _i3.StreamTransformer<String, String> get validateSubject =>
       (super.noSuchMethod(
         Invocation.getter(#validateSubject),
-        returnValue: _FakeStreamTransformer_2<String, String>(
+        returnValue: _FakeStreamTransformer_1<String, String>(
           this,
           Invocation.getter(#validateSubject),
         ),
-        returnValueForMissingStub: _FakeStreamTransformer_2<String, String>(
+        returnValueForMissingStub: _FakeStreamTransformer_1<String, String>(
           this,
           Invocation.getter(#validateSubject),
         ),
-      ) as _i4.StreamTransformer<String, String>);
+      ) as _i3.StreamTransformer<String, String>);
   @override
-  void setInitialTemplate(_i10.CourseTemplate? template) => super.noSuchMethod(
+  void loadAdminSchoolClasses() => super.noSuchMethod(
+        Invocation.method(
+          #loadAdminSchoolClasses,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void setInitialTemplate(_i7.CourseTemplate? template) => super.noSuchMethod(
         Invocation.method(
           #setInitialTemplate,
           [template],
@@ -268,7 +189,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         returnValueForMissingStub: null,
       );
   @override
-  void setSchoolClassId(_i5.SchoolClassId? schoolClassId) => super.noSuchMethod(
+  void setSchoolClassId(_i4.SchoolClassId? schoolClassId) => super.noSuchMethod(
         Invocation.method(
           #setSchoolClassId,
           [schoolClassId],
@@ -285,20 +206,20 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  _i4.Future<(_i5.CourseId, String)> submitCourse() => (super.noSuchMethod(
+  _i3.Future<(_i4.CourseId, String)> submitCourse() => (super.noSuchMethod(
         Invocation.method(
           #submitCourse,
           [],
         ),
-        returnValue: _i4.Future<(_i5.CourseId, String)>.value((
-          _FakeCourseId_3(
+        returnValue: _i3.Future<(_i4.CourseId, String)>.value((
+          _FakeCourseId_2(
             this,
             Invocation.method(
               #submitCourse,
               [],
             ),
           ),
-          _i11.dummyValue<String>(
+          _i8.dummyValue<String>(
             this,
             Invocation.method(
               #submitCourse,
@@ -306,15 +227,15 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
             ),
           )
         )),
-        returnValueForMissingStub: _i4.Future<(_i5.CourseId, String)>.value((
-          _FakeCourseId_3(
+        returnValueForMissingStub: _i3.Future<(_i4.CourseId, String)>.value((
+          _FakeCourseId_2(
             this,
             Invocation.method(
               #submitCourse,
               [],
             ),
           ),
-          _i11.dummyValue<String>(
+          _i8.dummyValue<String>(
             this,
             Invocation.method(
               #submitCourse,
@@ -322,24 +243,24 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
             ),
           )
         )),
-      ) as _i4.Future<(_i5.CourseId, String)>);
+      ) as _i3.Future<(_i4.CourseId, String)>);
   @override
-  _i4.Future<(_i5.CourseId, String)> submitWithCourseTemplate(
-          _i10.CourseTemplate? courseTemplate) =>
+  _i3.Future<(_i4.CourseId, String)> submitWithCourseTemplate(
+          _i7.CourseTemplate? courseTemplate) =>
       (super.noSuchMethod(
         Invocation.method(
           #submitWithCourseTemplate,
           [courseTemplate],
         ),
-        returnValue: _i4.Future<(_i5.CourseId, String)>.value((
-          _FakeCourseId_3(
+        returnValue: _i3.Future<(_i4.CourseId, String)>.value((
+          _FakeCourseId_2(
             this,
             Invocation.method(
               #submitWithCourseTemplate,
               [courseTemplate],
             ),
           ),
-          _i11.dummyValue<String>(
+          _i8.dummyValue<String>(
             this,
             Invocation.method(
               #submitWithCourseTemplate,
@@ -347,15 +268,15 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
             ),
           )
         )),
-        returnValueForMissingStub: _i4.Future<(_i5.CourseId, String)>.value((
-          _FakeCourseId_3(
+        returnValueForMissingStub: _i3.Future<(_i4.CourseId, String)>.value((
+          _FakeCourseId_2(
             this,
             Invocation.method(
               #submitWithCourseTemplate,
               [courseTemplate],
             ),
           ),
-          _i11.dummyValue<String>(
+          _i8.dummyValue<String>(
             this,
             Invocation.method(
               #submitWithCourseTemplate,
@@ -363,18 +284,18 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
             ),
           )
         )),
-      ) as _i4.Future<(_i5.CourseId, String)>);
+      ) as _i3.Future<(_i4.CourseId, String)>);
   @override
-  _i4.Future<void> deleteCourse(_i5.CourseId? courseId) => (super.noSuchMethod(
+  _i3.Future<void> deleteCourse(_i4.CourseId? courseId) => (super.noSuchMethod(
         Invocation.method(
           #deleteCourse,
           [courseId],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
   @override
-  bool isCourseTemplateAlreadyAdded(_i10.CourseTemplate? courseTemplate) =>
+  bool isCourseTemplateAlreadyAdded(_i7.CourseTemplate? courseTemplate) =>
       (super.noSuchMethod(
         Invocation.method(
           #isCourseTemplateAlreadyAdded,
