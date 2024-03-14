@@ -44,7 +44,6 @@ import 'sharezone_plus_page_test.mocks.dart';
   MockSpec<UserGateway>(),
   MockSpec<HasUnreadFeedbackMessagesProvider>(),
   MockSpec<GradesEnabledFlag>(),
-  MockSpec<UserGateway>()
 ])
 void main() {
   group(SharezonePlusPage, () {
