@@ -13,52 +13,17 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 typedef IsLoading = bool;
 
-class FeedbackList extends StatelessWidget {
-  const FeedbackList({
+class FeedbackCard extends StatelessWidget {
+  const FeedbackCard({
     super.key,
-    required this.feedbacks,
-    required this.isLoading,
-    required this.onContactSupportPressed,
-  });
-
-  final List<FeedbackView> feedbacks;
-  final bool isLoading;
-  final VoidCallback? onContactSupportPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Provider<IsLoading>.value(
-      value: isLoading,
-      child: ListView.builder(
-        itemCount: feedbacks.length,
-        itemBuilder: (context, index) {
-          final feedback = feedbacks[index];
-          final isFirst = index == 0;
-          final isLast = index == feedbacks.length - 1;
-          return Padding(
-            padding: EdgeInsets.only(
-              top: isFirst ? 6 : 0,
-              bottom: isLast ? 6 : 0,
-            ),
-            child: _FeedbackCard(
-              view: feedback,
-              onContactSupportPressed: onContactSupportPressed,
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _FeedbackCard extends StatelessWidget {
-  const _FeedbackCard({
     required this.view,
     required this.onContactSupportPressed,
+    required this.isLoading,
   });
 
   final FeedbackView view;
   final VoidCallback? onContactSupportPressed;
+  final bool isLoading;
 
   void pushDetailsPage(BuildContext context) {
     Navigator.push(
@@ -75,24 +40,27 @@ class _FeedbackCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: CustomCard(
-            onTap: () => pushDetailsPage(context),
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (view.hasCreatedOn) _CreatedOn(createdOn: view.createdOn!),
-                if (view.hasRating) _Rating(rating: view.rating!),
-                if (view.hasLikes) _Likes(likes: view.likes!),
-                if (view.hasDislikes) _Dislikes(dislikes: view.dislikes!),
-                if (view.hasMissing) _Missing(missing: view.missing!),
-                if (view.hasHeardFrom) _HeardFrom(heardFrom: view.heardFrom!),
-                _LastMessage(view),
-              ],
+    return Provider<IsLoading>.value(
+      value: isLoading,
+      child: MaxWidthConstraintBox(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            child: CustomCard(
+              onTap: () => pushDetailsPage(context),
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (view.hasCreatedOn) _CreatedOn(createdOn: view.createdOn!),
+                  if (view.hasRating) _Rating(rating: view.rating!),
+                  if (view.hasLikes) _Likes(likes: view.likes!),
+                  if (view.hasDislikes) _Dislikes(dislikes: view.dislikes!),
+                  if (view.hasMissing) _Missing(missing: view.missing!),
+                  if (view.hasHeardFrom) _HeardFrom(heardFrom: view.heardFrom!),
+                  _LastMessage(view),
+                ],
+              ),
             ),
           ),
         ),

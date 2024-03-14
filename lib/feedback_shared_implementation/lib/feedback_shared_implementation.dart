@@ -18,5 +18,5 @@ export 'src/pages/feedback_details_page.dart';
 export 'src/pages/feedback_details_page_controller.dart';
 export 'src/pages/feedback_details_page_controller_factory.dart';
 export 'src/pages/feedback_icons.dart';
-export 'src/pages/feedback_list.dart';
+export 'src/pages/feedback_card.dart';
 export 'src/pages/feedback_view.dart';

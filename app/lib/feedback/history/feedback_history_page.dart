@@ -42,8 +42,10 @@ class _FeedbackHistoryPageState extends State<FeedbackHistoryPage> {
           FeedbackHistoryPageError(message: final message) =>
             _Error(message: message),
           FeedbackHistoryPageLoading() => const _Loading(),
-          FeedbackHistoryPageLoaded(feedbacks: final feedbacks) =>
-            _Loaded(feedbacks: feedbacks),
+          FeedbackHistoryPageLoaded(feedbacks: final feedbacks) => _List(
+              feedbacks: feedbacks,
+              isLoading: false,
+            ),
           FeedbackHistoryPageEmpty() => const _Empty(),
         },
       ),
@@ -81,28 +83,43 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FeedbackList(
+    return _List(
       feedbacks: dummyFeedbacks,
-      onContactSupportPressed: null,
       isLoading: true,
     );
   }
 }
 
-class _Loaded extends StatelessWidget {
-  const _Loaded({
+class _List extends StatelessWidget {
+  const _List({
     required this.feedbacks,
+    required this.isLoading,
   });
 
   final List<FeedbackView> feedbacks;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
-    return FeedbackList(
-      feedbacks: feedbacks,
-      isLoading: false,
-      onContactSupportPressed: () =>
-          Navigator.pushNamed(context, SupportPage.tag),
+    return ListView.builder(
+      itemCount: feedbacks.length,
+      itemBuilder: (context, index) {
+        final feedback = feedbacks[index];
+        final isFirst = index == 0;
+        final isLast = index == feedbacks.length - 1;
+        return Padding(
+          padding: EdgeInsets.only(
+            top: isFirst ? 6 : 0,
+            bottom: isLast ? 6 : 0,
+          ),
+          child: FeedbackCard(
+            view: feedback,
+            onContactSupportPressed: () =>
+                Navigator.pushNamed(context, SupportPage.tag),
+            isLoading: isLoading,
+          ),
+        );
+      },
     );
   }
 }
