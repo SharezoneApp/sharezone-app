@@ -225,10 +225,10 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
-      - name: Clean Flutter
-        run: sz exec --onlyFlutter -- flutter clean
+      # - name: Clean Flutter
+      #   run: sz exec --onlyFlutter -- flutter clean
 
-      - name: Pub get again
+      - name: Get dependencies
         run: sz pub get
 
       - name: Run code generation via "sz build_runner build"
