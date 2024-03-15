@@ -114,7 +114,7 @@ class GradesTestController {
 
       for (var grade in subject.grades) {
         _term = _term.subject(subject.id.id).addGrade(
-              Grade(id: GradeId(randomAlpha(4)), value: grade.value),
+              Grade(id: grade.id, value: grade.value),
               takeIntoAccount: grade.includeInGradeCalculations,
             );
       }
@@ -211,16 +211,19 @@ TestGrade gradeWith({
   bool includeInGradeCalculations = true,
 }) {
   return TestGrade(
+    id: GradeId(randomAlpha(5)),
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
   );
 }
 
 class TestGrade {
+  final GradeId id;
   final double value;
   final bool includeInGradeCalculations;
 
   TestGrade({
+    required this.id,
     required this.value,
     required this.includeInGradeCalculations,
   });
