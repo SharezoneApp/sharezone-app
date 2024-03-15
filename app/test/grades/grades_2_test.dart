@@ -2,7 +2,6 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
 import 'package:test_randomness/test_randomness.dart';
 
 void main() {
@@ -286,6 +285,22 @@ void main() {
       // Old settings are persisted
       expect(term.subject(englisch.id).gradeVal, 1.5);
     });
+    test('The "Endnote" grade type overrides the subject grade', () {
+      var term = Term();
+      final mathe = Subject('Mathe');
+      term = term.addSubject(mathe);
+      term = term.setFinalGradeType(GradeType('Endnote'));
+
+      final grade1 = gradeWith(value: 1.0);
+      final grade2 = gradeWith(value: 3.0, type: GradeType('Endnote'));
+      final grade3 = gradeWith(value: 2.0);
+      term = term.subject(mathe.id).addGrade(grade1);
+      term = term.subject(mathe.id).addGrade(grade2);
+      term = term.subject(mathe.id).addGrade(grade3);
+
+      expect(term.subject(mathe.id).gradeVal, 3.0);
+      expect(term.getTermGrade(), 3.0);
+    });
   });
 }
 
@@ -310,11 +325,15 @@ class GradeType extends Equatable {
 class Term {
   final IList<_Subject> _subjects;
   final IMap<GradeType, double> _gradeTypeWeightings;
+  final GradeType _finalGradeType;
 
   Term()
       : _subjects = const IListConst([]),
-        _gradeTypeWeightings = const IMapConst({});
-  Term.internal(this._subjects, this._gradeTypeWeightings);
+        _gradeTypeWeightings = const IMapConst({}),
+        _finalGradeType = const GradeType('zeugnisnote');
+
+  Term.internal(
+      this._subjects, this._gradeTypeWeightings, this._finalGradeType);
 
   Term addSubject(Subject subject) {
     return _copyWith(
@@ -325,6 +344,7 @@ class Term {
   _Subject _newSubject(String id) {
     return _Subject(
       id: id,
+      finalGradeType: _finalGradeType,
       weightType: WeightType.inheritFromTerm,
       gradeTypeWeightingsFromTerm: _gradeTypeWeightings,
     );
@@ -346,9 +366,13 @@ class Term {
   Term _copyWith({
     IList<_Subject>? subjects,
     IMap<GradeType, double>? gradeTypeWeightings,
+    GradeType? finalGradeType,
   }) {
     return Term.internal(
-        subjects ?? _subjects, gradeTypeWeightings ?? _gradeTypeWeightings);
+      subjects ?? _subjects,
+      gradeTypeWeightings ?? _gradeTypeWeightings,
+      finalGradeType ?? _finalGradeType,
+    );
   }
 
   num getTermGrade() {
@@ -384,6 +408,15 @@ class Term {
     }).toIList();
 
     return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
+  }
+
+  Term setFinalGradeType(GradeType gradeType) {
+    final newSubjects = _subjects.map((s) {
+      final newSubject = s.copyWith(finalGradeType: gradeType);
+      return newSubject;
+    }).toIList();
+
+    return _copyWith(finalGradeType: gradeType, subjects: newSubjects);
   }
 
   Term _addGrade(Grade grade,
@@ -503,6 +536,7 @@ class GradeResult {
 class _Subject {
   final String id;
   final IList<_Grade> grades;
+  final GradeType finalGradeType;
   final num weightingForTermGrade;
   final IMap<GradeType, double> gradeTypeWeightings;
   final IMap<GradeType, double> gradeTypeWeightingsFromTerm;
@@ -511,6 +545,7 @@ class _Subject {
   _Subject({
     required this.id,
     required this.weightType,
+    required this.finalGradeType,
     this.grades = const IListConst([]),
     this.weightingForTermGrade = 1,
     this.gradeTypeWeightings = const IMapConst({}),
@@ -524,6 +559,10 @@ class _Subject {
   num? getGrade() {
     final grds = grades.where((grade) => grade.takenIntoAccount);
     if (grds.isEmpty) return null;
+
+    final finalGrade =
+        grds.where((grade) => grade.gradeType == finalGradeType).firstOrNull;
+    if (finalGrade != null) return finalGrade.value;
 
     return grds
             .map((grade) => grade.value * _weightFor(grade))
@@ -549,6 +588,7 @@ class _Subject {
   _Subject copyWith({
     String? id,
     IList<_Grade>? grades,
+    GradeType? finalGradeType,
     num? weightingForTermGrade,
     IMap<GradeType, double>? gradeTypeWeightings,
     IMap<GradeType, double>? gradeTypeWeightingsFromTerm,
@@ -557,6 +597,7 @@ class _Subject {
     return _Subject(
       id: id ?? this.id,
       grades: grades ?? this.grades,
+      finalGradeType: finalGradeType ?? this.finalGradeType,
       weightingForTermGrade:
           weightingForTermGrade ?? this.weightingForTermGrade,
       gradeTypeWeightings: gradeTypeWeightings ?? this.gradeTypeWeightings,
