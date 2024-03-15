@@ -414,6 +414,14 @@ class Term {
     );
   }
 
+  num? tryGetTermGrade() {
+    try {
+      return getTermGrade();
+    } catch (e) {
+      return null;
+    }
+  }
+
   num getTermGrade() {
     final gradedSubjects =
         _subjects.where((element) => element.getGrade() != null);

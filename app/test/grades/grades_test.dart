@@ -5,6 +5,7 @@ import 'package:sharezone/grades/term_id.dart';
 import 'package:test_randomness/test_randomness.dart';
 
 import 'grades_2_test.dart';
+import 'grades_service.dart';
 
 void main() {
   group('grades', () {
@@ -100,33 +101,33 @@ void main() {
 }
 
 class GradesTestController {
-  late Term _term;
+  final service = GradesService();
 
   void createTerm(TestTerm testTerm) {
-    _term = Term();
+    final termId = testTerm.id;
+    service.createTerm(id: termId);
     for (var subject in testTerm.subjects.values) {
-      _term = _term.addSubject(Subject(subject.id.id));
+      service.addSubject(id: subject.id, toTerm: termId);
       if (subject.weight != null) {
-        _term = _term
-            .subject(subject.id.id)
-            .changeWeightingForTermGrade(subject.weight!.asFactor.toDouble());
+        service.changeSubjectWeightForTermGrade(
+            id: subject.id, termId: termId, weight: subject.weight!);
       }
 
       for (var grade in subject.grades) {
-        _term = _term.subject(subject.id.id).addGrade(
-              Grade(id: grade.id, value: grade.value),
-              takeIntoAccount: grade.includeInGradeCalculations,
-            );
+        service.addGrade(
+          id: subject.id,
+          termId: termId,
+          value: Grade(id: grade.id, value: grade.value),
+          takeIntoAccount: grade.includeInGradeCalculations,
+        );
       }
     }
   }
 
   TermResult term(TermId id) {
-    return TermResult(
-      _term.getTermGrade(),
-      IMap.fromEntries(_term.subjects.map((subject) =>
-          MapEntry(SubjectId(subject.id), SubjectRes(subject.gradeVal!)))),
-    );
+    final term = service.terms.value.single;
+
+    return term;
   }
 }
 
@@ -139,7 +140,7 @@ class Weight {
 }
 
 class TermResult {
-  final num calculatedGrade;
+  final num? calculatedGrade;
   IMap<SubjectId, SubjectRes> subjects;
 
   SubjectRes subject(SubjectId id) {
@@ -150,7 +151,7 @@ class TermResult {
 }
 
 class SubjectRes {
-  final num calculatedGrade;
+  final num? calculatedGrade;
 
   SubjectRes(this.calculatedGrade);
 }

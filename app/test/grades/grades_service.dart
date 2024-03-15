@@ -1,0 +1,57 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:rxdart/subjects.dart' as rx;
+import 'package:sharezone/grades/subject_id.dart';
+import 'package:sharezone/grades/term_id.dart';
+
+import 'grades_2_test.dart';
+import 'grades_test.dart';
+
+class GradesService {
+  final rx.BehaviorSubject<IList<TermResult>> terms;
+
+  GradesService() : terms = rx.BehaviorSubject.seeded(const IListConst([]));
+
+  IList<Term> _terms = const IListConst<Term>([]);
+
+  void updateTerm(Term term) {
+    _terms = _terms.replace(0, term);
+    final termRes = _terms
+        .map((term) => TermResult(
+              term.tryGetTermGrade(),
+              IMap.fromEntries(term.subjects.map((subject) => MapEntry(
+                  SubjectId(subject.id), SubjectRes(subject.gradeVal)))),
+            ))
+        .toIList();
+    terms.add(termRes);
+  }
+
+  void createTerm({required TermId id}) {
+    _terms = _terms.add(Term());
+  }
+
+  void addSubject({required SubjectId id, required TermId toTerm}) {
+    final newTerm = _terms.single.addSubject(Subject(id.toString()));
+    updateTerm(newTerm);
+  }
+
+  void changeSubjectWeightForTermGrade(
+      {required SubjectId id, required TermId termId, required Weight weight}) {
+    final newTerm = _terms.single
+        .subject(id.toString())
+        .changeWeightingForTermGrade(weight.asFactor);
+
+    updateTerm(newTerm);
+  }
+
+  void addGrade({
+    required SubjectId id,
+    required TermId termId,
+    required Grade value,
+    bool takeIntoAccount = true,
+  }) {
+    final newTerm = _terms.single
+        .subject(id.toString())
+        .addGrade(value, takeIntoAccount: takeIntoAccount);
+    updateTerm(newTerm);
+  }
+}
