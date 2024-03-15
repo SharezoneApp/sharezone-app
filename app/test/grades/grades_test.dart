@@ -178,14 +178,13 @@ class GradesTestController {
       }
 
       for (var e in subject.gradeTypeWeights.entries) {
-        service.changeGradeTypeWeightForSubject(
-            id: subject.id, termId: termId, gradeType: e.key, weight: e.value);
-        // This has to be called after changeGradeTypeWeightForSubject to work,
-        // I don't know why
         service.changeSubjectWeightTypeSettings(
             id: subject.id,
             termId: termId,
             perGradeType: WeightType.perGradeType);
+
+        service.changeGradeTypeWeightForSubject(
+            id: subject.id, termId: termId, gradeType: e.key, weight: e.value);
       }
 
       for (var grade in subject.grades) {
