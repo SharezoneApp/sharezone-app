@@ -68,14 +68,8 @@ void main() {
       ]);
       controller.createTerm(term);
 
-      const weight1 = 0.5;
-      const weight2 = 1;
-      const weight3 = 2;
-
-      const sumOfWeights = weight1 + weight2 + weight3;
-
-      const expected = (3 * weight1 + 2 * weight2 + 1 * weight3) / sumOfWeights;
-
+      const sumOfWeights = 0.5 + 1 + 2;
+      const expected = (3 * 0.5 + 2 * 1 + 1 * 2) / sumOfWeights;
       expect(controller.term(term.id).calculatedGrade, expected);
     });
   });
