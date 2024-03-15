@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
+import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/shared/term_tile.dart';
 import 'package:sharezone/grades/pages/terms_details_page/terms_details_page.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -324,12 +325,9 @@ class _CurrentTerm extends StatelessWidget {
             for (final subject in subjects)
               ListTile(
                 mouseCursor: SystemMouseCursors.click,
-                leading: CircleAvatar(
-                  backgroundColor: subject.design.color.withOpacity(0.2),
-                  child: Text(
-                    subject.abbreviation,
-                    style: TextStyle(color: subject.design.color),
-                  ),
+                leading: SubjectAvatar(
+                  design: subject.design,
+                  abbreviation: subject.abbreviation,
                 ),
                 title: Text(subject.displayName),
                 trailing: Text(subject.grade,
