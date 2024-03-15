@@ -44,6 +44,40 @@ void main() {
 
       expect(controller.term(term.id).calculatedGrade, 2.5);
     });
+    test(
+        'the term grade should equal the average of the average grades of every subject taking weightings into account',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(name: '1. Halbjahr', subjects: [
+        subjectWith(
+            id: SubjectId('Englisch'),
+            name: 'Englisch',
+            weightFactorForTermGrade: 0.5,
+            grades: [gradeWith(value: 3.0)]),
+        subjectWith(
+            id: SubjectId('Mathe'),
+            name: 'Mathe',
+            weightFactorForTermGrade: 1,
+            grades: [gradeWith(value: 3.0), gradeWith(value: 1.0)]),
+        subjectWith(
+            id: SubjectId('Informatik'),
+            name: 'Informatik',
+            weightFactorForTermGrade: 2,
+            grades: [gradeWith(value: 1.0)]),
+      ]);
+      controller.createTerm(term);
+
+      const weight1 = 0.5;
+      const weight2 = 1;
+      const weight3 = 2;
+
+      const sumOfWeights = weight1 + weight2 + weight3;
+
+      const expected = (3 * weight1 + 2 * weight2 + 1 * weight3) / sumOfWeights;
+
+      expect(controller.term(term.id).calculatedGrade, expected);
+    });
   });
 }
 
@@ -54,6 +88,11 @@ class GradesTestController {
     _term = Term();
     for (var subject in testTerm.subjects.values) {
       _term = _term.addSubject(Subject(subject.id.id));
+      if (subject.weightFactorForTermGrade != null) {
+        _term = _term.subject(subject.id.id).changeWeightingForTermGrade(
+            subject.weightFactorForTermGrade!.toDouble());
+      }
+
       for (var grade in subject.grades) {
         _term = _term
             .subject(subject.id.id)
@@ -115,11 +154,13 @@ TestSubject subjectWith({
   required SubjectId id,
   required String name,
   required List<TestGrade> grades,
+  num? weightFactorForTermGrade,
 }) {
   return TestSubject(
     id: id,
     name: name,
     grades: IList(grades),
+    weightFactorForTermGrade: weightFactorForTermGrade,
   );
 }
 
@@ -127,11 +168,13 @@ class TestSubject {
   final SubjectId id;
   final String name;
   final IList<TestGrade> grades;
+  final num? weightFactorForTermGrade;
 
   TestSubject({
     required this.id,
     required this.name,
     required this.grades,
+    this.weightFactorForTermGrade,
   });
 }
 
