@@ -220,10 +220,53 @@ void main() {
       expect(term.subject(englisch.id).gradeVal, 1.5);
       expect(term.getTermGrade(), 1.5);
     });
+    test(
+        'weighting of grades can be changed for a subject, then overridden by the term settings and then changed again so that the first settings are used again',
+        () {
+      var term = Term();
+      final englisch = Subject('Englisch');
+      term = term.addSubject(englisch);
+
+      final grade1 = gradeWith(value: 1.0, type: GradeType('foo'));
+      final grade2 = gradeWith(value: 3.0, type: GradeType('bar'));
+      term = term.subject(englisch.id).addGrade(grade1);
+      term = term.subject(englisch.id).addGrade(grade2);
+
+      term = term
+          .subject(englisch.id)
+          .changeWeightingType(WeightType.perGradeType);
+      term = term
+          .subject(englisch.id)
+          .changeGradeTypeWeighting(grade1.type, weight: 3);
+
+      expect(term.subject(englisch.id).gradeVal, 1.5);
+
+      // Shouldn't change the grade because custom settings are used in the subject
+      term = term.changeWeightingOfGradeType(grade1.type, weight: 1);
+      term = term.changeWeightingOfGradeType(grade2.type, weight: 1);
+
+      expect(term.subject(englisch.id).gradeVal, 1.5);
+      expect(term.getTermGrade(), 1.5);
+
+      term = term
+          .subject(englisch.id)
+          .changeWeightingType(WeightType.inheritFromTerm);
+
+      expect(term.subject(englisch.id).gradeVal, 2);
+      expect(term.getTermGrade(), 2);
+
+      // Old settings are persisted
+      term = term
+          .subject(englisch.id)
+          .changeWeightingType(WeightType.perGradeType);
+
+      expect(term.subject(englisch.id).gradeVal, 1.5);
+      expect(term.getTermGrade(), 1.5);
+    });
   });
 }
 
-enum WeightType { perGrade, perGradeType }
+enum WeightType { perGrade, perGradeType, inheritFromTerm }
 
 Grade gradeWith({
   required double value,
@@ -243,16 +286,24 @@ class GradeType extends Equatable {
 
 class Term {
   final IList<_Subject> _subjects;
+  final IMap<GradeType, double> _gradeTypeWeightings;
 
-  Term() : _subjects = const IListConst([]);
-  Term.internal(this._subjects);
+  Term()
+      : _subjects = const IListConst([]),
+        _gradeTypeWeightings = const IMapConst({});
+  Term.internal(this._subjects, this._gradeTypeWeightings);
 
   Term addSubject(Subject subject) {
     return _copyWith(
-      subjects: _subjects.add(_Subject(
-        id: subject.id,
-        weightType: WeightType.perGradeType,
-      )),
+      subjects: _subjects.add(_newSubject(subject.id)),
+    );
+  }
+
+  _Subject _newSubject(String id) {
+    return _Subject(
+      id: id,
+      weightType: WeightType.inheritFromTerm,
+      gradeTypeWeightingsFromTerm: _gradeTypeWeightings,
     );
   }
 
@@ -271,8 +322,10 @@ class Term {
 
   Term _copyWith({
     IList<_Subject>? subjects,
+    IMap<GradeType, double>? gradeTypeWeightings,
   }) {
-    return Term.internal(subjects ?? _subjects);
+    return Term.internal(
+        subjects ?? _subjects, gradeTypeWeightings ?? _gradeTypeWeightings);
   }
 
   num getTermGrade() {
@@ -301,20 +354,21 @@ class Term {
   }
 
   Term changeWeightingOfGradeType(GradeType type, {required num weight}) {
+    final newWeights = _gradeTypeWeightings.add(type, weight.toDouble());
     final newSubjects = _subjects.map((s) {
-      final newSubject =
-          s.changeGradeTypeWeight(type, weight: weight.toDouble());
+      final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
       return newSubject;
     }).toIList();
 
-    return _copyWith(subjects: newSubjects);
+    return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
   }
 
   Term _addGrade(Grade grade,
       {required String toSubject, bool takenIntoAccount = true}) {
-    var subject = _subjects.firstWhere((s) => s.id == toSubject,
-        orElse: () =>
-            _Subject(id: toSubject, weightType: WeightType.perGradeType));
+    var subject = _subjects.firstWhere(
+      (s) => s.id == toSubject,
+      orElse: () => _newSubject(toSubject),
+    );
     subject = subject.addGrade(_Grade(
       id: grade.id,
       value: grade.value,
@@ -428,6 +482,7 @@ class _Subject {
   final IList<_Grade> grades;
   final num weightingForTermGrade;
   final IMap<GradeType, double> gradeTypeWeightings;
+  final IMap<GradeType, double> gradeTypeWeightingsFromTerm;
   final WeightType weightType;
 
   _Subject({
@@ -436,6 +491,7 @@ class _Subject {
     this.grades = const IListConst([]),
     this.weightingForTermGrade = 1,
     this.gradeTypeWeightings = const IMapConst({}),
+    this.gradeTypeWeightingsFromTerm = const IMapConst({}),
   });
 
   _Subject addGrade(_Grade grade) {
@@ -456,6 +512,8 @@ class _Subject {
     return switch (weightType) {
       WeightType.perGrade => grade.weight,
       WeightType.perGradeType => gradeTypeWeightings[grade.gradeType] ?? 1,
+      WeightType.inheritFromTerm =>
+        gradeTypeWeightingsFromTerm[grade.gradeType] ?? 1,
     };
   }
 
@@ -470,6 +528,7 @@ class _Subject {
     IList<_Grade>? grades,
     num? weightingForTermGrade,
     IMap<GradeType, double>? gradeTypeWeightings,
+    IMap<GradeType, double>? gradeTypeWeightingsFromTerm,
     WeightType? weightType,
   }) {
     return _Subject(
@@ -479,6 +538,8 @@ class _Subject {
           weightingForTermGrade ?? this.weightingForTermGrade,
       gradeTypeWeightings: gradeTypeWeightings ?? this.gradeTypeWeightings,
       weightType: weightType ?? this.weightType,
+      gradeTypeWeightingsFromTerm:
+          gradeTypeWeightingsFromTerm ?? this.gradeTypeWeightingsFromTerm,
     );
   }
 }
