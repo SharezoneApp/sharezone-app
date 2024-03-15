@@ -21,6 +21,7 @@ on:
       # We only build and deploy a new version, when a user relevant files
       # changed.
       - "console/**"
+      - "lib/**"
       # We trigger also this workflow, if this workflow is changed, so that new
       # changes will be applied.
       - ".github/workflows/console_cd.yml"
