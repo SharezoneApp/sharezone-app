@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
+import 'package:sharezone/grades/pages/shared/term_tile.dart';
+import 'package:sharezone/grades/pages/terms_details_page/terms_details_page.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -194,7 +196,7 @@ class _EmptyTerm3 extends StatelessWidget {
         child: Transform(
           transform: Matrix4.translationValues(0, -110, 0),
           child: const CustomCard(
-            child: _TermTile(
+            child: TermTile(
               displayName: 'Vergangenes Halbjahr',
               avgGrade: ("3,8", GradePerformance.bad),
               title: '8/2',
@@ -218,7 +220,7 @@ class _EmptyTerm2 extends StatelessWidget {
         child: Transform(
           transform: Matrix4.translationValues(0, -55, 0),
           child: const CustomCard(
-            child: _TermTile(
+            child: TermTile(
               displayName: 'Vergangenes Halbjahr',
               avgGrade: ("2,6", GradePerformance.satisfactory),
               title: '9/1',
@@ -238,7 +240,7 @@ class _EmptyTerm1 extends StatelessWidget {
     return const Padding(
       padding: EdgeInsets.only(top: 70),
       child: CustomCard(
-        child: _TermTile(
+        child: TermTile(
           displayName: 'Aktuelles Halbjahr',
           avgGrade: ("1,3", GradePerformance.good),
           title: '9/2',
@@ -299,11 +301,11 @@ class _CurrentTerm extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: CustomCard(
-        onTap: () => _navigateToTerm(context, id),
+        onTap: () => openTermsDetailsPage(context, id),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _TermTile(
+            TermTile(
               title: 'Aktuelles Halbjahr',
               displayName: displayName,
               avgGrade: avgGrade,
@@ -361,8 +363,8 @@ class _PastTerm extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: CustomCard(
-          onTap: () => _navigateToTerm(context, id),
-          child: _TermTile(
+          onTap: () => openTermsDetailsPage(context, id),
+          child: TermTile(
             title: 'Vergangenes Halbjahr',
             displayName: displayName,
             avgGrade: avgGrade,
@@ -371,79 +373,4 @@ class _PastTerm extends StatelessWidget {
       ),
     );
   }
-}
-
-class _TermGrade extends StatelessWidget {
-  const _TermGrade({required this.grade});
-
-  final AvgGradeView grade;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: grade.$2.toColor().withOpacity(0.1),
-      ),
-      child: Text(
-        '⌀ ${grade.$1}',
-        style: TextStyle(
-          color: grade.$2.toColor(),
-          fontWeight: FontWeight.w500,
-          fontSize: 18,
-        ),
-      ),
-    );
-  }
-}
-
-class _TermTile extends StatelessWidget {
-  const _TermTile({
-    required this.displayName,
-    required this.avgGrade,
-    required this.title,
-  });
-
-  final String title;
-  final DisplayName displayName;
-  final AvgGradeView avgGrade;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
-                Text(
-                  displayName,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 6),
-          _TermGrade(grade: avgGrade)
-        ],
-      ),
-    );
-  }
-}
-
-void _navigateToTerm(BuildContext context, TermId termId) {
-  snackbarSoon(context: context);
 }
