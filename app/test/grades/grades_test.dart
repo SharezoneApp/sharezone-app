@@ -9,6 +9,23 @@ import 'grades_2_test.dart';
 void main() {
   group('grades', () {
     test(
+        'The calculated grade of a subject is the average of the grades by default',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(name: '1. Halbjahr', subjects: [
+        subjectWith(
+            id: SubjectId('Mathe'),
+            name: 'Mathe',
+            grades: [gradeWith(value: 4), gradeWith(value: 1.5)]),
+      ]);
+      controller.createTerm(term);
+
+      expect(
+          controller.term(term.id).subject(SubjectId('Mathe')).calculatedGrade,
+          2.75);
+    });
+    test(
         'The calculated grade of the term is the average of subject grades by default',
         () {
       final controller = GradesTestController();
@@ -46,14 +63,29 @@ class GradesTestController {
   }
 
   TermResult term(TermId id) {
-    return TermResult(_term.getTermGrade());
+    return TermResult(
+      _term.getTermGrade(),
+      IMap.fromEntries(_term.subjects.map((subject) =>
+          MapEntry(SubjectId(subject.id), SubjectRes(subject.gradeVal!)))),
+    );
   }
 }
 
 class TermResult {
   final num calculatedGrade;
+  IMap<SubjectId, SubjectRes> subjects;
 
-  TermResult(this.calculatedGrade);
+  SubjectRes subject(SubjectId id) {
+    return SubjectRes(calculatedGrade);
+  }
+
+  TermResult(this.calculatedGrade, this.subjects);
+}
+
+class SubjectRes {
+  final num calculatedGrade;
+
+  SubjectRes(this.calculatedGrade);
 }
 
 TestTerm termWith({

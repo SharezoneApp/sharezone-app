@@ -354,6 +354,17 @@ class Term {
   final IList<_Subject> _subjects;
   final IMap<GradeType, double> _gradeTypeWeightings;
   final GradeType _finalGradeType;
+  IList<SubjectResult> get subjects {
+    return _subjects
+        .map(
+          (subject) => SubjectResult(
+            this,
+            id: subject.id,
+            gradeVal: subject.getGrade(),
+          ),
+        )
+        .toIList();
+  }
 
   Term()
       : _subjects = const IListConst([]),
