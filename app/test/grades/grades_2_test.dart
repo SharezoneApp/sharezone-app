@@ -355,16 +355,7 @@ class Term {
   final IMap<GradeType, double> _gradeTypeWeightings;
   final GradeType _finalGradeType;
   IList<SubjectResult> get subjects {
-    return _subjects
-        .map(
-          (subject) => SubjectResult(
-            this,
-            subject.grades,
-            id: subject.id,
-            gradeVal: subject.getGrade(),
-          ),
-        )
-        .toIList();
+    return _subjects.map(_toResult).toIList();
   }
 
   Term()
@@ -390,18 +381,27 @@ class Term {
     );
   }
 
+  SubjectResult _toResult(_Subject subject) => SubjectResult(
+        this,
+        gradeTypeWeights: subject.gradeTypeWeightings,
+        grades: subject.grades
+            .map(
+              (grade) => GradeResult(
+                this,
+                id: grade.id,
+                subjectId: subject.id,
+                value: grade.value,
+                type: grade.gradeType,
+              ),
+            )
+            .toIList(),
+        id: subject.id,
+        gradeVal: subject.getGrade(),
+        weightType: subject.weightType,
+      );
+
   SubjectResult subject(String id) {
-    return _subjects
-        .where((s) => s.id == id)
-        .map(
-          (subject) => SubjectResult(
-            this,
-            subject.grades,
-            id: subject.id,
-            gradeVal: subject.getGrade(),
-          ),
-        )
-        .first;
+    return _subjects.where((s) => s.id == id).map(_toResult).first;
   }
 
   Term _copyWith({
@@ -567,21 +567,18 @@ class SubjectResult {
   final Term _term;
   final String id;
   final num? gradeVal;
-  final IList<_Grade> _grades;
-  IList<GradeResult> get grades {
-    return _grades
-        .map(
-          (grade) => GradeResult(
-            _term,
-            id: grade.id,
-            subjectId: id,
-          ),
-        )
-        .toIList();
-  }
+  final WeightType weightType;
+  final IMap<GradeType, double> gradeTypeWeights;
+  final IList<GradeResult> grades;
 
-  SubjectResult(this._term, this._grades,
-      {required this.id, required this.gradeVal});
+  SubjectResult(
+    this._term, {
+    required this.grades,
+    required this.id,
+    required this.gradeVal,
+    required this.weightType,
+    required this.gradeTypeWeights,
+  });
 
   Term addGrade(Grade grade, {bool takeIntoAccount = true}) {
     return _term._addGrade(grade,
@@ -597,7 +594,7 @@ class SubjectResult {
   }
 
   GradeResult grade(GradeId id) {
-    return GradeResult(_term, id: id, subjectId: this.id);
+    return grades.firstWhere((element) => element.id == id);
   }
 
   Term changeWeightingType(WeightType weightType) {
@@ -616,9 +613,17 @@ class SubjectResult {
 class GradeResult {
   final Term _term;
   final GradeId id;
+  final num value;
+  final GradeType type;
   final String subjectId;
 
-  GradeResult(this._term, {required this.id, required this.subjectId});
+  GradeResult(
+    this._term, {
+    required this.id,
+    required this.subjectId,
+    required this.value,
+    required this.type,
+  });
 
   Term changeWeight({required double weight}) {
     return _term._changeWeightOfGrade(id, subjectId, weight);

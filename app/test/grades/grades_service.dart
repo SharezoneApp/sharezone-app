@@ -18,8 +18,19 @@ class GradesService {
     final termRes = _terms
         .map((term) => TermResult(
               term.tryGetTermGrade(),
-              IMap.fromEntries(term.subjects.map((subject) => MapEntry(
-                  SubjectId(subject.id), SubjectRes(subject.gradeVal)))),
+              IMap.fromEntries(
+                term.subjects.map(
+                  (subject) => MapEntry(
+                    SubjectId(subject.id),
+                    SubjectRes(
+                      calculatedGrade: subject.gradeVal,
+                      weightType: subject.weightType,
+                      gradeTypeWeights: subject.gradeTypeWeights.map(
+                          (key, value) => MapEntry(key, Weight.factor(value))),
+                    ),
+                  ),
+                ),
+              ),
             ))
         .toIList();
     terms.add(termRes);

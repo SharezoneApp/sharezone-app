@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/grades/subject_id.dart';
@@ -220,6 +221,94 @@ void main() {
               .calculatedGrade,
           1.5);
     });
+    test('term weights can be overridden by a subject', () {
+      final controller = GradesTestController();
+
+      final subjectId = SubjectId('Deutsch');
+      final grade1Id = GradeId('grade1');
+      final grade2Id = GradeId('grade2');
+
+      final term = termWith(
+        gradeTypeWeights: {
+          const GradeType('presentation'): const Weight.factor(1),
+          const GradeType('exam'): const Weight.factor(3),
+        },
+        subjects: [
+          subjectWith(
+            id: subjectId,
+            name: 'Deutsch',
+            weightType: WeightType.inheritFromTerm,
+            grades: [
+              gradeWith(
+                id: grade1Id,
+                value: 3.0,
+                type: const GradeType('presentation'),
+              ),
+              gradeWith(
+                id: grade2Id,
+                value: 1.0,
+                type: const GradeType('exam'),
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+      final subjectGradeWithInheritedWeights =
+          controller.term(term.id).subject(subjectId).calculatedGrade;
+      expect(subjectGradeWithInheritedWeights, 1.5);
+
+      controller.changeWeightTypeForSubject(
+        termId: term.id,
+        subjectId: subjectId,
+        weightType: WeightType.perGradeType,
+      );
+      controller.changeTermWeightsForSubject(
+        termId: term.id,
+        subjectId: subjectId,
+        gradeTypeWeights: {
+          const GradeType('presentation'): const Weight.factor(1),
+          const GradeType('exam'): const Weight.factor(1),
+        },
+      );
+
+      final subjectWithOverriddenGradeTypeWeights =
+          controller.term(term.id).subject(subjectId).calculatedGrade;
+      expect(subjectWithOverriddenGradeTypeWeights, 2.0);
+      expect(subjectWithOverriddenGradeTypeWeights,
+          isNot(subjectGradeWithInheritedWeights));
+
+      controller.changeWeightTypeForSubject(
+        termId: term.id,
+        subjectId: subjectId,
+        weightType: WeightType.perGrade,
+      );
+      controller.changeGradeWeightsForSubject(
+        termId: term.id,
+        subjectId: subjectId,
+        weights: {
+          grade1Id: const Weight.percent(85),
+          grade2Id: const Weight.percent(15),
+        },
+      );
+
+      final subjectWithOverriddenGradeWeights =
+          controller.term(term.id).subject(subjectId).calculatedGrade;
+
+      expect(subjectWithOverriddenGradeWeights,
+          isNot(subjectWithOverriddenGradeTypeWeights));
+      expect(subjectWithOverriddenGradeWeights,
+          isNot(subjectGradeWithInheritedWeights));
+
+      controller.changeWeightTypeForSubject(
+        termId: term.id,
+        subjectId: subjectId,
+        weightType: WeightType.inheritFromTerm,
+      );
+
+      expect(controller.term(term.id).subject(subjectId).calculatedGrade,
+          subjectGradeWithInheritedWeights);
+    });
   });
 }
 
@@ -280,14 +369,52 @@ class GradesTestController {
 
     return term;
   }
+
+  void changeWeightTypeForSubject(
+      {required TermId termId,
+      required SubjectId subjectId,
+      required WeightType weightType}) {
+    service.changeSubjectWeightTypeSettings(
+        id: subjectId, termId: termId, perGradeType: weightType);
+  }
+
+  void changeGradeWeightsForSubject(
+      {required TermId termId,
+      required SubjectId subjectId,
+      required Map<GradeId, Weight> weights}) {
+    for (var e in weights.entries) {
+      service.changeGradeWeight(
+        id: e.key,
+        termId: termId,
+        weight: e.value,
+      );
+    }
+  }
+
+  void changeTermWeightsForSubject(
+      {required TermId termId,
+      required SubjectId subjectId,
+      required Map<GradeType, Weight> gradeTypeWeights}) {
+    for (var e in gradeTypeWeights.entries) {
+      service.changeGradeTypeWeightForSubject(
+          id: subjectId, termId: termId, gradeType: e.key, weight: e.value);
+    }
+  }
 }
 
-class Weight {
+class Weight extends Equatable {
   final num asFactor;
   num get asPercentage => asFactor * 100;
+  @override
+  List<Object?> get props => [asFactor];
 
   const Weight.percent(num percent) : asFactor = percent / 100;
   const Weight.factor(this.asFactor);
+
+  @override
+  String toString() {
+    return 'Weight($asFactor / $asPercentage%)';
+  }
 }
 
 class TermResult {
@@ -295,7 +422,12 @@ class TermResult {
   IMap<SubjectId, SubjectRes> subjects;
 
   SubjectRes subject(SubjectId id) {
-    return SubjectRes(calculatedGrade);
+    final subject = subjects.get(id)!;
+    return SubjectRes(
+      calculatedGrade: subject.calculatedGrade,
+      weightType: subject.weightType,
+      gradeTypeWeights: subject.gradeTypeWeights,
+    );
   }
 
   TermResult(this.calculatedGrade, this.subjects);
@@ -303,8 +435,14 @@ class TermResult {
 
 class SubjectRes {
   final num? calculatedGrade;
+  final WeightType weightType;
+  final IMap<GradeType, Weight> gradeTypeWeights;
 
-  SubjectRes(this.calculatedGrade);
+  SubjectRes({
+    required this.calculatedGrade,
+    required this.weightType,
+    required this.gradeTypeWeights,
+  });
 }
 
 TestTerm termWith({
@@ -389,9 +527,10 @@ TestGrade gradeWith({
   bool includeInGradeCalculations = true,
   GradeType type = const GradeType('some test type'),
   Weight? weight,
+  GradeId? id,
 }) {
   return TestGrade(
-    id: GradeId(randomAlpha(5)),
+    id: id ?? GradeId(randomAlpha(5)),
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
     type: type,
