@@ -2,12 +2,13 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sharezone/grades/term_id.dart';
 import 'package:test_randomness/test_randomness.dart';
 
 void main() {
   group('grades', () {
     test('the term grade of two different subjects in term', () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final englisch = Subject('Englisch');
 
       term = term.addSubject(englisch);
@@ -26,7 +27,7 @@ void main() {
     test(
         'the term grade should equal the average of the average grades of every subject',
         () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final englisch = Subject('Englisch');
 
       term = term.addSubject(englisch);
@@ -43,7 +44,7 @@ void main() {
     test(
         'the term grade should equal the average of the average grades of every subject taking weightings into account',
         () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
       term = term.subject(englisch.id).addGrade(gradeWith(value: 3.0));
@@ -72,7 +73,7 @@ void main() {
     test(
         'one can add grades that are not taken into account for the term and subject grade',
         () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
       term = term.subject(englisch.id).addGrade(gradeWith(value: 1.0));
@@ -94,7 +95,7 @@ void main() {
 
     test('subjects can have custom weights per grade type (e.g. presentation)',
         () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
 
@@ -131,7 +132,7 @@ void main() {
         'subjects can have custom weights per grade type 2 (e.g. presentation)',
         () {
       // Aus Beispiel: https://www.notenapp.com/2023/08/01/notendurchschnitt-berechnen-wie-mache-ich-es-richtig/
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final mathe = Subject('Mathe');
       term = term.addSubject(mathe);
 
@@ -173,7 +174,7 @@ void main() {
       expect(term.subject(mathe.id).gradeVal, 2.125);
     });
     test('subjects can have custom weights per grade', () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
 
@@ -204,7 +205,7 @@ void main() {
     test(
         'grades for a subject will be weighted by the settings in term by default',
         () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
 
@@ -222,7 +223,7 @@ void main() {
     test(
         'weighting of grades can be changed for a subject, then overridden by the term settings and then changed again so that the first settings are used again',
         () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
 
@@ -263,7 +264,7 @@ void main() {
       expect(term.getTermGrade(), 1.5);
     });
     test('weight by grade setting in subject is persisted', () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final englisch = Subject('Englisch');
       term = term.addSubject(englisch);
 
@@ -286,7 +287,7 @@ void main() {
       expect(term.subject(englisch.id).gradeVal, 1.5);
     });
     test('The "Endnote" grade type overrides the subject grade', () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final mathe = Subject('Mathe');
       term = term.addSubject(mathe);
       term = term.setFinalGradeType(GradeType('Endnote'));
@@ -304,7 +305,7 @@ void main() {
     test(
         'Every subject can have a "Endnote" that overrides the terms "Endnote"',
         () {
-      var term = Term();
+      var term = Term(id: TermId('2. Halbjahr'));
       final mathe = Subject('Mathe');
       final englisch = Subject('Englisch');
       term = term.addSubject(mathe);
@@ -351,6 +352,7 @@ class GradeType extends Equatable {
 }
 
 class Term {
+  final TermId id;
   final IList<_Subject> _subjects;
   final IMap<GradeType, double> _gradeTypeWeightings;
   final GradeType _finalGradeType;
@@ -358,13 +360,13 @@ class Term {
     return _subjects.map(_toResult).toIList();
   }
 
-  Term()
+  Term({required this.id})
       : _subjects = const IListConst([]),
         _gradeTypeWeightings = const IMapConst({}),
         _finalGradeType = const GradeType('zeugnisnote');
 
   Term.internal(
-      this._subjects, this._gradeTypeWeightings, this._finalGradeType);
+      this.id, this._subjects, this._gradeTypeWeightings, this._finalGradeType);
 
   Term addSubject(Subject subject) {
     return _copyWith(
@@ -405,11 +407,13 @@ class Term {
   }
 
   Term _copyWith({
+    TermId? id,
     IList<_Subject>? subjects,
     IMap<GradeType, double>? gradeTypeWeightings,
     GradeType? finalGradeType,
   }) {
     return Term.internal(
+      id ?? this.id,
       subjects ?? _subjects,
       gradeTypeWeightings ?? _gradeTypeWeightings,
       finalGradeType ?? _finalGradeType,

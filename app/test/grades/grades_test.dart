@@ -495,6 +495,38 @@ void main() {
               .calculatedGrade,
           4.0);
     });
+    test('A user can have several terms', () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(
+        subjects: [
+          subjectWith(
+            id: SubjectId('Philosophie'),
+            name: 'Philosophie',
+            grades: [
+              gradeWith(value: 4.0),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term1);
+
+      final term2 = termWith(
+        subjects: [
+          subjectWith(
+            id: SubjectId('Sport'),
+            name: 'Sport',
+            grades: [
+              gradeWith(value: 1.0),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term2);
+
+      expect(controller.term(term1.id).calculatedGrade, 4.0);
+      expect(controller.term(term2.id).calculatedGrade, 1.0);
+    });
   });
 }
 
@@ -556,7 +588,7 @@ class GradesTestController {
   }
 
   TermResult term(TermId id) {
-    final term = service.terms.value.single;
+    final term = service.terms.value.singleWhere((t) => t.id == id);
 
     return term;
   }
@@ -617,6 +649,7 @@ class Weight extends Equatable {
 }
 
 class TermResult {
+  final TermId id;
   final num? calculatedGrade;
   IMap<SubjectId, SubjectRes> subjects;
 
@@ -629,7 +662,11 @@ class TermResult {
     );
   }
 
-  TermResult(this.calculatedGrade, this.subjects);
+  TermResult({
+    required this.id,
+    required this.calculatedGrade,
+    required this.subjects,
+  });
 }
 
 class SubjectRes {

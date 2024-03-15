@@ -14,11 +14,12 @@ class GradesService {
   IList<Term> _terms = const IListConst<Term>([]);
 
   void updateTerm(Term term) {
-    _terms = _terms.replace(0, term);
+    _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
     final termRes = _terms
         .map((term) => TermResult(
-              term.tryGetTermGrade(),
-              IMap.fromEntries(
+              id: term.id,
+              calculatedGrade: term.tryGetTermGrade(),
+              subjects: IMap.fromEntries(
                 term.subjects.map(
                   (subject) => MapEntry(
                     SubjectId(subject.id),
@@ -40,17 +41,19 @@ class GradesService {
     required TermId id,
     required GradeType finalGradeType,
   }) {
-    _terms = _terms.add(Term().setFinalGradeType(finalGradeType));
+    _terms = _terms.add(Term(id: id).setFinalGradeType(finalGradeType));
   }
 
+  Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
+
   void addSubject({required SubjectId id, required TermId toTerm}) {
-    final newTerm = _terms.single.addSubject(Subject(id.toString()));
+    final newTerm = _term(toTerm).addSubject(Subject(id.toString()));
     updateTerm(newTerm);
   }
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
-    final newTerm = _terms.single
+    final newTerm = _term(termId)
         .subject(id.toString())
         .changeWeightingForTermGrade(weight.asFactor);
 
@@ -62,7 +65,7 @@ class GradesService {
       required TermId termId,
       required WeightType perGradeType}) {
     final newTerm =
-        _terms.single.subject(id.toString()).changeWeightingType(perGradeType);
+        _term(termId).subject(id.toString()).changeWeightingType(perGradeType);
     updateTerm(newTerm);
   }
 
@@ -72,7 +75,7 @@ class GradesService {
     required GradeType gradeType,
     required Weight weight,
   }) {
-    final newTerm = _terms.single
+    final newTerm = _term(termId)
         .subject(id.toString())
         .changeGradeTypeWeighting(gradeType,
             weight: weight.asFactor.toDouble());
@@ -85,7 +88,7 @@ class GradesService {
     required Grade value,
     bool takeIntoAccount = true,
   }) {
-    final newTerm = _terms.single
+    final newTerm = _term(termId)
         .subject(id.toString())
         .addGrade(value, takeIntoAccount: takeIntoAccount);
     updateTerm(newTerm);
@@ -96,7 +99,8 @@ class GradesService {
     required TermId termId,
     required Weight weight,
   }) {
-    final subject = _terms.single.subjects
+    final subject = _term(termId)
+        .subjects
         .where((element) => element.grades.any((grade) => grade.id == id))
         .first;
     final newTerm =
@@ -109,7 +113,7 @@ class GradesService {
       {required TermId termId,
       required GradeType gradeType,
       required Weight weight}) {
-    final newTerm = _terms.single.changeWeightingOfGradeType(gradeType,
+    final newTerm = _term(termId).changeWeightingOfGradeType(gradeType,
         weight: weight.asFactor.toDouble());
     updateTerm(newTerm);
   }
@@ -121,11 +125,11 @@ class GradesService {
   }) {
     if (gradeType == null) {
       final newTerm =
-          _terms.single.subject(id.toString()).inheritFinalGradeTypeFromTerm();
+          _term(termId).subject(id.toString()).inheritFinalGradeTypeFromTerm();
       return updateTerm(newTerm);
     }
     final newTerm =
-        _terms.single.subject(id.toString()).changeFinalGradeType(gradeType);
+        _term(termId).subject(id.toString()).changeFinalGradeType(gradeType);
     updateTerm(newTerm);
   }
 }
