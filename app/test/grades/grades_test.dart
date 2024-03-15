@@ -416,6 +416,37 @@ void main() {
               .calculatedGrade,
           1.5);
     });
+    test('The "Endnote" grade type overrides the subject grade', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        finalGradeType: const GradeType('test endnote'),
+        subjects: [
+          subjectWith(
+            id: SubjectId('Deutsch'),
+            name: 'Deutsch',
+            grades: [
+              gradeWith(
+                value: 3.0,
+                type: const GradeType('presentation'),
+              ),
+              gradeWith(
+                value: 1.0,
+                type: const GradeType('test endnote'),
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(SubjectId('Deutsch'))
+              .calculatedGrade,
+          1);
+    });
   });
 }
 
@@ -424,7 +455,7 @@ class GradesTestController {
 
   void createTerm(TestTerm testTerm) {
     final termId = testTerm.id;
-    service.createTerm(id: termId);
+    service.createTerm(id: termId, finalGradeType: testTerm.finalGradeType);
 
     if (testTerm.gradeTypeWeights != null) {
       for (var e in testTerm.gradeTypeWeights!.entries) {
@@ -556,6 +587,7 @@ TestTerm termWith({
   String? name,
   List<TestSubject> subjects = const [],
   Map<GradeType, Weight>? gradeTypeWeights,
+  GradeType finalGradeType = const GradeType('Endnote'),
 }) {
   final rdm = randomAlpha(5);
   return TestTerm(
@@ -563,6 +595,7 @@ TestTerm termWith({
     name: name ?? 'Test term $rdm',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
     gradeTypeWeights: gradeTypeWeights,
+    finalGradeType: finalGradeType,
   );
 }
 
@@ -571,11 +604,13 @@ class TestTerm {
   final String name;
   final IMap<SubjectId, TestSubject> subjects;
   final Map<GradeType, Weight>? gradeTypeWeights;
+  final GradeType finalGradeType;
 
   TestTerm({
     required this.id,
     required this.name,
     required this.subjects,
+    required this.finalGradeType,
     this.gradeTypeWeights,
   });
 }

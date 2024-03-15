@@ -36,8 +36,11 @@ class GradesService {
     terms.add(termRes);
   }
 
-  void createTerm({required TermId id}) {
-    _terms = _terms.add(Term());
+  void createTerm({
+    required TermId id,
+    required GradeType finalGradeType,
+  }) {
+    _terms = _terms.add(Term().setFinalGradeType(finalGradeType));
   }
 
   void addSubject({required SubjectId id, required TermId toTerm}) {
