@@ -309,6 +309,61 @@ void main() {
       expect(controller.term(term.id).subject(subjectId).calculatedGrade,
           subjectGradeWithInheritedWeights);
     });
+    test(
+        'a subjects gradeType weights are saved even when they are deactivated',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: SubjectId('Deutsch'),
+            name: 'Deutsch',
+            weightType: WeightType.perGradeType,
+            gradeTypeWeights: {
+              const GradeType('presentation'): const Weight.factor(1),
+              const GradeType('exam'): const Weight.factor(3),
+            },
+            grades: [
+              gradeWith(
+                value: 3.0,
+                type: const GradeType('presentation'),
+              ),
+              gradeWith(
+                value: 1.0,
+                type: const GradeType('exam'),
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(SubjectId('Deutsch'))
+              .calculatedGrade,
+          1.5);
+
+      controller.changeWeightTypeForSubject(
+        termId: term.id,
+        subjectId: SubjectId('Deutsch'),
+        weightType: WeightType.inheritFromTerm,
+      );
+      controller.changeWeightTypeForSubject(
+        termId: term.id,
+        subjectId: SubjectId('Deutsch'),
+        weightType: WeightType.perGradeType,
+      );
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(SubjectId('Deutsch'))
+              .calculatedGrade,
+          1.5);
+    });
   });
 }
 
