@@ -14,7 +14,7 @@ import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/shared/term_tile.dart';
-import 'package:sharezone/grades/pages/terms_details_page/terms_details_page.dart';
+import 'package:sharezone/grades/pages/term_details_page/term_details_page.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -302,7 +302,7 @@ class _CurrentTerm extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: CustomCard(
-        onTap: () => openTermsDetailsPage(context, id),
+        onTap: () => openTermDetailsPage(context, id),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -361,7 +361,7 @@ class _PastTerm extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: CustomCard(
-          onTap: () => openTermsDetailsPage(context, id),
+          onTap: () => openTermDetailsPage(context, id),
           child: TermTile(
             title: 'Vergangenes Halbjahr',
             displayName: displayName,

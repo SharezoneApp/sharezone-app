@@ -7,27 +7,29 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/shared/term_tile.dart';
+import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import 'terms_details_page_controller.dart';
+import 'term_details_page_controller.dart';
 
-void openTermsDetailsPage(BuildContext context, TermId id) {
+void openTermDetailsPage(BuildContext context, TermId id) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => TermsDetailsPage(id: id),
-      settings: const RouteSettings(name: TermsDetailsPage.tag),
+      builder: (context) => TermDetailsPage(id: id),
+      settings: const RouteSettings(name: TermDetailsPage.tag),
     ),
   );
 }
 
-class TermsDetailsPage extends StatelessWidget {
-  const TermsDetailsPage({
+class TermDetailsPage extends StatelessWidget {
+  const TermDetailsPage({
     super.key,
     required this.id,
   });
@@ -37,23 +39,31 @@ class TermsDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = TermsDetailsPageController(termId: id);
-    final state = controller.state;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Halbjahresdetails'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: MaxWidthConstraintBox(
-          child: switch (state) {
-            TermDetailsPageLoading() => const _Loading(),
-            TermDetailsPageLoaded() => _Loaded(state),
-            TermDetailsPageError() => _Error(state),
-          },
-        ),
-      ),
+    return ChangeNotifierProvider(
+      create: (context) {
+        final factory = context.read<TermDetailsPageControllerFactory>();
+        return factory.create(id);
+      },
+      builder: (context, widget) {
+        final state = context.watch<TermDetailsPageController>().state;
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Halbjahresdetails'),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: SafeArea(
+              child: MaxWidthConstraintBox(
+                child: switch (state) {
+                  TermDetailsPageLoading() => const _Loading(),
+                  TermDetailsPageLoaded() => _Loaded(state),
+                  TermDetailsPageError() => _Error(state),
+                },
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

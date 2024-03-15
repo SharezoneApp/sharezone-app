@@ -15,11 +15,11 @@ import 'package:sharezone/grades/models/subject_id.dart';
 import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 
-class TermsDetailsPageController extends ChangeNotifier {
+class TermDetailsPageController extends ChangeNotifier {
   late TermDetailsPageState state;
   final TermId termId;
 
-  TermsDetailsPageController({required this.termId}) {
+  TermDetailsPageController({required this.termId}) {
     final random = Random(42);
 
     state = TermDetailsPageLoaded(
