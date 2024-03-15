@@ -74,6 +74,28 @@ void main() {
       const expected = (3 * 0.5 + 2 * 1 + 1 * 2) / sumOfWeights;
       expect(controller.term(term.id).calculatedGrade, expected);
     });
+    test(
+        'grades that are marked as "Nicht in den Schnitt einbeziehen" should not be included in the calculation of the subject and term grade',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(name: '1. Halbjahr', subjects: [
+        subjectWith(
+            id: SubjectId('Sport'),
+            name: 'Sport',
+            weight: const Weight.factor(0.5),
+            grades: [
+              gradeWith(value: 3.0, includeInGradeCalculations: false),
+              gradeWith(value: 1.5),
+            ]),
+      ]);
+      controller.createTerm(term);
+
+      expect(
+          controller.term(term.id).subject(SubjectId('Sport')).calculatedGrade,
+          1.5);
+      expect(controller.term(term.id).calculatedGrade, 1.5);
+    });
   });
 }
 
@@ -91,9 +113,10 @@ class GradesTestController {
       }
 
       for (var grade in subject.grades) {
-        _term = _term
-            .subject(subject.id.id)
-            .addGrade(Grade(id: GradeId(randomAlpha(4)), value: grade.value));
+        _term = _term.subject(subject.id.id).addGrade(
+              Grade(id: GradeId(randomAlpha(4)), value: grade.value),
+              takeIntoAccount: grade.includeInGradeCalculations,
+            );
       }
     }
   }
@@ -185,16 +208,20 @@ class TestSubject {
 
 TestGrade gradeWith({
   required double value,
+  bool includeInGradeCalculations = true,
 }) {
   return TestGrade(
     value: value,
+    includeInGradeCalculations: includeInGradeCalculations,
   );
 }
 
 class TestGrade {
   final double value;
+  final bool includeInGradeCalculations;
 
   TestGrade({
     required this.value,
+    required this.includeInGradeCalculations,
   });
 }
