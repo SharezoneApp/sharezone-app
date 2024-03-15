@@ -97,6 +97,70 @@ void main() {
           1.5);
       expect(controller.term(term.id).calculatedGrade, 1.5);
     });
+    test('subjects can have custom weights per grade type (e.g. presentation)',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(name: '2. Halbjahr', subjects: [
+        subjectWith(
+            id: SubjectId('Englisch'),
+            name: 'Englisch',
+            gradeTypeWeights: {
+              const GradeType('presentation'): const Weight.factor(0.7),
+              const GradeType('vocabulary test'): const Weight.factor(1),
+              const GradeType('exam'): const Weight.factor(1.5),
+            },
+            grades: [
+              gradeWith(value: 2.0, type: const GradeType('presentation')),
+              gradeWith(value: 1.0, type: const GradeType('exam')),
+              gradeWith(value: 1.0, type: const GradeType('vocabulary test')),
+            ]),
+      ]);
+      controller.createTerm(term);
+
+      const sumOfWeights = 0.7 + 1.5 + 1;
+      const expected = (2 * 0.7 + 1 * 1.5 + 1 * 1) / sumOfWeights;
+      expect(
+          controller
+              .term(term.id)
+              .subject(SubjectId('Englisch'))
+              .calculatedGrade,
+          expected);
+      expect(controller.term(term.id).calculatedGrade, expected);
+    });
+    test(
+        'subjects can have custom weights per grade type 2 (e.g. presentation)',
+        () {
+      // Aus Beispiel: https://www.notenapp.com/2023/08/01/notendurchschnitt-berechnen-wie-mache-ich-es-richtig/
+
+      final controller = GradesTestController();
+
+      final term = termWith(name: '2. Halbjahr', subjects: [
+        subjectWith(
+          id: SubjectId('Mathe'),
+          name: 'Mathe',
+          gradeTypeWeights: {
+            const GradeType('Schulaufgabe'): const Weight.factor(2),
+            const GradeType('Abfrage'): const Weight.factor(1),
+            const GradeType('Mitarbeitsnote'): const Weight.factor(1),
+            const GradeType('Referat'): const Weight.factor(1),
+          },
+          grades: [
+            gradeWith(value: 2.0, type: const GradeType('Schulaufgabe')),
+            gradeWith(value: 3.0, type: const GradeType('Schulaufgabe')),
+            gradeWith(value: 1.0, type: const GradeType('Abfrage')),
+            gradeWith(value: 3.0, type: const GradeType('Abfrage')),
+            gradeWith(value: 2.0, type: const GradeType('Mitarbeitsnote')),
+            gradeWith(value: 1.0, type: const GradeType('Referat')),
+          ],
+        ),
+      ]);
+      controller.createTerm(term);
+
+      expect(
+          controller.term(term.id).subject(SubjectId('Mathe')).calculatedGrade,
+          2.125);
+    });
   });
 }
 
@@ -113,11 +177,22 @@ class GradesTestController {
             id: subject.id, termId: termId, weight: subject.weight!);
       }
 
+      for (var e in subject.gradeTypeWeights.entries) {
+        service.changeGradeTypeWeightForSubject(
+            id: subject.id, termId: termId, gradeType: e.key, weight: e.value);
+        // This has to be called after changeGradeTypeWeightForSubject to work,
+        // I don't know why
+        service.changeSubjectWeightTypeSettings(
+            id: subject.id,
+            termId: termId,
+            perGradeType: WeightType.perGradeType);
+      }
+
       for (var grade in subject.grades) {
         service.addGrade(
           id: subject.id,
           termId: termId,
-          value: Grade(id: grade.id, value: grade.value),
+          value: Grade(id: grade.id, value: grade.value, type: grade.type),
           takeIntoAccount: grade.includeInGradeCalculations,
         );
       }
@@ -184,12 +259,14 @@ TestSubject subjectWith({
   required String name,
   required List<TestGrade> grades,
   Weight? weight,
+  Map<GradeType, Weight> gradeTypeWeights = const {},
 }) {
   return TestSubject(
     id: id,
     name: name,
     grades: IList(grades),
     weight: weight,
+    gradeTypeWeights: gradeTypeWeights,
   );
 }
 
@@ -197,12 +274,14 @@ class TestSubject {
   final SubjectId id;
   final String name;
   final IList<TestGrade> grades;
+  final Map<GradeType, Weight> gradeTypeWeights;
   final Weight? weight;
 
   TestSubject({
     required this.id,
     required this.name,
     required this.grades,
+    required this.gradeTypeWeights,
     this.weight,
   });
 }
@@ -210,11 +289,13 @@ class TestSubject {
 TestGrade gradeWith({
   required double value,
   bool includeInGradeCalculations = true,
+  GradeType type = const GradeType('some test type'),
 }) {
   return TestGrade(
     id: GradeId(randomAlpha(5)),
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
+    type: type,
   );
 }
 
@@ -222,10 +303,12 @@ class TestGrade {
   final GradeId id;
   final double value;
   final bool includeInGradeCalculations;
+  final GradeType type;
 
   TestGrade({
     required this.id,
     required this.value,
     required this.includeInGradeCalculations,
+    required this.type,
   });
 }

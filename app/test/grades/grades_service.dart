@@ -43,6 +43,28 @@ class GradesService {
     updateTerm(newTerm);
   }
 
+  void changeSubjectWeightTypeSettings(
+      {required SubjectId id,
+      required TermId termId,
+      required WeightType perGradeType}) {
+    final newTerm =
+        _terms.single.subject(id.toString()).changeWeightingType(perGradeType);
+    updateTerm(newTerm);
+  }
+
+  void changeGradeTypeWeightForSubject({
+    required SubjectId id,
+    required TermId termId,
+    required GradeType gradeType,
+    required Weight weight,
+  }) {
+    final newTerm = _terms.single
+        .subject(id.toString())
+        .changeGradeTypeWeighting(gradeType,
+            weight: weight.asFactor.toDouble());
+    updateTerm(newTerm);
+  }
+
   void addGrade({
     required SubjectId id,
     required TermId termId,
