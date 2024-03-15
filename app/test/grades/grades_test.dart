@@ -14,7 +14,7 @@ void main() {
         () {
       final controller = GradesTestController();
 
-      final term = termWith(name: '1. Halbjahr', subjects: [
+      final term = termWith(subjects: [
         subjectWith(
             id: SubjectId('Mathe'),
             name: 'Mathe',
@@ -31,7 +31,7 @@ void main() {
         () {
       final controller = GradesTestController();
 
-      final term = termWith(name: '1. Halbjahr', subjects: [
+      final term = termWith(subjects: [
         subjectWith(
             id: SubjectId('Deutsch'),
             name: 'Deutsch',
@@ -50,7 +50,7 @@ void main() {
         () {
       final controller = GradesTestController();
 
-      final term = termWith(name: '1. Halbjahr', subjects: [
+      final term = termWith(subjects: [
         subjectWith(
             id: SubjectId('Englisch'),
             name: 'Englisch',
@@ -80,7 +80,7 @@ void main() {
         () {
       final controller = GradesTestController();
 
-      final term = termWith(name: '1. Halbjahr', subjects: [
+      final term = termWith(subjects: [
         subjectWith(
             id: SubjectId('Sport'),
             name: 'Sport',
@@ -101,7 +101,7 @@ void main() {
         () {
       final controller = GradesTestController();
 
-      final term = termWith(name: '2. Halbjahr', subjects: [
+      final term = termWith(subjects: [
         subjectWith(
             id: SubjectId('Englisch'),
             name: 'Englisch',
@@ -135,7 +135,7 @@ void main() {
 
       final controller = GradesTestController();
 
-      final term = termWith(name: '2. Halbjahr', subjects: [
+      final term = termWith(subjects: [
         subjectWith(
           id: SubjectId('Mathe'),
           name: 'Mathe',
@@ -231,12 +231,13 @@ class SubjectRes {
 }
 
 TestTerm termWith({
-  required String name,
-  required List<TestSubject> subjects,
+  String? name,
+  List<TestSubject> subjects = const [],
 }) {
+  final rdm = randomAlpha(5);
   return TestTerm(
-    id: TermId('1'),
-    name: name,
+    id: TermId(rdm),
+    name: name ?? 'Test term $rdm',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
   );
 }
