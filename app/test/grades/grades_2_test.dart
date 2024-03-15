@@ -202,6 +202,24 @@ void main() {
       expect(expected, closeTo(3.5, 0.01));
       expect(term.subject(englisch.id).gradeVal, expected);
     });
+    test(
+        'grades for a subject will be weighted by the settings in term by default',
+        () {
+      var term = Term();
+      final englisch = Subject('Englisch');
+      term = term.addSubject(englisch);
+
+      final grade1 = gradeWith(value: 1.0, type: GradeType('foo'));
+      final grade2 = gradeWith(value: 3.0, type: GradeType('bar'));
+      term = term.subject(englisch.id).addGrade(grade1);
+      term = term.subject(englisch.id).addGrade(grade2);
+
+      term = term.changeWeightingOfGradeType(grade1.type, weight: 3);
+      term = term.changeWeightingOfGradeType(grade2.type, weight: 1);
+
+      expect(term.subject(englisch.id).gradeVal, 1.5);
+      expect(term.getTermGrade(), 1.5);
+    });
   });
 }
 
@@ -271,6 +289,27 @@ class Term {
             .reduce((a, b) => a + b);
   }
 
+  Term changeWeightTypeForSubject(String id, WeightType weightType) {
+    final subject = _subjects.firstWhere((s) => s.id == id);
+    final newSubject = subject.copyWith(
+      weightType: weightType,
+    );
+
+    return _copyWith(
+      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+    );
+  }
+
+  Term changeWeightingOfGradeType(GradeType type, {required num weight}) {
+    final newSubjects = _subjects.map((s) {
+      final newSubject =
+          s.changeGradeTypeWeight(type, weight: weight.toDouble());
+      return newSubject;
+    }).toIList();
+
+    return _copyWith(subjects: newSubjects);
+  }
+
   Term _addGrade(Grade grade,
       {required String toSubject, bool takenIntoAccount = true}) {
     var subject = _subjects.firstWhere((s) => s.id == toSubject,
@@ -323,17 +362,6 @@ class Term {
 
     return _copyWith(
       subjects: _subjects.replaceAllWhere((s) => s.id == subjectId, newSubject),
-    );
-  }
-
-  Term changeWeightTypeForSubject(String id, WeightType weightType) {
-    final subject = _subjects.firstWhere((s) => s.id == id);
-    final newSubject = subject.copyWith(
-      weightType: weightType,
-    );
-
-    return _copyWith(
-      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
   }
 }
