@@ -263,6 +263,29 @@ void main() {
       expect(term.subject(englisch.id).gradeVal, 1.5);
       expect(term.getTermGrade(), 1.5);
     });
+    test('weight by grade setting in subject is persisted', () {
+      var term = Term();
+      final englisch = Subject('Englisch');
+      term = term.addSubject(englisch);
+
+      final grade1 = gradeWith(value: 1.0);
+      final grade2 = gradeWith(value: 3.0);
+      term = term.subject(englisch.id).addGrade(grade1);
+      term = term.subject(englisch.id).addGrade(grade2);
+
+      term = term.subject(englisch.id).changeWeightingType(WeightType.perGrade);
+      term = term.subject(englisch.id).grade(grade1.id).changeWeight(weight: 3);
+
+      term = term
+          .subject(englisch.id)
+          .changeWeightingType(WeightType.inheritFromTerm);
+      term = term
+          .subject(englisch.id)
+          .changeWeightingType(WeightType.perGradeType);
+      term = term.subject(englisch.id).changeWeightingType(WeightType.perGrade);
+      // Old settings are persisted
+      expect(term.subject(englisch.id).gradeVal, 1.5);
+    });
   });
 }
 
