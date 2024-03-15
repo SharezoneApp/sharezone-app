@@ -359,6 +359,7 @@ class Term {
         .map(
           (subject) => SubjectResult(
             this,
+            subject.grades,
             id: subject.id,
             gradeVal: subject.getGrade(),
           ),
@@ -395,6 +396,7 @@ class Term {
         .map(
           (subject) => SubjectResult(
             this,
+            subject.grades,
             id: subject.id,
             gradeVal: subject.getGrade(),
           ),
@@ -565,8 +567,21 @@ class SubjectResult {
   final Term _term;
   final String id;
   final num? gradeVal;
+  final IList<_Grade> _grades;
+  IList<GradeResult> get grades {
+    return _grades
+        .map(
+          (grade) => GradeResult(
+            _term,
+            id: grade.id,
+            subjectId: id,
+          ),
+        )
+        .toIList();
+  }
 
-  SubjectResult(this._term, {required this.id, required this.gradeVal});
+  SubjectResult(this._term, this._grades,
+      {required this.id, required this.gradeVal});
 
   Term addGrade(Grade grade, {bool takeIntoAccount = true}) {
     return _term._addGrade(grade,

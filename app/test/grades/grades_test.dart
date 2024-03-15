@@ -163,6 +163,30 @@ void main() {
           controller.term(term.id).subject(SubjectId('Mathe')).calculatedGrade,
           2.125);
     });
+    test('subjects can have custom weights per grade', () {
+      final controller = GradesTestController();
+
+      final term = termWith(subjects: [
+        subjectWith(
+          id: SubjectId('Mathe'),
+          name: 'Mathe',
+          weightType: WeightType.perGrade,
+          grades: [
+            gradeWith(value: 1.0, weight: const Weight.factor(0.2)),
+            gradeWith(value: 4.0, weight: const Weight.factor(2)),
+            gradeWith(value: 3.0),
+          ],
+        ),
+      ]);
+      controller.createTerm(term);
+
+      const sumOfWeights = 0.2 + 2 + 1;
+      const expected = (1 * 0.2 + 4 * 2 + 3 * 1) / sumOfWeights;
+      expect(expected, closeTo(3.5, 0.01));
+      expect(
+          controller.term(term.id).subject(SubjectId('Mathe')).calculatedGrade,
+          expected);
+    });
   });
 }
 
@@ -196,6 +220,13 @@ class GradesTestController {
           value: Grade(id: grade.id, value: grade.value, type: grade.type),
           takeIntoAccount: grade.includeInGradeCalculations,
         );
+        if (grade.weight != null) {
+          service.changeGradeWeight(
+            id: grade.id,
+            termId: termId,
+            weight: grade.weight!,
+          );
+        }
       }
     }
   }
@@ -291,12 +322,16 @@ class TestSubject {
     this.weight,
   }) : assert(() {
           // Help developers to not forget to set the weightType if
-          // gradeTypeWeights are set. This is not a hard requirement by the
-          // logic, so if you need to do it anyways then you might edit this
-          // assert.
+          // gradeTypeWeights or grade weights are set. This is not a hard
+          // requirement by the logic, so if you need to do it anyways then you
+          // might edit this assert.
           if (gradeTypeWeights.isNotEmpty) {
             return weightType == WeightType.perGradeType;
           }
+          if (grades.any((g) => g.weight != null)) {
+            return weightType == WeightType.perGrade;
+          }
+
           return true;
         }());
 }
@@ -305,12 +340,14 @@ TestGrade gradeWith({
   required double value,
   bool includeInGradeCalculations = true,
   GradeType type = const GradeType('some test type'),
+  Weight? weight,
 }) {
   return TestGrade(
     id: GradeId(randomAlpha(5)),
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
     type: type,
+    weight: weight,
   );
 }
 
@@ -319,11 +356,13 @@ class TestGrade {
   final double value;
   final bool includeInGradeCalculations;
   final GradeType type;
+  final Weight? weight;
 
   TestGrade({
     required this.id,
     required this.value,
     required this.includeInGradeCalculations,
     required this.type,
+    this.weight,
   });
 }

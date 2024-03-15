@@ -76,4 +76,18 @@ class GradesService {
         .addGrade(value, takeIntoAccount: takeIntoAccount);
     updateTerm(newTerm);
   }
+
+  void changeGradeWeight({
+    required GradeId id,
+    required TermId termId,
+    required Weight weight,
+  }) {
+    final subject = _terms.single.subjects
+        .where((element) => element.grades.any((grade) => grade.id == id))
+        .first;
+    final newTerm =
+        subject.grade(id).changeWeight(weight: weight.asFactor.toDouble());
+
+    updateTerm(newTerm);
+  }
 }
