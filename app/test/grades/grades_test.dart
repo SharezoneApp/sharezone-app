@@ -364,6 +364,58 @@ void main() {
               .calculatedGrade,
           1.5);
     });
+    test('a subjects grade weights are saved even when they are deactivated',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: SubjectId('Deutsch'),
+            name: 'Deutsch',
+            weightType: WeightType.perGrade,
+            grades: [
+              gradeWith(
+                value: 3.0,
+                type: const GradeType('presentation'),
+                weight: const Weight.factor(1),
+              ),
+              gradeWith(
+                value: 1.0,
+                type: const GradeType('exam'),
+                weight: const Weight.factor(3),
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(SubjectId('Deutsch'))
+              .calculatedGrade,
+          1.5);
+
+      controller.changeWeightTypeForSubject(
+        termId: term.id,
+        subjectId: SubjectId('Deutsch'),
+        weightType: WeightType.inheritFromTerm,
+      );
+      controller.changeWeightTypeForSubject(
+        termId: term.id,
+        subjectId: SubjectId('Deutsch'),
+        weightType: WeightType.perGrade,
+      );
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(SubjectId('Deutsch'))
+              .calculatedGrade,
+          1.5);
+    });
   });
 }
 
