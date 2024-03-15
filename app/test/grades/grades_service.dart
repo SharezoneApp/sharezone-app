@@ -90,4 +90,13 @@ class GradesService {
 
     updateTerm(newTerm);
   }
+
+  void changeGradeTypeWeightForTerm(
+      {required TermId termId,
+      required GradeType gradeType,
+      required Weight weight}) {
+    final newTerm = _terms.single.changeWeightingOfGradeType(gradeType,
+        weight: weight.asFactor.toDouble());
+    updateTerm(newTerm);
+  }
 }

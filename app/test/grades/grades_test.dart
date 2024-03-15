@@ -187,6 +187,39 @@ void main() {
           controller.term(term.id).subject(SubjectId('Mathe')).calculatedGrade,
           expected);
     });
+    test(
+        'grades for a subject will be weighted by the settings in term by default',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        gradeTypeWeights: {
+          const GradeType('presentation'): const Weight.factor(1),
+          const GradeType('exam'): const Weight.factor(3),
+        },
+        subjects: [
+          subjectWith(
+            id: SubjectId('Deutsch'),
+            name: 'Deutsch',
+            // This should be the default:
+            // weightType: WeightType.inheritFromTerm,
+            grades: [
+              gradeWith(value: 3.0, type: const GradeType('presentation')),
+              gradeWith(value: 1.0, type: const GradeType('exam')),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(controller.term(term.id).calculatedGrade, 1.5);
+      expect(
+          controller
+              .term(term.id)
+              .subject(SubjectId('Deutsch'))
+              .calculatedGrade,
+          1.5);
+    });
   });
 }
 
@@ -196,6 +229,17 @@ class GradesTestController {
   void createTerm(TestTerm testTerm) {
     final termId = testTerm.id;
     service.createTerm(id: termId);
+
+    if (testTerm.gradeTypeWeights != null) {
+      for (var e in testTerm.gradeTypeWeights!.entries) {
+        service.changeGradeTypeWeightForTerm(
+          termId: termId,
+          gradeType: e.key,
+          weight: e.value,
+        );
+      }
+    }
+
     for (var subject in testTerm.subjects.values) {
       service.addSubject(id: subject.id, toTerm: termId);
       if (subject.weight != null) {
@@ -266,12 +310,14 @@ class SubjectRes {
 TestTerm termWith({
   String? name,
   List<TestSubject> subjects = const [],
+  Map<GradeType, Weight>? gradeTypeWeights,
 }) {
   final rdm = randomAlpha(5);
   return TestTerm(
     id: TermId(rdm),
     name: name ?? 'Test term $rdm',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
+    gradeTypeWeights: gradeTypeWeights,
   );
 }
 
@@ -279,11 +325,13 @@ class TestTerm {
   final TermId id;
   final String name;
   final IMap<SubjectId, TestSubject> subjects;
+  final Map<GradeType, Weight>? gradeTypeWeights;
 
   TestTerm({
     required this.id,
     required this.name,
     required this.subjects,
+    this.gradeTypeWeights,
   });
 }
 
