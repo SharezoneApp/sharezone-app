@@ -105,6 +105,7 @@ void main() {
         subjectWith(
             id: SubjectId('Englisch'),
             name: 'Englisch',
+            weightType: WeightType.perGradeType,
             gradeTypeWeights: {
               const GradeType('presentation'): const Weight.factor(0.7),
               const GradeType('vocabulary test'): const Weight.factor(1),
@@ -139,6 +140,7 @@ void main() {
         subjectWith(
           id: SubjectId('Mathe'),
           name: 'Mathe',
+          weightType: WeightType.perGradeType,
           gradeTypeWeights: {
             const GradeType('Schulaufgabe'): const Weight.factor(2),
             const GradeType('Abfrage'): const Weight.factor(1),
@@ -177,12 +179,12 @@ class GradesTestController {
             id: subject.id, termId: termId, weight: subject.weight!);
       }
 
-      for (var e in subject.gradeTypeWeights.entries) {
+      if (subject.weightType != null) {
         service.changeSubjectWeightTypeSettings(
-            id: subject.id,
-            termId: termId,
-            perGradeType: WeightType.perGradeType);
+            id: subject.id, termId: termId, perGradeType: subject.weightType!);
+      }
 
+      for (var e in subject.gradeTypeWeights.entries) {
         service.changeGradeTypeWeightForSubject(
             id: subject.id, termId: termId, gradeType: e.key, weight: e.value);
       }
@@ -259,6 +261,7 @@ TestSubject subjectWith({
   required String name,
   required List<TestGrade> grades,
   Weight? weight,
+  WeightType? weightType,
   Map<GradeType, Weight> gradeTypeWeights = const {},
 }) {
   return TestSubject(
@@ -266,6 +269,7 @@ TestSubject subjectWith({
     name: name,
     grades: IList(grades),
     weight: weight,
+    weightType: weightType,
     gradeTypeWeights: gradeTypeWeights,
   );
 }
@@ -274,6 +278,7 @@ class TestSubject {
   final SubjectId id;
   final String name;
   final IList<TestGrade> grades;
+  final WeightType? weightType;
   final Map<GradeType, Weight> gradeTypeWeights;
   final Weight? weight;
 
@@ -282,8 +287,18 @@ class TestSubject {
     required this.name,
     required this.grades,
     required this.gradeTypeWeights,
+    this.weightType,
     this.weight,
-  });
+  }) : assert(() {
+          // Help developers to not forget to set the weightType if
+          // gradeTypeWeights are set. This is not a hard requirement by the
+          // logic, so if you need to do it anyways then you might edit this
+          // assert.
+          if (gradeTypeWeights.isNotEmpty) {
+            return weightType == WeightType.perGradeType;
+          }
+          return true;
+        }());
 }
 
 TestGrade gradeWith({
