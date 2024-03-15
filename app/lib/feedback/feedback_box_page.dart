@@ -20,6 +20,7 @@ import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/widgets/thank_you_bottom_sheet.dart';
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
+import 'package:sharezone/keys.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
@@ -70,6 +71,7 @@ class _HistoryButton extends StatelessWidget {
     return Stack(
       children: [
         IconButton(
+          key: K.openFeedbackHistory,
           tooltip: "Meine Feedbacks",
           icon: const Icon(Icons.history),
           onPressed: () {
