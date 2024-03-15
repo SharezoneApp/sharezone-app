@@ -301,6 +301,34 @@ void main() {
       expect(term.subject(mathe.id).gradeVal, 3.0);
       expect(term.getTermGrade(), 3.0);
     });
+    test(
+        'Every subject can have a "Endnote" that overrides the terms "Endnote"',
+        () {
+      var term = Term();
+      final mathe = Subject('Mathe');
+      final englisch = Subject('Englisch');
+      term = term.addSubject(mathe);
+      term = term.addSubject(englisch);
+      term = term.setFinalGradeType(GradeType('Endnote'));
+
+      final grade1 = gradeWith(value: 1.0, type: GradeType('Endnote'));
+      final grade2 = gradeWith(value: 3.0, type: GradeType('foo'));
+      final grade3 = gradeWith(value: 3.0);
+      final grade4 = gradeWith(value: 2.0, type: GradeType('Endnote'));
+      term = term.subject(mathe.id).addGrade(grade1);
+      term = term.subject(mathe.id).addGrade(grade2);
+      term = term.subject(englisch.id).addGrade(grade3);
+      term = term.subject(englisch.id).addGrade(grade4);
+
+      term = term.subject(mathe.id).changeFinalGradeType(GradeType('foo'));
+
+      expect(term.subject(mathe.id).gradeVal, 3.0);
+      expect(term.getTermGrade(), 2.5);
+
+      term = term.subject(mathe.id).inheritFinalGradeTypeFromTerm();
+      expect(term.subject(mathe.id).gradeVal, 1.0);
+      expect(term.getTermGrade(), 1.5);
+    });
   });
 }
 
@@ -411,7 +439,8 @@ class Term {
   }
 
   Term setFinalGradeType(GradeType gradeType) {
-    final newSubjects = _subjects.map((s) {
+    final newSubjects =
+        _subjects.where((s) => s.isFinalGradeTypeOverridden == false).map((s) {
       final newSubject = s.copyWith(finalGradeType: gradeType);
       return newSubject;
     }).toIList();
@@ -474,6 +503,27 @@ class Term {
       subjects: _subjects.replaceAllWhere((s) => s.id == subjectId, newSubject),
     );
   }
+
+  Term _setFinalGradeTypeForSubject(String id, GradeType gradeType) {
+    final subject = _subjects.firstWhere((s) => s.id == id);
+    final newSubject = subject.overrideFinalGradeType(gradeType);
+
+    return _copyWith(
+      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+    );
+  }
+
+  Term _subjectInheritFinalGradeTypeFromTerm(String id) {
+    final subject = _subjects.firstWhere((s) => s.id == id);
+    final newSubject = subject.copyWith(
+      finalGradeType: _finalGradeType,
+      isFinalGradeTypeOverridden: false,
+    );
+
+    return _copyWith(
+      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+    );
+  }
 }
 
 class GradeId extends Id {
@@ -519,6 +569,14 @@ class SubjectResult {
   Term changeWeightingType(WeightType weightType) {
     return _term.changeWeightTypeForSubject(id, weightType);
   }
+
+  Term changeFinalGradeType(GradeType gradeType) {
+    return _term._setFinalGradeTypeForSubject(id, gradeType);
+  }
+
+  Term inheritFinalGradeTypeFromTerm() {
+    return _term._subjectInheritFinalGradeTypeFromTerm(id);
+  }
 }
 
 class GradeResult {
@@ -537,6 +595,7 @@ class _Subject {
   final String id;
   final IList<_Grade> grades;
   final GradeType finalGradeType;
+  final bool isFinalGradeTypeOverridden;
   final num weightingForTermGrade;
   final IMap<GradeType, double> gradeTypeWeightings;
   final IMap<GradeType, double> gradeTypeWeightingsFromTerm;
@@ -546,6 +605,7 @@ class _Subject {
     required this.id,
     required this.weightType,
     required this.finalGradeType,
+    this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
     this.weightingForTermGrade = 1,
     this.gradeTypeWeightings = const IMapConst({}),
@@ -585,10 +645,16 @@ class _Subject {
         gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
   }
 
+  _Subject overrideFinalGradeType(GradeType gradeType) {
+    return copyWith(
+        finalGradeType: gradeType, isFinalGradeTypeOverridden: true);
+  }
+
   _Subject copyWith({
     String? id,
     IList<_Grade>? grades,
     GradeType? finalGradeType,
+    bool? isFinalGradeTypeOverridden,
     num? weightingForTermGrade,
     IMap<GradeType, double>? gradeTypeWeightings,
     IMap<GradeType, double>? gradeTypeWeightingsFromTerm,
@@ -598,6 +664,8 @@ class _Subject {
       id: id ?? this.id,
       grades: grades ?? this.grades,
       finalGradeType: finalGradeType ?? this.finalGradeType,
+      isFinalGradeTypeOverridden:
+          isFinalGradeTypeOverridden ?? this.isFinalGradeTypeOverridden,
       weightingForTermGrade:
           weightingForTermGrade ?? this.weightingForTermGrade,
       gradeTypeWeightings: gradeTypeWeightings ?? this.gradeTypeWeightings,
