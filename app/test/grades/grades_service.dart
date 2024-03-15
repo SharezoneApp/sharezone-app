@@ -113,4 +113,19 @@ class GradesService {
         weight: weight.asFactor.toDouble());
     updateTerm(newTerm);
   }
+
+  void changeSubjectFinalGradeType({
+    required SubjectId id,
+    required TermId termId,
+    required GradeType? gradeType,
+  }) {
+    if (gradeType == null) {
+      final newTerm =
+          _terms.single.subject(id.toString()).inheritFinalGradeTypeFromTerm();
+      return updateTerm(newTerm);
+    }
+    final newTerm =
+        _terms.single.subject(id.toString()).changeFinalGradeType(gradeType);
+    updateTerm(newTerm);
+  }
 }

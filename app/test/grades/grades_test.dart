@@ -447,6 +447,54 @@ void main() {
               .calculatedGrade,
           1);
     });
+    test(
+        'A subject can have a custom "Endnote" that overrides the terms "Endnote"',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        finalGradeType: const GradeType('term finalGradeType'),
+        subjects: [
+          subjectWith(
+            id: SubjectId('Philosophie'),
+            name: 'Philosophie',
+            finalGradeType: const GradeType('subject finalGradeType'),
+            grades: [
+              gradeWith(
+                value: 4.0,
+                type: const GradeType('term finalGradeType'),
+              ),
+              gradeWith(
+                value: 2.0,
+                type: const GradeType('subject finalGradeType'),
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(SubjectId('Philosophie'))
+              .calculatedGrade,
+          2.0);
+
+      // Reset the finalGradeType for the subject
+      controller.changeFinalGradeTypeForSubject(
+        termId: term.id,
+        subjectId: SubjectId('Philosophie'),
+        gradeType: null,
+      );
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(SubjectId('Philosophie'))
+              .calculatedGrade,
+          4.0);
+    });
   });
 }
 
@@ -482,6 +530,11 @@ class GradesTestController {
       for (var e in subject.gradeTypeWeights.entries) {
         service.changeGradeTypeWeightForSubject(
             id: subject.id, termId: termId, gradeType: e.key, weight: e.value);
+      }
+
+      if (subject.finalGradeType != null) {
+        service.changeSubjectFinalGradeType(
+            id: subject.id, termId: termId, gradeType: subject.finalGradeType!);
       }
 
       for (var grade in subject.grades) {
@@ -537,6 +590,14 @@ class GradesTestController {
       service.changeGradeTypeWeightForSubject(
           id: subjectId, termId: termId, gradeType: e.key, weight: e.value);
     }
+  }
+
+  void changeFinalGradeTypeForSubject(
+      {required TermId termId,
+      required SubjectId subjectId,
+      required GradeType? gradeType}) {
+    service.changeSubjectFinalGradeType(
+        id: subjectId, termId: termId, gradeType: gradeType);
   }
 }
 
@@ -622,6 +683,7 @@ TestSubject subjectWith({
   Weight? weight,
   WeightType? weightType,
   Map<GradeType, Weight> gradeTypeWeights = const {},
+  GradeType? finalGradeType,
 }) {
   return TestSubject(
     id: id,
@@ -630,6 +692,7 @@ TestSubject subjectWith({
     weight: weight,
     weightType: weightType,
     gradeTypeWeights: gradeTypeWeights,
+    finalGradeType: finalGradeType,
   );
 }
 
@@ -640,6 +703,7 @@ class TestSubject {
   final WeightType? weightType;
   final Map<GradeType, Weight> gradeTypeWeights;
   final Weight? weight;
+  final GradeType? finalGradeType;
 
   TestSubject({
     required this.id,
@@ -648,6 +712,7 @@ class TestSubject {
     required this.gradeTypeWeights,
     this.weightType,
     this.weight,
+    this.finalGradeType,
   }) : assert(() {
           // Help developers to not forget to set the weightType if
           // gradeTypeWeights or grade weights are set. This is not a hard
