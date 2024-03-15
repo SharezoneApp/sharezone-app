@@ -53,17 +53,19 @@ void main() {
         subjectWith(
             id: SubjectId('Englisch'),
             name: 'Englisch',
-            weightFactorForTermGrade: 0.5,
+            weight: const Weight.factor(0.5),
             grades: [gradeWith(value: 3.0)]),
         subjectWith(
             id: SubjectId('Mathe'),
             name: 'Mathe',
-            weightFactorForTermGrade: 1,
+            weight: const Weight.factor(1),
             grades: [gradeWith(value: 3.0), gradeWith(value: 1.0)]),
         subjectWith(
             id: SubjectId('Informatik'),
             name: 'Informatik',
-            weightFactorForTermGrade: 2,
+            // weight: const Weight.factor(2),
+            // is the same as:
+            weight: const Weight.percent(200),
             grades: [gradeWith(value: 1.0)]),
       ]);
       controller.createTerm(term);
@@ -82,9 +84,10 @@ class GradesTestController {
     _term = Term();
     for (var subject in testTerm.subjects.values) {
       _term = _term.addSubject(Subject(subject.id.id));
-      if (subject.weightFactorForTermGrade != null) {
-        _term = _term.subject(subject.id.id).changeWeightingForTermGrade(
-            subject.weightFactorForTermGrade!.toDouble());
+      if (subject.weight != null) {
+        _term = _term
+            .subject(subject.id.id)
+            .changeWeightingForTermGrade(subject.weight!.asFactor.toDouble());
       }
 
       for (var grade in subject.grades) {
@@ -102,6 +105,14 @@ class GradesTestController {
           MapEntry(SubjectId(subject.id), SubjectRes(subject.gradeVal!)))),
     );
   }
+}
+
+class Weight {
+  final num asFactor;
+  num get asPercentage => asFactor * 100;
+
+  const Weight.percent(num percent) : asFactor = percent / 100;
+  const Weight.factor(this.asFactor);
 }
 
 class TermResult {
@@ -148,13 +159,13 @@ TestSubject subjectWith({
   required SubjectId id,
   required String name,
   required List<TestGrade> grades,
-  num? weightFactorForTermGrade,
+  Weight? weight,
 }) {
   return TestSubject(
     id: id,
     name: name,
     grades: IList(grades),
-    weightFactorForTermGrade: weightFactorForTermGrade,
+    weight: weight,
   );
 }
 
@@ -162,13 +173,13 @@ class TestSubject {
   final SubjectId id;
   final String name;
   final IList<TestGrade> grades;
-  final num? weightFactorForTermGrade;
+  final Weight? weight;
 
   TestSubject({
     required this.id,
     required this.name,
     required this.grades,
-    this.weightFactorForTermGrade,
+    this.weight,
   });
 }
 
