@@ -939,6 +939,8 @@ class _CourseTile extends StatelessWidget {
           courseName:
               courseState is CourseChosen ? courseState.courseName : null,
           errorText: errorText,
+          onDisabledTapText:
+              'Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.',
           onTap: isDisabled
               ? null
               : () => CourseTile.onTap(context, onChangedId: (course) {
