@@ -9,6 +9,13 @@
           "sharezone-console"
         ]
       }
+    },
+    "sharezone-debug": {
+      "hosting": {
+        "sharezone-console": [
+          "sharezone-console-dev"
+        ]
+      }
     }
   }
 }
