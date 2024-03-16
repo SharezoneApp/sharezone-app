@@ -164,7 +164,7 @@ double? getSnackBarWidth(BuildContext? context, SnackBarBehavior? behavior) {
     return null;
   }
 
-  final isSmallScreen = MediaQuery.of(context).size.width < 450;
+  final isSmallScreen = MediaQuery.of(context).size.width < 550;
   if (isSmallScreen) {
     // For small screens, the snackbar should be full width.
     return null;
