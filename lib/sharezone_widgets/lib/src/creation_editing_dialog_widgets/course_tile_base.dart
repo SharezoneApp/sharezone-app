@@ -13,13 +13,14 @@ class CourseTileBase extends StatelessWidget {
   final String? courseName;
   final String? errorText;
 
-  /// The text to display when [onTap] is `null` and users taps on it.
+  /// The text to display in a dialog when [onTap] is `null` and the user taps
+  /// on the tile.
   ///
-  /// Normally, this is used to display that a user can't change the course and
-  /// instead should delete the item.
+  /// Normally this is used to indicate that the user can't change the course
+  /// and should should delete the item instead.
   ///
-  /// If null and [onTap] is null, nothing happens when the user taps on the
-  /// tile.
+  /// If [onDisabledTapText] and [onTap] is null, nothing happens when the user
+  /// taps on the tile. If [onTap] is not null, [onDisabledTapText] is ignored.
   final String? onDisabledTapText;
 
   /// If null disables tile.
