@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/models/term_id.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
@@ -41,7 +42,13 @@ class _FAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
-      onPressed: () => snackbarSoon(context: context),
+      onPressed: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const GradesDialog(),
+          settings: const RouteSettings(name: GradesDialog.tag),
+        ),
+      ),
       icon: const Icon(Icons.add),
       tooltip: 'Neue Note',
     );
