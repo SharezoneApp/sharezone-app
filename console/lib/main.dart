@@ -18,6 +18,7 @@ import 'package:sharezone_console/firebase_options_dev.g.dart' as dev;
 import 'package:sharezone_console/flavor.dart';
 import 'package:sharezone_console/login_signup_page.dart';
 import 'package:sharezone_console/pages/feedbacks/feedbacks_page.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'home_page.dart';
 
@@ -74,10 +75,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Sharezone Console',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+        theme: getLightTheme(fontFamily: roboto),
         home: StreamBuilder(
           stream: auth.authStateChanges(),
           builder: (context, snapshot) {

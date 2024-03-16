@@ -184,7 +184,10 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         child: SizedBox(
           height: 40.0,
           child: new ElevatedButton(
-            child: new Text('Einloggen'),
+            child: new Text(
+              'Einloggen',
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: validateAndSubmit,
           ),
         ));
