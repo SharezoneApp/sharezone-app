@@ -92,7 +92,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
 
     logAppOpen();
 
-    listenToAuthStateChanged().listen((user) {
+    authSubscription = listenToAuthStateChanged().listen((user) {
       authUserSubject.sink.add(user);
     });
   }
