@@ -1215,13 +1215,14 @@ class MockHomeworkGateway extends _i1.Mock implements _i9.HomeworkGateway {
         returnValueForMissingStub: null,
       );
   @override
-  void dispose() => super.noSuchMethod(
+  _i24.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
           #dispose,
           [],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i24.Future<void>.value(),
+        returnValueForMissingStub: _i24.Future<void>.value(),
+      ) as _i24.Future<void>);
 }
 
 /// A class which mocks [CourseGateway].
