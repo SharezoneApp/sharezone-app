@@ -32,6 +32,7 @@ class Lesson {
   final WeekType weektype;
   final String? teacher, place;
   LessonLength get length => calculateLessonLength(startTime, endTime);
+  final bool isDropped;
 
   Lesson({
     required this.createdOn,
@@ -41,6 +42,7 @@ class Lesson {
     this.startDate,
     this.endDate,
     this.periodNumber,
+    this.isDropped = false,
     required this.startTime,
     required this.endTime,
     required this.weekday,
@@ -97,6 +99,7 @@ class Lesson {
     WeekType? weektype,
     String? teacher,
     String? place,
+    bool? isDropped,
   }) {
     return Lesson(
       createdOn: createdOn ?? this.createdOn,
@@ -112,6 +115,7 @@ class Lesson {
       weektype: weektype ?? this.weektype,
       teacher: teacher ?? this.teacher,
       place: place ?? this.place,
+      isDropped: isDropped ?? this.isDropped,
     );
   }
 
