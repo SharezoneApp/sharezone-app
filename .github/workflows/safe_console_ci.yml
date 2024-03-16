@@ -116,5 +116,4 @@ jobs:
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
         run: sz analyze \
           --max-concurrent-packages 3 \
-          --package-timeout-minutes 15 \
-          --only sharezone_console
+          --package-timeout-minutes 15
