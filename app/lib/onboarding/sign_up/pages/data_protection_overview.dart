@@ -22,29 +22,33 @@ class _DataProtectionOverview extends StatelessWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: SafeArea(
-            child: AnimationLimiter(
-              child: Column(
-                children: AnimationConfiguration.toStaggeredList(
-                  duration: const Duration(milliseconds: 300),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    verticalOffset: 20,
-                    child: FadeInAnimation(child: widget),
+            child: Column(children: [
+              const _DataProtectionLockAnimation(),
+              const SizedBox(height: 10),
+              const Text("Datenschutz", style: TextStyle(fontSize: 26)),
+              MaxWidthConstraintBox(
+                maxWidth: 600,
+                child: Column(
+                  children: AnimationConfiguration.toStaggeredList(
+                    delay: const Duration(milliseconds: 100),
+                    duration: const Duration(milliseconds: 1000),
+                    childAnimationBuilder: (widget) => SlideAnimation(
+                      verticalOffset: 20,
+                      child: FadeInAnimation(child: widget),
+                    ),
+                    children: [
+                      const _DataProtectionServerLocation(),
+                      const _DataProtectionTLS(),
+                      const _DataProtectionAES(),
+                      const _DataProtectionAnonymousSignIn(),
+                      const _DataProtectionISO(),
+                      const _DataProtectionSOC(),
+                      const _DataProtectionDeleteData(),
+                    ],
                   ),
-                  children: const <Widget>[
-                    _DataProtectionLockAnimation(),
-                    SizedBox(height: 10),
-                    Text("Datenschutz", style: TextStyle(fontSize: 26)),
-                    _DataProtectionServerLocation(),
-                    _DataProtectionTLS(),
-                    _DataProtectionAES(),
-                    _DataProtectionAnonymousSignIn(),
-                    _DataProtectionISO(),
-                    _DataProtectionSOC(),
-                    _DataProtectionDeleteData(),
-                  ],
                 ),
               ),
-            ),
+            ]),
           ),
         ),
       ),
