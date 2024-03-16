@@ -206,11 +206,6 @@ Future<void> _initializeFirebase(Flavor flavor) async {
         options: fb_prod.DefaultFirebaseOptions.currentPlatform,
       );
   }
-
-  const emulatorHost = 'localhost';
-  await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
-  await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
-  FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
 }
 
 /// The dependencies for the [Sharezone] widget and the integration tests.
