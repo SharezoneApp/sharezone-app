@@ -6,12 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sharezone/feedback/src/api/feedback_api.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
-import 'package:sharezone/feedback/src/models/user_feedback.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_analytics.dart';

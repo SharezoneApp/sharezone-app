@@ -20,6 +20,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:design/design.dart';
 import 'package:dio/dio.dart';
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:filesharing_logic/file_uploader.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik_setup.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -57,13 +58,12 @@ import 'package:sharezone/download_app_tip/analytics/download_app_tip_analytics.
 import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
 import 'package:sharezone/download_app_tip/cache/download_app_tip_cache.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
-import 'package:sharezone/feedback/history/feedback_details_page_controller.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_analytics.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
-import 'package:sharezone/feedback/src/api/firebase_feedback_api.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
+import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
 import 'package:sharezone/grades/grades_flag.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
@@ -393,9 +393,17 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
         ),
       ),
-      ChangeNotifierProvider(
-        create: (context) => FeedbackDetailsPageController(
+      Provider(
+        create: (context) => FeedbackDetailsPageControllerFactory(
+          userId: api.userId,
           feedbackApi: feedbackApi,
+          crashAnalytics: crashAnalytics,
+        ),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => HasUnreadFeedbackMessagesProvider(
+          feedbackApi: feedbackApi,
+          userId: api.userId,
         ),
       ),
       ChangeNotifierProvider.value(value: gradesEnabledFlag),
