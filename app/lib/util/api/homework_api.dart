@@ -103,7 +103,6 @@ class HomeworkGateway {
         .where('assignedUserArrays.allAssignedUids', arrayContains: userId)
         .snapshots()
         .transform(_homeworkTransformer)
-        .asBroadcastStream()
         .listen(
           _homeworkSubjectStream.add,
           onError: _homeworkSubjectStream.addError,
