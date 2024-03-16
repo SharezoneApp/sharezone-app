@@ -8,6 +8,10 @@
 
 import 'package:authentification_base/src/models/auth_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rxdart/rxdart.dart';
+
+final authUserSubject = BehaviorSubject<AuthUser?>.seeded(null);
+Stream<AuthUser?> get authUserStream => authUserSubject.stream;
 
 Stream<AuthUser?> listenToAuthStateChanged() {
   return FirebaseAuth.instance

@@ -13,8 +13,11 @@ import 'dart:ui';
 import 'package:analytics/analytics.dart';
 import 'package:app_functions/app_functions.dart';
 import 'package:authentification_base/authentification.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
@@ -132,10 +135,15 @@ Future<AppDependencies> initializeDependencies({
   UserGateway? userGateway;
   SharezoneGateway? sharezoneGateway;
 
-  listenToAuthStateChanged().listen((currentUser) async {
+  authUserStream.listen((currentUser) async {
     final isAuthenticated = currentUser?.uid != null;
     if (isAuthenticated) {
-      sharezoneGateway = SharezoneGateway(
+      // It's important to only create the gateway if it's null. If we would
+      // create a new gateway every time the user signs in, we would create
+      // multiple listeners for the same user. This would result in multiple
+      // calls to the Firestore and would cause a memory leak (e.g. permission
+      // denied error on sign out).
+      sharezoneGateway ??= SharezoneGateway(
           authUser: currentUser!,
           memberID: currentUser.uid,
           references: references);
@@ -155,7 +163,7 @@ Future<AppDependencies> initializeDependencies({
         cancelOnError: false,
       );
 
-      userGateway = UserGateway(references, currentUser);
+      userGateway ??= UserGateway(references, currentUser!);
       userGateway!.userStream.listen((user) {
         if (user?.typeOfUser != null) {
           analytics.setUserProperty(
@@ -172,6 +180,9 @@ Future<AppDependencies> initializeDependencies({
       // This would result an instant fail of the integration tests.
       await userGateway?.dispose();
       await sharezoneGateway?.dispose();
+
+      userGateway = null;
+      sharezoneGateway = null;
     }
   });
 
@@ -195,6 +206,11 @@ Future<void> _initializeFirebase(Flavor flavor) async {
         options: fb_prod.DefaultFirebaseOptions.currentPlatform,
       );
   }
+
+  const emulatorHost = 'localhost';
+  await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+  await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
+  FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
 }
 
 /// The dependencies for the [Sharezone] widget and the integration tests.

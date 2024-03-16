@@ -102,6 +102,7 @@ class _SharezoneAppState extends State<SharezoneApp>
           MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
       references: widget.blocDependencies.references,
     );
+    disposeCallbacks.add(_sharezoneGateway.dispose);
 
     final crashAnalytics = getCrashAnalytics();
     startLoggingRecording(crashAnalytics);

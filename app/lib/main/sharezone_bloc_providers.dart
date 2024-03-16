@@ -12,6 +12,7 @@ import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart'
     show NullAnalyticsBackend;
 import 'package:authentification_base/authentification.dart' as auth;
+import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:clock/clock.dart';
@@ -30,6 +31,7 @@ import 'package:holidays/holidays.dart' hide State;
 import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/type_of_user_bloc.dart';
@@ -149,9 +151,14 @@ class SharezoneBlocProviders extends StatefulWidget {
 class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
   late FeedbackBloc feedbackBloc;
   late Analytics analytics;
+  late List<SingleChildStatelessWidget> providers;
+  late List<BlocProvider<BlocBase>> mainBlocProviders;
+  late List<BlocProvider<BlocBase>> timetableProviders;
 
   @override
   void initState() {
+    super.initState();
+
     final analyticsBackend = kDebugMode
         ?
         // LoggingAnalyticsBackend()
@@ -179,27 +186,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       uid: widget.blocDependencies.authUser!.uid,
     );
 
-    super.initState();
-  }
-
-  final _disposeCallbacks = <void Function()>[];
-
-  @override
-  void dispose() {
-    for (final disposeCallback in _disposeCallbacks) {
-      disposeCallback();
-    }
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     final api = SharezoneGateway(
       authUser: widget.blocDependencies.authUser!,
       memberID:
           MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
       references: widget.blocDependencies.references,
     );
+    _disposeCallbacks.add(api.dispose);
 
     var streamingKeyValueStore = FlutterStreamingKeyValueStore(
         widget.blocDependencies.streamingSharedPreferences);
@@ -268,8 +261,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     // Not sure if we need to call both, but without .close the linter complains
     _disposeCallbacks.add(teacherHomeworkBloc.dispose);
     _disposeCallbacks.add(teacherHomeworkBloc.close);
-    final blackboardPageBloc = BlackboardPageBloc(
-        gateway: api.blackboard, courseGateway: api.course, uid: api.uID);
 
     final timetableBloc = TimetableBloc(api.schoolClassGateway, api.user,
         api.timetable, api.course, SchoolClassFilterAnalytics(analytics));
@@ -336,7 +327,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
-    final providers = [
+    providers = [
       Provider<CrashAnalytics>(create: (context) => crashAnalytics),
       Provider<SubscriptionService>(
         create: (context) => subscriptionService,
@@ -412,7 +403,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       )
     ];
 
-    final mainBlocProviders = <BlocProvider>[
+    mainBlocProviders = <BlocProvider>[
       BlocProvider<SharezoneContext>(
         bloc: SharezoneContext(
           api,
@@ -423,7 +414,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<TypeOfUserBloc>(bloc: TypeOfUserBloc(typeOfUserStream)),
-      BlocProvider<BlackboardPageBloc>(bloc: blackboardPageBloc),
+      BlocProvider<BlackboardPageBloc>(
+          bloc: BlackboardPageBloc(
+              gateway: api.blackboard,
+              courseGateway: api.course,
+              uid: api.uID)),
       BlocProvider<DashboardBloc>(
         bloc: DashboardBloc(
             api.uID,
@@ -605,7 +600,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
     ];
 
-    final List<BlocProvider> timetableProviders = [
+    timetableProviders = [
       BlocProvider<TimetableBloc>(bloc: timetableBloc),
       BlocProvider<TimetableAddBlocFactory>(
         bloc: TimetableAddBlocFactory(TimetableAddBlocDependencies(
@@ -617,7 +612,20 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<TimePickerSettingsCache>(bloc: timePickerSettingsCache),
     ];
+  }
 
+  final _disposeCallbacks = <void Function()>[];
+
+  @override
+  void dispose() {
+    for (final disposeCallback in _disposeCallbacks) {
+      disposeCallback();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MultiProvider(
       providers: providers,
       child: MultiBlocProvider(

@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart' hide Provider;
 import 'package:authentification_base/authentification_base.dart' hide Provider;
@@ -71,6 +73,7 @@ class Sharezone extends StatefulWidget {
 
 class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   late SignUpBloc signUpBloc;
+  late StreamSubscription<AuthUser?> authSubscription;
 
   @override
   void initState() {
@@ -88,6 +91,10 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
     });
 
     logAppOpen();
+
+    listenToAuthStateChanged().listen((user) {
+      authUserSubject.sink.add(user);
+    });
   }
 
   void logAppOpen() {
@@ -96,6 +103,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    authSubscription.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -145,7 +153,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                             Provider<Flavor>(create: (context) => widget.flavor)
                           ],
                           child: StreamBuilder<AuthUser?>(
-                            stream: listenToAuthStateChanged(),
+                            stream: authUserStream,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 widget.blocDependencies.authUser =
