@@ -8,13 +8,14 @@ import 'dart:ui' as _i9;
 
 import 'package:common_domain_models/common_domain_models.dart' as _i3;
 import 'package:crash_analytics/crash_analytics.dart' as _i4;
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart'
+    as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
 import 'package:sharezone/feedback/history/feedback_history_page_analytics.dart'
     as _i5;
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart'
     as _i6;
-import 'package:sharezone/feedback/src/api/feedback_api.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

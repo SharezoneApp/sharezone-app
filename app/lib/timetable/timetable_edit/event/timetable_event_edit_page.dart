@@ -358,24 +358,17 @@ class _DetailField extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            MarkdownField(
-              prefilledText: initialEvent.detail,
-              inputDecoration: InputDecoration(
-                icon: const Padding(
-                  padding: EdgeInsets.only(left: 6),
-                  child: Icon(Icons.details),
-                ),
-                border: const OutlineInputBorder(),
-                labelText: isExam ? "Themen der Prüfung" : "Details",
-              ),
-              onChanged: bloc.changeDetail,
+        child: MarkdownField(
+          prefilledText: initialEvent.detail,
+          inputDecoration: InputDecoration(
+            icon: const Padding(
+              padding: EdgeInsets.only(left: 6),
+              child: Icon(Icons.details),
             ),
-            const SizedBox(height: 8),
-            const MarkdownSupport(),
-          ],
+            border: const OutlineInputBorder(),
+            labelText: isExam ? "Themen der Prüfung" : "Details",
+          ),
+          onChanged: bloc.changeDetail,
         ),
       ),
     );

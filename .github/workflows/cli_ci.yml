@@ -99,7 +99,11 @@ jobs:
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
-        run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
+        run: |
+          sz analyze \
+            --max-concurrent-packages 3 \
+            --package-timeout-minutes 15 \
+            --only sz_repo_cli
 
   test:
     needs: changes
@@ -138,4 +142,5 @@ jobs:
         run: sz test \
           -c 4 \
           --package-timeout-minutes 15 \
-          --exclude-goldens
+          --exclude-goldens \
+          --only sz_repo_cli

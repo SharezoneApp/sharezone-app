@@ -175,7 +175,7 @@ class DashboardBloc extends BlocBase {
 
   void _initializeUnreadBlackboardViews(
       BlackboardGateway gateway, CourseGateway courseGateway) {
-    gateway.blackboardItemStream.listen((blackboardItems) {
+    _subscriptions.add(gateway.blackboardItemStream.listen((blackboardItems) {
       final unreadBlackboardItems = blackboardItems
           .where(
               (item) => item.forUsers[_uid] == false && item.authorID != _uid)
@@ -190,7 +190,7 @@ class DashboardBloc extends BlocBase {
       _numberOfUnreadBlackboardViewsSubject.sink
           .add(unreadBlackboardViews.length);
       _unreadBlackboardViewsSubject.sink.add(unreadBlackboardViews);
-    });
+    }));
   }
 
   List<BlackboardView> _mapBlackboardItemsIntoBlackboardView(

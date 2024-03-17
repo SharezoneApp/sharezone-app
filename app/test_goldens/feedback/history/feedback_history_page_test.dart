@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -14,7 +15,6 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/feedback/history/feedback_history_page.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
-import 'package:sharezone/feedback/history/feedback_view.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'feedback_history_page_test.mocks.dart';
@@ -34,13 +34,13 @@ void main() {
       //
       // Ticket: https://github.com/dart-lang/mockito/issues/675
       provideDummy<FeedbackHistoryPageState>(state);
-      provideDummy<FeedbackHistoryPageState>(state);
       when(controller.state).thenReturn(state);
     }
 
     void setLoadedState() {
-      const views = <FeedbackView>[
+      final views = <FeedbackView>[
         FeedbackView(
+          id: FeedbackId('1'),
           createdOn: '2022-01-01',
           rating: '4.0',
           likes: 'Everything!',
@@ -49,6 +49,8 @@ void main() {
               'I do not like rainy days 🌧️ Here my reasons: First, it can disrupt outdoor plans, events, and activities, leading to cancellations or the need for last-minute changes. Second, heavy rainfall can cause traffic delays and hazardous driving conditions, increasing the risk of accidents. Lastly, persistent or heavy rain can lead to flooding, causing damage to homes and infrastructure, and potentially displacing residents.',
           heardFrom: 'Google Play Store',
           missing: 'Nothing! 😊',
+          hasUnreadMessages: null,
+          lastMessage: null,
         ),
       ];
       setControllerState(FeedbackHistoryPageLoaded(views));

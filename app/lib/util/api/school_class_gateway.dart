@@ -71,8 +71,10 @@ class SchoolClassGateway {
   }
 
   Future<AppFunctionsResult<bool>> createCourse(
-      String schoolClassID, CourseData courseData) {
-    String courseID = references.courses.doc().id;
+    String schoolClassID,
+    CourseData courseData,
+    String courseID,
+  ) {
     return references.functions.groupCreate(
       memberID: memberID,
       id: courseID,

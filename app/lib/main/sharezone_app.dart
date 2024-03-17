@@ -21,6 +21,7 @@ import 'package:sharezone/blackboard/blackboard_picture.dart';
 import 'package:sharezone/feedback/history/feedback_history_page.dart';
 import 'package:sharezone/ical_export/create/ical_export_create_page.dart';
 import 'package:sharezone/ical_export/list/ical_export_list_page.dart';
+import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
@@ -29,7 +30,6 @@ import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
-import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_help.dart';
 import 'package:sharezone/logging/logging.dart';
 import 'package:sharezone/main/course_join_listener.dart';
@@ -104,6 +104,7 @@ class _SharezoneAppState extends State<SharezoneApp>
           MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
       references: widget.blocDependencies.references,
     );
+    disposeCallbacks.add(_sharezoneGateway.dispose);
 
     final crashAnalytics = getCrashAnalytics();
     startLoggingRecording(crashAnalytics);

@@ -6,13 +6,20 @@
 import 'dart:async' as _i4;
 
 import 'package:analytics/analytics.dart' as _i2;
-import 'package:crash_analytics/src/crash_analytics.dart' as _i6;
-import 'package:flutter/foundation.dart' as _i7;
+import 'package:common_domain_models/common_domain_models.dart' as _i8;
+import 'package:crash_analytics/src/crash_analytics.dart' as _i9;
+import 'package:feedback_shared_implementation/src/api/feedback_api.dart'
+    as _i3;
+import 'package:feedback_shared_implementation/src/models/feedback_chat_message.dart'
+    as _i6;
+import 'package:feedback_shared_implementation/src/models/feedback_id.dart'
+    as _i7;
+import 'package:feedback_shared_implementation/src/models/user_feedback.dart'
+    as _i5;
+import 'package:flutter/foundation.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sharezone/feedback/history/feedback_history_page_analytics.dart'
-    as _i8;
-import 'package:sharezone/feedback/src/api/feedback_api.dart' as _i3;
-import 'package:sharezone/feedback/src/models/user_feedback.dart' as _i5;
+    as _i11;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -61,12 +68,96 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
         returnValue: _i4.Stream<List<_i5.UserFeedback>>.empty(),
         returnValueForMissingStub: _i4.Stream<List<_i5.UserFeedback>>.empty(),
       ) as _i4.Stream<List<_i5.UserFeedback>>);
+  @override
+  _i4.Stream<List<_i6.FeedbackChatMessage>> streamChatMessages(
+          _i7.FeedbackId? feedbackId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #streamChatMessages,
+          [feedbackId],
+        ),
+        returnValue: _i4.Stream<List<_i6.FeedbackChatMessage>>.empty(),
+        returnValueForMissingStub:
+            _i4.Stream<List<_i6.FeedbackChatMessage>>.empty(),
+      ) as _i4.Stream<List<_i6.FeedbackChatMessage>>);
+  @override
+  _i4.Stream<_i5.UserFeedback> streamFeedback(_i7.FeedbackId? feedbackId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #streamFeedback,
+          [feedbackId],
+        ),
+        returnValue: _i4.Stream<_i5.UserFeedback>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i5.UserFeedback>.empty(),
+      ) as _i4.Stream<_i5.UserFeedback>);
+  @override
+  _i4.Stream<bool> streamHasUnreadFeedbackMessages(_i8.UserId? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #streamHasUnreadFeedbackMessages,
+          [userId],
+        ),
+        returnValue: _i4.Stream<bool>.empty(),
+        returnValueForMissingStub: _i4.Stream<bool>.empty(),
+      ) as _i4.Stream<bool>);
+  @override
+  _i4.Future<List<_i5.UserFeedback>> getFeedbacksForSupportTeam({
+    DateTime? startAfter,
+    int? limit = 0,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getFeedbacksForSupportTeam,
+          [],
+          {
+            #startAfter: startAfter,
+            #limit: limit,
+          },
+        ),
+        returnValue:
+            _i4.Future<List<_i5.UserFeedback>>.value(<_i5.UserFeedback>[]),
+        returnValueForMissingStub:
+            _i4.Future<List<_i5.UserFeedback>>.value(<_i5.UserFeedback>[]),
+      ) as _i4.Future<List<_i5.UserFeedback>>);
+  @override
+  void markMessageAsRead(
+    _i7.FeedbackId? feedbackId,
+    _i8.UserId? userId,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #markMessageAsRead,
+          [
+            feedbackId,
+            userId,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void sendResponse({
+    required _i7.FeedbackId? feedbackId,
+    required _i8.UserId? userId,
+    required String? message,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #sendResponse,
+          [],
+          {
+            #feedbackId: feedbackId,
+            #userId: userId,
+            #message: message,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [CrashAnalytics].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCrashAnalytics extends _i1.Mock implements _i6.CrashAnalytics {
+class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
   @override
   set enableInDevMode(bool? _enableInDevMode) => super.noSuchMethod(
         Invocation.setter(
@@ -84,7 +175,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i6.CrashAnalytics {
         returnValueForMissingStub: null,
       );
   @override
-  _i4.Future<void> recordFlutterError(_i7.FlutterErrorDetails? details) =>
+  _i4.Future<void> recordFlutterError(_i10.FlutterErrorDetails? details) =>
       (super.noSuchMethod(
         Invocation.method(
           #recordFlutterError,
@@ -160,7 +251,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i6.CrashAnalytics {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFeedbackHistoryPageAnalytics extends _i1.Mock
-    implements _i8.FeedbackHistoryPageAnalytics {
+    implements _i11.FeedbackHistoryPageAnalytics {
   @override
   _i2.Analytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),

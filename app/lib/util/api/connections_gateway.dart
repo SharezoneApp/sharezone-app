@@ -20,6 +20,7 @@ class ConnectionsGateway implements MyConnectionsAccesor {
   late DataCollectionPackage<Course> joinedCoursesPackage;
   late DataDocumentPackage<ConnectionsData> _connectionDataPackage;
   late List<Course> newJoinedCourses = [];
+  StreamSubscription<List<Course>>? _joinedCoursesSubscription;
 
   ConnectionsGateway(this.references, this.memberID) {
     _connectionDataPackage = DataDocumentPackage(
@@ -36,7 +37,8 @@ class ConnectionsGateway implements MyConnectionsAccesor {
               version2: false,
               myRole: MemberRole.creator,
             ));
-    joinedCoursesPackage.stream.listen((joinedCourses) async {
+    _joinedCoursesSubscription =
+        joinedCoursesPackage.stream.listen((joinedCourses) async {
       newJoinedCourses =
           (await Future.wait(joinedCourses.map((joinedCourse) async {
         final joinedUserData = (await references.courses
@@ -198,6 +200,7 @@ class ConnectionsGateway implements MyConnectionsAccesor {
   }
 
   Future<void> dispose() async {
+    await _joinedCoursesSubscription?.cancel();
     await _connectionDataPackage.close();
     await joinedCoursesPackage.close();
   }

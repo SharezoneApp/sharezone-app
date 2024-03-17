@@ -81,6 +81,7 @@ class SharezoneGateway {
       connectionsGateway.dispose(),
       user.dispose(),
       blackboard.dispose(),
+      homework.dispose(),
     ]);
   }
 }

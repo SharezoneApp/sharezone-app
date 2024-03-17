@@ -19,32 +19,38 @@ class _Advantages extends StatelessWidget {
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
-          child: AnimationLimiter(
-            child: Column(
-              children: AnimationConfiguration.toStaggeredList(
-                duration: const Duration(milliseconds: 300),
-                childAnimationBuilder: (widget) => SlideAnimation(
-                  verticalOffset: 20,
-                  child: FadeInAnimation(child: widget),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 100,
+                child: PlatformSvg.asset(
+                  "assets/icons/strong.svg",
+                  fit: BoxFit.fitHeight,
                 ),
-                children: <Widget>[
-                  SizedBox(
-                    height: 100,
-                    child: PlatformSvg.asset(
-                      "assets/icons/strong.svg",
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text("Vorteile von Sharezone",
-                      style: TextStyle(fontSize: 26)),
-                  const _AdvantageAllInOne(),
-                  const _AdvantageCloud(),
-                  const _AdvantageSaveTime(),
-                  const _AdvantageNotifications(),
-                ],
               ),
-            ),
+              const SizedBox(height: 10),
+              const Text("Vorteile von Sharezone",
+                  style: TextStyle(fontSize: 26)),
+              MaxWidthConstraintBox(
+                maxWidth: 650,
+                child: Column(
+                  children: AnimationConfiguration.toStaggeredList(
+                    delay: const Duration(milliseconds: 100),
+                    duration: const Duration(milliseconds: 1000),
+                    childAnimationBuilder: (widget) => SlideAnimation(
+                      verticalOffset: 20,
+                      child: FadeInAnimation(child: widget),
+                    ),
+                    children: const [
+                      _AdvantageAllInOne(),
+                      _AdvantageCloud(),
+                      _AdvantageSaveTime(),
+                      _AdvantageNotifications(),
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),

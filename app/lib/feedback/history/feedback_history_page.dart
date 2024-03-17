@@ -6,10 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
-import 'package:sharezone/feedback/history/feedback_view.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -42,8 +42,10 @@ class _FeedbackHistoryPageState extends State<FeedbackHistoryPage> {
           FeedbackHistoryPageError(message: final message) =>
             _Error(message: message),
           FeedbackHistoryPageLoading() => const _Loading(),
-          FeedbackHistoryPageLoaded(feedbacks: final feedbacks) =>
-            _List(feedbacks: feedbacks),
+          FeedbackHistoryPageLoaded(feedbacks: final feedbacks) => _List(
+              feedbacks: feedbacks,
+              isLoading: false,
+            ),
           FeedbackHistoryPageEmpty() => const _Empty(),
         },
       ),
@@ -54,28 +56,82 @@ class _FeedbackHistoryPageState extends State<FeedbackHistoryPage> {
 class _Loading extends StatelessWidget {
   const _Loading();
 
-  static const dummyFeedbacks = [
+  static final dummyFeedbacks = [
     FeedbackView(
+      id: FeedbackId('1'),
       createdOn: '2022-01-01',
       rating: '5',
       likes: '10',
       dislikes: '2',
       missing: 'Great app!',
       heardFrom: 'Friend',
+      hasUnreadMessages: false,
+      lastMessage: null,
     ),
     FeedbackView(
+      id: FeedbackId('2'),
       createdOn: '2022-01-02',
       rating: '4',
       likes: '5',
       dislikes: '1',
       missing: 'Good app!',
       heardFrom: 'Colleague',
+      hasUnreadMessages: false,
+      lastMessage: null,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return const _List(feedbacks: dummyFeedbacks);
+    return _List(
+      feedbacks: dummyFeedbacks,
+      isLoading: true,
+    );
+  }
+}
+
+class _List extends StatelessWidget {
+  const _List({
+    required this.feedbacks,
+    required this.isLoading,
+  });
+
+  final List<FeedbackView> feedbacks;
+  final bool isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: feedbacks.length,
+      itemBuilder: (context, index) {
+        final feedback = feedbacks[index];
+        final isFirst = index == 0;
+        final isLast = index == feedbacks.length - 1;
+        return Padding(
+          padding: EdgeInsets.only(
+            top: isFirst ? 6 : 0,
+            bottom: isLast ? 6 : 0,
+          ),
+          child: FeedbackCard(
+            pushDetailsPage: (feedbackId) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedbackDetailsPage(
+                    feedbackId: feedbackId,
+                    onContactSupportPressed: () =>
+                        Navigator.pushNamed(context, SupportPage.tag),
+                  ),
+                  settings: const RouteSettings(name: FeedbackDetailsPage.tag),
+                ),
+              );
+            },
+            view: feedback,
+            isLoading: isLoading,
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -99,193 +155,6 @@ class _Error extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _List extends StatelessWidget {
-  const _List({
-    required this.feedbacks,
-  });
-
-  final List<FeedbackView> feedbacks;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: feedbacks.length,
-      itemBuilder: (context, index) {
-        final feedback = feedbacks[index];
-        final isFirst = index == 0;
-        final isLast = index == feedbacks.length - 1;
-        return Padding(
-          padding: EdgeInsets.only(
-            top: isFirst ? 6 : 0,
-            bottom: isLast ? 6 : 0,
-          ),
-          child: _FeedbackCard(feedback: feedback),
-        );
-      },
-    );
-  }
-}
-
-class _FeedbackCard extends StatelessWidget {
-  const _FeedbackCard({
-    required this.feedback,
-  });
-
-  final FeedbackView feedback;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: CustomCard(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (feedback.hasCreatedOn)
-                  _CreatedOn(createdOn: feedback.createdOn!),
-                if (feedback.hasRating) _Rating(rating: feedback.rating!),
-                if (feedback.hasLikes) _Likes(likes: feedback.likes!),
-                if (feedback.hasDislikes)
-                  _Dislikes(dislikes: feedback.dislikes!),
-                if (feedback.hasMissing) _Missing(missing: feedback.missing!),
-                if (feedback.hasHeardFrom)
-                  _HeardFrom(heardFrom: feedback.heardFrom!),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CreatedOn extends StatelessWidget {
-  const _CreatedOn({required this.createdOn});
-
-  final String createdOn;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-      child: Text(
-        createdOn,
-        style: const TextStyle(color: Colors.grey, fontSize: 12),
-      ),
-    );
-  }
-}
-
-class _Rating extends StatelessWidget {
-  const _Rating({required this.rating});
-
-  final String rating;
-
-  @override
-  Widget build(BuildContext context) {
-    return _FeedbackCardTile(
-      leading: const Icon(Icons.star),
-      title: Text(rating),
-    );
-  }
-}
-
-class _Likes extends StatelessWidget {
-  const _Likes({required this.likes});
-
-  final String likes;
-
-  @override
-  Widget build(BuildContext context) {
-    return _FeedbackCardTile(
-      leading: const Icon(Icons.thumb_up),
-      title: Text(likes),
-    );
-  }
-}
-
-class _Dislikes extends StatelessWidget {
-  const _Dislikes({required this.dislikes});
-
-  final String dislikes;
-
-  @override
-  Widget build(BuildContext context) {
-    return _FeedbackCardTile(
-      leading: const Icon(Icons.thumb_down),
-      title: Text(dislikes),
-    );
-  }
-}
-
-class _Missing extends StatelessWidget {
-  const _Missing({required this.missing});
-
-  final String missing;
-
-  @override
-  Widget build(BuildContext context) {
-    return _FeedbackCardTile(
-      leading: const Icon(Icons.comment),
-      title: Text(missing),
-    );
-  }
-}
-
-class _HeardFrom extends StatelessWidget {
-  const _HeardFrom({required this.heardFrom});
-
-  final String heardFrom;
-
-  @override
-  Widget build(BuildContext context) {
-    return _FeedbackCardTile(
-      leading: const Icon(Icons.search),
-      title: Text(heardFrom),
-    );
-  }
-}
-
-class _FeedbackCardTile extends StatelessWidget {
-  const _FeedbackCardTile({
-    required this.title,
-    this.leading,
-  });
-
-  final Widget? leading;
-  final Widget title;
-
-  @override
-  Widget build(BuildContext context) {
-    final isLoading = context.select<FeedbackHistoryPageController, bool>(
-      (c) => c.state is FeedbackHistoryPageLoading,
-    );
-    return GrayShimmer(
-      enabled: isLoading,
-      child: ListTile(
-        leading: leading,
-        title: isLoading
-            ? Container(
-                height: 20,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              )
-            : DefaultTextStyle.merge(
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                child: title,
-              ),
       ),
     );
   }

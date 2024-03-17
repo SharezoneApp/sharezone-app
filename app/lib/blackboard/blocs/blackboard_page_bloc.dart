@@ -17,16 +17,18 @@ import 'package:sharezone/util/api/course_gateway.dart';
 
 class BlackboardPageBloc extends BlocBase {
   final _viewsSubject = BehaviorSubject<List<BlackboardView>>();
+  StreamSubscription<List<BlackboardItem>>? _subscription;
 
   BlackboardPageBloc({
     required BlackboardGateway gateway,
     required CourseGateway courseGateway,
     required String uid,
   }) {
-    final views = gateway.blackboardItemStream.map((items) =>
-        _mapBlackboardItemsIntoBlackboardView(items, courseGateway, uid)
-            .toList());
-    _viewsSubject.sink.addStream(views);
+    _subscription = gateway.blackboardItemStream.listen((items) {
+      final view =
+          _mapBlackboardItemsIntoBlackboardView(items, courseGateway, uid);
+      _viewsSubject.sink.add(view);
+    });
   }
 
   Stream<List<BlackboardView>> get views => _viewsSubject;
@@ -46,6 +48,7 @@ class BlackboardPageBloc extends BlocBase {
 
   @override
   Future<void> dispose() async {
+    _subscription?.cancel();
     await _viewsSubject.drain();
     _viewsSubject.close();
   }

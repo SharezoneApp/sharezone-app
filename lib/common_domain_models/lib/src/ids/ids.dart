@@ -17,6 +17,7 @@ export './file_id.dart';
 export './group_id.dart';
 export './homework_id.dart';
 export './ical_export_id.dart';
+export './school_class_id.dart';
 export './src/id.dart';
 export './timetable_event_id.dart';
 export './user_id.dart';
