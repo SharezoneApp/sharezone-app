@@ -18,6 +18,6 @@ class SavedGradeIcons {
   static const gradingType = Icon(Icons.label);
   static const term = Icon(Icons.calendar_today);
   static const integrateGradeIntoSubjectGrade = Icon(Icons.science);
-  static const topic = Icon(Icons.topic);
-  static const notes = Icon(Icons.notes);
+  static const title = Icon(Icons.short_text);
+  static const details = Icon(Icons.notes);
 }
