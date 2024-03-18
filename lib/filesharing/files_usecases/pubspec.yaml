@@ -19,8 +19,6 @@ dependencies:
     sdk: flutter
   files_basics:
     path: ../files_basics
-  files_web:
-    path: ../files_web
   filesharing_logic:
     path: ../filesharing_logic
   sharezone_common:
@@ -51,6 +49,8 @@ dependencies:
   url_launcher: ^6.2.5
   video_player: any
   collection: ^1.15.0-nullsafety.4
+  webview_flutter: ^4.7.0
+  webview_flutter_web: ^0.2.2+4
 
 dev_dependencies:
   flutter_test:

@@ -6,12 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-// ignore:avoid_web_libraries_in_flutter
-import 'dart:html';
+import 'package:common_domain_models/common_domain_models.dart';
 
-void openWebFile(String url, String name) {
-  AnchorElement linkElement = AnchorElement();
-  linkElement.href = url;
-  linkElement.target = '_blank';
-  linkElement.click();
+class SavedGradeId extends Id {
+  SavedGradeId(String id) : super(id, 'SavedGradeId');
 }
