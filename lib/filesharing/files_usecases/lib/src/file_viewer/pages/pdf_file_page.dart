@@ -6,13 +6,18 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:files_basics/local_file.dart';
 import 'package:flutter/material.dart';
-import 'package:pdfx/pdfx.dart';
 import 'package:open_file_plus/open_file_plus.dart';
-import 'package:sharezone_utils/device_information_manager.dart';
+import 'package:pdfx/pdfx.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
 import '../widgets/file_page_app_bar.dart';
 
 class PdfFilePage extends StatelessWidget {
@@ -38,54 +43,64 @@ class PdfFilePage extends StatelessWidget {
       child: Scaffold(
         appBar: FilePageAppBar(
           name: name,
-          actions: actions,
+          actions: switch (PlatformCheck.currentPlatform) {
+            // The popup menu is not clickable because the webview blocks the
+            // interaction with the popup menu. Therefore, the popup menu is not
+            // displayed on the web platform.
+            Platform.web => null,
+            _ => actions,
+          },
           nameStream: nameStream,
         ),
         backgroundColor: Colors.black,
-        body: FutureBuilder<bool>(
-          future: isDeviceSupportedByPdfPlguin(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data!) {
-                return PdfView(
-                  pageSnapping: false,
-                  controller:
-                      PdfController(document: getPdfDocument(localFile)),
-                  scrollDirection: Axis.vertical,
-                  builders: PdfViewBuilders<DefaultBuilderOptions>(
-                    options: const DefaultBuilderOptions(),
-                    errorBuilder: (context, exception) {
-                      return const Center(
-                        child: Text(
-                          'PDF Rendering does not '
-                          'support on the system of this version',
+        body: switch (PlatformCheck.currentPlatform) {
+          Platform.web => _WebViewer(bytes: localFile.getData()),
+          _ => FutureBuilder<bool>(
+              future: isDeviceSupportedByPdfPlguin(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!) {
+                    return PdfView(
+                      pageSnapping: false,
+                      controller:
+                          PdfController(document: getPdfDocument(localFile)),
+                      scrollDirection: Axis.vertical,
+                      builders: PdfViewBuilders<DefaultBuilderOptions>(
+                        options: const DefaultBuilderOptions(),
+                        errorBuilder: (context, exception) {
+                          return const Center(
+                            child: Text(
+                              'PDF Rendering does not '
+                              'support on the system of this version',
+                            ),
+                          );
+                        },
+                        documentLoaderBuilder: (context) => const Center(
+                          child: AccentColorCircularProgressIndicator(),
                         ),
-                      );
-                    },
-                    documentLoaderBuilder: (context) => const Center(
-                      child: AccentColorCircularProgressIndicator(),
+                      ),
+                    );
+                  } else {
+                    OpenFile.open(localFile.getPath());
+                    return Container();
+                  }
+                }
+
+                if (snapshot.hasError) {
+                  // Catch
+                  return const Center(
+                    child: Text(
+                      'PDF Rendering does not '
+                      'support on the system of this version',
                     ),
-                  ),
-                );
-              } else {
-                OpenFile.open(localFile.getPath());
-                return Container();
-              }
-            }
+                  );
+                }
 
-            if (snapshot.hasError) {
-              // Catch
-              return const Center(
-                child: Text(
-                  'PDF Rendering does not '
-                  'support on the system of this version',
-                ),
-              );
-            }
-
-            return const Center(child: AccentColorCircularProgressIndicator());
-          },
-        ),
+                return const Center(
+                    child: AccentColorCircularProgressIndicator());
+              },
+            ),
+        },
       ),
     );
   }
@@ -110,5 +125,37 @@ Future<PdfDocument> getPdfDocument(LocalFile localFile) {
     return PdfDocument.openFile(localFile.getPath()!);
   } else {
     return PdfDocument.openData(localFile.getData());
+  }
+}
+
+class _WebViewer extends StatefulWidget {
+  const _WebViewer({
+    required this.bytes,
+  });
+
+  final Uint8List bytes;
+
+  @override
+  State<_WebViewer> createState() => _WebViewerState();
+}
+
+class _WebViewerState extends State<_WebViewer> {
+  late WebViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    // Our files are stored with "attachment" as the content disposition in
+    // Firebase Storage. This means that the browser would immediately download
+    // the file. To prevent this, we convert the file to base64 and display it
+    // in a webview.
+    final base64Data = base64Encode(widget.bytes);
+    final url = Uri.parse('data:application/pdf;base64,$base64Data');
+    controller = WebViewController()..loadRequest(url);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WebViewWidget(controller: controller);
   }
 }
