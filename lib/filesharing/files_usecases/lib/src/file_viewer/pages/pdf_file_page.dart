@@ -90,8 +90,8 @@ class PdfFilePage extends StatelessWidget {
                   // Catch
                   return const Center(
                     child: Text(
-                      'PDF Rendering does not '
-                      'support on the system of this version',
+                      'PDF Rendering is not '
+                      'supported on this device',
                     ),
                   );
                 }
