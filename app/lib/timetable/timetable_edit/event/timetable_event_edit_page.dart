@@ -108,27 +108,29 @@ class _TimetableEditEventPage extends StatelessWidget {
         appBar:
             AppBar(title: Text("${isExam ? "Prüfung" : "Termin"} bearbeiten")),
         body: SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: 6),
-                _CourseField(initialEvent),
-                const Divider(),
-                _TitleField(initialEvent),
-                const Divider(),
-                _DateField(),
-                const Divider(),
-                _StartTimeField(),
-                const Divider(),
-                _EndTimeField(),
-                const Divider(),
-                _SendNotificationField(),
-                const Divider(),
-                _DetailField(initialEvent),
-                const Divider(height: 32),
-                _RoomField(initialEvent),
-                const Divider(),
-              ],
+          child: MaxWidthConstraintBox(
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(height: 6),
+                  _CourseField(initialEvent),
+                  const Divider(),
+                  _TitleField(initialEvent),
+                  const Divider(),
+                  _DateField(),
+                  const Divider(),
+                  _StartTimeField(),
+                  const Divider(),
+                  _EndTimeField(),
+                  const Divider(),
+                  _SendNotificationField(),
+                  const Divider(),
+                  _DetailField(initialEvent),
+                  const Divider(height: 32),
+                  _RoomField(initialEvent),
+                  const Divider(),
+                ],
+              ),
             ),
           ),
         ),
