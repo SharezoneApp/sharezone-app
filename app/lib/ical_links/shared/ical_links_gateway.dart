@@ -3,37 +3,37 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:sharezone/ical_export/shared/ical_export_dto.dart';
+import 'package:sharezone/ical_links/shared/ical_link_dto.dart';
 
-class ICalExportGateway {
+class ICalLinksGateway {
   final FirebaseFirestore _firestore;
   final FirebaseFunctions _functions;
 
-  final CollectionReference _iCalExports;
+  final CollectionReference _iCalLinks;
 
-  ICalExportGateway({
+  ICalLinksGateway({
     required FirebaseFirestore firestore,
     required FirebaseFunctions functions,
   })  : _firestore = firestore,
         _functions = functions,
-        _iCalExports = firestore.collection('ICalExports');
+        _iCalLinks = firestore.collection('ICalLinks');
 
-  ICalExportId generateId() => ICalExportId(_iCalExports.doc().id);
+  ICalLinkId generateId() => ICalLinkId(_iCalLinks.doc().id);
 
-  void createIcalExport(ICalExportDto iCalExport) async {
-    _iCalExports.doc('${iCalExport.id}').set(iCalExport.toCreateJson());
+  void createICalLink(ICalLinkDto dto) async {
+    _iCalLinks.doc('${dto.id}').set(dto.toCreateJson());
   }
 
-  Future<void> updateIcalExport(ICalExportDto iCalExport) async {
+  Future<void> updateICalLink(ICalLinkDto dto) async {
     await _firestore.runTransaction((transaction) async {
       transaction.update(
-        _iCalExports.doc('${iCalExport.id}'),
-        iCalExport.toUpdateJson(),
+        _iCalLinks.doc('${dto.id}'),
+        dto.toUpdateJson(),
       );
     });
   }
 
-  Future<String> getFancyUrl(ICalExportId id) async {
+  Future<String> getFancyUrl(ICalLinkId id) async {
     final callable = _functions.httpsCallable('getFancyIcalUrl');
     final result = await callable.call<Map<String, dynamic>>({
       'calendarId': '$id',
@@ -41,19 +41,18 @@ class ICalExportGateway {
     return result.data['url'];
   }
 
-  Stream<List<ICalExportDto>> getIcalExportsStream(UserId userId) {
-    return _iCalExports
+  Stream<List<ICalLinkDto>> getICalLinksStream(UserId userId) {
+    return _iCalLinks
         .where('userId', isEqualTo: '$userId')
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) {
-        return ICalExportDto.fromJson(
-            doc.id, doc.data() as Map<String, dynamic>);
+        return ICalLinkDto.fromJson(doc.id, doc.data() as Map<String, dynamic>);
       }).toList();
     });
   }
 
-  void deleteIcalExport(ICalExportId id) async {
-    _iCalExports.doc('$id').delete();
+  void deleteICalLink(ICalLinkId id) async {
+    _iCalLinks.doc('$id').delete();
   }
 }

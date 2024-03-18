@@ -75,7 +75,7 @@ const _featuresMap = {
     SharezonePlusFeature.moreGroupColors,
     SharezonePlusFeature.addEventToLocalCalendar,
     SharezonePlusFeature.viewPastEvents,
-    SharezonePlusFeature.iCalExport,
+    SharezonePlusFeature.iCalLinks,
   },
 };
 
@@ -89,7 +89,7 @@ enum SharezonePlusFeature {
   moreGroupColors,
   addEventToLocalCalendar,
   viewPastEvents,
-  iCalExport,
+  iCalLinks,
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {

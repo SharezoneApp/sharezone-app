@@ -8,6 +8,6 @@
 
 import 'src/id.dart';
 
-class ICalExportId extends Id {
-  ICalExportId(String id) : super(id, 'ICalExportId');
+class ICalLinkId extends Id {
+  ICalLinkId(String id) : super(id, 'ICalExportId');
 }

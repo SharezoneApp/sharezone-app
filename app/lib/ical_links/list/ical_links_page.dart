@@ -2,22 +2,22 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/ical_export/dialog/ical_export_dialog_page.dart';
-import 'package:sharezone/ical_export/list/ical_export_list_controller.dart';
-import 'package:sharezone/ical_export/shared/ical_export_status.dart';
-import 'package:sharezone/ical_export/list/ical_export_view.dart';
+import 'package:sharezone/ical_links/dialog/ical_links_dialog.dart';
+import 'package:sharezone/ical_links/list/ical_links_page_controller.dart';
+import 'package:sharezone/ical_links/shared/ical_link_status.dart';
+import 'package:sharezone/ical_links/list/ical_link_view.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-class ICalExportPage extends StatelessWidget {
-  const ICalExportPage({super.key});
+class ICalLinksPage extends StatelessWidget {
+  const ICalLinksPage({super.key});
 
-  static const tag = 'ical-export-page';
+  static const tag = 'ical-links-page';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Export (iCal)')),
+      appBar: AppBar(title: const Text('iCal-Links')),
       body: const SingleChildScrollView(
         child: MaxWidthConstraintBox(
           child: SafeArea(
@@ -40,9 +40,9 @@ class _Fab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
       icon: const Icon(Icons.add),
-      tooltip: 'Neuer Export',
-      label: 'Neuer Export',
-      onPressed: () => Navigator.pushNamed(context, ICalExportCreatePage.tag),
+      tooltip: 'Neuer Link',
+      label: 'Neuer Link',
+      onPressed: () => Navigator.pushNamed(context, ICalLinksDialog.tag),
     );
   }
 }
@@ -52,16 +52,16 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<IcalExportListController>();
+    final controller = context.watch<IcalLinksPageController>();
     final state = controller.state;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: switch (state) {
-          IcalExportListLoading() => const _Loading(),
-          IcalExportListError() => _Error(state),
-          IcalExportListLoaded() => _Loaded(state),
+          ICalLinksPageStateLoading() => const _Loading(),
+          ICalLinksPageStateError() => _Error(state),
+          ICalLinksPageStateLoaded() => _Loaded(state),
         },
       ),
     );
@@ -73,16 +73,16 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final view = ICalExportView(
-      id: ICalExportId('1'),
+    final view = ICalLinkView(
+      id: ICalLinkId('1'),
       name: 'Mein Stundenplan',
       sources: [],
-      status: ICalExportStatus.available,
+      status: ICalLinkStatus.available,
       url: Uri.parse('https://ical.sharezone.net/...'),
       error: null,
     );
-    return _ExportTile(
-      export: view,
+    return _LinkTile(
+      view: view,
       isLoading: true,
     );
   }
@@ -91,7 +91,7 @@ class _Loading extends StatelessWidget {
 class _Error extends StatelessWidget {
   const _Error(this.state);
 
-  final IcalExportListError state;
+  final ICalLinksPageStateError state;
 
   @override
   Widget build(BuildContext context) {
@@ -106,19 +106,19 @@ class _Error extends StatelessWidget {
 class _Loaded extends StatelessWidget {
   const _Loaded(this.state);
 
-  final IcalExportListLoaded state;
+  final ICalLinksPageStateLoaded state;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for (final export in state.views) _ExportTile(export: export),
+        for (final view in state.views) _LinkTile(view: view),
       ],
     );
   }
 }
 
-enum _ExportAction {
+enum _LinkAction {
   delete,
   copy,
 }
@@ -138,18 +138,18 @@ class _Header extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ExpansionCard(
-                header: const Text('Was ist ein iCal Export?'),
+                header: const Text('Was ist ein iCal Link?'),
                 body: const Text(
-                  'Mit einem iCal Export kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\nEin iCal Export ist nur für dich sichtbar und kann nicht von anderen Personen eingesehen werden.',
+                  'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.',
                 ),
                 backgroundColor: color,
               ),
               const SizedBox(height: 16),
               ExpansionCard(
                 header: const Text(
-                    'Wie füge ich einen iCal Export zu meinem Kalender hinzu?'),
+                    'Wie füge ich einen iCal-Link zu meinem Kalender hinzu?'),
                 body: const Text(
-                  'Wenn du auf einen Termin klickst, kannst du ihn direkt zu deinem Kalender hinzufügen. Das ist praktisch, wenn du nur einen einzelnen Termin in deinem Kalender haben möchtest. Mit einem iCal Export kannst du deinen gesamten Stundenplan oder alle Termine in deinem Kalender einbinden und musst diese nicht manuell ändern, wenn sich etwas ändert.',
+                  '1. Kopiere den iCal-Link\n2. Öffne deinen Kalender (z.B. Google Kalender, Apple Kalender)\n3. Füge einen neuen Kalender hinzu\n4. Wähle "Über URL hinzufügen" oder "Über das Internet hinzufügen"\n5. Füge den iCal-Link ein\n6. Fertig! Dein Stundenplan und deine Termine werden nun in deinem Kalender angezeigt.',
                 ),
                 backgroundColor: color,
               ),
@@ -162,29 +162,29 @@ class _Header extends StatelessWidget {
   }
 }
 
-class _ExportTile extends StatelessWidget {
-  const _ExportTile({
-    required this.export,
+class _LinkTile extends StatelessWidget {
+  const _LinkTile({
+    required this.view,
     this.isLoading = false,
   });
 
-  final ICalExportView export;
+  final ICalLinkView view;
   final bool isLoading;
 
   Future<void> copyUrlToClipboard(BuildContext context) async {
-    await Clipboard.setData(ClipboardData(text: '${export.url}'));
+    await Clipboard.setData(ClipboardData(text: '${view.url}'));
   }
 
   void showCopyConformationSnackBar(BuildContext context) {
     showSnackSec(context: context, text: 'Link in Zwischenablage kopiert.');
   }
 
-  void deleteExport(BuildContext context) {
-    context.read<IcalExportListController>().deleteExport(export.id);
+  void deleteLink(BuildContext context) {
+    context.read<IcalLinksPageController>().deleteLink(view.id);
   }
 
-  void showDeletedExportSnackBar(BuildContext context) {
-    showSnackSec(context: context, text: 'Export gelöscht.');
+  void showDeletedLinkSnackBar(BuildContext context) {
+    showSnackSec(context: context, text: 'Link gelöscht.');
   }
 
   @override
@@ -194,9 +194,9 @@ class _ExportTile extends StatelessWidget {
       child: GrayShimmer(
         enabled: isLoading,
         child: ListTile(
-          title: Text(export.name),
-          subtitle: _Subtitle(export: export),
-          onTap: export.hasUrl
+          title: Text(view.name),
+          subtitle: _Subtitle(view: view),
+          onTap: view.hasUrl
               ? () async {
                   await copyUrlToClipboard(context);
                   if (context.mounted) showCopyConformationSnackBar(context);
@@ -204,14 +204,14 @@ class _ExportTile extends StatelessWidget {
               : null,
 
           /// More menu button with edit, delete, copy button
-          trailing: PopupMenuButton<_ExportAction>(
+          trailing: PopupMenuButton<_LinkAction>(
             onSelected: (action) {
               switch (action) {
-                case _ExportAction.delete:
-                  deleteExport(context);
-                  showDeletedExportSnackBar(context);
+                case _LinkAction.delete:
+                  deleteLink(context);
+                  showDeletedLinkSnackBar(context);
                   break;
-                case _ExportAction.copy:
+                case _LinkAction.copy:
                   copyUrlToClipboard(context);
                   showCopyConformationSnackBar(context);
                   break;
@@ -221,16 +221,16 @@ class _ExportTile extends StatelessWidget {
               const cursor = SystemMouseCursors.click;
               return [
                 PopupMenuItem(
-                  value: _ExportAction.copy,
-                  enabled: export.hasUrl,
+                  value: _LinkAction.copy,
+                  enabled: view.hasUrl,
                   child: ListTile(
-                    mouseCursor: export.hasUrl ? cursor : null,
+                    mouseCursor: view.hasUrl ? cursor : null,
                     leading: const Icon(Icons.content_copy),
                     title: const Text('Link kopieren'),
                   ),
                 ),
                 const PopupMenuItem(
-                  value: _ExportAction.delete,
+                  value: _LinkAction.delete,
                   child: ListTile(
                     mouseCursor: cursor,
                     leading: Icon(Icons.delete),
@@ -247,44 +247,44 @@ class _ExportTile extends StatelessWidget {
 }
 
 class _Subtitle extends StatelessWidget {
-  const _Subtitle({required this.export});
+  const _Subtitle({required this.view});
 
-  final ICalExportView export;
+  final ICalLinkView view;
 
   String getSubtitle() {
-    if (export.hasError) {
-      return 'Fehler: ${export.error}';
+    if (view.hasError) {
+      return 'Fehler: ${view.error}';
     }
 
-    if (export.hasUrl) {
-      return '${export.url}';
+    if (view.hasUrl) {
+      return '${view.url}';
     }
 
-    return switch (export.status) {
-      ICalExportStatus.available => 'Link wird geladen...',
-      ICalExportStatus.building => 'Wird erstellt...',
-      ICalExportStatus.locked => 'Gesperrt',
+    return switch (view.status) {
+      ICalLinkStatus.available => 'Link wird geladen...',
+      ICalLinkStatus.building => 'Wird erstellt...',
+      ICalLinkStatus.locked => 'Gesperrt',
     };
   }
 
   bool isShimmerEnabled() {
-    if (export.hasError) {
+    if (view.hasError) {
       return false;
     }
 
-    if (export.status == ICalExportStatus.building) {
+    if (view.status == ICalLinkStatus.building) {
       return true;
     }
 
     final isUrlLoading =
-        export.status == ICalExportStatus.available && !export.hasUrl;
+        view.status == ICalLinkStatus.available && !view.hasUrl;
     return isUrlLoading;
   }
 
   @override
   Widget build(BuildContext context) {
     final text = getSubtitle();
-    final hasError = export.hasError;
+    final hasError = view.hasError;
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       child: Align(

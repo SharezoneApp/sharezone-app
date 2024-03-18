@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/ical_export/dialog/ical_export_dialog_controller.dart';
-import 'package:sharezone/ical_export/dialog/ical_export_dialog_controller_factory.dart';
-import 'package:sharezone/ical_export/shared/ical_export_sources.dart';
+import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller.dart';
+import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller_factory.dart';
+import 'package:sharezone/ical_links/shared/ical_link_source.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-class ICalExportCreatePage extends StatelessWidget {
-  const ICalExportCreatePage({
+class ICalLinksDialog extends StatelessWidget {
+  const ICalLinksDialog({
     super.key,
   });
 
-  static const tag = 'ical-export-create-page';
+  static const tag = 'ical-links-dialog';
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) {
-        final factory = context.read<ICalExportDialogControllerFactory>();
+        final factory = context.read<ICalLinksDialogControllerFactory>();
         return factory.create();
       },
       child: Scaffold(
@@ -108,16 +108,15 @@ class _TitleField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final error =
-        context.select<ICalExportDialogController, CreateICalExportError?>(
-            (controller) => controller.state.error);
+    final error = context.select<ICalLinksDialogController, ICalDialogError?>(
+        (controller) => controller.state.error);
     return MaxWidthConstraintBox(
       child: _TitleFieldBase(
         prefilledTitle: null,
         focusNode: focusNode,
-        onChanged: context.read<ICalExportDialogController>().setName,
+        onChanged: context.read<ICalLinksDialogController>().setName,
         errorText: switch (error) {
-          CreateICalExportNameMissingError() => 'Bitte gib einen Namen ein',
+          ICalDialogNameMissingError() => 'Bitte gib einen Namen ein',
           _ => null,
         },
       ),
@@ -191,7 +190,7 @@ class _Sources extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<ICalExportDialogController>().state;
+    final state = context.watch<ICalLinksDialogController>().state;
     return Padding(
       padding: const EdgeInsets.all(6),
       child: Column(
@@ -204,7 +203,7 @@ class _Sources extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 color: switch (state.error) {
-                  CreateICalExportSourcesMissingError() =>
+                  ICalDialogSourcesMissingError() =>
                     Theme.of(context).colorScheme.error,
                   _ => null,
                 },
@@ -212,17 +211,17 @@ class _Sources extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          for (final source in ICalExportSource.values)
+          for (final source in ICalLinkSource.values)
             CheckboxListTile(
               value: state.sources.contains(source),
               title: Text(source.getUiName()),
               secondary: source.getIcon(),
               onChanged: (value) {
                 if (value == true) {
-                  context.read<ICalExportDialogController>().addSource(source);
+                  context.read<ICalLinksDialogController>().addSource(source);
                 } else {
                   context
-                      .read<ICalExportDialogController>()
+                      .read<ICalLinksDialogController>()
                       .removeSource(source);
                 }
               },
@@ -237,12 +236,12 @@ class _SaveButton extends StatelessWidget {
   const _SaveButton();
 
   void showErrorSnackBar(BuildContext context) {
-    final error = context.read<ICalExportDialogController>().state.error;
+    final error = context.read<ICalLinksDialogController>().state.error;
     showSnackSec(
       context: context,
       text: switch (error) {
-        CreateICalExportNameMissingError() => 'Bitte gib einen Namen ein.',
-        CreateICalExportSourcesMissingError() =>
+        ICalDialogNameMissingError() => 'Bitte gib einen Namen ein.',
+        ICalDialogSourcesMissingError() =>
           'Bitte wähle mindestens eine Quelle aus.',
         _ => 'Es ist ein Fehler aufgetreten.',
       },
@@ -263,7 +262,7 @@ class _SaveButton extends StatelessWidget {
         padding: const EdgeInsets.only(right: 8),
         child: SaveButton(
           onPressed: () {
-            final controller = context.read<ICalExportDialogController>();
+            final controller = context.read<ICalLinksDialogController>();
             if (controller.validate()) {
               controller.create();
               showSuccessSnackBar(context);
