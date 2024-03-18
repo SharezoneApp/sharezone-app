@@ -29,7 +29,7 @@ class ContinueRoundButton extends StatelessWidget {
         child: IconButton.filled(
           key: ValueKey(onTap == null),
           tooltip: tooltip,
-          icon: const Icon(Icons.chevron_right),
+          icon: const Icon(Icons.chevron_right, color: Colors.white),
           onPressed: onTap,
         ),
       ),
