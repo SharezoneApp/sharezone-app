@@ -28,8 +28,8 @@ class GradesDialog extends StatelessWidget {
       selectedDate: DateFormat.yMMMEd().format(DateTime.now()),
       selectedGradingType: "Schriftliche Prüfung",
       selectedTerm: '10/2',
-      notes: null,
-      topic: null,
+      details: null,
+      title: null,
       integrateGradeIntoSubjectGrade: true,
     );
     return Scaffold(

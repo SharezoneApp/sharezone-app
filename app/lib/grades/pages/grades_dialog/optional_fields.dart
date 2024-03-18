@@ -20,75 +20,52 @@ class _OptionalFields extends StatelessWidget {
     return _Section(
       title: "Optional",
       children: [
-        _IntegrateGradeIntoSubjectGrade(
-            value: view.integrateGradeIntoSubjectGrade),
-        _Topic(topic: view.topic),
-        _Notes(notes: view.topic),
+        _Title(title: view.title),
+        _Details(details: view.details),
       ],
     );
   }
 }
 
-class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
-  const _IntegrateGradeIntoSubjectGrade({
-    required this.value,
+class _Title extends StatelessWidget {
+  const _Title({
+    required this.title,
   });
 
-  final bool value;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: SavedGradeIcons.integrateGradeIntoSubjectGrade,
-      title: const Text("Note in Fachnote einbringen"),
-      onTap: () => snackbarSoon(context: context),
-      trailing: Switch(
-        value: value,
-        onChanged: (value) => snackbarSoon(context: context),
-      ),
-    );
-  }
-}
-
-class _Topic extends StatelessWidget {
-  const _Topic({
-    required this.topic,
-  });
-
-  final String? topic;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: SavedGradeIcons.topic,
       title: PrefilledTextField(
-        prefilledText: topic,
+        prefilledText: title,
         decoration: const InputDecoration(
-          labelText: "Thema",
+          labelText: "Titel",
           hintText: "z.B. Lineare Funktionen",
-          suffixIcon: _TopicHelpButton(),
+          suffixIcon: _TitleHelpButton(),
         ),
       ),
     );
   }
 }
 
-class _TopicHelpButton extends StatelessWidget {
-  const _TopicHelpButton();
+class _TitleHelpButton extends StatelessWidget {
+  const _TitleHelpButton();
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.help_outline),
-      tooltip: 'Wozu dient das Thema?',
+      tooltip: 'Wozu dient der Titel?',
       onPressed: () {
         showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text("Wozu dient das Thema?"),
+              title: const Text("Wozu dient der Titel?"),
               content: const Text(
-                  'Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema der Klausur angeben, um die Note später besser zuordnen zu können.'),
+                  'Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema / den Titel der Klausur angeben, um die Note später besser zuordnen zu können.'),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
@@ -103,19 +80,19 @@ class _TopicHelpButton extends StatelessWidget {
   }
 }
 
-class _Notes extends StatelessWidget {
-  const _Notes({
-    required this.notes,
+class _Details extends StatelessWidget {
+  const _Details({
+    required this.details,
   });
 
-  final String? notes;
+  final String? details;
 
   @override
   Widget build(BuildContext context) {
     return MarkdownField(
       icon: SavedGradeIcons.notes,
       onChanged: (value) {},
-      prefilledText: notes,
+      prefilledText: details,
       inputDecoration: const InputDecoration(
         labelText: "Notizen",
       ),

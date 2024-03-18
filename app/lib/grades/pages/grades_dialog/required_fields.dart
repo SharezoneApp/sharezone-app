@@ -28,6 +28,8 @@ class _RequiredFields extends StatelessWidget {
         _Date(selectedDate: view.selectedDate),
         _GradingType(selectedGradingType: view.selectedGradingType),
         _Term(selectedTerm: view.selectedTerm),
+        _IntegrateGradeIntoSubjectGrade(
+            value: view.integrateGradeIntoSubjectGrade),
       ],
     );
   }
@@ -132,6 +134,27 @@ class _Term extends StatelessWidget {
       title: const Text("Halbjahr"),
       subtitle: selectedTerm == null ? null : Text(selectedTerm!),
       onTap: () => snackbarSoon(context: context),
+    );
+  }
+}
+
+class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
+  const _IntegrateGradeIntoSubjectGrade({
+    required this.value,
+  });
+
+  final bool value;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: SavedGradeIcons.integrateGradeIntoSubjectGrade,
+      title: const Text("Note in Fachnote einbringen"),
+      onTap: () => snackbarSoon(context: context),
+      trailing: Switch(
+        value: value,
+        onChanged: (value) => snackbarSoon(context: context),
+      ),
     );
   }
 }

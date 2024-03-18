@@ -27,8 +27,8 @@ class GradesDialogView {
 
   final bool integrateGradeIntoSubjectGrade;
   final String? selectedTerm;
-  final String? topic;
-  final String? notes;
+  final String? title;
+  final String? details;
 
   const GradesDialogView({
     required this.selectedGradingSystem,
@@ -36,8 +36,8 @@ class GradesDialogView {
     required this.selectedDate,
     required this.selectedGradingType,
     required this.selectedTerm,
-    required this.topic,
-    required this.notes,
+    required this.title,
+    required this.details,
     required this.integrateGradeIntoSubjectGrade,
   });
 }
