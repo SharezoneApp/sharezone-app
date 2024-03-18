@@ -22,7 +22,9 @@ class SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: tooltip,
+      // We use an empty string as a workaround to avoid the tooltip from being
+      // displayed when the tooltip is null.
+      message: tooltip ?? '',
       child: FilledButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

@@ -14,11 +14,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/ical_links/list/ical_links_page.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc.dart';
 import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/timetable/periods/periods_edit_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/weekdays/weekdays_edit_page.dart';
+import 'package:sharezone/sharezone_plus/sharezone_plus_feature_guard.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
@@ -57,6 +59,8 @@ class TimetableSettingsPage extends StatelessWidget {
                   _TimetableEnabledWeekDaysField(),
                   const Divider(),
                   _TimetablePeriodsField(),
+                  const Divider(),
+                  const _ICalLinks(),
                   // We only show the time picker settings on iOS because on
                   // other platforms we use the different time picker where we
                   // have a visible steps option.
@@ -153,6 +157,22 @@ class _TimetablePeriodsField extends StatelessWidget {
     return ListTile(
       title: const Text("Stundenzeiten"),
       onTap: () => openPeriodsEditPage(context),
+    );
+  }
+}
+
+class _ICalLinks extends StatelessWidget {
+  const _ICalLinks();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: const Text("Stundenplan exportieren (iCal)"),
+      subtitle: const Text(
+        "Stundenplan in Google Kalender, Apple Kalender, etc. einbinden",
+      ),
+      onTap: () => Navigator.pushNamed(context, ICalLinksPage.tag),
+      trailing: const SharezonePlusChip(),
     );
   }
 }
