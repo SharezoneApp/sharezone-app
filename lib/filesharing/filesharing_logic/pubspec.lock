@@ -283,13 +283,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  files_web:
-    dependency: transitive
-    description:
-      path: "../files_web"
-      relative: true
-    source: path
-    version: "0.0.1"
   firebase_auth:
     dependency: transitive
     description:

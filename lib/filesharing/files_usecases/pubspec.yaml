@@ -19,8 +19,6 @@ dependencies:
     sdk: flutter
   files_basics:
     path: ../files_basics
-  files_web:
-    path: ../files_web
   filesharing_logic:
     path: ../filesharing_logic
   sharezone_common:

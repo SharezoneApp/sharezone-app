@@ -276,13 +276,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  files_web:
-    dependency: "direct main"
-    description:
-      path: "../files_web"
-      relative: true
-    source: path
-    version: "0.0.1"
   filesharing_logic:
     dependency: "direct main"
     description:
