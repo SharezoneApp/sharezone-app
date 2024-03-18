@@ -32,7 +32,7 @@ import 'term_details_page_test.mocks.dart';
 ])
 void main() {
   group(TermDetailsPage, () {
-    final termId = TermId('term-1');
+    const termId = TermId('term-1');
     late MockTermDetailsPageController controller;
     late MockTermDetailsPageControllerFactory controllerFactory;
 
@@ -52,7 +52,7 @@ void main() {
     }
 
     void setEmptyState() {
-      setState(TermDetailsPageLoaded(
+      setState(const TermDetailsPageLoaded(
         term: (
           id: TermId('term-1'),
           displayName: '10/2',
@@ -67,7 +67,7 @@ void main() {
       setState(
         TermDetailsPageLoaded(
           term: (
-            id: TermId('term-1'),
+            id: const TermId('term-1'),
             displayName: '10/2',
             avgGrade: ('1,0', GradePerformance.good),
           ),
@@ -92,7 +92,7 @@ void main() {
                 abbreviation: 'DE',
                 grade: '2,0',
                 design: Design.random(random),
-                id: SubjectId('1'),
+                id: const SubjectId('1'),
               ),
             ),
             (
@@ -102,7 +102,7 @@ void main() {
                 abbreviation: 'E',
                 grade: '2+',
                 design: Design.random(random),
-                id: SubjectId('2'),
+                id: const SubjectId('2'),
               ),
             ),
             (
@@ -112,7 +112,7 @@ void main() {
                 abbreviation: 'DE',
                 grade: '1-',
                 design: Design.random(random),
-                id: SubjectId('3'),
+                id: const SubjectId('3'),
               ),
             ),
           ],
@@ -135,7 +135,7 @@ void main() {
           value: controllerFactory,
           child: ChangeNotifierProvider<TermDetailsPageController>.value(
             value: controller,
-            child: TermDetailsPage(id: termId),
+            child: const TermDetailsPage(id: termId),
           ),
         ),
         wrapper: materialAppWrapper(theme: theme),

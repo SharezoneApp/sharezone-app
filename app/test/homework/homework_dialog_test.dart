@@ -438,7 +438,7 @@ void main() {
       final userInput = homeworkDialogApi.userInputToBeCreated;
       final courseId = homeworkDialogApi.courseIdForHomeworkToBeCreated;
       expect(userInput.title, 'S. 24 a)');
-      expect(courseId, CourseId('foo_course'));
+      expect(courseId, const CourseId('foo_course'));
       expect(userInput.withSubmission, true);
       // As we activated submissions we assume the default time of 23:59 is
       // used.

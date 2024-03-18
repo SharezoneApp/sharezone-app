@@ -39,7 +39,7 @@ void main() {
 
     void setLoadedState() {
       final views = <FeedbackView>[
-        FeedbackView(
+        const FeedbackView(
           id: FeedbackId('1'),
           createdOn: '2022-01-01',
           rating: '4.0',

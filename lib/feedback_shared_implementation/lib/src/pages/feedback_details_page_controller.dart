@@ -141,7 +141,7 @@ class FeedbackDetailsPageLoaded extends FeedbackDetailsPageState {
   final FeedbackView? feedback;
   final List<FeedbackMessageView>? chatMessages;
 
-  FeedbackDetailsPageLoaded({
+  const FeedbackDetailsPageLoaded({
     required this.feedback,
     required this.chatMessages,
   });

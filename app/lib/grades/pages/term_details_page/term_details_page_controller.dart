@@ -24,7 +24,7 @@ class TermDetailsPageController extends ChangeNotifier {
 
     state = TermDetailsPageLoaded(
       term: (
-        id: TermId('term-1'),
+        id: const TermId('term-1'),
         displayName: '10/2',
         avgGrade: ('1,0', GradePerformance.good),
       ),
@@ -49,7 +49,7 @@ class TermDetailsPageController extends ChangeNotifier {
             abbreviation: 'DE',
             grade: '2,0',
             design: Design.random(random),
-            id: SubjectId('1'),
+            id: const SubjectId('1'),
           ),
         ),
         (
@@ -59,7 +59,7 @@ class TermDetailsPageController extends ChangeNotifier {
             abbreviation: 'E',
             grade: '2+',
             design: Design.random(random),
-            id: SubjectId('2'),
+            id: const SubjectId('2'),
           ),
         ),
         (
@@ -69,7 +69,7 @@ class TermDetailsPageController extends ChangeNotifier {
             abbreviation: 'DE',
             grade: '1-',
             design: Design.random(random),
-            id: SubjectId('3'),
+            id: const SubjectId('3'),
           ),
         ),
       ],

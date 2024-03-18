@@ -55,7 +55,7 @@ class UserFeedback {
   });
 
   factory UserFeedback.create() {
-    return UserFeedback._(
+    return const UserFeedback._(
       id: FeedbackId("feedbackId"),
       createdOn: null,
       rating: null,

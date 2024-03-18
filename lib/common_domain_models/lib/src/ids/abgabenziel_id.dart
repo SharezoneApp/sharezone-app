@@ -43,8 +43,7 @@ class AbgabezielId extends Id {
   AbgabezielId._(
     this.zielTyp,
     this.zielId,
-  ) : super('${abgabenzielTypToDtoString(zielTyp)}$informationSeperator$zielId',
-            'AbgabenzielId');
+  ) : super('${abgabenzielTypToDtoString(zielTyp)}$informationSeperator$zielId');
 
   factory AbgabezielId.homework(HomeworkId id) {
     ArgumentError.checkNotNull(id, 'HomeworkId');

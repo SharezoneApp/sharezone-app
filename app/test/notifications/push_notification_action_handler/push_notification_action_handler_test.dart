@@ -270,7 +270,7 @@ void main() {
                 ),
             expectActionToExecute: (actionRequest) {
               expect(actionRequest.timetableEventId,
-                  TimetableEventId('timetable-event-id'));
+                  const TimetableEventId('timetable-event-id'));
             });
       });
 
@@ -307,7 +307,7 @@ void main() {
                   title: {null, '', 'This is some title'},
                 ),
             expectActionToExecute: (actionRequest) {
-              expect(actionRequest.homeworkId, HomeworkId('homework-item-id'));
+              expect(actionRequest.homeworkId, const HomeworkId('homework-item-id'));
             });
       });
       test(
@@ -345,7 +345,7 @@ void main() {
                 ),
             expectActionToExecute: (actionRequest) {
               expect(actionRequest.blackboardItemId,
-                  BlackboardItemId('blackboard-item-id'));
+                  const BlackboardItemId('blackboard-item-id'));
             });
       });
       test(

@@ -6,14 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:util/util.dart';
-
 class Id {
   final String id;
 
-  Id(this.id, [String? idName]) {
-    throwIfNullOrEmpty(id, idName ?? 'id');
-  }
+  const Id(this.id) : assert(id != "");
 
   @override
   bool operator ==(Object other) {

@@ -12,7 +12,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 part './section_expansion.dart';
 
 class DocumentSectionId extends Id {
-  DocumentSectionId(String id) : super(id, 'DocumentSectionId');
+  const DocumentSectionId(super.id);
 }
 
 /// Model for a table of contents with expandable sections and subsections.
