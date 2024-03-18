@@ -307,7 +307,8 @@ void main() {
                   title: {null, '', 'This is some title'},
                 ),
             expectActionToExecute: (actionRequest) {
-              expect(actionRequest.homeworkId, const HomeworkId('homework-item-id'));
+              expect(actionRequest.homeworkId,
+                  const HomeworkId('homework-item-id'));
             });
       });
       test(
