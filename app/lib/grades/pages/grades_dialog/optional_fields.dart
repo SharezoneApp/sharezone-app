@@ -37,7 +37,7 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: SavedGradeIcons.topic,
+      leading: SavedGradeIcons.title,
       title: PrefilledTextField(
         prefilledText: title,
         decoration: const InputDecoration(
@@ -90,7 +90,7 @@ class _Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MarkdownField(
-      icon: SavedGradeIcons.notes,
+      icon: SavedGradeIcons.details,
       onChanged: (value) {},
       prefilledText: details,
       inputDecoration: const InputDecoration(

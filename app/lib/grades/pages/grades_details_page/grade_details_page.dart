@@ -344,7 +344,7 @@ class _Topic extends StatelessWidget {
   Widget build(BuildContext context) {
     if (topic == null) return const SizedBox();
     return _GradeDetailsTile(
-        leading: SavedGradeIcons.topic, title: Text(topic!));
+        leading: SavedGradeIcons.title, title: Text(topic!));
   }
 }
 
@@ -359,7 +359,7 @@ class _Details extends StatelessWidget {
   Widget build(BuildContext context) {
     if (details == null) return const SizedBox();
     return _GradeDetailsTile(
-      leading: SavedGradeIcons.notes,
+      leading: SavedGradeIcons.details,
       title: Text(details!),
     );
   }
