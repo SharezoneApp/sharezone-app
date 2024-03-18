@@ -130,7 +130,7 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Items(
+    return const _Items(
       feedback: FeedbackView(
         id: FeedbackId('1'),
         createdOn: '2022-01-01',

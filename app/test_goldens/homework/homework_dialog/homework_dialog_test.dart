@@ -85,7 +85,7 @@ void main() {
         (tester) async {
       final state = Ready(
         title: ('S. 32 8a)', error: null),
-        course: CourseChosen(
+        course: const CourseChosen(
           courseId: CourseId('maths'),
           courseName: 'Maths',
           isChangeable: true,
@@ -100,7 +100,7 @@ void main() {
         description: 'Das ist eine Beschreibung',
         attachments: IList([
           FileView(
-            fileId: FileId('foo'),
+            fileId: const FileId('foo'),
             fileName: 'foo.png',
             format: FileFormat.image,
             localFile: FakeLocalFile.empty(
@@ -109,7 +109,7 @@ void main() {
             ),
           ),
           FileView(
-            fileId: FileId('bar'),
+            fileId: const FileId('bar'),
             fileName: 'bar.pdf',
             format: FileFormat.pdf,
             localFile: FakeLocalFile.empty(
@@ -152,7 +152,7 @@ void main() {
         (tester) async {
       final state = Ready(
         title: ('S. 32 8a)', error: null),
-        course: CourseChosen(
+        course: const CourseChosen(
           courseId: CourseId('maths'),
           courseName: 'Maths',
           isChangeable: true,
@@ -167,7 +167,7 @@ void main() {
         description: 'Das ist eine Beschreibung',
         attachments: IList([
           FileView(
-            fileId: FileId('foo'),
+            fileId: const FileId('foo'),
             fileName: 'foo.png',
             format: FileFormat.image,
             localFile: FakeLocalFile.empty(
@@ -176,7 +176,7 @@ void main() {
             ),
           ),
           FileView(
-            fileId: FileId('bar'),
+            fileId: const FileId('bar'),
             fileName: 'bar.pdf',
             format: FileFormat.pdf,
             localFile: FakeLocalFile.empty(
@@ -243,7 +243,7 @@ void main() {
         (tester) async {
       final state = Ready(
         title: ('S. 32 8a)', error: null),
-        course: CourseChosen(
+        course: const CourseChosen(
           courseId: CourseId('maths'),
           courseName: 'Maths',
           isChangeable: true,
@@ -258,7 +258,7 @@ void main() {
         description: 'Das ist eine Beschreibung',
         attachments: IList([
           FileView(
-            fileId: FileId('foo'),
+            fileId: const FileId('foo'),
             fileName: 'foo.png',
             format: FileFormat.image,
             localFile: FakeLocalFile.empty(
@@ -267,7 +267,7 @@ void main() {
             ),
           ),
           FileView(
-            fileId: FileId('bar'),
+            fileId: const FileId('bar'),
             fileName: 'bar.pdf',
             format: FileFormat.pdf,
             localFile: FakeLocalFile.empty(
@@ -377,7 +377,7 @@ void main() {
         (tester) async {
       final state = Ready(
         title: ('AB fertig bearbeiten', error: null),
-        course: CourseChosen(
+        course: const CourseChosen(
           courseId: CourseId('foo_course'),
           courseName: 'Foo course',
           isChangeable: false,
@@ -392,7 +392,7 @@ void main() {
         description: 'Bitte bearbeite das angehängte AB schriftlich fertig.',
         attachments: IList([
           FileView(
-            fileId: FileId('foo_attachment_id'),
+            fileId: const FileId('foo_attachment_id'),
             fileName: 'foo_attachment.pdf',
             format: FileFormat.pdf,
             cloudFile: randomAttachmentCloudFileWith(

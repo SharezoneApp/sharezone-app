@@ -25,7 +25,7 @@ import 'grade_details_page_test.mocks.dart';
 ])
 void main() {
   group(GradeDetailsPage, () {
-    final id = SavedGradeId('1');
+    const id = SavedGradeId('1');
     late MockGradeDetailsPageControllerFactory controllerFactory;
     late MockGradeDetailsPageController controller;
 
@@ -74,7 +74,7 @@ void main() {
           value: controllerFactory,
           child: ChangeNotifierProvider<GradeDetailsPageController>.value(
             value: controller,
-            child: GradeDetailsPage(id: id),
+            child: const GradeDetailsPage(id: id),
           ),
         ),
         wrapper: materialAppWrapper(theme: theme),

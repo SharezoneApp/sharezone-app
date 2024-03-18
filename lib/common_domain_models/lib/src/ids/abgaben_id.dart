@@ -15,7 +15,7 @@ class AbgabeId extends Id {
   final UserId nutzerId;
 
   AbgabeId(this.abgabenzielId, this.nutzerId)
-      : super('$nutzerId$_seperator$abgabenzielId', 'AbgabenId') {
+      : super('$nutzerId$_seperator$abgabenzielId') {
     ArgumentError.checkNotNull(abgabenzielId, 'abgabenzielId');
     ArgumentError.checkNotNull(nutzerId, 'nutzerId');
   }
