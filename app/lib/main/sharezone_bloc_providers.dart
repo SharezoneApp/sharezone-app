@@ -65,6 +65,7 @@ import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
 import 'package:sharezone/grades/grades_flag.dart';
+import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
@@ -412,6 +413,9 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       Provider(
         create: (context) => const TermDetailsPageControllerFactory(),
+      ),
+      Provider(
+        create: (context) => GradeDetailsPageControllerFactory(),
       )
     ];
 
