@@ -1,3 +1,4 @@
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/ical_export/shared/ical_export_analytics.dart';
@@ -6,17 +7,20 @@ import 'package:sharezone/ical_export/shared/ical_export_gateway.dart';
 import 'package:sharezone/ical_export/shared/ical_export_sources.dart';
 import 'package:sharezone/ical_export/shared/ical_export_status.dart';
 
-class CreateICalExportController extends ChangeNotifier {
+class ICalExportDialogController extends ChangeNotifier {
   final ICalExportGateway _gateway;
   final ICalExportAnalytics _analytics;
+  final UserId _userId;
 
-  CreateICalExportState state = const CreateICalExportState();
+  ICalExportDialogState state = const ICalExportDialogState();
 
-  CreateICalExportController({
+  ICalExportDialogController({
     required ICalExportGateway gateway,
     required ICalExportAnalytics analytics,
+    required UserId userId,
   })  : _gateway = gateway,
-        _analytics = analytics;
+        _analytics = analytics,
+        _userId = userId;
 
   void create() async {
     _gateway.createIcalExport(
@@ -25,6 +29,7 @@ class CreateICalExportController extends ChangeNotifier {
         name: state.name!,
         sources: state.sources,
         status: ICalExportStatus.building,
+        userId: _userId,
       ),
     );
     _analytics.logCreate(state.sources);
@@ -83,10 +88,10 @@ class CreateICalExportController extends ChangeNotifier {
   }
 
   void clear() {
-    _setState(const CreateICalExportState());
+    _setState(const ICalExportDialogState());
   }
 
-  void _setState(CreateICalExportState state) {
+  void _setState(ICalExportDialogState state) {
     this.state = state;
     notifyListeners();
   }
@@ -99,27 +104,27 @@ class CreateICalExportController extends ChangeNotifier {
   }
 }
 
-class CreateICalExportState extends Equatable {
+class ICalExportDialogState extends Equatable {
   final String? name;
   final List<ICalExportSource> sources;
 
   final CreateICalExportStatus status;
   final CreateICalExportError? error;
 
-  const CreateICalExportState({
+  const ICalExportDialogState({
     this.name,
     this.sources = const [],
     this.status = CreateICalExportStatus.initial,
     this.error,
   });
 
-  CreateICalExportState copyWith({
+  ICalExportDialogState copyWith({
     String? name,
     List<ICalExportSource>? sources,
     CreateICalExportStatus? status,
     CreateICalExportError? Function()? error,
   }) {
-    return CreateICalExportState(
+    return ICalExportDialogState(
       name: name ?? this.name,
       sources: sources ?? this.sources,
       status: status ?? this.status,

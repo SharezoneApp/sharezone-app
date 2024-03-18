@@ -19,7 +19,7 @@ import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/use_account_on_multiple_devices_instruction.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
 import 'package:sharezone/feedback/history/feedback_history_page.dart';
-import 'package:sharezone/ical_export/create/ical_export_create_page.dart';
+import 'package:sharezone/ical_export/dialog/ical_export_dialog_page.dart';
 import 'package:sharezone/ical_export/list/ical_export_list_page.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';

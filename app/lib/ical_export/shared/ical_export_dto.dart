@@ -10,12 +10,14 @@ class ICalExportDto extends Equatable {
   final List<ICalExportSource> sources;
   final String name;
   final ICalExportStatus status;
+  final UserId? userId;
 
   const ICalExportDto({
     required this.id,
     required this.sources,
     required this.name,
     required this.status,
+    required this.userId,
   });
 
   Map<String, dynamic> toCreateJson() {
@@ -23,6 +25,8 @@ class ICalExportDto extends Equatable {
       'sources': sources.map((e) => e.name).toList(),
       'name': name,
       'createdAt': FieldValue.serverTimestamp(),
+      'status': status.name,
+      'userId': '$userId',
     };
   }
 
@@ -42,6 +46,7 @@ class ICalExportDto extends Equatable {
       }),
       name: map['name'],
       status: ICalExportStatus.values.byName(map['status']),
+      userId: UserId(map['userId']),
     );
   }
 
@@ -50,12 +55,14 @@ class ICalExportDto extends Equatable {
     List<ICalExportSource>? sources,
     String? name,
     ICalExportStatus? status,
+    UserId? userId,
   }) {
     return ICalExportDto(
       id: id ?? this.id,
       sources: sources ?? this.sources,
       name: name ?? this.name,
       status: status ?? this.status,
+      userId: userId ?? this.userId,
     );
   }
 

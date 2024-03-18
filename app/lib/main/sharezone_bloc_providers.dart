@@ -75,7 +75,8 @@ import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
-import 'package:sharezone/ical_export/create/ical_export_create_controller.dart';
+import 'package:sharezone/ical_export/dialog/ical_export_dialog_controller_factory.dart';
+import 'package:sharezone/ical_export/list/ical_export_list_controller.dart';
 import 'package:sharezone/ical_export/shared/ical_export_analytics.dart';
 import 'package:sharezone/ical_export/shared/ical_export_gateway.dart';
 import 'package:sharezone/main/application_bloc.dart';
@@ -328,6 +329,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final gradesEnabledFlag =
         GradesEnabledFlag(widget.blocDependencies.keyValueStore);
 
+    final iCalExportGateway = ICalExportGateway(
+      firestore: widget.blocDependencies.firestore,
+      functions: widget.blocDependencies.functions,
+    );
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
@@ -403,13 +408,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
         ),
       ),
-      ChangeNotifierProvider(
-        create: (context) => CreateICalExportController(
-          gateway: ICalExportGateway(
-            firestore: widget.blocDependencies.firestore,
-            functions: widget.blocDependencies.functions,
-          ),
+      Provider(
+        create: (context) => ICalExportDialogControllerFactory(
+          gateway: iCalExportGateway,
           analytics: ICalExportAnalytics(analytics),
+          userId: api.userId,
         ),
       ),
       ChangeNotifierProvider(
@@ -424,7 +427,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       Provider(
         create: (context) => const TermDetailsPageControllerFactory(),
-      )
+      ),
+      ChangeNotifierProvider(
+        create: (context) => IcalExportListController(
+          gateway: iCalExportGateway,
+          userId: api.userId,
+        ),
+      ),
     ];
 
     mainBlocProviders = <BlocProvider>[

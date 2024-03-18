@@ -41,6 +41,18 @@ class ICalExportGateway {
     return result.data['url'];
   }
 
+  Stream<List<ICalExportDto>> getIcalExportsStream(UserId userId) {
+    return _iCalExports
+        .where('userId', isEqualTo: '$userId')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return ICalExportDto.fromJson(
+            doc.id, doc.data() as Map<String, dynamic>);
+      }).toList();
+    });
+  }
+
   void deleteIcalExport(ICalExportId id) async {
     _iCalExports.doc('$id').delete();
   }
