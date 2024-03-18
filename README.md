@@ -1,4 +1,4 @@
-![Sharezone Banner with two phones](https://user-images.githubusercontent.com/29028262/151260826-4d13664c-8269-442c-bf78-1197899afffb.png)
+![Sharezone wallpaper](https://github.com/SharezoneApp/sharezone-app/assets/24459435/7f2d9dcc-82d7-4342-a7e2-1e10491e4a94)
 
 ## Download Sharezone
 
