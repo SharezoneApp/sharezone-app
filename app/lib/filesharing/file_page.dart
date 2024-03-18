@@ -24,9 +24,7 @@ class FilePage extends StatefulWidget {
     required this.nameStream,
     required this.downloadURL,
     required this.id,
-  }) : assert(!(fileType == FileFormat.pdf ||
-            fileType == FileFormat.image ||
-            fileType == FileFormat.video));
+  }) : assert(!(fileType == FileFormat.image || fileType == FileFormat.video));
 
   final FileFormat fileType;
   final List<Widget>? actions;
