@@ -16,7 +16,7 @@ class ICalLinksGateway {
     required FirebaseFunctions functions,
   })  : _firestore = firestore,
         _functions = functions,
-        _iCalLinks = firestore.collection('ICalLinks');
+        _iCalLinks = firestore.collection('iCalLinks');
 
   ICalLinkId generateId() => ICalLinkId(_iCalLinks.doc().id);
 
@@ -36,7 +36,7 @@ class ICalLinksGateway {
   Future<String> getFancyUrl(ICalLinkId id) async {
     final callable = _functions.httpsCallable('getFancyIcalUrl');
     final result = await callable.call<Map<String, dynamic>>({
-      'calendarId': '$id',
+      'linkId': '$id',
     });
     return result.data['url'];
   }
