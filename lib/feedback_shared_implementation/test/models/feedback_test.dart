@@ -13,22 +13,22 @@ void main() {
   group('Feedback', () {
     test('equality', () {
       UserFeedback a = UserFeedback.create().copyWith(
-          rating: 5.0,
-          dislikes: "d",
-          heardFrom: "h",
-          likes: "l",
-          missing: "m",
-          uid: "u",
-          userContactInformation: "uci");
+        rating: 5.0,
+        dislikes: "d",
+        heardFrom: "h",
+        likes: "l",
+        missing: "m",
+        uid: "u",
+      );
 
       UserFeedback b = UserFeedback.create().copyWith(
-          rating: 5.0,
-          dislikes: "d",
-          heardFrom: "h",
-          likes: "l",
-          missing: "m",
-          uid: "u",
-          userContactInformation: "uci");
+        rating: 5.0,
+        dislikes: "d",
+        heardFrom: "h",
+        likes: "l",
+        missing: "m",
+        uid: "u",
+      );
 
       UserFeedback c = UserFeedback.create().copyWith(dislikes: "d");
       expect(a, equals(b));

@@ -161,46 +161,11 @@ class FeedbackPageBody extends StatelessWidget {
               const _DislikeField(),
               const _MissingField(),
               const _HeardFromField(),
-              const _ContactInformation(),
               const FeedbackPageSubmitButton(key: Key("submitButton")),
               const SizedBox(height: _padding)
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-// class _FeedbackBoxWallpaper extends StatelessWidget {
-//   const _FeedbackBoxWallpaper({Key key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ConstrainedBox(
-//       constraints: BoxConstraints(maxHeight: 400),
-//       child: Image.asset(
-//         "assets/wallpaper/feedback-box.png",
-//         width: MediaQuery.of(context).size.width,
-//         fit: BoxFit.fitWidth,
-//       ),
-//     );
-//   }
-// }
-
-class _ContactInformation extends StatelessWidget {
-  const _ContactInformation();
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<FeedbackBloc>(context);
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: _FeedbackTextField(
-        labelText: "Kontaktdaten für Rückfragen",
-        icon: const Icon(Icons.question_answer),
-        onChanged: bloc.changeContactOptions,
-        stream: bloc.contactOptions,
       ),
     );
   }
