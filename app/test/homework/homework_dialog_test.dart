@@ -973,6 +973,37 @@ void main() {
       // 2023-10-14
       expect(controller.getSelectedDueDate(), Date('2023-10-12'));
     });
+
+    testWidgets('shows hint when presses disabled course tile', (tester) async {
+      final fooCourse = courseWith(
+        id: 'foo_course',
+        name: 'Foo course',
+        subject: 'Foo subject',
+      );
+
+      addCourse(fooCourse);
+
+      homework = randomHomeworkWith(
+        id: 'foo_homework_id',
+        title: 'title text',
+        courseId: 'foo_course',
+        courseName: 'Foo course',
+        subject: 'Foo subject',
+        todoUntil: DateTime(2024, 03, 12),
+        private: false,
+      );
+
+      await pumpAndSettleHomeworkDialog(tester);
+
+      await tester.tap(find.byKey(HwDialogKeys.courseTile));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(
+            'Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.'),
+        findsOneWidget,
+      );
+    });
   });
 }
 
