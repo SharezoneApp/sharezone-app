@@ -213,8 +213,18 @@ class _Sources extends StatelessWidget {
           const SizedBox(height: 8),
           for (final source in ICalLinkSource.values)
             CheckboxListTile(
+              enabled: source != ICalLinkSource.lessons,
               value: state.sources.contains(source),
               title: Text(source.getUiName()),
+              subtitle: source == ICalLinkSource.lessons
+                  ? const Text(
+                      'Diese Option ist demnächst verfügbar.',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    )
+                  : null,
               secondary: source.getIcon(),
               onChanged: (value) {
                 if (value == true) {

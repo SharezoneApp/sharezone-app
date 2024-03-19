@@ -110,10 +110,31 @@ class _Loaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (state.views.isEmpty) {
+      return const _Empty();
+    }
+
     return Column(
       children: [
         for (final view in state.views) _LinkTile(view: view),
       ],
+    );
+  }
+}
+
+class _Empty extends StatelessWidget {
+  const _Empty();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(8),
+      child: Center(
+        child: Text(
+          'Du hast noch keine iCal-Links erstellt.',
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 }
