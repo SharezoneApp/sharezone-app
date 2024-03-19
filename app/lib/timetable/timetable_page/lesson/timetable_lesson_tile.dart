@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
@@ -27,49 +28,88 @@ class TimetableEntryLesson extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dropDesign = Design.fromColor(Colors.grey[600]!);
+    final design = lesson.isDropped ? dropDesign : groupInfo?.design;
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Material(
-        color: groupInfo?.design.color.withOpacity(0.2),
+        color: design?.color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(4),
-        child: InkWell(
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
-          onTap: () => showLessonModelSheet(context, lesson, groupInfo?.design),
-          onLongPress: () => onLessonLongPress(context, lesson),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 3, left: 6),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                GroupName(
-                    abbreviation: groupInfo?.abbreviation,
-                    groupName: groupInfo?.name ?? "",
-                    color: groupInfo?.design.color),
-                if (lesson.place != null)
-                  Room(
-                    room: lesson.place!,
-                    color: groupInfo?.design.color,
-                  ),
-              ],
+        child: Stack(
+          children: [
+            InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
+              onTap: () =>
+                  showLessonModelSheet(context, lesson, groupInfo?.design),
+              onLongPress: () => onLessonLongPress(context, lesson),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 3, left: 6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    GroupName(
+                      abbreviation: groupInfo?.abbreviation,
+                      groupName: groupInfo?.name ?? "",
+                      color: design?.color,
+                      isStrikeThrough: lesson.isDropped,
+                    ),
+                    if (lesson.place != null)
+                      Room(
+                        room: lesson.place!,
+                        color: design?.color,
+                      ),
+                  ],
+                ),
+              ),
             ),
-          ),
+            if (lesson.isDropped)
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: _StrikeThroughPainter(
+                    color: design?.color,
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
   }
 }
 
+class _StrikeThroughPainter extends CustomPainter {
+  final Color? color;
+
+  _StrikeThroughPainter({this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color!
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    canvas.drawLine(Offset(0, size.height), Offset(size.width, 0), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
 class GroupName extends StatelessWidget {
-  const GroupName({
-    super.key,
-    required this.groupName,
-    required this.abbreviation,
-    required this.color,
-  });
+  const GroupName(
+      {super.key,
+      required this.groupName,
+      required this.abbreviation,
+      required this.color,
+      this.isStrikeThrough = false});
 
   final String groupName;
   final String? abbreviation;
   final Color? color;
+  final bool isStrikeThrough;
 
   String getAbbreviationOrGroupName() {
     if (abbreviation == "") return groupName;
@@ -90,6 +130,7 @@ class GroupName extends StatelessWidget {
         style: TextStyle(
           color: color,
           fontWeight: FontWeight.w600,
+          decoration: isStrikeThrough ? TextDecoration.lineThrough : null,
         ),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
