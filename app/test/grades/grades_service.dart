@@ -13,7 +13,7 @@ class GradesService {
 
   IList<Term> _terms = const IListConst<Term>([]);
 
-  void updateTerm(Term term) {
+  void _updateTerm(Term term) {
     _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
     final termRes = _terms
         .map((term) => TermResult(
@@ -48,7 +48,7 @@ class GradesService {
 
   void addSubject({required SubjectId id, required TermId toTerm}) {
     final newTerm = _term(toTerm).addSubject(Subject(id.toString()));
-    updateTerm(newTerm);
+    _updateTerm(newTerm);
   }
 
   void changeSubjectWeightForTermGrade(
@@ -57,7 +57,7 @@ class GradesService {
         .subject(id.toString())
         .changeWeightingForTermGrade(weight.asFactor);
 
-    updateTerm(newTerm);
+    _updateTerm(newTerm);
   }
 
   void changeSubjectWeightTypeSettings(
@@ -66,7 +66,7 @@ class GradesService {
       required WeightType perGradeType}) {
     final newTerm =
         _term(termId).subject(id.toString()).changeWeightingType(perGradeType);
-    updateTerm(newTerm);
+    _updateTerm(newTerm);
   }
 
   void changeGradeTypeWeightForSubject({
@@ -79,7 +79,7 @@ class GradesService {
         .subject(id.toString())
         .changeGradeTypeWeighting(gradeType,
             weight: weight.asFactor.toDouble());
-    updateTerm(newTerm);
+    _updateTerm(newTerm);
   }
 
   void addGrade({
@@ -91,7 +91,7 @@ class GradesService {
     final newTerm = _term(termId)
         .subject(id.toString())
         .addGrade(value, takeIntoAccount: takeIntoAccount);
-    updateTerm(newTerm);
+    _updateTerm(newTerm);
   }
 
   void changeGradeWeight({
@@ -106,7 +106,7 @@ class GradesService {
     final newTerm =
         subject.grade(id).changeWeight(weight: weight.asFactor.toDouble());
 
-    updateTerm(newTerm);
+    _updateTerm(newTerm);
   }
 
   void changeGradeTypeWeightForTerm(
@@ -115,7 +115,7 @@ class GradesService {
       required Weight weight}) {
     final newTerm = _term(termId).changeWeightingOfGradeType(gradeType,
         weight: weight.asFactor.toDouble());
-    updateTerm(newTerm);
+    _updateTerm(newTerm);
   }
 
   void changeSubjectFinalGradeType({
@@ -126,10 +126,10 @@ class GradesService {
     if (gradeType == null) {
       final newTerm =
           _term(termId).subject(id.toString()).inheritFinalGradeTypeFromTerm();
-      return updateTerm(newTerm);
+      return _updateTerm(newTerm);
     }
     final newTerm =
         _term(termId).subject(id.toString()).changeFinalGradeType(gradeType);
-    updateTerm(newTerm);
+    _updateTerm(newTerm);
   }
 }
