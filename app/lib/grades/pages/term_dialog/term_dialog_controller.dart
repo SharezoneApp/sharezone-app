@@ -13,7 +13,12 @@ class TermDialogController extends ChangeNotifier {
   }
 
   Future<void> createTerm() async {
-    await Future.delayed(Duration.zero);
+    gradesService.createTerm(
+      id: TermId(termName),
+      name: termName,
+      finalGradeType: const GradeType('foo'),
+      isActiveTerm: true,
+    );
     return;
   }
 }

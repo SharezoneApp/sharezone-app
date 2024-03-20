@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
-import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
@@ -30,13 +29,10 @@ class GradesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SharezoneMainScaffold(
+    return const SharezoneMainScaffold(
       navigationItem: NavigationItem.grades,
-      body: Provider<GradesService>(
-        create: (BuildContext context) => GradesService(),
-        child: const GradesPageBody(),
-      ),
-      floatingActionButton: const _FAB(),
+      body: GradesPageBody(),
+      floatingActionButton: _FAB(),
     );
   }
 }
@@ -298,7 +294,7 @@ class _Error extends StatelessWidget {
 }
 
 class _AddTermTile extends StatelessWidget {
-  const _AddTermTile({super.key});
+  const _AddTermTile();
 
   @override
   Widget build(BuildContext context) {
