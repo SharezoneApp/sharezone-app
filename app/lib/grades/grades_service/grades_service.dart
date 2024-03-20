@@ -33,7 +33,7 @@ class GradesService {
               subjects: term.subjects
                   .map(
                     (subject) => SubjectRes(
-                      id: SubjectId(subject.id),
+                      id: subject.id,
                       calculatedGrade: subject.gradeVal,
                       weightType: subject.weightType,
                       gradeTypeWeights: subject.gradeTypeWeights.map(
@@ -70,15 +70,14 @@ class GradesService {
   Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
   void addSubject({required SubjectId id, required TermId toTerm}) {
-    final newTerm = _term(toTerm).addSubject(Subject(id.toString()));
+    final newTerm = _term(toTerm).addSubject(Subject(id));
     _updateTerm(newTerm);
   }
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
-    final newTerm = _term(termId)
-        .subject(id.toString())
-        .changeWeightingForTermGrade(weight.asFactor);
+    final newTerm =
+        _term(termId).subject(id).changeWeightingForTermGrade(weight.asFactor);
 
     _updateTerm(newTerm);
   }
@@ -87,8 +86,7 @@ class GradesService {
       {required SubjectId id,
       required TermId termId,
       required WeightType perGradeType}) {
-    final newTerm =
-        _term(termId).subject(id.toString()).changeWeightingType(perGradeType);
+    final newTerm = _term(termId).subject(id).changeWeightingType(perGradeType);
     _updateTerm(newTerm);
   }
 
@@ -98,10 +96,9 @@ class GradesService {
     required GradeType gradeType,
     required Weight weight,
   }) {
-    final newTerm = _term(termId)
-        .subject(id.toString())
-        .changeGradeTypeWeighting(gradeType,
-            weight: weight.asFactor.toDouble());
+    final newTerm = _term(termId).subject(id).changeGradeTypeWeighting(
+        gradeType,
+        weight: weight.asFactor.toDouble());
     _updateTerm(newTerm);
   }
 
@@ -112,7 +109,7 @@ class GradesService {
     bool takeIntoAccount = true,
   }) {
     final newTerm = _term(termId)
-        .subject(id.toString())
+        .subject(id)
         .addGrade(value, takeIntoAccount: takeIntoAccount);
     _updateTerm(newTerm);
   }
@@ -147,12 +144,10 @@ class GradesService {
     required GradeType? gradeType,
   }) {
     if (gradeType == null) {
-      final newTerm =
-          _term(termId).subject(id.toString()).inheritFinalGradeTypeFromTerm();
+      final newTerm = _term(termId).subject(id).inheritFinalGradeTypeFromTerm();
       return _updateTerm(newTerm);
     }
-    final newTerm =
-        _term(termId).subject(id.toString()).changeFinalGradeType(gradeType);
+    final newTerm = _term(termId).subject(id).changeFinalGradeType(gradeType);
     _updateTerm(newTerm);
   }
 }
@@ -194,7 +189,7 @@ class TermResult {
 
 class SubjectResult {
   final Term _term;
-  final String id;
+  final SubjectId id;
   final num? gradeVal;
   final WeightType weightType;
   final IMap<GradeType, double> gradeTypeWeights;
@@ -256,7 +251,7 @@ class GradeResult {
   final GradeId id;
   final num value;
   final GradeType type;
-  final String subjectId;
+  final SubjectId subjectId;
 
   GradeResult(
     this._term, {
@@ -283,7 +278,7 @@ class GradeType extends Equatable {
 }
 
 class Subject {
-  final String id;
+  final SubjectId id;
 
   Subject(this.id);
 }

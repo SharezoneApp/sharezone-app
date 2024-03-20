@@ -35,7 +35,7 @@ class Term {
     );
   }
 
-  _Subject _newSubject(String id) {
+  _Subject _newSubject(SubjectId id) {
     return _Subject(
       id: id,
       finalGradeType: finalGradeType,
@@ -63,7 +63,7 @@ class Term {
         weightType: subject.weightType,
       );
 
-  SubjectResult subject(String id) {
+  SubjectResult subject(SubjectId id) {
     return _subjects.where((s) => s.id == id).map(_toResult).first;
   }
 
@@ -107,7 +107,7 @@ class Term {
             .reduce((a, b) => a + b);
   }
 
-  Term changeWeightTypeForSubject(String id, WeightType weightType) {
+  Term changeWeightTypeForSubject(SubjectId id, WeightType weightType) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       weightType: weightType,
@@ -139,7 +139,7 @@ class Term {
   }
 
   Term _addGrade(Grade grade,
-      {required String toSubject, bool takenIntoAccount = true}) {
+      {required SubjectId toSubject, bool takenIntoAccount = true}) {
     var subject = _subjects.firstWhere(
       (s) => s.id == toSubject,
       orElse: () => _newSubject(toSubject),
@@ -159,7 +159,7 @@ class Term {
         : _copyWith(subjects: _subjects.add(subject));
   }
 
-  Term _changeWeighting(String id, num newWeight) {
+  Term _changeWeighting(SubjectId id, num newWeight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       weightingForTermGrade: newWeight,
@@ -171,7 +171,7 @@ class Term {
   }
 
   Term _changeWeightingOfGradeTypeInSubject(
-      String id, GradeType gradeType, double weight) {
+      SubjectId id, GradeType gradeType, double weight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.changeGradeTypeWeight(gradeType, weight: weight);
 
@@ -180,7 +180,7 @@ class Term {
     );
   }
 
-  Term _changeWeightOfGrade(GradeId id, String subjectId, double weight) {
+  Term _changeWeightOfGrade(GradeId id, SubjectId subjectId, double weight) {
     final subject = _subjects.firstWhere((s) => s.id == subjectId);
     final newSubject = subject.copyWith(
       grades: subject.grades.replaceFirstWhere(
@@ -194,7 +194,7 @@ class Term {
     );
   }
 
-  Term _setFinalGradeTypeForSubject(String id, GradeType gradeType) {
+  Term _setFinalGradeTypeForSubject(SubjectId id, GradeType gradeType) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.overrideFinalGradeType(gradeType);
 
@@ -203,7 +203,7 @@ class Term {
     );
   }
 
-  Term _subjectInheritFinalGradeTypeFromTerm(String id) {
+  Term _subjectInheritFinalGradeTypeFromTerm(SubjectId id) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       finalGradeType: finalGradeType,
@@ -221,7 +221,7 @@ class Term {
 }
 
 class _Subject {
-  final String id;
+  final SubjectId id;
   final IList<_Grade> grades;
   final GradeType finalGradeType;
   final bool isFinalGradeTypeOverridden;
@@ -280,7 +280,7 @@ class _Subject {
   }
 
   _Subject copyWith({
-    String? id,
+    SubjectId? id,
     IList<_Grade>? grades,
     GradeType? finalGradeType,
     bool? isFinalGradeTypeOverridden,
