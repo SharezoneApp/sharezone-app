@@ -522,6 +522,44 @@ void main() {
       expect(controller.term(term1.id).calculatedGrade, 4.0);
       expect(controller.term(term2.id).calculatedGrade, 1.0);
     });
+    test(
+        'If a term is created with "Aktuelles Halbjahr" set to true, then terms with "Aktuelles Halbjahr" set to true will be set to false.',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(
+        isActiveTerm: true,
+        subjects: [
+          subjectWith(
+            id: SubjectId('Philosophie'),
+            name: 'Philosophie',
+            grades: [
+              gradeWith(value: 4.0),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term1);
+
+      expect(controller.term(term1.id).isActiveTerm, true);
+
+      final term2 = termWith(
+        isActiveTerm: true,
+        subjects: [
+          subjectWith(
+            id: SubjectId('Sport'),
+            name: 'Sport',
+            grades: [
+              gradeWith(value: 1.0),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term2);
+
+      expect(controller.term(term1.id).isActiveTerm, false);
+      expect(controller.term(term2.id).isActiveTerm, true);
+    });
   });
 }
 
@@ -530,7 +568,11 @@ class GradesTestController {
 
   void createTerm(TestTerm testTerm) {
     final termId = testTerm.id;
-    service.createTerm(id: termId, finalGradeType: testTerm.finalGradeType);
+    service.createTerm(
+      id: termId,
+      finalGradeType: testTerm.finalGradeType,
+      isActiveTerm: testTerm.isActiveTerm,
+    );
 
     if (testTerm.gradeTypeWeights != null) {
       for (var e in testTerm.gradeTypeWeights!.entries) {
@@ -633,6 +675,7 @@ TestTerm termWith({
   List<TestSubject> subjects = const [],
   Map<GradeType, Weight>? gradeTypeWeights,
   GradeType finalGradeType = const GradeType('Endnote'),
+  bool isActiveTerm = true,
 }) {
   final rdm = randomAlpha(5);
   return TestTerm(
@@ -641,6 +684,7 @@ TestTerm termWith({
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
+    isActiveTerm: isActiveTerm,
   );
 }
 
@@ -650,6 +694,7 @@ class TestTerm {
   final IMap<SubjectId, TestSubject> subjects;
   final Map<GradeType, Weight>? gradeTypeWeights;
   final GradeType finalGradeType;
+  final bool isActiveTerm;
 
   TestTerm({
     required this.id,
@@ -657,6 +702,7 @@ class TestTerm {
     required this.subjects,
     required this.finalGradeType,
     this.gradeTypeWeights,
+    required this.isActiveTerm,
   });
 }
 

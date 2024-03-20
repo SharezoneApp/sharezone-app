@@ -23,6 +23,7 @@ class GradesService {
     final termRes = _terms
         .map((term) => TermResult(
               id: term.id,
+              isActiveTerm: term.isActiveTerm,
               calculatedGrade: term.tryGetTermGrade(),
               subjects: IMap.fromEntries(
                 term.subjects.map(
@@ -45,8 +46,18 @@ class GradesService {
   void createTerm({
     required TermId id,
     required GradeType finalGradeType,
+    required bool isActiveTerm,
   }) {
-    _terms = _terms.add(Term(id: id).setFinalGradeType(finalGradeType));
+    if (isActiveTerm) {
+      _terms = _terms.map((term) => term.setIsActiveTerm(false)).toIList();
+    }
+
+    _terms = _terms.add(
+      Term(
+        id: id,
+        isActiveTerm: isActiveTerm,
+      ).setFinalGradeType(finalGradeType),
+    );
   }
 
   Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
@@ -155,6 +166,7 @@ class TermResult {
   final TermId id;
   final num? calculatedGrade;
   IMap<SubjectId, SubjectRes> subjects;
+  final bool isActiveTerm;
 
   SubjectRes subject(SubjectId id) {
     final subject = subjects.get(id)!;
@@ -169,6 +181,7 @@ class TermResult {
     required this.id,
     required this.calculatedGrade,
     required this.subjects,
+    required this.isActiveTerm,
   });
 }
 

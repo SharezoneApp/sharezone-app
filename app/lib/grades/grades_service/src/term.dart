@@ -5,17 +5,27 @@ class Term {
   final IList<_Subject> _subjects;
   final IMap<GradeType, double> _gradeTypeWeightings;
   final GradeType _finalGradeType;
+  final bool isActiveTerm;
+
   IList<SubjectResult> get subjects {
     return _subjects.map(_toResult).toIList();
   }
 
-  Term({required this.id})
-      : _subjects = const IListConst([]),
+  Term({
+    required this.id,
+    // TODO
+    this.isActiveTerm = true,
+  })  : _subjects = const IListConst([]),
         _gradeTypeWeightings = const IMapConst({}),
         _finalGradeType = const GradeType('zeugnisnote');
 
   Term.internal(
-      this.id, this._subjects, this._gradeTypeWeightings, this._finalGradeType);
+    this.id,
+    this._subjects,
+    this._gradeTypeWeightings,
+    this._finalGradeType,
+    this.isActiveTerm,
+  );
 
   Term addSubject(Subject subject) {
     return _copyWith(
@@ -60,12 +70,14 @@ class Term {
     IList<_Subject>? subjects,
     IMap<GradeType, double>? gradeTypeWeightings,
     GradeType? finalGradeType,
+    bool? isActiveTerm,
   }) {
     return Term.internal(
       id ?? this.id,
       subjects ?? _subjects,
       gradeTypeWeightings ?? _gradeTypeWeightings,
       finalGradeType ?? _finalGradeType,
+      isActiveTerm ?? this.isActiveTerm,
     );
   }
 
@@ -197,6 +209,10 @@ class Term {
     return _copyWith(
       subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
+  }
+
+  Term setIsActiveTerm(bool isActiveTerm) {
+    return _copyWith(isActiveTerm: isActiveTerm);
   }
 }
 
