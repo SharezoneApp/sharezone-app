@@ -1,12 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone/grades/subject_id.dart';
-import 'package:sharezone/grades/term_id.dart';
+import 'package:sharezone/grades/grades_service.dart';
 import 'package:test_randomness/test_randomness.dart';
-
-import 'grades_2_test.dart';
-import 'grades_service.dart';
 
 void main() {
   group('grades', () {
@@ -631,54 +626,6 @@ class GradesTestController {
     service.changeSubjectFinalGradeType(
         id: subjectId, termId: termId, gradeType: gradeType);
   }
-}
-
-class Weight extends Equatable {
-  final num asFactor;
-  num get asPercentage => asFactor * 100;
-  @override
-  List<Object?> get props => [asFactor];
-
-  const Weight.percent(num percent) : asFactor = percent / 100;
-  const Weight.factor(this.asFactor);
-
-  @override
-  String toString() {
-    return 'Weight($asFactor / $asPercentage%)';
-  }
-}
-
-class TermResult {
-  final TermId id;
-  final num? calculatedGrade;
-  IMap<SubjectId, SubjectRes> subjects;
-
-  SubjectRes subject(SubjectId id) {
-    final subject = subjects.get(id)!;
-    return SubjectRes(
-      calculatedGrade: subject.calculatedGrade,
-      weightType: subject.weightType,
-      gradeTypeWeights: subject.gradeTypeWeights,
-    );
-  }
-
-  TermResult({
-    required this.id,
-    required this.calculatedGrade,
-    required this.subjects,
-  });
-}
-
-class SubjectRes {
-  final num? calculatedGrade;
-  final WeightType weightType;
-  final IMap<GradeType, Weight> gradeTypeWeights;
-
-  SubjectRes({
-    required this.calculatedGrade,
-    required this.weightType,
-    required this.gradeTypeWeights,
-  });
 }
 
 TestTerm termWith({
