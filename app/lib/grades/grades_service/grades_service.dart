@@ -30,19 +30,17 @@ class GradesService {
               name: term.name,
               isActiveTerm: term.isActiveTerm,
               calculatedGrade: term.tryGetTermGrade(),
-              subjects: IMap.fromEntries(
-                term.subjects.map(
-                  (subject) => MapEntry(
-                    SubjectId(subject.id),
-                    SubjectRes(
+              subjects: term.subjects
+                  .map(
+                    (subject) => SubjectRes(
+                      id: SubjectId(subject.id),
                       calculatedGrade: subject.gradeVal,
                       weightType: subject.weightType,
                       gradeTypeWeights: subject.gradeTypeWeights.map(
                           (key, value) => MapEntry(key, Weight.factor(value))),
                     ),
-                  ),
-                ),
-              ),
+                  )
+                  .toIList(),
             ))
         .toIList();
     terms.add(termRes);
@@ -160,11 +158,13 @@ class GradesService {
 }
 
 class SubjectRes {
+  final SubjectId id;
   final num? calculatedGrade;
   final WeightType weightType;
   final IMap<GradeType, Weight> gradeTypeWeights;
 
   SubjectRes({
+    required this.id,
     required this.calculatedGrade,
     required this.weightType,
     required this.gradeTypeWeights,
@@ -174,17 +174,13 @@ class SubjectRes {
 class TermResult {
   final TermId id;
   final num? calculatedGrade;
-  IMap<SubjectId, SubjectRes> subjects;
+  IList<SubjectRes> subjects;
   final bool isActiveTerm;
   final String name;
 
   SubjectRes subject(SubjectId id) {
-    final subject = subjects.get(id)!;
-    return SubjectRes(
-      calculatedGrade: subject.calculatedGrade,
-      weightType: subject.weightType,
-      gradeTypeWeights: subject.gradeTypeWeights,
-    );
+    final subject = subjects.firstWhere((element) => element.id == id);
+    return subject;
   }
 
   TermResult({
