@@ -20,6 +20,10 @@ class GradesService {
 
   void _updateTerm(Term term) {
     _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
+    _updateTerms();
+  }
+
+  void _updateTerms() {
     final termRes = _terms
         .map((term) => TermResult(
               id: term.id,
@@ -62,6 +66,7 @@ class GradesService {
         // Move to constructor
       ).setFinalGradeType(finalGradeType),
     );
+    _updateTerms();
   }
 
   Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
