@@ -6,7 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-part of '../grades_service.dart';
+import 'package:equatable/equatable.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+
+import '../grades_service.dart';
 
 class Term {
   final TermId id;
@@ -16,7 +19,7 @@ class Term {
   final bool isActiveTerm;
   final String name;
 
-  IList<SubjectResult> get subjects {
+  IList<SubjectRes> get subjects {
     return _subjects.map(_toResult).toIList();
   }
 
@@ -52,12 +55,12 @@ class Term {
     );
   }
 
-  SubjectResult _toResult(_Subject subject) => SubjectResult(
+  SubjectRes _toResult(_Subject subject) => SubjectRes(
         this,
         gradeTypeWeights: subject.gradeTypeWeightings,
         grades: subject.grades
             .map(
-              (grade) => GradeResult(
+              (grade) => GradeRes(
                 this,
                 id: grade.id,
                 subjectId: subject.id,
@@ -71,7 +74,7 @@ class Term {
         weightType: subject.weightType,
       );
 
-  SubjectResult subject(SubjectId id) {
+  SubjectRes subject(SubjectId id) {
     return _subjects.where((s) => s.id == id).map(_toResult).first;
   }
 
@@ -225,6 +228,73 @@ class Term {
 
   Term setIsActiveTerm(bool isActiveTerm) {
     return _copyWith(isActiveTerm: isActiveTerm);
+  }
+}
+
+class SubjectRes {
+  final Term _term;
+  final SubjectId id;
+  final num? gradeVal;
+  final WeightType weightType;
+  final IMap<GradeType, double> gradeTypeWeights;
+  final IList<GradeRes> grades;
+
+  SubjectRes(
+    this._term, {
+    required this.grades,
+    required this.id,
+    required this.gradeVal,
+    required this.weightType,
+    required this.gradeTypeWeights,
+  });
+
+  Term addGrade(Grade grade, {bool takeIntoAccount = true}) {
+    return _term._addGrade(grade,
+        toSubject: id, takenIntoAccount: takeIntoAccount);
+  }
+
+  Term changeWeightingForTermGrade(num newWeight) {
+    return _term._changeWeighting(id, newWeight);
+  }
+
+  Term changeGradeTypeWeighting(GradeType gradeType, {required double weight}) {
+    return _term._changeWeightingOfGradeTypeInSubject(id, gradeType, weight);
+  }
+
+  GradeRes grade(GradeId id) {
+    return grades.firstWhere((element) => element.id == id);
+  }
+
+  Term changeWeightingType(WeightType weightType) {
+    return _term.changeWeightTypeForSubject(id, weightType);
+  }
+
+  Term changeFinalGradeType(GradeType gradeType) {
+    return _term._setFinalGradeTypeForSubject(id, gradeType);
+  }
+
+  Term inheritFinalGradeTypeFromTerm() {
+    return _term._subjectInheritFinalGradeTypeFromTerm(id);
+  }
+}
+
+class GradeRes {
+  final Term _term;
+  final GradeId id;
+  final num value;
+  final GradeType type;
+  final SubjectId subjectId;
+
+  GradeRes(
+    this._term, {
+    required this.id,
+    required this.subjectId,
+    required this.value,
+    required this.type,
+  });
+
+  Term changeWeight({required double weight}) {
+    return _term._changeWeightOfGrade(id, subjectId, weight);
   }
 }
 

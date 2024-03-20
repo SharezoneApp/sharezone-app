@@ -12,12 +12,11 @@ import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
 import '../models/subject_id.dart';
 import '../models/term_id.dart';
+import 'src/term.dart';
 
 export '../models/grade_id.dart';
 export '../models/subject_id.dart';
 export '../models/term_id.dart';
-
-part './src/term.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
@@ -40,7 +39,7 @@ class GradesService {
               calculatedGrade: term.tryGetTermGrade(),
               subjects: term.subjects
                   .map(
-                    (subject) => SubjectRes(
+                    (subject) => SubjectResult(
                       id: subject.id,
                       calculatedGrade: subject.gradeVal,
                       weightType: subject.weightType,
@@ -160,13 +159,13 @@ class GradesService {
   }
 }
 
-class SubjectRes {
+class SubjectResult {
   final SubjectId id;
   final num? calculatedGrade;
   final WeightType weightType;
   final IMap<GradeType, Weight> gradeTypeWeights;
 
-  SubjectRes({
+  SubjectResult({
     required this.id,
     required this.calculatedGrade,
     required this.weightType,
@@ -177,11 +176,11 @@ class SubjectRes {
 class TermResult {
   final TermId id;
   final num? calculatedGrade;
-  IList<SubjectRes> subjects;
+  IList<SubjectResult> subjects;
   final bool isActiveTerm;
   final String name;
 
-  SubjectRes subject(SubjectId id) {
+  SubjectResult subject(SubjectId id) {
     final subject = subjects.firstWhere((element) => element.id == id);
     return subject;
   }
@@ -195,53 +194,6 @@ class TermResult {
   });
 }
 
-class SubjectResult {
-  final Term _term;
-  final SubjectId id;
-  final num? gradeVal;
-  final WeightType weightType;
-  final IMap<GradeType, double> gradeTypeWeights;
-  final IList<GradeResult> grades;
-
-  SubjectResult(
-    this._term, {
-    required this.grades,
-    required this.id,
-    required this.gradeVal,
-    required this.weightType,
-    required this.gradeTypeWeights,
-  });
-
-  Term addGrade(Grade grade, {bool takeIntoAccount = true}) {
-    return _term._addGrade(grade,
-        toSubject: id, takenIntoAccount: takeIntoAccount);
-  }
-
-  Term changeWeightingForTermGrade(num newWeight) {
-    return _term._changeWeighting(id, newWeight);
-  }
-
-  Term changeGradeTypeWeighting(GradeType gradeType, {required double weight}) {
-    return _term._changeWeightingOfGradeTypeInSubject(id, gradeType, weight);
-  }
-
-  GradeResult grade(GradeId id) {
-    return grades.firstWhere((element) => element.id == id);
-  }
-
-  Term changeWeightingType(WeightType weightType) {
-    return _term.changeWeightTypeForSubject(id, weightType);
-  }
-
-  Term changeFinalGradeType(GradeType gradeType) {
-    return _term._setFinalGradeTypeForSubject(id, gradeType);
-  }
-
-  Term inheritFinalGradeTypeFromTerm() {
-    return _term._subjectInheritFinalGradeTypeFromTerm(id);
-  }
-}
-
 class Grade {
   final GradeId id;
   final num value;
@@ -252,26 +204,6 @@ class Grade {
     required this.value,
     this.type = const GradeType('testGradeType'),
   });
-}
-
-class GradeResult {
-  final Term _term;
-  final GradeId id;
-  final num value;
-  final GradeType type;
-  final SubjectId subjectId;
-
-  GradeResult(
-    this._term, {
-    required this.id,
-    required this.subjectId,
-    required this.value,
-    required this.type,
-  });
-
-  Term changeWeight({required double weight}) {
-    return _term._changeWeightOfGrade(id, subjectId, weight);
-  }
 }
 
 enum WeightType { perGrade, perGradeType, inheritFromTerm }
