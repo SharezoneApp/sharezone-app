@@ -6,6 +6,7 @@ class Term {
   final IMap<GradeType, double> _gradeTypeWeightings;
   final GradeType _finalGradeType;
   final bool isActiveTerm;
+  final String name;
 
   IList<SubjectResult> get subjects {
     return _subjects.map(_toResult).toIList();
@@ -15,6 +16,7 @@ class Term {
     required this.id,
     // TODO
     this.isActiveTerm = true,
+    this.name = "",
   })  : _subjects = const IListConst([]),
         _gradeTypeWeightings = const IMapConst({}),
         _finalGradeType = const GradeType('zeugnisnote');
@@ -25,6 +27,7 @@ class Term {
     this._gradeTypeWeightings,
     this._finalGradeType,
     this.isActiveTerm,
+    this.name,
   );
 
   Term addSubject(Subject subject) {
@@ -71,6 +74,7 @@ class Term {
     IMap<GradeType, double>? gradeTypeWeightings,
     GradeType? finalGradeType,
     bool? isActiveTerm,
+    String? name,
   }) {
     return Term.internal(
       id ?? this.id,
@@ -78,6 +82,7 @@ class Term {
       gradeTypeWeightings ?? _gradeTypeWeightings,
       finalGradeType ?? _finalGradeType,
       isActiveTerm ?? this.isActiveTerm,
+      name ?? this.name,
     );
   }
 

@@ -23,6 +23,7 @@ class GradesService {
     final termRes = _terms
         .map((term) => TermResult(
               id: term.id,
+              name: term.name,
               isActiveTerm: term.isActiveTerm,
               calculatedGrade: term.tryGetTermGrade(),
               subjects: IMap.fromEntries(
@@ -45,6 +46,7 @@ class GradesService {
 
   void createTerm({
     required TermId id,
+    required String name,
     required GradeType finalGradeType,
     required bool isActiveTerm,
   }) {
@@ -56,6 +58,8 @@ class GradesService {
       Term(
         id: id,
         isActiveTerm: isActiveTerm,
+        name: name,
+        // Move to constructor
       ).setFinalGradeType(finalGradeType),
     );
   }
@@ -167,6 +171,7 @@ class TermResult {
   final num? calculatedGrade;
   IMap<SubjectId, SubjectRes> subjects;
   final bool isActiveTerm;
+  final String name;
 
   SubjectRes subject(SubjectId id) {
     final subject = subjects.get(id)!;
@@ -179,6 +184,7 @@ class TermResult {
 
   TermResult({
     required this.id,
+    required this.name,
     required this.calculatedGrade,
     required this.subjects,
     required this.isActiveTerm,

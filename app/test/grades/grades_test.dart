@@ -560,6 +560,26 @@ void main() {
       expect(controller.term(term1.id).isActiveTerm, false);
       expect(controller.term(term2.id).isActiveTerm, true);
     });
+    test('A term can have a name.', () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(
+        name: '10/2',
+        subjects: [
+          // TODO: Doesn't work if there is no subject
+          subjectWith(
+            id: SubjectId('Philosophie'),
+            name: 'Philosophie',
+            grades: [
+              gradeWith(value: 4.0),
+            ],
+          )
+        ],
+      );
+      controller.createTerm(term1);
+
+      expect(controller.term(term1.id).name, '10/2');
+    });
   });
 }
 
@@ -572,6 +592,7 @@ class GradesTestController {
       id: termId,
       finalGradeType: testTerm.finalGradeType,
       isActiveTerm: testTerm.isActiveTerm,
+      name: testTerm.name,
     );
 
     if (testTerm.gradeTypeWeights != null) {
