@@ -63,8 +63,8 @@ class GradesService {
         id: id,
         isActiveTerm: isActiveTerm,
         name: name,
-        // Move to constructor
-      ).setFinalGradeType(finalGradeType),
+        finalGradeType: finalGradeType,
+      ),
     );
     _updateTerms();
   }

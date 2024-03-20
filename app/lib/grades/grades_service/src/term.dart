@@ -4,7 +4,7 @@ class Term {
   final TermId id;
   final IList<_Subject> _subjects;
   final IMap<GradeType, double> _gradeTypeWeightings;
-  final GradeType _finalGradeType;
+  final GradeType finalGradeType;
   final bool isActiveTerm;
   final String name;
 
@@ -14,18 +14,17 @@ class Term {
 
   Term({
     required this.id,
-    // TODO
-    this.isActiveTerm = true,
-    this.name = "",
+    required this.finalGradeType,
+    required this.isActiveTerm,
+    required this.name,
   })  : _subjects = const IListConst([]),
-        _gradeTypeWeightings = const IMapConst({}),
-        _finalGradeType = const GradeType('zeugnisnote');
+        _gradeTypeWeightings = const IMapConst({});
 
   Term.internal(
     this.id,
     this._subjects,
     this._gradeTypeWeightings,
-    this._finalGradeType,
+    this.finalGradeType,
     this.isActiveTerm,
     this.name,
   );
@@ -39,7 +38,7 @@ class Term {
   _Subject _newSubject(String id) {
     return _Subject(
       id: id,
-      finalGradeType: _finalGradeType,
+      finalGradeType: finalGradeType,
       weightType: WeightType.inheritFromTerm,
       gradeTypeWeightingsFromTerm: _gradeTypeWeightings,
     );
@@ -80,7 +79,7 @@ class Term {
       id ?? this.id,
       subjects ?? _subjects,
       gradeTypeWeightings ?? _gradeTypeWeightings,
-      finalGradeType ?? _finalGradeType,
+      finalGradeType ?? this.finalGradeType,
       isActiveTerm ?? this.isActiveTerm,
       name ?? this.name,
     );
@@ -207,7 +206,7 @@ class Term {
   Term _subjectInheritFinalGradeTypeFromTerm(String id) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
-      finalGradeType: _finalGradeType,
+      finalGradeType: finalGradeType,
       isFinalGradeTypeOverridden: false,
     );
 
