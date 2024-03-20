@@ -416,13 +416,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  files_web:
-    dependency: transitive
-    description:
-      path: "../../filesharing/files_web"
-      relative: true
-    source: path
-    version: "0.0.1"
   filesharing_logic:
     dependency: "direct main"
     description:
