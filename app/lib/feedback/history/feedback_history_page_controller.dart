@@ -10,11 +10,9 @@ import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_analytics.dart';
-import 'package:sharezone/feedback/history/feedback_view.dart';
-import 'package:sharezone/feedback/src/api/feedback_api.dart';
-import 'package:sharezone/feedback/src/models/user_feedback.dart';
 
 class FeedbackHistoryPageController extends ChangeNotifier {
   final FeedbackApi api;
@@ -39,7 +37,7 @@ class FeedbackHistoryPageController extends ChangeNotifier {
       if (feedbacks.isEmpty) {
         _state = FeedbackHistoryPageEmpty();
       } else {
-        _state = FeedbackHistoryPageLoaded(feedbacks.toFeedbackViews());
+        _state = FeedbackHistoryPageLoaded(feedbacks.toFeedbackViews(userId));
       }
       notifyListeners();
     }, onError: (e, s) async {

@@ -116,9 +116,8 @@ class _AdvancedListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.only(left: width > 720 ? width * 0.125 : 0, top: 16),
+      padding: const EdgeInsets.only(top: 16),
       child: ListTile(
         leading: leading,
         title: Text(title, style: const TextStyle(fontSize: 22)),

@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone/feedback/src/api/feedback_api.dart';
-import 'package:sharezone/feedback/src/models/user_feedback.dart';
+import 'package:common_domain_models/src/ids/user_id.dart';
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 
 class MockFeedbackApi extends FeedbackApi {
   bool get wasInvoked => invocations.isNotEmpty;
@@ -29,7 +29,35 @@ class MockFeedbackApi extends FeedbackApi {
   }
 
   @override
-  Future<UserFeedback> getFeedback(String feedbackId) {
+  void sendResponse({
+    required FeedbackId feedbackId,
+    required UserId userId,
+    required String message,
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<FeedbackChatMessage>> streamChatMessages(FeedbackId feedbackId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  void markMessageAsRead(FeedbackId feedbackId, UserId userId) {}
+
+  @override
+  Stream<UserFeedback> streamFeedback(FeedbackId feedbackId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<bool> streamHasUnreadFeedbackMessages(UserId userId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<UserFeedback>> getFeedbacksForSupportTeam(
+      {DateTime? startAfter, int limit = 0}) {
     throw UnimplementedError();
   }
 }

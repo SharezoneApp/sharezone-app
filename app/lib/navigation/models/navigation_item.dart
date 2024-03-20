@@ -14,7 +14,7 @@ import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
-import 'package:sharezone/grades/grades_page.dart';
+import 'package:sharezone/grades/pages/grades_page/grades_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/homework/parent/homework_page.dart';
 import 'package:sharezone/keys.dart';
@@ -105,7 +105,7 @@ extension NavigationItemExtension on NavigationItem {
         return Icon(themeIconData(Icons.new_releases,
             cupertinoIcon: SFSymbols.info_circle_fill));
       case NavigationItem.grades:
-        return const Icon(Icons.star);
+        return const Icon(Icons.emoji_events);
       case NavigationItem.filesharing:
         return Icon(themeIconData(Icons.insert_drive_file,
             cupertinoIcon: SFSymbols.folder_fill));
@@ -116,8 +116,13 @@ extension NavigationItemExtension on NavigationItem {
         return Icon(themeIconData(Icons.settings,
             cupertinoIcon: SFSymbols.gear_alt_fill));
       case NavigationItem.feedbackBox:
-        return Icon(themeIconData(Icons.message,
-            cupertinoIcon: SFSymbols.exclamationmark_bubble_fill));
+        return Icon(
+          key: K.feedbackNavigationItem,
+          themeIconData(
+            Icons.message,
+            cupertinoIcon: SFSymbols.exclamationmark_bubble_fill,
+          ),
+        );
       case NavigationItem.accountPage:
         return Icon(
             themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill));

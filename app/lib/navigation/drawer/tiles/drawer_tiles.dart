@@ -8,12 +8,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone/navigation/drawer/tiles/feedback_drawer_tile.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'drawer_tile.dart';
 
 const settingsPageTile = DrawerTile(NavigationItem.settings);
-const feedbackBoxTile = DrawerTile(NavigationItem.feedbackBox);
+const feedbackBoxTile = FeedbackDrawerTile();
 const sharezonePlusTile = DrawerTile(NavigationItem.sharezonePlus);
+const gradesTile = DrawerTile(NavigationItem.grades);
 const onlyDesktopTiles = <Widget>[
   DrawerTile(NavigationItem.overview),
   DrawerTile(NavigationItem.group),

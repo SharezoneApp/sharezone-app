@@ -35,7 +35,7 @@ void main() {
     late MockHomeworkCompletionUserListBloc bloc;
     late HomeworkCompletionUserListBlocFactory factory;
     late MockSubscriptionService subscriptionService;
-    final homeworkId = HomeworkId('homeworkId');
+    const homeworkId = HomeworkId('homeworkId');
 
     void setUserViews() {
       final random = Random(42);
@@ -65,7 +65,7 @@ void main() {
           create: (context) => subscriptionService,
           child: BlocProvider<HomeworkCompletionUserListBlocFactory>(
             bloc: factory,
-            child: Scaffold(
+            child: const Scaffold(
               body: HomeworkCompletionUserListPage(
                 homeworkId: homeworkId,
               ),

@@ -9,5 +9,5 @@
 import 'package:common_domain_models/common_domain_models.dart';
 
 class SubscriptionItem extends Id {
-  SubscriptionItem(String id) : super(id, 'SubscriptionItem');
+  const SubscriptionItem(super.id);
 }

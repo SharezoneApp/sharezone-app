@@ -10,7 +10,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class ProductId extends Id {
-  ProductId(String id) : super(id, 'productId');
+  const ProductId(super.id);
 }
 
 abstract class PurchaseService {

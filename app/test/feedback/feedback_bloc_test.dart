@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
@@ -13,7 +14,6 @@ import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
-import 'package:sharezone/feedback/src/models/user_feedback.dart';
 import 'package:test_randomness/test_randomness.dart' as random;
 
 import 'mock_feedback_api.dart';
@@ -25,7 +25,6 @@ const dislikes = "dislikes";
 const missing = "missing";
 const heardFrom = "heardFrom";
 const uid = "uidABCDEF123891a";
-const contactInfo = "Instagram: @jsan_l";
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -54,14 +53,13 @@ void main() {
           missing: missing,
           heardFrom: heardFrom,
           uid: uid,
-          userContactInformation: contactInfo,
           deviceInformation: FeedbackDeviceInformation.create().copyWith(
             appName: "appName",
             packageName: "packageName",
           ));
     });
 
-    test("Feedback is send with uid, contact and device information", () async {
+    test("Feedback is send with uid and device information", () async {
       writeRdmValues(bloc);
       fillInAllFields(bloc);
 
@@ -97,8 +95,7 @@ void main() {
       expect(analytics.feedbackSentLogged, true);
     });
 
-    test(
-        'submits Feedback if at least one of the text fields (except contact info) was filled out',
+    test('submits Feedback if at least one of the text fields was filled out',
         () async {
       final fillOutTextFieldActions = [
         [() => bloc.changeLike('Sehr toller Hecht hier'), 'Mag ich'],
@@ -170,18 +167,6 @@ void main() {
       expect(exec, throwsA(isA<EmptyFeedbackException>()));
       expect(api.wasInvoked, false);
     });
-
-    test('throws EmptyFeedback if only contact info is given', () {
-      // Arrange
-      bloc.changeContactOptions('Twitter: @realdonaldtrump 🐒');
-
-      // Act
-      void exec() => bloc.submit();
-
-      // Assert
-      expect(exec, throwsA(isA<EmptyFeedbackException>()));
-      expect(api.wasInvoked, false);
-    });
   });
 }
 
@@ -215,7 +200,6 @@ void fillInAllFields(FeedbackBloc bloc) {
   bloc.changeDislike(dislikes);
   bloc.changeMissing(missing);
   bloc.changeHeardFrom(heardFrom);
-  bloc.changeContactOptions(contactInfo);
 }
 
 void writeRdmValues(FeedbackBloc bloc) {
@@ -224,5 +208,4 @@ void writeRdmValues(FeedbackBloc bloc) {
   bloc.changeDislike(random.randomString(10));
   bloc.changeMissing(random.randomString(10));
   bloc.changeHeardFrom(random.randomString(10));
-  bloc.changeContactOptions(random.randomString(10));
 }

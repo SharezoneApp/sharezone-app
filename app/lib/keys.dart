@@ -18,4 +18,6 @@ class K {
   static const groupsNavigationItem = Key('nav-item-groups-E2E');
   static const timetableNavigationItem = Key('nav-item-timetable-E2E');
   static const blackboardNavigationItem = Key('nav-item-blackboard-E2E');
+  static const feedbackNavigationItem = Key('nav-item-feedback-E2E');
+  static const openFeedbackHistory = Key('open-feedback-history-E2E');
 }

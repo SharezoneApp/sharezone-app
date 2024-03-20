@@ -438,7 +438,7 @@ void main() {
       final userInput = homeworkDialogApi.userInputToBeCreated;
       final courseId = homeworkDialogApi.courseIdForHomeworkToBeCreated;
       expect(userInput.title, 'S. 24 a)');
-      expect(courseId, CourseId('foo_course'));
+      expect(courseId, const CourseId('foo_course'));
       expect(userInput.withSubmission, true);
       // As we activated submissions we assume the default time of 23:59 is
       // used.
@@ -972,6 +972,37 @@ void main() {
       // If we in 3 lessons selection would still exist then the date would be
       // 2023-10-14
       expect(controller.getSelectedDueDate(), Date('2023-10-12'));
+    });
+
+    testWidgets('shows hint when presses disabled course tile', (tester) async {
+      final fooCourse = courseWith(
+        id: 'foo_course',
+        name: 'Foo course',
+        subject: 'Foo subject',
+      );
+
+      addCourse(fooCourse);
+
+      homework = randomHomeworkWith(
+        id: 'foo_homework_id',
+        title: 'title text',
+        courseId: 'foo_course',
+        courseName: 'Foo course',
+        subject: 'Foo subject',
+        todoUntil: DateTime(2024, 03, 12),
+        private: false,
+      );
+
+      await pumpAndSettleHomeworkDialog(tester);
+
+      await tester.tap(find.byKey(HwDialogKeys.courseTile));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(
+            'Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.'),
+        findsOneWidget,
+      );
     });
   });
 }
