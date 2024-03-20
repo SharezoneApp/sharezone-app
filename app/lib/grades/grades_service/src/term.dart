@@ -315,7 +315,7 @@ class _Grade extends Equatable {
   @override
   List<Object?> get props => [id, value, gradeType, takenIntoAccount, weight];
 
-  _Grade({
+  const _Grade({
     required this.id,
     required this.value,
     required this.gradeType,
