@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'term_dialog_controller.dart';
 
 class TermDialog extends StatelessWidget {
-  const TermDialog({super.key});
+  const TermDialog({super.key, required this.gradesService});
+
+  final GradesService gradesService;
 
   static const tag = 'term-dialog';
 
   @override
   Widget build(BuildContext context) {
-    final controller = TermDialogController();
+    final controller = TermDialogController(gradesService);
     return MaxWidthConstraintBox(
       child: Scaffold(
         body: Center(
