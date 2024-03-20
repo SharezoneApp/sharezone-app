@@ -12,14 +12,17 @@ void main() {
 
       final term = termWith(subjects: [
         subjectWith(
-            id: SubjectId('Mathe'),
+            id: const SubjectId('Mathe'),
             name: 'Mathe',
             grades: [gradeWith(value: 4), gradeWith(value: 1.5)]),
       ]);
       controller.createTerm(term);
 
       expect(
-          controller.term(term.id).subject(SubjectId('Mathe')).calculatedGrade,
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade,
           2.75);
     });
     test(
@@ -29,11 +32,11 @@ void main() {
 
       final term = termWith(subjects: [
         subjectWith(
-            id: SubjectId('Deutsch'),
+            id: const SubjectId('Deutsch'),
             name: 'Deutsch',
             grades: [gradeWith(value: 3.0), gradeWith(value: 1.0)]),
         subjectWith(
-            id: SubjectId('Englisch'),
+            id: const SubjectId('Englisch'),
             name: 'Englisch',
             grades: [gradeWith(value: 2.0), gradeWith(value: 4.0)]),
       ]);
@@ -48,17 +51,17 @@ void main() {
 
       final term = termWith(subjects: [
         subjectWith(
-            id: SubjectId('Englisch'),
+            id: const SubjectId('Englisch'),
             name: 'Englisch',
             weight: const Weight.factor(0.5),
             grades: [gradeWith(value: 3.0)]),
         subjectWith(
-            id: SubjectId('Mathe'),
+            id: const SubjectId('Mathe'),
             name: 'Mathe',
             weight: const Weight.factor(1),
             grades: [gradeWith(value: 3.0), gradeWith(value: 1.0)]),
         subjectWith(
-            id: SubjectId('Informatik'),
+            id: const SubjectId('Informatik'),
             name: 'Informatik',
             // weight: const Weight.factor(2),
             // is the same as:
@@ -78,7 +81,7 @@ void main() {
 
       final term = termWith(subjects: [
         subjectWith(
-            id: SubjectId('Sport'),
+            id: const SubjectId('Sport'),
             name: 'Sport',
             weight: const Weight.factor(0.5),
             grades: [
@@ -89,7 +92,10 @@ void main() {
       controller.createTerm(term);
 
       expect(
-          controller.term(term.id).subject(SubjectId('Sport')).calculatedGrade,
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Sport'))
+              .calculatedGrade,
           1.5);
       expect(controller.term(term.id).calculatedGrade, 1.5);
     });
@@ -99,7 +105,7 @@ void main() {
 
       final term = termWith(subjects: [
         subjectWith(
-            id: SubjectId('Englisch'),
+            id: const SubjectId('Englisch'),
             name: 'Englisch',
             weightType: WeightType.perGradeType,
             gradeTypeWeights: {
@@ -120,7 +126,7 @@ void main() {
       expect(
           controller
               .term(term.id)
-              .subject(SubjectId('Englisch'))
+              .subject(const SubjectId('Englisch'))
               .calculatedGrade,
           expected);
       expect(controller.term(term.id).calculatedGrade, expected);
@@ -134,7 +140,7 @@ void main() {
 
       final term = termWith(subjects: [
         subjectWith(
-          id: SubjectId('Mathe'),
+          id: const SubjectId('Mathe'),
           name: 'Mathe',
           weightType: WeightType.perGradeType,
           gradeTypeWeights: {
@@ -156,7 +162,10 @@ void main() {
       controller.createTerm(term);
 
       expect(
-          controller.term(term.id).subject(SubjectId('Mathe')).calculatedGrade,
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade,
           2.125);
     });
     test('subjects can have custom weights per grade', () {
@@ -164,7 +173,7 @@ void main() {
 
       final term = termWith(subjects: [
         subjectWith(
-          id: SubjectId('Mathe'),
+          id: const SubjectId('Mathe'),
           name: 'Mathe',
           weightType: WeightType.perGrade,
           grades: [
@@ -180,7 +189,10 @@ void main() {
       const expected = (1 * 0.2 + 4 * 2 + 3 * 1) / sumOfWeights;
       expect(expected, closeTo(3.5, 0.01));
       expect(
-          controller.term(term.id).subject(SubjectId('Mathe')).calculatedGrade,
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade,
           expected);
     });
     test(
@@ -195,7 +207,7 @@ void main() {
         },
         subjects: [
           subjectWith(
-            id: SubjectId('Deutsch'),
+            id: const SubjectId('Deutsch'),
             name: 'Deutsch',
             // This should be the default:
             // weightType: WeightType.inheritFromTerm,
@@ -212,14 +224,14 @@ void main() {
       expect(
           controller
               .term(term.id)
-              .subject(SubjectId('Deutsch'))
+              .subject(const SubjectId('Deutsch'))
               .calculatedGrade,
           1.5);
     });
     test('term weights can be overridden by a subject', () {
       final controller = GradesTestController();
 
-      final subjectId = SubjectId('Deutsch');
+      const subjectId = SubjectId('Deutsch');
       final grade1Id = GradeId('grade1');
       final grade2Id = GradeId('grade2');
 
@@ -312,7 +324,7 @@ void main() {
       final term = termWith(
         subjects: [
           subjectWith(
-            id: SubjectId('Deutsch'),
+            id: const SubjectId('Deutsch'),
             name: 'Deutsch',
             weightType: WeightType.perGradeType,
             gradeTypeWeights: {
@@ -337,25 +349,25 @@ void main() {
       expect(
           controller
               .term(term.id)
-              .subject(SubjectId('Deutsch'))
+              .subject(const SubjectId('Deutsch'))
               .calculatedGrade,
           1.5);
 
       controller.changeWeightTypeForSubject(
         termId: term.id,
-        subjectId: SubjectId('Deutsch'),
+        subjectId: const SubjectId('Deutsch'),
         weightType: WeightType.inheritFromTerm,
       );
       controller.changeWeightTypeForSubject(
         termId: term.id,
-        subjectId: SubjectId('Deutsch'),
+        subjectId: const SubjectId('Deutsch'),
         weightType: WeightType.perGradeType,
       );
 
       expect(
           controller
               .term(term.id)
-              .subject(SubjectId('Deutsch'))
+              .subject(const SubjectId('Deutsch'))
               .calculatedGrade,
           1.5);
     });
@@ -366,7 +378,7 @@ void main() {
       final term = termWith(
         subjects: [
           subjectWith(
-            id: SubjectId('Deutsch'),
+            id: const SubjectId('Deutsch'),
             name: 'Deutsch',
             weightType: WeightType.perGrade,
             grades: [
@@ -389,25 +401,25 @@ void main() {
       expect(
           controller
               .term(term.id)
-              .subject(SubjectId('Deutsch'))
+              .subject(const SubjectId('Deutsch'))
               .calculatedGrade,
           1.5);
 
       controller.changeWeightTypeForSubject(
         termId: term.id,
-        subjectId: SubjectId('Deutsch'),
+        subjectId: const SubjectId('Deutsch'),
         weightType: WeightType.inheritFromTerm,
       );
       controller.changeWeightTypeForSubject(
         termId: term.id,
-        subjectId: SubjectId('Deutsch'),
+        subjectId: const SubjectId('Deutsch'),
         weightType: WeightType.perGrade,
       );
 
       expect(
           controller
               .term(term.id)
-              .subject(SubjectId('Deutsch'))
+              .subject(const SubjectId('Deutsch'))
               .calculatedGrade,
           1.5);
     });
@@ -418,7 +430,7 @@ void main() {
         finalGradeType: const GradeType('test endnote'),
         subjects: [
           subjectWith(
-            id: SubjectId('Deutsch'),
+            id: const SubjectId('Deutsch'),
             name: 'Deutsch',
             grades: [
               gradeWith(
@@ -438,7 +450,7 @@ void main() {
       expect(
           controller
               .term(term.id)
-              .subject(SubjectId('Deutsch'))
+              .subject(const SubjectId('Deutsch'))
               .calculatedGrade,
           1);
     });
@@ -451,7 +463,7 @@ void main() {
         finalGradeType: const GradeType('term finalGradeType'),
         subjects: [
           subjectWith(
-            id: SubjectId('Philosophie'),
+            id: const SubjectId('Philosophie'),
             name: 'Philosophie',
             finalGradeType: const GradeType('subject finalGradeType'),
             grades: [
@@ -472,21 +484,21 @@ void main() {
       expect(
           controller
               .term(term.id)
-              .subject(SubjectId('Philosophie'))
+              .subject(const SubjectId('Philosophie'))
               .calculatedGrade,
           2.0);
 
       // Reset the finalGradeType for the subject
       controller.changeFinalGradeTypeForSubject(
         termId: term.id,
-        subjectId: SubjectId('Philosophie'),
+        subjectId: const SubjectId('Philosophie'),
         gradeType: null,
       );
 
       expect(
           controller
               .term(term.id)
-              .subject(SubjectId('Philosophie'))
+              .subject(const SubjectId('Philosophie'))
               .calculatedGrade,
           4.0);
     });
@@ -496,7 +508,7 @@ void main() {
       final term1 = termWith(
         subjects: [
           subjectWith(
-            id: SubjectId('Philosophie'),
+            id: const SubjectId('Philosophie'),
             name: 'Philosophie',
             grades: [
               gradeWith(value: 4.0),
@@ -509,7 +521,7 @@ void main() {
       final term2 = termWith(
         subjects: [
           subjectWith(
-            id: SubjectId('Sport'),
+            id: const SubjectId('Sport'),
             name: 'Sport',
             grades: [
               gradeWith(value: 1.0),
@@ -531,7 +543,7 @@ void main() {
         isActiveTerm: true,
         subjects: [
           subjectWith(
-            id: SubjectId('Philosophie'),
+            id: const SubjectId('Philosophie'),
             name: 'Philosophie',
             grades: [
               gradeWith(value: 4.0),
@@ -547,7 +559,7 @@ void main() {
         isActiveTerm: true,
         subjects: [
           subjectWith(
-            id: SubjectId('Sport'),
+            id: const SubjectId('Sport'),
             name: 'Sport',
             grades: [
               gradeWith(value: 1.0),
