@@ -89,8 +89,13 @@ class GradesService {
 
   Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
-  void addSubject({required SubjectId id, required TermId toTerm}) {
-    final newTerm = _term(toTerm).addSubject(Subject(id));
+  void addSubject(
+      {required SubjectId id,
+      required TermId toTerm,
+      // TODO: gradingSystem shouldn't be required as it should be inherited
+      // from the term
+      required GradingSystem gradingSystem}) {
+    final newTerm = _term(toTerm).addSubject(Subject(id, gradingSystem));
     _updateTerm(newTerm);
   }
 
@@ -219,10 +224,24 @@ class CalculatedGradeResult {
 
 sealed class GradingSystem {
   static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
+  static final oneToFiveteenPoints = OneToFiveteenPointsGradingSystem();
 
   String getClosestGrade(num grade);
 
   double toDoubleOrThrow(String grade);
+}
+
+class OneToFiveteenPointsGradingSystem extends GradingSystem {
+  @override
+  String getClosestGrade(num grade) {
+    // TODO: Rounds up on .5, should round down
+    return grade.round().toString();
+  }
+
+  @override
+  double toDoubleOrThrow(String grade) {
+    return double.parse(grade);
+  }
 }
 
 class OneToSixWithPlusMinusGradingSystem extends GradingSystem {
@@ -326,8 +345,9 @@ class GradeType extends Equatable {
 
 class Subject {
   final SubjectId id;
+  final GradingSystem gradingSystem;
 
-  Subject(this.id);
+  Subject(this.id, this.gradingSystem);
 }
 
 class Weight extends Equatable {
