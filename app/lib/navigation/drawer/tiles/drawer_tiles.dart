@@ -22,7 +22,6 @@ const onlyDesktopTiles = <Widget>[
   DrawerTile(NavigationItem.homework),
   DrawerTile(NavigationItem.timetable),
   DrawerTile(NavigationItem.blackboard),
-  DrawerTile(NavigationItem.grades),
 ];
 
 const functionTiles = <Widget>[
