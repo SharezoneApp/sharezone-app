@@ -700,29 +700,8 @@ class GradesTestController {
         if (grade.value is num) {
           gradeAsNum = grade.value as num;
         } else {
-          gradeAsNum = switch (grade.value as String) {
-            '1+' => 0.75,
-            '1' => 1,
-            '1-' => 1.25,
-            '2+' => 1.75,
-            '2' => 2,
-            '2-' => 2.25,
-            '3+' => 2.75,
-            '3' => 3,
-            '3-' => 3.25,
-            '4+' => 3.75,
-            '4' => 4,
-            '4-' => 4.25,
-            '5+' => 4.75,
-            '5' => 5,
-            '5-' => 5.25,
-            '6' => 6,
-            _ => throw ArgumentError.value(
-                grade.value,
-                'grade.value',
-                'Invalid grade value',
-              ),
-          };
+          gradeAsNum =
+              grade.gradingSystem!.toDoubleOrThrow(grade.value as String);
         }
         service.addGrade(
           id: subject.id,

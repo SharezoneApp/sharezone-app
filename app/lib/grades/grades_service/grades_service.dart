@@ -216,6 +216,32 @@ class CalculatedGradeResult {
 
 class GradingSystem {
   static final oneToSixWithPlusAndMinus = GradingSystem();
+
+  double toDoubleOrThrow(String grade) {
+    return switch (grade) {
+      '1+' => 0.75,
+      '1' => 1,
+      '1-' => 1.25,
+      '2+' => 1.75,
+      '2' => 2,
+      '2-' => 2.25,
+      '3+' => 2.75,
+      '3' => 3,
+      '3-' => 3.25,
+      '4+' => 3.75,
+      '4' => 4,
+      '4-' => 4.25,
+      '5+' => 4.75,
+      '5' => 5,
+      '5-' => 5.25,
+      '6' => 6,
+      _ => throw ArgumentError.value(
+          grade,
+          'grade',
+          'Invalid grade value',
+        ),
+    };
+  }
 }
 
 class Grade {
