@@ -737,7 +737,7 @@ class TestTerm {
 
 TestSubject subjectWith({
   required SubjectId id,
-  required String name,
+  String? name,
   required List<TestGrade> grades,
   Weight? weight,
   WeightType? weightType,
@@ -746,7 +746,7 @@ TestSubject subjectWith({
 }) {
   return TestSubject(
     id: id,
-    name: name,
+    name: name ?? id.id,
     grades: IList(grades),
     weight: weight,
     weightType: weightType,
