@@ -49,7 +49,8 @@ class GradesService {
                 calculatedGrade: subject.gradeVal != null
                     ? CalculatedGradeResult(
                         asDouble: subject.gradeVal!.toDouble(),
-                        closestGrade: '2-',
+                        closestGrade: GradingSystem.oneToSixWithPlusAndMinus
+                            .getClosestGrade(subject.gradeVal!),
                       )
                     : null,
                 weightType: subject.weightType,
@@ -216,6 +217,10 @@ class CalculatedGradeResult {
 
 class GradingSystem {
   static final oneToSixWithPlusAndMinus = GradingSystem();
+
+  String getClosestGrade(num grade) {
+    return '2-';
+  }
 
   double toDoubleOrThrow(String grade) {
     return switch (grade) {
