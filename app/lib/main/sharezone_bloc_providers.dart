@@ -65,6 +65,7 @@ import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
 import 'package:sharezone/grades/grades_flag.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
@@ -326,6 +327,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final gradesEnabledFlag =
         GradesEnabledFlag(widget.blocDependencies.keyValueStore);
 
+    final gradesService = GradesService();
+
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
@@ -408,8 +411,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       ChangeNotifierProvider.value(value: gradesEnabledFlag),
+      Provider<GradesService>(
+        create: (context) => gradesService,
+      ),
       ChangeNotifierProvider(
-        create: (context) => GradesPageController(),
+        create: (context) => GradesPageController(gradesService: gradesService),
       ),
       Provider(
         create: (context) => const TermDetailsPageControllerFactory(),

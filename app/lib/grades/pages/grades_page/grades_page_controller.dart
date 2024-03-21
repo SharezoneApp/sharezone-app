@@ -9,105 +9,62 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/grades/models/subject_id.dart';
-import 'package:sharezone/grades/models/term_id.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 
 class GradesPageController extends ChangeNotifier {
   GradesPageState state = const GradesPageLoading();
   StreamSubscription? _subscription;
 
-  GradesPageController() {
-    final random = Random(42);
-    final currentTerm = (
-      id: const TermId('term-0'),
-      displayName: '11/1',
-      avgGrade: ('1,4', GradePerformance.good),
-      subjects: [
-        (
-          displayName: 'Deutsch',
-          abbreviation: 'DE',
-          grade: '2,0',
-          design: Design.random(random),
-          id: const SubjectId('1'),
-        ),
-        (
-          displayName: 'Englisch',
-          abbreviation: 'E',
-          grade: '2+',
-          design: Design.random(random),
-          id: const SubjectId('2'),
-        ),
-        (
-          displayName: 'Mathe',
-          abbreviation: 'DE',
-          grade: '1-',
-          design: Design.random(random),
-          id: const SubjectId('3'),
-        ),
-        (
-          displayName: 'Sport',
-          abbreviation: 'DE',
-          grade: '1,0',
-          design: Design.random(random),
-          id: const SubjectId('4'),
-        ),
-        (
-          displayName: 'Physik',
-          abbreviation: 'PH',
-          grade: '3,0',
-          design: Design.random(random),
-          id: const SubjectId('5'),
-        ),
-      ]
-    );
-    final pastTerms = [
-      (
-        id: const TermId('term-1'),
-        displayName: '10/2',
-        avgGrade: ('1,0', GradePerformance.good),
-      ),
-      (
-        id: const TermId('term-3'),
-        displayName: '9/2',
-        avgGrade: ('1,0', GradePerformance.good),
-      ),
-      (
-        id: const TermId('term-2'),
-        displayName: '10/1',
-        avgGrade: ('2,4', GradePerformance.satisfactory),
-      ),
-      (
-        id: const TermId('term-6'),
-        displayName: 'Q1/1',
-        avgGrade: ('2,4', GradePerformance.satisfactory),
-      ),
-      (
-        id: const TermId('term-5'),
-        displayName: '8/2',
-        avgGrade: ('1,7', GradePerformance.good),
-      ),
-      (
-        id: const TermId('term-4'),
-        displayName: '9/1',
-        avgGrade: ('3,7', GradePerformance.bad),
-      ),
-    ];
+  final GradesService gradesService;
 
-    _subscription = Stream.value(
-      (currentTerm, pastTerms),
-    ).listen((event) {
+  GradesPageController({required this.gradesService}) {
+    _subscription = gradesService.terms.listen((event) {
       try {
-        event.$1.subjects.sortByDisplayName();
-        event.$2.sortByTermName();
+        final activeTerm = event.firstWhereOrNull((term) => term.isActiveTerm);
+        if (activeTerm == null) {
+          placeholderCurrentTerm.subjects.sortByDisplayName();
+          placeholderPastTerms.sortByTermName();
 
-        state = GradesPageLoaded(
-          currentTerm: event.$1,
-          pastTerms: event.$2,
-        );
-        notifyListeners();
+          state = GradesPageLoaded(
+            currentTerm: placeholderCurrentTerm,
+            pastTerms: placeholderPastTerms,
+          );
+          notifyListeners();
+        } else {
+          final otherTerms = event.remove(activeTerm);
+          final CurrentTermView currentTerm = (
+            id: activeTerm.id,
+            avgGrade: (
+              activeTerm.calculatedGrade?.toString() ?? '?',
+              GradePerformance.good,
+            ),
+            subjects: [/* Unimplemented */],
+            displayName: activeTerm.name,
+          );
+
+          final pastTerms = <PastTermView>[];
+          for (final term in otherTerms) {
+            pastTerms.add(
+              (
+                id: term.id,
+                avgGrade: ('2', GradePerformance.good),
+                displayName: term.name,
+              ),
+            );
+          }
+
+          currentTerm.subjects.sortByDisplayName();
+
+          state = GradesPageLoaded(
+            currentTerm: currentTerm,
+            pastTerms: pastTerms,
+          );
+          notifyListeners();
+        }
       } catch (e) {
         state = GradesPageError('$e');
         notifyListeners();
@@ -181,3 +138,79 @@ class GradesPageError extends GradesPageState {
 
   const GradesPageError(this.error);
 }
+
+final random = Random(42);
+final placeholderCurrentTerm = (
+  id: const TermId('term-0'),
+  displayName: '11/1',
+  avgGrade: ('1,4', GradePerformance.good),
+  subjects: [
+    (
+      displayName: 'Deutsch',
+      abbreviation: 'DE',
+      grade: '2,0',
+      design: Design.random(random),
+      id: const SubjectId('1'),
+    ),
+    (
+      displayName: 'Englisch',
+      abbreviation: 'E',
+      grade: '2+',
+      design: Design.random(random),
+      id: const SubjectId('2'),
+    ),
+    (
+      displayName: 'Mathe',
+      abbreviation: 'DE',
+      grade: '1-',
+      design: Design.random(random),
+      id: const SubjectId('3'),
+    ),
+    (
+      displayName: 'Sport',
+      abbreviation: 'DE',
+      grade: '1,0',
+      design: Design.random(random),
+      id: const SubjectId('4'),
+    ),
+    (
+      displayName: 'Physik',
+      abbreviation: 'PH',
+      grade: '3,0',
+      design: Design.random(random),
+      id: const SubjectId('5'),
+    ),
+  ]
+);
+final placeholderPastTerms = [
+  (
+    id: const TermId('term-1'),
+    displayName: '10/2',
+    avgGrade: ('1,0', GradePerformance.good),
+  ),
+  (
+    id: const TermId('term-3'),
+    displayName: '9/2',
+    avgGrade: ('1,0', GradePerformance.good),
+  ),
+  (
+    id: const TermId('term-2'),
+    displayName: '10/1',
+    avgGrade: ('2,4', GradePerformance.satisfactory),
+  ),
+  (
+    id: const TermId('term-6'),
+    displayName: 'Q1/1',
+    avgGrade: ('2,4', GradePerformance.satisfactory),
+  ),
+  (
+    id: const TermId('term-5'),
+    displayName: '8/2',
+    avgGrade: ('1,7', GradePerformance.good),
+  ),
+  (
+    id: const TermId('term-4'),
+    displayName: '9/1',
+    avgGrade: ('3,7', GradePerformance.bad),
+  ),
+];
