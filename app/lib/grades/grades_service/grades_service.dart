@@ -39,6 +39,7 @@ class GradesService {
         calculatedGrade: term.tryGetTermGrade() != null
             ? CalculatedGradeResult(
                 asDouble: term.tryGetTermGrade()!.toDouble(),
+                closestGrade: 'TODO',
               )
             : null,
         subjects: term.subjects
@@ -47,7 +48,9 @@ class GradesService {
                 id: subject.id,
                 calculatedGrade: subject.gradeVal != null
                     ? CalculatedGradeResult(
-                        asDouble: subject.gradeVal!.toDouble())
+                        asDouble: subject.gradeVal!.toDouble(),
+                        closestGrade: '2-',
+                      )
                     : null,
                 weightType: subject.weightType,
                 gradeTypeWeights: subject.gradeTypeWeights
@@ -203,8 +206,16 @@ class TermResult {
 
 class CalculatedGradeResult {
   final double asDouble;
+  final String closestGrade;
 
-  CalculatedGradeResult({required this.asDouble});
+  CalculatedGradeResult({
+    required this.asDouble,
+    required this.closestGrade,
+  });
+}
+
+class GradingSystem {
+  static final oneToSixWithPlusAndMinus = GradingSystem();
 }
 
 class Grade {

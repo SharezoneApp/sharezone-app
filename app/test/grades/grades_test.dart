@@ -602,6 +602,52 @@ void main() {
 
       expect(controller.term(term1.id).name, '10/2');
     });
+    test('Basic grades test for 1+ to 6 grading system.', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Mathe'),
+            name: 'Mathe',
+            gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+            grades: [
+              gradeWith(
+                // Equal to 1,75
+                value: "2+",
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+              ),
+              gradeWith(
+                value: "3-",
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+              ),
+              gradeWith(
+                value: "2",
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .closestGrade,
+          "2-");
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .asDouble,
+          (1.75 + 3.25 + 2) / 3);
+    });
   });
 }
 
@@ -650,10 +696,38 @@ class GradesTestController {
       }
 
       for (var grade in subject.grades) {
+        num gradeAsNum;
+        if (grade.value is num) {
+          gradeAsNum = grade.value as num;
+        } else {
+          gradeAsNum = switch (grade.value as String) {
+            '1+' => 0.75,
+            '1' => 1,
+            '1-' => 1.25,
+            '2+' => 1.75,
+            '2' => 2,
+            '2-' => 2.25,
+            '3+' => 2.75,
+            '3' => 3,
+            '3-' => 3.25,
+            '4+' => 3.75,
+            '4' => 4,
+            '4-' => 4.25,
+            '5+' => 4.75,
+            '5' => 5,
+            '5-' => 5.25,
+            '6' => 6,
+            _ => throw ArgumentError.value(
+                grade.value,
+                'grade.value',
+                'Invalid grade value',
+              ),
+          };
+        }
         service.addGrade(
           id: subject.id,
           termId: termId,
-          value: Grade(id: grade.id, value: grade.value, type: grade.type),
+          value: Grade(id: grade.id, value: gradeAsNum, type: grade.type),
           takeIntoAccount: grade.includeInGradeCalculations,
         );
         if (grade.weight != null) {
@@ -757,11 +831,13 @@ TestSubject subjectWith({
   WeightType? weightType,
   Map<GradeType, Weight> gradeTypeWeights = const {},
   GradeType? finalGradeType,
+  GradingSystem? gradingSystem,
 }) {
   return TestSubject(
     id: id,
     name: name ?? id.id,
     grades: IList(grades),
+    gradingSystem: gradingSystem,
     weight: weight,
     weightType: weightType,
     gradeTypeWeights: gradeTypeWeights,
@@ -773,6 +849,7 @@ class TestSubject {
   final SubjectId id;
   final String name;
   final IList<TestGrade> grades;
+  final GradingSystem? gradingSystem;
   final WeightType? weightType;
   final Map<GradeType, Weight> gradeTypeWeights;
   final Weight? weight;
@@ -781,6 +858,7 @@ class TestSubject {
   TestSubject({
     required this.id,
     required this.name,
+    required this.gradingSystem,
     required this.grades,
     required this.gradeTypeWeights,
     this.weightType,
@@ -803,16 +881,18 @@ class TestSubject {
 }
 
 TestGrade gradeWith({
-  required double value,
+  required Object value,
   bool includeInGradeCalculations = true,
   GradeType type = const GradeType('some test type'),
   Weight? weight,
   GradeId? id,
+  GradingSystem? gradingSystem,
 }) {
   return TestGrade(
     id: id ?? GradeId(randomAlpha(5)),
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
+    gradingSystem: gradingSystem,
     type: type,
     weight: weight,
   );
@@ -820,8 +900,11 @@ TestGrade gradeWith({
 
 class TestGrade {
   final GradeId id;
-  final double value;
+
+  /// Either a [num] or [String]
+  final Object value;
   final bool includeInGradeCalculations;
+  final GradingSystem? gradingSystem;
   final GradeType type;
   final Weight? weight;
 
@@ -829,7 +912,16 @@ class TestGrade {
     required this.id,
     required this.value,
     required this.includeInGradeCalculations,
+    required this.gradingSystem,
     required this.type,
     this.weight,
-  });
+  }) {
+    if (value is! num && value is! String) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Must be a num or a String, but was ${value.runtimeType}',
+      );
+    }
+  }
 }
