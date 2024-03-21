@@ -73,6 +73,19 @@ If not passed, do not randomize test case execution order.''',
     return super.packagesToProcess.where((package) => package.hasTestDirectory);
   }
 
+  late final int _testRandomizeOrderingSeed;
+
+  @override
+  Future<void> runSetup() async {
+    final seedArg = argResults!['test-randomize-ordering-seed'] as String;
+    // Copied from https://github.com/dart-lang/test/blob/ba64bbbaa26f09e139c26f9ad6409995806aac6e/pkgs/test_core/lib/src/runner/configuration/args.dart#L277
+    _testRandomizeOrderingSeed = seedArg == 'random'
+        ? Random().nextInt(4294967295)
+        : int.parse(seedArg).toUnsigned(32);
+    stdout.writeln(
+        'Using seed for test randomization: $_testRandomizeOrderingSeed');
+  }
+
   @override
   Future<void> runTaskForPackage(Package package) {
     return runTests(
@@ -81,8 +94,7 @@ If not passed, do not randomize test case execution order.''',
       excludeGoldens: argResults!['exclude-goldens'] as bool,
       onlyGoldens: argResults!['only-goldens'] as bool,
       updateGoldens: argResults!['update-goldens'] as bool,
-      testRandomizeOrderingSeed:
-          argResults!['test-randomize-ordering-seed'] as String,
+      testRandomizeOrderingSeed: _testRandomizeOrderingSeed,
     );
   }
 }
@@ -93,14 +105,8 @@ Future<void> runTests(
   required bool excludeGoldens,
   required bool onlyGoldens,
   required bool updateGoldens,
-  String testRandomizeOrderingSeed = 'random',
+  required int testRandomizeOrderingSeed,
 }) {
-  // Copied from https://github.com/dart-lang/test/blob/ba64bbbaa26f09e139c26f9ad6409995806aac6e/pkgs/test_core/lib/src/runner/configuration/args.dart#L277
-  final seed = testRandomizeOrderingSeed == 'random'
-      ? Random().nextInt(4294967295)
-      : int.parse(testRandomizeOrderingSeed).toUnsigned(32);
-  stdout.writeln('Using seed for test randomization: $seed');
-
   if (package.isFlutterPackage) {
     return _runTestsFlutter(
       processRunner,
@@ -108,7 +114,7 @@ Future<void> runTests(
       excludeGoldens: excludeGoldens,
       onlyGoldens: onlyGoldens,
       updateGoldens: updateGoldens,
-      testRandomizeOrderingSeed: seed,
+      testRandomizeOrderingSeed: testRandomizeOrderingSeed,
     );
   } else {
     return _runTestsDart(
@@ -116,7 +122,7 @@ Future<void> runTests(
       package,
       excludeGoldens: excludeGoldens,
       onlyGoldens: onlyGoldens,
-      testRandomizeOrderingSeed: seed,
+      testRandomizeOrderingSeed: testRandomizeOrderingSeed,
     );
   }
 }
