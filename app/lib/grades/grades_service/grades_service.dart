@@ -217,9 +217,15 @@ class CalculatedGradeResult {
   });
 }
 
-class GradingSystem {
-  static final oneToSixWithPlusAndMinus = GradingSystem();
+sealed class GradingSystem {
+  static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
 
+  String getClosestGrade(num grade);
+
+  double toDoubleOrThrow(String grade);
+}
+
+class OneToSixWithPlusMinusGradingSystem extends GradingSystem {
   final Map<String, num> _gradeToNum = {
     '1+': 0.75,
     '1': 1,
@@ -258,6 +264,7 @@ class GradingSystem {
     6: '6',
   };
 
+  @override
   String getClosestGrade(num grade) {
     final grades = _gradeToNum.values.toList();
     final closest = grades.reduce((a, b) {
@@ -266,6 +273,7 @@ class GradingSystem {
     return _numToGrade[closest]!;
   }
 
+  @override
   double toDoubleOrThrow(String grade) {
     return switch (grade) {
       '1+' => 0.75,
