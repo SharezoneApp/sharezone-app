@@ -31,25 +31,32 @@ class GradesService {
   }
 
   void _updateTerms() {
-    final termRes = _terms
-        .map((term) => TermResult(
-              id: term.id,
-              name: term.name,
-              isActiveTerm: term.isActiveTerm,
-              calculatedGrade: term.tryGetTermGrade(),
-              subjects: term.subjects
-                  .map(
-                    (subject) => SubjectResult(
-                      id: subject.id,
-                      calculatedGrade: subject.gradeVal,
-                      weightType: subject.weightType,
-                      gradeTypeWeights: subject.gradeTypeWeights.map(
-                          (key, value) => MapEntry(key, Weight.factor(value))),
-                    ),
-                  )
-                  .toIList(),
-            ))
-        .toIList();
+    final termRes = _terms.map((term) {
+      return TermResult(
+        id: term.id,
+        name: term.name,
+        isActiveTerm: term.isActiveTerm,
+        calculatedGrade: term.tryGetTermGrade() != null
+            ? CalculatedGradeResult(
+                asDouble: term.tryGetTermGrade()!.toDouble(),
+              )
+            : null,
+        subjects: term.subjects
+            .map(
+              (subject) => SubjectResult(
+                id: subject.id,
+                calculatedGrade: subject.gradeVal != null
+                    ? CalculatedGradeResult(
+                        asDouble: subject.gradeVal!.toDouble())
+                    : null,
+                weightType: subject.weightType,
+                gradeTypeWeights: subject.gradeTypeWeights
+                    .map((key, value) => MapEntry(key, Weight.factor(value))),
+              ),
+            )
+            .toIList(),
+      );
+    }).toIList();
     terms.add(termRes);
   }
 
@@ -161,7 +168,7 @@ class GradesService {
 
 class SubjectResult {
   final SubjectId id;
-  final num? calculatedGrade;
+  final CalculatedGradeResult? calculatedGrade;
   final WeightType weightType;
   final IMap<GradeType, Weight> gradeTypeWeights;
 
@@ -175,7 +182,7 @@ class SubjectResult {
 
 class TermResult {
   final TermId id;
-  final num? calculatedGrade;
+  final CalculatedGradeResult? calculatedGrade;
   IList<SubjectResult> subjects;
   final bool isActiveTerm;
   final String name;
@@ -192,6 +199,12 @@ class TermResult {
     required this.subjects,
     required this.isActiveTerm,
   });
+}
+
+class CalculatedGradeResult {
+  final double asDouble;
+
+  CalculatedGradeResult({required this.asDouble});
 }
 
 class Grade {

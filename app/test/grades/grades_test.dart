@@ -30,7 +30,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Mathe'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           2.75);
     });
     test(
@@ -50,7 +51,7 @@ void main() {
       ]);
       controller.createTerm(term);
 
-      expect(controller.term(term.id).calculatedGrade, 2.5);
+      expect(controller.term(term.id).calculatedGrade!.asDouble, 2.5);
     });
     test(
         'the term grade should equal the average of the average grades of every subject taking weightings into account',
@@ -80,7 +81,7 @@ void main() {
 
       const sumOfWeights = 0.5 + 1 + 2;
       const expected = (3 * 0.5 + 2 * 1 + 1 * 2) / sumOfWeights;
-      expect(controller.term(term.id).calculatedGrade, expected);
+      expect(controller.term(term.id).calculatedGrade!.asDouble, expected);
     });
     test(
         'grades that are marked as "Nicht in den Schnitt einbeziehen" should not be included in the calculation of the subject and term grade',
@@ -103,9 +104,10 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Sport'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           1.5);
-      expect(controller.term(term.id).calculatedGrade, 1.5);
+      expect(controller.term(term.id).calculatedGrade!.asDouble, 1.5);
     });
     test('subjects can have custom weights per grade type (e.g. presentation)',
         () {
@@ -135,9 +137,10 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Englisch'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           expected);
-      expect(controller.term(term.id).calculatedGrade, expected);
+      expect(controller.term(term.id).calculatedGrade!.asDouble, expected);
     });
     test(
         'subjects can have custom weights per grade type 2 (e.g. presentation)',
@@ -173,7 +176,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Mathe'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           2.125);
     });
     test('subjects can have custom weights per grade', () {
@@ -200,7 +204,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Mathe'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           expected);
     });
     test(
@@ -228,12 +233,13 @@ void main() {
       );
       controller.createTerm(term);
 
-      expect(controller.term(term.id).calculatedGrade, 1.5);
+      expect(controller.term(term.id).calculatedGrade!.asDouble, 1.5);
       expect(
           controller
               .term(term.id)
               .subject(const SubjectId('Deutsch'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           1.5);
     });
     test('term weights can be overridden by a subject', () {
@@ -270,7 +276,7 @@ void main() {
       );
       controller.createTerm(term);
       final subjectGradeWithInheritedWeights =
-          controller.term(term.id).subject(subjectId).calculatedGrade;
+          controller.term(term.id).subject(subjectId).calculatedGrade!.asDouble;
       expect(subjectGradeWithInheritedWeights, 1.5);
 
       controller.changeWeightTypeForSubject(
@@ -288,7 +294,7 @@ void main() {
       );
 
       final subjectWithOverriddenGradeTypeWeights =
-          controller.term(term.id).subject(subjectId).calculatedGrade;
+          controller.term(term.id).subject(subjectId).calculatedGrade!.asDouble;
       expect(subjectWithOverriddenGradeTypeWeights, 2.0);
       expect(subjectWithOverriddenGradeTypeWeights,
           isNot(subjectGradeWithInheritedWeights));
@@ -308,7 +314,7 @@ void main() {
       );
 
       final subjectWithOverriddenGradeWeights =
-          controller.term(term.id).subject(subjectId).calculatedGrade;
+          controller.term(term.id).subject(subjectId).calculatedGrade!.asDouble;
 
       expect(subjectWithOverriddenGradeWeights,
           isNot(subjectWithOverriddenGradeTypeWeights));
@@ -321,7 +327,8 @@ void main() {
         weightType: WeightType.inheritFromTerm,
       );
 
-      expect(controller.term(term.id).subject(subjectId).calculatedGrade,
+      expect(
+          controller.term(term.id).subject(subjectId).calculatedGrade!.asDouble,
           subjectGradeWithInheritedWeights);
     });
     test(
@@ -358,7 +365,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Deutsch'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           1.5);
 
       controller.changeWeightTypeForSubject(
@@ -376,7 +384,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Deutsch'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           1.5);
     });
     test('a subjects grade weights are saved even when they are deactivated',
@@ -410,7 +419,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Deutsch'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           1.5);
 
       controller.changeWeightTypeForSubject(
@@ -428,7 +438,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Deutsch'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           1.5);
     });
     test('The "Endnote" grade type overrides the subject grade', () {
@@ -459,7 +470,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Deutsch'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           1);
     });
     test(
@@ -493,7 +505,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Philosophie'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           2.0);
 
       // Reset the finalGradeType for the subject
@@ -507,7 +520,8 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Philosophie'))
-              .calculatedGrade,
+              .calculatedGrade!
+              .asDouble,
           4.0);
     });
     test('A user can have several terms', () {
@@ -539,8 +553,8 @@ void main() {
       );
       controller.createTerm(term2);
 
-      expect(controller.term(term1.id).calculatedGrade, 4.0);
-      expect(controller.term(term2.id).calculatedGrade, 1.0);
+      expect(controller.term(term1.id).calculatedGrade!.asDouble, 4.0);
+      expect(controller.term(term2.id).calculatedGrade!.asDouble, 1.0);
     });
     test(
         'If a term is created with "Aktuelles Halbjahr" set to true, then terms with "Aktuelles Halbjahr" set to true will be set to false.',
