@@ -218,8 +218,50 @@ class CalculatedGradeResult {
 class GradingSystem {
   static final oneToSixWithPlusAndMinus = GradingSystem();
 
+  final Map<String, num> _gradeToNum = {
+    '1+': 0.75,
+    '1': 1,
+    '1-': 1.25,
+    '2+': 1.75,
+    '2': 2,
+    '2-': 2.25,
+    '3+': 2.75,
+    '3': 3,
+    '3-': 3.25,
+    '4+': 3.75,
+    '4': 4,
+    '4-': 4.25,
+    '5+': 4.75,
+    '5': 5,
+    '5-': 5.25,
+    '6': 6,
+  };
+
+  final Map<num, String> _numToGrade = {
+    0.75: '1+',
+    1: '1',
+    1.25: '1-',
+    1.75: '2+',
+    2: '2',
+    2.25: '2-',
+    2.75: '3+',
+    3: '3',
+    3.25: '3-',
+    3.75: '4+',
+    4: '4',
+    4.25: '4-',
+    4.75: '5+',
+    5: '5',
+    5.25: '5-',
+    6: '6',
+  };
+
   String getClosestGrade(num grade) {
-    return '2-';
+    final grades = _gradeToNum.values.toList();
+    final closest = grades.reduce((a, b) {
+      return (a - grade).abs() < (b - grade).abs() ? a : b;
+    });
+    return _numToGrade[closest]!;
   }
 
   double toDoubleOrThrow(String grade) {
