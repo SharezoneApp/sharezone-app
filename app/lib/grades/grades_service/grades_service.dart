@@ -49,7 +49,9 @@ class GradesService {
                 calculatedGrade: subject.gradeVal != null
                     ? CalculatedGradeResult(
                         asDouble: subject.gradeVal!.toDouble(),
-                        closestGrade: GradingSystem.oneToSixWithPlusAndMinus
+                        // TODO: Not happy with this, idk I should access/call
+                        // the grading system from here
+                        closestGrade: subject.calculatedGrade!.gradingSystem
                             .getClosestGrade(subject.gradeVal!),
                       )
                     : null,

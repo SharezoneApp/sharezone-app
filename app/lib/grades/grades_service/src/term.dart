@@ -49,6 +49,8 @@ class Term {
   _Subject _newSubject(SubjectId id) {
     return _Subject(
       id: id,
+      // TODO: Pass it from Term
+      gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
       finalGradeType: finalGradeType,
       weightType: WeightType.inheritFromTerm,
       gradeTypeWeightingsFromTerm: _gradeTypeWeightings,
@@ -70,7 +72,12 @@ class Term {
             )
             .toIList(),
         id: subject.id,
-        gradeVal: subject.getGrade(),
+        calculatedGrade: subject.getGrade() != null
+            ? CalculatedGradeRes(
+                asDouble: subject.getGrade()!.toDouble(),
+                gradingSystem: subject.gradingSystem,
+              )
+            : null,
         weightType: subject.weightType,
       );
 
@@ -231,10 +238,21 @@ class Term {
   }
 }
 
+class CalculatedGradeRes {
+  final double asDouble;
+  final GradingSystem gradingSystem;
+
+  CalculatedGradeRes({
+    required this.asDouble,
+    required this.gradingSystem,
+  });
+}
+
 class SubjectRes {
   final Term _term;
   final SubjectId id;
-  final num? gradeVal;
+  final CalculatedGradeRes? calculatedGrade;
+  num? get gradeVal => calculatedGrade?.asDouble;
   final WeightType weightType;
   final IMap<GradeType, double> gradeTypeWeights;
   final IList<GradeRes> grades;
@@ -243,7 +261,7 @@ class SubjectRes {
     this._term, {
     required this.grades,
     required this.id,
-    required this.gradeVal,
+    required this.calculatedGrade,
     required this.weightType,
     required this.gradeTypeWeights,
   });
@@ -300,6 +318,7 @@ class GradeRes {
 
 class _Subject {
   final SubjectId id;
+  final GradingSystem gradingSystem;
   final IList<_Grade> grades;
   final GradeType finalGradeType;
   final bool isFinalGradeTypeOverridden;
@@ -311,6 +330,7 @@ class _Subject {
   _Subject({
     required this.id,
     required this.weightType,
+    required this.gradingSystem,
     required this.finalGradeType,
     this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
@@ -363,6 +383,7 @@ class _Subject {
     GradeType? finalGradeType,
     bool? isFinalGradeTypeOverridden,
     num? weightingForTermGrade,
+    GradingSystem? gradingSystem,
     IMap<GradeType, double>? gradeTypeWeightings,
     IMap<GradeType, double>? gradeTypeWeightingsFromTerm,
     WeightType? weightType,
@@ -370,6 +391,7 @@ class _Subject {
     return _Subject(
       id: id ?? this.id,
       grades: grades ?? this.grades,
+      gradingSystem: gradingSystem ?? this.gradingSystem,
       finalGradeType: finalGradeType ?? this.finalGradeType,
       isFinalGradeTypeOverridden:
           isFinalGradeTypeOverridden ?? this.isFinalGradeTypeOverridden,
