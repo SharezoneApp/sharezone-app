@@ -693,6 +693,11 @@ void main() {
               .asDouble,
           (4 + 8 + 2) / 3);
     });
+    test(
+        'Grades that are not in the same gradingSystem as the subject will be excluded from the calculatedGrade',
+        () {
+      // TODO
+    });
   });
 }
 
