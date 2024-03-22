@@ -602,6 +602,16 @@ void main() {
 
       expect(controller.term(term1.id).name, '10/2');
     });
+    test('A term can have a grading system.', () {
+      final controller = GradesTestController();
+
+      final term1 =
+          termWith(gradingSystem: GradingSystem.oneToSixWithPlusAndMinus);
+      controller.createTerm(term1);
+
+      expect(controller.term(term1.id).gradingSystem,
+          GradingSystem.oneToSixWithPlusAndMinus);
+    });
     test('Basic grades test for 1+ to 6 grading system.', () {
       final controller = GradesTestController();
 
@@ -693,6 +703,7 @@ void main() {
               .asDouble,
           (4 + 8 + 2) / 3);
     });
+
     test(
         'Grades that are not in the same gradingSystem as the subject will be excluded from the calculatedGrade',
         () {
@@ -751,6 +762,7 @@ class GradesTestController {
       finalGradeType: testTerm.finalGradeType,
       isActiveTerm: testTerm.isActiveTerm,
       name: testTerm.name,
+      gradingSystem: testTerm.gradingSystem,
     );
 
     if (testTerm.gradeTypeWeights != null) {
@@ -867,12 +879,16 @@ TestTerm termWith({
   Map<GradeType, Weight>? gradeTypeWeights,
   GradeType finalGradeType = const GradeType('Endnote'),
   bool isActiveTerm = true,
+  GradingSystem? gradingSystem,
 }) {
   final rdm = randomAlpha(5);
   return TestTerm(
     id: TermId(rdm),
     name: name ?? 'Test term $rdm',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
+    // TODO: Move default test grading system out and reference it from there
+    // in the test code.
+    gradingSystem: gradingSystem ?? OneToFiveteenPointsGradingSystem(),
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     isActiveTerm: isActiveTerm,
@@ -883,6 +899,7 @@ class TestTerm {
   final TermId id;
   final String name;
   final IMap<SubjectId, TestSubject> subjects;
+  final GradingSystem gradingSystem;
   final Map<GradeType, Weight>? gradeTypeWeights;
   final GradeType finalGradeType;
   final bool isActiveTerm;
@@ -894,6 +911,7 @@ class TestTerm {
     required this.finalGradeType,
     this.gradeTypeWeights,
     required this.isActiveTerm,
+    required this.gradingSystem,
   });
 }
 
@@ -911,6 +929,8 @@ TestSubject subjectWith({
     id: id,
     name: name ?? id.id,
     grades: IList(grades),
+    // TODO: Move default test grading system out and reference it from there
+    // in the test code.
     gradingSystem: gradingSystem ?? OneToFiveteenPointsGradingSystem(),
     weight: weight,
     weightType: weightType,

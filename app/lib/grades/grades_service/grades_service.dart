@@ -36,6 +36,7 @@ class GradesService {
         id: term.id,
         name: term.name,
         isActiveTerm: term.isActiveTerm,
+        gradingSystem: term.gradingSystem,
         calculatedGrade: term.tryGetTermGrade() != null
             ? CalculatedGradeResult(
                 asDouble: term.tryGetTermGrade()!.toDouble(),
@@ -70,6 +71,7 @@ class GradesService {
     required TermId id,
     required String name,
     required GradeType finalGradeType,
+    required GradingSystem gradingSystem,
     required bool isActiveTerm,
   }) {
     if (isActiveTerm) {
@@ -82,6 +84,7 @@ class GradesService {
         isActiveTerm: isActiveTerm,
         name: name,
         finalGradeType: finalGradeType,
+        gradingSystem: gradingSystem,
       ),
     );
     _updateTerms();
@@ -193,6 +196,7 @@ class SubjectResult {
 
 class TermResult {
   final TermId id;
+  final GradingSystem gradingSystem;
   final CalculatedGradeResult? calculatedGrade;
   IList<SubjectResult> subjects;
   final bool isActiveTerm;
@@ -205,6 +209,7 @@ class TermResult {
 
   TermResult({
     required this.id,
+    required this.gradingSystem,
     required this.name,
     required this.calculatedGrade,
     required this.subjects,

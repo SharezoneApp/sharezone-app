@@ -15,6 +15,7 @@ class Term {
   final TermId id;
   final IList<_Subject> _subjects;
   final IMap<GradeType, double> _gradeTypeWeightings;
+  final GradingSystem gradingSystem;
   final GradeType finalGradeType;
   final bool isActiveTerm;
   final String name;
@@ -26,6 +27,7 @@ class Term {
   Term({
     required this.id,
     required this.finalGradeType,
+    required this.gradingSystem,
     required this.isActiveTerm,
     required this.name,
   })  : _subjects = const IListConst([]),
@@ -38,6 +40,7 @@ class Term {
     this.finalGradeType,
     this.isActiveTerm,
     this.name,
+    this.gradingSystem,
   );
 
   Term addSubject(Subject subject) {
@@ -93,6 +96,7 @@ class Term {
     GradeType? finalGradeType,
     bool? isActiveTerm,
     String? name,
+    GradingSystem? gradingSystem,
   }) {
     return Term.internal(
       id ?? this.id,
@@ -101,6 +105,7 @@ class Term {
       finalGradeType ?? this.finalGradeType,
       isActiveTerm ?? this.isActiveTerm,
       name ?? this.name,
+      gradingSystem ?? this.gradingSystem,
     );
   }
 
