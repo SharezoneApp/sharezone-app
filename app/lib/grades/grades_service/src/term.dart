@@ -45,7 +45,8 @@ class Term {
 
   Term addSubject(Subject subject) {
     return _copyWith(
-      subjects: _subjects.add(_newSubject(subject.id, subject.gradingSystem)),
+      subjects: _subjects
+          .add(_newSubject(subject.id, subject.gradingSystem ?? gradingSystem)),
     );
   }
 
@@ -168,8 +169,7 @@ class Term {
       (s) => s.id == toSubject,
       // TODO: GradingSystem should be used from Term here, this is only
       // temporary until we implement a Term having a GradingSystem.
-      orElse: () =>
-          _newSubject(toSubject, GradingSystem.oneToSixWithPlusAndMinus),
+      orElse: () => _newSubject(toSubject, grade.gradingSystem),
     );
     subject = subject.addGrade(_Grade(
       id: grade.id,

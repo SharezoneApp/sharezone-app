@@ -658,6 +658,41 @@ void main() {
               .asDouble,
           (1.75 + 3.25 + 2) / 3);
     });
+    test('The subject will use the Terms grading system by default.', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Mathe'),
+            grades: [
+              gradeWith(
+                value: "3-", // Equal to 3.25
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+              ),
+              // should be ignored in subject and terms calculated grade
+              gradeWith(
+                value: 3,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      controller.createTerm(term);
+
+      expect(controller.term(term.id).calculatedGrade!.asDouble, 3.25);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .asDouble,
+          3.25);
+    });
     test('Basic grades test for 0 to 25 points grading system.', () {
       final controller = GradesTestController();
 
@@ -929,9 +964,7 @@ TestSubject subjectWith({
     id: id,
     name: name ?? id.id,
     grades: IList(grades),
-    // TODO: Move default test grading system out and reference it from there
-    // in the test code.
-    gradingSystem: gradingSystem ?? OneToFiveteenPointsGradingSystem(),
+    gradingSystem: gradingSystem,
     weight: weight,
     weightType: weightType,
     gradeTypeWeights: gradeTypeWeights,
@@ -943,7 +976,7 @@ class TestSubject {
   final SubjectId id;
   final String name;
   final IList<TestGrade> grades;
-  final GradingSystem gradingSystem;
+  final GradingSystem? gradingSystem;
   final WeightType? weightType;
   final Map<GradeType, Weight> gradeTypeWeights;
   final Weight? weight;

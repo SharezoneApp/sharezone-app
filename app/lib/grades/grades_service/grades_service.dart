@@ -97,7 +97,7 @@ class GradesService {
       required TermId toTerm,
       // TODO: gradingSystem shouldn't be required as it should be inherited
       // from the term
-      required GradingSystem gradingSystem}) {
+      required GradingSystem? gradingSystem}) {
     final newTerm = _term(toTerm).addSubject(Subject(id, gradingSystem));
     _updateTerm(newTerm);
   }
@@ -361,7 +361,7 @@ class GradeType extends Equatable {
 
 class Subject {
   final SubjectId id;
-  final GradingSystem gradingSystem;
+  final GradingSystem? gradingSystem;
 
   Subject(this.id, this.gradingSystem);
 }
