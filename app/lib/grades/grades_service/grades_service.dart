@@ -343,8 +343,7 @@ class Grade {
     required this.id,
     required this.value,
     required this.gradingSystem,
-    // TODO: Make it required?
-    this.type = const GradeType('testGradeType'),
+    required this.type,
   });
 }
 
