@@ -231,7 +231,8 @@ sealed class GradingSystem {
   double toDoubleOrThrow(String grade);
 }
 
-class OneToFiveteenPointsGradingSystem extends GradingSystem {
+class OneToFiveteenPointsGradingSystem extends GradingSystem
+    with EquatableMixin {
   @override
   String getClosestGrade(num grade) {
     // TODO: Rounds up on .5, should round down
@@ -242,9 +243,13 @@ class OneToFiveteenPointsGradingSystem extends GradingSystem {
   double toDoubleOrThrow(String grade) {
     return double.parse(grade);
   }
+
+  @override
+  List<Object?> get props => [];
 }
 
-class OneToSixWithPlusMinusGradingSystem extends GradingSystem {
+class OneToSixWithPlusMinusGradingSystem extends GradingSystem
+    with EquatableMixin {
   final Map<String, num> _gradeToNum = {
     '1+': 0.75,
     '1': 1,
@@ -318,16 +323,22 @@ class OneToSixWithPlusMinusGradingSystem extends GradingSystem {
         ),
     };
   }
+
+  @override
+  List<Object?> get props => [];
 }
 
 class Grade {
   final GradeId id;
   final num value;
+  final GradingSystem gradingSystem;
   final GradeType type;
 
   Grade({
     required this.id,
     required this.value,
+    required this.gradingSystem,
+    // TODO: Make it required?
     this.type = const GradeType('testGradeType'),
   });
 }

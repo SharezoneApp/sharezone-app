@@ -169,6 +169,7 @@ class Term {
     subject = subject.addGrade(_Grade(
       id: grade.id,
       value: grade.value,
+      gradingSystem: grade.gradingSystem,
       takenIntoAccount: takenIntoAccount,
       gradeType: grade.type,
       weight: 1,
@@ -348,7 +349,8 @@ class _Subject {
   }
 
   num? getGrade() {
-    final grds = grades.where((grade) => grade.takenIntoAccount);
+    final grds = grades.where((grade) =>
+        grade.takenIntoAccount && grade.gradingSystem == gradingSystem);
     if (grds.isEmpty) return null;
 
     final finalGrade =
@@ -412,24 +414,29 @@ class _Subject {
 class _Grade extends Equatable {
   final GradeId id;
   final num value;
+  final GradingSystem gradingSystem;
   final GradeType gradeType;
   final bool takenIntoAccount;
   final num weight;
 
   @override
-  List<Object?> get props => [id, value, gradeType, takenIntoAccount, weight];
+  List<Object?> get props =>
+      [id, value, gradingSystem, gradeType, takenIntoAccount, weight];
 
   const _Grade({
     required this.id,
     required this.value,
     required this.gradeType,
+    required this.gradingSystem,
     required this.weight,
+    // TODO: Make required?
     this.takenIntoAccount = true,
   });
 
   _Grade copyWith({
     GradeId? id,
     num? value,
+    GradingSystem? gradingSystem,
     GradeType? gradeType,
     bool? takenIntoAccount,
     num? weight,
@@ -437,6 +444,7 @@ class _Grade extends Equatable {
     return _Grade(
       id: id ?? this.id,
       value: value ?? this.value,
+      gradingSystem: gradingSystem ?? this.gradingSystem,
       gradeType: gradeType ?? this.gradeType,
       takenIntoAccount: takenIntoAccount ?? this.takenIntoAccount,
       weight: weight ?? this.weight,

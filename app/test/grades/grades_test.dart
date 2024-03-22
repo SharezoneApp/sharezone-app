@@ -696,7 +696,47 @@ void main() {
     test(
         'Grades that are not in the same gradingSystem as the subject will be excluded from the calculatedGrade',
         () {
-      // TODO
+      final controller = GradesTestController();
+
+      final term = termWith(
+        // TODO: Add term grading system here when implemented
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Mathe'),
+            name: 'Mathe',
+            gradingSystem: GradingSystem.oneToFiveteenPoints,
+            grades: [
+              gradeWith(
+                value: 4,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
+              ),
+              gradeWith(
+                value: 8,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
+              ),
+              gradeWith(
+                // TODO: I accidentally passed 2 as a number and I don't think
+                // it was processed correctly. I think this should've raised an
+                // error, maybe not even in the test but in the logic code.
+                value: "2+",
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      controller.createTerm(term);
+
+      // TODO: Add this when term grading system is implemented
+      // expect(controller.term(term.id).calculatedGrade!.asDouble, (4 + 8) / 2);
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .asDouble,
+          (4 + 8) / 2);
     });
   });
 }
@@ -757,7 +797,11 @@ class GradesTestController {
         service.addGrade(
           id: subject.id,
           termId: termId,
-          value: Grade(id: grade.id, value: gradeAsNum, type: grade.type),
+          value: Grade(
+              id: grade.id,
+              value: gradeAsNum,
+              gradingSystem: grade.gradingSystem,
+              type: grade.type),
           takeIntoAccount: grade.includeInGradeCalculations,
         );
         if (grade.weight != null) {
@@ -922,7 +966,9 @@ TestGrade gradeWith({
     id: id ?? GradeId(randomAlpha(5)),
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
-    gradingSystem: gradingSystem,
+    // TODO: Move default test grading system out and reference it from there
+    // in the test code.
+    gradingSystem: gradingSystem ?? GradingSystem.oneToFiveteenPoints,
     type: type,
     weight: weight,
   );
@@ -934,7 +980,7 @@ class TestGrade {
   /// Either a [num] or [String]
   final Object value;
   final bool includeInGradeCalculations;
-  final GradingSystem? gradingSystem;
+  final GradingSystem gradingSystem;
   final GradeType type;
   final Weight? weight;
 
