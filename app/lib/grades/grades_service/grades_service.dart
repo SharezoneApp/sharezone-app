@@ -235,7 +235,7 @@ class OneToFiveteenPointsGradingSystem extends GradingSystem
     with EquatableMixin {
   @override
   String getClosestGrade(num grade) {
-    // TODO: Rounds up on .5, should round down
+    // TODO: Rounds up on .5, should round down (fix it with a test case for it)
     return grade.round().toString();
   }
 
