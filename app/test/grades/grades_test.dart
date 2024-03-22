@@ -658,41 +658,7 @@ void main() {
               .asDouble,
           (1.75 + 3.25 + 2) / 3);
     });
-    test('The subject will use the Terms grading system by default.', () {
-      final controller = GradesTestController();
 
-      final term = termWith(
-        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-        subjects: [
-          subjectWith(
-            id: const SubjectId('Mathe'),
-            grades: [
-              gradeWith(
-                value: "3-", // Equal to 3.25
-                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-              ),
-              // should be ignored in subject and terms calculated grade
-              gradeWith(
-                value: 3,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
-              ),
-            ],
-          ),
-        ],
-      );
-
-      controller.createTerm(term);
-
-      expect(controller.term(term.id).calculatedGrade!.asDouble, 3.25);
-
-      expect(
-          controller
-              .term(term.id)
-              .subject(const SubjectId('Mathe'))
-              .calculatedGrade!
-              .asDouble,
-          3.25);
-    });
     test('Basic grades test for 0 to 25 points grading system.', () {
       final controller = GradesTestController();
 
@@ -738,7 +704,41 @@ void main() {
               .asDouble,
           (4 + 8 + 2) / 3);
     });
+    test('The subject will use the Terms grading system by default.', () {
+      final controller = GradesTestController();
 
+      final term = termWith(
+        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Mathe'),
+            grades: [
+              gradeWith(
+                value: "3-", // Equal to 3.25
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+              ),
+              // should be ignored in subject and terms calculated grade
+              gradeWith(
+                value: 3,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      controller.createTerm(term);
+
+      expect(controller.term(term.id).calculatedGrade!.asDouble, 3.25);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .asDouble,
+          3.25);
+    });
     test(
         'Grades that are not in the same gradingSystem as the subject will be excluded from the calculatedGrade',
         () {
