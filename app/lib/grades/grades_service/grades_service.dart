@@ -95,9 +95,9 @@ class GradesService {
   void addSubject(
       {required SubjectId id,
       required TermId toTerm,
-      // TODO: gradingSystem shouldn't be required as it should be inherited
-      // from the term
-      required GradingSystem? gradingSystem}) {
+
+      /// [GradingSystem] will be inherited from the term if not provided
+      GradingSystem? gradingSystem}) {
     final newTerm = _term(toTerm).addSubject(Subject(id, gradingSystem));
     _updateTerm(newTerm);
   }
