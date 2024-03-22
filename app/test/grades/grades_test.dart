@@ -616,11 +616,11 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
+        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
             name: 'Mathe',
-            gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
             grades: [
               gradeWith(
                 // Equal to 1,75
@@ -697,11 +697,11 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
+        gradingSystem: GradingSystem.oneToFiveteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
             name: 'Mathe',
-            gradingSystem: GradingSystem.oneToFiveteenPoints,
             grades: [
               gradeWith(
                 value: 4,
@@ -745,12 +745,11 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        // TODO: Add term grading system here when implemented
+        gradingSystem: GradingSystem.oneToFiveteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
             name: 'Mathe',
-            gradingSystem: GradingSystem.oneToFiveteenPoints,
             grades: [
               gradeWith(
                 value: 4,
@@ -774,8 +773,7 @@ void main() {
 
       controller.createTerm(term);
 
-      // TODO: Add this when term grading system is implemented
-      // expect(controller.term(term.id).calculatedGrade!.asDouble, (4 + 8) / 2);
+      expect(controller.term(term.id).calculatedGrade!.asDouble, (4 + 8) / 2);
       expect(
           controller
               .term(term.id)
