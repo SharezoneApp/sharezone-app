@@ -40,6 +40,7 @@ class GradesService {
         calculatedGrade: term.tryGetTermGrade() != null
             ? CalculatedGradeResult(
                 asDouble: term.tryGetTermGrade()!.toDouble(),
+                // TODO
                 closestGrade: 'TODO',
               )
             : null,
@@ -50,20 +51,17 @@ class GradesService {
                 calculatedGrade: subject.gradeVal != null
                     ? CalculatedGradeResult(
                         asDouble: subject.gradeVal!.toDouble(),
-                        // TODO: Not happy with this, idk I should access/call
-                        // the grading system from here
-                        closestGrade: subject.calculatedGrade!.gradingSystem
-                            .getClosestGrade(subject.gradeVal!),
+                        closestGrade: subject.closestGrade!,
                       )
                     : null,
                 weightType: subject.weightType,
-                gradeTypeWeights: subject.gradeTypeWeights
+                gradeTypeWeights: subject.gradeTypeWeightings
                     .map((key, value) => MapEntry(key, Weight.factor(value))),
                 grades: subject.grades
                     .map(
                       (grade) => GradeResult(
                         id: grade.id,
-                        isTakenIntoAccount: grade.isTakenIntoAccount,
+                        isTakenIntoAccount: grade.takenIntoAccount,
                       ),
                     )
                     .toIList(),
@@ -111,7 +109,7 @@ class GradesService {
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
     final newTerm =
-        _term(termId).subject(id).changeWeightingForTermGrade(weight.asFactor);
+        _term(termId).changeWeighting(id, weight.asFactor.toDouble());
 
     _updateTerm(newTerm);
   }
@@ -120,7 +118,7 @@ class GradesService {
       {required SubjectId id,
       required TermId termId,
       required WeightType perGradeType}) {
-    final newTerm = _term(termId).subject(id).changeWeightingType(perGradeType);
+    final newTerm = _term(termId).changeWeightTypeForSubject(id, perGradeType);
     _updateTerm(newTerm);
   }
 
@@ -130,9 +128,8 @@ class GradesService {
     required GradeType gradeType,
     required Weight weight,
   }) {
-    final newTerm = _term(termId).subject(id).changeGradeTypeWeighting(
-        gradeType,
-        weight: weight.asFactor.toDouble());
+    final newTerm = _term(termId).changeWeightingOfGradeTypeInSubject(
+        id, gradeType, weight.asFactor.toDouble());
     _updateTerm(newTerm);
   }
 
@@ -143,8 +140,7 @@ class GradesService {
     bool takeIntoAccount = true,
   }) {
     final newTerm = _term(termId)
-        .subject(id)
-        .addGrade(value, takeIntoAccount: takeIntoAccount);
+        .addGrade(value, toSubject: id, takenIntoAccount: takeIntoAccount);
     _updateTerm(newTerm);
   }
 
@@ -157,8 +153,9 @@ class GradesService {
         .subjects
         .where((element) => element.grades.any((grade) => grade.id == id))
         .first;
-    final newTerm =
-        subject.grade(id).changeWeight(weight: weight.asFactor.toDouble());
+    // final newTerm = subject.grade(id).changeWeight(weight.asFactor.toDouble());
+    final newTerm = _term(termId)
+        .changeWeightOfGrade(id, subject.id, weight.asFactor.toDouble());
 
     _updateTerm(newTerm);
   }
@@ -178,10 +175,10 @@ class GradesService {
     required GradeType? gradeType,
   }) {
     if (gradeType == null) {
-      final newTerm = _term(termId).subject(id).inheritFinalGradeTypeFromTerm();
+      final newTerm = _term(termId).subjectInheritFinalGradeTypeFromTerm(id);
       return _updateTerm(newTerm);
     }
-    final newTerm = _term(termId).subject(id).changeFinalGradeType(gradeType);
+    final newTerm = _term(termId).setFinalGradeTypeForSubject(id, gradeType);
     _updateTerm(newTerm);
   }
 }
