@@ -36,7 +36,7 @@ class GradesService {
         id: term.id,
         name: term.name,
         isActiveTerm: term.isActiveTerm,
-        gradingSystem: term.gradingSystem,
+        gradingSystem: term.gradingSystem.toGradingSystems(),
         calculatedGrade: term.tryGetTermGrade() != null
             ? CalculatedGradeResult(
                 asDouble: term.tryGetTermGrade()!.toDouble(),
@@ -79,7 +79,7 @@ class GradesService {
     required TermId id,
     required String name,
     required GradeType finalGradeType,
-    required GradingSystem gradingSystem,
+    required GradingSystems gradingSystem,
     required bool isActiveTerm,
   }) {
     if (isActiveTerm) {
@@ -92,7 +92,7 @@ class GradesService {
         isActiveTerm: isActiveTerm,
         name: name,
         finalGradeType: finalGradeType,
-        gradingSystem: gradingSystem,
+        gradingSystem: gradingSystem.toGradingSystem(),
       ),
     );
     _updateTerms();
@@ -188,6 +188,30 @@ class GradesService {
   }
 }
 
+enum GradingSystems { oneToSixWithPlusAndMinus, oneToFiveteenPoints }
+
+extension ToGradingSystem on GradingSystems {
+  GradingSystem toGradingSystem() {
+    switch (this) {
+      case GradingSystems.oneToFiveteenPoints:
+        return GradingSystem.oneToFiveteenPoints;
+      case GradingSystems.oneToSixWithPlusAndMinus:
+        return GradingSystem.oneToSixWithPlusAndMinus;
+    }
+  }
+}
+
+extension ToGradingSystems on GradingSystem {
+  GradingSystems toGradingSystems() {
+    if (this is OneToFiveteenPointsGradingSystem) {
+      return GradingSystems.oneToFiveteenPoints;
+    } else if (this is OneToSixWithPlusMinusGradingSystem) {
+      return GradingSystems.oneToSixWithPlusAndMinus;
+    }
+    throw UnimplementedError();
+  }
+}
+
 class GradeResult {
   final GradeId id;
   final bool isTakenIntoAccount;
@@ -217,7 +241,7 @@ class SubjectResult {
 
 class TermResult {
   final TermId id;
-  final GradingSystem gradingSystem;
+  final GradingSystems gradingSystem;
   final CalculatedGradeResult? calculatedGrade;
   IList<SubjectResult> subjects;
   final bool isActiveTerm;
@@ -356,8 +380,10 @@ class OneToSixWithPlusMinusGradingSystem extends GradingSystem
 
 class Grade {
   final GradeId id;
-  final num value;
-  final GradingSystem gradingSystem;
+
+  /// Either a number or a string like '1+', '2-', etc.
+  final Object value;
+  final GradingSystems gradingSystem;
   final GradeType type;
 
   Grade({

@@ -665,17 +665,17 @@ void main() {
       final controller = GradesTestController();
 
       final term1 =
-          termWith(gradingSystem: GradingSystem.oneToSixWithPlusAndMinus);
+          termWith(gradingSystem: GradingSystems.oneToSixWithPlusAndMinus);
       controller.createTerm(term1);
 
       expect(controller.term(term1.id).gradingSystem,
-          GradingSystem.oneToSixWithPlusAndMinus);
+          GradingSystems.oneToSixWithPlusAndMinus);
     });
     test('Basic grades test for 1+ to 6 grading system.', () {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+        gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -684,15 +684,15 @@ void main() {
               gradeWith(
                 // Equal to 1,75
                 value: "2+",
-                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
               ),
               gradeWith(
                 value: "3-",
-                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
               ),
               gradeWith(
                 value: "2",
-                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
               ),
             ],
           ),
@@ -722,7 +722,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystem.oneToFiveteenPoints,
+        gradingSystem: GradingSystems.oneToFiveteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -730,15 +730,15 @@ void main() {
             grades: [
               gradeWith(
                 value: 4,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystems.oneToFiveteenPoints,
               ),
               gradeWith(
                 value: 8,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystems.oneToFiveteenPoints,
               ),
               gradeWith(
                 value: 2,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystems.oneToFiveteenPoints,
               ),
             ],
           ),
@@ -767,19 +767,19 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+        gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
             grades: [
               gradeWith(
                 value: "3-", // Equal to 3.25
-                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
               ),
               // should be ignored in subject and terms calculated grade
               gradeWith(
                 value: 3,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystems.oneToFiveteenPoints,
               ),
             ],
           ),
@@ -804,7 +804,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystem.oneToFiveteenPoints,
+        gradingSystem: GradingSystems.oneToFiveteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -812,18 +812,18 @@ void main() {
             grades: [
               gradeWith(
                 value: 4,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystems.oneToFiveteenPoints,
               ),
               gradeWith(
                 value: 8,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystems.oneToFiveteenPoints,
               ),
               gradeWith(
                 // TODO: I accidentally passed 2 as a number and I don't think
                 // it was processed correctly. I think this should've raised an
                 // error, maybe not even in the test but in the logic code.
                 value: "2+",
-                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
               ),
             ],
           ),
@@ -891,19 +891,12 @@ class GradesTestController {
       }
 
       for (var grade in subject.grades) {
-        num gradeAsNum;
-        if (grade.value is num) {
-          gradeAsNum = grade.value as num;
-        } else {
-          gradeAsNum =
-              grade.gradingSystem!.toDoubleOrThrow(grade.value as String);
-        }
         service.addGrade(
           id: subject.id,
           termId: termId,
           value: Grade(
             id: grade.id,
-            value: gradeAsNum,
+            value: grade.value,
             gradingSystem: grade.gradingSystem,
             type: grade.type,
           ),
@@ -972,7 +965,7 @@ TestTerm termWith({
   Map<GradeType, Weight>? gradeTypeWeights,
   GradeType finalGradeType = const GradeType('Endnote'),
   bool isActiveTerm = true,
-  GradingSystem? gradingSystem,
+  GradingSystems? gradingSystem,
 }) {
   final rdm = randomAlpha(5);
   return TestTerm(
@@ -981,7 +974,7 @@ TestTerm termWith({
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
     // TODO: Move default test grading system out and reference it from there
     // in the test code.
-    gradingSystem: gradingSystem ?? OneToFiveteenPointsGradingSystem(),
+    gradingSystem: gradingSystem ?? GradingSystems.oneToFiveteenPoints,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     isActiveTerm: isActiveTerm,
@@ -992,7 +985,7 @@ class TestTerm {
   final TermId id;
   final String name;
   final IMap<SubjectId, TestSubject> subjects;
-  final GradingSystem gradingSystem;
+  final GradingSystems gradingSystem;
   final Map<GradeType, Weight>? gradeTypeWeights;
   final GradeType finalGradeType;
   final bool isActiveTerm;
@@ -1071,7 +1064,7 @@ TestGrade gradeWith({
   GradeType type = const GradeType('some test type'),
   Weight? weight,
   GradeId? id,
-  GradingSystem? gradingSystem,
+  GradingSystems? gradingSystem,
 }) {
   return TestGrade(
     id: id ?? GradeId(randomAlpha(5)),
@@ -1079,7 +1072,7 @@ TestGrade gradeWith({
     includeInGradeCalculations: includeInGradeCalculations,
     // TODO: Move default test grading system out and reference it from there
     // in the test code.
-    gradingSystem: gradingSystem ?? GradingSystem.oneToFiveteenPoints,
+    gradingSystem: gradingSystem ?? GradingSystems.oneToFiveteenPoints,
     type: type,
     weight: weight,
   );
@@ -1091,7 +1084,7 @@ class TestGrade {
   /// Either a [num] or [String]
   final Object value;
   final bool includeInGradeCalculations;
-  final GradingSystem gradingSystem;
+  final GradingSystems gradingSystem;
   final GradeType type;
   final Weight? weight;
 

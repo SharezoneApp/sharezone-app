@@ -170,12 +170,17 @@ class Term {
       (s) => s.id == toSubject,
       // TODO: GradingSystem should be used from Term here, this is only
       // temporary until we implement a Term having a GradingSystem.
-      orElse: () => _newSubject(toSubject, grade.gradingSystem),
+      orElse: () =>
+          _newSubject(toSubject, grade.gradingSystem.toGradingSystem()),
     );
+
+    final gradingSystem = grade.gradingSystem.toGradingSystem();
+    final gradeVal = _getGradeDouble(grade.value, gradingSystem);
+
     subject = subject.addGrade(_Grade(
       id: grade.id,
-      value: grade.value,
-      gradingSystem: grade.gradingSystem,
+      value: gradeVal,
+      gradingSystem: gradingSystem,
       takenIntoAccount: takenIntoAccount,
       gradeType: grade.type,
       weight: 1,
@@ -186,6 +191,14 @@ class Term {
             subjects: _subjects.replaceAllWhere(
                 (element) => element.id == toSubject, subject))
         : _copyWith(subjects: _subjects.add(subject));
+  }
+
+  double _getGradeDouble(Object grade, GradingSystem gradingSystem) {
+    if (grade is double) return grade;
+    if (grade is int) return grade.toDouble();
+    if (grade is String) return gradingSystem.toDoubleOrThrow(grade);
+    throw Exception(
+        'Grade must be a double, int or string, but was ${grade.runtimeType}: $grade');
   }
 
   Term _changeWeighting(SubjectId id, num newWeight) {
