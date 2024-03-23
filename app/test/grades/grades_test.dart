@@ -868,8 +868,7 @@ class GradesTestController {
     }
 
     for (var subject in testTerm.subjects.values) {
-      service.addSubject(
-          id: subject.id, toTerm: termId, gradingSystem: subject.gradingSystem);
+      service.addSubject(id: subject.id, toTerm: termId);
       if (subject.weight != null) {
         service.changeSubjectWeightForTermGrade(
             id: subject.id, termId: termId, weight: subject.weight!);
@@ -1009,13 +1008,11 @@ TestSubject subjectWith({
   WeightType? weightType,
   Map<GradeType, Weight> gradeTypeWeights = const {},
   GradeType? finalGradeType,
-  GradingSystem? gradingSystem,
 }) {
   return TestSubject(
     id: id,
     name: name ?? id.id,
     grades: IList(grades),
-    gradingSystem: gradingSystem,
     weight: weight,
     weightType: weightType,
     gradeTypeWeights: gradeTypeWeights,
@@ -1027,7 +1024,6 @@ class TestSubject {
   final SubjectId id;
   final String name;
   final IList<TestGrade> grades;
-  final GradingSystem? gradingSystem;
   final WeightType? weightType;
   final Map<GradeType, Weight> gradeTypeWeights;
   final Weight? weight;
@@ -1036,7 +1032,6 @@ class TestSubject {
   TestSubject({
     required this.id,
     required this.name,
-    required this.gradingSystem,
     required this.grades,
     required this.gradeTypeWeights,
     this.weightType,

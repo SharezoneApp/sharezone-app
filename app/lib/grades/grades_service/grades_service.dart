@@ -100,13 +100,11 @@ class GradesService {
 
   Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
-  void addSubject(
-      {required SubjectId id,
-      required TermId toTerm,
-
-      /// [GradingSystem] will be inherited from the term if not provided
-      GradingSystem? gradingSystem}) {
-    final newTerm = _term(toTerm).addSubject(Subject(id, gradingSystem));
+  void addSubject({
+    required SubjectId id,
+    required TermId toTerm,
+  }) {
+    final newTerm = _term(toTerm).addSubject(Subject(id));
     _updateTerm(newTerm);
   }
 
@@ -407,9 +405,8 @@ class GradeType extends Equatable {
 
 class Subject {
   final SubjectId id;
-  final GradingSystem? gradingSystem;
 
-  Subject(this.id, this.gradingSystem);
+  Subject(this.id);
 }
 
 class Weight extends Equatable {

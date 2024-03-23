@@ -45,14 +45,11 @@ class Term {
 
   Term addSubject(Subject subject) {
     return _copyWith(
-      subjects: _subjects
-          .add(_newSubject(subject.id, subject.gradingSystem ?? gradingSystem)),
+      subjects: _subjects.add(_newSubject(subject.id)),
     );
   }
 
-  // TODO: Everywhere where we use this method, we should pass the grading
-  // system from the term. This is a temporary solution.
-  _Subject _newSubject(SubjectId id, GradingSystem gradingSystem) {
+  _Subject _newSubject(SubjectId id) {
     return _Subject(
       id: id,
       gradingSystem: gradingSystem,
@@ -168,10 +165,7 @@ class Term {
       {required SubjectId toSubject, bool takenIntoAccount = true}) {
     var subject = _subjects.firstWhere(
       (s) => s.id == toSubject,
-      // TODO: GradingSystem should be used from Term here, this is only
-      // temporary until we implement a Term having a GradingSystem.
-      orElse: () =>
-          _newSubject(toSubject, grade.gradingSystem.toGradingSystem()),
+      orElse: () => _newSubject(toSubject),
     );
 
     final gradingSystem = grade.gradingSystem.toGradingSystem();
