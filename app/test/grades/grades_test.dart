@@ -109,6 +109,54 @@ void main() {
           1.5);
       expect(controller.term(term.id).calculatedGrade!.asDouble, 1.5);
     });
+    test(
+        '"Nicht in den Schnitt einbeziehen" will be deactivated if the weight of the specific grade is set to non-zero',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(subjects: [
+        subjectWith(
+            id: const SubjectId('Sport'),
+            weightType: WeightType.perGrade,
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 3.0,
+                includeInGradeCalculations: false,
+              ),
+            ]),
+      ]);
+      controller.createTerm(term);
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Sport'))
+              .calculatedGrade,
+          null);
+
+      controller.changeGradeWeightsForSubject(
+        termId: term.id,
+        subjectId: const SubjectId('Sport'),
+        weights: {
+          GradeId('grade1'): const Weight.percent(100),
+        },
+      );
+
+      // expect(
+      //     controller
+      //         .term(term.id)
+      //         .subject(const SubjectId('Sport'))
+      //         .grade(GradeId('grade1'))
+      //         .isTakenIntoAccount,
+      //     true);
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Sport'))
+              .calculatedGrade!
+              .asDouble,
+          3.0);
+    });
     test('subjects can have custom weights per grade type (e.g. presentation)',
         () {
       final controller = GradesTestController();
@@ -843,10 +891,11 @@ class GradesTestController {
           id: subject.id,
           termId: termId,
           value: Grade(
-              id: grade.id,
-              value: gradeAsNum,
-              gradingSystem: grade.gradingSystem,
-              type: grade.type),
+            id: grade.id,
+            value: gradeAsNum,
+            gradingSystem: grade.gradingSystem,
+            type: grade.type,
+          ),
           takeIntoAccount: grade.includeInGradeCalculations,
         );
         if (grade.weight != null) {

@@ -213,7 +213,7 @@ class Term {
     final newSubject = subject.copyWith(
       grades: subject.grades.replaceFirstWhere(
         (g) => g.id == id,
-        (g) => g!.copyWith(weight: weight),
+        (g) => g!.changeWeight(weight),
       ),
     );
 
@@ -437,6 +437,10 @@ class _Grade extends Equatable {
     // TODO: Make required?
     this.takenIntoAccount = true,
   });
+
+  _Grade changeWeight(double weight) {
+    return copyWith(weight: weight, takenIntoAccount: weight > 0);
+  }
 
   _Grade copyWith({
     GradeId? id,
