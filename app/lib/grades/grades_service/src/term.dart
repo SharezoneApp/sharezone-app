@@ -73,6 +73,7 @@ class Term {
                 subjectId: subject.id,
                 value: grade.value,
                 type: grade.gradeType,
+                isTakenIntoAccount: grade.takenIntoAccount,
               ),
             )
             .toIList(),
@@ -312,6 +313,7 @@ class GradeRes {
   final num value;
   final GradeType type;
   final SubjectId subjectId;
+  final bool isTakenIntoAccount;
 
   GradeRes(
     this._term, {
@@ -319,6 +321,7 @@ class GradeRes {
     required this.subjectId,
     required this.value,
     required this.type,
+    required this.isTakenIntoAccount,
   });
 
   Term changeWeight({required double weight}) {

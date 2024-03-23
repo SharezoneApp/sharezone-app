@@ -59,6 +59,14 @@ class GradesService {
                 weightType: subject.weightType,
                 gradeTypeWeights: subject.gradeTypeWeights
                     .map((key, value) => MapEntry(key, Weight.factor(value))),
+                grades: subject.grades
+                    .map(
+                      (grade) => GradeResult(
+                        id: grade.id,
+                        isTakenIntoAccount: grade.isTakenIntoAccount,
+                      ),
+                    )
+                    .toIList(),
               ),
             )
             .toIList(),
@@ -180,18 +188,31 @@ class GradesService {
   }
 }
 
+class GradeResult {
+  final GradeId id;
+  final bool isTakenIntoAccount;
+
+  GradeResult({required this.id, required this.isTakenIntoAccount});
+}
+
 class SubjectResult {
   final SubjectId id;
   final CalculatedGradeResult? calculatedGrade;
   final WeightType weightType;
   final IMap<GradeType, Weight> gradeTypeWeights;
+  final IList<GradeResult> grades;
 
   SubjectResult({
     required this.id,
     required this.calculatedGrade,
     required this.weightType,
     required this.gradeTypeWeights,
+    required this.grades,
   });
+
+  GradeResult grade(GradeId gradeId) {
+    return grades.firstWhere((element) => element.id == gradeId);
+  }
 }
 
 class TermResult {

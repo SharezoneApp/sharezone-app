@@ -94,7 +94,10 @@ void main() {
             name: 'Sport',
             weight: const Weight.factor(0.5),
             grades: [
-              gradeWith(value: 3.0, includeInGradeCalculations: false),
+              gradeWith(
+                  id: GradeId('grade1'),
+                  value: 3.0,
+                  includeInGradeCalculations: false),
               gradeWith(value: 1.5),
             ]),
       ]);
@@ -107,6 +110,14 @@ void main() {
               .calculatedGrade!
               .asDouble,
           1.5);
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Sport'))
+              .grade(GradeId('grade1'))
+              .isTakenIntoAccount,
+          false);
+
       expect(controller.term(term.id).calculatedGrade!.asDouble, 1.5);
     });
     test(
@@ -142,13 +153,13 @@ void main() {
         },
       );
 
-      // expect(
-      //     controller
-      //         .term(term.id)
-      //         .subject(const SubjectId('Sport'))
-      //         .grade(GradeId('grade1'))
-      //         .isTakenIntoAccount,
-      //     true);
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Sport'))
+              .grade(GradeId('grade1'))
+              .isTakenIntoAccount,
+          true);
       expect(
           controller
               .term(term.id)
