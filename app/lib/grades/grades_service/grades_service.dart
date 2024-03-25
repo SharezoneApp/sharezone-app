@@ -40,8 +40,6 @@ class GradesService {
         calculatedGrade: term.tryGetTermGrade() != null
             ? CalculatedGradeResult(
                 asDouble: term.tryGetTermGrade()!.toDouble(),
-                // TODO
-                closestGrade: 'TODO',
               )
             : null,
         subjects: term.subjects
@@ -51,7 +49,6 @@ class GradesService {
                 calculatedGrade: subject.gradeVal != null
                     ? CalculatedGradeResult(
                         asDouble: subject.gradeVal!.toDouble(),
-                        closestGrade: subject.closestGrade!,
                       )
                     : null,
                 weightType: subject.weightType,
@@ -259,31 +256,22 @@ class TermResult {
 
 class CalculatedGradeResult {
   final double asDouble;
-  final String closestGrade;
 
-  CalculatedGradeResult({
-    required this.asDouble,
-    required this.closestGrade,
-  });
+  String get displayableGrade =>
+      asDouble.toStringAsFixed(2).replaceAll('.', ',').substring(0, 3);
+
+  CalculatedGradeResult({required this.asDouble});
 }
 
 sealed class GradingSystem {
   static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
   static final oneToFiveteenPoints = OneToFiveteenPointsGradingSystem();
 
-  String getClosestGrade(num grade);
-
   double toDoubleOrThrow(String grade);
 }
 
 class OneToFiveteenPointsGradingSystem extends GradingSystem
     with EquatableMixin {
-  @override
-  String getClosestGrade(num grade) {
-    // TODO: Rounds up on .5, should round down (fix it with a test case for it)
-    return grade.round().toString();
-  }
-
   @override
   double toDoubleOrThrow(String grade) {
     return double.parse(grade);
@@ -295,53 +283,6 @@ class OneToFiveteenPointsGradingSystem extends GradingSystem
 
 class OneToSixWithPlusMinusGradingSystem extends GradingSystem
     with EquatableMixin {
-  final Map<String, num> _gradeToNum = {
-    '1+': 0.75,
-    '1': 1,
-    '1-': 1.25,
-    '2+': 1.75,
-    '2': 2,
-    '2-': 2.25,
-    '3+': 2.75,
-    '3': 3,
-    '3-': 3.25,
-    '4+': 3.75,
-    '4': 4,
-    '4-': 4.25,
-    '5+': 4.75,
-    '5': 5,
-    '5-': 5.25,
-    '6': 6,
-  };
-
-  final Map<num, String> _numToGrade = {
-    0.75: '1+',
-    1: '1',
-    1.25: '1-',
-    1.75: '2+',
-    2: '2',
-    2.25: '2-',
-    2.75: '3+',
-    3: '3',
-    3.25: '3-',
-    3.75: '4+',
-    4: '4',
-    4.25: '4-',
-    4.75: '5+',
-    5: '5',
-    5.25: '5-',
-    6: '6',
-  };
-
-  @override
-  String getClosestGrade(num grade) {
-    final grades = _gradeToNum.values.toList();
-    final closest = grades.reduce((a, b) {
-      return (a - grade).abs() < (b - grade).abs() ? a : b;
-    });
-    return _numToGrade[closest]!;
-  }
-
   @override
   double toDoubleOrThrow(String grade) {
     return switch (grade) {

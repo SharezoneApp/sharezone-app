@@ -706,15 +706,15 @@ void main() {
               .term(term.id)
               .subject(const SubjectId('Mathe'))
               .calculatedGrade!
-              .closestGrade,
-          "2-");
-
+              .displayableGrade,
+          '2,3');
       expect(
           controller
               .term(term.id)
               .subject(const SubjectId('Mathe'))
               .calculatedGrade!
               .asDouble,
+          // 2.33333...
           (1.75 + 3.25 + 2) / 3);
     });
 
@@ -752,8 +752,8 @@ void main() {
               .term(term.id)
               .subject(const SubjectId('Mathe'))
               .calculatedGrade!
-              .closestGrade,
-          '5');
+              .displayableGrade,
+          '4,6');
 
       expect(
           controller
@@ -761,6 +761,7 @@ void main() {
               .subject(const SubjectId('Mathe'))
               .calculatedGrade!
               .asDouble,
+          // 4,6666...7
           (4 + 8 + 2) / 3);
     });
     test('The subject will use the Terms grading system by default.', () {

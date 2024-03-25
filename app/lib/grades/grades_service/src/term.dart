@@ -256,7 +256,6 @@ class _Subject {
   final WeightType weightType;
 
   late final num? gradeVal;
-  late final String? closestGrade;
 
   _Subject({
     required this.term,
@@ -271,9 +270,6 @@ class _Subject {
     this.gradeTypeWeightingsFromTerm = const IMapConst({}),
   }) {
     gradeVal = _getGradeVal();
-    if (gradeVal != null) {
-      closestGrade = gradingSystem.getClosestGrade(gradeVal!);
-    }
   }
 
   num? _getGradeVal() {
