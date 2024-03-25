@@ -180,6 +180,12 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  /// Returns the possible grades for the given grading system as strings.
+  ///
+  /// The strings are ordered from the best grade to the worst grade.
+  ///
+  /// For example the values for the grading system "1-6 with plus and minus"
+  /// would be: `['1+', '1', '1-', '2+', [...] '5+', '5', '5-', '6']`
   List<String> getPossibleGrades(GradingSystems gradingSystem) {
     final gs = gradingSystem.toGradingSystem();
     return gs.possibleValues;
@@ -317,21 +323,21 @@ class OneToSixWithPlusMinusGradingSystem extends GradingSystem
     with EquatableMixin {
   @override
   List<String> get possibleValues => [
-        '1-',
-        '1',
         '1+',
-        '2-',
-        '2',
+        '1',
+        '1-',
         '2+',
-        '3-',
-        '3',
+        '2',
+        '2-',
         '3+',
-        '4-',
-        '4',
+        '3',
+        '3-',
         '4+',
-        '5-',
-        '5',
+        '4',
+        '4-',
         '5+',
+        '5',
+        '5-',
         '6',
       ];
 
