@@ -59,6 +59,7 @@ class GradesService {
                       (grade) => GradeResult(
                         id: grade.id,
                         isTakenIntoAccount: grade.takenIntoAccount,
+                        doubleValue: grade.value.toDouble(),
                       ),
                     )
                     .toIList(),
@@ -178,6 +179,11 @@ class GradesService {
     final newTerm = _term(termId).setFinalGradeTypeForSubject(id, gradeType);
     _updateTerm(newTerm);
   }
+
+  List<String> getPossibleGrades(GradingSystems gradingSystem) {
+    final gs = gradingSystem.toGradingSystem();
+    return gs.possibleValues;
+  }
 }
 
 enum GradingSystems { oneToSixWithPlusAndMinus, oneToFiveteenPoints }
@@ -206,9 +212,14 @@ extension ToGradingSystems on GradingSystem {
 
 class GradeResult {
   final GradeId id;
+  final double doubleValue;
   final bool isTakenIntoAccount;
 
-  GradeResult({required this.id, required this.isTakenIntoAccount});
+  GradeResult({
+    required this.id,
+    required this.isTakenIntoAccount,
+    required this.doubleValue,
+  });
 }
 
 class SubjectResult {
@@ -268,10 +279,31 @@ sealed class GradingSystem {
   static final oneToFiveteenPoints = OneToFiveteenPointsGradingSystem();
 
   double toDoubleOrThrow(String grade);
+  List<String> get possibleValues;
 }
 
 class OneToFiveteenPointsGradingSystem extends GradingSystem
     with EquatableMixin {
+  @override
+  List<String> get possibleValues => [
+        '0',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11',
+        '12',
+        '13',
+        '14',
+        '15',
+      ];
+
   @override
   double toDoubleOrThrow(String grade) {
     return double.parse(grade);
@@ -283,6 +315,26 @@ class OneToFiveteenPointsGradingSystem extends GradingSystem
 
 class OneToSixWithPlusMinusGradingSystem extends GradingSystem
     with EquatableMixin {
+  @override
+  List<String> get possibleValues => [
+        '1-',
+        '1',
+        '1+',
+        '2-',
+        '2',
+        '2+',
+        '3-',
+        '3',
+        '3+',
+        '4-',
+        '4',
+        '4+',
+        '5-',
+        '5',
+        '5+',
+        '6',
+      ];
+
   @override
   double toDoubleOrThrow(String grade) {
     return switch (grade) {

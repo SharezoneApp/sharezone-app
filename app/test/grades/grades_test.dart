@@ -1002,17 +1002,18 @@ class TestTerm {
 }
 
 TestSubject subjectWith({
-  required SubjectId id,
+  SubjectId? id,
   String? name,
-  required List<TestGrade> grades,
+  List<TestGrade> grades = const [],
   Weight? weight,
   WeightType? weightType,
   Map<GradeType, Weight> gradeTypeWeights = const {},
   GradeType? finalGradeType,
 }) {
+  final idd = id ?? SubjectId(randomAlpha(5));
   return TestSubject(
-    id: id,
-    name: name ?? id.id,
+    id: idd,
+    name: name ?? idd.id,
     grades: IList(grades),
     weight: weight,
     weightType: weightType,
