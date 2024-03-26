@@ -14,9 +14,9 @@ import '../grades_service.dart';
 class Term {
   final TermId id;
   final IList<_Subject> _subjects;
-  final IMap<GradeType, double> _gradeTypeWeightings;
+  final IMap<GradeTypeId, double> _gradeTypeWeightings;
   final GradingSystem gradingSystem;
-  final GradeType finalGradeType;
+  final GradeTypeId finalGradeType;
   final bool isActiveTerm;
   final String name;
 
@@ -67,8 +67,8 @@ class Term {
   Term _copyWith({
     TermId? id,
     IList<_Subject>? subjects,
-    IMap<GradeType, double>? gradeTypeWeightings,
-    GradeType? finalGradeType,
+    IMap<GradeTypeId, double>? gradeTypeWeightings,
+    GradeTypeId? finalGradeType,
     bool? isActiveTerm,
     String? name,
     GradingSystem? gradingSystem,
@@ -116,7 +116,7 @@ class Term {
     );
   }
 
-  Term changeWeightingOfGradeType(GradeType type, {required num weight}) {
+  Term changeWeightingOfGradeType(GradeTypeId type, {required num weight}) {
     final newWeights = _gradeTypeWeightings.add(type, weight.toDouble());
     final newSubjects = _subjects.map((s) {
       final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
@@ -126,7 +126,7 @@ class Term {
     return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
   }
 
-  Term setFinalGradeType(GradeType gradeType) {
+  Term setFinalGradeType(GradeTypeId gradeType) {
     final newSubjects =
         _subjects.where((s) => s.isFinalGradeTypeOverridden == false).map((s) {
       final newSubject = s.copyWith(finalGradeType: gradeType);
@@ -183,7 +183,7 @@ class Term {
   }
 
   Term changeWeightingOfGradeTypeInSubject(
-      SubjectId id, GradeType gradeType, double weight) {
+      SubjectId id, GradeTypeId gradeType, double weight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject =
         subject._changeGradeTypeWeight(gradeType, weight: weight);
@@ -207,7 +207,7 @@ class Term {
     );
   }
 
-  Term setFinalGradeTypeForSubject(SubjectId id, GradeType gradeType) {
+  Term setFinalGradeTypeForSubject(SubjectId id, GradeTypeId gradeType) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject._overrideFinalGradeType(gradeType);
 
@@ -248,11 +248,11 @@ class _Subject {
   final SubjectId id;
   final GradingSystem gradingSystem;
   final IList<_Grade> grades;
-  final GradeType finalGradeType;
+  final GradeTypeId finalGradeType;
   final bool isFinalGradeTypeOverridden;
   final num weightingForTermGrade;
-  final IMap<GradeType, double> gradeTypeWeightings;
-  final IMap<GradeType, double> gradeTypeWeightingsFromTerm;
+  final IMap<GradeTypeId, double> gradeTypeWeightings;
+  final IMap<GradeTypeId, double> gradeTypeWeightingsFromTerm;
   final WeightType weightType;
 
   late final num? gradeVal;
@@ -300,13 +300,13 @@ class _Subject {
     };
   }
 
-  _Subject _changeGradeTypeWeight(GradeType gradeType,
+  _Subject _changeGradeTypeWeight(GradeTypeId gradeType,
       {required double weight}) {
     return copyWith(
         gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
   }
 
-  _Subject _overrideFinalGradeType(GradeType gradeType) {
+  _Subject _overrideFinalGradeType(GradeTypeId gradeType) {
     return copyWith(
         finalGradeType: gradeType, isFinalGradeTypeOverridden: true);
   }
@@ -319,12 +319,12 @@ class _Subject {
     Term? term,
     SubjectId? id,
     IList<_Grade>? grades,
-    GradeType? finalGradeType,
+    GradeTypeId? finalGradeType,
     bool? isFinalGradeTypeOverridden,
     num? weightingForTermGrade,
     GradingSystem? gradingSystem,
-    IMap<GradeType, double>? gradeTypeWeightings,
-    IMap<GradeType, double>? gradeTypeWeightingsFromTerm,
+    IMap<GradeTypeId, double>? gradeTypeWeightings,
+    IMap<GradeTypeId, double>? gradeTypeWeightingsFromTerm,
     WeightType? weightType,
   }) {
     return _Subject(
@@ -350,7 +350,7 @@ class _Grade extends Equatable {
   final GradeId id;
   final num value;
   final GradingSystem gradingSystem;
-  final GradeType gradeType;
+  final GradeTypeId gradeType;
   final bool takenIntoAccount;
   final num weight;
 
@@ -378,7 +378,7 @@ class _Grade extends Equatable {
     GradeId? id,
     num? value,
     GradingSystem? gradingSystem,
-    GradeType? gradeType,
+    GradeTypeId? gradeType,
     bool? takenIntoAccount,
     num? weight,
   }) {

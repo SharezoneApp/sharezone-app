@@ -178,14 +178,14 @@ void main() {
             name: 'Englisch',
             weightType: WeightType.perGradeType,
             gradeTypeWeights: {
-              const GradeType('presentation'): const Weight.factor(0.7),
-              const GradeType('vocabulary test'): const Weight.factor(1),
-              const GradeType('exam'): const Weight.factor(1.5),
+              const GradeTypeId('presentation'): const Weight.factor(0.7),
+              const GradeTypeId('vocabulary test'): const Weight.factor(1),
+              const GradeTypeId('exam'): const Weight.factor(1.5),
             },
             grades: [
-              gradeWith(value: 2.0, type: const GradeType('presentation')),
-              gradeWith(value: 1.0, type: const GradeType('exam')),
-              gradeWith(value: 1.0, type: const GradeType('vocabulary test')),
+              gradeWith(value: 2.0, type: const GradeTypeId('presentation')),
+              gradeWith(value: 1.0, type: const GradeTypeId('exam')),
+              gradeWith(value: 1.0, type: const GradeTypeId('vocabulary test')),
             ]),
       ]);
       controller.createTerm(term);
@@ -214,18 +214,18 @@ void main() {
           name: 'Mathe',
           weightType: WeightType.perGradeType,
           gradeTypeWeights: {
-            const GradeType('Schulaufgabe'): const Weight.factor(2),
-            const GradeType('Abfrage'): const Weight.factor(1),
-            const GradeType('Mitarbeitsnote'): const Weight.factor(1),
-            const GradeType('Referat'): const Weight.factor(1),
+            const GradeTypeId('Schulaufgabe'): const Weight.factor(2),
+            const GradeTypeId('Abfrage'): const Weight.factor(1),
+            const GradeTypeId('Mitarbeitsnote'): const Weight.factor(1),
+            const GradeTypeId('Referat'): const Weight.factor(1),
           },
           grades: [
-            gradeWith(value: 2.0, type: const GradeType('Schulaufgabe')),
-            gradeWith(value: 3.0, type: const GradeType('Schulaufgabe')),
-            gradeWith(value: 1.0, type: const GradeType('Abfrage')),
-            gradeWith(value: 3.0, type: const GradeType('Abfrage')),
-            gradeWith(value: 2.0, type: const GradeType('Mitarbeitsnote')),
-            gradeWith(value: 1.0, type: const GradeType('Referat')),
+            gradeWith(value: 2.0, type: const GradeTypeId('Schulaufgabe')),
+            gradeWith(value: 3.0, type: const GradeTypeId('Schulaufgabe')),
+            gradeWith(value: 1.0, type: const GradeTypeId('Abfrage')),
+            gradeWith(value: 3.0, type: const GradeTypeId('Abfrage')),
+            gradeWith(value: 2.0, type: const GradeTypeId('Mitarbeitsnote')),
+            gradeWith(value: 1.0, type: const GradeTypeId('Referat')),
           ],
         ),
       ]);
@@ -274,8 +274,8 @@ void main() {
 
       final term = termWith(
         gradeTypeWeights: {
-          const GradeType('presentation'): const Weight.factor(1),
-          const GradeType('exam'): const Weight.factor(3),
+          const GradeTypeId('presentation'): const Weight.factor(1),
+          const GradeTypeId('exam'): const Weight.factor(3),
         },
         subjects: [
           subjectWith(
@@ -284,8 +284,8 @@ void main() {
             // This should be the default:
             // weightType: WeightType.inheritFromTerm,
             grades: [
-              gradeWith(value: 3.0, type: const GradeType('presentation')),
-              gradeWith(value: 1.0, type: const GradeType('exam')),
+              gradeWith(value: 3.0, type: const GradeTypeId('presentation')),
+              gradeWith(value: 1.0, type: const GradeTypeId('exam')),
             ],
           ),
         ],
@@ -310,8 +310,8 @@ void main() {
 
       final term = termWith(
         gradeTypeWeights: {
-          const GradeType('presentation'): const Weight.factor(1),
-          const GradeType('exam'): const Weight.factor(3),
+          const GradeTypeId('presentation'): const Weight.factor(1),
+          const GradeTypeId('exam'): const Weight.factor(3),
         },
         subjects: [
           subjectWith(
@@ -322,12 +322,12 @@ void main() {
               gradeWith(
                 id: grade1Id,
                 value: 3.0,
-                type: const GradeType('presentation'),
+                type: const GradeTypeId('presentation'),
               ),
               gradeWith(
                 id: grade2Id,
                 value: 1.0,
-                type: const GradeType('exam'),
+                type: const GradeTypeId('exam'),
               ),
             ],
           ),
@@ -347,8 +347,8 @@ void main() {
         termId: term.id,
         subjectId: subjectId,
         gradeTypeWeights: {
-          const GradeType('presentation'): const Weight.factor(1),
-          const GradeType('exam'): const Weight.factor(1),
+          const GradeTypeId('presentation'): const Weight.factor(1),
+          const GradeTypeId('exam'): const Weight.factor(1),
         },
       );
 
@@ -402,17 +402,17 @@ void main() {
             name: 'Deutsch',
             weightType: WeightType.perGradeType,
             gradeTypeWeights: {
-              const GradeType('presentation'): const Weight.factor(1),
-              const GradeType('exam'): const Weight.factor(3),
+              const GradeTypeId('presentation'): const Weight.factor(1),
+              const GradeTypeId('exam'): const Weight.factor(3),
             },
             grades: [
               gradeWith(
                 value: 3.0,
-                type: const GradeType('presentation'),
+                type: const GradeTypeId('presentation'),
               ),
               gradeWith(
                 value: 1.0,
-                type: const GradeType('exam'),
+                type: const GradeTypeId('exam'),
               ),
             ],
           ),
@@ -460,12 +460,12 @@ void main() {
             grades: [
               gradeWith(
                 value: 3.0,
-                type: const GradeType('presentation'),
+                type: const GradeTypeId('presentation'),
                 weight: const Weight.factor(1),
               ),
               gradeWith(
                 value: 1.0,
-                type: const GradeType('exam'),
+                type: const GradeTypeId('exam'),
                 weight: const Weight.factor(3),
               ),
             ],
@@ -505,7 +505,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        finalGradeType: const GradeType('test endnote'),
+        finalGradeType: const GradeTypeId('test endnote'),
         subjects: [
           subjectWith(
             id: const SubjectId('Deutsch'),
@@ -513,11 +513,11 @@ void main() {
             grades: [
               gradeWith(
                 value: 3.0,
-                type: const GradeType('presentation'),
+                type: const GradeTypeId('presentation'),
               ),
               gradeWith(
                 value: 1.0,
-                type: const GradeType('test endnote'),
+                type: const GradeTypeId('test endnote'),
               ),
             ],
           ),
@@ -539,20 +539,20 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        finalGradeType: const GradeType('term finalGradeType'),
+        finalGradeType: const GradeTypeId('term finalGradeType'),
         subjects: [
           subjectWith(
             id: const SubjectId('Philosophie'),
             name: 'Philosophie',
-            finalGradeType: const GradeType('subject finalGradeType'),
+            finalGradeType: const GradeTypeId('subject finalGradeType'),
             grades: [
               gradeWith(
                 value: 4.0,
-                type: const GradeType('term finalGradeType'),
+                type: const GradeTypeId('term finalGradeType'),
               ),
               gradeWith(
                 value: 2.0,
-                type: const GradeType('subject finalGradeType'),
+                type: const GradeTypeId('subject finalGradeType'),
               ),
             ],
           ),
@@ -848,12 +848,12 @@ void main() {
       final gradeTypes = controller.getPossibleGradeTypes();
 
       expect(gradeTypes, [
-        const GradeType('school-report-grade'),
-        const GradeType('written-exam'),
-        const GradeType('oral-participation'),
-        const GradeType('vocabulary-test'),
-        const GradeType('presentation'),
-        const GradeType('other'),
+        const GradeTypeId('school-report-grade'),
+        const GradeTypeId('written-exam'),
+        const GradeTypeId('oral-participation'),
+        const GradeTypeId('vocabulary-test'),
+        const GradeTypeId('presentation'),
+        const GradeTypeId('other'),
       ]);
     });
   });
@@ -957,7 +957,7 @@ class GradesTestController {
   void changeTermWeightsForSubject(
       {required TermId termId,
       required SubjectId subjectId,
-      required Map<GradeType, Weight> gradeTypeWeights}) {
+      required Map<GradeTypeId, Weight> gradeTypeWeights}) {
     for (var e in gradeTypeWeights.entries) {
       service.changeGradeTypeWeightForSubject(
           id: subjectId, termId: termId, gradeType: e.key, weight: e.value);
@@ -967,12 +967,12 @@ class GradesTestController {
   void changeFinalGradeTypeForSubject(
       {required TermId termId,
       required SubjectId subjectId,
-      required GradeType? gradeType}) {
+      required GradeTypeId? gradeType}) {
     service.changeSubjectFinalGradeType(
         id: subjectId, termId: termId, gradeType: gradeType);
   }
 
-  IList<GradeType> getPossibleGradeTypes() {
+  IList<GradeTypeId> getPossibleGradeTypes() {
     return service.getPossibleGradeTypes();
   }
 }
@@ -980,8 +980,8 @@ class GradesTestController {
 TestTerm termWith({
   String? name,
   List<TestSubject> subjects = const [],
-  Map<GradeType, Weight>? gradeTypeWeights,
-  GradeType finalGradeType = const GradeType('Endnote'),
+  Map<GradeTypeId, Weight>? gradeTypeWeights,
+  GradeTypeId finalGradeType = const GradeTypeId('Endnote'),
   bool isActiveTerm = true,
   GradingSystems? gradingSystem,
 }) {
@@ -1004,8 +1004,8 @@ class TestTerm {
   final String name;
   final IMap<SubjectId, TestSubject> subjects;
   final GradingSystems gradingSystem;
-  final Map<GradeType, Weight>? gradeTypeWeights;
-  final GradeType finalGradeType;
+  final Map<GradeTypeId, Weight>? gradeTypeWeights;
+  final GradeTypeId finalGradeType;
   final bool isActiveTerm;
 
   TestTerm({
@@ -1025,8 +1025,8 @@ TestSubject subjectWith({
   List<TestGrade> grades = const [],
   Weight? weight,
   WeightType? weightType,
-  Map<GradeType, Weight> gradeTypeWeights = const {},
-  GradeType? finalGradeType,
+  Map<GradeTypeId, Weight> gradeTypeWeights = const {},
+  GradeTypeId? finalGradeType,
 }) {
   final idd = id ?? SubjectId(randomAlpha(5));
   return TestSubject(
@@ -1045,9 +1045,9 @@ class TestSubject {
   final String name;
   final IList<TestGrade> grades;
   final WeightType? weightType;
-  final Map<GradeType, Weight> gradeTypeWeights;
+  final Map<GradeTypeId, Weight> gradeTypeWeights;
   final Weight? weight;
-  final GradeType? finalGradeType;
+  final GradeTypeId? finalGradeType;
 
   TestSubject({
     required this.id,
@@ -1076,7 +1076,7 @@ class TestSubject {
 TestGrade gradeWith({
   required Object value,
   bool includeInGradeCalculations = true,
-  GradeType type = const GradeType('some test type'),
+  GradeTypeId type = const GradeTypeId('some test type'),
   Weight? weight,
   GradeId? id,
   GradingSystems? gradingSystem,
@@ -1100,7 +1100,7 @@ class TestGrade {
   final Object value;
   final bool includeInGradeCalculations;
   final GradingSystems gradingSystem;
-  final GradeType type;
+  final GradeTypeId type;
   final Weight? weight;
 
   TestGrade({

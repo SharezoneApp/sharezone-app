@@ -25,7 +25,7 @@ class TermDialogController extends ChangeNotifier {
       id: TermId(termName),
       gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
       name: termName,
-      finalGradeType: const GradeType('foo'),
+      finalGradeType: const GradeTypeId('foo'),
       isActiveTerm: true,
     );
     return;

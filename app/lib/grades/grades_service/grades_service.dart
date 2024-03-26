@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:rxdart/subjects.dart' as rx;
@@ -74,7 +75,7 @@ class GradesService {
   void createTerm({
     required TermId id,
     required String name,
-    required GradeType finalGradeType,
+    required GradeTypeId finalGradeType,
     required GradingSystems gradingSystem,
     required bool isActiveTerm,
   }) {
@@ -123,7 +124,7 @@ class GradesService {
   void changeGradeTypeWeightForSubject({
     required SubjectId id,
     required TermId termId,
-    required GradeType gradeType,
+    required GradeTypeId gradeType,
     required Weight weight,
   }) {
     final newTerm = _term(termId).changeWeightingOfGradeTypeInSubject(
@@ -160,7 +161,7 @@ class GradesService {
 
   void changeGradeTypeWeightForTerm(
       {required TermId termId,
-      required GradeType gradeType,
+      required GradeTypeId gradeType,
       required Weight weight}) {
     final newTerm = _term(termId).changeWeightingOfGradeType(gradeType,
         weight: weight.asFactor.toDouble());
@@ -170,7 +171,7 @@ class GradesService {
   void changeSubjectFinalGradeType({
     required SubjectId id,
     required TermId termId,
-    required GradeType? gradeType,
+    required GradeTypeId? gradeType,
   }) {
     if (gradeType == null) {
       final newTerm = _term(termId).subjectInheritFinalGradeTypeFromTerm(id);
@@ -191,14 +192,14 @@ class GradesService {
     return gs.possibleValues;
   }
 
-  IList<GradeType> getPossibleGradeTypes() {
+  IList<GradeTypeId> getPossibleGradeTypes() {
     return const IListConst([
-      GradeType('school-report-grade'),
-      GradeType('written-exam'),
-      GradeType('oral-participation'),
-      GradeType('vocabulary-test'),
-      GradeType('presentation'),
-      GradeType('other'),
+      GradeTypeId('school-report-grade'),
+      GradeTypeId('written-exam'),
+      GradeTypeId('oral-participation'),
+      GradeTypeId('vocabulary-test'),
+      GradeTypeId('presentation'),
+      GradeTypeId('other'),
     ]);
   }
 }
@@ -243,7 +244,7 @@ class SubjectResult {
   final SubjectId id;
   final CalculatedGradeResult? calculatedGrade;
   final WeightType weightType;
-  final IMap<GradeType, Weight> gradeTypeWeights;
+  final IMap<GradeTypeId, Weight> gradeTypeWeights;
   final IList<GradeResult> grades;
 
   SubjectResult({
@@ -389,7 +390,7 @@ class Grade {
   /// Either a number or a string like '1+', '2-', etc.
   final Object value;
   final GradingSystems gradingSystem;
-  final GradeType type;
+  final GradeTypeId type;
 
   Grade({
     required this.id,
@@ -401,13 +402,8 @@ class Grade {
 
 enum WeightType { perGrade, perGradeType, inheritFromTerm }
 
-class GradeType extends Equatable {
-  final String id;
-
-  @override
-  List<Object?> get props => [id];
-
-  const GradeType(this.id);
+class GradeTypeId extends Id {
+  const GradeTypeId(super.id);
 }
 
 class Subject {
