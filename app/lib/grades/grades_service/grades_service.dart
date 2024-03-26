@@ -192,25 +192,7 @@ class GradesService {
   }
 
   IList<GradeType> getPossibleGradeTypes() {
-    return const IListConst([
-      GradeType(
-          id: GradeTypeId('school-report-grade'),
-          predefinedType: PredefinedGradeTypes.schoolReportGrade),
-      GradeType(
-          id: GradeTypeId('written-exam'),
-          predefinedType: PredefinedGradeTypes.writtenExam),
-      GradeType(
-          id: GradeTypeId('oral-participation'),
-          predefinedType: PredefinedGradeTypes.oralParticipation),
-      GradeType(
-          id: GradeTypeId('vocabulary-test'),
-          predefinedType: PredefinedGradeTypes.vocabularyTest),
-      GradeType(
-          id: GradeTypeId('presentation'),
-          predefinedType: PredefinedGradeTypes.presentation),
-      GradeType(
-          id: GradeTypeId('other'), predefinedType: PredefinedGradeTypes.other),
-    ]);
+    return GradeType.predefinedGradeTypes;
   }
 }
 
@@ -252,6 +234,33 @@ class GradeType {
   final PredefinedGradeTypes? predefinedType;
 
   const GradeType({required this.id, this.predefinedType});
+
+  static const predefinedGradeTypes = IListConst([
+    GradeType.schoolReportGrade(),
+    GradeType.writtenExam(),
+    GradeType.oralParticipation(),
+    GradeType.vocabularyTest(),
+    GradeType.presentation(),
+    GradeType.other(),
+  ]);
+  const GradeType.schoolReportGrade()
+      : id = const GradeTypeId('school-report-grade'),
+        predefinedType = PredefinedGradeTypes.schoolReportGrade;
+  const GradeType.writtenExam()
+      : id = const GradeTypeId('written-exam'),
+        predefinedType = PredefinedGradeTypes.writtenExam;
+  const GradeType.oralParticipation()
+      : id = const GradeTypeId('oral-participation'),
+        predefinedType = PredefinedGradeTypes.oralParticipation;
+  const GradeType.vocabularyTest()
+      : id = const GradeTypeId('vocabulary-test'),
+        predefinedType = PredefinedGradeTypes.vocabularyTest;
+  const GradeType.presentation()
+      : id = const GradeTypeId('presentation'),
+        predefinedType = PredefinedGradeTypes.presentation;
+  const GradeType.other()
+      : id = const GradeTypeId('other'),
+        predefinedType = PredefinedGradeTypes.other;
 }
 
 class GradeResult {
