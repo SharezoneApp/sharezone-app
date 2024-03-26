@@ -192,7 +192,12 @@ class GradesService {
   }
 
   IList<GradeType> getPossibleGradeTypes() {
-    return GradeType.predefinedGradeTypes;
+    return GradeType.predefinedGradeTypes.addAll(_customGradeTypes);
+  }
+
+  var _customGradeTypes = IList<GradeType>();
+  void createCustomGradeType(GradeType gradeType) {
+    _customGradeTypes = _customGradeTypes.add(gradeType);
   }
 }
 

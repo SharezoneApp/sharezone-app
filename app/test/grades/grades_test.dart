@@ -870,6 +870,18 @@ void main() {
             predefinedType: PredefinedGradeTypes.other),
       ]);
     });
+    test(
+        'A custom grade type can be created which will be included when getting possible grade types',
+        () {
+      final controller = GradesTestController();
+
+      controller.createCustomGradeType(const GradeType(id: GradeTypeId('foo')));
+      controller.createCustomGradeType(const GradeType(id: GradeTypeId('bar')));
+      final gradeTypes = controller.getPossibleGradeTypes();
+
+      expect(gradeTypes, containsOnce(const GradeType(id: GradeTypeId('foo'))));
+      expect(gradeTypes, containsOnce(const GradeType(id: GradeTypeId('bar'))));
+    });
   });
 }
 
@@ -988,6 +1000,10 @@ class GradesTestController {
 
   IList<GradeType> getPossibleGradeTypes() {
     return service.getPossibleGradeTypes();
+  }
+
+  void createCustomGradeType(GradeType gradeType) {
+    return service.createCustomGradeType(gradeType);
   }
 }
 
