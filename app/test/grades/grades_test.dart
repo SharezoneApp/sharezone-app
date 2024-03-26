@@ -850,12 +850,24 @@ void main() {
       final gradeTypes = controller.getPossibleGradeTypes();
 
       expect(gradeTypes, [
-        const GradeType(id: GradeTypeId('school-report-grade')),
-        const GradeType(id: GradeTypeId('written-exam')),
-        const GradeType(id: GradeTypeId('oral-participation')),
-        const GradeType(id: GradeTypeId('vocabulary-test')),
-        const GradeType(id: GradeTypeId('presentation')),
-        const GradeType(id: GradeTypeId('other')),
+        const GradeType(
+            id: GradeTypeId('school-report-grade'),
+            predefinedType: PredefinedGradeTypes.schoolReportGrade),
+        const GradeType(
+            id: GradeTypeId('written-exam'),
+            predefinedType: PredefinedGradeTypes.writtenExam),
+        const GradeType(
+            id: GradeTypeId('oral-participation'),
+            predefinedType: PredefinedGradeTypes.oralParticipation),
+        const GradeType(
+            id: GradeTypeId('vocabulary-test'),
+            predefinedType: PredefinedGradeTypes.vocabularyTest),
+        const GradeType(
+            id: GradeTypeId('presentation'),
+            predefinedType: PredefinedGradeTypes.presentation),
+        const GradeType(
+            id: GradeTypeId('other'),
+            predefinedType: PredefinedGradeTypes.other),
       ]);
     });
   });

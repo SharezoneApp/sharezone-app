@@ -193,12 +193,23 @@ class GradesService {
 
   IList<GradeType> getPossibleGradeTypes() {
     return const IListConst([
-      GradeType(id: GradeTypeId('school-report-grade')),
-      GradeType(id: GradeTypeId('written-exam')),
-      GradeType(id: GradeTypeId('oral-participation')),
-      GradeType(id: GradeTypeId('vocabulary-test')),
-      GradeType(id: GradeTypeId('presentation')),
-      GradeType(id: GradeTypeId('other')),
+      GradeType(
+          id: GradeTypeId('school-report-grade'),
+          predefinedType: PredefinedGradeTypes.schoolReportGrade),
+      GradeType(
+          id: GradeTypeId('written-exam'),
+          predefinedType: PredefinedGradeTypes.writtenExam),
+      GradeType(
+          id: GradeTypeId('oral-participation'),
+          predefinedType: PredefinedGradeTypes.oralParticipation),
+      GradeType(
+          id: GradeTypeId('vocabulary-test'),
+          predefinedType: PredefinedGradeTypes.vocabularyTest),
+      GradeType(
+          id: GradeTypeId('presentation'),
+          predefinedType: PredefinedGradeTypes.presentation),
+      GradeType(
+          id: GradeTypeId('other'), predefinedType: PredefinedGradeTypes.other),
     ]);
   }
 }
@@ -227,10 +238,20 @@ extension ToGradingSystems on GradingSystem {
   }
 }
 
+enum PredefinedGradeTypes {
+  schoolReportGrade,
+  writtenExam,
+  oralParticipation,
+  vocabularyTest,
+  presentation,
+  other,
+}
+
 class GradeType {
   final GradeTypeId id;
+  final PredefinedGradeTypes? predefinedType;
 
-  const GradeType({required this.id});
+  const GradeType({required this.id, this.predefinedType});
 }
 
 class GradeResult {
