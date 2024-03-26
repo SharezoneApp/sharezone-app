@@ -190,6 +190,17 @@ class GradesService {
     final gs = gradingSystem.toGradingSystem();
     return gs.possibleValues;
   }
+
+  IList<GradeType> getPossibleGradeTypes() {
+    return const IListConst([
+      GradeType('school-report-grade'),
+      GradeType('written-exam'),
+      GradeType('oral-participation'),
+      GradeType('vocabulary-test'),
+      GradeType('presentation'),
+      GradeType('other'),
+    ]);
+  }
 }
 
 enum GradingSystems { oneToSixWithPlusAndMinus, oneToFiveteenPoints }

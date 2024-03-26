@@ -842,6 +842,20 @@ void main() {
               .asDouble,
           (4 + 8) / 2);
     });
+    test('Correct predefined grade types are existent', () {
+      final controller = GradesTestController();
+
+      final gradeTypes = controller.getPossibleGradeTypes();
+
+      expect(gradeTypes, [
+        const GradeType('school-report-grade'),
+        const GradeType('written-exam'),
+        const GradeType('oral-participation'),
+        const GradeType('vocabulary-test'),
+        const GradeType('presentation'),
+        const GradeType('other'),
+      ]);
+    });
   });
 }
 
@@ -956,6 +970,10 @@ class GradesTestController {
       required GradeType? gradeType}) {
     service.changeSubjectFinalGradeType(
         id: subjectId, termId: termId, gradeType: gradeType);
+  }
+
+  IList<GradeType> getPossibleGradeTypes() {
+    return service.getPossibleGradeTypes();
   }
 }
 
