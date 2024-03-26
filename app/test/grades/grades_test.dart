@@ -213,6 +213,8 @@ void main() {
           id: const SubjectId('Mathe'),
           name: 'Mathe',
           weightType: WeightType.perGradeType,
+          // TODO: GradeTypes do not exist yet, should probably be explicitly
+          // created in this and other tests?
           gradeTypeWeights: {
             const GradeTypeId('Schulaufgabe'): const Weight.factor(2),
             const GradeTypeId('Abfrage'): const Weight.factor(1),
