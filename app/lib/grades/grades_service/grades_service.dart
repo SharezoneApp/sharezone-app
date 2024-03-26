@@ -152,7 +152,6 @@ class GradesService {
         .subjects
         .where((element) => element.grades.any((grade) => grade.id == id))
         .first;
-    // final newTerm = subject.grade(id).changeWeight(weight.asFactor.toDouble());
     final newTerm = _term(termId)
         .changeWeightOfGrade(id, subject.id, weight.asFactor.toDouble());
 
