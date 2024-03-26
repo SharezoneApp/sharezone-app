@@ -138,6 +138,11 @@ class GradesService {
     required Grade value,
     bool takeIntoAccount = true,
   }) {
+    if (!getPossibleGradeTypes()
+        .map((gradeType) => gradeType.id)
+        .contains(value.type)) {
+      throw UnknownGradeTypeException(value.type);
+    }
     final newTerm = _term(termId)
         .addGrade(value, toSubject: id, takenIntoAccount: takeIntoAccount);
     _updateTerm(newTerm);
@@ -199,6 +204,15 @@ class GradesService {
   void createCustomGradeType(GradeType gradeType) {
     _customGradeTypes = _customGradeTypes.add(gradeType);
   }
+}
+
+class UnknownGradeTypeException extends Equatable implements Exception {
+  final GradeTypeId id;
+
+  const UnknownGradeTypeException(this.id);
+
+  @override
+  List<Object?> get props => [id];
 }
 
 enum GradingSystems { oneToSixWithPlusAndMinus, oneToFiveteenPoints }

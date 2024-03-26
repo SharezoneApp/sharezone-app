@@ -235,7 +235,7 @@ void main() {
           ],
         ),
       ]);
-      controller.createTerm(term);
+      controller.createTerm(term, createMissingGradeTypes: true);
 
       expect(
           controller
@@ -520,7 +520,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        finalGradeType: const GradeTypeId('test endnote'),
+        finalGradeType: const GradeType.other().id,
         subjects: [
           subjectWith(
             id: const SubjectId('Deutsch'),
@@ -528,11 +528,11 @@ void main() {
             grades: [
               gradeWith(
                 value: 3.0,
-                type: const GradeTypeId('presentation'),
+                type: const GradeType.vocabularyTest().id,
               ),
               gradeWith(
                 value: 1.0,
-                type: const GradeTypeId('test endnote'),
+                type: const GradeType.other().id,
               ),
             ],
           ),
@@ -895,14 +895,48 @@ void main() {
       expect(gradeTypes, containsOnce(const GradeType(id: GradeTypeId('foo'))));
       expect(gradeTypes, containsOnce(const GradeType(id: GradeTypeId('bar'))));
     });
+    test(
+        'Trying to add a grade with an non-existing gradeType will cause an UnknownGradeTypeException',
+        () {
+      final controller = GradesTestController();
+
+      controller.createTerm(
+        termWith(
+          id: const TermId('foo'),
+          subjects: [subjectWith(id: const SubjectId('bar'))],
+        ),
+      );
+
+      addGrade() => controller.addGrade(
+            termId: const TermId('test'),
+            subjectId: const SubjectId('bar'),
+            value: gradeWith(value: 3, type: const GradeTypeId('test')),
+          );
+
+      expect(addGrade,
+          throwsA(const UnknownGradeTypeException(GradeTypeId('test'))));
+    });
   });
 }
 
 class GradesTestController {
   final service = GradesService();
 
-  void createTerm(TestTerm testTerm) {
+  void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = false}) {
     final termId = testTerm.id;
+
+    // TODO: Implement in the right way
+    if (createMissingGradeTypes) {
+      service.createCustomGradeType(
+          const GradeType(id: GradeTypeId('Schulaufgabe')));
+      service
+          .createCustomGradeType(const GradeType(id: GradeTypeId('Abfrage')));
+      service.createCustomGradeType(
+          const GradeType(id: GradeTypeId('Mitarbeitsnote')));
+      service
+          .createCustomGradeType(const GradeType(id: GradeTypeId('Referat')));
+    }
+
     service.createTerm(
       id: termId,
       finalGradeType: testTerm.finalGradeType,
@@ -947,12 +981,7 @@ class GradesTestController {
         service.addGrade(
           id: subject.id,
           termId: termId,
-          value: Grade(
-            id: grade.id,
-            value: grade.value,
-            gradingSystem: grade.gradingSystem,
-            type: grade.type,
-          ),
+          value: _toGrade(grade),
           takeIntoAccount: grade.includeInGradeCalculations,
         );
         if (grade.weight != null) {
@@ -964,6 +993,15 @@ class GradesTestController {
         }
       }
     }
+  }
+
+  Grade _toGrade(TestGrade testGrade) {
+    return Grade(
+      id: testGrade.id,
+      value: testGrade.value,
+      gradingSystem: testGrade.gradingSystem,
+      type: testGrade.type,
+    );
   }
 
   TermResult term(TermId id) {
@@ -1017,6 +1055,17 @@ class GradesTestController {
 
   void createCustomGradeType(GradeType gradeType) {
     return service.createCustomGradeType(gradeType);
+  }
+
+  void addGrade(
+      {required TermId termId,
+      required SubjectId subjectId,
+      required TestGrade value}) {
+    return service.addGrade(
+      id: subjectId,
+      termId: termId,
+      value: _toGrade(value),
+    );
   }
 }
 
@@ -1121,7 +1170,7 @@ class TestSubject {
 TestGrade gradeWith({
   required Object value,
   bool includeInGradeCalculations = true,
-  GradeTypeId type = const GradeTypeId('some test type'),
+  GradeTypeId? type,
   Weight? weight,
   GradeId? id,
   GradingSystems? gradingSystem,
@@ -1133,7 +1182,7 @@ TestGrade gradeWith({
     // TODO: Move default test grading system out and reference it from there
     // in the test code.
     gradingSystem: gradingSystem ?? GradingSystems.oneToFiveteenPoints,
-    type: type,
+    type: type ?? const GradeType.other().id,
     weight: weight,
   );
 }
