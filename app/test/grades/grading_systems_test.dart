@@ -14,7 +14,7 @@ import 'grades_test.dart';
 
 void main() {
   group('Grading Systems', () {
-    void testThatCorrectPossibleValuesAreGiven(
+    void testThatCorrectPossibleValuesAreGivenAndInCorrectOrder(
         GradingSystems gradingSystem, Map<String, num> expected) {
       final values = GradesService().getPossibleGrades(gradingSystem);
 
@@ -58,8 +58,9 @@ void main() {
         required Map<String, num> expected}) {
       final tests = [
         (
-          name: 'returns correct possible input values',
-          testFunc: testThatCorrectPossibleValuesAreGiven
+          name:
+              'returns correct possible input values sorted by best to worst grade',
+          testFunc: testThatCorrectPossibleValuesAreGivenAndInCorrectOrder
         ),
         (
           name: 'returns correct double grade values for grade strings',
