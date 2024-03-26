@@ -946,6 +946,7 @@ void main() {
       expect(
           gradeTypeIds, containsOnce(const GradeType.oralParticipation().id));
     });
+    // TODO: Using unknown GradeTypes in weight maps should do nothing (no error)
   });
 }
 
@@ -955,16 +956,12 @@ class GradesTestController {
   void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = false}) {
     final termId = testTerm.id;
 
-    // TODO: Implement in the right way
     if (createMissingGradeTypes) {
-      service.createCustomGradeType(
-          const GradeType(id: GradeTypeId('Schulaufgabe')));
-      service
-          .createCustomGradeType(const GradeType(id: GradeTypeId('Abfrage')));
-      service.createCustomGradeType(
-          const GradeType(id: GradeTypeId('Mitarbeitsnote')));
-      service
-          .createCustomGradeType(const GradeType(id: GradeTypeId('Referat')));
+      for (var id in _getAllGradeTypeIds(testTerm)) {
+        service.createCustomGradeType(
+          GradeType(id: id),
+        );
+      }
     }
 
     service.createTerm(
@@ -1023,6 +1020,29 @@ class GradesTestController {
         }
       }
     }
+  }
+
+  IList<GradeTypeId> _getAllGradeTypeIds(TestTerm testTerm) {
+    final ids = IList<GradeTypeId>()
+        .add(testTerm.finalGradeType)
+        .addAll(
+          testTerm.gradeTypeWeights?.keys ?? [],
+        )
+        .addAll([
+      for (var subject in testTerm.subjects.values)
+        ..._getAllGradeTypeIdsForSubject(subject),
+    ]);
+
+    return ids;
+  }
+
+  IList<GradeTypeId> _getAllGradeTypeIdsForSubject(TestSubject testSubject) {
+    return testSubject.gradeTypeWeights.keys
+        .toIList()
+        .addAll(testSubject.finalGradeType != null
+            ? [testSubject.finalGradeType!]
+            : [])
+        .addAll(testSubject.grades.map((g) => g.type));
   }
 
   Grade _toGrade(TestGrade testGrade) {
