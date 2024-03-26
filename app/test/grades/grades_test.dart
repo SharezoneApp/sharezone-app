@@ -1021,6 +1021,7 @@ class GradesTestController {
 }
 
 TestTerm termWith({
+  TermId? id,
   String? name,
   List<TestSubject> subjects = const [],
   Map<GradeTypeId, Weight>? gradeTypeWeights,
@@ -1029,9 +1030,10 @@ TestTerm termWith({
   GradingSystems? gradingSystem,
 }) {
   final rdm = randomAlpha(5);
+  final idd = id ?? TermId(rdm);
   return TestTerm(
-    id: TermId(rdm),
-    name: name ?? 'Test term $rdm',
+    id: idd,
+    name: name ?? '$idd',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
     // TODO: Move default test grading system out and reference it from there
     // in the test code.
