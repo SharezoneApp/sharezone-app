@@ -220,6 +220,10 @@ extension ToGradingSystems on GradingSystem {
   }
 }
 
+/// The predefined types of grades that can be used.
+///
+/// This can be used by the UI to more easily show internationalized names for
+/// the predefined grade types.
 enum PredefinedGradeTypes {
   schoolReportGrade,
   writtenExam,
