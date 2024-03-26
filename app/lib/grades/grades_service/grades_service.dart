@@ -138,9 +138,7 @@ class GradesService {
     required Grade value,
     bool takeIntoAccount = true,
   }) {
-    if (!getPossibleGradeTypes()
-        .map((gradeType) => gradeType.id)
-        .contains(value.type)) {
+    if (!_hasGradeTypeWithId(value.type)) {
       throw UnknownGradeTypeException(value.type);
     }
     final newTerm = _term(termId)
@@ -201,7 +199,19 @@ class GradesService {
   }
 
   var _customGradeTypes = IList<GradeType>();
+
+  bool _hasGradeTypeWithId(GradeTypeId id) {
+    return getPossibleGradeTypes().map((gt) => gt.id).contains(id);
+  }
+
+  /// Creates a custom grade type.
+  ///
+  /// If the grade type already exists, nothing will happen.
   void createCustomGradeType(GradeType gradeType) {
+    if (_hasGradeTypeWithId(gradeType.id)) {
+      // Already exists
+      return;
+    }
     _customGradeTypes = _customGradeTypes.add(gradeType);
   }
 }
@@ -252,9 +262,12 @@ enum PredefinedGradeTypes {
   other,
 }
 
-class GradeType {
+class GradeType extends Equatable {
   final GradeTypeId id;
   final PredefinedGradeTypes? predefinedType;
+
+  @override
+  List<Object?> get props => [id, predefinedType];
 
   const GradeType({required this.id, this.predefinedType});
 
