@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
-import 'grades_test.dart';
+import 'grades_test_common.dart';
 
 void main() {
   group('Grading Systems', () {
