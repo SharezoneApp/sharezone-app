@@ -191,14 +191,14 @@ class GradesService {
     return gs.possibleValues;
   }
 
-  IList<GradeTypeId> getPossibleGradeTypes() {
+  IList<GradeType> getPossibleGradeTypes() {
     return const IListConst([
-      GradeTypeId('school-report-grade'),
-      GradeTypeId('written-exam'),
-      GradeTypeId('oral-participation'),
-      GradeTypeId('vocabulary-test'),
-      GradeTypeId('presentation'),
-      GradeTypeId('other'),
+      GradeType(id: GradeTypeId('school-report-grade')),
+      GradeType(id: GradeTypeId('written-exam')),
+      GradeType(id: GradeTypeId('oral-participation')),
+      GradeType(id: GradeTypeId('vocabulary-test')),
+      GradeType(id: GradeTypeId('presentation')),
+      GradeType(id: GradeTypeId('other')),
     ]);
   }
 }
@@ -225,6 +225,12 @@ extension ToGradingSystems on GradingSystem {
     }
     throw UnimplementedError();
   }
+}
+
+class GradeType {
+  final GradeTypeId id;
+
+  const GradeType({required this.id});
 }
 
 class GradeResult {

@@ -850,12 +850,12 @@ void main() {
       final gradeTypes = controller.getPossibleGradeTypes();
 
       expect(gradeTypes, [
-        const GradeTypeId('school-report-grade'),
-        const GradeTypeId('written-exam'),
-        const GradeTypeId('oral-participation'),
-        const GradeTypeId('vocabulary-test'),
-        const GradeTypeId('presentation'),
-        const GradeTypeId('other'),
+        const GradeType(id: GradeTypeId('school-report-grade')),
+        const GradeType(id: GradeTypeId('written-exam')),
+        const GradeType(id: GradeTypeId('oral-participation')),
+        const GradeType(id: GradeTypeId('vocabulary-test')),
+        const GradeType(id: GradeTypeId('presentation')),
+        const GradeType(id: GradeTypeId('other')),
       ]);
     });
   });
@@ -974,7 +974,7 @@ class GradesTestController {
         id: subjectId, termId: termId, gradeType: gradeType);
   }
 
-  IList<GradeTypeId> getPossibleGradeTypes() {
+  IList<GradeType> getPossibleGradeTypes() {
     return service.getPossibleGradeTypes();
   }
 }
