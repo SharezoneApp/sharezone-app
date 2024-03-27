@@ -750,10 +750,10 @@ void main() {
 
       // Two different subject with the same id to make sure that the id, not
       // the object itself is checked.
-      final subject1 = subjectWith(
-          id: const SubjectId('Mathe'), design: Design.random(szTestRandom));
+      final subject1 =
+          subjectWith(id: const SubjectId('Mathe'), name: 'Mathe 1');
       final subject2 =
-          subjectWith(id: const SubjectId('Mathe'), design: Design.standard());
+          subjectWith(id: const SubjectId('Mathe'), name: 'Mathe 2');
       controller.addSubject(subject1);
 
       expect(
@@ -761,7 +761,7 @@ void main() {
         throwsA(const SubjectAlreadyExistsException(SubjectId('Mathe'))),
       );
       // We check the design to know that the first subject was added.
-      expect(controller.getSubjects().single.design, subject1.design);
+      expect(controller.getSubjects().single.name, 'Mathe 1');
     });
     test(
         'If a grade with an unknown subject id was added then a $SubjectNotFoundException is thrown',
