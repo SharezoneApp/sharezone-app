@@ -246,16 +246,6 @@ class Term {
   }
 }
 
-class CalculatedGradeRes {
-  final double asDouble;
-  final GradingSystem gradingSystem;
-
-  CalculatedGradeRes({
-    required this.asDouble,
-    required this.gradingSystem,
-  });
-}
-
 class _Subject {
   final Term term;
   final SubjectId id;
