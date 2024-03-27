@@ -37,7 +37,11 @@ class GradesTestController {
     }
 
     for (var subject in testTerm.subjects.values) {
-      service.addSubject(Subject(id: subject.id, design: subject.design));
+      service.addSubject(Subject(
+        id: subject.id,
+        name: subject.name,
+        design: subject.design,
+      ));
       service.addSubjectToTerm(subjectId: subject.id, termId: termId);
       if (subject.weight != null) {
         service.changeSubjectWeightForTermGrade(
@@ -178,13 +182,22 @@ class GradesTestController {
   }
 
   void addSubject(TestSubject subject) {
-    service.addSubject(Subject(id: subject.id, design: subject.design));
+    service.addSubject(
+        Subject(id: subject.id, name: subject.name, design: subject.design));
   }
 
   IList<TestSubject> getSubjects() {
     return service
         .getSubjects()
-        .map((subject) => subjectWith(id: subject.id, design: subject.design))
+        .map(
+          (subject) => TestSubject(
+            id: subject.id,
+            name: subject.name,
+            design: subject.design,
+            grades: IList(const []),
+            gradeTypeWeights: <GradeTypeId, Weight>{},
+          ),
+        )
         .toIList();
   }
 }

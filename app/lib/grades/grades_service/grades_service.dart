@@ -50,6 +50,8 @@ class GradesService {
             .map(
               (subject) => SubjectResult(
                 id: subject.id,
+                // TODO: Implement in the right way
+                name: 'Mathe',
                 calculatedGrade: subject.gradeVal != null
                     ? CalculatedGradeResult(
                         asDouble: subject.gradeVal!.toDouble(),
@@ -105,6 +107,7 @@ class GradesService {
     required SubjectId subjectId,
     required TermId termId,
   }) {
+    // TODO: Test that it doesn't duplicate subjects
     // TOD: Make it throw SubjectNotFoundException if the subject is not found?
     final newTerm = _term(termId).addSubject(getSubject(subjectId)!);
     _updateTerm(newTerm);
@@ -351,6 +354,7 @@ class GradeResult {
 
 class SubjectResult {
   final SubjectId id;
+  final String name;
   final CalculatedGradeResult? calculatedGrade;
   final WeightType weightType;
   final IMap<GradeTypeId, Weight> gradeTypeWeights;
@@ -358,6 +362,7 @@ class SubjectResult {
 
   SubjectResult({
     required this.id,
+    required this.name,
     required this.calculatedGrade,
     required this.weightType,
     required this.gradeTypeWeights,
@@ -519,8 +524,13 @@ class GradeTypeId extends Id {
 class Subject {
   final SubjectId id;
   final Design design;
+  final String name;
 
-  Subject({required this.id, required this.design});
+  Subject({
+    required this.id,
+    required this.design,
+    required this.name,
+  });
 }
 
 class Weight extends Equatable {

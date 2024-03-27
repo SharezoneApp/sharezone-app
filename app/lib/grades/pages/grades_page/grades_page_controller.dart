@@ -42,7 +42,15 @@ class GradesPageController extends ChangeNotifier {
               activeTerm.calculatedGrade?.displayableGrade ?? '?',
               GradePerformance.good,
             ),
-            subjects: [/* Unimplemented */],
+            subjects: activeTerm.subjects
+                .map((subject) => (
+                      id: subject.id,
+                      abbreviation: 'fa',
+                      displayName: subject.name,
+                      grade: subject.calculatedGrade?.displayableGrade ?? '?',
+                      design: Design.random(),
+                    ))
+                .toList(),
             displayName: activeTerm.name,
           );
 

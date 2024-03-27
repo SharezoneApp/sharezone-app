@@ -12,19 +12,21 @@ class GradesDialogController extends ChangeNotifier {
     final subject =
         _subject != null ? gradesService.getSubject(_subject!) : null;
     final terms = gradesService.terms.value;
+    final term = _term != null ? terms.firstWhere((t) => t.id == _term) : null;
     return GradesDialogView(
       selectedGrade: _grade,
       selectableGrades: gradesService.getPossibleGrades(_gradingSystem),
       selectedGradingSystem: _gradingSystem,
-      selectedSubject: subject != null ? (id: subject.id, name: 'TODO') : null,
+      selectedSubject:
+          subject != null ? (id: subject.id, name: subject.name) : null,
       selectableSubjects: gradesService
           .getSubjects()
-          .map((e) => (id: e.id, name: 'TODO'))
+          .map((e) => (id: e.id, name: e.name))
           .toIList(),
       selectedDate: _date,
       selectedGradingType: _gradeType,
       selectableGradingTypes: gradesService.getPossibleGradeTypes(),
-      selectedTerm: _term != null ? (id: _term!, name: 'TODO') : null,
+      selectedTerm: _term != null ? (id: _term!, name: term!.name) : null,
       selectableTerms:
           terms.map((term) => (id: term.id, name: term.name)).toIList(),
       details: null,
@@ -46,7 +48,11 @@ class GradesDialogController extends ChangeNotifier {
     // implemented.
     try {
       gradesService.addSubject(
-        Subject(id: const SubjectId('foo'), design: Design.random()),
+        Subject(
+          id: const SubjectId('mathe'),
+          name: 'Mathe',
+          design: Design.random(),
+        ),
       );
     } on SubjectAlreadyExistingException catch (_) {}
   }
@@ -96,6 +102,9 @@ class GradesDialogController extends ChangeNotifier {
   void save() {
     final gradeId = GradeId(randomIDString(20));
 
+    // TODO: Should the subject be added automatically by `addGrade`? Or if not
+    // then we should throw an exception if the subject does not exist.
+    gradesService.addSubjectToTerm(subjectId: _subject!, termId: _term!);
     gradesService.addGrade(
       id: _subject!,
       termId: _term!,

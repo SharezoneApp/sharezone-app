@@ -712,8 +712,20 @@ void main() {
       final design = Design.random(szTestRandom);
       controller.addSubject(subjectWith(design: design));
 
+      // TODO: Test that term.subject also has the design
+
       final subject = controller.getSubjects().single;
       expect(subject.design, design);
+    });
+    test('A subject has a name', () {
+      final controller = GradesTestController();
+
+      controller.addSubject(subjectWith(name: 'Deutsch'));
+
+      // TODO: Test that term.subject also has the name
+
+      final subject = controller.getSubjects().single;
+      expect(subject.name, 'Deutsch');
     });
     test(
         'If a subject with the same id is already existing a $SubjectAlreadyExistingException exception will be thrown and the subject will not be added.',
