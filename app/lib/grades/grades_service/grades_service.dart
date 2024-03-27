@@ -106,12 +106,12 @@ class GradesService {
     required SubjectId subjectId,
     required TermId termId,
   }) {
+    final subject = _getSubjectOrThrow(subjectId);
+
     final term = _term(termId);
     if (term.hasSubject(subjectId)) {
       return;
     }
-    // TOD: Make it throw SubjectNotFoundException if the subject is not found?
-    final subject = getSubject(subjectId)!;
     final newTerm = _term(termId).addSubject(subject);
     _updateTerm(newTerm);
   }
@@ -246,6 +246,14 @@ class GradesService {
 
   Subject? getSubject(SubjectId id) {
     return _subjects.firstWhereOrNull((subject) => subject.id == id);
+  }
+
+  Subject _getSubjectOrThrow(SubjectId id) {
+    final sub = getSubject(id);
+    if (sub == null) {
+      throw SubjectNotFoundException(id);
+    }
+    return sub;
   }
 }
 

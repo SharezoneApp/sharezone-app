@@ -785,6 +785,17 @@ void main() {
       expect(add, returnsNormally);
       expect(controller.term(const TermId('term1')).subjects.length, 1);
     });
+    test('adding an unknown subject to a term throws $SubjectNotFoundException',
+        () {
+      final controller = GradesTestController();
+      controller.createTerm(termWith(id: const TermId('term1')));
+      add() => controller.addSubjectToTerm(
+            termId: const TermId('term1'),
+            subjectId: const SubjectId('Unknown id'),
+          );
+      expect(add,
+          throwsA(const SubjectNotFoundException(SubjectId('Unknown id'))));
+    });
 
     // TODO: Using unknown GradeTypes in weight maps should do nothing (no error)
   });
