@@ -338,7 +338,7 @@ TestGrade gradeWith({
     includeInGradeCalculations: includeInGradeCalculations,
     date: date ?? Date('2024-02-22'),
     gradingSystem: gradingSystem ?? GradingSystem.oneToFiveteenPoints,
-    type: type ?? const GradeType.other().id,
+    type: type ?? GradeType.other.id,
     weight: weight,
   );
 }

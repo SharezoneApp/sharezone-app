@@ -88,10 +88,10 @@ void main() {
         controller
           ..createCustomGradeType(const GradeType(id: GradeTypeId('custom')))
           ..createCustomGradeType(const GradeType(id: GradeTypeId('custom')))
-          ..createCustomGradeType(const GradeType.oralParticipation())
+          ..createCustomGradeType(GradeType.oralParticipation)
           // Should check by Id, not by object
           ..createCustomGradeType(
-              GradeType(id: const GradeType.oralParticipation().id));
+              GradeType(id: GradeType.oralParticipation.id));
       }
 
       expect(addGrades, returnsNormally);
@@ -99,8 +99,7 @@ void main() {
       final gradeTypeIds =
           controller.getPossibleGradeTypes().map((gradeType) => gradeType.id);
       expect(gradeTypeIds, containsOnce(const GradeTypeId('custom')));
-      expect(
-          gradeTypeIds, containsOnce(const GradeType.oralParticipation().id));
+      expect(gradeTypeIds, containsOnce(GradeType.oralParticipation.id));
     });
   });
 }

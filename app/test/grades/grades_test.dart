@@ -175,9 +175,9 @@ void main() {
         () {
       final controller = GradesTestController();
 
-      const presentation = GradeType.presentation();
-      const exam = GradeType.writtenExam();
-      const vocabularyTest = GradeType.vocabularyTest();
+      const presentation = GradeType.presentation;
+      const exam = GradeType.writtenExam;
+      const vocabularyTest = GradeType.vocabularyTest;
 
       final term = termWith(subjects: [
         subjectWith(
@@ -279,8 +279,8 @@ void main() {
         () {
       final controller = GradesTestController();
 
-      const presentation = GradeType.presentation();
-      const exam = GradeType.writtenExam();
+      const presentation = GradeType.presentation;
+      const exam = GradeType.writtenExam;
 
       final term = termWith(
         gradeTypeWeights: {
@@ -318,8 +318,8 @@ void main() {
       final grade1Id = GradeId('grade1');
       final grade2Id = GradeId('grade2');
 
-      const presentation = GradeType.presentation();
-      const exam = GradeType.writtenExam();
+      const presentation = GradeType.presentation;
+      const exam = GradeType.writtenExam;
 
       final term = termWith(
         gradeTypeWeights: {
@@ -408,8 +408,8 @@ void main() {
         () {
       final controller = GradesTestController();
 
-      const presentation = GradeType.presentation();
-      const exam = GradeType.writtenExam();
+      const presentation = GradeType.presentation;
+      const exam = GradeType.writtenExam;
 
       final term = termWith(
         subjects: [
@@ -476,12 +476,12 @@ void main() {
             grades: [
               gradeWith(
                 value: 3.0,
-                type: const GradeType.presentation().id,
+                type: GradeType.presentation.id,
                 weight: const Weight.factor(1),
               ),
               gradeWith(
                 value: 1.0,
-                type: const GradeType.writtenExam().id,
+                type: GradeType.writtenExam.id,
                 weight: const Weight.factor(3),
               ),
             ],
@@ -521,7 +521,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        finalGradeType: const GradeType.other().id,
+        finalGradeType: GradeType.other.id,
         subjects: [
           subjectWith(
             id: const SubjectId('Deutsch'),
@@ -529,11 +529,11 @@ void main() {
             grades: [
               gradeWith(
                 value: 3.0,
-                type: const GradeType.vocabularyTest().id,
+                type: GradeType.vocabularyTest.id,
               ),
               gradeWith(
                 value: 1.0,
-                type: const GradeType.other().id,
+                type: GradeType.other.id,
               ),
             ],
           ),
@@ -555,20 +555,20 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        finalGradeType: const GradeType.writtenExam().id,
+        finalGradeType: GradeType.writtenExam.id,
         subjects: [
           subjectWith(
             id: const SubjectId('Philosophie'),
             name: 'Philosophie',
-            finalGradeType: const GradeType.vocabularyTest().id,
+            finalGradeType: GradeType.vocabularyTest.id,
             grades: [
               gradeWith(
                 value: 4.0,
-                type: const GradeType.writtenExam().id,
+                type: GradeType.writtenExam.id,
               ),
               gradeWith(
                 value: 2.0,
-                type: const GradeType.vocabularyTest().id,
+                type: GradeType.vocabularyTest.id,
               ),
             ],
           ),
