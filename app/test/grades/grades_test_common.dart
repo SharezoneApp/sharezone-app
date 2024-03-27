@@ -224,8 +224,6 @@ TestTerm termWith({
     id: idd,
     name: name ?? '$idd',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
-    // TODO: Move default test grading system out and reference it from there
-    // in the test code.
     gradingSystem: gradingSystem ?? GradingSystem.oneToFiveteenPoints,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
@@ -331,8 +329,6 @@ TestGrade gradeWith({
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
     date: date ?? Date('2024-02-22'),
-    // TODO: Move default test grading system out and reference it from there
-    // in the test code.
     gradingSystem: gradingSystem ?? GradingSystem.oneToFiveteenPoints,
     type: type ?? const GradeType.other().id,
     weight: weight,

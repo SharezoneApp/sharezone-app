@@ -789,7 +789,5 @@ void main() {
       expect(addGrade,
           throwsA(const SubjectNotFoundException(SubjectId('Unknown'))));
     });
-
-    // TODO: Using unknown GradeTypes in weight maps should do nothing (no error)
   });
 }

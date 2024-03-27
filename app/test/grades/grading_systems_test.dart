@@ -173,9 +173,6 @@ void main() {
                 gradingSystem: GradingSystem.oneToFiveteenPoints,
               ),
               gradeWith(
-                // TODO: I accidentally passed 2 as a number and I don't think
-                // it was processed correctly. I think this should've raised an
-                // error, maybe not even in the test but in the logic code.
                 value: "2+",
                 gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
               ),

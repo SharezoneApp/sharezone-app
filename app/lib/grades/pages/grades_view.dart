@@ -41,7 +41,6 @@ typedef CurrentTermView = ({
   TermId id,
   DisplayName displayName,
   AvgGradeView avgGrade,
-  // TODO: Change to IList
   List<SubjectView> subjects
 });
 typedef PastTermView = ({
