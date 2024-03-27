@@ -106,7 +106,10 @@ class GradesService {
     required SubjectId subjectId,
     required TermId termId,
   }) {
-    // TODO: Test that it doesn't duplicate subjects
+    final term = _term(termId);
+    if (term.hasSubject(subjectId)) {
+      return;
+    }
     // TOD: Make it throw SubjectNotFoundException if the subject is not found?
     final subject = getSubject(subjectId)!;
     final newTerm = _term(termId).addSubject(subject);

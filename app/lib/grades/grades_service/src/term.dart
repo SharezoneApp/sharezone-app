@@ -44,7 +44,14 @@ class Term {
     this.gradingSystem,
   );
 
+  bool hasSubject(SubjectId id) {
+    return _subjects.any((s) => s.id == id);
+  }
+
   Term addSubject(Subject subject) {
+    // if (hasSubject(subject.id)) {
+    //   throw SubjectAlreadyExistingException(subject.id);
+    // }
     return _copyWith(
       subjects: _subjects.add(_Subject(
         term: this,

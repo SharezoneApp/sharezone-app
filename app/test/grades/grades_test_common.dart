@@ -200,6 +200,11 @@ class GradesTestController {
         )
         .toIList();
   }
+
+  void addSubjectToTerm(
+      {required TermId termId, required SubjectId subjectId}) {
+    service.addSubjectToTerm(subjectId: subjectId, termId: termId);
+  }
 }
 
 TestTerm termWith({
