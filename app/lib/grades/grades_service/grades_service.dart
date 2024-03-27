@@ -108,12 +108,12 @@ class GradesService {
   }) {
     final subject = _getSubjectOrThrow(subjectId);
 
-    final term = _term(termId);
-    if (term.hasSubject(subjectId)) {
+    try {
+      final newTerm = _term(termId).addSubject(subject);
+      _updateTerm(newTerm);
+    } on SubjectAlreadyExistingException {
       return;
     }
-    final newTerm = _term(termId).addSubject(subject);
-    _updateTerm(newTerm);
   }
 
   void changeSubjectWeightForTermGrade(
