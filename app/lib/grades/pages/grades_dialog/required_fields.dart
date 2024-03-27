@@ -75,16 +75,16 @@ class _GradingSystem extends StatelessWidget {
       title: const Text("Notensystem"),
       subtitle: Text(view.selectedGradingSystem.displayName),
       onTap: () async {
-        final res = await showDialog<GradingSystems?>(
+        final res = await showDialog<GradingSystem?>(
           context: context,
           builder: (context) => SimpleDialog(
             title: const Text("Note auswählen"),
             children: [
-              for (final gradingSystem in GradingSystems.values)
+              for (final gradingSystem in GradingSystem.values)
                 ListTile(
                   title: Text(gradingSystem.displayName),
                   onTap: () {
-                    Navigator.of(context).pop<GradingSystems?>(gradingSystem);
+                    Navigator.of(context).pop<GradingSystem?>(gradingSystem);
                   },
                 ),
             ],

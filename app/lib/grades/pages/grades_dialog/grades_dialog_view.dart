@@ -17,7 +17,7 @@ class GradesDialogView {
   /// The selected grading system.
   ///
   /// Defaults to "1 - 6 (+-)".
-  final GradingSystems selectedGradingSystem;
+  final GradingSystem selectedGradingSystem;
 
   /// The selected subject.
   final ({SubjectId id, String name})? selectedSubject;
@@ -57,11 +57,11 @@ class GradesDialogView {
   });
 }
 
-extension GradeSystemToName on GradingSystems {
+extension GradeSystemToName on GradingSystem {
   String get displayName {
     return switch (this) {
-      GradingSystems.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
-      GradingSystems.oneToFiveteenPoints => '1 - 15 Punkte',
+      GradingSystem.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
+      GradingSystem.oneToFiveteenPoints => '1 - 15 Punkte',
     };
   }
 }

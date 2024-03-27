@@ -29,9 +29,9 @@ class GradesService {
 
   GradesService() : terms = rx.BehaviorSubject.seeded(const IListConst([]));
 
-  IList<Term> _terms = const IListConst<Term>([]);
+  IList<_Term> _terms = const IListConst<_Term>([]);
 
-  void _updateTerm(Term term) {
+  void _updateTerm(_Term term) {
     _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
     _updateTerms();
   }
@@ -81,7 +81,7 @@ class GradesService {
     required TermId id,
     required String name,
     required GradeTypeId finalGradeType,
-    required GradingSystems gradingSystem,
+    required GradingSystem gradingSystem,
     required bool isActiveTerm,
   }) {
     if (isActiveTerm) {
@@ -89,7 +89,7 @@ class GradesService {
     }
 
     _terms = _terms.add(
-      Term(
+      _Term(
         id: id,
         isActiveTerm: isActiveTerm,
         name: name,
@@ -100,7 +100,7 @@ class GradesService {
     _updateTerms();
   }
 
-  Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
+  _Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
   /// Adds an existing subject to a term.
   ///
@@ -209,7 +209,7 @@ class GradesService {
   ///
   /// For example the values for the grading system "1-6 with plus and minus"
   /// would be: `['1+', '1', '1-', '2+', [...] '5+', '5', '5-', '6']`
-  IList<String> getPossibleGrades(GradingSystems gradingSystem) {
+  IList<String> getPossibleGrades(GradingSystem gradingSystem) {
     final gs = gradingSystem.toGradingSystem();
     return gs.possibleValues;
   }
@@ -288,7 +288,7 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
   List<Object?> get props => [id];
 }
 
-enum GradingSystems { oneToSixWithPlusAndMinus, oneToFiveteenPoints }
+enum GradingSystem { oneToSixWithPlusAndMinus, oneToFiveteenPoints }
 
 /// The predefined types of grades that can be used.
 ///
@@ -382,7 +382,7 @@ class SubjectResult {
 
 class TermResult {
   final TermId id;
-  final GradingSystems gradingSystem;
+  final GradingSystem gradingSystem;
   final CalculatedGradeResult? calculatedGrade;
   IList<SubjectResult> subjects;
   final bool isActiveTerm;
@@ -416,7 +416,7 @@ class Grade {
 
   /// Either a number or a string like '1+', '2-', etc.
   final Object value;
-  final GradingSystems gradingSystem;
+  final GradingSystem gradingSystem;
   final GradeTypeId type;
 
   Grade({

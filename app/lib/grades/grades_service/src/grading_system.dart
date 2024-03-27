@@ -8,29 +8,29 @@
 
 part of '../grades_service.dart';
 
-extension ToGradingSystem on GradingSystems {
-  GradingSystem toGradingSystem() {
+extension _ToGradingSystem on GradingSystem {
+  _GradingSystem toGradingSystem() {
     switch (this) {
-      case GradingSystems.oneToFiveteenPoints:
-        return GradingSystem.oneToFiveteenPoints;
-      case GradingSystems.oneToSixWithPlusAndMinus:
-        return GradingSystem.oneToSixWithPlusAndMinus;
+      case GradingSystem.oneToFiveteenPoints:
+        return _GradingSystem.oneToFiveteenPoints;
+      case GradingSystem.oneToSixWithPlusAndMinus:
+        return _GradingSystem.oneToSixWithPlusAndMinus;
     }
   }
 }
 
-extension ToGradingSystems on GradingSystem {
-  GradingSystems toGradingSystems() {
+extension _ToGradingSystems on _GradingSystem {
+  GradingSystem toGradingSystems() {
     if (this is OneToFiveteenPointsGradingSystem) {
-      return GradingSystems.oneToFiveteenPoints;
+      return GradingSystem.oneToFiveteenPoints;
     } else if (this is OneToSixWithPlusMinusGradingSystem) {
-      return GradingSystems.oneToSixWithPlusAndMinus;
+      return GradingSystem.oneToSixWithPlusAndMinus;
     }
     throw UnimplementedError();
   }
 }
 
-sealed class GradingSystem {
+sealed class _GradingSystem {
   static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
   static final oneToFiveteenPoints = OneToFiveteenPointsGradingSystem();
 
@@ -56,7 +56,7 @@ sealed class GradingSystem {
   String? getDisplayableGradeIfExactMatch(num grade);
 }
 
-class OneToFiveteenPointsGradingSystem extends GradingSystem
+class OneToFiveteenPointsGradingSystem extends _GradingSystem
     with EquatableMixin {
   @override
   IList<String> get possibleValues => const IListConst([
@@ -97,7 +97,7 @@ class OneToFiveteenPointsGradingSystem extends GradingSystem
   }
 }
 
-class OneToSixWithPlusMinusGradingSystem extends GradingSystem
+class OneToSixWithPlusMinusGradingSystem extends _GradingSystem
     with EquatableMixin {
   @override
   IList<String> get possibleValues => const IListConst([

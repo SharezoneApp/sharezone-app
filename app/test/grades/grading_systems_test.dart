@@ -18,17 +18,17 @@ void main() {
       final controller = GradesTestController();
 
       final term1 =
-          termWith(gradingSystem: GradingSystems.oneToSixWithPlusAndMinus);
+          termWith(gradingSystem: GradingSystem.oneToSixWithPlusAndMinus);
       controller.createTerm(term1);
 
       expect(controller.term(term1.id).gradingSystem,
-          GradingSystems.oneToSixWithPlusAndMinus);
+          GradingSystem.oneToSixWithPlusAndMinus);
     });
     test('Basic grades test for 1+ to 6 grading system.', () {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
+        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -37,15 +37,15 @@ void main() {
               gradeWith(
                 // Equal to 1,75
                 value: "2+",
-                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
               ),
               gradeWith(
                 value: "3-",
-                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
               ),
               gradeWith(
                 value: "2",
-                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
               ),
             ],
           ),
@@ -75,7 +75,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystems.oneToFiveteenPoints,
+        gradingSystem: GradingSystem.oneToFiveteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -83,15 +83,15 @@ void main() {
             grades: [
               gradeWith(
                 value: 4,
-                gradingSystem: GradingSystems.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
               ),
               gradeWith(
                 value: 8,
-                gradingSystem: GradingSystems.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
               ),
               gradeWith(
                 value: 2,
-                gradingSystem: GradingSystems.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
               ),
             ],
           ),
@@ -121,19 +121,19 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
+        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
             grades: [
               gradeWith(
                 value: "3-", // Equal to 3.25
-                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
               ),
               // should be ignored in subject and terms calculated grade
               gradeWith(
                 value: 3,
-                gradingSystem: GradingSystems.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
               ),
             ],
           ),
@@ -158,7 +158,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystems.oneToFiveteenPoints,
+        gradingSystem: GradingSystem.oneToFiveteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -166,18 +166,18 @@ void main() {
             grades: [
               gradeWith(
                 value: 4,
-                gradingSystem: GradingSystems.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
               ),
               gradeWith(
                 value: 8,
-                gradingSystem: GradingSystems.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.oneToFiveteenPoints,
               ),
               gradeWith(
                 // TODO: I accidentally passed 2 as a number and I don't think
                 // it was processed correctly. I think this should've raised an
                 // error, maybe not even in the test but in the logic code.
                 value: "2+",
-                gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
+                gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
               ),
             ],
           ),
@@ -197,7 +197,7 @@ void main() {
     });
 
     void testThatCorrectPossibleValuesAreGivenAndInCorrectOrder(
-        GradingSystems gradingSystem, Map<String, num> expected) {
+        GradingSystem gradingSystem, Map<String, num> expected) {
       final values = GradesService().getPossibleGrades(gradingSystem);
 
       // Grades should be ordered from best (first) to worst (last)
@@ -205,7 +205,7 @@ void main() {
     }
 
     void testThatGradeAsStringIsConvertedToCorrectGradeAsDoubleAndString(
-        GradingSystems gradingSystem, Map<String, num> expected) {
+        GradingSystem gradingSystem, Map<String, num> expected) {
       final controller = GradesTestController();
 
       final term = termWith(subjects: [
@@ -236,7 +236,7 @@ void main() {
 
     @isTestGroup
     void testGradingSystemThatUsesDiscreteValues(
-        {required GradingSystems gradingSystem,
+        {required GradingSystem gradingSystem,
         required Map<String, num> expected}) {
       final tests = [
         (
@@ -262,7 +262,7 @@ void main() {
     }
 
     testGradingSystemThatUsesDiscreteValues(
-      gradingSystem: GradingSystems.oneToSixWithPlusAndMinus,
+      gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
       expected: {
         '1+': 0.75,
         '1': 1,
@@ -283,7 +283,7 @@ void main() {
       },
     );
     testGradingSystemThatUsesDiscreteValues(
-      gradingSystem: GradingSystems.oneToFiveteenPoints,
+      gradingSystem: GradingSystem.oneToFiveteenPoints,
       expected: {
         '0': 0,
         '1': 1,

@@ -38,7 +38,7 @@ class GradesDialogController extends ChangeNotifier {
   final GradesService gradesService;
 
   GradesDialogController({required this.gradesService}) {
-    _gradingSystem = GradingSystems.oneToSixWithPlusAndMinus;
+    _gradingSystem = GradingSystem.oneToSixWithPlusAndMinus;
     _date = Date.today();
     _gradeType = const GradeType.writtenExam();
     _integrateGradeIntoSubjectGrade = true;
@@ -64,8 +64,8 @@ class GradesDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
-  late GradingSystems _gradingSystem;
-  void setGradingSystem(GradingSystems res) {
+  late GradingSystem _gradingSystem;
+  void setGradingSystem(GradingSystem res) {
     _gradingSystem = res;
     notifyListeners();
   }

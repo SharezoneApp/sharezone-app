@@ -220,7 +220,7 @@ TestTerm termWith({
   Map<GradeTypeId, Weight>? gradeTypeWeights,
   GradeTypeId finalGradeType = const GradeTypeId('Endnote'),
   bool isActiveTerm = true,
-  GradingSystems? gradingSystem,
+  GradingSystem? gradingSystem,
 }) {
   final rdm = randomAlpha(5);
   final idd = id ?? TermId(rdm);
@@ -230,7 +230,7 @@ TestTerm termWith({
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
     // TODO: Move default test grading system out and reference it from there
     // in the test code.
-    gradingSystem: gradingSystem ?? GradingSystems.oneToFiveteenPoints,
+    gradingSystem: gradingSystem ?? GradingSystem.oneToFiveteenPoints,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     isActiveTerm: isActiveTerm,
@@ -241,7 +241,7 @@ class TestTerm {
   final TermId id;
   final String name;
   final IMap<SubjectId, TestSubject> subjects;
-  final GradingSystems gradingSystem;
+  final GradingSystem gradingSystem;
   final Map<GradeTypeId, Weight>? gradeTypeWeights;
   final GradeTypeId finalGradeType;
   final bool isActiveTerm;
@@ -327,7 +327,7 @@ TestGrade gradeWith({
   GradeTypeId? type,
   Weight? weight,
   GradeId? id,
-  GradingSystems? gradingSystem,
+  GradingSystem? gradingSystem,
   Date? date,
 }) {
   return TestGrade(
@@ -337,7 +337,7 @@ TestGrade gradeWith({
     date: date ?? Date('2024-02-22'),
     // TODO: Move default test grading system out and reference it from there
     // in the test code.
-    gradingSystem: gradingSystem ?? GradingSystems.oneToFiveteenPoints,
+    gradingSystem: gradingSystem ?? GradingSystem.oneToFiveteenPoints,
     type: type ?? const GradeType.other().id,
     weight: weight,
   );
@@ -349,7 +349,7 @@ class TestGrade {
   /// Either a [num] or [String]
   final Object value;
   final bool includeInGradeCalculations;
-  final GradingSystems gradingSystem;
+  final GradingSystem gradingSystem;
   final GradeTypeId type;
   final Weight? weight;
   final Date date;
