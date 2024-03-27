@@ -6,8 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:design/design.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:rxdart/subjects.dart' as rx;
@@ -103,7 +105,8 @@ class GradesService {
     required SubjectId subjectId,
     required TermId termId,
   }) {
-    final newTerm = _term(termId).addSubject(Subject(subjectId));
+    // TOD: Make it throw SubjectNotFoundException if the subject is not found?
+    final newTerm = _term(termId).addSubject(getSubject(subjectId)!);
     _updateTerm(newTerm);
   }
 
@@ -220,6 +223,20 @@ class GradesService {
       return;
     }
     _customGradeTypes = _customGradeTypes.add(gradeType);
+  }
+
+  var _subjects = IList<Subject>();
+
+  void addSubject(Subject subject) {
+    _subjects = _subjects.add(subject);
+  }
+
+  IList<Subject> getSubjects() {
+    return _subjects;
+  }
+
+  Subject? getSubject(SubjectId id) {
+    return _subjects.firstWhereOrNull((subject) => subject.id == id);
   }
 }
 
@@ -488,8 +505,9 @@ class GradeTypeId extends Id {
 
 class Subject {
   final SubjectId id;
+  final Design design;
 
-  Subject(this.id);
+  Subject({required this.id, required this.design});
 }
 
 class Weight extends Equatable {

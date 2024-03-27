@@ -7,8 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:date/date.dart';
+import 'package:design/design.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 import 'grades_test_common.dart';
 
@@ -703,6 +705,15 @@ void main() {
               .grade(GradeId('grade1'))
               .date,
           Date('2024-03-26'));
+    });
+    test('A subject has a Design', () {
+      final controller = GradesTestController();
+
+      final design = Design.random(szTestRandom);
+      controller.addSubject(subjectWith(design: design));
+
+      final subject = controller.getSubjects().single;
+      expect(subject.design, design);
     });
 
     // TODO: Using unknown GradeTypes in weight maps should do nothing (no error)

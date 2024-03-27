@@ -1,4 +1,5 @@
 import 'package:date/src/date.dart';
+import 'package:design/src/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:test_randomness/test_randomness.dart';
@@ -36,6 +37,7 @@ class GradesTestController {
     }
 
     for (var subject in testTerm.subjects.values) {
+      service.addSubject(Subject(id: subject.id, design: subject.design));
       service.addSubjectToTerm(subjectId: subject.id, termId: termId);
       if (subject.weight != null) {
         service.changeSubjectWeightForTermGrade(
@@ -174,6 +176,17 @@ class GradesTestController {
       value: _toGrade(value),
     );
   }
+
+  void addSubject(TestSubject subject) {
+    service.addSubject(Subject(id: subject.id, design: subject.design));
+  }
+
+  IList<TestSubject> getSubjects() {
+    return service
+        .getSubjects()
+        .map((subject) => subjectWith(id: subject.id, design: subject.design))
+        .toIList();
+  }
 }
 
 TestTerm termWith({
@@ -228,6 +241,7 @@ TestSubject subjectWith({
   WeightType? weightType,
   Map<GradeTypeId, Weight> gradeTypeWeights = const {},
   GradeTypeId? finalGradeType,
+  Design? design,
 }) {
   final idd = id ?? SubjectId(randomAlpha(5));
   return TestSubject(
@@ -238,6 +252,7 @@ TestSubject subjectWith({
     weightType: weightType,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
+    design: design ?? Design.random(szTestRandom),
   );
 }
 
@@ -249,12 +264,14 @@ class TestSubject {
   final Map<GradeTypeId, Weight> gradeTypeWeights;
   final Weight? weight;
   final GradeTypeId? finalGradeType;
+  final Design design;
 
   TestSubject({
     required this.id,
     required this.name,
     required this.grades,
     required this.gradeTypeWeights,
+    required this.design,
     this.weightType,
     this.weight,
     this.finalGradeType,
