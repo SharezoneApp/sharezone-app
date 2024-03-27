@@ -199,7 +199,7 @@ class GradesService {
   ///
   /// For example the values for the grading system "1-6 with plus and minus"
   /// would be: `['1+', '1', '1-', '2+', [...] '5+', '5', '5-', '6']`
-  List<String> getPossibleGrades(GradingSystems gradingSystem) {
+  IList<String> getPossibleGrades(GradingSystems gradingSystem) {
     final gs = gradingSystem.toGradingSystem();
     return gs.possibleValues;
   }
@@ -401,18 +401,19 @@ class CalculatedGradeResult {
   CalculatedGradeResult({required this.asDouble});
 }
 
+// TODO: Make private?
 sealed class GradingSystem {
   static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
   static final oneToFiveteenPoints = OneToFiveteenPointsGradingSystem();
 
   double toDoubleOrThrow(String grade);
-  List<String> get possibleValues;
+  IList<String> get possibleValues;
 }
 
 class OneToFiveteenPointsGradingSystem extends GradingSystem
     with EquatableMixin {
   @override
-  List<String> get possibleValues => [
+  IList<String> get possibleValues => const IListConst([
         '0',
         '1',
         '2',
@@ -429,7 +430,7 @@ class OneToFiveteenPointsGradingSystem extends GradingSystem
         '13',
         '14',
         '15',
-      ];
+      ]);
 
   @override
   double toDoubleOrThrow(String grade) {
@@ -443,7 +444,7 @@ class OneToFiveteenPointsGradingSystem extends GradingSystem
 class OneToSixWithPlusMinusGradingSystem extends GradingSystem
     with EquatableMixin {
   @override
-  List<String> get possibleValues => [
+  IList<String> get possibleValues => const IListConst([
         '1+',
         '1',
         '1-',
@@ -460,7 +461,7 @@ class OneToSixWithPlusMinusGradingSystem extends GradingSystem
         '5',
         '5-',
         '6',
-      ];
+      ]);
 
   @override
   double toDoubleOrThrow(String grade) {

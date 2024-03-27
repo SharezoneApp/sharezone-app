@@ -9,27 +9,20 @@
 part of 'grades_dialog.dart';
 
 class _RequiredFields extends StatelessWidget {
-  const _RequiredFields({
-    required this.view,
-  });
-
-  final GradesDialogView view;
+  const _RequiredFields();
 
   @override
   Widget build(BuildContext context) {
-    return _Section(
+    return const _Section(
       title: "Pflichtfelder",
       children: [
-        const _GradeValue(),
-        _GradingSystem(
-          selectedGradingSystem: view.selectedGradingSystem,
-        ),
-        _Subject(selectedSubject: view.selectedSubject),
-        _Date(selectedDate: view.selectedDate),
-        _GradingType(selectedGradingType: view.selectedGradingType),
-        _Term(selectedTerm: view.selectedTerm),
-        _IntegrateGradeIntoSubjectGrade(
-            value: view.integrateGradeIntoSubjectGrade),
+        _GradeValue(),
+        _GradingSystem(),
+        _Subject(),
+        _Date(),
+        _GradingType(),
+        _Term(),
+        _IntegrateGradeIntoSubjectGrade(),
       ],
     );
   }
@@ -40,120 +33,229 @@ class _GradeValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GradesDialogController>(context);
+    final view = controller.view;
     return ListTile(
       leading: SavedGradeIcons.value,
-      title: const Text("Note"),
-      onTap: () => snackbarSoon(context: context),
+      title: Text(view.selectedGrade ?? 'Keine Note ausgewählt'),
+      onTap: () async {
+        final res = await showDialog<String?>(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Text("Note auswählen"),
+            children: [
+              for (final grade in view.selectableGrades)
+                ListTile(
+                  title: Text(grade),
+                  onTap: () {
+                    Navigator.of(context).pop<String?>(grade);
+                  },
+                ),
+            ],
+          ),
+        );
+
+        if (res != null) {
+          controller.setGrade(res);
+        }
+      },
     );
   }
 }
 
 class _GradingSystem extends StatelessWidget {
-  const _GradingSystem({
-    required this.selectedGradingSystem,
-  });
-
-  final String selectedGradingSystem;
+  const _GradingSystem();
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GradesDialogController>(context);
+    final view = controller.view;
     return ListTile(
       leading: SavedGradeIcons.gradingSystem,
       title: const Text("Notensystem"),
-      subtitle: Text(selectedGradingSystem),
-      onTap: () => snackbarSoon(context: context),
+      subtitle: Text(view.selectedGradingSystem.displayName),
+      onTap: () async {
+        final res = await showDialog<GradingSystems?>(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Text("Note auswählen"),
+            children: [
+              for (final gradingSystem in GradingSystems.values)
+                ListTile(
+                  title: Text(gradingSystem.displayName),
+                  onTap: () {
+                    Navigator.of(context).pop<GradingSystems?>(gradingSystem);
+                  },
+                ),
+            ],
+          ),
+        );
+
+        if (res != null) {
+          controller.setGradingSystem(res);
+        }
+      },
     );
   }
 }
 
 class _Subject extends StatelessWidget {
-  const _Subject({
-    required this.selectedSubject,
-  });
-
-  final String? selectedSubject;
+  const _Subject();
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GradesDialogController>(context);
+    final view = controller.view;
+
     return ListTile(
       leading: SavedGradeIcons.subject,
       title: const Text("Fach"),
-      subtitle: Text(
-          selectedSubject == null ? 'Kein Fach ausgewählt' : selectedSubject!),
-      onTap: () => snackbarSoon(context: context),
+      subtitle: Text(view.selectedSubject == null
+          ? 'Kein Fach ausgewählt'
+          : view.selectedSubject!.name),
+      onTap: () async {
+        final res = await showDialog<SubjectId?>(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Text("Fach auswählen"),
+            children: [
+              for (final subject in view.selectableSubjects)
+                ListTile(
+                  title: Text(subject.name),
+                  onTap: () {
+                    Navigator.of(context).pop<SubjectId?>(subject.id);
+                  },
+                ),
+            ],
+          ),
+        );
+
+        if (res != null) {
+          controller.setSubject(res);
+        }
+      },
     );
   }
 }
 
 class _Date extends StatelessWidget {
-  const _Date({
-    required this.selectedDate,
-  });
-
-  final String selectedDate;
+  const _Date();
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GradesDialogController>(context);
+    final view = controller.view;
+
     return ListTile(
       leading: SavedGradeIcons.date,
-      title: Text(selectedDate),
-      onTap: () => snackbarSoon(context: context),
+      title: Text(view.selectedDate.parser.toYMMMEd),
+      onTap: () async {
+        final res = await showDatePicker(
+          context: context,
+          firstDate: DateTime(2010),
+          lastDate: DateTime(2100),
+          initialDate: clock.now(),
+        );
+
+        if (res != null) {
+          controller.setDate(Date.fromDateTime(res));
+        }
+      },
     );
   }
 }
 
 class _GradingType extends StatelessWidget {
-  const _GradingType({
-    required this.selectedGradingType,
-  });
-
-  final String selectedGradingType;
+  const _GradingType();
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GradesDialogController>(context);
+    final view = controller.view;
+
     return ListTile(
       leading: SavedGradeIcons.gradingType,
       title: const Text("Notentyp"),
-      subtitle: Text(selectedGradingType),
-      onTap: () => snackbarSoon(context: context),
+      subtitle: Text(view.selectedGradingType.predefinedType?.toString() ??
+          'Kein Notentyp ausgewählt / Benutzerdefinierter Notentyp'),
+      onTap: () async {
+        final res = await showDialog<GradeType?>(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Text("Note auswählen"),
+            children: [
+              for (final gradeType in view.selectableGradingTypes)
+                ListTile(
+                  title: Text(gradeType.predefinedType?.toString() ??
+                      'Unbekannt/Eigener Notentyp'),
+                  onTap: () {
+                    Navigator.of(context).pop<GradeType?>(gradeType);
+                  },
+                ),
+            ],
+          ),
+        );
+
+        if (res != null) {
+          controller.setGradeType(res);
+        }
+      },
     );
   }
 }
 
 class _Term extends StatelessWidget {
-  const _Term({
-    required this.selectedTerm,
-  });
-
-  final String? selectedTerm;
+  const _Term();
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GradesDialogController>(context);
+    final view = controller.view;
+
     return ListTile(
       leading: SavedGradeIcons.term,
       title: const Text("Halbjahr"),
-      subtitle: selectedTerm == null ? null : Text(selectedTerm!),
-      onTap: () => snackbarSoon(context: context),
+      subtitle: Text(view.selectedTerm?.name ?? 'Kein Halbjahr ausgewählt'),
+      onTap: () async {
+        final res = await showDialog<TermId?>(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Text("Note auswählen"),
+            children: [
+              for (final term in view.selectableTerms)
+                ListTile(
+                  title: Text(term.name),
+                  onTap: () {
+                    Navigator.of(context).pop<TermId?>(term.id);
+                  },
+                ),
+            ],
+          ),
+        );
+
+        if (res != null) {
+          controller.setTerm(res);
+        }
+      },
     );
   }
 }
 
 class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
-  const _IntegrateGradeIntoSubjectGrade({
-    required this.value,
-  });
-
-  final bool value;
+  const _IntegrateGradeIntoSubjectGrade();
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GradesDialogController>(context);
+    final view = controller.view;
     return ListTile(
       leading: SavedGradeIcons.integrateGradeIntoSubjectGrade,
       title: const Text("Note in Fachnote einbringen"),
       onTap: () => snackbarSoon(context: context),
       trailing: Switch(
-        value: value,
-        onChanged: (value) => snackbarSoon(context: context),
+        value: view.integrateGradeIntoSubjectGrade,
+        onChanged: (newVal) =>
+            controller.setIntegrateGradeIntoSubjectGrade(newVal),
       ),
     );
   }

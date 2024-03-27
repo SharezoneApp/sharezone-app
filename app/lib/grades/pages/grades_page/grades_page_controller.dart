@@ -39,7 +39,7 @@ class GradesPageController extends ChangeNotifier {
           final CurrentTermView currentTerm = (
             id: activeTerm.id,
             avgGrade: (
-              activeTerm.calculatedGrade?.toString() ?? '?',
+              activeTerm.calculatedGrade?.displayableGrade ?? '?',
               GradePerformance.good,
             ),
             subjects: [/* Unimplemented */],

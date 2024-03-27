@@ -6,8 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:clock/clock.dart';
+import 'package:date/date.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -22,37 +28,38 @@ class GradesDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final view = GradesDialogView(
-      selectedGradingSystem: "1 - 6 (+-)",
-      selectedSubject: null,
-      selectedDate: DateFormat.yMMMEd().format(DateTime.now()),
-      selectedGradingType: "Schriftliche Prüfung",
-      selectedTerm: '10/2',
-      details: null,
-      title: null,
-      integrateGradeIntoSubjectGrade: true,
-    );
-    return Scaffold(
-      appBar: AppBar(
-        actions: const [_SaveButton()],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8),
-        child: SafeArea(
-          child: MaxWidthConstraintBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 4),
-                _RequiredFields(view: view),
-                const Divider(),
-                const SizedBox(height: 4),
-                _OptionalFields(view: view),
-              ],
-            ),
-          ),
+    return ChangeNotifierProvider<GradesDialogController>(
+      create: (context) => GradesDialogController(
+        gradesService: Provider.of<GradesService>(
+          context,
+          listen: false,
         ),
       ),
+      builder: (context, _) {
+        final view = context.watch<GradesDialogController>().view;
+        return Scaffold(
+          appBar: AppBar(
+            actions: const [_SaveButton()],
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(8),
+            child: SafeArea(
+              child: MaxWidthConstraintBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 4),
+                    const _RequiredFields(),
+                    const Divider(),
+                    const SizedBox(height: 4),
+                    _OptionalFields(view: view),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -62,10 +69,15 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller =
+        Provider.of<GradesDialogController>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: FilledButton(
-        onPressed: () => snackbarSoon(context: context),
+        onPressed: () {
+          controller.save();
+          Navigator.of(context).pop();
+        },
         child: const Text("Speichern"),
       ),
     );
