@@ -57,6 +57,7 @@ class Term {
         term: this,
         id: subject.id,
         name: subject.name,
+        abbreviation: subject.abbreviation,
         gradingSystem: gradingSystem,
         finalGradeType: finalGradeType,
         weightType: WeightType.inheritFromTerm,
@@ -265,6 +266,7 @@ class _Subject {
   final IMap<GradeTypeId, double> gradeTypeWeightings;
   final IMap<GradeTypeId, double> gradeTypeWeightingsFromTerm;
   final WeightType weightType;
+  final String abbreviation;
 
   late final num? gradeVal;
 
@@ -275,6 +277,7 @@ class _Subject {
     required this.weightType,
     required this.gradingSystem,
     required this.finalGradeType,
+    required this.abbreviation,
     this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
     this.weightingForTermGrade = 1,
@@ -331,6 +334,7 @@ class _Subject {
     Term? term,
     SubjectId? id,
     String? name,
+    String? abbreviation,
     IList<_Grade>? grades,
     GradeTypeId? finalGradeType,
     bool? isFinalGradeTypeOverridden,
@@ -344,6 +348,7 @@ class _Subject {
       term: term ?? this.term,
       id: id ?? this.id,
       name: name ?? this.name,
+      abbreviation: abbreviation ?? this.abbreviation,
       grades: grades ?? this.grades,
       gradingSystem: gradingSystem ?? this.gradingSystem,
       finalGradeType: finalGradeType ?? this.finalGradeType,

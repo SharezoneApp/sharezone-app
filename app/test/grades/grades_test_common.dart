@@ -40,6 +40,7 @@ class GradesTestController {
       service.addSubject(Subject(
         id: subject.id,
         name: subject.name,
+        abbreviation: subject.abbreviation,
         design: subject.design,
       ));
       service.addSubjectToTerm(subjectId: subject.id, termId: termId);
@@ -182,8 +183,12 @@ class GradesTestController {
   }
 
   void addSubject(TestSubject subject) {
-    service.addSubject(
-        Subject(id: subject.id, name: subject.name, design: subject.design));
+    service.addSubject(Subject(
+      id: subject.id,
+      name: subject.name,
+      abbreviation: subject.abbreviation,
+      design: subject.design,
+    ));
   }
 
   IList<TestSubject> getSubjects() {
@@ -193,6 +198,7 @@ class GradesTestController {
           (subject) => TestSubject(
             id: subject.id,
             name: subject.name,
+            abbreviation: subject.abbreviation,
             design: subject.design,
             grades: IList(const []),
             gradeTypeWeights: <GradeTypeId, Weight>{},
@@ -254,6 +260,7 @@ class TestTerm {
 TestSubject subjectWith({
   SubjectId? id,
   String? name,
+  String? abbreviation,
   List<TestGrade> grades = const [],
   Weight? weight,
   WeightType? weightType,
@@ -261,10 +268,13 @@ TestSubject subjectWith({
   GradeTypeId? finalGradeType,
   Design? design,
 }) {
-  final idd = id ?? SubjectId(randomAlpha(5));
+  final idRes = id ?? SubjectId(randomAlpha(5));
+  final nameRes = name ?? idRes.id;
+  final abbreviationRes = abbreviation ?? nameRes.substring(0, 2);
   return TestSubject(
-    id: idd,
-    name: name ?? idd.id,
+    id: idRes,
+    name: nameRes,
+    abbreviation: abbreviationRes,
     grades: IList(grades),
     weight: weight,
     weightType: weightType,
@@ -283,6 +293,7 @@ class TestSubject {
   final Weight? weight;
   final GradeTypeId? finalGradeType;
   final Design design;
+  final String abbreviation;
 
   TestSubject({
     required this.id,
@@ -290,6 +301,7 @@ class TestSubject {
     required this.grades,
     required this.gradeTypeWeights,
     required this.design,
+    required this.abbreviation,
     this.weightType,
     this.weight,
     this.finalGradeType,

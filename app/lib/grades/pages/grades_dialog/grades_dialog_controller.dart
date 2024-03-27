@@ -51,6 +51,7 @@ class GradesDialogController extends ChangeNotifier {
         Subject(
           id: const SubjectId('mathe'),
           name: 'Mathe',
+          abbreviation: 'Ma',
           design: Design.random(),
         ),
       );

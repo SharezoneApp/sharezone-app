@@ -717,22 +717,24 @@ void main() {
       final subject = controller.getSubjects().single;
       expect(subject.design, design);
     });
-    test('A subject has a name', () {
+    test('A subject has a name and abbreviation', () {
       final controller = GradesTestController();
 
       controller.createTerm(
         termWith(
           id: const TermId('term1'),
           subjects: [
-            subjectWith(name: 'Deutsch'),
+            subjectWith(name: 'Deutsch', abbreviation: 'D'),
           ],
         ),
       );
 
       var subject = controller.getSubjects().single;
       expect(subject.name, 'Deutsch');
+      expect(subject.abbreviation, 'D');
       final subject2 = controller.term(const TermId('term1')).subjects.single;
       expect(subject2.name, 'Deutsch');
+      expect(subject2.abbreviation, 'D');
     });
     test(
         'If a subject with the same id is already existing a $SubjectAlreadyExistingException exception will be thrown and the subject will not be added.',

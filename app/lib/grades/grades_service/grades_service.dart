@@ -50,6 +50,7 @@ class GradesService {
               (subject) => SubjectResult(
                 id: subject.id,
                 name: subject.name,
+                abbreviation: subject.abbreviation,
                 calculatedGrade: subject.gradeVal != null
                     ? CalculatedGradeResult.withGradingSystem(
                         subject.gradeVal!,
@@ -383,10 +384,12 @@ class SubjectResult {
   final WeightType weightType;
   final IMap<GradeTypeId, Weight> gradeTypeWeights;
   final IList<GradeResult> grades;
+  final String abbreviation;
 
   SubjectResult({
     required this.id,
     required this.name,
+    required this.abbreviation,
     required this.calculatedGrade,
     required this.weightType,
     required this.gradeTypeWeights,
@@ -587,11 +590,13 @@ class Subject {
   final SubjectId id;
   final Design design;
   final String name;
+  final String abbreviation;
 
   Subject({
     required this.id,
     required this.design,
     required this.name,
+    required this.abbreviation,
   });
 }
 
