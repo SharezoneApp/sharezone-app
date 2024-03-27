@@ -41,8 +41,7 @@ class GradesPageController extends ChangeNotifier {
           final subjectGrades = activeTerm.subjects
               .expand<SubjectView>((subject) => subject.grades.map((grade) => (
                     id: subject.id,
-                    // TODO: Implement
-                    abbreviation: 'Ma',
+                    abbreviation: subject.abbreviation,
                     displayName: subject.name,
                     grade: grade.value.displayableGrade,
                     // TODO: Implement
