@@ -145,7 +145,7 @@ class Term {
   }) {
     var subject = _subjects.firstWhere(
       (s) => s.id == toSubject,
-      orElse: () => _newSubject(toSubject),
+      orElse: () => throw SubjectNotFoundException(toSubject),
     );
 
     final gradingSystem = grade.gradingSystem.toGradingSystem();

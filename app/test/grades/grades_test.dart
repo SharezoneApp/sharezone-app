@@ -747,6 +747,22 @@ void main() {
       // We check the design to know that the first subject was added.
       expect(controller.getSubjects().single.design, subject1.design);
     });
+    test(
+        'If a grade with an unknown subject id was added then a $SubjectNotFoundException is thrown',
+        () {
+      final controller = GradesTestController();
+
+      controller.createTerm(termWith(id: const TermId('term1')));
+      addGrade() => controller.addGrade(
+            termId: const TermId('term1'),
+            subjectId: const SubjectId('Unknown'),
+            value: gradeWith(value: '3'),
+            date: Date('2011-02-23'),
+          );
+
+      expect(addGrade,
+          throwsA(const SubjectNotFoundException(SubjectId('Unknown'))));
+    });
 
     // TODO: Using unknown GradeTypes in weight maps should do nothing (no error)
   });

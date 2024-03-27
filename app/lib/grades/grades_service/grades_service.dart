@@ -246,6 +246,15 @@ class GradesService {
   }
 }
 
+class SubjectNotFoundException extends Equatable implements Exception {
+  final SubjectId id;
+
+  const SubjectNotFoundException(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
 class SubjectAlreadyExistingException extends Equatable implements Exception {
   final SubjectId id;
 
