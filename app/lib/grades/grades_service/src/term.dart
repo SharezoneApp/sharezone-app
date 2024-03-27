@@ -12,6 +12,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../grades_service.dart';
+import 'grading_system.dart';
 
 class Term {
   final TermId id;

@@ -16,6 +16,7 @@ import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
 import '../models/subject_id.dart';
 import '../models/term_id.dart';
+import 'src/grading_system.dart';
 import 'src/term.dart';
 
 export '../models/grade_id.dart';
@@ -292,28 +293,6 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
 
 enum GradingSystems { oneToSixWithPlusAndMinus, oneToFiveteenPoints }
 
-extension ToGradingSystem on GradingSystems {
-  GradingSystem toGradingSystem() {
-    switch (this) {
-      case GradingSystems.oneToFiveteenPoints:
-        return GradingSystem.oneToFiveteenPoints;
-      case GradingSystems.oneToSixWithPlusAndMinus:
-        return GradingSystem.oneToSixWithPlusAndMinus;
-    }
-  }
-}
-
-extension ToGradingSystems on GradingSystem {
-  GradingSystems toGradingSystems() {
-    if (this is OneToFiveteenPointsGradingSystem) {
-      return GradingSystems.oneToFiveteenPoints;
-    } else if (this is OneToSixWithPlusMinusGradingSystem) {
-      return GradingSystems.oneToSixWithPlusAndMinus;
-    }
-    throw UnimplementedError();
-  }
-}
-
 /// The predefined types of grades that can be used.
 ///
 /// This can be used by the UI to more easily show internationalized names for
@@ -442,129 +421,6 @@ class CalculatedGradeResult {
   }
   CalculatedGradeResult._(
       {required this.asNum, required this.displayableGrade});
-}
-
-// TODO: Make private?
-sealed class GradingSystem {
-  static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
-  static final oneToFiveteenPoints = OneToFiveteenPointsGradingSystem();
-
-  double toDoubleOrThrow(String grade);
-  IList<String> get possibleValues;
-
-  String toDisplayableGrade(num grade) {
-    final res = getDisplayableGradeIfExactMatch(grade);
-    if (res != null) {
-      return res;
-    }
-    return grade.toStringAsFixed(2).replaceAll('.', ',').substring(0, 3);
-  }
-
-  String? getDisplayableGradeIfExactMatch(num grade);
-}
-
-class OneToFiveteenPointsGradingSystem extends GradingSystem
-    with EquatableMixin {
-  @override
-  IList<String> get possibleValues => const IListConst([
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15',
-      ]);
-
-  @override
-  double toDoubleOrThrow(String grade) {
-    return double.parse(grade);
-  }
-
-  @override
-  List<Object?> get props => [];
-
-  @override
-  String? getDisplayableGradeIfExactMatch(num grade) {
-    for (var val in possibleValues) {
-      if (int.parse(val) == grade) {
-        return val;
-      }
-    }
-    return null;
-  }
-}
-
-class OneToSixWithPlusMinusGradingSystem extends GradingSystem
-    with EquatableMixin {
-  @override
-  IList<String> get possibleValues => const IListConst([
-        '1+',
-        '1',
-        '1-',
-        '2+',
-        '2',
-        '2-',
-        '3+',
-        '3',
-        '3-',
-        '4+',
-        '4',
-        '4-',
-        '5+',
-        '5',
-        '5-',
-        '6',
-      ]);
-
-  @override
-  double toDoubleOrThrow(String grade) {
-    return switch (grade) {
-      '1+' => 0.75,
-      '1' => 1,
-      '1-' => 1.25,
-      '2+' => 1.75,
-      '2' => 2,
-      '2-' => 2.25,
-      '3+' => 2.75,
-      '3' => 3,
-      '3-' => 3.25,
-      '4+' => 3.75,
-      '4' => 4,
-      '4-' => 4.25,
-      '5+' => 4.75,
-      '5' => 5,
-      '5-' => 5.25,
-      '6' => 6,
-      _ => throw ArgumentError.value(
-          grade,
-          'grade',
-          'Invalid grade value',
-        ),
-    };
-  }
-
-  @override
-  List<Object?> get props => [];
-
-  @override
-  String? getDisplayableGradeIfExactMatch(num grade) {
-    for (var val in possibleValues) {
-      if (toDoubleOrThrow(val) == grade) {
-        return val;
-      }
-    }
-    return null;
-  }
 }
 
 class Grade {
