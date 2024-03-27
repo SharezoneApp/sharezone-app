@@ -382,8 +382,7 @@ class _Grade extends Equatable {
     required this.gradingSystem,
     required this.weight,
     required this.date,
-    // TODO: Make required?
-    this.takenIntoAccount = true,
+    required this.takenIntoAccount,
   });
 
   _Grade _changeWeight(double weight) {
