@@ -732,6 +732,7 @@ void main() {
         () => controller.addSubject(subject2),
         throwsA(const SubjectAlreadyExistingException(SubjectId('Mathe'))),
       );
+      // We check the design to know that the first subject was added.
       expect(controller.getSubjects().single.design, subject1.design);
     });
 
