@@ -43,8 +43,7 @@ class GradesService {
         isActiveTerm: term.isActiveTerm,
         gradingSystem: term.gradingSystem.toGradingSystems(),
         calculatedGrade: term.tryGetTermGrade() != null
-            ? CalculatedGradeResult.withGradingSystem(term.tryGetTermGrade()!,
-                gradingSystem: term.gradingSystem)
+            ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
             : null,
         subjects: term.subjects
             .map(
@@ -54,10 +53,7 @@ class GradesService {
                 design: subject.design,
                 abbreviation: subject.abbreviation,
                 calculatedGrade: subject.gradeVal != null
-                    ? CalculatedGradeResult.withGradingSystem(
-                        subject.gradeVal!,
-                        gradingSystem: subject.gradingSystem,
-                      )
+                    ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
                     : null,
                 weightType: subject.weightType,
                 gradeTypeWeights: subject.gradeTypeWeightings
@@ -411,16 +407,7 @@ class CalculatedGradeResult {
   final num asNum;
   final String displayableGrade;
 
-  factory CalculatedGradeResult.withGradingSystem(num grade,
-      {required GradingSystem gradingSystem}) {
-    gradingSystem.toDisplayableGrade(grade);
-    return CalculatedGradeResult._(
-      asNum: grade,
-      displayableGrade: gradingSystem.toDisplayableGrade(grade),
-    );
-  }
-  CalculatedGradeResult._(
-      {required this.asNum, required this.displayableGrade});
+  CalculatedGradeResult({required this.asNum, required this.displayableGrade});
 }
 
 class Grade {

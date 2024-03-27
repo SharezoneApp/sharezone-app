@@ -39,6 +39,14 @@ sealed class GradingSystem {
   double toDoubleOrThrow(String grade);
   IList<String> get possibleValues;
 
+  CalculatedGradeResult toGradeResult(num grade) {
+    final displayableGrade = toDisplayableGrade(grade);
+    return CalculatedGradeResult(
+      asNum: grade,
+      displayableGrade: displayableGrade,
+    );
+  }
+
   String toDisplayableGrade(num grade) {
     final res = getDisplayableGradeIfExactMatch(grade);
     if (res != null) {
