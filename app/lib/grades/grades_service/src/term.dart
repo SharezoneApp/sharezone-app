@@ -6,13 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:date/date.dart';
-import 'package:design/design.dart';
-import 'package:equatable/equatable.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-
-import '../grades_service.dart';
-import 'grading_system.dart';
+part of '../grades_service.dart';
 
 class Term {
   final TermId id;

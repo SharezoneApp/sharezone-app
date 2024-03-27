@@ -6,9 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:equatable/equatable.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:sharezone/grades/grades_service/grades_service.dart';
+part of '../grades_service.dart';
 
 extension ToGradingSystem on GradingSystems {
   GradingSystem toGradingSystem() {

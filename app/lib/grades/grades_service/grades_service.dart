@@ -16,12 +16,13 @@ import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
 import '../models/subject_id.dart';
 import '../models/term_id.dart';
-import 'src/grading_system.dart';
-import 'src/term.dart';
 
 export '../models/grade_id.dart';
 export '../models/subject_id.dart';
 export '../models/term_id.dart';
+
+part 'src/term.dart';
+part 'src/grading_system.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
