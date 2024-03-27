@@ -113,10 +113,10 @@ class GradesDialogController extends ChangeNotifier {
         id: gradeId,
         type: _gradeType.id,
         value: _grade!,
+        date: _date,
+        takeIntoAccount: _integrateGradeIntoSubjectGrade,
         gradingSystem: _gradingSystem,
       ),
-      date: _date,
-      takeIntoAccount: _integrateGradeIntoSubjectGrade,
     );
   }
 }

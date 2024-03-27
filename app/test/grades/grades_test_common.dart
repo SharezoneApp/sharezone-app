@@ -69,8 +69,6 @@ class GradesTestController {
           id: subject.id,
           termId: termId,
           value: _toGrade(grade),
-          date: grade.date,
-          takeIntoAccount: grade.includeInGradeCalculations,
         );
         if (grade.weight != null) {
           service.changeGradeWeight(
@@ -110,6 +108,8 @@ class GradesTestController {
     return Grade(
       id: testGrade.id,
       value: testGrade.value,
+      date: testGrade.date,
+      takeIntoAccount: testGrade.includeInGradeCalculations,
       gradingSystem: testGrade.gradingSystem,
       type: testGrade.type,
     );
@@ -172,12 +172,10 @@ class GradesTestController {
     required TermId termId,
     required SubjectId subjectId,
     required TestGrade value,
-    required Date date,
   }) {
     return service.addGrade(
       id: subjectId,
       termId: termId,
-      date: date,
       value: _toGrade(value),
     );
   }

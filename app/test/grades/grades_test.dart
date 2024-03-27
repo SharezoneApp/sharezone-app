@@ -773,7 +773,6 @@ void main() {
             termId: const TermId('term1'),
             subjectId: const SubjectId('Unknown'),
             value: gradeWith(value: '3'),
-            date: Date('2011-02-23'),
           );
 
       expect(addGrade,

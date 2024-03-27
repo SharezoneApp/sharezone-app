@@ -151,18 +151,11 @@ class GradesService {
     required SubjectId id,
     required TermId termId,
     required Grade value,
-    required Date date,
-    bool takeIntoAccount = true,
   }) {
     if (!_hasGradeTypeWithId(value.type)) {
       throw GradeTypeNotFoundException(value.type);
     }
-    final newTerm = _term(termId).addGrade(
-      value,
-      toSubject: id,
-      takenIntoAccount: takeIntoAccount,
-      date: date,
-    );
+    final newTerm = _term(termId).addGrade(value, toSubject: id);
     _updateTerm(newTerm);
   }
 
@@ -418,12 +411,16 @@ class Grade {
   final Object value;
   final GradingSystem gradingSystem;
   final GradeTypeId type;
+  final Date date;
+  final bool takeIntoAccount;
 
   Grade({
     required this.id,
     required this.value,
     required this.gradingSystem,
     required this.type,
+    required this.date,
+    required this.takeIntoAccount,
   });
 }
 

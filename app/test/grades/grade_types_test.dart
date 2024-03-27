@@ -1,4 +1,3 @@
-import 'package:date/date.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
@@ -60,7 +59,6 @@ void main() {
             termId: const TermId('test'),
             subjectId: const SubjectId('bar'),
             value: gradeWith(value: 3, type: const GradeTypeId('test')),
-            date: Date('2024-02-02'),
           );
 
       expect(addGrade,

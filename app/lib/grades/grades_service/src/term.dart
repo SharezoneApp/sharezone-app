@@ -139,12 +139,7 @@ class _Term {
     return _copyWith(finalGradeType: gradeType, subjects: newSubjects);
   }
 
-  _Term addGrade(
-    Grade grade, {
-    required SubjectId toSubject,
-    required Date date,
-    bool takenIntoAccount = true,
-  }) {
+  _Term addGrade(Grade grade, {required SubjectId toSubject}) {
     var subject = _subjects.firstWhere(
       (s) => s.id == toSubject,
       orElse: () => throw SubjectNotFoundException(toSubject),
@@ -156,10 +151,10 @@ class _Term {
     subject = subject._addGrade(_Grade(
       term: this,
       id: grade.id,
-      date: date,
+      date: grade.date,
       value: gradingSystem.toGradeResult(gradeVal),
       gradingSystem: gradingSystem,
-      takenIntoAccount: takenIntoAccount,
+      takenIntoAccount: grade.takeIntoAccount,
       gradeType: grade.type,
       weight: 1,
     ));
