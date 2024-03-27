@@ -99,11 +99,11 @@ class GradesService {
 
   Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
-  void addSubject({
-    required SubjectId id,
-    required TermId toTerm,
+  void addSubjectToTerm({
+    required SubjectId subjectId,
+    required TermId termId,
   }) {
-    final newTerm = _term(toTerm).addSubject(Subject(id));
+    final newTerm = _term(termId).addSubject(Subject(subjectId));
     _updateTerm(newTerm);
   }
 

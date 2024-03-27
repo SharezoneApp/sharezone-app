@@ -36,7 +36,7 @@ class GradesTestController {
     }
 
     for (var subject in testTerm.subjects.values) {
-      service.addSubject(id: subject.id, toTerm: termId);
+      service.addSubjectToTerm(subjectId: subject.id, termId: termId);
       if (subject.weight != null) {
         service.changeSubjectWeightForTermGrade(
             id: subject.id, termId: termId, weight: subject.weight!);
