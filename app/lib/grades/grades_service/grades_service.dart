@@ -102,6 +102,10 @@ class GradesService {
 
   Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
+  /// Adds an existing subject to a term.
+  ///
+  /// If the subject is already in the term, nothing will happen.
+  /// If the subject does not exist, [SubjectNotFoundException] will be thrown.
   void addSubjectToTerm({
     required SubjectId subjectId,
     required TermId termId,
