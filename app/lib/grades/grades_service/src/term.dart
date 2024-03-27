@@ -51,7 +51,7 @@ class Term {
 
   Term addSubject(Subject subject) {
     if (hasSubject(subject.id)) {
-      throw SubjectAlreadyExistingException(subject.id);
+      throw SubjectAlreadyExistsException(subject.id);
     }
     return _copyWith(
       subjects: _subjects.add(_Subject(

@@ -64,7 +64,7 @@ void main() {
           );
 
       expect(addGrade,
-          throwsA(const UnknownGradeTypeException(GradeTypeId('test'))));
+          throwsA(const GradeTypeNotFoundException(GradeTypeId('test'))));
     });
     test(
         'Adding a already existing grade type will do nothing and not throw an error',

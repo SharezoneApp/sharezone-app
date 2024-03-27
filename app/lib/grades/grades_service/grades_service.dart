@@ -117,7 +117,7 @@ class GradesService {
     try {
       final newTerm = _term(termId).addSubject(subject);
       _updateTerm(newTerm);
-    } on SubjectAlreadyExistingException {
+    } on SubjectAlreadyExistsException {
       return;
     }
   }
@@ -157,7 +157,7 @@ class GradesService {
     bool takeIntoAccount = true,
   }) {
     if (!_hasGradeTypeWithId(value.type)) {
-      throw UnknownGradeTypeException(value.type);
+      throw GradeTypeNotFoundException(value.type);
     }
     final newTerm = _term(termId).addGrade(
       value,
@@ -241,7 +241,7 @@ class GradesService {
 
   void addSubject(Subject subject) {
     if (_subjects.any((s) => s.id == subject.id)) {
-      throw SubjectAlreadyExistingException(subject.id);
+      throw SubjectAlreadyExistsException(subject.id);
     }
     _subjects = _subjects.add(subject);
   }
@@ -272,19 +272,19 @@ class SubjectNotFoundException extends Equatable implements Exception {
   List<Object?> get props => [id];
 }
 
-class SubjectAlreadyExistingException extends Equatable implements Exception {
+class SubjectAlreadyExistsException extends Equatable implements Exception {
   final SubjectId id;
 
-  const SubjectAlreadyExistingException(this.id);
+  const SubjectAlreadyExistsException(this.id);
 
   @override
   List<Object?> get props => [id];
 }
 
-class UnknownGradeTypeException extends Equatable implements Exception {
+class GradeTypeNotFoundException extends Equatable implements Exception {
   final GradeTypeId id;
 
-  const UnknownGradeTypeException(this.id);
+  const GradeTypeNotFoundException(this.id);
 
   @override
   List<Object?> get props => [id];

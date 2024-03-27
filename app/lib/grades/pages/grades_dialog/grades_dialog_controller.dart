@@ -55,7 +55,7 @@ class GradesDialogController extends ChangeNotifier {
           design: Design.random(),
         ),
       );
-    } on SubjectAlreadyExistingException catch (_) {}
+    } on SubjectAlreadyExistsException catch (_) {}
   }
 
   String? _grade;

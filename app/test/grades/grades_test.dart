@@ -744,7 +744,7 @@ void main() {
       expect(subject2.abbreviation, 'D');
     });
     test(
-        'If a subject with the same id is already existing a $SubjectAlreadyExistingException exception will be thrown and the subject will not be added.',
+        'If a subject with the same id is already existing a $SubjectAlreadyExistsException exception will be thrown and the subject will not be added.',
         () {
       final controller = GradesTestController();
 
@@ -758,7 +758,7 @@ void main() {
 
       expect(
         () => controller.addSubject(subject2),
-        throwsA(const SubjectAlreadyExistingException(SubjectId('Mathe'))),
+        throwsA(const SubjectAlreadyExistsException(SubjectId('Mathe'))),
       );
       // We check the design to know that the first subject was added.
       expect(controller.getSubjects().single.design, subject1.design);
