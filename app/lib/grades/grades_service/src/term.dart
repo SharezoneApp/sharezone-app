@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:date/date.dart';
+import 'package:design/design.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
@@ -58,6 +59,7 @@ class Term {
         id: subject.id,
         name: subject.name,
         abbreviation: subject.abbreviation,
+        design: subject.design,
         gradingSystem: gradingSystem,
         finalGradeType: finalGradeType,
         weightType: WeightType.inheritFromTerm,
@@ -267,6 +269,7 @@ class _Subject {
   final IMap<GradeTypeId, double> gradeTypeWeightingsFromTerm;
   final WeightType weightType;
   final String abbreviation;
+  final Design design;
 
   late final num? gradeVal;
 
@@ -278,6 +281,7 @@ class _Subject {
     required this.gradingSystem,
     required this.finalGradeType,
     required this.abbreviation,
+    required this.design,
     this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
     this.weightingForTermGrade = 1,
@@ -335,6 +339,7 @@ class _Subject {
     SubjectId? id,
     String? name,
     String? abbreviation,
+    Design? design,
     IList<_Grade>? grades,
     GradeTypeId? finalGradeType,
     bool? isFinalGradeTypeOverridden,
@@ -349,6 +354,7 @@ class _Subject {
       id: id ?? this.id,
       name: name ?? this.name,
       abbreviation: abbreviation ?? this.abbreviation,
+      design: design ?? this.design,
       grades: grades ?? this.grades,
       gradingSystem: gradingSystem ?? this.gradingSystem,
       finalGradeType: finalGradeType ?? this.finalGradeType,

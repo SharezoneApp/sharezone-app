@@ -710,12 +710,19 @@ void main() {
       final controller = GradesTestController();
 
       final design = Design.random(szTestRandom);
-      controller.addSubject(subjectWith(design: design));
-
-      // TODO: Test that term.subject also has the design
+      controller.createTerm(
+        termWith(
+          id: const TermId('term1'),
+          subjects: [
+            subjectWith(name: 'Deutsch', design: design),
+          ],
+        ),
+      );
 
       final subject = controller.getSubjects().single;
       expect(subject.design, design);
+      final subject2 = controller.term(const TermId('term1')).subjects.single;
+      expect(subject2.design, design);
     });
     test('A subject has a name and abbreviation', () {
       final controller = GradesTestController();

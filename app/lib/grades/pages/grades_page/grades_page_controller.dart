@@ -44,8 +44,7 @@ class GradesPageController extends ChangeNotifier {
                     abbreviation: subject.abbreviation,
                     displayName: subject.name,
                     grade: grade.value.displayableGrade,
-                    // TODO: Implement
-                    design: Design.standard(),
+                    design: subject.design,
                   )))
               .toIList();
 
