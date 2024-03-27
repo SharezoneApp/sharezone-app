@@ -715,6 +715,25 @@ void main() {
       final subject = controller.getSubjects().single;
       expect(subject.design, design);
     });
+    test(
+        'If a subject with the same id is already existing a $SubjectAlreadyExistingException exception will be thrown and the subject will not be added.',
+        () {
+      final controller = GradesTestController();
+
+      // Two different subject with the same id to make sure that the id, not
+      // the object itself is checked.
+      final subject1 = subjectWith(
+          id: const SubjectId('Mathe'), design: Design.random(szTestRandom));
+      final subject2 =
+          subjectWith(id: const SubjectId('Mathe'), design: Design.standard());
+      controller.addSubject(subject1);
+
+      expect(
+        () => controller.addSubject(subject2),
+        throwsA(const SubjectAlreadyExistingException(SubjectId('Mathe'))),
+      );
+      expect(controller.getSubjects().single.design, subject1.design);
+    });
 
     // TODO: Using unknown GradeTypes in weight maps should do nothing (no error)
   });

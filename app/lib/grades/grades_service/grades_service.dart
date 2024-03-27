@@ -228,6 +228,9 @@ class GradesService {
   var _subjects = IList<Subject>();
 
   void addSubject(Subject subject) {
+    if (_subjects.any((s) => s.id == subject.id)) {
+      throw SubjectAlreadyExistingException(subject.id);
+    }
     _subjects = _subjects.add(subject);
   }
 
@@ -238,6 +241,15 @@ class GradesService {
   Subject? getSubject(SubjectId id) {
     return _subjects.firstWhereOrNull((subject) => subject.id == id);
   }
+}
+
+class SubjectAlreadyExistingException extends Equatable implements Exception {
+  final SubjectId id;
+
+  const SubjectAlreadyExistingException(this.id);
+
+  @override
+  List<Object?> get props => [id];
 }
 
 class UnknownGradeTypeException extends Equatable implements Exception {
