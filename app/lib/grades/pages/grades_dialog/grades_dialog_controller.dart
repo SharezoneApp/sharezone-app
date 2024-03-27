@@ -103,9 +103,6 @@ class GradesDialogController extends ChangeNotifier {
   void save() {
     final gradeId = GradeId(randomIDString(20));
 
-    // TODO: Should the subject be added automatically by `addGrade`? Or if not
-    // then we should throw an exception if the subject does not exist.
-    gradesService.addSubjectToTerm(subjectId: _subject!, termId: _term!);
     gradesService.addGrade(
       id: _subject!,
       termId: _term!,

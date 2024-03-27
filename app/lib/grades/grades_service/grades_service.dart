@@ -102,24 +102,6 @@ class GradesService {
 
   _Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
-  /// Adds an existing subject to a term.
-  ///
-  /// If the subject is already in the term, nothing will happen.
-  /// If the subject does not exist, [SubjectNotFoundException] will be thrown.
-  void addSubjectToTerm({
-    required SubjectId subjectId,
-    required TermId termId,
-  }) {
-    final subject = _getSubjectOrThrow(subjectId);
-
-    try {
-      final newTerm = _term(termId).addSubject(subject);
-      _updateTerm(newTerm);
-    } on SubjectAlreadyExistsException {
-      return;
-    }
-  }
-
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
     final newTerm =
@@ -152,10 +134,16 @@ class GradesService {
     required TermId termId,
     required Grade value,
   }) {
+    final subject = _getSubjectOrThrow(id);
     if (!_hasGradeTypeWithId(value.type)) {
       throw GradeTypeNotFoundException(value.type);
     }
-    final newTerm = _term(termId).addGrade(value, toSubject: id);
+
+    var newTerm = _term(termId);
+    if (!newTerm.hasSubject(id)) {
+      newTerm = newTerm.addSubject(subject);
+    }
+    newTerm = newTerm.addGrade(value, toSubject: id);
     _updateTerm(newTerm);
   }
 

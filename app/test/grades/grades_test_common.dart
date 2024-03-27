@@ -43,7 +43,25 @@ class GradesTestController {
         abbreviation: subject.abbreviation,
         design: subject.design,
       ));
-      service.addSubjectToTerm(subjectId: subject.id, termId: termId);
+
+      // A subject is added to a term implicitly when adding a grade with the
+      // subject id. So we need to add the grades here first before setting the
+      // other settings (weights) that refer to the term.
+      for (var grade in subject.grades) {
+        service.addGrade(
+          id: subject.id,
+          termId: termId,
+          value: _toGrade(grade),
+        );
+        if (grade.weight != null) {
+          service.changeGradeWeight(
+            id: grade.id,
+            termId: termId,
+            weight: grade.weight!,
+          );
+        }
+      }
+
       if (subject.weight != null) {
         service.changeSubjectWeightForTermGrade(
             id: subject.id, termId: termId, weight: subject.weight!);
@@ -62,21 +80,6 @@ class GradesTestController {
       if (subject.finalGradeType != null) {
         service.changeSubjectFinalGradeType(
             id: subject.id, termId: termId, gradeType: subject.finalGradeType!);
-      }
-
-      for (var grade in subject.grades) {
-        service.addGrade(
-          id: subject.id,
-          termId: termId,
-          value: _toGrade(grade),
-        );
-        if (grade.weight != null) {
-          service.changeGradeWeight(
-            id: grade.id,
-            termId: termId,
-            weight: grade.weight!,
-          );
-        }
       }
     }
   }
@@ -203,11 +206,6 @@ class GradesTestController {
           ),
         )
         .toIList();
-  }
-
-  void addSubjectToTerm(
-      {required TermId termId, required SubjectId subjectId}) {
-    service.addSubjectToTerm(subjectId: subjectId, termId: termId);
   }
 }
 
