@@ -204,7 +204,7 @@ void main() {
       expect(values, orderedEquals(expected.keys));
     }
 
-    void testThatGradeAsStringIsConvertedToCorrectGradeAsDouble(
+    void testThatGradeAsStringIsConvertedToCorrectGradeAsDoubleAndString(
         GradingSystems gradingSystem, Map<String, num> expected) {
       final controller = GradesTestController();
 
@@ -225,13 +225,13 @@ void main() {
       final actual = Map.fromEntries(
         grades.map(
           (grade) => MapEntry<String, num>(
-            grade.id.id,
-            grade.doubleValue,
+            grade.value.displayableGrade,
+            grade.value.asDouble,
           ),
         ),
       );
 
-      expect(expected, actual);
+      expect(actual, expected);
     }
 
     @isTestGroup
@@ -245,8 +245,10 @@ void main() {
           testFunc: testThatCorrectPossibleValuesAreGivenAndInCorrectOrder
         ),
         (
-          name: 'returns correct double grade values for grade strings',
-          testFunc: testThatGradeAsStringIsConvertedToCorrectGradeAsDouble
+          name:
+              'returns correct double and string grade values for grade strings',
+          testFunc:
+              testThatGradeAsStringIsConvertedToCorrectGradeAsDoubleAndString
         ),
       ];
 

@@ -42,9 +42,8 @@ class GradesService {
         isActiveTerm: term.isActiveTerm,
         gradingSystem: term.gradingSystem.toGradingSystems(),
         calculatedGrade: term.tryGetTermGrade() != null
-            ? CalculatedGradeResult(
-                asDouble: term.tryGetTermGrade()!.toDouble(),
-              )
+            ? CalculatedGradeResult.withGradingSystem(term.tryGetTermGrade()!,
+                gradingSystem: term.gradingSystem)
             : null,
         subjects: term.subjects
             .map(
@@ -52,8 +51,9 @@ class GradesService {
                 id: subject.id,
                 name: subject.name,
                 calculatedGrade: subject.gradeVal != null
-                    ? CalculatedGradeResult(
-                        asDouble: subject.gradeVal!.toDouble(),
+                    ? CalculatedGradeResult.withGradingSystem(
+                        subject.gradeVal!,
+                        gradingSystem: subject.gradingSystem,
                       )
                     : null,
                 weightType: subject.weightType,
@@ -65,7 +65,7 @@ class GradesService {
                         id: grade.id,
                         date: grade.date,
                         isTakenIntoAccount: grade.takenIntoAccount,
-                        doubleValue: grade.value.toDouble(),
+                        value: grade.value,
                       ),
                     )
                     .toIList(),
@@ -364,14 +364,14 @@ class GradeType extends Equatable {
 
 class GradeResult {
   final GradeId id;
-  final double doubleValue;
+  final CalculatedGradeResult value;
   final bool isTakenIntoAccount;
   final Date date;
 
   GradeResult({
     required this.id,
     required this.isTakenIntoAccount,
-    required this.doubleValue,
+    required this.value,
     required this.date,
   });
 }
@@ -422,12 +422,27 @@ class TermResult {
 }
 
 class CalculatedGradeResult {
-  final double asDouble;
+  double get asDouble => asNum.toDouble();
+  final num asNum;
+  final String displayableGrade;
+  // String get displayableGrade {
+  //   // final truncated = asNum.truncate();
+  //   // if (asNum == truncated) {
+  //   //   return truncated.toString();
+  //   // }
+  //   return asDouble.toStringAsFixed(2).replaceAll('.', ',').substring(0, 3);
+  // }
 
-  String get displayableGrade =>
-      asDouble.toStringAsFixed(2).replaceAll('.', ',').substring(0, 3);
-
-  CalculatedGradeResult({required this.asDouble});
+  factory CalculatedGradeResult.withGradingSystem(num grade,
+      {required GradingSystem gradingSystem}) {
+    gradingSystem.toDisplayableGrade(grade);
+    return CalculatedGradeResult._(
+      asNum: grade,
+      displayableGrade: gradingSystem.toDisplayableGrade(grade),
+    );
+  }
+  CalculatedGradeResult._(
+      {required this.asNum, required this.displayableGrade});
 }
 
 // TODO: Make private?
@@ -437,6 +452,16 @@ sealed class GradingSystem {
 
   double toDoubleOrThrow(String grade);
   IList<String> get possibleValues;
+
+  String toDisplayableGrade(num grade) {
+    final res = getDisplayableGradeIfExactMatch(grade);
+    if (res != null) {
+      return res;
+    }
+    return grade.toStringAsFixed(2).replaceAll('.', ',').substring(0, 3);
+  }
+
+  String? getDisplayableGradeIfExactMatch(num grade);
 }
 
 class OneToFiveteenPointsGradingSystem extends GradingSystem
@@ -468,6 +493,16 @@ class OneToFiveteenPointsGradingSystem extends GradingSystem
 
   @override
   List<Object?> get props => [];
+
+  @override
+  String? getDisplayableGradeIfExactMatch(num grade) {
+    for (var val in possibleValues) {
+      if (int.parse(val) == grade) {
+        return val;
+      }
+    }
+    return null;
+  }
 }
 
 class OneToSixWithPlusMinusGradingSystem extends GradingSystem
@@ -521,6 +556,16 @@ class OneToSixWithPlusMinusGradingSystem extends GradingSystem
 
   @override
   List<Object?> get props => [];
+
+  @override
+  String? getDisplayableGradeIfExactMatch(num grade) {
+    for (var val in possibleValues) {
+      if (toDoubleOrThrow(val) == grade) {
+        return val;
+      }
+    }
+    return null;
+  }
 }
 
 class Grade {

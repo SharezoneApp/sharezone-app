@@ -153,13 +153,14 @@ class Term {
     );
 
     final gradingSystem = grade.gradingSystem.toGradingSystem();
-    final gradeVal = _getGradeDouble(grade.value, gradingSystem);
+    final gradeVal = _getGradeNum(grade.value, gradingSystem);
 
     subject = subject._addGrade(_Grade(
       term: this,
       id: grade.id,
       date: date,
-      value: gradeVal,
+      value: CalculatedGradeResult.withGradingSystem(gradeVal,
+          gradingSystem: gradingSystem),
       gradingSystem: gradingSystem,
       takenIntoAccount: takenIntoAccount,
       gradeType: grade.type,
@@ -173,9 +174,8 @@ class Term {
         : _copyWith(subjects: _subjects.add(subject));
   }
 
-  double _getGradeDouble(Object grade, GradingSystem gradingSystem) {
-    if (grade is double) return grade;
-    if (grade is int) return grade.toDouble();
+  num _getGradeNum(Object grade, GradingSystem gradingSystem) {
+    if (grade is num) return grade;
     if (grade is String) return gradingSystem.toDoubleOrThrow(grade);
     throw Exception(
         'Grade must be a double, int or string, but was ${grade.runtimeType}: $grade');
@@ -291,10 +291,10 @@ class _Subject {
 
     final finalGrade =
         grds.where((grade) => grade.gradeType == finalGradeType).firstOrNull;
-    if (finalGrade != null) return finalGrade.value;
+    if (finalGrade != null) return finalGrade.value.asDouble;
 
     return grds
-            .map((grade) => grade.value * _weightFor(grade))
+            .map((grade) => grade.value.asDouble * _weightFor(grade))
             .reduce((a, b) => a + b) /
         grds.map((e) => _weightFor(e)).reduce((a, b) => a + b);
   }
@@ -362,7 +362,7 @@ class _Subject {
 class _Grade extends Equatable {
   final Term term;
   final GradeId id;
-  final num value;
+  final CalculatedGradeResult value;
   final GradingSystem gradingSystem;
   final GradeTypeId gradeType;
   final bool takenIntoAccount;
@@ -392,7 +392,7 @@ class _Grade extends Equatable {
   _Grade copyWith({
     Term? term,
     GradeId? id,
-    num? value,
+    CalculatedGradeResult? value,
     Date? date,
     GradingSystem? gradingSystem,
     GradeTypeId? gradeType,

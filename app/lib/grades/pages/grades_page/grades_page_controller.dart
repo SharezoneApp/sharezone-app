@@ -44,7 +44,7 @@ class GradesPageController extends ChangeNotifier {
                     // TODO: Implement
                     abbreviation: 'Ma',
                     displayName: subject.name,
-                    grade: '${grade.doubleValue}',
+                    grade: grade.value.displayableGrade,
                     // TODO: Implement
                     design: Design.standard(),
                   )))
