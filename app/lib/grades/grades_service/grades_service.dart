@@ -50,8 +50,7 @@ class GradesService {
             .map(
               (subject) => SubjectResult(
                 id: subject.id,
-                // TODO: Implement in the right way
-                name: 'Mathe',
+                name: subject.name,
                 calculatedGrade: subject.gradeVal != null
                     ? CalculatedGradeResult(
                         asDouble: subject.gradeVal!.toDouble(),
@@ -109,7 +108,8 @@ class GradesService {
   }) {
     // TODO: Test that it doesn't duplicate subjects
     // TOD: Make it throw SubjectNotFoundException if the subject is not found?
-    final newTerm = _term(termId).addSubject(getSubject(subjectId)!);
+    final subject = getSubject(subjectId)!;
+    final newTerm = _term(termId).addSubject(subject);
     _updateTerm(newTerm);
   }
 

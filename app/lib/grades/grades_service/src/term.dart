@@ -46,18 +46,15 @@ class Term {
 
   Term addSubject(Subject subject) {
     return _copyWith(
-      subjects: _subjects.add(_newSubject(subject.id)),
-    );
-  }
-
-  _Subject _newSubject(SubjectId id) {
-    return _Subject(
-      term: this,
-      id: id,
-      gradingSystem: gradingSystem,
-      finalGradeType: finalGradeType,
-      weightType: WeightType.inheritFromTerm,
-      gradeTypeWeightingsFromTerm: _gradeTypeWeightings,
+      subjects: _subjects.add(_Subject(
+        term: this,
+        id: subject.id,
+        name: subject.name,
+        gradingSystem: gradingSystem,
+        finalGradeType: finalGradeType,
+        weightType: WeightType.inheritFromTerm,
+        gradeTypeWeightingsFromTerm: _gradeTypeWeightings,
+      )),
     );
   }
 
@@ -252,6 +249,7 @@ class CalculatedGradeRes {
 class _Subject {
   final Term term;
   final SubjectId id;
+  final String name;
   final GradingSystem gradingSystem;
   final IList<_Grade> grades;
   final GradeTypeId finalGradeType;
@@ -266,6 +264,7 @@ class _Subject {
   _Subject({
     required this.term,
     required this.id,
+    required this.name,
     required this.weightType,
     required this.gradingSystem,
     required this.finalGradeType,
@@ -324,6 +323,7 @@ class _Subject {
   _Subject copyWith({
     Term? term,
     SubjectId? id,
+    String? name,
     IList<_Grade>? grades,
     GradeTypeId? finalGradeType,
     bool? isFinalGradeTypeOverridden,
@@ -336,6 +336,7 @@ class _Subject {
     return _Subject(
       term: term ?? this.term,
       id: id ?? this.id,
+      name: name ?? this.name,
       grades: grades ?? this.grades,
       gradingSystem: gradingSystem ?? this.gradingSystem,
       finalGradeType: finalGradeType ?? this.finalGradeType,

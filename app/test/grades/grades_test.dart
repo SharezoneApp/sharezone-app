@@ -720,12 +720,19 @@ void main() {
     test('A subject has a name', () {
       final controller = GradesTestController();
 
-      controller.addSubject(subjectWith(name: 'Deutsch'));
+      controller.createTerm(
+        termWith(
+          id: const TermId('term1'),
+          subjects: [
+            subjectWith(name: 'Deutsch'),
+          ],
+        ),
+      );
 
-      // TODO: Test that term.subject also has the name
-
-      final subject = controller.getSubjects().single;
+      var subject = controller.getSubjects().single;
       expect(subject.name, 'Deutsch');
+      final subject2 = controller.term(const TermId('term1')).subjects.single;
+      expect(subject2.name, 'Deutsch');
     });
     test(
         'If a subject with the same id is already existing a $SubjectAlreadyExistingException exception will be thrown and the subject will not be added.',
