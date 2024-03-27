@@ -291,10 +291,10 @@ class _Subject {
 
     final finalGrade =
         grds.where((grade) => grade.gradeType == finalGradeType).firstOrNull;
-    if (finalGrade != null) return finalGrade.value.asDouble;
+    if (finalGrade != null) return finalGrade.value.asNum;
 
     return grds
-            .map((grade) => grade.value.asDouble * _weightFor(grade))
+            .map((grade) => grade.value.asNum * _weightFor(grade))
             .reduce((a, b) => a + b) /
         grds.map((e) => _weightFor(e)).reduce((a, b) => a + b);
   }

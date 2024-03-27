@@ -425,13 +425,6 @@ class CalculatedGradeResult {
   double get asDouble => asNum.toDouble();
   final num asNum;
   final String displayableGrade;
-  // String get displayableGrade {
-  //   // final truncated = asNum.truncate();
-  //   // if (asNum == truncated) {
-  //   //   return truncated.toString();
-  //   // }
-  //   return asDouble.toStringAsFixed(2).replaceAll('.', ',').substring(0, 3);
-  // }
 
   factory CalculatedGradeResult.withGradingSystem(num grade,
       {required GradingSystem gradingSystem}) {
