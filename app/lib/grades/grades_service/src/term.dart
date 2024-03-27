@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:date/date.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
@@ -136,8 +137,12 @@ class Term {
     return _copyWith(finalGradeType: gradeType, subjects: newSubjects);
   }
 
-  Term addGrade(Grade grade,
-      {required SubjectId toSubject, bool takenIntoAccount = true}) {
+  Term addGrade(
+    Grade grade, {
+    required SubjectId toSubject,
+    required Date date,
+    bool takenIntoAccount = true,
+  }) {
     var subject = _subjects.firstWhere(
       (s) => s.id == toSubject,
       orElse: () => _newSubject(toSubject),
@@ -149,6 +154,7 @@ class Term {
     subject = subject._addGrade(_Grade(
       term: this,
       id: grade.id,
+      date: date,
       value: gradeVal,
       gradingSystem: gradingSystem,
       takenIntoAccount: takenIntoAccount,
@@ -353,6 +359,7 @@ class _Grade extends Equatable {
   final GradeTypeId gradeType;
   final bool takenIntoAccount;
   final num weight;
+  final Date date;
 
   @override
   List<Object?> get props =>
@@ -365,6 +372,7 @@ class _Grade extends Equatable {
     required this.gradeType,
     required this.gradingSystem,
     required this.weight,
+    required this.date,
     // TODO: Make required?
     this.takenIntoAccount = true,
   });
@@ -377,6 +385,7 @@ class _Grade extends Equatable {
     Term? term,
     GradeId? id,
     num? value,
+    Date? date,
     GradingSystem? gradingSystem,
     GradeTypeId? gradeType,
     bool? takenIntoAccount,
@@ -386,6 +395,7 @@ class _Grade extends Equatable {
       term: term ?? this.term,
       id: id ?? this.id,
       value: value ?? this.value,
+      date: date ?? this.date,
       gradingSystem: gradingSystem ?? this.gradingSystem,
       gradeType: gradeType ?? this.gradeType,
       takenIntoAccount: takenIntoAccount ?? this.takenIntoAccount,

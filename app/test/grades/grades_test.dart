@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:date/date.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
@@ -675,6 +676,33 @@ void main() {
       controller.createTerm(term1);
 
       expect(controller.term(term1.id).name, '10/2');
+    });
+    test('A grade has a Date', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+                date: Date.fromDateTime(DateTime(2024, 03, 26)),
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Philosophie'))
+              .grade(GradeId('grade1'))
+              .date,
+          Date('2024-03-26'));
     });
 
     // TODO: Using unknown GradeTypes in weight maps should do nothing (no error)

@@ -1,3 +1,4 @@
+import 'package:date/src/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:test_randomness/test_randomness.dart';
@@ -61,6 +62,7 @@ class GradesTestController {
           id: subject.id,
           termId: termId,
           value: _toGrade(grade),
+          date: grade.date,
           takeIntoAccount: grade.includeInGradeCalculations,
         );
         if (grade.weight != null) {
@@ -159,13 +161,16 @@ class GradesTestController {
     return service.createCustomGradeType(gradeType);
   }
 
-  void addGrade(
-      {required TermId termId,
-      required SubjectId subjectId,
-      required TestGrade value}) {
+  void addGrade({
+    required TermId termId,
+    required SubjectId subjectId,
+    required TestGrade value,
+    required Date date,
+  }) {
     return service.addGrade(
       id: subjectId,
       termId: termId,
+      date: date,
       value: _toGrade(value),
     );
   }
@@ -276,11 +281,13 @@ TestGrade gradeWith({
   Weight? weight,
   GradeId? id,
   GradingSystems? gradingSystem,
+  Date? date,
 }) {
   return TestGrade(
     id: id ?? GradeId(randomAlpha(5)),
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
+    date: date ?? Date('2024-02-22'),
     // TODO: Move default test grading system out and reference it from there
     // in the test code.
     gradingSystem: gradingSystem ?? GradingSystems.oneToFiveteenPoints,
@@ -298,10 +305,12 @@ class TestGrade {
   final GradingSystems gradingSystem;
   final GradeTypeId type;
   final Weight? weight;
+  final Date date;
 
   TestGrade({
     required this.id,
     required this.value,
+    required this.date,
     required this.includeInGradeCalculations,
     required this.gradingSystem,
     required this.type,

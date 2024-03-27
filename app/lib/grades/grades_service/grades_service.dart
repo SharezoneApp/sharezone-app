@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:date/date.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:rxdart/subjects.dart' as rx;
@@ -59,6 +60,7 @@ class GradesService {
                     .map(
                       (grade) => GradeResult(
                         id: grade.id,
+                        date: grade.date,
                         isTakenIntoAccount: grade.takenIntoAccount,
                         doubleValue: grade.value.toDouble(),
                       ),
@@ -136,13 +138,18 @@ class GradesService {
     required SubjectId id,
     required TermId termId,
     required Grade value,
+    required Date date,
     bool takeIntoAccount = true,
   }) {
     if (!_hasGradeTypeWithId(value.type)) {
       throw UnknownGradeTypeException(value.type);
     }
-    final newTerm = _term(termId)
-        .addGrade(value, toSubject: id, takenIntoAccount: takeIntoAccount);
+    final newTerm = _term(termId).addGrade(
+      value,
+      toSubject: id,
+      takenIntoAccount: takeIntoAccount,
+      date: date,
+    );
     _updateTerm(newTerm);
   }
 
@@ -303,11 +310,13 @@ class GradeResult {
   final GradeId id;
   final double doubleValue;
   final bool isTakenIntoAccount;
+  final Date date;
 
   GradeResult({
     required this.id,
     required this.isTakenIntoAccount,
     required this.doubleValue,
+    required this.date,
   });
 }
 
