@@ -269,7 +269,7 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
   List<Object?> get props => [id];
 }
 
-enum GradingSystem { oneToSixWithPlusAndMinus, oneToFiveteenPoints }
+enum GradingSystem { oneToSixWithPlusAndMinus, zeroToFivteenPoints }
 
 /// The predefined types of grades that can be used.
 ///

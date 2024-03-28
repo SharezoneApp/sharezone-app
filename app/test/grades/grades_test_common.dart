@@ -232,7 +232,7 @@ TestTerm termWith({
     id: idd,
     name: name ?? '$idd',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
-    gradingSystem: gradingSystem ?? GradingSystem.oneToFiveteenPoints,
+    gradingSystem: gradingSystem ?? GradingSystem.zeroToFivteenPoints,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     isActiveTerm: isActiveTerm,
@@ -337,7 +337,7 @@ TestGrade gradeWith({
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
     date: date ?? Date('2024-02-22'),
-    gradingSystem: gradingSystem ?? GradingSystem.oneToFiveteenPoints,
+    gradingSystem: gradingSystem ?? GradingSystem.zeroToFivteenPoints,
     type: type ?? GradeType.other.id,
     weight: weight,
   );

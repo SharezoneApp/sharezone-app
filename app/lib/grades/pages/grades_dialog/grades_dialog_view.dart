@@ -61,7 +61,7 @@ extension GradeSystemToName on GradingSystem {
   String get displayName {
     return switch (this) {
       GradingSystem.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
-      GradingSystem.oneToFiveteenPoints => '1 - 15 Punkte',
+      GradingSystem.zeroToFivteenPoints => '0 - 15 Punkte',
     };
   }
 }

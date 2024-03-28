@@ -11,8 +11,8 @@ part of '../grades_service.dart';
 extension _ToGradingSystem on GradingSystem {
   _GradingSystem toGradingSystem() {
     switch (this) {
-      case GradingSystem.oneToFiveteenPoints:
-        return _GradingSystem.oneToFiveteenPoints;
+      case GradingSystem.zeroToFivteenPoints:
+        return _GradingSystem.zeroToFiveteenPoints;
       case GradingSystem.oneToSixWithPlusAndMinus:
         return _GradingSystem.oneToSixWithPlusAndMinus;
     }
@@ -21,8 +21,8 @@ extension _ToGradingSystem on GradingSystem {
 
 extension _ToGradingSystems on _GradingSystem {
   GradingSystem toGradingSystems() {
-    if (this is OneToFiveteenPointsGradingSystem) {
-      return GradingSystem.oneToFiveteenPoints;
+    if (this is ZeroToFiveteenPointsGradingSystem) {
+      return GradingSystem.zeroToFivteenPoints;
     } else if (this is OneToSixWithPlusMinusGradingSystem) {
       return GradingSystem.oneToSixWithPlusAndMinus;
     }
@@ -32,7 +32,7 @@ extension _ToGradingSystems on _GradingSystem {
 
 sealed class _GradingSystem {
   static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
-  static final oneToFiveteenPoints = OneToFiveteenPointsGradingSystem();
+  static final zeroToFiveteenPoints = ZeroToFiveteenPointsGradingSystem();
 
   double toDoubleOrThrow(String grade);
   IList<String> get possibleValues;
@@ -56,7 +56,7 @@ sealed class _GradingSystem {
   String? getDisplayableGradeIfExactMatch(num grade);
 }
 
-class OneToFiveteenPointsGradingSystem extends _GradingSystem
+class ZeroToFiveteenPointsGradingSystem extends _GradingSystem
     with EquatableMixin {
   @override
   IList<String> get possibleValues => const IListConst([

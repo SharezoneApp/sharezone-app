@@ -71,11 +71,11 @@ void main() {
           (1.75 + 3.25 + 2) / 3);
     });
 
-    test('Basic grades test for 0 to 25 points grading system.', () {
+    test('Basic grades test for 0 to 15 points grading system.', () {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystem.oneToFiveteenPoints,
+        gradingSystem: GradingSystem.zeroToFivteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -83,15 +83,15 @@ void main() {
             grades: [
               gradeWith(
                 value: 4,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.zeroToFivteenPoints,
               ),
               gradeWith(
                 value: 8,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.zeroToFivteenPoints,
               ),
               gradeWith(
                 value: 2,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.zeroToFivteenPoints,
               ),
             ],
           ),
@@ -133,7 +133,7 @@ void main() {
               // should be ignored in subject and terms calculated grade
               gradeWith(
                 value: 3,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.zeroToFivteenPoints,
               ),
             ],
           ),
@@ -158,7 +158,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystem.oneToFiveteenPoints,
+        gradingSystem: GradingSystem.zeroToFivteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -166,11 +166,11 @@ void main() {
             grades: [
               gradeWith(
                 value: 4,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.zeroToFivteenPoints,
               ),
               gradeWith(
                 value: 8,
-                gradingSystem: GradingSystem.oneToFiveteenPoints,
+                gradingSystem: GradingSystem.zeroToFivteenPoints,
               ),
               gradeWith(
                 value: "2+",
@@ -280,7 +280,7 @@ void main() {
       },
     );
     testGradingSystemThatUsesDiscreteValues(
-      gradingSystem: GradingSystem.oneToFiveteenPoints,
+      gradingSystem: GradingSystem.zeroToFivteenPoints,
       expected: {
         '0': 0,
         '1': 1,
