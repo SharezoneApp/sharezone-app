@@ -15,6 +15,8 @@ extension _ToGradingSystem on GradingSystem {
         return _GradingSystem.zeroToFiveteenPoints;
       case GradingSystem.oneToSixWithPlusAndMinus:
         return _GradingSystem.oneToSixWithPlusAndMinus;
+      case GradingSystem.oneToSixWithDecimals:
+        return _GradingSystem.oneToSixWithDecimals;
     }
   }
 }
@@ -25,14 +27,18 @@ extension _ToGradingSystems on _GradingSystem {
       return GradingSystem.zeroToFivteenPoints;
     } else if (this is OneToSixWithPlusMinusGradingSystem) {
       return GradingSystem.oneToSixWithPlusAndMinus;
+    } else if (this is OneToSixWithDecimalsGradingSystem) {
+      return GradingSystem.oneToSixWithDecimals;
+    } else {
+      throw UnimplementedError();
     }
-    throw UnimplementedError();
   }
 }
 
 sealed class _GradingSystem {
   static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
   static final zeroToFiveteenPoints = ZeroToFiveteenPointsGradingSystem();
+  static final oneToSixWithDecimals = OneToSixWithDecimalsGradingSystem();
 
   double toDoubleOrThrow(String grade);
   IList<String> get possibleValues;
@@ -45,12 +51,17 @@ sealed class _GradingSystem {
     );
   }
 
+  int nrOfDecimalsForDisplayableGrade = 1;
+
   String toDisplayableGrade(num grade) {
     final res = getDisplayableGradeIfExactMatch(grade);
     if (res != null) {
       return res;
     }
-    return grade.toStringAsFixed(2).replaceAll('.', ',').substring(0, 3);
+    return grade
+        .toStringAsFixed(nrOfDecimalsForDisplayableGrade + 2)
+        .replaceAll('.', ',')
+        .substring(0, nrOfDecimalsForDisplayableGrade + 2);
   }
 
   String? getDisplayableGradeIfExactMatch(num grade);
@@ -156,6 +167,31 @@ class OneToSixWithPlusMinusGradingSystem extends _GradingSystem
         return val;
       }
     }
+    return null;
+  }
+}
+
+class OneToSixWithDecimalsGradingSystem extends _GradingSystem
+    with EquatableMixin {
+  @override
+  IList<String> get possibleValues => const IListConst([]);
+
+  @override
+  double toDoubleOrThrow(String grade) {
+    return 1.23;
+    // return double.parse(grade.replaceAll(',', '.'));
+  }
+
+  @override
+  List<Object?> get props => [];
+
+  // Since students would often add grades with two decimals (e.g. 1.25 (1-)),
+  // we want to display the grade with two decimals.
+  @override
+  int get nrOfDecimalsForDisplayableGrade => 2;
+
+  @override
+  String? getDisplayableGradeIfExactMatch(num grade) {
     return null;
   }
 }

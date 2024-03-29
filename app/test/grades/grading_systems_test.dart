@@ -117,6 +117,52 @@ void main() {
           // 4,6666...7
           (4 + 8 + 2) / 3);
     });
+    test('Basic grades test for 1 - 6 points with decimals.', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        gradingSystem: GradingSystem.oneToSixWithDecimals,
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Mathe'),
+            name: 'Mathe',
+            grades: [
+              gradeWith(
+                value: 2.75,
+                gradingSystem: GradingSystem.oneToSixWithDecimals,
+              ),
+              gradeWith(
+                value: 3.25,
+                gradingSystem: GradingSystem.oneToSixWithDecimals,
+              ),
+              gradeWith(
+                value: 0.75,
+                gradingSystem: GradingSystem.oneToSixWithDecimals,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .displayableGrade,
+          '2,25');
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .asDouble,
+          2.25);
+    });
+
     test('The subject will use the Terms grading system by default.', () {
       final controller = GradesTestController();
 

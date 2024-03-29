@@ -62,6 +62,7 @@ extension GradeSystemToName on GradingSystem {
     return switch (this) {
       GradingSystem.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
       GradingSystem.zeroToFivteenPoints => '0 - 15 Punkte',
+      GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',
     };
   }
 }
