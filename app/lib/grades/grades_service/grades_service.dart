@@ -190,9 +190,9 @@ class GradesService {
   ///
   /// For example the values for the grading system "1-6 with plus and minus"
   /// would be: `['1+', '1', '1-', '2+', [...] '5+', '5', '5-', '6']`
-  IList<String> getPossibleGrades(GradingSystem gradingSystem) {
+  PossibleGradesResult getPossibleGrades(GradingSystem gradingSystem) {
     final gs = gradingSystem.toGradingSystem();
-    return gs.possibleValues;
+    return gs.possibleGrades;
   }
 
   IList<GradeType> getPossibleGradeTypes() {
@@ -273,6 +273,32 @@ enum GradingSystem {
   oneToSixWithPlusAndMinus,
   zeroToFivteenPoints,
   oneToSixWithDecimals,
+}
+
+sealed class PossibleGradesResult {
+  bool get isDiscrete;
+
+  const PossibleGradesResult();
+}
+
+class DiscretePossibleGradesResult extends PossibleGradesResult {
+  final IList<String> grades;
+  @override
+  bool get isDiscrete => true;
+
+  const DiscretePossibleGradesResult(this.grades);
+}
+
+class NonDiscretePossibleGradesResult extends PossibleGradesResult {
+  final num min;
+  final num max;
+  final bool decimalsAllowed;
+
+  @override
+  bool get isDiscrete => false;
+
+  const NonDiscretePossibleGradesResult(
+      {required this.min, required this.max, required this.decimalsAllowed});
 }
 
 /// The predefined types of grades that can be used.

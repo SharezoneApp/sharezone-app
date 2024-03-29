@@ -41,7 +41,7 @@ sealed class _GradingSystem {
   static final oneToSixWithDecimals = OneToSixWithDecimalsGradingSystem();
 
   double toDoubleOrThrow(String grade);
-  IList<String> get possibleValues;
+  PossibleGradesResult get possibleGrades;
 
   CalculatedGradeResult toGradeResult(num grade) {
     final displayableGrade = toDisplayableGrade(grade);
@@ -70,7 +70,8 @@ sealed class _GradingSystem {
 class ZeroToFiveteenPointsGradingSystem extends _GradingSystem
     with EquatableMixin {
   @override
-  IList<String> get possibleValues => const IListConst([
+  DiscretePossibleGradesResult get possibleGrades =>
+      const DiscretePossibleGradesResult(IListConst([
         '0',
         '1',
         '2',
@@ -87,7 +88,7 @@ class ZeroToFiveteenPointsGradingSystem extends _GradingSystem
         '13',
         '14',
         '15',
-      ]);
+      ]));
 
   @override
   double toDoubleOrThrow(String grade) {
@@ -99,7 +100,7 @@ class ZeroToFiveteenPointsGradingSystem extends _GradingSystem
 
   @override
   String? getDisplayableGradeIfExactMatch(num grade) {
-    for (var val in possibleValues) {
+    for (var val in possibleGrades.grades) {
       if (int.parse(val) == grade) {
         return val;
       }
@@ -111,7 +112,8 @@ class ZeroToFiveteenPointsGradingSystem extends _GradingSystem
 class OneToSixWithPlusMinusGradingSystem extends _GradingSystem
     with EquatableMixin {
   @override
-  IList<String> get possibleValues => const IListConst([
+  DiscretePossibleGradesResult get possibleGrades =>
+      const DiscretePossibleGradesResult(IListConst([
         '1+',
         '1',
         '1-',
@@ -128,7 +130,7 @@ class OneToSixWithPlusMinusGradingSystem extends _GradingSystem
         '5',
         '5-',
         '6',
-      ]);
+      ]));
 
   @override
   double toDoubleOrThrow(String grade) {
@@ -162,7 +164,7 @@ class OneToSixWithPlusMinusGradingSystem extends _GradingSystem
 
   @override
   String? getDisplayableGradeIfExactMatch(num grade) {
-    for (var val in possibleValues) {
+    for (var val in possibleGrades.grades) {
       if (toDoubleOrThrow(val) == grade) {
         return val;
       }
@@ -174,12 +176,16 @@ class OneToSixWithPlusMinusGradingSystem extends _GradingSystem
 class OneToSixWithDecimalsGradingSystem extends _GradingSystem
     with EquatableMixin {
   @override
-  IList<String> get possibleValues => const IListConst([]);
+  NonDiscretePossibleGradesResult get possibleGrades =>
+      const NonDiscretePossibleGradesResult(
+        min: 0.75,
+        max: 6,
+        decimalsAllowed: true,
+      );
 
   @override
   double toDoubleOrThrow(String grade) {
-    return 1.23;
-    // return double.parse(grade.replaceAll(',', '.'));
+    throw UnimplementedError();
   }
 
   @override

@@ -162,6 +162,20 @@ void main() {
               .asDouble,
           2.25);
     });
+    test('1 - 6 / (0.75 - 6) grading system returns correct possible grades',
+        () {
+      final service = GradesService();
+      var possibleGrades =
+          service.getPossibleGrades(GradingSystem.oneToSixWithDecimals);
+
+      expect(possibleGrades, isA<NonDiscretePossibleGradesResult>());
+      possibleGrades = possibleGrades as NonDiscretePossibleGradesResult;
+      // 1+ is 0.75 so its not actually 1-6
+      expect(possibleGrades.min, 0.75);
+      expect(possibleGrades.max, 6);
+      expect(possibleGrades.decimalsAllowed, true);
+      expect(possibleGrades.isDiscrete, false);
+    });
 
     test('The subject will use the Terms grading system by default.', () {
       final controller = GradesTestController();
@@ -241,8 +255,10 @@ void main() {
 
     void testThatCorrectPossibleValuesAreGivenAndInCorrectOrder(
         GradingSystem gradingSystem, Map<String, num> expected) {
-      final values = GradesService().getPossibleGrades(gradingSystem);
+      final res = GradesService().getPossibleGrades(gradingSystem);
 
+      expect(res, isA<DiscretePossibleGradesResult>());
+      final values = (res as DiscretePossibleGradesResult).grades;
       // Grades should be ordered from best (first) to worst (last)
       expect(values, orderedEquals(expected.keys));
     }
