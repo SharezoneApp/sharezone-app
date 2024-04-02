@@ -40,13 +40,18 @@ in
   packages = [
     pkgs.git
     pkgs.nixpkgs-fmt
-    pkgs.addlicense
-    pkgs.nodePackages.prettier
+
     # Running `fvm flutter` -> 'Missing "unzip" tool. Unable to extract Dart SDK.'
     pkgs.unzip
     android-sdk
-    pkgs.nodePackages.firebase-tools
+
+    # For Flutter Web development
     pkgs.google-chrome
+
+    # Used by sharezone developers / sz cli
+    pkgs.addlicense
+    pkgs.nodePackages.prettier
+    pkgs.nodePackages.firebase-tools
   ];
 
   enterShell = ''
