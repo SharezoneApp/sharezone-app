@@ -10,10 +10,15 @@
 
 let
   androidenv = android-pkgs.androidenv.override {
+    # Seems to only work when androidenv.buildApp is used 
+    # afterwards (we don't).
+    # We accept the licenses below via extraLicenses.
     licenseAccepted = true;
   };
   android-comp = androidenv.composeAndroidPackages {
     buildToolsVersions = [ "34.0.0" ];
+    # We probably don't need all of those?
+    # These were copied from another devenv.nix from GitHub.
     platformVersions = [ "29" "30" "31" "33" "34" ];
 
     # The `licenseAccepted = true;` seems to only work when androidenv.buildApp
