@@ -76,14 +76,14 @@ in
     # will cause the task to fail (maybe because so many signals
     # are sent in a short time). So we just disable analytics
     # so that they can not fail because of this reason.
-    fvm dart --disable-analytics
+    fvm dart --disable-analytics &
     fvm flutter --disable-analytics
 
     if ! command -v fvm &> /dev/null
     then
         echo "fvm could not be found. Installing FVM via dart pub global."
         dart pub global activate fvm
-        
+
         # fvm install will fail getting dependencies if we dont
         # cd to app. Using && will only change it for the fvm
         # install command
