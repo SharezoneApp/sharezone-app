@@ -97,15 +97,6 @@ in
     fvm dart pub get --directory ./tools/sz_repo_cli
   '';
 
-  # https://devenv.sh/tests/
-  enterTest = ''
-    echo "Running tests"
-    git --version | grep "2.42.0"
-  '';
-
-  # https://devenv.sh/services/
-  # services.postgres.enable = true;
-
   languages = {
     # Needed for Android SDK
     java = {
@@ -115,12 +106,6 @@ in
 
     dart.enable = true;
   };
-
-  # https://devenv.sh/pre-commit-hooks/
-  # pre-commit.hooks.shellcheck.enable = true;
-
-  # https://devenv.sh/processes/
-  # processes.ping.exec = "ping example.com";
 
   # See full reference at https://devenv.sh/reference/options/
 }
