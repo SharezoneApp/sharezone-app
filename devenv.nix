@@ -47,11 +47,6 @@ in
     pkgs.nodePackages.firebase-tools
   ];
 
-
-
-  # https://devenv.sh/scripts/
-  scripts.create-avd.exec = "avdmanager create avd --force --name phone --package 'system-images;android-34;google_apis_playstore;x86_64'";
-
   enterShell = ''
     # Make pub work
     export PATH="$PATH":"$HOME/.pub-cache/bin"
