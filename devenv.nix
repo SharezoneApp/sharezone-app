@@ -75,15 +75,6 @@ in
     # Make sz cli work
     export PATH="$PATH":"$DEVENV_ROOT/bin"
 
-    fvm flutter config --android-sdk ${android-sdk-root}
-
-    # When running e.g. `sz pub get -c 0` the analytics
-    # will cause the task to fail (maybe because so many signals
-    # are sent in a short time). So we just disable analytics
-    # so that they can not fail because of this reason.
-    fvm dart --disable-analytics &
-    fvm flutter --disable-analytics
-
     if ! command -v fvm &> /dev/null
     then
         echo "fvm could not be found. Installing FVM via dart pub global."
@@ -94,6 +85,15 @@ in
         # install command
         cd app && fvm install
     fi
+
+    fvm flutter config --android-sdk ${android-sdk-root}
+
+    # When running e.g. `sz pub get -c 0` the analytics
+    # will cause the task to fail (maybe because so many signals
+    # are sent in a short time). So we just disable analytics
+    # so that they can not fail because of this reason.
+    fvm dart --disable-analytics &
+    fvm flutter --disable-analytics
     
     # We get the package in the sz cli folder so that one can
     # start running e.g. `sz pub get` right away. Without this 
