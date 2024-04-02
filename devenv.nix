@@ -33,6 +33,7 @@ in
     ANDROID_HOME = "${android-sdk-root}";
     ANDROID_SDK_ROOT = "${android-sdk-root}";
     FLUTTER_ROOT = "${pkgs.flutter}";
+    CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
   };
 
   # https://devenv.sh/packages/
@@ -45,6 +46,7 @@ in
     pkgs.unzip
     android-sdk
     pkgs.nodePackages.firebase-tools
+    pkgs.google-chrome
   ];
 
   enterShell = ''
