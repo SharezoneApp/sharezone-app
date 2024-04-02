@@ -63,7 +63,8 @@ in
   ];
 
   enterShell = ''
-    # Make pub work
+    # Make pub cache work so that we can execute
+    # e.g. `dart pub global activate fvm`
     export PATH="$PATH":"$HOME/.pub-cache/bin"
 
     # Make sz cli work
@@ -78,24 +79,22 @@ in
     fvm dart --disable-analytics
     fvm flutter --disable-analytics
 
-    # So that we can use the sz cli instantly.
-    # Otherwise if this is a first install we would first
-    # need to manually get the packages there so that
-    # we can run `sz pub get` afterwards for the other packages.
-    if [ ! -d $DEVENV_ROOT/tools/sz_repo_cli/.dart_tool ]; then
-      fvm dart pub get --directory ./tools/sz_repo_cli
-    fi
-
     if ! command -v fvm &> /dev/null
     then
-        echo "fvm could not be found. Installing FVM."
+        echo "fvm could not be found. Installing FVM via dart pub global."
         dart pub global activate fvm
+        
         # fvm install will fail getting dependencies if we dont
         # cd to app. Using && will only change it for the fvm
         # install command
         cd app && fvm install
-        
     fi
+    
+    # We get the package in the sz cli folder so that one can
+    # start running e.g. `sz pub get` right away. Without this 
+    # one would first have to run pub get in the sz cli folder 
+    # manually.
+    fvm dart pub get --directory ./tools/sz_repo_cli
   '';
 
   # https://devenv.sh/tests/
