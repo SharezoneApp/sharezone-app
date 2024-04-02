@@ -72,6 +72,17 @@ in
     if [ ! -d $DEVENV_ROOT/tools/sz_repo_cli/.dart_tool ]; then
       fvm dart pub get --directory ./tools/sz_repo_cli
     fi
+
+    if ! command -v fvm &> /dev/null
+    then
+        echo "fvm could not be found. Installing FVM."
+        dart pub global activate fvm
+        # fvm install will fail getting dependencies if we dont
+        # cd to app. Using && will only change it for the fvm
+        # install command
+        cd app && fvm install
+        
+    fi
   '';
 
   # https://devenv.sh/tests/
