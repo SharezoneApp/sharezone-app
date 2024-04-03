@@ -162,7 +162,7 @@ void main() {
               .asDouble,
           2.25);
     });
-    test('1 - 6 / (0.75 - 6) grading system returns correct possible grades',
+    test('1 - 6 (actual 0.75 - 6) grading system returns correct possible grades',
         () {
       final service = GradesService();
       var possibleGrades =
