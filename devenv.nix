@@ -109,6 +109,11 @@ in
       jdk.package = pkgs.jdk17;
     };
 
+    # We're using this standalone version of Dart to run
+    # `dart pub global activate fvm` in enterShell.
+    # This will install fvm and it in turn flutter with 
+    # the actual Dart version that will be used to build,
+    # test, run etc the app.
     dart.enable = true;
   };
 
