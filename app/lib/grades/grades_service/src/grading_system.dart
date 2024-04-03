@@ -185,7 +185,8 @@ class OneToSixWithDecimalsGradingSystem extends _GradingSystem
 
   @override
   double toDoubleOrThrow(String grade) {
-    throw UnimplementedError();
+    // TODO: test
+    return double.parse(grade);
   }
 
   @override

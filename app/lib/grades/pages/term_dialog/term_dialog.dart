@@ -8,6 +8,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
+import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'term_dialog_controller.dart';
@@ -37,6 +39,34 @@ class TermDialog extends StatelessWidget {
                   prefilledText: controller.termName,
                   onChanged: (value) {
                     controller.setTermName(value);
+                  },
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  leading: SavedGradeIcons.gradingSystem,
+                  title: const Text("Notensystem"),
+                  subtitle: Text(controller.gradingSystem.displayName),
+                  onTap: () async {
+                    final res = await showDialog<GradingSystem?>(
+                      context: context,
+                      builder: (context) => SimpleDialog(
+                        title: const Text("Note auswählen"),
+                        children: [
+                          for (final gradingSystem in GradingSystem.values)
+                            ListTile(
+                              title: Text(gradingSystem.displayName),
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pop<GradingSystem?>(gradingSystem);
+                              },
+                            ),
+                        ],
+                      ),
+                    );
+
+                    if (res != null) {
+                      controller.setGradingSystem(res);
+                    }
                   },
                 ),
                 const SizedBox(height: 20),

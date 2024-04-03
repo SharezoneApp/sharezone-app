@@ -10,9 +10,13 @@ import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
+typedef SelectableGrades = ({IList<String>? distinctGrades, NonDistinctGrades? nonDistinctGrades});
+typedef NonDistinctGrades = ({num min, num max, bool decimalsAllowed});
+
+
 class GradesDialogView {
   final String? selectedGrade;
-  final IList<String> selectableGrades;
+  final SelectableGrades selectableGrades;
 
   /// The selected grading system.
   ///
