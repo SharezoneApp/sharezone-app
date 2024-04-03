@@ -50,7 +50,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
@@ -81,7 +81,7 @@ jobs:
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -116,7 +116,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
