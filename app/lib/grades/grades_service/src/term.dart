@@ -147,6 +147,18 @@ class _Term {
 
     final gradingSystem = grade.gradingSystem.toGradingSystem();
     final gradeVal = _getGradeNum(grade.value, gradingSystem);
+    if (gradingSystem.possibleGrades is NonDiscretePossibleGradesResult) {
+      final possibleGrades =
+          gradingSystem.possibleGrades as NonDiscretePossibleGradesResult;
+      if (gradeVal < possibleGrades.min || gradeVal > possibleGrades.max) {
+        throw InvalidGradeValueException(
+          gradeInput: grade.value.toString(),
+          gradeAsNum: gradeVal,
+          min: possibleGrades.min,
+          max: possibleGrades.max,
+        );
+      }
+    }
 
     subject = subject._addGrade(_Grade(
       term: this,

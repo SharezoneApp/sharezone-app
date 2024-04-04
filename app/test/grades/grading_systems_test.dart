@@ -214,6 +214,50 @@ void main() {
               .map((e) => e.value.asNum),
           [2.75, 2.75]);
     });
+    test(
+        '1 - 6 grading system numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
+        () {
+      final controller = GradesTestController();
+
+      controller.createTerm(termWith(
+          id: const TermId('1'),
+          gradingSystem: GradingSystem.oneToSixWithDecimals,
+          subjects: [
+            subjectWith(id: const SubjectId('math')),
+          ]));
+
+      void addGrade(String value) {
+        controller.addGrade(
+          termId: const TermId('1'),
+          subjectId: const SubjectId('math'),
+          value: gradeWith(
+            value: value,
+            gradingSystem: GradingSystem.oneToSixWithDecimals,
+          ),
+        );
+      }
+
+      expect(
+          () => addGrade('6,1'),
+          throwsA(const InvalidGradeValueException(
+              gradeInput: '6,1', gradeAsNum: 6.1, min: 0.75, max: 6)));
+      expect(
+          () => addGrade('0,74'),
+          throwsA(const InvalidGradeValueException(
+              gradeInput: '0,74', gradeAsNum: 0.74, min: 0.75, max: 6)));
+      expect(() => addGrade('6'), returnsNormally);
+      expect(() => addGrade('0,75'), returnsNormally);
+
+      expect(
+          controller
+              .term(const TermId('1'))
+              .subject(const SubjectId('math'))
+              .grades
+              .map((e) => e.value.asNum),
+          [6, 0.75]);
+    });
+
+    // TODO: Test that discrete throws if an invalid value is added
 
     test('The subject will use the Terms grading system by default.', () {
       final controller = GradesTestController();

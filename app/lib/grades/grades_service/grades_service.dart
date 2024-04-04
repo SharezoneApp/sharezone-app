@@ -242,6 +242,23 @@ class GradesService {
   }
 }
 
+class InvalidGradeValueException extends Equatable implements Exception {
+  final String gradeInput;
+  final num gradeAsNum;
+  final num min;
+  final num max;
+
+  const InvalidGradeValueException({
+    required this.gradeInput,
+    required this.gradeAsNum,
+    required this.min,
+    required this.max,
+  });
+
+  @override
+  List<Object?> get props => [gradeInput, gradeAsNum, min, max];
+}
+
 class SubjectNotFoundException extends Equatable implements Exception {
   final SubjectId id;
 
