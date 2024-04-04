@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -375,6 +376,53 @@ void main() {
       expect(actual, expected);
     }
 
+    void testThatExceptionIsThrownIfGradeWithInvalidValueIsAdded(
+        GradingSystem gradingSystem, Map<String, num> expected) {
+      final controller = GradesTestController();
+
+      controller.createTerm(termWith(id: const TermId('1'), subjects: [
+        subjectWith(
+          id: const SubjectId('math'),
+        )
+      ]));
+
+      addGrade() => controller.addGrade(
+            termId: const TermId('1'),
+            subjectId: const SubjectId('math'),
+            value: gradeWith(
+              // something invalid
+              value: 'F4',
+              gradingSystem: gradingSystem,
+            ),
+          );
+
+      addGrade2() => controller.addGrade(
+            termId: const TermId('1'),
+            subjectId: const SubjectId('math'),
+            value: gradeWith(
+              // something invalid
+              value: '99999',
+              gradingSystem: gradingSystem,
+            ),
+          );
+
+      expect(
+          addGrade,
+          throwsA(InvalidDiscreteGradeValueException(
+            gradeInput: 'F4',
+            gradingSystem: gradingSystem,
+            validValues: expected.keys.toIList(),
+          )));
+
+      expect(
+          addGrade2,
+          throwsA(InvalidDiscreteGradeValueException(
+            gradeInput: '99999',
+            gradingSystem: gradingSystem,
+            validValues: expected.keys.toIList(),
+          )));
+    }
+
     @isTestGroup
     void testGradingSystemThatUsesDiscreteValues(
         {required GradingSystem gradingSystem,
@@ -390,6 +438,10 @@ void main() {
               'returns correct double and string grade values for grade strings',
           testFunc:
               testThatGradeAsStringIsConvertedToCorrectGradeAsDoubleAndString
+        ),
+        (
+          name: 'throws an exception if a grade with an invalid value is added',
+          testFunc: testThatExceptionIsThrownIfGradeWithInvalidValueIsAdded
         ),
       ];
 

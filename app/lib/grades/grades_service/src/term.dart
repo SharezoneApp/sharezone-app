@@ -146,7 +146,7 @@ class _Term {
     );
 
     final gradingSystem = grade.gradingSystem.toGradingSystem();
-    final gradeVal = _getGradeNum(grade.value, gradingSystem);
+    final gradeVal = _toNum(grade.value, gradingSystem);
     if (gradingSystem.possibleGrades is NonDiscretePossibleGradesResult) {
       final possibleGrades =
           gradingSystem.possibleGrades as NonDiscretePossibleGradesResult;
@@ -178,9 +178,29 @@ class _Term {
         : _copyWith(subjects: _subjects.add(subject));
   }
 
-  num _getGradeNum(Object grade, _GradingSystem gradingSystem) {
+  num _toNum(Object grade, _GradingSystem gradingSystem) {
+    final possibleGrades = gradingSystem.possibleGrades;
     if (grade is num) return grade;
-    if (grade is String) return gradingSystem.toDoubleOrThrow(grade);
+    if (grade is String) {
+      try {
+        final db = gradingSystem.toDoubleOrThrow(grade);
+        if (possibleGrades is DiscretePossibleGradesResult &&
+            !possibleGrades.grades.contains(grade)) {
+          throw InvalidDiscreteGradeValueException(
+              gradeInput: grade,
+              gradingSystem: gradingSystem.toGradingSystems(),
+              validValues: possibleGrades.grades);
+        }
+        return db;
+      } catch (e) {
+        if (possibleGrades is DiscretePossibleGradesResult) {
+          throw InvalidDiscreteGradeValueException(
+              gradeInput: grade,
+              gradingSystem: gradingSystem.toGradingSystems(),
+              validValues: possibleGrades.grades);
+        }
+      }
+    }
     throw Exception(
         'Grade must be a double, int or string, but was ${grade.runtimeType}: $grade');
   }
