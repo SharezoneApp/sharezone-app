@@ -216,7 +216,7 @@ void main() {
           [2.75, 2.75]);
     });
     test(
-        '1 - 6 grading system numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
+        '1 - 6 grading system numbers that are too high/too low with throw an $InvalidNonDiscreteGradeValueException when added.',
         () {
       final controller = GradesTestController();
 
@@ -240,7 +240,7 @@ void main() {
 
       expect(
           () => addGrade('6,1'),
-          throwsA(const InvalidGradeValueException(
+          throwsA(const InvalidNonDiscreteGradeValueException(
             gradeInput: '6,1',
             gradeAsNum: 6.1,
             min: 0.75,
@@ -250,7 +250,7 @@ void main() {
           )));
       expect(
           () => addGrade('0,74'),
-          throwsA(const InvalidGradeValueException(
+          throwsA(const InvalidNonDiscreteGradeValueException(
             gradeInput: '0,74',
             gradeAsNum: 0.74,
             min: 0.75,
@@ -333,7 +333,7 @@ void main() {
           [98.3, 15.5, 3]);
     });
     test(
-        '0 - 100% with decimals grading system numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
+        '0 - 100% with decimals grading system numbers that are too high/too low with throw an $InvalidNonDiscreteGradeValueException when added.',
         () {
       final controller = GradesTestController();
 
@@ -358,7 +358,7 @@ void main() {
       expect(
           () => addGrade('100,1'),
           // TODO: Add decimalsAllowed to exception?
-          throwsA(const InvalidGradeValueException(
+          throwsA(const InvalidNonDiscreteGradeValueException(
               gradeInput: '100,1',
               gradeAsNum: 100.1,
               min: 0,
@@ -367,7 +367,7 @@ void main() {
               gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals)));
       expect(
           () => addGrade('-2'),
-          throwsA(const InvalidGradeValueException(
+          throwsA(const InvalidNonDiscreteGradeValueException(
               gradeInput: '-2',
               gradeAsNum: -2.0,
               min: 0,

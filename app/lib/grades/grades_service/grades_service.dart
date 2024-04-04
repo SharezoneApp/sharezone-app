@@ -242,15 +242,23 @@ class GradesService {
   }
 }
 
-class InvalidDiscreteGradeValueException extends Equatable
-    implements Exception {
+sealed class InvalidGradeValueException extends Equatable implements Exception {
   final String gradeInput;
   final GradingSystem gradingSystem;
+
+  const InvalidGradeValueException(
+      {required this.gradeInput, required this.gradingSystem});
+
+  @override
+  List<Object?> get props => [gradeInput, gradingSystem];
+}
+
+class InvalidDiscreteGradeValueException extends InvalidGradeValueException {
   final IList<String> validValues;
 
   const InvalidDiscreteGradeValueException({
-    required this.gradeInput,
-    required this.gradingSystem,
+    required super.gradeInput,
+    required super.gradingSystem,
     required this.validValues,
   });
 
@@ -258,17 +266,15 @@ class InvalidDiscreteGradeValueException extends Equatable
   List<Object?> get props => [gradeInput, gradingSystem, validValues];
 }
 
-class InvalidGradeValueException extends Equatable implements Exception {
-  final String gradeInput;
-  final GradingSystem gradingSystem;
+class InvalidNonDiscreteGradeValueException extends InvalidGradeValueException {
   final num gradeAsNum;
   final num min;
   final num max;
   final bool decimalsAllowed;
 
-  const InvalidGradeValueException({
-    required this.gradingSystem,
-    required this.gradeInput,
+  const InvalidNonDiscreteGradeValueException({
+    required super.gradingSystem,
+    required super.gradeInput,
     required this.gradeAsNum,
     required this.min,
     required this.max,
