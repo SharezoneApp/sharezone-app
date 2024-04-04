@@ -162,7 +162,8 @@ void main() {
               .asDouble,
           2.25);
     });
-    test('1 - 6 (actual 0.75 - 6) grading system returns correct possible grades',
+    test(
+        '1 - 6 (actual 0.75 - 6) grading system returns correct possible grades',
         () {
       final service = GradesService();
       var possibleGrades =
@@ -175,6 +176,43 @@ void main() {
       expect(possibleGrades.max, 6);
       expect(possibleGrades.decimalsAllowed, true);
       expect(possibleGrades.isDiscrete, false);
+    });
+    test('1 - 6 grading system parses input grades correctly.', () {
+      final controller = GradesTestController();
+
+      controller.createTerm(termWith(
+          id: const TermId('1'),
+          gradingSystem: GradingSystem.oneToSixWithDecimals,
+          subjects: [
+            subjectWith(id: const SubjectId('math')),
+          ]));
+
+      controller.addGrade(
+        termId: const TermId('1'),
+        subjectId: const SubjectId('math'),
+        // Using "." instead of "," is allowed
+        value: gradeWith(
+          value: '2.75',
+          gradingSystem: GradingSystem.oneToSixWithDecimals,
+        ),
+      );
+      controller.addGrade(
+        termId: const TermId('1'),
+        subjectId: const SubjectId('math'),
+        // Using "," instead of "." is allowed
+        value: gradeWith(
+          value: '2,75',
+          gradingSystem: GradingSystem.oneToSixWithDecimals,
+        ),
+      );
+
+      expect(
+          controller
+              .term(const TermId('1'))
+              .subject(const SubjectId('math'))
+              .grades
+              .map((e) => e.value.asNum),
+          [2.75, 2.75]);
     });
 
     test('The subject will use the Terms grading system by default.', () {
