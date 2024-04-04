@@ -183,7 +183,6 @@ class OneToSixWithDecimalsGradingSystem extends _GradingSystem
     with EquatableMixin {
   @override
   NonDiscretePossibleGradesResult get possibleGrades =>
-      // TODO: Validate min/max in logic?
       const NonDiscretePossibleGradesResult(
         min: 0.75,
         max: 6,
