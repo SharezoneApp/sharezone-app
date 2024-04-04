@@ -225,7 +225,6 @@ class ZeroToHundredPercentWithDecimalsGradingSystem extends _GradingSystem
     return double.parse(grade);
   }
 
-  // TODO: Test nr of decimals?
   @override
   String? getDisplayableGradeIfExactMatch(num grade) {
     return null;
