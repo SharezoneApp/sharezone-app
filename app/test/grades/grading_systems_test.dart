@@ -258,8 +258,6 @@ void main() {
           [6, 0.75]);
     });
 
-    // TODO: Test that discrete throws if an invalid value is added
-
     test('The subject will use the Terms grading system by default.', () {
       final controller = GradesTestController();
 
