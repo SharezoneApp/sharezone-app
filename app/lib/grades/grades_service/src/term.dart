@@ -146,19 +146,7 @@ class _Term {
     );
 
     final gradingSystem = grade.gradingSystem.toGradingSystem();
-    final gradeVal = _toNum(grade.value, gradingSystem);
-    if (gradingSystem.possibleGrades is NonDiscretePossibleGradesResult) {
-      final possibleGrades =
-          gradingSystem.possibleGrades as NonDiscretePossibleGradesResult;
-      if (gradeVal < possibleGrades.min || gradeVal > possibleGrades.max) {
-        throw InvalidGradeValueException(
-          gradeInput: grade.value.toString(),
-          gradeAsNum: gradeVal,
-          min: possibleGrades.min,
-          max: possibleGrades.max,
-        );
-      }
-    }
+    final gradeVal = _toNumOrThrow(grade.value, gradingSystem);
 
     subject = subject._addGrade(_Grade(
       term: this,
@@ -178,18 +166,28 @@ class _Term {
         : _copyWith(subjects: _subjects.add(subject));
   }
 
-  num _toNum(Object grade, _GradingSystem gradingSystem) {
-    final possibleGrades = gradingSystem.possibleGrades;
+  num _toNumOrThrow(Object grade, _GradingSystem gradingSystem) {
     if (grade is num) return grade;
     if (grade is String) {
+      final possibleGrades = gradingSystem.possibleGrades;
+      if (possibleGrades is DiscretePossibleGradesResult &&
+          !possibleGrades.grades.contains(grade)) {
+        throw InvalidDiscreteGradeValueException(
+            gradeInput: grade,
+            gradingSystem: gradingSystem.toGradingSystems(),
+            validValues: possibleGrades.grades);
+      }
       try {
         final db = gradingSystem.toDoubleOrThrow(grade);
-        if (possibleGrades is DiscretePossibleGradesResult &&
-            !possibleGrades.grades.contains(grade)) {
-          throw InvalidDiscreteGradeValueException(
-              gradeInput: grade,
-              gradingSystem: gradingSystem.toGradingSystems(),
-              validValues: possibleGrades.grades);
+        if (possibleGrades is NonDiscretePossibleGradesResult) {
+          if (db < possibleGrades.min || db > possibleGrades.max) {
+            throw InvalidGradeValueException(
+              gradeInput: grade.toString(),
+              gradeAsNum: db,
+              min: possibleGrades.min,
+              max: possibleGrades.max,
+            );
+          }
         }
         return db;
       } catch (e) {
@@ -199,6 +197,7 @@ class _Term {
               gradingSystem: gradingSystem.toGradingSystems(),
               validValues: possibleGrades.grades);
         }
+        rethrow;
       }
     }
     throw Exception(
