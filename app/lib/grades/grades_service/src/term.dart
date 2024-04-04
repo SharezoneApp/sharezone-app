@@ -186,6 +186,8 @@ class _Term {
               gradeAsNum: db,
               min: possibleGrades.min,
               max: possibleGrades.max,
+              decimalsAllowed: possibleGrades.decimalsAllowed,
+              gradingSystem: gradingSystem.toGradingSystems(),
             );
           }
         }

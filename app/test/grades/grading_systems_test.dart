@@ -241,11 +241,23 @@ void main() {
       expect(
           () => addGrade('6,1'),
           throwsA(const InvalidGradeValueException(
-              gradeInput: '6,1', gradeAsNum: 6.1, min: 0.75, max: 6)));
+            gradeInput: '6,1',
+            gradeAsNum: 6.1,
+            min: 0.75,
+            max: 6,
+            decimalsAllowed: true,
+            gradingSystem: GradingSystem.oneToSixWithDecimals,
+          )));
       expect(
           () => addGrade('0,74'),
           throwsA(const InvalidGradeValueException(
-              gradeInput: '0,74', gradeAsNum: 0.74, min: 0.75, max: 6)));
+            gradeInput: '0,74',
+            gradeAsNum: 0.74,
+            min: 0.75,
+            max: 6,
+            decimalsAllowed: true,
+            gradingSystem: GradingSystem.oneToSixWithDecimals,
+          )));
       expect(() => addGrade('6'), returnsNormally);
       expect(() => addGrade('0,75'), returnsNormally);
 
@@ -347,11 +359,21 @@ void main() {
           () => addGrade('100,1'),
           // TODO: Add decimalsAllowed to exception?
           throwsA(const InvalidGradeValueException(
-              gradeInput: '100,1', gradeAsNum: 100.1, min: 0, max: 100)));
+              gradeInput: '100,1',
+              gradeAsNum: 100.1,
+              min: 0,
+              max: 100,
+              decimalsAllowed: true,
+              gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals)));
       expect(
           () => addGrade('-2'),
           throwsA(const InvalidGradeValueException(
-              gradeInput: '-2', gradeAsNum: -2.0, min: 0, max: 100)));
+              gradeInput: '-2',
+              gradeAsNum: -2.0,
+              min: 0,
+              max: 100,
+              decimalsAllowed: true,
+              gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals)));
       expect(() => addGrade('0'), returnsNormally);
       expect(() => addGrade('100'), returnsNormally);
 

@@ -260,15 +260,19 @@ class InvalidDiscreteGradeValueException extends Equatable
 
 class InvalidGradeValueException extends Equatable implements Exception {
   final String gradeInput;
+  final GradingSystem gradingSystem;
   final num gradeAsNum;
   final num min;
   final num max;
+  final bool decimalsAllowed;
 
   const InvalidGradeValueException({
+    required this.gradingSystem,
     required this.gradeInput,
     required this.gradeAsNum,
     required this.min,
     required this.max,
+    required this.decimalsAllowed,
   });
 
   @override
