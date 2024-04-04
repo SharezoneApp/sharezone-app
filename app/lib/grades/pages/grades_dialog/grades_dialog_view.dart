@@ -10,9 +10,11 @@ import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
-typedef SelectableGrades = ({IList<String>? distinctGrades, NonDistinctGrades? nonDistinctGrades});
+typedef SelectableGrades = ({
+  IList<String>? distinctGrades,
+  NonDistinctGrades? nonDistinctGrades
+});
 typedef NonDistinctGrades = ({num min, num max, bool decimalsAllowed});
-
 
 class GradesDialogView {
   final String? selectedGrade;
@@ -67,6 +69,8 @@ extension GradeSystemToName on GradingSystem {
       GradingSystem.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
       GradingSystem.zeroToFivteenPoints => '0 - 15 Punkte',
       GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',
+      GradingSystem.zeroToHundredPercentWithDecimals =>
+        '0 - 100% (mit Kommazahlen)',
     };
   }
 }

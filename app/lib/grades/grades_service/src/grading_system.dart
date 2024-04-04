@@ -11,6 +11,8 @@ part of '../grades_service.dart';
 extension _ToGradingSystem on GradingSystem {
   _GradingSystem toGradingSystem() {
     switch (this) {
+      case GradingSystem.zeroToHundredPercentWithDecimals:
+        return _GradingSystem.zeroToHundredPercentWithDecimals;
       case GradingSystem.zeroToFivteenPoints:
         return _GradingSystem.zeroToFiveteenPoints;
       case GradingSystem.oneToSixWithPlusAndMinus:
@@ -23,7 +25,9 @@ extension _ToGradingSystem on GradingSystem {
 
 extension _ToGradingSystems on _GradingSystem {
   GradingSystem toGradingSystems() {
-    if (this is ZeroToFiveteenPointsGradingSystem) {
+    if (this is ZeroToHundredPercentWithDecimalsGradingSystem) {
+      return GradingSystem.zeroToHundredPercentWithDecimals;
+    } else if (this is ZeroToFiveteenPointsGradingSystem) {
       return GradingSystem.zeroToFivteenPoints;
     } else if (this is OneToSixWithPlusMinusGradingSystem) {
       return GradingSystem.oneToSixWithPlusAndMinus;
@@ -39,6 +43,8 @@ sealed class _GradingSystem {
   static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
   static final zeroToFiveteenPoints = ZeroToFiveteenPointsGradingSystem();
   static final oneToSixWithDecimals = OneToSixWithDecimalsGradingSystem();
+  static final zeroToHundredPercentWithDecimals =
+      ZeroToHundredPercentWithDecimalsGradingSystem();
 
   double toDoubleOrThrow(String grade);
   PossibleGradesResult get possibleGrades;
@@ -202,4 +208,30 @@ class OneToSixWithDecimalsGradingSystem extends _GradingSystem
   String? getDisplayableGradeIfExactMatch(num grade) {
     return null;
   }
+}
+
+class ZeroToHundredPercentWithDecimalsGradingSystem extends _GradingSystem
+    with EquatableMixin {
+  @override
+  NonDiscretePossibleGradesResult get possibleGrades =>
+      const NonDiscretePossibleGradesResult(
+        min: 0,
+        max: 100,
+        decimalsAllowed: true,
+      );
+
+  @override
+  double toDoubleOrThrow(String grade) {
+    grade = grade.replaceAll(',', '.');
+    return double.parse(grade);
+  }
+
+  // TODO: Test nr of decimals?
+  @override
+  String? getDisplayableGradeIfExactMatch(num grade) {
+    return null;
+  }
+
+  @override
+  List<Object?> get props => [];
 }

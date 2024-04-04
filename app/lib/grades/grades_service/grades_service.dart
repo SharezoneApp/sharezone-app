@@ -306,6 +306,7 @@ enum GradingSystem {
   oneToSixWithPlusAndMinus,
   zeroToFivteenPoints,
   oneToSixWithDecimals,
+  zeroToHundredPercentWithDecimals,
 }
 
 sealed class PossibleGradesResult {

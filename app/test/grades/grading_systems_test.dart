@@ -257,6 +257,112 @@ void main() {
               .map((e) => e.value.asNum),
           [6, 0.75]);
     });
+    test(
+        '0 - 100% with decimals grading system returns correct possible grades',
+        () {
+      final service = GradesService();
+      var possibleGrades = service
+          .getPossibleGrades(GradingSystem.zeroToHundredPercentWithDecimals);
+
+      expect(possibleGrades, isA<NonDiscretePossibleGradesResult>());
+      possibleGrades = possibleGrades as NonDiscretePossibleGradesResult;
+      // 1+ is 0.75 so its not actually 1-6
+      expect(possibleGrades.min, 0);
+      expect(possibleGrades.max, 100);
+      // TODO Two systems, with and without decimals?
+      expect(possibleGrades.decimalsAllowed, true);
+      expect(possibleGrades.isDiscrete, false);
+    });
+    test('0 - 100% with decimals grading system parses input grades correctly.',
+        () {
+      final controller = GradesTestController();
+
+      controller.createTerm(termWith(
+          id: const TermId('1'),
+          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+          subjects: [
+            subjectWith(id: const SubjectId('math')),
+          ]));
+
+      controller.addGrade(
+        termId: const TermId('1'),
+        subjectId: const SubjectId('math'),
+        // Using "." instead of "," is allowed
+        value: gradeWith(
+          value: '98.3',
+          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+        ),
+      );
+      controller.addGrade(
+        termId: const TermId('1'),
+        subjectId: const SubjectId('math'),
+        // Using "," instead of "." is allowed
+        value: gradeWith(
+          value: '15,5',
+          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+        ),
+      );
+      controller.addGrade(
+        termId: const TermId('1'),
+        subjectId: const SubjectId('math'),
+        value: gradeWith(
+          value: '3',
+          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+        ),
+      );
+
+      expect(
+          controller
+              .term(const TermId('1'))
+              .subject(const SubjectId('math'))
+              .grades
+              // TODO: Test displayble grade (with percent sign?)
+              .map((e) => e.value.asNum),
+          [98.3, 15.5, 3]);
+    });
+    test(
+        '0 - 100% with decimals grading system numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
+        () {
+      final controller = GradesTestController();
+
+      controller.createTerm(termWith(
+          id: const TermId('1'),
+          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+          subjects: [
+            subjectWith(id: const SubjectId('math')),
+          ]));
+
+      void addGrade(String value) {
+        controller.addGrade(
+          termId: const TermId('1'),
+          subjectId: const SubjectId('math'),
+          value: gradeWith(
+            value: value,
+            gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+          ),
+        );
+      }
+
+      expect(
+          () => addGrade('100,1'),
+          // TODO: Add decimalsAllowed to exception?
+          throwsA(const InvalidGradeValueException(
+              gradeInput: '100,1', gradeAsNum: 100.1, min: 0, max: 100)));
+      expect(
+          () => addGrade('-2'),
+          throwsA(const InvalidGradeValueException(
+              gradeInput: '-2', gradeAsNum: -2.0, min: 0, max: 100)));
+      expect(() => addGrade('0'), returnsNormally);
+      expect(() => addGrade('100'), returnsNormally);
+
+      expect(
+          controller
+              .term(const TermId('1'))
+              .subject(const SubjectId('math'))
+              .grades
+              .map((e) => e.value.asNum),
+          [0, 100]);
+    });
 
     test('The subject will use the Terms grading system by default.', () {
       final controller = GradesTestController();
