@@ -358,6 +358,7 @@ void main() {
       expect(
           () => addGrade('100,1'),
           // TODO: Add decimalsAllowed to exception?
+          // TODO: Use PossibleGrades class instead of attributes?
           throwsA(const InvalidNonDiscreteGradeValueException(
               gradeInput: '100,1',
               gradeAsNum: 100.1,
