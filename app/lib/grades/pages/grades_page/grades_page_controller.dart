@@ -43,7 +43,7 @@ class GradesPageController extends ChangeNotifier {
                     id: subject.id,
                     abbreviation: subject.abbreviation,
                     displayName: subject.name,
-                    grade: grade.value.displayableGrade,
+                    grade: grade.value.displayableGrade ?? '${grade.value.asNum}${grade.value.suffix}',
                     design: subject.design,
                   )))
               .toIList();

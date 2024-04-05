@@ -460,12 +460,23 @@ class TermResult {
   });
 }
 
-class CalculatedGradeResult {
+class CalculatedGradeResult extends Equatable {
   double get asDouble => asNum.toDouble();
   final num asNum;
-  final String displayableGrade;
 
-  CalculatedGradeResult({required this.asNum, required this.displayableGrade});
+  /// Only available if there is a special displayable grade for the calculated
+  /// grade. For example, if the calculated grade is 2.25, the displayable grade
+  /// could be '2+' for the (1-6 with +-) grading system.
+  final String? displayableGrade;
+
+  /// A suffix that should be appended to the displayable grade.
+  /// For example for the 0-100% grading system, this would be '%'.
+  final String? suffix;
+
+  @override
+  List<Object?> get props => [asNum, displayableGrade, suffix];
+
+  CalculatedGradeResult({required this.asNum, required this.displayableGrade, required this.suffix});
 }
 
 class Grade {

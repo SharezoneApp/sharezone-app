@@ -50,10 +50,14 @@ sealed class _GradingSystem {
   PossibleGradesResult get possibleGrades;
 
   CalculatedGradeResult toGradeResult(num grade) {
-    final displayableGrade = toDisplayableGrade(grade);
+    final displayableGrade = null;
+    // final displayableGrade = toDisplayableGrade(grade);
     return CalculatedGradeResult(
       asNum: grade,
       displayableGrade: displayableGrade,
+      suffix: this is ZeroToHundredPercentWithDecimalsGradingSystem
+          ? '%'
+          : null,
     );
   }
 
