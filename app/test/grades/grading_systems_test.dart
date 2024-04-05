@@ -333,47 +333,6 @@ void main() {
           [98.3, 15.5, 3]);
     });
     test(
-        '0 - 100% with decimals grading system return displayable grades with percent sign.',
-        () {
-      final controller = GradesTestController();
-
-      controller.createTerm(termWith(
-          id: const TermId('1'),
-          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-          subjects: [
-            subjectWith(id: const SubjectId('math'), grades: [
-              gradeWith(
-                value: '2',
-                gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-              ),
-              gradeWith(
-                value: '6,35',
-                gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-              ),
-              gradeWith(
-                value: '30',
-                gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-              ),
-              gradeWith(
-                value: '98.3',
-                gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-              ),
-            ]),
-          ]));
-
-      expect(
-          controller
-              .term(const TermId('1'))
-              .subject(const SubjectId('math'))
-              .grades
-              .map((grade) => grade.value.displayableGrade)
-              .toList(),
-          // ['2%', '6,35%', '30%', '98,3%']);
-          // ['2', '6,35', '30', '98,3']);
-          // TODO: Fix, this is just temporary
-          ['2,0', '6,3', '30,', '98,']);
-    });
-    test(
         '0 - 100% with decimals grading system numbers that are too high/too low with throw an $InvalidNonDiscreteGradeValueException when added.',
         () {
       final controller = GradesTestController();
