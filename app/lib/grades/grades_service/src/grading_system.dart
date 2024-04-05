@@ -49,10 +49,10 @@ sealed class _GradingSystem {
   double toDoubleOrThrow(String grade);
   PossibleGradesResult get possibleGrades;
 
-  CalculatedGradeResult toGradeResult(num grade) {
+  GradeValue toGradeResult(num grade) {
     final displayableGrade = null;
     // final displayableGrade = toDisplayableGrade(grade);
-    return CalculatedGradeResult(
+    return GradeValue(
       asNum: grade,
       displayableGrade: displayableGrade,
       suffix: this is ZeroToHundredPercentWithDecimalsGradingSystem

@@ -399,7 +399,7 @@ class GradeType extends Equatable {
 
 class GradeResult {
   final GradeId id;
-  final CalculatedGradeResult value;
+  final GradeValue value;
   final bool isTakenIntoAccount;
   final Date date;
 
@@ -414,7 +414,7 @@ class GradeResult {
 class SubjectResult {
   final SubjectId id;
   final String name;
-  final CalculatedGradeResult? calculatedGrade;
+  final GradeValue? calculatedGrade;
   final WeightType weightType;
   final IMap<GradeTypeId, Weight> gradeTypeWeights;
   final IList<GradeResult> grades;
@@ -440,7 +440,7 @@ class SubjectResult {
 class TermResult {
   final TermId id;
   final GradingSystem gradingSystem;
-  final CalculatedGradeResult? calculatedGrade;
+  final GradeValue? calculatedGrade;
   IList<SubjectResult> subjects;
   final bool isActiveTerm;
   final String name;
@@ -460,7 +460,7 @@ class TermResult {
   });
 }
 
-class CalculatedGradeResult extends Equatable {
+class GradeValue extends Equatable {
   double get asDouble => asNum.toDouble();
   final num asNum;
 
@@ -476,7 +476,7 @@ class CalculatedGradeResult extends Equatable {
   @override
   List<Object?> get props => [asNum, displayableGrade, suffix];
 
-  CalculatedGradeResult({required this.asNum, required this.displayableGrade, required this.suffix});
+  const GradeValue({required this.asNum, required this.displayableGrade, required this.suffix});
 }
 
 class Grade {

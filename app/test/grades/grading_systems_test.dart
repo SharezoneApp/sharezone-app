@@ -332,12 +332,12 @@ void main() {
           grades.map((element) => element.value)
           ,
           [
-            CalculatedGradeResult(
+            const GradeValue(
                 asNum: 98.3, displayableGrade: null, suffix: '%'),
-            CalculatedGradeResult(
+            const GradeValue(
                 asNum: 15.5, displayableGrade: null, suffix: '%'),
             // TODO: asNum should be 3 instead of 3.0
-            CalculatedGradeResult(
+            const GradeValue(
                 asNum: 3.0, displayableGrade: null, suffix: '%'),
           ]);
     });

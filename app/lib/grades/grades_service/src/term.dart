@@ -385,7 +385,7 @@ class _Subject {
 class _Grade extends Equatable {
   final _Term term;
   final GradeId id;
-  final CalculatedGradeResult value;
+  final GradeValue value;
   final _GradingSystem gradingSystem;
   final GradeTypeId gradeType;
   final bool takenIntoAccount;
@@ -414,7 +414,7 @@ class _Grade extends Equatable {
   _Grade copyWith({
     _Term? term,
     GradeId? id,
-    CalculatedGradeResult? value,
+    GradeValue? value,
     Date? date,
     _GradingSystem? gradingSystem,
     GradeTypeId? gradeType,
