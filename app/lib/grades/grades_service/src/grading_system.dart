@@ -26,16 +26,18 @@ extension _ToGradingSystem on GradingSystem {
 extension _ToGradingSystems on _GradingSystem {
   GradingSystem toGradingSystems() {
     return spec.gradingSystem;
-    }
+  }
 }
 
 class _GradingSystem {
-  static final oneToSixWithPlusAndMinus = _GradingSystem(spec: oneToSixWithPlusAndMinusSpec);
-  static final zeroToFiveteenPoints = _GradingSystem(spec: zeroToFivteenPointsSpec);
-  static final oneToSixWithDecimals = _GradingSystem(spec: oneToSixWithDecimalsSpec);
+  static final oneToSixWithPlusAndMinus =
+      _GradingSystem(spec: oneToSixWithPlusAndMinusSpec);
+  static final zeroToFiveteenPoints =
+      _GradingSystem(spec: zeroToFivteenPointsSpec);
+  static final oneToSixWithDecimals =
+      _GradingSystem(spec: oneToSixWithDecimalsSpec);
   static final zeroToHundredPercentWithDecimals =
       _GradingSystem(spec: zeroToHundredPercentWithDecimalsSpec);
-
 
   final GradingSystemSpec spec;
 
@@ -56,8 +58,7 @@ class _GradingSystem {
     return GradeValue(
       asNum: grade,
       displayableGrade: getSpecialDisplayableGradeIfAvailable(grade),
-      suffix:
-         spec == zeroToHundredPercentWithDecimalsSpec ? '%' : '',
+      suffix: spec == zeroToHundredPercentWithDecimalsSpec ? '%' : '',
     );
   }
 
@@ -171,5 +172,3 @@ const zeroToHundredPercentWithDecimalsSpec = GradingSystemSpec(
     decimalsAllowed: true,
   ),
 );
-
-
