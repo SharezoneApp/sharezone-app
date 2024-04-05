@@ -25,196 +25,151 @@ extension _ToGradingSystem on GradingSystem {
 
 extension _ToGradingSystems on _GradingSystem {
   GradingSystem toGradingSystems() {
-    if (this is ZeroToHundredPercentWithDecimalsGradingSystem) {
-      return GradingSystem.zeroToHundredPercentWithDecimals;
-    } else if (this is ZeroToFiveteenPointsGradingSystem) {
-      return GradingSystem.zeroToFivteenPoints;
-    } else if (this is OneToSixWithPlusMinusGradingSystem) {
-      return GradingSystem.oneToSixWithPlusAndMinus;
-    } else if (this is OneToSixWithDecimalsGradingSystem) {
-      return GradingSystem.oneToSixWithDecimals;
-    } else {
-      throw UnimplementedError();
+    return spec.gradingSystem;
     }
-  }
 }
 
-sealed class _GradingSystem {
-  static final oneToSixWithPlusAndMinus = OneToSixWithPlusMinusGradingSystem();
-  static final zeroToFiveteenPoints = ZeroToFiveteenPointsGradingSystem();
-  static final oneToSixWithDecimals = OneToSixWithDecimalsGradingSystem();
+class _GradingSystem {
+  static final oneToSixWithPlusAndMinus = _GradingSystem(spec: oneToSixWithPlusAndMinusSpec);
+  static final zeroToFiveteenPoints = _GradingSystem(spec: zeroToFivteenPointsSpec);
+  static final oneToSixWithDecimals = _GradingSystem(spec: oneToSixWithDecimalsSpec);
   static final zeroToHundredPercentWithDecimals =
-      ZeroToHundredPercentWithDecimalsGradingSystem();
+      _GradingSystem(spec: zeroToHundredPercentWithDecimalsSpec);
 
-  num toNumOrThrow(String grade);
-  PossibleGradesResult get possibleGrades;
+
+  final GradingSystemSpec spec;
+
+  _GradingSystem({required this.spec});
+
+  num toNumOrThrow(String grade) {
+    grade = grade.replaceAll(',', '.');
+    return num.tryParse(grade) ??
+        spec.specialDisplayableGradeToNumOrNull?.call(grade) ??
+        () {
+          throw ArgumentError('Invalid grade value');
+        }();
+  }
+
+  PossibleGradesResult get possibleGrades => spec.possibleGrades;
 
   GradeValue toGradeResult(num grade) {
     return GradeValue(
       asNum: grade,
       displayableGrade: getSpecialDisplayableGradeIfAvailable(grade),
       suffix:
-          this is ZeroToHundredPercentWithDecimalsGradingSystem ? '%' : null,
+         spec == zeroToHundredPercentWithDecimalsSpec ? '%' : '',
     );
   }
 
-  String? getSpecialDisplayableGradeIfAvailable(num grade);
-}
-
-class ZeroToFiveteenPointsGradingSystem extends _GradingSystem
-    with EquatableMixin {
-  @override
-  DiscretePossibleGradesResult get possibleGrades =>
-      const DiscretePossibleGradesResult(IListConst([
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15',
-      ]));
-
-  @override
-  num toNumOrThrow(String grade) {
-    return num.parse(grade);
-  }
-
-  @override
-  List<Object?> get props => [];
-  
-  @override
   String? getSpecialDisplayableGradeIfAvailable(num grade) {
-    return null;
+    return spec.getSpecialDisplayableGradeIfAvailable?.call(grade);
   }
 }
 
-class OneToSixWithPlusMinusGradingSystem extends _GradingSystem
-    with EquatableMixin {
-  @override
-  DiscretePossibleGradesResult get possibleGrades =>
-      const DiscretePossibleGradesResult(IListConst([
-        '1+',
-        '1',
-        '1-',
-        '2+',
-        '2',
-        '2-',
-        '3+',
-        '3',
-        '3-',
-        '4+',
-        '4',
-        '4-',
-        '5+',
-        '5',
-        '5-',
-        '6',
-      ]));
+class GradingSystemSpec {
+  final GradingSystem gradingSystem;
+  final PossibleGradesResult possibleGrades;
+  final num? Function(String grade)? specialDisplayableGradeToNumOrNull;
+  final String? Function(num grade)? getSpecialDisplayableGradeIfAvailable;
 
-  @override
-  num toNumOrThrow(String grade) {
+  const GradingSystemSpec({
+    required this.gradingSystem,
+    required this.possibleGrades,
+    this.specialDisplayableGradeToNumOrNull,
+    this.getSpecialDisplayableGradeIfAvailable,
+  });
+}
+
+final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+  possibleGrades: const DiscretePossibleGradesResult(IListConst([
+    '1+',
+    '1',
+    '1-',
+    '2+',
+    '2',
+    '2-',
+    '3+',
+    '3',
+    '3-',
+    '4+',
+    '4',
+    '4-',
+    '5+',
+    '5',
+    '5-',
+    '6',
+  ])),
+  specialDisplayableGradeToNumOrNull: (grade) {
     return switch (grade) {
       '1+' => 0.75,
-      '1' => 1,
       '1-' => 1.25,
       '2+' => 1.75,
-      '2' => 2,
       '2-' => 2.25,
       '3+' => 2.75,
-      '3' => 3,
       '3-' => 3.25,
       '4+' => 3.75,
-      '4' => 4,
       '4-' => 4.25,
       '5+' => 4.75,
-      '5' => 5,
       '5-' => 5.25,
-      '6' => 6,
-      _ => throw ArgumentError.value(
-          grade,
-          'grade',
-          'Invalid grade value',
-        ),
-    };
-  }
-
-  @override
-  List<Object?> get props => [];
-
-  @override
-  String? getSpecialDisplayableGradeIfAvailable(num grade) {
-    return switch(grade) {
-      0.75 =>  '1+',
-      1.25 =>  '1-',
-      1.75 =>  '2+',
-      2.25 =>  '2-',
-      2.75 =>  '3+',
-      3.25 =>  '3-',
-      3.75 =>  '4+',
-      4.25 =>  '4-',
-      4.75 =>  '5+',
-      5.25 =>  '5-',
       _ => null,
     };
-  }
-}
+  },
+  getSpecialDisplayableGradeIfAvailable: (grade) {
+    return switch (grade) {
+      0.75 => '1+',
+      1.25 => '1-',
+      1.75 => '2+',
+      2.25 => '2-',
+      2.75 => '3+',
+      3.25 => '3-',
+      3.75 => '4+',
+      4.25 => '4-',
+      4.75 => '5+',
+      5.25 => '5-',
+      _ => null,
+    };
+  },
+);
 
-class OneToSixWithDecimalsGradingSystem extends _GradingSystem
-    with EquatableMixin {
-  @override
-  NonDiscretePossibleGradesResult get possibleGrades =>
-      const NonDiscretePossibleGradesResult(
-        min: 0.75,
-        max: 6,
-        decimalsAllowed: true,
-      );
+const zeroToFivteenPointsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.zeroToFivteenPoints,
+  possibleGrades: DiscretePossibleGradesResult(IListConst([
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+  ])),
+);
 
-  @override
-  num toNumOrThrow(String grade) {
-    grade = grade.replaceAll(',', '.');
-    return num.parse(grade);
-  }
+const oneToSixWithDecimalsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.oneToSixWithDecimals,
+  possibleGrades: NonDiscretePossibleGradesResult(
+    min: 0.75,
+    max: 6,
+    decimalsAllowed: true,
+  ),
+);
 
-  @override
-  List<Object?> get props => [];
+const zeroToHundredPercentWithDecimalsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+  possibleGrades: NonDiscretePossibleGradesResult(
+    min: 0,
+    max: 100,
+    decimalsAllowed: true,
+  ),
+);
 
-  @override
-  String? getSpecialDisplayableGradeIfAvailable(num grade) {
-    return null;
-  }
-}
 
-class ZeroToHundredPercentWithDecimalsGradingSystem extends _GradingSystem
-    with EquatableMixin {
-  @override
-  NonDiscretePossibleGradesResult get possibleGrades =>
-      const NonDiscretePossibleGradesResult(
-        min: 0,
-        max: 100,
-        decimalsAllowed: true,
-      );
-
-  @override
-  num toNumOrThrow(String grade) {
-    grade = grade.replaceAll(',', '.');
-    return num.parse(grade);
-  }
-
-  @override
-  String? getSpecialDisplayableGradeIfAvailable(num grade) {
-    return null;
-  }
-
-  @override
-  List<Object?> get props => [];
-}
