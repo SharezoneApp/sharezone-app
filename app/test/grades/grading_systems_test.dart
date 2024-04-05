@@ -328,18 +328,12 @@ void main() {
           .subject(const SubjectId('math'))
           .grades;
 
-      expect(
-          grades.map((element) => element.value)
-          ,
-          [
-            const GradeValue(
-                asNum: 98.3, displayableGrade: null, suffix: '%'),
-            const GradeValue(
-                asNum: 15.5, displayableGrade: null, suffix: '%'),
-            // TODO: asNum should be 3 instead of 3.0
-            const GradeValue(
-                asNum: 3.0, displayableGrade: null, suffix: '%'),
-          ]);
+      expect(grades.map((element) => element.value), [
+        const GradeValue(asNum: 98.3, displayableGrade: null, suffix: '%'),
+        const GradeValue(asNum: 15.5, displayableGrade: null, suffix: '%'),
+        // TODO: asNum should be 3 instead of 3.0
+        const GradeValue(asNum: 3.0, displayableGrade: null, suffix: '%'),
+      ]);
     });
     test(
         '0 - 100% with decimals grading system numbers that are too high/too low with throw an $InvalidNonDiscreteGradeValueException when added.',
@@ -480,7 +474,7 @@ void main() {
       expect(values, orderedEquals(expected.keys));
     }
 
-    void testThatGradeAsStringIsConvertedToCorrectGradeAsDoubleAndString(
+    void testThatGradeAsStringIsConvertedToCorrectGradeAsNum(
         GradingSystem gradingSystem, Map<String, num> expected) {
       final controller = GradesTestController();
 
@@ -496,19 +490,45 @@ void main() {
       ]);
       controller.createTerm(term);
 
-      final grades = controller.term(term.id).subjects.first.grades;
+      final actual = controller
+          .term(term.id)
+          .subjects
+          .first
+          .grades
+          .map((element) => MapEntry(
+                // grade id is the same as the input grade value string in this test
+                element.id.id,
+                element.value.asNum,
+              ));
 
-      // TODO: Doesn't make sense anymore
-      // final actual = Map.fromEntries(
-      //   grades.map(
-      //     (grade) => MapEntry<String, num>(
-      //       grade.value.displayableGrade,
-      //       grade.value.asDouble,
-      //     ),
-      //   ),
-      // );
+      expect(Map.fromEntries(actual), expected);
+    }
 
-      // expect(actual, expected);
+    void testThatGradeAsNumIsConvertedToCorrectSpecialGradeString(
+        GradingSystem gradingSystem,
+        Map<num, String> expectedSpecialDisplayableGrades) {
+      final controller = GradesTestController();
+
+      final term = termWith(subjects: [
+        subjectWith(grades: [
+          for (final entry in expectedSpecialDisplayableGrades.entries)
+            gradeWith(
+              id: GradeId(entry.value),
+              value: entry.key,
+              gradingSystem: gradingSystem,
+            )
+        ])
+      ]);
+      controller.createTerm(term);
+
+      final actual = controller.term(term.id).subjects.first.grades.map(
+            (element) => MapEntry(
+              element.value.asNum,
+              element.value.displayableGrade,
+            ),
+          );
+
+      expect(Map.fromEntries(actual), expectedSpecialDisplayableGrades);
     }
 
     void testThatExceptionIsThrownIfGradeWithInvalidValueIsAdded(
@@ -559,39 +579,44 @@ void main() {
     }
 
     @isTestGroup
-    void testGradingSystemThatUsesDiscreteValues(
-        {required GradingSystem gradingSystem,
-        required Map<String, num> expected}) {
-      final tests = [
-        (
-          name:
-              'returns correct possible input values sorted by best to worst grade',
-          testFunc: testThatCorrectPossibleValuesAreGivenAndInCorrectOrder
-        ),
-        (
-          name:
-              'returns correct double and string grade values for grade strings',
-          testFunc:
-              testThatGradeAsStringIsConvertedToCorrectGradeAsDoubleAndString
-        ),
-        (
-          name: 'throws an exception if a grade with an invalid value is added',
-          testFunc: testThatExceptionIsThrownIfGradeWithInvalidValueIsAdded
-        ),
-      ];
-
+    void testGradingSystemThatUsesDiscreteValues({
+      required GradingSystem gradingSystem,
+      required Map<String, num> expectedNumValues,
+      Map<num, String> expectedSpecialDisplayableGrades = const {},
+    }) {
       group('$gradingSystem', () {
-        for (var testObj in tests) {
-          test(testObj.name, () {
-            testObj.testFunc(gradingSystem, expected);
+        test(
+            'returns correct possible input values sorted by best to worst grade',
+            () {
+          testThatCorrectPossibleValuesAreGivenAndInCorrectOrder(
+              gradingSystem, expectedNumValues);
+        });
+
+        test('returns correct num grade values for grade strings', () {
+          testThatGradeAsStringIsConvertedToCorrectGradeAsNum(
+              gradingSystem, expectedNumValues);
+        });
+
+        if (expectedSpecialDisplayableGrades.isNotEmpty) {
+          test(
+              'returns correct special string display values for grade strings',
+              () {
+            testThatGradeAsNumIsConvertedToCorrectSpecialGradeString(
+                gradingSystem, expectedSpecialDisplayableGrades);
           });
         }
+
+        test('throws an exception if a grade with an invalid value is added',
+            () {
+          testThatExceptionIsThrownIfGradeWithInvalidValueIsAdded(
+              gradingSystem, expectedNumValues);
+        });
       });
     }
 
     testGradingSystemThatUsesDiscreteValues(
       gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-      expected: {
+      expectedNumValues: {
         '1+': 0.75,
         '1': 1,
         '1-': 1.25,
@@ -609,10 +634,24 @@ void main() {
         '5-': 5.25,
         '6': 6,
       },
+      expectedSpecialDisplayableGrades: {
+        0.75: '1+',
+        1.25: '1-',
+        1.75: '2+',
+        2.25: '2-',
+        2.75: '3+',
+        3.25: '3-',
+        3.75: '4+',
+        4.25: '4-',
+        4.75: '5+',
+        5.25: '5-',
+      },
     );
+
+    /// Don't know if this is necessary, make it non-discrete?
     testGradingSystemThatUsesDiscreteValues(
       gradingSystem: GradingSystem.zeroToFivteenPoints,
-      expected: {
+      expectedNumValues: {
         '0': 0,
         '1': 1,
         '2': 2,

@@ -50,31 +50,15 @@ sealed class _GradingSystem {
   PossibleGradesResult get possibleGrades;
 
   GradeValue toGradeResult(num grade) {
-    final displayableGrade = null;
-    // final displayableGrade = toDisplayableGrade(grade);
     return GradeValue(
       asNum: grade,
-      displayableGrade: displayableGrade,
-      suffix: this is ZeroToHundredPercentWithDecimalsGradingSystem
-          ? '%'
-          : null,
+      displayableGrade: getSpecialDisplayableGradeIfAvailable(grade),
+      suffix:
+          this is ZeroToHundredPercentWithDecimalsGradingSystem ? '%' : null,
     );
   }
 
-  int nrOfDecimalsForDisplayableGrade = 1;
-
-  String toDisplayableGrade(num grade) {
-    final res = getDisplayableGradeIfExactMatch(grade);
-    if (res != null) {
-      return res;
-    }
-    return grade
-        .toStringAsFixed(nrOfDecimalsForDisplayableGrade + 2)
-        .replaceAll('.', ',')
-        .substring(0, nrOfDecimalsForDisplayableGrade + 2);
-  }
-
-  String? getDisplayableGradeIfExactMatch(num grade);
+  String? getSpecialDisplayableGradeIfAvailable(num grade);
 }
 
 class ZeroToFiveteenPointsGradingSystem extends _GradingSystem
@@ -107,14 +91,9 @@ class ZeroToFiveteenPointsGradingSystem extends _GradingSystem
 
   @override
   List<Object?> get props => [];
-
+  
   @override
-  String? getDisplayableGradeIfExactMatch(num grade) {
-    for (var val in possibleGrades.grades) {
-      if (int.parse(val) == grade) {
-        return val;
-      }
-    }
+  String? getSpecialDisplayableGradeIfAvailable(num grade) {
     return null;
   }
 }
@@ -173,13 +152,20 @@ class OneToSixWithPlusMinusGradingSystem extends _GradingSystem
   List<Object?> get props => [];
 
   @override
-  String? getDisplayableGradeIfExactMatch(num grade) {
-    for (var val in possibleGrades.grades) {
-      if (toDoubleOrThrow(val) == grade) {
-        return val;
-      }
-    }
-    return null;
+  String? getSpecialDisplayableGradeIfAvailable(num grade) {
+    return switch(grade) {
+      0.75 =>  '1+',
+      1.25 =>  '1-',
+      1.75 =>  '2+',
+      2.25 =>  '2-',
+      2.75 =>  '3+',
+      3.25 =>  '3-',
+      3.75 =>  '4+',
+      4.25 =>  '4-',
+      4.75 =>  '5+',
+      5.25 =>  '5-',
+      _ => null,
+    };
   }
 }
 
@@ -202,13 +188,8 @@ class OneToSixWithDecimalsGradingSystem extends _GradingSystem
   @override
   List<Object?> get props => [];
 
-  // Since students would often add grades with two decimals (e.g. 1.25 (1-)),
-  // we want to display the grade with two decimals.
   @override
-  int get nrOfDecimalsForDisplayableGrade => 2;
-
-  @override
-  String? getDisplayableGradeIfExactMatch(num grade) {
+  String? getSpecialDisplayableGradeIfAvailable(num grade) {
     return null;
   }
 }
@@ -229,9 +210,8 @@ class ZeroToHundredPercentWithDecimalsGradingSystem extends _GradingSystem
     return double.parse(grade);
   }
 
-  // TODO: Test nr of decimals?
   @override
-  String? getDisplayableGradeIfExactMatch(num grade) {
+  String? getSpecialDisplayableGradeIfAvailable(num grade) {
     return null;
   }
 
