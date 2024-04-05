@@ -10,6 +10,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 import 'grades_test_common.dart';
 
@@ -461,6 +462,38 @@ void main() {
               .calculatedGrade!
               .asDouble,
           (4 + 8) / 2);
+    });
+
+    test('A suffix is only returned by percentage grade system', () {
+      final controller = GradesTestController();
+
+      controller.createTerm(termWith(id: const TermId('1'), subjects: [
+        subjectWith(id: const SubjectId('math')),
+      ]));
+
+      for (final gradingSystem in GradingSystem.values) {
+        final gradeId = GradeId(randomAlpha(5));
+        controller.addGrade(
+          termId: const TermId('1'),
+          subjectId: const SubjectId('math'),
+          value: gradeWith(
+            id: gradeId,
+            value: '3',
+            gradingSystem: gradingSystem,
+          ),
+        );
+
+        expect(
+            controller
+                .term(const TermId('1'))
+                .subject(const SubjectId('math'))
+                .grade(gradeId)
+                .value
+                .suffix,
+            gradingSystem == GradingSystem.zeroToHundredPercentWithDecimals
+                ? '%'
+                : null);
+      }
     });
 
     void testThatCorrectPossibleValuesAreGivenAndInCorrectOrder(

@@ -58,7 +58,7 @@ class _GradingSystem {
     return GradeValue(
       asNum: grade,
       displayableGrade: getSpecialDisplayableGradeIfAvailable(grade),
-      suffix: spec == zeroToHundredPercentWithDecimalsSpec ? '%' : '',
+      suffix: spec == zeroToHundredPercentWithDecimalsSpec ? '%' : null,
     );
   }
 
