@@ -2,11 +2,38 @@
 
 0-15 (Natürliche Zahlen inkl. 0)
 1-6 (Natürliche Zahlen)
-6-1
 1-6 (Mit Kommazahlen)
 Prozente 0-100%
 “9-1” System
 Bestanden/Nicht bestanden
+
+**Schweiz**
+* 6: sehr gut
+* 5: gut
+* 4: genügend
+* 3: ungenügend
+* 2: schwach
+* 1: schlecht
+
+In den Zeugnissen sind nur halbe Noten zugelassen (z. B. 4.5). 
+Häufig werden halbe Noten wie eine 5.5 auch in anderer Form geschrieben, z. B. als 5–6 (fünf-bis-sechs) oder 5½ (fünfeinhalb).
+
+Bei Zwischennoten, die nicht im Zeugnis auftauchen, können vielerorts weitere Abstufungen verwendet werden, 5+ oder 5- (»fünf bis«) steht etwa für 5.25, -5 (»bis fünf«) hingegen für 4.75. Auch als Dezimalzahlen geschriebene Noten sind gebräuchlich, etwa 5.1 oder 5.13. 
+
+Eine Besonderheit des schweizerischen Notensystems ist, dass es nicht symmetrisch ist: Die Noten 1 bis 3,5 sind ungenügend, 4 bis 6 genügend. Eine Note unter 2 kann entsprechend nicht mit der Bestnote kompensiert werden. Erwartet wird aber oft eine Normalverteilung der Noten mit einem Mittelwert von ca. 4.5, was dazu führt, dass praktisch nie sehr niedrige Noten vergeben werden. 
+
+**Österreich**
+Es gibt ein Notensystem mit fünf Stufen. Die Leistungsbeurteilungsverordnung definiert die Noten in § 14.[19] Für die Beurteilung des Verhaltens werden immer vier Noten verwendet:[20] Sehr zufriedenstellend, Zufriedenstellend, Wenig zufriedenstellend, Nicht zufriedenstellend. In den meisten Volksschulen finden die sogenannten Betragensnoten keine Verwendung
+
+* 1: Sehr gut
+* 2: Gut
+* 3: Befriedigend
+* 4: Genügend
+* 5: Nicht genügend
+
+Informell werden oft Zwischennoten (z. B.: 2–3) sowie erhöhte und erniedrigte Noten (z. B.: 2+, 3−) verwendet, wobei bei letzteren 1+ oft als 1! (Einser mit Rufzeichen) oder I (römischer Einser) geschrieben wird. 5+ und 5− sind ungebräuchlich. Diese Zwischennoten sind weder in Schularbeiten noch in Zeugnissen zulässig, sondern beschränken sich auf Relativierungen in der Mitarbeit.
+
+Das Schulnotensystem wird auch von Hochschulen verwendet, wobei die Note 5 bedeutet, dass die Lehrveranstaltungsprüfung nicht bestanden wurde. 
 
 ## Bereiche
 
