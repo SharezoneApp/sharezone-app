@@ -46,7 +46,7 @@ sealed class _GradingSystem {
   static final zeroToHundredPercentWithDecimals =
       ZeroToHundredPercentWithDecimalsGradingSystem();
 
-  double toDoubleOrThrow(String grade);
+  num toNumOrThrow(String grade);
   PossibleGradesResult get possibleGrades;
 
   GradeValue toGradeResult(num grade) {
@@ -85,8 +85,8 @@ class ZeroToFiveteenPointsGradingSystem extends _GradingSystem
       ]));
 
   @override
-  double toDoubleOrThrow(String grade) {
-    return double.parse(grade);
+  num toNumOrThrow(String grade) {
+    return num.parse(grade);
   }
 
   @override
@@ -122,7 +122,7 @@ class OneToSixWithPlusMinusGradingSystem extends _GradingSystem
       ]));
 
   @override
-  double toDoubleOrThrow(String grade) {
+  num toNumOrThrow(String grade) {
     return switch (grade) {
       '1+' => 0.75,
       '1' => 1,
@@ -180,9 +180,9 @@ class OneToSixWithDecimalsGradingSystem extends _GradingSystem
       );
 
   @override
-  double toDoubleOrThrow(String grade) {
+  num toNumOrThrow(String grade) {
     grade = grade.replaceAll(',', '.');
-    return double.parse(grade);
+    return num.parse(grade);
   }
 
   @override
@@ -205,9 +205,9 @@ class ZeroToHundredPercentWithDecimalsGradingSystem extends _GradingSystem
       );
 
   @override
-  double toDoubleOrThrow(String grade) {
+  num toNumOrThrow(String grade) {
     grade = grade.replaceAll(',', '.');
-    return double.parse(grade);
+    return num.parse(grade);
   }
 
   @override

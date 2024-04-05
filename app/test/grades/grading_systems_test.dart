@@ -331,8 +331,7 @@ void main() {
       expect(grades.map((element) => element.value), [
         const GradeValue(asNum: 98.3, displayableGrade: null, suffix: '%'),
         const GradeValue(asNum: 15.5, displayableGrade: null, suffix: '%'),
-        // TODO: asNum should be 3 instead of 3.0
-        const GradeValue(asNum: 3.0, displayableGrade: null, suffix: '%'),
+        const GradeValue(asNum: 3, displayableGrade: null, suffix: '%'),
       ]);
     });
     test(
@@ -371,7 +370,7 @@ void main() {
           () => addGrade('-2'),
           throwsA(const InvalidNonDiscreteGradeValueException(
               gradeInput: '-2',
-              gradeAsNum: -2.0,
+              gradeAsNum: -2,
               min: 0,
               max: 100,
               decimalsAllowed: true,

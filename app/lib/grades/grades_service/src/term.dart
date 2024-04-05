@@ -178,7 +178,7 @@ class _Term {
             validValues: possibleGrades.grades);
       }
       try {
-        final db = gradingSystem.toDoubleOrThrow(grade);
+        final db = gradingSystem.toNumOrThrow(grade);
         if (possibleGrades is NonDiscretePossibleGradesResult) {
           if (db < possibleGrades.min || db > possibleGrades.max) {
             throw InvalidNonDiscreteGradeValueException(
