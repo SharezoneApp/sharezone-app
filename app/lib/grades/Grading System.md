@@ -6,6 +6,11 @@
 Prozente 0-100%
 “9-1” System
 Bestanden/Nicht bestanden
+*Österreich:*
+1-5 (mit Kommazahlen?)
+1-4 [Sehr zufriedenstellend, Zufriedenstellend, Wenig zufriedenstellend, Nicht zufriedenstellend] (Beurteilung Verhalten)
+*Schweiz*
+6-1 (mit Kommazahlen)
 
 **Schweiz**
 * 6: sehr gut
