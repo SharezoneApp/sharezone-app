@@ -19,6 +19,8 @@ extension _ToGradingSystem on GradingSystem {
         return _GradingSystem.oneToSixWithPlusAndMinus;
       case GradingSystem.oneToSixWithDecimals:
         return _GradingSystem.oneToSixWithDecimals;
+      case GradingSystem.austrianBehaviouralGrades:
+        return _GradingSystem.austrianBehaviouralGrades;
     }
   }
 }
@@ -38,6 +40,8 @@ class _GradingSystem {
       _GradingSystem(spec: oneToSixWithDecimalsSpec);
   static final zeroToHundredPercentWithDecimals =
       _GradingSystem(spec: zeroToHundredPercentWithDecimalsSpec);
+  static final austrianBehaviouralGrades =
+      _GradingSystem(spec: austrianBehaviouralGradesSpec);
 
   final GradingSystemSpec spec;
 
@@ -171,4 +175,32 @@ const zeroToHundredPercentWithDecimalsSpec = GradingSystemSpec(
     max: 100,
     decimalsAllowed: true,
   ),
+);
+
+final austrianBehaviouralGradesSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.austrianBehaviouralGrades,
+  possibleGrades: const DiscretePossibleGradesResult(IListConst([
+    'Sehr zufriedenstellend',
+    'Zufriedenstellend',
+    'Wenig zufriedenstellend',
+    'Nicht zufriedenstellend',
+  ])),
+  specialDisplayableGradeToNumOrNull: (grade) {
+    return switch (grade) {
+      'Sehr zufriedenstellend' => 1,
+      'Zufriedenstellend' => 2,
+      'Wenig zufriedenstellend' => 4,
+      'Nicht zufriedenstellend' => 3,
+      _ => null,
+    };
+  },
+  getSpecialDisplayableGradeIfAvailable: (grade) {
+    return switch (grade) {
+      1 => 'Sehr zufriedenstellend',
+      2 => 'Zufriedenstellend',
+      4 => 'Wenig zufriedenstellend',
+      3 => 'Nicht zufriedenstellend',
+      _ => null,
+    };
+  },
 );

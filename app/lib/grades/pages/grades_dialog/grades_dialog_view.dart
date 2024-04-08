@@ -71,6 +71,7 @@ extension GradeSystemToName on GradingSystem {
       GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',
       GradingSystem.zeroToHundredPercentWithDecimals =>
         '0 - 100% (mit Kommazahlen)',
+      GradingSystem.austrianBehaviouralGrades => 'Österreichische Verhaltensnoten',
     };
   }
 }

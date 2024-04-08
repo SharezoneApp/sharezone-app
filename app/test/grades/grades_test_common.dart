@@ -12,6 +12,18 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:test_randomness/test_randomness.dart';
 
+extension ValidValue on GradingSystem {
+  Object get validGradeValue {
+    return switch (this) {
+      GradingSystem.austrianBehaviouralGrades => 'Zufriedenstellend',
+      GradingSystem.oneToSixWithDecimals => 1.5,
+      GradingSystem.oneToSixWithPlusAndMinus => 0.5,
+      GradingSystem.zeroToFivteenPoints => 5,
+      GradingSystem.zeroToHundredPercentWithDecimals => 0.5,
+    };
+  }
+}
+
 class GradesTestController {
   final service = GradesService();
 

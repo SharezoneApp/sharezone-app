@@ -119,6 +119,62 @@ void main() {
           // 4,6666...7
           (4 + 8 + 2) / 3);
     });
+    test('Basic test for Austrian behavioural grades', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        gradingSystem: GradingSystem.austrianBehaviouralGrades,
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Mathe'),
+            name: 'Mathe',
+            grades: [
+              gradeWith(
+                value: 'Sehr zufriedenstellend',
+                gradingSystem: GradingSystem.austrianBehaviouralGrades,
+              ),
+              gradeWith(
+                value: 'Zufriedenstellend',
+                gradingSystem: GradingSystem.austrianBehaviouralGrades,
+              ),
+              gradeWith(
+                value: 'Wenig zufriedenstellend',
+                gradingSystem: GradingSystem.austrianBehaviouralGrades,
+              ),
+              gradeWith(
+                value: 'Nicht zufriedenstellend',
+                gradingSystem: GradingSystem.austrianBehaviouralGrades,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      controller.createTerm(term);
+
+      const expected = (1 + 2 + 3 + 4) / 4;
+      expect(expected, 2.5);
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .asDouble,
+          expected);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .grades
+              .map((e) => e.value.displayableGrade),
+          [
+            'Sehr zufriedenstellend',
+            'Zufriedenstellend',
+            'Wenig zufriedenstellend',
+            'Nicht zufriedenstellend'
+          ]);
+    });
     test('Basic grades test for 1 - 6 points with decimals.', () {
       final controller = GradesTestController();
 
@@ -478,7 +534,7 @@ void main() {
           subjectId: const SubjectId('math'),
           value: gradeWith(
             id: gradeId,
-            value: '3',
+            value: gradingSystem.validGradeValue,
             gradingSystem: gradingSystem,
           ),
         );
