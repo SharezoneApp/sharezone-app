@@ -261,7 +261,7 @@ void main() {
           2.25);
     });
     test(
-        '1 - 6 (actual 0.75 - 6) grading system returns correct possible grades',
+        '1 - 6 with decimals grading system returns correct possible grades',
         () {
       final service = GradesService();
       var possibleGrades =
@@ -269,8 +269,8 @@ void main() {
 
       expect(possibleGrades, isA<NonDiscretePossibleGradesResult>());
       possibleGrades = possibleGrades as NonDiscretePossibleGradesResult;
-      // 1+ is 0.75 so its not actually 1-6
-      expect(possibleGrades.min, 0.75);
+      // 1+ can in some places be 0.66, so we use that here
+      expect(possibleGrades.min, 0.66);
       expect(possibleGrades.max, 6);
       expect(possibleGrades.decimalsAllowed, true);
       expect(possibleGrades.isDiscrete, false);
@@ -340,23 +340,24 @@ void main() {
           throwsA(const InvalidNonDiscreteGradeValueException(
             gradeInput: '6,1',
             gradeAsNum: 6.1,
-            min: 0.75,
+            min: 0.66,
             max: 6,
             decimalsAllowed: true,
             gradingSystem: GradingSystem.oneToSixWithDecimals,
           )));
       expect(
-          () => addGrade('0,74'),
+          () => addGrade('0,65'),
           throwsA(const InvalidNonDiscreteGradeValueException(
-            gradeInput: '0,74',
-            gradeAsNum: 0.74,
-            min: 0.75,
+            gradeInput: '0,65',
+            gradeAsNum: 0.65,
+            min: 0.66,
             max: 6,
             decimalsAllowed: true,
             gradingSystem: GradingSystem.oneToSixWithDecimals,
           )));
       expect(() => addGrade('6'), returnsNormally);
       expect(() => addGrade('0,75'), returnsNormally);
+      expect(() => addGrade('0,66'), returnsNormally);
 
       expect(
           controller
@@ -364,7 +365,7 @@ void main() {
               .subject(const SubjectId('math'))
               .grades
               .map((e) => e.value.asNum),
-          [6, 0.75]);
+          [6, 0.75, 0.66]);
     });
     test(
         '0 - 100% with decimals grading system returns correct possible grades',

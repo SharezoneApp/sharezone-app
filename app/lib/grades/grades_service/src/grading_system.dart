@@ -175,7 +175,11 @@ const zeroToFivteenPointsSpec = GradingSystemSpec(
 const oneToSixWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToSixWithDecimals,
   possibleGrades: NonDiscretePossibleGradesResult(
-    min: 0.75,
+    // 0.66 is the lowest grade possible and equals "1+".
+    // Depending on where one lives the lowest grade might be 0.75
+    // or 0.66 (both equal 1+). So we just use 0.66 here so that
+    // every system can be covered.
+    min: 0.66,
     max: 6,
     decimalsAllowed: true,
   ),
