@@ -18,6 +18,7 @@ extension ValidValue on GradingSystem {
       GradingSystem.austrianBehaviouralGrades => 'Zufriedenstellend',
       GradingSystem.oneToSixWithDecimals => 1.5,
       GradingSystem.oneToSixWithPlusAndMinus => 0.5,
+      GradingSystem.sixToOneWithDecimals => 5.5,
       GradingSystem.zeroToFivteenPoints => 5,
       GradingSystem.zeroToHundredPercentWithDecimals => 0.5,
       GradingSystem.oneToFiveWithDecimals => 2.5,

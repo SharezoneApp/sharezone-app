@@ -322,6 +322,7 @@ enum GradingSystem {
   zeroToHundredPercentWithDecimals,
   austrianBehaviouralGrades,
   oneToFiveWithDecimals,
+  sixToOneWithDecimals,
 }
 
 sealed class PossibleGradesResult {

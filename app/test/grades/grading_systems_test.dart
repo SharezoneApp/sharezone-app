@@ -215,6 +215,45 @@ void main() {
             'Nicht zufriedenstellend'
           ]);
     });
+    test('Basic grades test for 6 - 1 with decimals.', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        gradingSystem: GradingSystem.sixToOneWithDecimals,
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Mathe'),
+            name: 'Mathe',
+            grades: [
+              gradeWith(
+                value: 1,
+                gradingSystem: GradingSystem.sixToOneWithDecimals,
+              ),
+              gradeWith(
+                value: 6,
+                gradingSystem: GradingSystem.sixToOneWithDecimals,
+              ),
+              gradeWith(
+                value: 2.5,
+                gradingSystem: GradingSystem.sixToOneWithDecimals,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      controller.createTerm(term);
+
+      const expected = (1 + 6 + 2.5) / 3;
+      expect(expected, 3.1666666666666665);
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .asDouble,
+          expected);
+    });
     test('Basic grades test for 1 - 6 points with decimals.', () {
       final controller = GradesTestController();
 

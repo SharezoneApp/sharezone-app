@@ -67,6 +67,7 @@ extension GradeSystemToName on GradingSystem {
   String get displayName {
     return switch (this) {
       GradingSystem.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
+      GradingSystem.sixToOneWithDecimals => '6 - 1 (mit Kommazahlen)',
       GradingSystem.oneToFiveWithDecimals => '1 - 5 (mit Kommazahlen)',
       GradingSystem.zeroToFivteenPoints => '0 - 15 Punkte',
       GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',

@@ -23,6 +23,8 @@ extension _ToGradingSystem on GradingSystem {
         return _GradingSystem.austrianBehaviouralGrades;
       case GradingSystem.oneToFiveWithDecimals:
         return _GradingSystem.oneToFiveWithDecimals;
+      case GradingSystem.sixToOneWithDecimals:
+        return _GradingSystem.sixToOneWithDecimals;
     }
   }
 }
@@ -46,6 +48,8 @@ class _GradingSystem {
       _GradingSystem(spec: austrianBehaviouralGradesSpec);
   static final oneToFiveWithDecimals =
       _GradingSystem(spec: oneToFiveWithDecimalsSpec);
+  static final sixToOneWithDecimals =
+      _GradingSystem(spec: sixToOneWithDecimalsSpec);
 
   final GradingSystemSpec spec;
 
@@ -180,6 +184,15 @@ const oneToSixWithDecimalsSpec = GradingSystemSpec(
     // or 0.66 (both equal 1+). So we just use 0.66 here so that
     // every system can be covered.
     min: 0.66,
+    max: 6,
+    decimalsAllowed: true,
+  ),
+);
+
+const sixToOneWithDecimalsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.sixToOneWithDecimals,
+  possibleGrades: NonDiscretePossibleGradesResult(
+    min: 1,
     max: 6,
     decimalsAllowed: true,
   ),
