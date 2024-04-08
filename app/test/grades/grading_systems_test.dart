@@ -192,6 +192,7 @@ void main() {
 
       controller.createTerm(term);
 
+      // Don't really think a number makes sense here
       const expected = (1 + 2 + 3 + 4) / 4;
       expect(expected, 2.5);
       expect(
