@@ -321,6 +321,7 @@ enum GradingSystem {
   oneToSixWithDecimals,
   zeroToHundredPercentWithDecimals,
   austrianBehaviouralGrades,
+  oneToFiveWithDecimals,
 }
 
 sealed class PossibleGradesResult {
@@ -477,7 +478,10 @@ class GradeValue extends Equatable {
   @override
   List<Object?> get props => [asNum, displayableGrade, suffix];
 
-  const GradeValue({required this.asNum, required this.displayableGrade, required this.suffix});
+  const GradeValue(
+      {required this.asNum,
+      required this.displayableGrade,
+      required this.suffix});
 }
 
 class Grade {

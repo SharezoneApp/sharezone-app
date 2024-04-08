@@ -119,6 +119,46 @@ void main() {
           // 4,6666...7
           (4 + 8 + 2) / 3);
     });
+    test('Basic test for 1-5 with decimals', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        gradingSystem: GradingSystem.oneToFiveWithDecimals,
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Mathe'),
+            name: 'Mathe',
+            grades: [
+              gradeWith(
+                value: 1,
+                gradingSystem: GradingSystem.oneToFiveWithDecimals,
+              ),
+              gradeWith(
+                value: 2.75,
+                gradingSystem: GradingSystem.oneToFiveWithDecimals,
+              ),
+              gradeWith(
+                value: 5,
+                gradingSystem: GradingSystem.oneToFiveWithDecimals,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      controller.createTerm(term);
+
+      const expected = (1 + 2.75 + 5) / 3;
+      expect(expected, 2.9166666666666665);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Mathe'))
+              .calculatedGrade!
+              .asDouble,
+          expected);
+    });
     test('Basic test for Austrian behavioural grades', () {
       final controller = GradesTestController();
 
