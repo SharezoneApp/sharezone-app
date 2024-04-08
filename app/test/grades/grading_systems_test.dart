@@ -300,6 +300,7 @@ void main() {
               .asDouble,
           2.25);
     });
+    // TODO: PossibleGradesResult for all other grading systems
     test(
         '1 - 6 with decimals grading system returns correct possible grades',
         () {
