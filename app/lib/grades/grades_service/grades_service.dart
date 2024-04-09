@@ -22,7 +22,7 @@ export '../models/subject_id.dart';
 export '../models/term_id.dart';
 
 part 'src/term.dart';
-part 'src/grading_system.dart';
+part 'src/grading_systems.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
