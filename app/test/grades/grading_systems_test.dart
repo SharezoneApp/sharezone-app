@@ -461,9 +461,9 @@ void main() {
         final aBitTooLow =
             possibleGrades.min - (possibleGrades.decimalsAllowed ? 0.01 : 1);
         final wayTooHigh = possibleGrades.max +
-            (possibleGrades.decimalsAllowed ? 22 : 34.2341);
+            (possibleGrades.decimalsAllowed ? 345 : 345.2341);
         final wayTooLow = possibleGrades.min -
-            (possibleGrades.decimalsAllowed ? 22 : 34.2341);
+            (possibleGrades.decimalsAllowed ? 22 : 22.2341);
         const negativeInt = -1;
         const negativeDouble = -1.0;
 
