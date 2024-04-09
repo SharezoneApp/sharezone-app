@@ -234,7 +234,7 @@ jobs:
       - name: Run code generation via "sz build_runner build"
         run: |
           sz build_runner build \
-            -c 4 \
+            -c 1 \
             --package-timeout-minutes 15
 
       - name: Fail if generated files have changed
