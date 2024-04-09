@@ -320,7 +320,7 @@ class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
   ///
   /// For example [GradingSystem.oneToSixWithPlusAndMinus] might have the values:
   /// `{'1+':0.75,'1-':1.25, /**...*/ '5-':5.25}`.
-  final IMap<String, num>? specialGrades;
+  final IMap<String, num> specialGrades;
 
   const ContinuousNumericalPossibleGradesResult({
     required this.min,
