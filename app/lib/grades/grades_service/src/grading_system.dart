@@ -55,7 +55,8 @@ class _GradingSystem {
 
   _GradingSystem({required this.spec});
 
-  num toNumOrThrow(String grade) {
+  num _toNumOrThrow(String grade) {
+    // 2,3 -> 2.3 (format expected by num.tryParse())
     grade = grade.replaceAll(',', '.');
 
     final asNum = num.tryParse(grade);
@@ -80,6 +81,41 @@ class _GradingSystem {
       suffix: spec == zeroToHundredPercentWithDecimalsSpec ? '%' : null,
     );
   }
+
+  num toNumOrThrow(Object grade) {
+    if (grade is num) return grade;
+    if (grade is String) {
+      final possGrades = possibleGrades;
+      if (possGrades is NonNumericalPossibleGradesResult &&
+          !possGrades.grades.contains(grade)) {
+        throw InvalidGradeValueException(
+          gradeInput: grade,
+          gradingSystem: toGradingSystems(),
+        );
+      }
+      try {
+        final db = _toNumOrThrow(grade);
+        if (possGrades is ContinuousNumericalPossibleGradesResult) {
+          if (db < possGrades.min || db > possGrades.max) {
+            throw InvalidGradeValueException(
+              gradeInput: grade.toString(),
+              gradingSystem: toGradingSystems(),
+            );
+          }
+        }
+        return db;
+      } on InvalidGradeValueException {
+        rethrow;
+      } catch (e) {
+        throw InvalidGradeValueException(
+          gradeInput: grade,
+          gradingSystem: toGradingSystems(),
+        );
+      }
+    }
+    throw ArgumentError(
+        "Couldn't convert grade ($grade) to num: grade must be a num or string, but was ${grade.runtimeType}.");
+  }
 }
 
 class GradingSystemSpec {
@@ -96,7 +132,7 @@ class GradingSystemSpec {
   });
 
   /// Creates a [GradingSystemSpec] for a non-numerical grading system.
-  /// 
+  ///
   /// The [specialGrades] map still contains numbers so that calculations
   /// can be done with them and that one might check how close a averaged
   /// grade is to one of the special grades.

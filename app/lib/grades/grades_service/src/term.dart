@@ -146,7 +146,7 @@ class _Term {
     );
 
     final gradingSystem = grade.gradingSystem.toGradingSystem();
-    final gradeVal = _toNumOrThrow(grade.value, gradingSystem);
+    final gradeVal = gradingSystem.toNumOrThrow(grade.value);
 
     subject = subject._addGrade(_Grade(
       term: this,
@@ -166,40 +166,7 @@ class _Term {
         : _copyWith(subjects: _subjects.add(subject));
   }
 
-  num _toNumOrThrow(Object grade, _GradingSystem gradingSystem) {
-    if (grade is num) return grade;
-    if (grade is String) {
-      final possibleGrades = gradingSystem.possibleGrades;
-      if (possibleGrades is NonNumericalPossibleGradesResult &&
-          !possibleGrades.grades.contains(grade)) {
-        throw InvalidGradeValueException(
-          gradeInput: grade,
-          gradingSystem: gradingSystem.toGradingSystems(),
-        );
-      }
-      try {
-        final db = gradingSystem.toNumOrThrow(grade);
-        if (possibleGrades is ContinuousNumericalPossibleGradesResult) {
-          if (db < possibleGrades.min || db > possibleGrades.max) {
-            throw InvalidGradeValueException(
-              gradeInput: grade.toString(),
-              gradingSystem: gradingSystem.toGradingSystems(),
-            );
-          }
-        }
-        return db;
-      } on InvalidGradeValueException {
-        rethrow;
-      } catch (e) {
-        throw InvalidGradeValueException(
-          gradeInput: grade,
-          gradingSystem: gradingSystem.toGradingSystems(),
-        );
-      }
-    }
-    throw Exception(
-        'Grade must be a double, int or string, but was ${grade.runtimeType}: $grade');
-  }
+
 
   _Term changeWeighting(SubjectId id, num newWeight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
