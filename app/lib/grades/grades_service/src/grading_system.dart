@@ -98,6 +98,25 @@ class GradingSystemSpec {
     this.specialDisplayableGradeToNumOrNull,
     this.getSpecialDisplayableGradeIfAvailable,
   });
+
+  factory GradingSystemSpec.fromSpecialGradesMap(
+    GradingSystem gradingSystem,
+    IMapConst<String, num> specialGrades,
+  ) {
+    return GradingSystemSpec(
+      gradingSystem: gradingSystem,
+      possibleGrades:
+          DiscretePossibleGradesResult(specialGrades.keys.toIList()),
+      specialDisplayableGradeToNumOrNull: (grade) {
+        return specialGrades[grade];
+      },
+      getSpecialDisplayableGradeIfAvailable: (grade) {
+        return specialGrades.entries
+            .firstWhereOrNull((entry) => entry.value == grade)
+            ?.key;
+      },
+    );
+  }
 }
 
 final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
@@ -199,7 +218,7 @@ const zeroToHundredPercentWithDecimalsSpec = GradingSystemSpec(
   ),
 );
 
-final austrianBehaviouralGradesSpec = _fromSpecialGradesMap(
+final austrianBehaviouralGradesSpec = GradingSystemSpec.fromSpecialGradesMap(
   GradingSystem.austrianBehaviouralGrades,
   const IMapConst({
     'Sehr zufriedenstellend': 1,
@@ -208,21 +227,3 @@ final austrianBehaviouralGradesSpec = _fromSpecialGradesMap(
     'Nicht zufriedenstellend': 3,
   }),
 );
-
-GradingSystemSpec _fromSpecialGradesMap(
-  GradingSystem gradingSystem,
-  IMapConst<String, num> specialGrades,
-) {
-  return GradingSystemSpec(
-    gradingSystem: gradingSystem,
-    possibleGrades: DiscretePossibleGradesResult(specialGrades.keys.toIList()),
-    specialDisplayableGradeToNumOrNull: (grade) {
-      return specialGrades[grade];
-    },
-    getSpecialDisplayableGradeIfAvailable: (grade) {
-      return specialGrades.entries
-          .firstWhereOrNull((entry) => entry.value == grade)
-          ?.key;
-    },
-  );
-}
