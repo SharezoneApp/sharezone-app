@@ -293,15 +293,12 @@ enum GradingSystem {
 }
 
 sealed class PossibleGradesResult {
-  bool get isDiscrete;
 
   const PossibleGradesResult();
 }
 
 class DiscretePossibleGradesResult extends PossibleGradesResult {
   final IList<String> grades;
-  @override
-  bool get isDiscrete => true;
 
   const DiscretePossibleGradesResult(this.grades);
 }
@@ -310,10 +307,11 @@ class NonDiscretePossibleGradesResult extends PossibleGradesResult {
   final num min;
   final num max;
   final bool decimalsAllowed;
+  /// Special non-numerical grade strings that have an assigned numerical value.
+  /// 
+  /// For example [GradingSystem.oneToSixWithPlusAndMinus] might have the values:
+  /// `{'1+':0.75,'1-':1.25, /**...*/ '5-':5.25}`.
   final IMap<String, num>? specialGrades;
-
-  @override
-  bool get isDiscrete => false;
 
   const NonDiscretePossibleGradesResult({
     required this.min,
