@@ -57,8 +57,8 @@ class _GradingSystem {
 
   num toNumOrThrow(String grade) {
     grade = grade.replaceAll(',', '.');
-    
-    final asNum=  num.tryParse(grade);
+
+    final asNum = num.tryParse(grade);
     if (asNum != null) {
       return asNum;
     }
@@ -212,30 +212,30 @@ const zeroToHundredPercentWithDecimalsSpec = GradingSystemSpec(
   ),
 );
 
-final austrianBehaviouralGradesSpec = GradingSystemSpec(
-  gradingSystem: GradingSystem.austrianBehaviouralGrades,
-  possibleGrades: const DiscretePossibleGradesResult(IListConst([
-    'Sehr zufriedenstellend',
-    'Zufriedenstellend',
-    'Wenig zufriedenstellend',
-    'Nicht zufriedenstellend',
-  ])),
-  specialDisplayableGradeToNumOrNull: (grade) {
-    return switch (grade) {
-      'Sehr zufriedenstellend' => 1,
-      'Zufriedenstellend' => 2,
-      'Wenig zufriedenstellend' => 4,
-      'Nicht zufriedenstellend' => 3,
-      _ => null,
-    };
-  },
-  getSpecialDisplayableGradeIfAvailable: (grade) {
-    return switch (grade) {
-      1 => 'Sehr zufriedenstellend',
-      2 => 'Zufriedenstellend',
-      4 => 'Wenig zufriedenstellend',
-      3 => 'Nicht zufriedenstellend',
-      _ => null,
-    };
-  },
+final austrianBehaviouralGradesSpec = _fromSpecialGradesMap(
+  GradingSystem.austrianBehaviouralGrades,
+  const IMapConst({
+    'Sehr zufriedenstellend': 1,
+    'Zufriedenstellend': 2,
+    'Wenig zufriedenstellend': 4,
+    'Nicht zufriedenstellend': 3,
+  }),
 );
+
+GradingSystemSpec _fromSpecialGradesMap(
+  GradingSystem gradingSystem,
+  IMapConst<String, num> specialGrades,
+) {
+  return GradingSystemSpec(
+    gradingSystem: gradingSystem,
+    possibleGrades: DiscretePossibleGradesResult(specialGrades.keys.toIList()),
+    specialDisplayableGradeToNumOrNull: (grade) {
+      return specialGrades[grade];
+    },
+    getSpecialDisplayableGradeIfAvailable: (grade) {
+      return specialGrades.entries
+          .firstWhereOrNull((entry) => entry.value == grade)
+          ?.key;
+    },
+  );
+}
