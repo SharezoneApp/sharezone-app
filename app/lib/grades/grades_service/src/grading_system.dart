@@ -76,13 +76,9 @@ class _GradingSystem {
   GradeValue toGradeResult(num grade) {
     return GradeValue(
       asNum: grade,
-      displayableGrade: getSpecialDisplayableGradeIfAvailable(grade),
+      displayableGrade: spec.getSpecialDisplayableGradeOrNull?.call(grade),
       suffix: spec == zeroToHundredPercentWithDecimalsSpec ? '%' : null,
     );
-  }
-
-  String? getSpecialDisplayableGradeIfAvailable(num grade) {
-    return spec.getSpecialDisplayableGradeIfAvailable?.call(grade);
   }
 }
 
@@ -90,13 +86,13 @@ class GradingSystemSpec {
   final GradingSystem gradingSystem;
   final PossibleGradesResult possibleGrades;
   final num? Function(String grade)? specialDisplayableGradeToNumOrNull;
-  final String? Function(num grade)? getSpecialDisplayableGradeIfAvailable;
+  final String? Function(num grade)? getSpecialDisplayableGradeOrNull;
 
   const GradingSystemSpec({
     required this.gradingSystem,
     required this.possibleGrades,
     this.specialDisplayableGradeToNumOrNull,
-    this.getSpecialDisplayableGradeIfAvailable,
+    this.getSpecialDisplayableGradeOrNull,
   });
 
   /// Creates a [GradingSystemSpec] for a non-numerical grading system.
@@ -115,7 +111,7 @@ class GradingSystemSpec {
       specialDisplayableGradeToNumOrNull: (grade) {
         return specialGrades[grade];
       },
-      getSpecialDisplayableGradeIfAvailable: (grade) {
+      getSpecialDisplayableGradeOrNull: (grade) {
         return specialGrades.entries
             .firstWhereOrNull((entry) => entry.value == grade)
             ?.key;
@@ -157,7 +153,7 @@ final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
       _ => null,
     };
   },
-  getSpecialDisplayableGradeIfAvailable: (grade) {
+  getSpecialDisplayableGradeOrNull: (grade) {
     return switch (grade) {
       0.75 => '1+',
       1.25 => '1-',
