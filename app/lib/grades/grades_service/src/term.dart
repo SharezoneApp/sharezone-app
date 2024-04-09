@@ -170,7 +170,7 @@ class _Term {
     if (grade is num) return grade;
     if (grade is String) {
       final possibleGrades = gradingSystem.possibleGrades;
-      if (possibleGrades is DiscretePossibleGradesResult &&
+      if (possibleGrades is NonNumericalPossibleGradesResult &&
           !possibleGrades.grades.contains(grade)) {
         throw InvalidGradeValueException(
           gradeInput: grade,
@@ -179,7 +179,7 @@ class _Term {
       }
       try {
         final db = gradingSystem.toNumOrThrow(grade);
-        if (possibleGrades is NonDiscretePossibleGradesResult) {
+        if (possibleGrades is ContinuousNumericalPossibleGradesResult) {
           if (db < possibleGrades.min || db > possibleGrades.max) {
             throw InvalidGradeValueException(
               gradeInput: grade.toString(),

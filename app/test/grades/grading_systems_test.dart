@@ -77,8 +77,8 @@ void main() {
       final possibleGrades =
           service.getPossibleGrades(GradingSystem.oneToSixWithPlusAndMinus);
 
-      expect(possibleGrades, isA<NonDiscretePossibleGradesResult>());
-      final res = (possibleGrades as NonDiscretePossibleGradesResult);
+      expect(possibleGrades, isA<ContinuousNumericalPossibleGradesResult>());
+      final res = (possibleGrades as ContinuousNumericalPossibleGradesResult);
       // TODO: Maybe fix: We use 0.75 here but 0.66 on 1 to 6 with decimals.
       expect(res.min, 0.75);
       expect(res.max, 6);
@@ -246,7 +246,7 @@ void main() {
         () {
       final service = GradesService();
       var possibleGrades = service
-          .getPossibleGrades(GradingSystem.austrianBehaviouralGrades) as DiscretePossibleGradesResult;
+          .getPossibleGrades(GradingSystem.austrianBehaviouralGrades) as NonNumericalPossibleGradesResult;
 
       expect(possibleGrades.grades, ['Sehr zufriedenstellend', 'Zufriedenstellend', 'Wenig zufriedenstellend', 'Nicht zufriedenstellend']);
     });
@@ -341,8 +341,8 @@ void main() {
       var possibleGrades =
           service.getPossibleGrades(GradingSystem.oneToSixWithDecimals);
 
-      expect(possibleGrades, isA<NonDiscretePossibleGradesResult>());
-      possibleGrades = possibleGrades as NonDiscretePossibleGradesResult;
+      expect(possibleGrades, isA<ContinuousNumericalPossibleGradesResult>());
+      possibleGrades = possibleGrades as ContinuousNumericalPossibleGradesResult;
       // 1+ can in some places be 0.66, so we use that here
       expect(possibleGrades.min, 0.66);
       expect(possibleGrades.max, 6);
@@ -440,8 +440,8 @@ void main() {
       var possibleGrades = service
           .getPossibleGrades(GradingSystem.zeroToHundredPercentWithDecimals);
 
-      expect(possibleGrades, isA<NonDiscretePossibleGradesResult>());
-      possibleGrades = possibleGrades as NonDiscretePossibleGradesResult;
+      expect(possibleGrades, isA<ContinuousNumericalPossibleGradesResult>());
+      possibleGrades = possibleGrades as ContinuousNumericalPossibleGradesResult;
       // 1+ is 0.75 so its not actually 1-6
       expect(possibleGrades.min, 0);
       expect(possibleGrades.max, 100);
@@ -816,7 +816,6 @@ void main() {
       },
     );
 
-    /// Don't know if this is necessary, make it non-discrete?
     testGradingSystem(
       gradingSystem: GradingSystem.zeroToFivteenPoints,
       expectedNumValues: {

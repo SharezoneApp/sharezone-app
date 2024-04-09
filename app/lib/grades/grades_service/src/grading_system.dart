@@ -99,14 +99,19 @@ class GradingSystemSpec {
     this.getSpecialDisplayableGradeIfAvailable,
   });
 
-  factory GradingSystemSpec.fromSpecialGradesMap(
+  /// Creates a [GradingSystemSpec] for a non-numerical grading system.
+  /// 
+  /// The [specialGrades] map still contains numbers so that calculations
+  /// can be done with them and that one might check how close a averaged
+  /// grade is to one of the special grades.
+  factory GradingSystemSpec.nonNumerical(
     GradingSystem gradingSystem,
     IMapConst<String, num> specialGrades,
   ) {
     return GradingSystemSpec(
       gradingSystem: gradingSystem,
       possibleGrades:
-          DiscretePossibleGradesResult(specialGrades.keys.toIList()),
+          NonNumericalPossibleGradesResult(specialGrades.keys.toIList()),
       specialDisplayableGradeToNumOrNull: (grade) {
         return specialGrades[grade];
       },
@@ -121,7 +126,7 @@ class GradingSystemSpec {
 
 final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-  possibleGrades: const NonDiscretePossibleGradesResult(
+  possibleGrades: const ContinuousNumericalPossibleGradesResult(
       min: 0.75,
       max: 6,
       decimalsAllowed: true,
@@ -171,7 +176,7 @@ final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
 
 const oneToFiveWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToFiveWithDecimals,
-  possibleGrades: NonDiscretePossibleGradesResult(
+  possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0.75,
     max: 5,
     decimalsAllowed: true,
@@ -180,7 +185,7 @@ const oneToFiveWithDecimalsSpec = GradingSystemSpec(
 
 const zeroToFivteenPointsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.zeroToFivteenPoints,
-  possibleGrades: NonDiscretePossibleGradesResult(
+  possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,
     max: 15,
     decimalsAllowed: false,
@@ -189,7 +194,7 @@ const zeroToFivteenPointsSpec = GradingSystemSpec(
 
 const oneToSixWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToSixWithDecimals,
-  possibleGrades: NonDiscretePossibleGradesResult(
+  possibleGrades: ContinuousNumericalPossibleGradesResult(
     // 0.66 is the lowest grade possible and equals "1+".
     // Depending on where one lives the lowest grade might be 0.75
     // or 0.66 (both equal 1+). So we just use 0.66 here so that
@@ -202,7 +207,7 @@ const oneToSixWithDecimalsSpec = GradingSystemSpec(
 
 const sixToOneWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.sixToOneWithDecimals,
-  possibleGrades: NonDiscretePossibleGradesResult(
+  possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 1,
     max: 6,
     decimalsAllowed: true,
@@ -211,14 +216,14 @@ const sixToOneWithDecimalsSpec = GradingSystemSpec(
 
 const zeroToHundredPercentWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-  possibleGrades: NonDiscretePossibleGradesResult(
+  possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,
     max: 100,
     decimalsAllowed: true,
   ),
 );
 
-final austrianBehaviouralGradesSpec = GradingSystemSpec.fromSpecialGradesMap(
+final austrianBehaviouralGradesSpec = GradingSystemSpec.nonNumerical(
   GradingSystem.austrianBehaviouralGrades,
   const IMapConst({
     'Sehr zufriedenstellend': 1,

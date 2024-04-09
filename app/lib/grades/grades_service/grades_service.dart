@@ -297,13 +297,13 @@ sealed class PossibleGradesResult {
   const PossibleGradesResult();
 }
 
-class DiscretePossibleGradesResult extends PossibleGradesResult {
+class NonNumericalPossibleGradesResult extends PossibleGradesResult {
   final IList<String> grades;
 
-  const DiscretePossibleGradesResult(this.grades);
+  const NonNumericalPossibleGradesResult(this.grades);
 }
 
-class NonDiscretePossibleGradesResult extends PossibleGradesResult {
+class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
   final num min;
   final num max;
   final bool decimalsAllowed;
@@ -313,7 +313,7 @@ class NonDiscretePossibleGradesResult extends PossibleGradesResult {
   /// `{'1+':0.75,'1-':1.25, /**...*/ '5-':5.25}`.
   final IMap<String, num>? specialGrades;
 
-  const NonDiscretePossibleGradesResult({
+  const ContinuousNumericalPossibleGradesResult({
     required this.min,
     required this.max,
     required this.decimalsAllowed,
