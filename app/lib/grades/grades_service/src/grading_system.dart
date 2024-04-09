@@ -159,6 +159,9 @@ class GradingSystemSpec {
 final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
   possibleGrades: const ContinuousNumericalPossibleGradesResult(
+      // Instead of 0.66 like in other grade specs, we use 0.75
+      // here since its cleaner and we don't think that anybody knows
+      // exactly if 0.66 or 0.75 is the lowest grade possible.
       min: 0.75,
       max: 6,
       decimalsAllowed: true,
@@ -209,7 +212,12 @@ final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
 const oneToFiveWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToFiveWithDecimals,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
-    min: 0.75,
+    // We use 0.66 as the lowest grade possible since in Germany
+    // some states use 0.66 as the lowest grade possible (1+).
+    // This system is mainly used in Austria, but I couldn't find
+    // a source that defined the lowest decimal grade. So we just
+    // use 0.66 for now.
+    min: 0.66,
     max: 5,
     decimalsAllowed: true,
   ),

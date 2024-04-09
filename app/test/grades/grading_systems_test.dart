@@ -72,7 +72,6 @@ void main() {
 
       expect(possibleGrades, isA<ContinuousNumericalPossibleGradesResult>());
       final res = (possibleGrades as ContinuousNumericalPossibleGradesResult);
-      // TODO: Maybe fix: We use 0.75 here but 0.66 on 1 to 6 with decimals.
       expect(res.min, 0.75);
       expect(res.max, 6);
       expect(res.decimalsAllowed, true);
@@ -189,7 +188,7 @@ void main() {
 
       expect(possibleGrades, isA<ContinuousNumericalPossibleGradesResult>());
       final res = (possibleGrades as ContinuousNumericalPossibleGradesResult);
-      expect(res.min, 0.75);
+      expect(res.min, 0.66);
       expect(res.max, 5);
       expect(res.decimalsAllowed, true);
       expect(res.specialGrades, isEmpty);
