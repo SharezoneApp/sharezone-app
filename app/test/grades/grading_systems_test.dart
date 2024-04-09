@@ -528,7 +528,6 @@ void main() {
       // 1+ is 0.75 so its not actually 1-6
       expect(possibleGrades.min, 0);
       expect(possibleGrades.max, 100);
-      // TODO Two systems, with and without decimals?
       expect(possibleGrades.decimalsAllowed, true);
       expect(possibleGrades.specialGrades, isEmpty);
     });
