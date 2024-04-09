@@ -154,18 +154,36 @@ class GradingSystemSpec {
       },
     );
   }
+
+  factory GradingSystemSpec.continuousFromPossibleGradesResult({
+    required GradingSystem gradingSystem,
+    required ContinuousNumericalPossibleGradesResult possibleGrades,
+  }) {
+    return GradingSystemSpec(
+      gradingSystem: gradingSystem,
+      possibleGrades: possibleGrades,
+      getSpecialDisplayableGradeOrNull: (grade) => possibleGrades
+          .specialGrades?.entries
+          .firstWhereOrNull((entry) => entry.value == grade)
+          ?.key,
+      specialDisplayableGradeToNumOrNull: (grade) =>
+          possibleGrades.specialGrades?[grade],
+    );
+  }
 }
 
-final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
+final oneToSixWithPlusAndMinusSpec =
+    GradingSystemSpec.continuousFromPossibleGradesResult(
   gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
   possibleGrades: const ContinuousNumericalPossibleGradesResult(
-      // Instead of 0.66 like in other grade specs, we use 0.75
-      // here since its cleaner and we don't think that anybody knows
-      // exactly if 0.66 or 0.75 is the lowest grade possible.
-      min: 0.75,
-      max: 6,
-      decimalsAllowed: true,
-      specialGrades: IMapConst({
+    // Instead of 0.66 like in other grade specs, we use 0.75
+    // here since its cleaner and we don't think that anybody knows
+    // exactly if 0.66 or 0.75 is the lowest grade possible.
+    min: 0.75,
+    max: 6,
+    decimalsAllowed: true,
+    specialGrades: IMapConst(
+      {
         '1+': 0.75,
         '1-': 1.25,
         '2+': 1.75,
@@ -176,37 +194,9 @@ final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
         '4-': 4.25,
         '5+': 4.75,
         '5-': 5.25,
-      })),
-  specialDisplayableGradeToNumOrNull: (grade) {
-    return switch (grade) {
-      '1+' => 0.75,
-      '1-' => 1.25,
-      '2+' => 1.75,
-      '2-' => 2.25,
-      '3+' => 2.75,
-      '3-' => 3.25,
-      '4+' => 3.75,
-      '4-' => 4.25,
-      '5+' => 4.75,
-      '5-' => 5.25,
-      _ => null,
-    };
-  },
-  getSpecialDisplayableGradeOrNull: (grade) {
-    return switch (grade) {
-      0.75 => '1+',
-      1.25 => '1-',
-      1.75 => '2+',
-      2.25 => '2-',
-      2.75 => '3+',
-      3.25 => '3-',
-      3.75 => '4+',
-      4.25 => '4-',
-      4.75 => '5+',
-      5.25 => '5-',
-      _ => null,
-    };
-  },
+      },
+    ),
+  ),
 );
 
 const oneToFiveWithDecimalsSpec = GradingSystemSpec(
