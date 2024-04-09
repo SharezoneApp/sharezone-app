@@ -161,24 +161,11 @@ const oneToFiveWithDecimalsSpec = GradingSystemSpec(
 
 const zeroToFivteenPointsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.zeroToFivteenPoints,
-  possibleGrades: DiscretePossibleGradesResult(IListConst([
-    '0',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-  ])),
+  possibleGrades: NonDiscretePossibleGradesResult(
+    min: 0,
+    max: 15,
+    decimalsAllowed: false,
+  ),
 );
 
 const oneToSixWithDecimalsSpec = GradingSystemSpec(
