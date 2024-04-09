@@ -260,7 +260,7 @@ final austrianBehaviouralGradesSpec = GradingSystemSpec.nonNumerical(
   const IMapConst({
     'Sehr zufriedenstellend': 1,
     'Zufriedenstellend': 2,
-    'Wenig zufriedenstellend': 4,
-    'Nicht zufriedenstellend': 3,
+    'Wenig zufriedenstellend': 3,
+    'Nicht zufriedenstellend': 4,
   }),
 );
