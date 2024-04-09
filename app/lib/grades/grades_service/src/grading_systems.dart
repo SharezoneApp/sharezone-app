@@ -163,11 +163,11 @@ class GradingSystemSpec {
       gradingSystem: gradingSystem,
       possibleGrades: possibleGrades,
       getSpecialDisplayableGradeOrNull: (grade) => possibleGrades
-          .specialGrades?.entries
+          .specialGrades.entries
           .firstWhereOrNull((entry) => entry.value == grade)
           ?.key,
       specialDisplayableGradeToNumOrNull: (grade) =>
-          possibleGrades.specialGrades?[grade],
+          possibleGrades.specialGrades[grade],
     );
   }
 }
