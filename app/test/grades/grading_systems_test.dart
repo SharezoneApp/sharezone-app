@@ -428,8 +428,6 @@ void main() {
               [2, 4, 4]);
         }
       });
-
-      // TODO: Negative numbers?
       test(
           '$gradingSystem numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
           () {
@@ -466,8 +464,10 @@ void main() {
             (possibleGrades.decimalsAllowed ? 22 : 34.2341);
         final wayTooLow = possibleGrades.min -
             (possibleGrades.decimalsAllowed ? 22 : 34.2341);
+        const negativeInt = -1;
+        const negativeDouble = -1.0;
 
-        for (var number in [aBitTooLow, wayTooLow, wayTooHigh, aBitTooHigh]) {
+        for (var number in [aBitTooLow, wayTooLow, wayTooHigh, aBitTooHigh, negativeInt, negativeDouble]) {
           expect(
               () => addGrade(number.toString()),
               throwsA(InvalidGradeValueException(
