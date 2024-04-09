@@ -241,6 +241,15 @@ void main() {
             'Nicht zufriedenstellend'
           ]);
     });
+    test(
+        'Austrian behavioural grades returns correct possible grades',
+        () {
+      final service = GradesService();
+      var possibleGrades = service
+          .getPossibleGrades(GradingSystem.austrianBehaviouralGrades) as DiscretePossibleGradesResult;
+
+      expect(possibleGrades.grades, ['Sehr zufriedenstellend', 'Zufriedenstellend', 'Wenig zufriedenstellend', 'Nicht zufriedenstellend']);
+    });
     test('Basic grades test for 6 - 1 with decimals.', () {
       final controller = GradesTestController();
 
@@ -642,8 +651,6 @@ void main() {
       }
     });
 
-
-
     void testThatGradeAsStringIsConvertedToCorrectGradeAsNum(
         GradingSystem gradingSystem, Map<String, num> expected) {
       final controller = GradesTestController();
@@ -753,8 +760,6 @@ void main() {
       Map<num, String> expectedSpecialDisplayableGrades = const {},
     }) {
       group('$gradingSystem', () {
-
-
         test('returns correct num grade values for grade strings', () {
           testThatGradeAsStringIsConvertedToCorrectGradeAsNum(
               gradingSystem, expectedNumValues);
