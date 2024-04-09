@@ -302,7 +302,6 @@ void main() {
               .asDouble,
           expected);
     });
-    // TODO: We never store if min or max is the best grade. Do we need to?
     test('6 - 1 with decimals grading system returns correct possible grades',
         () {
       final service = GradesService();

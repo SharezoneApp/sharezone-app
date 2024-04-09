@@ -94,7 +94,7 @@ class GradesPageController extends ChangeNotifier {
   }
 }
 
-// TODO: Test
+// This is not covered by tests yet.
 String displayGrade(GradeValue? grade) {
   if (grade == null) return '—';
 
