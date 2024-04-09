@@ -283,17 +283,25 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
 }
 
 enum GradingSystem {
-  oneToSixWithPlusAndMinus,
-  zeroToFivteenPoints,
-  oneToSixWithDecimals,
-  zeroToHundredPercentWithDecimals,
-  austrianBehaviouralGrades,
-  oneToFiveWithDecimals,
-  sixToOneWithDecimals,
+  oneToSixWithPlusAndMinus(isNumericalAndContinous: true),
+  zeroToFivteenPoints(isNumericalAndContinous: true),
+  oneToSixWithDecimals(isNumericalAndContinous: true),
+  zeroToHundredPercentWithDecimals(isNumericalAndContinous: true),
+  oneToFiveWithDecimals(isNumericalAndContinous: true),
+  sixToOneWithDecimals(isNumericalAndContinous: true),
+  austrianBehaviouralGrades(isNumericalAndContinous: false);
+
+  final bool isNumericalAndContinous;
+
+  const GradingSystem({required this.isNumericalAndContinous});
+}
+
+extension NumericalAndContinuous on List<GradingSystem> {
+  IList<GradingSystem> get numericalAndContinuous =>
+      where((gs) => gs.isNumericalAndContinous).toIList();
 }
 
 sealed class PossibleGradesResult {
-
   const PossibleGradesResult();
 }
 
@@ -307,8 +315,9 @@ class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
   final num min;
   final num max;
   final bool decimalsAllowed;
+
   /// Special non-numerical grade strings that have an assigned numerical value.
-  /// 
+  ///
   /// For example [GradingSystem.oneToSixWithPlusAndMinus] might have the values:
   /// `{'1+':0.75,'1-':1.25, /**...*/ '5-':5.25}`.
   final IMap<String, num>? specialGrades;

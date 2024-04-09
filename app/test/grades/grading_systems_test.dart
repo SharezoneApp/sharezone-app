@@ -409,54 +409,53 @@ void main() {
               .map((e) => e.value.asNum),
           [2.75, 2.75]);
     });
-    // TODO: Test this for every numerical grading system?
-    test(
-        '1 - 6 grading system numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
-        () {
-      final controller = GradesTestController();
+    for (var gradingSystem in GradingSystem.values.numericalAndContinuous) {
+      test(
+          '$gradingSystem numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
+          () {
+        final controller = GradesTestController();
+        controller.createTerm(termWith(
+            id: const TermId('1'),
+            gradingSystem: gradingSystem,
+            subjects: [
+              subjectWith(id: const SubjectId('math')),
+            ]));
 
-      controller.createTerm(termWith(
-          id: const TermId('1'),
-          gradingSystem: GradingSystem.oneToSixWithDecimals,
-          subjects: [
-            subjectWith(id: const SubjectId('math')),
-          ]));
+        final pg = controller.service.getPossibleGrades(gradingSystem);
+        expect(pg, isA<ContinuousNumericalPossibleGradesResult>());
+        final possibleGrades = pg as ContinuousNumericalPossibleGradesResult;
 
-      void addGrade(String value) {
-        controller.addGrade(
-          termId: const TermId('1'),
-          subjectId: const SubjectId('math'),
-          value: gradeWith(
-            value: value,
-            gradingSystem: GradingSystem.oneToSixWithDecimals,
-          ),
-        );
-      }
+        void addGrade(String value) {
+          controller.addGrade(
+            termId: const TermId('1'),
+            subjectId: const SubjectId('math'),
+            value: gradeWith(
+              value: value,
+              gradingSystem: gradingSystem,
+            ),
+          );
+        }
 
-      expect(
-          () => addGrade('6,1'),
-          throwsA(const InvalidGradeValueException(
-            gradeInput: '6,1',
-            gradingSystem: GradingSystem.oneToSixWithDecimals,
-          )));
-      expect(
-          () => addGrade('0,65'),
-          throwsA(const InvalidGradeValueException(
-            gradeInput: '0,65',
-            gradingSystem: GradingSystem.oneToSixWithDecimals,
-          )));
-      expect(() => addGrade('6'), returnsNormally);
-      expect(() => addGrade('0,75'), returnsNormally);
-      expect(() => addGrade('0,66'), returnsNormally);
+        final aBitTooHigh =
+            possibleGrades.max + (possibleGrades.decimalsAllowed ? 0.01 : 1);
+        final aBitTooLow =
+            possibleGrades.min - (possibleGrades.decimalsAllowed ? 0.01 : 1);
+        final wayTooHigh = possibleGrades.max +
+            (possibleGrades.decimalsAllowed ? 22 : 34.2341);
+        final wayTooLow = possibleGrades.min -
+            (possibleGrades.decimalsAllowed ? 22 : 34.2341);
 
-      expect(
-          controller
-              .term(const TermId('1'))
-              .subject(const SubjectId('math'))
-              .grades
-              .map((e) => e.value.asNum),
-          [6, 0.75, 0.66]);
-    });
+        for (var number in [aBitTooLow, wayTooLow, wayTooHigh, aBitTooHigh]) {
+          expect(
+              () => addGrade(number.toString()),
+              throwsA(InvalidGradeValueException(
+                gradeInput: '$number',
+                gradingSystem: gradingSystem,
+              )));
+        }
+      });
+    }
+ 
     test('Basic test for 0-100% with decimals grading system', () {
       final controller = GradesTestController();
 
@@ -559,50 +558,6 @@ void main() {
         const GradeValue(asNum: 15.5, displayableGrade: null, suffix: '%'),
         const GradeValue(asNum: 3, displayableGrade: null, suffix: '%'),
       ]);
-    });
-    test(
-        '0 - 100% with decimals grading system numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
-        () {
-      final controller = GradesTestController();
-
-      controller.createTerm(termWith(
-          id: const TermId('1'),
-          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-          subjects: [
-            subjectWith(id: const SubjectId('math')),
-          ]));
-
-      void addGrade(String value) {
-        controller.addGrade(
-          termId: const TermId('1'),
-          subjectId: const SubjectId('math'),
-          value: gradeWith(
-            value: value,
-            gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-          ),
-        );
-      }
-
-      expect(
-          () => addGrade('100,1'),
-          throwsA(const InvalidGradeValueException(
-              gradeInput: '100,1',
-              gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals)));
-      expect(
-          () => addGrade('-2'),
-          throwsA(const InvalidGradeValueException(
-              gradeInput: '-2',
-              gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals)));
-      expect(() => addGrade('0'), returnsNormally);
-      expect(() => addGrade('100'), returnsNormally);
-
-      expect(
-          controller
-              .term(const TermId('1'))
-              .subject(const SubjectId('math'))
-              .grades
-              .map((e) => e.value.asNum),
-          [0, 100]);
     });
 
     test('The subject will use the Terms grading system by default.', () {
