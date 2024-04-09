@@ -172,34 +172,29 @@ class _Term {
       final possibleGrades = gradingSystem.possibleGrades;
       if (possibleGrades is DiscretePossibleGradesResult &&
           !possibleGrades.grades.contains(grade)) {
-        throw InvalidDiscreteGradeValueException(
-            gradeInput: grade,
-            gradingSystem: gradingSystem.toGradingSystems(),
-            validValues: possibleGrades.grades);
+        throw InvalidGradeValueException(
+          gradeInput: grade,
+          gradingSystem: gradingSystem.toGradingSystems(),
+        );
       }
       try {
         final db = gradingSystem.toNumOrThrow(grade);
         if (possibleGrades is NonDiscretePossibleGradesResult) {
           if (db < possibleGrades.min || db > possibleGrades.max) {
-            throw InvalidNonDiscreteGradeValueException(
+            throw InvalidGradeValueException(
               gradeInput: grade.toString(),
-              gradeAsNum: db,
-              min: possibleGrades.min,
-              max: possibleGrades.max,
-              decimalsAllowed: possibleGrades.decimalsAllowed,
               gradingSystem: gradingSystem.toGradingSystems(),
             );
           }
         }
         return db;
-      } catch (e) {
-        if (possibleGrades is DiscretePossibleGradesResult) {
-          throw InvalidDiscreteGradeValueException(
-              gradeInput: grade,
-              gradingSystem: gradingSystem.toGradingSystems(),
-              validValues: possibleGrades.grades);
-        }
+      } on InvalidGradeValueException {
         rethrow;
+      } catch (e) {
+        throw InvalidGradeValueException(
+          gradeInput: grade,
+          gradingSystem: gradingSystem.toGradingSystems(),
+        );
       }
     }
     throw Exception(

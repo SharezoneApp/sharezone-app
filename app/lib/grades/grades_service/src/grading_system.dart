@@ -57,11 +57,18 @@ class _GradingSystem {
 
   num toNumOrThrow(String grade) {
     grade = grade.replaceAll(',', '.');
-    return num.tryParse(grade) ??
-        spec.specialDisplayableGradeToNumOrNull?.call(grade) ??
-        () {
-          throw ArgumentError('Invalid grade value');
-        }();
+    
+    final asNum=  num.tryParse(grade);
+    if (asNum != null) {
+      return asNum;
+    }
+
+    final asSpecialGrade = spec.specialDisplayableGradeToNumOrNull?.call(grade);
+    if (asSpecialGrade != null) {
+      return asSpecialGrade;
+    }
+
+    throw ArgumentError('Invalid grade value');
   }
 
   PossibleGradesResult get possibleGrades => spec.possibleGrades;
@@ -95,24 +102,22 @@ class GradingSystemSpec {
 
 final oneToSixWithPlusAndMinusSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-  possibleGrades: const DiscretePossibleGradesResult(IListConst([
-    '1+',
-    '1',
-    '1-',
-    '2+',
-    '2',
-    '2-',
-    '3+',
-    '3',
-    '3-',
-    '4+',
-    '4',
-    '4-',
-    '5+',
-    '5',
-    '5-',
-    '6',
-  ])),
+  possibleGrades: const NonDiscretePossibleGradesResult(
+      min: 0.75,
+      max: 6,
+      decimalsAllowed: true,
+      specialGrades: IMapConst({
+        '1+': 0.75,
+        '1-': 1.25,
+        '2+': 1.75,
+        '2-': 2.25,
+        '3+': 2.75,
+        '3-': 3.25,
+        '4+': 3.75,
+        '4-': 4.25,
+        '5+': 4.75,
+        '5-': 5.25,
+      })),
   specialDisplayableGradeToNumOrNull: (grade) {
     return switch (grade) {
       '1+' => 0.75,

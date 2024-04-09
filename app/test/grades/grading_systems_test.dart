@@ -72,7 +72,32 @@ void main() {
           // 2.33333...
           (1.75 + 3.25 + 2) / 3);
     });
+    test('1+ to 6 grading system returns correct possible values', () {
+      final service = GradesService();
+      final possibleGrades =
+          service.getPossibleGrades(GradingSystem.oneToSixWithPlusAndMinus);
 
+      expect(possibleGrades, isA<NonDiscretePossibleGradesResult>());
+      final res = (possibleGrades as NonDiscretePossibleGradesResult);
+      // TODO: Maybe fix: We use 0.75 here but 0.66 on 1 to 6 with decimals.
+      expect(res.min, 0.75);
+      expect(res.max, 6);
+      expect(res.decimalsAllowed, true);
+      expect(
+          res.specialGrades,
+          const IMapConst({
+            '1+': 0.75,
+            '1-': 1.25,
+            '2+': 1.75,
+            '2-': 2.25,
+            '3+': 2.75,
+            '3-': 3.25,
+            '4+': 3.75,
+            '4-': 4.25,
+            '5+': 4.75,
+            '5-': 5.25,
+          }));
+    });
     test('Basic grades test for 0 to 15 points grading system.', () {
       final controller = GradesTestController();
 
@@ -301,8 +326,7 @@ void main() {
           2.25);
     });
     // TODO: PossibleGradesResult for all other grading systems
-    test(
-        '1 - 6 with decimals grading system returns correct possible grades',
+    test('1 - 6 with decimals grading system returns correct possible grades',
         () {
       final service = GradesService();
       var possibleGrades =
@@ -314,7 +338,7 @@ void main() {
       expect(possibleGrades.min, 0.66);
       expect(possibleGrades.max, 6);
       expect(possibleGrades.decimalsAllowed, true);
-      expect(possibleGrades.isDiscrete, false);
+      expect(possibleGrades.specialGrades, isEmpty);
     });
     test('1 - 6 grading system parses input grades correctly.', () {
       final controller = GradesTestController();
@@ -354,7 +378,7 @@ void main() {
           [2.75, 2.75]);
     });
     test(
-        '1 - 6 grading system numbers that are too high/too low with throw an $InvalidNonDiscreteGradeValueException when added.',
+        '1 - 6 grading system numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
         () {
       final controller = GradesTestController();
 
@@ -378,22 +402,14 @@ void main() {
 
       expect(
           () => addGrade('6,1'),
-          throwsA(const InvalidNonDiscreteGradeValueException(
+          throwsA(const InvalidGradeValueException(
             gradeInput: '6,1',
-            gradeAsNum: 6.1,
-            min: 0.66,
-            max: 6,
-            decimalsAllowed: true,
             gradingSystem: GradingSystem.oneToSixWithDecimals,
           )));
       expect(
           () => addGrade('0,65'),
-          throwsA(const InvalidNonDiscreteGradeValueException(
+          throwsA(const InvalidGradeValueException(
             gradeInput: '0,65',
-            gradeAsNum: 0.65,
-            min: 0.66,
-            max: 6,
-            decimalsAllowed: true,
             gradingSystem: GradingSystem.oneToSixWithDecimals,
           )));
       expect(() => addGrade('6'), returnsNormally);
@@ -422,7 +438,7 @@ void main() {
       expect(possibleGrades.max, 100);
       // TODO Two systems, with and without decimals?
       expect(possibleGrades.decimalsAllowed, true);
-      expect(possibleGrades.isDiscrete, false);
+      expect(possibleGrades.specialGrades, isEmpty);
     });
     test('0 - 100% with decimals grading system parses input grades correctly.',
         () {
@@ -474,7 +490,7 @@ void main() {
       ]);
     });
     test(
-        '0 - 100% with decimals grading system numbers that are too high/too low with throw an $InvalidNonDiscreteGradeValueException when added.',
+        '0 - 100% with decimals grading system numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
         () {
       final controller = GradesTestController();
 
@@ -498,21 +514,13 @@ void main() {
 
       expect(
           () => addGrade('100,1'),
-          throwsA(const InvalidNonDiscreteGradeValueException(
+          throwsA(const InvalidGradeValueException(
               gradeInput: '100,1',
-              gradeAsNum: 100.1,
-              min: 0,
-              max: 100,
-              decimalsAllowed: true,
               gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals)));
       expect(
           () => addGrade('-2'),
-          throwsA(const InvalidNonDiscreteGradeValueException(
+          throwsA(const InvalidGradeValueException(
               gradeInput: '-2',
-              gradeAsNum: -2,
-              min: 0,
-              max: 100,
-              decimalsAllowed: true,
               gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals)));
       expect(() => addGrade('0'), returnsNormally);
       expect(() => addGrade('100'), returnsNormally);
@@ -634,15 +642,7 @@ void main() {
       }
     });
 
-    void testThatCorrectPossibleValuesAreGivenAndInCorrectOrder(
-        GradingSystem gradingSystem, Map<String, num> expected) {
-      final res = GradesService().getPossibleGrades(gradingSystem);
 
-      expect(res, isA<DiscretePossibleGradesResult>());
-      final values = (res as DiscretePossibleGradesResult).grades;
-      // Grades should be ordered from best (first) to worst (last)
-      expect(values, orderedEquals(expected.keys));
-    }
 
     void testThatGradeAsStringIsConvertedToCorrectGradeAsNum(
         GradingSystem gradingSystem, Map<String, num> expected) {
@@ -733,34 +733,27 @@ void main() {
 
       expect(
           addGrade,
-          throwsA(InvalidDiscreteGradeValueException(
+          throwsA(InvalidGradeValueException(
             gradeInput: 'F4',
             gradingSystem: gradingSystem,
-            validValues: expected.keys.toIList(),
           )));
 
       expect(
           addGrade2,
-          throwsA(InvalidDiscreteGradeValueException(
+          throwsA(InvalidGradeValueException(
             gradeInput: '99999',
             gradingSystem: gradingSystem,
-            validValues: expected.keys.toIList(),
           )));
     }
 
     @isTestGroup
-    void testGradingSystemThatUsesDiscreteValues({
+    void testGradingSystem({
       required GradingSystem gradingSystem,
       required Map<String, num> expectedNumValues,
       Map<num, String> expectedSpecialDisplayableGrades = const {},
     }) {
       group('$gradingSystem', () {
-        test(
-            'returns correct possible input values sorted by best to worst grade',
-            () {
-          testThatCorrectPossibleValuesAreGivenAndInCorrectOrder(
-              gradingSystem, expectedNumValues);
-        });
+
 
         test('returns correct num grade values for grade strings', () {
           testThatGradeAsStringIsConvertedToCorrectGradeAsNum(
@@ -784,7 +777,7 @@ void main() {
       });
     }
 
-    testGradingSystemThatUsesDiscreteValues(
+    testGradingSystem(
       gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
       expectedNumValues: {
         '1+': 0.75,
@@ -819,7 +812,7 @@ void main() {
     );
 
     /// Don't know if this is necessary, make it non-discrete?
-    testGradingSystemThatUsesDiscreteValues(
+    testGradingSystem(
       gradingSystem: GradingSystem.zeroToFivteenPoints,
       expectedNumValues: {
         '0': 0,

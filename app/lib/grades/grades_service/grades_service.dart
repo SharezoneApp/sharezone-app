@@ -242,50 +242,17 @@ class GradesService {
   }
 }
 
-sealed class InvalidGradeValueException extends Equatable implements Exception {
+class InvalidGradeValueException extends Equatable implements Exception {
   final String gradeInput;
-  final num? gradeAsNum;
   final GradingSystem gradingSystem;
 
-  const InvalidGradeValueException(
-      {required this.gradeInput,
-      required this.gradeAsNum,
-      required this.gradingSystem});
-
-  @override
-  List<Object?> get props => [gradeInput, gradeAsNum, gradingSystem];
-}
-
-class InvalidDiscreteGradeValueException extends InvalidGradeValueException {
-  final IList<String> validValues;
-
-  const InvalidDiscreteGradeValueException({
-    required super.gradeInput,
-    required super.gradingSystem,
-    required this.validValues,
-  }) : super(gradeAsNum: null);
-
-  @override
-  List<Object?> get props => [gradeInput, gradingSystem, validValues];
-}
-
-class InvalidNonDiscreteGradeValueException extends InvalidGradeValueException {
-  final num min;
-  final num max;
-  final bool decimalsAllowed;
-
-  const InvalidNonDiscreteGradeValueException({
-    required super.gradingSystem,
-    required super.gradeInput,
-    required super.gradeAsNum,
-    required this.min,
-    required this.max,
-    required this.decimalsAllowed,
+  const InvalidGradeValueException({
+    required this.gradeInput,
+    required this.gradingSystem,
   });
 
   @override
-  List<Object?> get props =>
-      [gradeInput, gradingSystem, gradeAsNum, min, max, decimalsAllowed];
+  List<Object?> get props => [gradeInput, gradingSystem];
 }
 
 class SubjectNotFoundException extends Equatable implements Exception {
@@ -343,12 +310,17 @@ class NonDiscretePossibleGradesResult extends PossibleGradesResult {
   final num min;
   final num max;
   final bool decimalsAllowed;
+  final IMap<String, num>? specialGrades;
 
   @override
   bool get isDiscrete => false;
 
-  const NonDiscretePossibleGradesResult(
-      {required this.min, required this.max, required this.decimalsAllowed});
+  const NonDiscretePossibleGradesResult({
+    required this.min,
+    required this.max,
+    required this.decimalsAllowed,
+    this.specialGrades = const IMapConst({}),
+  });
 }
 
 /// The predefined types of grades that can be used.
