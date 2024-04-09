@@ -371,49 +371,12 @@ void main() {
       expect(possibleGrades.decimalsAllowed, true);
       expect(possibleGrades.specialGrades, isEmpty);
     });
-    // TODO: Test this for every numerical grading system?
-    test('1 - 6 grading system parses input grades correctly.', () {
-      final controller = GradesTestController();
 
-      controller.createTerm(termWith(
-          id: const TermId('1'),
-          gradingSystem: GradingSystem.oneToSixWithDecimals,
-          subjects: [
-            subjectWith(id: const SubjectId('math')),
-          ]));
-
-      controller.addGrade(
-        termId: const TermId('1'),
-        subjectId: const SubjectId('math'),
-        // Using "." instead of "," is allowed
-        value: gradeWith(
-          value: '2.75',
-          gradingSystem: GradingSystem.oneToSixWithDecimals,
-        ),
-      );
-      controller.addGrade(
-        termId: const TermId('1'),
-        subjectId: const SubjectId('math'),
-        // Using "," instead of "." is allowed
-        value: gradeWith(
-          value: '2,75',
-          gradingSystem: GradingSystem.oneToSixWithDecimals,
-        ),
-      );
-
-      expect(
-          controller
-              .term(const TermId('1'))
-              .subject(const SubjectId('math'))
-              .grades
-              .map((e) => e.value.asNum),
-          [2.75, 2.75]);
-    });
     for (var gradingSystem in GradingSystem.values.numericalAndContinuous) {
-      test(
-          '$gradingSystem numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
-          () {
+      test('$gradingSystem parses basic number input correctly.', () {
         final controller = GradesTestController();
+        final service = controller.service;
+
         controller.createTerm(termWith(
             id: const TermId('1'),
             gradingSystem: gradingSystem,
@@ -421,7 +384,66 @@ void main() {
               subjectWith(id: const SubjectId('math')),
             ]));
 
-        final pg = controller.service.getPossibleGrades(gradingSystem);
+        final pg = service.getPossibleGrades(gradingSystem);
+        expect(pg, isA<ContinuousNumericalPossibleGradesResult>());
+        final possibleGrades = pg as ContinuousNumericalPossibleGradesResult;
+
+        void addGrade(Object value) {
+          controller.addGrade(
+            termId: const TermId('1'),
+            subjectId: const SubjectId('math'),
+            value: gradeWith(
+              value: value,
+              gradingSystem: gradingSystem,
+            ),
+          );
+        }
+
+        if (possibleGrades.decimalsAllowed) {
+          addGrade('2.75');
+          addGrade('2,75');
+          addGrade(2.75);
+          addGrade(3);
+          addGrade(3.0);
+          
+
+          expect(
+              controller
+                  .term(const TermId('1'))
+                  .subject(const SubjectId('math'))
+                  .grades
+                  .map((e) => e.value.asNum),
+             [2.75, 2.75, 2.75, 3, 3]);
+        } else {
+          addGrade('2');
+          addGrade(4);
+          addGrade(4.0);
+
+          expect(
+              controller
+                  .term(const TermId('1'))
+                  .subject(const SubjectId('math'))
+                  .grades
+                  .map((e) => e.value.asNum),
+              [2, 4, 4]);
+        }
+      });
+
+      // TODO: Negative numbers?
+      test(
+          '$gradingSystem numbers that are too high/too low with throw an $InvalidGradeValueException when added.',
+          () {
+        final controller = GradesTestController();
+        final service = controller.service;
+
+        controller.createTerm(termWith(
+            id: const TermId('1'),
+            gradingSystem: gradingSystem,
+            subjects: [
+              subjectWith(id: const SubjectId('math')),
+            ]));
+
+        final pg = service.getPossibleGrades(gradingSystem);
         expect(pg, isA<ContinuousNumericalPossibleGradesResult>());
         final possibleGrades = pg as ContinuousNumericalPossibleGradesResult;
 
@@ -455,7 +477,7 @@ void main() {
         }
       });
     }
- 
+
     test('Basic test for 0-100% with decimals grading system', () {
       final controller = GradesTestController();
 
@@ -510,56 +532,7 @@ void main() {
       expect(possibleGrades.decimalsAllowed, true);
       expect(possibleGrades.specialGrades, isEmpty);
     });
-    test('0 - 100% with decimals grading system parses input grades correctly.',
-        () {
-      final controller = GradesTestController();
-
-      controller.createTerm(termWith(
-          id: const TermId('1'),
-          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-          subjects: [
-            subjectWith(id: const SubjectId('math')),
-          ]));
-
-      controller.addGrade(
-        termId: const TermId('1'),
-        subjectId: const SubjectId('math'),
-        // Using "." instead of "," is allowed
-        value: gradeWith(
-          value: '98.3',
-          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-        ),
-      );
-      controller.addGrade(
-        termId: const TermId('1'),
-        subjectId: const SubjectId('math'),
-        // Using "," instead of "." is allowed
-        value: gradeWith(
-          value: '15,5',
-          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-        ),
-      );
-      controller.addGrade(
-        termId: const TermId('1'),
-        subjectId: const SubjectId('math'),
-        value: gradeWith(
-          value: '3',
-          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
-        ),
-      );
-
-      var grades = controller
-          .term(const TermId('1'))
-          .subject(const SubjectId('math'))
-          .grades;
-
-      expect(grades.map((element) => element.value), [
-        const GradeValue(asNum: 98.3, displayableGrade: null, suffix: '%'),
-        const GradeValue(asNum: 15.5, displayableGrade: null, suffix: '%'),
-        const GradeValue(asNum: 3, displayableGrade: null, suffix: '%'),
-      ]);
-    });
-
+  
     test('The subject will use the Terms grading system by default.', () {
       final controller = GradesTestController();
 
