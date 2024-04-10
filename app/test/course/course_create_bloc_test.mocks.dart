@@ -3,16 +3,16 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i9;
+import 'dart:async' as _i8;
 
-import 'package:common_domain_models/common_domain_models.dart' as _i6;
-import 'package:group_domain_models/group_domain_models.dart' as _i8;
+import 'package:common_domain_models/common_domain_models.dart' as _i11;
+import 'package:group_domain_models/group_domain_models.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i11;
+import 'package:mockito/src/dummies.dart' as _i10;
 import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_gateway.dart'
-    as _i7;
+    as _i6;
 import 'package:sharezone/groups/src/pages/course/create/models/user_input.dart'
-    as _i10;
+    as _i9;
 import 'package:sharezone/util/api/connections_gateway.dart' as _i5;
 import 'package:sharezone/util/api/course_gateway.dart' as _i2;
 import 'package:sharezone/util/api/school_class_gateway.dart' as _i3;
@@ -73,21 +73,11 @@ class _FakeConnectionsGateway_3 extends _i1.SmartFake
         );
 }
 
-class _FakeCourseId_4 extends _i1.SmartFake implements _i6.CourseId {
-  _FakeCourseId_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [CourseCreateGateway].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCourseCreateGateway extends _i1.Mock
-    implements _i7.CourseCreateGateway {
+    implements _i6.CourseCreateGateway {
   @override
   _i2.CourseGateway get courseGateway => (super.noSuchMethod(
         Invocation.getter(#courseGateway),
@@ -137,37 +127,31 @@ class MockCourseCreateGateway extends _i1.Mock
         ),
       ) as _i5.ConnectionsGateway);
   @override
-  List<_i8.Course> get currentCourses => (super.noSuchMethod(
+  List<_i7.Course> get currentCourses => (super.noSuchMethod(
         Invocation.getter(#currentCourses),
-        returnValue: <_i8.Course>[],
-        returnValueForMissingStub: <_i8.Course>[],
-      ) as List<_i8.Course>);
+        returnValue: <_i7.Course>[],
+        returnValueForMissingStub: <_i7.Course>[],
+      ) as List<_i7.Course>);
   @override
-  _i9.Stream<List<_i8.SchoolClass>?> streamSchoolClasses() =>
+  _i8.Stream<List<_i7.SchoolClass>?> streamSchoolClasses() =>
       (super.noSuchMethod(
         Invocation.method(
           #streamSchoolClasses,
           [],
         ),
-        returnValue: _i9.Stream<List<_i8.SchoolClass>?>.empty(),
-        returnValueForMissingStub: _i9.Stream<List<_i8.SchoolClass>?>.empty(),
-      ) as _i9.Stream<List<_i8.SchoolClass>?>);
+        returnValue: _i8.Stream<List<_i7.SchoolClass>?>.empty(),
+        returnValueForMissingStub: _i8.Stream<List<_i7.SchoolClass>?>.empty(),
+      ) as _i8.Stream<List<_i7.SchoolClass>?>);
   @override
-  (_i6.CourseId, String) createCourse(_i10.UserInput? userInput) =>
+  (dynamic, String) createCourse(_i9.UserInput? userInput) =>
       (super.noSuchMethod(
         Invocation.method(
           #createCourse,
           [userInput],
         ),
         returnValue: (
-          _FakeCourseId_4(
-            this,
-            Invocation.method(
-              #createCourse,
-              [userInput],
-            ),
-          ),
-          _i11.dummyValue<String>(
+          null,
+          _i10.dummyValue<String>(
             this,
             Invocation.method(
               #createCourse,
@@ -176,14 +160,8 @@ class MockCourseCreateGateway extends _i1.Mock
           )
         ),
         returnValueForMissingStub: (
-          _FakeCourseId_4(
-            this,
-            Invocation.method(
-              #createCourse,
-              [userInput],
-            ),
-          ),
-          _i11.dummyValue<String>(
+          null,
+          _i10.dummyValue<String>(
             this,
             Invocation.method(
               #createCourse,
@@ -191,11 +169,11 @@ class MockCourseCreateGateway extends _i1.Mock
             ),
           )
         ),
-      ) as (_i6.CourseId, String));
+      ) as (dynamic, String));
   @override
-  _i9.Future<(_i6.CourseId, String)> createSchoolClassCourse(
-    _i10.UserInput? userInput,
-    _i6.SchoolClassId? schoolClassId,
+  _i8.Future<(dynamic, String)> createSchoolClassCourse(
+    _i9.UserInput? userInput,
+    _i11.SchoolClassId? schoolClassId,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -205,18 +183,9 @@ class MockCourseCreateGateway extends _i1.Mock
             schoolClassId,
           ],
         ),
-        returnValue: _i9.Future<(_i6.CourseId, String)>.value((
-          _FakeCourseId_4(
-            this,
-            Invocation.method(
-              #createSchoolClassCourse,
-              [
-                userInput,
-                schoolClassId,
-              ],
-            ),
-          ),
-          _i11.dummyValue<String>(
+        returnValue: _i8.Future<(dynamic, String)>.value((
+          null,
+          _i10.dummyValue<String>(
             this,
             Invocation.method(
               #createSchoolClassCourse,
@@ -227,18 +196,9 @@ class MockCourseCreateGateway extends _i1.Mock
             ),
           )
         )),
-        returnValueForMissingStub: _i9.Future<(_i6.CourseId, String)>.value((
-          _FakeCourseId_4(
-            this,
-            Invocation.method(
-              #createSchoolClassCourse,
-              [
-                userInput,
-                schoolClassId,
-              ],
-            ),
-          ),
-          _i11.dummyValue<String>(
+        returnValueForMissingStub: _i8.Future<(dynamic, String)>.value((
+          null,
+          _i10.dummyValue<String>(
             this,
             Invocation.method(
               #createSchoolClassCourse,
@@ -249,14 +209,14 @@ class MockCourseCreateGateway extends _i1.Mock
             ),
           )
         )),
-      ) as _i9.Future<(_i6.CourseId, String)>);
+      ) as _i8.Future<(dynamic, String)>);
   @override
-  _i9.Future<void> deleteCourse(_i6.CourseId? courseId) => (super.noSuchMethod(
+  _i8.Future<void> deleteCourse(dynamic courseId) => (super.noSuchMethod(
         Invocation.method(
           #deleteCourse,
           [courseId],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 }
