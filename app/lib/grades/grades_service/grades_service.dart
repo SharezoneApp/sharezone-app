@@ -88,6 +88,10 @@ class GradesService {
       _terms = _terms.map((term) => term.setIsActiveTerm(false)).toIList();
     }
 
+    if(!_hasGradeTypeWithId(finalGradeType)) {
+      throw GradeTypeNotFoundException(finalGradeType);
+    }
+
     _terms = _terms.add(
       _Term(
         id: id,

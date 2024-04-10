@@ -517,6 +517,21 @@ void main() {
               .asDouble,
           1.5);
     });
+    test('If a term is added with an unknown final grade type then an $GradeTypeNotFoundException is thrown', () {
+      final controller = GradesTestController();
+
+      final term = termWith(finalGradeType: const GradeTypeId('foo'));
+      expect(
+        () => controller.service.addTerm(
+          id: term.id,
+          finalGradeType: term.finalGradeType,
+          isActiveTerm: term.isActiveTerm,
+          name: term.name,
+          gradingSystem: term.gradingSystem,
+        ),
+        throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))),
+      );
+    });
     test('The "Endnote" grade type overrides the subject grade', () {
       final controller = GradesTestController();
 
