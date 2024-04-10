@@ -105,6 +105,16 @@ class GradesService {
     _updateTerms();
   }
 
+  /// Edits the given values of the term (does not edit if the value is null).
+  /// 
+  /// If the term is set to being active, any active term will be set to
+  /// inactive. If the term is set to being inactive, nothing will happen to the
+  /// other terms.
+  /// 
+  /// Throws [GradeTypeNotFoundException] if the given [finalGradeType] is not
+  /// a valid grade type.
+  /// 
+  /// Throws [ArgumentError] if the term with the given [id] does not exist.
   void editTerm({
     required TermId id,
     final bool? isActiveTerm,
