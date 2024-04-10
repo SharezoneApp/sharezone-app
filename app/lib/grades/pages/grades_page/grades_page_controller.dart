@@ -107,10 +107,6 @@ String displayGrade(GradeValue? grade) {
   return withSuffix(gradeString);
 }
 
-extension on num {
-  bool get hasDecimals => toStringAsFixed(0) != toString();
-}
-
 extension on double {
   String toStringAsFixedWithoutRounding(int fractionDigits) {
     // toStringAsFixed rounds the number, so we add one more digit and then remove it

@@ -122,6 +122,10 @@ class _GradingSystem {
   }
 }
 
+extension HasDecimals on num {
+  bool get hasDecimals => this % 1 != 0;
+}
+
 class GradingSystemSpec {
   final GradingSystem gradingSystem;
   final PossibleGradesResult possibleGrades;
@@ -203,7 +207,6 @@ final oneToSixWithPlusAndMinusSpec =
   ),
 );
 
-
 const oneToSixWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToSixWithDecimals,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
@@ -248,7 +251,6 @@ const zeroToFivteenPointsWithDecimalsSpec = GradingSystemSpec(
     decimalsAllowed: true,
   ),
 );
-
 
 const sixToOneWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.sixToOneWithDecimals,
