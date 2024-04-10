@@ -385,6 +385,7 @@ class GradeResult {
   final GradeValue value;
   final bool isTakenIntoAccount;
   final Date date;
+  GradingSystem get gradingSystem => value.gradingSystem;
 
   GradeResult({
     required this.id,
@@ -447,6 +448,8 @@ class GradeValue extends Equatable {
   double get asDouble => asNum.toDouble();
   final num asNum;
 
+  final GradingSystem gradingSystem;
+
   /// Only available if there is a special displayable grade for the calculated
   /// grade. For example, if the calculated grade is 2.25, the displayable grade
   /// could be '2+' for the (1-6 with +-) grading system.
@@ -457,12 +460,14 @@ class GradeValue extends Equatable {
   final String? suffix;
 
   @override
-  List<Object?> get props => [asNum, displayableGrade, suffix];
+  List<Object?> get props => [asNum, gradingSystem, displayableGrade, suffix];
 
-  const GradeValue(
-      {required this.asNum,
-      required this.displayableGrade,
-      required this.suffix});
+  const GradeValue({
+    required this.asNum,
+    required this.gradingSystem,
+    required this.displayableGrade,
+    required this.suffix,
+  });
 }
 
 class Grade {

@@ -81,6 +81,7 @@ class _GradingSystem {
   GradeValue toGradeResult(num grade) {
     return GradeValue(
       asNum: grade,
+      gradingSystem: toGradingSystems(),
       displayableGrade: spec.getSpecialDisplayableGradeOrNull?.call(grade),
       suffix: spec == zeroToHundredPercentWithDecimalsSpec ? '%' : null,
     );
