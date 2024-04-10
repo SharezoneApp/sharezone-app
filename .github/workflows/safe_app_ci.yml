@@ -225,15 +225,6 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
-      # We need to run "flutter clean" before we run the code generation,
-      # because we sometimes get the following issue:
-      # https://github.com/dart-lang/pub/issues/3314
-      - name: Clean Flutter
-        run: sz exec --onlyFlutter -- flutter clean
-
-      # - name: Get dependencies
-      #   run: sz pub get
-
       - name: Run code generation via "sz build_runner build"
         run: |
           sz build_runner build \
