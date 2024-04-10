@@ -101,7 +101,7 @@ String displayGrade(GradeValue? grade) {
   String withSuffix(String gs) => '$gs${grade.suffix ?? ''}';
 
   if (grade.displayableGrade != null) return grade.displayableGrade!;
-  if(!grade.asNum.hasDecimals) return withSuffix('${grade.asNum}');
+  if (!grade.asNum.hasDecimals) return withSuffix('${grade.asNum}');
   // Only show two decimals: "2.23563" -> "2.23"
   var gradeString = grade.asDouble.toStringAsFixedWithoutRounding(2);
   return withSuffix(gradeString);

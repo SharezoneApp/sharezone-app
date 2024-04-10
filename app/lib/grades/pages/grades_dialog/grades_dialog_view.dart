@@ -75,7 +75,8 @@ extension GradeSystemToName on GradingSystem {
         '0 - 15 Punkte (mit Kommazahlen)',
       GradingSystem.zeroToHundredPercentWithDecimals =>
         '0 - 100% (mit Kommazahlen)',
-      GradingSystem.austrianBehaviouralGrades => 'Österreichische Verhaltensnoten',
+      GradingSystem.austrianBehaviouralGrades =>
+        'Österreichische Verhaltensnoten',
     };
   }
 }

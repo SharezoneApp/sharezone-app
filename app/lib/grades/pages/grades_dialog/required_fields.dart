@@ -58,12 +58,11 @@ class _GradeValue extends StatelessWidget {
                   String input = "";
 
                   return PrefilledTextField(
-                    decoration: const InputDecoration(
-                      label: Text('Note')
-                    ),
+                    decoration: const InputDecoration(label: Text('Note')),
                     prefilledText: input,
                     onChanged: (val) => input = val,
-                    onEditingComplete: () => Navigator.of(context).pop<String?>(input),
+                    onEditingComplete: () =>
+                        Navigator.of(context).pop<String?>(input),
                   );
                 })
             ],

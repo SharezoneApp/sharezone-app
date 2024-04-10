@@ -166,8 +166,6 @@ class _Term {
         : _copyWith(subjects: _subjects.add(subject));
   }
 
-
-
   _Term changeWeighting(SubjectId id, num newWeight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
