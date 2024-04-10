@@ -234,10 +234,12 @@ class GradesTestController {
   void editTerm(
     TermId id, {
      bool? isActiveTerm,
+     String? name,
   }) {
     service.editTerm(
       id: id,
       isActiveTerm: isActiveTerm,
+      name: name,
     );
   }
 }

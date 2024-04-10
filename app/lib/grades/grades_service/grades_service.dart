@@ -103,6 +103,7 @@ class GradesService {
   void editTerm({
     required TermId id,
     final bool? isActiveTerm,
+    final String? name,
   }) {
     if (isActiveTerm != null) {
       _terms = _terms.map((term) {
@@ -116,6 +117,10 @@ class GradesService {
           return term.setIsActiveTerm(isActiveTerm ? false : term.isActiveTerm);
         }
       }).toIList();
+    }
+    if (name != null) {
+      _terms =
+          _terms.map((term) => term.id == id ? term.setName(name) : term).toIList();
     }
     _updateTerms();
   }
@@ -400,14 +405,14 @@ class GradeType extends Equatable {
       id: GradeTypeId('other'), predefinedType: PredefinedGradeTypes.other);
 }
 
-class GradeResult extends Equatable{
+class GradeResult extends Equatable {
   final GradeId id;
   final GradeValue value;
   final bool isTakenIntoAccount;
   final Date date;
   GradingSystem get gradingSystem => value.gradingSystem;
 
- const GradeResult({
+  const GradeResult({
     required this.id,
     required this.isTakenIntoAccount,
     required this.value,
@@ -428,7 +433,7 @@ class SubjectResult extends Equatable {
   final String abbreviation;
   final Design design;
 
- const SubjectResult({
+  const SubjectResult({
     required this.id,
     required this.name,
     required this.abbreviation,
@@ -442,9 +447,18 @@ class SubjectResult extends Equatable {
   GradeResult grade(GradeId gradeId) {
     return grades.firstWhere((element) => element.id == gradeId);
   }
-  
+
   @override
-  List<Object?> get props => [id, name, calculatedGrade, weightType, gradeTypeWeights, grades, abbreviation, design];
+  List<Object?> get props => [
+        id,
+        name,
+        calculatedGrade,
+        weightType,
+        gradeTypeWeights,
+        grades,
+        abbreviation,
+        design
+      ];
 }
 
 class TermResult extends Equatable {
@@ -468,9 +482,10 @@ class TermResult extends Equatable {
     required this.subjects,
     required this.isActiveTerm,
   });
-  
+
   @override
-  List<Object?> get props => [id, gradingSystem, calculatedGrade, subjects, isActiveTerm, name];
+  List<Object?> get props =>
+      [id, gradingSystem, calculatedGrade, subjects, isActiveTerm, name];
 }
 
 class GradeValue extends Equatable {

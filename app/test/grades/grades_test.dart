@@ -765,6 +765,16 @@ void main() {
 
       expect(controller.term(term1.id).name, '10/2');
     });
+    test('The name of the term can be edited', () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(name: 'foo');
+      controller.createTerm(term1);
+
+      controller.editTerm(term1.id, name: 'bar');
+
+      expect(controller.term(term1.id).name, 'bar');
+    });
     test('A grade has a Date', () {
       final controller = GradesTestController();
 
