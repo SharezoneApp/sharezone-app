@@ -226,6 +226,14 @@ class _Term {
   _Term setIsActiveTerm(bool isActiveTerm) {
     return _copyWith(isActiveTerm: isActiveTerm);
   }
+
+  _Term setName(String name) {
+    return _copyWith(name: name);
+  }
+
+  _Term setGradingSystem(_GradingSystem gradingSystem) {
+    return _copyWith(gradingSystem: gradingSystem);
+  }
 }
 
 class _Subject {
