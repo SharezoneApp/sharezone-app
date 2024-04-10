@@ -100,6 +100,14 @@ class GradesService {
     _updateTerms();
   }
 
+  void editTerm({required TermId id, required bool isActiveTerm}) {
+    _terms = _terms
+        .map(
+            (term) => term.setIsActiveTerm(id == term.id ? true : false))
+        .toIList();
+    _updateTerms();
+  }
+
   _Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
   void changeSubjectWeightForTermGrade(

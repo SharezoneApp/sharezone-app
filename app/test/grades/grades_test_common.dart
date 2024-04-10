@@ -230,6 +230,16 @@ class GradesTestController {
         )
         .toIList();
   }
+
+  void editTerm(
+    TermId id, {
+    required bool isActiveTerm,
+  }) {
+    service.editTerm(
+      id: id,
+      isActiveTerm: isActiveTerm,
+    );
+  }
 }
 
 TestTerm termWith({
