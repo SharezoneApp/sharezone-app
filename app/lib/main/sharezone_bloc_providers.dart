@@ -333,6 +333,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
     providers = [
+      Provider<Analytics>(create: (context) => analytics),
       Provider<CrashAnalytics>(create: (context) => crashAnalytics),
       Provider<SubscriptionService>(
         create: (context) => subscriptionService,

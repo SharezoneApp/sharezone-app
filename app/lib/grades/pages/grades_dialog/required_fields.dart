@@ -234,7 +234,8 @@ class _Term extends StatelessWidget {
         final res = await showDialog<TermId?>(
           context: context,
           builder: (context) => SimpleDialog(
-            title: const Text("Note auswählen"),
+            contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
+            title: const Text("Halbjahr auswählen"),
             children: [
               for (final term in view.selectableTerms)
                 ListTile(
@@ -243,6 +244,7 @@ class _Term extends StatelessWidget {
                     Navigator.of(context).pop<TermId?>(term.id);
                   },
                 ),
+              const _CreateTermTile(),
             ],
           ),
         );
@@ -251,6 +253,19 @@ class _Term extends StatelessWidget {
           controller.setTerm(res);
         }
       },
+    );
+  }
+}
+
+class _CreateTermTile extends StatelessWidget {
+  const _CreateTermTile();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.add),
+      title: const Text("Halbjahr erstellen"),
+      onTap: () => Navigator.of(context).pushNamed(CreateTermPage.tag),
     );
   }
 }

@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+
 class Id {
   final String id;
 
@@ -14,6 +16,21 @@ class Id {
   @override
   bool operator ==(Object other) {
     return identical(this, other) || other is Id && other.id == id;
+  }
+
+  /// Generates a new random [Id] with the given [length] using characters
+  /// from a-z, A-Z and 0-9.
+  static Id generate({
+    int length = 20,
+    Random? random,
+  }) {
+    random ??= Random();
+    const chars =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final id =
+        List.generate(length, (index) => chars[random!.nextInt(chars.length)])
+            .join();
+    return Id(id);
   }
 
   @override
