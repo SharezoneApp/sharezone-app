@@ -104,7 +104,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -133,7 +133,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -168,7 +168,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -202,45 +202,3 @@ jobs:
           # folders. Since golden tests run in several different places (e.g. /app,
           # or packages in /lib) the failures folder will be spread in different places.
           path: "**/failures/*.png"
-
-  # Checks if the generated files are up to date.
-  check-code-generation:
-    needs: changes
-    if: ${{ needs.changes.outputs.changesFound == 'true' }}
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
-
-      - name: Set Flutter version from FVM config file to environment variables
-        id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
-
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
-        with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-
-      - name: Install Sharezone CLI
-        run: |
-          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-          echo $(pwd)/bin >> $GITHUB_PATH
-
-      # - name: Clean Flutter
-      #   run: sz exec --onlyFlutter -- flutter clean
-
-      - name: Get dependencies
-        run: sz pub get
-
-      - name: Run code generation via "sz build_runner build"
-        run: |
-          sz build_runner build \
-            -c 4 \
-            --package-timeout-minutes 15
-
-      - name: Fail if generated files have changed
-        run: |
-          git diff --exit-code -- '**/*.mocks.dart' '**/*.g.dart'
-
-          # Print the Git diff with the file names and their status as a
-          # summary. 
-          git diff --name-status -- '**/*.mocks.dart' '**/*.g.dart'

@@ -506,16 +506,16 @@ void main() {
 
         // This is too much work right now, readd in future
         // Test that error is thrown if a number with decimals is added to a grading system that doesn't allow them
-        //if (!possibleGrades.decimalsAllowed) {
-        //  final gradeWithDecimals = possibleGrades.max - 0.5;
-        //
-        //  expect(
-        //      () => addGrade(gradeWithDecimals.toString()),
-        //      throwsA(InvalidGradeValueException(
-        //        gradeInput: '$gradeWithDecimals',
-        //        gradingSystem: gradingSystem,
-        //      )));
-        //}
+        // if (!possibleGrades.decimalsAllowed) {
+        //   final gradeWithDecimals = possibleGrades.max - 0.5;
+        // 
+        //   expect(
+        //       () => addGrade(gradeWithDecimals.toString()),
+        //       throwsA(InvalidGradeValueException(
+        //         gradeInput: '$gradeWithDecimals',
+        //         gradingSystem: gradingSystem,
+        //       )));
+        // }
 
         final aBitTooHigh =
             possibleGrades.max + (possibleGrades.decimalsAllowed ? 0.01 : 1);
