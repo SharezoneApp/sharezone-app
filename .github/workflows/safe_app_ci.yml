@@ -231,8 +231,8 @@ jobs:
       - name: Clean Flutter
         run: sz exec --onlyFlutter -- flutter clean
 
-      - name: Get dependencies
-        run: sz pub get
+      # - name: Get dependencies
+      #   run: sz pub get
 
       - name: Run code generation via "sz build_runner build"
         run: |
