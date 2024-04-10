@@ -22,7 +22,7 @@ export '../models/subject_id.dart';
 export '../models/term_id.dart';
 
 part 'src/term.dart';
-part 'src/grading_system.dart';
+part 'src/grading_systems.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
@@ -77,7 +77,7 @@ class GradesService {
     terms.add(termRes);
   }
 
-  void createTerm({
+  void addTerm({
     required TermId id,
     required String name,
     required GradeTypeId finalGradeType,
@@ -190,9 +190,9 @@ class GradesService {
   ///
   /// For example the values for the grading system "1-6 with plus and minus"
   /// would be: `['1+', '1', '1-', '2+', [...] '5+', '5', '5-', '6']`
-  IList<String> getPossibleGrades(GradingSystem gradingSystem) {
+  PossibleGradesResult getPossibleGrades(GradingSystem gradingSystem) {
     final gs = gradingSystem.toGradingSystem();
-    return gs.possibleValues;
+    return gs.possibleGrades;
   }
 
   IList<GradeType> getPossibleGradeTypes() {
@@ -242,6 +242,19 @@ class GradesService {
   }
 }
 
+class InvalidGradeValueException extends Equatable implements Exception {
+  final String gradeInput;
+  final GradingSystem gradingSystem;
+
+  const InvalidGradeValueException({
+    required this.gradeInput,
+    required this.gradingSystem,
+  });
+
+  @override
+  List<Object?> get props => [gradeInput, gradingSystem];
+}
+
 class SubjectNotFoundException extends Equatable implements Exception {
   final SubjectId id;
 
@@ -269,7 +282,54 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
   List<Object?> get props => [id];
 }
 
-enum GradingSystem { oneToSixWithPlusAndMinus, zeroToFivteenPoints }
+enum GradingSystem {
+  oneToSixWithPlusAndMinus(isNumericalAndContinous: true),
+  zeroToFivteenPoints(isNumericalAndContinous: true),
+  zeroToFivteenPointsWithDecimals(isNumericalAndContinous: true),
+  oneToSixWithDecimals(isNumericalAndContinous: true),
+  zeroToHundredPercentWithDecimals(isNumericalAndContinous: true),
+  oneToFiveWithDecimals(isNumericalAndContinous: true),
+  sixToOneWithDecimals(isNumericalAndContinous: true),
+  austrianBehaviouralGrades(isNumericalAndContinous: false);
+
+  final bool isNumericalAndContinous;
+
+  const GradingSystem({required this.isNumericalAndContinous});
+}
+
+extension NumericalAndContinuous on List<GradingSystem> {
+  IList<GradingSystem> get numericalAndContinuous =>
+      where((gs) => gs.isNumericalAndContinous).toIList();
+}
+
+sealed class PossibleGradesResult {
+  const PossibleGradesResult();
+}
+
+class NonNumericalPossibleGradesResult extends PossibleGradesResult {
+  final IList<String> grades;
+
+  const NonNumericalPossibleGradesResult(this.grades);
+}
+
+class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
+  final num min;
+  final num max;
+  final bool decimalsAllowed;
+
+  /// Special non-numerical grade strings that have an assigned numerical value.
+  ///
+  /// For example [GradingSystem.oneToSixWithPlusAndMinus] might have the values:
+  /// `{'1+':0.75,'1-':1.25, /**...*/ '5-':5.25}`.
+  final IMap<String, num> specialGrades;
+
+  const ContinuousNumericalPossibleGradesResult({
+    required this.min,
+    required this.max,
+    required this.decimalsAllowed,
+    this.specialGrades = const IMapConst({}),
+  });
+}
 
 /// The predefined types of grades that can be used.
 ///
@@ -322,9 +382,10 @@ class GradeType extends Equatable {
 
 class GradeResult {
   final GradeId id;
-  final CalculatedGradeResult value;
+  final GradeValue value;
   final bool isTakenIntoAccount;
   final Date date;
+  GradingSystem get gradingSystem => value.gradingSystem;
 
   GradeResult({
     required this.id,
@@ -337,7 +398,7 @@ class GradeResult {
 class SubjectResult {
   final SubjectId id;
   final String name;
-  final CalculatedGradeResult? calculatedGrade;
+  final GradeValue? calculatedGrade;
   final WeightType weightType;
   final IMap<GradeTypeId, Weight> gradeTypeWeights;
   final IList<GradeResult> grades;
@@ -363,7 +424,7 @@ class SubjectResult {
 class TermResult {
   final TermId id;
   final GradingSystem gradingSystem;
-  final CalculatedGradeResult? calculatedGrade;
+  final GradeValue? calculatedGrade;
   IList<SubjectResult> subjects;
   final bool isActiveTerm;
   final String name;
@@ -383,12 +444,30 @@ class TermResult {
   });
 }
 
-class CalculatedGradeResult {
+class GradeValue extends Equatable {
   double get asDouble => asNum.toDouble();
   final num asNum;
-  final String displayableGrade;
 
-  CalculatedGradeResult({required this.asNum, required this.displayableGrade});
+  final GradingSystem gradingSystem;
+
+  /// Only available if there is a special displayable grade for the calculated
+  /// grade. For example, if the calculated grade is 2.25, the displayable grade
+  /// could be '2+' for the (1-6 with +-) grading system.
+  final String? displayableGrade;
+
+  /// A suffix that should be appended to the displayable grade.
+  /// For example for the 0-100% grading system, this would be '%'.
+  final String? suffix;
+
+  @override
+  List<Object?> get props => [asNum, gradingSystem, displayableGrade, suffix];
+
+  const GradeValue({
+    required this.asNum,
+    required this.gradingSystem,
+    required this.displayableGrade,
+    required this.suffix,
+  });
 }
 
 class Grade {

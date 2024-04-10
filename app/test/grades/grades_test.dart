@@ -704,6 +704,45 @@ void main() {
               .date,
           Date('2024-03-26'));
     });
+    test('A grade and GradeValue has a gradingSystem', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                gradingSystem: GradingSystem.oneToFiveWithDecimals,
+                value: 2.5,
+              ),
+              gradeWith(
+                id: GradeId('grade2'),
+                gradingSystem: GradingSystem.sixToOneWithDecimals,
+                value: 4.2,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      final grade1 = controller
+          .term(term.id)
+          .subject(const SubjectId('Philosophie'))
+          .grade(GradeId('grade1'));
+      // On both since the calculated averageGrade is only a [GradeValue], not a [GradeResult].
+      expect(grade1.gradingSystem, GradingSystem.oneToFiveWithDecimals);
+      expect(grade1.value.gradingSystem, GradingSystem.oneToFiveWithDecimals);
+
+      final grade2 = controller
+          .term(term.id)
+          .subject(const SubjectId('Philosophie'))
+          .grade(GradeId('grade2'));
+      expect(grade2.gradingSystem, GradingSystem.sixToOneWithDecimals);
+      expect(grade2.value.gradingSystem, GradingSystem.sixToOneWithDecimals);
+    });
     test('A subject has a Design', () {
       final controller = GradesTestController();
 

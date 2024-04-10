@@ -10,9 +10,15 @@ import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
+typedef SelectableGrades = ({
+  IList<String>? distinctGrades,
+  NonDistinctGrades? nonDistinctGrades
+});
+typedef NonDistinctGrades = ({num min, num max, bool decimalsAllowed});
+
 class GradesDialogView {
   final String? selectedGrade;
-  final IList<String> selectableGrades;
+  final SelectableGrades selectableGrades;
 
   /// The selected grading system.
   ///
@@ -61,7 +67,16 @@ extension GradeSystemToName on GradingSystem {
   String get displayName {
     return switch (this) {
       GradingSystem.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
+      GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',
+      GradingSystem.sixToOneWithDecimals => '6 - 1 (mit Kommazahlen)',
+      GradingSystem.oneToFiveWithDecimals => '1 - 5 (mit Kommazahlen)',
       GradingSystem.zeroToFivteenPoints => '0 - 15 Punkte',
+      GradingSystem.zeroToFivteenPointsWithDecimals =>
+        '0 - 15 Punkte (mit Kommazahlen)',
+      GradingSystem.zeroToHundredPercentWithDecimals =>
+        '0 - 100% (mit Kommazahlen)',
+      GradingSystem.austrianBehaviouralGrades =>
+        'Österreichische Verhaltensnoten',
     };
   }
 }
