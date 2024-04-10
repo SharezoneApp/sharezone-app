@@ -48,7 +48,7 @@ class CreateTermPage extends StatelessWidget {
                 children: [
                   _NameField(),
                   SizedBox(height: 8),
-                  _CurrentTermSwitch(),
+                  _ActiveTermSwitch(),
                 ],
               ),
             ),
@@ -136,8 +136,8 @@ class _NameField extends StatelessWidget {
   }
 }
 
-class _CurrentTermSwitch extends StatelessWidget {
-  const _CurrentTermSwitch();
+class _ActiveTermSwitch extends StatelessWidget {
+  const _ActiveTermSwitch();
 
   @override
   Widget build(BuildContext context) {
