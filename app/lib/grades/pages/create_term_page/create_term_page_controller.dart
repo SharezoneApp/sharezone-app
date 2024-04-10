@@ -20,7 +20,7 @@ class CreateTermPageController extends ChangeNotifier {
 
   CreateTermPageView view = const CreateTermPageView(
     name: null,
-    isActiveTerm: false,
+    isActiveTerm: true,
     nameErrorText: null,
   );
 
