@@ -684,6 +684,18 @@ void main() {
       expect(controller.term(term1.id).isActiveTerm, false);
       expect(controller.term(term2.id).isActiveTerm, true);
     });
+    test(
+        'If a term is edited with "Aktuelles Halbjahr" set to false, then "Aktuelles Halbjahr" will be set to false.',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(isActiveTerm: true);
+      controller.createTerm(term1);
+
+      controller.editTerm(term1.id, isActiveTerm: false);
+
+      expect(controller.term(term1.id).isActiveTerm, false);
+    });
     test('A term can have a name.', () {
       final controller = GradesTestController();
 

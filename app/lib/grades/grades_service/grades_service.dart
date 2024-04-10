@@ -103,7 +103,7 @@ class GradesService {
   void editTerm({required TermId id, required bool isActiveTerm}) {
     _terms = _terms
         .map(
-            (term) => term.setIsActiveTerm(id == term.id ? true : false))
+            (term) => term.setIsActiveTerm(id == term.id ? isActiveTerm : false))
         .toIList();
     _updateTerms();
   }
