@@ -17,3 +17,12 @@ coverage/
 #
 # Source: https://fvm.app/documentation/getting-started/configuration
 .fvm/
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

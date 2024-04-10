@@ -11,6 +11,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:design/design.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
@@ -36,13 +37,24 @@ class GradesPageController extends ChangeNotifier {
           notifyListeners();
         } else {
           final otherTerms = event.remove(activeTerm);
+
+          final subjectGrades = activeTerm.subjects
+              .expand<SubjectView>((subject) => subject.grades.map((grade) => (
+                    id: subject.id,
+                    abbreviation: subject.abbreviation,
+                    displayName: subject.name,
+                    grade: grade.value.displayableGrade,
+                    design: subject.design,
+                  )))
+              .toIList();
+
           final CurrentTermView currentTerm = (
             id: activeTerm.id,
             avgGrade: (
-              activeTerm.calculatedGrade?.toString() ?? '?',
+              activeTerm.calculatedGrade?.displayableGrade ?? '?',
               GradePerformance.good,
             ),
-            subjects: [/* Unimplemented */],
+            subjects: subjectGrades.toList(),
             displayName: activeTerm.name,
           );
 

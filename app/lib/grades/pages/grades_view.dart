@@ -8,8 +8,8 @@
 
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/models/subject_id.dart';
+import 'package:sharezone/grades/models/term_id.dart';
 
 enum GradePerformance {
   good,
