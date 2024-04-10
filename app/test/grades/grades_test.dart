@@ -524,13 +524,7 @@ void main() {
 
       final term = termWith(finalGradeType: const GradeTypeId('foo'));
       expect(
-        () => controller.service.addTerm(
-          id: term.id,
-          finalGradeType: term.finalGradeType,
-          isActiveTerm: term.isActiveTerm,
-          name: term.name,
-          gradingSystem: term.gradingSystem,
-        ),
+        () => controller.createTerm(term, createMissingGradeTypes: false),
         throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))),
       );
     });
