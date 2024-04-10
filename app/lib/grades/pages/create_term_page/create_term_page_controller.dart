@@ -61,7 +61,7 @@ class CreateTermPageController extends ChangeNotifier {
         id: termId,
         name: view.name!,
         isActiveTerm: view.isActiveTerm,
-        finalGradeType: const GradeTypeId('school-report-grade'),
+        finalGradeType: GradeType.schoolReportGrade
         gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
       );
       analytics.logCreateTerm();
