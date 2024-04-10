@@ -97,6 +97,9 @@ class GradesPageController extends ChangeNotifier {
 // This is not covered by tests yet.
 String displayGrade(GradeValue? grade) {
   if (grade == null) return '—';
+  if (!grade.gradingSystem.isNumericalAndContinous) {
+    return grade.displayableGrade ?? '—';
+  }
 
   String withSuffix(String gs) => '$gs${grade.suffix ?? ''}';
 
