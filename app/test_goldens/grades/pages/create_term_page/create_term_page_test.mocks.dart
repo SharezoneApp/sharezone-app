@@ -96,6 +96,36 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         returnValueForMissingStub: null,
       );
   @override
+  void editTerm({
+    required _i5.TermId? id,
+    bool? isActiveTerm,
+    String? name,
+    _i4.GradeTypeId? finalGradeType,
+    _i4.GradingSystem? gradingSystem,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #editTerm,
+          [],
+          {
+            #id: id,
+            #isActiveTerm: isActiveTerm,
+            #name: name,
+            #finalGradeType: finalGradeType,
+            #gradingSystem: gradingSystem,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void deleteTerm(_i5.TermId? id) => super.noSuchMethod(
+        Invocation.method(
+          #deleteTerm,
+          [id],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   void changeSubjectWeightForTermGrade({
     required _i6.SubjectId? id,
     required _i5.TermId? termId,
