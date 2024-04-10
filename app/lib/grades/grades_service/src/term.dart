@@ -146,7 +146,7 @@ class _Term {
     );
 
     final gradingSystem = grade.gradingSystem.toGradingSystem();
-    final gradeVal = _getGradeNum(grade.value, gradingSystem);
+    final gradeVal = gradingSystem.toNumOrThrow(grade.value);
 
     subject = subject._addGrade(_Grade(
       term: this,
@@ -164,13 +164,6 @@ class _Term {
             subjects: _subjects.replaceAllWhere(
                 (element) => element.id == toSubject, subject))
         : _copyWith(subjects: _subjects.add(subject));
-  }
-
-  num _getGradeNum(Object grade, _GradingSystem gradingSystem) {
-    if (grade is num) return grade;
-    if (grade is String) return gradingSystem.toDoubleOrThrow(grade);
-    throw Exception(
-        'Grade must be a double, int or string, but was ${grade.runtimeType}: $grade');
   }
 
   _Term changeWeighting(SubjectId id, num newWeight) {
@@ -352,7 +345,7 @@ class _Subject {
 class _Grade extends Equatable {
   final _Term term;
   final GradeId id;
-  final CalculatedGradeResult value;
+  final GradeValue value;
   final _GradingSystem gradingSystem;
   final GradeTypeId gradeType;
   final bool takenIntoAccount;
@@ -381,7 +374,7 @@ class _Grade extends Equatable {
   _Grade copyWith({
     _Term? term,
     GradeId? id,
-    CalculatedGradeResult? value,
+    GradeValue? value,
     Date? date,
     _GradingSystem? gradingSystem,
     GradeTypeId? gradeType,
