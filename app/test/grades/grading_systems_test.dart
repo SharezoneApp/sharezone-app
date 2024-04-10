@@ -515,6 +515,7 @@ void main() {
         //        gradeInput: '$gradeWithDecimals',
         //        gradingSystem: gradingSystem,
         //      )));
+        // }
 
         final aBitTooHigh =
             possibleGrades.max + (possibleGrades.decimalsAllowed ? 0.01 : 1);
