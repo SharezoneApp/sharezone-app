@@ -678,7 +678,7 @@ void main() {
       final term2 = termWith(isActiveTerm: false);
       controller.createTerm(term1);
       controller.createTerm(term2);
-      
+
       controller.editTerm(term2.id, isActiveTerm: true);
 
       expect(controller.term(term1.id).isActiveTerm, false);
@@ -705,12 +705,57 @@ void main() {
       final term2 = termWith(isActiveTerm: false);
       controller.createTerm(term1);
       controller.createTerm(term2);
-      
+
       // Is already false
       controller.editTerm(term2.id, isActiveTerm: false);
 
       // term1 should still be active
       expect(controller.term(term1.id).isActiveTerm, true);
+    });
+    test('Nothing happens if a term is edited with blank values', () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(
+        isActiveTerm: true,
+        finalGradeType: GradeType.other.id,
+        name: 'Foo',
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            name: 'Philosophie',
+            grades: [
+              gradeWith(value: 4.0),
+            ],
+          ),
+        ],
+      );
+      final term2 = termWith(
+        isActiveTerm: false,
+        finalGradeType: GradeType.writtenExam.id,
+        name: 'Bar',
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Sport'),
+            name: 'Sport',
+            grades: [
+              gradeWith(value: 1.0),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term1);
+      controller.createTerm(term2);
+
+      final t1 = controller.term(term1.id);
+      final t2 = controller.term(term2.id);
+
+      // Do nothing
+      controller.editTerm(term1.id);
+      controller.editTerm(term2.id);
+
+      // Nothing should've changed
+      expect(controller.term(term1.id), t1);
+      expect(controller.term(term2.id), t2);
     });
     test('A term can have a name.', () {
       final controller = GradesTestController();

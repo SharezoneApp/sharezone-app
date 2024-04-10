@@ -233,7 +233,7 @@ class GradesTestController {
 
   void editTerm(
     TermId id, {
-    required bool isActiveTerm,
+     bool? isActiveTerm,
   }) {
     service.editTerm(
       id: id,

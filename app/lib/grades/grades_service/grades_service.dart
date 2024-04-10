@@ -100,19 +100,23 @@ class GradesService {
     _updateTerms();
   }
 
-  void editTerm({required TermId id, required bool isActiveTerm}) {
-    _terms = _terms.map((term) {
-      if (id == term.id) {
-        return term.setIsActiveTerm(isActiveTerm);
-      } else {
-        // If the term that is edited is set to being active, all other terms
-        // should be set to inactive.
-        // If the term that is edited is set to being inactive, nothing should
-        // happen to the other terms.
-        return term
-            .setIsActiveTerm(isActiveTerm ? false : term.isActiveTerm);
-      }
-    }).toIList();
+  void editTerm({
+    required TermId id,
+    final bool? isActiveTerm,
+  }) {
+    if (isActiveTerm != null) {
+      _terms = _terms.map((term) {
+        if (id == term.id) {
+          return term.setIsActiveTerm(isActiveTerm);
+        } else {
+          // If the term that is edited is set to being active, all other terms
+          // should be set to inactive.
+          // If the term that is edited is set to being inactive, nothing should
+          // happen to the other terms.
+          return term.setIsActiveTerm(isActiveTerm ? false : term.isActiveTerm);
+        }
+      }).toIList();
+    }
     _updateTerms();
   }
 
@@ -396,22 +400,25 @@ class GradeType extends Equatable {
       id: GradeTypeId('other'), predefinedType: PredefinedGradeTypes.other);
 }
 
-class GradeResult {
+class GradeResult extends Equatable{
   final GradeId id;
   final GradeValue value;
   final bool isTakenIntoAccount;
   final Date date;
   GradingSystem get gradingSystem => value.gradingSystem;
 
-  GradeResult({
+ const GradeResult({
     required this.id,
     required this.isTakenIntoAccount,
     required this.value,
     required this.date,
   });
+
+  @override
+  List<Object?> get props => [id, value, isTakenIntoAccount, date];
 }
 
-class SubjectResult {
+class SubjectResult extends Equatable {
   final SubjectId id;
   final String name;
   final GradeValue? calculatedGrade;
@@ -421,7 +428,7 @@ class SubjectResult {
   final String abbreviation;
   final Design design;
 
-  SubjectResult({
+ const SubjectResult({
     required this.id,
     required this.name,
     required this.abbreviation,
@@ -435,13 +442,16 @@ class SubjectResult {
   GradeResult grade(GradeId gradeId) {
     return grades.firstWhere((element) => element.id == gradeId);
   }
+  
+  @override
+  List<Object?> get props => [id, name, calculatedGrade, weightType, gradeTypeWeights, grades, abbreviation, design];
 }
 
-class TermResult {
+class TermResult extends Equatable {
   final TermId id;
   final GradingSystem gradingSystem;
   final GradeValue? calculatedGrade;
-  IList<SubjectResult> subjects;
+  final IList<SubjectResult> subjects;
   final bool isActiveTerm;
   final String name;
 
@@ -450,7 +460,7 @@ class TermResult {
     return subject;
   }
 
-  TermResult({
+  const TermResult({
     required this.id,
     required this.gradingSystem,
     required this.name,
@@ -458,6 +468,9 @@ class TermResult {
     required this.subjects,
     required this.isActiveTerm,
   });
+  
+  @override
+  List<Object?> get props => [id, gradingSystem, calculatedGrade, subjects, isActiveTerm, name];
 }
 
 class GradeValue extends Equatable {
