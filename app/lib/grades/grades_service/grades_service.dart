@@ -151,6 +151,12 @@ class GradesService {
   }
 
   void deleteTerm(TermId id) {
+    final termOrNull = _terms.firstWhereOrNull((term) => term.id == id);
+    if (termOrNull != null) {
+      _terms = _terms.remove(termOrNull);
+      _updateTerms();
+      return;
+    }
     throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
   }
 

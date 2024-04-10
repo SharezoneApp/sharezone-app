@@ -834,6 +834,38 @@ void main() {
 
       expect(controller.term(term1.id).name, 'bar');
     });
+    test('Deleting a term will delete all grades inside it, but no subjects',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(subjects: [
+        subjectWith(
+          id: const SubjectId('Sport'),
+          name: 'Sport',
+          grades: [gradeWith(value: 1.0)],
+        ),
+      ]);
+      final term2 = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            name: 'Philosophie',
+            grades: [gradeWith(value: 4.0)],
+          ),
+        ],
+      );
+
+      controller.createTerm(term1);
+      controller.createTerm(term2);
+
+      controller.deleteTerm(term1.id);
+
+      expect(controller.getSubjects().map((sub) => sub.id), [
+        const SubjectId('Sport'),
+        const SubjectId('Philosophie'),
+      ]);
+      expect(controller.terms.single.id, term2.id);
+    });
     test('Deleting an unknown term will throw an ArgumentError', () {
       final controller = GradesTestController();
 
