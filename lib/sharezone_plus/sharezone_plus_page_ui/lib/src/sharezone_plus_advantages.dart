@@ -25,6 +25,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const _Grades(),
         const _MoreColors(),
         if (isHomeworkReminderFeatureVisible) const _HomeworkReminder(),
         const _PastEvents(),
@@ -36,6 +37,20 @@ class SharezonePlusAdvantages extends StatelessWidget {
         const _DiscordPlusRang(),
         const _SupportOpenSource(),
       ],
+    );
+  }
+}
+
+class _Grades extends StatelessWidget {
+  const _Grades();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.emoji_events),
+      title: Text('Noten'),
+      description: Text(
+          'Speichere deine Schulnoten mit Sharezone Plus und behalte den Überblick über deine Leistungen. Schriftliche Prüfungen, mündliche Mitarbeit, Halbjahresnoten - alles an einem Ort.'),
     );
   }
 }
