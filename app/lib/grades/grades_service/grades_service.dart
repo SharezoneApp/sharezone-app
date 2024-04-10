@@ -160,6 +160,11 @@ class GradesService {
     _updateTerms();
   }
 
+  /// Deletes the term with the given [id] any grades inside it.
+  /// 
+  /// No subjects will be deleted.
+  /// 
+  /// Throws [ArgumentError] if the term with the given [id] does not exist.
   void deleteTerm(TermId id) {
     final termOrNull = _terms.firstWhereOrNull((term) => term.id == id);
     if (termOrNull != null) {
