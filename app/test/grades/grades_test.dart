@@ -696,6 +696,22 @@ void main() {
 
       expect(controller.term(term1.id).isActiveTerm, false);
     });
+    test(
+        'Setting "Aktuelles Halbjahr" false on a term where "Aktuelles Halbjahr" is already to false won\'t alter the other terms.',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(isActiveTerm: true);
+      final term2 = termWith(isActiveTerm: false);
+      controller.createTerm(term1);
+      controller.createTerm(term2);
+      
+      // Is already false
+      controller.editTerm(term2.id, isActiveTerm: false);
+
+      // term1 should still be active
+      expect(controller.term(term1.id).isActiveTerm, true);
+    });
     test('A term can have a name.', () {
       final controller = GradesTestController();
 

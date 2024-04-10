@@ -101,10 +101,18 @@ class GradesService {
   }
 
   void editTerm({required TermId id, required bool isActiveTerm}) {
-    _terms = _terms
-        .map(
-            (term) => term.setIsActiveTerm(id == term.id ? isActiveTerm : false))
-        .toIList();
+    _terms = _terms.map((term) {
+      if (id == term.id) {
+        return term.setIsActiveTerm(isActiveTerm);
+      } else {
+        // If the term that is edited is set to being active, all other terms
+        // should be set to inactive.
+        // If the term that is edited is set to being inactive, nothing should
+        // happen to the other terms.
+        return term
+            .setIsActiveTerm(isActiveTerm ? false : term.isActiveTerm);
+      }
+    }).toIList();
     _updateTerms();
   }
 
