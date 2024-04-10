@@ -18,6 +18,13 @@ environment:
 dependencies:
   built_collection: ^5.1.0
   built_value: ^8.1.1
+  # We need to add the `flutter` package as dependency as workaround for the
+  # following issue: https://github.com/SharezoneApp/sharezone-app/issues/474
+  #
+  # When this issue is resolved, we can remove the `flutter` package from the
+  # dependencies.
+  flutter:
+    sdk: flutter
   key_value_store:
     path: ../key_value_store
   cloud_functions: ^4.4.0
@@ -26,13 +33,6 @@ dependencies:
   clock: ^1.1.1
 
 dev_dependencies:
-  # We need to add the `flutter` package as dev dependency as workaround for the
-  # following issue: https://github.com/SharezoneApp/sharezone-app/issues/474
-  #
-  # When this issue is resolved, we can remove the `flutter` package from the
-  # dev dependencies.
-  flutter:
-    sdk: flutter
   flutter_test:
     sdk: flutter
   mockito: ^5.4.4
