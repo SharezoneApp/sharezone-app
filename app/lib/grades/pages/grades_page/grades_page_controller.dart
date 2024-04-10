@@ -43,7 +43,7 @@ class GradesPageController extends ChangeNotifier {
                     id: subject.id,
                     abbreviation: subject.abbreviation,
                     displayName: subject.name,
-                    grade: grade.value.displayableGrade,
+                    grade: displayGrade(grade.value),
                     design: subject.design,
                   )))
               .toIList();
@@ -51,7 +51,7 @@ class GradesPageController extends ChangeNotifier {
           final CurrentTermView currentTerm = (
             id: activeTerm.id,
             avgGrade: (
-              activeTerm.calculatedGrade?.displayableGrade ?? '?',
+              displayGrade(activeTerm.calculatedGrade),
               GradePerformance.good,
             ),
             subjects: subjectGrades.toList(),
@@ -91,6 +91,27 @@ class GradesPageController extends ChangeNotifier {
   void dispose() {
     _subscription?.cancel();
     super.dispose();
+  }
+}
+
+// This is not covered by tests yet.
+String displayGrade(GradeValue? grade) {
+  if (grade == null) return '—';
+
+  String withSuffix(String gs) => '$gs${grade.suffix ?? ''}';
+
+  if (grade.displayableGrade != null) return grade.displayableGrade!;
+  if (!grade.asNum.hasDecimals) return withSuffix('${grade.asNum}');
+  // Only show two decimals: "2.23563" -> "2.23"
+  var gradeString = grade.asDouble.toStringAsFixedWithoutRounding(2);
+  return withSuffix(gradeString);
+}
+
+extension on double {
+  String toStringAsFixedWithoutRounding(int fractionDigits) {
+    // toStringAsFixed rounds the number, so we add one more digit and then remove it
+    final s = toStringAsFixed(fractionDigits + 1);
+    return s.substring(0, s.length - 1);
   }
 }
 

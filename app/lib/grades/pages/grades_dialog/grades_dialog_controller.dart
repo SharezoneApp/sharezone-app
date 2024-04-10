@@ -21,9 +21,24 @@ class GradesDialogController extends ChangeNotifier {
         _subject != null ? gradesService.getSubject(_subject!) : null;
     final terms = gradesService.terms.value;
     final term = _term != null ? terms.firstWhere((t) => t.id == _term) : null;
+
+    final posGradesRes = gradesService.getPossibleGrades(_gradingSystem);
+    SelectableGrades selectableGrades = (
+      distinctGrades: posGradesRes is NonNumericalPossibleGradesResult
+          ? posGradesRes.grades
+          : null,
+      nonDistinctGrades: posGradesRes is ContinuousNumericalPossibleGradesResult
+          ? (
+              min: posGradesRes.min,
+              max: posGradesRes.max,
+              decimalsAllowed: posGradesRes.decimalsAllowed
+            )
+          : null
+    );
+
     return GradesDialogView(
       selectedGrade: _grade,
-      selectableGrades: gradesService.getPossibleGrades(_gradingSystem),
+      selectableGrades: selectableGrades,
       selectedGradingSystem: _gradingSystem,
       selectedSubject:
           subject != null ? (id: subject.id, name: subject.name) : null,

@@ -35,6 +35,7 @@ class _GradeValue extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Provider.of<GradesDialogController>(context);
     final view = controller.view;
+    final selectableGrades = view.selectableGrades;
     return ListTile(
       leading: SavedGradeIcons.value,
       title: Text(view.selectedGrade ?? 'Keine Note ausgewählt'),
@@ -44,13 +45,26 @@ class _GradeValue extends StatelessWidget {
           builder: (context) => SimpleDialog(
             title: const Text("Note auswählen"),
             children: [
-              for (final grade in view.selectableGrades)
-                ListTile(
-                  title: Text(grade),
-                  onTap: () {
-                    Navigator.of(context).pop<String?>(grade);
-                  },
-                ),
+              if (selectableGrades.distinctGrades != null)
+                for (final grade in selectableGrades.distinctGrades!)
+                  ListTile(
+                    title: Text(grade),
+                    onTap: () {
+                      Navigator.of(context).pop<String?>(grade);
+                    },
+                  ),
+              if (selectableGrades.nonDistinctGrades != null)
+                StatefulBuilder(builder: (context, setState) {
+                  String input = "";
+
+                  return PrefilledTextField(
+                    decoration: const InputDecoration(label: Text('Note')),
+                    prefilledText: input,
+                    onChanged: (val) => input = val,
+                    onEditingComplete: () =>
+                        Navigator.of(context).pop<String?>(input),
+                  );
+                })
             ],
           ),
         );
