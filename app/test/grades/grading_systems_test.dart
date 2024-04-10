@@ -139,7 +139,8 @@ void main() {
       expect(res.decimalsAllowed, false);
       expect(res.specialGrades, isEmpty);
     });
-    test('Basic grades test for 0 to 15 points with decimals grading system.', () {
+    test('Basic grades test for 0 to 15 points with decimals grading system.',
+        () {
       final controller = GradesTestController();
 
       final term = termWith(
@@ -174,13 +175,13 @@ void main() {
               .subject(const SubjectId('Mathe'))
               .calculatedGrade!
               .asDouble,
-              // 4.3 + 5.6 + 3 / 3 = 4.3
-              (4.3 + 5.6 + 3) / 3);
+          // 4.3 + 5.6 + 3 / 3 = 4.3
+          (4.3 + 5.6 + 3) / 3);
     });
     test('0 to 15 points with decimals returns correct possible values', () {
       final service = GradesService();
-      final possibleGrades =
-          service.getPossibleGrades(GradingSystem.zeroToFivteenPointsWithDecimals);
+      final possibleGrades = service
+          .getPossibleGrades(GradingSystem.zeroToFivteenPointsWithDecimals);
 
       expect(possibleGrades, isA<ContinuousNumericalPossibleGradesResult>());
       final res = (possibleGrades as ContinuousNumericalPossibleGradesResult);
