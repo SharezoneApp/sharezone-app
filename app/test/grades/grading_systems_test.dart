@@ -362,7 +362,8 @@ void main() {
       possibleGrades =
           possibleGrades as ContinuousNumericalPossibleGradesResult;
       expect(possibleGrades.min, 1);
-      expect(possibleGrades.max, 6);
+      // See comment in grade system spec for why we use 6.34
+      expect(possibleGrades.max, 6.34);
       expect(possibleGrades.decimalsAllowed, true);
       expect(possibleGrades.specialGrades, isEmpty);
     });

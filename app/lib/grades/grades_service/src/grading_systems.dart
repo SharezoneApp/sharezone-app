@@ -256,7 +256,9 @@ const sixToOneWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.sixToOneWithDecimals,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 1,
-    max: 6,
+    // We are not sure if there is a better grade than 6.0 like e.g. 0.75/0.66 for 1+ in Germany.
+    // So we just use 6.34 as the highest grade possible (6.3333...).
+    max: 6.34,
     decimalsAllowed: true,
   ),
 );
