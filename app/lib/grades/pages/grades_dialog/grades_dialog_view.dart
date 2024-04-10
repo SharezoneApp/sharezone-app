@@ -67,10 +67,12 @@ extension GradeSystemToName on GradingSystem {
   String get displayName {
     return switch (this) {
       GradingSystem.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
+      GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',
       GradingSystem.sixToOneWithDecimals => '6 - 1 (mit Kommazahlen)',
       GradingSystem.oneToFiveWithDecimals => '1 - 5 (mit Kommazahlen)',
       GradingSystem.zeroToFivteenPoints => '0 - 15 Punkte',
-      GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',
+      GradingSystem.zeroToFivteenPointsWithDecimals =>
+        '0 - 15 Punkte (mit Kommazahlen)',
       GradingSystem.zeroToHundredPercentWithDecimals =>
         '0 - 100% (mit Kommazahlen)',
       GradingSystem.austrianBehaviouralGrades => 'Österreichische Verhaltensnoten',

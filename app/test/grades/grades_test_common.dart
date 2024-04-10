@@ -20,6 +20,7 @@ extension ValidValue on GradingSystem {
       GradingSystem.oneToSixWithPlusAndMinus => 0.5,
       GradingSystem.sixToOneWithDecimals => 5.5,
       GradingSystem.zeroToFivteenPoints => 5,
+      GradingSystem.zeroToFivteenPointsWithDecimals => 5.5,
       GradingSystem.zeroToHundredPercentWithDecimals => 0.5,
       GradingSystem.oneToFiveWithDecimals => 2.5,
     };

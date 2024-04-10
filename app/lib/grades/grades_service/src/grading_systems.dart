@@ -13,6 +13,8 @@ extension _ToGradingSystem on GradingSystem {
     switch (this) {
       case GradingSystem.zeroToHundredPercentWithDecimals:
         return _GradingSystem.zeroToHundredPercentWithDecimals;
+      case GradingSystem.zeroToFivteenPointsWithDecimals:
+        return _GradingSystem.zeroToFivteenPointsWithDecimals;
       case GradingSystem.zeroToFivteenPoints:
         return _GradingSystem.zeroToFiveteenPoints;
       case GradingSystem.oneToSixWithPlusAndMinus:
@@ -42,6 +44,8 @@ class _GradingSystem {
       _GradingSystem(spec: oneToSixWithDecimalsSpec);
   static final zeroToFiveteenPoints =
       _GradingSystem(spec: zeroToFivteenPointsSpec);
+  static final zeroToFivteenPointsWithDecimals =
+      _GradingSystem(spec: zeroToFivteenPointsWithDecimalsSpec);
   static final zeroToHundredPercentWithDecimals =
       _GradingSystem(spec: zeroToHundredPercentWithDecimalsSpec);
   static final austrianBehaviouralGrades =
@@ -199,6 +203,20 @@ final oneToSixWithPlusAndMinusSpec =
   ),
 );
 
+
+const oneToSixWithDecimalsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.oneToSixWithDecimals,
+  possibleGrades: ContinuousNumericalPossibleGradesResult(
+    // 0.66 is the lowest grade possible and equals "1+".
+    // Depending on where one lives the lowest grade might be 0.75
+    // or 0.66 (both equal 1+). So we just use 0.66 here so that
+    // every system can be covered.
+    min: 0.66,
+    max: 6,
+    decimalsAllowed: true,
+  ),
+);
+
 const oneToFiveWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToFiveWithDecimals,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
@@ -222,18 +240,15 @@ const zeroToFivteenPointsSpec = GradingSystemSpec(
   ),
 );
 
-const oneToSixWithDecimalsSpec = GradingSystemSpec(
-  gradingSystem: GradingSystem.oneToSixWithDecimals,
+const zeroToFivteenPointsWithDecimalsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.zeroToFivteenPointsWithDecimals,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
-    // 0.66 is the lowest grade possible and equals "1+".
-    // Depending on where one lives the lowest grade might be 0.75
-    // or 0.66 (both equal 1+). So we just use 0.66 here so that
-    // every system can be covered.
-    min: 0.66,
-    max: 6,
+    min: 0,
+    max: 15,
     decimalsAllowed: true,
   ),
 );
+
 
 const sixToOneWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.sixToOneWithDecimals,
