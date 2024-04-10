@@ -38,10 +38,10 @@ extension _ToGradingSystems on _GradingSystem {
 class _GradingSystem {
   static final oneToSixWithPlusAndMinus =
       _GradingSystem(spec: oneToSixWithPlusAndMinusSpec);
-  static final zeroToFiveteenPoints =
-      _GradingSystem(spec: zeroToFivteenPointsSpec);
   static final oneToSixWithDecimals =
       _GradingSystem(spec: oneToSixWithDecimalsSpec);
+  static final zeroToFiveteenPoints =
+      _GradingSystem(spec: zeroToFivteenPointsSpec);
   static final zeroToHundredPercentWithDecimals =
       _GradingSystem(spec: zeroToHundredPercentWithDecimalsSpec);
   static final austrianBehaviouralGrades =
