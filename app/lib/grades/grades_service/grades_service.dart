@@ -77,7 +77,7 @@ class GradesService {
     terms.add(termRes);
   }
 
-  void createTerm({
+  void addTerm({
     required TermId id,
     required String name,
     required GradeTypeId finalGradeType,

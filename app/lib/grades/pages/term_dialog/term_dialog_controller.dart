@@ -27,8 +27,8 @@ class TermDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createTerm() async {
-    gradesService.createTerm(
+  Future<void> addTerm() async {
+    gradesService.addTerm(
       id: TermId(termName),
       gradingSystem: gradingSystem,
       name: termName,

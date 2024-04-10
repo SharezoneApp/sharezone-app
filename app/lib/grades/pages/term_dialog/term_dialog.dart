@@ -73,7 +73,7 @@ class TermDialog extends StatelessWidget {
                 ElevatedButton(
                   key: const ValueKey('save-button'),
                   onPressed: () async {
-                    await controller.createTerm();
+                    await controller.addTerm();
                     if (context.mounted) {
                       Navigator.of(context).pop();
                     }

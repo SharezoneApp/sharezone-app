@@ -41,7 +41,7 @@ class GradesTestController {
       }
     }
 
-    service.createTerm(
+    service.addTerm(
       id: termId,
       finalGradeType: testTerm.finalGradeType,
       isActiveTerm: testTerm.isActiveTerm,
