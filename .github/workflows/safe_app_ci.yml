@@ -235,8 +235,7 @@ jobs:
         run: |
           sz build_runner build \
             -c 4 \
-            --package-timeout-minutes 15 \
-            --exclude holidays
+            --package-timeout-minutes 15
 
       - name: Fail if generated files have changed
         run: |
