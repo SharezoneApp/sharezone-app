@@ -110,6 +110,7 @@ class GradesService {
     final bool? isActiveTerm,
     final String? name,
     final GradeTypeId? finalGradeType,
+    final GradingSystem? gradingSystem,
   }) {
     if (isActiveTerm != null) {
       _terms = _terms.map((term) {
@@ -129,12 +130,19 @@ class GradesService {
           .map((term) => term.id == id ? term.setName(name) : term)
           .toIList();
     }
-    if(finalGradeType != null) {
+    if (finalGradeType != null) {
       if (!_hasGradeTypeWithId(finalGradeType)) {
         throw GradeTypeNotFoundException(finalGradeType);
       }
       _terms = _terms
-          .map((term) => term.id == id ? term.setFinalGradeType(finalGradeType) : term)
+          .map((term) =>
+              term.id == id ? term.setFinalGradeType(finalGradeType) : term)
+          .toIList();
+    }
+    if(gradingSystem != null) {
+      _terms = _terms
+          .map((term) =>
+          term.id == id ? term.setGradingSystem(gradingSystem.toGradingSystem()) : term)
           .toIList();
     }
 
