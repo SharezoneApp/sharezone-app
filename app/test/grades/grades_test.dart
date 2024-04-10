@@ -834,6 +834,12 @@ void main() {
 
       expect(controller.term(term1.id).name, 'bar');
     });
+    test('Deleting an unknown term will throw an ArgumentError', () {
+      final controller = GradesTestController();
+
+      expect(() => controller.deleteTerm(const TermId('foo')),
+          throwsA(isA<ArgumentError>()));
+    });
     test('A grade has a Date', () {
       final controller = GradesTestController();
 

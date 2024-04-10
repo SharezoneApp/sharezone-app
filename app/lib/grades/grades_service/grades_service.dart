@@ -139,14 +139,19 @@ class GradesService {
               term.id == id ? term.setFinalGradeType(finalGradeType) : term)
           .toIList();
     }
-    if(gradingSystem != null) {
+    if (gradingSystem != null) {
       _terms = _terms
-          .map((term) =>
-          term.id == id ? term.setGradingSystem(gradingSystem.toGradingSystem()) : term)
+          .map((term) => term.id == id
+              ? term.setGradingSystem(gradingSystem.toGradingSystem())
+              : term)
           .toIList();
     }
 
     _updateTerms();
+  }
+
+  void deleteTerm(TermId id) {
+    throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
   }
 
   _Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);

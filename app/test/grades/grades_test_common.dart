@@ -141,6 +141,8 @@ class GradesTestController {
     );
   }
 
+  List<TermResult> get terms => service.terms.value.toList(growable: false);
+
   TermResult term(TermId id) {
     final term = service.terms.value.singleWhere((t) => t.id == id);
 
@@ -245,6 +247,10 @@ class GradesTestController {
       finalGradeType: finalGradeType,
       gradingSystem: gradingSystem,
     );
+  }
+
+  void deleteTerm(TermId id) {
+    service.deleteTerm(id);
   }
 }
 
