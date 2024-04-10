@@ -42,6 +42,7 @@ class GradesService {
         id: term.id,
         name: term.name,
         isActiveTerm: term.isActiveTerm,
+        finalGradeType: _getGradeType(term.finalGradeType),
         gradingSystem: term.gradingSystem.toGradingSystems(),
         calculatedGrade: term.tryGetTermGrade() != null
             ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
@@ -88,7 +89,7 @@ class GradesService {
       _terms = _terms.map((term) => term.setIsActiveTerm(false)).toIList();
     }
 
-    if(!_hasGradeTypeWithId(finalGradeType)) {
+    if (!_hasGradeTypeWithId(finalGradeType)) {
       throw GradeTypeNotFoundException(finalGradeType);
     }
 
@@ -108,6 +109,7 @@ class GradesService {
     required TermId id,
     final bool? isActiveTerm,
     final String? name,
+    GradeTypeId? finalGradeType,
   }) {
     if (isActiveTerm != null) {
       _terms = _terms.map((term) {
@@ -123,9 +125,16 @@ class GradesService {
       }).toIList();
     }
     if (name != null) {
-      _terms =
-          _terms.map((term) => term.id == id ? term.setName(name) : term).toIList();
+      _terms = _terms
+          .map((term) => term.id == id ? term.setName(name) : term)
+          .toIList();
     }
+    if(finalGradeType != null) {
+      _terms = _terms
+          .map((term) => term.id == id ? term.setFinalGradeType(finalGradeType) : term)
+          .toIList();
+    }
+
     _updateTerms();
   }
 
@@ -243,6 +252,10 @@ class GradesService {
       return;
     }
     _customGradeTypes = _customGradeTypes.add(gradeType);
+  }
+
+  GradeType _getGradeType(GradeTypeId finalGradeType) {
+    return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
   }
 
   var _subjects = IList<Subject>();
@@ -472,6 +485,7 @@ class TermResult extends Equatable {
   final IList<SubjectResult> subjects;
   final bool isActiveTerm;
   final String name;
+  final GradeType finalGradeType;
 
   SubjectResult subject(SubjectId id) {
     final subject = subjects.firstWhere((element) => element.id == id);
@@ -485,11 +499,19 @@ class TermResult extends Equatable {
     required this.calculatedGrade,
     required this.subjects,
     required this.isActiveTerm,
+    required this.finalGradeType,
   });
 
   @override
-  List<Object?> get props =>
-      [id, gradingSystem, calculatedGrade, subjects, isActiveTerm, name];
+  List<Object?> get props => [
+        id,
+        gradingSystem,
+        calculatedGrade,
+        subjects,
+        isActiveTerm,
+        name,
+        finalGradeType
+      ];
 }
 
 class GradeValue extends Equatable {

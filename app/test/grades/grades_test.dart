@@ -517,7 +517,9 @@ void main() {
               .asDouble,
           1.5);
     });
-    test('If a term is added with an unknown final grade type then an $GradeTypeNotFoundException is thrown', () {
+    test(
+        'If a term is added with an unknown final grade type then an $GradeTypeNotFoundException is thrown',
+        () {
       final controller = GradesTestController();
 
       final term = termWith(finalGradeType: const GradeTypeId('foo'));
@@ -727,6 +729,19 @@ void main() {
       // term1 should still be active
       expect(controller.term(term1.id).isActiveTerm, true);
     });
+    test(
+        'If the final grade type of the term is edited then the new value will be used.',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(finalGradeType: GradeType.other.id);
+      controller.createTerm(term1);
+
+      controller.editTerm(term1.id, finalGradeType: GradeType.writtenExam.id);
+
+      expect(controller.term(term1.id).finalGradeType, GradeType.writtenExam);
+    });
+    // TODO: If edit finalGradeType is unknown then a GradeTypeNotFoundException should be thrown
     test('Nothing happens if a term is edited with blank values', () {
       final controller = GradesTestController();
 
