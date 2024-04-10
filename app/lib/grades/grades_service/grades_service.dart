@@ -42,6 +42,7 @@ class GradesService {
         id: term.id,
         name: term.name,
         isActiveTerm: term.isActiveTerm,
+        finalGradeType: _getGradeType(term.finalGradeType),
         gradingSystem: term.gradingSystem.toGradingSystems(),
         calculatedGrade: term.tryGetTermGrade() != null
             ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
@@ -88,6 +89,10 @@ class GradesService {
       _terms = _terms.map((term) => term.setIsActiveTerm(false)).toIList();
     }
 
+    if (!_hasGradeTypeWithId(finalGradeType)) {
+      throw GradeTypeNotFoundException(finalGradeType);
+    }
+
     _terms = _terms.add(
       _Term(
         id: id,
@@ -98,6 +103,76 @@ class GradesService {
       ),
     );
     _updateTerms();
+  }
+
+  /// Edits the given values of the term (does not edit if the value is null).
+  ///
+  /// If the term is set to being active, any active term will be set to
+  /// inactive. If the term is set to being inactive, nothing will happen to the
+  /// other terms.
+  ///
+  /// Throws [GradeTypeNotFoundException] if the given [finalGradeType] is not
+  /// a valid grade type.
+  ///
+  /// Throws [ArgumentError] if the term with the given [id] does not exist.
+  void editTerm({
+    required TermId id,
+    final bool? isActiveTerm,
+    final String? name,
+    final GradeTypeId? finalGradeType,
+    final GradingSystem? gradingSystem,
+  }) {
+    if (isActiveTerm != null) {
+      _terms = _terms.map((term) {
+        if (id == term.id) {
+          return term.setIsActiveTerm(isActiveTerm);
+        } else {
+          // If the term that is edited is set to being active, all other terms
+          // should be set to inactive.
+          // If the term that is edited is set to being inactive, nothing should
+          // happen to the other terms.
+          return term.setIsActiveTerm(isActiveTerm ? false : term.isActiveTerm);
+        }
+      }).toIList();
+    }
+    if (name != null) {
+      _terms = _terms
+          .map((term) => term.id == id ? term.setName(name) : term)
+          .toIList();
+    }
+    if (finalGradeType != null) {
+      if (!_hasGradeTypeWithId(finalGradeType)) {
+        throw GradeTypeNotFoundException(finalGradeType);
+      }
+      _terms = _terms
+          .map((term) =>
+              term.id == id ? term.setFinalGradeType(finalGradeType) : term)
+          .toIList();
+    }
+    if (gradingSystem != null) {
+      _terms = _terms
+          .map((term) => term.id == id
+              ? term.setGradingSystem(gradingSystem.toGradingSystem())
+              : term)
+          .toIList();
+    }
+
+    _updateTerms();
+  }
+
+  /// Deletes the term with the given [id] any grades inside it.
+  ///
+  /// No subjects will be deleted.
+  ///
+  /// Throws [ArgumentError] if the term with the given [id] does not exist.
+  void deleteTerm(TermId id) {
+    final termOrNull = _terms.firstWhereOrNull((term) => term.id == id);
+    if (termOrNull != null) {
+      _terms = _terms.remove(termOrNull);
+      _updateTerms();
+      return;
+    }
+    throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
   }
 
   _Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
@@ -214,6 +289,10 @@ class GradesService {
       return;
     }
     _customGradeTypes = _customGradeTypes.add(gradeType);
+  }
+
+  GradeType _getGradeType(GradeTypeId finalGradeType) {
+    return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
   }
 
   var _subjects = IList<Subject>();
@@ -380,22 +459,25 @@ class GradeType extends Equatable {
       id: GradeTypeId('other'), predefinedType: PredefinedGradeTypes.other);
 }
 
-class GradeResult {
+class GradeResult extends Equatable {
   final GradeId id;
   final GradeValue value;
   final bool isTakenIntoAccount;
   final Date date;
   GradingSystem get gradingSystem => value.gradingSystem;
 
-  GradeResult({
+  const GradeResult({
     required this.id,
     required this.isTakenIntoAccount,
     required this.value,
     required this.date,
   });
+
+  @override
+  List<Object?> get props => [id, value, isTakenIntoAccount, date];
 }
 
-class SubjectResult {
+class SubjectResult extends Equatable {
   final SubjectId id;
   final String name;
   final GradeValue? calculatedGrade;
@@ -405,7 +487,7 @@ class SubjectResult {
   final String abbreviation;
   final Design design;
 
-  SubjectResult({
+  const SubjectResult({
     required this.id,
     required this.name,
     required this.abbreviation,
@@ -419,29 +501,54 @@ class SubjectResult {
   GradeResult grade(GradeId gradeId) {
     return grades.firstWhere((element) => element.id == gradeId);
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        calculatedGrade,
+        weightType,
+        gradeTypeWeights,
+        grades,
+        abbreviation,
+        design
+      ];
 }
 
-class TermResult {
+class TermResult extends Equatable {
   final TermId id;
   final GradingSystem gradingSystem;
   final GradeValue? calculatedGrade;
-  IList<SubjectResult> subjects;
+  final IList<SubjectResult> subjects;
   final bool isActiveTerm;
   final String name;
+  final GradeType finalGradeType;
 
   SubjectResult subject(SubjectId id) {
     final subject = subjects.firstWhere((element) => element.id == id);
     return subject;
   }
 
-  TermResult({
+  const TermResult({
     required this.id,
     required this.gradingSystem,
     required this.name,
     required this.calculatedGrade,
     required this.subjects,
     required this.isActiveTerm,
+    required this.finalGradeType,
   });
+
+  @override
+  List<Object?> get props => [
+        id,
+        gradingSystem,
+        calculatedGrade,
+        subjects,
+        isActiveTerm,
+        name,
+        finalGradeType
+      ];
 }
 
 class GradeValue extends Equatable {

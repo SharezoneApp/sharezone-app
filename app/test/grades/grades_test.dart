@@ -517,6 +517,17 @@ void main() {
               .asDouble,
           1.5);
     });
+    test(
+        'If a term is added with an unknown final grade type then an $GradeTypeNotFoundException is thrown',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(finalGradeType: const GradeTypeId('foo'));
+      expect(
+        () => controller.createTerm(term, createMissingGradeTypes: false),
+        throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))),
+      );
+    });
     test('The "Endnote" grade type overrides the subject grade', () {
       final controller = GradesTestController();
 
@@ -669,6 +680,136 @@ void main() {
       expect(controller.term(term1.id).isActiveTerm, false);
       expect(controller.term(term2.id).isActiveTerm, true);
     });
+    test(
+        'If a term is edited with "Aktuelles Halbjahr" set to true, then terms with "Aktuelles Halbjahr" set to true will be set to false.',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(isActiveTerm: true);
+      final term2 = termWith(isActiveTerm: false);
+      controller.createTerm(term1);
+      controller.createTerm(term2);
+
+      controller.editTerm(term2.id, isActiveTerm: true);
+
+      expect(controller.term(term1.id).isActiveTerm, false);
+      expect(controller.term(term2.id).isActiveTerm, true);
+    });
+    test(
+        'If a term is edited with "Aktuelles Halbjahr" set to false, then "Aktuelles Halbjahr" will be set to false.',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(isActiveTerm: true);
+      controller.createTerm(term1);
+
+      controller.editTerm(term1.id, isActiveTerm: false);
+
+      expect(controller.term(term1.id).isActiveTerm, false);
+    });
+    test(
+        'Setting "Aktuelles Halbjahr" false on a term where "Aktuelles Halbjahr" is already to false won\'t alter the other terms.',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(isActiveTerm: true);
+      final term2 = termWith(isActiveTerm: false);
+      controller.createTerm(term1);
+      controller.createTerm(term2);
+
+      // Is already false
+      controller.editTerm(term2.id, isActiveTerm: false);
+
+      // term1 should still be active
+      expect(controller.term(term1.id).isActiveTerm, true);
+    });
+    test(
+        'If the final grade type of the term is edited then the new value will be used.',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(finalGradeType: GradeType.other.id);
+      controller.createTerm(term1);
+
+      controller.editTerm(term1.id, finalGradeType: GradeType.writtenExam.id);
+
+      expect(controller.term(term1.id).finalGradeType, GradeType.writtenExam);
+    });
+    test(
+        'If the final grade type of a term is edited to a unknown grade type then a $GradeTypeNotFoundException will be thrown',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(finalGradeType: GradeType.other.id);
+      controller.createTerm(term1);
+
+      expect(
+        () => controller.editTerm(term1.id,
+            finalGradeType: const GradeTypeId('foo')),
+        throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))),
+      );
+    });
+    test(
+        'If the grading system of the term is edited then the new value will be used for the term.',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals);
+      controller.createTerm(term);
+
+      controller.editTerm(term.id,
+          gradingSystem: GradingSystem.oneToSixWithPlusAndMinus);
+
+      expect(controller.term(term.id).gradingSystem,
+          GradingSystem.oneToSixWithPlusAndMinus);
+    });
+
+    test('Nothing happens if a term is edited with blank values', () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(
+        isActiveTerm: true,
+        finalGradeType: GradeType.other.id,
+        name: 'Foo',
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            name: 'Philosophie',
+            grades: [
+              gradeWith(value: 4.0),
+            ],
+          ),
+        ],
+      );
+      final term2 = termWith(
+        isActiveTerm: false,
+        finalGradeType: GradeType.writtenExam.id,
+        name: 'Bar',
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Sport'),
+            name: 'Sport',
+            grades: [
+              gradeWith(value: 1.0),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term1);
+      controller.createTerm(term2);
+
+      final t1 = controller.term(term1.id);
+      final t2 = controller.term(term2.id);
+
+      // Do nothing
+      controller.editTerm(term1.id);
+      controller.editTerm(term2.id);
+
+      // Nothing should've changed
+      expect(controller.term(term1.id), t1);
+      expect(controller.term(term2.id), t2);
+    });
     test('A term can have a name.', () {
       final controller = GradesTestController();
 
@@ -676,6 +817,54 @@ void main() {
       controller.createTerm(term1);
 
       expect(controller.term(term1.id).name, '10/2');
+    });
+    test('The name of the term can be edited', () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(name: 'foo');
+      controller.createTerm(term1);
+
+      controller.editTerm(term1.id, name: 'bar');
+
+      expect(controller.term(term1.id).name, 'bar');
+    });
+    test('Deleting a term will delete all grades inside it, but no subjects',
+        () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(subjects: [
+        subjectWith(
+          id: const SubjectId('Sport'),
+          name: 'Sport',
+          grades: [gradeWith(value: 1.0)],
+        ),
+      ]);
+      final term2 = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            name: 'Philosophie',
+            grades: [gradeWith(value: 4.0)],
+          ),
+        ],
+      );
+
+      controller.createTerm(term1);
+      controller.createTerm(term2);
+
+      controller.deleteTerm(term1.id);
+
+      expect(controller.getSubjects().map((sub) => sub.id), [
+        const SubjectId('Sport'),
+        const SubjectId('Philosophie'),
+      ]);
+      expect(controller.terms.single.id, term2.id);
+    });
+    test('Deleting an unknown term will throw an ArgumentError', () {
+      final controller = GradesTestController();
+
+      expect(() => controller.deleteTerm(const TermId('foo')),
+          throwsA(isA<ArgumentError>()));
     });
     test('A grade has a Date', () {
       final controller = GradesTestController();

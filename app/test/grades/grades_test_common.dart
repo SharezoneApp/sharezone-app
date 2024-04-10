@@ -30,7 +30,7 @@ extension ValidValue on GradingSystem {
 class GradesTestController {
   final service = GradesService();
 
-  void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = false}) {
+  void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = true}) {
     final termId = testTerm.id;
 
     if (createMissingGradeTypes) {
@@ -141,6 +141,8 @@ class GradesTestController {
     );
   }
 
+  List<TermResult> get terms => service.terms.value.toList(growable: false);
+
   TermResult term(TermId id) {
     final term = service.terms.value.singleWhere((t) => t.id == id);
 
@@ -229,6 +231,26 @@ class GradesTestController {
           ),
         )
         .toIList();
+  }
+
+  void editTerm(
+    TermId id, {
+    bool? isActiveTerm,
+    String? name,
+    GradeTypeId? finalGradeType,
+    GradingSystem? gradingSystem,
+  }) {
+    service.editTerm(
+      id: id,
+      isActiveTerm: isActiveTerm,
+      name: name,
+      finalGradeType: finalGradeType,
+      gradingSystem: gradingSystem,
+    );
+  }
+
+  void deleteTerm(TermId id) {
+    service.deleteTerm(id);
   }
 }
 
