@@ -18,7 +18,7 @@ class Id {
     return identical(this, other) || other is Id && other.id == id;
   }
 
-  /// Generates a new random [Id] with a the given [length] using characters
+  /// Generates a new random [Id] with the given [length] using characters
   /// from a-z, A-Z and 0-9.
   static Id generate({
     int length = 20,
