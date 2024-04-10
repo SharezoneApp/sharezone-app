@@ -109,7 +109,7 @@ class GradesService {
     required TermId id,
     final bool? isActiveTerm,
     final String? name,
-    GradeTypeId? finalGradeType,
+    final GradeTypeId? finalGradeType,
   }) {
     if (isActiveTerm != null) {
       _terms = _terms.map((term) {
@@ -130,6 +130,9 @@ class GradesService {
           .toIList();
     }
     if(finalGradeType != null) {
+      if (!_hasGradeTypeWithId(finalGradeType)) {
+        throw GradeTypeNotFoundException(finalGradeType);
+      }
       _terms = _terms
           .map((term) => term.id == id ? term.setFinalGradeType(finalGradeType) : term)
           .toIList();

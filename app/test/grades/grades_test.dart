@@ -741,7 +741,17 @@ void main() {
 
       expect(controller.term(term1.id).finalGradeType, GradeType.writtenExam);
     });
-    // TODO: If edit finalGradeType is unknown then a GradeTypeNotFoundException should be thrown
+    test('If the final grade type of a term is edited to a unknown grade type then a $GradeTypeNotFoundException will be thrown', () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(finalGradeType: GradeType.other.id);
+      controller.createTerm(term1);
+
+      expect(
+        () => controller.editTerm(term1.id, finalGradeType: const GradeTypeId('foo')),
+        throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))),
+      );      
+    });
     test('Nothing happens if a term is edited with blank values', () {
       final controller = GradesTestController();
 
