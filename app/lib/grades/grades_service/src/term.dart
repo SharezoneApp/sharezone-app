@@ -185,14 +185,6 @@ class _Term {
     return _subjects.any((s) => s.hasGrade(gradeId));
   }
 
-  _Grade getGrade(GradeId gradeId) {
-    final subject = _subjects.firstWhere(
-      (s) => s.hasGrade(gradeId),
-      orElse: () => throw GradeNotFoundException(gradeId),
-    );
-    return subject.grade(gradeId);
-  }
-
   _Term changeWeighting(SubjectId id, num newWeight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(

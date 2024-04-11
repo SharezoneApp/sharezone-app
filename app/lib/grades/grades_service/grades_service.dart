@@ -241,21 +241,6 @@ class GradesService {
     throw GradeNotFoundException(gradeId);
   }
 
-  GradeResult getGrade(GradeId gradeId) {
-    final term = _terms.firstWhereOrNull((term) => term.hasGrade(gradeId));
-    if (term != null) {
-      final grade = term.getGrade(gradeId);
-      return GradeResult(
-        id: grade.id,
-        date: grade.date,
-        isTakenIntoAccount: grade.takenIntoAccount,
-        title: grade.title,
-        value: grade.value,
-      );
-    }
-    throw GradeNotFoundException(gradeId);
-  }
-
   void changeGradeWeight({
     required GradeId id,
     required TermId termId,
