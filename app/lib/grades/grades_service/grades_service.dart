@@ -222,6 +222,10 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  void deleteGrade(GradeId gradeId) {
+    throw GradeNotFoundException(gradeId);
+  }
+
   void changeGradeWeight({
     required GradeId id,
     required TermId termId,
@@ -332,6 +336,15 @@ class InvalidGradeValueException extends Equatable implements Exception {
 
   @override
   List<Object?> get props => [gradeInput, gradingSystem];
+}
+
+class GradeNotFoundException extends Equatable implements Exception {
+  final GradeId id;
+
+  const GradeNotFoundException(this.id);
+
+  @override
+  List<Object?> get props => [id];
 }
 
 class SubjectNotFoundException extends Equatable implements Exception {
