@@ -214,12 +214,30 @@ class GradesService {
       throw GradeTypeNotFoundException(value.type);
     }
 
+    if (_hasGradeWithId(value.id)) {
+      throw DuplicateGradeIdException(value.id);
+    }
+
     var newTerm = _term(termId);
     if (!newTerm.hasSubject(id)) {
       newTerm = newTerm.addSubject(subject);
     }
     newTerm = newTerm.addGrade(value, toSubject: id);
     _updateTerm(newTerm);
+  }
+
+  bool _hasGradeWithId(GradeId id) {
+    return _terms.any((term) => term.hasGrade(id));
+  }
+
+  void deleteGrade(GradeId gradeId) {
+    final term = _terms.firstWhereOrNull((term) => term.hasGrade(gradeId));
+    if (term != null) {
+      final newTerm = term.removeGrade(gradeId);
+      _updateTerm(newTerm);
+      return;
+    }
+    throw GradeNotFoundException(gradeId);
   }
 
   void changeGradeWeight({
@@ -332,6 +350,24 @@ class InvalidGradeValueException extends Equatable implements Exception {
 
   @override
   List<Object?> get props => [gradeInput, gradingSystem];
+}
+
+class GradeNotFoundException extends Equatable implements Exception {
+  final GradeId id;
+
+  const GradeNotFoundException(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class DuplicateGradeIdException extends Equatable implements Exception {
+  final GradeId id;
+
+  const DuplicateGradeIdException(this.id);
+
+  @override
+  List<Object?> get props => [id];
 }
 
 class SubjectNotFoundException extends Equatable implements Exception {

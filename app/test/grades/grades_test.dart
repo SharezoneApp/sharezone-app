@@ -932,6 +932,105 @@ void main() {
       expect(grade2.gradingSystem, GradingSystem.sixToOneWithDecimals);
       expect(grade2.value.gradingSystem, GradingSystem.sixToOneWithDecimals);
     });
+    test('A grade can be deleted', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+              ),
+              gradeWith(
+                id: GradeId('grade2'),
+                value: 4.5,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      controller.deleteGrade(gradeId: GradeId('grade1'));
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Philosophie'))
+              .grades,
+          hasLength(1));
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Philosophie'))
+              .grades
+              .single
+              .id,
+          GradeId('grade2'));
+    });
+    test(
+        'When trying to add a grade with the same id as an existing grade then a $DuplicateGradeIdException is thrown',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+        () => controller.addGrade(
+          termId: term.id,
+          subjectId: const SubjectId('Philosophie'),
+          value: gradeWith(
+            id: GradeId('grade1'),
+            value: 4.0,
+          ),
+        ),
+        throwsA(DuplicateGradeIdException(GradeId('grade1'))),
+      );
+    });
+    test(
+        'If an unknown grade is to be deleted then an $GradeNotFoundException will be thrown',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+        () => controller.deleteGrade(
+          gradeId: GradeId('unknown'),
+        ),
+        throwsA(GradeNotFoundException(GradeId('unknown'))),
+      );
+    });
     test('A subject has a Design', () {
       final controller = GradesTestController();
 

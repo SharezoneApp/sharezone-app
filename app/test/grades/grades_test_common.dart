@@ -252,6 +252,10 @@ class GradesTestController {
   void deleteTerm(TermId id) {
     service.deleteTerm(id);
   }
+
+  void deleteGrade({required GradeId gradeId}) {
+    service.deleteGrade(gradeId);
+  }
 }
 
 TestTerm termWith({
