@@ -223,6 +223,12 @@ class GradesService {
   }
 
   void deleteGrade(GradeId gradeId) {
+    final term = _terms.firstWhereOrNull((term) => term.hasGrade(gradeId));
+    if (term != null) {
+      final newTerm = term.removeGrade(gradeId);
+      _updateTerm(newTerm);
+      return;
+    }
     throw GradeNotFoundException(gradeId);
   }
 

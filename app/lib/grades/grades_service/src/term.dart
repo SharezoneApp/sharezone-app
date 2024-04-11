@@ -166,6 +166,24 @@ class _Term {
         : _copyWith(subjects: _subjects.add(subject));
   }
 
+  _Term removeGrade(GradeId gradeId) {
+    final subject = _subjects.firstWhere(
+      (s) => s.hasGrade(gradeId),
+      orElse: () => throw GradeNotFoundException(gradeId),
+    );
+
+    final newSubject = subject.removeGrade(gradeId);
+
+    return _copyWith(
+      subjects:
+          _subjects.replaceAllWhere((s) => s.id == subject.id, newSubject),
+    );
+  }
+
+  bool hasGrade(GradeId gradeId) {
+    return _subjects.any((s) => s.hasGrade(gradeId));
+  }
+
   _Term changeWeighting(SubjectId id, num newWeight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
@@ -288,6 +306,14 @@ class _Subject {
 
   _Subject _addGrade(_Grade grade) {
     return copyWith(grades: grades.add(grade));
+  }
+
+  _Subject removeGrade(GradeId gradeId) {
+    return copyWith(grades: grades.removeWhere((grade) => grade.id == gradeId));
+  }
+
+  bool hasGrade(GradeId gradeId) {
+    return grades.any((g) => g.id == gradeId);
   }
 
   num _weightFor(_Grade grade) {

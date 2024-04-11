@@ -932,6 +932,46 @@ void main() {
       expect(grade2.gradingSystem, GradingSystem.sixToOneWithDecimals);
       expect(grade2.value.gradingSystem, GradingSystem.sixToOneWithDecimals);
     });
+    test('A grade can be deleted', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+              ),
+              gradeWith(
+                id: GradeId('grade2'),
+                value: 4.5,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      controller.deleteGrade(gradeId: GradeId('grade1'));
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Philosophie'))
+              .grades,
+          hasLength(1));
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Philosophie'))
+              .grades
+              .single
+              .id,
+          GradeId('grade2'));
+    });
     test(
         'If an unknown grade is to be deleted then an $GradeNotFoundException will be thrown',
         () {
