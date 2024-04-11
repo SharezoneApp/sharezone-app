@@ -1116,5 +1116,28 @@ void main() {
       expect(addGrade,
           throwsA(const SubjectNotFoundException(SubjectId('Unknown'))));
     });
+    test('If the $GradesService is replaced old values wont be there anymore',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      controller.replaceGradesService(GradesService());
+
+      expect(controller.terms, isEmpty);
+    });
   });
 }
