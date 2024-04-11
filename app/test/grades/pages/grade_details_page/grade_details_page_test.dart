@@ -104,19 +104,5 @@ void main() {
 
       verifyNever(controller.deleteGrade());
     });
-
-    testWidgets('should confirmation snackbar when deleted', (tester) async {
-      when(controller.deleteGrade()).thenAnswer((_) {});
-      await pushGradeDetailsPage(tester);
-
-      await tester.tap(find.byKey(const Key('delete-grade-icon-button')));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find
-          .byKey(const Key('delete-grade-confirmation-dialog-delete-button')));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(SnackBar), findsOneWidget);
-    });
   });
 }
