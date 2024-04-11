@@ -973,6 +973,38 @@ void main() {
           GradeId('grade2'));
     });
     test(
+        'When trying to add a grade with the same id as an existing grade then a $DuplicateGradeIdException is thrown',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+        () => controller.addGrade(
+          termId: term.id,
+          subjectId: const SubjectId('Philosophie'),
+          value: gradeWith(
+            id: GradeId('grade1'),
+            value: 4.0,
+          ),
+        ),
+        throwsA(DuplicateGradeIdException(GradeId('grade1'))),
+      );
+    });
+    test(
         'If an unknown grade is to be deleted then an $GradeNotFoundException will be thrown',
         () {
       final controller = GradesTestController();
