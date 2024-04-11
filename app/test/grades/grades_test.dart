@@ -1031,6 +1031,81 @@ void main() {
         throwsA(GradeNotFoundException(GradeId('unknown'))),
       );
     });
+    test('A grade can be returned', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      final grade = controller.getGrade(GradeId('grade1'));
+
+      expect(grade.id, GradeId('grade1'));
+    });
+    test(
+        'If an unknown grade is requested then an $GradeNotFoundException will be thrown',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+        () => controller.getGrade(GradeId('unknown')),
+        throwsA(GradeNotFoundException(GradeId('unknown'))),
+      );
+    });
+    test('A grade has a title', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+                title: 'Klausur',
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Philosophie'))
+              .grade(GradeId('grade1'))
+              .title,
+          'Klausur');
+    });
+
     test('A subject has a Design', () {
       final controller = GradesTestController();
 

@@ -7,7 +7,7 @@ import 'dart:ui' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i4;
-import 'package:sharezone/grades/models/term_id.dart' as _i2;
+import 'package:sharezone/grades/grades_service/grades_service.dart' as _i2;
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller.dart'
     as _i3;
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart'
@@ -36,9 +36,19 @@ class _FakeTermId_0 extends _i1.SmartFake implements _i2.TermId {
         );
 }
 
-class _FakeTermDetailsPageController_1 extends _i1.SmartFake
+class _FakeGradesService_1 extends _i1.SmartFake implements _i2.GradesService {
+  _FakeGradesService_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeTermDetailsPageController_2 extends _i1.SmartFake
     implements _i3.TermDetailsPageController {
-  _FakeTermDetailsPageController_1(
+  _FakeTermDetailsPageController_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -85,11 +95,31 @@ class MockTermDetailsPageController extends _i1.Mock
         ),
       ) as _i2.TermId);
   @override
+  _i2.GradesService get gradesService => (super.noSuchMethod(
+        Invocation.getter(#gradesService),
+        returnValue: _FakeGradesService_1(
+          this,
+          Invocation.getter(#gradesService),
+        ),
+        returnValueForMissingStub: _FakeGradesService_1(
+          this,
+          Invocation.getter(#gradesService),
+        ),
+      ) as _i2.GradesService);
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+  @override
+  _i2.TermResult? getTerm(_i2.TermId? termId) => (super.noSuchMethod(
+        Invocation.method(
+          #getTerm,
+          [termId],
+        ),
+        returnValueForMissingStub: null,
+      ) as _i2.TermResult?);
   @override
   void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -130,20 +160,32 @@ class MockTermDetailsPageController extends _i1.Mock
 class MockTermDetailsPageControllerFactory extends _i1.Mock
     implements _i6.TermDetailsPageControllerFactory {
   @override
+  _i2.GradesService get gradesService => (super.noSuchMethod(
+        Invocation.getter(#gradesService),
+        returnValue: _FakeGradesService_1(
+          this,
+          Invocation.getter(#gradesService),
+        ),
+        returnValueForMissingStub: _FakeGradesService_1(
+          this,
+          Invocation.getter(#gradesService),
+        ),
+      ) as _i2.GradesService);
+  @override
   _i3.TermDetailsPageController create(_i2.TermId? termId) =>
       (super.noSuchMethod(
         Invocation.method(
           #create,
           [termId],
         ),
-        returnValue: _FakeTermDetailsPageController_1(
+        returnValue: _FakeTermDetailsPageController_2(
           this,
           Invocation.method(
             #create,
             [termId],
           ),
         ),
-        returnValueForMissingStub: _FakeTermDetailsPageController_1(
+        returnValueForMissingStub: _FakeTermDetailsPageController_2(
           this,
           Invocation.method(
             #create,

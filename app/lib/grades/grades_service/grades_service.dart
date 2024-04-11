@@ -67,6 +67,7 @@ class GradesService {
                         date: grade.date,
                         isTakenIntoAccount: grade.takenIntoAccount,
                         value: grade.value,
+                        title: grade.title,
                       ),
                     )
                     .toIList(),
@@ -236,6 +237,21 @@ class GradesService {
       final newTerm = term.removeGrade(gradeId);
       _updateTerm(newTerm);
       return;
+    }
+    throw GradeNotFoundException(gradeId);
+  }
+
+  GradeResult getGrade(GradeId gradeId) {
+    final term = _terms.firstWhereOrNull((term) => term.hasGrade(gradeId));
+    if (term != null) {
+      final grade = term.getGrade(gradeId);
+      return GradeResult(
+        id: grade.id,
+        date: grade.date,
+        isTakenIntoAccount: grade.takenIntoAccount,
+        title: grade.title,
+        value: grade.value,
+      );
     }
     throw GradeNotFoundException(gradeId);
   }
@@ -500,6 +516,7 @@ class GradeResult extends Equatable {
   final GradeValue value;
   final bool isTakenIntoAccount;
   final Date date;
+  final String title;
   GradingSystem get gradingSystem => value.gradingSystem;
 
   const GradeResult({
@@ -507,10 +524,11 @@ class GradeResult extends Equatable {
     required this.isTakenIntoAccount,
     required this.value,
     required this.date,
+    required this.title,
   });
 
   @override
-  List<Object?> get props => [id, value, isTakenIntoAccount, date];
+  List<Object?> get props => [id, value, isTakenIntoAccount, date, title];
 }
 
 class SubjectResult extends Equatable {
@@ -623,6 +641,9 @@ class Grade {
   final Date date;
   final bool takeIntoAccount;
 
+  /// The title of the grade, for example 'Lineare Algebra Klausur'.
+  final String title;
+
   Grade({
     required this.id,
     required this.value,
@@ -630,6 +651,7 @@ class Grade {
     required this.type,
     required this.date,
     required this.takeIntoAccount,
+    required this.title,
   });
 }
 

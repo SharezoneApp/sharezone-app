@@ -16,7 +16,7 @@ class GradeDetailsView extends Equatable {
   final String gradeType;
   final String termDisplayName;
   final bool? integrateGradeIntoSubjectGrade;
-  final String? topic;
+  final String? title;
   final String? details;
 
   const GradeDetailsView({
@@ -27,7 +27,7 @@ class GradeDetailsView extends Equatable {
     required this.gradeType,
     required this.termDisplayName,
     this.integrateGradeIntoSubjectGrade,
-    this.topic,
+    this.title,
     this.details,
   });
 
@@ -40,7 +40,7 @@ class GradeDetailsView extends Equatable {
         gradeType,
         termDisplayName,
         integrateGradeIntoSubjectGrade,
-        topic,
+        title,
         details,
       ];
 }

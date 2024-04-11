@@ -419,10 +419,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => GradesPageController(gradesService: gradesService),
       ),
       Provider(
-        create: (context) => const TermDetailsPageControllerFactory(),
+        create: (context) => TermDetailsPageControllerFactory(
+          gradesService: gradesService,
+        ),
       ),
       Provider(
-        create: (context) => GradeDetailsPageControllerFactory(),
+        create: (context) => GradeDetailsPageControllerFactory(
+          gradesService: gradesService,
+        ),
       )
     ];
 

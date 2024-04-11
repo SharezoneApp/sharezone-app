@@ -11,11 +11,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/grades/models/grade_id.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_view.dart';
-import 'package:sharezone/grades/pages/shared/saved_grade_id.dart';
 
 import 'grade_details_page_test.mocks.dart';
 
@@ -24,7 +24,7 @@ import 'grade_details_page_test.mocks.dart';
   MockSpec<GradeDetailsPageControllerFactory>(),
 ])
 void main() {
-  const id = SavedGradeId('1');
+  final id = GradeId('1');
 
   late MockGradeDetailsPageControllerFactory controllerFactory;
   late MockGradeDetailsPageController controller;
@@ -47,7 +47,7 @@ void main() {
       gradeType: 'Test',
       termDisplayName: '1st Term',
       integrateGradeIntoSubjectGrade: true,
-      topic: 'Algebra',
+      title: 'Algebra',
       details: 'This is a test grade for algebra.',
     );
     setState(const GradeDetailsPageLoaded(dummyView));
@@ -73,7 +73,7 @@ void main() {
                 create: (context) => controller,
               ),
             ],
-            child: const GradeDetailsPage(id: id),
+            child: GradeDetailsPage(id: id),
           ),
         ),
       );
