@@ -26,8 +26,13 @@ part 'src/grading_systems.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
+  final GradesRepository _repository;
 
-  GradesService() : terms = rx.BehaviorSubject.seeded(const IListConst([]));
+  GradesService({GradesRepository? repository})
+      : _repository = repository ?? GradesRepository(),
+        terms = rx.BehaviorSubject.seeded(const IListConst([])) {
+    _updateTerms(save: false);
+  }
 
   IList<_Term> _terms = const IListConst<_Term>([]);
 
@@ -36,7 +41,11 @@ class GradesService {
     _updateTerms();
   }
 
-  void _updateTerms() {
+  void _updateTerms({bool save = true}) {
+    if (save) {
+      _repository.saveTerms(_terms);
+    }
+    _terms = _repository.loadTerms();
     final termRes = _terms.map((term) {
       return TermResult(
         id: term.id,
@@ -665,5 +674,16 @@ class Weight extends Equatable {
   @override
   String toString() {
     return 'Weight($asFactor / $asPercentage%)';
+  }
+}
+
+class GradesRepository {
+  IList<_Term> _terms = const IListConst<_Term>([]);
+  void saveTerms(IList<_Term> terms) {
+    _terms = terms;
+  }
+
+  IList<_Term> loadTerms() {
+    return _terms;
   }
 }
