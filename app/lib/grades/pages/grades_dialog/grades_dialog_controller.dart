@@ -123,6 +123,11 @@ class GradesDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
+  String? _title;
+  void setTitle(String res) {
+    _title = res;
+  }
+
   void save() {
     final gradeId = GradeId(randomIDString(20));
 
@@ -136,6 +141,7 @@ class GradesDialogController extends ChangeNotifier {
         date: _date,
         takeIntoAccount: _integrateGradeIntoSubjectGrade,
         gradingSystem: _gradingSystem,
+        title: _title ?? 'todo: will be forced that this is not null',
       ),
     );
   }

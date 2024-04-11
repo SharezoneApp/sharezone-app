@@ -36,10 +36,12 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.read<GradesDialogController>();
     return ListTile(
       leading: SavedGradeIcons.title,
       title: PrefilledTextField(
         prefilledText: title,
+        onChanged: controller.setTitle,
         decoration: const InputDecoration(
           labelText: "Titel",
           hintText: "z.B. Lineare Funktionen",

@@ -6,75 +6,83 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:math';
+import 'dart:async';
 
+import 'package:collection/collection.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/date.dart';
-import 'package:design/design.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/grades/models/subject_id.dart';
-import 'package:sharezone/grades/models/term_id.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 
 class TermDetailsPageController extends ChangeNotifier {
-  late TermDetailsPageState state;
+  late TermDetailsPageState state = const TermDetailsPageLoading();
   final TermId termId;
+  final GradesService gradesService;
+  final CrashAnalytics crashAnalytics;
+  late StreamSubscription<TermResult?> _termStreamSubscription;
 
-  TermDetailsPageController({required this.termId}) {
-    final random = Random(42);
+  TermDetailsPageController({
+    required this.termId,
+    required this.gradesService,
+    required this.crashAnalytics,
+  }) {
+    _termStreamSubscription = _getTermStream(termId).listen((term) {
+      if (term == null) {
+        state = const TermDetailsPageError('Term not found');
+      } else {
+        final List<({SubjectView subject, List<SavedGradeView> grades})>
+            subjects2 = term.subjects.map((subject) {
+          return (
+            subject: (
+              id: subject.id,
+              abbreviation: subject.abbreviation,
+              displayName: subject.name,
+              grade: displayGrade(subject.calculatedGrade),
+              design: subject.design,
+            ),
+            grades: subject.grades
+                .map((grade) => (
+                      id: grade.id,
+                      grade: displayGrade(grade.value),
+                      gradeTypeIcon: const Icon(Icons.note_add),
+                      title: grade.title,
+                      date: grade.date,
+                    ))
+                .toList()
+          );
+        }).toList();
 
-    state = TermDetailsPageLoaded(
-      term: (
-        id: const TermId('term-1'),
-        displayName: '10/2',
-        avgGrade: ('1,0', GradePerformance.good),
-      ),
-      subjectsWithGrades: [
-        (
-          grades: [
-            (
-              gradeTypeIcon: const Icon(Icons.note_add),
-              date: Date.fromDateTime(DateTime(2021, 2, 2)),
-              grade: '1,0',
-              gradeTypeName: 'Klausur',
+        state = TermDetailsPageLoaded(
+          term: (
+            id: term.id,
+            displayName: term.name,
+            avgGrade: (
+              displayGrade(term.calculatedGrade),
+              GradePerformance.bad
             ),
-            (
-              gradeTypeIcon: const Icon(Icons.text_format),
-              date: Date.fromDateTime(DateTime(2021, 2, 1)),
-              grade: '2+',
-              gradeTypeName: 'Vokabeltest',
-            ),
-          ],
-          subject: (
-            displayName: 'Deutsch',
-            abbreviation: 'DE',
-            grade: '2,0',
-            design: Design.random(random),
-            id: const SubjectId('1'),
           ),
-        ),
-        (
-          grades: [],
-          subject: (
-            displayName: 'Englisch',
-            abbreviation: 'E',
-            grade: '2+',
-            design: Design.random(random),
-            id: const SubjectId('2'),
-          ),
-        ),
-        (
-          grades: [],
-          subject: (
-            displayName: 'Mathe',
-            abbreviation: 'DE',
-            grade: '1-',
-            design: Design.random(random),
-            id: const SubjectId('3'),
-          ),
-        ),
-      ],
-    );
-    notifyListeners();
+          subjectsWithGrades: subjects2,
+        );
+      }
+      notifyListeners();
+    }, onError: (error, stack) {
+      state = TermDetailsPageError(error);
+      crashAnalytics.recordError('Could not stream term: $error', stack);
+      notifyListeners();
+    });
+  }
+
+  Stream<TermResult?> _getTermStream(TermId termId) {
+    return gradesService.terms
+        .map((terms) => terms.firstWhereOrNull((term) => term.id == termId));
+  }
+
+  @override
+  void dispose() {
+    _termStreamSubscription.cancel();
+    super.dispose();
   }
 }
 
@@ -87,9 +95,10 @@ class TermDetailsPageLoading extends TermDetailsPageState {
 }
 
 typedef SavedGradeView = ({
+  GradeId id,
   GradeView grade,
   Icon gradeTypeIcon,
-  String gradeTypeName,
+  String title,
   Date date,
 });
 

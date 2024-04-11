@@ -16,6 +16,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/grades/models/grade_id.dart';
 import 'package:sharezone/grades/models/subject_id.dart';
 import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
@@ -75,16 +76,18 @@ void main() {
             (
               grades: [
                 (
+                  id: GradeId('1'),
                   gradeTypeIcon: const Icon(Icons.note_add),
                   date: Date.fromDateTime(DateTime(2021, 2, 2)),
                   grade: '1,0',
-                  gradeTypeName: 'Klausur',
+                  title: 'Klausur',
                 ),
                 (
+                  id: GradeId('2'),
                   gradeTypeIcon: const Icon(Icons.text_format),
                   date: Date.fromDateTime(DateTime(2021, 2, 1)),
                   grade: '2+',
-                  gradeTypeName: 'Vokabeltest',
+                  title: 'Vokabeltest',
                 ),
               ],
               subject: (

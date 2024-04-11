@@ -67,6 +67,7 @@ class GradesService {
                         date: grade.date,
                         isTakenIntoAccount: grade.takenIntoAccount,
                         value: grade.value,
+                        title: grade.title,
                       ),
                     )
                     .toIList(),
@@ -500,6 +501,7 @@ class GradeResult extends Equatable {
   final GradeValue value;
   final bool isTakenIntoAccount;
   final Date date;
+  final String title;
   GradingSystem get gradingSystem => value.gradingSystem;
 
   const GradeResult({
@@ -507,10 +509,11 @@ class GradeResult extends Equatable {
     required this.isTakenIntoAccount,
     required this.value,
     required this.date,
+    required this.title,
   });
 
   @override
-  List<Object?> get props => [id, value, isTakenIntoAccount, date];
+  List<Object?> get props => [id, value, isTakenIntoAccount, date, title];
 }
 
 class SubjectResult extends Equatable {
@@ -623,6 +626,9 @@ class Grade {
   final Date date;
   final bool takeIntoAccount;
 
+  /// The title of the grade, for example 'Lineare Algebra Klausur'.
+  final String title;
+
   Grade({
     required this.id,
     required this.value,
@@ -630,6 +636,7 @@ class Grade {
     required this.type,
     required this.date,
     required this.takeIntoAccount,
+    required this.title,
   });
 }
 

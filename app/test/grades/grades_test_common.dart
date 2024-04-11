@@ -138,6 +138,7 @@ class GradesTestController {
       takeIntoAccount: testGrade.includeInGradeCalculations,
       gradingSystem: testGrade.gradingSystem,
       type: testGrade.type,
+      title: testGrade.title,
     );
   }
 
@@ -372,6 +373,7 @@ TestGrade gradeWith({
   GradeId? id,
   GradingSystem? gradingSystem,
   Date? date,
+  String? title,
 }) {
   return TestGrade(
     id: id ?? GradeId(randomAlpha(5)),
@@ -380,6 +382,7 @@ TestGrade gradeWith({
     date: date ?? Date('2024-02-22'),
     gradingSystem: gradingSystem ?? GradingSystem.zeroToFivteenPoints,
     type: type ?? GradeType.other.id,
+    title: title ?? 'Exam',
     weight: weight,
   );
 }
@@ -394,6 +397,7 @@ class TestGrade {
   final GradeTypeId type;
   final Weight? weight;
   final Date date;
+  final String title;
 
   TestGrade({
     required this.id,
@@ -402,6 +406,7 @@ class TestGrade {
     required this.includeInGradeCalculations,
     required this.gradingSystem,
     required this.type,
+    required this.title,
     this.weight,
   }) {
     if (value is! num && value is! String) {

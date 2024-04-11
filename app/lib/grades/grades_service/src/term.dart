@@ -157,6 +157,7 @@ class _Term {
       takenIntoAccount: grade.takeIntoAccount,
       gradeType: grade.type,
       weight: 1,
+      title: grade.title,
     ));
 
     return _subjects.where((element) => element.id == toSubject).isNotEmpty
@@ -385,10 +386,18 @@ class _Grade extends Equatable {
   final bool takenIntoAccount;
   final num weight;
   final Date date;
+  final String title;
 
   @override
-  List<Object?> get props =>
-      [id, value, gradingSystem, gradeType, takenIntoAccount, weight];
+  List<Object?> get props => [
+        id,
+        value,
+        gradingSystem,
+        gradeType,
+        takenIntoAccount,
+        weight,
+        title,
+      ];
 
   const _Grade({
     required this.term,
@@ -399,6 +408,7 @@ class _Grade extends Equatable {
     required this.weight,
     required this.date,
     required this.takenIntoAccount,
+    required this.title,
   });
 
   _Grade _changeWeight(double weight) {
@@ -414,6 +424,7 @@ class _Grade extends Equatable {
     GradeTypeId? gradeType,
     bool? takenIntoAccount,
     num? weight,
+    String? title,
   }) {
     return _Grade(
       term: term ?? this.term,
@@ -424,6 +435,7 @@ class _Grade extends Equatable {
       gradeType: gradeType ?? this.gradeType,
       takenIntoAccount: takenIntoAccount ?? this.takenIntoAccount,
       weight: weight ?? this.weight,
+      title: title ?? this.title,
     );
   }
 }

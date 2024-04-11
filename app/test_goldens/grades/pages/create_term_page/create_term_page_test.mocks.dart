@@ -200,6 +200,14 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         returnValueForMissingStub: null,
       );
   @override
+  void deleteGrade(_i7.GradeId? gradeId) => super.noSuchMethod(
+        Invocation.method(
+          #deleteGrade,
+          [gradeId],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   void changeGradeWeight({
     required _i7.GradeId? id,
     required _i5.TermId? termId,

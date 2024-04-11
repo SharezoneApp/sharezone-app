@@ -8,46 +8,75 @@
 
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_view.dart';
-import 'package:sharezone/grades/pages/shared/saved_grade_id.dart';
+import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 
 class GradeDetailsPageController extends ChangeNotifier {
-  final SavedGradeId id;
+  final GradeId id;
+  final GradesService gradesService;
+  final CrashAnalytics crashAnalytics;
+  late StreamSubscription<GradeResult?> _gradeStreamSubscription;
 
   GradeDetailsPageState state = const GradeDetailsPageLoading();
 
-  late StreamSubscription<GradeDetailsView> _gradeDetailsSubscription;
   GradeDetailsPageController({
     required this.id,
+    required this.gradesService,
+    required this.crashAnalytics,
   }) {
-    const dummyValue = GradeDetailsView(
-      gradeValue: '5',
-      gradingSystem: '5-Point',
-      subjectDisplayName: 'Math',
-      date: '2021-09-01',
-      gradeType: 'Test',
-      termDisplayName: '1st Term',
-      integrateGradeIntoSubjectGrade: true,
-      topic: 'Algebra',
-      details: 'This is a test grade for algebra.',
-    );
-    Stream.value(dummyValue).listen((grade) {
-      state = GradeDetailsPageLoaded(grade);
+    _gradeStreamSubscription = _getGradeStream().listen((grade) {
+      if (grade != null) {
+        state = GradeDetailsPageLoaded(
+          GradeDetailsView(
+            gradeValue: displayGrade(grade.value),
+            gradingSystem: grade.gradingSystem.name,
+            subjectDisplayName: '?',
+            date: DateFormat.yMd().format(grade.date.toDateTime),
+            gradeType: '?',
+            termDisplayName: '?',
+            integrateGradeIntoSubjectGrade: grade.isTakenIntoAccount,
+            title: grade.title,
+            details: '?',
+          ),
+        );
+      } else {
+        state = const GradeDetailsPageError('Grade not found');
+      }
       notifyListeners();
-    }, onError: (error) {
-      state = GradeDetailsPageError(error.toString());
+    }, onError: (error, stack) {
+      state = GradeDetailsPageError('$error');
+      crashAnalytics.recordError(
+          'Error while streaming a grade: $error', stack);
       notifyListeners();
     });
   }
 
+  Stream<GradeResult?> _getGradeStream() {
+    return gradesService.terms.map((terms) {
+      for (final term in terms) {
+        return term.subjects
+            .map((s) => s.grades.firstWhereOrNull((grade) => grade.id == id))
+            .whereNotNull()
+            .firstOrNull;
+      }
+
+      // Ground with the [id] not found.
+      return null;
+    });
+  }
+
   void deleteGrade() {
-    // todo: delete grade with gateway
+    gradesService.deleteGrade(id);
   }
 
   @override
   void dispose() {
-    _gradeDetailsSubscription.cancel();
+    _gradeStreamSubscription.cancel();
     super.dispose();
   }
 }
