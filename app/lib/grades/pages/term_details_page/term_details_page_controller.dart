@@ -6,7 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:collection/collection.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -17,52 +20,69 @@ class TermDetailsPageController extends ChangeNotifier {
   late TermDetailsPageState state = const TermDetailsPageLoading();
   final TermId termId;
   final GradesService gradesService;
+  final CrashAnalytics crashAnalytics;
+  late StreamSubscription<TermResult?> _termStreamSubscription;
 
   TermDetailsPageController({
     required this.termId,
     required this.gradesService,
+    required this.crashAnalytics,
   }) {
-    final term = getTerm(termId);
-    if (term == null) {
-      state = const TermDetailsPageError('Term not found');
-    } else {
-      final List<({SubjectView subject, List<SavedGradeView> grades})>
-          subjects2 = term.subjects.map((subject) {
-        return (
-          subject: (
-            id: subject.id,
-            abbreviation: subject.abbreviation,
-            displayName: subject.name,
-            grade: displayGrade(subject.calculatedGrade),
-            design: subject.design,
-          ),
-          grades: subject.grades
-              .map((grade) => (
-                    id: grade.id,
-                    grade: displayGrade(grade.value),
-                    gradeTypeIcon: const Icon(Icons.note_add),
-                    title: grade.title,
-                    date: grade.date,
-                  ))
-              .toList()
-        );
-      }).toList();
+    _termStreamSubscription = _getTermStream(termId).listen((term) {
+      if (term == null) {
+        state = const TermDetailsPageError('Term not found');
+      } else {
+        final List<({SubjectView subject, List<SavedGradeView> grades})>
+            subjects2 = term.subjects.map((subject) {
+          return (
+            subject: (
+              id: subject.id,
+              abbreviation: subject.abbreviation,
+              displayName: subject.name,
+              grade: displayGrade(subject.calculatedGrade),
+              design: subject.design,
+            ),
+            grades: subject.grades
+                .map((grade) => (
+                      id: grade.id,
+                      grade: displayGrade(grade.value),
+                      gradeTypeIcon: const Icon(Icons.note_add),
+                      title: grade.title,
+                      date: grade.date,
+                    ))
+                .toList()
+          );
+        }).toList();
 
-      state = TermDetailsPageLoaded(
-        term: (
-          id: term.id,
-          displayName: term.name,
-          avgGrade: (displayGrade(term.calculatedGrade), GradePerformance.bad),
-        ),
-        subjectsWithGrades: subjects2,
-      );
-    }
-    notifyListeners();
+        state = TermDetailsPageLoaded(
+          term: (
+            id: term.id,
+            displayName: term.name,
+            avgGrade: (
+              displayGrade(term.calculatedGrade),
+              GradePerformance.bad
+            ),
+          ),
+          subjectsWithGrades: subjects2,
+        );
+      }
+      notifyListeners();
+    }, onError: (error, stack) {
+      state = TermDetailsPageError(error);
+      crashAnalytics.recordError('Could not stream term: $error', stack);
+      notifyListeners();
+    });
   }
 
-  TermResult? getTerm(TermId termId) {
-    return gradesService.terms.value
-        .firstWhereOrNull((term) => term.id == termId);
+  Stream<TermResult?> _getTermStream(TermId termId) {
+    return gradesService.terms
+        .map((terms) => terms.firstWhereOrNull((term) => term.id == termId));
+  }
+
+  @override
+  void dispose() {
+    _termStreamSubscription.cancel();
+    super.dispose();
   }
 }
 
