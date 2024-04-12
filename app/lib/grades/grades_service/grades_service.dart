@@ -330,7 +330,8 @@ class GradesService {
       // Already exists
       return;
     }
-    _repository.saveCustomGradeType(gradeType);
+    _repository.saveCustomGradeTypes(
+        _repository.loadCustomGradeTypes().add(gradeType));
   }
 
   GradeType _getGradeType(GradeTypeId finalGradeType) {

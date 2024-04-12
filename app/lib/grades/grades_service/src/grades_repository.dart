@@ -46,8 +46,8 @@ class GradesRepository {
   }
 
   IList<GradeType> _gradeTypes = const IListConst([]);
-  void saveCustomGradeType(GradeType gradeType) {
-    _gradeTypes = _gradeTypes.add(gradeType);
+  void saveCustomGradeTypes(IList<GradeType> gradeTypes) {
+    _gradeTypes = gradeTypes;
     updateState();
   }
 
