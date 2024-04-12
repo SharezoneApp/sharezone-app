@@ -12,6 +12,7 @@ import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
 import '../models/subject_id.dart';
@@ -23,60 +24,97 @@ export '../models/term_id.dart';
 
 part 'src/term.dart';
 part 'src/grading_systems.dart';
+part 'src/grades_repository.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
+  final GradesStateRepository _repository;
 
-  GradesService() : terms = rx.BehaviorSubject.seeded(const IListConst([]));
+  GradesService({GradesStateRepository? repository})
+      : _repository = repository ?? InMemoryGradesStateRepository(),
+        terms = rx.BehaviorSubject.seeded(const IListConst([])) {
+    _state = _repository.state.value;
+    _updateView();
 
-  IList<_Term> _terms = const IListConst<_Term>([]);
+    _repository.state.listen((state) {
+      _state = state;
+      // Update view gets called in [_updateState] anyways, so we don't need it
+      // here. Moving the method from [_updateState] to here would make the view
+      // being updated async. This would currently breaks our tests.
+      // _updateView();
+    });
+  }
+
+  late GradesState _state;
+
+  IList<_Term> get _terms => _state.terms;
+  set _terms(IList<_Term> value) {
+    _state = _state.copyWith(terms: value);
+  }
+
+  IList<Subject> get _subjects => _state.subjects;
+  set _subjects(IList<Subject> value) {
+    _state = _state.copyWith(subjects: value);
+  }
+
+  IList<GradeType> get _customGradeTypes => _state.customGradeTypes;
+  set _customGradeTypes(IList<GradeType> value) {
+    _state = _state.copyWith(customGradeTypes: value);
+  }
+
+  void _updateState() {
+    _repository.updateState(_state);
+    _updateView();
+  }
+
+  void _updateView() {
+    final termRes = _terms.map(_toTermResult).toIList();
+    terms.add(termRes);
+  }
 
   void _updateTerm(_Term term) {
     _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
-    _updateTerms();
+    _updateState();
   }
 
-  void _updateTerms() {
-    final termRes = _terms.map((term) {
-      return TermResult(
-        id: term.id,
-        name: term.name,
-        isActiveTerm: term.isActiveTerm,
-        finalGradeType: _getGradeType(term.finalGradeType),
-        gradingSystem: term.gradingSystem.toGradingSystems(),
-        calculatedGrade: term.tryGetTermGrade() != null
-            ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
-            : null,
-        subjects: term.subjects
-            .map(
-              (subject) => SubjectResult(
-                id: subject.id,
-                name: subject.name,
-                design: subject.design,
-                abbreviation: subject.abbreviation,
-                calculatedGrade: subject.gradeVal != null
-                    ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
-                    : null,
-                weightType: subject.weightType,
-                gradeTypeWeights: subject.gradeTypeWeightings
-                    .map((key, value) => MapEntry(key, Weight.factor(value))),
-                grades: subject.grades
-                    .map(
-                      (grade) => GradeResult(
-                        id: grade.id,
-                        date: grade.date,
-                        isTakenIntoAccount: grade.takenIntoAccount,
-                        value: grade.value,
-                        title: grade.title,
-                      ),
-                    )
-                    .toIList(),
-              ),
-            )
-            .toIList(),
-      );
-    }).toIList();
-    terms.add(termRes);
+  TermResult _toTermResult(_Term term) {
+    return TermResult(
+      id: term.id,
+      name: term.name,
+      isActiveTerm: term.isActiveTerm,
+      finalGradeType: _getGradeType(term.finalGradeType),
+      gradingSystem: term.gradingSystem.toGradingSystems(),
+      calculatedGrade: term.tryGetTermGrade() != null
+          ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
+          : null,
+      subjects: term.subjects
+          .map(
+            (subject) => SubjectResult(
+              id: subject.id,
+              name: subject.name,
+              design: subject.design,
+              abbreviation: subject.abbreviation,
+              calculatedGrade: subject.gradeVal != null
+                  ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
+                  : null,
+              weightType: subject.weightType,
+              gradeTypeWeights: subject.gradeTypeWeightings
+                  .map((key, value) => MapEntry(key, Weight.factor(value))),
+              grades: subject.grades
+                  .map(
+                    (grade) => GradeResult(
+                      id: grade.id,
+                      date: grade.date,
+                      isTakenIntoAccount: grade.takenIntoAccount,
+                      value: grade.value,
+                      title: grade.title,
+                    ),
+                  )
+                  .toIList(),
+            ),
+          )
+          .toIList(),
+    );
   }
 
   void addTerm({
@@ -103,7 +141,7 @@ class GradesService {
         gradingSystem: gradingSystem.toGradingSystem(),
       ),
     );
-    _updateTerms();
+    _updateState();
   }
 
   /// Edits the given values of the term (does not edit if the value is null).
@@ -158,7 +196,7 @@ class GradesService {
           .toIList();
     }
 
-    _updateTerms();
+    _updateState();
   }
 
   /// Deletes the term with the given [id] any grades inside it.
@@ -170,7 +208,7 @@ class GradesService {
     final termOrNull = _terms.firstWhereOrNull((term) => term.id == id);
     if (termOrNull != null) {
       _terms = _terms.remove(termOrNull);
-      _updateTerms();
+      _updateState();
       return;
     }
     throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
@@ -293,8 +331,6 @@ class GradesService {
     return GradeType.predefinedGradeTypes.addAll(_customGradeTypes);
   }
 
-  var _customGradeTypes = IList<GradeType>();
-
   bool _hasGradeTypeWithId(GradeTypeId id) {
     return getPossibleGradeTypes().map((gt) => gt.id).contains(id);
   }
@@ -308,19 +344,19 @@ class GradesService {
       return;
     }
     _customGradeTypes = _customGradeTypes.add(gradeType);
+    _updateState();
   }
 
   GradeType _getGradeType(GradeTypeId finalGradeType) {
     return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
   }
 
-  var _subjects = IList<Subject>();
-
   void addSubject(Subject subject) {
-    if (_subjects.any((s) => s.id == subject.id)) {
+    if (getSubjects().any((s) => s.id == subject.id)) {
       throw SubjectAlreadyExistsException(subject.id);
     }
     _subjects = _subjects.add(subject);
+    _updateState();
   }
 
   IList<Subject> getSubjects() {
@@ -328,7 +364,7 @@ class GradesService {
   }
 
   Subject? getSubject(SubjectId id) {
-    return _subjects.firstWhereOrNull((subject) => subject.id == id);
+    return getSubjects().firstWhereOrNull((subject) => subject.id == id);
   }
 
   Subject _getSubjectOrThrow(SubjectId id) {
