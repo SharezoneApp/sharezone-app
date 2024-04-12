@@ -1145,12 +1145,23 @@ void main() {
       final repository = GradesRepository();
       final service = GradesService(repository: repository);
       final controller = GradesTestController(gradesService: service);
-      var term = termWith(
-          name: 'term1', finalGradeType: GradeType.schoolReportGrade.id);
+      var term = termWith(name: 'term1');
       controller.createTerm(term);
       controller.replaceGradesService(GradesService(repository: repository));
 
       expect(controller.terms, hasLength(1));
+    });
+    test(
+        'A gradeType is still saved when deleting the Grade service as long as the repository is the same',
+        () {
+      final repository = GradesRepository();
+      final service = GradesService(repository: repository);
+      final controller = GradesTestController(gradesService: service);
+      const gradeType = GradeType(id: GradeTypeId('foo'));
+      controller.createCustomGradeType(gradeType);
+      controller.replaceGradesService(GradesService(repository: repository));
+
+      expect(controller.getPossibleGradeTypes(), contains(gradeType));
     });
   });
 }

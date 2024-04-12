@@ -298,10 +298,9 @@ class GradesService {
   }
 
   IList<GradeType> getPossibleGradeTypes() {
-    return GradeType.predefinedGradeTypes.addAll(_customGradeTypes);
+    return GradeType.predefinedGradeTypes
+        .addAll(_repository.loadCustomGradeTypes());
   }
-
-  var _customGradeTypes = IList<GradeType>();
 
   bool _hasGradeTypeWithId(GradeTypeId id) {
     return getPossibleGradeTypes().map((gt) => gt.id).contains(id);
@@ -315,7 +314,7 @@ class GradesService {
       // Already exists
       return;
     }
-    _customGradeTypes = _customGradeTypes.add(gradeType);
+    _repository.saveCustomGradeType(gradeType);
   }
 
   GradeType _getGradeType(GradeTypeId finalGradeType) {
@@ -685,5 +684,14 @@ class GradesRepository {
 
   IList<_Term> loadTerms() {
     return _terms;
+  }
+
+  IList<GradeType> _gradeTypes = const IListConst([]);
+  void saveCustomGradeType(GradeType gradeType) {
+    _gradeTypes = _gradeTypes.add(gradeType);
+  }
+
+  IList<GradeType> loadCustomGradeTypes() {
+    return _gradeTypes;
   }
 }
