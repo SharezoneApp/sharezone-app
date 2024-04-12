@@ -23,6 +23,7 @@ export '../models/term_id.dart';
 
 part 'src/term.dart';
 part 'src/grading_systems.dart';
+part 'src/grades_repository.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
@@ -673,25 +674,5 @@ class Weight extends Equatable {
   @override
   String toString() {
     return 'Weight($asFactor / $asPercentage%)';
-  }
-}
-
-class GradesRepository {
-  IList<_Term> _terms = const IListConst<_Term>([]);
-  void saveTerms(IList<_Term> terms) {
-    _terms = terms;
-  }
-
-  IList<_Term> loadTerms() {
-    return _terms;
-  }
-
-  IList<GradeType> _gradeTypes = const IListConst([]);
-  void saveCustomGradeType(GradeType gradeType) {
-    _gradeTypes = _gradeTypes.add(gradeType);
-  }
-
-  IList<GradeType> loadCustomGradeTypes() {
-    return _gradeTypes;
   }
 }
