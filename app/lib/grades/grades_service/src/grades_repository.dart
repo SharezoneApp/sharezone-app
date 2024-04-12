@@ -22,46 +22,41 @@ extension GradesStateCopyWith on GradesState {
 
 class GradesRepository {
   BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>();
+  GradesState get _state => state.value;
 
   GradesRepository() {
-    updateState();
-  }
-
-  void updateState() {
     state.add((
-      terms: _terms,
-      customGradeTypes: _gradeTypes,
-      subjects: _subjects,
+      terms: const IListConst([]),
+      customGradeTypes: const IListConst([]),
+      subjects: const IListConst([]),
     ));
   }
 
-  IList<_Term> _terms = const IListConst<_Term>([]);
+  void updateState(GradesState state) {
+    this.state.add(state);
+  }
+
   void saveTerms(IList<_Term> terms) {
-    _terms = terms;
-    updateState();
+    updateState(_state.copyWith(terms: terms));
   }
 
   IList<_Term> loadTerms() {
-    return _terms;
+    return _state.terms;
   }
 
-  IList<GradeType> _gradeTypes = const IListConst([]);
   void saveCustomGradeTypes(IList<GradeType> gradeTypes) {
-    _gradeTypes = gradeTypes;
-    updateState();
+    updateState(_state.copyWith(customGradeTypes: gradeTypes));
   }
 
   IList<GradeType> loadCustomGradeTypes() {
-    return _gradeTypes;
+    return _state.customGradeTypes;
   }
 
-  IList<Subject> _subjects = const IListConst([]);
   void saveSubjects(IList<Subject> subjects) {
-    _subjects = subjects;
-    updateState();
+    updateState(_state.copyWith(subjects: subjects));
   }
 
   IList<Subject> loadSubjects() {
-    return _subjects;
+    return _state.subjects;
   }
 }
