@@ -39,7 +39,7 @@ class GradesTestController {
 
     if (createMissingGradeTypes) {
       for (var id in _getAllGradeTypeIds(testTerm)) {
-        service.createCustomGradeType(
+        service.addCustomGradeType(
           GradeType(id: id),
         );
       }
@@ -198,7 +198,7 @@ class GradesTestController {
   }
 
   void createCustomGradeType(GradeType gradeType) {
-    return service.createCustomGradeType(gradeType);
+    return service.addCustomGradeType(gradeType);
   }
 
   void addGrade({
