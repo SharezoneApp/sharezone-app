@@ -327,8 +327,7 @@ class GradesService {
   }
 
   IList<GradeType> getPossibleGradeTypes() {
-    return GradeType.predefinedGradeTypes
-        .addAll(_repository.state.value.customGradeTypes);
+    return GradeType.predefinedGradeTypes.addAll(_customGradeTypes);
   }
 
   bool _hasGradeTypeWithId(GradeTypeId id) {
@@ -360,7 +359,7 @@ class GradesService {
   }
 
   IList<Subject> getSubjects() {
-    return _repository.state.value.subjects;
+    return _subjects;
   }
 
   Subject? getSubject(SubjectId id) {
