@@ -34,13 +34,12 @@ class GradesService {
       : _repository = repository ?? GradesRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
     _state = _repository.state.value;
+    _updateState(save: false);
+
     _repository.state.listen((state) {
-      _terms = state.terms;
       _state = state;
       _updateState(save: false);
     });
-
-    _updateState(save: false);
   }
 
   late GradesState _state;
