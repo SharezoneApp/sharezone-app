@@ -16,6 +16,7 @@ typedef GradesState = ({
 
 extension GradesStateCopyWith on GradesState {
   GradesState copyWith({
+    // ignore: library_private_types_in_public_api
     IList<_Term>? terms,
     IList<GradeType>? customGradeTypes,
     IList<Subject>? subjects,

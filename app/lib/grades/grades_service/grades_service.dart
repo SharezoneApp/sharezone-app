@@ -68,7 +68,7 @@ class GradesService {
   }
 
   void _updateView() {
-    final termRes = _terms.map(toTermResult).toIList();
+    final termRes = _terms.map(_toTermResult).toIList();
     terms.add(termRes);
   }
 
@@ -77,7 +77,7 @@ class GradesService {
     _updateState();
   }
 
-  TermResult toTermResult(_Term term) {
+  TermResult _toTermResult(_Term term) {
     return TermResult(
       id: term.id,
       name: term.name,
