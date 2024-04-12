@@ -6,6 +6,20 @@ typedef GradesState = ({
   IList<Subject> subjects
 });
 
+extension GradesStateCopyWith on GradesState {
+  GradesState copyWith({
+    IList<_Term>? terms,
+    IList<GradeType>? customGradeTypes,
+    IList<Subject>? subjects,
+  }) {
+    return (
+      terms: terms ?? this.terms,
+      customGradeTypes: customGradeTypes ?? this.customGradeTypes,
+      subjects: subjects ?? this.subjects,
+    );
+  }
+}
+
 class GradesRepository {
   BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>();
 

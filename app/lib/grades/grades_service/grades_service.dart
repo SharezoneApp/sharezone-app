@@ -33,22 +33,29 @@ class GradesService {
   GradesService({GradesRepository? repository})
       : _repository = repository ?? GradesRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
+    _state = _repository.state.value;
     _repository.state.listen((state) {
       _terms = state.terms;
-      _updateTerms(save: false);
+      _state = state;
+      _updateState(save: false);
     });
 
-    _updateTerms(save: false);
+    _updateState(save: false);
   }
 
-  IList<_Term> _terms = const IListConst<_Term>([]);
+  late GradesState _state;
+
+  IList<_Term> get _terms => _state.terms;
+  set _terms(IList<_Term> value) {
+    _state = _state.copyWith(terms: value);
+  }
 
   void _updateTerm(_Term term) {
     _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
-    _updateTerms();
+    _updateState();
   }
 
-  void _updateTerms({bool save = true}) {
+  void _updateState({bool save = true}) {
     if (save) {
       _repository.saveTerms(_terms);
     }
@@ -120,7 +127,7 @@ class GradesService {
         gradingSystem: gradingSystem.toGradingSystem(),
       ),
     );
-    _updateTerms();
+    _updateState();
   }
 
   /// Edits the given values of the term (does not edit if the value is null).
@@ -175,7 +182,7 @@ class GradesService {
           .toIList();
     }
 
-    _updateTerms();
+    _updateState();
   }
 
   /// Deletes the term with the given [id] any grades inside it.
@@ -187,7 +194,7 @@ class GradesService {
     final termOrNull = _terms.firstWhereOrNull((term) => term.id == id);
     if (termOrNull != null) {
       _terms = _terms.remove(termOrNull);
-      _updateTerms();
+      _updateState();
       return;
     }
     throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
