@@ -34,11 +34,14 @@ class GradesService {
       : _repository = repository ?? GradesRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
     _state = _repository.state.value;
-    _updateState(save: false);
+    _updateView();
 
     _repository.state.listen((state) {
       _state = state;
-      _updateState(save: false);
+      // Update view gets called in [_updateState] anyways, so we don't need it
+      // here. Moving the method from [_updateState] to here would make the view
+      // being updated async. This would currently breaks our tests.
+      //_updateView();
     });
   }
 
@@ -49,18 +52,29 @@ class GradesService {
     _state = _state.copyWith(terms: value);
   }
 
+  IList<Subject> get _subjects => _state.subjects;
+  set _subjects(IList<Subject> value) {
+    _state = _state.copyWith(subjects: value);
+  }
+
+  IList<GradeType> get _customGradeTypes => _state.customGradeTypes;
+  set _customGradeTypes(IList<GradeType> value) {
+    _state = _state.copyWith(customGradeTypes: value);
+  }
+
+  void _updateState() {
+    _repository.updateState(_state);
+    _updateView();
+  }
+
+  void _updateView() {
+    final termRes = _terms.map(toTermResult).toIList();
+    terms.add(termRes);
+  }
+
   void _updateTerm(_Term term) {
     _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
     _updateState();
-  }
-
-  void _updateState({bool save = true}) {
-    if (save) {
-      _repository.saveTerms(_terms);
-    }
-    _terms = _repository.state.value.terms;
-    final termRes = _terms.map(toTermResult).toIList();
-    terms.add(termRes);
   }
 
   TermResult toTermResult(_Term term) {
@@ -329,8 +343,8 @@ class GradesService {
       // Already exists
       return;
     }
-    _repository.saveCustomGradeTypes(
-        _repository.state.value.customGradeTypes.add(gradeType));
+    _customGradeTypes = _customGradeTypes.add(gradeType);
+    _updateState();
   }
 
   GradeType _getGradeType(GradeTypeId finalGradeType) {
@@ -341,7 +355,8 @@ class GradesService {
     if (getSubjects().any((s) => s.id == subject.id)) {
       throw SubjectAlreadyExistsException(subject.id);
     }
-    _repository.saveSubjects(getSubjects().add(subject));
+    _subjects = _subjects.add(subject);
+    _updateState();
   }
 
   IList<Subject> getSubjects() {

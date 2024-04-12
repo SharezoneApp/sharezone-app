@@ -22,7 +22,6 @@ extension GradesStateCopyWith on GradesState {
 
 class GradesRepository {
   BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>();
-  GradesState get _state => state.value;
 
   GradesRepository() {
     state.add((
@@ -34,17 +33,5 @@ class GradesRepository {
 
   void updateState(GradesState state) {
     this.state.add(state);
-  }
-
-  void saveTerms(IList<_Term> terms) {
-    updateState(_state.copyWith(terms: terms));
-  }
-
-  void saveCustomGradeTypes(IList<GradeType> gradeTypes) {
-    updateState(_state.copyWith(customGradeTypes: gradeTypes));
-  }
-
-  void saveSubjects(IList<Subject> subjects) {
-    updateState(_state.copyWith(subjects: subjects));
   }
 }
