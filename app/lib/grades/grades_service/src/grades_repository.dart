@@ -20,10 +20,16 @@ extension GradesStateCopyWith on GradesState {
   }
 }
 
-class GradesRepository {
+abstract class GradesRepository {
+  BehaviorSubject<GradesState> get state;
+  void updateState(GradesState state);
+}
+
+class InMemoryGradesRepository extends GradesRepository {
+  @override
   BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>();
 
-  GradesRepository() {
+  InMemoryGradesRepository() {
     state.add((
       terms: const IListConst([]),
       customGradeTypes: const IListConst([]),
@@ -31,6 +37,7 @@ class GradesRepository {
     ));
   }
 
+  @override
   void updateState(GradesState state) {
     this.state.add(state);
   }

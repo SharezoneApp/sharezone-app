@@ -31,7 +31,7 @@ class GradesService {
   final GradesRepository _repository;
 
   GradesService({GradesRepository? repository})
-      : _repository = repository ?? GradesRepository(),
+      : _repository = repository ?? InMemoryGradesRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
     _state = _repository.state.value;
     _updateView();

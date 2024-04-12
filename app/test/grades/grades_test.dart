@@ -1142,7 +1142,7 @@ void main() {
     test(
         'A term is still saved when deleting the Grade service as long as the repository is the same',
         () {
-      final repository = GradesRepository();
+      final repository = InMemoryGradesRepository();
       final service = GradesService(repository: repository);
       final controller = GradesTestController(gradesService: service);
       var term = termWith(name: 'term1');
@@ -1154,7 +1154,7 @@ void main() {
     test(
         'A gradeType is still saved when deleting the Grade service as long as the repository is the same',
         () {
-      final repository = GradesRepository();
+      final repository = InMemoryGradesRepository();
       final service = GradesService(repository: repository);
       final controller = GradesTestController(gradesService: service);
       const gradeType = GradeType(id: GradeTypeId('foo'));
@@ -1166,7 +1166,7 @@ void main() {
     test(
         'A subject is still saved when deleting the Grade service as long as the repository is the same',
         () {
-      final repository = GradesRepository();
+      final repository = InMemoryGradesRepository();
       final service = GradesService(repository: repository);
       final controller = GradesTestController(gradesService: service);
       var subject =
