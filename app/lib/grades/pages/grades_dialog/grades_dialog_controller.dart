@@ -76,6 +76,7 @@ class GradesDialogController extends ChangeNotifier {
           name: 'Mathe',
           abbreviation: 'Ma',
           design: Design.random(),
+          connectedCourses: const IListConst([]),
         ),
       );
     } on SubjectAlreadyExistsException catch (_) {}

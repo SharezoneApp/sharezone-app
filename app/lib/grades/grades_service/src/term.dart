@@ -57,6 +57,7 @@ class _Term {
         design: subject.design,
         gradingSystem: gradingSystem,
         finalGradeType: finalGradeType,
+        connectedCourses: subject.connectedCourses,
         weightType: WeightType.inheritFromTerm,
         gradeTypeWeightingsFromTerm: _gradeTypeWeightings,
       )),
@@ -269,6 +270,7 @@ class _Subject {
   final WeightType weightType;
   final String abbreviation;
   final Design design;
+  final IList<ConnectedCourse> connectedCourses;
 
   late final num? gradeVal;
 
@@ -281,6 +283,7 @@ class _Subject {
     required this.finalGradeType,
     required this.abbreviation,
     required this.design,
+    this.connectedCourses = const IListConst([]),
     this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
     this.weightingForTermGrade = 1,
@@ -355,6 +358,7 @@ class _Subject {
     IMap<GradeTypeId, double>? gradeTypeWeightings,
     IMap<GradeTypeId, double>? gradeTypeWeightingsFromTerm,
     WeightType? weightType,
+    IList<ConnectedCourse>? connectedCourses,
   }) {
     return _Subject(
       term: term ?? this.term,
@@ -373,6 +377,7 @@ class _Subject {
       weightType: weightType ?? this.weightType,
       gradeTypeWeightingsFromTerm:
           gradeTypeWeightingsFromTerm ?? this.gradeTypeWeightingsFromTerm,
+      connectedCourses: connectedCourses ?? this.connectedCourses,
     );
   }
 }

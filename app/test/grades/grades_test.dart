@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -1108,6 +1109,45 @@ void main() {
       final subject2 = controller.term(const TermId('term1')).subjects.single;
       expect(subject2.name, 'Deutsch');
       expect(subject2.abbreviation, 'D');
+    });
+    test('A subject has connected courses', () {
+      final controller = GradesTestController();
+
+      final connectedCourses = [
+        const ConnectedCourse(
+          id: CourseId('course1'),
+          name: 'Course 1',
+          subjectName: 'Deutsch',
+          abbreviation: 'D',
+        ),
+        const ConnectedCourse(
+          id: CourseId('course2'),
+          name: 'Course 2',
+          subjectName: 'deutsch',
+          abbreviation: 'DE',
+        ),
+      ];
+
+      controller.createTerm(
+        termWith(
+          id: const TermId('term1'),
+          subjects: [
+            subjectWith(
+              id: const SubjectId('Deutsch'),
+              abbreviation: 'D',
+              connectedCourses: connectedCourses,
+              grades: [gradeWith(value: 2)],
+            ),
+          ],
+        ),
+      );
+
+      var subject = controller.getSubjects().single;
+      expect(subject.connectedCourses, connectedCourses);
+      final subject2 = controller
+          .term(const TermId('term1'))
+          .subject(const SubjectId('Deutsch'));
+      expect(subject2.connectedCourses, connectedCourses);
     });
     test(
         'If a subject with the same id is already existing a $SubjectAlreadyExistsException exception will be thrown and the subject will not be added.',
