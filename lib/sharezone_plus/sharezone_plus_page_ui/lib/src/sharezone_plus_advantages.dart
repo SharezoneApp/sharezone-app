@@ -33,6 +33,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
         if (isHomeworkDoneListsFeatureVisible) const _HomeworkDoneLists(),
         const _ReadByInformationSheets(),
         const _SelectTimetableBySchoolClass(),
+        const _MoreStorage(),
         const _PlusSupport(),
         const _DiscordPlusRang(),
         const _SupportOpenSource(),
@@ -107,6 +108,20 @@ class _AddEventsToLocalCalendar extends StatelessWidget {
       title: Text('Termine zum lokalen Kalender hinzufügen'),
       description: Text(
           'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.'),
+    );
+  }
+}
+
+class _MoreStorage extends StatelessWidget {
+  const _MoreStorage();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.storage),
+      title: Text('30 GB Speicherplatz'),
+      description: Text(
+          'Mit Sharezone Plus erhältst du 30 GB Speicherplatz (statt 100 MB) für deine Dateien & Anhänge (bei Hausaufgaben & Infozetteln). Dies entspricht ca. 15.000 Fotos (2 MB pro Bild).\n\nDie Begrenzung gilt nicht für Dateien, die als Abgabe bei Hausaufgaben hochgeladen wird.'),
     );
   }
 }

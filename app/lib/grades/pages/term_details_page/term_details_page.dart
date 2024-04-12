@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/models/term_id.dart';
+import 'package:sharezone/grades/pages/grades_details_page/grade_details_page.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/shared/term_tile.dart';
@@ -214,7 +215,13 @@ class _SavedGradeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(savedGrade.gradeTypeName),
+      title: Text(savedGrade.title),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GradeDetailsPage(id: savedGrade.id),
+        ),
+      ),
       subtitle: Text(
         savedGrade.date.toDateString,
         style: TextStyle(
