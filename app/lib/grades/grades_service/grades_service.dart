@@ -94,6 +94,7 @@ class GradesService {
               name: subject.name,
               design: subject.design,
               abbreviation: subject.abbreviation,
+              connectedCourses: subject.connectedCourses,
               calculatedGrade: subject.gradeVal != null
                   ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
                   : null,
@@ -561,6 +562,7 @@ class SubjectResult extends Equatable {
   final IList<GradeResult> grades;
   final String abbreviation;
   final Design design;
+  final IList<ConnectedCourse> connectedCourses;
 
   const SubjectResult({
     required this.id,
@@ -571,6 +573,7 @@ class SubjectResult extends Equatable {
     required this.gradeTypeWeights,
     required this.grades,
     required this.design,
+    required this.connectedCourses,
   });
 
   GradeResult grade(GradeId gradeId) {
@@ -582,6 +585,7 @@ class SubjectResult extends Equatable {
         id,
         name,
         calculatedGrade,
+        connectedCourses,
         weightType,
         gradeTypeWeights,
         grades,
@@ -687,12 +691,31 @@ class Subject {
   final Design design;
   final String name;
   final String abbreviation;
+  final IList<ConnectedCourse> connectedCourses;
 
   Subject({
     required this.id,
     required this.design,
     required this.name,
     required this.abbreviation,
+    required this.connectedCourses,
+  });
+}
+
+class ConnectedCourse extends Equatable {
+  final CourseId id;
+  final String name;
+  final String abbreviation;
+  final String subjectName;
+
+  @override
+  List<Object?> get props => [id, name, abbreviation, subjectName];
+
+  const ConnectedCourse({
+    required this.id,
+    required this.name,
+    required this.abbreviation,
+    required this.subjectName,
   });
 }
 

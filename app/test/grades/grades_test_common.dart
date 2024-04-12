@@ -69,6 +69,7 @@ class GradesTestController {
         name: subject.name,
         abbreviation: subject.abbreviation,
         design: subject.design,
+        connectedCourses: subject.connectedCourses,
       ));
 
       // A subject is added to a term implicitly when adding a grade with the
@@ -219,6 +220,7 @@ class GradesTestController {
       name: subject.name,
       abbreviation: subject.abbreviation,
       design: subject.design,
+      connectedCourses: subject.connectedCourses,
     ));
   }
 
@@ -230,6 +232,7 @@ class GradesTestController {
             id: subject.id,
             name: subject.name,
             abbreviation: subject.abbreviation,
+            connectedCourses: subject.connectedCourses,
             design: subject.design,
             grades: IList(const []),
             gradeTypeWeights: <GradeTypeId, Weight>{},
@@ -315,6 +318,7 @@ TestSubject subjectWith({
   Map<GradeTypeId, Weight> gradeTypeWeights = const {},
   GradeTypeId? finalGradeType,
   Design? design,
+  List<ConnectedCourse> connectedCourses = const [],
 }) {
   final idRes = id ?? SubjectId(randomAlpha(5));
   final nameRes = name ?? idRes.id;
@@ -325,6 +329,7 @@ TestSubject subjectWith({
     abbreviation: abbreviationRes,
     grades: IList(grades),
     weight: weight,
+    connectedCourses: connectedCourses.toIList(),
     weightType: weightType,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
@@ -342,6 +347,7 @@ class TestSubject {
   final GradeTypeId? finalGradeType;
   final Design design;
   final String abbreviation;
+  final IList<ConnectedCourse> connectedCourses;
 
   TestSubject({
     required this.id,
@@ -350,6 +356,7 @@ class TestSubject {
     required this.gradeTypeWeights,
     required this.design,
     required this.abbreviation,
+    this.connectedCourses = const IListConst([]),
     this.weightType,
     this.weight,
     this.finalGradeType,
