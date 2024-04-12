@@ -1,9 +1,30 @@
 part of '../grades_service.dart';
 
+typedef GradesState = ({
+  IList<_Term> terms,
+  IList<GradeType> customGradeTypes,
+  IList<Subject> subjects
+});
+
 class GradesRepository {
+  BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>();
+
+  GradesRepository() {
+    updateState();
+  }
+
+  void updateState() {
+    state.add((
+      terms: _terms,
+      customGradeTypes: _gradeTypes,
+      subjects: _subjects,
+    ));
+  }
+
   IList<_Term> _terms = const IListConst<_Term>([]);
   void saveTerms(IList<_Term> terms) {
     _terms = terms;
+    updateState();
   }
 
   IList<_Term> loadTerms() {
@@ -13,6 +34,7 @@ class GradesRepository {
   IList<GradeType> _gradeTypes = const IListConst([]);
   void saveCustomGradeType(GradeType gradeType) {
     _gradeTypes = _gradeTypes.add(gradeType);
+    updateState();
   }
 
   IList<GradeType> loadCustomGradeTypes() {
@@ -22,6 +44,7 @@ class GradesRepository {
   IList<Subject> _subjects = const IListConst([]);
   void saveSubjects(IList<Subject> subjects) {
     _subjects = subjects;
+    updateState();
   }
 
   IList<Subject> loadSubjects() {

@@ -12,6 +12,7 @@ import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
 import '../models/subject_id.dart';
@@ -32,6 +33,11 @@ class GradesService {
   GradesService({GradesRepository? repository})
       : _repository = repository ?? GradesRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
+    _repository.state.listen((state) {
+      _terms = state.terms;
+      _updateTerms(save: false);
+    });
+
     _updateTerms(save: false);
   }
 
@@ -47,45 +53,47 @@ class GradesService {
       _repository.saveTerms(_terms);
     }
     _terms = _repository.loadTerms();
-    final termRes = _terms.map((term) {
-      return TermResult(
-        id: term.id,
-        name: term.name,
-        isActiveTerm: term.isActiveTerm,
-        finalGradeType: _getGradeType(term.finalGradeType),
-        gradingSystem: term.gradingSystem.toGradingSystems(),
-        calculatedGrade: term.tryGetTermGrade() != null
-            ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
-            : null,
-        subjects: term.subjects
-            .map(
-              (subject) => SubjectResult(
-                id: subject.id,
-                name: subject.name,
-                design: subject.design,
-                abbreviation: subject.abbreviation,
-                calculatedGrade: subject.gradeVal != null
-                    ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
-                    : null,
-                weightType: subject.weightType,
-                gradeTypeWeights: subject.gradeTypeWeightings
-                    .map((key, value) => MapEntry(key, Weight.factor(value))),
-                grades: subject.grades
-                    .map(
-                      (grade) => GradeResult(
-                        id: grade.id,
-                        date: grade.date,
-                        isTakenIntoAccount: grade.takenIntoAccount,
-                        value: grade.value,
-                      ),
-                    )
-                    .toIList(),
-              ),
-            )
-            .toIList(),
-      );
-    }).toIList();
+    final termRes = _terms.map(toTermResult).toIList();
     terms.add(termRes);
+  }
+
+  TermResult toTermResult(_Term term) {
+    return TermResult(
+      id: term.id,
+      name: term.name,
+      isActiveTerm: term.isActiveTerm,
+      finalGradeType: _getGradeType(term.finalGradeType),
+      gradingSystem: term.gradingSystem.toGradingSystems(),
+      calculatedGrade: term.tryGetTermGrade() != null
+          ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
+          : null,
+      subjects: term.subjects
+          .map(
+            (subject) => SubjectResult(
+              id: subject.id,
+              name: subject.name,
+              design: subject.design,
+              abbreviation: subject.abbreviation,
+              calculatedGrade: subject.gradeVal != null
+                  ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
+                  : null,
+              weightType: subject.weightType,
+              gradeTypeWeights: subject.gradeTypeWeightings
+                  .map((key, value) => MapEntry(key, Weight.factor(value))),
+              grades: subject.grades
+                  .map(
+                    (grade) => GradeResult(
+                      id: grade.id,
+                      date: grade.date,
+                      isTakenIntoAccount: grade.takenIntoAccount,
+                      value: grade.value,
+                    ),
+                  )
+                  .toIList(),
+            ),
+          )
+          .toIList(),
+    );
   }
 
   void addTerm({
