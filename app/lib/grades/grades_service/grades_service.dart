@@ -338,7 +338,7 @@ class GradesService {
   /// Creates a custom grade type.
   ///
   /// If the grade type already exists, nothing will happen.
-  void createCustomGradeType(GradeType gradeType) {
+  void addCustomGradeType(GradeType gradeType) {
     if (_hasGradeTypeWithId(gradeType.id)) {
       // Already exists
       return;
