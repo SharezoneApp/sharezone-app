@@ -1116,10 +1116,63 @@ void main() {
       expect(addGrade,
           throwsA(const SubjectNotFoundException(SubjectId('Unknown'))));
     });
-    test('If the $GradesService is replaced old values wont be there anymore',
-        () {
-      final controller = GradesTestController();
+  });
+  group('basic repository tests', () {
+    late GradesRepository repository;
+    late GradesService service;
+    late GradesTestController controller;
 
+    setUp(() {
+      repository = InMemoryGradesRepository();
+      service = GradesService(repository: repository);
+      controller = GradesTestController(gradesService: service);
+    });
+
+    void replaceGradesServiceWithSameRepository() {
+      controller.service = GradesService(repository: repository);
+    }
+
+    test(
+        'A term is still saved when deleting the Grade service as long as the repository is the same',
+        () {
+      var term = termWith(name: 'term1');
+      controller.createTerm(term);
+
+      replaceGradesServiceWithSameRepository();
+
+      expect(controller.terms, hasLength(1));
+    });
+    test(
+        'A gradeType is still saved when deleting the Grade service as long as the repository is the same',
+        () {
+      const gradeType = GradeType(id: GradeTypeId('foo'));
+      controller.createCustomGradeType(gradeType);
+
+      replaceGradesServiceWithSameRepository();
+
+      expect(controller.getPossibleGradeTypes(), contains(gradeType));
+    });
+    test(
+        'A subject is still saved when deleting the Grade service as long as the repository is the same',
+        () {
+      var subject =
+          subjectWith(id: const SubjectId('foo'), name: 'Foo Subject');
+      controller.addSubject(subject);
+
+      replaceGradesServiceWithSameRepository();
+
+      expect(
+        controller.getSubjects(),
+        contains(
+          predicate<TestSubject>(
+            (sub) => sub.id == subject.id && sub.name == subject.name,
+          ),
+        ),
+      );
+    });
+    test(
+        'If the $GradesService is replaced without the same $GradesRepository then old values wont be there anymore',
+        () {
       final term = termWith(
         subjects: [
           subjectWith(
@@ -1135,53 +1188,11 @@ void main() {
       );
       controller.createTerm(term);
 
-      controller.replaceGradesService(GradesService());
+      // We don't reuse the repository here, so the data will be lost
+      controller.service =
+          GradesService(repository: InMemoryGradesRepository());
 
       expect(controller.terms, isEmpty);
-    });
-    test(
-        'A term is still saved when deleting the Grade service as long as the repository is the same',
-        () {
-      final repository = InMemoryGradesRepository();
-      final service = GradesService(repository: repository);
-      final controller = GradesTestController(gradesService: service);
-      var term = termWith(name: 'term1');
-      controller.createTerm(term);
-      controller.replaceGradesService(GradesService(repository: repository));
-
-      expect(controller.terms, hasLength(1));
-    });
-    test(
-        'A gradeType is still saved when deleting the Grade service as long as the repository is the same',
-        () {
-      final repository = InMemoryGradesRepository();
-      final service = GradesService(repository: repository);
-      final controller = GradesTestController(gradesService: service);
-      const gradeType = GradeType(id: GradeTypeId('foo'));
-      controller.createCustomGradeType(gradeType);
-      controller.replaceGradesService(GradesService(repository: repository));
-
-      expect(controller.getPossibleGradeTypes(), contains(gradeType));
-    });
-    test(
-        'A subject is still saved when deleting the Grade service as long as the repository is the same',
-        () {
-      final repository = InMemoryGradesRepository();
-      final service = GradesService(repository: repository);
-      final controller = GradesTestController(gradesService: service);
-      var subject =
-          subjectWith(id: const SubjectId('foo'), name: 'Foo Subject');
-      controller.addSubject(subject);
-      controller.replaceGradesService(GradesService(repository: repository));
-
-      expect(
-        controller.getSubjects(),
-        contains(
-          predicate<TestSubject>(
-            (sub) => sub.id == subject.id && sub.name == subject.name,
-          ),
-        ),
-      );
     });
   });
 }

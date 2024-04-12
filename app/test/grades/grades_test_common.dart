@@ -260,10 +260,6 @@ class GradesTestController {
   void deleteGrade({required GradeId gradeId}) {
     service.deleteGrade(gradeId);
   }
-
-  void replaceGradesService(GradesService gradesService) {
-    service = gradesService;
-  }
 }
 
 TestTerm termWith({
