@@ -322,21 +322,19 @@ class GradesService {
     return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
   }
 
-  var _subjects = IList<Subject>();
-
   void addSubject(Subject subject) {
-    if (_subjects.any((s) => s.id == subject.id)) {
+    if (getSubjects().any((s) => s.id == subject.id)) {
       throw SubjectAlreadyExistsException(subject.id);
     }
-    _subjects = _subjects.add(subject);
+    _repository.saveSubjects(getSubjects().add(subject));
   }
 
   IList<Subject> getSubjects() {
-    return _subjects;
+    return _repository.loadSubjects();
   }
 
   Subject? getSubject(SubjectId id) {
-    return _subjects.firstWhereOrNull((subject) => subject.id == id);
+    return getSubjects().firstWhereOrNull((subject) => subject.id == id);
   }
 
   Subject _getSubjectOrThrow(SubjectId id) {

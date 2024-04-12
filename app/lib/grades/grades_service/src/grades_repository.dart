@@ -18,4 +18,13 @@ class GradesRepository {
   IList<GradeType> loadCustomGradeTypes() {
     return _gradeTypes;
   }
+
+  IList<Subject> _subjects = const IListConst([]);
+  void saveSubjects(IList<Subject> subjects) {
+    _subjects = subjects;
+  }
+
+  IList<Subject> loadSubjects() {
+    return _subjects;
+  }
 }

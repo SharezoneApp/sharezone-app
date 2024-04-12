@@ -1163,5 +1163,25 @@ void main() {
 
       expect(controller.getPossibleGradeTypes(), contains(gradeType));
     });
+    test(
+        'A subject is still saved when deleting the Grade service as long as the repository is the same',
+        () {
+      final repository = GradesRepository();
+      final service = GradesService(repository: repository);
+      final controller = GradesTestController(gradesService: service);
+      var subject =
+          subjectWith(id: const SubjectId('foo'), name: 'Foo Subject');
+      controller.addSubject(subject);
+      controller.replaceGradesService(GradesService(repository: repository));
+
+      expect(
+        controller.getSubjects(),
+        contains(
+          predicate<TestSubject>(
+            (sub) => sub.id == subject.id && sub.name == subject.name,
+          ),
+        ),
+      );
+    });
   });
 }
