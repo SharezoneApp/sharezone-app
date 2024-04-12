@@ -1118,12 +1118,12 @@ void main() {
     });
   });
   group('basic repository tests', () {
-    late GradesRepository repository;
+    late GradesStateRepository repository;
     late GradesService service;
     late GradesTestController controller;
 
     setUp(() {
-      repository = InMemoryGradesRepository();
+      repository = InMemoryGradesStateRepository();
       service = GradesService(repository: repository);
       controller = GradesTestController(gradesService: service);
     });
@@ -1171,7 +1171,7 @@ void main() {
       );
     });
     test(
-        'If the $GradesService is replaced without the same $GradesRepository then old values wont be there anymore',
+        'If the $GradesService is replaced without the same $GradesStateRepository then old values wont be there anymore',
         () {
       final term = termWith(
         subjects: [
@@ -1190,7 +1190,7 @@ void main() {
 
       // We don't reuse the repository here, so the data will be lost
       controller.service =
-          GradesService(repository: InMemoryGradesRepository());
+          GradesService(repository: InMemoryGradesStateRepository());
 
       expect(controller.terms, isEmpty);
     });

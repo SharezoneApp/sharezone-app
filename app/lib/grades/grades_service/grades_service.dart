@@ -28,10 +28,10 @@ part 'src/grades_repository.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
-  final GradesRepository _repository;
+  final GradesStateRepository _repository;
 
-  GradesService({GradesRepository? repository})
-      : _repository = repository ?? InMemoryGradesRepository(),
+  GradesService({GradesStateRepository? repository})
+      : _repository = repository ?? InMemoryGradesStateRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
     _state = _repository.state.value;
     _updateView();
