@@ -41,7 +41,7 @@ class GradesService {
       // Update view gets called in [_updateState] anyways, so we don't need it
       // here. Moving the method from [_updateState] to here would make the view
       // being updated async. This would currently breaks our tests.
-      //_updateView();
+      // _updateView();
     });
   }
 
