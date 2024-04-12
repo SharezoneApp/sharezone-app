@@ -28,7 +28,11 @@ extension ValidValue on GradingSystem {
 }
 
 class GradesTestController {
-  final service = GradesService();
+  GradesService service = GradesService();
+
+  GradesTestController({GradesService? gradesService}) {
+    service = gradesService ?? GradesService();
+  }
 
   void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = true}) {
     final termId = testTerm.id;
