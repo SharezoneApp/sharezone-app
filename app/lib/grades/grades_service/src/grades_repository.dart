@@ -40,23 +40,11 @@ class GradesRepository {
     updateState(_state.copyWith(terms: terms));
   }
 
-  IList<_Term> loadTerms() {
-    return _state.terms;
-  }
-
   void saveCustomGradeTypes(IList<GradeType> gradeTypes) {
     updateState(_state.copyWith(customGradeTypes: gradeTypes));
   }
 
-  IList<GradeType> loadCustomGradeTypes() {
-    return _state.customGradeTypes;
-  }
-
   void saveSubjects(IList<Subject> subjects) {
     updateState(_state.copyWith(subjects: subjects));
-  }
-
-  IList<Subject> loadSubjects() {
-    return _state.subjects;
   }
 }

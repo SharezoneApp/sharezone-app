@@ -58,7 +58,7 @@ class GradesService {
     if (save) {
       _repository.saveTerms(_terms);
     }
-    _terms = _repository.loadTerms();
+    _terms = _repository.state.value.terms;
     final termRes = _terms.map(toTermResult).toIList();
     terms.add(termRes);
   }
@@ -314,7 +314,7 @@ class GradesService {
 
   IList<GradeType> getPossibleGradeTypes() {
     return GradeType.predefinedGradeTypes
-        .addAll(_repository.loadCustomGradeTypes());
+        .addAll(_repository.state.value.customGradeTypes);
   }
 
   bool _hasGradeTypeWithId(GradeTypeId id) {
@@ -330,7 +330,7 @@ class GradesService {
       return;
     }
     _repository.saveCustomGradeTypes(
-        _repository.loadCustomGradeTypes().add(gradeType));
+        _repository.state.value.customGradeTypes.add(gradeType));
   }
 
   GradeType _getGradeType(GradeTypeId finalGradeType) {
@@ -345,7 +345,7 @@ class GradesService {
   }
 
   IList<Subject> getSubjects() {
-    return _repository.loadSubjects();
+    return _repository.state.value.subjects;
   }
 
   Subject? getSubject(SubjectId id) {
