@@ -11,7 +11,7 @@ part of '../grades_service.dart';
 class _Term {
   final TermId id;
   final IList<_Subject> _subjects;
-  final IMap<GradeTypeId, double> _gradeTypeWeightings;
+  final IMap<GradeTypeId, Weight> _gradeTypeWeightings;
   final _GradingSystem gradingSystem;
   final GradeTypeId finalGradeType;
   final bool isActiveTerm;
@@ -27,8 +27,10 @@ class _Term {
     required this.gradingSystem,
     required this.isActiveTerm,
     required this.name,
-  })  : _subjects = const IListConst([]),
-        _gradeTypeWeightings = const IMapConst({});
+    IList<_Subject> subjects = const IListConst([]),
+    IMap<GradeTypeId, Weight> gradeTypeWeightings = const IMapConst({}),
+  })  : _subjects = subjects,
+        _gradeTypeWeightings = gradeTypeWeightings;
 
   _Term.internal(
     this.id,
@@ -50,7 +52,7 @@ class _Term {
     }
     return _copyWith(
       subjects: _subjects.add(_Subject(
-        term: this,
+        termId: id,
         id: subject.id,
         name: subject.name,
         abbreviation: subject.abbreviation,
@@ -71,7 +73,7 @@ class _Term {
   _Term _copyWith({
     TermId? id,
     IList<_Subject>? subjects,
-    IMap<GradeTypeId, double>? gradeTypeWeightings,
+    IMap<GradeTypeId, Weight>? gradeTypeWeightings,
     GradeTypeId? finalGradeType,
     bool? isActiveTerm,
     String? name,
@@ -120,8 +122,8 @@ class _Term {
     );
   }
 
-  _Term changeWeightingOfGradeType(GradeTypeId type, {required num weight}) {
-    final newWeights = _gradeTypeWeightings.add(type, weight.toDouble());
+  _Term changeWeightingOfGradeType(GradeTypeId type, {required Weight weight}) {
+    final newWeights = _gradeTypeWeightings.add(type, weight);
     final newSubjects = _subjects.map((s) {
       final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
       return newSubject;
@@ -150,14 +152,15 @@ class _Term {
     final gradeVal = gradingSystem.toNumOrThrow(grade.value);
 
     subject = subject._addGrade(_Grade(
-      term: this,
       id: grade.id,
+      subjectId: toSubject,
+      termId: id,
       date: grade.date,
       value: gradingSystem.toGradeResult(gradeVal),
       gradingSystem: gradingSystem,
       takenIntoAccount: grade.takeIntoAccount,
       gradeType: grade.type,
-      weight: 1,
+      weight: const Weight.factor(1),
       title: grade.title,
     ));
 
@@ -198,7 +201,7 @@ class _Term {
   }
 
   _Term changeWeightingOfGradeTypeInSubject(
-      SubjectId id, GradeTypeId gradeType, double weight) {
+      SubjectId id, GradeTypeId gradeType, Weight weight) {
     final subject = _subjects.firstWhere((s) => s.id == id);
     final newSubject =
         subject._changeGradeTypeWeight(gradeType, weight: weight);
@@ -208,7 +211,7 @@ class _Term {
     );
   }
 
-  _Term changeWeightOfGrade(GradeId id, SubjectId subjectId, double weight) {
+  _Term changeWeightOfGrade(GradeId id, SubjectId subjectId, Weight weight) {
     final subject = _subjects.firstWhere((s) => s.id == subjectId);
     final newSubject = subject.copyWith(
       grades: subject.grades.replaceFirstWhere(
@@ -257,16 +260,16 @@ class _Term {
 }
 
 class _Subject {
-  final _Term term;
   final SubjectId id;
   final String name;
+  final TermId termId;
   final _GradingSystem gradingSystem;
   final IList<_Grade> grades;
   final GradeTypeId finalGradeType;
   final bool isFinalGradeTypeOverridden;
   final num weightingForTermGrade;
-  final IMap<GradeTypeId, double> gradeTypeWeightings;
-  final IMap<GradeTypeId, double> gradeTypeWeightingsFromTerm;
+  final IMap<GradeTypeId, Weight> gradeTypeWeightings;
+  final IMap<GradeTypeId, Weight> gradeTypeWeightingsFromTerm;
   final WeightType weightType;
   final String abbreviation;
   final Design design;
@@ -275,8 +278,8 @@ class _Subject {
   late final num? gradeVal;
 
   _Subject({
-    required this.term,
     required this.id,
+    required this.termId,
     required this.name,
     required this.weightType,
     required this.gradingSystem,
@@ -303,9 +306,12 @@ class _Subject {
     if (finalGrade != null) return finalGrade.value.asNum;
 
     return grds
-            .map((grade) => grade.value.asNum * _weightFor(grade))
+            .map((grade) => grade.value.asNum * _weightFor(grade).asFactor)
             .reduce((a, b) => a + b) /
-        grds.map((e) => _weightFor(e)).reduce((a, b) => a + b);
+        grds
+            .map((e) => _weightFor(e))
+            .reduce((a, b) => Weight.factor(a.asFactor + b.asFactor))
+            .asFactor;
   }
 
   _Subject _addGrade(_Grade grade) {
@@ -320,17 +326,18 @@ class _Subject {
     return grades.any((g) => g.id == gradeId);
   }
 
-  num _weightFor(_Grade grade) {
+  Weight _weightFor(_Grade grade) {
     return switch (weightType) {
       WeightType.perGrade => grade.weight,
-      WeightType.perGradeType => gradeTypeWeightings[grade.gradeType] ?? 1,
+      WeightType.perGradeType =>
+        gradeTypeWeightings[grade.gradeType] ?? const Weight.factor(1),
       WeightType.inheritFromTerm =>
-        gradeTypeWeightingsFromTerm[grade.gradeType] ?? 1,
+        gradeTypeWeightingsFromTerm[grade.gradeType] ?? const Weight.factor(1),
     };
   }
 
   _Subject _changeGradeTypeWeight(GradeTypeId gradeType,
-      {required double weight}) {
+      {required Weight weight}) {
     return copyWith(
         gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
   }
@@ -345,7 +352,7 @@ class _Subject {
   }
 
   _Subject copyWith({
-    _Term? term,
+    TermId? termId,
     SubjectId? id,
     String? name,
     String? abbreviation,
@@ -355,13 +362,13 @@ class _Subject {
     bool? isFinalGradeTypeOverridden,
     num? weightingForTermGrade,
     _GradingSystem? gradingSystem,
-    IMap<GradeTypeId, double>? gradeTypeWeightings,
-    IMap<GradeTypeId, double>? gradeTypeWeightingsFromTerm,
+    IMap<GradeTypeId, Weight>? gradeTypeWeightings,
+    IMap<GradeTypeId, Weight>? gradeTypeWeightingsFromTerm,
     WeightType? weightType,
     IList<ConnectedCourse>? connectedCourses,
   }) {
     return _Subject(
-      term: term ?? this.term,
+      termId: termId ?? this.termId,
       id: id ?? this.id,
       name: name ?? this.name,
       abbreviation: abbreviation ?? this.abbreviation,
@@ -383,30 +390,35 @@ class _Subject {
 }
 
 class _Grade extends Equatable {
-  final _Term term;
   final GradeId id;
+  final SubjectId subjectId;
+  final TermId termId;
   final GradeValue value;
   final _GradingSystem gradingSystem;
   final GradeTypeId gradeType;
   final bool takenIntoAccount;
-  final num weight;
+  final Weight weight;
   final Date date;
   final String title;
 
   @override
   List<Object?> get props => [
         id,
+        subjectId,
+        termId,
         value,
         gradingSystem,
         gradeType,
         takenIntoAccount,
         weight,
+        date,
         title,
       ];
 
   const _Grade({
-    required this.term,
     required this.id,
+    required this.subjectId,
+    required this.termId,
     required this.value,
     required this.gradeType,
     required this.gradingSystem,
@@ -416,24 +428,26 @@ class _Grade extends Equatable {
     required this.title,
   });
 
-  _Grade _changeWeight(double weight) {
-    return copyWith(weight: weight, takenIntoAccount: weight > 0);
+  _Grade _changeWeight(Weight weight) {
+    return copyWith(weight: weight, takenIntoAccount: weight.asFactor > 0);
   }
 
   _Grade copyWith({
-    _Term? term,
     GradeId? id,
+    SubjectId? subjectId,
+    TermId? termId,
     GradeValue? value,
     Date? date,
     _GradingSystem? gradingSystem,
     GradeTypeId? gradeType,
     bool? takenIntoAccount,
-    num? weight,
+    Weight? weight,
     String? title,
   }) {
     return _Grade(
-      term: term ?? this.term,
       id: id ?? this.id,
+      subjectId: subjectId ?? this.subjectId,
+      termId: termId ?? this.termId,
       value: value ?? this.value,
       date: date ?? this.date,
       gradingSystem: gradingSystem ?? this.gradingSystem,

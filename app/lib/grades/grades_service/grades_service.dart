@@ -6,12 +6,18 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
@@ -31,7 +37,7 @@ class GradesService {
   final GradesStateRepository _repository;
 
   GradesService({GradesStateRepository? repository})
-      : _repository = repository ?? InMemoryGradesStateRepository(),
+      : _repository = repository ?? FirestoreGradesRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
     _state = _repository.state.value;
     _updateView();
@@ -100,7 +106,7 @@ class GradesService {
                   : null,
               weightType: subject.weightType,
               gradeTypeWeights: subject.gradeTypeWeightings
-                  .map((key, value) => MapEntry(key, Weight.factor(value))),
+                  .map((key, value) => MapEntry(key, value)),
               grades: subject.grades
                   .map(
                     (grade) => GradeResult(
@@ -239,8 +245,8 @@ class GradesService {
     required GradeTypeId gradeType,
     required Weight weight,
   }) {
-    final newTerm = _term(termId).changeWeightingOfGradeTypeInSubject(
-        id, gradeType, weight.asFactor.toDouble());
+    final newTerm = _term(termId)
+        .changeWeightingOfGradeTypeInSubject(id, gradeType, weight);
     _updateTerm(newTerm);
   }
 
@@ -289,8 +295,7 @@ class GradesService {
         .subjects
         .where((element) => element.grades.any((grade) => grade.id == id))
         .first;
-    final newTerm = _term(termId)
-        .changeWeightOfGrade(id, subject.id, weight.asFactor.toDouble());
+    final newTerm = _term(termId).changeWeightOfGrade(id, subject.id, weight);
 
     _updateTerm(newTerm);
   }
@@ -299,8 +304,8 @@ class GradesService {
       {required TermId termId,
       required GradeTypeId gradeType,
       required Weight weight}) {
-    final newTerm = _term(termId).changeWeightingOfGradeType(gradeType,
-        weight: weight.asFactor.toDouble());
+    final newTerm =
+        _term(termId).changeWeightingOfGradeType(gradeType, weight: weight);
     _updateTerm(newTerm);
   }
 
@@ -448,6 +453,10 @@ enum GradingSystem {
   final bool isNumericalAndContinous;
 
   const GradingSystem({required this.isNumericalAndContinous});
+
+  static GradingSystem fromString(String value) {
+    return values.firstWhere((e) => e.name == value);
+  }
 }
 
 extension NumericalAndContinuous on List<GradingSystem> {
@@ -680,7 +689,15 @@ class Grade {
   });
 }
 
-enum WeightType { perGrade, perGradeType, inheritFromTerm }
+enum WeightType {
+  perGrade,
+  perGradeType,
+  inheritFromTerm;
+
+  static WeightType fromString(String value) {
+    return values.firstWhere((e) => e.name == value);
+  }
+}
 
 class GradeTypeId extends Id {
   const GradeTypeId(super.id);
