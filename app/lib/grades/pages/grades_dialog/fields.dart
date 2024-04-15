@@ -71,24 +71,57 @@ class _GradingSystem extends StatelessWidget {
       onTap: () async {
         final res = await showDialog<GradingSystem?>(
           context: context,
-          builder: (context) => SimpleDialog(
-            title: const Text("Note auswählen"),
-            children: [
-              for (final gradingSystem in GradingSystem.values)
-                ListTile(
-                  title: Text(gradingSystem.displayName),
-                  onTap: () {
-                    Navigator.of(context).pop<GradingSystem?>(gradingSystem);
-                  },
-                ),
-            ],
-          ),
+          builder: (context) => const _SelectGradeSystemDialog(),
         );
 
         if (res != null) {
           controller.setGradingSystem(res);
         }
       },
+    );
+  }
+}
+
+class _SelectGradeSystemDialog extends StatelessWidget {
+  const _SelectGradeSystemDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    final greyColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.5);
+    return MaxWidthConstraintBox(
+      maxWidth: 450,
+      child: SimpleDialog(
+        title: const Text("Notensystem auswählen"),
+        contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+            child: Text(
+              'Der erste Wert entspricht der besten Noten, z.B. bei dem Notensystem "1 - 6" ist "1" die beste Note.',
+              style: TextStyle(
+                fontSize: 12,
+                color: greyColor,
+              ),
+            ),
+          ),
+          for (final gradingSystem in GradingSystem.values)
+            ListTile(
+              title: Text(gradingSystem.displayName),
+              onTap: () {
+                Navigator.of(context).pop<GradingSystem?>(gradingSystem);
+              },
+            ),
+          const Divider(),
+          ListTile(
+            title: const Text("Weiteres Notensystem anfragen"),
+            subtitle: Text(
+              "Notensystem nicht dabei? Schreib uns, welches Notensystem du gerne hättest!",
+              style: TextStyle(color: greyColor),
+            ),
+            onTap: () => Navigator.of(context).pushNamed(SupportPage.tag),
+          ),
+        ],
+      ),
     );
   }
 }
