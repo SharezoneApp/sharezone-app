@@ -428,7 +428,6 @@ class TermDto {
 
 class TermSubjectDto {
   final _SubjectId id;
-  // final _TermId termId;
   final SubjectGradeCompositionDto gradeComposition;
   final WeightType weightType;
   // TODO: Laut doc nullable?
@@ -438,7 +437,6 @@ class TermSubjectDto {
 
   TermSubjectDto({
     required this.id,
-    // required this.termId,
     required this.grades,
     required this.weightType,
     required this.gradeComposition,
@@ -448,7 +446,6 @@ class TermSubjectDto {
   factory TermSubjectDto.fromSubject(SubjectModel subject) {
     return TermSubjectDto(
       id: subject.id.id,
-      // termId: subject.termId.id,
       weightType: subject.weightType,
       grades: subject.grades.map((grade) => grade.id.id).toList(),
       finalGradeType: subject.finalGradeType.id,
@@ -459,7 +456,6 @@ class TermSubjectDto {
   factory TermSubjectDto.fromData(Map<String, Object?> data) {
     return TermSubjectDto(
       id: data['id'] as String,
-      // termId: data['termId'] as String,
       grades: data['grades'] as List<String>,
       weightType: WeightType.fromString(data['weightType'] as String),
       finalGradeType: data['finalGradeType'] as String,
@@ -472,7 +468,6 @@ class TermSubjectDto {
   Map<String, Object> toData() {
     return {
       'id': id,
-      // 'termId': termId,
       'grades': grades,
       'gradeComposition': gradeComposition.toData(),
       'weightType': weightType.name,
