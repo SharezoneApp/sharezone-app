@@ -9,7 +9,7 @@
 import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone_utils/random_string.dart';
 
@@ -56,6 +56,7 @@ class GradesDialogController extends ChangeNotifier {
       title: _title,
       titleErrorText: _titleErrorText,
       integrateGradeIntoSubjectGrade: _integrateGradeIntoSubjectGrade,
+      titleController: _titleController,
     );
   }
 
@@ -66,6 +67,7 @@ class GradesDialogController extends ChangeNotifier {
     _date = Date.today();
     _gradeType = null;
     _integrateGradeIntoSubjectGrade = true;
+    _titleController = TextEditingController();
 
     // We add a subject so have at least one subject to select.
     // Currently selecting a course and it being transformed to a subject is not
@@ -128,12 +130,15 @@ class GradesDialogController extends ChangeNotifier {
 
   void _maybeSetTitleWithGradeType(GradeType type) {
     if (_title == null || _title!.isEmpty) {
-      _title = type.predefinedType?.toUiString();
+      final typeDisplayName = type.predefinedType?.toUiString();
+      _title = typeDisplayName;
+      _titleController.text = typeDisplayName ?? '';
     }
   }
 
   String? _title;
   String? _titleErrorText;
+  late TextEditingController _titleController;
   void setTitle(String res) {
     _title = res;
     validateTitle();

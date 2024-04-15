@@ -290,29 +290,16 @@ class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
   }
 }
 
-class _Title extends StatefulWidget {
+class _Title extends StatelessWidget {
   const _Title();
-
-  @override
-  State<_Title> createState() => _TitleState();
-}
-
-class _TitleState extends State<_Title> {
-  String? prefilledTitle;
-
-  @override
-  void initState() {
-    super.initState();
-    prefilledTitle = context.read<GradesDialogController>().view.title;
-  }
 
   @override
   Widget build(BuildContext context) {
     final controller = context.read<GradesDialogController>();
     return ListTile(
       leading: SavedGradeIcons.title,
-      title: PrefilledTextField(
-        prefilledText: prefilledTitle,
+      title: TextField(
+        controller: controller.view.titleController,
         onChanged: controller.setTitle,
         decoration: InputDecoration(
           labelText: "Titel",

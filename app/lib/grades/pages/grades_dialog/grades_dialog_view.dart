@@ -8,6 +8,7 @@
 
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
 typedef SelectableGrades = ({
@@ -42,6 +43,7 @@ class GradesDialogView {
   final IList<({TermId id, String name})> selectableTerms;
   final String? title;
   final String? titleErrorText;
+  final TextEditingController titleController;
   final String? details;
 
   const GradesDialogView({
@@ -59,6 +61,7 @@ class GradesDialogView {
     required this.titleErrorText,
     required this.details,
     required this.integrateGradeIntoSubjectGrade,
+    required this.titleController,
   });
 }
 
