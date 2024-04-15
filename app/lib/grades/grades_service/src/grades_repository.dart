@@ -504,7 +504,6 @@ class GradeDto {
       numValue: grade.value.asNum,
       gradingSystem: grade.gradingSystem.spec.gradingSystem,
       gradeType: grade.gradeType.id,
-      // TODO:
       receivedAt: Timestamp.fromDate(grade.date.toDateTime),
       includeInGrading: grade.takenIntoAccount,
       title: grade.title,
