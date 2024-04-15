@@ -155,6 +155,20 @@ class _Date extends StatelessWidget {
           controller.setDate(Date.fromDateTime(res));
         }
       },
+      trailing: const _DateHelpButton(),
+    );
+  }
+}
+
+class _DateHelpButton extends StatelessWidget {
+  const _DateHelpButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _HelpDialogButton(
+      title: 'Wozu dient das Datum?',
+      text:
+          'Das Datum stellt das Datum dar, an dem du die Note erhalten hast. Falls du das Datum nicht mehr genau weißt, kannst du einfach ein ungefähres Datum von dem Tag angeben, an dem du die Note erhalten hast.',
     );
   }
 }
@@ -315,9 +329,28 @@ class _TitleHelpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const _HelpDialogButton(
+      title: 'Wozu dient der Titel?',
+      text:
+          'Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema / den Titel der Klausur angeben, um die Note später besser zuordnen zu können.',
+    );
+  }
+}
+
+class _HelpDialogButton extends StatelessWidget {
+  const _HelpDialogButton({
+    required this.title,
+    required this.text,
+  });
+
+  final String title;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.help_outline),
-      tooltip: 'Wozu dient der Titel?',
+      tooltip: title,
       onPressed: () {
         showDialog(
           context: context,
@@ -325,9 +358,8 @@ class _TitleHelpButton extends StatelessWidget {
             return MaxWidthConstraintBox(
               maxWidth: 450,
               child: AlertDialog(
-                title: const Text("Wozu dient der Titel?"),
-                content: const Text(
-                    'Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema / den Titel der Klausur angeben, um die Note später besser zuordnen zu können.'),
+                title: Text(title),
+                content: Text(text),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
