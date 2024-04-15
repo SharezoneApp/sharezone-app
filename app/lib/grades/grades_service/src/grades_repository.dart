@@ -307,7 +307,6 @@ class TermDto {
   final _TermId id;
   final String displayName;
   final GradingSystem gradingSystem;
-  final Timestamp? createdAt;
   final _WeightNumberType subjectWeightsType;
   final Map<_SubjectId, num> subjectWeights;
   final _WeightNumberType gradeTypeWeightsType;
@@ -318,7 +317,6 @@ class TermDto {
   TermDto({
     required this.id,
     required this.displayName,
-    required this.createdAt,
     required this.gradingSystem,
     required this.subjectWeightsType,
     required this.subjectWeights,
@@ -344,8 +342,6 @@ class TermDto {
       gradeTypeWeights: term.gradeTypeWeightings
           .map((gradeId, weight) => MapEntry(gradeId.id, weight.asFactor))
           .unlock,
-      // TODO:
-      createdAt: null,
     );
   }
 
@@ -353,7 +349,6 @@ class TermDto {
     return TermDto(
       id: data['id'] as String,
       displayName: data['displayName'] as String,
-      createdAt: data['createdAt'] as Timestamp?,
       gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
       subjectWeightsType: _WeightNumberType.factor,
       subjectWeights: data['subjectWeights'] as Map<String, num>,
@@ -370,7 +365,6 @@ class TermDto {
     return {
       'id': id,
       'displayName': displayName,
-      if (createdAt != null) 'createdAt': createdAt!,
       'subjectWeightsType': subjectWeightsType.name,
       'gradingSystem': gradingSystem.name,
       'subjectWeights': subjectWeights,
@@ -387,7 +381,6 @@ class TermDto {
 class TermSubjectDto {
   final _SubjectId id;
   final _TermId termId;
-  final Timestamp? createdOn;
   final SubjectGradeCompositionDto gradeComposition;
   final WeightType weightType;
   // TODO: Laut doc nullable?
@@ -402,15 +395,12 @@ class TermSubjectDto {
     required this.weightType,
     required this.gradeComposition,
     required this.finalGradeType,
-    required this.createdOn,
   });
 
   factory TermSubjectDto.fromSubject(SubjectModel subject) {
     return TermSubjectDto(
       id: subject.id.id,
       termId: subject.termId.id,
-      // TODO:
-      createdOn: null,
       weightType: subject.weightType,
       grades: subject.grades.map((grade) => grade.id.id).toList(),
       finalGradeType: subject.finalGradeType.id,
@@ -422,7 +412,6 @@ class TermSubjectDto {
     return TermSubjectDto(
       id: data['id'] as String,
       termId: data['termId'] as String,
-      createdOn: data['createdOn'] as Timestamp?,
       grades: data['grades'] as List<String>,
       weightType: WeightType.fromString(data['weightType'] as String),
       finalGradeType: data['finalGradeType'] as String,
@@ -437,7 +426,6 @@ class TermSubjectDto {
       'id': id,
       'termId': termId,
       'grades': grades,
-      if (createdOn != null) 'createdOn': createdOn!,
       'gradeComposition': gradeComposition.toData(),
       'weightType': weightType.name,
       'finalGradeType': finalGradeType,
@@ -490,7 +478,6 @@ class GradeDto {
   final num numValue;
   final GradingSystem gradingSystem;
   final _GradeTypeId gradeType;
-  final Timestamp? createdAt;
   final Timestamp receivedAt;
   final bool includeInGrading;
   final String title;
@@ -503,7 +490,6 @@ class GradeDto {
     required this.numValue,
     required this.gradingSystem,
     required this.gradeType,
-    required this.createdAt,
     required this.receivedAt,
     required this.includeInGrading,
     required this.title,
@@ -519,7 +505,6 @@ class GradeDto {
       gradingSystem: grade.gradingSystem.spec.gradingSystem,
       gradeType: grade.gradeType.id,
       // TODO:
-      createdAt: null,
       receivedAt: Timestamp.fromDate(grade.date.toDateTime),
       includeInGrading: grade.takenIntoAccount,
       title: grade.title,
@@ -536,7 +521,6 @@ class GradeDto {
       numValue: data['numValue'] as num,
       gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
       gradeType: data['gradeType'] as String,
-      createdAt: data['createdAt'] as Timestamp?,
       receivedAt: data['receivedAt'] as Timestamp,
       includeInGrading: data['includeInGrading'] as bool,
       title: data['title'] as String,
@@ -552,7 +536,6 @@ class GradeDto {
       'numValue': numValue,
       'gradingSystem': gradingSystem.name,
       'gradeType': gradeType,
-      if (createdAt != null) 'createdAt': createdAt!,
       'receivedAt': receivedAt,
       'includeInGrading': includeInGrading,
       'title': title,
