@@ -364,9 +364,7 @@ class TermDto {
   final _TermId id;
   final String displayName;
   final GradingSystem gradingSystem;
-  final _WeightNumberType subjectWeightsType;
   final Map<_SubjectId, WeightDto> subjectWeights;
-  final _WeightNumberType gradeTypeWeightsType;
   final Map<_GradeTypeId, WeightDto> gradeTypeWeights;
   final List<TermSubjectDto> subjects;
   final _GradeTypeId finalGradeTypeId;
@@ -375,9 +373,7 @@ class TermDto {
     required this.id,
     required this.displayName,
     required this.gradingSystem,
-    required this.subjectWeightsType,
     required this.subjectWeights,
-    required this.gradeTypeWeightsType,
     required this.gradeTypeWeights,
     required this.finalGradeTypeId,
     required this.subjects,
@@ -390,12 +386,8 @@ class TermDto {
       finalGradeTypeId: term.finalGradeType.id,
       gradingSystem: term.gradingSystem.spec.gradingSystem,
       subjects: term.subjects.map(TermSubjectDto.fromSubject).toList(),
-      // TODO:
-      subjectWeightsType: _WeightNumberType.factor,
       subjectWeights: Map.fromEntries(term.subjects.map((subject) =>
           MapEntry(subject.id.id, subject.weightingForTermGrade.toDto()))),
-      // TODO:
-      gradeTypeWeightsType: _WeightNumberType.factor,
       gradeTypeWeights: term.gradeTypeWeightings
           .map((gradeId, weight) => MapEntry(gradeId.id, weight.toDto()))
           .unlock,
@@ -407,9 +399,7 @@ class TermDto {
       id: data['id'] as String,
       displayName: data['displayName'] as String,
       gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
-      subjectWeightsType: _WeightNumberType.factor,
       subjectWeights: data['subjectWeights'].toWeightsDtoMap(),
-      gradeTypeWeightsType: _WeightNumberType.factor,
       gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
       subjects: (data['subjects'] as Map<String, Map<String, Object>>)
           .mapTo((_, sub) => TermSubjectDto.fromData(sub))
@@ -422,10 +412,8 @@ class TermDto {
     return {
       'id': id,
       'displayName': displayName,
-      'subjectWeightsType': subjectWeightsType.name,
       'gradingSystem': gradingSystem.name,
       'subjectWeights': subjectWeights.toWeightDataMap(),
-      'gradeTypeWeightsType': gradeTypeWeightsType.name,
       'gradeTypeWeights': gradeTypeWeights.toWeightDataMap(),
       'subjects': subjects
           .map((subject) => MapEntry(subject.id, subject.toData()))

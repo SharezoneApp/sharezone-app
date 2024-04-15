@@ -184,7 +184,6 @@ void main() {
           '02-10-term': {
             'id': '02-10-term',
             'displayName': '02/10',
-            'subjectWeightsType': 'factor',
             'gradingSystem': 'zeroToFivteenPoints',
             'subjectWeights': {
               'mathe': {
@@ -192,7 +191,6 @@ void main() {
                 'type': 'factor',
               }
             },
-            'gradeTypeWeightsType': 'factor',
             'gradeTypeWeights': {
               'vocabulary-test': {'value': 1.5, 'type': 'factor'}
             },
@@ -227,12 +225,10 @@ void main() {
           '01-10-term': {
             'id': '01-10-term',
             'displayName': '01/10',
-            'subjectWeightsType': 'factor',
             'gradingSystem': 'oneToSixWithDecimals',
             'subjectWeights': {
               'englisch': {'value': 1.0, 'type': 'factor'},
             },
-            'gradeTypeWeightsType': 'factor',
             'gradeTypeWeights': {},
             'subjects': {
               'englisch': {
