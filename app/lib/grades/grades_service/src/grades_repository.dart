@@ -94,10 +94,9 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
           .expand((term) => term.subjects.expand((p0) => p0.grades))
           .map((g) => MapEntry(g.id.id, GradeDto.fromGrade(g).toData()))
           .toMap(),
-      // TODO: GradeType.name
       'customGradeTypes': state.customGradeTypes
-          .map((gradeType) => MapEntry(gradeType.id.id,
-              {'id': gradeType.id.id, 'displayName': gradeType.displayName}))
+          .map((element) => MapEntry(element.id.id,
+              CustomGradeTypeDto.fromGradeType(element).toData()))
           .toMap(),
       'subjects': state.subjects
           .map((subject) =>
@@ -126,17 +125,14 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
           gradeData.mapTo((value, key) => GradeDto.fromData(key)).toIList();
     }
 
-    IList<GradeType> customGradeTypes = const IListConst([]);
+    IList<CustomGradeTypeDto> customGradeTypeDtos = const IListConst([]);
     if (data
         case {
-          //                                          Object (no ?) breaks the
-          //                                          parsing.
-          'customGradeTypes': Map<String, Map<String, Object?>> gradeTypeData
+          'customGradeTypes': Map<String, Map<String, Object>> gradeTypeData
         }) {
-      customGradeTypes = gradeTypeData
-          .mapTo((value, key) => GradeType(
-              id: GradeTypeId(value),
-              displayName: key['displayName'] as String))
+      customGradeTypeDtos = gradeTypeData
+          .mapTo((value, key) =>
+              CustomGradeTypeDto.fromData(key.cast<String, Object>()))
           .toIList();
     }
 
@@ -251,6 +247,13 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         )
         .toIList();
 
+    final customGradeTypes = customGradeTypeDtos
+        .map((dto) => GradeType(
+              id: GradeTypeId(dto.id),
+              displayName: dto.displayName,
+            ))
+        .toIList();
+
     return (
       terms: terms,
       customGradeTypes: customGradeTypes,
@@ -274,6 +277,37 @@ typedef _TermId = String;
 typedef _SubjectId = String;
 typedef _GradeId = String;
 typedef _GradeTypeId = String;
+
+class CustomGradeTypeDto {
+  final _GradeTypeId id;
+  final String displayName;
+
+  CustomGradeTypeDto({
+    required this.id,
+    required this.displayName,
+  });
+
+  factory CustomGradeTypeDto.fromData(Map<String, Object> data) {
+    return CustomGradeTypeDto(
+      id: data['id'] as String,
+      displayName: data['displayName'] as String,
+    );
+  }
+
+  factory CustomGradeTypeDto.fromGradeType(GradeType gradeType) {
+    return CustomGradeTypeDto(
+      id: gradeType.id.id,
+      displayName: gradeType.displayName!,
+    );
+  }
+
+  Map<String, Object> toData() {
+    return {
+      'id': id,
+      'displayName': displayName,
+    };
+  }
+}
 
 class TermDto {
   final _TermId id;
