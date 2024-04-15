@@ -84,34 +84,32 @@ class FirestoreGradesRepository extends GradesStateRepository {
 
   static GradesState fromData(Map<String, Object> data) {
     IList<TermDto> termDtos = const IListConst([]);
-    // If the map is empty it won't be Map<String, Map<String,Object>> but Map<dynamic, dynamic>
-    if (data['terms'] is Map && (data['terms'] as Map).isNotEmpty) {
-      termDtos = (data['terms'] as Map<String, Map<String, Object>>)
-          .mapTo((value, key) => TermDto.fromData(key))
-          .toIList();
+
+    if (data case {'terms': Map<String, Map<String, Object>> termData}) {
+      termDtos =
+          termData.mapTo((value, key) => TermDto.fromData(key)).toIList();
     }
 
     IList<SubjectDto> subjectDtos = const IListConst([]);
-    if (data['subjects'] is Map && (data['subjects'] as Map).isNotEmpty) {
-      subjectDtos = (data['subjects'] as Map<String, Map<String, Object>>)
-          .mapTo((value, key) => SubjectDto.fromData(key))
-          .toIList();
+    if (data case {'subjects': Map<String, Map<String, Object>> subjectData}) {
+      subjectDtos =
+          subjectData.mapTo((value, key) => SubjectDto.fromData(key)).toIList();
     }
 
     IList<GradeDto> gradeDtos = const IListConst([]);
-    if (data['grades'] is Map && (data['grades'] as Map).isNotEmpty) {
-      gradeDtos = (data['grades'] as Map<String, Map<String, Object>>)
-          .mapTo((value, key) => GradeDto.fromData(key))
-          .toIList();
+    if (data case {'grades': Map<String, Map<String, Object>> gradeData}) {
+      gradeDtos =
+          gradeData.mapTo((value, key) => GradeDto.fromData(key)).toIList();
     }
 
     IList<GradeType> customGradeTypes = const IListConst([]);
-    if (data['customGradeTypes'] is Map &&
-        (data['customGradeTypes'] as Map).isNotEmpty) {
-      customGradeTypes =
-          (data['customGradeTypes'] as Map<String, Map<String, Object>>)
-              .mapTo((value, key) => GradeType(id: GradeTypeId(value)))
-              .toIList();
+    if (data
+        case {
+          'customGradeTypes': Map<String, Map<String, Object>> gradeTypeData
+        }) {
+      customGradeTypes = gradeTypeData
+          .mapTo((value, key) => GradeType(id: GradeTypeId(value)))
+          .toIList();
     }
 
     final grades = gradeDtos.map(
@@ -259,6 +257,11 @@ class FirestoreGradesRepository extends GradesStateRepository {
 
 extension ToMap<K, V> on Iterable<MapEntry<K, V>> {
   Map<K, V> toMap() => Map<K, V>.fromEntries(this);
+}
+
+extension on Map<String, Object> {
+  bool isNonEmptyDataMap(String key) =>
+      this is Map && (this[key] as Map).isNotEmpty;
 }
 
 enum _WeightNumberType { factor, percent }
