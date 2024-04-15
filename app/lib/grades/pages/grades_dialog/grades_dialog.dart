@@ -12,6 +12,7 @@ import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -19,7 +20,6 @@ import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
-import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -106,9 +106,12 @@ class _SaveButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: FilledButton(
-        onPressed: () {
+        onPressed: () async {
           try {
-            controller.save();
+            sendDataToFrankfurtSnackBar(context);
+            await controller.save();
+            if (!context.mounted) return;
+
             showConfirmationSnackBar(context);
             Navigator.of(context).pop();
           } catch (e) {

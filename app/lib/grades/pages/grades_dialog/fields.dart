@@ -15,44 +15,59 @@ class _GradeValue extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Provider.of<GradesDialogController>(context);
     final view = controller.view;
+    final gradingSystem = view.selectedGradingSystem;
     final selectableGrades = view.selectableGrades;
+    final hasDistinctValues = selectableGrades.distinctGrades != null;
     return ListTile(
       leading: SavedGradeIcons.value,
-      title: Text(view.selectedGrade ?? 'Keine Note ausgewählt'),
-      onTap: () async {
-        final res = await showDialog<String?>(
-          context: context,
-          builder: (context) => SimpleDialog(
-            title: const Text("Note auswählen"),
-            children: [
-              if (selectableGrades.distinctGrades != null)
-                for (final grade in selectableGrades.distinctGrades!)
-                  ListTile(
-                    title: Text(grade),
-                    onTap: () {
-                      Navigator.of(context).pop<String?>(grade);
-                    },
-                  ),
-              if (selectableGrades.nonDistinctGrades != null)
-                StatefulBuilder(builder: (context, setState) {
-                  String input = "";
+      title: hasDistinctValues
+          ? Text(view.selectedGrade ?? 'Keine Note ausgewählt')
+          : TextField(
+              decoration: InputDecoration(
+                  label: const Text('Note'),
+                  hintText: switch (gradingSystem) {
+                    GradingSystem.oneToFiveWithDecimals => 'z.B. 1.3',
+                    GradingSystem.oneToSixWithDecimals => 'z.B. 1.3',
+                    GradingSystem.oneToSixWithPlusAndMinus => 'z.B. 1+',
+                    GradingSystem.sixToOneWithDecimals => 'z.B. 6.0',
+                    GradingSystem.zeroToFivteenPointsWithDecimals =>
+                      'z.B. 15.0',
+                    GradingSystem.zeroToHundredPercentWithDecimals =>
+                      'z.B. 78.8',
+                    _ => null,
+                  }),
+              onChanged: controller.setGrade,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp('[0-9.,]'))
+              ],
+            ),
+      onTap: hasDistinctValues
+          ? () async {
+              final res = await showDialog<String?>(
+                context: context,
+                builder: (context) => SimpleDialog(
+                  title: const Text("Note auswählen"),
+                  contentPadding: const EdgeInsets.all(12),
+                  children: [
+                    if (selectableGrades.distinctGrades != null)
+                      for (final grade in selectableGrades.distinctGrades!)
+                        ListTile(
+                          title: Text(grade),
+                          onTap: () {
+                            Navigator.of(context).pop<String?>(grade);
+                          },
+                        ),
+                  ],
+                ),
+              );
 
-                  return PrefilledTextField(
-                    decoration: const InputDecoration(label: Text('Note')),
-                    prefilledText: input,
-                    onChanged: (val) => input = val,
-                    onEditingComplete: () =>
-                        Navigator.of(context).pop<String?>(input),
-                  );
-                })
-            ],
-          ),
-        );
-
-        if (res != null) {
-          controller.setGrade(res);
-        }
-      },
+              if (res != null) {
+                controller.setGrade(res);
+              }
+            }
+          : null,
     );
   }
 }

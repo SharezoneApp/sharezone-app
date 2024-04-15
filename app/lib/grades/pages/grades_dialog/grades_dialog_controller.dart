@@ -11,7 +11,6 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
-import 'package:design/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -33,9 +32,7 @@ class GradesDialogController extends ChangeNotifier {
 
     final posGradesRes = gradesService.getPossibleGrades(_gradingSystem);
     SelectableGrades selectableGrades = (
-      distinctGrades: posGradesRes is NonNumericalPossibleGradesResult
-          ? posGradesRes.grades
-          : null,
+      distinctGrades: _getPossibleDistinctGrades(posGradesRes),
       nonDistinctGrades: posGradesRes is ContinuousNumericalPossibleGradesResult
           ? (
               min: posGradesRes.min,
@@ -86,21 +83,6 @@ class GradesDialogController extends ChangeNotifier {
     _titleController = TextEditingController();
     _subjects = gradesService.getSubjects();
 
-    // We add a subject so have at least one subject to select.
-    // Currently selecting a course and it being transformed to a subject is not
-    // implemented.
-    try {
-      gradesService.addSubject(
-        Subject(
-          id: const SubjectId('mathe'),
-          name: 'Mathe',
-          abbreviation: 'Ma',
-          design: Design.random(),
-          connectedCourses: const IListConst([]),
-        ),
-      );
-    } on SubjectAlreadyExistsException catch (_) {}
-
     _coursesStreamSubscription = coursesStream.listen((courses) {
       _subjects = _mergeCoursesAndSubjects(courses);
       notifyListeners();
@@ -125,7 +107,7 @@ class GradesDialogController extends ChangeNotifier {
 
   String? _grade;
   void setGrade(String res) {
-    _grade = res;
+    _grade = res.isEmpty ? null : res;
     notifyListeners();
   }
 
@@ -199,7 +181,7 @@ class GradesDialogController extends ChangeNotifier {
     return _title != null && _title!.isNotEmpty;
   }
 
-  void save() {
+  Future<void> save() async {
     final invalidFields = <GradingDialogFields>[];
 
     final isTitleValid = validateTitle();
@@ -220,6 +202,13 @@ class GradesDialogController extends ChangeNotifier {
         .isEmpty;
     if (isNewSubject) {
       createSubject();
+
+      // Firestore had a soft limit of 1 write per second per document. However,
+      // this limit isn't mentioned in the documentation anymore. We still keep
+      // the delay to be on the safe side.
+      //
+      // https://stackoverflow.com/questions/74454570/has-firestore-removed-the-soft-limit-of-1-write-per-second-to-a-single-document
+      await Future.delayed(const Duration(seconds: 1));
     }
 
     gradesService.addGrade(
@@ -253,6 +242,32 @@ class GradesDialogController extends ChangeNotifier {
     throw switch (invalidFields.first) {
       GradingDialogFields.title => const InvalidTitleSaveGradeException(),
     };
+  }
+
+  IList<String>? _getPossibleDistinctGrades(PossibleGradesResult posGradesRes) {
+    if (posGradesRes is NonNumericalPossibleGradesResult) {
+      return posGradesRes.grades;
+    }
+
+    if (posGradesRes is ContinuousNumericalPossibleGradesResult) {
+      if (!posGradesRes.decimalsAllowed) {
+        final grades = <String>[];
+        for (int i = posGradesRes.min.toInt();
+            i <= posGradesRes.max.toInt();
+            i++) {
+          grades.add(i.toString());
+        }
+        return grades.toIList();
+      }
+
+      if (posGradesRes.specialGrades.isEmpty) {
+        return null;
+      }
+
+      return posGradesRes.specialGrades.keys.toIList();
+    }
+
+    return null;
   }
 
   @override
