@@ -314,10 +314,12 @@ class _TitleState extends State<_Title> {
       title: PrefilledTextField(
         prefilledText: prefilledTitle,
         onChanged: controller.setTitle,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           labelText: "Titel",
           hintText: "z.B. Lineare Funktionen",
-          suffixIcon: _TitleHelpButton(),
+          suffixIcon: const _TitleHelpButton(),
+          errorText: context.select<GradesDialogController, String?>(
+              (controller) => controller.view.titleErrorText),
         ),
       ),
     );

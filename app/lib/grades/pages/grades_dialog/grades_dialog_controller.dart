@@ -53,7 +53,8 @@ class GradesDialogController extends ChangeNotifier {
       selectableTerms:
           terms.map((term) => (id: term.id, name: term.name)).toIList(),
       details: null,
-      title: null,
+      title: _title,
+      titleErrorText: _titleErrorText,
       integrateGradeIntoSubjectGrade: _integrateGradeIntoSubjectGrade,
     );
   }
@@ -121,15 +122,52 @@ class GradesDialogController extends ChangeNotifier {
   GradeType? _gradeType;
   void setGradeType(GradeType res) {
     _gradeType = res;
+    _maybeSetTitleWithGradeType(res);
     notifyListeners();
   }
 
+  void _maybeSetTitleWithGradeType(GradeType type) {
+    if (_title == null || _title!.isEmpty) {
+      _title = type.predefinedType?.toUiString();
+    }
+  }
+
   String? _title;
+  String? _titleErrorText;
   void setTitle(String res) {
     _title = res;
+    validateTitle();
+  }
+
+  bool validateTitle() {
+    if (!_isTitleValid()) {
+      _titleErrorText = 'Bitte einen Titel eingeben.';
+      notifyListeners();
+      return false;
+    } else {
+      _titleErrorText = null;
+      notifyListeners();
+      return true;
+    }
+  }
+
+  bool _isTitleValid() {
+    return _title != null && _title!.isNotEmpty;
   }
 
   void save() {
+    final invalidFields = <GradingDialogFields>[];
+
+    final isTitleValid = validateTitle();
+    if (!isTitleValid) {
+      invalidFields.add(GradingDialogFields.title);
+    }
+
+    if (invalidFields.isNotEmpty) {
+      _throwInvalidSaveState(invalidFields);
+      return;
+    }
+
     final gradeId = GradeId(randomIDString(20));
 
     gradesService.addGrade(
@@ -146,4 +184,42 @@ class GradesDialogController extends ChangeNotifier {
       ),
     );
   }
+
+  void _throwInvalidSaveState(List<GradingDialogFields> invalidFields) {
+    if (invalidFields.length > 1) {
+      throw MultipleInvalidFieldsSaveGradeException(invalidFields);
+    }
+
+    throw switch (invalidFields.first) {
+      GradingDialogFields.title => const InvalidTitleSaveGradeException(),
+    };
+  }
+}
+
+enum GradingDialogFields {
+  title;
+
+  String toUiString() {
+    return switch (this) {
+      title => 'Titel',
+    };
+  }
+}
+
+sealed class SaveGradeException implements Exception {
+  const SaveGradeException();
+}
+
+class UnknownSaveGradeException extends SaveGradeException {
+  const UnknownSaveGradeException();
+}
+
+class MultipleInvalidFieldsSaveGradeException extends SaveGradeException {
+  final List<GradingDialogFields> invalidFields;
+
+  const MultipleInvalidFieldsSaveGradeException(this.invalidFields);
+}
+
+class InvalidTitleSaveGradeException extends SaveGradeException {
+  const InvalidTitleSaveGradeException();
 }

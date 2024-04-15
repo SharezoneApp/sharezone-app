@@ -55,6 +55,39 @@ class GradesDialog extends StatelessWidget {
 class _SaveButton extends StatelessWidget {
   const _SaveButton();
 
+  void showConfirmationSnackBar(BuildContext context) {
+    showSnackSec(context: context, text: 'Note gespeichert');
+  }
+
+  void showErrorSnackBar(BuildContext context, Object e) {
+    if (e is SaveGradeException) {
+      switch (e) {
+        case MultipleInvalidFieldsSaveGradeException():
+          showSnackSec(
+            context: context,
+            text:
+                'Folgende Felder fehlen oder sind ungültig: ${e.invalidFields.map((f) => f.toUiString()).join(', ')}.',
+          );
+          break;
+        case InvalidTitleSaveGradeException():
+          showSnackSec(
+            context: context,
+            text: 'Der Titel fehlt oder ist ungültig.',
+          );
+          break;
+        case UnknownSaveGradeException():
+          unknownErrorSnackBar(context, e);
+          break;
+      }
+    } else {
+      unknownErrorSnackBar(context, e);
+    }
+  }
+
+  void unknownErrorSnackBar(BuildContext context, Object e) {
+    showSnackSec(context: context, text: 'Unbekannter Fehler: $e');
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller =
@@ -63,8 +96,14 @@ class _SaveButton extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8),
       child: FilledButton(
         onPressed: () {
-          controller.save();
-          Navigator.of(context).pop();
+          try {
+            controller.save();
+            showConfirmationSnackBar(context);
+            Navigator.of(context).pop();
+          } catch (e) {
+            if (!context.mounted) return;
+            showErrorSnackBar(context, e);
+          }
         },
         child: const Text("Speichern"),
       ),

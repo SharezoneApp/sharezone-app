@@ -41,6 +41,7 @@ class GradesDialogView {
   final ({TermId id, String name})? selectedTerm;
   final IList<({TermId id, String name})> selectableTerms;
   final String? title;
+  final String? titleErrorText;
   final String? details;
 
   const GradesDialogView({
@@ -55,6 +56,7 @@ class GradesDialogView {
     required this.selectedTerm,
     required this.selectableTerms,
     required this.title,
+    required this.titleErrorText,
     required this.details,
     required this.integrateGradeIntoSubjectGrade,
   });
