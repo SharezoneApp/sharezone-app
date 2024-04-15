@@ -9,7 +9,7 @@
 part of '../grades_service.dart';
 
 typedef GradesState = ({
-  IList<_Term> terms,
+  IList<Term> terms,
   IList<GradeType> customGradeTypes,
   IList<Subject> subjects
 });
@@ -17,7 +17,7 @@ typedef GradesState = ({
 extension GradesStateCopyWith on GradesState {
   GradesState copyWith({
     // ignore: library_private_types_in_public_api
-    IList<_Term>? terms,
+    IList<Term>? terms,
     IList<GradeType>? customGradeTypes,
     IList<Subject>? subjects,
   }) {
@@ -115,7 +115,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     final grades = gradeDtos.map(
       (dto) {
         final gradingSystem = dto.gradingSystem.toGradingSystem();
-        return _Grade(
+        return GradeModel(
           id: GradeId(dto.id),
           termId: TermId(dto.termId),
           date: dto.receivedAt.toDate().toDate(),
@@ -173,7 +173,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
       var (:subject, :termSubject) = s;
       final subTerm = termDtos.firstWhere(
           (term) => term.subjects.any((sub) => sub.id == subject.id.id));
-      return _Subject(
+      return SubjectModel(
         id: subject.id,
         termId: TermId(subTerm.id),
         name: subject.name,
@@ -205,7 +205,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
 
     var terms = termDtos
         .map(
-          (dto) => _Term(
+          (dto) => Term(
             id: TermId(dto.id),
             finalGradeType: GradeTypeId(dto.finalGradeTypeId),
             gradingSystem: dto.gradingSystem.toGradingSystem(),
@@ -296,20 +296,20 @@ class TermDto {
     required this.subjects,
   });
 
-  factory TermDto.fromTerm(_Term term) {
+  factory TermDto.fromTerm(Term term) {
     return TermDto(
       id: term.id.id,
       displayName: term.name,
       finalGradeTypeId: term.finalGradeType.id,
       gradingSystem: term.gradingSystem.spec.gradingSystem,
-      subjects: term._subjects.map(TermSubjectDto.fromSubject).toList(),
+      subjects: term.subjects.map(TermSubjectDto.fromSubject).toList(),
       // TODO:
       subjectWeightsType: _WeightNumberType.factor,
-      subjectWeights: Map.fromEntries(term._subjects.map(
+      subjectWeights: Map.fromEntries(term.subjects.map(
           (subject) => MapEntry(subject.id.id, subject.weightingForTermGrade))),
       // TODO:
       gradeTypeWeightsType: _WeightNumberType.factor,
-      gradeTypeWeights: term._gradeTypeWeightings
+      gradeTypeWeights: term.gradeTypeWeightings
           .map((gradeId, weight) => MapEntry(gradeId.id, weight.asFactor))
           .unlock,
       // TODO:
@@ -373,7 +373,7 @@ class TermSubjectDto {
     required this.createdOn,
   });
 
-  factory TermSubjectDto.fromSubject(_Subject subject) {
+  factory TermSubjectDto.fromSubject(SubjectModel subject) {
     return TermSubjectDto(
       id: subject.id.id,
       termId: subject.termId.id,
@@ -423,7 +423,7 @@ class SubjectGradeCompositionDto {
       required this.gradeTypeWeights,
       required this.gradeWeights});
 
-  factory SubjectGradeCompositionDto.fromSubject(_Subject subject) {
+  factory SubjectGradeCompositionDto.fromSubject(SubjectModel subject) {
     return SubjectGradeCompositionDto(
       weightType: subject.weightType,
       gradeTypeWeights: subject.gradeTypeWeightings
@@ -478,7 +478,7 @@ class GradeDto {
     required this.details,
   });
 
-  factory GradeDto.fromGrade(_Grade grade) {
+  factory GradeDto.fromGrade(GradeModel grade) {
     return GradeDto(
       id: grade.id.id,
       termId: grade.termId.id,

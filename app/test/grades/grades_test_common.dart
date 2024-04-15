@@ -77,7 +77,7 @@ class GradesTestController {
       // other settings (weights) that refer to the term.
       for (var grade in subject.grades) {
         service.addGrade(
-          id: subject.id,
+          subjectId: subject.id,
           termId: termId,
           value: _toGrade(grade),
         );
@@ -208,7 +208,7 @@ class GradesTestController {
     required TestGrade value,
   }) {
     return service.addGrade(
-      id: subjectId,
+      subjectId: subjectId,
       termId: termId,
       value: _toGrade(value),
     );

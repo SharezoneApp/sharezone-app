@@ -53,8 +53,8 @@ class GradesService {
 
   late GradesState _state;
 
-  IList<_Term> get _terms => _state.terms;
-  set _terms(IList<_Term> value) {
+  IList<Term> get _terms => _state.terms;
+  set _terms(IList<Term> value) {
     _state = _state.copyWith(terms: value);
   }
 
@@ -78,12 +78,12 @@ class GradesService {
     terms.add(termRes);
   }
 
-  void _updateTerm(_Term term) {
+  void _updateTerm(Term term) {
     _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
     _updateState();
   }
 
-  TermResult _toTermResult(_Term term) {
+  TermResult _toTermResult(Term term) {
     return TermResult(
       id: term.id,
       name: term.name,
@@ -140,7 +140,7 @@ class GradesService {
     }
 
     _terms = _terms.add(
-      _Term(
+      Term(
         id: id,
         isActiveTerm: isActiveTerm,
         name: name,
@@ -221,7 +221,7 @@ class GradesService {
     throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
   }
 
-  _Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
+  Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
@@ -251,11 +251,11 @@ class GradesService {
   }
 
   void addGrade({
-    required SubjectId id,
+    required SubjectId subjectId,
     required TermId termId,
     required Grade value,
   }) {
-    final subject = _getSubjectOrThrow(id);
+    final subject = _getSubjectOrThrow(subjectId);
     if (!_hasGradeTypeWithId(value.type)) {
       throw GradeTypeNotFoundException(value.type);
     }
@@ -265,10 +265,10 @@ class GradesService {
     }
 
     var newTerm = _term(termId);
-    if (!newTerm.hasSubject(id)) {
+    if (!newTerm.hasSubject(subjectId)) {
       newTerm = newTerm.addSubject(subject);
     }
-    newTerm = newTerm.addGrade(value, toSubject: id);
+    newTerm = newTerm.addGrade(value, toSubject: subjectId);
     _updateTerm(newTerm);
   }
 
@@ -455,7 +455,7 @@ enum GradingSystem {
   const GradingSystem({required this.isNumericalAndContinous});
 
   static GradingSystem fromString(String value) {
-    return values.firstWhere((e) => e.name == value);
+    return values.byName(value);
   }
 }
 
@@ -464,12 +464,15 @@ extension NumericalAndContinuous on List<GradingSystem> {
       where((gs) => gs.isNumericalAndContinous).toIList();
 }
 
-sealed class PossibleGradesResult {
+sealed class PossibleGradesResult extends Equatable {
   const PossibleGradesResult();
 }
 
 class NonNumericalPossibleGradesResult extends PossibleGradesResult {
   final IList<String> grades;
+
+  @override
+  List<Object?> get props => [grades];
 
   const NonNumericalPossibleGradesResult(this.grades);
 }
@@ -484,6 +487,9 @@ class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
   /// For example [GradingSystem.oneToSixWithPlusAndMinus] might have the values:
   /// `{'1+':0.75,'1-':1.25, /**...*/ '5-':5.25}`.
   final IMap<String, num> specialGrades;
+
+  @override
+  List<Object?> get props => [min, max, decimalsAllowed, specialGrades];
 
   const ContinuousNumericalPossibleGradesResult({
     required this.min,
@@ -695,7 +701,7 @@ enum WeightType {
   inheritFromTerm;
 
   static WeightType fromString(String value) {
-    return values.firstWhere((e) => e.name == value);
+    return values.byName(value);
   }
 }
 
@@ -703,14 +709,17 @@ class GradeTypeId extends Id {
   const GradeTypeId(super.id);
 }
 
-class Subject {
+class Subject extends Equatable {
   final SubjectId id;
   final Design design;
   final String name;
   final String abbreviation;
   final IList<ConnectedCourse> connectedCourses;
 
-  Subject({
+  @override
+  List<Object?> get props => [id, design, name, abbreviation, connectedCourses];
+
+  const Subject({
     required this.id,
     required this.design,
     required this.name,

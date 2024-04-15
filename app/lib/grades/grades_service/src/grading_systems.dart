@@ -9,55 +9,58 @@
 part of '../grades_service.dart';
 
 extension _ToGradingSystem on GradingSystem {
-  _GradingSystem toGradingSystem() {
+  GradingSystemModel toGradingSystem() {
     switch (this) {
       case GradingSystem.zeroToHundredPercentWithDecimals:
-        return _GradingSystem.zeroToHundredPercentWithDecimals;
+        return GradingSystemModel.zeroToHundredPercentWithDecimals;
       case GradingSystem.zeroToFivteenPointsWithDecimals:
-        return _GradingSystem.zeroToFivteenPointsWithDecimals;
+        return GradingSystemModel.zeroToFiveteenPointsWithDecimals;
       case GradingSystem.zeroToFivteenPoints:
-        return _GradingSystem.zeroToFiveteenPoints;
+        return GradingSystemModel.zeroToFiveteenPoints;
       case GradingSystem.oneToSixWithPlusAndMinus:
-        return _GradingSystem.oneToSixWithPlusAndMinus;
+        return GradingSystemModel.oneToSixWithPlusAndMinus;
       case GradingSystem.oneToSixWithDecimals:
-        return _GradingSystem.oneToSixWithDecimals;
+        return GradingSystemModel.oneToSixWithDecimals;
       case GradingSystem.austrianBehaviouralGrades:
-        return _GradingSystem.austrianBehaviouralGrades;
+        return GradingSystemModel.austrianBehaviouralGrades;
       case GradingSystem.oneToFiveWithDecimals:
-        return _GradingSystem.oneToFiveWithDecimals;
+        return GradingSystemModel.oneToFiveWithDecimals;
       case GradingSystem.sixToOneWithDecimals:
-        return _GradingSystem.sixToOneWithDecimals;
+        return GradingSystemModel.sixToOneWithDecimals;
     }
   }
 }
 
-extension _ToGradingSystems on _GradingSystem {
+extension _ToGradingSystems on GradingSystemModel {
   GradingSystem toGradingSystems() {
     return spec.gradingSystem;
   }
 }
 
-class _GradingSystem {
+class GradingSystemModel extends Equatable {
   static final oneToSixWithPlusAndMinus =
-      _GradingSystem(spec: oneToSixWithPlusAndMinusSpec);
-  static final oneToSixWithDecimals =
-      _GradingSystem(spec: oneToSixWithDecimalsSpec);
-  static final zeroToFiveteenPoints =
-      _GradingSystem(spec: zeroToFivteenPointsSpec);
-  static final zeroToFivteenPointsWithDecimals =
-      _GradingSystem(spec: zeroToFivteenPointsWithDecimalsSpec);
-  static final zeroToHundredPercentWithDecimals =
-      _GradingSystem(spec: zeroToHundredPercentWithDecimalsSpec);
+      GradingSystemModel(spec: oneToSixWithPlusAndMinusSpec);
+  static const oneToSixWithDecimals =
+      GradingSystemModel(spec: oneToSixWithDecimalsSpec);
+  static const zeroToFiveteenPoints =
+      GradingSystemModel(spec: zeroToFiveteenPointsSpec);
+  static const zeroToFiveteenPointsWithDecimals =
+      GradingSystemModel(spec: zeroToFiveteenPointsWithDecimalsSpec);
+  static const zeroToHundredPercentWithDecimals =
+      GradingSystemModel(spec: zeroToHundredPercentWithDecimalsSpec);
   static final austrianBehaviouralGrades =
-      _GradingSystem(spec: austrianBehaviouralGradesSpec);
-  static final oneToFiveWithDecimals =
-      _GradingSystem(spec: oneToFiveWithDecimalsSpec);
-  static final sixToOneWithDecimals =
-      _GradingSystem(spec: sixToOneWithDecimalsSpec);
+      GradingSystemModel(spec: austrianBehaviouralGradesSpec);
+  static const oneToFiveWithDecimals =
+      GradingSystemModel(spec: oneToFiveWithDecimalsSpec);
+  static const sixToOneWithDecimals =
+      GradingSystemModel(spec: sixToOneWithDecimalsSpec);
 
   final GradingSystemSpec spec;
 
-  _GradingSystem({required this.spec});
+  @override
+  List<Object?> get props => [spec];
+
+  const GradingSystemModel({required this.spec});
 
   num _toNumOrThrow(String grade) {
     // 2,3 -> 2.3 (format expected by num.tryParse())
@@ -127,11 +130,17 @@ extension HasDecimals on num {
   bool get hasDecimals => this % 1 != 0;
 }
 
-class GradingSystemSpec {
+class GradingSystemSpec extends Equatable {
   final GradingSystem gradingSystem;
   final PossibleGradesResult possibleGrades;
   final num? Function(String grade)? specialDisplayableGradeToNumOrNull;
   final String? Function(num grade)? getSpecialDisplayableGradeOrNull;
+
+  @override
+  List<Object?> get props => [
+        gradingSystem,
+        possibleGrades,
+      ];
 
   const GradingSystemSpec({
     required this.gradingSystem,
@@ -235,7 +244,7 @@ const oneToFiveWithDecimalsSpec = GradingSystemSpec(
   ),
 );
 
-const zeroToFivteenPointsSpec = GradingSystemSpec(
+const zeroToFiveteenPointsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.zeroToFivteenPoints,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,
@@ -244,7 +253,7 @@ const zeroToFivteenPointsSpec = GradingSystemSpec(
   ),
 );
 
-const zeroToFivteenPointsWithDecimalsSpec = GradingSystemSpec(
+const zeroToFiveteenPointsWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.zeroToFivteenPointsWithDecimals,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,

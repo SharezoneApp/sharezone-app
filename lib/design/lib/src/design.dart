@@ -70,6 +70,9 @@ class Design {
   @override
   int get hashCode => Object.hash(hex, type);
 
+  @override
+  String toString() => 'Design($hex, $type)';
+
   /// A list of designs that are available for free and don't require a
   /// Sharezone Plus subscription.
   static List<Design> freeDesigns = [
