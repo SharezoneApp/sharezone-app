@@ -206,7 +206,6 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         termId: TermId(subTerm.id),
         name: subject.name,
         connectedCourses: subject.connectedCourses,
-        // TODO
         isFinalGradeTypeOverridden:
             termSubject.finalGradeType != subTerm.finalGradeTypeId,
         gradeTypeWeightings: subTerm.gradeTypeWeights
