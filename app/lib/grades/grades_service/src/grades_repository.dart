@@ -73,16 +73,16 @@ class FirestoreGradesRepository extends GradesStateRepository {
   @override
   void updateState(GradesState state) {
     // gradesDocumentRef.set(_toDto(state), SetOptions(merge: true));
-    _data = _toDto(state);
-    debugPrint(json.encode(_data, toEncodable: (val) {
-      if (val is Timestamp) {
-        return val.toDate().toIso8601String();
-      }
-    }));
-    this.state.add(_fromData(_data));
+    _data = toDto(state);
+    // debugPrint(json.encode(_data, toEncodable: (val) {
+    //   if (val is Timestamp) {
+    //     return val.toDate().toIso8601String();
+    //   }
+    // }));
+    this.state.add(fromData(_data));
   }
 
-  GradesState _fromData(Map<String, Object> data) {
+  static GradesState fromData(Map<String, Object> data) {
     final termDtos = (data['terms'] as Map<String, Map<String, Object>>)
         .mapTo((value, key) => TermDto.fromData(key))
         .toList();
@@ -206,9 +206,10 @@ class FirestoreGradesRepository extends GradesStateRepository {
         )
         .toIList();
 
-    final customGradeTypes = (data['customGradeTypes'] as List<String>)
-        .map((gradeTypeId) => GradeType(id: GradeTypeId(gradeTypeId)))
-        .toIList();
+    final customGradeTypes =
+        (data['customGradeTypes'] as Map<String, Map<String, Object>>)
+            .mapTo((gradeTypeId, _) => GradeType(id: GradeTypeId(gradeTypeId)))
+            .toIList();
 
     return (
       terms: terms,
@@ -217,7 +218,7 @@ class FirestoreGradesRepository extends GradesStateRepository {
     );
   }
 
-  Map<String, Object> _toDto(GradesState state) {
+  static Map<String, Object> toDto(GradesState state) {
     final currentTermOrNull =
         state.terms.firstWhereOrNull((term) => term.isActiveTerm)?.id.id;
     return {
@@ -230,8 +231,10 @@ class FirestoreGradesRepository extends GradesStateRepository {
           .map((g) => MapEntry(g.id.id, GradeDto.fromGrade(g).toData()))
           .toMap(),
       // TODO: GradeType.name
-      'customGradeTypes':
-          state.customGradeTypes.map((gradeType) => gradeType.id.id).toList(),
+      'customGradeTypes': state.customGradeTypes
+          .map(
+              (gradeType) => MapEntry(gradeType.id.id, {'id': gradeType.id.id}))
+          .toMap(),
       'subjects': state.subjects
           .map((subject) =>
               MapEntry(subject.id.id, SubjectDto.fromSubject(subject).toData()))
