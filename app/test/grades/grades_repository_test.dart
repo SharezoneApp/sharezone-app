@@ -47,6 +47,7 @@ void main() {
       service.addCustomGradeType(
         const GradeType(
           id: GradeTypeId('my-custom-grade-type'),
+          displayName: 'My Custom Grade Type',
         ),
       );
 
@@ -277,7 +278,10 @@ void main() {
           },
         },
         'customGradeTypes': {
-          'my-custom-grade-type': {'id': 'my-custom-grade-type'}
+          'my-custom-grade-type': {
+            'id': 'my-custom-grade-type',
+            'displayName': 'My Custom Grade Type',
+          }
         },
         'subjects': {
           'mathe': {
@@ -314,7 +318,10 @@ void main() {
       expect(
           state.customGradeTypes,
           const IListConst([
-            GradeType(id: GradeTypeId('my-custom-grade-type')),
+            GradeType(
+              id: GradeTypeId('my-custom-grade-type'),
+              displayName: 'My Custom Grade Type',
+            ),
           ]));
 
       expect(

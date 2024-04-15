@@ -6,11 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -21,6 +19,7 @@ import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
+
 import '../models/subject_id.dart';
 import '../models/term_id.dart';
 
@@ -28,9 +27,9 @@ export '../models/grade_id.dart';
 export '../models/subject_id.dart';
 export '../models/term_id.dart';
 
-part 'src/term.dart';
-part 'src/grading_systems.dart';
 part 'src/grades_repository.dart';
+part 'src/grading_systems.dart';
+part 'src/term.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
@@ -514,12 +513,17 @@ enum PredefinedGradeTypes {
 
 class GradeType extends Equatable {
   final GradeTypeId id;
+  final String? displayName;
   final PredefinedGradeTypes? predefinedType;
 
   @override
-  List<Object?> get props => [id, predefinedType];
+  List<Object?> get props => [id, displayName, predefinedType];
 
-  const GradeType({required this.id, this.predefinedType});
+  const GradeType({required this.id, required this.displayName})
+      : predefinedType = null;
+  const GradeType._predefined(
+      {required this.id, required PredefinedGradeTypes this.predefinedType})
+      : displayName = null;
 
   static const predefinedGradeTypes = IListConst([
     GradeType.schoolReportGrade,
@@ -529,22 +533,22 @@ class GradeType extends Equatable {
     GradeType.presentation,
     GradeType.other,
   ]);
-  static const schoolReportGrade = GradeType(
+  static const schoolReportGrade = GradeType._predefined(
       id: GradeTypeId('school-report-grade'),
       predefinedType: PredefinedGradeTypes.schoolReportGrade);
-  static const writtenExam = GradeType(
+  static const writtenExam = GradeType._predefined(
       id: GradeTypeId('written-exam'),
       predefinedType: PredefinedGradeTypes.writtenExam);
-  static const oralParticipation = GradeType(
+  static const oralParticipation = GradeType._predefined(
       id: GradeTypeId('oral-participation'),
       predefinedType: PredefinedGradeTypes.oralParticipation);
-  static const vocabularyTest = GradeType(
+  static const vocabularyTest = GradeType._predefined(
       id: GradeTypeId('vocabulary-test'),
       predefinedType: PredefinedGradeTypes.vocabularyTest);
-  static const presentation = GradeType(
+  static const presentation = GradeType._predefined(
       id: GradeTypeId('presentation'),
       predefinedType: PredefinedGradeTypes.presentation);
-  static const other = GradeType(
+  static const other = GradeType._predefined(
       id: GradeTypeId('other'), predefinedType: PredefinedGradeTypes.other);
 }
 

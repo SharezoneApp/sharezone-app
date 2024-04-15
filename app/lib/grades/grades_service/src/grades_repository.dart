@@ -82,6 +82,30 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     this.state.add(fromData(_data));
   }
 
+  static Map<String, Object> toDto(GradesState state) {
+    final currentTermOrNull =
+        state.terms.firstWhereOrNull((term) => term.isActiveTerm)?.id.id;
+    return {
+      if (currentTermOrNull != null) 'currentTerm': currentTermOrNull,
+      'terms': state.terms
+          .map((term) => MapEntry(term.id.id, TermDto.fromTerm(term).toData()))
+          .toMap(),
+      'grades': state.terms
+          .expand((term) => term.subjects.expand((p0) => p0.grades))
+          .map((g) => MapEntry(g.id.id, GradeDto.fromGrade(g).toData()))
+          .toMap(),
+      // TODO: GradeType.name
+      'customGradeTypes': state.customGradeTypes
+          .map((gradeType) => MapEntry(gradeType.id.id,
+              {'id': gradeType.id.id, 'displayName': gradeType.displayName}))
+          .toMap(),
+      'subjects': state.subjects
+          .map((subject) =>
+              MapEntry(subject.id.id, SubjectDto.fromSubject(subject).toData()))
+          .toMap()
+    };
+  }
+
   static GradesState fromData(Map<String, Object> data) {
     IList<TermDto> termDtos = const IListConst([]);
 
@@ -105,10 +129,14 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     IList<GradeType> customGradeTypes = const IListConst([]);
     if (data
         case {
-          'customGradeTypes': Map<String, Map<String, Object>> gradeTypeData
+          //                                          Object (no ?) breaks the
+          //                                          parsing.
+          'customGradeTypes': Map<String, Map<String, Object?>> gradeTypeData
         }) {
       customGradeTypes = gradeTypeData
-          .mapTo((value, key) => GradeType(id: GradeTypeId(value)))
+          .mapTo((value, key) => GradeType(
+              id: GradeTypeId(value),
+              displayName: key['displayName'] as String))
           .toIList();
     }
 
@@ -228,30 +256,6 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
       customGradeTypes: customGradeTypes,
       subjects: subjects,
     );
-  }
-
-  static Map<String, Object> toDto(GradesState state) {
-    final currentTermOrNull =
-        state.terms.firstWhereOrNull((term) => term.isActiveTerm)?.id.id;
-    return {
-      if (currentTermOrNull != null) 'currentTerm': currentTermOrNull,
-      'terms': state.terms
-          .map((term) => MapEntry(term.id.id, TermDto.fromTerm(term).toData()))
-          .toMap(),
-      'grades': state.terms
-          .expand((term) => term.subjects.expand((p0) => p0.grades))
-          .map((g) => MapEntry(g.id.id, GradeDto.fromGrade(g).toData()))
-          .toMap(),
-      // TODO: GradeType.name
-      'customGradeTypes': state.customGradeTypes
-          .map(
-              (gradeType) => MapEntry(gradeType.id.id, {'id': gradeType.id.id}))
-          .toMap(),
-      'subjects': state.subjects
-          .map((subject) =>
-              MapEntry(subject.id.id, SubjectDto.fromSubject(subject).toData()))
-          .toMap()
-    };
   }
 }
 
