@@ -34,10 +34,7 @@ class GradesDialogView {
   /// Defaults to the current date.
   final Date selectedDate;
 
-  /// The selected grading type.
-  ///
-  /// Defaults to written exam.
-  final GradeType selectedGradingType;
+  final GradeType? selectedGradingType;
   final IList<GradeType> selectableGradingTypes;
 
   final bool integrateGradeIntoSubjectGrade;

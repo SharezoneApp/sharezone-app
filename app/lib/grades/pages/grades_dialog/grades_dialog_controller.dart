@@ -63,7 +63,7 @@ class GradesDialogController extends ChangeNotifier {
   GradesDialogController({required this.gradesService}) {
     _gradingSystem = GradingSystem.oneToSixWithPlusAndMinus;
     _date = Date.today();
-    _gradeType = GradeType.writtenExam;
+    _gradeType = null;
     _integrateGradeIntoSubjectGrade = true;
 
     // We add a subject so have at least one subject to select.
@@ -118,7 +118,7 @@ class GradesDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
-  late GradeType _gradeType;
+  GradeType? _gradeType;
   void setGradeType(GradeType res) {
     _gradeType = res;
     notifyListeners();
@@ -137,7 +137,7 @@ class GradesDialogController extends ChangeNotifier {
       termId: _term!,
       value: Grade(
         id: gradeId,
-        type: _gradeType.id,
+        type: _gradeType!.id,
         value: _grade!,
         date: _date,
         takeIntoAccount: _integrateGradeIntoSubjectGrade,
