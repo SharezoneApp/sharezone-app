@@ -156,7 +156,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
                   ?.gradeComposition
                   .gradeWeights
                   .map((key, value) =>
-                      MapEntry(key, Weight.factor(value)))[dto.id] ??
+                      MapEntry(key, value.toWeight()))[dto.id] ??
               const Weight.factor(1),
         );
       },
@@ -206,14 +206,14 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         isFinalGradeTypeOverridden:
             termSubject.finalGradeType != subTerm.finalGradeTypeId,
         gradeTypeWeightings: subTerm.gradeTypeWeights
-            .map((key, value) =>
-                MapEntry(GradeTypeId(key), Weight.factor(value)))
+            .map((key, value) => MapEntry(GradeTypeId(key), value.toWeight()))
             .toIMap(),
         gradeTypeWeightingsFromTerm: subTerm.gradeTypeWeights
-            .map((key, value) =>
-                MapEntry(GradeTypeId(key), Weight.factor(value)))
+            .map((key, value) => MapEntry(GradeTypeId(key), value.toWeight()))
             .toIMap(),
-        weightingForTermGrade: subTerm.subjectWeights[subject.id.id] ?? 1,
+        weightingForTermGrade:
+            subTerm.subjectWeights[subject.id.id]?.toWeight() ??
+                const Weight.factor(1),
         grades: grades
             .where((grade) =>
                 grade.subjectId == subject.id &&
@@ -241,7 +241,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             // Change both to num
             gradeTypeWeightings: dto.gradeTypeWeights
                 .map((key, value) =>
-                    MapEntry(GradeTypeId(key), Weight.factor(value)))
+                    MapEntry(GradeTypeId(key), value.toWeight()))
                 .toIMap(),
           ),
         )
@@ -266,12 +266,68 @@ extension ToMap<K, V> on Iterable<MapEntry<K, V>> {
   Map<K, V> toMap() => Map<K, V>.fromEntries(this);
 }
 
+extension on Weight {
+  WeightDto toDto() => WeightDto.fromWeight(this);
+}
+
+extension on Object? {
+  Map<String, WeightDto> toWeightsDtoMap() => _toWeightsDto(this);
+}
+
+extension on Map<String, WeightDto> {
+  Map<String, Map<String, Object>> toWeightDataMap() =>
+      map((key, value) => MapEntry(key, value.toData()));
+}
+
 enum _WeightNumberType { factor, percent }
 
 typedef _TermId = String;
 typedef _SubjectId = String;
 typedef _GradeId = String;
 typedef _GradeTypeId = String;
+
+Map<String, WeightDto> _toWeightsDto(Object? data) {
+  return (data as Map<String, Map<String, Object?>>)
+      .map((key, value) => MapEntry(key, WeightDto.fromData(value)));
+}
+
+class WeightDto {
+  final num value;
+  final _WeightNumberType type;
+
+  WeightDto({
+    required this.value,
+    required this.type,
+  });
+
+  factory WeightDto.fromWeight(Weight weight) {
+    return WeightDto(
+      value: weight.asFactor,
+      type: _WeightNumberType.factor,
+    );
+  }
+
+  factory WeightDto.fromData(Map<String, Object?> data) {
+    return WeightDto(
+      value: data['value'] as num,
+      type: _WeightNumberType.values.byName(data['type'] as String),
+    );
+  }
+
+  Weight toWeight() {
+    return switch (type) {
+      _WeightNumberType.factor => Weight.factor(value),
+      _WeightNumberType.percent => Weight.percent(value),
+    };
+  }
+
+  Map<String, Object> toData() {
+    return {
+      'value': value,
+      'type': type.name,
+    };
+  }
+}
 
 class CustomGradeTypeDto {
   final _GradeTypeId id;
@@ -309,9 +365,9 @@ class TermDto {
   final String displayName;
   final GradingSystem gradingSystem;
   final _WeightNumberType subjectWeightsType;
-  final Map<_SubjectId, num> subjectWeights;
+  final Map<_SubjectId, WeightDto> subjectWeights;
   final _WeightNumberType gradeTypeWeightsType;
-  final Map<_GradeTypeId, num> gradeTypeWeights;
+  final Map<_GradeTypeId, WeightDto> gradeTypeWeights;
   final List<TermSubjectDto> subjects;
   final _GradeTypeId finalGradeTypeId;
 
@@ -336,12 +392,12 @@ class TermDto {
       subjects: term.subjects.map(TermSubjectDto.fromSubject).toList(),
       // TODO:
       subjectWeightsType: _WeightNumberType.factor,
-      subjectWeights: Map.fromEntries(term.subjects.map(
-          (subject) => MapEntry(subject.id.id, subject.weightingForTermGrade))),
+      subjectWeights: Map.fromEntries(term.subjects.map((subject) =>
+          MapEntry(subject.id.id, subject.weightingForTermGrade.toDto()))),
       // TODO:
       gradeTypeWeightsType: _WeightNumberType.factor,
       gradeTypeWeights: term.gradeTypeWeightings
-          .map((gradeId, weight) => MapEntry(gradeId.id, weight.asFactor))
+          .map((gradeId, weight) => MapEntry(gradeId.id, weight.toDto()))
           .unlock,
     );
   }
@@ -352,9 +408,9 @@ class TermDto {
       displayName: data['displayName'] as String,
       gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
       subjectWeightsType: _WeightNumberType.factor,
-      subjectWeights: data['subjectWeights'] as Map<String, num>,
+      subjectWeights: data['subjectWeights'].toWeightsDtoMap(),
       gradeTypeWeightsType: _WeightNumberType.factor,
-      gradeTypeWeights: data['gradeTypeWeights'] as Map<String, num>,
+      gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
       subjects: (data['subjects'] as Map<String, Map<String, Object>>)
           .mapTo((_, sub) => TermSubjectDto.fromData(sub))
           .toList(),
@@ -368,9 +424,9 @@ class TermDto {
       'displayName': displayName,
       'subjectWeightsType': subjectWeightsType.name,
       'gradingSystem': gradingSystem.name,
-      'subjectWeights': subjectWeights,
+      'subjectWeights': subjectWeights.toWeightDataMap(),
       'gradeTypeWeightsType': gradeTypeWeightsType.name,
-      'gradeTypeWeights': gradeTypeWeights,
+      'gradeTypeWeights': gradeTypeWeights.toWeightDataMap(),
       'subjects': subjects
           .map((subject) => MapEntry(subject.id, subject.toData()))
           .toMap(),
@@ -436,8 +492,8 @@ class TermSubjectDto {
 
 class SubjectGradeCompositionDto {
   final WeightType weightType;
-  final Map<_GradeTypeId, num> gradeTypeWeights;
-  final Map<_GradeId, num> gradeWeights;
+  final Map<_GradeTypeId, WeightDto> gradeTypeWeights;
+  final Map<_GradeId, WeightDto> gradeWeights;
 
   SubjectGradeCompositionDto(
       {required this.weightType,
@@ -448,26 +504,26 @@ class SubjectGradeCompositionDto {
     return SubjectGradeCompositionDto(
       weightType: subject.weightType,
       gradeTypeWeights: subject.gradeTypeWeightings
-          .map((gradeId, weight) => MapEntry(gradeId.id, weight.asFactor))
+          .map((gradeId, weight) => MapEntry(gradeId.id, weight.toDto()))
           .unlock,
       gradeWeights: Map.fromEntries(subject.grades
-          .map((grade) => MapEntry(grade.id.id, grade.weight.asFactor))),
+          .map((grade) => MapEntry(grade.id.id, grade.weight.toDto()))),
     );
   }
 
   factory SubjectGradeCompositionDto.fromData(Map<String, Object?> data) {
     return SubjectGradeCompositionDto(
       weightType: WeightType.fromString(data['weightType'] as String),
-      gradeTypeWeights: data['gradeTypeWeights'] as Map<String, num>,
-      gradeWeights: data['gradeWeights'] as Map<String, num>,
+      gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
+      gradeWeights: data['gradeWeights'].toWeightsDtoMap(),
     );
   }
 
   Map<String, Object> toData() {
     return {
       'weightType': weightType.name,
-      'gradeTypeWeights': gradeTypeWeights,
-      'gradeWeights': gradeWeights,
+      'gradeTypeWeights': gradeTypeWeights.toWeightDataMap(),
+      'gradeWeights': gradeWeights.toWeightDataMap(),
     };
   }
 }

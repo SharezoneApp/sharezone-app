@@ -186,9 +186,16 @@ void main() {
             'displayName': '02/10',
             'subjectWeightsType': 'factor',
             'gradingSystem': 'zeroToFivteenPoints',
-            'subjectWeights': {'mathe': 2.5},
+            'subjectWeights': {
+              'mathe': {
+                'value': 2.5,
+                'type': 'factor',
+              }
+            },
             'gradeTypeWeightsType': 'factor',
-            'gradeTypeWeights': {'vocabulary-test': 1.5},
+            'gradeTypeWeights': {
+              'vocabulary-test': {'value': 1.5, 'type': 'factor'}
+            },
             'subjects': {
               'mathe': {
                 'id': 'mathe',
@@ -197,8 +204,19 @@ void main() {
                 'grades': ['grade-1', 'grade-2'],
                 'gradeComposition': {
                   'weightType': 'perGrade',
-                  'gradeTypeWeights': {'my-custom-grade-type': 2.0},
-                  'gradeWeights': {'grade-1': 0.5, 'grade-2': 1}
+                  'gradeTypeWeights': {
+                    'my-custom-grade-type': {'value': 2.0, 'type': 'factor'}
+                  },
+                  'gradeWeights': {
+                    'grade-1': {
+                      'value': 0.5,
+                      'type': 'factor',
+                    },
+                    'grade-2': {
+                      'value': 1.0,
+                      'type': 'factor',
+                    },
+                  }
                 },
                 'weightType': 'perGrade',
                 'finalGradeType': 'school-report-grade'
@@ -211,7 +229,9 @@ void main() {
             'displayName': '01/10',
             'subjectWeightsType': 'factor',
             'gradingSystem': 'oneToSixWithDecimals',
-            'subjectWeights': {'englisch': 1},
+            'subjectWeights': {
+              'englisch': {'value': 1.0, 'type': 'factor'},
+            },
             'gradeTypeWeightsType': 'factor',
             'gradeTypeWeights': {},
             'subjects': {
@@ -222,7 +242,16 @@ void main() {
                 'gradeComposition': {
                   'weightType': 'inheritFromTerm',
                   'gradeTypeWeights': {},
-                  'gradeWeights': {'grade-3': 1, 'grade-4': 1}
+                  'gradeWeights': {
+                    'grade-3': {
+                      'value': 1.0,
+                      'type': 'factor',
+                    },
+                    'grade-4': {
+                      'value': 1.0,
+                      'type': 'factor',
+                    },
+                  }
                 },
                 'weightType': 'inheritFromTerm',
                 'finalGradeType': 'oral-participation'
@@ -415,7 +444,7 @@ void main() {
                 ]),
                 finalGradeType: const GradeTypeId('school-report-grade'),
                 isFinalGradeTypeOverridden: false,
-                weightingForTermGrade: 2.5,
+                weightingForTermGrade: const Weight.factor(2.5),
                 gradeTypeWeightings: IMapConst({
                   const GradeTypeId('vocabulary-test'): const Weight.factor(1.5)
                 }),
@@ -493,7 +522,7 @@ void main() {
               ),
               finalGradeType: const GradeTypeId('oral-participation'),
               isFinalGradeTypeOverridden: true,
-              weightingForTermGrade: 1,
+              weightingForTermGrade: const Weight.factor(1),
               gradeTypeWeightings: const IMapConst({}),
               gradeTypeWeightingsFromTerm: const IMapConst({}),
               weightType: WeightType.inheritFromTerm,

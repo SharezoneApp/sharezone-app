@@ -225,8 +225,7 @@ class GradesService {
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
-    final newTerm =
-        _term(termId).changeWeighting(id, weight.asFactor.toDouble());
+    final newTerm = _term(termId).changeWeighting(id, weight);
 
     _updateTerm(newTerm);
   }

@@ -109,12 +109,13 @@ class Term extends Equatable {
     final gradedSubjects =
         subjects.where((element) => element.gradeVal != null);
     return gradedSubjects
-            .map((subject) => subject.gradeVal! * subject.weightingForTermGrade)
+            .map((subject) =>
+                subject.gradeVal! * subject.weightingForTermGrade.asFactor)
             .reduce(
               (a, b) => a + b,
             ) /
         gradedSubjects
-            .map((e) => e.weightingForTermGrade)
+            .map((e) => e.weightingForTermGrade.asFactor)
             .reduce((a, b) => a + b);
   }
 
@@ -196,7 +197,7 @@ class Term extends Equatable {
     return subjects.any((s) => s.hasGrade(gradeId));
   }
 
-  Term changeWeighting(SubjectId id, num newWeight) {
+  Term changeWeighting(SubjectId id, Weight newWeight) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       weightingForTermGrade: newWeight,
@@ -274,7 +275,7 @@ class SubjectModel extends Equatable {
   final IList<GradeModel> grades;
   final GradeTypeId finalGradeType;
   final bool isFinalGradeTypeOverridden;
-  final num weightingForTermGrade;
+  final Weight weightingForTermGrade;
   final IMap<GradeTypeId, Weight> gradeTypeWeightings;
   final IMap<GradeTypeId, Weight> gradeTypeWeightingsFromTerm;
   final WeightType weightType;
@@ -314,7 +315,7 @@ class SubjectModel extends Equatable {
     this.connectedCourses = const IListConst([]),
     this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
-    this.weightingForTermGrade = 1,
+    this.weightingForTermGrade = const Weight.factor(1),
     this.gradeTypeWeightings = const IMapConst({}),
     this.gradeTypeWeightingsFromTerm = const IMapConst({}),
   }) {
@@ -385,7 +386,7 @@ class SubjectModel extends Equatable {
     IList<GradeModel>? grades,
     GradeTypeId? finalGradeType,
     bool? isFinalGradeTypeOverridden,
-    num? weightingForTermGrade,
+    Weight? weightingForTermGrade,
     GradingSystemModel? gradingSystem,
     IMap<GradeTypeId, Weight>? gradeTypeWeightings,
     IMap<GradeTypeId, Weight>? gradeTypeWeightingsFromTerm,
