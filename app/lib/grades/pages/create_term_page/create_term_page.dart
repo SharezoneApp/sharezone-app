@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_analytics.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page_controller.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
+import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CreateTermPage extends StatelessWidget {
@@ -47,6 +49,8 @@ class CreateTermPage extends StatelessWidget {
               child: Column(
                 children: [
                   _NameField(),
+                  SizedBox(height: 8),
+                  _GradingSystem(),
                   SizedBox(height: 8),
                   _ActiveTermSwitch(),
                 ],
@@ -132,6 +136,63 @@ class _NameField extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _GradingSystem extends StatelessWidget {
+  const _GradingSystem();
+
+  @override
+  Widget build(BuildContext context) {
+    final gradingSystem =
+        context.select<CreateTermPageController, GradingSystem>(
+            (controller) => controller.view.gradingSystem);
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: () async {
+        final res = await showDialog<GradingSystem?>(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Text("Notensystem auswählen"),
+            children: [
+              for (final gradingSystem in GradingSystem.values)
+                ListTile(
+                  title: Text(gradingSystem.displayName),
+                  onTap: () {
+                    Navigator.of(context).pop<GradingSystem?>(gradingSystem);
+                  },
+                ),
+            ],
+          ),
+        );
+
+        if (res != null && context.mounted) {
+          final controller = context.read<CreateTermPageController>();
+          controller.setGradingSystem(res);
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            leading: SavedGradeIcons.gradingSystem,
+            title: const Text("Notensystem"),
+            subtitle: Text(gradingSystem.displayName),
+            mouseCursor: SystemMouseCursors.click,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 58, bottom: 12),
+            child: Text(
+              'Nur Noten von dem Notensystem, welches für das Halbjahr festlegt wurde, können für den Schnitt des Halbjahres berücksichtigt werden. Solltest du beispielsweise für das Halbjahr das Notensystem "1 - 6" festlegen und eine Note mit dem Notensystem "15 - 0" eintragen, kann diese Note für den Halbjahresschnitt nicht berücksichtigt werden.',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                fontSize: 12,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
