@@ -197,8 +197,6 @@ void main() {
             'subjects': {
               'mathe': {
                 'id': 'mathe',
-                // TODO: Doesn't really make sense to have the termId here
-                'termId': '02-10-term',
                 'grades': ['grade-1', 'grade-2'],
                 'gradeComposition': {
                   'weightType': 'perGrade',
@@ -233,7 +231,6 @@ void main() {
             'subjects': {
               'englisch': {
                 'id': 'englisch',
-                'termId': '01-10-term',
                 'grades': ['grade-3', 'grade-4'],
                 'gradeComposition': {
                   'weightType': 'inheritFromTerm',

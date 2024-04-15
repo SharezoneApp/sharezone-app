@@ -177,25 +177,28 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
       },
     ).toIList();
 
-    final termSubjectIds = termDtos
-        .expand((term) => term.subjects.map((subject) => subject))
+    final allTermSubjects = termDtos
+        .expand((term) => term.subjects
+            .map((subject) => (termSubject: subject, termId: term.id)))
         .toIList();
 
-    final combinedTermSubjects = termSubjectIds
+    final combinedTermSubjects = allTermSubjects
         .map((termSub) {
-          final subject = subjects
-              .firstWhereOrNull((subject) => subject.id.id == termSub.id);
+          final subject = subjects.firstWhereOrNull(
+              (subject) => subject.id.id == termSub.termSubject.id);
           if (subject == null) {
-            log('No subject found for the term subject id ${termSub.id}.');
+            log('No subject found for the term subject id ${termSub.termSubject.id}.');
             return null;
           }
-          return (subject: subject, termSubject: termSub);
+          return (subject: subject, termSubjectObj: termSub);
         })
         .whereNotNull()
         .toIList();
 
     final termSubjects = combinedTermSubjects.map((s) {
-      var (:subject, :termSubject) = s;
+      var (:subject, :termSubjectObj) = s;
+      var (:termSubject, :termId) = termSubjectObj;
+
       final subTerm = termDtos.firstWhere(
           (term) => term.subjects.any((sub) => sub.id == subject.id.id));
       return SubjectModel(
@@ -217,8 +220,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
                 const Weight.factor(1),
         grades: grades
             .where((grade) =>
-                grade.subjectId == subject.id &&
-                grade.termId.id == termSubject.termId)
+                grade.subjectId == subject.id && grade.termId.id == termId)
             .toIList(),
         weightType: termSubject.weightType,
         gradingSystem: subTerm.gradingSystem.toGradingSystem(),
@@ -426,7 +428,7 @@ class TermDto {
 
 class TermSubjectDto {
   final _SubjectId id;
-  final _TermId termId;
+  // final _TermId termId;
   final SubjectGradeCompositionDto gradeComposition;
   final WeightType weightType;
   // TODO: Laut doc nullable?
@@ -436,7 +438,7 @@ class TermSubjectDto {
 
   TermSubjectDto({
     required this.id,
-    required this.termId,
+    // required this.termId,
     required this.grades,
     required this.weightType,
     required this.gradeComposition,
@@ -446,7 +448,7 @@ class TermSubjectDto {
   factory TermSubjectDto.fromSubject(SubjectModel subject) {
     return TermSubjectDto(
       id: subject.id.id,
-      termId: subject.termId.id,
+      // termId: subject.termId.id,
       weightType: subject.weightType,
       grades: subject.grades.map((grade) => grade.id.id).toList(),
       finalGradeType: subject.finalGradeType.id,
@@ -457,7 +459,7 @@ class TermSubjectDto {
   factory TermSubjectDto.fromData(Map<String, Object?> data) {
     return TermSubjectDto(
       id: data['id'] as String,
-      termId: data['termId'] as String,
+      // termId: data['termId'] as String,
       grades: data['grades'] as List<String>,
       weightType: WeightType.fromString(data['weightType'] as String),
       finalGradeType: data['finalGradeType'] as String,
@@ -470,7 +472,7 @@ class TermSubjectDto {
   Map<String, Object> toData() {
     return {
       'id': id,
-      'termId': termId,
+      // 'termId': termId,
       'grades': grades,
       'gradeComposition': gradeComposition.toData(),
       'weightType': weightType.name,
