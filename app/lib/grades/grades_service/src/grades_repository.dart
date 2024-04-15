@@ -265,11 +265,6 @@ extension ToMap<K, V> on Iterable<MapEntry<K, V>> {
   Map<K, V> toMap() => Map<K, V>.fromEntries(this);
 }
 
-extension on Map<String, Object> {
-  bool isNonEmptyDataMap(String key) =>
-      this is Map && (this[key] as Map).isNotEmpty;
-}
-
 enum _WeightNumberType { factor, percent }
 
 typedef _TermId = String;
