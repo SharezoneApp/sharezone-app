@@ -22,6 +22,7 @@ class CreateTermPageController extends ChangeNotifier {
     name: null,
     isActiveTerm: true,
     nameErrorText: null,
+    gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
   );
 
   CreateTermPageController({
@@ -62,13 +63,18 @@ class CreateTermPageController extends ChangeNotifier {
         name: view.name!,
         isActiveTerm: view.isActiveTerm,
         finalGradeType: GradeType.schoolReportGrade.id,
-        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+        gradingSystem: view.gradingSystem,
       );
       analytics.logCreateTerm();
     } catch (e, s) {
       crashAnalytics.recordError('Could not save term: $e', s);
       throw CouldNotSaveTermException('$e');
     }
+  }
+
+  void setGradingSystem(GradingSystem system) {
+    view = view.copyWith(gradingSystem: system);
+    notifyListeners();
   }
 }
 
