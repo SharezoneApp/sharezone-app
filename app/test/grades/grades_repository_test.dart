@@ -106,6 +106,7 @@ void main() {
             date: Date('2024-10-02'),
             takeIntoAccount: true,
             title: 'hallo',
+            details: 'hello',
           ));
       service.addGrade(
           subjectId: const SubjectId('mathe'),
@@ -118,6 +119,7 @@ void main() {
             date: Date('2024-10-03'),
             takeIntoAccount: true,
             title: 'abcdef',
+            details: 'ghijkl',
           ));
 
       service.addGrade(
@@ -131,6 +133,7 @@ void main() {
             date: Date('2024-10-16'),
             takeIntoAccount: false,
             title: 'hallo',
+            details: 'ollah',
           ));
       service.addGrade(
           subjectId: const SubjectId('englisch'),
@@ -143,6 +146,7 @@ void main() {
             date: Date('2024-10-18'),
             takeIntoAccount: true,
             title: 'Beep boop',
+            details: 'robot noises',
           ));
 
       service.changeSubjectFinalGradeType(
@@ -238,7 +242,7 @@ void main() {
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1727820000000),
             'includeInGrading': true,
             'title': 'hallo',
-            'details': ''
+            'details': 'hello',
           },
           'grade-2': {
             'id': 'grade-2',
@@ -250,7 +254,7 @@ void main() {
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1727906400000),
             'includeInGrading': true,
             'title': 'abcdef',
-            'details': ''
+            'details': 'ghijkl'
           },
           'grade-3': {
             'id': 'grade-3',
@@ -262,7 +266,7 @@ void main() {
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1729029600000),
             'includeInGrading': false,
             'title': 'hallo',
-            'details': ''
+            'details': 'ollah'
           },
           'grade-4': {
             'id': 'grade-4',
@@ -274,7 +278,7 @@ void main() {
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1729202400000),
             'includeInGrading': true,
             'title': 'Beep boop',
-            'details': ''
+            'details': 'robot noises'
           },
         },
         'customGradeTypes': {
@@ -386,6 +390,7 @@ void main() {
                     weight: const Weight.factor(0.5),
                     date: Date('2024-10-02'),
                     title: 'hallo',
+                    details: 'hello',
                   ),
                   GradeModel(
                     id: GradeId('grade-2'),
@@ -405,6 +410,7 @@ void main() {
                     // date: Date('2024-10-02'),
                     date: Date('2024-10-03'),
                     title: 'abcdef',
+                    details: 'ghijkl',
                   ),
                 ]),
                 finalGradeType: const GradeTypeId('school-report-grade'),
@@ -450,22 +456,22 @@ void main() {
               grades: IListConst(
                 [
                   GradeModel(
-                    id: GradeId('grade-3'),
-                    subjectId: const SubjectId('englisch'),
-                    termId: const TermId('01-10-term'),
-                    value: const GradeValue(
-                      asNum: 2.25,
-                      gradingSystem: GradingSystem.oneToSixWithDecimals,
-                      displayableGrade: null,
-                      suffix: null,
-                    ),
-                    gradingSystem: GradingSystemModel.oneToSixWithDecimals,
-                    gradeType: const GradeTypeId('my-custom-grade-type'),
-                    takenIntoAccount: false,
-                    weight: const Weight.factor(1),
-                    date: Date('2024-10-16'),
-                    title: 'hallo',
-                  ),
+                      id: GradeId('grade-3'),
+                      subjectId: const SubjectId('englisch'),
+                      termId: const TermId('01-10-term'),
+                      value: const GradeValue(
+                        asNum: 2.25,
+                        gradingSystem: GradingSystem.oneToSixWithDecimals,
+                        displayableGrade: null,
+                        suffix: null,
+                      ),
+                      gradingSystem: GradingSystemModel.oneToSixWithDecimals,
+                      gradeType: const GradeTypeId('my-custom-grade-type'),
+                      takenIntoAccount: false,
+                      weight: const Weight.factor(1),
+                      date: Date('2024-10-16'),
+                      title: 'hallo',
+                      details: 'ollah'),
                   GradeModel(
                     id: GradeId('grade-4'),
                     subjectId: const SubjectId('englisch'),
@@ -481,6 +487,7 @@ void main() {
                     weight: const Weight.factor(1),
                     date: Date('2024-10-18'),
                     title: 'Beep boop',
+                    details: 'robot noises',
                   ),
                 ],
               ),

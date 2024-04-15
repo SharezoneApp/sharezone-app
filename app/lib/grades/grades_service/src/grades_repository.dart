@@ -147,6 +147,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
           subjectId: SubjectId(dto.subjectId),
           takenIntoAccount: dto.includeInGrading,
           title: dto.title,
+          details: dto.details,
           value: gradingSystem.toGradeResult(dto.numValue),
           weight: termDtos
                   .firstWhereOrNull((element) => element.id == dto.termId)
@@ -481,7 +482,7 @@ class GradeDto {
   final Timestamp receivedAt;
   final bool includeInGrading;
   final String title;
-  final String details;
+  final String? details;
 
   GradeDto({
     required this.id,
@@ -507,8 +508,7 @@ class GradeDto {
       receivedAt: Timestamp.fromDate(grade.date.toDateTime),
       includeInGrading: grade.takenIntoAccount,
       title: grade.title,
-      // TODO:
-      details: '',
+      details: grade.details,
     );
   }
 
@@ -523,7 +523,7 @@ class GradeDto {
       receivedAt: data['receivedAt'] as Timestamp,
       includeInGrading: data['includeInGrading'] as bool,
       title: data['title'] as String,
-      details: data['details'] as String,
+      details: data['details'] as String?,
     );
   }
 
@@ -538,7 +538,7 @@ class GradeDto {
       'receivedAt': receivedAt,
       'includeInGrading': includeInGrading,
       'title': title,
-      'details': details,
+      if (details != null) 'details': details!,
     };
   }
 }

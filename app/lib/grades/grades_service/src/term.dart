@@ -169,6 +169,7 @@ class Term extends Equatable {
       gradeType: grade.type,
       weight: const Weight.factor(1),
       title: grade.title,
+      details: grade.details,
     ));
 
     return subjects.where((element) => element.id == toSubject).isNotEmpty
@@ -424,6 +425,7 @@ class GradeModel extends Equatable {
   final Weight weight;
   final Date date;
   final String title;
+  final String? details;
 
   @override
   List<Object?> get props => [
@@ -437,6 +439,7 @@ class GradeModel extends Equatable {
         weight,
         date,
         title,
+        details,
       ];
 
   const GradeModel({
@@ -450,6 +453,7 @@ class GradeModel extends Equatable {
     required this.date,
     required this.takenIntoAccount,
     required this.title,
+    this.details,
   });
 
   GradeModel _changeWeight(Weight weight) {
@@ -467,6 +471,7 @@ class GradeModel extends Equatable {
     bool? takenIntoAccount,
     Weight? weight,
     String? title,
+    String? details,
   }) {
     return GradeModel(
       id: id ?? this.id,
@@ -479,6 +484,7 @@ class GradeModel extends Equatable {
       takenIntoAccount: takenIntoAccount ?? this.takenIntoAccount,
       weight: weight ?? this.weight,
       title: title ?? this.title,
+      details: details ?? this.details,
     );
   }
 }

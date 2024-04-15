@@ -143,6 +143,8 @@ class GradesDialogController extends ChangeNotifier {
         takeIntoAccount: _integrateGradeIntoSubjectGrade,
         gradingSystem: _gradingSystem,
         title: _title ?? 'todo: will be forced that this is not null',
+        // TODO
+        details: 'TODO',
       ),
     );
   }

@@ -1059,6 +1059,33 @@ void main() {
               .title,
           'Klausur');
     });
+    test('A grade has details', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 3,
+                details: 'Bla bla bla',
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Philosophie'))
+              .grade(GradeId('grade1'))
+              .details,
+          'Bla bla bla');
+    });
 
     test('A subject has a Design', () {
       final controller = GradesTestController();
