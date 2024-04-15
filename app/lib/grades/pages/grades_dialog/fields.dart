@@ -8,26 +8,6 @@
 
 part of 'grades_dialog.dart';
 
-class _RequiredFields extends StatelessWidget {
-  const _RequiredFields();
-
-  @override
-  Widget build(BuildContext context) {
-    return const _Section(
-      title: "Pflichtfelder",
-      children: [
-        _GradeValue(),
-        _GradingSystem(),
-        _Subject(),
-        _Date(),
-        _GradingType(),
-        _Term(),
-        _IntegrateGradeIntoSubjectGrade(),
-      ],
-    );
-  }
-}
-
 class _GradeValue extends StatelessWidget {
   const _GradeValue();
 
@@ -285,6 +265,99 @@ class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
         value: view.integrateGradeIntoSubjectGrade,
         onChanged: (newVal) =>
             controller.setIntegrateGradeIntoSubjectGrade(newVal),
+      ),
+    );
+  }
+}
+
+class _Title extends StatefulWidget {
+  const _Title();
+
+  @override
+  State<_Title> createState() => _TitleState();
+}
+
+class _TitleState extends State<_Title> {
+  String? prefilledTitle;
+
+  @override
+  void initState() {
+    super.initState();
+    prefilledTitle = context.read<GradesDialogController>().view.title;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = context.read<GradesDialogController>();
+    return ListTile(
+      leading: SavedGradeIcons.title,
+      title: PrefilledTextField(
+        prefilledText: prefilledTitle,
+        onChanged: controller.setTitle,
+        decoration: const InputDecoration(
+          labelText: "Titel",
+          hintText: "z.B. Lineare Funktionen",
+          suffixIcon: _TitleHelpButton(),
+        ),
+      ),
+    );
+  }
+}
+
+class _TitleHelpButton extends StatelessWidget {
+  const _TitleHelpButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.help_outline),
+      tooltip: 'Wozu dient der Titel?',
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Wozu dient der Titel?"),
+              content: const Text(
+                  'Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema / den Titel der Klausur angeben, um die Note später besser zuordnen zu können.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Schließen"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _Details extends StatefulWidget {
+  const _Details();
+
+  @override
+  State<_Details> createState() => _DetailsState();
+}
+
+class _DetailsState extends State<_Details> {
+  String? prefilledDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    prefilledDetails = context.read<GradesDialogController>().view.details;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MarkdownField(
+      icon: SavedGradeIcons.details,
+      onChanged: (value) {},
+      prefilledText: prefilledDetails,
+      inputDecoration: const InputDecoration(
+        labelText: "Notizen",
       ),
     );
   }
