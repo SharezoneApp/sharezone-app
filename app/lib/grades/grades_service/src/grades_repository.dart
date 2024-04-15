@@ -83,17 +83,36 @@ class FirestoreGradesRepository extends GradesStateRepository {
   }
 
   static GradesState fromData(Map<String, Object> data) {
-    final termDtos = (data['terms'] as Map<String, Map<String, Object>>)
-        .mapTo((value, key) => TermDto.fromData(key))
-        .toList();
+    IList<TermDto> termDtos = const IListConst([]);
+    // If the map is empty it won't be Map<String, Map<String,Object>> but Map<dynamic, dynamic>
+    if (data['terms'] is Map && (data['terms'] as Map).isNotEmpty) {
+      termDtos = (data['terms'] as Map<String, Map<String, Object>>)
+          .mapTo((value, key) => TermDto.fromData(key))
+          .toIList();
+    }
 
-    final subjectDtos = (data['subjects'] as Map<String, Map<String, Object>>)
-        .mapTo((value, key) => SubjectDto.fromData(key))
-        .toList();
+    IList<SubjectDto> subjectDtos = const IListConst([]);
+    if (data['subjects'] is Map && (data['subjects'] as Map).isNotEmpty) {
+      subjectDtos = (data['subjects'] as Map<String, Map<String, Object>>)
+          .mapTo((value, key) => SubjectDto.fromData(key))
+          .toIList();
+    }
 
-    final gradeDtos = (data['grades'] as Map<String, Map<String, Object>>)
-        .mapTo((value, key) => GradeDto.fromData(key))
-        .toList();
+    IList<GradeDto> gradeDtos = const IListConst([]);
+    if (data['grades'] is Map && (data['grades'] as Map).isNotEmpty) {
+      gradeDtos = (data['grades'] as Map<String, Map<String, Object>>)
+          .mapTo((value, key) => GradeDto.fromData(key))
+          .toIList();
+    }
+
+    IList<GradeType> customGradeTypes = const IListConst([]);
+    if (data['customGradeTypes'] is Map &&
+        (data['customGradeTypes'] as Map).isNotEmpty) {
+      customGradeTypes =
+          (data['customGradeTypes'] as Map<String, Map<String, Object>>)
+              .mapTo((value, key) => GradeType(id: GradeTypeId(value)))
+              .toIList();
+    }
 
     final grades = gradeDtos.map(
       (dto) {
@@ -205,11 +224,6 @@ class FirestoreGradesRepository extends GradesStateRepository {
           ),
         )
         .toIList();
-
-    final customGradeTypes =
-        (data['customGradeTypes'] as Map<String, Map<String, Object>>)
-            .mapTo((gradeTypeId, _) => GradeType(id: GradeTypeId(gradeTypeId)))
-            .toIList();
 
     return (
       terms: terms,

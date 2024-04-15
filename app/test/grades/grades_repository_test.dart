@@ -18,5 +18,19 @@ void main() {
         'terms': {},
       });
     });
+    test('deserializes expected state from data map', () {
+      final res = FirestoreGradesRepository.fromData({
+        'customGradeTypes': {},
+        'subjects': {},
+        'grades': {},
+        'terms': {},
+      });
+
+      expect(res, (
+        customGradeTypes: const IListConst([]),
+        subjects: const IListConst([]),
+        terms: const IListConst([]),
+      ));
+    });
   });
 }
