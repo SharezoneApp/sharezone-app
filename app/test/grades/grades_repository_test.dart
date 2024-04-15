@@ -556,6 +556,8 @@ void main() {
   });
 }
 
+/// We use the Firestore (de-)serialization methods to test the repository.
+/// This lets us not depend on Firestore here (and having to mock it).
 class TestFirestoreGradesStateRepository extends GradesStateRepository {
   Map<String, Object> data = {};
 
