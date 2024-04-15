@@ -105,22 +105,22 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     };
   }
 
-  static GradesState fromData(Map<String, Object> data) {
+  static GradesState fromData(Map<String, Object?> data) {
     IList<TermDto> termDtos = const IListConst([]);
 
-    if (data case {'terms': Map<String, Map<String, Object>> termData}) {
+    if (data case {'terms': Map<String, Map<String, Object?>> termData}) {
       termDtos =
           termData.mapTo((value, key) => TermDto.fromData(key)).toIList();
     }
 
     IList<SubjectDto> subjectDtos = const IListConst([]);
-    if (data case {'subjects': Map<String, Map<String, Object>> subjectData}) {
+    if (data case {'subjects': Map<String, Map<String, Object?>> subjectData}) {
       subjectDtos =
           subjectData.mapTo((value, key) => SubjectDto.fromData(key)).toIList();
     }
 
     IList<GradeDto> gradeDtos = const IListConst([]);
-    if (data case {'grades': Map<String, Map<String, Object>> gradeData}) {
+    if (data case {'grades': Map<String, Map<String, Object?>> gradeData}) {
       gradeDtos =
           gradeData.mapTo((value, key) => GradeDto.fromData(key)).toIList();
     }
@@ -128,11 +128,10 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     IList<CustomGradeTypeDto> customGradeTypeDtos = const IListConst([]);
     if (data
         case {
-          'customGradeTypes': Map<String, Map<String, Object>> gradeTypeData
+          'customGradeTypes': Map<String, Map<String, Object?>> gradeTypeData
         }) {
       customGradeTypeDtos = gradeTypeData
-          .mapTo((value, key) =>
-              CustomGradeTypeDto.fromData(key.cast<String, Object>()))
+          .mapTo((value, key) => CustomGradeTypeDto.fromData(key))
           .toIList();
     }
 
@@ -287,7 +286,7 @@ class CustomGradeTypeDto {
     required this.displayName,
   });
 
-  factory CustomGradeTypeDto.fromData(Map<String, Object> data) {
+  factory CustomGradeTypeDto.fromData(Map<String, Object?> data) {
     return CustomGradeTypeDto(
       id: data['id'] as String,
       displayName: data['displayName'] as String,
@@ -355,7 +354,7 @@ class TermDto {
     );
   }
 
-  factory TermDto.fromData(Map<String, Object> data) {
+  factory TermDto.fromData(Map<String, Object?> data) {
     return TermDto(
       id: data['id'] as String,
       displayName: data['displayName'] as String,
@@ -424,7 +423,7 @@ class TermSubjectDto {
     );
   }
 
-  factory TermSubjectDto.fromData(Map<String, Object> data) {
+  factory TermSubjectDto.fromData(Map<String, Object?> data) {
     return TermSubjectDto(
       id: data['id'] as String,
       termId: data['termId'] as String,
@@ -472,7 +471,7 @@ class SubjectGradeCompositionDto {
     );
   }
 
-  factory SubjectGradeCompositionDto.fromData(Map<String, Object> data) {
+  factory SubjectGradeCompositionDto.fromData(Map<String, Object?> data) {
     return SubjectGradeCompositionDto(
       weightType: WeightType.fromString(data['weightType'] as String),
       gradeTypeWeights: data['gradeTypeWeights'] as Map<String, num>,
@@ -534,7 +533,7 @@ class GradeDto {
     );
   }
 
-  factory GradeDto.fromData(Map<String, Object> data) {
+  factory GradeDto.fromData(Map<String, Object?> data) {
     return GradeDto(
       id: data['id'] as String,
       termId: data['termId'] as String,
@@ -594,7 +593,7 @@ class SubjectDto {
     );
   }
 
-  factory SubjectDto.fromData(Map<String, Object> data) {
+  factory SubjectDto.fromData(Map<String, Object?> data) {
     return SubjectDto(
         id: data['id'] as String,
         name: data['name'] as String,
@@ -640,7 +639,7 @@ class ConnectedCourseDto {
     );
   }
 
-  factory ConnectedCourseDto.fromData(Map<String, Object> data) {
+  factory ConnectedCourseDto.fromData(Map<String, Object?> data) {
     return ConnectedCourseDto(
       id: data['id'] as String,
       name: data['name'] as String,
