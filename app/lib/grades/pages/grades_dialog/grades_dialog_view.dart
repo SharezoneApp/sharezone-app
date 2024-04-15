@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:date/date.dart';
+import 'package:design/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -28,7 +29,7 @@ class GradesDialogView {
 
   /// The selected subject.
   final ({SubjectId id, String name})? selectedSubject;
-  final IList<({SubjectId id, String name})> selectableSubjects;
+  final IList<SubjectView> selectableSubjects;
 
   /// The selected date in the format "Sat, Mar 16, 2024".
   ///
@@ -64,6 +65,13 @@ class GradesDialogView {
     required this.titleController,
   });
 }
+
+typedef SubjectView = ({
+  String abbreviation,
+  Design design,
+  SubjectId id,
+  String name
+});
 
 extension GradeSystemToName on GradingSystem {
   String get displayName {

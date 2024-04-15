@@ -65,7 +65,7 @@ class CourseTile extends StatelessWidget {
               children: <Widget>[
                 _CourseList(courseList: courseList, onChanged: onChanged),
                 const Divider(),
-                const _JoinCreateCourseFooter(),
+                const JoinCreateCourseFooter(),
               ],
             );
           },
@@ -149,8 +149,8 @@ class _EmptyCourseList extends StatelessWidget {
   }
 }
 
-class _JoinCreateCourseFooter extends StatelessWidget {
-  const _JoinCreateCourseFooter();
+class JoinCreateCourseFooter extends StatelessWidget {
+  const JoinCreateCourseFooter();
 
   @override
   Widget build(BuildContext context) {

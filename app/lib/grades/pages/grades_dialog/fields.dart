@@ -143,24 +143,70 @@ class _Subject extends StatelessWidget {
       onTap: () async {
         final res = await showDialog<SubjectId?>(
           context: context,
-          builder: (context) => SimpleDialog(
-            title: const Text("Fach auswählen"),
-            children: [
-              for (final subject in view.selectableSubjects)
-                ListTile(
-                  title: Text(subject.name),
-                  onTap: () {
-                    Navigator.of(context).pop<SubjectId?>(subject.id);
-                  },
-                ),
-            ],
-          ),
+          builder: (context) => _SelectSubjectDialog(view.selectableSubjects),
         );
 
         if (res != null) {
           controller.setSubject(res);
         }
       },
+    );
+  }
+}
+
+class _SelectSubjectDialog extends StatelessWidget {
+  const _SelectSubjectDialog(this.subjects);
+
+  final IList<SubjectView> subjects;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 450,
+      child: SimpleDialog(
+        title: const Text("Fach auswählen"),
+        contentPadding: const EdgeInsets.all(12),
+        children: [
+          for (final subject in subjects)
+            _SubjectTile(
+              abbreviation: subject.abbreviation,
+              name: subject.name,
+              design: subject.design,
+              onTap: () => Navigator.pop<SubjectId>(context, subject.id),
+            ),
+          const Divider(),
+          const JoinCreateCourseFooter(),
+        ],
+      ),
+    );
+  }
+}
+
+class _SubjectTile extends StatelessWidget {
+  const _SubjectTile({
+    required this.name,
+    required this.abbreviation,
+    required this.design,
+    required this.onTap,
+  });
+
+  final String name;
+  final String abbreviation;
+  final Design design;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: design.color.withOpacity(0.2),
+        child: Text(
+          abbreviation,
+          style: TextStyle(color: design.color),
+        ),
+      ),
+      title: Text(name),
+      onTap: onTap,
     );
   }
 }

@@ -26,7 +26,7 @@ class GradesDialogController extends ChangeNotifier {
 
   GradesDialogView get view {
     final subject = _selectSubjectId != null
-        ? gradesService.getSubject(_selectSubjectId!)
+        ? _subjects.singleWhere((s) => s.id == _selectSubjectId)
         : null;
     final terms = gradesService.terms.value;
     final term = _term != null ? terms.firstWhere((t) => t.id == _term) : null;
@@ -51,8 +51,14 @@ class GradesDialogController extends ChangeNotifier {
       selectedGradingSystem: _gradingSystem,
       selectedSubject:
           subject != null ? (id: subject.id, name: subject.name) : null,
-      selectableSubjects:
-          _subjects.map((e) => (id: e.id, name: e.name)).toIList(),
+      selectableSubjects: _subjects
+          .map((s) => (
+                id: s.id,
+                name: s.name,
+                abbreviation: s.abbreviation,
+                design: s.design,
+              ))
+          .toIList(),
       selectedDate: _date,
       selectedGradingType: _gradeType,
       selectableGradingTypes: gradesService.getPossibleGradeTypes(),

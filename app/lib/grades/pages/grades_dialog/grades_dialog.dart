@@ -6,16 +6,21 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:date/date.dart';
+import 'package:design/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
+import 'package:sharezone/groups/src/pages/course/course_card.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -29,12 +34,16 @@ class GradesDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<GradesDialogController>(
-      create: (context) => GradesDialogController(
-        gradesService: Provider.of<GradesService>(
-          context,
-          listen: false,
-        ),
-      ),
+      create: (context) {
+        final api = BlocProvider.of<SharezoneContext>(context).api;
+        return GradesDialogController(
+          gradesService: Provider.of<GradesService>(
+            context,
+            listen: false,
+          ),
+          coursesStream: api.course.streamCourses(),
+        );
+      },
       builder: (context, _) {
         return Scaffold(
           appBar: AppBar(
