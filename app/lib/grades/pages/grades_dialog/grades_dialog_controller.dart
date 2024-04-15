@@ -6,19 +6,28 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
+import 'package:collection/collection.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone_utils/random_string.dart';
 
 import 'grades_dialog_view.dart';
 
 class GradesDialogController extends ChangeNotifier {
+  final Stream<List<Course>> coursesStream;
+  late StreamSubscription<List<Course>> _coursesStreamSubscription;
+
   GradesDialogView get view {
-    final subject =
-        _subject != null ? gradesService.getSubject(_subject!) : null;
+    final subject = _selectSubjectId != null
+        ? gradesService.getSubject(_selectSubjectId!)
+        : null;
     final terms = gradesService.terms.value;
     final term = _term != null ? terms.firstWhere((t) => t.id == _term) : null;
 
@@ -42,10 +51,8 @@ class GradesDialogController extends ChangeNotifier {
       selectedGradingSystem: _gradingSystem,
       selectedSubject:
           subject != null ? (id: subject.id, name: subject.name) : null,
-      selectableSubjects: gradesService
-          .getSubjects()
-          .map((e) => (id: e.id, name: e.name))
-          .toIList(),
+      selectableSubjects:
+          _subjects.map((e) => (id: e.id, name: e.name)).toIList(),
       selectedDate: _date,
       selectedGradingType: _gradeType,
       selectableGradingTypes: gradesService.getPossibleGradeTypes(),
@@ -62,12 +69,16 @@ class GradesDialogController extends ChangeNotifier {
 
   final GradesService gradesService;
 
-  GradesDialogController({required this.gradesService}) {
+  GradesDialogController({
+    required this.gradesService,
+    required this.coursesStream,
+  }) {
     _gradingSystem = GradingSystem.oneToSixWithPlusAndMinus;
     _date = Date.today();
     _gradeType = null;
     _integrateGradeIntoSubjectGrade = true;
     _titleController = TextEditingController();
+    _subjects = gradesService.getSubjects();
 
     // We add a subject so have at least one subject to select.
     // Currently selecting a course and it being transformed to a subject is not
@@ -83,6 +94,27 @@ class GradesDialogController extends ChangeNotifier {
         ),
       );
     } on SubjectAlreadyExistsException catch (_) {}
+
+    _coursesStreamSubscription = coursesStream.listen((courses) {
+      _subjects = _mergeCoursesAndSubjects(courses);
+      notifyListeners();
+    });
+  }
+
+  /// Merges the courses from the group system with the subject from the grades
+  /// features.
+  IList<Subject> _mergeCoursesAndSubjects(List<Course> courses) {
+    final subjects = <Subject>[...gradesService.getSubjects()];
+    for (final course in courses) {
+      final matchingSubject = subjects
+          .firstWhereOrNull((subject) => subject.name == course.subject);
+      final hasSubjectForThisCourse = matchingSubject != null;
+      if (!hasSubjectForThisCourse) {
+        final subjectId = SubjectId(Id.generate().id);
+        subjects.add(course.toSubject(subjectId));
+      }
+    }
+    return IList(subjects);
   }
 
   String? _grade;
@@ -97,9 +129,10 @@ class GradesDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
-  SubjectId? _subject;
+  late IList<Subject> _subjects;
+  SubjectId? _selectSubjectId;
   void setSubject(SubjectId res) {
-    _subject = res;
+    _selectSubjectId = res;
     notifyListeners();
   }
 
@@ -175,8 +208,16 @@ class GradesDialogController extends ChangeNotifier {
 
     final gradeId = GradeId(randomIDString(20));
 
+    final isNewSubject = gradesService
+        .getSubjects()
+        .where((s) => s.id == _selectSubjectId)
+        .isEmpty;
+    if (isNewSubject) {
+      createSubject();
+    }
+
     gradesService.addGrade(
-      id: _subject!,
+      id: _selectSubjectId!,
       termId: _term!,
       value: Grade(
         id: gradeId,
@@ -190,6 +231,14 @@ class GradesDialogController extends ChangeNotifier {
     );
   }
 
+  void createSubject() {
+    final subject = _subjects.firstWhereOrNull((s) => s.id == _selectSubjectId);
+    if (subject == null) {
+      throw Exception('Selected subject id does not exists');
+    }
+    gradesService.addSubject(subject);
+  }
+
   void _throwInvalidSaveState(List<GradingDialogFields> invalidFields) {
     if (invalidFields.length > 1) {
       throw MultipleInvalidFieldsSaveGradeException(invalidFields);
@@ -198,6 +247,31 @@ class GradesDialogController extends ChangeNotifier {
     throw switch (invalidFields.first) {
       GradingDialogFields.title => const InvalidTitleSaveGradeException(),
     };
+  }
+
+  @override
+  void dispose() {
+    _coursesStreamSubscription.cancel();
+    super.dispose();
+  }
+}
+
+extension on Course {
+  Subject toSubject(SubjectId subjectId) {
+    return Subject(
+      id: subjectId,
+      abbreviation: abbreviation,
+      design: getDesign(),
+      name: subject,
+      connectedCourses: IList([
+        ConnectedCourse(
+          id: CourseId(id),
+          name: name,
+          abbreviation: abbreviation,
+          subjectName: subject,
+        )
+      ]),
+    );
   }
 }
 
