@@ -322,16 +322,19 @@ class _TitleHelpButton extends StatelessWidget {
         showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              title: const Text("Wozu dient der Titel?"),
-              content: const Text(
-                  'Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema / den Titel der Klausur angeben, um die Note später besser zuordnen zu können.'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Schließen"),
-                ),
-              ],
+            return MaxWidthConstraintBox(
+              maxWidth: 450,
+              child: AlertDialog(
+                title: const Text("Wozu dient der Titel?"),
+                content: const Text(
+                    'Falls die Note beispielsweise zu einer Klausur gehört, kannst du das Thema / den Titel der Klausur angeben, um die Note später besser zuordnen zu können.'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Schließen"),
+                  ),
+                ],
+              ),
             );
           },
         );
