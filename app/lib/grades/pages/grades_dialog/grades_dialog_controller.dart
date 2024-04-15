@@ -232,7 +232,7 @@ class GradesDialogController extends ChangeNotifier {
         date: _date,
         takeIntoAccount: _integrateGradeIntoSubjectGrade,
         gradingSystem: _gradingSystem,
-        title: _title ?? 'todo: will be forced that this is not null',
+        title: _title!,
       ),
     );
   }
