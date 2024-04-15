@@ -432,7 +432,6 @@ class TermSubjectDto {
   // TODO: Laut doc nullable?
   final _GradeTypeId finalGradeType;
   final List<_GradeId> grades;
-  //TODO: "Noten" docs: source?
 
   TermSubjectDto({
     required this.id,
