@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// ignore_for_file: library_private_types_in_public_api
+
 part of '../grades_service.dart';
 
 typedef GradesState = ({
@@ -16,7 +18,6 @@ typedef GradesState = ({
 
 extension GradesStateCopyWith on GradesState {
   GradesState copyWith({
-    // ignore: library_private_types_in_public_api
     IList<Term>? terms,
     IList<GradeType>? customGradeTypes,
     IList<Subject>? subjects,
