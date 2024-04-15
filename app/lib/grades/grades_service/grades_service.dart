@@ -37,7 +37,7 @@ class GradesService {
   final GradesStateRepository _repository;
 
   GradesService({GradesStateRepository? repository})
-      : _repository = repository ?? FirestoreGradesRepository(),
+      : _repository = repository ?? FirestoreGradesStateRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
     _state = _repository.state.value;
     _updateView();

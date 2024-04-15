@@ -5,7 +5,7 @@ import 'package:sharezone/grades/grades_service/grades_service.dart';
 void main() {
   group('GradesRepository', () {
     test('serializes expected data map for empty state', () {
-      final res = FirestoreGradesRepository.toDto((
+      final res = FirestoreGradesStateRepository.toDto((
         customGradeTypes: const IListConst([]),
         subjects: const IListConst([]),
         terms: const IListConst([]),
@@ -19,7 +19,7 @@ void main() {
       });
     });
     test('deserializes expected state from data map', () {
-      final res = FirestoreGradesRepository.fromData({
+      final res = FirestoreGradesStateRepository.fromData({
         'customGradeTypes': {},
         'subjects': {},
         'grades': {},

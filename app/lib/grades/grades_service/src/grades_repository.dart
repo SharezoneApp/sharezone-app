@@ -52,7 +52,7 @@ class InMemoryGradesStateRepository extends GradesStateRepository {
   }
 }
 
-class FirestoreGradesRepository extends GradesStateRepository {
+class FirestoreGradesStateRepository extends GradesStateRepository {
   // final FirebaseFirestore _firestore;
   // final DocumentReference _userDocumentRef;
   // DocumentReference get gradesDocumentRef =>
