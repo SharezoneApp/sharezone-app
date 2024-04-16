@@ -70,8 +70,8 @@ extension GradeSystemToName on GradingSystem {
       GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',
       GradingSystem.sixToOneWithDecimals => '6 - 1 (mit Kommazahlen)',
       GradingSystem.oneToFiveWithDecimals => '1 - 5 (mit Kommazahlen)',
-      GradingSystem.zeroToFiveteenPoints => '0 - 15 Punkte',
-      GradingSystem.zeroToFiveteenPointsWithDecimals =>
+      GradingSystem.zeroToFifteenPoints => '0 - 15 Punkte',
+      GradingSystem.zeroToFifteenPointsWithDecimals =>
         '0 - 15 Punkte (mit Kommazahlen)',
       GradingSystem.zeroToHundredPercentWithDecimals =>
         '0 - 100% (mit Kommazahlen)',

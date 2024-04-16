@@ -63,7 +63,7 @@ void main() {
         id: const TermId('02-10-term'),
         name: '02/10',
         finalGradeType: GradeType.schoolReportGrade.id,
-        gradingSystem: GradingSystem.zeroToFiveteenPoints,
+        gradingSystem: GradingSystem.zeroToFifteenPoints,
         isActiveTerm: true,
       );
       service.addTerm(
@@ -109,7 +109,7 @@ void main() {
           value: Grade(
             id: GradeId('grade-1'),
             value: '13',
-            gradingSystem: GradingSystem.zeroToFiveteenPoints,
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
             type: const GradeTypeId('my-custom-grade-type'),
             date: Date('2024-10-02'),
             takeIntoAccount: true,
@@ -122,7 +122,7 @@ void main() {
           value: Grade(
             id: GradeId('grade-2'),
             value: '3',
-            gradingSystem: GradingSystem.zeroToFiveteenPoints,
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
             type: GradeType.vocabularyTest.id,
             date: Date('2024-10-03'),
             takeIntoAccount: true,
@@ -193,7 +193,7 @@ void main() {
             'id': '02-10-term',
             'displayName': '02/10',
             'createdOn': FieldValue.serverTimestamp(),
-            'gradingSystem': 'zeroToFiveteenPoints',
+            'gradingSystem': 'zeroToFifteenPoints',
             'subjectWeights': {
               'mathe': {
                 'value': 2.5,
@@ -267,7 +267,7 @@ void main() {
             'termId': '02-10-term',
             'subjectId': 'mathe',
             'numValue': 13,
-            'gradingSystem': 'zeroToFiveteenPoints',
+            'gradingSystem': 'zeroToFifteenPoints',
             'gradeType': 'my-custom-grade-type',
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1727820000000),
             'includeInGrading': true,
@@ -280,7 +280,7 @@ void main() {
             'termId': '02-10-term',
             'subjectId': 'mathe',
             'numValue': 3,
-            'gradingSystem': 'zeroToFiveteenPoints',
+            'gradingSystem': 'zeroToFifteenPoints',
             'gradeType': 'vocabulary-test',
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1727906400000),
             'includeInGrading': true,
@@ -409,7 +409,7 @@ void main() {
                 id: const SubjectId('mathe'),
                 name: 'Mathe',
                 termId: const TermId('02-10-term'),
-                gradingSystem: GradingSystemModel.zeroToFiveteenPoints,
+                gradingSystem: GradingSystemModel.zeroToFifteenPoints,
                 grades: IListConst([
                   GradeModel(
                     id: GradeId('grade-1'),
@@ -417,10 +417,10 @@ void main() {
                     termId: const TermId('02-10-term'),
                     value: const GradeValue(
                         asNum: 13,
-                        gradingSystem: GradingSystem.zeroToFiveteenPoints,
+                        gradingSystem: GradingSystem.zeroToFifteenPoints,
                         displayableGrade: null,
                         suffix: null),
-                    gradingSystem: GradingSystemModel.zeroToFiveteenPoints,
+                    gradingSystem: GradingSystemModel.zeroToFifteenPoints,
                     gradeType: const GradeTypeId('my-custom-grade-type'),
                     takenIntoAccount: true,
                     weight: const Weight.factor(0.5),
@@ -434,11 +434,11 @@ void main() {
                     termId: const TermId('02-10-term'),
                     value: const GradeValue(
                       asNum: 3,
-                      gradingSystem: GradingSystem.zeroToFiveteenPoints,
+                      gradingSystem: GradingSystem.zeroToFifteenPoints,
                       displayableGrade: null,
                       suffix: null,
                     ),
-                    gradingSystem: GradingSystemModel.zeroToFiveteenPoints,
+                    gradingSystem: GradingSystemModel.zeroToFifteenPoints,
                     gradeType: const GradeTypeId('vocabulary-test'),
                     takenIntoAccount: true,
                     weight: const Weight.factor(1),
@@ -476,7 +476,7 @@ void main() {
           ),
           gradeTypeWeightings: IMapConst(
               {const GradeTypeId('vocabulary-test'): const Weight.factor(1.5)}),
-          gradingSystem: GradingSystemModel.zeroToFiveteenPoints,
+          gradingSystem: GradingSystemModel.zeroToFifteenPoints,
           finalGradeType: const GradeTypeId('school-report-grade'),
           isActiveTerm: true,
           name: '02/10',

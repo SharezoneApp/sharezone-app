@@ -441,8 +441,8 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
 
 enum GradingSystem {
   oneToSixWithPlusAndMinus(isNumericalAndContinous: true),
-  zeroToFiveteenPoints(isNumericalAndContinous: true),
-  zeroToFiveteenPointsWithDecimals(isNumericalAndContinous: true),
+  zeroToFifteenPoints(isNumericalAndContinous: true),
+  zeroToFifteenPointsWithDecimals(isNumericalAndContinous: true),
   oneToSixWithDecimals(isNumericalAndContinous: true),
   zeroToHundredPercentWithDecimals(isNumericalAndContinous: true),
   oneToFiveWithDecimals(isNumericalAndContinous: true),
