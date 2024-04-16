@@ -42,8 +42,7 @@ class GradesTestController {
         service.addCustomGradeType(
           GradeType(
             id: id,
-            // TODO:
-            displayName: id.id,
+            displayName: randomAlpha(5),
           ),
         );
       }
