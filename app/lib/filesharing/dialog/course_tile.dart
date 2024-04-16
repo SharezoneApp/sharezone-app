@@ -150,7 +150,7 @@ class _EmptyCourseList extends StatelessWidget {
 }
 
 class JoinCreateCourseFooter extends StatelessWidget {
-  const JoinCreateCourseFooter();
+  const JoinCreateCourseFooter({super.key});
 
   @override
   Widget build(BuildContext context) {

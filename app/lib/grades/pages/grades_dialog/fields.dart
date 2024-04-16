@@ -146,22 +146,28 @@ class _Subject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<GradesDialogController>(context);
-    final view = controller.view;
-
+    final view = context.watch<GradesDialogController>().view;
     return ListTile(
       leading: SavedGradeIcons.subject,
       title: const Text("Fach"),
-      subtitle: Text(view.selectedSubject == null
-          ? 'Kein Fach ausgewählt'
-          : view.selectedSubject!.name),
+      subtitle: Text(
+        view.selectedSubject == null
+            ? 'Kein Fach ausgewählt'
+            : view.selectedSubject!.name,
+        style: TextStyle(
+          color: view.isSubjectMissing
+              ? Theme.of(context).colorScheme.error
+              : null,
+        ),
+      ),
       onTap: () async {
         final res = await showDialog<SubjectId?>(
           context: context,
           builder: (context) => _SelectSubjectDialog(view.selectableSubjects),
         );
 
-        if (res != null) {
+        if (res != null && context.mounted) {
+          final controller = context.read<GradesDialogController>();
           controller.setSubject(res);
         }
       },

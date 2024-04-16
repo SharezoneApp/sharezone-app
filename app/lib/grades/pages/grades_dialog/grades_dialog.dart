@@ -72,24 +72,23 @@ class _SaveButton extends StatelessWidget {
 
   void showErrorSnackBar(BuildContext context, Object e) {
     if (e is SaveGradeException) {
+      String? message;
       switch (e) {
         case MultipleInvalidFieldsSaveGradeException():
-          showSnackSec(
-            context: context,
-            text:
-                'Folgende Felder fehlen oder sind ungültig: ${e.invalidFields.map((f) => f.toUiString()).join(', ')}.',
-          );
+          message =
+              'Folgende Felder fehlen oder sind ungültig: ${e.invalidFields.map((f) => f.toUiString()).join(', ')}.';
           break;
         case InvalidTitleSaveGradeException():
-          showSnackSec(
-            context: context,
-            text: 'Der Titel fehlt oder ist ungültig.',
-          );
+          message = 'Der Titel fehlt oder ist ungültig.';
+          break;
+        case SubjectMissingException():
+          message = 'Bitte gib ein Fach für die Note an.';
           break;
         case UnknownSaveGradeException():
           unknownErrorSnackBar(context, e);
-          break;
+          return;
       }
+      showSnackSec(context: context, text: message);
     } else {
       unknownErrorSnackBar(context, e);
     }

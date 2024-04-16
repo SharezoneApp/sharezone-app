@@ -67,6 +67,7 @@ class GradesDialogController extends ChangeNotifier {
       titleErrorText: _titleErrorText,
       integrateGradeIntoSubjectGrade: _integrateGradeIntoSubjectGrade,
       titleController: _titleController,
+      isSubjectMissing: _isSubjectMissing,
     );
   }
 
@@ -118,10 +119,23 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   late IList<Subject> _subjects;
+  bool _isSubjectMissing = false;
   SubjectId? _selectSubjectId;
   void setSubject(SubjectId res) {
     _selectSubjectId = res;
+    _isSubjectMissing = false;
     notifyListeners();
+  }
+
+  bool _isSubjectValid() {
+    return _selectSubjectId != null;
+  }
+
+  bool _validateSubject() {
+    final isValid = _isSubjectValid();
+    _isSubjectMissing = !isValid;
+    notifyListeners();
+    return isValid;
   }
 
   late Date _date;
@@ -182,19 +196,12 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   Future<void> save() async {
-    final invalidFields = <GradingDialogFields>[];
-
-    final isTitleValid = validateTitle();
-    if (!isTitleValid) {
-      invalidFields.add(GradingDialogFields.title);
-    }
+    final invalidFields = _validateFields();
 
     if (invalidFields.isNotEmpty) {
       _throwInvalidSaveState(invalidFields);
       return;
     }
-
-    final gradeId = GradeId(randomIDString(20));
 
     final isNewSubject = gradesService
         .getSubjects()
@@ -211,6 +218,28 @@ class GradesDialogController extends ChangeNotifier {
       await Future.delayed(const Duration(seconds: 1));
     }
 
+    _addGradeToGradeService();
+  }
+
+  /// Validates the fields and returns the invalid ones.
+  ///
+  /// If all fields are valid, an empty list is returned.
+  List<GradingDialogFields> _validateFields() {
+    final invalidFields = <GradingDialogFields>[];
+
+    if (!validateTitle()) {
+      invalidFields.add(GradingDialogFields.title);
+    }
+
+    if (!_validateSubject()) {
+      invalidFields.add(GradingDialogFields.subject);
+    }
+
+    return invalidFields;
+  }
+
+  void _addGradeToGradeService() {
+    final gradeId = GradeId(randomIDString(20));
     gradesService.addGrade(
       id: _selectSubjectId!,
       termId: _term!,
@@ -235,12 +264,15 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   void _throwInvalidSaveState(List<GradingDialogFields> invalidFields) {
+    assert(invalidFields.isNotEmpty, 'Invalid fields must not be empty.');
+
     if (invalidFields.length > 1) {
       throw MultipleInvalidFieldsSaveGradeException(invalidFields);
     }
 
     throw switch (invalidFields.first) {
       GradingDialogFields.title => const InvalidTitleSaveGradeException(),
+      GradingDialogFields.subject => const SubjectMissingException(),
     };
   }
 
@@ -297,11 +329,13 @@ extension on Course {
 }
 
 enum GradingDialogFields {
+  subject,
   title;
 
   String toUiString() {
     return switch (this) {
       title => 'Titel',
+      subject => 'Fach',
     };
   }
 }
@@ -322,4 +356,8 @@ class MultipleInvalidFieldsSaveGradeException extends SaveGradeException {
 
 class InvalidTitleSaveGradeException extends SaveGradeException {
   const InvalidTitleSaveGradeException();
+}
+
+class SubjectMissingException extends SaveGradeException {
+  const SubjectMissingException();
 }

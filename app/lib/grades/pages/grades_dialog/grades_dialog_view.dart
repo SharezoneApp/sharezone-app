@@ -29,6 +29,12 @@ class GradesDialogView {
 
   /// The selected subject.
   final ({SubjectId id, String name})? selectedSubject;
+
+  /// If `true`, the action text to select a subject will change to red.
+  ///
+  /// This is used to indicate that the user must select a subject when the user
+  /// clicks the save button.
+  final bool isSubjectMissing;
   final IList<SubjectView> selectableSubjects;
 
   /// The selected date in the format "Sat, Mar 16, 2024".
@@ -63,6 +69,7 @@ class GradesDialogView {
     required this.details,
     required this.integrateGradeIntoSubjectGrade,
     required this.titleController,
+    required this.isSubjectMissing,
   });
 }
 
