@@ -13,9 +13,9 @@ extension _ToGradingSystem on GradingSystem {
     switch (this) {
       case GradingSystem.zeroToHundredPercentWithDecimals:
         return GradingSystemModel.zeroToHundredPercentWithDecimals;
-      case GradingSystem.zeroToFivteenPointsWithDecimals:
+      case GradingSystem.zeroToFiveteenPointsWithDecimals:
         return GradingSystemModel.zeroToFiveteenPointsWithDecimals;
-      case GradingSystem.zeroToFivteenPoints:
+      case GradingSystem.zeroToFiveteenPoints:
         return GradingSystemModel.zeroToFiveteenPoints;
       case GradingSystem.oneToSixWithPlusAndMinus:
         return GradingSystemModel.oneToSixWithPlusAndMinus;
@@ -245,7 +245,7 @@ const oneToFiveWithDecimalsSpec = GradingSystemSpec(
 );
 
 const zeroToFiveteenPointsSpec = GradingSystemSpec(
-  gradingSystem: GradingSystem.zeroToFivteenPoints,
+  gradingSystem: GradingSystem.zeroToFiveteenPoints,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,
     max: 15,
@@ -254,7 +254,7 @@ const zeroToFiveteenPointsSpec = GradingSystemSpec(
 );
 
 const zeroToFiveteenPointsWithDecimalsSpec = GradingSystemSpec(
-  gradingSystem: GradingSystem.zeroToFivteenPointsWithDecimals,
+  gradingSystem: GradingSystem.zeroToFiveteenPointsWithDecimals,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,
     max: 15,

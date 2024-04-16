@@ -55,7 +55,7 @@ void main() {
         id: const TermId('02-10-term'),
         name: '02/10',
         finalGradeType: GradeType.schoolReportGrade.id,
-        gradingSystem: GradingSystem.zeroToFivteenPoints,
+        gradingSystem: GradingSystem.zeroToFiveteenPoints,
         isActiveTerm: true,
       );
       service.addTerm(
@@ -101,7 +101,7 @@ void main() {
           value: Grade(
             id: GradeId('grade-1'),
             value: '13',
-            gradingSystem: GradingSystem.zeroToFivteenPoints,
+            gradingSystem: GradingSystem.zeroToFiveteenPoints,
             type: const GradeTypeId('my-custom-grade-type'),
             date: Date('2024-10-02'),
             takeIntoAccount: true,
@@ -114,7 +114,7 @@ void main() {
           value: Grade(
             id: GradeId('grade-2'),
             value: '3',
-            gradingSystem: GradingSystem.zeroToFivteenPoints,
+            gradingSystem: GradingSystem.zeroToFiveteenPoints,
             type: GradeType.vocabularyTest.id,
             date: Date('2024-10-03'),
             takeIntoAccount: true,
@@ -184,7 +184,7 @@ void main() {
           '02-10-term': {
             'id': '02-10-term',
             'displayName': '02/10',
-            'gradingSystem': 'zeroToFivteenPoints',
+            'gradingSystem': 'zeroToFiveteenPoints',
             'subjectWeights': {
               'mathe': {
                 'value': 2.5,
@@ -259,7 +259,7 @@ void main() {
             'termId': '02-10-term',
             'subjectId': 'mathe',
             'numValue': 13,
-            'gradingSystem': 'zeroToFivteenPoints',
+            'gradingSystem': 'zeroToFiveteenPoints',
             'gradeType': 'my-custom-grade-type',
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1727820000000),
             'includeInGrading': true,
@@ -271,7 +271,7 @@ void main() {
             'termId': '02-10-term',
             'subjectId': 'mathe',
             'numValue': 3,
-            'gradingSystem': 'zeroToFivteenPoints',
+            'gradingSystem': 'zeroToFiveteenPoints',
             'gradeType': 'vocabulary-test',
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1727906400000),
             'includeInGrading': true,
@@ -403,7 +403,7 @@ void main() {
                     termId: const TermId('02-10-term'),
                     value: const GradeValue(
                         asNum: 13,
-                        gradingSystem: GradingSystem.zeroToFivteenPoints,
+                        gradingSystem: GradingSystem.zeroToFiveteenPoints,
                         displayableGrade: null,
                         suffix: null),
                     gradingSystem: GradingSystemModel.zeroToFiveteenPoints,
@@ -420,7 +420,7 @@ void main() {
                     termId: const TermId('02-10-term'),
                     value: const GradeValue(
                       asNum: 3,
-                      gradingSystem: GradingSystem.zeroToFivteenPoints,
+                      gradingSystem: GradingSystem.zeroToFiveteenPoints,
                       displayableGrade: null,
                       suffix: null,
                     ),
