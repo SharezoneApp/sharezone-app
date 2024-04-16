@@ -89,7 +89,7 @@ class _SaveButton extends StatelessWidget {
           message = 'Bitte gib einen Notentyp für die Note an.';
           break;
         case InvalidGradeValueException():
-          message = 'Bitte gib eine Note an.';
+          message = 'Die Note fehlt oder ist ungültig.';
           break;
         case TermMissingException():
           message = 'Bitte gib ein Halbjahr für die an.';

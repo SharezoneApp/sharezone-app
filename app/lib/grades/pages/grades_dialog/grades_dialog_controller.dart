@@ -142,15 +142,28 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   bool _validateGrade() {
-    final isValid = _isGradeValid();
-    _gradeErrorText = isValid ? null : 'Bitte eine Note eingeben.';
-    _isGradeMissing = !isValid;
+    final isEmpty = _grade == null || _grade!.isEmpty;
+    if (isEmpty) {
+      _gradeErrorText = 'Bitte eine Note eingeben.';
+      _isGradeMissing = true;
+      notifyListeners();
+      return false;
+    }
+
+    _isGradeMissing = false;
+    final isParsable = _isGradeParsable();
+    _gradeErrorText = isParsable ? null : 'Die Eingabe ist keine gültige Zahl.';
     notifyListeners();
-    return isValid;
+    return isParsable;
   }
 
-  bool _isGradeValid() {
-    return _grade != null && _grade!.isNotEmpty;
+  bool _isGradeParsable() {
+    try {
+      double.parse(_grade!);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   late GradingSystem _gradingSystem;
@@ -301,8 +314,8 @@ class GradesDialogController extends ChangeNotifier {
   List<GradingDialogFields> _validateFields() {
     final invalidFields = <GradingDialogFields>[];
 
-    if (!validateTitle()) {
-      invalidFields.add(GradingDialogFields.title);
+    if (!_validateGrade()) {
+      invalidFields.add(GradingDialogFields.gradeValue);
     }
 
     if (!_validateSubject()) {
@@ -313,12 +326,12 @@ class GradesDialogController extends ChangeNotifier {
       invalidFields.add(GradingDialogFields.gradeType);
     }
 
-    if (!_validateGrade()) {
-      invalidFields.add(GradingDialogFields.gradeValue);
-    }
-
     if (!_validateTerm()) {
       invalidFields.add(GradingDialogFields.term);
+    }
+
+    if (!validateTitle()) {
+      invalidFields.add(GradingDialogFields.title);
     }
 
     return invalidFields;
