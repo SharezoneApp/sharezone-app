@@ -429,7 +429,6 @@ class TermSubjectDto {
   final _SubjectId id;
   final SubjectGradeCompositionDto gradeComposition;
   final WeightType weightType;
-  // TODO: Laut doc nullable?
   final _GradeTypeId finalGradeType;
   final List<_GradeId> grades;
 
