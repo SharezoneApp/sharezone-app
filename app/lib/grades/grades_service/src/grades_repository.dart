@@ -149,6 +149,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
           takenIntoAccount: dto.includeInGrading,
           title: dto.title,
           details: dto.details,
+          createdOn: dto.createdOn?.toDate(),
           value: gradingSystem.toGradeResult(dto.numValue),
           weight: termDtos
                   .firstWhereOrNull((element) => element.id == dto.termId)
@@ -167,6 +168,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
       (dto) {
         return Subject(
           id: SubjectId(dto.id),
+          createdOn: dto.createdOn?.toDate(),
           design: dto.design,
           name: dto.name,
           abbreviation: dto.abbreviation,
@@ -234,6 +236,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
           (dto) => Term(
             id: TermId(dto.id),
             finalGradeType: GradeTypeId(dto.finalGradeTypeId),
+            createdOn: dto.createdOn?.toDate(),
             gradingSystem: dto.gradingSystem.toGradingSystem(),
             isActiveTerm: data['currentTerm'] == dto.id,
             subjects: termSubjects
@@ -274,6 +277,23 @@ extension on Weight {
 
 extension on Object? {
   Map<String, WeightDto> toWeightsDtoMap() => _toWeightsDto(this);
+  // We use FieldValue.serverTimestamp() as a value, which will create an error
+  // in local-only unit tests as the FieldValue is not converted to a Timestamp
+  // as expected when using Firestore. This is why we use this method to check
+  // if the value is a Timestamp or not so no error is thrown when running this
+  // code in our local unit tests.
+  Timestamp? tryConvertToTimestampOrNull() {
+    if (this is Timestamp?) {
+      return this as Timestamp?;
+    } else {
+      return null;
+    }
+  }
+}
+
+extension on DateTime? {
+  Timestamp? toTimestampOrNull() =>
+      this == null ? null : Timestamp.fromDate(this!);
 }
 
 extension on Map<String, WeightDto> {
@@ -365,6 +385,7 @@ class CustomGradeTypeDto {
 class TermDto {
   final _TermId id;
   final String displayName;
+  final Timestamp? createdOn;
   final GradingSystem gradingSystem;
   final Map<_SubjectId, WeightDto> subjectWeights;
   final Map<_GradeTypeId, WeightDto> gradeTypeWeights;
@@ -374,6 +395,7 @@ class TermDto {
   TermDto({
     required this.id,
     required this.displayName,
+    required this.createdOn,
     required this.gradingSystem,
     required this.subjectWeights,
     required this.gradeTypeWeights,
@@ -385,6 +407,7 @@ class TermDto {
     return TermDto(
       id: term.id.id,
       displayName: term.name,
+      createdOn: term.createdOn?.toTimestampOrNull(),
       finalGradeTypeId: term.finalGradeType.id,
       gradingSystem: term.gradingSystem.spec.gradingSystem,
       subjects: term.subjects.map(TermSubjectDto.fromSubject).toList(),
@@ -400,6 +423,7 @@ class TermDto {
     return TermDto(
       id: data['id'] as String,
       displayName: data['displayName'] as String,
+      createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
       gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
       subjectWeights: data['subjectWeights'].toWeightsDtoMap(),
       gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
@@ -414,6 +438,8 @@ class TermDto {
     return {
       'id': id,
       'displayName': displayName,
+      if (createdOn != null) 'createdOn': createdOn!,
+      if (createdOn == null) 'createdOn': FieldValue.serverTimestamp(),
       'gradingSystem': gradingSystem.name,
       'subjectWeights': subjectWeights.toWeightDataMap(),
       'gradeTypeWeights': gradeTypeWeights.toWeightDataMap(),
@@ -508,6 +534,7 @@ class SubjectGradeCompositionDto {
 
 class GradeDto {
   final _GradeId id;
+  final Timestamp? createdOn;
   final _TermId termId;
   final _SubjectId subjectId;
   final num numValue;
@@ -529,6 +556,7 @@ class GradeDto {
     required this.includeInGrading,
     required this.title,
     required this.details,
+    required this.createdOn,
   });
 
   factory GradeDto.fromGrade(GradeModel grade) {
@@ -543,6 +571,7 @@ class GradeDto {
       includeInGrading: grade.takenIntoAccount,
       title: grade.title,
       details: grade.details,
+      createdOn: grade.createdOn?.toTimestampOrNull(),
     );
   }
 
@@ -558,6 +587,7 @@ class GradeDto {
       includeInGrading: data['includeInGrading'] as bool,
       title: data['title'] as String,
       details: data['details'] as String?,
+      createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
     );
   }
 
@@ -573,6 +603,8 @@ class GradeDto {
       'includeInGrading': includeInGrading,
       'title': title,
       if (details != null) 'details': details!,
+      if (createdOn == null) 'createdOn': FieldValue.serverTimestamp(),
+      if (createdOn != null) 'createdOn': createdOn!,
     };
   }
 }
@@ -583,6 +615,7 @@ class SubjectDto {
   final String abbreviation;
   final Design design;
   final IList<ConnectedCourseDto> connectedCourses;
+  final Timestamp? createdOn;
 
   SubjectDto({
     required this.id,
@@ -590,6 +623,7 @@ class SubjectDto {
     required this.abbreviation,
     required this.design,
     required this.connectedCourses,
+    required this.createdOn,
   });
 
   factory SubjectDto.fromSubject(Subject subject) {
@@ -598,6 +632,7 @@ class SubjectDto {
       design: subject.design,
       name: subject.name,
       abbreviation: subject.abbreviation,
+      createdOn: subject.createdOn.toTimestampOrNull(),
       connectedCourses: subject.connectedCourses
           .map((cc) => ConnectedCourseDto.fromConnectedCourse(cc))
           .toIList(),
@@ -610,6 +645,7 @@ class SubjectDto {
         name: data['name'] as String,
         abbreviation: data['abbreviation'] as String,
         design: Design.fromData(data['design']),
+        createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
         connectedCourses:
             (data['connectedCourses'] as Map<String, Map<String, Object>>)
                 .mapTo((key, value) => ConnectedCourseDto.fromData(value))
@@ -624,6 +660,8 @@ class SubjectDto {
       'design': design.toJson(),
       'connectedCourses':
           connectedCourses.map((cc) => MapEntry(cc.id, cc.toData())).toMap(),
+      if (createdOn == null) 'createdOn': FieldValue.serverTimestamp(),
+      if (createdOn != null) 'createdOn': createdOn!,
     };
   }
 }
@@ -633,12 +671,14 @@ class ConnectedCourseDto {
   final String name;
   final String abbreviation;
   final String subjectName;
+  final Timestamp? addedOn;
 
   ConnectedCourseDto({
     required this.id,
     required this.name,
     required this.abbreviation,
     required this.subjectName,
+    required this.addedOn,
   });
 
   factory ConnectedCourseDto.fromConnectedCourse(ConnectedCourse course) {
@@ -647,6 +687,7 @@ class ConnectedCourseDto {
       name: course.name,
       abbreviation: course.abbreviation,
       subjectName: course.subjectName,
+      addedOn: course.addedOn.toTimestampOrNull(),
     );
   }
 
@@ -656,6 +697,7 @@ class ConnectedCourseDto {
       name: data['name'] as String,
       abbreviation: data['abbreviation'] as String,
       subjectName: data['subjectName'] as String,
+      addedOn: data['addedOn'].tryConvertToTimestampOrNull(),
     );
   }
 
@@ -665,6 +707,7 @@ class ConnectedCourseDto {
       name: name,
       abbreviation: abbreviation,
       subjectName: subjectName,
+      addedOn: addedOn?.toDate(),
     );
   }
 

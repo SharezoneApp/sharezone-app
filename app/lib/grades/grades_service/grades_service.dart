@@ -725,9 +725,11 @@ class Subject extends Equatable {
   final String name;
   final String abbreviation;
   final IList<ConnectedCourse> connectedCourses;
+  final DateTime? createdOn;
 
   @override
-  List<Object?> get props => [id, design, name, abbreviation, connectedCourses];
+  List<Object?> get props =>
+      [id, design, name, abbreviation, connectedCourses, createdOn];
 
   const Subject({
     required this.id,
@@ -735,6 +737,7 @@ class Subject extends Equatable {
     required this.name,
     required this.abbreviation,
     required this.connectedCourses,
+    this.createdOn,
   });
 }
 
@@ -743,15 +746,17 @@ class ConnectedCourse extends Equatable {
   final String name;
   final String abbreviation;
   final String subjectName;
+  final DateTime? addedOn;
 
   @override
-  List<Object?> get props => [id, name, abbreviation, subjectName];
+  List<Object?> get props => [id, name, abbreviation, subjectName, addedOn];
 
   const ConnectedCourse({
     required this.id,
     required this.name,
     required this.abbreviation,
     required this.subjectName,
+    this.addedOn,
   });
 }
 

@@ -11,6 +11,7 @@ part of '../grades_service.dart';
 @visibleForTesting
 class Term extends Equatable {
   final TermId id;
+  final DateTime? createdOn;
   final IList<SubjectModel> subjects;
   final IMap<GradeTypeId, Weight> gradeTypeWeightings;
   final GradingSystemModel gradingSystem;
@@ -21,6 +22,7 @@ class Term extends Equatable {
   @override
   List<Object?> get props => [
         id,
+        createdOn,
         subjects,
         gradeTypeWeightings,
         gradingSystem,
@@ -35,6 +37,7 @@ class Term extends Equatable {
     required this.gradingSystem,
     required this.isActiveTerm,
     required this.name,
+    this.createdOn,
     this.subjects = const IListConst([]),
     this.gradeTypeWeightings = const IMapConst({}),
   });
@@ -47,6 +50,7 @@ class Term extends Equatable {
     this.isActiveTerm,
     this.name,
     this.gradingSystem,
+    this.createdOn,
   );
 
   bool hasSubject(SubjectId id) {
@@ -85,6 +89,7 @@ class Term extends Equatable {
     bool? isActiveTerm,
     String? name,
     GradingSystemModel? gradingSystem,
+    DateTime? createdOn,
   }) {
     return Term.internal(
       id ?? this.id,
@@ -94,6 +99,7 @@ class Term extends Equatable {
       isActiveTerm ?? this.isActiveTerm,
       name ?? this.name,
       gradingSystem ?? this.gradingSystem,
+      createdOn ?? this.createdOn,
     );
   }
 
@@ -427,6 +433,7 @@ class GradeModel extends Equatable {
   final Date date;
   final String title;
   final String? details;
+  final DateTime? createdOn;
 
   @override
   List<Object?> get props => [
@@ -441,6 +448,7 @@ class GradeModel extends Equatable {
         date,
         title,
         details,
+        createdOn,
       ];
 
   const GradeModel({
@@ -455,6 +463,7 @@ class GradeModel extends Equatable {
     required this.takenIntoAccount,
     required this.title,
     this.details,
+    this.createdOn,
   });
 
   GradeModel _changeWeight(Weight weight) {
@@ -473,6 +482,7 @@ class GradeModel extends Equatable {
     Weight? weight,
     String? title,
     String? details,
+    DateTime? createdOn,
   }) {
     return GradeModel(
       id: id ?? this.id,
@@ -486,6 +496,7 @@ class GradeModel extends Equatable {
       weight: weight ?? this.weight,
       title: title ?? this.title,
       details: details ?? this.details,
+      createdOn: createdOn ?? this.createdOn,
     );
   }
 }

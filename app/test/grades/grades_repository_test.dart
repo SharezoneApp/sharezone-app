@@ -184,6 +184,7 @@ void main() {
           '02-10-term': {
             'id': '02-10-term',
             'displayName': '02/10',
+            'createdOn': FieldValue.serverTimestamp(),
             'gradingSystem': 'zeroToFiveteenPoints',
             'subjectWeights': {
               'mathe': {
@@ -222,6 +223,7 @@ void main() {
           '01-10-term': {
             'id': '01-10-term',
             'displayName': '01/10',
+            'createdOn': FieldValue.serverTimestamp(),
             'gradingSystem': 'oneToSixWithDecimals',
             'subjectWeights': {
               'englisch': {'value': 1.0, 'type': 'factor'},
@@ -263,6 +265,7 @@ void main() {
             'includeInGrading': true,
             'title': 'hallo',
             'details': 'hello',
+            'createdOn': FieldValue.serverTimestamp(),
           },
           'grade-2': {
             'id': 'grade-2',
@@ -274,7 +277,8 @@ void main() {
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1727906400000),
             'includeInGrading': true,
             'title': 'abcdef',
-            'details': 'ghijkl'
+            'details': 'ghijkl',
+            'createdOn': FieldValue.serverTimestamp(),
           },
           'grade-3': {
             'id': 'grade-3',
@@ -286,7 +290,8 @@ void main() {
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1729029600000),
             'includeInGrading': false,
             'title': 'hallo',
-            'details': 'ollah'
+            'details': 'ollah',
+            'createdOn': FieldValue.serverTimestamp(),
           },
           'grade-4': {
             'id': 'grade-4',
@@ -298,7 +303,8 @@ void main() {
             'receivedAt': Timestamp.fromMillisecondsSinceEpoch(1729202400000),
             'includeInGrading': true,
             'title': 'Beep boop',
-            'details': 'robot noises'
+            'details': 'robot noises',
+            'createdOn': FieldValue.serverTimestamp(),
           },
         },
         'customGradeTypes': {
@@ -312,6 +318,7 @@ void main() {
             'id': 'mathe',
             'name': 'Mathe',
             'abbreviation': 'M',
+            'createdOn': FieldValue.serverTimestamp(),
             'design': {'color': '795548', 'type': 'color'},
             'connectedCourses': {
               'connected-mathe-course': {
@@ -326,6 +333,7 @@ void main() {
             'id': 'englisch',
             'name': 'Englisch',
             'abbreviation': 'E',
+            'createdOn': FieldValue.serverTimestamp(),
             'design': {'color': '000000', 'type': 'color'},
             'connectedCourses': {
               'connected-englisch-course': {
