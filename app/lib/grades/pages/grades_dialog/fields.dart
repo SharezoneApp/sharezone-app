@@ -353,8 +353,9 @@ class _Term extends StatelessWidget {
       onTap: () async {
         final res = await showDialog<TermId?>(
           context: context,
-          builder: (context) => _SelectTermDialog(
-            selectableTerms: view.selectableTerms,
+          builder: (context) => ChangeNotifierProvider.value(
+            value: controller,
+            child: const _SelectTermDialog(),
           ),
         );
 
@@ -367,27 +368,25 @@ class _Term extends StatelessWidget {
 }
 
 class _SelectTermDialog extends StatelessWidget {
-  const _SelectTermDialog({
-    required this.selectableTerms,
-  });
-
-  final IList<({TermId id, String name})> selectableTerms;
+  const _SelectTermDialog();
 
   @override
   Widget build(BuildContext context) {
+    final terms = context.select<GradesDialogController,
+        IList<({TermId id, String name})>>((c) => c.view.selectableTerms);
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: SimpleDialog(
         contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
         title: const Text("Halbjahr auswählen"),
         children: [
-          if (selectableTerms.isEmpty)
+          if (terms.isEmpty)
             const Padding(
               padding: EdgeInsets.only(left: 12, right: 12, bottom: 12),
               child: Text(
                   "Bisher hast du keine Halbjahre erstellt. Bitte erstelle ein Halbjahr, um eine Note einzutragen."),
             ),
-          for (final term in selectableTerms)
+          for (final term in terms)
             ListTile(
               title: Text(term.name),
               onTap: () {

@@ -22,6 +22,7 @@ import 'grades_dialog_view.dart';
 class GradesDialogController extends ChangeNotifier {
   final Stream<List<Course>> coursesStream;
   late StreamSubscription<List<Course>> _coursesStreamSubscription;
+  late StreamSubscription<IList<TermResult>> _termsStreamSubscription;
 
   GradesDialogView get view {
     final subject = _selectSubjectId != null
@@ -62,10 +63,12 @@ class GradesDialogController extends ChangeNotifier {
       selectedGradingType: _gradeType,
       selectableGradingTypes: gradesService.getPossibleGradeTypes(),
       selectedTerm: _selectedTermId != null
-          ? (id: _selectedTermId!, name: term!.name)
+          // The term name can be null if the term is selected and deleted from
+          // a different device while the dialog is open.
+          ? (id: _selectedTermId!, name: term?.name ?? '?')
           : null,
       selectableTerms:
-          terms.map((term) => (id: term.id, name: term.name)).toIList(),
+          _selectableTerms.map((t) => (id: t.id, name: t.name)).toIList(),
       details: null,
       title: _title,
       titleErrorText: _titleErrorText,
@@ -96,8 +99,20 @@ class GradesDialogController extends ChangeNotifier {
     _titleController = TextEditingController();
     _subjects = gradesService.getSubjects();
 
+    _listenToCourses();
+    _listenToTerms();
+  }
+
+  void _listenToCourses() {
     _coursesStreamSubscription = coursesStream.listen((courses) {
       _subjects = _mergeCoursesAndSubjects(courses);
+      notifyListeners();
+    });
+  }
+
+  void _listenToTerms() {
+    _termsStreamSubscription = gradesService.terms.listen((terms) {
+      _selectableTerms = terms;
       notifyListeners();
     });
   }
@@ -203,6 +218,7 @@ class GradesDialogController extends ChangeNotifier {
   bool _isTermMissing = false;
   GradingSystem? _gradingSystemOfSelectedTerm;
   bool _isTakeIntoAccountEnabled = true;
+  IList<TermResult> _selectableTerms = IList(const []);
   void setTerm(TermId res) {
     _selectedTermId = res;
     _isTermMissing = false;
@@ -407,6 +423,7 @@ class GradesDialogController extends ChangeNotifier {
   @override
   void dispose() {
     _coursesStreamSubscription.cancel();
+    _termsStreamSubscription.cancel();
     super.dispose();
   }
 }
