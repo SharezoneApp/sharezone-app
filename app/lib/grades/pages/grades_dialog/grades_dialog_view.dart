@@ -68,7 +68,8 @@ class GradesDialogView {
   final bool isGradeTypeMissing;
   final IList<GradeType> selectableGradingTypes;
 
-  final bool integrateGradeIntoSubjectGrade;
+  final bool takeIntoAccount;
+  final bool isTakeIntoAccountEnabled;
   final ({TermId id, String name})? selectedTerm;
 
   /// If `true`, the action text to select a term will change to red.
@@ -96,7 +97,8 @@ class GradesDialogView {
     required this.title,
     required this.titleErrorText,
     required this.details,
-    required this.integrateGradeIntoSubjectGrade,
+    required this.takeIntoAccount,
+    required this.isTakeIntoAccountEnabled,
     required this.titleController,
     required this.isSubjectMissing,
     required this.isGradeTypeMissing,

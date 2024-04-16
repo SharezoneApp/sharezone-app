@@ -414,22 +414,43 @@ class _CreateTermTile extends StatelessWidget {
   }
 }
 
-class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
-  const _IntegrateGradeIntoSubjectGrade();
+class _TakeIntoAccountSwitch extends StatelessWidget {
+  const _TakeIntoAccountSwitch();
 
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<GradesDialogController>(context);
     final view = controller.view;
-    return ListTile(
-      leading: SavedGradeIcons.integrateGradeIntoSubjectGrade,
-      title: const Text("Note in Fachnote einbringen"),
-      onTap: () => snackbarSoon(context: context),
-      trailing: Switch(
-        value: view.integrateGradeIntoSubjectGrade,
-        onChanged: (newVal) =>
-            controller.setIntegrateGradeIntoSubjectGrade(newVal),
-      ),
+    final isEnabled = view.isTakeIntoAccountEnabled;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          enabled: isEnabled,
+          leading: SavedGradeIcons.integrateGradeIntoSubjectGrade,
+          title: const Text("Note in Schnitt einbringen"),
+          onTap: () {
+            controller.setIntegrateGradeIntoSubjectGrade(!view.takeIntoAccount);
+          },
+          trailing: Switch(
+            value: isEnabled ? view.takeIntoAccount : false,
+            onChanged: isEnabled
+                ? (newVal) =>
+                    controller.setIntegrateGradeIntoSubjectGrade(newVal)
+                : null,
+          ),
+        ),
+        if (!isEnabled)
+          Padding(
+            padding: const EdgeInsets.only(left: 58, bottom: 12),
+            child: Text(
+              'Das Notensystem, welches du ausgewählt hast, ist nicht dasselbe wie das Notensystem deines Halbjahres. Du kannst die Note weiterhin eintragen, aber sie wird nicht in den Schnitt deines Halbjahres einfließen.',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

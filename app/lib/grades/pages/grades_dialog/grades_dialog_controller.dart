@@ -69,13 +69,14 @@ class GradesDialogController extends ChangeNotifier {
       details: null,
       title: _title,
       titleErrorText: _titleErrorText,
-      integrateGradeIntoSubjectGrade: _integrateGradeIntoSubjectGrade,
+      takeIntoAccount: _takeIntoAccount,
       titleController: _titleController,
       isSubjectMissing: _isSubjectMissing,
       isGradeTypeMissing: _isGradeTypeMissing,
       isGradeMissing: _isGradeMissing,
       selectedGradeErrorText: _gradeErrorText,
       isTermMissing: _isTermMissing,
+      isTakeIntoAccountEnabled: _isTakeIntoAccountEnabled,
     );
   }
 
@@ -85,13 +86,15 @@ class GradesDialogController extends ChangeNotifier {
     required this.gradesService,
     required this.coursesStream,
   }) {
-    _gradingSystem = GradingSystem.oneToSixWithPlusAndMinus;
+    _selectedTermId = _getActiveTermId();
+    _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
+    _gradingSystem =
+        _gradingSystemOfSelectedTerm ?? GradingSystem.oneToSixWithPlusAndMinus;
     _date = Date.today();
     _gradeType = null;
-    _integrateGradeIntoSubjectGrade = true;
+    _takeIntoAccount = true;
     _titleController = TextEditingController();
     _subjects = gradesService.getSubjects();
-    _selectedTermId = _getActiveTermId();
 
     _coursesStreamSubscription = coursesStream.listen((courses) {
       _subjects = _mergeCoursesAndSubjects(courses);
@@ -102,6 +105,16 @@ class GradesDialogController extends ChangeNotifier {
   TermId? _getActiveTermId() {
     final terms = gradesService.terms.value;
     return terms.firstWhereOrNull((term) => term.isActiveTerm)?.id;
+  }
+
+  GradingSystem? _getGradingSystemOfTerm(TermId? termId) {
+    if (termId == null) {
+      return null;
+    }
+
+    final term =
+        gradesService.terms.value.firstWhere((term) => term.id == termId);
+    return term.gradingSystem;
   }
 
   /// Merges the courses from the group system with the subject from the grades
@@ -143,6 +156,7 @@ class GradesDialogController extends ChangeNotifier {
   late GradingSystem _gradingSystem;
   void setGradingSystem(GradingSystem res) {
     _gradingSystem = res;
+    _isTakeIntoAccountEnabled = res == _gradingSystemOfSelectedTerm;
     notifyListeners();
   }
 
@@ -174,9 +188,15 @@ class GradesDialogController extends ChangeNotifier {
 
   TermId? _selectedTermId;
   bool _isTermMissing = false;
+  GradingSystem? _gradingSystemOfSelectedTerm;
+  bool _isTakeIntoAccountEnabled = true;
   void setTerm(TermId res) {
     _selectedTermId = res;
     _isTermMissing = false;
+
+    final gradingSystemOfTerm = _getGradingSystemOfTerm(res);
+    _isTakeIntoAccountEnabled = _gradingSystem == gradingSystemOfTerm;
+
     notifyListeners();
   }
 
@@ -191,9 +211,9 @@ class GradesDialogController extends ChangeNotifier {
     return isValid;
   }
 
-  late bool _integrateGradeIntoSubjectGrade;
+  late bool _takeIntoAccount;
   void setIntegrateGradeIntoSubjectGrade(bool newVal) {
-    _integrateGradeIntoSubjectGrade = newVal;
+    _takeIntoAccount = newVal;
     notifyListeners();
   }
 
@@ -314,7 +334,7 @@ class GradesDialogController extends ChangeNotifier {
         type: _gradeType!.id,
         value: _grade!,
         date: _date,
-        takeIntoAccount: _integrateGradeIntoSubjectGrade,
+        takeIntoAccount: _takeIntoAccount,
         gradingSystem: _gradingSystem,
         title: _title!,
       ),

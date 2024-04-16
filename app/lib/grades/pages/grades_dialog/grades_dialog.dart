@@ -154,7 +154,7 @@ class _Fields extends StatelessWidget {
           _Date(),
           _GradingType(),
           _Term(),
-          _IntegrateGradeIntoSubjectGrade(),
+          _TakeIntoAccountSwitch(),
           _Title(),
           _Details(),
         ],
