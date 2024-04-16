@@ -69,6 +69,8 @@ class GradesDialogController extends ChangeNotifier {
       titleController: _titleController,
       isSubjectMissing: _isSubjectMissing,
       isGradeTypeMissing: _isGradeTypeMissing,
+      isGradeMissing: _isGradeMissing,
+      selectedGradeErrorText: _gradeErrorText,
     );
   }
 
@@ -108,9 +110,23 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   String? _grade;
+  bool _isGradeMissing = false;
+  String? _gradeErrorText;
   void setGrade(String res) {
     _grade = res.isEmpty ? null : res;
+    _validateGrade();
+  }
+
+  bool _validateGrade() {
+    final isValid = _isGradeValid();
+    _gradeErrorText = isValid ? null : 'Bitte eine Note eingeben.';
+    _isGradeMissing = !isValid;
     notifyListeners();
+    return isValid;
+  }
+
+  bool _isGradeValid() {
+    return _grade != null && _grade!.isNotEmpty;
   }
 
   late GradingSystem _gradingSystem;
@@ -253,6 +269,10 @@ class GradesDialogController extends ChangeNotifier {
       invalidFields.add(GradingDialogFields.gradeType);
     }
 
+    if (!_validateGrade()) {
+      invalidFields.add(GradingDialogFields.gradeValue);
+    }
+
     return invalidFields;
   }
 
@@ -292,6 +312,7 @@ class GradesDialogController extends ChangeNotifier {
       GradingDialogFields.title => const InvalidTitleSaveGradeException(),
       GradingDialogFields.subject => const SubjectMissingException(),
       GradingDialogFields.gradeType => const GradeTypeMissingException(),
+      GradingDialogFields.gradeValue => const InvalidGradeValueException(),
     };
   }
 
@@ -348,12 +369,14 @@ extension on Course {
 }
 
 enum GradingDialogFields {
+  gradeValue,
   subject,
   gradeType,
   title;
 
   String toUiString() {
     return switch (this) {
+      gradeValue => 'Note',
       title => 'Titel',
       subject => 'Fach',
       gradeType => 'Notentyp',
@@ -385,4 +408,8 @@ class SubjectMissingException extends SaveGradeException {
 
 class GradeTypeMissingException extends SaveGradeException {
   const GradeTypeMissingException();
+}
+
+class InvalidGradeValueException extends SaveGradeException {
+  const InvalidGradeValueException();
 }

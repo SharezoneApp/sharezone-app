@@ -20,6 +20,23 @@ typedef NonDistinctGrades = ({num min, num max, bool decimalsAllowed});
 
 class GradesDialogView {
   final String? selectedGrade;
+
+  /// Used to display an error message if the entered grade is invalid.
+  ///
+  /// Is only used for grading systems where a text field is displayed.
+  ///
+  /// If `null` no error message is displayed.
+  final String? selectedGradeErrorText;
+
+  /// If `true`, the action text to select a grade will change to red.
+  ///
+  /// This is used to indicate that the user must select a grade when the user
+  /// clicks the save button.
+  ///
+  /// This is only used for grading systems where the user must select a grade
+  /// from a list.
+  final bool isGradeMissing;
+
   final SelectableGrades selectableGrades;
 
   /// The selected grading system.
@@ -77,6 +94,8 @@ class GradesDialogView {
     required this.titleController,
     required this.isSubjectMissing,
     required this.isGradeTypeMissing,
+    required this.isGradeMissing,
+    required this.selectedGradeErrorText,
   });
 }
 

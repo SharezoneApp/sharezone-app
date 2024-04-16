@@ -21,21 +21,28 @@ class _GradeValue extends StatelessWidget {
     return ListTile(
       leading: SavedGradeIcons.value,
       title: hasDistinctValues
-          ? Text(view.selectedGrade ?? 'Keine Note ausgewählt')
+          ? Text(
+              view.selectedGrade ?? 'Keine Note ausgewählt',
+              style: TextStyle(
+                color: view.isGradeMissing
+                    ? Theme.of(context).colorScheme.error
+                    : null,
+              ),
+            )
           : TextField(
               decoration: InputDecoration(
-                  label: const Text('Note'),
-                  hintText: switch (gradingSystem) {
-                    GradingSystem.oneToFiveWithDecimals => 'z.B. 1.3',
-                    GradingSystem.oneToSixWithDecimals => 'z.B. 1.3',
-                    GradingSystem.oneToSixWithPlusAndMinus => 'z.B. 1+',
-                    GradingSystem.sixToOneWithDecimals => 'z.B. 6.0',
-                    GradingSystem.zeroToFivteenPointsWithDecimals =>
-                      'z.B. 15.0',
-                    GradingSystem.zeroToHundredPercentWithDecimals =>
-                      'z.B. 78.8',
-                    _ => null,
-                  }),
+                label: const Text('Note'),
+                hintText: switch (gradingSystem) {
+                  GradingSystem.oneToFiveWithDecimals => 'z.B. 1.3',
+                  GradingSystem.oneToSixWithDecimals => 'z.B. 1.3',
+                  GradingSystem.oneToSixWithPlusAndMinus => 'z.B. 1+',
+                  GradingSystem.sixToOneWithDecimals => 'z.B. 6.0',
+                  GradingSystem.zeroToFivteenPointsWithDecimals => 'z.B. 15.0',
+                  GradingSystem.zeroToHundredPercentWithDecimals => 'z.B. 78.8',
+                  _ => null,
+                },
+                errorText: view.selectedGradeErrorText,
+              ),
               onChanged: controller.setGrade,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),

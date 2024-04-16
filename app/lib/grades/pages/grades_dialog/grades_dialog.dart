@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
-import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart'
+    hide InvalidGradeValueException;
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
@@ -86,6 +87,9 @@ class _SaveButton extends StatelessWidget {
           break;
         case GradeTypeMissingException():
           message = 'Bitte gib einen Notentyp für die Note an.';
+          break;
+        case InvalidGradeValueException():
+          message = 'Bitte gib eine Note an.';
           break;
         case UnknownSaveGradeException():
           unknownErrorSnackBar(context, e);
