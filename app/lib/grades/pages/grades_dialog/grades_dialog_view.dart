@@ -43,6 +43,12 @@ class GradesDialogView {
   final Date selectedDate;
 
   final GradeType? selectedGradingType;
+
+  /// If `true`, the action text to select a grade type will change to red.
+  ///
+  /// This is used to indicate that the user must select a grade type when the
+  /// user clicks the save button.
+  final bool isGradeTypeMissing;
   final IList<GradeType> selectableGradingTypes;
 
   final bool integrateGradeIntoSubjectGrade;
@@ -70,6 +76,7 @@ class GradesDialogView {
     required this.integrateGradeIntoSubjectGrade,
     required this.titleController,
     required this.isSubjectMissing,
+    required this.isGradeTypeMissing,
   });
 }
 

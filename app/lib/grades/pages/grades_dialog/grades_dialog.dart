@@ -84,6 +84,9 @@ class _SaveButton extends StatelessWidget {
         case SubjectMissingException():
           message = 'Bitte gib ein Fach für die Note an.';
           break;
+        case GradeTypeMissingException():
+          message = 'Bitte gib einen Notentyp für die Note an.';
+          break;
         case UnknownSaveGradeException():
           unknownErrorSnackBar(context, e);
           return;

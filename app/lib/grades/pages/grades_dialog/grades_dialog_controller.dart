@@ -68,6 +68,7 @@ class GradesDialogController extends ChangeNotifier {
       integrateGradeIntoSubjectGrade: _integrateGradeIntoSubjectGrade,
       titleController: _titleController,
       isSubjectMissing: _isSubjectMissing,
+      isGradeTypeMissing: _isGradeTypeMissing,
     );
   }
 
@@ -157,10 +158,23 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   GradeType? _gradeType;
+  bool _isGradeTypeMissing = false;
   void setGradeType(GradeType res) {
     _gradeType = res;
+    _isGradeTypeMissing = false;
     _maybeSetTitleWithGradeType(res);
     notifyListeners();
+  }
+
+  bool _isGradeTypeValid() {
+    return _gradeType != null;
+  }
+
+  bool _validateGradeType() {
+    final isValid = _isGradeTypeValid();
+    _isGradeTypeMissing = !isValid;
+    notifyListeners();
+    return isValid;
   }
 
   void _maybeSetTitleWithGradeType(GradeType type) {
@@ -235,6 +249,10 @@ class GradesDialogController extends ChangeNotifier {
       invalidFields.add(GradingDialogFields.subject);
     }
 
+    if (!_validateGradeType()) {
+      invalidFields.add(GradingDialogFields.gradeType);
+    }
+
     return invalidFields;
   }
 
@@ -273,6 +291,7 @@ class GradesDialogController extends ChangeNotifier {
     throw switch (invalidFields.first) {
       GradingDialogFields.title => const InvalidTitleSaveGradeException(),
       GradingDialogFields.subject => const SubjectMissingException(),
+      GradingDialogFields.gradeType => const GradeTypeMissingException(),
     };
   }
 
@@ -330,12 +349,14 @@ extension on Course {
 
 enum GradingDialogFields {
   subject,
+  gradeType,
   title;
 
   String toUiString() {
     return switch (this) {
       title => 'Titel',
       subject => 'Fach',
+      gradeType => 'Notentyp',
     };
   }
 }
@@ -360,4 +381,8 @@ class InvalidTitleSaveGradeException extends SaveGradeException {
 
 class SubjectMissingException extends SaveGradeException {
   const SubjectMissingException();
+}
+
+class GradeTypeMissingException extends SaveGradeException {
+  const GradeTypeMissingException();
 }
