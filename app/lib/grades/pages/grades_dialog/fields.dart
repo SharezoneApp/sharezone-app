@@ -153,7 +153,8 @@ class _Subject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final view = context.watch<GradesDialogController>().view;
+    final controller = context.read<GradesDialogController>();
+    final view = controller.view;
     return ListTile(
       leading: SavedGradeIcons.subject,
       title: const Text("Fach"),
@@ -170,7 +171,10 @@ class _Subject extends StatelessWidget {
       onTap: () async {
         final res = await showDialog<SubjectId?>(
           context: context,
-          builder: (context) => _SelectSubjectDialog(view.selectableSubjects),
+          builder: (context) => ChangeNotifierProvider.value(
+            value: controller,
+            child: const _SelectSubjectDialog(),
+          ),
         );
 
         if (res != null && context.mounted) {
@@ -183,12 +187,12 @@ class _Subject extends StatelessWidget {
 }
 
 class _SelectSubjectDialog extends StatelessWidget {
-  const _SelectSubjectDialog(this.subjects);
-
-  final IList<SubjectView> subjects;
+  const _SelectSubjectDialog();
 
   @override
   Widget build(BuildContext context) {
+    final subjects = context.select<GradesDialogController, IList<SubjectView>>(
+        (c) => c.view.selectableSubjects);
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: SimpleDialog(
