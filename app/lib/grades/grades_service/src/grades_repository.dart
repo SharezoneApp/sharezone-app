@@ -221,7 +221,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             .where((grade) =>
                 grade.subjectId == subject.id && grade.termId.id == termId)
             .toIList(),
-        weightType: termSubject.weightType,
+        weightType: termSubject.gradeComposition.weightType,
         gradingSystem: subTerm.gradingSystem.toGradingSystem(),
         finalGradeType: GradeTypeId(termSubject.finalGradeType),
         abbreviation: subject.abbreviation,
@@ -428,14 +428,12 @@ class TermDto {
 class TermSubjectDto {
   final _SubjectId id;
   final SubjectGradeCompositionDto gradeComposition;
-  final WeightType weightType;
   final _GradeTypeId finalGradeType;
   final List<_GradeId> grades;
 
   TermSubjectDto({
     required this.id,
     required this.grades,
-    required this.weightType,
     required this.gradeComposition,
     required this.finalGradeType,
   });
@@ -443,7 +441,6 @@ class TermSubjectDto {
   factory TermSubjectDto.fromSubject(SubjectModel subject) {
     return TermSubjectDto(
       id: subject.id.id,
-      weightType: subject.weightType,
       grades: subject.grades.map((grade) => grade.id.id).toList(),
       finalGradeType: subject.finalGradeType.id,
       gradeComposition: SubjectGradeCompositionDto.fromSubject(subject),
@@ -454,7 +451,6 @@ class TermSubjectDto {
     return TermSubjectDto(
       id: data['id'] as String,
       grades: data['grades'] as List<String>,
-      weightType: WeightType.fromString(data['weightType'] as String),
       finalGradeType: data['finalGradeType'] as String,
       gradeComposition: SubjectGradeCompositionDto.fromData(
         data['gradeComposition'] as Map<String, Object>,
@@ -467,7 +463,6 @@ class TermSubjectDto {
       'id': id,
       'grades': grades,
       'gradeComposition': gradeComposition.toData(),
-      'weightType': weightType.name,
       'finalGradeType': finalGradeType,
     };
   }

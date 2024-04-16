@@ -214,7 +214,6 @@ void main() {
                     },
                   }
                 },
-                'weightType': 'perGrade',
                 'finalGradeType': 'school-report-grade'
               }
             },
@@ -246,7 +245,6 @@ void main() {
                     },
                   }
                 },
-                'weightType': 'inheritFromTerm',
                 'finalGradeType': 'oral-participation'
               },
             },
