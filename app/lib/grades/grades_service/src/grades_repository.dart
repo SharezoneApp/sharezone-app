@@ -208,6 +208,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         termId: TermId(subTerm.id),
         name: subject.name,
         connectedCourses: subject.connectedCourses,
+        createdOn: termSubject.createdOn?.toDate(),
         isFinalGradeTypeOverridden:
             termSubject.finalGradeType != subTerm.finalGradeTypeId,
         gradeTypeWeightings: subTerm.gradeTypeWeights
@@ -456,12 +457,14 @@ class TermSubjectDto {
   final SubjectGradeCompositionDto gradeComposition;
   final _GradeTypeId finalGradeType;
   final List<_GradeId> grades;
+  final Timestamp? createdOn;
 
   TermSubjectDto({
     required this.id,
     required this.grades,
     required this.gradeComposition,
     required this.finalGradeType,
+    required this.createdOn,
   });
 
   factory TermSubjectDto.fromSubject(SubjectModel subject) {
@@ -470,6 +473,7 @@ class TermSubjectDto {
       grades: subject.grades.map((grade) => grade.id.id).toList(),
       finalGradeType: subject.finalGradeType.id,
       gradeComposition: SubjectGradeCompositionDto.fromSubject(subject),
+      createdOn: subject.createdOn?.toTimestampOrNull(),
     );
   }
 
@@ -481,6 +485,7 @@ class TermSubjectDto {
       gradeComposition: SubjectGradeCompositionDto.fromData(
         data['gradeComposition'] as Map<String, Object>,
       ),
+      createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
     );
   }
 
@@ -490,6 +495,8 @@ class TermSubjectDto {
       'grades': grades,
       'gradeComposition': gradeComposition.toData(),
       'finalGradeType': finalGradeType,
+      if (createdOn != null) 'createdOn': createdOn!,
+      if (createdOn == null) 'createdOn': FieldValue.serverTimestamp(),
     };
   }
 }

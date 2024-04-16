@@ -290,6 +290,7 @@ class SubjectModel extends Equatable {
   final String abbreviation;
   final Design design;
   final IList<ConnectedCourse> connectedCourses;
+  final DateTime? createdOn;
 
   late final num? gradeVal;
 
@@ -309,6 +310,7 @@ class SubjectModel extends Equatable {
         abbreviation,
         design,
         connectedCourses,
+        createdOn,
       ];
 
   SubjectModel({
@@ -320,6 +322,7 @@ class SubjectModel extends Equatable {
     required this.finalGradeType,
     required this.abbreviation,
     required this.design,
+    this.createdOn,
     this.connectedCourses = const IListConst([]),
     this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
@@ -400,6 +403,7 @@ class SubjectModel extends Equatable {
     IMap<GradeTypeId, Weight>? gradeTypeWeightingsFromTerm,
     WeightType? weightType,
     IList<ConnectedCourse>? connectedCourses,
+    DateTime? createdOn,
   }) {
     return SubjectModel(
       termId: termId ?? this.termId,
@@ -419,6 +423,7 @@ class SubjectModel extends Equatable {
       gradeTypeWeightingsFromTerm:
           gradeTypeWeightingsFromTerm ?? this.gradeTypeWeightingsFromTerm,
       connectedCourses: connectedCourses ?? this.connectedCourses,
+      createdOn: createdOn ?? this.createdOn,
     );
   }
 }

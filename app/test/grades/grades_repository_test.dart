@@ -206,6 +206,7 @@ void main() {
             'subjects': {
               'mathe': {
                 'id': 'mathe',
+                'createdOn': FieldValue.serverTimestamp(),
                 'grades': ['grade-1', 'grade-2'],
                 'gradeComposition': {
                   'weightType': 'perGrade',
@@ -240,6 +241,7 @@ void main() {
             'subjects': {
               'englisch': {
                 'id': 'englisch',
+                'createdOn': FieldValue.serverTimestamp(),
                 'grades': ['grade-3', 'grade-4'],
                 'gradeComposition': {
                   'weightType': 'inheritFromTerm',
