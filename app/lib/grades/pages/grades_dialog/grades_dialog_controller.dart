@@ -71,6 +71,7 @@ class GradesDialogController extends ChangeNotifier {
       isGradeTypeMissing: _isGradeTypeMissing,
       isGradeMissing: _isGradeMissing,
       selectedGradeErrorText: _gradeErrorText,
+      isTermMissing: _isTermMissing,
     );
   }
 
@@ -162,9 +163,22 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   TermId? _term;
+  bool _isTermMissing = false;
   void setTerm(TermId res) {
     _term = res;
+    _isTermMissing = false;
     notifyListeners();
+  }
+
+  bool _isTermValid() {
+    return _term != null;
+  }
+
+  bool _validateTerm() {
+    final isValid = _isTermValid();
+    _isTermMissing = !isValid;
+    notifyListeners();
+    return isValid;
   }
 
   late bool _integrateGradeIntoSubjectGrade;
@@ -273,6 +287,10 @@ class GradesDialogController extends ChangeNotifier {
       invalidFields.add(GradingDialogFields.gradeValue);
     }
 
+    if (!_validateTerm()) {
+      invalidFields.add(GradingDialogFields.term);
+    }
+
     return invalidFields;
   }
 
@@ -313,6 +331,7 @@ class GradesDialogController extends ChangeNotifier {
       GradingDialogFields.subject => const SubjectMissingException(),
       GradingDialogFields.gradeType => const GradeTypeMissingException(),
       GradingDialogFields.gradeValue => const InvalidGradeValueException(),
+      GradingDialogFields.term => const TermMissingException(),
     };
   }
 
@@ -372,6 +391,7 @@ enum GradingDialogFields {
   gradeValue,
   subject,
   gradeType,
+  term,
   title;
 
   String toUiString() {
@@ -380,6 +400,7 @@ enum GradingDialogFields {
       title => 'Titel',
       subject => 'Fach',
       gradeType => 'Notentyp',
+      term => 'Halbjahr',
     };
   }
 }
@@ -412,4 +433,8 @@ class GradeTypeMissingException extends SaveGradeException {
 
 class InvalidGradeValueException extends SaveGradeException {
   const InvalidGradeValueException();
+}
+
+class TermMissingException extends SaveGradeException {
+  const TermMissingException();
 }

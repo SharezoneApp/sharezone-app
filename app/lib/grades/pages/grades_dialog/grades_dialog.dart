@@ -91,6 +91,9 @@ class _SaveButton extends StatelessWidget {
         case InvalidGradeValueException():
           message = 'Bitte gib eine Note an.';
           break;
+        case TermMissingException():
+          message = 'Bitte gib ein Halbjahr für die an.';
+          break;
         case UnknownSaveGradeException():
           unknownErrorSnackBar(context, e);
           return;

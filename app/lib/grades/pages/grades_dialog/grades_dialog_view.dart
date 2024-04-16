@@ -70,6 +70,12 @@ class GradesDialogView {
 
   final bool integrateGradeIntoSubjectGrade;
   final ({TermId id, String name})? selectedTerm;
+
+  /// If `true`, the action text to select a term will change to red.
+  ///
+  /// This is used to indicate that the user must select a term when the user
+  /// clicks the save button.
+  final bool isTermMissing;
   final IList<({TermId id, String name})> selectableTerms;
   final String? title;
   final String? titleErrorText;
@@ -96,6 +102,7 @@ class GradesDialogView {
     required this.isGradeTypeMissing,
     required this.isGradeMissing,
     required this.selectedGradeErrorText,
+    required this.isTermMissing,
   });
 }
 

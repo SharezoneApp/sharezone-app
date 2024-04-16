@@ -343,7 +343,13 @@ class _Term extends StatelessWidget {
     return ListTile(
       leading: SavedGradeIcons.term,
       title: const Text("Halbjahr"),
-      subtitle: Text(view.selectedTerm?.name ?? 'Kein Halbjahr ausgewählt'),
+      subtitle: Text(
+        view.selectedTerm?.name ?? 'Kein Halbjahr ausgewählt',
+        style: TextStyle(
+          color:
+              view.isTermMissing ? Theme.of(context).colorScheme.error : null,
+        ),
+      ),
       onTap: () async {
         final res = await showDialog<TermId?>(
           context: context,
