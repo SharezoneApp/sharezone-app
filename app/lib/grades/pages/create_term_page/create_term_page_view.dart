@@ -7,10 +7,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
 
 class CreateTermPageView extends Equatable {
   final String? name;
   final bool isActiveTerm;
+  final GradingSystem gradingSystem;
   final String? nameErrorText;
 
   bool get isNameValid => nameErrorText == null;
@@ -19,6 +21,7 @@ class CreateTermPageView extends Equatable {
     required this.name,
     required this.isActiveTerm,
     required this.nameErrorText,
+    required this.gradingSystem,
   });
 
   @override
@@ -28,12 +31,14 @@ class CreateTermPageView extends Equatable {
     String? name,
     bool? isActiveTerm,
     String? Function()? nameErrorText,
+    GradingSystem? gradingSystem,
   }) {
     return CreateTermPageView(
       name: name ?? this.name,
       isActiveTerm: isActiveTerm ?? this.isActiveTerm,
       nameErrorText:
           nameErrorText != null ? nameErrorText() : this.nameErrorText,
+      gradingSystem: gradingSystem ?? this.gradingSystem,
     );
   }
 }
