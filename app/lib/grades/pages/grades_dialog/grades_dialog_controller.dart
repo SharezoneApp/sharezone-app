@@ -28,7 +28,9 @@ class GradesDialogController extends ChangeNotifier {
         ? _subjects.singleWhere((s) => s.id == _selectSubjectId)
         : null;
     final terms = gradesService.terms.value;
-    final term = _term != null ? terms.firstWhere((t) => t.id == _term) : null;
+    final term = _selectedTermId != null
+        ? terms.firstWhere((t) => t.id == _selectedTermId)
+        : null;
 
     final posGradesRes = gradesService.getPossibleGrades(_gradingSystem);
     SelectableGrades selectableGrades = (
@@ -59,7 +61,9 @@ class GradesDialogController extends ChangeNotifier {
       selectedDate: _date,
       selectedGradingType: _gradeType,
       selectableGradingTypes: gradesService.getPossibleGradeTypes(),
-      selectedTerm: _term != null ? (id: _term!, name: term!.name) : null,
+      selectedTerm: _selectedTermId != null
+          ? (id: _selectedTermId!, name: term!.name)
+          : null,
       selectableTerms:
           terms.map((term) => (id: term.id, name: term.name)).toIList(),
       details: null,
@@ -87,11 +91,17 @@ class GradesDialogController extends ChangeNotifier {
     _integrateGradeIntoSubjectGrade = true;
     _titleController = TextEditingController();
     _subjects = gradesService.getSubjects();
+    _selectedTermId = _getActiveTermId();
 
     _coursesStreamSubscription = coursesStream.listen((courses) {
       _subjects = _mergeCoursesAndSubjects(courses);
       notifyListeners();
     });
+  }
+
+  TermId? _getActiveTermId() {
+    final terms = gradesService.terms.value;
+    return terms.firstWhereOrNull((term) => term.isActiveTerm)?.id;
   }
 
   /// Merges the courses from the group system with the subject from the grades
@@ -162,16 +172,16 @@ class GradesDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
-  TermId? _term;
+  TermId? _selectedTermId;
   bool _isTermMissing = false;
   void setTerm(TermId res) {
-    _term = res;
+    _selectedTermId = res;
     _isTermMissing = false;
     notifyListeners();
   }
 
   bool _isTermValid() {
-    return _term != null;
+    return _selectedTermId != null;
   }
 
   bool _validateTerm() {
@@ -298,7 +308,7 @@ class GradesDialogController extends ChangeNotifier {
     final gradeId = GradeId(randomIDString(20));
     gradesService.addGrade(
       id: _selectSubjectId!,
-      termId: _term!,
+      termId: _selectedTermId!,
       value: Grade(
         id: gradeId,
         type: _gradeType!.id,
