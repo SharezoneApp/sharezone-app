@@ -611,6 +611,24 @@ void main() {
               .asDouble,
           4.0);
     });
+    test('Its possible that no terms are active', () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(isActiveTerm: false);
+      final term2 = termWith(isActiveTerm: false);
+      controller.createTerm(term1);
+      controller.createTerm(term2);
+
+      // Just making sure that no exception is thrown
+      controller.editTerm(term1.id, isActiveTerm: true);
+      controller.editTerm(term1.id, isActiveTerm: false);
+
+      expect(controller.terms, hasLength(2));
+      expect(
+          controller.terms,
+          everyElement(predicate<TermResult>(
+              (p0) => p0.isActiveTerm == false, 'is not active')));
+    });
     test('A user can have several terms', () {
       final controller = GradesTestController();
 
