@@ -9,7 +9,7 @@
 part of '../grades_service.dart';
 
 @visibleForTesting
-class Term extends Equatable {
+class TermModel extends Equatable {
   final TermId id;
   final DateTime? createdOn;
   final IList<SubjectModel> subjects;
@@ -31,7 +31,7 @@ class Term extends Equatable {
         name,
       ];
 
-  const Term({
+  const TermModel({
     required this.id,
     required this.finalGradeType,
     required this.gradingSystem,
@@ -42,7 +42,7 @@ class Term extends Equatable {
     this.gradeTypeWeightings = const IMapConst({}),
   });
 
-  const Term.internal(
+  const TermModel.internal(
     this.id,
     this.subjects,
     this.gradeTypeWeightings,
@@ -57,7 +57,7 @@ class Term extends Equatable {
     return subjects.any((s) => s.id == id);
   }
 
-  Term addSubject(Subject subject) {
+  TermModel addSubject(Subject subject) {
     if (hasSubject(subject.id)) {
       throw SubjectAlreadyExistsException(subject.id);
     }
@@ -81,7 +81,7 @@ class Term extends Equatable {
     return subjects.where((s) => s.id == id).first;
   }
 
-  Term _copyWith({
+  TermModel _copyWith({
     TermId? id,
     IList<SubjectModel>? subjects,
     IMap<GradeTypeId, Weight>? gradeTypeWeightings,
@@ -91,7 +91,7 @@ class Term extends Equatable {
     GradingSystemModel? gradingSystem,
     DateTime? createdOn,
   }) {
-    return Term.internal(
+    return TermModel.internal(
       id ?? this.id,
       subjects ?? this.subjects,
       gradeTypeWeightings ?? this.gradeTypeWeightings,
@@ -125,7 +125,7 @@ class Term extends Equatable {
             .reduce((a, b) => a + b);
   }
 
-  Term changeWeightTypeForSubject(SubjectId id, WeightType weightType) {
+  TermModel changeWeightTypeForSubject(SubjectId id, WeightType weightType) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       weightType: weightType,
@@ -136,7 +136,8 @@ class Term extends Equatable {
     );
   }
 
-  Term changeWeightingOfGradeType(GradeTypeId type, {required Weight weight}) {
+  TermModel changeWeightingOfGradeType(GradeTypeId type,
+      {required Weight weight}) {
     final newWeights = gradeTypeWeightings.add(type, weight);
     final newSubjects = subjects.map((s) {
       final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
@@ -146,7 +147,7 @@ class Term extends Equatable {
     return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
   }
 
-  Term setFinalGradeType(GradeTypeId gradeType) {
+  TermModel setFinalGradeType(GradeTypeId gradeType) {
     final newSubjects =
         subjects.where((s) => s.isFinalGradeTypeOverridden == false).map((s) {
       final newSubject = s.copyWith(finalGradeType: gradeType);
@@ -156,7 +157,7 @@ class Term extends Equatable {
     return _copyWith(finalGradeType: gradeType, subjects: newSubjects);
   }
 
-  Term addGrade(Grade grade, {required SubjectId toSubject}) {
+  TermModel addGrade(Grade grade, {required SubjectId toSubject}) {
     var subject = subjects.firstWhere(
       (s) => s.id == toSubject,
       orElse: () => throw SubjectNotFoundException(toSubject),
@@ -186,7 +187,7 @@ class Term extends Equatable {
         : _copyWith(subjects: subjects.add(subject));
   }
 
-  Term removeGrade(GradeId gradeId) {
+  TermModel removeGrade(GradeId gradeId) {
     final subject = subjects.firstWhere(
       (s) => s.hasGrade(gradeId),
       orElse: () => throw GradeNotFoundException(gradeId),
@@ -203,7 +204,7 @@ class Term extends Equatable {
     return subjects.any((s) => s.hasGrade(gradeId));
   }
 
-  Term changeWeighting(SubjectId id, Weight newWeight) {
+  TermModel changeWeighting(SubjectId id, Weight newWeight) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       weightingForTermGrade: newWeight,
@@ -214,7 +215,7 @@ class Term extends Equatable {
     );
   }
 
-  Term changeWeightingOfGradeTypeInSubject(
+  TermModel changeWeightingOfGradeTypeInSubject(
       SubjectId id, GradeTypeId gradeType, Weight weight) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject =
@@ -225,7 +226,8 @@ class Term extends Equatable {
     );
   }
 
-  Term changeWeightOfGrade(GradeId id, SubjectId subjectId, Weight weight) {
+  TermModel changeWeightOfGrade(
+      GradeId id, SubjectId subjectId, Weight weight) {
     final subject = subjects.firstWhere((s) => s.id == subjectId);
     final newSubject = subject.copyWith(
       grades: subject.grades.replaceFirstWhere(
@@ -239,7 +241,7 @@ class Term extends Equatable {
     );
   }
 
-  Term setFinalGradeTypeForSubject(SubjectId id, GradeTypeId gradeType) {
+  TermModel setFinalGradeTypeForSubject(SubjectId id, GradeTypeId gradeType) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject._overrideFinalGradeType(gradeType);
 
@@ -248,7 +250,7 @@ class Term extends Equatable {
     );
   }
 
-  Term subjectInheritFinalGradeTypeFromTerm(SubjectId id) {
+  TermModel subjectInheritFinalGradeTypeFromTerm(SubjectId id) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       finalGradeType: finalGradeType,
@@ -260,15 +262,15 @@ class Term extends Equatable {
     );
   }
 
-  Term setIsActiveTerm(bool isActiveTerm) {
+  TermModel setIsActiveTerm(bool isActiveTerm) {
     return _copyWith(isActiveTerm: isActiveTerm);
   }
 
-  Term setName(String name) {
+  TermModel setName(String name) {
     return _copyWith(name: name);
   }
 
-  Term setGradingSystem(GradingSystemModel gradingSystem) {
+  TermModel setGradingSystem(GradingSystemModel gradingSystem) {
     return _copyWith(gradingSystem: gradingSystem);
   }
 }

@@ -52,8 +52,8 @@ class GradesService {
 
   late GradesState _state;
 
-  IList<Term> get _terms => _state.terms;
-  set _terms(IList<Term> value) {
+  IList<TermModel> get _terms => _state.terms;
+  set _terms(IList<TermModel> value) {
     _state = _state.copyWith(terms: value);
   }
 
@@ -77,12 +77,12 @@ class GradesService {
     terms.add(termRes);
   }
 
-  void _updateTerm(Term term) {
+  void _updateTerm(TermModel term) {
     _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
     _updateState();
   }
 
-  TermResult _toTermResult(Term term) {
+  TermResult _toTermResult(TermModel term) {
     return TermResult(
       id: term.id,
       name: term.name,
@@ -140,7 +140,7 @@ class GradesService {
     }
 
     _terms = _terms.add(
-      Term(
+      TermModel(
         id: id,
         isActiveTerm: isActiveTerm,
         name: name,
@@ -221,7 +221,7 @@ class GradesService {
     throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
   }
 
-  Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
+  TermModel _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {

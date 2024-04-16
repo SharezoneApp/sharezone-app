@@ -11,14 +11,14 @@
 part of '../grades_service.dart';
 
 typedef GradesState = ({
-  IList<Term> terms,
+  IList<TermModel> terms,
   IList<GradeType> customGradeTypes,
   IList<Subject> subjects
 });
 
 extension GradesStateCopyWith on GradesState {
   GradesState copyWith({
-    IList<Term>? terms,
+    IList<TermModel>? terms,
     IList<GradeType>? customGradeTypes,
     IList<Subject>? subjects,
   }) {
@@ -233,7 +233,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
 
     var terms = termDtos
         .map(
-          (dto) => Term(
+          (dto) => TermModel(
             id: TermId(dto.id),
             finalGradeType: GradeTypeId(dto.finalGradeTypeId),
             createdOn: dto.createdOn?.toDate(),
@@ -403,7 +403,7 @@ class TermDto {
     required this.subjects,
   });
 
-  factory TermDto.fromTerm(Term term) {
+  factory TermDto.fromTerm(TermModel term) {
     return TermDto(
       id: term.id.id,
       displayName: term.name,

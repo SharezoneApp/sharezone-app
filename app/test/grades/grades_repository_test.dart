@@ -401,7 +401,7 @@ void main() {
           ]));
 
       final expectedTerms = [
-        Term(
+        TermModel(
           id: const TermId('02-10-term'),
           subjects: IListConst(
             [
@@ -481,7 +481,7 @@ void main() {
           isActiveTerm: true,
           name: '02/10',
         ),
-        Term(
+        TermModel(
           id: const TermId('01-10-term'),
           subjects: IListConst([
             SubjectModel(
