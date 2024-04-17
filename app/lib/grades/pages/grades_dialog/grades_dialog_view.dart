@@ -20,6 +20,7 @@ typedef NonDistinctGrades = ({num min, num max, bool decimalsAllowed});
 
 class GradesDialogView {
   final String? selectedGrade;
+  final TextEditingController gradeFieldController;
 
   /// Used to display an error message if the entered grade is invalid.
   ///
@@ -105,6 +106,7 @@ class GradesDialogView {
     required this.isGradeMissing,
     required this.selectedGradeErrorText,
     required this.isTermMissing,
+    required this.gradeFieldController,
   });
 }
 

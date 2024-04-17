@@ -83,6 +83,7 @@ class GradesDialogController extends ChangeNotifier {
       selectedGradeErrorText: _gradeErrorText,
       isTermMissing: _isTermMissing,
       isTakeIntoAccountEnabled: _isTakeIntoAccountEnabled,
+      gradeFieldController: _gradeFieldController,
     );
   }
 
@@ -102,6 +103,7 @@ class GradesDialogController extends ChangeNotifier {
     _isTakeIntoAccountEnabled = true;
     _titleController = TextEditingController(text: _title);
     _subjects = gradesService.getSubjects();
+    _gradeFieldController = TextEditingController();
 
     // Even though the fields are not filled at the beginning, we don't want to
     // show any error messages. The user should see the error messages only
@@ -203,6 +205,15 @@ class GradesDialogController extends ChangeNotifier {
 
   late GradingSystem _gradingSystem;
   void setGradingSystem(GradingSystem res) {
+    final previousSystem = _gradingSystem;
+    final hasSystemChanged = previousSystem != res;
+    if (!hasSystemChanged) {
+      return;
+    }
+
+    // We reset the grade value after changing the grade system because it's
+    // likely that the grade and the grade system doesn't match anymore.
+    _resetGradeField();
     _gradingSystem = res;
     _isTakeIntoAccountEnabled = res == _gradingSystemOfSelectedTerm;
     notifyListeners();
@@ -276,12 +287,18 @@ class GradesDialogController extends ChangeNotifier {
 
   late GradeType _gradeType;
   late bool _isGradeTypeMissing;
+  late TextEditingController _gradeFieldController;
   void setGradeType(GradeType res) {
     final previousGradeType = _gradeType;
     _gradeType = res;
     _isGradeTypeMissing = false;
     _maybeSetTitleWithGradeType(res, previousGradeType);
     notifyListeners();
+  }
+
+  void _resetGradeField() {
+    _grade = null;
+    _gradeFieldController.clear();
   }
 
   void _maybeSetTitleWithGradeType(GradeType newType, GradeType? previousType) {

@@ -30,6 +30,7 @@ class _GradeValue extends StatelessWidget {
               ),
             )
           : TextField(
+              controller: view.gradeFieldController,
               decoration: InputDecoration(
                 label: const Text('Note'),
                 hintText: switch (gradingSystem) {
