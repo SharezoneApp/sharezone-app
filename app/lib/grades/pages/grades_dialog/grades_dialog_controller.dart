@@ -231,6 +231,13 @@ class GradesDialogController extends ChangeNotifier {
     _isTermMissing = false;
 
     final gradingSystemOfTerm = _getGradingSystemOfTerm(res);
+    // In case the user hasn't entered a grade yet, we set the grading system of
+    // the term as the default grading system.
+    final hasGradeEntered = _grade != null && _grade!.isNotEmpty;
+    if (!hasGradeEntered && gradingSystemOfTerm != null) {
+      _gradingSystem = gradingSystemOfTerm;
+    }
+
     _isTakeIntoAccountEnabled = _gradingSystem == gradingSystemOfTerm;
     _gradingSystemOfSelectedTerm = gradingSystemOfTerm;
 
