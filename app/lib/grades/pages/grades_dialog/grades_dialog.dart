@@ -79,7 +79,6 @@ class _SaveButton extends StatelessWidget {
             GradingDialogFields.subject =>
               'Bitte gib ein Fach für die Note an.',
             GradingDialogFields.term => 'Bitte gib ein Halbjahr für die an.',
-            GradingDialogFields.gradeType => 'Bitte gib einen Notentyp an.',
           },
         UnknownSaveGradeException() => unknownErrorMessage,
       };

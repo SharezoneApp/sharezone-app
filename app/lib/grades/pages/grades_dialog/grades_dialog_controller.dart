@@ -96,9 +96,10 @@ class GradesDialogController extends ChangeNotifier {
     _gradingSystem =
         _gradingSystemOfSelectedTerm ?? GradingSystem.oneToSixWithPlusAndMinus;
     _date = Date.today();
-    _gradeType = null;
+    _gradeType = GradeType.writtenExam;
+    _title = _gradeType.predefinedType?.toUiString();
     _takeIntoAccount = true;
-    _titleController = TextEditingController();
+    _titleController = TextEditingController(text: _title);
     _subjects = gradesService.getSubjects();
 
     _listenToCourses();
@@ -261,7 +262,7 @@ class GradesDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
-  GradeType? _gradeType;
+  late GradeType _gradeType;
   bool _isGradeTypeMissing = false;
   void setGradeType(GradeType res) {
     final previousGradeType = _gradeType;
@@ -269,17 +270,6 @@ class GradesDialogController extends ChangeNotifier {
     _isGradeTypeMissing = false;
     _maybeSetTitleWithGradeType(res, previousGradeType);
     notifyListeners();
-  }
-
-  bool _isGradeTypeValid() {
-    return _gradeType != null;
-  }
-
-  bool _validateGradeType() {
-    final isValid = _isGradeTypeValid();
-    _isGradeTypeMissing = !isValid;
-    notifyListeners();
-    return isValid;
   }
 
   void _maybeSetTitleWithGradeType(GradeType newType, GradeType? previousType) {
@@ -359,10 +349,6 @@ class GradesDialogController extends ChangeNotifier {
       invalidFields.add(GradingDialogFields.subject);
     }
 
-    if (!_validateGradeType()) {
-      invalidFields.add(GradingDialogFields.gradeType);
-    }
-
     if (!_validateTerm()) {
       invalidFields.add(GradingDialogFields.term);
     }
@@ -382,7 +368,7 @@ class GradesDialogController extends ChangeNotifier {
         termId: _selectedTermId!,
         value: Grade(
           id: gradeId,
-          type: _gradeType!.id,
+          type: _gradeType.id,
           value: _grade!,
           date: _date,
           takeIntoAccount: _takeIntoAccount,
@@ -478,7 +464,6 @@ extension on Course {
 enum GradingDialogFields {
   gradeValue,
   subject,
-  gradeType,
   term,
   title;
 
@@ -487,7 +472,6 @@ enum GradingDialogFields {
       gradeValue => 'Note',
       title => 'Titel',
       subject => 'Fach',
-      gradeType => 'Notentyp',
       term => 'Halbjahr',
     };
   }

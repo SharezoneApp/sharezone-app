@@ -59,7 +59,7 @@ class GradesDialogView {
   /// Defaults to the current date.
   final Date selectedDate;
 
-  final GradeType? selectedGradingType;
+  final GradeType selectedGradingType;
 
   /// If `true`, the action text to select a grade type will change to red.
   ///
