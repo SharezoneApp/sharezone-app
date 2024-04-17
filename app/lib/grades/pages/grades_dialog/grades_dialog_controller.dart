@@ -22,10 +22,10 @@ import 'grades_dialog_view.dart';
 
 class GradesDialogController extends ChangeNotifier {
   final Stream<List<Course>> coursesStream;
-  late StreamSubscription<List<Course>> _coursesStreamSubscription;
-  late StreamSubscription<IList<TermResult>> _termsStreamSubscription;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
+  late StreamSubscription<List<Course>> _coursesStreamSubscription;
+  late StreamSubscription<IList<TermResult>> _termsStreamSubscription;
 
   GradesDialogView get view {
     final subject = _selectSubjectId != null
@@ -99,8 +99,17 @@ class GradesDialogController extends ChangeNotifier {
     _gradeType = GradeType.writtenExam;
     _title = _gradeType.predefinedType?.toUiString();
     _takeIntoAccount = true;
+    _isTakeIntoAccountEnabled = true;
     _titleController = TextEditingController(text: _title);
     _subjects = gradesService.getSubjects();
+
+    // Even though the fields are not filled at the beginning, we don't want to
+    // show any error messages. The user should see the error messages only
+    // after they have pressed the save button.
+    _isGradeMissing = false;
+    _isSubjectMissing = false;
+    _isTermMissing = false;
+    _isGradeTypeMissing = false;
 
     _listenToCourses();
     _listenToTerms();
@@ -152,7 +161,7 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   String? _grade;
-  bool _isGradeMissing = false;
+  late bool _isGradeMissing;
   String? _gradeErrorText;
   void setGrade(String res) {
     _grade = res.isEmpty ? null : res;
@@ -197,7 +206,7 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   late IList<Subject> _subjects;
-  bool _isSubjectMissing = false;
+  late bool _isSubjectMissing;
   SubjectId? _selectSubjectId;
   void setSubject(SubjectId res) {
     _selectSubjectId = res;
@@ -223,9 +232,9 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   TermId? _selectedTermId;
-  bool _isTermMissing = false;
+  late bool _isTermMissing;
   GradingSystem? _gradingSystemOfSelectedTerm;
-  bool _isTakeIntoAccountEnabled = true;
+  late bool _isTakeIntoAccountEnabled;
   IList<TermResult> _selectableTerms = IList(const []);
   void setTerm(TermId res) {
     _selectedTermId = res;
@@ -263,7 +272,7 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   late GradeType _gradeType;
-  bool _isGradeTypeMissing = false;
+  late bool _isGradeTypeMissing;
   void setGradeType(GradeType res) {
     final previousGradeType = _gradeType;
     _gradeType = res;
@@ -290,19 +299,14 @@ class GradesDialogController extends ChangeNotifier {
   late TextEditingController _titleController;
   void setTitle(String res) {
     _title = res;
-    validateTitle();
+    _validateTitle();
   }
 
-  bool validateTitle() {
-    if (!_isTitleValid()) {
-      _titleErrorText = 'Bitte einen Titel eingeben.';
-      notifyListeners();
-      return false;
-    } else {
-      _titleErrorText = null;
-      notifyListeners();
-      return true;
-    }
+  bool _validateTitle() {
+    final isValid = _isTitleValid();
+    _titleErrorText = isValid ? null : 'Bitte einen Titel eingeben.';
+    notifyListeners();
+    return isValid;
   }
 
   bool _isTitleValid() {
@@ -322,7 +326,7 @@ class GradesDialogController extends ChangeNotifier {
         .where((s) => s.id == _selectSubjectId)
         .isEmpty;
     if (isNewSubject) {
-      createSubject();
+      _createSubject();
 
       // Firestore had a soft limit of 1 write per second per document. However,
       // this limit isn't mentioned in the documentation anymore. We still keep
@@ -353,7 +357,7 @@ class GradesDialogController extends ChangeNotifier {
       invalidFields.add(GradingDialogFields.term);
     }
 
-    if (!validateTitle()) {
+    if (!_validateTitle()) {
       invalidFields.add(GradingDialogFields.title);
     }
 
@@ -389,7 +393,7 @@ class GradesDialogController extends ChangeNotifier {
     }
   }
 
-  void createSubject() {
+  void _createSubject() {
     final subject = _subjects.firstWhereOrNull((s) => s.id == _selectSubjectId);
     if (subject == null) {
       throw Exception('Selected subject id does not exists');
