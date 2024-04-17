@@ -392,13 +392,8 @@ class GradesDialogController extends ChangeNotifier {
       throw MultipleInvalidFieldsSaveGradeException(invalidFields);
     }
 
-    throw switch (invalidFields.first) {
-      GradingDialogFields.title => const InvalidTitleSaveGradeException(),
-      GradingDialogFields.subject => const SubjectMissingException(),
-      GradingDialogFields.gradeType => const GradeTypeMissingException(),
-      GradingDialogFields.gradeValue => const InvalidGradeValueException(),
-      GradingDialogFields.term => const TermMissingException(),
-    };
+    final field = invalidFields.first;
+    throw SingleInvalidFieldSaveGradeException(field);
   }
 
   IList<String>? _getPossibleDistinctGrades(PossibleGradesResult posGradesRes) {
@@ -486,22 +481,8 @@ class MultipleInvalidFieldsSaveGradeException extends SaveGradeException {
   const MultipleInvalidFieldsSaveGradeException(this.invalidFields);
 }
 
-class InvalidTitleSaveGradeException extends SaveGradeException {
-  const InvalidTitleSaveGradeException();
-}
+class SingleInvalidFieldSaveGradeException extends SaveGradeException {
+  final GradingDialogFields invalidField;
 
-class SubjectMissingException extends SaveGradeException {
-  const SubjectMissingException();
-}
-
-class GradeTypeMissingException extends SaveGradeException {
-  const GradeTypeMissingException();
-}
-
-class InvalidGradeValueException extends SaveGradeException {
-  const InvalidGradeValueException();
-}
-
-class TermMissingException extends SaveGradeException {
-  const TermMissingException();
+  const SingleInvalidFieldSaveGradeException(this.invalidField);
 }

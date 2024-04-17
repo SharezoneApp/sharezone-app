@@ -72,40 +72,29 @@ class _SaveButton extends StatelessWidget {
   }
 
   void showErrorSnackBar(BuildContext context, Object e) {
-    if (e is SaveGradeException) {
-      String? message;
-      switch (e) {
-        case MultipleInvalidFieldsSaveGradeException():
-          message =
-              'Folgende Felder fehlen oder sind ungültig: ${e.invalidFields.map((f) => f.toUiString()).join(', ')}.';
-          break;
-        case InvalidTitleSaveGradeException():
-          message = 'Der Titel fehlt oder ist ungültig.';
-          break;
-        case SubjectMissingException():
-          message = 'Bitte gib ein Fach für die Note an.';
-          break;
-        case GradeTypeMissingException():
-          message = 'Bitte gib einen Notentyp für die Note an.';
-          break;
-        case InvalidGradeValueException():
-          message = 'Die Note fehlt oder ist ungültig.';
-          break;
-        case TermMissingException():
-          message = 'Bitte gib ein Halbjahr für die an.';
-          break;
-        case UnknownSaveGradeException():
-          unknownErrorSnackBar(context, e);
-          return;
-      }
-      showSnackSec(context: context, text: message);
-    } else {
-      unknownErrorSnackBar(context, e);
-    }
-  }
+    final unknownErrorMessage = 'Unbekannter Fehler: $e';
+    String? message;
 
-  void unknownErrorSnackBar(BuildContext context, Object e) {
-    showSnackSec(context: context, text: 'Unbekannter Fehler: $e');
+    if (e is SaveGradeException) {
+      message = switch (e) {
+        MultipleInvalidFieldsSaveGradeException() =>
+          'Folgende Felder fehlen oder sind ungültig: ${e.invalidFields.map((f) => f.toUiString()).join(', ')}.',
+        SingleInvalidFieldSaveGradeException() => switch (e.invalidField) {
+            GradingDialogFields.gradeValue =>
+              'Die Note fehlt oder ist ungültig.',
+            GradingDialogFields.title => 'Der Titel fehlt oder ist ungültig.',
+            GradingDialogFields.subject =>
+              'Bitte gib ein Fach für die Note an.',
+            GradingDialogFields.term => 'Bitte gib ein Halbjahr für die an.',
+            GradingDialogFields.gradeType => 'Bitte gib einen Notentyp an.',
+          },
+        UnknownSaveGradeException() => unknownErrorMessage,
+      };
+    } else {
+      message = unknownErrorMessage;
+    }
+
+    showSnackSec(context: context, text: message);
   }
 
   @override
