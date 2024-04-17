@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:design/design.dart';
@@ -19,9 +18,9 @@ import 'package:sharezone/grades/grades_service/grades_service.dart'
     hide InvalidGradeValueException;
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -36,14 +35,8 @@ class GradesDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<GradesDialogController>(
       create: (context) {
-        final api = BlocProvider.of<SharezoneContext>(context).api;
-        return GradesDialogController(
-          gradesService: Provider.of<GradesService>(
-            context,
-            listen: false,
-          ),
-          coursesStream: api.course.streamCourses(),
-        );
+        final factory = context.read<GradesDialogControllerFactory>();
+        return factory.create();
       },
       builder: (context, _) {
         return Scaffold(

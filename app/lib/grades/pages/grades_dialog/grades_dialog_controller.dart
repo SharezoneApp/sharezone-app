@@ -10,6 +10,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ class GradesDialogController extends ChangeNotifier {
   final Stream<List<Course>> coursesStream;
   late StreamSubscription<List<Course>> _coursesStreamSubscription;
   late StreamSubscription<IList<TermResult>> _termsStreamSubscription;
+  final GradesService gradesService;
+  final CrashAnalytics crashAnalytics;
 
   GradesDialogView get view {
     final subject = _selectSubjectId != null
@@ -83,11 +86,10 @@ class GradesDialogController extends ChangeNotifier {
     );
   }
 
-  final GradesService gradesService;
-
   GradesDialogController({
     required this.gradesService,
     required this.coursesStream,
+    required this.crashAnalytics,
   }) {
     _selectedTermId = _getActiveTermId();
     _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
@@ -361,20 +363,24 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   void _addGradeToGradeService() {
-    final gradeId = GradeId(randomIDString(20));
-    gradesService.addGrade(
-      id: _selectSubjectId!,
-      termId: _selectedTermId!,
-      value: Grade(
-        id: gradeId,
-        type: _gradeType!.id,
-        value: _grade!,
-        date: _date,
-        takeIntoAccount: _takeIntoAccount,
-        gradingSystem: _gradingSystem,
-        title: _title!,
-      ),
-    );
+    try {
+      final gradeId = GradeId(randomIDString(20));
+      gradesService.addGrade(
+        id: _selectSubjectId!,
+        termId: _selectedTermId!,
+        value: Grade(
+          id: gradeId,
+          type: _gradeType!.id,
+          value: _grade!,
+          date: _date,
+          takeIntoAccount: _takeIntoAccount,
+          gradingSystem: _gradingSystem,
+          title: _title!,
+        ),
+      );
+    } catch (e, s) {
+      crashAnalytics.recordError('Error saving grade: $e', s);
+    }
   }
 
   void createSubject() {
