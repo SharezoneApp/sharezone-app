@@ -151,6 +151,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
           details: dto.details,
           createdOn: dto.createdOn?.toDate(),
           value: gradingSystem.toGradeResult(dto.numValue),
+          originalInput: dto.originalInput,
           weight: termDtos
                   .firstWhereOrNull((element) => element.id == dto.termId)
                   ?.subjects
@@ -551,20 +552,21 @@ class GradeDto {
   final bool includeInGrading;
   final String title;
   final String? details;
+  final Object originalInput;
 
-  GradeDto({
-    required this.id,
-    required this.termId,
-    required this.subjectId,
-    required this.numValue,
-    required this.gradingSystem,
-    required this.gradeType,
-    required this.receivedAt,
-    required this.includeInGrading,
-    required this.title,
-    required this.details,
-    required this.createdOn,
-  });
+  GradeDto(
+      {required this.id,
+      required this.termId,
+      required this.subjectId,
+      required this.numValue,
+      required this.gradingSystem,
+      required this.gradeType,
+      required this.receivedAt,
+      required this.includeInGrading,
+      required this.title,
+      required this.details,
+      required this.createdOn,
+      required this.originalInput});
 
   factory GradeDto.fromGrade(GradeModel grade) {
     return GradeDto(
@@ -572,6 +574,7 @@ class GradeDto {
       termId: grade.termId.id,
       subjectId: grade.subjectId.id,
       numValue: grade.value.asNum,
+      originalInput: grade.originalInput,
       gradingSystem: grade.gradingSystem.spec.gradingSystem,
       gradeType: grade.gradeType.id,
       receivedAt: Timestamp.fromDate(grade.date.toDateTime),
@@ -588,6 +591,7 @@ class GradeDto {
       termId: data['termId'] as String,
       subjectId: data['subjectId'] as String,
       numValue: data['numValue'] as num,
+      originalInput: data['originalInput'] as Object,
       gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
       gradeType: data['gradeType'] as String,
       receivedAt: data['receivedAt'] as Timestamp,
@@ -603,6 +607,7 @@ class GradeDto {
       'id': id,
       'termId': termId,
       'subjectId': subjectId,
+      'originalInput': originalInput,
       'numValue': numValue,
       'gradingSystem': gradingSystem.name,
       'gradeType': gradeType,

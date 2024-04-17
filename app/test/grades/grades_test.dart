@@ -561,6 +561,45 @@ void main() {
               .asDouble,
           1);
     });
+    test('A grade saves the original input', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Deutsch'),
+            name: 'Deutsch',
+            grades: [
+              gradeWith(
+                  id: GradeId('grade1'),
+                  value: "2+",
+                  gradingSystem: GradingSystem.oneToSixWithPlusAndMinus),
+              gradeWith(
+                  id: GradeId('grade2'),
+                  value: 1.75,
+                  gradingSystem: GradingSystem.oneToSixWithPlusAndMinus),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Deutsch'))
+              .grade(GradeId('grade1'))
+              .originalInput,
+          '2+');
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Deutsch'))
+              .grade(GradeId('grade2'))
+              .originalInput,
+          1.75);
+    });
     test(
         'A subject can have a custom "Endnote" that overrides the terms "Endnote"',
         () {

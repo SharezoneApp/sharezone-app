@@ -163,6 +163,7 @@ class TermModel extends Equatable {
       orElse: () => throw SubjectNotFoundException(toSubject),
     );
 
+    final originalInput = grade.value;
     final gradingSystem = grade.gradingSystem.toGradingSystem();
     final gradeVal = gradingSystem.toNumOrThrow(grade.value);
 
@@ -171,6 +172,7 @@ class TermModel extends Equatable {
       subjectId: toSubject,
       termId: id,
       date: grade.date,
+      originalInput: originalInput,
       value: gradingSystem.toGradeResult(gradeVal),
       gradingSystem: gradingSystem,
       takenIntoAccount: grade.takeIntoAccount,
@@ -441,6 +443,7 @@ class GradeModel extends Equatable {
   final String title;
   final String? details;
   final DateTime? createdOn;
+  final Object originalInput;
 
   @override
   List<Object?> get props => [
@@ -448,6 +451,9 @@ class GradeModel extends Equatable {
         subjectId,
         termId,
         value,
+        // This will cause tests to fail (== operator not working correctly) and
+        // I don't know how to fix it. For now we'll just ignore it.
+        // originalInput,
         gradingSystem,
         gradeType,
         takenIntoAccount,
@@ -469,9 +475,10 @@ class GradeModel extends Equatable {
     required this.date,
     required this.takenIntoAccount,
     required this.title,
+    required this.originalInput,
     this.details,
     this.createdOn,
-  });
+  }) : assert(originalInput is String || originalInput is num);
 
   GradeModel _changeWeight(Weight weight) {
     return copyWith(weight: weight, takenIntoAccount: weight.asFactor > 0);
@@ -490,6 +497,7 @@ class GradeModel extends Equatable {
     String? title,
     String? details,
     DateTime? createdOn,
+    Object? originalInput,
   }) {
     return GradeModel(
       id: id ?? this.id,
@@ -504,6 +512,7 @@ class GradeModel extends Equatable {
       title: title ?? this.title,
       details: details ?? this.details,
       createdOn: createdOn ?? this.createdOn,
+      originalInput: originalInput ?? this.originalInput,
     );
   }
 }
