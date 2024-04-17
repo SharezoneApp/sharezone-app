@@ -264,9 +264,10 @@ class GradesDialogController extends ChangeNotifier {
   GradeType? _gradeType;
   bool _isGradeTypeMissing = false;
   void setGradeType(GradeType res) {
+    final previousGradeType = _gradeType;
     _gradeType = res;
     _isGradeTypeMissing = false;
-    _maybeSetTitleWithGradeType(res);
+    _maybeSetTitleWithGradeType(res, previousGradeType);
     notifyListeners();
   }
 
@@ -281,9 +282,13 @@ class GradesDialogController extends ChangeNotifier {
     return isValid;
   }
 
-  void _maybeSetTitleWithGradeType(GradeType type) {
-    if (_title == null || _title!.isEmpty) {
-      final typeDisplayName = type.predefinedType?.toUiString();
+  void _maybeSetTitleWithGradeType(GradeType newType, GradeType? previousType) {
+    final isTitleEmpty = _title == null || _title!.isEmpty;
+    final isTitleAsPreviousType = previousType != null &&
+        _title == previousType.predefinedType?.toUiString();
+
+    if (isTitleEmpty || isTitleAsPreviousType) {
+      final typeDisplayName = newType.predefinedType?.toUiString();
       _title = typeDisplayName;
       _titleController.text = typeDisplayName ?? '';
       _titleErrorText = null;
