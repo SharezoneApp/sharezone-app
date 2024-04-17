@@ -435,7 +435,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => GradesDialogControllerFactory(
           crashAnalytics: crashAnalytics,
           gradesService: gradesService,
-          coursesStream: api.course.streamCourses(),
+          coursesStream: () => api.course.streamCourses(),
         ),
       )
     ];

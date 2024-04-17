@@ -6,7 +6,14 @@ import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.da
 class GradesDialogControllerFactory {
   final CrashAnalytics crashAnalytics;
   final GradesService gradesService;
-  final Stream<List<Course>> coursesStream;
+
+  /// Returns a stream of courses.
+  ///
+  /// We use a function to create the stream because we want to create a new
+  /// stream every time we create a new controller. Otherwise, we would get an
+  /// error because the stream is already closed when opening the dialog a
+  /// second time.
+  final Stream<List<Course>> Function() coursesStream;
 
   const GradesDialogControllerFactory({
     required this.crashAnalytics,
@@ -16,7 +23,7 @@ class GradesDialogControllerFactory {
 
   GradesDialogController create() {
     return GradesDialogController(
-      coursesStream: coursesStream,
+      coursesStream: coursesStream(),
       crashAnalytics: crashAnalytics,
       gradesService: gradesService,
     );
