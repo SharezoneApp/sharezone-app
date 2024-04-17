@@ -386,7 +386,15 @@ class GradesDialogController extends ChangeNotifier {
         ),
       );
     } catch (e, s) {
+      if (e is InvalidGradeValueException) {
+        _gradeErrorText = 'Die Note ist ungültig.';
+        notifyListeners();
+        throw const SingleInvalidFieldSaveGradeException(
+            GradingDialogFields.gradeValue);
+      }
+
       crashAnalytics.recordError('Error saving grade: $e', s);
+      throw UnknownSaveGradeException(e);
     }
   }
 
@@ -485,7 +493,9 @@ sealed class SaveGradeException implements Exception {
 }
 
 class UnknownSaveGradeException extends SaveGradeException {
-  const UnknownSaveGradeException();
+  final Object e;
+
+  const UnknownSaveGradeException(this.e);
 }
 
 class MultipleInvalidFieldsSaveGradeException extends SaveGradeException {
