@@ -179,12 +179,15 @@ class GradesDialogController extends ChangeNotifier {
 
     final hasDistinctValues = view.selectableGrades.distinctGrades != null;
     if (hasDistinctValues) {
+      _gradeErrorText = null;
+      _isGradeMissing = false;
       notifyListeners();
       return true;
     }
 
     final isParsable = _isGradeParsable();
     _gradeErrorText = isParsable ? null : 'Die Eingabe ist keine gültige Zahl.';
+    _isGradeMissing = false;
     notifyListeners();
     return isParsable;
   }
