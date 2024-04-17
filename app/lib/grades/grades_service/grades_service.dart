@@ -12,6 +12,8 @@ import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
@@ -494,7 +496,35 @@ enum PredefinedGradeTypes {
   oralParticipation,
   vocabularyTest,
   presentation,
-  other,
+  other;
+
+  String toUiString() {
+    return switch (this) {
+      PredefinedGradeTypes.schoolReportGrade => 'Zeugnisnote',
+      PredefinedGradeTypes.writtenExam => 'Schriftliche Prüfung',
+      PredefinedGradeTypes.oralParticipation => 'Mündliche Beteiligung',
+      PredefinedGradeTypes.vocabularyTest => 'Vokabeltest',
+      PredefinedGradeTypes.presentation => 'Präsentation',
+      PredefinedGradeTypes.other => 'Sonstiges',
+    };
+  }
+
+  Icon getIcon() {
+    return switch (this) {
+      PredefinedGradeTypes.schoolReportGrade =>
+        const Icon(Symbols.contract, fill: 1),
+      PredefinedGradeTypes.writtenExam =>
+        const Icon(Symbols.edit_document, fill: 1),
+      PredefinedGradeTypes.oralParticipation =>
+        const Icon(Symbols.record_voice_over, fill: 1),
+      PredefinedGradeTypes.vocabularyTest =>
+        const Icon(Symbols.text_rotation_none, fill: 1),
+      PredefinedGradeTypes.presentation =>
+        const Icon(Symbols.co_present, fill: 1),
+      PredefinedGradeTypes.other =>
+        const Icon(Symbols.other_admission, fill: 1),
+    };
+  }
 }
 
 class GradeType extends Equatable {

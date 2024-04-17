@@ -8,17 +8,23 @@
 
 import 'package:clock/clock.dart';
 import 'package:date/date.dart';
+import 'package:design/design.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone/filesharing/dialog/course_tile.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart'
+    hide InvalidGradeValueException;
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-part 'optional_fields.dart';
-part 'required_fields.dart';
+part 'fields.dart';
 
 class GradesDialog extends StatelessWidget {
   const GradesDialog({super.key});
@@ -28,32 +34,20 @@ class GradesDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<GradesDialogController>(
-      create: (context) => GradesDialogController(
-        gradesService: Provider.of<GradesService>(
-          context,
-          listen: false,
-        ),
-      ),
+      create: (context) {
+        final factory = context.read<GradesDialogControllerFactory>();
+        return factory.create();
+      },
       builder: (context, _) {
-        final view = context.watch<GradesDialogController>().view;
         return Scaffold(
           appBar: AppBar(
             actions: const [_SaveButton()],
           ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(8),
+          body: const SingleChildScrollView(
+            padding: EdgeInsets.all(8),
             child: SafeArea(
               child: MaxWidthConstraintBox(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 4),
-                    const _RequiredFields(),
-                    const Divider(),
-                    const SizedBox(height: 4),
-                    _OptionalFields(view: view),
-                  ],
-                ),
+                child: _Fields(),
               ),
             ),
           ),
@@ -66,6 +60,35 @@ class GradesDialog extends StatelessWidget {
 class _SaveButton extends StatelessWidget {
   const _SaveButton();
 
+  void showConfirmationSnackBar(BuildContext context) {
+    showSnackSec(context: context, text: 'Note gespeichert');
+  }
+
+  void showErrorSnackBar(BuildContext context, Object e) {
+    final unknownErrorMessage = 'Unbekannter Fehler: $e';
+    String? message;
+
+    if (e is SaveGradeException) {
+      message = switch (e) {
+        MultipleInvalidFieldsSaveGradeException() =>
+          'Folgende Felder fehlen oder sind ungültig: ${e.invalidFields.map((f) => f.toUiString()).join(', ')}.',
+        SingleInvalidFieldSaveGradeException() => switch (e.invalidField) {
+            GradingDialogFields.gradeValue =>
+              'Die Note fehlt oder ist ungültig.',
+            GradingDialogFields.title => 'Der Titel fehlt oder ist ungültig.',
+            GradingDialogFields.subject =>
+              'Bitte gib ein Fach für die Note an.',
+            GradingDialogFields.term => 'Bitte gib ein Halbjahr für die an.',
+          },
+        UnknownSaveGradeException() => unknownErrorMessage,
+      };
+    } else {
+      message = unknownErrorMessage;
+    }
+
+    showSnackSec(context: context, text: message);
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller =
@@ -73,9 +96,18 @@ class _SaveButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: FilledButton(
-        onPressed: () {
-          controller.save();
-          Navigator.of(context).pop();
+        onPressed: () async {
+          try {
+            sendDataToFrankfurtSnackBar(context);
+            await controller.save();
+            if (!context.mounted) return;
+
+            showConfirmationSnackBar(context);
+            Navigator.of(context).pop();
+          } catch (e) {
+            if (!context.mounted) return;
+            showErrorSnackBar(context, e);
+          }
         },
         child: const Text("Speichern"),
       ),
@@ -83,14 +115,8 @@ class _SaveButton extends StatelessWidget {
   }
 }
 
-class _Section extends StatelessWidget {
-  const _Section({
-    required this.title,
-    required this.children,
-  });
-
-  final String title;
-  final List<Widget> children;
+class _Fields extends StatelessWidget {
+  const _Fields();
 
   @override
   Widget build(BuildContext context) {
@@ -100,35 +126,19 @@ class _Section extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _SectionTitle(title: title),
-          const SizedBox(height: 8),
-          for (final child in children)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: child,
-            ),
+          _GradeValue(),
+          _GradingSystem(),
+          _Subject(),
+          _Date(),
+          _GradingType(),
+          _Term(),
+          _TakeIntoAccountSwitch(),
+          _Title(),
+          _Details(),
         ],
-      ),
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({
-    required this.title,
-  });
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title.toUpperCase(),
-      style: TextStyle(
-        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
       ),
     );
   }
