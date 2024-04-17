@@ -153,7 +153,7 @@ class _Subject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<GradesDialogController>();
+    final controller = context.watch<GradesDialogController>();
     final view = controller.view;
     return ListTile(
       leading: SavedGradeIcons.subject,

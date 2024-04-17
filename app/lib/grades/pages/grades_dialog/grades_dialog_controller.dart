@@ -165,7 +165,12 @@ class GradesDialogController extends ChangeNotifier {
       return false;
     }
 
-    _isGradeMissing = false;
+    final hasDistinctValues = view.selectableGrades.distinctGrades != null;
+    if (hasDistinctValues) {
+      notifyListeners();
+      return true;
+    }
+
     final isParsable = _isGradeParsable();
     _gradeErrorText = isParsable ? null : 'Die Eingabe ist keine gültige Zahl.';
     notifyListeners();
@@ -225,6 +230,7 @@ class GradesDialogController extends ChangeNotifier {
 
     final gradingSystemOfTerm = _getGradingSystemOfTerm(res);
     _isTakeIntoAccountEnabled = _gradingSystem == gradingSystemOfTerm;
+    _gradingSystemOfSelectedTerm = gradingSystemOfTerm;
 
     notifyListeners();
   }
@@ -271,6 +277,7 @@ class GradesDialogController extends ChangeNotifier {
       final typeDisplayName = type.predefinedType?.toUiString();
       _title = typeDisplayName;
       _titleController.text = typeDisplayName ?? '';
+      _titleErrorText = null;
     }
   }
 
