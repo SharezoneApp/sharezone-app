@@ -218,7 +218,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         createdOn: termSubject.createdOn?.toDate(),
         isFinalGradeTypeOverridden:
             termSubject.finalGradeType != subTerm.finalGradeTypeId,
-        gradeTypeWeightings: subTerm.gradeTypeWeights
+        gradeTypeWeightings: termSubject.gradeComposition.gradeTypeWeights
             .map((key, value) => MapEntry(GradeTypeId(key), value.toWeight()))
             .toIMap(),
         gradeTypeWeightingsFromTerm: subTerm.gradeTypeWeights

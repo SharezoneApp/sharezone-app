@@ -461,7 +461,8 @@ void main() {
                 isFinalGradeTypeOverridden: false,
                 weightingForTermGrade: const Weight.factor(2.5),
                 gradeTypeWeightings: IMapConst({
-                  const GradeTypeId('vocabulary-test'): const Weight.factor(1.5)
+                  const GradeTypeId('my-custom-grade-type'):
+                      const Weight.factor(2.0)
                 }),
                 gradeTypeWeightingsFromTerm: IMapConst({
                   const GradeTypeId('vocabulary-test'): const Weight.factor(1.5)
