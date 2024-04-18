@@ -9,6 +9,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -38,16 +39,13 @@ class GradesService {
   GradesService({GradesStateRepository? repository})
       : _repository = repository ?? InMemoryGradesStateRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
-    _state = _repository.state.value;
-    _updateView();
-
     _repository.state.listen((state) {
       _state = state;
-      // Update view gets called in [_updateState] anyways, so we don't need it
-      // here. Moving the method from [_updateState] to here would make the view
-      // being updated async. This would currently breaks our tests.
-      // _updateView();
+      _updateView();
     });
+
+    _state = _repository.state.value;
+    _updateView();
   }
 
   late GradesState _state;
@@ -69,6 +67,9 @@ class GradesService {
 
   void _updateState() {
     _repository.updateState(_state);
+    // Removing this breaks our tests because they assume that the state is
+    // updated synchronously. Usually calling [_updateView] in the .listen from
+    // the repository would be enough.
     _updateView();
   }
 
