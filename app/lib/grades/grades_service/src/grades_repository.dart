@@ -115,28 +115,26 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
   static GradesState fromData(Map<String, Object?> data) {
     IList<TermDto> termDtos = const IListConst([]);
 
-    if (data case {'terms': Map<String, Map<String, Object?>> termData}) {
+    // if (data case {'terms': Map<String, Map<String, Object?>> termData}) {
+    if (data case {'terms': Map termData}) {
       termDtos =
           termData.mapTo((value, key) => TermDto.fromData(key)).toIList();
     }
 
     IList<SubjectDto> subjectDtos = const IListConst([]);
-    if (data case {'subjects': Map<String, Map<String, Object?>> subjectData}) {
+    if (data case {'subjects': Map subjectData}) {
       subjectDtos =
           subjectData.mapTo((value, key) => SubjectDto.fromData(key)).toIList();
     }
 
     IList<GradeDto> gradeDtos = const IListConst([]);
-    if (data case {'grades': Map<String, Map<String, Object?>> gradeData}) {
+    if (data case {'grades': Map gradeData}) {
       gradeDtos =
           gradeData.mapTo((value, key) => GradeDto.fromData(key)).toIList();
     }
 
     IList<CustomGradeTypeDto> customGradeTypeDtos = const IListConst([]);
-    if (data
-        case {
-          'customGradeTypes': Map<String, Map<String, Object?>> gradeTypeData
-        }) {
+    if (data case {'customGradeTypes': Map gradeTypeData}) {
       customGradeTypeDtos = gradeTypeData
           .mapTo((value, key) => CustomGradeTypeDto.fromData(key))
           .toIList();
@@ -317,7 +315,7 @@ typedef _GradeId = String;
 typedef _GradeTypeId = String;
 
 Map<String, WeightDto> _toWeightsDto(Object? data) {
-  return (data as Map<String, Map<String, Object?>>)
+  return (data as Map)
       .map((key, value) => MapEntry(key, WeightDto.fromData(value)));
 }
 
@@ -435,7 +433,7 @@ class TermDto {
       gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
       subjectWeights: data['subjectWeights'].toWeightsDtoMap(),
       gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
-      subjects: (data['subjects'] as Map<String, Map<String, Object>>)
+      subjects: (data['subjects'] as Map)
           .mapTo((_, sub) => TermSubjectDto.fromData(sub))
           .toList(),
       finalGradeTypeId: data['finalGradeType'] as String,
@@ -672,10 +670,9 @@ class SubjectDto {
         abbreviation: data['abbreviation'] as String,
         design: Design.fromData(data['design']),
         createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
-        connectedCourses:
-            (data['connectedCourses'] as Map<String, Map<String, Object>>)
-                .mapTo((key, value) => ConnectedCourseDto.fromData(value))
-                .toIList());
+        connectedCourses: (data['connectedCourses'] as Map)
+            .mapTo((key, value) => ConnectedCourseDto.fromData(value))
+            .toIList());
   }
 
   Map<String, Object> toData() {
