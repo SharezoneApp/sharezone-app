@@ -47,20 +47,33 @@ class InMemoryGradesStateRepository extends GradesStateRepository {
     ));
   }
 
+  Map<String, Object> _data = {};
+
   @override
   void updateState(GradesState state) {
-    this.state.add(state);
+    _data = FirestoreGradesStateRepository.toDto(state);
+    // debugPrint(json.encode(_data, toEncodable: (val) {
+    //   if (val is Timestamp) {
+    //     return val.toDate().toIso8601String();
+    //   }
+    // }));
+    this.state.add(FirestoreGradesStateRepository.fromData(_data));
   }
 }
 
 class FirestoreGradesStateRepository extends GradesStateRepository {
-  // final FirebaseFirestore _firestore;
-  // final DocumentReference _userDocumentRef;
-  // DocumentReference get gradesDocumentRef =>
-  //     _userDocumentRef.collection('grades').doc('0');
+  final DocumentReference userDocumentRef;
+  DocumentReference get gradesDocumentRef =>
+      userDocumentRef.collection('Grades').doc('AllInOne');
 
-  // FirestoreGradesRepository(this._firestore, this._userDocumentRef);
-  Map<String, Object> _data = {};
+  FirestoreGradesStateRepository({required this.userDocumentRef}) {
+    gradesDocumentRef.snapshots().listen((event) {
+      if (event.exists) {
+        final data = event.data() as Map<String, Object?>;
+        state.add(fromData(data));
+      }
+    });
+  }
 
   @override
   BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>.seeded(
@@ -73,14 +86,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
 
   @override
   void updateState(GradesState state) {
-    // gradesDocumentRef.set(_toDto(state), SetOptions(merge: true));
-    _data = toDto(state);
-    // debugPrint(json.encode(_data, toEncodable: (val) {
-    //   if (val is Timestamp) {
-    //     return val.toDate().toIso8601String();
-    //   }
-    // }));
-    this.state.add(fromData(_data));
+    gradesDocumentRef.set(toDto(state), SetOptions(merge: true));
   }
 
   static Map<String, Object> toDto(GradesState state) {
