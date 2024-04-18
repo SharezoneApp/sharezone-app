@@ -524,28 +524,18 @@ class _HelpDialogButton extends StatelessWidget {
   }
 }
 
-class _Details extends StatefulWidget {
+class _Details extends StatelessWidget {
   const _Details();
 
   @override
-  State<_Details> createState() => _DetailsState();
-}
-
-class _DetailsState extends State<_Details> {
-  String? prefilledDetails;
-
-  @override
-  void initState() {
-    super.initState();
-    prefilledDetails = context.read<GradesDialogController>().view.details;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final detailsController =
+        context.select<GradesDialogController, TextEditingController>(
+            (c) => c.view.detailsController);
     return MarkdownField(
+      controller: detailsController,
       icon: SavedGradeIcons.details,
       onChanged: (value) {},
-      prefilledText: prefilledDetails,
       inputDecoration: const InputDecoration(
         labelText: "Notizen",
       ),

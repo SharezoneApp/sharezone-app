@@ -72,7 +72,7 @@ class GradesDialogController extends ChangeNotifier {
           : null,
       selectableTerms:
           _selectableTerms.map((t) => (id: t.id, name: t.name)).toIList(),
-      details: null,
+      detailsController: _detailsController,
       title: _title,
       titleErrorText: _titleErrorText,
       takeIntoAccount: _takeIntoAccount,
@@ -104,6 +104,7 @@ class GradesDialogController extends ChangeNotifier {
     _titleController = TextEditingController(text: _title);
     _subjects = gradesService.getSubjects();
     _gradeFieldController = TextEditingController();
+    _detailsController = TextEditingController();
 
     // Even though the fields are not filled at the beginning, we don't want to
     // show any error messages. The user should see the error messages only
@@ -333,6 +334,8 @@ class GradesDialogController extends ChangeNotifier {
     return _title != null && _title!.isNotEmpty;
   }
 
+  late TextEditingController _detailsController;
+
   Future<void> save() async {
     final invalidFields = _validateFields();
 
@@ -385,6 +388,11 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   void _addGradeToGradeService() {
+    String? details;
+    if (_detailsController.text.isNotEmpty) {
+      details = _detailsController.text;
+    }
+
     try {
       final gradeId = GradeId(randomIDString(20));
       gradesService.addGrade(
@@ -398,6 +406,7 @@ class GradesDialogController extends ChangeNotifier {
           takeIntoAccount: _takeIntoAccount,
           gradingSystem: _gradingSystem,
           title: _title!,
+          details: details,
         ),
       );
     } catch (e, s) {
