@@ -32,10 +32,10 @@ class PrefilledTextField extends StatefulWidget {
 
   /// The controller to control the text field.
   ///
-  /// If null, a new [TextEditingController] will be created.
+  /// Sets the [prefilledText] as the initial text of the [controller] if
+  /// [prefilledText] is not null.
   ///
-  /// If not null, the [prefilledText] will be set as the initial text of the
-  /// [controller] if [prefilledText] is not null.
+  /// If null, a new [TextEditingController] will be created.
   final TextEditingController? controller;
 
   /// The text that will be already filled into the underlying [TextField] on
