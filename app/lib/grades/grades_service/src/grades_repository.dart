@@ -485,10 +485,11 @@ class TermSubjectDto {
   factory TermSubjectDto.fromData(Map<String, Object?> data) {
     return TermSubjectDto(
       id: data['id'] as String,
-      grades: data['grades'] as List<String>,
+      grades: decodeList(data['grades'], (g) => g as String),
       finalGradeType: data['finalGradeType'] as String,
       gradeComposition: SubjectGradeCompositionDto.fromData(
-        data['gradeComposition'] as Map<String, Object>,
+        decodeMap(data['gradeComposition'],
+            (key, decodedMapValue) => decodedMapValue as Object),
       ),
       createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
     );
