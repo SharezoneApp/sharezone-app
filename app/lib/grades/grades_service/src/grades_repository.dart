@@ -603,11 +603,19 @@ class GradeDto {
   }
 
   Map<String, Object> toData() {
+    // Currently the originalInput would use the grade display string for the
+    // original value but we want to transition to using an Enum in the future.
+    // We use this to fake using an enum for the original value. We'll implement
+    // really using the enum in the future.
+    Object originalInp = originalInput;
+    if (gradingSystem == GradingSystem.austrianBehaviouralGrades) {
+      originalInp = getAustrianBehaviouralGradeDbKeyFromNum(numValue);
+    }
     return {
       'id': id,
       'termId': termId,
       'subjectId': subjectId,
-      'originalInput': originalInput,
+      'originalInput': originalInp,
       'numValue': numValue,
       'gradingSystem': gradingSystem.name,
       'gradeType': gradeType,

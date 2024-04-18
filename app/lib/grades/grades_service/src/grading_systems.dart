@@ -291,3 +291,13 @@ final austrianBehaviouralGradesSpec = GradingSystemSpec.nonNumerical(
     'Nicht zufriedenstellend': 4,
   }),
 );
+
+String getAustrianBehaviouralGradeDbKeyFromNum(num grade) {
+  return switch (grade) {
+    1 => 'verySatisfactory',
+    2 => 'satisfactory',
+    3 => 'lessSatisfactory',
+    4 => 'notSatisfactory',
+    _ => throw ArgumentError('Cant get db key for austrian behavioural grade')
+  };
+}

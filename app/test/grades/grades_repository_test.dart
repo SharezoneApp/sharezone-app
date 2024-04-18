@@ -310,7 +310,7 @@ void main() {
             'id': 'grade-4',
             'termId': '01-10-term',
             'subjectId': 'englisch',
-            'originalInput': 'Sehr zufriedenstellend',
+            'originalInput': 'verySatisfactory',
             'numValue': 1,
             'gradingSystem': 'austrianBehaviouralGrades',
             'gradeType': 'oral-participation',
