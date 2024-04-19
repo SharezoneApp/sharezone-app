@@ -84,7 +84,7 @@ class GradingSystemModel extends Equatable {
   GradeValue toGradeResult(num grade) {
     return GradeValue(
       asNum: grade,
-      gradingSystem: toGradingSystems(),
+      gradingSystem: toGradingSystem(),
       displayableGrade: spec.getSpecialDisplayableGradeOrNull?.call(grade),
       suffix: spec == zeroToHundredPercentWithDecimalsSpec ? '%' : null,
     );
@@ -98,7 +98,7 @@ class GradingSystemModel extends Equatable {
           !possGrades.grades.contains(grade)) {
         throw InvalidGradeValueException(
           gradeInput: grade,
-          gradingSystem: toGradingSystems(),
+          gradingSystem: toGradingSystem(),
         );
       }
       try {
@@ -107,7 +107,7 @@ class GradingSystemModel extends Equatable {
           if (db < possGrades.min || db > possGrades.max) {
             throw InvalidGradeValueException(
               gradeInput: grade.toString(),
-              gradingSystem: toGradingSystems(),
+              gradingSystem: toGradingSystem(),
             );
           }
         }
@@ -117,7 +117,7 @@ class GradingSystemModel extends Equatable {
       } catch (e) {
         throw InvalidGradeValueException(
           gradeInput: grade,
-          gradingSystem: toGradingSystems(),
+          gradingSystem: toGradingSystem(),
         );
       }
     }

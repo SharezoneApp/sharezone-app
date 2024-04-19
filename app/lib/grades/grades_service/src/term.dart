@@ -234,7 +234,7 @@ class TermModel extends Equatable {
     final newSubject = subject.copyWith(
       grades: subject.grades.replaceFirstWhere(
         (g) => g.id == id,
-        (g) => g!._changeWeight(weight),
+        (g) => g!.changeWeight(weight),
       ),
     );
 

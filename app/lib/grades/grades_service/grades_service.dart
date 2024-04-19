@@ -84,7 +84,7 @@ class GradesService {
       name: term.name,
       isActiveTerm: term.isActiveTerm,
       finalGradeType: _getGradeType(term.finalGradeType),
-      gradingSystem: term.gradingSystem.toGradingSystems(),
+      gradingSystem: term.gradingSystem.toGradingSystem(),
       calculatedGrade: term.tryGetTermGrade() != null
           ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
           : null,
@@ -113,6 +113,7 @@ class GradesService {
                       title: grade.title,
                       gradeTypeId: grade.gradeType,
                       details: grade.details,
+                      originalInput: grade.originalInput,
                     ),
                   )
                   .toIList(),
@@ -144,7 +145,7 @@ class GradesService {
         isActiveTerm: isActiveTerm,
         name: name,
         finalGradeType: finalGradeType,
-        gradingSystem: gradingSystem.toGradingSystem(),
+        gradingSystem: gradingSystem.toGradingSystemModel(),
       ),
     );
     _updateTerms(newTerms);
@@ -199,7 +200,7 @@ class GradesService {
     if (gradingSystem != null) {
       newTerms = newTerms
           .map((term) => term.id == id
-              ? term.setGradingSystem(gradingSystem.toGradingSystem())
+              ? term.setGradingSystem(gradingSystem.toGradingSystemModel())
               : term)
           .toIList();
     }
@@ -331,7 +332,7 @@ class GradesService {
   /// For example the values for the grading system "1-6 with plus and minus"
   /// would be: `['1+', '1', '1-', '2+', [...] '5+', '5', '5-', '6']`
   PossibleGradesResult getPossibleGrades(GradingSystem gradingSystem) {
-    final gs = gradingSystem.toGradingSystem();
+    final gs = gradingSystem.toGradingSystemModel();
     return gs.possibleGrades;
   }
 
@@ -489,6 +490,9 @@ class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
   final num max;
   final bool decimalsAllowed;
 
+  @override
+  List<Object?> get props => [min, max, decimalsAllowed, specialGrades];
+
   /// Special non-numerical grade strings that have an assigned numerical value.
   ///
   /// For example [GradingSystem.oneToSixWithPlusAndMinus] might have the values:
@@ -608,11 +612,13 @@ class GradeResult extends Equatable {
     required this.title,
     required this.gradeTypeId,
     required this.details,
+    required this.originalInput,
   });
 
   @override
   List<Object?> get props => [
         id,
+        originalInput,
         value,
         isTakenIntoAccount,
         date,
