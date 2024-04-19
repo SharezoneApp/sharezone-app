@@ -38,7 +38,7 @@ class _GradeValue extends StatelessWidget {
                   GradingSystem.oneToSixWithDecimals => 'z.B. 1.3',
                   GradingSystem.oneToSixWithPlusAndMinus => 'z.B. 1+',
                   GradingSystem.sixToOneWithDecimals => 'z.B. 6.0',
-                  GradingSystem.zeroToFivteenPointsWithDecimals => 'z.B. 15.0',
+                  GradingSystem.zeroToFifteenPointsWithDecimals => 'z.B. 15.0',
                   GradingSystem.zeroToHundredPercentWithDecimals => 'z.B. 78.8',
                   _ => null,
                 },
@@ -524,28 +524,18 @@ class _HelpDialogButton extends StatelessWidget {
   }
 }
 
-class _Details extends StatefulWidget {
+class _Details extends StatelessWidget {
   const _Details();
 
   @override
-  State<_Details> createState() => _DetailsState();
-}
-
-class _DetailsState extends State<_Details> {
-  String? prefilledDetails;
-
-  @override
-  void initState() {
-    super.initState();
-    prefilledDetails = context.read<GradesDialogController>().view.details;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final detailsController =
+        context.select<GradesDialogController, TextEditingController>(
+            (c) => c.view.detailsController);
     return MarkdownField(
+      controller: detailsController,
       icon: SavedGradeIcons.details,
       onChanged: (value) {},
-      prefilledText: prefilledDetails,
       inputDecoration: const InputDecoration(
         labelText: "Notizen",
       ),

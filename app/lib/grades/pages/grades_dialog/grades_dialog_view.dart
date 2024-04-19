@@ -82,7 +82,7 @@ class GradesDialogView {
   final String? title;
   final String? titleErrorText;
   final TextEditingController titleController;
-  final String? details;
+  final TextEditingController detailsController;
 
   const GradesDialogView({
     required this.selectedGrade,
@@ -97,7 +97,7 @@ class GradesDialogView {
     required this.selectableTerms,
     required this.title,
     required this.titleErrorText,
-    required this.details,
+    required this.detailsController,
     required this.takeIntoAccount,
     required this.isTakeIntoAccountEnabled,
     required this.titleController,
@@ -124,8 +124,8 @@ extension GradeSystemToName on GradingSystem {
       GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',
       GradingSystem.sixToOneWithDecimals => '6 - 1 (mit Kommazahlen)',
       GradingSystem.oneToFiveWithDecimals => '1 - 5 (mit Kommazahlen)',
-      GradingSystem.zeroToFivteenPoints => '15 - 0 Punkte',
-      GradingSystem.zeroToFivteenPointsWithDecimals =>
+      GradingSystem.zeroToFifteenPoints => '15 - 0 Punkte',
+      GradingSystem.zeroToFifteenPointsWithDecimals =>
         '15 - 0 Punkte (mit Kommazahlen)',
       GradingSystem.zeroToHundredPercentWithDecimals =>
         '100% - 0% (mit Kommazahlen)',

@@ -9,55 +9,55 @@
 part of '../grades_service.dart';
 
 extension _ToGradingSystem on GradingSystem {
-  _GradingSystem toGradingSystem() {
+  GradingSystemModel toGradingSystemModel() {
     switch (this) {
       case GradingSystem.zeroToHundredPercentWithDecimals:
-        return _GradingSystem.zeroToHundredPercentWithDecimals;
-      case GradingSystem.zeroToFivteenPointsWithDecimals:
-        return _GradingSystem.zeroToFivteenPointsWithDecimals;
-      case GradingSystem.zeroToFivteenPoints:
-        return _GradingSystem.zeroToFiveteenPoints;
+        return GradingSystemModel.zeroToHundredPercentWithDecimals;
+      case GradingSystem.zeroToFifteenPointsWithDecimals:
+        return GradingSystemModel.zeroToFifteenPointsWithDecimals;
+      case GradingSystem.zeroToFifteenPoints:
+        return GradingSystemModel.zeroToFifteenPoints;
       case GradingSystem.oneToSixWithPlusAndMinus:
-        return _GradingSystem.oneToSixWithPlusAndMinus;
+        return GradingSystemModel.oneToSixWithPlusAndMinus;
       case GradingSystem.oneToSixWithDecimals:
-        return _GradingSystem.oneToSixWithDecimals;
+        return GradingSystemModel.oneToSixWithDecimals;
       case GradingSystem.austrianBehaviouralGrades:
-        return _GradingSystem.austrianBehaviouralGrades;
+        return GradingSystemModel.austrianBehaviouralGrades;
       case GradingSystem.oneToFiveWithDecimals:
-        return _GradingSystem.oneToFiveWithDecimals;
+        return GradingSystemModel.oneToFiveWithDecimals;
       case GradingSystem.sixToOneWithDecimals:
-        return _GradingSystem.sixToOneWithDecimals;
+        return GradingSystemModel.sixToOneWithDecimals;
     }
   }
 }
 
-extension _ToGradingSystems on _GradingSystem {
-  GradingSystem toGradingSystems() {
+extension _ToGradingSystems on GradingSystemModel {
+  GradingSystem toGradingSystem() {
     return spec.gradingSystem;
   }
 }
 
-class _GradingSystem {
+class GradingSystemModel {
   static final oneToSixWithPlusAndMinus =
-      _GradingSystem(spec: oneToSixWithPlusAndMinusSpec);
+      GradingSystemModel(spec: oneToSixWithPlusAndMinusSpec);
   static final oneToSixWithDecimals =
-      _GradingSystem(spec: oneToSixWithDecimalsSpec);
-  static final zeroToFiveteenPoints =
-      _GradingSystem(spec: zeroToFivteenPointsSpec);
-  static final zeroToFivteenPointsWithDecimals =
-      _GradingSystem(spec: zeroToFivteenPointsWithDecimalsSpec);
+      GradingSystemModel(spec: oneToSixWithDecimalsSpec);
+  static final zeroToFifteenPoints =
+      GradingSystemModel(spec: zeroToFifteenPointsSpec);
+  static final zeroToFifteenPointsWithDecimals =
+      GradingSystemModel(spec: zeroToFifteenPointsWithDecimalsSpec);
   static final zeroToHundredPercentWithDecimals =
-      _GradingSystem(spec: zeroToHundredPercentWithDecimalsSpec);
+      GradingSystemModel(spec: zeroToHundredPercentWithDecimalsSpec);
   static final austrianBehaviouralGrades =
-      _GradingSystem(spec: austrianBehaviouralGradesSpec);
+      GradingSystemModel(spec: austrianBehaviouralGradesSpec);
   static final oneToFiveWithDecimals =
-      _GradingSystem(spec: oneToFiveWithDecimalsSpec);
+      GradingSystemModel(spec: oneToFiveWithDecimalsSpec);
   static final sixToOneWithDecimals =
-      _GradingSystem(spec: sixToOneWithDecimalsSpec);
+      GradingSystemModel(spec: sixToOneWithDecimalsSpec);
 
   final GradingSystemSpec spec;
 
-  _GradingSystem({required this.spec});
+  GradingSystemModel({required this.spec});
 
   num _toNumOrThrow(String grade) {
     // 2,3 -> 2.3 (format expected by num.tryParse())
@@ -81,7 +81,7 @@ class _GradingSystem {
   GradeValue toGradeResult(num grade) {
     return GradeValue(
       asNum: grade,
-      gradingSystem: toGradingSystems(),
+      gradingSystem: toGradingSystem(),
       displayableGrade: spec.getSpecialDisplayableGradeOrNull?.call(grade),
       suffix: spec == zeroToHundredPercentWithDecimalsSpec ? '%' : null,
     );
@@ -95,7 +95,7 @@ class _GradingSystem {
           !possGrades.grades.contains(grade)) {
         throw InvalidGradeValueException(
           gradeInput: grade,
-          gradingSystem: toGradingSystems(),
+          gradingSystem: toGradingSystem(),
         );
       }
       try {
@@ -104,7 +104,7 @@ class _GradingSystem {
           if (db < possGrades.min || db > possGrades.max) {
             throw InvalidGradeValueException(
               gradeInput: grade.toString(),
-              gradingSystem: toGradingSystems(),
+              gradingSystem: toGradingSystem(),
             );
           }
         }
@@ -114,7 +114,7 @@ class _GradingSystem {
       } catch (e) {
         throw InvalidGradeValueException(
           gradeInput: grade,
-          gradingSystem: toGradingSystems(),
+          gradingSystem: toGradingSystem(),
         );
       }
     }
@@ -241,8 +241,8 @@ const oneToFiveWithDecimalsSpec = GradingSystemSpec(
   ),
 );
 
-const zeroToFivteenPointsSpec = GradingSystemSpec(
-  gradingSystem: GradingSystem.zeroToFivteenPoints,
+const zeroToFifteenPointsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.zeroToFifteenPoints,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,
     max: 15,
@@ -250,8 +250,8 @@ const zeroToFivteenPointsSpec = GradingSystemSpec(
   ),
 );
 
-const zeroToFivteenPointsWithDecimalsSpec = GradingSystemSpec(
-  gradingSystem: GradingSystem.zeroToFivteenPointsWithDecimals,
+const zeroToFifteenPointsWithDecimalsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,
     max: 15,

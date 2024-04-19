@@ -13,12 +13,15 @@ class MarkdownField extends StatefulWidget {
   const MarkdownField({
     super.key,
     required this.onChanged,
+    this.controller,
     this.textFieldKey,
     this.prefilledText,
     this.inputDecoration,
     this.icon,
     this.focusNode,
   });
+
+  final TextEditingController? controller;
 
   final Function(String) onChanged;
 
@@ -37,7 +40,6 @@ class MarkdownField extends StatefulWidget {
 class MarkdownFieldState extends State<MarkdownField> {
   bool isFocused = false;
   late FocusNode focusNode;
-  late TextEditingController controller;
 
   @override
   void initState() {
@@ -71,6 +73,7 @@ class MarkdownFieldState extends State<MarkdownField> {
             ListTile(
               leading: widget.icon,
               title: PrefilledTextField(
+                controller: widget.controller,
                 key: widget.textFieldKey,
                 prefilledText: widget.prefilledText,
                 focusNode: focusNode,

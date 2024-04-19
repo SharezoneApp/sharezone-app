@@ -19,8 +19,8 @@ extension ValidValue on GradingSystem {
       GradingSystem.oneToSixWithDecimals => 1.5,
       GradingSystem.oneToSixWithPlusAndMinus => 0.5,
       GradingSystem.sixToOneWithDecimals => 5.5,
-      GradingSystem.zeroToFivteenPoints => 5,
-      GradingSystem.zeroToFivteenPointsWithDecimals => 5.5,
+      GradingSystem.zeroToFifteenPoints => 5,
+      GradingSystem.zeroToFifteenPointsWithDecimals => 5.5,
       GradingSystem.zeroToHundredPercentWithDecimals => 0.5,
       GradingSystem.oneToFiveWithDecimals => 2.5,
     };
@@ -40,7 +40,10 @@ class GradesTestController {
     if (createMissingGradeTypes) {
       for (var id in _getAllGradeTypeIds(testTerm)) {
         service.addCustomGradeType(
-          GradeType(id: id),
+          GradeType(
+            id: id,
+            displayName: randomAlpha(5),
+          ),
         );
       }
     }
@@ -144,6 +147,7 @@ class GradesTestController {
       gradingSystem: testGrade.gradingSystem,
       type: testGrade.type,
       title: testGrade.title,
+      details: testGrade.details,
     );
   }
 
@@ -281,7 +285,7 @@ TestTerm termWith({
     id: idd,
     name: name ?? '$idd',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
-    gradingSystem: gradingSystem ?? GradingSystem.zeroToFivteenPoints,
+    gradingSystem: gradingSystem ?? GradingSystem.zeroToFifteenPoints,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     isActiveTerm: isActiveTerm,
@@ -385,16 +389,18 @@ TestGrade gradeWith({
   GradingSystem? gradingSystem,
   Date? date,
   String? title,
+  String? details,
 }) {
   return TestGrade(
     id: id ?? GradeId(randomAlpha(5)),
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
     date: date ?? Date('2024-02-22'),
-    gradingSystem: gradingSystem ?? GradingSystem.zeroToFivteenPoints,
+    gradingSystem: gradingSystem ?? GradingSystem.zeroToFifteenPoints,
     type: type ?? GradeType.other.id,
     title: title ?? 'Exam',
     weight: weight,
+    details: details,
   );
 }
 
@@ -409,6 +415,7 @@ class TestGrade {
   final Weight? weight;
   final Date date;
   final String title;
+  final String? details;
 
   TestGrade({
     required this.id,
@@ -418,6 +425,7 @@ class TestGrade {
     required this.gradingSystem,
     required this.type,
     required this.title,
+    required this.details,
     this.weight,
   }) {
     if (value is! num && value is! String) {

@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_view.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 
 class GradeDetailsPageController extends ChangeNotifier {
@@ -34,14 +35,14 @@ class GradeDetailsPageController extends ChangeNotifier {
         state = GradeDetailsPageLoaded(
           GradeDetailsView(
             gradeValue: displayGrade(grade.value),
-            gradingSystem: grade.gradingSystem.name,
-            subjectDisplayName: '?',
+            gradingSystem: grade.gradingSystem.displayName,
+            subjectDisplayName: _getSubjectDisplayNameOfGrade(grade.id),
             date: DateFormat.yMd().format(grade.date.toDateTime),
-            gradeType: '?',
-            termDisplayName: '?',
+            gradeType: _getGradeTypeDisplayName(grade.gradeTypeId),
+            termDisplayName: _getTermDisplayNameOfGrade(grade.id),
             integrateGradeIntoSubjectGrade: grade.isTakenIntoAccount,
             title: grade.title,
-            details: '?',
+            details: grade.details,
           ),
         );
       } else {
@@ -68,6 +69,37 @@ class GradeDetailsPageController extends ChangeNotifier {
       // Ground with the [id] not found.
       return null;
     });
+  }
+
+  String _getSubjectDisplayNameOfGrade(GradeId gradeId) {
+    for (final term in gradesService.terms.value) {
+      for (final subject in term.subjects) {
+        if (subject.grades.any((grade) => grade.id == gradeId)) {
+          return subject.name;
+        }
+      }
+    }
+    return '?';
+  }
+
+  String _getTermDisplayNameOfGrade(GradeId gradeId) {
+    for (final term in gradesService.terms.value) {
+      if (term.subjects.any(
+          (subject) => subject.grades.any((grade) => grade.id == gradeId))) {
+        return term.name;
+      }
+    }
+    return '?';
+  }
+
+  String _getGradeTypeDisplayName(GradeTypeId gradeTypeId) {
+    const unknown = '?';
+    for (final gradeType in GradeType.predefinedGradeTypes) {
+      if (gradeType.id == gradeTypeId) {
+        return gradeType.predefinedType?.toUiString() ?? unknown;
+      }
+    }
+    return unknown;
   }
 
   void deleteGrade() {

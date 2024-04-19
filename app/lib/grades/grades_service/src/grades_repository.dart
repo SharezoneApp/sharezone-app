@@ -9,7 +9,7 @@
 part of '../grades_service.dart';
 
 typedef GradesState = ({
-  IList<_Term> terms,
+  IList<TermModel> terms,
   IList<GradeType> customGradeTypes,
   IList<Subject> subjects
 });
@@ -17,7 +17,7 @@ typedef GradesState = ({
 extension GradesStateCopyWith on GradesState {
   GradesState copyWith({
     // ignore: library_private_types_in_public_api
-    IList<_Term>? terms,
+    IList<TermModel>? terms,
     IList<GradeType>? customGradeTypes,
     IList<Subject>? subjects,
   }) {

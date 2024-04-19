@@ -1059,6 +1059,33 @@ void main() {
               .title,
           'Klausur');
     });
+    test('A grade has details', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(
+                id: GradeId('grade1'),
+                value: 4.0,
+                details: 'my details',
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Philosophie'))
+              .grade(GradeId('grade1'))
+              .details,
+          'my details');
+    });
 
     test('A subject has a Design', () {
       final controller = GradesTestController();
@@ -1213,7 +1240,7 @@ void main() {
     test(
         'A gradeType is still saved when deleting the Grade service as long as the repository is the same',
         () {
-      const gradeType = GradeType(id: GradeTypeId('foo'));
+      const gradeType = GradeType(id: GradeTypeId('foo'), displayName: 'Foo');
       controller.createCustomGradeType(gradeType);
 
       replaceGradesServiceWithSameRepository();

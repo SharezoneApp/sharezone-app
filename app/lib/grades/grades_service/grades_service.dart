@@ -49,8 +49,8 @@ class GradesService {
 
   late GradesState _state;
 
-  IList<_Term> get _terms => _state.terms;
-  set _terms(IList<_Term> value) {
+  IList<TermModel> get _terms => _state.terms;
+  set _terms(IList<TermModel> value) {
     _state = _state.copyWith(terms: value);
   }
 
@@ -74,18 +74,18 @@ class GradesService {
     terms.add(termRes);
   }
 
-  void _updateTerm(_Term term) {
+  void _updateTerm(TermModel term) {
     _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
     _updateState();
   }
 
-  TermResult _toTermResult(_Term term) {
+  TermResult _toTermResult(TermModel term) {
     return TermResult(
       id: term.id,
       name: term.name,
       isActiveTerm: term.isActiveTerm,
       finalGradeType: _getGradeType(term.finalGradeType),
-      gradingSystem: term.gradingSystem.toGradingSystems(),
+      gradingSystem: term.gradingSystem.toGradingSystem(),
       calculatedGrade: term.tryGetTermGrade() != null
           ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
           : null,
@@ -112,6 +112,8 @@ class GradesService {
                       isTakenIntoAccount: grade.takenIntoAccount,
                       value: grade.value,
                       title: grade.title,
+                      gradeTypeId: grade.gradeType,
+                      details: grade.details,
                     ),
                   )
                   .toIList(),
@@ -137,12 +139,12 @@ class GradesService {
     }
 
     _terms = _terms.add(
-      _Term(
+      TermModel(
         id: id,
         isActiveTerm: isActiveTerm,
         name: name,
         finalGradeType: finalGradeType,
-        gradingSystem: gradingSystem.toGradingSystem(),
+        gradingSystem: gradingSystem.toGradingSystemModel(),
       ),
     );
     _updateState();
@@ -195,7 +197,7 @@ class GradesService {
     if (gradingSystem != null) {
       _terms = _terms
           .map((term) => term.id == id
-              ? term.setGradingSystem(gradingSystem.toGradingSystem())
+              ? term.setGradingSystem(gradingSystem.toGradingSystemModel())
               : term)
           .toIList();
     }
@@ -218,7 +220,7 @@ class GradesService {
     throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
   }
 
-  _Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
+  TermModel _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
@@ -327,7 +329,7 @@ class GradesService {
   /// For example the values for the grading system "1-6 with plus and minus"
   /// would be: `['1+', '1', '1-', '2+', [...] '5+', '5', '5-', '6']`
   PossibleGradesResult getPossibleGrades(GradingSystem gradingSystem) {
-    final gs = gradingSystem.toGradingSystem();
+    final gs = gradingSystem.toGradingSystemModel();
     return gs.possibleGrades;
   }
 
@@ -440,8 +442,8 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
 
 enum GradingSystem {
   oneToSixWithPlusAndMinus(isNumericalAndContinous: true),
-  zeroToFivteenPoints(isNumericalAndContinous: true),
-  zeroToFivteenPointsWithDecimals(isNumericalAndContinous: true),
+  zeroToFifteenPoints(isNumericalAndContinous: true),
+  zeroToFifteenPointsWithDecimals(isNumericalAndContinous: true),
   oneToSixWithDecimals(isNumericalAndContinous: true),
   zeroToHundredPercentWithDecimals(isNumericalAndContinous: true),
   oneToFiveWithDecimals(isNumericalAndContinous: true),
@@ -530,12 +532,17 @@ enum PredefinedGradeTypes {
 
 class GradeType extends Equatable {
   final GradeTypeId id;
+  final String? displayName;
   final PredefinedGradeTypes? predefinedType;
 
   @override
-  List<Object?> get props => [id, predefinedType];
+  List<Object?> get props => [id, displayName, predefinedType];
 
-  const GradeType({required this.id, this.predefinedType});
+  const GradeType({required this.id, required String this.displayName})
+      : predefinedType = null;
+  const GradeType._predefined(
+      {required this.id, required PredefinedGradeTypes this.predefinedType})
+      : displayName = null;
 
   static const predefinedGradeTypes = IListConst([
     GradeType.schoolReportGrade,
@@ -545,22 +552,22 @@ class GradeType extends Equatable {
     GradeType.presentation,
     GradeType.other,
   ]);
-  static const schoolReportGrade = GradeType(
+  static const schoolReportGrade = GradeType._predefined(
       id: GradeTypeId('school-report-grade'),
       predefinedType: PredefinedGradeTypes.schoolReportGrade);
-  static const writtenExam = GradeType(
+  static const writtenExam = GradeType._predefined(
       id: GradeTypeId('written-exam'),
       predefinedType: PredefinedGradeTypes.writtenExam);
-  static const oralParticipation = GradeType(
+  static const oralParticipation = GradeType._predefined(
       id: GradeTypeId('oral-participation'),
       predefinedType: PredefinedGradeTypes.oralParticipation);
-  static const vocabularyTest = GradeType(
+  static const vocabularyTest = GradeType._predefined(
       id: GradeTypeId('vocabulary-test'),
       predefinedType: PredefinedGradeTypes.vocabularyTest);
-  static const presentation = GradeType(
+  static const presentation = GradeType._predefined(
       id: GradeTypeId('presentation'),
       predefinedType: PredefinedGradeTypes.presentation);
-  static const other = GradeType(
+  static const other = GradeType._predefined(
       id: GradeTypeId('other'), predefinedType: PredefinedGradeTypes.other);
 }
 
@@ -571,6 +578,8 @@ class GradeResult extends Equatable {
   final Date date;
   final String title;
   GradingSystem get gradingSystem => value.gradingSystem;
+  final GradeTypeId gradeTypeId;
+  final String? details;
 
   const GradeResult({
     required this.id,
@@ -578,10 +587,20 @@ class GradeResult extends Equatable {
     required this.value,
     required this.date,
     required this.title,
+    required this.gradeTypeId,
+    required this.details,
   });
 
   @override
-  List<Object?> get props => [id, value, isTakenIntoAccount, date, title];
+  List<Object?> get props => [
+        id,
+        value,
+        isTakenIntoAccount,
+        date,
+        title,
+        gradeTypeId,
+        details,
+      ];
 }
 
 class SubjectResult extends Equatable {
@@ -703,6 +722,10 @@ class Grade {
   /// The title of the grade, for example 'Lineare Algebra Klausur'.
   final String title;
 
+  /// Additional optional details for the grade, for example 'Aufgabe 1: 5/10
+  /// Punkte'.
+  final String? details;
+
   Grade({
     required this.id,
     required this.value,
@@ -711,6 +734,7 @@ class Grade {
     required this.date,
     required this.takeIntoAccount,
     required this.title,
+    required this.details,
   });
 }
 
