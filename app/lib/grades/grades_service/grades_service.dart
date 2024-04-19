@@ -361,6 +361,10 @@ class GradesService {
   }
 
   void addSubject(Subject subject) {
+    if (subject.createdOn != null) {
+      throw ArgumentError(
+          'The createdOn field should not be set when adding a new subject.');
+    }
     if (getSubjects().any((s) => s.id == subject.id)) {
       throw SubjectAlreadyExistsException(subject.id);
     }
