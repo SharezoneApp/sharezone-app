@@ -13,10 +13,10 @@ extension _ToGradingSystem on GradingSystem {
     switch (this) {
       case GradingSystem.zeroToHundredPercentWithDecimals:
         return _GradingSystem.zeroToHundredPercentWithDecimals;
-      case GradingSystem.zeroToFivteenPointsWithDecimals:
-        return _GradingSystem.zeroToFivteenPointsWithDecimals;
-      case GradingSystem.zeroToFivteenPoints:
-        return _GradingSystem.zeroToFiveteenPoints;
+      case GradingSystem.zeroToFifteenPointsWithDecimals:
+        return _GradingSystem.zeroToFifteenPointsWithDecimals;
+      case GradingSystem.zeroToFifteenPoints:
+        return _GradingSystem.zeroToFifteenPoints;
       case GradingSystem.oneToSixWithPlusAndMinus:
         return _GradingSystem.oneToSixWithPlusAndMinus;
       case GradingSystem.oneToSixWithDecimals:
@@ -42,10 +42,10 @@ class _GradingSystem {
       _GradingSystem(spec: oneToSixWithPlusAndMinusSpec);
   static final oneToSixWithDecimals =
       _GradingSystem(spec: oneToSixWithDecimalsSpec);
-  static final zeroToFiveteenPoints =
-      _GradingSystem(spec: zeroToFivteenPointsSpec);
-  static final zeroToFivteenPointsWithDecimals =
-      _GradingSystem(spec: zeroToFivteenPointsWithDecimalsSpec);
+  static final zeroToFifteenPoints =
+      _GradingSystem(spec: zeroToFifteenPointsSpec);
+  static final zeroToFifteenPointsWithDecimals =
+      _GradingSystem(spec: zeroToFifteenPointsWithDecimalsSpec);
   static final zeroToHundredPercentWithDecimals =
       _GradingSystem(spec: zeroToHundredPercentWithDecimalsSpec);
   static final austrianBehaviouralGrades =
@@ -241,8 +241,8 @@ const oneToFiveWithDecimalsSpec = GradingSystemSpec(
   ),
 );
 
-const zeroToFivteenPointsSpec = GradingSystemSpec(
-  gradingSystem: GradingSystem.zeroToFivteenPoints,
+const zeroToFifteenPointsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.zeroToFifteenPoints,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,
     max: 15,
@@ -250,8 +250,8 @@ const zeroToFivteenPointsSpec = GradingSystemSpec(
   ),
 );
 
-const zeroToFivteenPointsWithDecimalsSpec = GradingSystemSpec(
-  gradingSystem: GradingSystem.zeroToFivteenPointsWithDecimals,
+const zeroToFifteenPointsWithDecimalsSpec = GradingSystemSpec(
+  gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
   possibleGrades: ContinuousNumericalPossibleGradesResult(
     min: 0,
     max: 15,
