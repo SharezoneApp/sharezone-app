@@ -585,8 +585,7 @@ class GradeDto {
       gradingSystem: grade.gradingSystem.spec.gradingSystem,
       gradeType: grade.gradeType.id,
       receivedAt: Timestamp.fromDate(
-        DateTime.utc(grade.date.year, grade.date.month, grade.date.day),
-        // DateTime(grade.date.year, grade.date.month, grade.date.day),
+        DateTime(grade.date.year, grade.date.month, grade.date.day),
       ),
       includeInGrading: grade.takenIntoAccount,
       title: grade.title,
