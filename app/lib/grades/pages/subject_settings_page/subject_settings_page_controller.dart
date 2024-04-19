@@ -23,28 +23,38 @@ class SubjectSettingsPageController extends ChangeNotifier {
     required this.termId,
     required this.gradesService,
   }) {
-    final term =
-        gradesService.terms.value.firstWhereOrNull((term) => term.id == termId);
-    if (term == null) {
-      state = const SubjectSettingsError(
-          'We could not find the term. Please try again.');
-      return;
-    }
-
-    try {
-      final subject = term.subject(subjectId);
-      _subjectName = subject.name;
-      final finalGradeType = _getFinalGradeType(subject.finalGradeTypeId);
-      _finalGradeTypeDisplayName =
-          _getFinalGradeTypeDisplayName(finalGradeType);
-      _finalGradeTypeIcon = _getFinalGradeTypeIcon(finalGradeType);
-      _selectableGradeTypes = gradesService.getPossibleGradeTypes();
-
-      state = SubjectSettingsLoaded(view);
-    } catch (e) {
+    final subject = _getSubject();
+    if (subject == null) {
       state = const SubjectSettingsError(
           'We could not find the subject. Please try again.');
       return;
+    }
+
+    _subjectName = subject.name;
+    final finalGradeType = _getFinalGradeType(subject.finalGradeTypeId);
+    _finalGradeTypeDisplayName = _getFinalGradeTypeDisplayName(finalGradeType);
+    _finalGradeTypeIcon = _getFinalGradeTypeIcon(finalGradeType);
+    _selectableGradeTypes = gradesService.getPossibleGradeTypes();
+    _weights = subject.gradeTypeWeights;
+
+    state = SubjectSettingsLoaded(view);
+  }
+
+  TermResult? _getTerm() {
+    return gradesService.terms.value
+        .firstWhereOrNull((term) => term.id == termId);
+  }
+
+  SubjectResult? _getSubject() {
+    final term = _getTerm();
+    if (term == null) {
+      return null;
+    }
+
+    try {
+      return term.subject(subjectId);
+    } catch (e) {
+      return null;
     }
   }
 
@@ -71,14 +81,46 @@ class SubjectSettingsPageController extends ChangeNotifier {
   late String _finalGradeTypeDisplayName;
   late Icon _finalGradeTypeIcon;
   late IList<GradeType> _selectableGradeTypes;
+  late IMap<GradeTypeId, Weight> _weights;
 
   SubjectSettingsPageView get view {
     return SubjectSettingsPageView(
       subjectName: _subjectName,
       finalGradeTypeDisplayName: _finalGradeTypeDisplayName,
       finalGradeTypeIcon: _finalGradeTypeIcon,
-      selectableGradingTypes: _selectableGradeTypes,
+      selectableGradingTypes: _selectableGradeTypes.where((gradeType) {
+        return !_weights.containsKey(gradeType.id);
+      }).toIList(),
+      weights: _weights,
     );
+  }
+
+  void setGradeWeight({
+    required GradeTypeId gradeTypeId,
+    required Weight weight,
+  }) {
+    gradesService.changeGradeTypeWeightForSubject(
+      id: subjectId,
+      termId: termId,
+      gradeType: gradeTypeId,
+      weight: weight,
+    );
+    _selectableGradeTypes = gradesService.getPossibleGradeTypes();
+    _weights = _getSubject()!.gradeTypeWeights;
+    state = SubjectSettingsLoaded(view);
+    notifyListeners();
+  }
+
+  void removeGradeType(GradeTypeId gradeTypeId) {
+    gradesService.removeGradeTypeWeightForSubject(
+      id: subjectId,
+      termId: termId,
+      gradeType: gradeTypeId,
+    );
+    _selectableGradeTypes = gradesService.getPossibleGradeTypes();
+    _weights = _getSubject()!.gradeTypeWeights;
+    state = SubjectSettingsLoaded(view);
+    notifyListeners();
   }
 
   void setFinalGradeType(GradeType gradeType) {

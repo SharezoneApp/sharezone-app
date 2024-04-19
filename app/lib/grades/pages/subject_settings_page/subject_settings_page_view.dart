@@ -16,12 +16,14 @@ class SubjectSettingsPageView extends Equatable {
   final String finalGradeTypeDisplayName;
   final Icon finalGradeTypeIcon;
   final IList<GradeType> selectableGradingTypes;
+  final IMap<GradeTypeId, Weight> weights;
 
   const SubjectSettingsPageView({
     required this.subjectName,
     required this.finalGradeTypeDisplayName,
     required this.finalGradeTypeIcon,
     required this.selectableGradingTypes,
+    required this.weights,
   });
 
   @override
