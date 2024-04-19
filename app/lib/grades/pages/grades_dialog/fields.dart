@@ -38,7 +38,7 @@ class _GradeValue extends StatelessWidget {
                   GradingSystem.oneToSixWithDecimals => 'z.B. 1.3',
                   GradingSystem.oneToSixWithPlusAndMinus => 'z.B. 1+',
                   GradingSystem.sixToOneWithDecimals => 'z.B. 6.0',
-                  GradingSystem.zeroToFivteenPointsWithDecimals => 'z.B. 15.0',
+                  GradingSystem.zeroToFifteenPointsWithDecimals => 'z.B. 15.0',
                   GradingSystem.zeroToHundredPercentWithDecimals => 'z.B. 78.8',
                   _ => null,
                 },
