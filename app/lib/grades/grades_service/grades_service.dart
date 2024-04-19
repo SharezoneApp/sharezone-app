@@ -101,8 +101,7 @@ class GradesService {
                   ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
                   : null,
               weightType: subject.weightType,
-              gradeTypeWeights: subject.gradeTypeWeightings
-                  .map((key, value) => MapEntry(key, Weight.factor(value))),
+              gradeTypeWeights: subject.gradeTypeWeightings,
               grades: subject.grades
                   .map(
                     (grade) => GradeResult(
@@ -113,6 +112,7 @@ class GradesService {
                       title: grade.title,
                       gradeTypeId: grade.gradeType,
                       details: grade.details,
+                      originalInput: grade.originalInput,
                     ),
                   )
                   .toIList(),
@@ -223,8 +223,7 @@ class GradesService {
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
-    final newTerm =
-        _term(termId).changeWeighting(id, weight.asFactor.toDouble());
+    final newTerm = _term(termId).changeWeighting(id, weight);
 
     _updateTerm(newTerm);
   }
@@ -243,17 +242,17 @@ class GradesService {
     required GradeTypeId gradeType,
     required Weight weight,
   }) {
-    final newTerm = _term(termId).changeWeightingOfGradeTypeInSubject(
-        id, gradeType, weight.asFactor.toDouble());
+    final newTerm = _term(termId)
+        .changeWeightingOfGradeTypeInSubject(id, gradeType, weight);
     _updateTerm(newTerm);
   }
 
   void addGrade({
-    required SubjectId id,
+    required SubjectId subjectId,
     required TermId termId,
     required Grade value,
   }) {
-    final subject = _getSubjectOrThrow(id);
+    final subject = _getSubjectOrThrow(subjectId);
     if (!_hasGradeTypeWithId(value.type)) {
       throw GradeTypeNotFoundException(value.type);
     }
@@ -263,10 +262,10 @@ class GradesService {
     }
 
     var newTerm = _term(termId);
-    if (!newTerm.hasSubject(id)) {
+    if (!newTerm.hasSubject(subjectId)) {
       newTerm = newTerm.addSubject(subject);
     }
-    newTerm = newTerm.addGrade(value, toSubject: id);
+    newTerm = newTerm.addGrade(value, toSubject: subjectId);
     _updateTerm(newTerm);
   }
 
@@ -293,8 +292,7 @@ class GradesService {
         .subjects
         .where((element) => element.grades.any((grade) => grade.id == id))
         .first;
-    final newTerm = _term(termId)
-        .changeWeightOfGrade(id, subject.id, weight.asFactor.toDouble());
+    final newTerm = _term(termId).changeWeightOfGrade(id, subject.id, weight);
 
     _updateTerm(newTerm);
   }
@@ -303,8 +301,8 @@ class GradesService {
       {required TermId termId,
       required GradeTypeId gradeType,
       required Weight weight}) {
-    final newTerm = _term(termId).changeWeightingOfGradeType(gradeType,
-        weight: weight.asFactor.toDouble());
+    final newTerm =
+        _term(termId).changeWeightingOfGradeType(gradeType, weight: weight);
     _updateTerm(newTerm);
   }
 
@@ -459,12 +457,15 @@ extension NumericalAndContinuous on List<GradingSystem> {
       where((gs) => gs.isNumericalAndContinous).toIList();
 }
 
-sealed class PossibleGradesResult {
+sealed class PossibleGradesResult extends Equatable {
   const PossibleGradesResult();
 }
 
 class NonNumericalPossibleGradesResult extends PossibleGradesResult {
   final IList<String> grades;
+
+  @override
+  List<Object?> get props => [grades];
 
   const NonNumericalPossibleGradesResult(this.grades);
 }
@@ -473,6 +474,9 @@ class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
   final num min;
   final num max;
   final bool decimalsAllowed;
+
+  @override
+  List<Object?> get props => [min, max, decimalsAllowed, specialGrades];
 
   /// Special non-numerical grade strings that have an assigned numerical value.
   ///
@@ -579,6 +583,7 @@ class GradeResult extends Equatable {
   GradingSystem get gradingSystem => value.gradingSystem;
   final GradeTypeId gradeTypeId;
   final String? details;
+  final Object originalInput;
 
   const GradeResult({
     required this.id,
@@ -588,11 +593,13 @@ class GradeResult extends Equatable {
     required this.title,
     required this.gradeTypeId,
     required this.details,
+    required this.originalInput,
   });
 
   @override
   List<Object?> get props => [
         id,
+        originalInput,
         value,
         isTakenIntoAccount,
         date,
@@ -740,19 +747,25 @@ class GradeTypeId extends Id {
   const GradeTypeId(super.id);
 }
 
-class Subject {
+class Subject extends Equatable {
   final SubjectId id;
   final Design design;
   final String name;
   final String abbreviation;
   final IList<ConnectedCourse> connectedCourses;
+  final DateTime? createdOn;
 
-  Subject({
+  @override
+  List<Object?> get props =>
+      [id, design, name, abbreviation, connectedCourses, createdOn];
+
+  const Subject({
     required this.id,
     required this.design,
     required this.name,
     required this.abbreviation,
     required this.connectedCourses,
+    this.createdOn,
   });
 }
 
@@ -761,15 +774,17 @@ class ConnectedCourse extends Equatable {
   final String name;
   final String abbreviation;
   final String subjectName;
+  final DateTime? addedOn;
 
   @override
-  List<Object?> get props => [id, name, abbreviation, subjectName];
+  List<Object?> get props => [id, name, abbreviation, subjectName, addedOn];
 
   const ConnectedCourse({
     required this.id,
     required this.name,
     required this.abbreviation,
     required this.subjectName,
+    this.addedOn,
   });
 }
 

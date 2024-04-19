@@ -9,7 +9,7 @@ import 'package:analytics/src/analytics/analytics.dart' as _i12;
 import 'package:crash_analytics/src/crash_analytics.dart' as _i9;
 import 'package:fast_immutable_collections/fast_immutable_collections.dart'
     as _i3;
-import 'package:flutter/foundation.dart' as _i11;
+import 'package:flutter/material.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:rxdart/rxdart.dart' as _i2;
@@ -183,7 +183,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
       );
   @override
   void addGrade({
-    required _i6.SubjectId? id,
+    required _i6.SubjectId? subjectId,
     required _i5.TermId? termId,
     required _i4.Grade? value,
   }) =>
@@ -192,7 +192,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
           #addGrade,
           [],
           {
-            #id: id,
+            #subjectId: subjectId,
             #termId: termId,
             #value: value,
           },
