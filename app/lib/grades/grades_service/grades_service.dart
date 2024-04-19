@@ -89,6 +89,7 @@ class GradesService {
       calculatedGrade: term.tryGetTermGrade() != null
           ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
           : null,
+      gradeTypeWeightings: term.gradeTypeWeightings,
       subjects: term.subjects
           .map(
             (subject) => SubjectResult(
@@ -680,6 +681,7 @@ class TermResult extends Equatable {
   final bool isActiveTerm;
   final String name;
   final GradeType finalGradeType;
+  final IMap<GradeTypeId, Weight> gradeTypeWeightings;
 
   SubjectResult subject(SubjectId id) {
     final subject = subjects.firstWhere((element) => element.id == id);
@@ -694,6 +696,7 @@ class TermResult extends Equatable {
     required this.subjects,
     required this.isActiveTerm,
     required this.finalGradeType,
+    required this.gradeTypeWeightings,
   });
 
   @override
@@ -704,7 +707,8 @@ class TermResult extends Equatable {
         subjects,
         isActiveTerm,
         name,
-        finalGradeType
+        finalGradeType,
+        gradeTypeWeightings,
       ];
 }
 
