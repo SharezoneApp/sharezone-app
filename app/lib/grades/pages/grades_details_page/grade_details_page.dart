@@ -346,7 +346,7 @@ class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
     if (value == null) return const SizedBox();
     return _GradeDetailsTile(
       leading: SavedGradeIcons.integrateGradeIntoSubjectGrade,
-      title: const Text("In Fachnote einbringen"),
+      title: const Text("In Schnitt einbringen"),
       trailing: Icon(value! ? Icons.check : Icons.close),
     );
   }

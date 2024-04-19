@@ -16,7 +16,8 @@ import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
@@ -108,9 +109,10 @@ class GradesService {
                       date: grade.date,
                       isTakenIntoAccount: grade.takenIntoAccount,
                       value: grade.value,
-                      title: grade.title,
-                      details: grade.details,
                       originalInput: grade.originalInput,
+                      title: grade.title,
+                      gradeTypeId: grade.gradeType,
+                      details: grade.details,
                     ),
                   )
                   .toIList(),
@@ -510,7 +512,35 @@ enum PredefinedGradeTypes {
   oralParticipation,
   vocabularyTest,
   presentation,
-  other,
+  other;
+
+  String toUiString() {
+    return switch (this) {
+      PredefinedGradeTypes.schoolReportGrade => 'Zeugnisnote',
+      PredefinedGradeTypes.writtenExam => 'Schriftliche Prüfung',
+      PredefinedGradeTypes.oralParticipation => 'Mündliche Beteiligung',
+      PredefinedGradeTypes.vocabularyTest => 'Vokabeltest',
+      PredefinedGradeTypes.presentation => 'Präsentation',
+      PredefinedGradeTypes.other => 'Sonstiges',
+    };
+  }
+
+  Icon getIcon() {
+    return switch (this) {
+      PredefinedGradeTypes.schoolReportGrade =>
+        const Icon(Symbols.contract, fill: 1),
+      PredefinedGradeTypes.writtenExam =>
+        const Icon(Symbols.edit_document, fill: 1),
+      PredefinedGradeTypes.oralParticipation =>
+        const Icon(Symbols.record_voice_over, fill: 1),
+      PredefinedGradeTypes.vocabularyTest =>
+        const Icon(Symbols.text_rotation_none, fill: 1),
+      PredefinedGradeTypes.presentation =>
+        const Icon(Symbols.co_present, fill: 1),
+      PredefinedGradeTypes.other =>
+        const Icon(Symbols.other_admission, fill: 1),
+    };
+  }
 }
 
 class GradeType extends Equatable {
@@ -521,7 +551,7 @@ class GradeType extends Equatable {
   @override
   List<Object?> get props => [id, displayName, predefinedType];
 
-  const GradeType({required this.id, required this.displayName})
+  const GradeType({required this.id, required String this.displayName})
       : predefinedType = null;
   const GradeType._predefined(
       {required this.id, required PredefinedGradeTypes this.predefinedType})
@@ -562,8 +592,8 @@ class GradeResult extends Equatable {
   final String title;
   final String? details;
   final Object originalInput;
-
   GradingSystem get gradingSystem => value.gradingSystem;
+  final GradeTypeId gradeTypeId;
 
   const GradeResult({
     required this.id,
@@ -572,12 +602,20 @@ class GradeResult extends Equatable {
     required this.value,
     required this.date,
     required this.title,
-    this.details,
+    required this.gradeTypeId,
+    required this.details,
   });
 
   @override
-  List<Object?> get props =>
-      [id, value, originalInput, isTakenIntoAccount, date, title, details];
+  List<Object?> get props => [
+        id,
+        value,
+        isTakenIntoAccount,
+        date,
+        title,
+        gradeTypeId,
+        details,
+      ];
 }
 
 class SubjectResult extends Equatable {
@@ -696,6 +734,8 @@ class Grade {
   /// The title of the grade, for example 'Lineare Algebra Klausur'.
   final String title;
 
+  /// Additional optional details for the grade, for example 'Aufgabe 1: 5/10
+  /// Punkte'.
   final String? details;
 
   Grade({
@@ -706,7 +746,7 @@ class Grade {
     required this.date,
     required this.takeIntoAccount,
     required this.title,
-    this.details,
+    required this.details,
   });
 }
 

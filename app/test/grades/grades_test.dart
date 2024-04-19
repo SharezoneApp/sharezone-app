@@ -1126,8 +1126,8 @@ void main() {
             grades: [
               gradeWith(
                 id: GradeId('grade1'),
-                value: 3,
-                details: 'Bla bla bla',
+                value: 4.0,
+                details: 'my details',
               ),
             ],
           ),
@@ -1141,7 +1141,7 @@ void main() {
               .subject(const SubjectId('Philosophie'))
               .grade(GradeId('grade1'))
               .details,
-          'Bla bla bla');
+          'my details');
     });
 
     test('A subject has a Design', () {
