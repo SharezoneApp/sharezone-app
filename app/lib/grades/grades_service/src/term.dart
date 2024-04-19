@@ -164,7 +164,7 @@ class TermModel extends Equatable {
     );
 
     final originalInput = grade.value;
-    final gradingSystem = grade.gradingSystem.toGradingSystem();
+    final gradingSystem = grade.gradingSystem.toGradingSystemModel();
     final gradeVal = gradingSystem.toNumOrThrow(grade.value);
 
     subject = subject._addGrade(GradeModel(
@@ -480,7 +480,7 @@ class GradeModel extends Equatable {
     this.createdOn,
   }) : assert(originalInput is String || originalInput is num);
 
-  GradeModel _changeWeight(Weight weight) {
+  GradeModel changeWeight(Weight weight) {
     return copyWith(weight: weight, takenIntoAccount: weight.asFactor > 0);
   }
 

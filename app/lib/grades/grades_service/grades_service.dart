@@ -113,7 +113,6 @@ class GradesService {
                       title: grade.title,
                       gradeTypeId: grade.gradeType,
                       details: grade.details,
-                      originalInput: grade.originalInput,
                     ),
                   )
                   .toIList(),
@@ -490,9 +489,6 @@ class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
   final num max;
   final bool decimalsAllowed;
 
-  @override
-  List<Object?> get props => [min, max, decimalsAllowed, specialGrades];
-
   /// Special non-numerical grade strings that have an assigned numerical value.
   ///
   /// For example [GradingSystem.oneToSixWithPlusAndMinus] might have the values:
@@ -612,7 +608,6 @@ class GradeResult extends Equatable {
     required this.title,
     required this.gradeTypeId,
     required this.details,
-    required this.originalInput,
   });
 
   @override

@@ -9,7 +9,7 @@
 part of '../grades_service.dart';
 
 extension _ToGradingSystem on GradingSystem {
-  GradingSystemModel toGradingSystem() {
+  GradingSystemModel toGradingSystemModel() {
     switch (this) {
       case GradingSystem.zeroToHundredPercentWithDecimals:
         return GradingSystemModel.zeroToHundredPercentWithDecimals;
@@ -32,7 +32,7 @@ extension _ToGradingSystem on GradingSystem {
 }
 
 extension _ToGradingSystems on GradingSystemModel {
-  GradingSystem toGradingSystems() {
+  GradingSystem toGradingSystem() {
     return spec.gradingSystem;
   }
 }

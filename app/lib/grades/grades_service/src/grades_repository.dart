@@ -144,7 +144,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
 
     final grades = gradeDtos.map(
       (dto) {
-        final gradingSystem = dto.gradingSystem.toGradingSystem();
+        final gradingSystem = dto.gradingSystem.toGradingSystemModel();
         return GradeModel(
           id: GradeId(dto.id),
           termId: TermId(dto.termId),
@@ -232,7 +232,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
                 grade.subjectId == subject.id && grade.termId.id == termId)
             .toIList(),
         weightType: termSubject.gradeComposition.weightType,
-        gradingSystem: subTerm.gradingSystem.toGradingSystem(),
+        gradingSystem: subTerm.gradingSystem.toGradingSystemModel(),
         finalGradeType: GradeTypeId(termSubject.finalGradeType),
         abbreviation: subject.abbreviation,
         design: subject.design,
@@ -245,7 +245,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             id: TermId(dto.id),
             finalGradeType: GradeTypeId(dto.finalGradeTypeId),
             createdOn: dto.createdOn?.toDate(),
-            gradingSystem: dto.gradingSystem.toGradingSystem(),
+            gradingSystem: dto.gradingSystem.toGradingSystemModel(),
             isActiveTerm: data['currentTerm'] == dto.id,
             subjects: termSubjects
                 .where((subject) => subject.termId.id == dto.id)
