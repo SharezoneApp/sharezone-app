@@ -80,7 +80,7 @@ class GradesTestController {
       // other settings (weights) that refer to the term.
       for (var grade in subject.grades) {
         service.addGrade(
-          id: subject.id,
+          subjectId: subject.id,
           termId: termId,
           value: _toGrade(grade),
         );
@@ -202,6 +202,12 @@ class GradesTestController {
     return service.getPossibleGradeTypes();
   }
 
+  IList<GradeType> getCustomGradeTypes() {
+    return getPossibleGradeTypes()
+        .where((gt) => gt.predefinedType == null)
+        .toIList();
+  }
+
   void createCustomGradeType(GradeType gradeType) {
     return service.addCustomGradeType(gradeType);
   }
@@ -212,7 +218,7 @@ class GradesTestController {
     required TestGrade value,
   }) {
     return service.addGrade(
-      id: subjectId,
+      subjectId: subjectId,
       termId: termId,
       value: _toGrade(value),
     );
@@ -399,8 +405,8 @@ TestGrade gradeWith({
     gradingSystem: gradingSystem ?? GradingSystem.zeroToFifteenPoints,
     type: type ?? GradeType.other.id,
     title: title ?? 'Exam',
+    details: details ?? randomAlpha(5),
     weight: weight,
-    details: details,
   );
 }
 
@@ -415,7 +421,7 @@ class TestGrade {
   final Weight? weight;
   final Date date;
   final String title;
-  final String? details;
+  final String details;
 
   TestGrade({
     required this.id,

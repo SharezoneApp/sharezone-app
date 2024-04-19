@@ -77,6 +77,14 @@ void main() {
           containsOnce(
               const GradeType(id: GradeTypeId('bar'), displayName: 'bar')));
     });
+    test('A custom grade type has a display name', () {
+      final controller = GradesTestController();
+
+      const gradeType = GradeType(id: GradeTypeId('foo'), displayName: 'Foo');
+      controller.createCustomGradeType(gradeType);
+
+      expect(controller.getCustomGradeTypes().single.displayName, 'Foo');
+    });
     test(
         'Trying to add a grade with an non-existing gradeType will cause an UnknownGradeTypeException',
         () {
