@@ -396,7 +396,7 @@ class GradesDialogController extends ChangeNotifier {
     try {
       final gradeId = GradeId(randomIDString(20));
       gradesService.addGrade(
-        id: _selectSubjectId!,
+        subjectId: _selectSubjectId!,
         termId: _selectedTermId!,
         value: Grade(
           id: gradeId,

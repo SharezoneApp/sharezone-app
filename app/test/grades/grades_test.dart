@@ -561,6 +561,45 @@ void main() {
               .asDouble,
           1);
     });
+    test('A grade saves the original input', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Deutsch'),
+            name: 'Deutsch',
+            grades: [
+              gradeWith(
+                  id: GradeId('grade1'),
+                  value: "2+",
+                  gradingSystem: GradingSystem.oneToSixWithPlusAndMinus),
+              gradeWith(
+                  id: GradeId('grade2'),
+                  value: 1.75,
+                  gradingSystem: GradingSystem.oneToSixWithPlusAndMinus),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Deutsch'))
+              .grade(GradeId('grade1'))
+              .originalInput,
+          '2+');
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Deutsch'))
+              .grade(GradeId('grade2'))
+              .originalInput,
+          1.75);
+    });
     test(
         'A subject can have a custom "Endnote" that overrides the terms "Endnote"',
         () {
@@ -610,6 +649,24 @@ void main() {
               .calculatedGrade!
               .asDouble,
           4.0);
+    });
+    test('Its possible that no terms are active', () {
+      final controller = GradesTestController();
+
+      final term1 = termWith(isActiveTerm: false);
+      final term2 = termWith(isActiveTerm: false);
+      controller.createTerm(term1);
+      controller.createTerm(term2);
+
+      // Just making sure that no exception is thrown
+      controller.editTerm(term1.id, isActiveTerm: true);
+      controller.editTerm(term1.id, isActiveTerm: false);
+
+      expect(controller.terms, hasLength(2));
+      expect(
+          controller.terms,
+          everyElement(predicate<TermResult>(
+              (p0) => p0.isActiveTerm == false, 'is not active')));
     });
     test('A user can have several terms', () {
       final controller = GradesTestController();
