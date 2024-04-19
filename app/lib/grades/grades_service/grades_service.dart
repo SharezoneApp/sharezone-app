@@ -249,6 +249,16 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  void removeGradeTypeWeightForSubject({
+    required SubjectId id,
+    required TermId termId,
+    required GradeTypeId gradeType,
+  }) {
+    final newTerm =
+        _term(termId).removeWeightingOfGradeTypeInSubject(id, gradeType);
+    _updateTerm(newTerm);
+  }
+
   void addGrade({
     required SubjectId id,
     required TermId termId,
@@ -300,12 +310,21 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
-  void changeGradeTypeWeightForTerm(
-      {required TermId termId,
-      required GradeTypeId gradeType,
-      required Weight weight}) {
+  void changeGradeTypeWeightForTerm({
+    required TermId termId,
+    required GradeTypeId gradeType,
+    required Weight weight,
+  }) {
     final newTerm = _term(termId).changeWeightingOfGradeType(gradeType,
         weight: weight.asFactor.toDouble());
+    _updateTerm(newTerm);
+  }
+
+  void removeGradeTypeWeightForTerm({
+    required TermId termId,
+    required GradeTypeId gradeType,
+  }) {
+    final newTerm = _term(termId).removeWeightingOfGradeType(gradeType);
     _updateTerm(newTerm);
   }
 

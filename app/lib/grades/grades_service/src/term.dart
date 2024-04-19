@@ -128,6 +128,16 @@ class TermModel {
     return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
   }
 
+  TermModel removeWeightingOfGradeType(GradeTypeId type) {
+    final newWeights = gradeTypeWeightings.remove(type);
+    final newSubjects = subjects.map((s) {
+      final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
+      return newSubject;
+    }).toIList();
+
+    return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
+  }
+
   TermModel setFinalGradeType(GradeTypeId gradeType) {
     final newSubjects =
         subjects.where((s) => s.isFinalGradeTypeOverridden == false).map((s) {
@@ -199,6 +209,16 @@ class TermModel {
       SubjectId id, GradeTypeId gradeType, double weight) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.changeGradeTypeWeight(gradeType, weight: weight);
+
+    return _copyWith(
+      subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
+    );
+  }
+
+  TermModel removeWeightingOfGradeTypeInSubject(
+      SubjectId id, GradeTypeId gradeType) {
+    final subject = subjects.firstWhere((s) => s.id == id);
+    final newSubject = subject.removeGradeTypeWeight(gradeType);
 
     return _copyWith(
       subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
@@ -332,6 +352,10 @@ class SubjectModel {
       {required double weight}) {
     return copyWith(
         gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
+  }
+
+  SubjectModel removeGradeTypeWeight(GradeTypeId gradeType) {
+    return copyWith(gradeTypeWeightings: gradeTypeWeightings.remove(gradeType));
   }
 
   SubjectModel overrideFinalGradeType(GradeTypeId gradeType) {
