@@ -184,7 +184,6 @@ void main() {
           weight: const Weight.percent(250));
 
       final res = repository.data;
-      final state = repository.state.value;
 
       expect(res, {
         'currentTerm': '02-10-term',
@@ -360,6 +359,8 @@ void main() {
           }
         }
       });
+
+      final state = repository.state.value;
 
       expect(
           state.customGradeTypes,
