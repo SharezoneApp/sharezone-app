@@ -40,7 +40,10 @@ class GradesTestController {
     if (createMissingGradeTypes) {
       for (var id in _getAllGradeTypeIds(testTerm)) {
         service.addCustomGradeType(
-          GradeType(id: id),
+          GradeType(
+            id: id,
+            displayName: randomAlpha(5),
+          ),
         );
       }
     }
