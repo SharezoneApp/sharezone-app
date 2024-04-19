@@ -99,7 +99,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystem.zeroToFivteenPoints,
+        gradingSystem: GradingSystem.zeroToFifteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -107,15 +107,15 @@ void main() {
             grades: [
               gradeWith(
                 value: 4,
-                gradingSystem: GradingSystem.zeroToFivteenPoints,
+                gradingSystem: GradingSystem.zeroToFifteenPoints,
               ),
               gradeWith(
                 value: 8,
-                gradingSystem: GradingSystem.zeroToFivteenPoints,
+                gradingSystem: GradingSystem.zeroToFifteenPoints,
               ),
               gradeWith(
                 value: 2,
-                gradingSystem: GradingSystem.zeroToFivteenPoints,
+                gradingSystem: GradingSystem.zeroToFifteenPoints,
               ),
             ],
           ),
@@ -136,7 +136,7 @@ void main() {
     test('0 to 15 points returns correct possible values', () {
       final service = GradesService();
       final possibleGrades =
-          service.getPossibleGrades(GradingSystem.zeroToFivteenPoints);
+          service.getPossibleGrades(GradingSystem.zeroToFifteenPoints);
 
       expect(possibleGrades, isA<ContinuousNumericalPossibleGradesResult>());
       final res = (possibleGrades as ContinuousNumericalPossibleGradesResult);
@@ -150,7 +150,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystem.zeroToFivteenPointsWithDecimals,
+        gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -158,15 +158,15 @@ void main() {
             grades: [
               gradeWith(
                 value: 4.3,
-                gradingSystem: GradingSystem.zeroToFivteenPointsWithDecimals,
+                gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
               ),
               gradeWith(
                 value: "5.6",
-                gradingSystem: GradingSystem.zeroToFivteenPointsWithDecimals,
+                gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
               ),
               gradeWith(
                 value: 3,
-                gradingSystem: GradingSystem.zeroToFivteenPointsWithDecimals,
+                gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
               ),
             ],
           ),
@@ -187,7 +187,7 @@ void main() {
     test('0 to 15 points with decimals returns correct possible values', () {
       final service = GradesService();
       final possibleGrades = service
-          .getPossibleGrades(GradingSystem.zeroToFivteenPointsWithDecimals);
+          .getPossibleGrades(GradingSystem.zeroToFifteenPointsWithDecimals);
 
       expect(possibleGrades, isA<ContinuousNumericalPossibleGradesResult>());
       final res = (possibleGrades as ContinuousNumericalPossibleGradesResult);
@@ -677,7 +677,7 @@ void main() {
               // should be ignored in subject and terms calculated grade
               gradeWith(
                 value: 3,
-                gradingSystem: GradingSystem.zeroToFivteenPoints,
+                gradingSystem: GradingSystem.zeroToFifteenPoints,
               ),
             ],
           ),
@@ -702,7 +702,7 @@ void main() {
       final controller = GradesTestController();
 
       final term = termWith(
-        gradingSystem: GradingSystem.zeroToFivteenPoints,
+        gradingSystem: GradingSystem.zeroToFifteenPoints,
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
@@ -710,11 +710,11 @@ void main() {
             grades: [
               gradeWith(
                 value: 4,
-                gradingSystem: GradingSystem.zeroToFivteenPoints,
+                gradingSystem: GradingSystem.zeroToFifteenPoints,
               ),
               gradeWith(
                 value: 8,
-                gradingSystem: GradingSystem.zeroToFivteenPoints,
+                gradingSystem: GradingSystem.zeroToFifteenPoints,
               ),
               gradeWith(
                 value: "2+",
