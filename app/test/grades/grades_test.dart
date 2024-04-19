@@ -1240,7 +1240,7 @@ void main() {
     test(
         'A gradeType is still saved when deleting the Grade service as long as the repository is the same',
         () {
-      const gradeType = GradeType(id: GradeTypeId('foo'));
+      const gradeType = GradeType(id: GradeTypeId('foo'), displayName: 'Foo');
       controller.createCustomGradeType(gradeType);
 
       replaceGradesServiceWithSameRepository();
