@@ -459,6 +459,10 @@ class _GradingTypeWeights extends StatelessWidget {
     return SubjectWeights(
       weights: weights,
       selectableGradingTypes: selectableGradingTypes,
+      onRemoveGradeType: (gradeTypeId) {
+        final controller = context.read<TermSettingsPageController>();
+        controller.removeGradeType(gradeTypeId);
+      },
       onSetGradeWeight: (gradeTypeId, weight) {
         final controller = context.read<TermSettingsPageController>();
         controller.setGradeWeight(gradeTypeId, weight);
