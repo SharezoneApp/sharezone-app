@@ -272,10 +272,7 @@ class _SubjectWeight extends StatelessWidget {
           Icons.remove_circle_outline,
           color: Colors.red,
         ),
-        onPressed: () {
-          final controller = context.read<SubjectSettingsPageController>();
-          controller.removeGradeType(gradeTypeId);
-        },
+        onPressed: () => onRemoveGradeType(gradeTypeId),
       ),
       trailing: Text(
         '${weight.asPercentage}%',

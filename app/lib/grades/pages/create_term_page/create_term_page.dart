@@ -191,8 +191,6 @@ class GradingSystemBase extends StatelessWidget {
 
         if (res != null && context.mounted) {
           onGradingSystemChanged(res);
-          final controller = context.read<CreateTermPageController>();
-          controller.setGradingSystem(res);
         }
       },
       child: Column(
