@@ -104,6 +104,7 @@ class GradesService {
               weightType: subject.weightType,
               gradeTypeWeights: subject.gradeTypeWeightings,
               finalGradeTypeId: subject.finalGradeType,
+              weightingForTermGrade: subject.weightingForTermGrade,
               grades: subject.grades
                   .map(
                     (grade) => GradeResult(
@@ -640,6 +641,7 @@ class SubjectResult extends Equatable {
   final Design design;
   final IList<ConnectedCourse> connectedCourses;
   final GradeTypeId finalGradeTypeId;
+  final Weight weightingForTermGrade;
 
   const SubjectResult({
     required this.id,
@@ -652,6 +654,7 @@ class SubjectResult extends Equatable {
     required this.design,
     required this.connectedCourses,
     required this.finalGradeTypeId,
+    required this.weightingForTermGrade,
   });
 
   GradeResult grade(GradeId gradeId) {

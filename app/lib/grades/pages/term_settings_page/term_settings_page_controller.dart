@@ -32,6 +32,15 @@ class TermSettingsPageController extends ChangeNotifier {
         finalGradeType: finalGradeType,
         selectableGradingTypes: gradesService.getPossibleGradeTypes(),
         weights: _weights,
+        subjects: (_getTerm()?.subjects ?? IList())
+            .map((s) => (
+                  id: s.id,
+                  design: s.design,
+                  displayName: s.name,
+                  abbreviation: s.abbreviation,
+                  weight: s.weightingForTermGrade
+                ))
+            .toIList(),
       );
 
   TermSettingsPageController({
@@ -114,6 +123,16 @@ class TermSettingsPageController extends ChangeNotifier {
       gradeType: gradeTypeId,
     );
     _weights = _getTerm()!.gradeTypeWeightings;
+    state = TermSettingsLoaded(view);
+    notifyListeners();
+  }
+
+  void setSubjectWeight(SubjectId subjectId, Weight weight) {
+    gradesService.changeSubjectWeightForTermGrade(
+      id: subjectId,
+      termId: termId,
+      weight: weight,
+    );
     state = TermSettingsLoaded(view);
     notifyListeners();
   }

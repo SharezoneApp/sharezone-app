@@ -11,8 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
-import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart'
+    hide SubjectView;
 import 'package:sharezone/grades/pages/shared/select_grade_type_dialog.dart';
+import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_view.dart';
@@ -129,7 +131,10 @@ class _Loaded extends StatelessWidget {
             _IsActiveTerm(isActiveTerm: view.isActiveTerm),
             const Divider(),
             const SizedBox(height: 8),
-            _SubjectWeights(
+            _SubjectWeights(subjects: view.subjects),
+            const Divider(),
+            const SizedBox(height: 8),
+            _GradingTypeWeights(
               weights: view.weights,
               selectableGradingTypes: view.selectableGradingTypes,
             ),
@@ -284,6 +289,166 @@ class _IsActiveTerm extends StatelessWidget {
 
 class _SubjectWeights extends StatelessWidget {
   const _SubjectWeights({
+    required this.subjects,
+  });
+
+  final IList<SubjectView> subjects;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Gewichtung der Kurse für Notenschnitt vom Halbjahr',
+          style: TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Solltest du Kurse haben, die doppelt gewichtet werden, kannst du bei diesen eine 2.0 eintragen.',
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
+        ),
+        const SizedBox(height: 8),
+        for (final subject in subjects) _SubjectTile(subject),
+        const SizedBox(height: 8),
+        Text(
+          'Es werden nur Fächer angezeigt, für die eine Note eingetragen wurde.',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SubjectTile extends StatelessWidget {
+  const _SubjectTile(this.subject);
+
+  final SubjectView subject;
+
+  @override
+  Widget build(BuildContext context) {
+    final factor = subject.weight.asFactor.toStringAsPrecision(2);
+    return ListTile(
+      leading: SubjectAvatar(
+        abbreviation: subject.abbreviation,
+        design: subject.design,
+      ),
+      title: Text(subject.displayName),
+      onTap: () async {
+        final weight = await showDialog<double>(
+          context: context,
+          builder: (context) => _FactorDialog(
+            initialValue: subject.weight.asFactor.toDouble(),
+          ),
+        );
+
+        if (weight != null && context.mounted) {
+          final controller = context.read<TermSettingsPageController>();
+          controller.setSubjectWeight(subject.id, Weight.factor(weight));
+        }
+      },
+      trailing: Text(
+        factor,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+        ),
+      ),
+    );
+  }
+}
+
+class _FactorDialog extends StatefulWidget {
+  const _FactorDialog({
+    required this.initialValue,
+  });
+
+  final double initialValue;
+
+  @override
+  State<_FactorDialog> createState() => _FactorDialogState();
+}
+
+class _FactorDialogState extends State<_FactorDialog> {
+  String? errorText;
+  double? value;
+
+  @override
+  void initState() {
+    super.initState();
+    value = widget.initialValue;
+  }
+
+  bool isValid() =>
+      errorText == null && value != null && widget.initialValue != value;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 400,
+      child: AlertDialog(
+        title: const Text('Gewichtung ändern'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Die Gewichtung beschreibt, wie stark die Note des Kurses in den Halbjahresschnitt einfließt.',
+                style: TextStyle(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                ),
+              ),
+              const SizedBox(height: 20),
+              PrefilledTextField(
+                prefilledText: value?.toStringAsPrecision(2),
+                autofocus: true,
+                decoration: InputDecoration(
+                  labelText: 'Gewichtung',
+                  hintText: 'z.B. 1.0',
+                  errorText: errorText,
+                ),
+                onEditingComplete: () {
+                  if (isValid()) {
+                    Navigator.of(context).pop(value);
+                  }
+                },
+                onChanged: (value) {
+                  setState(() {
+                    this.value = double.tryParse(value);
+
+                    final isValid = this.value != null;
+                    errorText = isValid ? null : 'Bitte gib eine Zahl ein.';
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Abbrechen'),
+          ),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 250),
+            child: FilledButton(
+              onPressed:
+                  isValid() ? () => Navigator.of(context).pop(value) : null,
+              child: const Text('Speichern'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GradingTypeWeights extends StatelessWidget {
+  const _GradingTypeWeights({
     required this.weights,
     required this.selectableGradingTypes,
   });

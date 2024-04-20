@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:design/design.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -17,6 +18,7 @@ class TermSettingsPageView extends Equatable {
   final GradeType finalGradeType;
   final IList<GradeType> selectableGradingTypes;
   final IMap<GradeTypeId, Weight> weights;
+  final IList<SubjectView> subjects;
 
   const TermSettingsPageView({
     required this.name,
@@ -25,6 +27,7 @@ class TermSettingsPageView extends Equatable {
     required this.finalGradeType,
     required this.selectableGradingTypes,
     required this.weights,
+    required this.subjects,
   });
 
   @override
@@ -34,6 +37,15 @@ class TermSettingsPageView extends Equatable {
         gradingSystem,
         finalGradeType,
         selectableGradingTypes,
-        weights
+        weights,
+        subjects,
       ];
 }
+
+typedef SubjectView = ({
+  SubjectId id,
+  Design design,
+  String abbreviation,
+  String displayName,
+  Weight weight,
+});
