@@ -13,7 +13,7 @@ import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/shared/select_grade_type_dialog.dart';
-import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page_controller.dart';
+import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_view.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -129,13 +129,19 @@ class _Loaded extends StatelessWidget {
             _IsActiveTerm(isActiveTerm: view.isActiveTerm),
             const Divider(),
             const SizedBox(height: 8),
+            _SubjectWeights(
+              weights: view.weights,
+              selectableGradingTypes: view.selectableGradingTypes,
+            ),
+            const Divider(),
+            const SizedBox(height: 8),
             _FinalGradeType(
               displayName:
                   view.finalGradeType.predefinedType?.toUiString() ?? '?',
               icon: view.finalGradeType.predefinedType?.getIcon() ??
                   const Icon(Icons.help),
               selectableGradingTypes: view.selectableGradingTypes,
-            )
+            ),
           ],
         ),
       ),
@@ -276,6 +282,28 @@ class _IsActiveTerm extends StatelessWidget {
   }
 }
 
+class _SubjectWeights extends StatelessWidget {
+  const _SubjectWeights({
+    required this.weights,
+    required this.selectableGradingTypes,
+  });
+
+  final IMap<GradeTypeId, Weight> weights;
+  final IList<GradeType> selectableGradingTypes;
+
+  @override
+  Widget build(BuildContext context) {
+    return SubjectWeights(
+      weights: weights,
+      selectableGradingTypes: selectableGradingTypes,
+      onSetGradeWeight: (gradeTypeId, weight) {
+        final controller = context.read<TermSettingsPageController>();
+        controller.setGradeWeight(gradeTypeId, weight);
+      },
+    );
+  }
+}
+
 class _GradingSystem extends StatelessWidget {
   const _GradingSystem({
     required this.gradingSystem,
@@ -311,26 +339,15 @@ class _FinalGradeType extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Endnote eines Faches',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Die berechnete Fachnote kann von einem Notentyp überschrieben werden.',
-                style: TextStyle(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.5)),
-              ),
-            ],
-          ),
+        const Text(
+          'Endnote eines Faches',
+          style: TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Die berechnete Fachnote kann von einem Notentyp überschrieben werden.',
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
         ),
         const SizedBox(height: 8),
         ListTile(

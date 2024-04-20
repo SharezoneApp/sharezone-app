@@ -16,6 +16,7 @@ class TermSettingsPageView extends Equatable {
   final GradingSystem gradingSystem;
   final GradeType finalGradeType;
   final IList<GradeType> selectableGradingTypes;
+  final IMap<GradeTypeId, Weight> weights;
 
   const TermSettingsPageView({
     required this.name,
@@ -23,8 +24,16 @@ class TermSettingsPageView extends Equatable {
     required this.gradingSystem,
     required this.finalGradeType,
     required this.selectableGradingTypes,
+    required this.weights,
   });
 
   @override
-  List<Object?> get props => [name, isActiveTerm, gradingSystem];
+  List<Object?> get props => [
+        name,
+        isActiveTerm,
+        gradingSystem,
+        finalGradeType,
+        selectableGradingTypes,
+        weights
+      ];
 }

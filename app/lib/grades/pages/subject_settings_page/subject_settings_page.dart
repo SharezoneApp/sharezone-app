@@ -113,7 +113,7 @@ class _Loaded extends StatelessWidget {
                 selectableGradingTypes: view.selectableGradingTypes,
               ),
               const Divider(),
-              _SubjectWeights(
+              SubjectWeights(
                 selectableGradingTypes: view.selectableGradingTypes,
                 weights: view.weights,
                 onSetGradeWeight: (gradeTypeId, weight) {
@@ -180,8 +180,9 @@ class _FinalGradeType extends StatelessWidget {
   }
 }
 
-class _SubjectWeights extends StatelessWidget {
-  const _SubjectWeights({
+class SubjectWeights extends StatelessWidget {
+  const SubjectWeights({
+    super.key,
     required this.weights,
     required this.selectableGradingTypes,
     required this.onSetGradeWeight,

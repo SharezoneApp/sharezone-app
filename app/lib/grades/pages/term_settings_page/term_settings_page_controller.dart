@@ -21,6 +21,7 @@ class TermSettingsPageController extends ChangeNotifier {
   late bool isActiveTerm;
   late GradingSystem gradingSystem;
   late GradeType finalGradeType;
+  late IMap<GradeTypeId, Weight> _weights;
 
   TermSettingsState state = const TermSettingsLoading();
 
@@ -29,10 +30,8 @@ class TermSettingsPageController extends ChangeNotifier {
         name: name,
         gradingSystem: gradingSystem,
         finalGradeType: finalGradeType,
-        selectableGradingTypes: gradesService
-            .getPossibleGradeTypes()
-            .where((t) => t != finalGradeType)
-            .toIList(),
+        selectableGradingTypes: gradesService.getPossibleGradeTypes(),
+        weights: _weights,
       );
 
   TermSettingsPageController({
@@ -49,6 +48,7 @@ class TermSettingsPageController extends ChangeNotifier {
     isActiveTerm = term.isActiveTerm;
     gradingSystem = term.gradingSystem;
     finalGradeType = term.finalGradeType;
+    _weights = term.gradeTypeWeightings;
 
     state = TermSettingsLoaded(view);
   }
@@ -93,6 +93,27 @@ class TermSettingsPageController extends ChangeNotifier {
       finalGradeType: gradeType.id,
     );
     finalGradeType = gradeType;
+    state = TermSettingsLoaded(view);
+    notifyListeners();
+  }
+
+  void setGradeWeight(GradeTypeId gradeTypeId, Weight weight) {
+    gradesService.changeGradeTypeWeightForTerm(
+      termId: termId,
+      gradeType: gradeTypeId,
+      weight: weight,
+    );
+    _weights = _getTerm()!.gradeTypeWeightings;
+    state = TermSettingsLoaded(view);
+    notifyListeners();
+  }
+
+  void removeGradeType(GradeTypeId gradeTypeId) {
+    gradesService.removeGradeTypeWeightForTerm(
+      termId: termId,
+      gradeType: gradeTypeId,
+    );
+    _weights = _getTerm()!.gradeTypeWeightings;
     state = TermSettingsLoaded(view);
     notifyListeners();
   }
