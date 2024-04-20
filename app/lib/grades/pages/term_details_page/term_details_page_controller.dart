@@ -79,6 +79,10 @@ class TermDetailsPageController extends ChangeNotifier {
         .map((terms) => terms.firstWhereOrNull((term) => term.id == termId));
   }
 
+  void deleteTerm() {
+    gradesService.deleteTerm(termId);
+  }
+
   @override
   void dispose() {
     _termStreamSubscription.cancel();
