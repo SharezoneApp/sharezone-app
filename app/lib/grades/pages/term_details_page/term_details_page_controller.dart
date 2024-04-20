@@ -60,7 +60,7 @@ class TermDetailsPageController extends ChangeNotifier {
             displayName: term.name,
             avgGrade: (
               displayGrade(term.calculatedGrade),
-              GradePerformance.bad
+              GradePerformance.good,
             ),
           ),
           subjectsWithGrades: subjects2,

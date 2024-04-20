@@ -7,10 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:design/design.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -26,18 +24,9 @@ class GradesPageController extends ChangeNotifier {
     _subscription = gradesService.terms.listen((event) {
       try {
         final activeTerm = event.firstWhereOrNull((term) => term.isActiveTerm);
-        if (activeTerm == null) {
-          placeholderCurrentTerm.subjects.sortByDisplayName();
-          placeholderPastTerms.sortByTermName();
+        CurrentTermView? currentTerm;
 
-          state = GradesPageLoaded(
-            currentTerm: placeholderCurrentTerm,
-            pastTerms: placeholderPastTerms,
-          );
-          notifyListeners();
-        } else {
-          final otherTerms = event.remove(activeTerm);
-
+        if (activeTerm != null) {
           final subjectGrades = activeTerm.subjects
               .expand<SubjectView>((subject) => subject.grades.map((grade) => (
                     id: subject.id,
@@ -48,7 +37,7 @@ class GradesPageController extends ChangeNotifier {
                   )))
               .toIList();
 
-          final CurrentTermView currentTerm = (
+          currentTerm = (
             id: activeTerm.id,
             avgGrade: (
               displayGrade(activeTerm.calculatedGrade),
@@ -57,26 +46,31 @@ class GradesPageController extends ChangeNotifier {
             subjects: subjectGrades.toList(),
             displayName: activeTerm.name,
           );
-
-          final pastTerms = <PastTermView>[];
-          for (final term in otherTerms) {
-            pastTerms.add(
-              (
-                id: term.id,
-                avgGrade: ('2', GradePerformance.good),
-                displayName: term.name,
-              ),
-            );
-          }
-
-          currentTerm.subjects.sortByDisplayName();
-
-          state = GradesPageLoaded(
-            currentTerm: currentTerm,
-            pastTerms: pastTerms,
-          );
-          notifyListeners();
         }
+
+        final pastTerm = event.where((term) => !term.isActiveTerm).toList();
+        final pastTermViews = <PastTermView>[];
+        for (final term in pastTerm) {
+          pastTermViews.add(
+            (
+              id: term.id,
+              avgGrade: (
+                displayGrade(term.calculatedGrade),
+                GradePerformance.good
+              ),
+              displayName: term.name,
+            ),
+          );
+        }
+        pastTermViews.sortByTermName();
+
+        currentTerm?.subjects.sortByDisplayName();
+
+        state = GradesPageLoaded(
+          currentTerm: currentTerm,
+          pastTerms: pastTermViews,
+        );
+        notifyListeners();
       } catch (e) {
         state = GradesPageError('$e');
         notifyListeners();
@@ -174,79 +168,3 @@ class GradesPageError extends GradesPageState {
 
   const GradesPageError(this.error);
 }
-
-final random = Random(42);
-final placeholderCurrentTerm = (
-  id: const TermId('term-0'),
-  displayName: '11/1',
-  avgGrade: ('1,4', GradePerformance.good),
-  subjects: [
-    (
-      displayName: 'Deutsch',
-      abbreviation: 'DE',
-      grade: '2,0',
-      design: Design.random(random),
-      id: const SubjectId('1'),
-    ),
-    (
-      displayName: 'Englisch',
-      abbreviation: 'E',
-      grade: '2+',
-      design: Design.random(random),
-      id: const SubjectId('2'),
-    ),
-    (
-      displayName: 'Mathe',
-      abbreviation: 'DE',
-      grade: '1-',
-      design: Design.random(random),
-      id: const SubjectId('3'),
-    ),
-    (
-      displayName: 'Sport',
-      abbreviation: 'DE',
-      grade: '1,0',
-      design: Design.random(random),
-      id: const SubjectId('4'),
-    ),
-    (
-      displayName: 'Physik',
-      abbreviation: 'PH',
-      grade: '3,0',
-      design: Design.random(random),
-      id: const SubjectId('5'),
-    ),
-  ]
-);
-final placeholderPastTerms = [
-  (
-    id: const TermId('term-1'),
-    displayName: '10/2',
-    avgGrade: ('1,0', GradePerformance.good),
-  ),
-  (
-    id: const TermId('term-3'),
-    displayName: '9/2',
-    avgGrade: ('1,0', GradePerformance.good),
-  ),
-  (
-    id: const TermId('term-2'),
-    displayName: '10/1',
-    avgGrade: ('2,4', GradePerformance.satisfactory),
-  ),
-  (
-    id: const TermId('term-6'),
-    displayName: 'Q1/1',
-    avgGrade: ('2,4', GradePerformance.satisfactory),
-  ),
-  (
-    id: const TermId('term-5'),
-    displayName: '8/2',
-    avgGrade: ('1,7', GradePerformance.good),
-  ),
-  (
-    id: const TermId('term-4'),
-    displayName: '9/1',
-    avgGrade: ('3,7', GradePerformance.bad),
-  ),
-];
