@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-part of './table_of_contents.dart';
+part of 'table_of_contents.dart';
 
 enum ExpansionMode {
   /// The user manually expanded a section by e.g. clicking on the expansion

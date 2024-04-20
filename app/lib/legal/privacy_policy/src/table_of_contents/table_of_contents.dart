@@ -9,7 +9,7 @@
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-part './section_expansion.dart';
+part 'section_expansion.dart';
 
 class DocumentSectionId extends Id {
   const DocumentSectionId(super.id);

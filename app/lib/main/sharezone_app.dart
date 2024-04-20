@@ -22,6 +22,7 @@ import 'package:sharezone/feedback/history/feedback_history_page.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
@@ -53,7 +54,7 @@ import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/settings/settings_page.dart';
-import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/navigation_service.dart';
@@ -182,6 +183,7 @@ class _SharezoneAppState extends State<SharezoneApp>
                 CalendricalEventsPage.tag: (context) =>
                     const CalendricalEventsPage(),
                 PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
+                TermsOfServicePage.tag: (context) => const TermsOfServicePage(),
                 UseAccountOnMultipleDevicesInstructions.tag: (context) =>
                     const UseAccountOnMultipleDevicesInstructions(),
                 MyProfilePage.tag: (context) => const MyProfilePage(),
