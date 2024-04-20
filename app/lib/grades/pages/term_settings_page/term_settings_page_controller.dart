@@ -6,9 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:collection/collection.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_view.dart';
@@ -16,12 +20,15 @@ import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_vie
 class TermSettingsPageController extends ChangeNotifier {
   final GradesService gradesService;
   final TermId termId;
+  final Stream<List<Course>> coursesStream;
 
   late String name;
   late bool isActiveTerm;
   late GradingSystem gradingSystem;
   late GradeType finalGradeType;
   late IMap<GradeTypeId, Weight> _weights;
+  IList<Course> courses = IList();
+  late StreamSubscription<List<Course>> _courseSubscription;
 
   TermSettingsState state = const TermSettingsLoading();
 
@@ -32,20 +39,13 @@ class TermSettingsPageController extends ChangeNotifier {
         finalGradeType: finalGradeType,
         selectableGradingTypes: gradesService.getPossibleGradeTypes(),
         weights: _weights,
-        subjects: (_getTerm()?.subjects ?? IList())
-            .map((s) => (
-                  id: s.id,
-                  design: s.design,
-                  displayName: s.name,
-                  abbreviation: s.abbreviation,
-                  weight: s.weightingForTermGrade
-                ))
-            .toIList(),
+        subjects: _mergeCoursesAndSubjects(),
       );
 
   TermSettingsPageController({
     required this.gradesService,
     required this.termId,
+    required this.coursesStream,
   }) {
     final term = _getTerm();
     if (term == null) {
@@ -60,6 +60,33 @@ class TermSettingsPageController extends ChangeNotifier {
     _weights = term.gradeTypeWeightings;
 
     state = TermSettingsLoaded(view);
+
+    _listenToCourses();
+  }
+
+  void _listenToCourses() {
+    _courseSubscription = coursesStream.listen((courses) {
+      this.courses = courses.toIList();
+      state = TermSettingsLoaded(view);
+      notifyListeners();
+    });
+  }
+
+  /// Merges the courses from the group system with the subject from the grades
+  /// features.
+  IList<SubjectView> _mergeCoursesAndSubjects() {
+    final subjects = (_getTerm()?.subjects ?? IList());
+    final subjectViews = <SubjectView>[...subjects.toView()];
+    for (final course in courses) {
+      final matchingSubject = subjectViews
+          .firstWhereOrNull((subject) => subject.displayName == course.subject);
+      final hasSubjectForThisCourse = matchingSubject != null;
+      if (!hasSubjectForThisCourse) {
+        final subjectId = SubjectId(course.id);
+        subjectViews.add(course.toSubject(subjectId));
+      }
+    }
+    return IList(subjectViews.sortByName());
   }
 
   TermResult? _getTerm() {
@@ -127,7 +154,19 @@ class TermSettingsPageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSubjectWeight(SubjectId subjectId, Weight weight) {
+  Future<void> setSubjectWeight(SubjectId subjectId, Weight weight) async {
+    final isNewSubject = gradesService.getSubject(subjectId) == null;
+    if (isNewSubject) {
+      subjectId = _createSubject(subjectId);
+
+      // Firestore had a soft limit of 1 write per second per document. However,
+      // this limit isn't mentioned in the documentation anymore. We still keep
+      // the delay to be on the safe side.
+      //
+      // https://stackoverflow.com/questions/74454570/has-firestore-removed-the-soft-limit-of-1-write-per-second-to-a-single-document
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+
     gradesService.changeSubjectWeightForTermGrade(
       id: subjectId,
       termId: termId,
@@ -135,6 +174,77 @@ class TermSettingsPageController extends ChangeNotifier {
     );
     state = TermSettingsLoaded(view);
     notifyListeners();
+  }
+
+  SubjectId _createSubject(SubjectId subjectId) {
+    final subject = view.subjects.firstWhere((s) => s.id == subjectId);
+    final connectedCourses = _getConnectedCourses(subjectId);
+    // We generate a new subject ID because the previous subject ID was just the
+    // course ID (as temporary ID).
+    final newSubjectId = SubjectId(Id.generate().id);
+    gradesService.addSubject(
+      Subject(
+        id: newSubjectId,
+        design: subject.design,
+        name: subject.displayName,
+        abbreviation: subject.abbreviation,
+        connectedCourses: connectedCourses,
+      ),
+    );
+    return newSubjectId;
+  }
+
+  IList<ConnectedCourse> _getConnectedCourses(SubjectId subjectId) {
+    final subject = view.subjects.firstWhere((s) => s.id == subjectId);
+    return courses
+        .where((c) => c.subject == subject.displayName)
+        .map(
+          (c) => ConnectedCourse(
+            id: CourseId(c.id),
+            abbreviation: c.abbreviation,
+            name: c.name,
+            subjectName: c.subject,
+          ),
+        )
+        .toIList();
+  }
+
+  @override
+  void dispose() {
+    _courseSubscription.cancel();
+    super.dispose();
+  }
+}
+
+extension on IList<SubjectResult> {
+  IList<SubjectView> toView() {
+    return map(
+      (s) => (
+        id: s.id,
+        design: s.design,
+        displayName: s.name,
+        abbreviation: s.abbreviation,
+        weight: s.weightingForTermGrade
+      ),
+    ).toIList();
+  }
+}
+
+extension on Course {
+  SubjectView toSubject(SubjectId id) {
+    return (
+      id: id,
+      design: getDesign(),
+      displayName: subject,
+      abbreviation: subject.substring(0, 2),
+      weight: const Weight.factor(1),
+    );
+  }
+}
+
+extension on List<SubjectView> {
+  List<SubjectView> sortByName() {
+    return this..sort((a, b) => a.displayName.compareTo(b.displayName));
   }
 }
 

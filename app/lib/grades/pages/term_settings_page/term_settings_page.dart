@@ -17,6 +17,7 @@ import 'package:sharezone/grades/pages/shared/select_grade_type_dialog.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller.dart';
+import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_view.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -35,11 +36,8 @@ class TermSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) {
-        final gradesService = context.read<GradesService>();
-        return TermSettingsPageController(
-          gradesService: gradesService,
-          termId: termId,
-        );
+        final factory = context.read<TermSettingsPageControllerFactory>();
+        return factory.create(termId);
       },
       builder: (context, _) {
         final state = context.watch<TermSettingsPageController>().state;

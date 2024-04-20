@@ -70,6 +70,7 @@ import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_co
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
+import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
@@ -434,6 +435,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       Provider(
         create: (context) => GradesDialogControllerFactory(
           crashAnalytics: crashAnalytics,
+          gradesService: gradesService,
+          coursesStream: () => api.course.streamCourses(),
+        ),
+      ),
+      Provider(
+        create: (context) => TermSettingsPageControllerFactory(
           gradesService: gradesService,
           coursesStream: () => api.course.streamCourses(),
         ),

@@ -226,8 +226,14 @@ class GradesService {
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
-    final newTerm = _term(termId).changeWeighting(id, weight);
+    final subject = _getSubjectOrThrow(id);
 
+    var newTerm = _term(termId);
+    if (!newTerm.hasSubject(id)) {
+      newTerm = newTerm.addSubject(subject);
+    }
+
+    newTerm = newTerm.changeWeighting(id, weight);
     _updateTerm(newTerm);
   }
 
