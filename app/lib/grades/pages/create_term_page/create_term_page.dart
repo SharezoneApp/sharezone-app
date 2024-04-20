@@ -148,6 +148,28 @@ class _GradingSystem extends StatelessWidget {
     final gradingSystem =
         context.select<CreateTermPageController, GradingSystem>(
             (controller) => controller.view.gradingSystem);
+    return GradingSystemBase(
+      currentGradingSystemName: gradingSystem.displayName,
+      onGradingSystemChanged: (res) {
+        final controller = context.read<CreateTermPageController>();
+        controller.setGradingSystem(res);
+      },
+    );
+  }
+}
+
+class GradingSystemBase extends StatelessWidget {
+  const GradingSystemBase({
+    super.key,
+    required this.currentGradingSystemName,
+    required this.onGradingSystemChanged,
+  });
+
+  final String currentGradingSystemName;
+  final ValueChanged<GradingSystem> onGradingSystemChanged;
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       onTap: () async {
@@ -168,6 +190,7 @@ class _GradingSystem extends StatelessWidget {
         );
 
         if (res != null && context.mounted) {
+          onGradingSystemChanged(res);
           final controller = context.read<CreateTermPageController>();
           controller.setGradingSystem(res);
         }
@@ -178,7 +201,7 @@ class _GradingSystem extends StatelessWidget {
           ListTile(
             leading: SavedGradeIcons.gradingSystem,
             title: const Text("Notensystem"),
-            subtitle: Text(gradingSystem.displayName),
+            subtitle: Text(currentGradingSystemName),
             mouseCursor: SystemMouseCursors.click,
           ),
           Padding(
@@ -202,15 +225,37 @@ class _ActiveTermSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<CreateTermPageController>();
-    final view = controller.view;
+    final isActiveTerm = context.select<CreateTermPageController, bool>(
+        (controller) => controller.view.isActiveTerm);
+    return ActiveTermSwitchBase(
+      isActiveTerm: isActiveTerm,
+      onActiveTermChanged: (res) {
+        final controller = context.read<CreateTermPageController>();
+        controller.setIsCurrentTerm(res);
+      },
+    );
+  }
+}
+
+class ActiveTermSwitchBase extends StatelessWidget {
+  const ActiveTermSwitchBase({
+    super.key,
+    required this.isActiveTerm,
+    required this.onActiveTermChanged,
+  });
+
+  final bool isActiveTerm;
+  final ValueChanged<bool> onActiveTermChanged;
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.calendar_today),
-      onTap: () => controller.setIsCurrentTerm(!view.isActiveTerm),
+      onTap: () => onActiveTermChanged(!isActiveTerm),
       title: const Text("Aktuelles Halbjahr"),
       trailing: Switch(
-        value: view.isActiveTerm,
-        onChanged: controller.setIsCurrentTerm,
+        value: isActiveTerm,
+        onChanged: onActiveTermChanged,
       ),
     );
   }
