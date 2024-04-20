@@ -12,6 +12,9 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
+import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/sharezone_v2/anb_page.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openSzV2AnnoucementDialog(BuildContext context) async {
@@ -55,8 +58,8 @@ class _DialogState extends State<_Dialog> {
                 controller: controller,
                 children: <Widget>[
                   const _JustText(markdownText: _markdownText1),
-                  const _JustText(markdownText: _markdownText2),
-                  const _JustText(markdownText: _markdownText3),
+                  const _SharezonePlus(),
+                  const _OtherChanges(),
                   _FinalPage(onCheckboxesChanged: (allChecked) {
                     setState(() {
                       _allCheckboxesChecked = allChecked;
@@ -145,16 +148,88 @@ class _DialogState extends State<_Dialog> {
   }
 }
 
+class _SharezonePlus extends StatelessWidget {
+  const _SharezonePlus({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _JustText(markdownText: _markdownText2),
+      ],
+    );
+  }
+}
+
+class _OtherChanges extends StatelessWidget {
+  const _OtherChanges({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // Text('Weitere Änderungen',
+        //     style: Theme.of(context).textTheme.headlineSmall),
+        const _JustText(markdownText: '## Weitere Änderungen'),
+        const SizedBox(height: 10),
+        const _Card(
+          header: Text('Geänderte Rechtsform'),
+          body: Text(
+              'Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.'),
+        ),
+        const SizedBox(height: 12),
+        const _Card(
+          header: Text('Überarbeitung der Datenschutzerklärung'),
+          body: Text(
+              'Wir haben die Datenschutzerklärung einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden. Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung).'),
+        ),
+        const SizedBox(height: 12),
+        const _Card(
+          header: Text('Allgemeine Nutzungsbedingungen (ANB)'),
+          body: Text(
+              'Wir haben neue allgemeinen Nutzungsbedingungen (“ANB”), die für die zukünftige Nutzung von Sharezone akzeptiert werden müssen.'),
+        ),
+      ],
+    );
+  }
+}
+
+class _Card extends StatelessWidget {
+  const _Card({
+    Key? key,
+    required this.header,
+    required this.body,
+  }) : super(key: key);
+
+  final Widget header;
+  final Widget body;
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionCard(
+      header: header,
+      body: body,
+      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+    );
+  }
+}
+
 class _JustText extends StatelessWidget {
-  const _JustText({required this.markdownText});
+  const _JustText({required this.markdownText, this.onLinkTap});
 
   final String markdownText;
+  final MarkdownTapLinkCallback? onLinkTap;
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: MarkdownBody(data: markdownText),
+      child: MarkdownBody(
+        data: markdownText,
+        onTapLink: onLinkTap,
+      ),
     );
   }
 }
@@ -187,18 +262,29 @@ class _FinalPageState extends State<_FinalPage>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const _JustText(markdownText: _markdownText4),
-        const SizedBox(
-          height: 30,
+        _JustText(
+          markdownText: _markdownText4,
+          onLinkTap: (text, href, title) {
+            if (href == 'other-options') {
+              // ignore: use_build_context_synchronously
+              Navigator.of(context).pushNamed(SupportPage.tag);
+            }
+          },
         ),
+        const SizedBox(height: 30),
         _Checkbox(
-          text: 'Ich habe die ANB gelesen und akzeptiere diese.',
+          text: 'Ich habe [die ANB](anb) gelesen und akzeptiere diese.',
           value: _box1Checked,
           onChanged: (newVal) {
             setState(() {
               _box1Checked = newVal;
             });
             _onCheckboxChanged();
+          },
+          onLinkTap: (text, href, title) {
+            if (href == 'anb') {
+              Navigator.of(context).pushNamed(AnbPage.tag);
+            }
           },
         ),
         _Checkbox(
@@ -212,13 +298,14 @@ class _FinalPageState extends State<_FinalPage>
             _onCheckboxChanged();
           },
         ),
-        const SizedBox(
-          height: 30,
-        ),
-        const _JustText(
+        const SizedBox(height: 30),
+        _JustText(
           markdownText: 'Deine personenbezogenen Daten werden gemäß unserer '
               '[Datenschutzerklärung](https://sharezone.net/datenschutz) verarbeitet.',
-        )
+          onLinkTap: (text, href, title) {
+            Navigator.of(context).pushNamed(PrivacyPolicyPage.tag);
+          },
+        ),
       ],
     );
   }
@@ -229,11 +316,13 @@ class _Checkbox extends StatelessWidget {
     required this.text,
     required this.value,
     required this.onChanged,
+    this.onLinkTap,
   });
 
   final String text;
   final bool value;
   final void Function(bool) onChanged;
+  final MarkdownTapLinkCallback? onLinkTap;
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +335,7 @@ class _Checkbox extends StatelessWidget {
           value: value,
           onChanged: (newVal) => onChanged(newVal!),
         ),
-        title: MarkdownBody(data: text),
+        title: MarkdownBody(data: text, onTapLink: onLinkTap),
       ),
     );
   }
@@ -255,7 +344,8 @@ class _Checkbox extends StatelessWidget {
 const _markdownText1 = '''
 Hey du, schön dich hier zu haben! :)
 
-Wir haben Sharezone bis jetzt mit Herz, Blut und Tränen kostenlos für euch betrieben, weil wir vor allem anderen erstmal eine geile Schulapp machen wollten.
+Wir haben Sharezone bis jetzt mit Herz, Blut und Tränen kostenlos für euch betrieben, weil wir vor allem anderen erstmal eine geile Schulapp machen wollten.  
+
 Wir freuen uns sehr, dass es so gut bei euch ankommt und ihr es so fleißig nutzt 💙🫶  
 
 Jetzt ist der Zeitpunkt gekommen, dass Sharezone sich selbst finanziert und es dadurch langfristig weiterlaufen kann 🏁🏃  
@@ -265,14 +355,15 @@ Wie genau, das verraten wir dir, wenn du auf "Weiter" klickst ;)
 ''';
 
 const _markdownText2 = '''
-**Sharezone Plus**  
-Sharezone Plus ist ein Abbonement, mit welchem du “Plus-Features” freischalten kannst.  
+## Sharezone Plus
 
-Zum Beispiel hast du dadurch mehr Speicherplatz in der Dateiablage oder kannst unkomprimiert Bilder hochladen.  
+Sharezone Plus bietet dir die Möglichkeit “Plus-Features” zu erwerben.
 
-Du kannst auch ohne Sharezone Plus weiterhin Sharezone kostenlos nutzen, allerdings mit ein paar kleinen Einschränkungen.  
+Damit kannst du zum Beispiel deine Noten verwalten, hast mehr Speicherplatz in der Dateiablage oder kannst unkomprimiert Bilder hochladen.  
 
-Das Abo kann ganz einfach online von z.B. deinen Eltern per Bezahl-Link bezahlt werden.
+Du kannst die App auch ohne Sharezone Plus weiterhin kostenlos nutzen, mit ein paar kleinen Einschränkungen.  
+
+Per Bezahl-Link kannst du Sharezone Plus auch ganz einfach online von z.B. deinen Eltern kaufen lassen.
 ''';
 
 const _markdownText3 = '''
@@ -299,7 +390,7 @@ const _markdownText4 = '''
 
 Damit du weitermachen kannst, brauchen wir noch deine Zustimmung zu den unten aufgeführten Punkten.
 
-Falls du keine Einstimmung geben willst, dann kannst du hier dein Konto löschen oder den Support kontaktieren.
+Falls du keine Einstimmung geben willst, dann kannst du [hier](other-options) den Support kontaktieren.
 
 Wir danken dir, uns bis hierhin begleitet zu haben. 
 

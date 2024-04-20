@@ -26,6 +26,7 @@ import 'package:sharezone/settings/src/subpages/imprint/analytics/imprint_analyt
 import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
 import 'package:sharezone/settings/src/subpages/imprint/page/imprint_page.dart';
+import 'package:sharezone/sharezone_v2/anb_page.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/support/support_page_controller.dart';
@@ -103,6 +104,7 @@ class _AuthAppState extends State<AuthApp> {
             SignUpPage.tag: (context) => const SignUpPage(),
             LoginPage.tag: (context) => const LoginPage(),
             PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
+            AnbPage.tag: (context) => const AnbPage(),
             SignInWithQrCodePage.tag: (context) => const SignInWithQrCodePage(),
             ImprintPage.tag: (context) => const ImprintPage(),
           },
