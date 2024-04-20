@@ -82,7 +82,8 @@ void main() {
       when(hasUnreadFeedbackMessagesProvider.hasUnreadFeedbackMessages)
           .thenAnswer((_) => false);
 
-      when(controller.price).thenAnswer((_) => fallbackPlusPrice);
+      when(controller.monthlySubscriptionPrice)
+          .thenAnswer((_) => fallbackPlusMonthlyPrice);
     });
 
     Future<void> pumpPlusPage(

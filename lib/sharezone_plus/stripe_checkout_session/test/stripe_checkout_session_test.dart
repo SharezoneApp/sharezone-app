@@ -55,6 +55,7 @@ void main() {
         userId: userId,
         successUrl: Uri.parse(successUrl),
         cancelUrl: Uri.parse(cancelUrl),
+        period: 'monthly',
       );
 
       expect(result, equals(testUrl));
@@ -80,6 +81,7 @@ void main() {
         buysFor: buysFor,
         successUrl: Uri.parse(successUrl),
         cancelUrl: Uri.parse(cancelUrl),
+        period: 'monthly',
       );
 
       expect(result, equals(testUrl));

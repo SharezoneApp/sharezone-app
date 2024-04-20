@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
+import 'package:user/src/models/subscription.dart';
 
 class MockSharezonePlusPageController extends ChangeNotifier
     implements SharezonePlusPageController {
@@ -19,7 +20,7 @@ class MockSharezonePlusPageController extends ChangeNotifier
   bool? hasPlus;
 
   @override
-  String? price;
+  String? monthlySubscriptionPrice;
 
   bool buySubscriptionCalled = false;
   @override
@@ -31,6 +32,24 @@ class MockSharezonePlusPageController extends ChangeNotifier
   @override
   Future<void> cancelSubscription() async {
     cancelSubscriptionCalled = true;
+  }
+
+  @override
+  PeriodOption selectedPurchasePeriod = PeriodOption.lifetimePurchase;
+
+  @override
+  Future<void> buyLifetime() {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool canCancelSubscription(SubscriptionSource source) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> isBuyingEnabled() {
+    throw UnimplementedError();
   }
 }
 
@@ -56,7 +75,7 @@ void main() {
         'shows $SharezonePlusPriceLoadingIndicator if plus status has loaded but the price hasnt',
         (tester) async {
       controller.hasPlus = true;
-      controller.price = null;
+      controller.monthlySubscriptionPrice = null;
 
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
@@ -68,7 +87,7 @@ void main() {
         'if loading then the $SharezonePlusPriceLoadingIndicator is shown',
         (tester) async {
       controller.hasPlus = null;
-      controller.price = null;
+      controller.monthlySubscriptionPrice = null;
 
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
@@ -79,7 +98,7 @@ void main() {
     testWidgets('if loading then the "subscribe" button is disabled',
         (tester) async {
       controller.hasPlus = null;
-      controller.price = null;
+      controller.monthlySubscriptionPrice = null;
 
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
@@ -97,7 +116,7 @@ void main() {
     testWidgets('calls cancelSubscription() when "cancel" is pressed',
         (tester) async {
       controller.hasPlus = true;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
 
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
@@ -109,7 +128,7 @@ void main() {
     testWidgets('calls buySubscription() when "subscribe" is pressed',
         (tester) async {
       controller.hasPlus = false;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
 
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
@@ -120,7 +139,7 @@ void main() {
 
     testWidgets('shows price to pay if not subscribed', (tester) async {
       controller.hasPlus = false;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
 
       await pumpPlusPage(tester);
 
@@ -129,7 +148,7 @@ void main() {
 
     testWidgets('shows currently paid price if subscribed', (tester) async {
       controller.hasPlus = true;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
 
       await pumpPlusPage(tester);
 
@@ -138,7 +157,7 @@ void main() {
 
     testWidgets('shows "subscribe" button if not subscribed', (tester) async {
       controller.hasPlus = false;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
 
       await pumpPlusPage(tester);
 
@@ -148,7 +167,7 @@ void main() {
 
     testWidgets('shows "cancel" button if subscribed', (tester) async {
       controller.hasPlus = true;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
 
       await pumpPlusPage(tester);
 

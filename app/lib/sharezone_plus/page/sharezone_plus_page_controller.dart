@@ -16,15 +16,13 @@ import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:stripe_checkout_session/stripe_checkout_session.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:user/user.dart';
 
-/// A fallback price if the price cannot be fetched from the backend.
-///
-/// On macOS the price is not fetched from the backend because RevenueCat does
-/// not support macOS.
-const fallbackPlusPrice = '4,99 €';
+const fallbackPlusMonthlyPrice = '2,99 €';
+const fallbackPlusLifetimePrice = '19,99 €';
 
 class SharezonePlusPageController extends ChangeNotifier {
   // ignore: unused_field
@@ -51,7 +49,8 @@ class SharezonePlusPageController extends ChangeNotifier {
     _stripeCheckoutSession = stripeCheckoutSession;
     _userId = userId;
     hasPlus = subscriptionService.isSubscriptionActive();
-    price = fallbackPlusPrice;
+    monthlySubscriptionPrice = fallbackPlusMonthlyPrice;
+    lifetimePrice = fallbackPlusLifetimePrice;
     _buyingFlagApi = buyingFlagApi;
   }
 
@@ -69,14 +68,33 @@ class SharezonePlusPageController extends ChangeNotifier {
   /// for a new subscription.
   ///
   /// If `null` then the price is still loading.
-  String? price;
+  String? monthlySubscriptionPrice;
+
+  /// The price for the Sharezone Plus lifetime purchase, including the currency
+  /// sign.
+  String? lifetimePrice;
+
+  /// The purchase option that the user has selected.
+  PurchasePeriod selectedPurchasePeriod = PurchasePeriod.monthlySubscription;
 
   Future<void> buySubscription() async {
     if (PlatformCheck.isWeb) {
       await _buyOnWeb();
     } else {
       await _purchaseService
-          .purchase(ProductId('default-dev-plus-subscription'));
+          .purchase(const ProductId('default-dev-plus-subscription'));
+    }
+
+    hasPlus = true;
+    notifyListeners();
+  }
+
+  Future<void> buyLifetime() async {
+    if (PlatformCheck.isWeb) {
+      await _buyOnWeb();
+    } else {
+      await _purchaseService
+          .purchase(const ProductId('default-dev-plus-lifetime'));
     }
 
     hasPlus = true;
@@ -106,6 +124,7 @@ class SharezonePlusPageController extends ChangeNotifier {
       // Ticket: https://github.com/SharezoneApp/sharezone-app/issues/971
       successUrl: webAppUrl,
       cancelUrl: webAppUrl,
+      period: selectedPurchasePeriod.name,
     );
 
     await launchUrl(
@@ -149,6 +168,11 @@ class SharezonePlusPageController extends ChangeNotifier {
       SubscriptionSource.stripe => true,
       SubscriptionSource.unknown => false,
     };
+  }
+
+  void setPeriodOption(PurchasePeriod period) {
+    selectedPurchasePeriod = period;
+    notifyListeners();
   }
 
   @override

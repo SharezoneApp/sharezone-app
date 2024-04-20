@@ -8,6 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -98,7 +99,7 @@ class _CallToActionSection extends StatelessWidget {
       // _SubscribeSection which will show loading indicators in turn.
       child: hasPlus ?? false
           ? const _UnsubscribeSection()
-          : const _SubscribeSection(),
+          : const _PurchaseSection(),
     );
   }
 }
@@ -108,7 +109,8 @@ class _UnsubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final price = context.watch<SharezonePlusPageController>().price;
+    final price =
+        context.watch<SharezonePlusPageController>().monthlySubscriptionPrice;
     final priceIsLoading = price == null;
 
     return Column(
@@ -204,82 +206,51 @@ class _UnsubscribeNoteDialog extends StatelessWidget {
   }
 }
 
-class _SubscribeSection extends StatelessWidget {
-  const _SubscribeSection();
+class _PurchaseSection extends StatelessWidget {
+  const _PurchaseSection();
 
   @override
   Widget build(BuildContext context) {
-    final price = context.watch<SharezonePlusPageController>().price;
-    final priceIsLoading = price == null;
-
-    return Column(
+    final controller = context.watch<SharezonePlusPageController>();
+    final monthlyPrice = controller.monthlySubscriptionPrice;
+    final lifetimePrice = controller.lifetimePrice;
+    final isLoading = monthlyPrice == null || lifetimePrice == null;
+    return BuySection(
       key: const ValueKey('subscribe-section'),
-      children: [
-        priceIsLoading
-            ? const SharezonePlusPriceLoadingIndicator()
-            : SharezonePlusPrice(price),
-        const SizedBox(height: 12),
-        _SubscribeButton(loading: priceIsLoading),
-        const SizedBox(height: 12),
-        const SharezonePlusLegalText(),
-      ],
-    );
-  }
-}
+      monthlyPrice: monthlyPrice,
+      lifetimePrice: lifetimePrice,
+      currentPeriod: controller.selectedPurchasePeriod,
+      onPeriodChanged: controller.setPeriodOption,
+      isLoading: isLoading,
+      onPurchase: () async {
+        final controller = context.read<SharezonePlusPageController>();
 
-class _SubscribeButton extends StatelessWidget {
-  const _SubscribeButton({this.loading = false});
+        try {
+          final isBuyingEnabled = await controller.isBuyingEnabled();
 
-  final bool loading;
+          if (!context.mounted) {
+            return;
+          }
 
-  @override
-  Widget build(BuildContext context) {
-    // When using [GrayShimmer] the text inside the [_CallToActionButton]
-    // disappears. Using a [Stack] fixes this issue (I don't know why).
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        GrayShimmer(
-          enabled: loading,
-          child: CallToActionButton(
-            text: const Text('Abonnieren'),
-            onPressed: loading
-                ? null
-                : () async {
-                    final controller =
-                        context.read<SharezonePlusPageController>();
+          if (!isBuyingEnabled) {
+            showDialog(
+              context: context,
+              builder: (context) => const BuyingDisabledDialog(),
+            );
+            return;
+          }
 
-                    try {
-                      final isBuyingEnabled =
-                          await controller.isBuyingEnabled();
-
-                      if (!context.mounted) {
-                        return;
-                      }
-
-                      if (!isBuyingEnabled) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => const BuyingDisabledDialog(),
-                        );
-                        return;
-                      }
-
-                      await controller.buySubscription();
-                    } catch (e) {
-                      if (!context.mounted) {
-                        return;
-                      }
-                      showDialog(
-                        context: context,
-                        builder: (context) => const BuyingFailedDialog(),
-                      );
-                    }
-                  },
-            backgroundColor: Theme.of(context).primaryColor,
-          ),
-        )
-      ],
+          await controller.buySubscription();
+        } catch (e) {
+          if (!context.mounted) {
+            return;
+          }
+          showDialog(
+            context: context,
+            builder: (context) => const BuyingFailedDialog(),
+          );
+        }
+      },
     );
   }
 }

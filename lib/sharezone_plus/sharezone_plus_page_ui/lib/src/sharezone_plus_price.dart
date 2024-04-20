@@ -28,20 +28,16 @@ class SharezonePlusPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           monthlyPriceWithCurrencySign,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
-        const SizedBox(width: 4),
-        Padding(
-          padding: const EdgeInsets.only(top: 12),
-          child: Text(
-            '/Monat',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
+        Text(
+          'Lifetime (einmaliger Kauf)',
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );
