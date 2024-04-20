@@ -308,14 +308,14 @@ class _SubjectWeights extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
         ),
         const SizedBox(height: 8),
-        for (final subject in subjects) _SubjectTile(subject),
-        const SizedBox(height: 8),
-        Text(
-          'Es werden nur Fächer angezeigt, für die eine Note eingetragen wurde.',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+        if (subjects.isEmpty)
+          Text(
+            'Du hast bisher noch keine Fächer erstellt.',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+            ),
           ),
-        ),
+        for (final subject in subjects) _SubjectTile(subject),
       ],
     );
   }
