@@ -60,10 +60,13 @@ class GradeDetailsPageController extends ChangeNotifier {
   Stream<GradeResult?> _getGradeStream() {
     return gradesService.terms.map((terms) {
       for (final term in terms) {
-        return term.subjects
+        final grade = term.subjects
             .map((s) => s.grades.firstWhereOrNull((grade) => grade.id == id))
             .whereNotNull()
             .firstOrNull;
+        if (grade != null) {
+          return grade;
+        }
       }
 
       // Ground with the [id] not found.

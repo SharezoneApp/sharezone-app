@@ -329,7 +329,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final gradesEnabledFlag =
         GradesEnabledFlag(widget.blocDependencies.keyValueStore);
 
-    final gradesService = GradesService();
+    final userDocRef = api.references.users.doc(api.uID);
+    final gradesService = GradesService(
+        repository:
+            FirestoreGradesStateRepository(userDocumentRef: userDocRef));
 
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,

@@ -52,6 +52,9 @@ class TermDetailsPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Halbjahresdetails'),
+            actions: const [
+              _DeleteIconButton(),
+            ],
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -67,6 +70,62 @@ class TermDetailsPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _DeleteIconButton extends StatelessWidget {
+  const _DeleteIconButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final isLoaded = context.select<TermDetailsPageController, bool>(
+      (controller) => controller.state is TermDetailsPageLoaded,
+    );
+    if (!isLoaded) return const SizedBox();
+
+    return IconButton(
+      tooltip: 'Halbjahr löschen',
+      icon: const Icon(Icons.delete),
+      onPressed: () async {
+        final shouldDelete = await showDialog<bool>(
+          context: context,
+          builder: (_) => const _ConfirmDeleteDialog(),
+        );
+
+        if (shouldDelete == true && context.mounted) {
+          final controller = context.read<TermDetailsPageController>();
+          controller.deleteTerm();
+          Navigator.pop(context);
+        }
+      },
+    );
+  }
+}
+
+class _ConfirmDeleteDialog extends StatelessWidget {
+  const _ConfirmDeleteDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 400,
+      child: AlertDialog(
+        title: const Text('Halbjahr löschen'),
+        content: const Text(
+            'Möchtest du das Halbjahr inkl. aller Noten wirklich löschen?\n\nDiese Aktion kann nicht rückgängig gemacht werden.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Abbrechen'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Löschen'),
+          ),
+        ],
+      ),
     );
   }
 }

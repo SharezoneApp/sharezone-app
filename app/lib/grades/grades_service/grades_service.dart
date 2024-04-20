@@ -6,6 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -17,6 +21,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
+
 import '../models/subject_id.dart';
 import '../models/term_id.dart';
 
@@ -24,9 +29,9 @@ export '../models/grade_id.dart';
 export '../models/subject_id.dart';
 export '../models/term_id.dart';
 
-part 'src/term.dart';
-part 'src/grading_systems.dart';
 part 'src/grades_repository.dart';
+part 'src/grading_systems.dart';
+part 'src/term.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
@@ -35,38 +40,32 @@ class GradesService {
   GradesService({GradesStateRepository? repository})
       : _repository = repository ?? InMemoryGradesStateRepository(),
         terms = rx.BehaviorSubject.seeded(const IListConst([])) {
-    _state = _repository.state.value;
-    _updateView();
-
     _repository.state.listen((state) {
-      _state = state;
-      // Update view gets called in [_updateState] anyways, so we don't need it
-      // here. Moving the method from [_updateState] to here would make the view
-      // being updated async. This would currently breaks our tests.
-      // _updateView();
+      _updateView();
     });
+
+    _updateView();
   }
 
-  late GradesState _state;
+  GradesState get _state => _repository.state.value;
 
   IList<TermModel> get _terms => _state.terms;
-  set _terms(IList<TermModel> value) {
-    _state = _state.copyWith(terms: value);
-  }
 
   IList<Subject> get _subjects => _state.subjects;
-  set _subjects(IList<Subject> value) {
-    _state = _state.copyWith(subjects: value);
-  }
 
   IList<GradeType> get _customGradeTypes => _state.customGradeTypes;
-  set _customGradeTypes(IList<GradeType> value) {
-    _state = _state.copyWith(customGradeTypes: value);
+
+  void _updateState(GradesState state) {
+    _repository.updateState(state);
+    // Removing this breaks our tests because they assume that the state is
+    // updated synchronously. Usually calling [_updateView] in the .listen from
+    // the repository would be enough.
+    _updateView();
   }
 
-  void _updateState() {
-    _repository.updateState(_state);
-    _updateView();
+  void _updateTerms(IList<TermModel> terms) {
+    final newState = _state.copyWith(terms: terms);
+    _updateState(newState);
   }
 
   void _updateView() {
@@ -75,8 +74,8 @@ class GradesService {
   }
 
   void _updateTerm(TermModel term) {
-    _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
-    _updateState();
+    final newTerms = _terms.replaceAllWhere((t) => t.id == term.id, term);
+    _updateTerms(newTerms);
   }
 
   TermResult _toTermResult(TermModel term) {
@@ -132,15 +131,16 @@ class GradesService {
     required GradingSystem gradingSystem,
     required bool isActiveTerm,
   }) {
+    IList<TermModel> newTerms = _terms;
     if (isActiveTerm) {
-      _terms = _terms.map((term) => term.setIsActiveTerm(false)).toIList();
+      newTerms = newTerms.map((term) => term.setIsActiveTerm(false)).toIList();
     }
 
     if (!_hasGradeTypeWithId(finalGradeType)) {
       throw GradeTypeNotFoundException(finalGradeType);
     }
 
-    _terms = _terms.add(
+    newTerms = newTerms.add(
       TermModel(
         id: id,
         isActiveTerm: isActiveTerm,
@@ -149,7 +149,7 @@ class GradesService {
         gradingSystem: gradingSystem.toGradingSystemModel(),
       ),
     );
-    _updateState();
+    _updateTerms(newTerms);
   }
 
   /// Edits the given values of the term (does not edit if the value is null).
@@ -169,8 +169,10 @@ class GradesService {
     final GradeTypeId? finalGradeType,
     final GradingSystem? gradingSystem,
   }) {
+    IList<TermModel> newTerms = _terms;
+
     if (isActiveTerm != null) {
-      _terms = _terms.map((term) {
+      newTerms = newTerms.map((term) {
         if (id == term.id) {
           return term.setIsActiveTerm(isActiveTerm);
         } else {
@@ -183,7 +185,7 @@ class GradesService {
       }).toIList();
     }
     if (name != null) {
-      _terms = _terms
+      newTerms = newTerms
           .map((term) => term.id == id ? term.setName(name) : term)
           .toIList();
     }
@@ -191,20 +193,20 @@ class GradesService {
       if (!_hasGradeTypeWithId(finalGradeType)) {
         throw GradeTypeNotFoundException(finalGradeType);
       }
-      _terms = _terms
+      newTerms = newTerms
           .map((term) =>
               term.id == id ? term.setFinalGradeType(finalGradeType) : term)
           .toIList();
     }
     if (gradingSystem != null) {
-      _terms = _terms
+      newTerms = newTerms
           .map((term) => term.id == id
               ? term.setGradingSystem(gradingSystem.toGradingSystemModel())
               : term)
           .toIList();
     }
 
-    _updateState();
+    _updateTerms(newTerms);
   }
 
   /// Deletes the term with the given [id] any grades inside it.
@@ -213,10 +215,12 @@ class GradesService {
   ///
   /// Throws [ArgumentError] if the term with the given [id] does not exist.
   void deleteTerm(TermId id) {
-    final termOrNull = _terms.firstWhereOrNull((term) => term.id == id);
+    IList<TermModel> newTerms = _terms;
+
+    final termOrNull = newTerms.firstWhereOrNull((term) => term.id == id);
     if (termOrNull != null) {
-      _terms = _terms.remove(termOrNull);
-      _updateState();
+      newTerms = _terms.remove(termOrNull);
+      _updateTerms(newTerms);
       return;
     }
     throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
@@ -373,8 +377,9 @@ class GradesService {
       // Already exists
       return;
     }
-    _customGradeTypes = _customGradeTypes.add(gradeType);
-    _updateState();
+    final newState =
+        _state.copyWith(customGradeTypes: _customGradeTypes.add(gradeType));
+    _updateState(newState);
   }
 
   GradeType _getGradeType(GradeTypeId finalGradeType) {
@@ -382,11 +387,15 @@ class GradesService {
   }
 
   void addSubject(Subject subject) {
+    if (subject.createdOn != null) {
+      throw ArgumentError(
+          'The createdOn field should not be set when adding a new subject.');
+    }
     if (getSubjects().any((s) => s.id == subject.id)) {
       throw SubjectAlreadyExistsException(subject.id);
     }
-    _subjects = _subjects.add(subject);
-    _updateState();
+    final newState = _state.copyWith(subjects: _subjects.add(subject));
+    _updateState(newState);
   }
 
   IList<Subject> getSubjects() {
@@ -502,14 +511,14 @@ class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
   final num max;
   final bool decimalsAllowed;
 
-  @override
-  List<Object?> get props => [min, max, decimalsAllowed, specialGrades];
-
   /// Special non-numerical grade strings that have an assigned numerical value.
   ///
   /// For example [GradingSystem.oneToSixWithPlusAndMinus] might have the values:
   /// `{'1+':0.75,'1-':1.25, /**...*/ '5-':5.25}`.
   final IMap<String, num> specialGrades;
+
+  @override
+  List<Object?> get props => [min, max, decimalsAllowed, specialGrades];
 
   const ContinuousNumericalPossibleGradesResult({
     required this.min,
@@ -776,7 +785,11 @@ class Grade {
   });
 }
 
-enum WeightType { perGrade, perGradeType, inheritFromTerm }
+enum WeightType {
+  perGrade,
+  perGradeType,
+  inheritFromTerm;
+}
 
 class GradeTypeId extends Id {
   const GradeTypeId(super.id);
