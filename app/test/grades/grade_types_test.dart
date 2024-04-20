@@ -18,38 +18,72 @@ void main() {
 
       final gradeTypes = controller.getPossibleGradeTypes();
 
-      expect(gradeTypes, [
-        const GradeType(
-            id: GradeTypeId('school-report-grade'),
-            predefinedType: PredefinedGradeTypes.schoolReportGrade),
-        const GradeType(
-            id: GradeTypeId('written-exam'),
-            predefinedType: PredefinedGradeTypes.writtenExam),
-        const GradeType(
-            id: GradeTypeId('oral-participation'),
-            predefinedType: PredefinedGradeTypes.oralParticipation),
-        const GradeType(
-            id: GradeTypeId('vocabulary-test'),
-            predefinedType: PredefinedGradeTypes.vocabularyTest),
-        const GradeType(
-            id: GradeTypeId('presentation'),
-            predefinedType: PredefinedGradeTypes.presentation),
-        const GradeType(
-            id: GradeTypeId('other'),
-            predefinedType: PredefinedGradeTypes.other),
-      ]);
+      expect(
+          gradeTypes.map((element) => (
+                id: element.id,
+                predefinedType: element.predefinedType,
+                displayName: element.displayName
+              )),
+          [
+            const (
+              id: GradeTypeId('school-report-grade'),
+              displayName: null,
+              predefinedType: PredefinedGradeTypes.schoolReportGrade
+            ),
+            const (
+              id: GradeTypeId('written-exam'),
+              displayName: null,
+              predefinedType: PredefinedGradeTypes.writtenExam
+            ),
+            const (
+              id: GradeTypeId('oral-participation'),
+              displayName: null,
+              predefinedType: PredefinedGradeTypes.oralParticipation
+            ),
+            const (
+              id: GradeTypeId('vocabulary-test'),
+              displayName: null,
+              predefinedType: PredefinedGradeTypes.vocabularyTest
+            ),
+            const (
+              id: GradeTypeId('presentation'),
+              displayName: null,
+              predefinedType: PredefinedGradeTypes.presentation
+            ),
+            const (
+              id: GradeTypeId('other'),
+              displayName: null,
+              predefinedType: PredefinedGradeTypes.other
+            ),
+          ]);
     });
     test(
         'A custom grade type can be created which will be included when getting possible grade types',
         () {
       final controller = GradesTestController();
 
-      controller.createCustomGradeType(const GradeType(id: GradeTypeId('foo')));
-      controller.createCustomGradeType(const GradeType(id: GradeTypeId('bar')));
+      controller.createCustomGradeType(
+          const GradeType(id: GradeTypeId('foo'), displayName: 'foo'));
+      controller.createCustomGradeType(
+          const GradeType(id: GradeTypeId('bar'), displayName: 'bar'));
       final gradeTypes = controller.getPossibleGradeTypes();
 
-      expect(gradeTypes, containsOnce(const GradeType(id: GradeTypeId('foo'))));
-      expect(gradeTypes, containsOnce(const GradeType(id: GradeTypeId('bar'))));
+      expect(
+          gradeTypes,
+          containsOnce(
+              const GradeType(id: GradeTypeId('foo'), displayName: 'foo')));
+      expect(
+          gradeTypes,
+          containsOnce(
+              const GradeType(id: GradeTypeId('bar'), displayName: 'bar')));
+    });
+    test('A custom grade type has a display name', () {
+      final controller = GradesTestController();
+
+      const gradeType = GradeType(id: GradeTypeId('foo'), displayName: 'Foo');
+      controller.createCustomGradeType(gradeType);
+
+      expect(controller.getCustomGradeTypes().single.displayName, 'Foo');
     });
     test(
         'Trying to add a grade with an non-existing gradeType will cause an UnknownGradeTypeException',
@@ -86,12 +120,14 @@ void main() {
 
       addGrades() {
         controller
-          ..createCustomGradeType(const GradeType(id: GradeTypeId('custom')))
-          ..createCustomGradeType(const GradeType(id: GradeTypeId('custom')))
+          ..createCustomGradeType(
+              const GradeType(id: GradeTypeId('custom'), displayName: 'a'))
+          ..createCustomGradeType(
+              const GradeType(id: GradeTypeId('custom'), displayName: 'b'))
           ..createCustomGradeType(GradeType.oralParticipation)
           // Should check by Id, not by object
           ..createCustomGradeType(
-              GradeType(id: GradeType.oralParticipation.id));
+              GradeType(id: GradeType.oralParticipation.id, displayName: 'f'));
       }
 
       expect(addGrades, returnsNormally);

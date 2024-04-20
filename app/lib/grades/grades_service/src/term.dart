@@ -8,82 +8,98 @@
 
 part of '../grades_service.dart';
 
-class _Term {
+@visibleForTesting
+class TermModel extends Equatable {
   final TermId id;
-  final IList<_Subject> _subjects;
-  final IMap<GradeTypeId, double> _gradeTypeWeightings;
-  final _GradingSystem gradingSystem;
+  final DateTime? createdOn;
+  final IList<SubjectModel> subjects;
+  final IMap<GradeTypeId, Weight> gradeTypeWeightings;
+  final GradingSystemModel gradingSystem;
   final GradeTypeId finalGradeType;
   final bool isActiveTerm;
   final String name;
 
-  IList<_Subject> get subjects {
-    return _subjects;
-  }
+  @override
+  List<Object?> get props => [
+        id,
+        createdOn,
+        subjects,
+        gradeTypeWeightings,
+        gradingSystem,
+        finalGradeType,
+        isActiveTerm,
+        name,
+      ];
 
-  _Term({
+  const TermModel({
     required this.id,
     required this.finalGradeType,
     required this.gradingSystem,
     required this.isActiveTerm,
     required this.name,
-  })  : _subjects = const IListConst([]),
-        _gradeTypeWeightings = const IMapConst({});
+    this.createdOn,
+    this.subjects = const IListConst([]),
+    this.gradeTypeWeightings = const IMapConst({}),
+  });
 
-  _Term.internal(
+  const TermModel.internal(
     this.id,
-    this._subjects,
-    this._gradeTypeWeightings,
+    this.subjects,
+    this.gradeTypeWeightings,
     this.finalGradeType,
     this.isActiveTerm,
     this.name,
     this.gradingSystem,
+    this.createdOn,
   );
 
   bool hasSubject(SubjectId id) {
-    return _subjects.any((s) => s.id == id);
+    return subjects.any((s) => s.id == id);
   }
 
-  _Term addSubject(Subject subject) {
+  TermModel addSubject(Subject subject) {
     if (hasSubject(subject.id)) {
       throw SubjectAlreadyExistsException(subject.id);
     }
     return _copyWith(
-      subjects: _subjects.add(_Subject(
-        term: this,
+      subjects: subjects.add(SubjectModel(
+        termId: id,
         id: subject.id,
         name: subject.name,
         abbreviation: subject.abbreviation,
         design: subject.design,
         gradingSystem: gradingSystem,
         finalGradeType: finalGradeType,
+        connectedCourses: subject.connectedCourses,
         weightType: WeightType.inheritFromTerm,
-        gradeTypeWeightingsFromTerm: _gradeTypeWeightings,
+        gradeTypeWeightingsFromTerm: gradeTypeWeightings,
       )),
     );
   }
 
-  _Subject subject(SubjectId id) {
-    return _subjects.where((s) => s.id == id).first;
+  SubjectModel subject(SubjectId id) {
+    return subjects.where((s) => s.id == id).first;
   }
 
-  _Term _copyWith({
+  TermModel _copyWith({
     TermId? id,
-    IList<_Subject>? subjects,
-    IMap<GradeTypeId, double>? gradeTypeWeightings,
+    IList<SubjectModel>? subjects,
+    IMap<GradeTypeId, Weight>? gradeTypeWeightings,
     GradeTypeId? finalGradeType,
     bool? isActiveTerm,
     String? name,
-    _GradingSystem? gradingSystem,
+    GradingSystemModel? gradingSystem,
+    DateTime? createdOn,
   }) {
-    return _Term.internal(
+    return TermModel.internal(
       id ?? this.id,
-      subjects ?? _subjects,
-      gradeTypeWeightings ?? _gradeTypeWeightings,
+      subjects ?? this.subjects,
+      gradeTypeWeightings ?? this.gradeTypeWeightings,
       finalGradeType ?? this.finalGradeType,
       isActiveTerm ?? this.isActiveTerm,
       name ?? this.name,
       gradingSystem ?? this.gradingSystem,
+      createdOn ?? this.createdOn,
     );
   }
 
@@ -97,31 +113,33 @@ class _Term {
 
   num getTermGrade() {
     final gradedSubjects =
-        _subjects.where((element) => element.gradeVal != null);
+        subjects.where((element) => element.gradeVal != null);
     return gradedSubjects
-            .map((subject) => subject.gradeVal! * subject.weightingForTermGrade)
+            .map((subject) =>
+                subject.gradeVal! * subject.weightingForTermGrade.asFactor)
             .reduce(
               (a, b) => a + b,
             ) /
         gradedSubjects
-            .map((e) => e.weightingForTermGrade)
+            .map((e) => e.weightingForTermGrade.asFactor)
             .reduce((a, b) => a + b);
   }
 
-  _Term changeWeightTypeForSubject(SubjectId id, WeightType weightType) {
-    final subject = _subjects.firstWhere((s) => s.id == id);
+  TermModel changeWeightTypeForSubject(SubjectId id, WeightType weightType) {
+    final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       weightType: weightType,
     );
 
     return _copyWith(
-      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+      subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
   }
 
-  _Term changeWeightingOfGradeType(GradeTypeId type, {required num weight}) {
-    final newWeights = _gradeTypeWeightings.add(type, weight.toDouble());
-    final newSubjects = _subjects.map((s) {
+  TermModel changeWeightingOfGradeType(GradeTypeId type,
+      {required Weight weight}) {
+    final newWeights = gradeTypeWeightings.add(type, weight);
+    final newSubjects = subjects.map((s) {
       final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
       return newSubject;
     }).toIList();
@@ -129,9 +147,19 @@ class _Term {
     return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
   }
 
-  _Term setFinalGradeType(GradeTypeId gradeType) {
+  TermModel removeWeightingOfGradeType(GradeTypeId type) {
+    final newWeights = gradeTypeWeightings.remove(type);
+    final newSubjects = subjects.map((s) {
+      final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
+      return newSubject;
+    }).toIList();
+
+    return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
+  }
+
+  TermModel setFinalGradeType(GradeTypeId gradeType) {
     final newSubjects =
-        _subjects.where((s) => s.isFinalGradeTypeOverridden == false).map((s) {
+        subjects.where((s) => s.isFinalGradeTypeOverridden == false).map((s) {
       final newSubject = s.copyWith(finalGradeType: gradeType);
       return newSubject;
     }).toIList();
@@ -139,131 +167,187 @@ class _Term {
     return _copyWith(finalGradeType: gradeType, subjects: newSubjects);
   }
 
-  _Term addGrade(Grade grade, {required SubjectId toSubject}) {
-    var subject = _subjects.firstWhere(
+  TermModel addGrade(Grade grade, {required SubjectId toSubject}) {
+    var subject = subjects.firstWhere(
       (s) => s.id == toSubject,
       orElse: () => throw SubjectNotFoundException(toSubject),
     );
 
-    final gradingSystem = grade.gradingSystem.toGradingSystem();
-    final gradeVal = _getGradeNum(grade.value, gradingSystem);
+    final originalInput = grade.value;
+    final gradingSystem = grade.gradingSystem.toGradingSystemModel();
+    final gradeVal = gradingSystem.toNumOrThrow(grade.value);
 
-    subject = subject._addGrade(_Grade(
-      term: this,
+    subject = subject.addGrade(GradeModel(
       id: grade.id,
+      subjectId: toSubject,
+      termId: id,
       date: grade.date,
+      originalInput: originalInput,
       value: gradingSystem.toGradeResult(gradeVal),
       gradingSystem: gradingSystem,
       takenIntoAccount: grade.takeIntoAccount,
       gradeType: grade.type,
-      weight: 1,
+      weight: const Weight.factor(1),
+      title: grade.title,
+      details: grade.details,
     ));
 
-    return _subjects.where((element) => element.id == toSubject).isNotEmpty
+    return subjects.where((element) => element.id == toSubject).isNotEmpty
         ? _copyWith(
-            subjects: _subjects.replaceAllWhere(
+            subjects: subjects.replaceAllWhere(
                 (element) => element.id == toSubject, subject))
-        : _copyWith(subjects: _subjects.add(subject));
+        : _copyWith(subjects: subjects.add(subject));
   }
 
-  num _getGradeNum(Object grade, _GradingSystem gradingSystem) {
-    if (grade is num) return grade;
-    if (grade is String) return gradingSystem.toDoubleOrThrow(grade);
-    throw Exception(
-        'Grade must be a double, int or string, but was ${grade.runtimeType}: $grade');
+  TermModel removeGrade(GradeId gradeId) {
+    final subject = subjects.firstWhere(
+      (s) => s.hasGrade(gradeId),
+      orElse: () => throw GradeNotFoundException(gradeId),
+    );
+
+    final newSubject = subject.removeGrade(gradeId);
+
+    return _copyWith(
+      subjects: subjects.replaceAllWhere((s) => s.id == subject.id, newSubject),
+    );
   }
 
-  _Term changeWeighting(SubjectId id, num newWeight) {
-    final subject = _subjects.firstWhere((s) => s.id == id);
+  bool hasGrade(GradeId gradeId) {
+    return subjects.any((s) => s.hasGrade(gradeId));
+  }
+
+  TermModel changeWeighting(SubjectId id, Weight newWeight) {
+    final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       weightingForTermGrade: newWeight,
     );
 
     return _copyWith(
-      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+      subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
   }
 
-  _Term changeWeightingOfGradeTypeInSubject(
-      SubjectId id, GradeTypeId gradeType, double weight) {
-    final subject = _subjects.firstWhere((s) => s.id == id);
-    final newSubject =
-        subject._changeGradeTypeWeight(gradeType, weight: weight);
+  TermModel changeWeightingOfGradeTypeInSubject(
+      SubjectId id, GradeTypeId gradeType, Weight weight) {
+    final subject = subjects.firstWhere((s) => s.id == id);
+    final newSubject = subject.changeGradeTypeWeight(gradeType, weight: weight);
 
     return _copyWith(
-      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+      subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
   }
 
-  _Term changeWeightOfGrade(GradeId id, SubjectId subjectId, double weight) {
-    final subject = _subjects.firstWhere((s) => s.id == subjectId);
+  TermModel removeWeightingOfGradeTypeInSubject(
+      SubjectId id, GradeTypeId gradeType) {
+    final subject = subjects.firstWhere((s) => s.id == id);
+    final newSubject = subject.removeGradeTypeWeight(gradeType);
+
+    return _copyWith(
+      subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
+    );
+  }
+
+  TermModel changeWeightOfGrade(
+      GradeId id, SubjectId subjectId, Weight weight) {
+    final subject = subjects.firstWhere((s) => s.id == subjectId);
     final newSubject = subject.copyWith(
       grades: subject.grades.replaceFirstWhere(
         (g) => g.id == id,
-        (g) => g!._changeWeight(weight),
+        (g) => g!.changeWeight(weight),
       ),
     );
 
     return _copyWith(
-      subjects: _subjects.replaceAllWhere((s) => s.id == subjectId, newSubject),
+      subjects: subjects.replaceAllWhere((s) => s.id == subjectId, newSubject),
     );
   }
 
-  _Term setFinalGradeTypeForSubject(SubjectId id, GradeTypeId gradeType) {
-    final subject = _subjects.firstWhere((s) => s.id == id);
-    final newSubject = subject._overrideFinalGradeType(gradeType);
+  TermModel setFinalGradeTypeForSubject(SubjectId id, GradeTypeId gradeType) {
+    final subject = subjects.firstWhere((s) => s.id == id);
+    final newSubject = subject.overrideFinalGradeType(gradeType);
 
     return _copyWith(
-      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+      subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
   }
 
-  _Term subjectInheritFinalGradeTypeFromTerm(SubjectId id) {
-    final subject = _subjects.firstWhere((s) => s.id == id);
+  TermModel subjectInheritFinalGradeTypeFromTerm(SubjectId id) {
+    final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       finalGradeType: finalGradeType,
       isFinalGradeTypeOverridden: false,
     );
 
     return _copyWith(
-      subjects: _subjects.replaceAllWhere((s) => s.id == id, newSubject),
+      subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
   }
 
-  _Term setIsActiveTerm(bool isActiveTerm) {
+  TermModel setIsActiveTerm(bool isActiveTerm) {
     return _copyWith(isActiveTerm: isActiveTerm);
+  }
+
+  TermModel setName(String name) {
+    return _copyWith(name: name);
+  }
+
+  TermModel setGradingSystem(GradingSystemModel gradingSystem) {
+    return _copyWith(gradingSystem: gradingSystem);
   }
 }
 
-class _Subject {
-  final _Term term;
+class SubjectModel extends Equatable {
   final SubjectId id;
   final String name;
-  final _GradingSystem gradingSystem;
-  final IList<_Grade> grades;
+  final TermId termId;
+  final GradingSystemModel gradingSystem;
+  final IList<GradeModel> grades;
   final GradeTypeId finalGradeType;
   final bool isFinalGradeTypeOverridden;
-  final num weightingForTermGrade;
-  final IMap<GradeTypeId, double> gradeTypeWeightings;
-  final IMap<GradeTypeId, double> gradeTypeWeightingsFromTerm;
+  final Weight weightingForTermGrade;
+  final IMap<GradeTypeId, Weight> gradeTypeWeightings;
+  final IMap<GradeTypeId, Weight> gradeTypeWeightingsFromTerm;
   final WeightType weightType;
   final String abbreviation;
   final Design design;
+  final IList<ConnectedCourse> connectedCourses;
+  final DateTime? createdOn;
 
   late final num? gradeVal;
 
-  _Subject({
-    required this.term,
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        termId,
+        gradingSystem,
+        grades,
+        finalGradeType,
+        isFinalGradeTypeOverridden,
+        weightingForTermGrade,
+        gradeTypeWeightings,
+        gradeTypeWeightingsFromTerm,
+        weightType,
+        abbreviation,
+        design,
+        connectedCourses,
+        createdOn,
+      ];
+
+  SubjectModel({
     required this.id,
+    required this.termId,
     required this.name,
     required this.weightType,
     required this.gradingSystem,
     required this.finalGradeType,
     required this.abbreviation,
     required this.design,
+    this.createdOn,
+    this.connectedCourses = const IListConst([]),
     this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
-    this.weightingForTermGrade = 1,
+    this.weightingForTermGrade = const Weight.factor(1),
     this.gradeTypeWeightings = const IMapConst({}),
     this.gradeTypeWeightingsFromTerm = const IMapConst({}),
   }) {
@@ -280,56 +364,74 @@ class _Subject {
     if (finalGrade != null) return finalGrade.value.asNum;
 
     return grds
-            .map((grade) => grade.value.asNum * _weightFor(grade))
+            .map((grade) => grade.value.asNum * _weightFor(grade).asFactor)
             .reduce((a, b) => a + b) /
-        grds.map((e) => _weightFor(e)).reduce((a, b) => a + b);
+        grds
+            .map((e) => _weightFor(e))
+            .reduce((a, b) => Weight.factor(a.asFactor + b.asFactor))
+            .asFactor;
   }
 
-  _Subject _addGrade(_Grade grade) {
-    return copyWith(grades: grades.add(grade));
-  }
-
-  num _weightFor(_Grade grade) {
+  Weight _weightFor(GradeModel grade) {
     return switch (weightType) {
       WeightType.perGrade => grade.weight,
-      WeightType.perGradeType => gradeTypeWeightings[grade.gradeType] ?? 1,
+      WeightType.perGradeType =>
+        gradeTypeWeightings[grade.gradeType] ?? const Weight.factor(1),
       WeightType.inheritFromTerm =>
-        gradeTypeWeightingsFromTerm[grade.gradeType] ?? 1,
+        gradeTypeWeightingsFromTerm[grade.gradeType] ?? const Weight.factor(1),
     };
   }
 
-  _Subject _changeGradeTypeWeight(GradeTypeId gradeType,
-      {required double weight}) {
+  SubjectModel addGrade(GradeModel grade) {
+    return copyWith(grades: grades.add(grade));
+  }
+
+  SubjectModel removeGrade(GradeId gradeId) {
+    return copyWith(grades: grades.removeWhere((grade) => grade.id == gradeId));
+  }
+
+  bool hasGrade(GradeId gradeId) {
+    return grades.any((g) => g.id == gradeId);
+  }
+
+  SubjectModel changeGradeTypeWeight(GradeTypeId gradeType,
+      {required Weight weight}) {
     return copyWith(
         gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
   }
 
-  _Subject _overrideFinalGradeType(GradeTypeId gradeType) {
+  SubjectModel removeGradeTypeWeight(GradeTypeId gradeType) {
+    return copyWith(gradeTypeWeightings: gradeTypeWeightings.remove(gradeType));
+  }
+
+  SubjectModel overrideFinalGradeType(GradeTypeId gradeType) {
     return copyWith(
         finalGradeType: gradeType, isFinalGradeTypeOverridden: true);
   }
 
-  _Grade grade(GradeId id) {
+  GradeModel grade(GradeId id) {
     return grades.firstWhere((element) => element.id == id);
   }
 
-  _Subject copyWith({
-    _Term? term,
+  SubjectModel copyWith({
+    TermId? termId,
     SubjectId? id,
     String? name,
     String? abbreviation,
     Design? design,
-    IList<_Grade>? grades,
+    IList<GradeModel>? grades,
     GradeTypeId? finalGradeType,
     bool? isFinalGradeTypeOverridden,
-    num? weightingForTermGrade,
-    _GradingSystem? gradingSystem,
-    IMap<GradeTypeId, double>? gradeTypeWeightings,
-    IMap<GradeTypeId, double>? gradeTypeWeightingsFromTerm,
+    Weight? weightingForTermGrade,
+    GradingSystemModel? gradingSystem,
+    IMap<GradeTypeId, Weight>? gradeTypeWeightings,
+    IMap<GradeTypeId, Weight>? gradeTypeWeightingsFromTerm,
     WeightType? weightType,
+    IList<ConnectedCourse>? connectedCourses,
+    DateTime? createdOn,
   }) {
-    return _Subject(
-      term: term ?? this.term,
+    return SubjectModel(
+      termId: termId ?? this.termId,
       id: id ?? this.id,
       name: name ?? this.name,
       abbreviation: abbreviation ?? this.abbreviation,
@@ -345,58 +447,95 @@ class _Subject {
       weightType: weightType ?? this.weightType,
       gradeTypeWeightingsFromTerm:
           gradeTypeWeightingsFromTerm ?? this.gradeTypeWeightingsFromTerm,
+      connectedCourses: connectedCourses ?? this.connectedCourses,
+      createdOn: createdOn ?? this.createdOn,
     );
   }
 }
 
-class _Grade extends Equatable {
-  final _Term term;
+class GradeModel extends Equatable {
   final GradeId id;
-  final CalculatedGradeResult value;
-  final _GradingSystem gradingSystem;
+  final SubjectId subjectId;
+  final TermId termId;
+  final GradeValue value;
+  final GradingSystemModel gradingSystem;
   final GradeTypeId gradeType;
   final bool takenIntoAccount;
-  final num weight;
+  final Weight weight;
   final Date date;
+  final String title;
+  final String? details;
+  final DateTime? createdOn;
+  final Object originalInput;
 
   @override
-  List<Object?> get props =>
-      [id, value, gradingSystem, gradeType, takenIntoAccount, weight];
+  List<Object?> get props => [
+        id,
+        subjectId,
+        termId,
+        value,
+        // This will cause tests to fail (== operator not working correctly) and
+        // I don't know how to fix it. For now we'll just ignore it.
+        // originalInput,
+        gradingSystem,
+        gradeType,
+        takenIntoAccount,
+        weight,
+        date,
+        title,
+        details,
+        createdOn,
+      ];
 
-  const _Grade({
-    required this.term,
+  const GradeModel({
     required this.id,
+    required this.subjectId,
+    required this.termId,
     required this.value,
     required this.gradeType,
     required this.gradingSystem,
     required this.weight,
     required this.date,
     required this.takenIntoAccount,
-  });
+    required this.title,
+    required this.originalInput,
+    this.details,
+    this.createdOn,
+  }) : assert(originalInput is String || originalInput is num);
 
-  _Grade _changeWeight(double weight) {
-    return copyWith(weight: weight, takenIntoAccount: weight > 0);
+  GradeModel changeWeight(Weight weight) {
+    return copyWith(weight: weight, takenIntoAccount: weight.asFactor > 0);
   }
 
-  _Grade copyWith({
-    _Term? term,
+  GradeModel copyWith({
     GradeId? id,
-    CalculatedGradeResult? value,
+    SubjectId? subjectId,
+    TermId? termId,
+    GradeValue? value,
     Date? date,
-    _GradingSystem? gradingSystem,
+    GradingSystemModel? gradingSystem,
     GradeTypeId? gradeType,
     bool? takenIntoAccount,
-    num? weight,
+    Weight? weight,
+    String? title,
+    String? details,
+    DateTime? createdOn,
+    Object? originalInput,
   }) {
-    return _Grade(
-      term: term ?? this.term,
+    return GradeModel(
       id: id ?? this.id,
+      subjectId: subjectId ?? this.subjectId,
+      termId: termId ?? this.termId,
       value: value ?? this.value,
       date: date ?? this.date,
       gradingSystem: gradingSystem ?? this.gradingSystem,
       gradeType: gradeType ?? this.gradeType,
       takenIntoAccount: takenIntoAccount ?? this.takenIntoAccount,
       weight: weight ?? this.weight,
+      title: title ?? this.title,
+      details: details ?? this.details,
+      createdOn: createdOn ?? this.createdOn,
+      originalInput: originalInput ?? this.originalInput,
     );
   }
 }

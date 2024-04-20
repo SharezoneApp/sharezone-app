@@ -12,21 +12,43 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:test_randomness/test_randomness.dart';
 
-class GradesTestController {
-  final service = GradesService();
+extension ValidValue on GradingSystem {
+  Object get validGradeValue {
+    return switch (this) {
+      GradingSystem.austrianBehaviouralGrades => 'Zufriedenstellend',
+      GradingSystem.oneToSixWithDecimals => 1.5,
+      GradingSystem.oneToSixWithPlusAndMinus => 0.5,
+      GradingSystem.sixToOneWithDecimals => 5.5,
+      GradingSystem.zeroToFifteenPoints => 5,
+      GradingSystem.zeroToFifteenPointsWithDecimals => 5.5,
+      GradingSystem.zeroToHundredPercentWithDecimals => 0.5,
+      GradingSystem.oneToFiveWithDecimals => 2.5,
+    };
+  }
+}
 
-  void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = false}) {
+class GradesTestController {
+  GradesService service = GradesService();
+
+  GradesTestController({GradesService? gradesService}) {
+    service = gradesService ?? GradesService();
+  }
+
+  void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = true}) {
     final termId = testTerm.id;
 
     if (createMissingGradeTypes) {
       for (var id in _getAllGradeTypeIds(testTerm)) {
-        service.createCustomGradeType(
-          GradeType(id: id),
+        service.addCustomGradeType(
+          GradeType(
+            id: id,
+            displayName: randomAlpha(5),
+          ),
         );
       }
     }
 
-    service.createTerm(
+    service.addTerm(
       id: termId,
       finalGradeType: testTerm.finalGradeType,
       isActiveTerm: testTerm.isActiveTerm,
@@ -50,6 +72,7 @@ class GradesTestController {
         name: subject.name,
         abbreviation: subject.abbreviation,
         design: subject.design,
+        connectedCourses: subject.connectedCourses,
       ));
 
       // A subject is added to a term implicitly when adding a grade with the
@@ -57,7 +80,7 @@ class GradesTestController {
       // other settings (weights) that refer to the term.
       for (var grade in subject.grades) {
         service.addGrade(
-          id: subject.id,
+          subjectId: subject.id,
           termId: termId,
           value: _toGrade(grade),
         );
@@ -123,8 +146,12 @@ class GradesTestController {
       takeIntoAccount: testGrade.includeInGradeCalculations,
       gradingSystem: testGrade.gradingSystem,
       type: testGrade.type,
+      title: testGrade.title,
+      details: testGrade.details,
     );
   }
+
+  List<TermResult> get terms => service.terms.value.toList(growable: false);
 
   TermResult term(TermId id) {
     final term = service.terms.value.singleWhere((t) => t.id == id);
@@ -138,6 +165,26 @@ class GradesTestController {
       required WeightType weightType}) {
     service.changeSubjectWeightTypeSettings(
         id: subjectId, termId: termId, perGradeType: weightType);
+  }
+
+  void removeWeightTypeForSubject({
+    required GradeTypeId gradeTypeId,
+    required TermId termId,
+    required SubjectId subjectId,
+  }) {
+    service.removeGradeTypeWeightForSubject(
+      gradeType: gradeTypeId,
+      id: subjectId,
+      termId: termId,
+    );
+  }
+
+  void removeGradeTypeWeightForTerm({
+    required GradeTypeId gradeTypeId,
+    required TermId termId,
+  }) {
+    service.removeGradeTypeWeightForTerm(
+        gradeType: gradeTypeId, termId: termId);
   }
 
   void changeGradeWeightsForSubject(
@@ -175,8 +222,14 @@ class GradesTestController {
     return service.getPossibleGradeTypes();
   }
 
+  IList<GradeType> getCustomGradeTypes() {
+    return getPossibleGradeTypes()
+        .where((gt) => gt.predefinedType == null)
+        .toIList();
+  }
+
   void createCustomGradeType(GradeType gradeType) {
-    return service.createCustomGradeType(gradeType);
+    return service.addCustomGradeType(gradeType);
   }
 
   void addGrade({
@@ -185,7 +238,7 @@ class GradesTestController {
     required TestGrade value,
   }) {
     return service.addGrade(
-      id: subjectId,
+      subjectId: subjectId,
       termId: termId,
       value: _toGrade(value),
     );
@@ -197,6 +250,7 @@ class GradesTestController {
       name: subject.name,
       abbreviation: subject.abbreviation,
       design: subject.design,
+      connectedCourses: subject.connectedCourses,
     ));
   }
 
@@ -208,12 +262,37 @@ class GradesTestController {
             id: subject.id,
             name: subject.name,
             abbreviation: subject.abbreviation,
+            connectedCourses: subject.connectedCourses,
             design: subject.design,
             grades: IList(const []),
             gradeTypeWeights: <GradeTypeId, Weight>{},
           ),
         )
         .toIList();
+  }
+
+  void editTerm(
+    TermId id, {
+    bool? isActiveTerm,
+    String? name,
+    GradeTypeId? finalGradeType,
+    GradingSystem? gradingSystem,
+  }) {
+    service.editTerm(
+      id: id,
+      isActiveTerm: isActiveTerm,
+      name: name,
+      finalGradeType: finalGradeType,
+      gradingSystem: gradingSystem,
+    );
+  }
+
+  void deleteTerm(TermId id) {
+    service.deleteTerm(id);
+  }
+
+  void deleteGrade({required GradeId gradeId}) {
+    service.deleteGrade(gradeId);
   }
 }
 
@@ -232,7 +311,7 @@ TestTerm termWith({
     id: idd,
     name: name ?? '$idd',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
-    gradingSystem: gradingSystem ?? GradingSystem.zeroToFivteenPoints,
+    gradingSystem: gradingSystem ?? GradingSystem.zeroToFifteenPoints,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     isActiveTerm: isActiveTerm,
@@ -269,6 +348,7 @@ TestSubject subjectWith({
   Map<GradeTypeId, Weight> gradeTypeWeights = const {},
   GradeTypeId? finalGradeType,
   Design? design,
+  List<ConnectedCourse> connectedCourses = const [],
 }) {
   final idRes = id ?? SubjectId(randomAlpha(5));
   final nameRes = name ?? idRes.id;
@@ -279,6 +359,7 @@ TestSubject subjectWith({
     abbreviation: abbreviationRes,
     grades: IList(grades),
     weight: weight,
+    connectedCourses: connectedCourses.toIList(),
     weightType: weightType,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
@@ -296,6 +377,7 @@ class TestSubject {
   final GradeTypeId? finalGradeType;
   final Design design;
   final String abbreviation;
+  final IList<ConnectedCourse> connectedCourses;
 
   TestSubject({
     required this.id,
@@ -304,6 +386,7 @@ class TestSubject {
     required this.gradeTypeWeights,
     required this.design,
     required this.abbreviation,
+    this.connectedCourses = const IListConst([]),
     this.weightType,
     this.weight,
     this.finalGradeType,
@@ -331,14 +414,18 @@ TestGrade gradeWith({
   GradeId? id,
   GradingSystem? gradingSystem,
   Date? date,
+  String? title,
+  String? details,
 }) {
   return TestGrade(
     id: id ?? GradeId(randomAlpha(5)),
     value: value,
     includeInGradeCalculations: includeInGradeCalculations,
     date: date ?? Date('2024-02-22'),
-    gradingSystem: gradingSystem ?? GradingSystem.zeroToFivteenPoints,
+    gradingSystem: gradingSystem ?? GradingSystem.zeroToFifteenPoints,
     type: type ?? GradeType.other.id,
+    title: title ?? 'Exam',
+    details: details ?? randomAlpha(5),
     weight: weight,
   );
 }
@@ -353,6 +440,8 @@ class TestGrade {
   final GradeTypeId type;
   final Weight? weight;
   final Date date;
+  final String title;
+  final String details;
 
   TestGrade({
     required this.id,
@@ -361,6 +450,8 @@ class TestGrade {
     required this.includeInGradeCalculations,
     required this.gradingSystem,
     required this.type,
+    required this.title,
+    required this.details,
     this.weight,
   }) {
     if (value is! num && value is! String) {

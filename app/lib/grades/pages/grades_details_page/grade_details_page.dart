@@ -8,18 +8,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/grades/models/grade_id.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_view.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
-import 'package:sharezone/grades/pages/shared/saved_grade_id.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class GradeDetailsPage extends StatelessWidget {
   const GradeDetailsPage({super.key, required this.id});
 
-  final SavedGradeId id;
+  final GradeId id;
   static const tag = 'grade-details-page';
 
   @override
@@ -79,6 +79,7 @@ class _DeleteIconButton extends StatelessWidget {
 
         deleteGrade(context);
         showGradeDeletedSnackBar(context);
+        Navigator.pop(context);
       },
       icon: const Icon(Icons.delete),
     );
@@ -117,7 +118,25 @@ class _EditIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: 'Note bearbeiten',
-      onPressed: () => snackbarSoon(context: context),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Note bearbeiten'),
+              content: const Text(
+                'Das Bearbeiten einer Note ist aktuell noch nicht möglich. Bitte lösche die Note und erstelle sie neu.',
+              ),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () => Navigator.pop(context),
+                )
+              ],
+            );
+          },
+        );
+      },
       icon: const Icon(Icons.edit),
     );
   }
@@ -171,7 +190,7 @@ class _Loading extends StatelessWidget {
       gradeType: 'Test',
       termDisplayName: '1st Term',
       integrateGradeIntoSubjectGrade: true,
-      topic: 'Algebra',
+      title: 'Algebra',
       details: 'This is a test grade for algebra.',
     );
     return const _Items(
@@ -206,7 +225,7 @@ class _Items extends StatelessWidget {
             _Term(termDisplayName: view.termDisplayName),
             _IntegrateGradeIntoSubjectGrade(
                 value: view.integrateGradeIntoSubjectGrade),
-            _Topic(topic: view.topic),
+            _Topic(topic: view.title),
             _Details(details: view.details),
           ],
         ),
@@ -327,7 +346,7 @@ class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
     if (value == null) return const SizedBox();
     return _GradeDetailsTile(
       leading: SavedGradeIcons.integrateGradeIntoSubjectGrade,
-      title: const Text("In Fachnote einbringen"),
+      title: const Text("In Schnitt einbringen"),
       trailing: Icon(value! ? Icons.check : Icons.close),
     );
   }

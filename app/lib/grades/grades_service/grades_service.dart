@@ -12,6 +12,9 @@ import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart' as rx;
 import 'package:sharezone/grades/models/grade_id.dart';
 import '../models/subject_id.dart';
@@ -22,62 +25,106 @@ export '../models/subject_id.dart';
 export '../models/term_id.dart';
 
 part 'src/term.dart';
-part 'src/grading_system.dart';
+part 'src/grading_systems.dart';
+part 'src/grades_repository.dart';
 
 class GradesService {
   final rx.BehaviorSubject<IList<TermResult>> terms;
+  final GradesStateRepository _repository;
 
-  GradesService() : terms = rx.BehaviorSubject.seeded(const IListConst([]));
+  GradesService({GradesStateRepository? repository})
+      : _repository = repository ?? InMemoryGradesStateRepository(),
+        terms = rx.BehaviorSubject.seeded(const IListConst([])) {
+    _state = _repository.state.value;
+    _updateView();
 
-  IList<_Term> _terms = const IListConst<_Term>([]);
-
-  void _updateTerm(_Term term) {
-    _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
-    _updateTerms();
+    _repository.state.listen((state) {
+      _state = state;
+      // Update view gets called in [_updateState] anyways, so we don't need it
+      // here. Moving the method from [_updateState] to here would make the view
+      // being updated async. This would currently breaks our tests.
+      // _updateView();
+    });
   }
 
-  void _updateTerms() {
-    final termRes = _terms.map((term) {
-      return TermResult(
-        id: term.id,
-        name: term.name,
-        isActiveTerm: term.isActiveTerm,
-        gradingSystem: term.gradingSystem.toGradingSystems(),
-        calculatedGrade: term.tryGetTermGrade() != null
-            ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
-            : null,
-        subjects: term.subjects
-            .map(
-              (subject) => SubjectResult(
-                id: subject.id,
-                name: subject.name,
-                design: subject.design,
-                abbreviation: subject.abbreviation,
-                calculatedGrade: subject.gradeVal != null
-                    ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
-                    : null,
-                weightType: subject.weightType,
-                gradeTypeWeights: subject.gradeTypeWeightings
-                    .map((key, value) => MapEntry(key, Weight.factor(value))),
-                grades: subject.grades
-                    .map(
-                      (grade) => GradeResult(
-                        id: grade.id,
-                        date: grade.date,
-                        isTakenIntoAccount: grade.takenIntoAccount,
-                        value: grade.value,
-                      ),
-                    )
-                    .toIList(),
-              ),
-            )
-            .toIList(),
-      );
-    }).toIList();
+  late GradesState _state;
+
+  IList<TermModel> get _terms => _state.terms;
+  set _terms(IList<TermModel> value) {
+    _state = _state.copyWith(terms: value);
+  }
+
+  IList<Subject> get _subjects => _state.subjects;
+  set _subjects(IList<Subject> value) {
+    _state = _state.copyWith(subjects: value);
+  }
+
+  IList<GradeType> get _customGradeTypes => _state.customGradeTypes;
+  set _customGradeTypes(IList<GradeType> value) {
+    _state = _state.copyWith(customGradeTypes: value);
+  }
+
+  void _updateState() {
+    _repository.updateState(_state);
+    _updateView();
+  }
+
+  void _updateView() {
+    final termRes = _terms.map(_toTermResult).toIList();
     terms.add(termRes);
   }
 
-  void createTerm({
+  void _updateTerm(TermModel term) {
+    _terms = _terms.replaceAllWhere((t) => t.id == term.id, term);
+    _updateState();
+  }
+
+  TermResult _toTermResult(TermModel term) {
+    return TermResult(
+      id: term.id,
+      name: term.name,
+      isActiveTerm: term.isActiveTerm,
+      finalGradeType: _getGradeType(term.finalGradeType),
+      gradingSystem: term.gradingSystem.toGradingSystem(),
+      calculatedGrade: term.tryGetTermGrade() != null
+          ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
+          : null,
+      gradeTypeWeightings: term.gradeTypeWeightings,
+      subjects: term.subjects
+          .map(
+            (subject) => SubjectResult(
+              id: subject.id,
+              name: subject.name,
+              design: subject.design,
+              abbreviation: subject.abbreviation,
+              connectedCourses: subject.connectedCourses,
+              calculatedGrade: subject.gradeVal != null
+                  ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
+                  : null,
+              weightType: subject.weightType,
+              gradeTypeWeights: subject.gradeTypeWeightings,
+              finalGradeTypeId: subject.finalGradeType,
+              grades: subject.grades
+                  .map(
+                    (grade) => GradeResult(
+                      id: grade.id,
+                      date: grade.date,
+                      isTakenIntoAccount: grade.takenIntoAccount,
+                      value: grade.value,
+                      title: grade.title,
+                      gradeTypeId: grade.gradeType,
+                      details: grade.details,
+                      originalInput: grade.originalInput,
+                    ),
+                  )
+                  .toIList(),
+            ),
+          )
+          .toIList(),
+    );
+  }
+
+  void addTerm({
     required TermId id,
     required String name,
     required GradeTypeId finalGradeType,
@@ -88,24 +135,97 @@ class GradesService {
       _terms = _terms.map((term) => term.setIsActiveTerm(false)).toIList();
     }
 
+    if (!_hasGradeTypeWithId(finalGradeType)) {
+      throw GradeTypeNotFoundException(finalGradeType);
+    }
+
     _terms = _terms.add(
-      _Term(
+      TermModel(
         id: id,
         isActiveTerm: isActiveTerm,
         name: name,
         finalGradeType: finalGradeType,
-        gradingSystem: gradingSystem.toGradingSystem(),
+        gradingSystem: gradingSystem.toGradingSystemModel(),
       ),
     );
-    _updateTerms();
+    _updateState();
   }
 
-  _Term _term(TermId id) => _terms.singleWhere((term) => term.id == id);
+  /// Edits the given values of the term (does not edit if the value is null).
+  ///
+  /// If the term is set to being active, any active term will be set to
+  /// inactive. If the term is set to being inactive, nothing will happen to the
+  /// other terms.
+  ///
+  /// Throws [GradeTypeNotFoundException] if the given [finalGradeType] is not
+  /// a valid grade type.
+  ///
+  /// Throws [ArgumentError] if the term with the given [id] does not exist.
+  void editTerm({
+    required TermId id,
+    final bool? isActiveTerm,
+    final String? name,
+    final GradeTypeId? finalGradeType,
+    final GradingSystem? gradingSystem,
+  }) {
+    if (isActiveTerm != null) {
+      _terms = _terms.map((term) {
+        if (id == term.id) {
+          return term.setIsActiveTerm(isActiveTerm);
+        } else {
+          // If the term that is edited is set to being active, all other terms
+          // should be set to inactive.
+          // If the term that is edited is set to being inactive, nothing should
+          // happen to the other terms.
+          return term.setIsActiveTerm(isActiveTerm ? false : term.isActiveTerm);
+        }
+      }).toIList();
+    }
+    if (name != null) {
+      _terms = _terms
+          .map((term) => term.id == id ? term.setName(name) : term)
+          .toIList();
+    }
+    if (finalGradeType != null) {
+      if (!_hasGradeTypeWithId(finalGradeType)) {
+        throw GradeTypeNotFoundException(finalGradeType);
+      }
+      _terms = _terms
+          .map((term) =>
+              term.id == id ? term.setFinalGradeType(finalGradeType) : term)
+          .toIList();
+    }
+    if (gradingSystem != null) {
+      _terms = _terms
+          .map((term) => term.id == id
+              ? term.setGradingSystem(gradingSystem.toGradingSystemModel())
+              : term)
+          .toIList();
+    }
+
+    _updateState();
+  }
+
+  /// Deletes the term with the given [id] any grades inside it.
+  ///
+  /// No subjects will be deleted.
+  ///
+  /// Throws [ArgumentError] if the term with the given [id] does not exist.
+  void deleteTerm(TermId id) {
+    final termOrNull = _terms.firstWhereOrNull((term) => term.id == id);
+    if (termOrNull != null) {
+      _terms = _terms.remove(termOrNull);
+      _updateState();
+      return;
+    }
+    throw ArgumentError("Can't delete term, unknown $TermId: '$id'.");
+  }
+
+  TermModel _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
-    final newTerm =
-        _term(termId).changeWeighting(id, weight.asFactor.toDouble());
+    final newTerm = _term(termId).changeWeighting(id, weight);
 
     _updateTerm(newTerm);
   }
@@ -124,27 +244,55 @@ class GradesService {
     required GradeTypeId gradeType,
     required Weight weight,
   }) {
-    final newTerm = _term(termId).changeWeightingOfGradeTypeInSubject(
-        id, gradeType, weight.asFactor.toDouble());
+    final newTerm = _term(termId)
+        .changeWeightingOfGradeTypeInSubject(id, gradeType, weight);
+    _updateTerm(newTerm);
+  }
+
+  void removeGradeTypeWeightForSubject({
+    required SubjectId id,
+    required TermId termId,
+    required GradeTypeId gradeType,
+  }) {
+    final newTerm =
+        _term(termId).removeWeightingOfGradeTypeInSubject(id, gradeType);
     _updateTerm(newTerm);
   }
 
   void addGrade({
-    required SubjectId id,
+    required SubjectId subjectId,
     required TermId termId,
     required Grade value,
   }) {
-    final subject = _getSubjectOrThrow(id);
+    final subject = _getSubjectOrThrow(subjectId);
     if (!_hasGradeTypeWithId(value.type)) {
       throw GradeTypeNotFoundException(value.type);
     }
 
+    if (_hasGradeWithId(value.id)) {
+      throw DuplicateGradeIdException(value.id);
+    }
+
     var newTerm = _term(termId);
-    if (!newTerm.hasSubject(id)) {
+    if (!newTerm.hasSubject(subjectId)) {
       newTerm = newTerm.addSubject(subject);
     }
-    newTerm = newTerm.addGrade(value, toSubject: id);
+    newTerm = newTerm.addGrade(value, toSubject: subjectId);
     _updateTerm(newTerm);
+  }
+
+  bool _hasGradeWithId(GradeId id) {
+    return _terms.any((term) => term.hasGrade(id));
+  }
+
+  void deleteGrade(GradeId gradeId) {
+    final term = _terms.firstWhereOrNull((term) => term.hasGrade(gradeId));
+    if (term != null) {
+      final newTerm = term.removeGrade(gradeId);
+      _updateTerm(newTerm);
+      return;
+    }
+    throw GradeNotFoundException(gradeId);
   }
 
   void changeGradeWeight({
@@ -156,8 +304,7 @@ class GradesService {
         .subjects
         .where((element) => element.grades.any((grade) => grade.id == id))
         .first;
-    final newTerm = _term(termId)
-        .changeWeightOfGrade(id, subject.id, weight.asFactor.toDouble());
+    final newTerm = _term(termId).changeWeightOfGrade(id, subject.id, weight);
 
     _updateTerm(newTerm);
   }
@@ -166,8 +313,16 @@ class GradesService {
       {required TermId termId,
       required GradeTypeId gradeType,
       required Weight weight}) {
-    final newTerm = _term(termId).changeWeightingOfGradeType(gradeType,
-        weight: weight.asFactor.toDouble());
+    final newTerm =
+        _term(termId).changeWeightingOfGradeType(gradeType, weight: weight);
+    _updateTerm(newTerm);
+  }
+
+  void removeGradeTypeWeightForTerm({
+    required TermId termId,
+    required GradeTypeId gradeType,
+  }) {
+    final newTerm = _term(termId).removeWeightingOfGradeType(gradeType);
     _updateTerm(newTerm);
   }
 
@@ -190,16 +345,14 @@ class GradesService {
   ///
   /// For example the values for the grading system "1-6 with plus and minus"
   /// would be: `['1+', '1', '1-', '2+', [...] '5+', '5', '5-', '6']`
-  IList<String> getPossibleGrades(GradingSystem gradingSystem) {
-    final gs = gradingSystem.toGradingSystem();
-    return gs.possibleValues;
+  PossibleGradesResult getPossibleGrades(GradingSystem gradingSystem) {
+    final gs = gradingSystem.toGradingSystemModel();
+    return gs.possibleGrades;
   }
 
   IList<GradeType> getPossibleGradeTypes() {
     return GradeType.predefinedGradeTypes.addAll(_customGradeTypes);
   }
-
-  var _customGradeTypes = IList<GradeType>();
 
   bool _hasGradeTypeWithId(GradeTypeId id) {
     return getPossibleGradeTypes().map((gt) => gt.id).contains(id);
@@ -208,21 +361,25 @@ class GradesService {
   /// Creates a custom grade type.
   ///
   /// If the grade type already exists, nothing will happen.
-  void createCustomGradeType(GradeType gradeType) {
+  void addCustomGradeType(GradeType gradeType) {
     if (_hasGradeTypeWithId(gradeType.id)) {
       // Already exists
       return;
     }
     _customGradeTypes = _customGradeTypes.add(gradeType);
+    _updateState();
   }
 
-  var _subjects = IList<Subject>();
+  GradeType _getGradeType(GradeTypeId finalGradeType) {
+    return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
+  }
 
   void addSubject(Subject subject) {
-    if (_subjects.any((s) => s.id == subject.id)) {
+    if (getSubjects().any((s) => s.id == subject.id)) {
       throw SubjectAlreadyExistsException(subject.id);
     }
     _subjects = _subjects.add(subject);
+    _updateState();
   }
 
   IList<Subject> getSubjects() {
@@ -230,7 +387,7 @@ class GradesService {
   }
 
   Subject? getSubject(SubjectId id) {
-    return _subjects.firstWhereOrNull((subject) => subject.id == id);
+    return getSubjects().firstWhereOrNull((subject) => subject.id == id);
   }
 
   Subject _getSubjectOrThrow(SubjectId id) {
@@ -240,6 +397,37 @@ class GradesService {
     }
     return sub;
   }
+}
+
+class InvalidGradeValueException extends Equatable implements Exception {
+  final String gradeInput;
+  final GradingSystem gradingSystem;
+
+  const InvalidGradeValueException({
+    required this.gradeInput,
+    required this.gradingSystem,
+  });
+
+  @override
+  List<Object?> get props => [gradeInput, gradingSystem];
+}
+
+class GradeNotFoundException extends Equatable implements Exception {
+  final GradeId id;
+
+  const GradeNotFoundException(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class DuplicateGradeIdException extends Equatable implements Exception {
+  final GradeId id;
+
+  const DuplicateGradeIdException(this.id);
+
+  @override
+  List<Object?> get props => [id];
 }
 
 class SubjectNotFoundException extends Equatable implements Exception {
@@ -269,7 +457,60 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
   List<Object?> get props => [id];
 }
 
-enum GradingSystem { oneToSixWithPlusAndMinus, zeroToFivteenPoints }
+enum GradingSystem {
+  oneToSixWithPlusAndMinus(isNumericalAndContinous: true),
+  zeroToFifteenPoints(isNumericalAndContinous: true),
+  zeroToFifteenPointsWithDecimals(isNumericalAndContinous: true),
+  oneToSixWithDecimals(isNumericalAndContinous: true),
+  zeroToHundredPercentWithDecimals(isNumericalAndContinous: true),
+  oneToFiveWithDecimals(isNumericalAndContinous: true),
+  sixToOneWithDecimals(isNumericalAndContinous: true),
+  austrianBehaviouralGrades(isNumericalAndContinous: false);
+
+  final bool isNumericalAndContinous;
+
+  const GradingSystem({required this.isNumericalAndContinous});
+}
+
+extension NumericalAndContinuous on List<GradingSystem> {
+  IList<GradingSystem> get numericalAndContinuous =>
+      where((gs) => gs.isNumericalAndContinous).toIList();
+}
+
+sealed class PossibleGradesResult extends Equatable {
+  const PossibleGradesResult();
+}
+
+class NonNumericalPossibleGradesResult extends PossibleGradesResult {
+  final IList<String> grades;
+
+  @override
+  List<Object?> get props => [grades];
+
+  const NonNumericalPossibleGradesResult(this.grades);
+}
+
+class ContinuousNumericalPossibleGradesResult extends PossibleGradesResult {
+  final num min;
+  final num max;
+  final bool decimalsAllowed;
+
+  @override
+  List<Object?> get props => [min, max, decimalsAllowed, specialGrades];
+
+  /// Special non-numerical grade strings that have an assigned numerical value.
+  ///
+  /// For example [GradingSystem.oneToSixWithPlusAndMinus] might have the values:
+  /// `{'1+':0.75,'1-':1.25, /**...*/ '5-':5.25}`.
+  final IMap<String, num> specialGrades;
+
+  const ContinuousNumericalPossibleGradesResult({
+    required this.min,
+    required this.max,
+    required this.decimalsAllowed,
+    this.specialGrades = const IMapConst({}),
+  });
+}
 
 /// The predefined types of grades that can be used.
 ///
@@ -281,17 +522,50 @@ enum PredefinedGradeTypes {
   oralParticipation,
   vocabularyTest,
   presentation,
-  other,
+  other;
+
+  String toUiString() {
+    return switch (this) {
+      PredefinedGradeTypes.schoolReportGrade => 'Zeugnisnote',
+      PredefinedGradeTypes.writtenExam => 'Schriftliche Prüfung',
+      PredefinedGradeTypes.oralParticipation => 'Mündliche Beteiligung',
+      PredefinedGradeTypes.vocabularyTest => 'Vokabeltest',
+      PredefinedGradeTypes.presentation => 'Präsentation',
+      PredefinedGradeTypes.other => 'Sonstiges',
+    };
+  }
+
+  Icon getIcon() {
+    return switch (this) {
+      PredefinedGradeTypes.schoolReportGrade =>
+        const Icon(Symbols.contract, fill: 1),
+      PredefinedGradeTypes.writtenExam =>
+        const Icon(Symbols.edit_document, fill: 1),
+      PredefinedGradeTypes.oralParticipation =>
+        const Icon(Symbols.record_voice_over, fill: 1),
+      PredefinedGradeTypes.vocabularyTest =>
+        const Icon(Symbols.text_rotation_none, fill: 1),
+      PredefinedGradeTypes.presentation =>
+        const Icon(Symbols.co_present, fill: 1),
+      PredefinedGradeTypes.other =>
+        const Icon(Symbols.other_admission, fill: 1),
+    };
+  }
 }
 
 class GradeType extends Equatable {
   final GradeTypeId id;
+  final String? displayName;
   final PredefinedGradeTypes? predefinedType;
 
   @override
-  List<Object?> get props => [id, predefinedType];
+  List<Object?> get props => [id, displayName, predefinedType];
 
-  const GradeType({required this.id, this.predefinedType});
+  const GradeType({required this.id, required String this.displayName})
+      : predefinedType = null;
+  const GradeType._predefined(
+      {required this.id, required PredefinedGradeTypes this.predefinedType})
+      : displayName = null;
 
   static const predefinedGradeTypes = IListConst([
     GradeType.schoolReportGrade,
@@ -301,50 +575,73 @@ class GradeType extends Equatable {
     GradeType.presentation,
     GradeType.other,
   ]);
-  static const schoolReportGrade = GradeType(
+  static const schoolReportGrade = GradeType._predefined(
       id: GradeTypeId('school-report-grade'),
       predefinedType: PredefinedGradeTypes.schoolReportGrade);
-  static const writtenExam = GradeType(
+  static const writtenExam = GradeType._predefined(
       id: GradeTypeId('written-exam'),
       predefinedType: PredefinedGradeTypes.writtenExam);
-  static const oralParticipation = GradeType(
+  static const oralParticipation = GradeType._predefined(
       id: GradeTypeId('oral-participation'),
       predefinedType: PredefinedGradeTypes.oralParticipation);
-  static const vocabularyTest = GradeType(
+  static const vocabularyTest = GradeType._predefined(
       id: GradeTypeId('vocabulary-test'),
       predefinedType: PredefinedGradeTypes.vocabularyTest);
-  static const presentation = GradeType(
+  static const presentation = GradeType._predefined(
       id: GradeTypeId('presentation'),
       predefinedType: PredefinedGradeTypes.presentation);
-  static const other = GradeType(
+  static const other = GradeType._predefined(
       id: GradeTypeId('other'), predefinedType: PredefinedGradeTypes.other);
 }
 
-class GradeResult {
+class GradeResult extends Equatable {
   final GradeId id;
-  final CalculatedGradeResult value;
+  final GradeValue value;
   final bool isTakenIntoAccount;
   final Date date;
+  final String title;
+  GradingSystem get gradingSystem => value.gradingSystem;
+  final GradeTypeId gradeTypeId;
+  final String? details;
+  final Object originalInput;
 
-  GradeResult({
+  const GradeResult({
     required this.id,
     required this.isTakenIntoAccount,
     required this.value,
     required this.date,
+    required this.title,
+    required this.gradeTypeId,
+    required this.details,
+    required this.originalInput,
   });
+
+  @override
+  List<Object?> get props => [
+        id,
+        originalInput,
+        value,
+        isTakenIntoAccount,
+        date,
+        title,
+        gradeTypeId,
+        details,
+      ];
 }
 
-class SubjectResult {
+class SubjectResult extends Equatable {
   final SubjectId id;
   final String name;
-  final CalculatedGradeResult? calculatedGrade;
+  final GradeValue? calculatedGrade;
   final WeightType weightType;
   final IMap<GradeTypeId, Weight> gradeTypeWeights;
   final IList<GradeResult> grades;
   final String abbreviation;
   final Design design;
+  final IList<ConnectedCourse> connectedCourses;
+  final GradeTypeId finalGradeTypeId;
 
-  SubjectResult({
+  const SubjectResult({
     required this.id,
     required this.name,
     required this.abbreviation,
@@ -353,42 +650,92 @@ class SubjectResult {
     required this.gradeTypeWeights,
     required this.grades,
     required this.design,
+    required this.connectedCourses,
+    required this.finalGradeTypeId,
   });
 
   GradeResult grade(GradeId gradeId) {
     return grades.firstWhere((element) => element.id == gradeId);
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        calculatedGrade,
+        connectedCourses,
+        weightType,
+        gradeTypeWeights,
+        grades,
+        abbreviation,
+        design,
+        finalGradeTypeId,
+      ];
 }
 
-class TermResult {
+class TermResult extends Equatable {
   final TermId id;
   final GradingSystem gradingSystem;
-  final CalculatedGradeResult? calculatedGrade;
-  IList<SubjectResult> subjects;
+  final GradeValue? calculatedGrade;
+  final IList<SubjectResult> subjects;
   final bool isActiveTerm;
   final String name;
+  final GradeType finalGradeType;
+  final IMap<GradeTypeId, Weight> gradeTypeWeightings;
 
   SubjectResult subject(SubjectId id) {
     final subject = subjects.firstWhere((element) => element.id == id);
     return subject;
   }
 
-  TermResult({
+  const TermResult({
     required this.id,
     required this.gradingSystem,
     required this.name,
     required this.calculatedGrade,
     required this.subjects,
     required this.isActiveTerm,
+    required this.finalGradeType,
+    required this.gradeTypeWeightings,
   });
+
+  @override
+  List<Object?> get props => [
+        id,
+        gradingSystem,
+        calculatedGrade,
+        subjects,
+        isActiveTerm,
+        name,
+        finalGradeType,
+        gradeTypeWeightings,
+      ];
 }
 
-class CalculatedGradeResult {
+class GradeValue extends Equatable {
   double get asDouble => asNum.toDouble();
   final num asNum;
-  final String displayableGrade;
 
-  CalculatedGradeResult({required this.asNum, required this.displayableGrade});
+  final GradingSystem gradingSystem;
+
+  /// Only available if there is a special displayable grade for the calculated
+  /// grade. For example, if the calculated grade is 2.25, the displayable grade
+  /// could be '2+' for the (1-6 with +-) grading system.
+  final String? displayableGrade;
+
+  /// A suffix that should be appended to the displayable grade.
+  /// For example for the 0-100% grading system, this would be '%'.
+  final String? suffix;
+
+  @override
+  List<Object?> get props => [asNum, gradingSystem, displayableGrade, suffix];
+
+  const GradeValue({
+    required this.asNum,
+    required this.gradingSystem,
+    required this.displayableGrade,
+    required this.suffix,
+  });
 }
 
 class Grade {
@@ -401,6 +748,13 @@ class Grade {
   final Date date;
   final bool takeIntoAccount;
 
+  /// The title of the grade, for example 'Lineare Algebra Klausur'.
+  final String title;
+
+  /// Additional optional details for the grade, for example 'Aufgabe 1: 5/10
+  /// Punkte'.
+  final String? details;
+
   Grade({
     required this.id,
     required this.value,
@@ -408,6 +762,8 @@ class Grade {
     required this.type,
     required this.date,
     required this.takeIntoAccount,
+    required this.title,
+    required this.details,
   });
 }
 
@@ -417,17 +773,44 @@ class GradeTypeId extends Id {
   const GradeTypeId(super.id);
 }
 
-class Subject {
+class Subject extends Equatable {
   final SubjectId id;
   final Design design;
   final String name;
   final String abbreviation;
+  final IList<ConnectedCourse> connectedCourses;
+  final DateTime? createdOn;
 
-  Subject({
+  @override
+  List<Object?> get props =>
+      [id, design, name, abbreviation, connectedCourses, createdOn];
+
+  const Subject({
     required this.id,
     required this.design,
     required this.name,
     required this.abbreviation,
+    required this.connectedCourses,
+    this.createdOn,
+  });
+}
+
+class ConnectedCourse extends Equatable {
+  final CourseId id;
+  final String name;
+  final String abbreviation;
+  final String subjectName;
+  final DateTime? addedOn;
+
+  @override
+  List<Object?> get props => [id, name, abbreviation, subjectName, addedOn];
+
+  const ConnectedCourse({
+    required this.id,
+    required this.name,
+    required this.abbreviation,
+    required this.subjectName,
+    this.addedOn,
   });
 }
 

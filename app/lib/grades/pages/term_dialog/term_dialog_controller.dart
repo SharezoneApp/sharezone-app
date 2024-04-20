@@ -20,12 +20,19 @@ class TermDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createTerm() async {
-    gradesService.createTerm(
+  GradingSystem gradingSystem = GradingSystem.oneToSixWithPlusAndMinus;
+
+  void setGradingSystem(GradingSystem value) {
+    gradingSystem = value;
+    notifyListeners();
+  }
+
+  Future<void> addTerm() async {
+    gradesService.addTerm(
       id: TermId(termName),
-      gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+      gradingSystem: gradingSystem,
       name: termName,
-      finalGradeType: const GradeTypeId('foo'),
+      finalGradeType: GradeType.schoolReportGrade.id,
       isActiveTerm: true,
     );
     return;

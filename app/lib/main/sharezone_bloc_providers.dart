@@ -67,6 +67,7 @@ import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_
 import 'package:sharezone/grades/grades_flag.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
@@ -333,6 +334,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
     providers = [
+      Provider<Analytics>(create: (context) => analytics),
       Provider<CrashAnalytics>(create: (context) => crashAnalytics),
       Provider<SubscriptionService>(
         create: (context) => subscriptionService,
@@ -418,10 +420,23 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => GradesPageController(gradesService: gradesService),
       ),
       Provider(
-        create: (context) => const TermDetailsPageControllerFactory(),
+        create: (context) => TermDetailsPageControllerFactory(
+          gradesService: gradesService,
+          crashAnalytics: crashAnalytics,
+        ),
       ),
       Provider(
-        create: (context) => GradeDetailsPageControllerFactory(),
+        create: (context) => GradeDetailsPageControllerFactory(
+          gradesService: gradesService,
+          crashAnalytics: crashAnalytics,
+        ),
+      ),
+      Provider(
+        create: (context) => GradesDialogControllerFactory(
+          crashAnalytics: crashAnalytics,
+          gradesService: gradesService,
+          coursesStream: () => api.course.streamCourses(),
+        ),
       )
     ];
 
