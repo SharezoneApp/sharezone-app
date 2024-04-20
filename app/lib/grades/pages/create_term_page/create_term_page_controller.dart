@@ -50,7 +50,7 @@ class CreateTermPageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void save() {
+  Future<void> save() async {
     _validateName();
     if (!view.isNameValid) {
       throw InvalidTermNameException();
@@ -66,10 +66,33 @@ class CreateTermPageController extends ChangeNotifier {
         gradingSystem: view.gradingSystem,
       );
       analytics.logCreateTerm();
+
+      // Firestore had a soft limit of 1 write per second per document. However,
+      // this limit isn't mentioned in the documentation anymore. We still keep
+      // the delay to be on the safe side.
+      //
+      // https://stackoverflow.com/questions/74454570/has-firestore-removed-the-soft-limit-of-1-write-per-second-to-a-single-document
+      await _waitForFirestoreLimit();
+      gradesService.changeGradeTypeWeightForTerm(
+        termId: termId,
+        gradeType: GradeType.writtenExam.id,
+        weight: const Weight.percent(50),
+      );
+
+      await _waitForFirestoreLimit();
+      gradesService.changeGradeTypeWeightForTerm(
+        termId: termId,
+        gradeType: GradeType.oralParticipation.id,
+        weight: const Weight.percent(50),
+      );
     } catch (e, s) {
       crashAnalytics.recordError('Could not save term: $e', s);
       throw CouldNotSaveTermException('$e');
     }
+  }
+
+  Future<void> _waitForFirestoreLimit() async {
+    await Future.delayed(const Duration(milliseconds: 200));
   }
 
   void setGradingSystem(GradingSystem system) {
