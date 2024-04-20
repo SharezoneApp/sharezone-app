@@ -17,6 +17,9 @@ typedef GradesState = ({
 });
 
 extension GradesStateCopyWith on GradesState {
+  bool get isEmpty =>
+      terms.isEmpty && customGradeTypes.isEmpty && subjects.isEmpty;
+
   GradesState copyWith({
     IList<TermModel>? terms,
     IList<GradeType>? customGradeTypes,
@@ -89,7 +92,28 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
 
   @override
   void updateState(GradesState state) {
-    gradesDocumentRef.set(toDto(state), SetOptions(merge: true));
+    final stateBefore = this.state.value;
+
+    final data = toDto(state);
+    gradesDocumentRef.set(data, SetOptions(merge: true));
+
+    // If our state is empty, we assume that the user might have just created
+    // their first term which is why this method was called. Thus we want to add
+    // a createdOn field to the top level of the document (if it doesn't exist
+    // yet).
+    if (stateBefore.isEmpty) {
+      tryAddTopLevelCreatedOn();
+    }
+  }
+
+  Future<void> tryAddTopLevelCreatedOn() async {
+    final snap =
+        await gradesDocumentRef.get(const GetOptions(source: Source.cache));
+    final data = snap.data();
+    if (data is Map && data['createdOn'] == null) {
+      gradesDocumentRef.set(
+          {'createdOn': FieldValue.serverTimestamp()}, SetOptions(merge: true));
+    }
   }
 
   static Map<String, Object> toDto(GradesState state) {
