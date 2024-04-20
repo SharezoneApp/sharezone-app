@@ -300,24 +300,9 @@ class _GradingType extends StatelessWidget {
             'Benutzerdefinierter Notentyp',
       ),
       onTap: () async {
-        final res = await showDialog<GradeType?>(
+        final res = await SelectGradeTypeDialog.show(
           context: context,
-          builder: (context) => SimpleDialog(
-            contentPadding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
-            title: const Text("Notentyp auswählen"),
-            children: [
-              for (final gradeType in view.selectableGradingTypes)
-                ListTile(
-                  leading: gradeType.predefinedType?.getIcon() ??
-                      const Icon(Icons.help_outline),
-                  title: Text(gradeType.predefinedType?.toUiString() ??
-                      'Unbekannt/Eigener Notentyp'),
-                  onTap: () {
-                    Navigator.of(context).pop<GradeType?>(gradeType);
-                  },
-                ),
-            ],
-          ),
+          selectableGradingTypes: view.selectableGradingTypes.toList(),
         );
 
         if (res != null) {
