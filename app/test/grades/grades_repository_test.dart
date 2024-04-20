@@ -696,6 +696,219 @@ void main() {
         }
       }
     });
+    test('Regression test: Assigning subject to wrong term', () async {
+      final serialized = {
+        "customGradeTypes": {},
+        "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713619198113),
+        "currentTerm": "dZDMkmAlQcO4dHNGECUv",
+        "grades": {
+          "zodKhqqPXqlJymvAVFgB": {
+            "termId": "dZDMkmAlQcO4dHNGECUv",
+            "gradingSystem": "oneToSixWithPlusAndMinus",
+            "id": "zodKhqqPXqlJymvAVFgB",
+            "includeInGrading": true,
+            "title": "Schriftliche Prüfung",
+            "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713630048656),
+            "receivedAt": "2024-04-20",
+            "subjectId": "JTtl5QaZi0gQJXdNLhAA",
+            "gradeType": "written-exam",
+            "numValue": 0.75,
+            "originalInput": "1+"
+          },
+          "ireW8wfUQ5zjTWoD5ZVv": {
+            "termId": "dZDMkmAlQcO4dHNGECUv",
+            "gradingSystem": "oneToSixWithPlusAndMinus",
+            "id": "ireW8wfUQ5zjTWoD5ZVv",
+            "includeInGrading": true,
+            "title": "Schriftliche Prüfung",
+            "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713630128192),
+            "receivedAt": "2024-04-20",
+            "subjectId": "JTtl5QaZi0gQJXdNLhAA",
+            "gradeType": "written-exam",
+            "numValue": 0.75,
+            "originalInput": "1+"
+          },
+          "r68OpeJ32Cb8jDtsBEq4": {
+            "termId": "dZDMkmAlQcO4dHNGECUv",
+            "gradingSystem": "oneToSixWithPlusAndMinus",
+            "id": "r68OpeJ32Cb8jDtsBEq4",
+            "includeInGrading": true,
+            "title": "Schriftliche Prüfung",
+            "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713630098113),
+            "receivedAt": "2024-04-20",
+            "subjectId": "JTtl5QaZi0gQJXdNLhAA",
+            "gradeType": "written-exam",
+            "numValue": 0.75,
+            "originalInput": "1+"
+          },
+          "DI9t96aoHreq08OnsoEH": {
+            "termId": "t3hTR0qWMm9MhpU1CwUR",
+            "gradingSystem": "oneToSixWithPlusAndMinus",
+            "id": "DI9t96aoHreq08OnsoEH",
+            "includeInGrading": true,
+            "title": "Schriftliche Prüfung",
+            "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713619204303),
+            "receivedAt": "2024-04-20",
+            "subjectId": "JTtl5QaZi0gQJXdNLhAA",
+            "gradeType": "written-exam",
+            "numValue": 0.75,
+            "originalInput": "1+"
+          },
+          "6Mb4O6Mgo5h5dlgxTJ3I": {
+            "termId": "t3hTR0qWMm9MhpU1CwUR",
+            "gradingSystem": "oneToSixWithPlusAndMinus",
+            "id": "6Mb4O6Mgo5h5dlgxTJ3I",
+            "includeInGrading": true,
+            "title": "Schriftliche Prüfung",
+            "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713620527574),
+            "receivedAt": "2024-04-20",
+            "subjectId": "iJfPlj4i6UJFePj2lKWC",
+            "gradeType": "written-exam",
+            "numValue": 0.75,
+            "originalInput": "1+"
+          }
+        },
+        "terms": {
+          "t3hTR0qWMm9MhpU1CwUR": {
+            "displayName": "test",
+            "gradingSystem": "oneToSixWithPlusAndMinus",
+            "subjects": {
+              "JTtl5QaZi0gQJXdNLhAA": {
+                "gradeComposition": {
+                  "weightType": "inheritFromTerm",
+                  "gradeTypeWeights": {},
+                  "gradeWeights": {
+                    "zodKhqqPXqlJymvAVFgB": {"type": "factor", "value": 1},
+                    "DI9t96aoHreq08OnsoEH": {"type": "factor", "value": 1},
+                    "r68OpeJ32Cb8jDtsBEq4": {"type": "factor", "value": 1}
+                  }
+                },
+                "createdOn":
+                    Timestamp.fromMillisecondsSinceEpoch(1713630098113),
+                "id": "JTtl5QaZi0gQJXdNLhAA",
+                "finalGradeType": "school-report-grade",
+                "grades": ["zodKhqqPXqlJymvAVFgB", "r68OpeJ32Cb8jDtsBEq4"]
+              },
+              "iJfPlj4i6UJFePj2lKWC": {
+                "gradeComposition": {
+                  "weightType": "inheritFromTerm",
+                  "gradeTypeWeights": {},
+                  "gradeWeights": {
+                    "6Mb4O6Mgo5h5dlgxTJ3I": {"type": "factor", "value": 1}
+                  }
+                },
+                "createdOn":
+                    Timestamp.fromMillisecondsSinceEpoch(1713620527574),
+                "id": "iJfPlj4i6UJFePj2lKWC",
+                "finalGradeType": "school-report-grade",
+                "grades": ["6Mb4O6Mgo5h5dlgxTJ3I"]
+              }
+            },
+            "id": "t3hTR0qWMm9MhpU1CwUR",
+            "finalGradeType": "school-report-grade",
+            "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713619198068),
+            "subjectWeights": {
+              "JTtl5QaZi0gQJXdNLhAA": {"type": "factor", "value": 1},
+              "iJfPlj4i6UJFePj2lKWC": {"type": "factor", "value": 1}
+            },
+            "gradeTypeWeights": {}
+          },
+          "dZDMkmAlQcO4dHNGECUv": {
+            "displayName": "123",
+            "gradingSystem": "oneToSixWithPlusAndMinus",
+            "subjects": {
+              "JTtl5QaZi0gQJXdNLhAA": {
+                "gradeComposition": {
+                  "weightType": "inheritFromTerm",
+                  "gradeTypeWeights": {},
+                  "gradeWeights": {
+                    "ireW8wfUQ5zjTWoD5ZVv": {"type": "factor", "value": 1},
+                    "zodKhqqPXqlJymvAVFgB": {"type": "factor", "value": 1},
+                    "r68OpeJ32Cb8jDtsBEq4": {"type": "factor", "value": 1}
+                  }
+                },
+                "createdOn":
+                    Timestamp.fromMillisecondsSinceEpoch(1713630128192),
+                "id": "JTtl5QaZi0gQJXdNLhAA",
+                "finalGradeType": "school-report-grade",
+                "grades": ["ireW8wfUQ5zjTWoD5ZVv"]
+              }
+            },
+            "id": "dZDMkmAlQcO4dHNGECUv",
+            "finalGradeType": "school-report-grade",
+            "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713629975858),
+            "subjectWeights": {
+              "JTtl5QaZi0gQJXdNLhAA": {"type": "factor", "value": 1}
+            },
+            "gradeTypeWeights": {
+              "oral-participation": {"type": "factor", "value": 0.5},
+              "written-exam": {"type": "factor", "value": 0.5}
+            }
+          }
+        },
+        "subjects": {
+          "JTtl5QaZi0gQJXdNLhAA": {
+            "abbreviation": "D",
+            "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713619203273),
+            "id": "JTtl5QaZi0gQJXdNLhAA",
+            "design": {"color": "03a9f4", "type": "color"},
+            "name": "Deutsch",
+            "connectedCourses": {
+              "35aDFQgopZZOdhTZjxQy": {
+                "abbreviation": "D",
+                "id": "35aDFQgopZZOdhTZjxQy",
+                "name": "Deutsch",
+                "subjectName": "Deutsch"
+              }
+            }
+          },
+          "iJfPlj4i6UJFePj2lKWC": {
+            "abbreviation": "F",
+            "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713620526549),
+            "id": "iJfPlj4i6UJFePj2lKWC",
+            "design": {"color": "ffab40", "type": "color"},
+            "name": "Französisch",
+            "connectedCourses": {
+              "TRqJgCBJs4BEACRvv8cj": {
+                "abbreviation": "F",
+                "id": "TRqJgCBJs4BEACRvv8cj",
+                "name": "Französisch",
+                "subjectName": "Französisch"
+              }
+            }
+          }
+        }
+      };
+
+      final repo = InMemoryGradesStateRepository();
+      final controller = GradesTestController(
+        gradesService: GradesService(repository: repo),
+      );
+
+      repo.state.add(FirestoreGradesStateRepository.fromData(serialized));
+      // Because the stream is async we need to await here so the views are
+      // updated
+      await Future.delayed(Duration.zero);
+
+      expect(controller.terms, hasLength(2));
+      expect(
+          controller
+              .term(const TermId('t3hTR0qWMm9MhpU1CwUR'))
+              .subjects
+              .map((s) => s.id)
+              .toList(),
+          const [
+            SubjectId('JTtl5QaZi0gQJXdNLhAA'),
+            SubjectId('iJfPlj4i6UJFePj2lKWC')
+          ]);
+      expect(
+          controller
+              .term(const TermId('dZDMkmAlQcO4dHNGECUv'))
+              .subjects
+              .map((s) => s.id)
+              .toList(),
+          [const SubjectId('JTtl5QaZi0gQJXdNLhAA')]);
+    });
   });
 }
 
