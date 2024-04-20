@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:analytics/analytics.dart';
 import 'package:collection/collection.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class GradeDetailsPageController extends ChangeNotifier {
   final GradeId id;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
+  final Analytics analytics;
   late StreamSubscription<GradeResult?> _gradeStreamSubscription;
 
   GradeDetailsPageState state = const GradeDetailsPageLoading();
@@ -29,6 +31,7 @@ class GradeDetailsPageController extends ChangeNotifier {
     required this.id,
     required this.gradesService,
     required this.crashAnalytics,
+    required this.analytics,
   }) {
     _gradeStreamSubscription = _getGradeStream().listen((grade) {
       if (grade != null) {
@@ -107,6 +110,7 @@ class GradeDetailsPageController extends ChangeNotifier {
 
   void deleteGrade() {
     gradesService.deleteGrade(id);
+    analytics.log(NamedAnalyticsEvent(name: 'grade_deleted'));
   }
 
   @override

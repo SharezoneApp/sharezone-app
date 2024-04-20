@@ -433,6 +433,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => GradeDetailsPageControllerFactory(
           gradesService: gradesService,
           crashAnalytics: crashAnalytics,
+          analytics: analytics,
         ),
       ),
       Provider(
