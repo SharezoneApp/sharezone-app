@@ -247,54 +247,10 @@ class _PurchaseSection extends StatelessWidget {
           }
           showDialog(
             context: context,
-            builder: (context) => const BuyingFailedDialog(),
+            builder: (context) => BuyingFailedDialog(error: '$e'),
           );
         }
       },
-    );
-  }
-}
-
-class BuyingDisabledDialog extends StatelessWidget {
-  const BuyingDisabledDialog({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: const Text("Buying disabled, piss off alder"),
-      actions: <Widget>[
-        TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).primaryColor,
-          ),
-          onPressed: () => Navigator.pop(context),
-          child: const Text("OK"),
-        )
-      ],
-    );
-  }
-}
-
-class BuyingFailedDialog extends StatelessWidget {
-  const BuyingFailedDialog({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: const Text("Buying failed, contact support "),
-      actions: <Widget>[
-        TextButton(
-          style: TextButton.styleFrom(
-            foregroundColor: Theme.of(context).primaryColor,
-          ),
-          onPressed: () => Navigator.pop(context),
-          child: const Text("OK"),
-        )
-      ],
     );
   }
 }

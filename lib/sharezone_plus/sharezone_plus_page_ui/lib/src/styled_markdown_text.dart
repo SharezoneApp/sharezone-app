@@ -10,10 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MarkdownCenteredText extends StatelessWidget {
-  const MarkdownCenteredText({super.key, required this.text});
+class StyledMarkdownText extends StatelessWidget {
+  const StyledMarkdownText({
+    super.key,
+    required this.text,
+    this.alignment = WrapAlignment.center,
+  });
 
   final String text;
+  final WrapAlignment alignment;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,7 @@ class MarkdownCenteredText extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           decoration: TextDecoration.underline,
         ),
-        textAlign: WrapAlignment.center,
+        textAlign: alignment,
       ),
       onTapLink: (text, href, title) async {
         if (href == null) return;

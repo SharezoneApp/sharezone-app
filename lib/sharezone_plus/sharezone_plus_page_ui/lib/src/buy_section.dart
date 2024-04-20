@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
-import 'package:sharezone_plus_page_ui/src/markdown_centered_text.dart';
+import 'package:sharezone_plus_page_ui/src/styled_markdown_text.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum PurchasePeriod {
@@ -189,7 +189,7 @@ class _LifetimeLegalText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MarkdownCenteredText(
+    return const StyledMarkdownText(
       text: 'Einmalige Zahlung (kein Abo o. ä.). $_termsOfServiceSentence',
     );
   }
@@ -201,7 +201,7 @@ class _MonthlySubscriptionLegalText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentPlatform = PlatformCheck.currentPlatform;
-    return MarkdownCenteredText(
+    return StyledMarkdownText(
         text: switch (currentPlatform) {
       Platform.android =>
         'Dein Abo ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. $_termsOfServiceSentence',

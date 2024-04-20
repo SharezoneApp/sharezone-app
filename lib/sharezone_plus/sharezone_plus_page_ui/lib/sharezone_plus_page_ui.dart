@@ -9,6 +9,8 @@
 library sharezone_plus_page_ui;
 
 export 'src/buy_section.dart';
+export 'src/buying_disabled_dialog.dart';
+export 'src/buying_failed_dialog.dart';
 export 'src/call_to_action_button.dart';
 export 'src/sharezone_plus_advantages.dart';
 export 'src/sharezone_plus_faq.dart';
