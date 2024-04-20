@@ -8,11 +8,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/grades/models/subject_id.dart';
 import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/shared/term_tile.dart';
+import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -183,15 +185,17 @@ class _SubjectCard extends StatelessWidget {
                 design: subject.design,
               ),
               title: Text(subject.displayName),
-              trailing: Text(
-                subject.grade,
-                style: const TextStyle(fontSize: 18),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _EditSubjectIconButton(subjectId: subject.id),
+                  const SizedBox(width: 16),
+                  Text(
+                    subject.grade,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
               ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: const Text('Berechnung der Fachnote'),
-              onTap: () => snackbarSoon(context: context),
             ),
             if (savedGrades.isNotEmpty) const Divider(),
             for (final savedGrade in savedGrades) ...[
@@ -200,6 +204,35 @@ class _SubjectCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _EditSubjectIconButton extends StatelessWidget {
+  const _EditSubjectIconButton({
+    required this.subjectId,
+  });
+
+  final SubjectId subjectId;
+
+  @override
+  Widget build(BuildContext context) {
+    final termId = context.watch<TermDetailsPageController>().termId;
+    return IconButton(
+      tooltip: 'Fachnote bearbeiten',
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SubjectSettingsPage(
+              subjectId: subjectId,
+              termId: termId,
+            ),
+            settings: const RouteSettings(name: SubjectSettingsPage.tag),
+          ),
+        );
+      },
+      icon: const Icon(Icons.edit),
     );
   }
 }

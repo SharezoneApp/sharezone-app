@@ -89,6 +89,7 @@ class GradesService {
       calculatedGrade: term.tryGetTermGrade() != null
           ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
           : null,
+      gradeTypeWeightings: term.gradeTypeWeightings,
       subjects: term.subjects
           .map(
             (subject) => SubjectResult(
@@ -102,6 +103,7 @@ class GradesService {
                   : null,
               weightType: subject.weightType,
               gradeTypeWeights: subject.gradeTypeWeightings,
+              finalGradeTypeId: subject.finalGradeType,
               grades: subject.grades
                   .map(
                     (grade) => GradeResult(
@@ -247,6 +249,16 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  void removeGradeTypeWeightForSubject({
+    required SubjectId id,
+    required TermId termId,
+    required GradeTypeId gradeType,
+  }) {
+    final newTerm =
+        _term(termId).removeWeightingOfGradeTypeInSubject(id, gradeType);
+    _updateTerm(newTerm);
+  }
+
   void addGrade({
     required SubjectId subjectId,
     required TermId termId,
@@ -303,6 +315,14 @@ class GradesService {
       required Weight weight}) {
     final newTerm =
         _term(termId).changeWeightingOfGradeType(gradeType, weight: weight);
+    _updateTerm(newTerm);
+  }
+
+  void removeGradeTypeWeightForTerm({
+    required TermId termId,
+    required GradeTypeId gradeType,
+  }) {
+    final newTerm = _term(termId).removeWeightingOfGradeType(gradeType);
     _updateTerm(newTerm);
   }
 
@@ -619,6 +639,7 @@ class SubjectResult extends Equatable {
   final String abbreviation;
   final Design design;
   final IList<ConnectedCourse> connectedCourses;
+  final GradeTypeId finalGradeTypeId;
 
   const SubjectResult({
     required this.id,
@@ -630,6 +651,7 @@ class SubjectResult extends Equatable {
     required this.grades,
     required this.design,
     required this.connectedCourses,
+    required this.finalGradeTypeId,
   });
 
   GradeResult grade(GradeId gradeId) {
@@ -646,7 +668,8 @@ class SubjectResult extends Equatable {
         gradeTypeWeights,
         grades,
         abbreviation,
-        design
+        design,
+        finalGradeTypeId,
       ];
 }
 
@@ -658,6 +681,7 @@ class TermResult extends Equatable {
   final bool isActiveTerm;
   final String name;
   final GradeType finalGradeType;
+  final IMap<GradeTypeId, Weight> gradeTypeWeightings;
 
   SubjectResult subject(SubjectId id) {
     final subject = subjects.firstWhere((element) => element.id == id);
@@ -672,6 +696,7 @@ class TermResult extends Equatable {
     required this.subjects,
     required this.isActiveTerm,
     required this.finalGradeType,
+    required this.gradeTypeWeightings,
   });
 
   @override
@@ -682,7 +707,8 @@ class TermResult extends Equatable {
         subjects,
         isActiveTerm,
         name,
-        finalGradeType
+        finalGradeType,
+        gradeTypeWeightings,
       ];
 }
 
