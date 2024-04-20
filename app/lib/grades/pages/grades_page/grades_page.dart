@@ -207,9 +207,11 @@ class _EmptyTerm3 extends StatelessWidget {
           transform: Matrix4.translationValues(0, -110, 0),
           child: const CustomCard(
             child: TermTile(
+              termId: TermId('8/2'),
               displayName: 'Vergangenes Halbjahr',
               avgGrade: ("3,8", GradePerformance.bad),
               title: '8/2',
+              showEditButton: false,
             ),
           ),
         ),
@@ -231,9 +233,11 @@ class _EmptyTerm2 extends StatelessWidget {
           transform: Matrix4.translationValues(0, -55, 0),
           child: const CustomCard(
             child: TermTile(
+              termId: TermId('9/1'),
               displayName: 'Vergangenes Halbjahr',
               avgGrade: ("2,6", GradePerformance.satisfactory),
               title: '9/1',
+              showEditButton: false,
             ),
           ),
         ),
@@ -251,9 +255,11 @@ class _EmptyTerm1 extends StatelessWidget {
       padding: EdgeInsets.only(top: 70),
       child: CustomCard(
         child: TermTile(
+          termId: TermId('9/2'),
           displayName: 'Aktuelles Halbjahr',
           avgGrade: ("1,3", GradePerformance.good),
           title: '9/2',
+          showEditButton: false,
         ),
       ),
     );
@@ -342,9 +348,11 @@ class _CurrentTerm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TermTile(
+              termId: id,
               title: 'Aktuelles Halbjahr',
               displayName: displayName,
               avgGrade: avgGrade,
+              showEditButton: false,
             ),
             const Divider(height: 0),
             const SizedBox(height: 6),
@@ -398,9 +406,11 @@ class _PastTerm extends StatelessWidget {
         child: CustomCard(
           onTap: () => openTermDetailsPage(context, id),
           child: TermTile(
+            termId: id,
             title: 'Vergangenes Halbjahr',
             displayName: displayName,
             avgGrade: avgGrade,
+            showEditButton: false,
           ),
         ),
       ),

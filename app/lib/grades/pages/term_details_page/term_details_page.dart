@@ -160,6 +160,7 @@ class _Loaded extends StatelessWidget {
     return Column(
       children: [
         _TermInformationCard(
+          termId: state.term.id,
           displayName: state.term.displayName,
           grade: state.term.avgGrade,
         ),
@@ -193,10 +194,12 @@ class _Error extends StatelessWidget {
 
 class _TermInformationCard extends StatelessWidget {
   const _TermInformationCard({
+    required this.termId,
     required this.displayName,
     required this.grade,
   });
 
+  final TermId termId;
   final String displayName;
   final AvgGradeView grade;
 
@@ -207,15 +210,11 @@ class _TermInformationCard extends StatelessWidget {
       child: Column(
         children: [
           TermTile(
+            termId: termId,
             displayName: displayName,
             avgGrade: grade,
             title: 'Aktuelles Halbjahr',
           ),
-          ListTile(
-            leading: const Icon(Icons.edit),
-            title: const Text('Berechnung des Schnitts'),
-            onTap: () => snackbarSoon(context: context),
-          )
         ],
       ),
     );
