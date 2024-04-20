@@ -232,7 +232,7 @@ packages:
     source: hosted
     version: "6.0.2"
   platform_check:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../../platform_check"
       relative: true
