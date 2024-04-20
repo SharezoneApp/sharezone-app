@@ -100,8 +100,7 @@ class GradesService {
                   ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
                   : null,
               weightType: subject.weightType,
-              gradeTypeWeights: subject.gradeTypeWeightings
-                  .map((key, value) => MapEntry(key, value)),
+              gradeTypeWeights: subject.gradeTypeWeightings,
               grades: subject.grades
                   .map(
                     (grade) => GradeResult(
@@ -109,10 +108,10 @@ class GradesService {
                       date: grade.date,
                       isTakenIntoAccount: grade.takenIntoAccount,
                       value: grade.value,
-                      originalInput: grade.originalInput,
                       title: grade.title,
                       gradeTypeId: grade.gradeType,
                       details: grade.details,
+                      originalInput: grade.originalInput,
                     ),
                   )
                   .toIList(),
@@ -460,10 +459,6 @@ enum GradingSystem {
   final bool isNumericalAndContinous;
 
   const GradingSystem({required this.isNumericalAndContinous});
-
-  static GradingSystem fromString(String value) {
-    return values.byName(value);
-  }
 }
 
 extension NumericalAndContinuous on List<GradingSystem> {
@@ -594,20 +589,20 @@ class GradeResult extends Equatable {
   final bool isTakenIntoAccount;
   final Date date;
   final String title;
-  final String? details;
-  final Object originalInput;
   GradingSystem get gradingSystem => value.gradingSystem;
   final GradeTypeId gradeTypeId;
+  final String? details;
+  final Object originalInput;
 
   const GradeResult({
     required this.id,
-    required this.originalInput,
     required this.isTakenIntoAccount,
     required this.value,
     required this.date,
     required this.title,
     required this.gradeTypeId,
     required this.details,
+    required this.originalInput,
   });
 
   @override
@@ -759,10 +754,6 @@ enum WeightType {
   perGrade,
   perGradeType,
   inheritFromTerm;
-
-  static WeightType fromString(String value) {
-    return values.byName(value);
-  }
 }
 
 class GradeTypeId extends Id {

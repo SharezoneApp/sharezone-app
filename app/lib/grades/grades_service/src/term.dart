@@ -167,7 +167,7 @@ class TermModel extends Equatable {
     final gradingSystem = grade.gradingSystem.toGradingSystemModel();
     final gradeVal = gradingSystem.toNumOrThrow(grade.value);
 
-    subject = subject._addGrade(GradeModel(
+    subject = subject.addGrade(GradeModel(
       id: grade.id,
       subjectId: toSubject,
       termId: id,
@@ -220,8 +220,7 @@ class TermModel extends Equatable {
   TermModel changeWeightingOfGradeTypeInSubject(
       SubjectId id, GradeTypeId gradeType, Weight weight) {
     final subject = subjects.firstWhere((s) => s.id == id);
-    final newSubject =
-        subject._changeGradeTypeWeight(gradeType, weight: weight);
+    final newSubject = subject.changeGradeTypeWeight(gradeType, weight: weight);
 
     return _copyWith(
       subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
@@ -245,7 +244,7 @@ class TermModel extends Equatable {
 
   TermModel setFinalGradeTypeForSubject(SubjectId id, GradeTypeId gradeType) {
     final subject = subjects.firstWhere((s) => s.id == id);
-    final newSubject = subject._overrideFinalGradeType(gradeType);
+    final newSubject = subject.overrideFinalGradeType(gradeType);
 
     return _copyWith(
       subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
@@ -353,7 +352,17 @@ class SubjectModel extends Equatable {
             .asFactor;
   }
 
-  SubjectModel _addGrade(GradeModel grade) {
+  Weight _weightFor(GradeModel grade) {
+    return switch (weightType) {
+      WeightType.perGrade => grade.weight,
+      WeightType.perGradeType =>
+        gradeTypeWeightings[grade.gradeType] ?? const Weight.factor(1),
+      WeightType.inheritFromTerm =>
+        gradeTypeWeightingsFromTerm[grade.gradeType] ?? const Weight.factor(1),
+    };
+  }
+
+  SubjectModel addGrade(GradeModel grade) {
     return copyWith(grades: grades.add(grade));
   }
 
@@ -365,23 +374,13 @@ class SubjectModel extends Equatable {
     return grades.any((g) => g.id == gradeId);
   }
 
-  Weight _weightFor(GradeModel grade) {
-    return switch (weightType) {
-      WeightType.perGrade => grade.weight,
-      WeightType.perGradeType =>
-        gradeTypeWeightings[grade.gradeType] ?? const Weight.factor(1),
-      WeightType.inheritFromTerm =>
-        gradeTypeWeightingsFromTerm[grade.gradeType] ?? const Weight.factor(1),
-    };
-  }
-
-  SubjectModel _changeGradeTypeWeight(GradeTypeId gradeType,
+  SubjectModel changeGradeTypeWeight(GradeTypeId gradeType,
       {required Weight weight}) {
     return copyWith(
         gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
   }
 
-  SubjectModel _overrideFinalGradeType(GradeTypeId gradeType) {
+  SubjectModel overrideFinalGradeType(GradeTypeId gradeType) {
     return copyWith(
         finalGradeType: gradeType, isFinalGradeTypeOverridden: true);
   }

@@ -432,7 +432,8 @@ class TermDto {
       id: data['id'] as String,
       displayName: data['displayName'] as String,
       createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
-      gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
+      gradingSystem:
+          GradingSystem.values.byName(data['gradingSystem'] as String),
       subjectWeights: data['subjectWeights'].toWeightsDtoMap(),
       gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
       subjects: (data['subjects'] as Map)
@@ -532,7 +533,7 @@ class SubjectGradeCompositionDto {
 
   factory SubjectGradeCompositionDto.fromData(Map<String, Object?> data) {
     return SubjectGradeCompositionDto(
-      weightType: WeightType.fromString(data['weightType'] as String),
+      weightType: WeightType.values.byName(data['weightType'] as String),
       gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
       gradeWeights: data['gradeWeights'].toWeightsDtoMap(),
     );
@@ -599,7 +600,8 @@ class GradeDto {
       subjectId: data['subjectId'] as String,
       numValue: data['numValue'] as num,
       originalInput: data['originalInput'] as Object,
-      gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
+      gradingSystem:
+          GradingSystem.values.byName(data['gradingSystem'] as String),
       gradeType: data['gradeType'] as String,
       receivedAt: Date.parse(data['receivedAt'] as String),
       includeInGrading: data['includeInGrading'] as bool,

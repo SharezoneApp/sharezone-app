@@ -17,8 +17,88 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:rxdart/src/subjects/behavior_subject.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
+import 'grades_test_common.dart';
+
 void main() {
   group('GradesRepository', () {
+    group('basic repository tests', () {
+      late GradesStateRepository repository;
+      late GradesService service;
+      late GradesTestController controller;
+
+      setUp(() {
+        repository = InMemoryGradesStateRepository();
+        service = GradesService(repository: repository);
+        controller = GradesTestController(gradesService: service);
+      });
+
+      void replaceGradesServiceWithSameRepository() {
+        controller.service = GradesService(repository: repository);
+      }
+
+      test(
+          'A term is still saved when deleting the Grade service as long as the repository is the same',
+          () {
+        var term = termWith(name: 'term1');
+        controller.createTerm(term);
+
+        replaceGradesServiceWithSameRepository();
+
+        expect(controller.terms, hasLength(1));
+      });
+      test(
+          'A gradeType is still saved when deleting the Grade service as long as the repository is the same',
+          () {
+        const gradeType = GradeType(id: GradeTypeId('foo'), displayName: 'Foo');
+        controller.createCustomGradeType(gradeType);
+
+        replaceGradesServiceWithSameRepository();
+
+        expect(controller.getPossibleGradeTypes(), contains(gradeType));
+      });
+      test(
+          'A subject is still saved when deleting the Grade service as long as the repository is the same',
+          () {
+        var subject =
+            subjectWith(id: const SubjectId('foo'), name: 'Foo Subject');
+        controller.addSubject(subject);
+
+        replaceGradesServiceWithSameRepository();
+
+        expect(
+          controller.getSubjects(),
+          contains(
+            predicate<TestSubject>(
+              (sub) => sub.id == subject.id && sub.name == subject.name,
+            ),
+          ),
+        );
+      });
+      test(
+          'If the $GradesService is replaced without the same $GradesStateRepository then old values wont be there anymore',
+          () {
+        final term = termWith(
+          subjects: [
+            subjectWith(
+              id: const SubjectId('Philosophie'),
+              grades: [
+                gradeWith(
+                  id: GradeId('grade1'),
+                  value: 4.0,
+                ),
+              ],
+            ),
+          ],
+        );
+        controller.createTerm(term);
+
+        // We don't reuse the repository here, so the data will be lost
+        controller.service =
+            GradesService(repository: InMemoryGradesStateRepository());
+
+        expect(controller.terms, isEmpty);
+      });
+    });
     test('serializes expected data map for empty state', () {
       final res = FirestoreGradesStateRepository.toDto((
         customGradeTypes: const IListConst([]),
