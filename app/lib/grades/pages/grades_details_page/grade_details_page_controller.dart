@@ -58,6 +58,8 @@ class GradeDetailsPageController extends ChangeNotifier {
           'Error while streaming a grade: $error', stack);
       notifyListeners();
     });
+
+    _logOpenGradeDetails();
   }
 
   Stream<GradeResult?> _getGradeStream() {
@@ -111,6 +113,10 @@ class GradeDetailsPageController extends ChangeNotifier {
   void deleteGrade() {
     gradesService.deleteGrade(id);
     analytics.log(NamedAnalyticsEvent(name: 'grade_deleted'));
+  }
+
+  void _logOpenGradeDetails() {
+    analytics.log(NamedAnalyticsEvent(name: 'grade_details_opened'));
   }
 
   @override
