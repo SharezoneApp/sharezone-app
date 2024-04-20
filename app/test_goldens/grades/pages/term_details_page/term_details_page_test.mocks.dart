@@ -137,6 +137,14 @@ class MockTermDetailsPageController extends _i1.Mock
         returnValueForMissingStub: false,
       ) as bool);
   @override
+  void deleteTerm() => super.noSuchMethod(
+        Invocation.method(
+          #deleteTerm,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
           #dispose,

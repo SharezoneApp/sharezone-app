@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
 
 final v1PrivacyPolicy = PrivacyPolicy(
   markdownText: v1MarkdownPrivacyPolicy,

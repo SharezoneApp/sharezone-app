@@ -53,7 +53,7 @@ import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/settings/settings_page.dart';
-import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/navigation_service.dart';
