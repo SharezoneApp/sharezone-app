@@ -87,6 +87,34 @@ void main() {
       const expected = (3 * 0.5 + 2 * 1 + 1 * 2) / sumOfWeights;
       expect(controller.term(term.id).calculatedGrade!.asDouble, expected);
     });
+
+    test(
+        'a subject will be added automatically to the term when setting the weight of a subject for a term',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith();
+      controller.createTerm(term);
+      final subject =
+          subjectWith(id: const SubjectId('Englisch'), name: 'Englisch');
+      // This will add the subject to the list of available subjects but not to
+      // a specific term.
+      controller.addSubject(subject);
+
+      void changeWeight() => controller.service.changeSubjectWeightForTermGrade(
+            id: subject.id,
+            termId: term.id,
+            weight: const Weight.factor(2),
+          );
+
+      expect(changeWeight, returnsNormally);
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Englisch'))
+              .weightingForTermGrade,
+          const Weight.factor(2));
+    });
     test(
         'grades that are marked as "Nicht in den Schnitt einbeziehen" should not be included in the calculation of the subject and term grade',
         () {
