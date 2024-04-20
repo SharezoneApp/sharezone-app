@@ -148,7 +148,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         return GradeModel(
           id: GradeId(dto.id),
           termId: TermId(dto.termId),
-          date: dto.receivedAt.toDate().toDate(),
+          date: dto.receivedAt,
           gradingSystem: gradingSystem,
           gradeType: GradeTypeId(dto.gradeType),
           subjectId: SubjectId(dto.subjectId),
@@ -555,7 +555,7 @@ class GradeDto {
   final num numValue;
   final GradingSystem gradingSystem;
   final _GradeTypeId gradeType;
-  final Timestamp receivedAt;
+  final Date receivedAt;
   final bool includeInGrading;
   final String title;
   final String? details;
@@ -584,9 +584,7 @@ class GradeDto {
       originalInput: grade.originalInput,
       gradingSystem: grade.gradingSystem.spec.gradingSystem,
       gradeType: grade.gradeType.id,
-      receivedAt: Timestamp.fromDate(
-        DateTime(grade.date.year, grade.date.month, grade.date.day),
-      ),
+      receivedAt: grade.date,
       includeInGrading: grade.takenIntoAccount,
       title: grade.title,
       details: grade.details,
@@ -603,7 +601,7 @@ class GradeDto {
       originalInput: data['originalInput'] as Object,
       gradingSystem: GradingSystem.fromString(data['gradingSystem'] as String),
       gradeType: data['gradeType'] as String,
-      receivedAt: data['receivedAt'] as Timestamp,
+      receivedAt: Date.parse(data['receivedAt'] as String),
       includeInGrading: data['includeInGrading'] as bool,
       title: data['title'] as String,
       details: data['details'] as String?,
@@ -628,7 +626,7 @@ class GradeDto {
       'numValue': numValue,
       'gradingSystem': gradingSystem.name,
       'gradeType': gradeType,
-      'receivedAt': receivedAt,
+      'receivedAt': receivedAt.toDateString,
       'includeInGrading': includeInGrading,
       'title': title,
       if (details != null) 'details': details!,
