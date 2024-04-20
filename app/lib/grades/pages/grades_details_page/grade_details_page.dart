@@ -101,9 +101,10 @@ class _DeleteConfirmationDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           child: const Text('Abbrechen'),
         ),
-        TextButton(
+        FilledButton(
           key: const Key('delete-grade-confirmation-dialog-delete-button'),
           onPressed: () => Navigator.pop(context, true),
+          style: FilledButton.styleFrom(backgroundColor: Colors.red),
           child: const Text('Löschen'),
         ),
       ],
