@@ -22,7 +22,9 @@ class GradesPageController extends ChangeNotifier {
 
   final GradesService gradesService;
 
-  GradesPageController({required this.gradesService}) {
+  GradesPageController({
+    required this.gradesService,
+  }) {
     _subscription = gradesService.terms.listen((event) {
       try {
         final activeTerm = event.firstWhereOrNull((term) => term.isActiveTerm);

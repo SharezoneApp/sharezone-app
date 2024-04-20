@@ -75,6 +75,8 @@ class TermDetailsPageController extends ChangeNotifier {
       crashAnalytics.recordError('Could not stream term: $error', stack);
       notifyListeners();
     });
+
+    _logOpenTermDetails();
   }
 
   Stream<TermResult?> _getTermStream(TermId termId) {
@@ -85,6 +87,10 @@ class TermDetailsPageController extends ChangeNotifier {
   void deleteTerm() {
     gradesService.deleteTerm(termId);
     analytics.log(NamedAnalyticsEvent(name: 'term_deleted'));
+  }
+
+  void _logOpenTermDetails() {
+    analytics.log(NamedAnalyticsEvent(name: 'term_details_opened'));
   }
 
   @override

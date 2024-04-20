@@ -420,7 +420,9 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => gradesService,
       ),
       ChangeNotifierProvider(
-        create: (context) => GradesPageController(gradesService: gradesService),
+        create: (context) => GradesPageController(
+          gradesService: gradesService,
+        ),
       ),
       Provider(
         create: (context) => TermDetailsPageControllerFactory(
