@@ -20,6 +20,7 @@ import 'package:sharezone/account/use_account_on_multiple_devices_instruction.da
 import 'package:sharezone/blackboard/blackboard_picture.dart';
 import 'package:sharezone/feedback/history/feedback_history_page.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/sharezone_bloc_providers.dart';
@@ -198,6 +199,7 @@ class _SharezoneAppState extends State<SharezoneApp>
                 FeedbackHistoryPage.tag: (context) =>
                     const FeedbackHistoryPage(),
                 CreateTermPage.tag: (context) => const CreateTermPage(),
+                GradesDialog.tag: (context) => const GradesDialog(),
               },
               navigatorKey: navigationService.navigatorKey,
             ),

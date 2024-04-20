@@ -113,9 +113,14 @@ class _Loaded extends StatelessWidget {
                 selectableGradingTypes: view.selectableGradingTypes,
               ),
               const Divider(),
-              _SubjectWeights(
+              SubjectWeights(
                 selectableGradingTypes: view.selectableGradingTypes,
                 weights: view.weights,
+                onRemoveGradeType: (gradeTypeId) {
+                  final controller =
+                      context.read<SubjectSettingsPageController>();
+                  controller.removeGradeType(gradeTypeId);
+                },
                 onSetGradeWeight: (gradeTypeId, weight) {
                   final controller =
                       context.read<SubjectSettingsPageController>();
@@ -180,16 +185,19 @@ class _FinalGradeType extends StatelessWidget {
   }
 }
 
-class _SubjectWeights extends StatelessWidget {
-  const _SubjectWeights({
+class SubjectWeights extends StatelessWidget {
+  const SubjectWeights({
+    super.key,
     required this.weights,
     required this.selectableGradingTypes,
     required this.onSetGradeWeight,
+    required this.onRemoveGradeType,
   });
 
   final IMap<GradeTypeId, Weight> weights;
   final IList<GradeType> selectableGradingTypes;
   final void Function(GradeTypeId gradeTypeId, Weight weight) onSetGradeWeight;
+  final void Function(GradeTypeId gradeTypeId) onRemoveGradeType;
 
   @override
   Widget build(BuildContext context) {
@@ -209,6 +217,7 @@ class _SubjectWeights extends StatelessWidget {
             gradeTypeId: entry.key,
             weight: entry.value,
             onSetGradeWeight: onSetGradeWeight,
+            onRemoveGradeType: onRemoveGradeType,
           ),
         _AddSubjectWeight(
           selectableGradingTypes: selectableGradingTypes,
@@ -224,11 +233,13 @@ class _SubjectWeight extends StatelessWidget {
     required this.gradeTypeId,
     required this.weight,
     required this.onSetGradeWeight,
+    required this.onRemoveGradeType,
   });
 
   final GradeTypeId gradeTypeId;
   final Weight weight;
   final void Function(GradeTypeId gradeTypeId, Weight weight) onSetGradeWeight;
+  final void Function(GradeTypeId gradeTypeId) onRemoveGradeType;
 
   GradeType? getGradeType(BuildContext context) {
     final getPossibleGrades =
@@ -261,10 +272,7 @@ class _SubjectWeight extends StatelessWidget {
           Icons.remove_circle_outline,
           color: Colors.red,
         ),
-        onPressed: () {
-          final controller = context.read<SubjectSettingsPageController>();
-          controller.removeGradeType(gradeTypeId);
-        },
+        onPressed: () => onRemoveGradeType(gradeTypeId),
       ),
       trailing: Text(
         '${weight.asPercentage}%',

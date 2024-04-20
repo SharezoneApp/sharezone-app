@@ -103,6 +103,7 @@ class GradesService {
               weightType: subject.weightType,
               gradeTypeWeights: subject.gradeTypeWeightings,
               finalGradeTypeId: subject.finalGradeType,
+              weightingForTermGrade: subject.weightingForTermGrade,
               grades: subject.grades
                   .map(
                     (grade) => GradeResult(
@@ -229,8 +230,14 @@ class GradesService {
 
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
-    final newTerm = _term(termId).changeWeighting(id, weight);
+    final subject = _getSubjectOrThrow(id);
 
+    var newTerm = _term(termId);
+    if (!newTerm.hasSubject(id)) {
+      newTerm = newTerm.addSubject(subject);
+    }
+
+    newTerm = newTerm.changeWeighting(id, weight);
     _updateTerm(newTerm);
   }
 
@@ -649,6 +656,7 @@ class SubjectResult extends Equatable {
   final Design design;
   final IList<ConnectedCourse> connectedCourses;
   final GradeTypeId finalGradeTypeId;
+  final Weight weightingForTermGrade;
 
   const SubjectResult({
     required this.id,
@@ -661,6 +669,7 @@ class SubjectResult extends Equatable {
     required this.design,
     required this.connectedCourses,
     required this.finalGradeTypeId,
+    required this.weightingForTermGrade,
   });
 
   GradeResult grade(GradeId gradeId) {

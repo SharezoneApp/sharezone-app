@@ -46,7 +46,7 @@ class TermDetailsPageController extends ChangeNotifier {
                 .map((grade) => (
                       id: grade.id,
                       grade: displayGrade(grade.value),
-                      gradeTypeIcon: const Icon(Icons.note_add),
+                      gradeTypeIcon: _getGradeTypeIcon(grade.gradeTypeId),
                       title: grade.title,
                       date: grade.date,
                     ))
@@ -60,7 +60,7 @@ class TermDetailsPageController extends ChangeNotifier {
             displayName: term.name,
             avgGrade: (
               displayGrade(term.calculatedGrade),
-              GradePerformance.bad
+              GradePerformance.good,
             ),
           ),
           subjectsWithGrades: subjects2,
@@ -72,6 +72,19 @@ class TermDetailsPageController extends ChangeNotifier {
       crashAnalytics.recordError('Could not stream term: $error', stack);
       notifyListeners();
     });
+  }
+
+  Icon _getGradeTypeIcon(GradeTypeId gradeTypeId) {
+    const unknownIcon = Icon(Icons.help);
+
+    final gradeTypes = gradesService.getPossibleGradeTypes();
+    for (final gradeType in gradeTypes) {
+      if (gradeType.id == gradeTypeId) {
+        return gradeType.predefinedType?.getIcon() ?? unknownIcon;
+      }
+    }
+
+    return unknownIcon;
   }
 
   Stream<TermResult?> _getTermStream(TermId termId) {
