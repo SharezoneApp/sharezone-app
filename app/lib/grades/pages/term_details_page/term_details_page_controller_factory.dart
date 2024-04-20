@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller.dart';
@@ -13,10 +14,12 @@ import 'package:sharezone/grades/pages/term_details_page/term_details_page_contr
 class TermDetailsPageControllerFactory {
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
+  final Analytics analytics;
 
   const TermDetailsPageControllerFactory({
     required this.gradesService,
     required this.crashAnalytics,
+    required this.analytics,
   });
 
   TermDetailsPageController create(TermId termId) {
@@ -24,6 +27,7 @@ class TermDetailsPageControllerFactory {
       termId: termId,
       gradesService: gradesService,
       crashAnalytics: crashAnalytics,
+      analytics: analytics,
     );
   }
 }

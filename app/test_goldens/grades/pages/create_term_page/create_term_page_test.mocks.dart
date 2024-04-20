@@ -182,6 +182,24 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         returnValueForMissingStub: null,
       );
   @override
+  void removeGradeTypeWeightForSubject({
+    required _i6.SubjectId? id,
+    required _i5.TermId? termId,
+    required _i4.GradeTypeId? gradeType,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #removeGradeTypeWeightForSubject,
+          [],
+          {
+            #id: id,
+            #termId: termId,
+            #gradeType: gradeType,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   void addGrade({
     required _i6.SubjectId? subjectId,
     required _i5.TermId? termId,
@@ -239,6 +257,22 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
             #termId: termId,
             #gradeType: gradeType,
             #weight: weight,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeGradeTypeWeightForTerm({
+    required _i5.TermId? termId,
+    required _i4.GradeTypeId? gradeType,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #removeGradeTypeWeightForTerm,
+          [],
+          {
+            #termId: termId,
+            #gradeType: gradeType,
           },
         ),
         returnValueForMissingStub: null,
