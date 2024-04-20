@@ -443,6 +443,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
           gradesService: gradesService,
           coursesStream: () => api.course.streamCourses(),
+          analytics: analytics,
         ),
       )
     ];
