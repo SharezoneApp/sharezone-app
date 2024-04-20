@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:collection/collection.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -19,6 +20,7 @@ class TermSettingsPageController extends ChangeNotifier {
   late String name;
   late bool isActiveTerm;
   late GradingSystem gradingSystem;
+  late GradeType finalGradeType;
 
   TermSettingsState state = const TermSettingsLoading();
 
@@ -26,6 +28,11 @@ class TermSettingsPageController extends ChangeNotifier {
         isActiveTerm: isActiveTerm,
         name: name,
         gradingSystem: gradingSystem,
+        finalGradeType: finalGradeType,
+        selectableGradingTypes: gradesService
+            .getPossibleGradeTypes()
+            .where((t) => t != finalGradeType)
+            .toIList(),
       );
 
   TermSettingsPageController({
@@ -41,6 +48,7 @@ class TermSettingsPageController extends ChangeNotifier {
     name = term.name;
     isActiveTerm = term.isActiveTerm;
     gradingSystem = term.gradingSystem;
+    finalGradeType = term.finalGradeType;
 
     state = TermSettingsLoaded(view);
   }
@@ -75,6 +83,16 @@ class TermSettingsPageController extends ChangeNotifier {
       id: termId,
       gradingSystem: gradingSystem,
     );
+    state = TermSettingsLoaded(view);
+    notifyListeners();
+  }
+
+  void setFinalGradeType(GradeType gradeType) {
+    gradesService.editTerm(
+      id: termId,
+      finalGradeType: gradeType.id,
+    );
+    finalGradeType = gradeType;
     state = TermSettingsLoaded(view);
     notifyListeners();
   }

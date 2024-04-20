@@ -6,11 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
+import 'package:sharezone/grades/pages/shared/select_grade_type_dialog.dart';
+import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page_controller.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_view.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -124,6 +127,15 @@ class _Loaded extends StatelessWidget {
             _GradingSystem(gradingSystem: view.gradingSystem),
             const SizedBox(height: 8),
             _IsActiveTerm(isActiveTerm: view.isActiveTerm),
+            const Divider(),
+            const SizedBox(height: 8),
+            _FinalGradeType(
+              displayName:
+                  view.finalGradeType.predefinedType?.toUiString() ?? '?',
+              icon: view.finalGradeType.predefinedType?.getIcon() ??
+                  const Icon(Icons.help),
+              selectableGradingTypes: view.selectableGradingTypes,
+            )
           ],
         ),
       ),
@@ -279,6 +291,64 @@ class _GradingSystem extends StatelessWidget {
         final controller = context.read<TermSettingsPageController>();
         controller.setGradingSystem(res);
       },
+    );
+  }
+}
+
+class _FinalGradeType extends StatelessWidget {
+  const _FinalGradeType({
+    required this.icon,
+    required this.displayName,
+    required this.selectableGradingTypes,
+  });
+
+  final Icon icon;
+  final String displayName;
+  final IList<GradeType> selectableGradingTypes;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Endnote eines Faches',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Die berechnete Fachnote kann von einem Notentyp überschrieben werden.',
+                style: TextStyle(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.5)),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        ListTile(
+          leading: icon,
+          title: Text(displayName),
+          onTap: () async {
+            final type = await SelectGradeTypeDialog.show(
+              context: context,
+              selectableGradingTypes: selectableGradingTypes.toList(),
+            );
+
+            if (type != null && context.mounted) {
+              final controller = context.read<TermSettingsPageController>();
+              controller.setFinalGradeType(type);
+            }
+          },
+        ),
+      ],
     );
   }
 }
