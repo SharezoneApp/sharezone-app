@@ -167,6 +167,26 @@ class GradesTestController {
         id: subjectId, termId: termId, perGradeType: weightType);
   }
 
+  void removeWeightTypeForSubject({
+    required GradeTypeId gradeTypeId,
+    required TermId termId,
+    required SubjectId subjectId,
+  }) {
+    service.removeGradeTypeWeightForSubject(
+      gradeType: gradeTypeId,
+      id: subjectId,
+      termId: termId,
+    );
+  }
+
+  void removeGradeTypeWeightForTerm({
+    required GradeTypeId gradeTypeId,
+    required TermId termId,
+  }) {
+    service.removeGradeTypeWeightForTerm(
+        gradeType: gradeTypeId, termId: termId);
+  }
+
   void changeGradeWeightsForSubject(
       {required TermId termId,
       required SubjectId subjectId,

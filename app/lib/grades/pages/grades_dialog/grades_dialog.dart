@@ -21,6 +21,7 @@ import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.da
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
+import 'package:sharezone/grades/pages/shared/select_grade_type_dialog.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 

@@ -404,6 +404,97 @@ void main() {
           controller.term(term.id).subject(subjectId).calculatedGrade!.asDouble,
           subjectGradeWithInheritedWeights);
     });
+    test('a subject grade type can be removed from weighting', () {
+      final controller = GradesTestController();
+
+      const presentation = GradeType.presentation;
+      const exam = GradeType.writtenExam;
+
+      final term = termWith(
+        gradeTypeWeights: {
+          presentation.id: const Weight.factor(1),
+          exam.id: const Weight.factor(3),
+        },
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Deutsch'),
+            name: 'Deutsch',
+            weightType: WeightType.perGradeType,
+            gradeTypeWeights: {
+              presentation.id: const Weight.factor(1),
+              exam.id: const Weight.factor(3),
+            },
+            grades: [
+              gradeWith(
+                value: 3.0,
+                type: presentation.id,
+              ),
+              gradeWith(
+                value: 1.0,
+                type: exam.id,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      controller.removeWeightTypeForSubject(
+        termId: term.id,
+        subjectId: const SubjectId('Deutsch'),
+        gradeTypeId: presentation.id,
+      );
+
+      expect(
+          controller
+              .term(term.id)
+              .subject(const SubjectId('Deutsch'))
+              .gradeTypeWeights
+              .keys,
+          [exam.id]);
+    });
+    test('a grade type weight can be remove from term', () {
+      final controller = GradesTestController();
+
+      const presentation = GradeType.presentation;
+      const exam = GradeType.writtenExam;
+
+      final term = termWith(
+        gradeTypeWeights: {
+          presentation.id: const Weight.factor(1),
+          exam.id: const Weight.factor(3),
+        },
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Deutsch'),
+            name: 'Deutsch',
+            weightType: WeightType.perGradeType,
+            gradeTypeWeights: {
+              presentation.id: const Weight.factor(1),
+              exam.id: const Weight.factor(3),
+            },
+            grades: [
+              gradeWith(
+                value: 3.0,
+                type: presentation.id,
+              ),
+              gradeWith(
+                value: 1.0,
+                type: exam.id,
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      controller.removeGradeTypeWeightForTerm(
+        termId: term.id,
+        gradeTypeId: presentation.id,
+      );
+
+      expect(controller.term(term.id).gradeTypeWeightings.keys, [exam.id]);
+    });
     test(
         'a subjects gradeType weights are saved even when they are deactivated',
         () {
