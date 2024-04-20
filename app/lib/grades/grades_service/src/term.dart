@@ -499,7 +499,7 @@ class GradeModel extends Equatable {
     required this.takenIntoAccount,
     required this.title,
     required this.originalInput,
-    this.details,
+    required this.details,
     this.createdOn,
   }) : assert(originalInput is String || originalInput is num);
 

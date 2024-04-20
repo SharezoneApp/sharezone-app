@@ -37,27 +37,30 @@ extension _ToGradingSystems on GradingSystemModel {
   }
 }
 
-class GradingSystemModel {
+class GradingSystemModel extends Equatable {
   static final oneToSixWithPlusAndMinus =
       GradingSystemModel(spec: oneToSixWithPlusAndMinusSpec);
-  static final oneToSixWithDecimals =
+  static const oneToSixWithDecimals =
       GradingSystemModel(spec: oneToSixWithDecimalsSpec);
-  static final zeroToFifteenPoints =
+  static const zeroToFifteenPoints =
       GradingSystemModel(spec: zeroToFifteenPointsSpec);
-  static final zeroToFifteenPointsWithDecimals =
+  static const zeroToFifteenPointsWithDecimals =
       GradingSystemModel(spec: zeroToFifteenPointsWithDecimalsSpec);
-  static final zeroToHundredPercentWithDecimals =
+  static const zeroToHundredPercentWithDecimals =
       GradingSystemModel(spec: zeroToHundredPercentWithDecimalsSpec);
   static final austrianBehaviouralGrades =
       GradingSystemModel(spec: austrianBehaviouralGradesSpec);
-  static final oneToFiveWithDecimals =
+  static const oneToFiveWithDecimals =
       GradingSystemModel(spec: oneToFiveWithDecimalsSpec);
-  static final sixToOneWithDecimals =
+  static const sixToOneWithDecimals =
       GradingSystemModel(spec: sixToOneWithDecimalsSpec);
 
   final GradingSystemSpec spec;
 
-  GradingSystemModel({required this.spec});
+  @override
+  List<Object?> get props => [spec];
+
+  const GradingSystemModel({required this.spec});
 
   num _toNumOrThrow(String grade) {
     // 2,3 -> 2.3 (format expected by num.tryParse())
@@ -127,11 +130,17 @@ extension HasDecimals on num {
   bool get hasDecimals => this % 1 != 0;
 }
 
-class GradingSystemSpec {
+class GradingSystemSpec extends Equatable {
   final GradingSystem gradingSystem;
   final PossibleGradesResult possibleGrades;
   final num? Function(String grade)? specialDisplayableGradeToNumOrNull;
   final String? Function(num grade)? getSpecialDisplayableGradeOrNull;
+
+  @override
+  List<Object?> get props => [
+        gradingSystem,
+        possibleGrades,
+      ];
 
   const GradingSystemSpec({
     required this.gradingSystem,
@@ -288,3 +297,13 @@ final austrianBehaviouralGradesSpec = GradingSystemSpec.nonNumerical(
     'Nicht zufriedenstellend': 4,
   }),
 );
+
+String getAustrianBehaviouralGradeDbKeyFromNum(num grade) {
+  return switch (grade) {
+    1 => 'verySatisfactory',
+    2 => 'satisfactory',
+    3 => 'lessSatisfactory',
+    4 => 'notSatisfactory',
+    _ => throw ArgumentError('Cant get db key for austrian behavioural grade')
+  };
+}
