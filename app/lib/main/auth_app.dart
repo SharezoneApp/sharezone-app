@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/auth/sign_in_with_qr_code_page.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/download_app_tip/analytics/download_app_tip_analytics.dart';
 import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
@@ -103,6 +104,7 @@ class _AuthAppState extends State<AuthApp> {
             SignUpPage.tag: (context) => const SignUpPage(),
             LoginPage.tag: (context) => const LoginPage(),
             PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
+            TermsOfServicePage.tag: (context) => const TermsOfServicePage(),
             SignInWithQrCodePage.tag: (context) => const SignInWithQrCodePage(),
             ImprintPage.tag: (context) => const ImprintPage(),
           },

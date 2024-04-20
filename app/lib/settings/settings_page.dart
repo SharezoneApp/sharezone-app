@@ -10,6 +10,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -93,6 +94,14 @@ class _LegalSection extends StatelessWidget {
             onTap: () {
               _logOpenPrivacyPolicy(analytics);
               Navigator.pushNamed(context, PrivacyPolicyPage.tag);
+            },
+          ),
+          _SettingsOption(
+            title: "Allgemeine Nutzungsbedingungen (ANB)",
+            icon: const Icon(Icons.description),
+            onTap: () {
+              _logOpenPrivacyPolicy(analytics);
+              Navigator.pushNamed(context, TermsOfServicePage.tag);
             },
           ),
           _SettingsOption(
