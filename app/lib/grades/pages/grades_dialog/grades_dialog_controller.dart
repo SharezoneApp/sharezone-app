@@ -121,6 +121,7 @@ class GradesDialogController extends ChangeNotifier {
   void _listenToCourses() {
     _coursesStreamSubscription = coursesStream.listen((courses) {
       _subjects = _mergeCoursesAndSubjects(courses);
+      _courses = courses.toIList();
       notifyListeners();
     });
   }
@@ -221,6 +222,7 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   late IList<Subject> _subjects;
+  IList<Course> _courses = IList();
   late bool _isSubjectMissing;
   SubjectId? _selectSubjectId;
   void setSubject(SubjectId res) {
@@ -427,7 +429,33 @@ class GradesDialogController extends ChangeNotifier {
     if (subject == null) {
       throw Exception('Selected subject id does not exists');
     }
-    gradesService.addSubject(subject);
+
+    final connectedCourses = _getConnectedCourses(subject.id);
+
+    gradesService.addSubject(
+      Subject(
+        abbreviation: subject.abbreviation,
+        design: subject.design,
+        id: subject.id,
+        name: subject.name,
+        connectedCourses: connectedCourses,
+      ),
+    );
+  }
+
+  IList<ConnectedCourse> _getConnectedCourses(SubjectId subjectId) {
+    final subject = _subjects.firstWhere((s) => s.id == subjectId);
+    return _courses
+        .where((c) => c.subject == subject.name)
+        .map(
+          (c) => ConnectedCourse(
+            id: CourseId(c.id),
+            abbreviation: c.abbreviation,
+            name: c.name,
+            subjectName: c.subject,
+          ),
+        )
+        .toIList();
   }
 
   void _throwInvalidSaveState(List<GradingDialogFields> invalidFields) {
