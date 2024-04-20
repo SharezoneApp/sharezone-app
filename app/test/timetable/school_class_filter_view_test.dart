@@ -8,9 +8,8 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:random_string/random_string.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_view.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 void main() {
   group('SchoolClassFilterView', () {

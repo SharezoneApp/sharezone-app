@@ -34,7 +34,7 @@ void main() {
 
       test('returns url with user data', () async {
         final controller = SupportPageController(
-          userIdStream: Stream.value(UserId('userId123')),
+          userIdStream: Stream.value(const UserId('userId123')),
           userNameStream: Stream.value('My Cool Name'),
           userEmailStream: Stream.value('my@email.com'),
           hasPlusSupportUnlockedStream: Stream.value(false),

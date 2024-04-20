@@ -25,7 +25,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
-import 'package:random_string/random_string.dart';
+import 'package:test_randomness/test_randomness.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
@@ -438,7 +438,7 @@ void main() {
       final userInput = homeworkDialogApi.userInputToBeCreated;
       final courseId = homeworkDialogApi.courseIdForHomeworkToBeCreated;
       expect(userInput.title, 'S. 24 a)');
-      expect(courseId, CourseId('foo_course'));
+      expect(courseId, const CourseId('foo_course'));
       expect(userInput.withSubmission, true);
       // As we activated submissions we assume the default time of 23:59 is
       // used.
@@ -549,7 +549,7 @@ void main() {
       expect(find.text('Nächster Schultag'), findsOneWidget);
       expect(find.text('Nächste Stunde'), findsOneWidget);
       expect(find.text('Übernächste Stunde'), findsOneWidget);
-      expect(find.text('Benutzerdefiniert'), findsOneWidget);
+      expect(find.text('In X Stunden'), findsOneWidget);
     });
 
     testWidgets(
@@ -561,7 +561,7 @@ void main() {
       expect(find.text('Nächster Schultag'), findsNothing);
       expect(find.text('Nächste Stunde'), findsNothing);
       expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
+      expect(find.text('In X Stunden'), findsNothing);
     });
 
     testWidgets('homework lesson chips are not visible in edit mode',
@@ -590,14 +590,14 @@ void main() {
       expect(find.text('Nächster Schultag'), findsNothing);
       expect(find.text('Nächste Stunde'), findsNothing);
       expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
+      expect(find.text('In X Stunden'), findsNothing);
 
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: false);
       expect(find.text('Nächster Schultag'), findsNothing);
       expect(find.text('Nächste Stunde'), findsNothing);
       expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
+      expect(find.text('In X Stunden'), findsNothing);
     });
 
     _TestController createController(WidgetTester tester) {
@@ -780,15 +780,15 @@ void main() {
         ('Nächster Schultag', selectable: true),
         ('Nächste Stunde', selectable: false),
         ('Übernächste Stunde', selectable: false),
-        ('Benutzerdefiniert', selectable: false),
+        ('In X Stunden', selectable: false),
       ]);
       // Test that nothing happens when tapping on disabled chips
       await controller.selectLessonChip('Nächste Stunde');
       await controller.selectLessonChip('Übernächste Stunde');
       expect(controller.getSelectedLessonChips(), []);
 
-      // "Benutzerdefiniert" is not selectable, thus it doesn't show the dialog.
-      await controller.selectLessonChip('Benutzerdefiniert');
+      // "In X Stunden" is not selectable, thus it doesn't show the dialog.
+      await controller.selectLessonChip('In X Stunden');
       expect(find.byKey(HwDialogKeys.customLessonChipDialogTextField),
           findsNothing);
     });
@@ -964,6 +964,7 @@ void main() {
 
       await controller.selectCourse('foo_course');
       await controller.createCustomChip(inXLessons: 3);
+      await tester.ensureVisible(find.byKey(HwDialogKeys.lessonChipDeleteIcon));
       await controller.deleteCustomChip(inXLessons: 3);
       await controller.selectCourse('bar_course');
 
@@ -971,6 +972,37 @@ void main() {
       // If we in 3 lessons selection would still exist then the date would be
       // 2023-10-14
       expect(controller.getSelectedDueDate(), Date('2023-10-12'));
+    });
+
+    testWidgets('shows hint when presses disabled course tile', (tester) async {
+      final fooCourse = courseWith(
+        id: 'foo_course',
+        name: 'Foo course',
+        subject: 'Foo subject',
+      );
+
+      addCourse(fooCourse);
+
+      homework = randomHomeworkWith(
+        id: 'foo_homework_id',
+        title: 'title text',
+        courseId: 'foo_course',
+        courseName: 'Foo course',
+        subject: 'Foo subject',
+        todoUntil: DateTime(2024, 03, 12),
+        private: false,
+      );
+
+      await pumpAndSettleHomeworkDialog(tester);
+
+      await tester.tap(find.byKey(HwDialogKeys.courseTile));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(
+            'Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.'),
+        findsOneWidget,
+      );
     });
   });
 }
@@ -1017,7 +1049,7 @@ class _TestController {
         .map((e) => (
               (e.label as Text).data!,
               isSelected: e.selected,
-              // Normal chips use onSelected, "Benutzerdefiniert" (custom value)
+              // Normal chips use onSelected, "In X Stunden" (custom value)
               // chip uses onPressed.
               // If onDeleted is not-null but everything else is null the chip
               // looks like it's selectable in the UI, but it is only deletable,
@@ -1079,7 +1111,7 @@ class _TestController {
   }
 
   Future<void> createCustomChip({required int inXLessons}) async {
-    await selectLessonChip('Benutzerdefiniert');
+    await selectLessonChip('In X Stunden');
     await tester.enterText(
         find.byKey(HwDialogKeys.customLessonChipDialogTextField),
         '$inXLessons');

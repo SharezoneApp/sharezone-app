@@ -12,8 +12,17 @@ coverage/
 !.vscode/launch.json
 !.vscode/settings.json
 
-# FVM will create a relative symlink in your project from .fvm/flutter_sdk to
+# FVM will create a relative symlink in your project from .fvm/versions/ to
 # the cache of the selected version. We should add this to our .gitignore.
 #
-# Source: https://fvm.app/docs/getting_started/configuration#project
-.fvm/flutter_sdk
+# Source: https://fvm.app/documentation/getting-started/configuration
+.fvm/
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

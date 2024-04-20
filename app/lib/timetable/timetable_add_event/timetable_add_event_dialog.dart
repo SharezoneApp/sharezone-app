@@ -19,8 +19,6 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -136,18 +134,7 @@ class TimetableAddEventDialog extends StatelessWidget {
                         const _MobileDivider(),
                         const _DateAndTimePicker(),
                         const _MobileDivider(),
-                        _DescriptionFieldBase(
-                          textFieldKey: EventDialogKeys.descriptionTextField,
-                          hintText: isExam
-                              ? 'Themen der Prüfung'
-                              : 'Zusatzinformationen',
-                          onChanged: (newDescription) {
-                            Provider.of<AddEventDialogController>(context,
-                                    listen: false)
-                                .description = newDescription;
-                          },
-                          prefilledDescription: '',
-                        ),
+                        _DescriptionField(isExam: isExam),
                         const _MobileDivider(),
                         const _Location(),
                         const _MobileDivider(),
@@ -537,65 +524,23 @@ class _DateAndTimeTile extends StatelessWidget {
   }
 }
 
-class _DescriptionFieldBase extends StatelessWidget {
-  const _DescriptionFieldBase({
-    required this.onChanged,
-    required this.prefilledDescription,
-    required this.hintText,
-    this.textFieldKey,
-  });
+class _DescriptionField extends StatelessWidget {
+  const _DescriptionField({required this.isExam});
 
-  final Function(String) onChanged;
-  final String? prefilledDescription;
-  final String hintText;
-
-  /// Key for the [PrefilledTextField] (used for testing).
-  ///
-  /// If the key is assigned to [_DescriptionFieldBase] from the outside via
-  /// this field to the [PrefilledTextField] then calling
-  /// `tester.enterText(Key('description'))` will fail because of "too many
-  /// elements" for the key. I don't really understand why this happens, but
-  /// assigning the key to the [PrefilledTextField] fixes the problem.
-  final Key? textFieldKey;
+  final bool isExam;
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.subject),
-                title: PrefilledTextField(
-                  key: textFieldKey,
-                  prefilledText: prefilledDescription,
-                  maxLines: null,
-                  scrollPadding: const EdgeInsets.all(16.0),
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    fillColor: Colors.transparent,
-                  ),
-                  onChanged: onChanged,
-                  textCapitalization: TextCapitalization.sentences,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-                child: MarkdownSupport(),
-              ),
-            ],
-          ),
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: DescriptionFieldBase(
+        textFieldKey: EventDialogKeys.descriptionTextField,
+        hintText: isExam ? 'Themen der Prüfung' : 'Zusatzinformationen',
+        onChanged: (newDescription) {
+          Provider.of<AddEventDialogController>(context, listen: false)
+              .description = newDescription;
+        },
+        prefilledDescription: '',
       ),
     );
   }
@@ -607,38 +552,12 @@ class _Location extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<AddEventDialogController>(context);
-    return MaxWidthConstraintBox(
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            ListTile(
-              leading: const Icon(Icons.location_pin),
-              title: PrefilledTextField(
-                key: EventDialogKeys.locationField,
-                prefilledText: controller.location,
-                maxLines: null,
-                scrollPadding: const EdgeInsets.all(16.0),
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  hintText: "Ort/Raum",
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  fillColor: Colors.transparent,
-                ),
-                onChanged: (newLocation) {
-                  controller.location = newLocation;
-                },
-                textCapitalization: TextCapitalization.sentences,
-              ),
-            ),
-          ],
-        ),
-      ),
+    return LocationBase(
+      textFieldKey: EventDialogKeys.locationField,
+      prefilledText: controller.location,
+      onChanged: (newLocation) {
+        controller.location = newLocation;
+      },
     );
   }
 }
@@ -655,45 +574,17 @@ class _SendNotification extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: _SendNotificationBase(
+        child: SendNotificationBase(
+          switchKey: EventDialogKeys.notifyCourseMembersSwitch,
           title: "Kursmitglieder benachrichtigen",
           onChanged: (newValue) {
             controller.notifyCourseMembers = newValue;
           },
           sendNotification: controller.notifyCourseMembers,
           description:
-              "Sende eine Benachrichtigung an deine Kursmitglieder, dass du ${isExam ? 'eine neue Klausur' : 'einen neuen Termin'} erstellt hast.",
+              "Kursmitglieder über ${isExam ? 'neue Klausur' : 'neuen Termin'} benachrichtigen.",
         ),
       ),
-    );
-  }
-}
-
-class _SendNotificationBase extends StatelessWidget {
-  const _SendNotificationBase({
-    required this.title,
-    required this.sendNotification,
-    required this.onChanged,
-    this.description,
-  });
-
-  final String title;
-  final String? description;
-  final bool sendNotification;
-  final Function(bool) onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTileWithDescription(
-      leading: const Icon(Icons.notifications_active),
-      title: Text(title),
-      trailing: Switch.adaptive(
-        key: EventDialogKeys.notifyCourseMembersSwitch,
-        onChanged: onChanged,
-        value: sendNotification,
-      ),
-      onTap: () => onChanged(!sendNotification),
-      description: description != null ? Text(description!) : null,
     );
   }
 }

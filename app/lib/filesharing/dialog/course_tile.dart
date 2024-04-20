@@ -10,11 +10,10 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/group_permission.dart';
-import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
-import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
+import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -66,7 +65,7 @@ class CourseTile extends StatelessWidget {
               children: <Widget>[
                 _CourseList(courseList: courseList, onChanged: onChanged),
                 const Divider(),
-                const _JoinCreateCourseFooter(),
+                const JoinCreateCourseFooter(),
               ],
             );
           },
@@ -87,36 +86,6 @@ class CourseTile extends StatelessWidget {
             onTap: editMode ? null : () => onTap(context, onChanged: onChanged),
           );
         });
-  }
-}
-
-class CourseTileBase extends StatelessWidget {
-  final String? courseName;
-  final String? errorText;
-
-  /// If null disables tile.
-  final VoidCallback? onTap;
-
-  const CourseTileBase({
-    required this.courseName,
-    required this.errorText,
-    required this.onTap,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: const Icon(Icons.book),
-      title: const Text("Kurs"),
-      subtitle: Text(
-        errorText ?? courseName ?? HwDialogErrorStrings.emptyCourse,
-        style: errorText != null ? const TextStyle(color: Colors.red) : null,
-      ),
-      trailing: const Icon(Icons.keyboard_arrow_down),
-      enabled: onTap != null,
-      onTap: () => onTap!(),
-    );
   }
 }
 
@@ -180,8 +149,8 @@ class _EmptyCourseList extends StatelessWidget {
   }
 }
 
-class _JoinCreateCourseFooter extends StatelessWidget {
-  const _JoinCreateCourseFooter();
+class JoinCreateCourseFooter extends StatelessWidget {
+  const JoinCreateCourseFooter({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@
 import 'package:common_domain_models/common_domain_models.dart';
 
 class ProductId extends Id {
-  ProductId(String id) : super(id, 'productId');
+  const ProductId(super.id);
 }
 
 abstract class PurchaseService {

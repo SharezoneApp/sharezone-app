@@ -77,7 +77,7 @@ void main() {
         command,
         CreateEventCommand(
           title: 'Sportfest',
-          courseId: CourseId('sportCourseId'),
+          courseId: const CourseId('sportCourseId'),
           date: Date('2024-03-20'),
           startTime: Time(hour: 13, minute: 40),
           endTime: Time(hour: 15, minute: 50),

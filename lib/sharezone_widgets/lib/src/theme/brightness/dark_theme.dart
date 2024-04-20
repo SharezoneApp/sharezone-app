@@ -51,6 +51,7 @@ ThemeData getDarkTheme({
     bottomSheetTheme: _bottomSheetTheme,
     dialogTheme: _dialogTheme,
     listTileTheme: ListTileThemeData(
+      iconColor: const Color(0xFFC1C7CE),
       shape: listTileShape,
     ),
     colorScheme: ColorScheme.fromSeed(

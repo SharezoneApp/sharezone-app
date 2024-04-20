@@ -66,16 +66,16 @@ jobs:
     runs-on: macos-13
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.3
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -99,7 +99,7 @@ jobs:
           CHANGELOG="${{ github.event.inputs.ios-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
-          sz deploy ios \
+          sz deploy app ios \
             --stage beta \
             --whats-new "$CHANGELOG_WITH_NEW_LINES" \
             --export-options-plist=$HOME/export_options.plist
@@ -117,13 +117,13 @@ jobs:
           - flavor: dev
             serviceAccountSecret: FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -134,17 +134,17 @@ jobs:
           echo $(pwd)/bin >> $GITHUB_PATH
 
       - name: Install Firebase CLI
-        run: sudo npm i -g firebase-tools@11.24.1
+        run: npm i -g firebase-tools@11.24.1
 
       - name: Build and deploy web-app
         env:
           FIREBASE_HOSTING_KEY: ${{ secrets[matrix.environment.serviceAccountSecret] }}
         run: |
           echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
-          sz deploy web \
+          export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/firebase-hosting-key.json
+          sz deploy app web \
             --stage beta \
             --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
-            --credentials firebase-hosting-key.json \
             --flavor ${{ matrix.environment.flavor }}
 
   deploy-android:
@@ -154,7 +154,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.3
@@ -175,9 +175,9 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -201,7 +201,7 @@ jobs:
           CHANGELOG="${{ github.event.inputs.android-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
-          sz deploy android \
+          sz deploy app android \
             --stage beta \
             --whats-new "$CHANGELOG_WITH_NEW_LINES" \
             --rollout-percentage ${{ github.event.inputs.android-rollout-percentage }}
@@ -213,16 +213,16 @@ jobs:
     runs-on: macos-13
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.3
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -252,6 +252,6 @@ jobs:
           CHANGELOG="${{ github.event.inputs.macos-changelog }}"
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
-          sz deploy macos \
+          sz deploy app macos \
             --stage beta \
             --whats-new "$CHANGELOG_WITH_NEW_LINES"

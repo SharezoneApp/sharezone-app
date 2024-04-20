@@ -61,7 +61,6 @@ packageLicenseOverride:
   dynamic_links: EUPL-1.2-or-later
   files_basics: EUPL-1.2-or-later
   files_usecases: EUPL-1.2-or-later
-  files_web: EUPL-1.2-or-later
   filesharing_logic: EUPL-1.2-or-later
   firebase_hausaufgabenheft_logik: EUPL-1.2-or-later
   group_domain_implementation: EUPL-1.2-or-later
@@ -85,5 +84,5 @@ packageLicenseOverride:
   url_launcher_extended: EUPL-1.2-or-later
   user: EUPL-1.2-or-later
   util: EUPL-1.2-or-later
-
-
+  test_randomness: EUPL-1.2-or-later
+  feedback_shared_implementation: EUPL-1.2-or-later

@@ -32,7 +32,6 @@ import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
@@ -683,7 +682,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
                         Icons.edit,
                         color: Theme.of(context).iconTheme.color,
                       ),
-                      label: const Text('Benutzerdefiniert'),
+                      label: const Text('In X Stunden'),
                       onPressed: lessonChipsSelectable
                           ? () async {
                               // The normal context would cause material3 to be
@@ -940,6 +939,8 @@ class _CourseTile extends StatelessWidget {
           courseName:
               courseState is CourseChosen ? courseState.courseName : null,
           errorText: errorText,
+          onDisabledTapText:
+              'Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.',
           onTap: isDisabled
               ? null
               : () => CourseTile.onTap(context, onChangedId: (course) {
@@ -963,7 +964,8 @@ class _SendNotification extends StatelessWidget {
       child: SafeArea(
         top: false,
         bottom: false,
-        child: _SendNotificationBase(
+        child: SendNotificationBase(
+          listTileKey: HwDialogKeys.notifyCourseMembersTile,
           title:
               "Kursmitglieder ${state.isEditing ? "über die Änderungen " : ""}benachrichtigen",
           onChanged: (newValue) =>
@@ -978,35 +980,6 @@ class _SendNotification extends StatelessWidget {
   }
 }
 
-class _SendNotificationBase extends StatelessWidget {
-  const _SendNotificationBase({
-    required this.title,
-    required this.sendNotification,
-    required this.onChanged,
-    this.description,
-  });
-
-  final String title;
-  final String? description;
-  final bool sendNotification;
-  final Function(bool) onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      key: HwDialogKeys.notifyCourseMembersTile,
-      leading: const Icon(Icons.notifications_active),
-      title: Text(title),
-      trailing: Switch.adaptive(
-        onChanged: onChanged,
-        value: sendNotification,
-      ),
-      onTap: () => onChanged(!sendNotification),
-      subtitle: description != null ? Text(description!) : null,
-    );
-  }
-}
-
 class _DescriptionField extends StatelessWidget {
   const _DescriptionField({required this.state});
 
@@ -1015,62 +988,12 @@ class _DescriptionField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
-    return _DescriptionFieldBase(
+    return DescriptionFieldBase(
+      textFieldKey: HwDialogKeys.descriptionField,
+      hintText: 'Zusatzinformationen eingeben',
       onChanged: (newDescription) =>
           bloc.add(DescriptionChanged(newDescription)),
       prefilledDescription: state.description,
-    );
-  }
-}
-
-class _DescriptionFieldBase extends StatelessWidget {
-  const _DescriptionFieldBase({
-    required this.onChanged,
-    required this.prefilledDescription,
-  });
-
-  final Function(String) onChanged;
-  final String? prefilledDescription;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.subject),
-                title: PrefilledTextField(
-                  key: HwDialogKeys.descriptionField,
-                  prefilledText: prefilledDescription,
-                  maxLines: null,
-                  scrollPadding: const EdgeInsets.all(16.0),
-                  keyboardType: TextInputType.multiline,
-                  decoration: const InputDecoration(
-                    hintText: "Zusatzinformationen eingeben",
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    fillColor: Colors.transparent,
-                  ),
-                  onChanged: onChanged,
-                  textCapitalization: TextCapitalization.sentences,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-                child: MarkdownSupport(),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

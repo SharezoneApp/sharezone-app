@@ -15,7 +15,6 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_date.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
@@ -109,27 +108,29 @@ class _TimetableEditEventPage extends StatelessWidget {
         appBar:
             AppBar(title: Text("${isExam ? "Prüfung" : "Termin"} bearbeiten")),
         body: SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: 6),
-                _CourseField(initialEvent),
-                const Divider(),
-                _TitleField(initialEvent),
-                const Divider(),
-                _DateField(),
-                const Divider(),
-                _StartTimeField(),
-                const Divider(),
-                _EndTimeField(),
-                const Divider(),
-                _SendNotificationField(),
-                const Divider(),
-                _DetailField(initialEvent),
-                const Divider(height: 32),
-                _RoomField(initialEvent),
-                const Divider(),
-              ],
+          child: MaxWidthConstraintBox(
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(height: 6),
+                  _CourseField(initialEvent),
+                  const Divider(),
+                  _TitleField(initialEvent),
+                  const Divider(),
+                  _DateField(),
+                  const Divider(),
+                  _StartTimeField(),
+                  const Divider(),
+                  _EndTimeField(),
+                  const Divider(),
+                  _SendNotificationField(),
+                  const Divider(),
+                  _DetailField(initialEvent),
+                  const Divider(height: 32),
+                  _RoomField(initialEvent),
+                  const Divider(),
+                ],
+              ),
             ),
           ),
         ),
@@ -359,26 +360,17 @@ class _DetailField extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            PrefilledTextField(
-              prefilledText: initialEvent.detail,
-              decoration: InputDecoration(
-                icon: const Padding(
-                  padding: EdgeInsets.only(left: 6),
-                  child: Icon(Icons.details),
-                ),
-                border: const OutlineInputBorder(),
-                labelText: isExam ? "Themen der Prüfung" : "Details",
-              ),
-              onChanged: bloc.changeDetail,
-              textInputAction: TextInputAction.newline,
-              maxLines: null,
+        child: MarkdownField(
+          prefilledText: initialEvent.detail,
+          inputDecoration: InputDecoration(
+            icon: const Padding(
+              padding: EdgeInsets.only(left: 6),
+              child: Icon(Icons.details),
             ),
-            const SizedBox(height: 8),
-            const MarkdownSupport(),
-          ],
+            border: const OutlineInputBorder(),
+            labelText: isExam ? "Themen der Prüfung" : "Details",
+          ),
+          onChanged: bloc.changeDetail,
         ),
       ),
     );

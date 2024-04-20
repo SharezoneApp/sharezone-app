@@ -25,6 +25,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const _Grades(),
         const _MoreColors(),
         if (isHomeworkReminderFeatureVisible) const _HomeworkReminder(),
         const _PastEvents(),
@@ -32,9 +33,25 @@ class SharezonePlusAdvantages extends StatelessWidget {
         if (isHomeworkDoneListsFeatureVisible) const _HomeworkDoneLists(),
         const _ReadByInformationSheets(),
         const _SelectTimetableBySchoolClass(),
+        const _MoreStorage(),
         const _PlusSupport(),
+        const _DiscordPlusRang(),
         const _SupportOpenSource(),
       ],
+    );
+  }
+}
+
+class _Grades extends StatelessWidget {
+  const _Grades();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.emoji_events),
+      title: Text('Noten'),
+      description: Text(
+          'Speichere deine Schulnoten mit Sharezone Plus und behalte den Überblick über deine Leistungen. Schriftliche Prüfungen, mündliche Mitarbeit, Halbjahresnoten - alles an einem Ort.'),
     );
   }
 }
@@ -95,6 +112,20 @@ class _AddEventsToLocalCalendar extends StatelessWidget {
   }
 }
 
+class _MoreStorage extends StatelessWidget {
+  const _MoreStorage();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _AdvantageTile(
+      icon: Icon(Icons.storage),
+      title: Text('30 GB Speicherplatz'),
+      description: Text(
+          'Mit Sharezone Plus erhältst du 30 GB Speicherplatz (statt 100 MB) für deine Dateien & Anhänge (bei Hausaufgaben & Infozetteln). Dies entspricht ca. 15.000 Fotos (2 MB pro Bild).\n\nDie Begrenzung gilt nicht für Dateien, die als Abgabe bei Hausaufgaben hochgeladen wird.'),
+    );
+  }
+}
+
 class _PlusSupport extends StatelessWidget {
   const _PlusSupport();
 
@@ -151,6 +182,32 @@ class _ReadByInformationSheets extends StatelessWidget {
       title: Text('Gelesen-Status bei Infozetteln'),
       description: Text(
           'Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.'),
+    );
+  }
+}
+
+class _DiscordPlusRang extends StatelessWidget {
+  const _DiscordPlusRang();
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      icon: const Icon(Icons.discord),
+      title: const Text('Discord Sharezone Plus Rang'),
+      description: MarkdownBody(
+        data:
+            'Erhalte den Discord Sharezone Plus Rang auf unserem [Discord-Server](https://sharezone.net/discord). Dieser Rang zeigt, dass du Sharezone Plus hast und gibt dir Zugriff auf einen exklusive Channel nur für Sharezone Plus Nutzer.',
+        styleSheet: MarkdownStyleSheet(
+          a: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).primaryColor,
+                decoration: TextDecoration.underline,
+              ),
+        ),
+        onTapLink: (text, href, title) async {
+          if (href == null) return;
+          await launchUrl(Uri.parse(href));
+        },
+      ),
     );
   }
 }

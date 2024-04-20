@@ -12,6 +12,7 @@ import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart'
     show NullAnalyticsBackend;
 import 'package:authentification_base/authentification.dart' as auth;
+import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:clock/clock.dart';
@@ -19,6 +20,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:design/design.dart';
 import 'package:dio/dio.dart';
+import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:filesharing_logic/file_uploader.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik_setup.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -30,6 +32,7 @@ import 'package:holidays/holidays.dart' hide State;
 import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/type_of_user_bloc.dart';
@@ -55,14 +58,23 @@ import 'package:sharezone/download_app_tip/analytics/download_app_tip_analytics.
 import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
 import 'package:sharezone/download_app_tip/cache/download_app_tip_cache.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
+import 'package:sharezone/feedback/history/feedback_history_page_analytics.dart';
+import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
-import 'package:sharezone/feedback/src/api/firebase_feedback_api.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
+import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
+import 'package:sharezone/grades/grades_flag.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
+import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
+import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
+import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/analytics/course_create_analytics.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/bloc/course_create_bloc_factory.dart';
-import 'package:sharezone/groups/src/pages/course/create/src/gateway/course_create_gateway.dart';
+import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
+import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
+import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_gateway.dart';
 import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
@@ -90,6 +102,9 @@ import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
 import 'package:sharezone/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
 import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_analytics.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_controller.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart';
 import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
@@ -142,9 +157,14 @@ class SharezoneBlocProviders extends StatefulWidget {
 class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
   late FeedbackBloc feedbackBloc;
   late Analytics analytics;
+  late List<SingleChildStatelessWidget> providers;
+  late List<BlocProvider<BlocBase>> mainBlocProviders;
+  late List<BlocProvider<BlocBase>> timetableProviders;
 
   @override
   void initState() {
+    super.initState();
+
     final analyticsBackend = kDebugMode
         ?
         // LoggingAnalyticsBackend()
@@ -172,27 +192,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       uid: widget.blocDependencies.authUser!.uid,
     );
 
-    super.initState();
-  }
-
-  final _disposeCallbacks = <void Function()>[];
-
-  @override
-  void dispose() {
-    for (final disposeCallback in _disposeCallbacks) {
-      disposeCallback();
-    }
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     final api = SharezoneGateway(
       authUser: widget.blocDependencies.authUser!,
       memberID:
           MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
       references: widget.blocDependencies.references,
     );
+    _disposeCallbacks.add(api.dispose);
 
     var streamingKeyValueStore = FlutterStreamingKeyValueStore(
         widget.blocDependencies.streamingSharedPreferences);
@@ -261,8 +267,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     // Not sure if we need to call both, but without .close the linter complains
     _disposeCallbacks.add(teacherHomeworkBloc.dispose);
     _disposeCallbacks.add(teacherHomeworkBloc.close);
-    final blackboardPageBloc = BlackboardPageBloc(
-        gateway: api.blackboard, courseGateway: api.course, uid: api.uID);
 
     final timetableBloc = TimetableBloc(api.schoolClassGateway, api.user,
         api.timetable, api.course, SchoolClassFilterAnalytics(analytics));
@@ -322,10 +326,20 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       isSubscriptionEnabledFlag: subscriptionEnabledFlag,
     );
 
+    final feedbackApi = FirebaseFeedbackApi(firestore);
+    final gradesEnabledFlag =
+        GradesEnabledFlag(widget.blocDependencies.keyValueStore);
+
+    final userDocRef = api.references.users.doc(api.uID);
+    final gradesService = GradesService(
+        repository:
+            FirestoreGradesStateRepository(userDocumentRef: userDocRef));
+
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
-    final providers = [
+    providers = [
+      Provider<Analytics>(create: (context) => analytics),
       Provider<CrashAnalytics>(create: (context) => crashAnalytics),
       Provider<SubscriptionService>(
         create: (context) => subscriptionService,
@@ -363,6 +377,16 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         value: typeOfUserStream,
         initialData: null,
       ),
+      ChangeNotifierProvider(
+        create: (context) => ChangeTypeOfUserController(
+          service: ChangeTypeOfUserService(
+            functions: widget.blocDependencies.functions,
+          ),
+          typeOfUserStream: typeOfUserStream,
+          analytics: ChangeTypeOfUserAnalytics(analytics),
+          userId: UserId(api.uID),
+        ),
+      ),
       Provider(
         create: (context) => PastCalendricalEventsPageControllerFactory(
           clock: clock,
@@ -373,9 +397,62 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           analytics: PastCalendricalEventsPageAnalytics(analytics),
         ),
       ),
+      ChangeNotifierProvider(
+        create: (context) => FeedbackHistoryPageController(
+          analytics: FeedbackHistoryPageAnalytics(analytics),
+          api: feedbackApi,
+          userId: api.userId,
+          crashAnalytics: crashAnalytics,
+        ),
+      ),
+      Provider(
+        create: (context) => FeedbackDetailsPageControllerFactory(
+          userId: api.userId,
+          feedbackApi: feedbackApi,
+          crashAnalytics: crashAnalytics,
+        ),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => HasUnreadFeedbackMessagesProvider(
+          feedbackApi: feedbackApi,
+          userId: api.userId,
+        ),
+      ),
+      ChangeNotifierProvider.value(value: gradesEnabledFlag),
+      Provider<GradesService>(
+        create: (context) => gradesService,
+      ),
+      ChangeNotifierProvider(
+        create: (context) => GradesPageController(gradesService: gradesService),
+      ),
+      Provider(
+        create: (context) => TermDetailsPageControllerFactory(
+          gradesService: gradesService,
+          crashAnalytics: crashAnalytics,
+        ),
+      ),
+      Provider(
+        create: (context) => GradeDetailsPageControllerFactory(
+          gradesService: gradesService,
+          crashAnalytics: crashAnalytics,
+        ),
+      ),
+      Provider(
+        create: (context) => GradesDialogControllerFactory(
+          crashAnalytics: crashAnalytics,
+          gradesService: gradesService,
+          coursesStream: () => api.course.streamCourses(),
+        ),
+      ),
+      Provider(
+        create: (context) => TermSettingsPageControllerFactory(
+          gradesService: gradesService,
+          coursesStream: () => api.course.streamCourses(),
+        ),
+      )
     ];
 
-    final mainBlocProviders = <BlocProvider>[
+    mainBlocProviders = <BlocProvider>[
       BlocProvider<SharezoneContext>(
         bloc: SharezoneContext(
           api,
@@ -386,7 +463,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<TypeOfUserBloc>(bloc: TypeOfUserBloc(typeOfUserStream)),
-      BlocProvider<BlackboardPageBloc>(bloc: blackboardPageBloc),
+      BlocProvider<BlackboardPageBloc>(
+          bloc: BlackboardPageBloc(
+              gateway: api.blackboard,
+              courseGateway: api.course,
+              uid: api.uID)),
       BlocProvider<DashboardBloc>(
         bloc: DashboardBloc(
             api.uID,
@@ -464,6 +545,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           analytics: analytics,
           appFunctions: api.references.functions,
           subscriptionEnabledFlag: subscriptionEnabledFlag,
+          gradesEnabledFlag: gradesEnabledFlag,
           keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),
@@ -557,12 +639,17 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       )),
       BlocProvider<CourseCreateBlocFactory>(
         bloc: CourseCreateBlocFactory(
-            CourseCreateGateway(api.course, api.user, api.schoolClassGateway),
+            CourseCreateGateway(
+              api.course,
+              api.user,
+              api.schoolClassGateway,
+              api.connectionsGateway,
+            ),
             CourseCreateAnalytics(Analytics(getBackend()))),
       ),
     ];
 
-    final List<BlocProvider> timetableProviders = [
+    timetableProviders = [
       BlocProvider<TimetableBloc>(bloc: timetableBloc),
       BlocProvider<TimetableAddBlocFactory>(
         bloc: TimetableAddBlocFactory(TimetableAddBlocDependencies(
@@ -574,7 +661,20 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<TimePickerSettingsCache>(bloc: timePickerSettingsCache),
     ];
+  }
 
+  final _disposeCallbacks = <void Function()>[];
+
+  @override
+  void dispose() {
+    for (final disposeCallback in _disposeCallbacks) {
+      disposeCallback();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MultiProvider(
       providers: providers,
       child: MultiBlocProvider(

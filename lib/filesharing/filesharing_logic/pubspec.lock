@@ -283,13 +283,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  files_web:
-    dependency: transitive
-    description:
-      path: "../files_web"
-      relative: true
-    source: path
-    version: "0.0.1"
   firebase_auth:
     dependency: transitive
     description:
@@ -447,6 +440,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  flutter_markdown:
+    dependency: transitive
+    description:
+      path: "packages/flutter_markdown"
+      ref: "2f680bb80119f6fd037a7bda0984bc811b5dccb8"
+      resolved-ref: "2f680bb80119f6fd037a7bda0984bc811b5dccb8"
+      url: "https://github.com/SharezoneApp/packages"
+    source: git
+    version: "0.6.17+2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -624,6 +626,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  markdown:
+    dependency: transitive
+    description:
+      name: markdown
+      sha256: ef2a1298144e3f985cc736b22e0ccdaf188b5b3970648f2d9dc13efd1d9df051
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.2.2"
   matcher:
     dependency: transitive
     description:
@@ -871,6 +881,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.8"
   sharezone_common:
     dependency: transitive
     description:
@@ -1184,6 +1202,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.2"
+  webview_flutter:
+    dependency: transitive
+    description:
+      name: webview_flutter
+      sha256: "25e1b6e839e8cbfbd708abc6f85ed09d1727e24e08e08c6b8590d7c65c9a8932"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.7.0"
+  webview_flutter_android:
+    dependency: transitive
+    description:
+      name: webview_flutter_android
+      sha256: f038ee2fae73b509dde1bc9d2c5a50ca92054282de17631a9a3d515883740934
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.16.0"
+  webview_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: webview_flutter_platform_interface
+      sha256: d937581d6e558908d7ae3dc1989c4f87b786891ab47bb9df7de548a151779d8d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.10.0"
+  webview_flutter_web:
+    dependency: transitive
+    description:
+      name: webview_flutter_web
+      sha256: "7f7cb8cfe5a5dee3b55d660a367c00838be56540ccb4097e84601bb6cb354af3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2+4"
+  webview_flutter_wkwebview:
+    dependency: transitive
+    description:
+      name: webview_flutter_wkwebview
+      sha256: f12f8d8a99784b863e8b85e4a9a5e3cf1839d6803d2c0c3e0533a8f3c5a992a7
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.13.0"
   win32:
     dependency: transitive
     description:

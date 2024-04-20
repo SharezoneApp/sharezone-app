@@ -14,15 +14,19 @@ their UI. Alternatively, the analyzer can be invoked manually by running
 ## Usage
 
 To use `sharezone_lints`, follow these instructions:
+
 1. Add it to your dev_dependencies:
+
 ```yaml
 dev_dependencies:
   sharezone_lints:
-   path: ../packages/sharezone_lints
+    path: ../packages/sharezone_lints
 ```
+
 Note: You may need to change the path to the package.
 
 2. Include the rules into your `analysis_options.yaml`
+
 ```yaml
 include: package:sharezone_lints/analysis_options.yaml
 ```

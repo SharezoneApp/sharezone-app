@@ -36,6 +36,8 @@ class HomeworkGateway {
   Stream<List<HomeworkDto>> get homeworkStream => _homeworkSubjectStream;
 
   final _homeworkSubjectStream = BehaviorSubject<List<HomeworkDto>>();
+  StreamSubscription<List<HomeworkDto>>? _openHomeworksStreamSubscription;
+  StreamSubscription<List<HomeworkDto>>? _allHomeworksStreamSubscription;
 
   HomeworkGateway({
     required this.userId,
@@ -84,12 +86,11 @@ class HomeworkGateway {
       // Falls der Nutzer ein Schüler ist, dann muss der
       // [_homeworkNowAndInFutureStream] von Firestore geladen werden.
       // Für Eltern und Lehrer siehe weiter unten.
-      homeworkCollection
+      _openHomeworksStreamSubscription = homeworkCollection
           .where('assignedUserArrays.allAssignedUids', arrayContains: userId)
           .where('todoUntil', isGreaterThanOrEqualTo: startOfThisDay)
           .snapshots()
           .transform(_homeworkTransformer)
-          .asBroadcastStream()
           .listen(
             _homeworkNowAndInFutureStream.add,
             onError: _homeworkNowAndInFutureStream.addError,
@@ -97,12 +98,11 @@ class HomeworkGateway {
 
       return;
     }
-    firestore
+    _allHomeworksStreamSubscription = firestore
         .collection("Homework")
         .where('assignedUserArrays.allAssignedUids', arrayContains: userId)
         .snapshots()
         .transform(_homeworkTransformer)
-        .asBroadcastStream()
         .listen(
           _homeworkSubjectStream.add,
           onError: _homeworkSubjectStream.addError,
@@ -275,8 +275,10 @@ class HomeworkGateway {
     if (errorList.isNotEmpty) sink.addError(errorList);
   });
 
-  void dispose() {
-    _homeworkSubjectStream.close();
-    _homeworkNowAndInFutureStream.close();
+  Future<void> dispose() async {
+    await _homeworkSubjectStream.close();
+    await _homeworkNowAndInFutureStream.close();
+    await _openHomeworksStreamSubscription?.cancel();
+    await _allHomeworksStreamSubscription?.cancel();
   }
 }

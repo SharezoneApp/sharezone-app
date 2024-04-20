@@ -73,6 +73,8 @@ dependencies:
     path: ../lib/dynamic_links
   equatable: ^2.0.5
   fast_immutable_collections: ^9.1.5
+  feedback_shared_implementation:
+    path: ../lib/feedback_shared_implementation
   files_basics:
     path: ../lib/filesharing/files_basics
   files_usecases:
@@ -101,7 +103,7 @@ dependencies:
     git:
       url: https://github.com/SharezoneApp/packages
       path: packages/flutter_markdown
-      ref: 494fa74182c1993cfd39d804f24c4ee136e3905a
+      ref: 2f680bb80119f6fd037a7bda0984bc811b5dccb8
   flutter_timezone: ^1.0.8
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0
@@ -129,6 +131,9 @@ dependencies:
   last_online_reporting:
     path: ../lib/last_online_reporting
   logging: ^1.1.1
+  # Can be replaced once Flutter officially supports the new Material Symbols,
+  # see https://github.com/flutter/flutter/issues/102560.
+  material_symbols_icons: ^4.2719.3
   markdown: ^7.1.1
   meta: ^1.1.8
   notifications:
@@ -215,7 +220,8 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   mockito: ^5.4.4
-  random_string: ^2.0.1
+  test_randomness:
+    path: ../lib/test_randomness
   bloc_test: ^9.1.4
   bloc_presentation_test: ^1.0.0
   path: ^1.8.3

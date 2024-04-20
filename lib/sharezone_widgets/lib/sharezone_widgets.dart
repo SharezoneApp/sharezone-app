@@ -42,8 +42,14 @@ export 'src/dimensions.dart';
 // form
 export 'src/form.dart';
 
+// list_tile_with_description
+export 'src/list_tile_with_description.dart';
+
 // placeholder
 export 'src/placeholder.dart';
+
+// creation_editing_dialogs
+export 'src/creation_editing_dialog_widgets/creation_editing_dialog_widgets.dart';
 
 // rounded_simple_dialog
 export 'src/rounded_simple_dialog.dart';
@@ -88,6 +94,7 @@ export 'src/sharezone_plus/sharezone_plus_feature_info_dialog.dart';
 export 'src/widgets.dart';
 export 'src/widgets/animated_swap.dart';
 export 'src/widgets/expansion_card.dart';
+export 'src/widgets/error_card.dart';
 
 // wrappable_list
 export 'src/wrappable_list.dart';

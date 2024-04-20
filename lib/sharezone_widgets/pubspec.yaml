@@ -30,6 +30,11 @@ dependencies:
   flutter:
     sdk: flutter
   clock: ^1.1.1
+  flutter_markdown:
+    git:
+      url: https://github.com/SharezoneApp/packages
+      path: packages/flutter_markdown
+      ref: 2f680bb80119f6fd037a7bda0984bc811b5dccb8
 
 dev_dependencies:
   flutter_test:

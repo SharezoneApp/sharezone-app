@@ -18,6 +18,9 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/use_account_on_multiple_devices_instruction.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
+import 'package:sharezone/feedback/history/feedback_history_page.dart';
+import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
+import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
@@ -26,7 +29,6 @@ import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
-import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_help.dart';
 import 'package:sharezone/logging/logging.dart';
 import 'package:sharezone/main/course_join_listener.dart';
@@ -40,6 +42,7 @@ import 'package:sharezone/settings/src/subpages/changelog_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_page.dart';
 import 'package:sharezone/settings/src/subpages/notification.dart';
 import 'package:sharezone/settings/src/subpages/about/about_page.dart';
@@ -100,6 +103,7 @@ class _SharezoneAppState extends State<SharezoneApp>
           MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
       references: widget.blocDependencies.references,
     );
+    disposeCallbacks.add(_sharezoneGateway.dispose);
 
     final crashAnalytics = getCrashAnalytics();
     startLoggingRecording(crashAnalytics);
@@ -187,6 +191,11 @@ class _SharezoneAppState extends State<SharezoneApp>
                 ImprintPage.tag: (context) => const ImprintPage(),
                 PastCalendricalEventsPage.tag: (context) =>
                     const PastCalendricalEventsPage(),
+                ChangeTypeOfUserPage.tag: (context) =>
+                    const ChangeTypeOfUserPage(),
+                FeedbackHistoryPage.tag: (context) =>
+                    const FeedbackHistoryPage(),
+                CreateTermPage.tag: (context) => const CreateTermPage(),
               },
               navigatorKey: navigationService.navigatorKey,
             ),

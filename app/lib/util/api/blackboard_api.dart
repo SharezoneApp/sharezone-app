@@ -20,24 +20,28 @@ class BlackboardGateway {
   final String uID;
   final CollectionReference<Map<String, dynamic>> blackboardItemCollection;
 
-  final Stream<List<BlackboardItem>> blackboardItemStream;
-
-  final BehaviorSubject<List<BlackboardItem>> streamOfParsedBlackboardItem =
+  Stream<List<BlackboardItem>> get blackboardItemStream =>
+      _blackboardItemsSubject.stream;
+  final BehaviorSubject<List<BlackboardItem>> _blackboardItemsSubject =
       BehaviorSubject<List<BlackboardItem>>();
+  StreamSubscription<List<BlackboardItem>>? _subscription;
 
   BlackboardGateway({
     required AuthUser authUser,
     required FirebaseFirestore firestore,
   })  : uID = authUser.uid,
-        blackboardItemCollection = firestore.collection("Blackboard"),
-        blackboardItemStream = firestore
-            .collection("Blackboard")
-            .where("forUsers.${authUser.uid}", isLessThanOrEqualTo: true)
-            .snapshots()
-            .map((snapshot) => snapshot.docs
-                .map((doc) => BlackboardItem.fromData(doc.data(), id: doc.id))
-                .toList())
-            .asBroadcastStream();
+        blackboardItemCollection = firestore.collection("Blackboard") {
+    _subscription = firestore
+        .collection("Blackboard")
+        .where("forUsers.${authUser.uid}", isLessThanOrEqualTo: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => BlackboardItem.fromData(doc.data(), id: doc.id))
+            .toList())
+        .listen((event) {
+      _blackboardItemsSubject.add(event);
+    });
+  }
 
   Stream<BlackboardItem> singleBlackboardItem(String itemID) {
     return blackboardItemCollection.doc(itemID).snapshots().map(
@@ -155,6 +159,7 @@ class BlackboardGateway {
   }
 
   Future<void> dispose() async {
-    await streamOfParsedBlackboardItem.close();
+    await _subscription?.cancel();
+    await _blackboardItemsSubject.close();
   }
 }

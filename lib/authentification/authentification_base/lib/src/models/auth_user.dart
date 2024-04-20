@@ -55,10 +55,6 @@ class AuthUser {
       return Provider.email;
     }
   }
-
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
 }
 
 String providerToUiString(Provider provider) {
