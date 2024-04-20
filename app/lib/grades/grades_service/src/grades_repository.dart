@@ -51,6 +51,8 @@ class InMemoryGradesStateRepository extends GradesStateRepository {
 
   @override
   void updateState(GradesState state) {
+    // We use the Firestore Repository methods so we test the (de)serialization
+    // even in our unit tests, which means a bigger test coverage.
     _data = FirestoreGradesStateRepository.toDto(state);
     // debugPrint(json.encode(_data, toEncodable: (val) {
     //   if (val is Timestamp) {
@@ -70,7 +72,8 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     gradesDocumentRef.snapshots().listen((event) {
       if (event.exists) {
         final data = event.data() as Map<String, Object?>;
-        state.add(fromData(data));
+        final newState = fromData(data);
+        state.add(newState);
       }
     });
   }
