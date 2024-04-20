@@ -24,7 +24,7 @@ class MockSharezonePlusPageController extends ChangeNotifier
 
   bool buySubscriptionCalled = false;
   @override
-  Future<void> buySubscription() async {
+  Future<void> buy() async {
     buySubscriptionCalled = true;
   }
 
@@ -32,14 +32,6 @@ class MockSharezonePlusPageController extends ChangeNotifier
   @override
   Future<void> cancelSubscription() async {
     cancelSubscriptionCalled = true;
-  }
-
-  @override
-  PeriodOption selectedPurchasePeriod = PeriodOption.lifetimePurchase;
-
-  @override
-  Future<void> buyLifetime() {
-    throw UnimplementedError();
   }
 
   @override
@@ -51,6 +43,18 @@ class MockSharezonePlusPageController extends ChangeNotifier
   Future<bool> isBuyingEnabled() {
     throw UnimplementedError();
   }
+
+  @override
+  bool isPurchaseButtonLoading = false;
+
+  @override
+  String? lifetimePrice;
+
+  @override
+  void setPeriodOption(PurchasePeriod period) {}
+
+  @override
+  PurchasePeriod selectedPurchasePeriod = PurchasePeriod.monthly;
 }
 
 void main() {

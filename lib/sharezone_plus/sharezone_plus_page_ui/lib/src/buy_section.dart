@@ -14,13 +14,13 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum PurchasePeriod {
   /// A monthly subscription for Sharezone Plus.
-  monthlySubscription,
+  monthly,
 
   /// A lifetime purchase for Sharezone Plus.
   ///
   /// This is a one-time purchase that gives the user Sharezone Plus for a
   /// lifetime.
-  lifetimePurchase,
+  lifetime,
 }
 
 /// A section where the user can the select the plan they want to buy and start
@@ -33,10 +33,12 @@ class BuySection extends StatelessWidget {
     required this.onPurchase,
     required this.currentPeriod,
     required this.onPeriodChanged,
-    this.isLoading = false,
+    this.isPriceLoading = false,
+    this.isPurchaseButtonLoading = false,
   });
 
-  final bool isLoading;
+  final bool isPriceLoading;
+  final bool isPurchaseButtonLoading;
   final String? monthlyPrice;
   final String? lifetimePrice;
   final VoidCallback? onPurchase;
@@ -57,31 +59,31 @@ class BuySection extends StatelessWidget {
         );
       },
       child: Column(
-        key: ValueKey([isLoading, currentPeriod]),
+        key: ValueKey([isPriceLoading, currentPeriod]),
         children: [
           _PeriodOption(
             name: 'Monatlich',
             price: monthlyPrice,
-            period: PurchasePeriod.monthlySubscription,
+            period: PurchasePeriod.monthly,
             currentPeriod: currentPeriod,
             onPeriodChanged: onPeriodChanged,
-            isLoading: isLoading,
+            isLoading: isPriceLoading,
           ),
           const SizedBox(height: 6),
           _PeriodOption(
             name: 'Lifetime (einmaliger Kauf)',
             price: lifetimePrice,
-            period: PurchasePeriod.lifetimePurchase,
+            period: PurchasePeriod.lifetime,
             currentPeriod: currentPeriod,
             onPeriodChanged: onPeriodChanged,
-            isLoading: isLoading,
+            isLoading: isPriceLoading,
           ),
           const SizedBox(height: 12),
           _PurchaseButton(
             period: currentPeriod,
             onPressed: onPurchase,
-            isEnabled: !isLoading,
-            isLoading: isLoading,
+            isEnabled: !isPriceLoading && !isPurchaseButtonLoading,
+            isLoading: isPriceLoading || isPurchaseButtonLoading,
           ),
           const SizedBox(height: 12),
           _LegalText(period: currentPeriod),
@@ -106,17 +108,34 @@ class _PurchaseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GrayShimmer(
-      enabled: isLoading,
+    return IgnorePointer(
+      ignoring: isLoading,
       child: CallToActionButton(
-        text: Text(
-          switch (period) {
-            PurchasePeriod.monthlySubscription => 'Abonnieren',
-            PurchasePeriod.lifetimePurchase => 'Kaufen',
-          },
-        ),
-        onPressed: isEnabled ? onPressed : null,
+        text: isLoading
+            ? const _LoadingSpinner()
+            : Text(
+                switch (period) {
+                  PurchasePeriod.monthly => 'Abonnieren',
+                  PurchasePeriod.lifetime => 'Kaufen',
+                },
+              ),
+        onPressed: onPressed,
         backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+    );
+  }
+}
+
+class _LoadingSpinner extends StatelessWidget {
+  const _LoadingSpinner();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 24.5,
+      width: 24.5,
+      child: CircularProgressIndicator(
+        color: Colors.white,
       ),
     );
   }
@@ -174,9 +193,8 @@ class _LegalText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (period) {
-      PurchasePeriod.monthlySubscription =>
-        const _MonthlySubscriptionLegalText(),
-      PurchasePeriod.lifetimePurchase => const _LifetimeLegalText(),
+      PurchasePeriod.monthly => const _MonthlySubscriptionLegalText(),
+      PurchasePeriod.lifetime => const _LifetimeLegalText(),
     };
   }
 }

@@ -221,7 +221,8 @@ class _PurchaseSection extends StatelessWidget {
       lifetimePrice: lifetimePrice,
       currentPeriod: controller.selectedPurchasePeriod,
       onPeriodChanged: controller.setPeriodOption,
-      isLoading: isLoading,
+      isPriceLoading: isLoading,
+      isPurchaseButtonLoading: controller.isPurchaseButtonLoading,
       onPurchase: () async {
         final controller = context.read<SharezonePlusPageController>();
 
@@ -240,7 +241,7 @@ class _PurchaseSection extends StatelessWidget {
             return;
           }
 
-          await controller.buySubscription();
+          await controller.buy();
         } catch (e) {
           if (!context.mounted) {
             return;

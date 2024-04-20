@@ -354,6 +354,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           userId: UserId(api.uID),
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,
+          crashAnalytics: crashAnalytics,
           stripeCheckoutSession: StripeCheckoutSession(
             createCheckoutSessionFunctionUrl: widget
                 .blocDependencies.remoteConfiguration

@@ -9,11 +9,11 @@
 import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
@@ -25,11 +25,9 @@ const fallbackPlusMonthlyPrice = '2,99 €';
 const fallbackPlusLifetimePrice = '19,99 €';
 
 class SharezonePlusPageController extends ChangeNotifier {
-  // ignore: unused_field
   late RevenueCatPurchaseService _purchaseService;
-  // ignore: unused_field
   late SubscriptionService _subscriptionService;
-
+  late CrashAnalytics _crashAnalytics;
   late StripeCheckoutSession _stripeCheckoutSession;
   late UserId _userId;
 
@@ -41,6 +39,7 @@ class SharezonePlusPageController extends ChangeNotifier {
     required RevenueCatPurchaseService purchaseService,
     required SubscriptionService subscriptionService,
     required StripeCheckoutSession stripeCheckoutSession,
+    required CrashAnalytics crashAnalytics,
     required UserId userId,
     required BuyingFlagApi buyingFlagApi,
   }) {
@@ -52,6 +51,7 @@ class SharezonePlusPageController extends ChangeNotifier {
     monthlySubscriptionPrice = fallbackPlusMonthlyPrice;
     lifetimePrice = fallbackPlusLifetimePrice;
     _buyingFlagApi = buyingFlagApi;
+    _crashAnalytics = crashAnalytics;
   }
 
   /// Whether the user has a Sharezone Plus subscription.
@@ -74,34 +74,41 @@ class SharezonePlusPageController extends ChangeNotifier {
   /// sign.
   String? lifetimePrice;
 
+  /// Whether the purchase button is currently loading.
+  ///
+  /// This is used to show a loading indicator on the purchase button while the
+  /// purchase is in progress.
+  bool isPurchaseButtonLoading = false;
+
   /// The purchase option that the user has selected.
-  PurchasePeriod selectedPurchasePeriod = PurchasePeriod.monthlySubscription;
+  PurchasePeriod selectedPurchasePeriod = PurchasePeriod.monthly;
 
-  Future<void> buySubscription() async {
-    if (PlatformCheck.isWeb) {
-      await _buyOnWeb();
-    } else {
-      await _purchaseService
-          .purchase(const ProductId('default-dev-plus-subscription'));
-    }
-
-    hasPlus = true;
+  Future<void> buy() async {
+    isPurchaseButtonLoading = true;
     notifyListeners();
-  }
 
-  Future<void> buyLifetime() async {
-    if (PlatformCheck.isWeb) {
+    try {
       await _buyOnWeb();
-    } else {
-      await _purchaseService
-          .purchase(const ProductId('default-dev-plus-lifetime'));
-    }
 
-    hasPlus = true;
-    notifyListeners();
+      // if (PlatformCheck.isWeb) {
+      //   await _buyOnWeb();
+      // } else {
+      //   await _purchaseService
+      //       .purchase(const ProductId('default-dev-plus-subscription'));
+      // }
+    } catch (e, s) {
+      _crashAnalytics.recordError('Error when buying Sharezone Plus: $e', s);
+      rethrow;
+    } finally {
+      isPurchaseButtonLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<bool> isBuyingEnabled() async {
+    isPurchaseButtonLoading = true;
+    notifyListeners();
+
     final flag = await _buyingFlagApi.isBuyingEnabled();
 
     return switch (flag) {
@@ -114,7 +121,10 @@ class SharezonePlusPageController extends ChangeNotifier {
   Future<void> _buyOnWeb() async {
     // The URL is used to redirect the user back to the web app after the
     // payment is completed or canceled.
-    final webAppUrl = Uri.base;
+    final webAppUrl = switch (PlatformCheck.currentPlatform) {
+      Platform.web => Uri.base,
+      _ => Uri.parse('https://web.sharezone.net'),
+    };
 
     final checkoutUrl = await _stripeCheckoutSession.create(
       userId: '$_userId',
