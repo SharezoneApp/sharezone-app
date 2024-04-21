@@ -108,26 +108,40 @@ class _UnsubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      key: ValueKey('unsubscribe-section'),
+    final hasLifetime =
+        context.watch<SharezonePlusPageController>().hasLifetime;
+    return Column(
+      key: const ValueKey('unsubscribe-section'),
       children: [
-        SizedBox(height: 12),
-        _UnsubscribeText(),
-        SizedBox(height: 12),
-        _UnsubscribeButton(),
+        const SizedBox(height: 12),
+        _UnsubscribeText(hasLifetime: hasLifetime),
+        if (!hasLifetime) ...const [
+          SizedBox(height: 12),
+          _UnsubscribeButton(),
+        ]
       ],
     );
   }
 }
 
 class _UnsubscribeText extends StatelessWidget {
-  const _UnsubscribeText();
+  const _UnsubscribeText({
+    required this.hasLifetime,
+  });
+
+  final bool hasLifetime;
+
+  String getText(bool hasLifetime) {
+    if (hasLifetime) {
+      return 'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!';
+    }
+    return 'Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.';
+  }
 
   @override
   Widget build(BuildContext context) {
     return MarkdownBody(
-      data:
-          'Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.',
+      data: getText(hasLifetime),
       styleSheet: MarkdownStyleSheet(
         a: TextStyle(
           color: Theme.of(context).primaryColor,

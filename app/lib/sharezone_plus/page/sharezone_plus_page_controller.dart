@@ -81,6 +81,10 @@ class SharezonePlusPageController extends ChangeNotifier {
   /// Whether the user has a Sharezone Plus subscription that is cancelled.
   bool get isCancelled => _status?.isCancelled ?? false;
 
+  /// Whether the user has a Sharezone Plus subscription that has a lifetime
+  /// period.
+  bool get hasLifetime => _status?.hasLifetime ?? false;
+
   /// The price for the Sharezone Plus per month, including the currency sign.
   ///
   /// If the user is subscribed to Sharezone Plus then this is the price for
