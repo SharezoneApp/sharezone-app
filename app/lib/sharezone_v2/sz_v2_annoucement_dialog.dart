@@ -42,7 +42,8 @@ class SharezoneV2AnnoucementDialogGuard extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final user = snapshot.data;
-            if (user != null && user.legalData['v2-terms-accepted'] == null) {
+            if (user != null &&
+                user.legalData['v2-legal-dialog-passed'] == null) {
               return const _Dialog();
             }
           }
@@ -139,19 +140,24 @@ class _DialogState extends State<_Dialog> {
                                         .doc(uid)
                                         .update({
                                       'legal': {
-                                        'v2-terms-accepted': {
+                                        'v2-legal-dialog-passed': {
+                                          'accepted-terms-of-service': true,
+                                          'was-informed-of-new-privacy-policy':
+                                              true,
+                                          'took-notice-of-new-legal-entity':
+                                              true,
                                           'deviceTime': clock.now(),
                                           'serverTime':
                                               FieldValue.serverTimestamp(),
                                         },
                                       },
                                     });
-                                    // ignore: use_build_context_synchronously
-                                    Navigator.pop(context);
-                                    // ignore: use_build_context_synchronously
-                                    BlocProvider.of<NavigationBloc>(context)
-                                        .navigateTo(
-                                            NavigationItem.sharezonePlus);
+                                    if (context.mounted) {
+                                      Navigator.pop(context);
+                                      BlocProvider.of<NavigationBloc>(context)
+                                          .navigateTo(
+                                              NavigationItem.sharezonePlus);
+                                    }
                                   } on Exception catch (e) {
                                     if (context.mounted) {
                                       await showLeftRightAdaptiveDialog(
