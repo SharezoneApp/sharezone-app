@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
-import 'package:user/src/models/subscription.dart';
+import 'package:user/user.dart';
 
 class MockSharezonePlusPageController extends ChangeNotifier
     implements SharezonePlusPageController {

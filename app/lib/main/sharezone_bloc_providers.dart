@@ -322,7 +322,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final subscriptionEnabledFlag = context.read<SubscriptionEnabledFlag>();
     final subscriptionService = SubscriptionService(
       user: api.user.userStream,
-      clock: clock,
       isSubscriptionEnabledFlag: subscriptionEnabledFlag,
     );
 

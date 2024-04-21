@@ -6,13 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:clock/clock.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:user/user.dart';
 
 class SubscriptionService {
   final Stream<AppUser?> user;
-  final Clock clock;
   final SubscriptionEnabledFlag isSubscriptionEnabledFlag;
 
   late AppUser? _user;
@@ -20,7 +18,6 @@ class SubscriptionService {
 
   SubscriptionService({
     required this.user,
-    required this.clock,
     required this.isSubscriptionEnabledFlag,
   }) {
     _isEnabled = isSubscriptionEnabledFlag.isEnabled;
@@ -38,8 +35,9 @@ class SubscriptionService {
     // Subscriptions feature is disabled, so every feature is unlocked.
     if (!_isEnabled) return true;
 
-    if (appUser?.subscription == null) return false;
-    return clock.now().isBefore(appUser!.subscription!.expiresAt);
+    final plus = appUser?.sharezonePlus;
+    if (plus == null) return false;
+    return plus.hasPlus;
   }
 
   Stream<bool> isSubscriptionActiveStream() {
@@ -64,7 +62,7 @@ class SubscriptionService {
   }
 
   SubscriptionSource? getSource() {
-    return _user?.subscription?.source;
+    return _user?.sharezonePlus?.source;
   }
 }
 
