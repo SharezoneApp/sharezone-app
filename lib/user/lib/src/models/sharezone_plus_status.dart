@@ -20,10 +20,14 @@ class SharezonePlusStatus {
   /// If `null` the user might have the lifetime option.
   final SubscriptionSource? source;
 
+  /// Whether the user has a lifetime subscription.
+  final bool hasLifetime;
+
   const SharezonePlusStatus({
     required this.hasPlus,
     required this.isCancelled,
     required this.source,
+    required this.hasLifetime,
   });
 
   static SharezonePlusStatus? fromData(Map<String, dynamic>? map) {
@@ -36,6 +40,7 @@ class SharezonePlusStatus {
       hasPlus: map['hasPlus'] ?? false,
       isCancelled: map['isCancelled'] ?? false,
       source: parseSource(map['subscriptionDetails']),
+      hasLifetime: map['period'] == 'lifetime',
     );
   }
 
@@ -55,11 +60,17 @@ class SharezonePlusStatus {
     return other is SharezonePlusStatus &&
         other.hasPlus == hasPlus &&
         other.isCancelled == isCancelled &&
-        other.source == source;
+        other.source == source &&
+        other.hasLifetime == hasLifetime;
   }
 
   @override
-  int get hashCode => hasPlus.hashCode ^ isCancelled.hashCode ^ source.hashCode;
+  int get hashCode {
+    return hasPlus.hashCode ^
+        isCancelled.hashCode ^
+        source.hashCode ^
+        hasLifetime.hashCode;
+  }
 }
 
 enum SubscriptionSource {
