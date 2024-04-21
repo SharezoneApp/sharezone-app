@@ -67,6 +67,9 @@ class _DrawerItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final typeOfUser =
+        BlocProvider.of<SharezoneContext>(context).api.user.data?.typeOfUser ??
+            TypeOfUser.unknown;
     return SafeArea(
       right: false,
       child: Column(
@@ -83,10 +86,10 @@ class _DrawerItems extends StatelessWidget {
                     ...onlyDesktopTiles,
                     const Divider(),
                   ],
-                  gradesTile,
+                  if (typeOfUser.isStudent) gradesTile,
                   ...functionTiles,
                   const Divider(),
-                  sharezonePlusTile,
+                  if (typeOfUser.isStudent) sharezonePlusTile,
                   feedbackBoxTile,
                   settingsPageTile,
                 ],
