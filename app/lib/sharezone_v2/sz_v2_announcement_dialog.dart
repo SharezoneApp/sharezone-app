@@ -140,7 +140,7 @@ class _DialogState extends State<_Dialog> {
                                   final uid = ctx.api.uID;
 
                                   try {
-                                    await szContext.api.references.firestore
+                                    szContext.api.references.firestore
                                         .collection('User')
                                         .doc(uid)
                                         .update({
