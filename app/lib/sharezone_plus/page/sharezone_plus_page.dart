@@ -285,43 +285,69 @@ class _PurchaseSection extends StatelessWidget {
     final monthlyPrice = controller.monthlySubscriptionPrice;
     final lifetimePrice = controller.lifetimePrice;
     final isLoading = monthlyPrice == null || lifetimePrice == null;
-    return BuySection(
-      key: const ValueKey('subscribe-section'),
-      monthlyPrice: monthlyPrice,
-      lifetimePrice: lifetimePrice,
-      currentPeriod: controller.selectedPurchasePeriod,
-      onPeriodChanged: controller.setPeriodOption,
-      isPriceLoading: isLoading,
-      isPurchaseButtonLoading: controller.isPurchaseButtonLoading,
-      onPurchase: () async {
-        final controller = context.read<SharezonePlusPageController>();
+    final isCanceled = controller.isCancelled;
+    return Column(
+      children: [
+        if (isCanceled) ...const [
+          _CanceledSubscriptionNote(),
+          SizedBox(height: 6),
+        ],
+        BuySection(
+          key: const ValueKey('subscribe-section'),
+          monthlyPrice: monthlyPrice,
+          lifetimePrice: lifetimePrice,
+          currentPeriod: controller.selectedPurchasePeriod,
+          onPeriodChanged: controller.setPeriodOption,
+          isPriceLoading: isLoading,
+          isPurchaseButtonLoading: controller.isPurchaseButtonLoading,
+          onPurchase: () async {
+            final controller = context.read<SharezonePlusPageController>();
 
-        try {
-          final isBuyingEnabled = await controller.isBuyingEnabled();
+            try {
+              final isBuyingEnabled = await controller.isBuyingEnabled();
 
-          if (!context.mounted) {
-            return;
-          }
+              if (!context.mounted) {
+                return;
+              }
 
-          if (!isBuyingEnabled) {
-            showDialog(
-              context: context,
-              builder: (context) => const BuyingDisabledDialog(),
-            );
-            return;
-          }
+              if (!isBuyingEnabled) {
+                showDialog(
+                  context: context,
+                  builder: (context) => const BuyingDisabledDialog(),
+                );
+                return;
+              }
 
-          await controller.buy();
-        } catch (e) {
-          if (!context.mounted) {
-            return;
-          }
-          showDialog(
-            context: context,
-            builder: (context) => BuyingFailedDialog(error: '$e'),
-          );
-        }
-      },
+              await controller.buy();
+            } catch (e) {
+              if (!context.mounted) {
+                return;
+              }
+              showDialog(
+                context: context,
+                builder: (context) => BuyingFailedDialog(error: '$e'),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _CanceledSubscriptionNote extends StatelessWidget {
+  const _CanceledSubscriptionNote();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Text(
+        'Du hast dein Sharezone-Plus Abo gekündigt. Du kannst deine Vorteile noch bis zum Ende des aktuellen Abrechnungszeitraums nutzen. Solltest du es dir anders überlegen, kannst du es jederzeit wieder erneut Sharezone-Plus abonnieren.',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+      ),
     );
   }
 }

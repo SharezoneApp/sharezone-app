@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_analytics.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
@@ -55,6 +56,8 @@ class SharezonePlusPageController extends ChangeNotifier {
     _buyingFlagApi = buyingFlagApi;
     _crashAnalytics = crashAnalytics;
     _analytics = analytics;
+
+    listenToStatus();
   }
 
   void listenToStatus() {
@@ -79,8 +82,7 @@ class SharezonePlusPageController extends ChangeNotifier {
   /// Whether the user has a Sharezone Plus subscription.
   ///
   /// If `null` then the status is still loading.
-  // bool? get hasPlus => _status?.hasPlus;
-  bool? get hasPlus => true;
+  bool? get hasPlus => _status?.hasPlus;
 
   /// Whether the user has a Sharezone Plus subscription that is cancelled.
   bool get isCancelled => _status?.isCancelled ?? false;
@@ -119,14 +121,13 @@ class SharezonePlusPageController extends ChangeNotifier {
         selectedPurchasePeriod.name,
         PlatformCheck.currentPlatform.name,
       );
-      await _buyOnWeb();
 
-      // if (PlatformCheck.isWeb) {
-      //   await _buyOnWeb();
-      // } else {
-      //   await _purchaseService
-      //       .purchase(const ProductId('default-dev-plus-subscription'));
-      // }
+      if (PlatformCheck.isWeb) {
+        await _buyOnWeb();
+      } else {
+        await _purchaseService
+            .purchase(const ProductId('default-dev-plus-subscription'));
+      }
     } catch (e, s) {
       _crashAnalytics.recordError('Error when buying Sharezone Plus: $e', s);
       isPurchaseButtonLoading = false;
