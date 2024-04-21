@@ -131,6 +131,11 @@ class _DialogState extends State<_Dialog> {
                                 if (controller.page == lastPage) {
                                   final ctx = BlocProvider.of<SharezoneContext>(
                                       context);
+                                  // We navigate beforehand, so that the context
+                                  // is not already unmounted when we try to
+                                  // navigate.
+                                  BlocProvider.of<NavigationBloc>(context)
+                                      .navigateTo(NavigationItem.sharezonePlus);
                                   // ignore: unused_local_variable
                                   final uid = ctx.api.uID;
 
@@ -152,12 +157,6 @@ class _DialogState extends State<_Dialog> {
                                         },
                                       },
                                     });
-                                    if (context.mounted) {
-                                      Navigator.pop(context);
-                                      BlocProvider.of<NavigationBloc>(context)
-                                          .navigateTo(
-                                              NavigationItem.sharezonePlus);
-                                    }
                                   } on Exception catch (e) {
                                     if (context.mounted) {
                                       await showLeftRightAdaptiveDialog(
@@ -212,29 +211,33 @@ class _OtherChanges extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _JustText(markdownText: '## Weitere Änderungen'),
-        SizedBox(height: 10),
-        _Card(
-          header: Text('Geänderte Rechtsform'),
-          body: Text(
-              'Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.'),
+    return const Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _JustText(markdownText: '## Weitere Änderungen'),
+            SizedBox(height: 10),
+            _Card(
+              header: Text('Geänderte Rechtsform'),
+              body: Text(
+                  'Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.'),
+            ),
+            SizedBox(height: 12),
+            _Card(
+              header: Text('Überarbeitung der Datenschutzerklärung'),
+              body: Text(
+                  'Wir haben die Datenschutzerklärung einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden. Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung oder verschicken von Emails).'),
+            ),
+            SizedBox(height: 12),
+            _Card(
+              header: Text('Allgemeine Nutzungsbedingungen (ANB)'),
+              body: Text(
+                  'Wir haben neue allgemeinen Nutzungsbedingungen (“ANB”), die für die zukünftige Nutzung von Sharezone akzeptiert werden müssen.'),
+            ),
+          ],
         ),
-        SizedBox(height: 12),
-        _Card(
-          header: Text('Überarbeitung der Datenschutzerklärung'),
-          body: Text(
-              'Wir haben die Datenschutzerklärung einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden. Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung oder verschicken von Emails).'),
-        ),
-        SizedBox(height: 12),
-        _Card(
-          header: Text('Allgemeine Nutzungsbedingungen (ANB)'),
-          body: Text(
-              'Wir haben neue allgemeinen Nutzungsbedingungen (“ANB”), die für die zukünftige Nutzung von Sharezone akzeptiert werden müssen.'),
-        ),
-      ],
+      ),
     );
   }
 }
