@@ -343,7 +343,7 @@ class _CurrentTerm extends StatelessWidget {
                   title: Text(subject.displayName),
                   trailing: Text(subject.grade,
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         fontWeight: FontWeight.normal,
                       )),
                 )
