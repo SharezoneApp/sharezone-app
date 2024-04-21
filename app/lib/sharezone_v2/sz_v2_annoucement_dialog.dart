@@ -170,8 +170,6 @@ class _OtherChanges extends StatelessWidget {
     return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Text('Weitere Änderungen',
-        //     style: Theme.of(context).textTheme.headlineSmall),
         _JustText(markdownText: '## Weitere Änderungen'),
         SizedBox(height: 10),
         _Card(
@@ -183,7 +181,7 @@ class _OtherChanges extends StatelessWidget {
         _Card(
           header: Text('Überarbeitung der Datenschutzerklärung'),
           body: Text(
-              'Wir haben die Datenschutzerklärung einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden. Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung).'),
+              'Wir haben die Datenschutzerklärung einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden. Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung oder verschicken von Emails).'),
         ),
         SizedBox(height: 12),
         _Card(
@@ -365,25 +363,6 @@ Du kannst die App auch ohne Sharezone Plus weiterhin kostenlos nutzen, mit ein p
 Per Bezahl-Link kannst du Sharezone Plus auch ganz einfach online von z.B. deinen Eltern kaufen lassen.
 ''';
 
-const _markdownText3 = '''
-Außerdem gibt es folgende Änderungen:
-
-**Version 2.0**  
-Wir haben das Design für dich überarbeitet, eine neue Navigation eingeführt und ein paar kleine Verbesserungen eingebaut.
-Lass uns doch Feedback da, wie es dir gefällt.
-
-**Geänderte Rechtsform**  
-Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.  
-
-**Überarbeitung der Datenschutzerklärung**  
-Wir haben die Datenschutzerklärung einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden.   
-Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung).
-
-**Allgemeine Nutzungsbedingungen**  
-Wir haben neue allgemeinen Nutzungsbedingungen (“ANB”), die für die zukünftige Nutzung von Sharezone akzeptiert werden müssen. 
-
-Diese regeln z.B., dass keine gewaltverherrlichenden Inhalte hochgeladen werden dürfen. Wir hoffen, dass das auch vorher klar war 😅
-''';
 const _markdownText4 = '''
 **Das war's!**
 
