@@ -17,13 +17,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 import '../../../test/homework/homework_dialog_bloc_test.dart';
 import '../../../test/homework/homework_dialog_test.dart';
+import '../../../test/pages/settings/notification_page_test.mocks.dart';
 
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
@@ -42,13 +46,18 @@ void main() {
 
     Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester,
         {required ThemeData theme, required bool isEditing}) async {
+      final sub = MockSubscriptionService();
+      when(sub.hasFeatureUnlocked(any)).thenReturn(true);
       await tester.pumpWidgetBuilder(
-        bloc_lib.BlocProvider<HomeworkDialogBloc>(
-          create: (context) => homeworkDialogBloc,
-          child: Scaffold(
-            body: HomeworkDialogMain(
-              isEditing: isEditing,
-              bloc: homeworkDialogBloc,
+        Provider<SubscriptionService>(
+          create: (_) => sub,
+          child: bloc_lib.BlocProvider<HomeworkDialogBloc>(
+            create: (context) => homeworkDialogBloc,
+            child: Scaffold(
+              body: HomeworkDialogMain(
+                isEditing: isEditing,
+                bloc: homeworkDialogBloc,
+              ),
             ),
           ),
         ),
