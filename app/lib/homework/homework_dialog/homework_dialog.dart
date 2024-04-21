@@ -431,34 +431,34 @@ class _TodoUntilPicker extends StatelessWidget {
 class _DueDateChipsLockedPlus extends StatelessWidget {
   const _DueDateChipsLockedPlus();
 
+  void navigateToSharezonePlusPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: ((context) => Scaffold(
+              appBar: AppBar(),
+              body: const SharezonePlusPageMain(),
+            )),
+        settings: const RouteSettings(name: SharezonePlusPage.tag),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
       onTap: () async {
         final analytics = AnalyticsProvider.ofOrNullObject(context);
         analytics.log(NamedAnalyticsEvent(
           name: 'plus_due_date_chips_tapped',
         ));
-        await showLeftRightAdaptiveDialog(
+        showSharezonePlusFeatureInfoDialog(
           context: context,
-          content: const Text(
+          navigateToPlusPage: () => navigateToSharezonePlusPage(context),
+          description: const Text(
               'Mit Sharezone Plus kannst du Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.'),
-          right: AdaptiveDialogAction.ok,
-          left: AdaptiveDialogAction(
-            title: 'Mehr erfahren',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: ((context) => Scaffold(
-                        appBar: AppBar(),
-                        body: const SharezonePlusPageMain(),
-                      )),
-                ),
-              );
-            },
-          ),
         );
       },
       child: Stack(
