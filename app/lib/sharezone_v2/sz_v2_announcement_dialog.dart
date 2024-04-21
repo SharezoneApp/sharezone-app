@@ -18,6 +18,7 @@ import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -68,6 +69,9 @@ class SharezoneV2AnnoucementDialogGuard extends StatelessWidget {
     return StreamBuilder(
         stream: szContext.api.user.userStream,
         builder: (context, snapshot) {
+          if (isIntegrationTest) {
+            return child;
+          }
           if (snapshot.hasData) {
             final user = snapshot.data;
             if (user != null &&
