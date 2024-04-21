@@ -15,6 +15,7 @@ import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/support/support_page.dart';
+import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openSzV2AnnoucementDialog(BuildContext context) async {
@@ -153,11 +154,19 @@ class _SharezonePlus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _JustText(markdownText: _markdownText2),
-      ],
+    return const SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: 190),
+          _JustText(markdownText: _markdownText2),
+          SizedBox(height: 30),
+          SharezonePlusAdvantages(
+            isHomeworkDoneListsFeatureVisible: false,
+            isHomeworkReminderFeatureVisible: false,
+          )
+        ],
+      ),
     );
   }
 }
