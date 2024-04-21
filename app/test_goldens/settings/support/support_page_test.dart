@@ -12,7 +12,6 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -21,19 +20,15 @@ import 'support_page_test.mocks.dart';
 
 @GenerateNiceMocks([
   MockSpec<SupportPageController>(),
-  MockSpec<SubscriptionEnabledFlag>(),
 ])
 void main() {
   group(SupportPage, () {
     late MockSupportPageController controller;
-    late MockSubscriptionEnabledFlag subscriptionEnabledFlag;
 
     setUp(() {
       controller = MockSupportPageController();
-      subscriptionEnabledFlag = MockSubscriptionEnabledFlag();
 
       when(controller.isUserSignedIn).thenReturn(true);
-      when(subscriptionEnabledFlag.isEnabled).thenReturn(true);
     });
 
     Future<void> pumpSupportPage(
@@ -45,8 +40,6 @@ void main() {
           providers: [
             ChangeNotifierProvider<SupportPageController>.value(
                 value: controller),
-            ChangeNotifierProvider<SubscriptionEnabledFlag>.value(
-                value: subscriptionEnabledFlag),
           ],
           child: const SupportPage(),
         ),

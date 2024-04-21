@@ -3,15 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i4;
 
 import 'package:clock/clock.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart'
-    as _i3;
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart'
-    as _i4;
-import 'package:user/user.dart' as _i6;
+    as _i3;
+import 'package:user/user.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -36,28 +34,17 @@ class _FakeClock_0 extends _i1.SmartFake implements _i2.Clock {
         );
 }
 
-class _FakeSubscriptionEnabledFlag_1 extends _i1.SmartFake
-    implements _i3.SubscriptionEnabledFlag {
-  _FakeSubscriptionEnabledFlag_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [SubscriptionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSubscriptionService extends _i1.Mock
-    implements _i4.SubscriptionService {
+    implements _i3.SubscriptionService {
   @override
-  _i5.Stream<_i6.AppUser?> get user => (super.noSuchMethod(
+  _i4.Stream<_i5.AppUser?> get user => (super.noSuchMethod(
         Invocation.getter(#user),
-        returnValue: _i5.Stream<_i6.AppUser?>.empty(),
-        returnValueForMissingStub: _i5.Stream<_i6.AppUser?>.empty(),
-      ) as _i5.Stream<_i6.AppUser?>);
+        returnValue: _i4.Stream<_i5.AppUser?>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i5.AppUser?>.empty(),
+      ) as _i4.Stream<_i5.AppUser?>);
   @override
   _i2.Clock get clock => (super.noSuchMethod(
         Invocation.getter(#clock),
@@ -71,20 +58,7 @@ class MockSubscriptionService extends _i1.Mock
         ),
       ) as _i2.Clock);
   @override
-  _i3.SubscriptionEnabledFlag get isSubscriptionEnabledFlag =>
-      (super.noSuchMethod(
-        Invocation.getter(#isSubscriptionEnabledFlag),
-        returnValue: _FakeSubscriptionEnabledFlag_1(
-          this,
-          Invocation.getter(#isSubscriptionEnabledFlag),
-        ),
-        returnValueForMissingStub: _FakeSubscriptionEnabledFlag_1(
-          this,
-          Invocation.getter(#isSubscriptionEnabledFlag),
-        ),
-      ) as _i3.SubscriptionEnabledFlag);
-  @override
-  bool isSubscriptionActive([_i6.AppUser? appUser]) => (super.noSuchMethod(
+  bool isSubscriptionActive([_i5.AppUser? appUser]) => (super.noSuchMethod(
         Invocation.method(
           #isSubscriptionActive,
           [appUser],
@@ -93,16 +67,16 @@ class MockSubscriptionService extends _i1.Mock
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  _i5.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
+  _i4.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
         Invocation.method(
           #isSubscriptionActiveStream,
           [],
         ),
-        returnValue: _i5.Stream<bool>.empty(),
-        returnValueForMissingStub: _i5.Stream<bool>.empty(),
-      ) as _i5.Stream<bool>);
+        returnValue: _i4.Stream<bool>.empty(),
+        returnValueForMissingStub: _i4.Stream<bool>.empty(),
+      ) as _i4.Stream<bool>);
   @override
-  bool hasFeatureUnlocked(_i4.SharezonePlusFeature? feature) =>
+  bool hasFeatureUnlocked(_i3.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
         Invocation.method(
           #hasFeatureUnlocked,
@@ -112,14 +86,14 @@ class MockSubscriptionService extends _i1.Mock
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  _i5.Stream<bool> hasFeatureUnlockedStream(
-          _i4.SharezonePlusFeature? feature) =>
+  _i4.Stream<bool> hasFeatureUnlockedStream(
+          _i3.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
         Invocation.method(
           #hasFeatureUnlockedStream,
           [feature],
         ),
-        returnValue: _i5.Stream<bool>.empty(),
-        returnValueForMissingStub: _i5.Stream<bool>.empty(),
-      ) as _i5.Stream<bool>);
+        returnValue: _i4.Stream<bool>.empty(),
+        returnValueForMissingStub: _i4.Stream<bool>.empty(),
+      ) as _i4.Stream<bool>);
 }
