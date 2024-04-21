@@ -18,6 +18,7 @@ class RevenueCatPurchaseService implements PurchaseService {
         .getOffering('default-dev-plus-subscription')!
         .availablePackages;
     final packageToPurchase = availablePackages
+        // ignore: deprecated_member_use
         .singleWhere((package) => package.offeringIdentifier == id.toString());
     await Purchases.purchasePackage(packageToPurchase);
   }
