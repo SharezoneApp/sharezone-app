@@ -198,10 +198,9 @@ class _OtherChanges extends StatelessWidget {
 
 class _Card extends StatelessWidget {
   const _Card({
-    Key? key,
     required this.header,
     required this.body,
-  }) : super(key: key);
+  });
 
   final Widget header;
   final Widget body;
