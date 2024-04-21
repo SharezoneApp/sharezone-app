@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:clock/clock.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
@@ -21,6 +23,32 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 Future<void> openSzV2AnnoucementDialog(BuildContext context) async {
   await Navigator.push(
       context, MaterialPageRoute(builder: (context) => const _Dialog()));
+}
+
+class SharezoneV2AnnoucementDialogGuard extends StatelessWidget {
+  const SharezoneV2AnnoucementDialogGuard({
+    super.key,
+    required this.child,
+  });
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final szContext = BlocProvider.of<SharezoneContext>(context);
+
+    return StreamBuilder(
+        stream: szContext.api.user.userStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final user = snapshot.data;
+            if (user != null && user.legalData['v2-terms-accepted'] == null) {
+              return const _Dialog();
+            }
+          }
+          return child;
+        });
+  }
 }
 
 class _Dialog extends StatefulWidget {
@@ -42,6 +70,7 @@ class _DialogState extends State<_Dialog> {
 
   @override
   Widget build(BuildContext context) {
+    final szContext = BlocProvider.of<SharezoneContext>(context);
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -105,18 +134,18 @@ class _DialogState extends State<_Dialog> {
                                   final uid = ctx.api.uID;
 
                                   try {
-                                    // await FirebaseFirestore.instance
-                                    //     .collection('users')
-                                    //     .doc(uid)
-                                    //     .update({
-                                    //   'legal': {
-                                    //     'v2.0-terms-accepted': {
-                                    //       'deviceTime': clock.now(),
-                                    //       'serverTime':
-                                    //           FieldValue.serverTimestamp(),
-                                    //     },
-                                    //   },
-                                    // });
+                                    await szContext.api.references.firestore
+                                        .collection('User')
+                                        .doc(uid)
+                                        .update({
+                                      'legal': {
+                                        'v2-terms-accepted': {
+                                          'deviceTime': clock.now(),
+                                          'serverTime':
+                                              FieldValue.serverTimestamp(),
+                                        },
+                                      },
+                                    });
                                     // ignore: use_build_context_synchronously
                                     Navigator.pop(context);
                                     // ignore: use_build_context_synchronously
@@ -124,12 +153,13 @@ class _DialogState extends State<_Dialog> {
                                         .navigateTo(
                                             NavigationItem.sharezonePlus);
                                   } on Exception catch (e) {
-                                    // ignore: use_build_context_synchronously
-                                    await showLeftRightAdaptiveDialog(
-                                        context: context,
-                                        title: 'Fehler',
-                                        content: Text(
-                                            'Es ist ein Fehler aufgetreten: $e. Falls dieser bestehen bleibt, dann schreibe uns unter support@sharezone.net'));
+                                    if (context.mounted) {
+                                      await showLeftRightAdaptiveDialog(
+                                          context: context,
+                                          title: 'Fehler',
+                                          content: Text(
+                                              'Es ist ein Fehler aufgetreten: $e. Falls dieser bestehen bleibt, dann schreibe uns unter support@sharezone.net'));
+                                    }
                                   }
                                 } else {
                                   controller.nextPage(

@@ -50,6 +50,7 @@ import 'package:sharezone/settings/src/subpages/notification.dart';
 import 'package:sharezone/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/settings/src/subpages/theme/theme_page.dart';
+import 'package:sharezone/sharezone_v2/sz_v2_annoucement_dialog.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
@@ -149,10 +150,12 @@ class _SharezoneAppState extends State<SharezoneApp>
               blocDependencies: widget.blocDependencies,
               home: MissingAccountInformationGuard(
                 userCollection: widget.blocDependencies.references.users,
-                child: OnboardingListener(
-                  child: NavigationController(
-                    fbMessagingConfigurator: fbMessagingConfigurator,
-                    key: navigationBloc.controllerKey,
+                child: SharezoneV2AnnoucementDialogGuard(
+                  child: OnboardingListener(
+                    child: NavigationController(
+                      fbMessagingConfigurator: fbMessagingConfigurator,
+                      key: navigationBloc.controllerKey,
+                    ),
                   ),
                 ),
               ),
