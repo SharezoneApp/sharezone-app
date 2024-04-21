@@ -69,6 +69,7 @@ enum SharezonePlusFeature {
   moreGroupColors,
   addEventToLocalCalendar,
   viewPastEvents,
+  homeworkDueDateChips,
 }
 
 extension SubscriptionTierExtension on SubscriptionTier {
