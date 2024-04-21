@@ -139,7 +139,7 @@ class TermSettingsPageController extends ChangeNotifier {
       gradeType: gradeTypeId,
       weight: weight,
     );
-    _weights = _getTerm()!.gradeTypeWeightings;
+    _weights = _weights.add(gradeTypeId, weight);
     state = TermSettingsLoaded(view);
     notifyListeners();
   }
@@ -149,7 +149,7 @@ class TermSettingsPageController extends ChangeNotifier {
       termId: termId,
       gradeType: gradeTypeId,
     );
-    _weights = _getTerm()!.gradeTypeWeightings;
+    _weights = _weights.remove(gradeTypeId);
     state = TermSettingsLoaded(view);
     notifyListeners();
   }

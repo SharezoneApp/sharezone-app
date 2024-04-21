@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:analytics/analytics.dart';
 import 'package:collection/collection.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/date.dart';
@@ -21,12 +22,14 @@ class TermDetailsPageController extends ChangeNotifier {
   final TermId termId;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
+  final Analytics analytics;
   late StreamSubscription<TermResult?> _termStreamSubscription;
 
   TermDetailsPageController({
     required this.termId,
     required this.gradesService,
     required this.crashAnalytics,
+    required this.analytics,
   }) {
     _termStreamSubscription = _getTermStream(termId).listen((term) {
       if (term == null) {
@@ -46,7 +49,7 @@ class TermDetailsPageController extends ChangeNotifier {
                 .map((grade) => (
                       id: grade.id,
                       grade: displayGrade(grade.value),
-                      gradeTypeIcon: const Icon(Icons.note_add),
+                      gradeTypeIcon: _getGradeTypeIcon(grade.gradeTypeId),
                       title: grade.title,
                       date: grade.date,
                     ))
@@ -60,7 +63,7 @@ class TermDetailsPageController extends ChangeNotifier {
             displayName: term.name,
             avgGrade: (
               displayGrade(term.calculatedGrade),
-              GradePerformance.bad
+              GradePerformance.good,
             ),
           ),
           subjectsWithGrades: subjects2,
@@ -72,6 +75,21 @@ class TermDetailsPageController extends ChangeNotifier {
       crashAnalytics.recordError('Could not stream term: $error', stack);
       notifyListeners();
     });
+
+    _logOpenTermDetails();
+  }
+
+  Icon _getGradeTypeIcon(GradeTypeId gradeTypeId) {
+    const unknownIcon = Icon(Icons.help);
+
+    final gradeTypes = gradesService.getPossibleGradeTypes();
+    for (final gradeType in gradeTypes) {
+      if (gradeType.id == gradeTypeId) {
+        return gradeType.predefinedType?.getIcon() ?? unknownIcon;
+      }
+    }
+
+    return unknownIcon;
   }
 
   Stream<TermResult?> _getTermStream(TermId termId) {
@@ -81,6 +99,11 @@ class TermDetailsPageController extends ChangeNotifier {
 
   void deleteTerm() {
     gradesService.deleteTerm(termId);
+    analytics.log(NamedAnalyticsEvent(name: 'term_deleted'));
+  }
+
+  void _logOpenTermDetails() {
+    analytics.log(NamedAnalyticsEvent(name: 'term_details_opened'));
   }
 
   @override

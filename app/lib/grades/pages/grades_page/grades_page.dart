@@ -16,7 +16,6 @@ import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/shared/term_tile.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page.dart';
-import 'package:sharezone/grades/pages/term_dialog/term_dialog.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -43,13 +42,7 @@ class _FAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const GradesDialog(),
-          settings: const RouteSettings(name: GradesDialog.tag),
-        ),
-      ),
+      onPressed: () => Navigator.pushNamed(context, GradesDialog.tag),
       icon: const Icon(Icons.add),
       tooltip: 'Neue Note',
     );
@@ -100,7 +93,6 @@ class _Loaded extends StatelessWidget {
                   child: FadeInAnimation(child: widget),
                 ),
                 children: [
-                  const _AddTermTile(),
                   if (currentTerm != null)
                     _CurrentTerm(
                       id: currentTerm.id,
@@ -180,7 +172,8 @@ class _Empty extends StatelessWidget {
                         leading: const Icon(Icons.add_circle_outline),
                         centerTitle: true,
                         title: const Text("Note eintragen"),
-                        onTap: () {},
+                        onTap: () =>
+                            Navigator.pushNamed(context, GradesDialog.tag),
                       ),
                     ),
                   ],
@@ -299,32 +292,6 @@ class _Error extends StatelessWidget {
   }
 }
 
-class _AddTermTile extends StatelessWidget {
-  const _AddTermTile();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: CustomCard(
-        key: const ValueKey('add-term-tile'),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TermDialog(
-              gradesService: context.read<GradesService>(),
-            ),
-          ),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Text('Neues Halbjahr hinzufügen'),
-        ),
-      ),
-    );
-  }
-}
-
 class _CurrentTerm extends StatelessWidget {
   const _CurrentTerm({
     required this.displayName,
@@ -354,31 +321,33 @@ class _CurrentTerm extends StatelessWidget {
               avgGrade: avgGrade,
               showEditButton: false,
             ),
-            const Divider(height: 0),
-            const SizedBox(height: 6),
-            const Padding(
-              padding: EdgeInsets.only(left: 12),
-              child: Text(
-                'Aktuelle Noten',
-                style: TextStyle(
-                  color: Colors.grey,
+            if (subjects.isNotEmpty) ...[
+              const Divider(height: 0),
+              const SizedBox(height: 6),
+              const Padding(
+                padding: EdgeInsets.only(left: 12),
+                child: Text(
+                  'Aktuelle Noten',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
                 ),
               ),
-            ),
-            for (final subject in subjects)
-              ListTile(
-                mouseCursor: SystemMouseCursors.click,
-                leading: SubjectAvatar(
-                  design: subject.design,
-                  abbreviation: subject.abbreviation,
-                ),
-                title: Text(subject.displayName),
-                trailing: Text(subject.grade,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                    )),
-              )
+              for (final subject in subjects)
+                ListTile(
+                  mouseCursor: SystemMouseCursors.click,
+                  leading: SubjectAvatar(
+                    design: subject.design,
+                    abbreviation: subject.abbreviation,
+                  ),
+                  title: Text(subject.displayName),
+                  trailing: Text(subject.grade,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      )),
+                )
+            ]
           ],
         ),
       ),

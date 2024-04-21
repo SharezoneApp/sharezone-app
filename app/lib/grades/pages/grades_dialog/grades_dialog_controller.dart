@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:analytics/analytics.dart';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
@@ -26,6 +27,7 @@ class GradesDialogController extends ChangeNotifier {
   final CrashAnalytics crashAnalytics;
   late StreamSubscription<List<Course>> _coursesStreamSubscription;
   late StreamSubscription<IList<TermResult>> _termsStreamSubscription;
+  final Analytics analytics;
 
   GradesDialogView get view {
     final subject = _selectSubjectId != null
@@ -91,6 +93,7 @@ class GradesDialogController extends ChangeNotifier {
     required this.gradesService,
     required this.coursesStream,
     required this.crashAnalytics,
+    required this.analytics,
   }) {
     _selectedTermId = _getActiveTermId();
     _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
@@ -121,6 +124,7 @@ class GradesDialogController extends ChangeNotifier {
   void _listenToCourses() {
     _coursesStreamSubscription = coursesStream.listen((courses) {
       _subjects = _mergeCoursesAndSubjects(courses);
+      _courses = courses.toIList();
       notifyListeners();
     });
   }
@@ -221,6 +225,7 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   late IList<Subject> _subjects;
+  IList<Course> _courses = IList();
   late bool _isSubjectMissing;
   SubjectId? _selectSubjectId;
   void setSubject(SubjectId res) {
@@ -360,6 +365,7 @@ class GradesDialogController extends ChangeNotifier {
     }
 
     _addGradeToGradeService();
+    _logGradeAdded();
   }
 
   /// Validates the fields and returns the invalid ones.
@@ -422,12 +428,42 @@ class GradesDialogController extends ChangeNotifier {
     }
   }
 
+  void _logGradeAdded() {
+    analytics.log(NamedAnalyticsEvent(name: 'grade_added'));
+  }
+
   void _createSubject() {
     final subject = _subjects.firstWhereOrNull((s) => s.id == _selectSubjectId);
     if (subject == null) {
       throw Exception('Selected subject id does not exists');
     }
-    gradesService.addSubject(subject);
+
+    final connectedCourses = _getConnectedCourses(subject.id);
+
+    gradesService.addSubject(
+      Subject(
+        abbreviation: subject.abbreviation,
+        design: subject.design,
+        id: subject.id,
+        name: subject.name,
+        connectedCourses: connectedCourses,
+      ),
+    );
+  }
+
+  IList<ConnectedCourse> _getConnectedCourses(SubjectId subjectId) {
+    final subject = _subjects.firstWhere((s) => s.id == subjectId);
+    return _courses
+        .where((c) => c.subject == subject.name)
+        .map(
+          (c) => ConnectedCourse(
+            id: CourseId(c.id),
+            abbreviation: c.abbreviation,
+            name: c.name,
+            subjectName: c.subject,
+          ),
+        )
+        .toIList();
   }
 
   void _throwInvalidSaveState(List<GradingDialogFields> invalidFields) {

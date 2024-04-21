@@ -14,7 +14,7 @@ import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/keys.dart';
 import 'package:sharezone/onboarding/bloc/registration_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/bottom_bar_button.dart';
-import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
