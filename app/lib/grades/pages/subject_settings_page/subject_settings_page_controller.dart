@@ -106,7 +106,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
       weight: weight,
     );
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
-    _weights = _getSubject()!.gradeTypeWeights;
+    _weights = _weights.add(gradeTypeId, weight);
     state = SubjectSettingsLoaded(view);
     notifyListeners();
   }
@@ -118,7 +118,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
       gradeType: gradeTypeId,
     );
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
-    _weights = _getSubject()!.gradeTypeWeights;
+    _weights = _weights.remove(gradeTypeId);
     state = SubjectSettingsLoaded(view);
     notifyListeners();
   }
