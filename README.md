@@ -14,6 +14,7 @@ With Sharezone pupils, teachers and even parents can use the following features 
 - 📅 Calendar
 - 💬 Information sheets
 - 📁 Files
+- ⭐️ Grades (not shared with the class)
 
 Sharezone is currently only available in German.  
 We might expand to more languages and regions in the future 🌍🚀
