@@ -288,12 +288,12 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
-  - purchases_flutter (6.22.0):
+  - purchases_flutter (6.27.0):
     - FlutterMacOS
-    - PurchasesHybridCommon (= 9.8.0)
-  - PurchasesHybridCommon (9.8.0):
-    - RevenueCat (= 4.37.0)
-  - RevenueCat (4.37.0)
+    - PurchasesHybridCommon (= 10.4.1)
+  - PurchasesHybridCommon (10.4.1):
+    - RevenueCat (= 4.40.1)
+  - RevenueCat (4.40.1)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -498,9 +498,9 @@ SPEC CHECKSUMS:
   pdfx: d1c406047b02acc54fe98495ae24b04fe9b4f024
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  purchases_flutter: 8dc2809fd72a7ed2036361e4e36240ac95dbd5e5
-  PurchasesHybridCommon: 42fe7946cc2828b1d54b1c80068d6042e4d3d5d1
-  RevenueCat: b4fb058d7ced6a37327f6bc9636752dbc4a7235b
+  purchases_flutter: ff47324a5a489da6af3ad7e74db46bae20864e2c
+  PurchasesHybridCommon: 596ac8a54be4e03cc1398b012bd9cdf134111b70
+  RevenueCat: 9f6b84da3f00953b2eeaaa6fc4710c1d280a5710
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
   url_launcher_macos: d2691c7dd33ed713bf3544850a623080ec693d95
