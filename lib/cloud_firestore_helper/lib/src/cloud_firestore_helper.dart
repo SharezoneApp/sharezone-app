@@ -58,8 +58,8 @@ DateTime? dateTimeFromTimestampOrNull(dynamic timestamp) {
 /// the delay to be on the safe side.
 ///
 /// See:
-///   * https://stackoverflow.com/q/74454570
-///   * https://firebase.google.com/docs/firestore/best-practices#updates_to_a_single_document
+/// * https://stackoverflow.com/q/74454570
+/// * https://firebase.google.com/docs/firestore/best-practices#updates_to_a_single_document
 Future<void> waitForFirestoreWriteLimit({
   Duration delay = const Duration(milliseconds: 200),
 }) async {
