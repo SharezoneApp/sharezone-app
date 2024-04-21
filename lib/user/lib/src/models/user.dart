@@ -38,6 +38,8 @@ class AppUser {
   final Features? features;
   final Subscription? subscription;
 
+  final Map<String, dynamic> legalData;
+
   AppUser._({
     required this.id,
     required this.name,
@@ -56,27 +58,28 @@ class AppUser {
     required this.createdOn,
     this.features,
     required this.subscription,
+    required this.legalData,
   });
 
   factory AppUser.create({required String id}) {
     return AppUser._(
-      id: id,
-      name: "Anonymer Account",
-      abbreviation: "AA",
-      typeOfUser: TypeOfUser.student,
-      notificationTokens: [],
-      reminderTime: "18:00",
-      referralLink: null,
-      referredBy: null,
-      referralScore: 0,
-      state: StateEnum.anonymous,
-      blackboardNotifications: true,
-      commentsNotifications: true,
-      userSettings: UserSettings.defaultSettings(),
-      userTipData: UserTipData.empty(),
-      createdOn: null,
-      subscription: null,
-    );
+        id: id,
+        name: "Anonymer Account",
+        abbreviation: "AA",
+        typeOfUser: TypeOfUser.student,
+        notificationTokens: [],
+        reminderTime: "18:00",
+        referralLink: null,
+        referredBy: null,
+        referralScore: 0,
+        state: StateEnum.anonymous,
+        blackboardNotifications: true,
+        commentsNotifications: true,
+        userSettings: UserSettings.defaultSettings(),
+        userTipData: UserTipData.empty(),
+        createdOn: null,
+        subscription: null,
+        legalData: {});
   }
 
   factory AppUser.fromData(Map<String, dynamic>? data, {required String id}) {
@@ -98,6 +101,7 @@ class AppUser {
         userTipData: UserTipData.empty(),
         createdOn: null,
         subscription: null,
+        legalData: {},
       );
     }
     return AppUser._(
@@ -119,6 +123,8 @@ class AppUser {
       createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       features: Features.fromJson(data['features']),
       subscription: Subscription.fromData(data['subscription']),
+      legalData: decodeMap(data['legal'] ?? {},
+          (key, decodedMapValue) => decodedMapValue as Map),
     );
   }
 
@@ -194,6 +200,7 @@ class AppUser {
       referredBy: referredBy,
       features: features ?? this.features,
       subscription: subscription ?? this.subscription,
+      legalData: legalData,
     );
   }
 }
