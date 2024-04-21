@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:user/user.dart';
 
@@ -13,7 +15,9 @@ class SubscriptionService {
   final Stream<AppUser?> user;
   final SubscriptionEnabledFlag isSubscriptionEnabledFlag;
 
+  late Stream<SharezonePlusStatus?> sharezonePlusStatusStream;
   late AppUser? _user;
+  late StreamSubscription<AppUser?> _userSubscription;
   bool _isEnabled = false;
 
   SubscriptionService({
@@ -24,7 +28,8 @@ class SubscriptionService {
     isSubscriptionEnabledFlag.addListener(() {
       _isEnabled = isSubscriptionEnabledFlag.isEnabled;
     });
-    user.listen((event) {
+    sharezonePlusStatusStream = user.map((event) => event?.sharezonePlus);
+    _userSubscription = user.listen((event) {
       _user = event;
     });
   }
@@ -63,6 +68,10 @@ class SubscriptionService {
 
   SubscriptionSource? getSource() {
     return _user?.sharezonePlus?.source;
+  }
+
+  void dispose() {
+    _userSubscription.cancel();
   }
 }
 

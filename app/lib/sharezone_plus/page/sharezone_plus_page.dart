@@ -109,20 +109,13 @@ class _UnsubscribeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final price =
-        context.watch<SharezonePlusPageController>().monthlySubscriptionPrice;
-    final priceIsLoading = price == null;
-
-    return Column(
-      key: const ValueKey('unsubscribe-section'),
+    return const Column(
+      key: ValueKey('unsubscribe-section'),
       children: [
-        priceIsLoading
-            ? const SharezonePlusPriceLoadingIndicator()
-            : SharezonePlusPrice(price),
-        const SizedBox(height: 12),
-        const _UnsubscribeText(),
-        const SizedBox(height: 12),
-        const _UnsubscribeButton(),
+        SizedBox(height: 12),
+        _UnsubscribeText(),
+        SizedBox(height: 12),
+        _UnsubscribeButton(),
       ],
     );
   }

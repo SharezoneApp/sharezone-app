@@ -30,10 +30,10 @@ class SharezonePlusPageController extends ChangeNotifier {
   late CrashAnalytics _crashAnalytics;
   late StripeCheckoutSession _stripeCheckoutSession;
   late UserId _userId;
-
   late BuyingFlagApi _buyingFlagApi;
 
   StreamSubscription<bool>? _hasPlusSubscription;
+  StreamSubscription<SharezonePlusStatus?>? _sharezonePlusStatusSubscription;
 
   SharezonePlusPageController({
     required RevenueCatPurchaseService purchaseService,
@@ -47,17 +47,39 @@ class SharezonePlusPageController extends ChangeNotifier {
     _subscriptionService = subscriptionService;
     _stripeCheckoutSession = stripeCheckoutSession;
     _userId = userId;
-    hasPlus = subscriptionService.isSubscriptionActive();
     monthlySubscriptionPrice = fallbackPlusMonthlyPrice;
     lifetimePrice = fallbackPlusLifetimePrice;
     _buyingFlagApi = buyingFlagApi;
     _crashAnalytics = crashAnalytics;
   }
 
+  void listenToStatus() {
+    final statusStream = _subscriptionService.sharezonePlusStatusStream;
+    _sharezonePlusStatusSubscription = statusStream.listen((status) {
+      if (_status != status) {
+        _status = status;
+
+        // The loading is started when buy process starts and stopped when the
+        // status is updated. Therefore, the loading is still displayed even if
+        // our payment provider (like RevenueCat) has already processed the
+        // payment but the status is not yet updated in the database.
+        isPurchaseButtonLoading = false;
+
+        notifyListeners();
+      }
+    });
+  }
+
+  SharezonePlusStatus? _status;
+
   /// Whether the user has a Sharezone Plus subscription.
   ///
   /// If `null` then the status is still loading.
-  bool? hasPlus;
+  // bool? get hasPlus => _status?.hasPlus;
+  bool? get hasPlus => true;
+
+  /// Whether the user has a Sharezone Plus subscription that is cancelled.
+  bool get isCancelled => _status?.isCancelled ?? false;
 
   /// The price for the Sharezone Plus per month, including the currency sign.
   ///
@@ -84,9 +106,6 @@ class SharezonePlusPageController extends ChangeNotifier {
   PurchasePeriod selectedPurchasePeriod = PurchasePeriod.monthly;
 
   Future<void> buy() async {
-    isPurchaseButtonLoading = true;
-    notifyListeners();
-
     try {
       await _buyOnWeb();
 
@@ -98,10 +117,9 @@ class SharezonePlusPageController extends ChangeNotifier {
       // }
     } catch (e, s) {
       _crashAnalytics.recordError('Error when buying Sharezone Plus: $e', s);
-      rethrow;
-    } finally {
       isPurchaseButtonLoading = false;
       notifyListeners();
+      rethrow;
     }
   }
 
@@ -188,6 +206,7 @@ class SharezonePlusPageController extends ChangeNotifier {
   @override
   void dispose() {
     _hasPlusSubscription?.cancel();
+    _sharezonePlusStatusSubscription?.cancel();
     super.dispose();
   }
 }
