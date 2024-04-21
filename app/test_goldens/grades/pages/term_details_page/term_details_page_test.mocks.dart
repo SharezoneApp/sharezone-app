@@ -3,16 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i6;
+import 'dart:ui' as _i7;
 
+import 'package:analytics/analytics.dart' as _i4;
 import 'package:crash_analytics/crash_analytics.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i5;
+import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:sharezone/grades/grades_service/grades_service.dart' as _i2;
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller.dart'
-    as _i4;
+    as _i5;
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart'
-    as _i7;
+    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -58,9 +59,19 @@ class _FakeCrashAnalytics_2 extends _i1.SmartFake
         );
 }
 
-class _FakeTermDetailsPageController_3 extends _i1.SmartFake
-    implements _i4.TermDetailsPageController {
-  _FakeTermDetailsPageController_3(
+class _FakeAnalytics_3 extends _i1.SmartFake implements _i4.Analytics {
+  _FakeAnalytics_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeTermDetailsPageController_4 extends _i1.SmartFake
+    implements _i5.TermDetailsPageController {
+  _FakeTermDetailsPageController_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -73,21 +84,21 @@ class _FakeTermDetailsPageController_3 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockTermDetailsPageController extends _i1.Mock
-    implements _i4.TermDetailsPageController {
+    implements _i5.TermDetailsPageController {
   @override
-  _i4.TermDetailsPageState get state => (super.noSuchMethod(
+  _i5.TermDetailsPageState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i5.dummyValue<_i4.TermDetailsPageState>(
+        returnValue: _i6.dummyValue<_i5.TermDetailsPageState>(
           this,
           Invocation.getter(#state),
         ),
-        returnValueForMissingStub: _i5.dummyValue<_i4.TermDetailsPageState>(
+        returnValueForMissingStub: _i6.dummyValue<_i5.TermDetailsPageState>(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i4.TermDetailsPageState);
+      ) as _i5.TermDetailsPageState);
   @override
-  set state(_i4.TermDetailsPageState? _state) => super.noSuchMethod(
+  set state(_i5.TermDetailsPageState? _state) => super.noSuchMethod(
         Invocation.setter(
           #state,
           _state,
@@ -131,11 +142,31 @@ class MockTermDetailsPageController extends _i1.Mock
         ),
       ) as _i3.CrashAnalytics);
   @override
+  _i4.Analytics get analytics => (super.noSuchMethod(
+        Invocation.getter(#analytics),
+        returnValue: _FakeAnalytics_3(
+          this,
+          Invocation.getter(#analytics),
+        ),
+        returnValueForMissingStub: _FakeAnalytics_3(
+          this,
+          Invocation.getter(#analytics),
+        ),
+      ) as _i4.Analytics);
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+  @override
+  void deleteTerm() => super.noSuchMethod(
+        Invocation.method(
+          #deleteTerm,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -145,7 +176,7 @@ class MockTermDetailsPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -153,7 +184,7 @@ class MockTermDetailsPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -174,7 +205,7 @@ class MockTermDetailsPageController extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockTermDetailsPageControllerFactory extends _i1.Mock
-    implements _i7.TermDetailsPageControllerFactory {
+    implements _i8.TermDetailsPageControllerFactory {
   @override
   _i2.GradesService get gradesService => (super.noSuchMethod(
         Invocation.getter(#gradesService),
@@ -200,25 +231,37 @@ class MockTermDetailsPageControllerFactory extends _i1.Mock
         ),
       ) as _i3.CrashAnalytics);
   @override
-  _i4.TermDetailsPageController create(_i2.TermId? termId) =>
+  _i4.Analytics get analytics => (super.noSuchMethod(
+        Invocation.getter(#analytics),
+        returnValue: _FakeAnalytics_3(
+          this,
+          Invocation.getter(#analytics),
+        ),
+        returnValueForMissingStub: _FakeAnalytics_3(
+          this,
+          Invocation.getter(#analytics),
+        ),
+      ) as _i4.Analytics);
+  @override
+  _i5.TermDetailsPageController create(_i2.TermId? termId) =>
       (super.noSuchMethod(
         Invocation.method(
           #create,
           [termId],
         ),
-        returnValue: _FakeTermDetailsPageController_3(
+        returnValue: _FakeTermDetailsPageController_4(
           this,
           Invocation.method(
             #create,
             [termId],
           ),
         ),
-        returnValueForMissingStub: _FakeTermDetailsPageController_3(
+        returnValueForMissingStub: _FakeTermDetailsPageController_4(
           this,
           Invocation.method(
             #create,
             [termId],
           ),
         ),
-      ) as _i4.TermDetailsPageController);
+      ) as _i5.TermDetailsPageController);
 }

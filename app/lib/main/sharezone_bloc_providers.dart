@@ -421,18 +421,22 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => gradesService,
       ),
       ChangeNotifierProvider(
-        create: (context) => GradesPageController(gradesService: gradesService),
+        create: (context) => GradesPageController(
+          gradesService: gradesService,
+        ),
       ),
       Provider(
         create: (context) => TermDetailsPageControllerFactory(
           gradesService: gradesService,
           crashAnalytics: crashAnalytics,
+          analytics: analytics,
         ),
       ),
       Provider(
         create: (context) => GradeDetailsPageControllerFactory(
           gradesService: gradesService,
           crashAnalytics: crashAnalytics,
+          analytics: analytics,
         ),
       ),
       Provider(
@@ -440,6 +444,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
           gradesService: gradesService,
           coursesStream: () => api.course.streamCourses(),
+          analytics: analytics,
         ),
       ),
       Provider(

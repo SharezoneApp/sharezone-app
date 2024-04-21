@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page_view.dart';
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 
 class SubjectSettingsPageController extends ChangeNotifier {
   final GradesService gradesService;
@@ -35,7 +36,14 @@ class SubjectSettingsPageController extends ChangeNotifier {
     _finalGradeTypeDisplayName = _getFinalGradeTypeDisplayName(finalGradeType);
     _finalGradeTypeIcon = _getFinalGradeTypeIcon(finalGradeType);
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
-    _weights = subject.gradeTypeWeights;
+
+    if (subject.weightType == WeightType.inheritFromTerm) {
+      // We show the weights from the term, but we need to copy them into the
+      // subject if the user changes them.
+      _weights = _getTerm()!.gradeTypeWeightings;
+    } else {
+      _weights = subject.gradeTypeWeights;
+    }
 
     state = SubjectSettingsLoaded(view);
   }
@@ -95,10 +103,43 @@ class SubjectSettingsPageController extends ChangeNotifier {
     );
   }
 
-  void setGradeWeight({
+  /// Copies the weights from the term to the subject if the subject is set to
+  /// inherit the weights from the term.
+  ///
+  /// This method is called before changing the weights of a subject.
+  Future<void> _maybeCopyWeightsFromTerm() async {
+    if (_getSubject()!.weightType != WeightType.inheritFromTerm) {
+      // Subject has its own weights, no need to copy from term.
+      return;
+    }
+
+    // In the constructor, we already copied the weights from the term. But they
+    // were only copied into the state. Now we need to copy them into the
+    // database.
+    for (final gradeType in _weights.keys) {
+      gradesService.changeGradeTypeWeightForSubject(
+        id: subjectId,
+        termId: termId,
+        gradeType: gradeType,
+        weight: _weights[gradeType]!,
+      );
+      await waitForFirestoreWriteLimit();
+    }
+
+    gradesService.changeSubjectWeightTypeSettings(
+      id: subjectId,
+      termId: termId,
+      perGradeType: WeightType.perGradeType,
+    );
+    await waitForFirestoreWriteLimit();
+  }
+
+  Future<void> setGradeWeight({
     required GradeTypeId gradeTypeId,
     required Weight weight,
-  }) {
+  }) async {
+    await _maybeCopyWeightsFromTerm();
+
     gradesService.changeGradeTypeWeightForSubject(
       id: subjectId,
       termId: termId,
@@ -106,19 +147,21 @@ class SubjectSettingsPageController extends ChangeNotifier {
       weight: weight,
     );
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
-    _weights = _getSubject()!.gradeTypeWeights;
+    _weights = _weights.add(gradeTypeId, weight);
     state = SubjectSettingsLoaded(view);
     notifyListeners();
   }
 
-  void removeGradeType(GradeTypeId gradeTypeId) {
+  Future<void> removeGradeType(GradeTypeId gradeTypeId) async {
+    await _maybeCopyWeightsFromTerm();
+
     gradesService.removeGradeTypeWeightForSubject(
       id: subjectId,
       termId: termId,
       gradeType: gradeTypeId,
     );
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
-    _weights = _getSubject()!.gradeTypeWeights;
+    _weights = _weights.remove(gradeTypeId);
     state = SubjectSettingsLoaded(view);
     notifyListeners();
   }

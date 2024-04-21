@@ -8,10 +8,11 @@
 
 import 'dart:async';
 
+import 'package:analytics/analytics.dart';
 import 'package:collection/collection.dart';
 import 'package:crash_analytics/crash_analytics.dart';
-import 'package:date/date.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
@@ -21,12 +22,14 @@ class TermDetailsPageController extends ChangeNotifier {
   final TermId termId;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
+  final Analytics analytics;
   late StreamSubscription<TermResult?> _termStreamSubscription;
 
   TermDetailsPageController({
     required this.termId,
     required this.gradesService,
     required this.crashAnalytics,
+    required this.analytics,
   }) {
     _termStreamSubscription = _getTermStream(termId).listen((term) {
       if (term == null) {
@@ -48,7 +51,8 @@ class TermDetailsPageController extends ChangeNotifier {
                       grade: displayGrade(grade.value),
                       gradeTypeIcon: _getGradeTypeIcon(grade.gradeTypeId),
                       title: grade.title,
-                      date: grade.date,
+                      date:
+                          DateFormat('dd.MM.yyyy').format(grade.date.toDateTime)
                     ))
                 .toList()
           );
@@ -72,6 +76,8 @@ class TermDetailsPageController extends ChangeNotifier {
       crashAnalytics.recordError('Could not stream term: $error', stack);
       notifyListeners();
     });
+
+    _logOpenTermDetails();
   }
 
   Icon _getGradeTypeIcon(GradeTypeId gradeTypeId) {
@@ -94,6 +100,11 @@ class TermDetailsPageController extends ChangeNotifier {
 
   void deleteTerm() {
     gradesService.deleteTerm(termId);
+    analytics.log(NamedAnalyticsEvent(name: 'term_deleted'));
+  }
+
+  void _logOpenTermDetails() {
+    analytics.log(NamedAnalyticsEvent(name: 'term_details_opened'));
   }
 
   @override
@@ -116,7 +127,7 @@ typedef SavedGradeView = ({
   GradeView grade,
   Icon gradeTypeIcon,
   String title,
-  Date date,
+  String date,
 });
 
 class TermDetailsPageLoaded extends TermDetailsPageState {

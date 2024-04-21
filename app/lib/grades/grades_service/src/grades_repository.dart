@@ -57,9 +57,9 @@ class InMemoryGradesStateRepository extends GradesStateRepository {
     // We use the Firestore Repository methods so we test the (de)serialization
     // even in our unit tests, which means a bigger test coverage.
     _data = FirestoreGradesStateRepository.toDto(state);
-    // debugPrint(json.encode(_data, toEncodable: (val) {
+    // debugPrint(json.encode(data, toEncodable: (val) {
     //   if (val is Timestamp) {
-    //     return val.toDate().toIso8601String();
+    //     return val.millisecondsSinceEpoch;
     //   }
     // }));
     this.state.add(FirestoreGradesStateRepository.fromData(_data));
@@ -77,6 +77,12 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         final data = event.data() as Map<String, Object?>;
         final newState = fromData(data);
         state.add(newState);
+
+        // debugPrint(json.encode(data, toEncodable: (val) {
+        //   if (val is Timestamp) {
+        //     return val.millisecondsSinceEpoch;
+        //   }
+        // }));
       }
     });
   }
@@ -235,8 +241,8 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
       var (:subject, :termSubjectObj) = s;
       var (:termSubject, :termId) = termSubjectObj;
 
-      final subTerm = termDtos.firstWhere(
-          (term) => term.subjects.any((sub) => sub.id == subject.id.id));
+      final subTerm =
+          termDtos.firstWhere((term) => term.id == termSubjectObj.termId);
       return SubjectModel(
         id: subject.id,
         termId: TermId(subTerm.id),

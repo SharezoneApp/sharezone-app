@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:analytics/analytics.dart';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
@@ -26,6 +27,7 @@ class GradesDialogController extends ChangeNotifier {
   final CrashAnalytics crashAnalytics;
   late StreamSubscription<List<Course>> _coursesStreamSubscription;
   late StreamSubscription<IList<TermResult>> _termsStreamSubscription;
+  final Analytics analytics;
 
   GradesDialogView get view {
     final subject = _selectSubjectId != null
@@ -91,6 +93,7 @@ class GradesDialogController extends ChangeNotifier {
     required this.gradesService,
     required this.coursesStream,
     required this.crashAnalytics,
+    required this.analytics,
   }) {
     _selectedTermId = _getActiveTermId();
     _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
@@ -362,6 +365,7 @@ class GradesDialogController extends ChangeNotifier {
     }
 
     _addGradeToGradeService();
+    _logGradeAdded();
   }
 
   /// Validates the fields and returns the invalid ones.
@@ -422,6 +426,10 @@ class GradesDialogController extends ChangeNotifier {
       crashAnalytics.recordError('Error saving grade: $e', s);
       throw UnknownSaveGradeException(e);
     }
+  }
+
+  void _logGradeAdded() {
+    analytics.log(NamedAnalyticsEvent(name: 'grade_added'));
   }
 
   void _createSubject() {
