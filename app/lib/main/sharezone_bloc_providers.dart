@@ -106,6 +106,7 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/c
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart';
 import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_analytics.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
@@ -349,6 +350,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,
           crashAnalytics: crashAnalytics,
+          analytics: SharezonePlusPageAnalytics(analytics),
           stripeCheckoutSession: StripeCheckoutSession(
             createCheckoutSessionFunctionUrl: widget
                 .blocDependencies.remoteConfiguration

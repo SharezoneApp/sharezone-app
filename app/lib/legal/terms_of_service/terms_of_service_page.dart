@@ -12,7 +12,10 @@ import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
 
 class TermsOfServicePage extends StatelessWidget {
-  static const tag = "terms-of-service-page";
+  // When you change the tag, you also need to change the tag in the
+  // `styled_markdown_text.dart` because the tag is used on the Sharezone Plus
+  // page.
+  static const tag = "terms-of-service";
 
   const TermsOfServicePage({super.key});
 

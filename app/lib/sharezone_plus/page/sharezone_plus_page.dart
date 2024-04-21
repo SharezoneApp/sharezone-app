@@ -64,12 +64,7 @@ class SharezonePlusPageMain extends StatelessWidget {
                     const SizedBox(height: 18),
                     const WhyPlusSharezoneCard(),
                     const SizedBox(height: 18),
-                    SharezonePlusAdvantages(
-                      isHomeworkDoneListsFeatureVisible:
-                          typeOfUser == TypeOfUser.teacher,
-                      isHomeworkReminderFeatureVisible:
-                          typeOfUser == TypeOfUser.student,
-                    ),
+                    _Advantages(typeOfUser: typeOfUser),
                     const SizedBox(height: 18),
                     const _CallToActionSection(),
                     const SizedBox(height: 32),
@@ -83,6 +78,30 @@ class SharezonePlusPageMain extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Advantages extends StatelessWidget {
+  const _Advantages({
+    required this.typeOfUser,
+  });
+
+  final TypeOfUser? typeOfUser;
+
+  @override
+  Widget build(BuildContext context) {
+    return SharezonePlusAdvantages(
+      isHomeworkDoneListsFeatureVisible: typeOfUser == TypeOfUser.teacher,
+      isHomeworkReminderFeatureVisible: typeOfUser == TypeOfUser.student,
+      onOpenedAdvantage: (advantage) {
+        final analytics = context.read<SharezonePlusPageController>();
+        analytics.logOpenedAdvantage(advantage);
+      },
+      onGitHubOpen: () {
+        final analytics = context.read<SharezonePlusPageController>();
+        analytics.logOpenGitHub();
+      },
     );
   }
 }

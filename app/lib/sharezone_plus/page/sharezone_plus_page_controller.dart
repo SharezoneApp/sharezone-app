@@ -13,6 +13,7 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_analytics.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
@@ -31,6 +32,7 @@ class SharezonePlusPageController extends ChangeNotifier {
   late StripeCheckoutSession _stripeCheckoutSession;
   late UserId _userId;
   late BuyingFlagApi _buyingFlagApi;
+  late SharezonePlusPageAnalytics _analytics;
 
   StreamSubscription<bool>? _hasPlusSubscription;
   StreamSubscription<SharezonePlusStatus?>? _sharezonePlusStatusSubscription;
@@ -42,6 +44,7 @@ class SharezonePlusPageController extends ChangeNotifier {
     required CrashAnalytics crashAnalytics,
     required UserId userId,
     required BuyingFlagApi buyingFlagApi,
+    required SharezonePlusPageAnalytics analytics,
   }) {
     _purchaseService = purchaseService;
     _subscriptionService = subscriptionService;
@@ -51,6 +54,7 @@ class SharezonePlusPageController extends ChangeNotifier {
     lifetimePrice = fallbackPlusLifetimePrice;
     _buyingFlagApi = buyingFlagApi;
     _crashAnalytics = crashAnalytics;
+    _analytics = analytics;
   }
 
   void listenToStatus() {
@@ -111,6 +115,10 @@ class SharezonePlusPageController extends ChangeNotifier {
 
   Future<void> buy() async {
     try {
+      _analytics.logSubscribed(
+        selectedPurchasePeriod.name,
+        PlatformCheck.currentPlatform.name,
+      );
       await _buyOnWeb();
 
       // if (PlatformCheck.isWeb) {
@@ -172,6 +180,7 @@ class SharezonePlusPageController extends ChangeNotifier {
 
   Future<void> cancelSubscription() async {
     try {
+      _analytics.logCancelledSubscription();
       final source = _subscriptionService.getSource();
       if (source == null) {
         throw StateError(
@@ -214,6 +223,18 @@ class SharezonePlusPageController extends ChangeNotifier {
   void setPeriodOption(PurchasePeriod period) {
     selectedPurchasePeriod = period;
     notifyListeners();
+  }
+
+  void logOpenedAdvantage(String advantage) {
+    _analytics.logOpenedAdvantage(advantage);
+  }
+
+  void logOpenedFaq(String question) {
+    _analytics.logOpenedFaq(question);
+  }
+
+  void logOpenGitHub() {
+    _analytics.logOpenGitHub();
   }
 
   @override

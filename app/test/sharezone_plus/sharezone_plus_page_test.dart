@@ -64,6 +64,15 @@ class MockSharezonePlusPageController extends ChangeNotifier
 
   @override
   bool get hasLifetime => throw UnimplementedError();
+
+  @override
+  void logOpenGitHub() {}
+
+  @override
+  void logOpenedAdvantage(String advantage) {}
+
+  @override
+  void logOpenedFaq(String question) {}
 }
 
 void main() {

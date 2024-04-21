@@ -34,8 +34,8 @@ class StyledMarkdownText extends StatelessWidget {
       onTapLink: (text, href, title) async {
         if (href == null) return;
 
-        if (href == 'https://sharezone.net/privacy-policy') {
-          Navigator.pushNamed(context, 'privacy-policy');
+        if (href == 'https://sharezone.net/terms-of-service') {
+          Navigator.pushNamed(context, 'terms-of-service');
           return;
         }
 
