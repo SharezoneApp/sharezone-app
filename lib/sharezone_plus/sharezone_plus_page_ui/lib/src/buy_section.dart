@@ -48,9 +48,13 @@ class BuySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 250),
       layoutBuilder: (currentChild, previousChildren) {
         return Stack(
+          // We need to align the children at the top to prevent the children
+          // from being centered when the previous child is removed. Otherwise,
+          // the new child will be centered and then move to the top (which
+          // looks weird).
           alignment: Alignment.topCenter,
           children: <Widget>[
             ...previousChildren,
@@ -61,22 +65,29 @@ class BuySection extends StatelessWidget {
       child: Column(
         key: ValueKey([isPriceLoading, currentPeriod]),
         children: [
-          _PeriodOption(
-            name: 'Monatlich',
-            price: monthlyPrice,
-            period: PurchasePeriod.monthly,
-            currentPeriod: currentPeriod,
-            onPeriodChanged: onPeriodChanged,
-            isLoading: isPriceLoading,
-          ),
-          const SizedBox(height: 6),
-          _PeriodOption(
-            name: 'Lifetime (einmaliger Kauf)',
-            price: lifetimePrice,
-            period: PurchasePeriod.lifetime,
-            currentPeriod: currentPeriod,
-            onPeriodChanged: onPeriodChanged,
-            isLoading: isPriceLoading,
+          MaxWidthConstraintBox(
+            maxWidth: 500,
+            child: Column(
+              children: [
+                _PeriodOption(
+                  name: 'Monatlich',
+                  price: monthlyPrice,
+                  period: PurchasePeriod.monthly,
+                  currentPeriod: currentPeriod,
+                  onPeriodChanged: onPeriodChanged,
+                  isLoading: isPriceLoading,
+                ),
+                const SizedBox(height: 6),
+                _PeriodOption(
+                  name: 'Lifetime (einmaliger Kauf)',
+                  price: lifetimePrice,
+                  period: PurchasePeriod.lifetime,
+                  currentPeriod: currentPeriod,
+                  onPeriodChanged: onPeriodChanged,
+                  isLoading: isPriceLoading,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 12),
           _PurchaseButton(
