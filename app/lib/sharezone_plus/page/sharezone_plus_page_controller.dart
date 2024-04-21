@@ -171,26 +171,35 @@ class SharezonePlusPageController extends ChangeNotifier {
   }
 
   Future<void> cancelSubscription() async {
-    final source = _subscriptionService.getSource();
-    if (source == null) {
-      throw StateError(
-          '$SubscriptionSource was null, can not cancel subscription.');
-    }
-
-    if (!canCancelSubscription(source)) {
-      throw CanNotCancelOnThisPlatform(source);
-    }
-
-    if (PlatformCheck.isWeb) {
-      // ...
-    } else {
-      final managementUrl = await _purchaseService.getManagementUrl();
-      if (managementUrl != null) {
-        await launchUrl(Uri.parse(managementUrl));
-      } else {
-        throw const CouldNotGetManagementUrl();
+    try {
+      final source = _subscriptionService.getSource();
+      if (source == null) {
+        throw StateError(
+            '$SubscriptionSource was null, can not cancel subscription.');
       }
+
+      if (!canCancelSubscription(source)) {
+        throw CanNotCancelOnThisPlatform(source);
+      }
+
+      if (source == SubscriptionSource.stripe) {
+        await _cancelStripeSubscription();
+      } else {
+        final managementUrl = await _purchaseService.getManagementUrl();
+        if (managementUrl != null) {
+          await launchUrl(Uri.parse(managementUrl));
+        } else {
+          throw const CouldNotGetManagementUrl();
+        }
+      }
+    } catch (e, s) {
+      _crashAnalytics.recordError('Error when canceling Sharezone Plus: $e', s);
+      rethrow;
     }
+  }
+
+  Future<void> _cancelStripeSubscription() async {
+    await _subscriptionService.cancelStripeSubscription();
   }
 
   bool canCancelSubscription(SubscriptionSource source) {

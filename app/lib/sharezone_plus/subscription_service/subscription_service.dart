@@ -8,10 +8,12 @@
 
 import 'dart:async';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:user/user.dart';
 
 class SubscriptionService {
   final Stream<AppUser?> user;
+  final FirebaseFunctions functions;
 
   late Stream<SharezonePlusStatus?> sharezonePlusStatusStream;
   late StreamSubscription<AppUser?> _userSubscription;
@@ -19,6 +21,7 @@ class SubscriptionService {
 
   SubscriptionService({
     required this.user,
+    required this.functions,
   }) {
     sharezonePlusStatusStream = user.map((event) => event?.sharezonePlus);
     _userSubscription = user.listen((event) {
@@ -49,6 +52,10 @@ class SubscriptionService {
 
   SubscriptionSource? getSource() {
     return _user?.sharezonePlus?.source;
+  }
+
+  Future<void> cancelStripeSubscription() async {
+    await functions.httpsCallable('cancelStripeSubscription').call();
   }
 
   void dispose() {

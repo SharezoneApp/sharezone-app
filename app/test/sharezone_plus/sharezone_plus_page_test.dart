@@ -61,6 +61,9 @@ class MockSharezonePlusPageController extends ChangeNotifier
 
   @override
   void listenToStatus() {}
+
+  @override
+  bool get hasLifetime => throw UnimplementedError();
 }
 
 void main() {

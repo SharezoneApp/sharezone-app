@@ -317,7 +317,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         CloudFunctionHolidayApiClient(api.references.functions);
 
     const clock = Clock();
-    final subscriptionService = SubscriptionService(user: api.user.userStream);
+    final subscriptionService = SubscriptionService(
+      user: api.user.userStream,
+      functions: widget.blocDependencies.functions,
+    );
 
     final feedbackApi = FirebaseFeedbackApi(firestore);
 
