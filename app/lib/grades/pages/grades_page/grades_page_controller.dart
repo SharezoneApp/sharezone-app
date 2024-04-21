@@ -29,14 +29,14 @@ class GradesPageController extends ChangeNotifier {
         CurrentTermView? currentTerm;
 
         if (activeTerm != null) {
-          final subjectGrades = activeTerm.subjects
-              .expand<SubjectView>((subject) => subject.grades.map((grade) => (
-                    id: subject.id,
-                    abbreviation: subject.abbreviation,
-                    displayName: subject.name,
-                    grade: displayGrade(grade.value),
-                    design: subject.design,
-                  )))
+          final subjects = activeTerm.subjects
+              .map((s) => (
+                    id: s.id,
+                    abbreviation: s.abbreviation,
+                    displayName: s.name,
+                    grade: displayGrade(s.calculatedGrade),
+                    design: s.design
+                  ))
               .toIList();
 
           currentTerm = (
@@ -45,7 +45,7 @@ class GradesPageController extends ChangeNotifier {
               displayGrade(activeTerm.calculatedGrade),
               GradePerformance.good,
             ),
-            subjects: subjectGrades.toList(),
+            subjects: subjects.toList(),
             displayName: activeTerm.name,
           );
         }

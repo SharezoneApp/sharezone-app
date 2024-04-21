@@ -52,3 +52,16 @@ DateTime? dateTimeFromTimestampOrNull(dynamic timestamp) {
   final microsecondsSinceEpoch = timestamp.microsecondsSinceEpoch;
   return DateTime.fromMicrosecondsSinceEpoch(microsecondsSinceEpoch);
 }
+
+/// Firestore had a soft limit of 1 write per second per document. However,
+/// this limit isn't mentioned in the documentation anymore. We still keep
+/// the delay to be on the safe side.
+///
+/// See:
+/// * https://stackoverflow.com/q/74454570
+/// * https://firebase.google.com/docs/firestore/best-practices#updates_to_a_single_document
+Future<void> waitForFirestoreWriteLimit({
+  Duration delay = const Duration(milliseconds: 200),
+}) async {
+  await Future.delayed(delay);
+}

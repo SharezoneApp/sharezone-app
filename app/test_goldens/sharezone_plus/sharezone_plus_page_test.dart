@@ -11,13 +11,11 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
-import 'package:sharezone/grades/grades_flag.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -26,7 +24,6 @@ import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/nav
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -43,7 +40,6 @@ import 'sharezone_plus_page_test.mocks.dart';
   MockSpec<SharezoneGateway>(),
   MockSpec<UserGateway>(),
   MockSpec<HasUnreadFeedbackMessagesProvider>(),
-  MockSpec<GradesEnabledFlag>(),
 ])
 void main() {
   group(SharezonePlusPage, () {
@@ -93,22 +89,12 @@ void main() {
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [
-            ChangeNotifierProvider<SubscriptionEnabledFlag>(
-              create: (context) => SubscriptionEnabledFlag(
-                InMemoryKeyValueStore({
-                  SubscriptionEnabledFlag.cacheKey: true,
-                }),
-              ),
-            ),
             ChangeNotifierProvider<SharezonePlusPageController>(
               create: (context) => controller,
             ),
             Provider<TypeOfUser?>.value(value: TypeOfUser.student),
             ChangeNotifierProvider<HasUnreadFeedbackMessagesProvider>.value(
                 value: hasUnreadFeedbackMessagesProvider),
-            ChangeNotifierProvider<GradesEnabledFlag>(
-              create: (context) => MockGradesEnabledFlag(),
-            ),
           ],
           child: MultiBlocProvider(
             blocProviders: [

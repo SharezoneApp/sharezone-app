@@ -78,14 +78,14 @@ void main() {
                 (
                   id: GradeId('1'),
                   gradeTypeIcon: const Icon(Icons.note_add),
-                  date: Date.fromDateTime(DateTime(2021, 2, 2)),
+                  date: Date.fromDateTime(DateTime(2021, 2, 2)).toDateString,
                   grade: '1,0',
                   title: 'Klausur',
                 ),
                 (
                   id: GradeId('2'),
                   gradeTypeIcon: const Icon(Icons.text_format),
-                  date: Date.fromDateTime(DateTime(2021, 2, 1)),
+                  date: Date.fromDateTime(DateTime(2021, 2, 1)).toDateString,
                   grade: '2+',
                   title: 'Vokabeltest',
                 ),

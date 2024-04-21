@@ -64,7 +64,6 @@ import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
-import 'package:sharezone/grades/grades_flag.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
@@ -110,7 +109,6 @@ import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_c
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
@@ -319,15 +317,9 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         CloudFunctionHolidayApiClient(api.references.functions);
 
     const clock = Clock();
-    final subscriptionEnabledFlag = context.read<SubscriptionEnabledFlag>();
-    final subscriptionService = SubscriptionService(
-      user: api.user.userStream,
-      isSubscriptionEnabledFlag: subscriptionEnabledFlag,
-    );
+    final subscriptionService = SubscriptionService(user: api.user.userStream);
 
     final feedbackApi = FirebaseFeedbackApi(firestore);
-    final gradesEnabledFlag =
-        GradesEnabledFlag(widget.blocDependencies.keyValueStore);
 
     final userDocRef = api.references.users.doc(api.uID);
     final gradesService = GradesService(
@@ -418,7 +410,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           userId: api.userId,
         ),
       ),
-      ChangeNotifierProvider.value(value: gradesEnabledFlag),
       Provider<GradesService>(
         create: (context) => gradesService,
       ),
@@ -549,8 +540,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
           analytics: analytics,
           appFunctions: api.references.functions,
-          subscriptionEnabledFlag: subscriptionEnabledFlag,
-          gradesEnabledFlag: gradesEnabledFlag,
           keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),
