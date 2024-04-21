@@ -26,7 +26,7 @@ Future<void> navigateToSharezonePlusPage(BuildContext context) async {
 }
 
 class SharezonePlusPage extends StatelessWidget {
-  static String tag = 'sharezone-plus-page';
+  static const String tag = 'sharezone-plus-page';
 
   const SharezonePlusPage({super.key});
 
