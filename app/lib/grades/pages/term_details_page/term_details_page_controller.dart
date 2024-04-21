@@ -51,7 +51,8 @@ class TermDetailsPageController extends ChangeNotifier {
                       grade: displayGrade(grade.value),
                       gradeTypeIcon: _getGradeTypeIcon(grade.gradeTypeId),
                       title: grade.title,
-                      date: DateFormat.yMd().format(grade.date.toDateTime)
+                      date:
+                          DateFormat('dd.MM.yyyy').format(grade.date.toDateTime)
                     ))
                 .toList()
           );
