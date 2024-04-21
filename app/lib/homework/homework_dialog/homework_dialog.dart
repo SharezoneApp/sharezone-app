@@ -410,8 +410,8 @@ class _TodoUntilPicker extends StatelessWidget {
             ),
             if (showLessonChips)
               dueDateChipsUnlocked
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 4, left: 3.0),
+                  ? const Padding(
+                      padding: EdgeInsets.only(top: 4, left: 3.0),
                       child: _DueDateChips(
                         initialChips: IListConst([
                           DueDateSelection.nextSchoolday,
@@ -420,7 +420,7 @@ class _TodoUntilPicker extends StatelessWidget {
                         ]),
                       ),
                     )
-                  : _DueDateChipsLockedPlus(),
+                  : const _DueDateChipsLockedPlus(),
           ],
         ),
       ),
@@ -429,9 +429,7 @@ class _TodoUntilPicker extends StatelessWidget {
 }
 
 class _DueDateChipsLockedPlus extends StatelessWidget {
-  const _DueDateChipsLockedPlus({
-    super.key,
-  });
+  const _DueDateChipsLockedPlus();
 
   @override
   Widget build(BuildContext context) {
