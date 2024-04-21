@@ -25,6 +25,8 @@ import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:test_randomness/test_randomness.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
@@ -41,6 +43,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
+import '../pages/settings/notification_page_test.mocks.dart';
 import 'homework_dialog_bloc_test.dart';
 @GenerateNiceMocks([
   MockSpec<DocumentReference>(),
@@ -266,28 +269,33 @@ void main() {
             .thenAnswer((_) => Future.value(homework));
       }
       homeworkDialogApi.homeworkToReturn = homework;
+      final subscriptionService = MockSubscriptionService();
+      when(subscriptionService.hasFeatureUnlocked(any)).thenReturn(true);
 
       await withClock(clockOverride ?? clock, () async {
         await tester.pumpWidget(
-          MultiBlocProvider(
-            blocProviders: [
-              BlocProvider<TimePickerSettingsCache>(
-                bloc: TimePickerSettingsCache(
-                  InMemoryStreamingKeyValueStore(),
+          Provider<SubscriptionService>(
+            create: (context) => subscriptionService,
+            child: MultiBlocProvider(
+              blocProviders: [
+                BlocProvider<TimePickerSettingsCache>(
+                  bloc: TimePickerSettingsCache(
+                    InMemoryStreamingKeyValueStore(),
+                  ),
                 ),
-              ),
-              BlocProvider<MarkdownAnalytics>(
-                bloc: MarkdownAnalytics(analytics),
-              ),
-              BlocProvider<SharezoneContext>(bloc: sharezoneContext),
-            ],
-            child: (context) => MaterialApp(
-              home: Scaffold(
-                body: HomeworkDialog(
-                  homeworkDialogApi: homeworkDialogApi,
-                  nextLessonCalculator: nextLessonCalculator,
-                  id: homework?.id != null ? HomeworkId(homework!.id) : null,
-                  showDueDateSelectionChips: showDueDateSelectionChips,
+                BlocProvider<MarkdownAnalytics>(
+                  bloc: MarkdownAnalytics(analytics),
+                ),
+                BlocProvider<SharezoneContext>(bloc: sharezoneContext),
+              ],
+              child: (context) => MaterialApp(
+                home: Scaffold(
+                  body: HomeworkDialog(
+                    homeworkDialogApi: homeworkDialogApi,
+                    nextLessonCalculator: nextLessonCalculator,
+                    id: homework?.id != null ? HomeworkId(homework!.id) : null,
+                    showDueDateSelectionChips: showDueDateSelectionChips,
+                  ),
                 ),
               ),
             ),
