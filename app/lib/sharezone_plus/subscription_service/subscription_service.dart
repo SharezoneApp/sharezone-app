@@ -42,6 +42,10 @@ class SubscriptionService {
   }
 
   bool hasFeatureUnlocked(SharezonePlusFeature feature) {
+    // Sharezone Plus is currently only available for students. Thus every other
+    // type of user has all features unlocked.
+    if (!_user!.typeOfUser.isStudent) return true;
+
     if (!isSubscriptionActive()) return false;
     return true;
   }
@@ -73,4 +77,5 @@ enum SharezonePlusFeature {
   moreGroupColors,
   addEventToLocalCalendar,
   viewPastEvents,
+  homeworkDueDateChips,
 }
