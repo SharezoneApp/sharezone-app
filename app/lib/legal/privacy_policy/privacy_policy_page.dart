@@ -23,8 +23,22 @@ class PrivacyPolicyPage extends StatelessWidget {
     PrivacyPolicy? privacyPolicy,
     PrivacyPolicyPageConfig? config,
     this.showBackButton = true,
-  })  : privacyPolicy = privacyPolicy ?? v2PrivacyPolicy,
-        config = config ?? PrivacyPolicyPageConfig(),
+  })  : privacyPolicy = privacyPolicy ?? v1PrivacyPolicy,
+        config = config ??
+            PrivacyPolicyPageConfig(
+              // When replacing the v1 privacy policy with the v2 this can be
+              // deleted.
+              //
+              // For v1 we purposefully have to set a threshold higher up in the
+              // page since the introdution section is so short that the second
+              // section is already highlighted as currently read when opening
+              // the page (since the second section title touches the
+              // threshold).
+              // With using this as the threshold the first section is
+              // highlighted as currently read instead of the second section
+              // when opening the page.
+              threshold: const CurrentlyReadThreshold(0.08),
+            ),
         anchorController = AnchorController();
 
   final PrivacyPolicy privacyPolicy;
