@@ -9,11 +9,11 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
-import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
-import 'package:sharezone/sharezone_v2/anb_page.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -149,7 +149,7 @@ class _DialogState extends State<_Dialog> {
 }
 
 class _SharezonePlus extends StatelessWidget {
-  const _SharezonePlus({super.key});
+  const _SharezonePlus();
 
   @override
   Widget build(BuildContext context) {
@@ -163,30 +163,30 @@ class _SharezonePlus extends StatelessWidget {
 }
 
 class _OtherChanges extends StatelessWidget {
-  const _OtherChanges({super.key});
+  const _OtherChanges();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // Text('Weitere Änderungen',
         //     style: Theme.of(context).textTheme.headlineSmall),
-        const _JustText(markdownText: '## Weitere Änderungen'),
-        const SizedBox(height: 10),
-        const _Card(
+        _JustText(markdownText: '## Weitere Änderungen'),
+        SizedBox(height: 10),
+        _Card(
           header: Text('Geänderte Rechtsform'),
           body: Text(
               'Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.'),
         ),
-        const SizedBox(height: 12),
-        const _Card(
+        SizedBox(height: 12),
+        _Card(
           header: Text('Überarbeitung der Datenschutzerklärung'),
           body: Text(
               'Wir haben die Datenschutzerklärung einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden. Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung).'),
         ),
-        const SizedBox(height: 12),
-        const _Card(
+        SizedBox(height: 12),
+        _Card(
           header: Text('Allgemeine Nutzungsbedingungen (ANB)'),
           body: Text(
               'Wir haben neue allgemeinen Nutzungsbedingungen (“ANB”), die für die zukünftige Nutzung von Sharezone akzeptiert werden müssen.'),
@@ -283,7 +283,7 @@ class _FinalPageState extends State<_FinalPage>
           },
           onLinkTap: (text, href, title) {
             if (href == 'anb') {
-              Navigator.of(context).pushNamed(AnbPage.tag);
+              Navigator.of(context).pushNamed(TermsOfServicePage.tag);
             }
           },
         ),
