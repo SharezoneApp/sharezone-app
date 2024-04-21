@@ -55,6 +55,12 @@ class MockSharezonePlusPageController extends ChangeNotifier
 
   @override
   PurchasePeriod selectedPurchasePeriod = PurchasePeriod.monthly;
+
+  @override
+  bool get isCancelled => throw UnimplementedError();
+
+  @override
+  void listenToStatus() {}
 }
 
 void main() {
