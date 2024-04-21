@@ -102,6 +102,9 @@ void main() {
       expect($('German Course Trip to Berlin'), findsOneWidget);
     });
 
+    // Integration test for the "isBuyingEnabled" flag. It's important to test
+    // this flag because it's used to determine whether the user can buy the
+    // Sharezone Plus subscription.
     patrolTest('"isBuyingEnabled" flag callable', config: config, ($) async {
       final client = http.Client();
       BuyingFlagApi api = BuyingFlagApi(client: client);
