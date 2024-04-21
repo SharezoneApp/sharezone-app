@@ -80,6 +80,8 @@ void main() {
 
       when(controller.monthlySubscriptionPrice)
           .thenAnswer((_) => fallbackPlusMonthlyPrice);
+      when(controller.lifetimePrice)
+          .thenAnswer((_) => fallbackPlusLifetimePrice);
     });
 
     Future<void> pumpPlusPage(
