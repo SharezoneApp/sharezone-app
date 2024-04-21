@@ -11,8 +11,8 @@ import 'dart:async';
 import 'package:analytics/analytics.dart';
 import 'package:collection/collection.dart';
 import 'package:crash_analytics/crash_analytics.dart';
-import 'package:date/date.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
@@ -51,7 +51,8 @@ class TermDetailsPageController extends ChangeNotifier {
                       grade: displayGrade(grade.value),
                       gradeTypeIcon: _getGradeTypeIcon(grade.gradeTypeId),
                       title: grade.title,
-                      date: grade.date,
+                      date:
+                          DateFormat('dd.MM.yyyy').format(grade.date.toDateTime)
                     ))
                 .toList()
           );
@@ -126,7 +127,7 @@ typedef SavedGradeView = ({
   GradeView grade,
   Icon gradeTypeIcon,
   String title,
-  Date date,
+  String date,
 });
 
 class TermDetailsPageLoaded extends TermDetailsPageState {
