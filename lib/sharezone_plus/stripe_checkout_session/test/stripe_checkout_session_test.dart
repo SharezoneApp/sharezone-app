@@ -37,6 +37,7 @@ void main() {
 
     test('returns checkout url when passing user ID', () async {
       const userId = '123';
+      const period = 'monthly';
       when(
         client.post(
           Uri.parse(functionsUrl),
@@ -47,6 +48,7 @@ void main() {
             'userId': userId,
             'successUrl': successUrl,
             'cancelUrl': cancelUrl,
+            'period': period,
           }),
         ),
       ).thenAnswer((_) async => http.Response('{"url": "$testUrl"}', 200));
@@ -55,7 +57,7 @@ void main() {
         userId: userId,
         successUrl: Uri.parse(successUrl),
         cancelUrl: Uri.parse(cancelUrl),
-        period: 'monthly',
+        period: period,
       );
 
       expect(result, equals(testUrl));
@@ -63,6 +65,7 @@ void main() {
 
     test('returns checkout url when passing buysFor ID', () async {
       const buysFor = '456';
+      const period = 'monthly';
       when(
         client.post(
           Uri.parse(functionsUrl),
@@ -73,6 +76,7 @@ void main() {
             'buysFor': buysFor,
             'successUrl': successUrl,
             'cancelUrl': cancelUrl,
+            'period': period,
           }),
         ),
       ).thenAnswer((_) async => http.Response('{"url": "$testUrl"}', 200));
@@ -81,7 +85,7 @@ void main() {
         buysFor: buysFor,
         successUrl: Uri.parse(successUrl),
         cancelUrl: Uri.parse(cancelUrl),
-        period: 'monthly',
+        period: period,
       );
 
       expect(result, equals(testUrl));
