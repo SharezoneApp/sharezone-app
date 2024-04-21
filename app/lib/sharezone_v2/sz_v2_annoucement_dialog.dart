@@ -342,7 +342,8 @@ class _FinalPageState extends State<_FinalPage>
         ),
         const SizedBox(height: 30),
         _JustText(
-          markdownText: 'Deine personenbezogenen Daten werden gemäß unserer '
+          markdownText:
+              'Deine personenbezogenen Daten werden gemäß unserer aktualisierten '
               '[Datenschutzerklärung](https://sharezone.net/datenschutz) verarbeitet.',
           onLinkTap: (text, href, title) {
             Navigator.of(context).pushNamed(PrivacyPolicyPage.tag);
