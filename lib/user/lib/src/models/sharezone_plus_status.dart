@@ -21,13 +21,15 @@ class SharezonePlusStatus {
   final SubscriptionSource? source;
 
   /// Whether the user has a lifetime subscription.
-  final bool hasLifetime;
+  bool get hasLifetime => period == 'lifetime';
+
+  final String? period;
 
   const SharezonePlusStatus({
     required this.hasPlus,
     required this.isCancelled,
     required this.source,
-    required this.hasLifetime,
+    required this.period,
   });
 
   static SharezonePlusStatus? fromData(Map<String, dynamic>? map) {
@@ -40,7 +42,7 @@ class SharezonePlusStatus {
       hasPlus: map['hasPlus'] ?? false,
       isCancelled: map['isCancelled'] ?? false,
       source: parseSource(map['subscriptionDetails']),
-      hasLifetime: map['period'] == 'lifetime',
+      period: map['period'],
     );
   }
 
@@ -61,6 +63,7 @@ class SharezonePlusStatus {
         other.hasPlus == hasPlus &&
         other.isCancelled == isCancelled &&
         other.source == source &&
+        other.period == period &&
         other.hasLifetime == hasLifetime;
   }
 
@@ -69,17 +72,22 @@ class SharezonePlusStatus {
     return hasPlus.hashCode ^
         isCancelled.hashCode ^
         source.hashCode ^
+        period.hashCode ^
         hasLifetime.hashCode;
   }
 }
 
 enum SubscriptionSource {
-  playStore('Play Store'),
-  appStore('App Store'),
-  stripe('Stripe'),
-  unknown('Unknown');
+  playStore(uiString: 'Play Store', stableAnalyticsKey: 'playstore'),
+  appStore(uiString: 'App Store', stableAnalyticsKey: 'appstore'),
+  stripe(uiString: 'Stripe', stableAnalyticsKey: 'stripe'),
+  unknown(uiString: 'Unknown', stableAnalyticsKey: 'unknown');
 
-  const SubscriptionSource(this.uiString);
+  const SubscriptionSource({
+    required this.uiString,
+    required this.stableAnalyticsKey,
+  });
 
   final String uiString;
+  final String stableAnalyticsKey;
 }
