@@ -145,6 +145,11 @@
         "type": 302
       },
       {
+        "source": "/dse-v2-0-2-pdf",
+        "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Legal%2FDatenschutzerkl%C3%A4rung%20Sharezone%20v2.0.2.pdf?alt=media&token=f0cba553-3255-4708-816d-bdc23610ba3e",
+        "type": 302
+      },
+      {
         "source": "/anb-v1-0-0-pdf",
         "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Legal%2FAllgemeine%20Nutzungsbedingungen%20Sharezone%20v1.0.0.pdf?alt=media&token=6d1bf44c-5a07-4d5b-820b-db65a613b033",
         "type": 302
