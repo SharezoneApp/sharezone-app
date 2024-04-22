@@ -159,7 +159,7 @@ Eure Daten: Die von euch in der App hinzugefügten Daten, Posts, Dateien (z. B. 
 
 Diese Daten könnt ihr selbst jederzeit löschen. Löscht ihr euren Account, ohne zuvor eure Inhalte zu löschen, so wird euer Nickname bei den Inhalten bei der Angabe „Erstellt von“ anonymisiert. Die Inhalte bleiben für die anderen Gruppenmitglieder weiterhin verfügbar. Kommentare bei Inhalten oder Nachrichten im Messenger von dir werden gelöscht.
 
-Einzig beim Dienst Firebase Authentication (zur Authentifizierung der Nutzer erforderlich) und Firebase Hosting (zur Web-Hosting der [Web App](https://web.sharezone.net), unserer [Webseite](https://sharezone.net) und unserer [Dokumentation](https://docs.sharezone.net)) werden möglicherweise Daten außerhalb der EU verarbeitet. Weitere Informationen dazu werden in [17. Datenübertragung in Drittländer außerhalb der EU](#17-datenübertragung-in-drittländer-außerhalb-der-eu) beschrieben. Soweit Daten in den USA verarbeitet werden, weisen wir daraufhin, dass [Google unter dem Data Privacy Framework zertifiziert ist](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active) und hierdurch zusichert, das europäische Datenschutzrecht einzuhalten.
+Einzig beim Dienst Firebase Authentication (zur Authentifizierung der Nutzer erforderlich) und Firebase Hosting (zur Web-Hosting der [Web App](https://web.sharezone.net), unserer [Webseite](https://sharezone.net) und unserer [Dokumentation](https://docs.sharezone.net)) werden möglicherweise Daten außerhalb der EU verarbeitet. Weitere Informationen dazu werden in [19. Datenübertragung in Drittländer außerhalb der EU](#19-datenuebertragung-in-drittlaender-ausserhalb-der-eu) beschrieben. Soweit Daten in den USA verarbeitet werden, weisen wir daraufhin, dass [Google unter dem Data Privacy Framework zertifiziert ist](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active) und hierdurch zusichert, das europäische Datenschutzrecht einzuhalten.
 
 Des Weiteren haben wir mit Google einen sog. „Auftragsverarbeitungsvertrag“ geschlossen, der sicherstellt, dass Google nur nach unseren Anweisungen handelt und sich im Übrigen auch nach diesem Vertrag an die Vorgaben der europäischen Datenschutzgesetze, insbesondere an die der DSGVO hält.
 
@@ -195,11 +195,11 @@ Wenn ihr älter als 16 Jahre alt seid, erfolgt die Verarbeitung der vorgenannten
 > * Beschwerde bei der Datenschutzaufsichtsbehörde einlegen
 >  
 > Bitte meldet euch an die folgende Adresse:
->  
+>
 > E-Mail: support@sharezone.net
 >
 > Bitte beachtet, dass bei der Löschung oder Beschränkung von den zwingend erforderlichen Daten die App nicht genutzt werden kann.
->  
+>
 > Wenn du anonym angemeldet bist und die App deinstallierst, verlierst du Zugriff auf dein Konto und verlierst somit alle Daten, die mit dem Konto verbunden waren.
 
 Als Nutzer unserer App habt ihr nach der DSGVO verschiedene Rechte, die sich insbesondere, aber nicht abschließend aus den Art. 15 bis 18, 20, 21, 77 etc. DSGVO ergeben:
@@ -492,7 +492,7 @@ Um euch E-Mails zu schicken, nutzen wir Scaleway. Die Datenschutzbestimmungen vo
 
 In der Regel werden personenbezogene Daten, die du uns zu deiner Person mitteilst, nur durch uns verarbeitet. Zur Erfüllung unserer Aufgaben und Pflichten kann es aber erforderlich sein, dass wir die zu eurer Person gespeicherten personenbezogenen Daten gegebenenfalls gegenüber natürlichen und juristischen Personen, Behörden, Einrichtungen oder anderen Stellen gegenüber offenlegen müssen. In Betracht kommen dabei insbesondere folgende Kategorien von Empfängern:
 
-* Google Cloud, siehe oben [4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten](#4-hosting-backend-infrastruktur-und-speicherort-fr-eure-daten)
+* Google Cloud, siehe oben [4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten](#4-hosting-backend-infrastruktur-und-speicherort-fuer-eure-daten)
 * Gerichte (z.B. bei streitigen Verfahren)
 * Nicht-öffentliche Stellen sofern es sich hierbei um einen Auftragsverarbeiter handelt
 * Rechtsanwälte, Steuerberater, Notare, Wirtschaftsprüfer
@@ -513,7 +513,7 @@ Zur Nutzung von Sharezone ist es erforderlich ein Benutzerkonto zu haben (warum 
 
 Aus Sicherheitsgründen wird dabei die IP-Adresse kurzfristig geloggt und kann in den Backups [laut Google](https://firebase.google.com/support/privacy#examples_of_end-user_personal_data_processed_by_firebase) bis zu 180 Tagen verbleiben.
 
-Solltest du dein Konto mit einer E-Mail-Adresse oder einem Apple/Google-Konto verknüpft haben, werden weitere Daten verarbeitet, weil diese Information beim Einloggen erforderlich sind. Eine genaue Auflistung der Daten findest du unter [b. Registrierung mit E-Mail-Adresse \& Passwort oder Google/Apple Sign In ab einem Alter von 16 Jahren und älter](#b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-älter).
+Solltest du dein Konto mit einer E-Mail-Adresse oder einem Apple/Google-Konto verknüpft haben, werden weitere Daten verarbeitet, weil diese Information beim Einloggen erforderlich sind. Eine genaue Auflistung der Daten findest du unter [b. Registrierung mit E-Mail-Adresse & Passwort oder Google/Apple Sign In ab einem Alter von 16 Jahren und älter](#b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-aelter).
 
 Der Dienst Firebase Authentication wird in den USA von Google gehostet. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, ist [Google unter dem Data Privacy Framework zertifiziert](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active).
 
