@@ -38,6 +38,47 @@ void main() {
         'glueckwunsch-du-hast-es-geschafft',
       ]);
     });
+    test('toc real life example', () {
+      final sections = [
+        'Inhaltsverzeichnis',
+        'Vorbemerkungen / Geltungsbereich',
+        'Nutzungsvoraussetzungen',
+        'Angebotene Funktionen',
+        'Registrierung / Zustandekommen des Nutzungsvertrags',
+        'Sharezone Plus',
+        'Nutzungsrechte',
+        'Veröffentlichen von Inhalten',
+        'Verfügbarkeit der Plattform',
+        'Pflichten der Nutzer / Nutzerverhalten',
+        'Verantwortlichkeit für Inhalte der Nutzer',
+        'Haftung / Freistellungsanspruch',
+        'Beendigung des Nutzungsvertrags / Kündigung',
+        'Änderungen der Allgemeinen Nutzungsbedingungen',
+        'Datenschutz',
+        'Schlussbestimmungen',
+      ];
+
+      final anchorHashes = sections.map(generateAnchorHash).toList();
+
+      expect(anchorHashes, [
+        'inhaltsverzeichnis',
+        'vorbemerkungen--geltungsbereich',
+        'nutzungsvoraussetzungen',
+        'angebotene-funktionen',
+        'registrierung--zustandekommen-des-nutzungsvertrags',
+        'sharezone-plus',
+        'nutzungsrechte',
+        'veroeffentlichen-von-inhalten',
+        'verfuegbarkeit-der-plattform',
+        'pflichten-der-nutzer--nutzerverhalten',
+        'verantwortlichkeit-fuer-inhalte-der-nutzer',
+        'haftung--freistellungsanspruch',
+        'beendigung-des-nutzungsvertrags--kuendigung',
+        'aenderungen-der-allgemeinen-nutzungsbedingungen',
+        'datenschutz',
+        'schlussbestimmungen'
+      ]);
+    });
     test('replaces special chars', () {
       final sections = [
         r'1-?!=""§$pokémon~+',
