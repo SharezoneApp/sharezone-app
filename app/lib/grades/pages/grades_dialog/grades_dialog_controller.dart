@@ -45,6 +45,7 @@ class GradesDialogController extends ChangeNotifier {
       if (term == null) return null;
       if (subject == null) return null;
       if (termSub == null) {
+        // Default weights (50%/50%) for a new term
         if (gradeTypeId != GradeType.writtenExam.id &&
             gradeTypeId != GradeType.oralParticipation.id) {
           return Weight.zero;
