@@ -12,7 +12,9 @@ import 'dart:convert';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:analytics/analytics.dart';
+import 'package:analytics/null_analytics_backend.dart';
 import 'package:flutter/material.dart';
+import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
 
 /// [ThemeBrightness] adds a "system" value that is missing in the Flutter
@@ -79,29 +81,30 @@ class ThemeSettings extends ChangeNotifier {
   static const currentBrightnessCacheKey = 'currentBrightnessCacheKey';
 
   ThemeSettings({
-    required KeyValueStore keyValueStore,
-    required Analytics analytics,
+    KeyValueStore? keyValueStore,
+    Analytics? analytics,
 
     /// The value assigned to [textScalingFactor] if no other value is cached.
-    required double defaultTextScalingFactor,
+    double defaultTextScalingFactor = 1.0,
 
     /// The value assigned to [visualDensity] if no other value is cached.
-    required VisualDensitySetting defaultVisualDensity,
+    VisualDensitySetting? defaultVisualDensity,
 
     /// The value assigned to [themeBrightness] if no other value is cached.
-    required ThemeBrightness defaultThemeBrightness,
-  })  : _keyValueStore = keyValueStore,
-        _analytics = analytics {
+    ThemeBrightness defaultThemeBrightness = ThemeBrightness.system,
+  })  : _keyValueStore = keyValueStore ?? InMemoryKeyValueStore(),
+        _analytics = analytics ?? Analytics(NullAnalyticsBackend()) {
     _textScalingFactor =
-        keyValueStore.tryGetDouble(currentTextScalingFactorCacheKey) ??
+        _keyValueStore.tryGetDouble(currentTextScalingFactorCacheKey) ??
             defaultTextScalingFactor;
 
-    _visualDensitySetting = keyValueStore
+    _visualDensitySetting = _keyValueStore
             .tryGetString(currentVisualDensityCacheKey)
             .toVisualDensity() ??
-        defaultVisualDensity;
+        defaultVisualDensity ??
+        VisualDensitySetting.adaptivePlatformDensity();
 
-    _themeBrightness = keyValueStore
+    _themeBrightness = _keyValueStore
             .tryGetString(currentBrightnessCacheKey)
             .toThemeBrightness() ??
         defaultThemeBrightness;
