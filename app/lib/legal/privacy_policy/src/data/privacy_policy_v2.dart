@@ -113,30 +113,6 @@ DocumentSection section(
 ]) =>
     DocumentSection(DocumentSectionId(id), name, subsections.toIList());
 
-const v2TableOfContentStrings = [
-  "Einführung",
-  "1. Wichtige Begriffe",
-  "2. Geltungsbereich",
-  "3. Verantwortlichkeit und Kontakt",
-  "4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten",
-  "5. Deine Rechte",
-  "6. Eure Kontaktaufnahme",
-  "7. Unser Umgang mit euren Daten",
-  "8. Account, Nickname und Passwort",
-  "9. Verarbeitung der IP-Adresse",
-  "10. Speicherdauer und Speicherfristen",
-  "11. Verarbeitung des gewählten Account-Typs und des Bundeslandes",
-  "12. Anonyme statistische Auswertung der App-Nutzung",
-  "13. Push-Nachrichten",
-  "14. Instance ID",
-  "15. Empfänger oder Kategorien von Empfängern",
-  "16. SSL/TLS-Verschlüsselung",
-  "17. Videokonferenzen",
-  "18. Datenübertragung in Drittländer außerhalb der EU",
-  "19. Datenschutzbeauftragter",
-  "20. Vorbehalt der Änderung dieser Informationen",
-];
-
 const v2MarkdownPrivacyPolicy = """
 # Information über die Verarbeitung personenbezogener Daten
 
