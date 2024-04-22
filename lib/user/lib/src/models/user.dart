@@ -179,6 +179,7 @@ class AppUser {
     UserTipData? userTipData,
     Subscription? subscription,
     Features? features,
+    Map<String, dynamic>? legalData,
   }) {
     return AppUser._(
       id: id ?? this.id,
@@ -200,7 +201,7 @@ class AppUser {
       referredBy: referredBy,
       features: features ?? this.features,
       subscription: subscription ?? this.subscription,
-      legalData: legalData,
+      legalData: legalData ?? this.legalData,
     );
   }
 }
