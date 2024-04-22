@@ -23,7 +23,7 @@ import 'package:stripe_checkout_session/stripe_checkout_session.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:user/user.dart';
 
-const fallbackPlusMonthlyPrice = '2,99 €';
+const fallbackPlusMonthlyPrice = '1,99 €';
 const fallbackPlusLifetimePrice = '19,99 €';
 
 class SharezonePlusPageController extends ChangeNotifier {
