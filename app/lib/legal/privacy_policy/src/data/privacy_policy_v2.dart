@@ -12,16 +12,11 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../privacy_policy_src.dart';
 
-/// This is only a placeholder for the v2 of the privacy policy.
-/// Since this privacy policy has some subchapters/subsections we can use this
-/// to test the rendering of the table of contents.
-/// The real v2 will be added later.
-
 final v2PrivacyPolicy = PrivacyPolicy(
   markdownText: v2MarkdownPrivacyPolicy,
   tableOfContentSections: v2TocDocumentSections.toIList(),
-  version: '2.0.0',
-  downloadUrl: Uri.parse('https://sharezone.net/dse-v2-0-0-pdf'),
+  version: '2.0.2',
+  downloadUrl: Uri.parse('https://sharezone.net/dse-v2-0-2-pdf'),
   lastChanged: DateTime(2024, 04, 22),
 );
 
@@ -153,7 +148,7 @@ E-Mail: support@sharezone.net
 
 ## 4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten
 
-Unsere App wird in der Google Cloud Plattform (mit der Region des Rechenzentrums Frankfurt am Main und Belgien) von Google LLC (nachfolgend: “Google“), 1600 Amphitheatre Parkway, Mountain View, California 94043 USA, in unserem Auftrag und nach unseren Vorgaben technisch vorgehalten und technisch notwendig über die Backend-Infrastruktur und Softwaredienste von Google Cloud / Google Firebase betrieben, wenn und soweit nachfolgend nicht anders beschrieben sein sollte.
+Unsere App wird in der Google Cloud Plattform (mit der Region des Rechenzentrums Frankfurt am Main und Belgien) von Google Cloud EMEA Limited (nachfolgend: “Google“), 70 Sir John Rogerson’s Quay, Dublin 2, Ireland, in unserem Auftrag und nach unseren Vorgaben technisch vorgehalten und technisch notwendig über die Backend-Infrastruktur und Softwaredienste von Google Cloud / Google Firebase betrieben, wenn und soweit nachfolgend nicht anders beschrieben sein sollte.
 
 Eure Daten: Die von euch in der App hinzugefügten Daten, Posts, Dateien (z. B. Bilder, Dokumente, Angaben etc.) und weitere sonstige Informationen (**nachfolgend: „Inhalte“**) werden von Google gespeichert, damit diese euch und euren Klassen- oder Gruppenmitgliedern zur Verfügung stehen.
 
@@ -315,7 +310,7 @@ Die Registrierung mittels der Registrierungsdaten erfolgt auf eurem Wunsch, d.h.
 
 * Daneben können wir bei der Registrierung mittels der Registrierungsdaten ermöglichen, dass ihr euch von jedem Endgerät und von überall auf der Welt in unsere App einloggen könnt, sodass ihr flexibel und frei von Gerätegebundenheit arbeiten könnt.
 
-* Zudem ermöglicht die Angabe der E-Mail-Adresse dich über Aktivitäten in „Sharezone“ (z.B. Löschung von Gruppen, Erstellung von Hausaufgaben) und Aktualisierung der Datenschutzerklärung/AGBs auf dem neuesten Stand zu halten.
+* Zudem ermöglicht die Angabe der E-Mail-Adresse dich über Aktivitäten in „Sharezone“ (z.B. Löschung von Gruppen, Erstellung von Hausaufgaben) und Aktualisierung der Datenschutzerklärung/ANBs auf dem neuesten Stand zu halten.
 
 * Außerdem können wir dich über sicherheitsrelevante Informationen über deinen Account informieren (z.B. Login von einem fremden Gerät).
 
@@ -521,11 +516,11 @@ Rechtsgrundlage für die befristete Speicherung der IP-Adresse stellt für den F
 
 ### b. Firebase Hosting
 
-Über Firebase Hosting läuft das Web-Hosting der Web-App (https://web.sharezone.net), unserer Webseite (https://sharezone.net) und unserer Dokumentation (https://docs.sharezone.net). Solltest dieser Webseiten von Sharezone verwenden, schickst du eine Anfrage an Firebase Hosting, um die Seite zu laden.
+Über Firebase Hosting läuft das Web-Hosting der Web-App (https://web.sharezone.net), unserer Webseite (https://sharezone.net) und unserer Dokumentation (https://docs.sharezone.net). Solltest du eine dieser Webseiten von Sharezone verwenden, schickst du eine Anfrage an Firebase Hosting, um die Seite zu laden.
 
 Bei jedem Zugriff wird die IP-Adresse aus Sicherheitsgründen in den Logs gespeichert. Diese IP-Adresse bleibt [laut Google](https://firebase.google.com/support/privacy#examples_of_end-user_personal_data_processed_by_firebase) für ein paar Monate gespeichert. Weitere personenbezogene Daten werden bei der Nutzung von Firebase Hosting nicht verarbeitet.
 
-Der Dienst Firebase Hosting wird in den USA, Europa und Asien von Google gehostet. Je nachdem wo du dich aktuell auf der Welt befindest, wirst das nächstmögliche Rechenzentrum verwendet, um eine möglichst kurze Ladezeit zu ermöglichen. In den aller meisten Fällen solltest du mit einem Rechenzentrum aus Europa geleitet werden, wo schlussendlich die Daten verarbeitet werden. Auch wenn es unwahrscheinlich ist, könnte deine Anfrage an ein Rechenzentrum außerhalb von EU weitergeleitet werden. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, ist [Google unter dem Data Privacy Framework zertifiziert](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active).
+Der Dienst Firebase Hosting wird in den USA, Europa und Asien von Google gehostet. Je nachdem wo du dich aktuell auf der Welt befindest, wird das nächstmögliche Rechenzentrum verwendet, um eine möglichst kurze Ladezeit zu ermöglichen. In den aller meisten Fällen solltest du zu einem Rechenzentrum aus Europa geleitet werden, wo schlussendlich die Daten verarbeitet werden. Auch wenn es unwahrscheinlich ist, könnte deine Anfrage an ein Rechenzentrum außerhalb von EU weitergeleitet werden. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, ist [Google unter dem Data Privacy Framework zertifiziert](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active).
 
 Rechtsgrundlage für die befristete Speicherung der IP-Adresse stellt für den Fall einer Registrierung nach Ziffer 9 lit. b. eure Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) für die Nutzung des Dienstes dar. Im Übrigen erfolgt die technisch zwingend erforderliche Speicherung aufgrund eures und unseres berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO), euch die Web-App performant zur Verfügung zu stellen.
 
