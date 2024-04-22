@@ -97,26 +97,27 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
   );
 
   @override
-  void updateState(GradesState state) {
+  Future<void> updateState(GradesState state) async {
     final stateBefore = this.state.value;
-
-    final data = toDto(state);
-    gradesDocumentRef.set(data, SetOptions(merge: true));
 
     // If our state is empty, we assume that the user might have just created
     // their first term which is why this method was called. Thus we want to add
     // a createdOn field to the top level of the document (if it doesn't exist
-    // yet).
+    // yet). This will create the document so that .update below will work.
     if (stateBefore.isEmpty) {
-      tryAddTopLevelCreatedOn();
+      await maybeAddTopLevelCreatedOn();
     }
+
+    final data = toDto(state);
+    // Adding the top level createdOn should've created the document if it
+    // didn't exist yet. Thus we can use update instead of set here.
+    gradesDocumentRef.update(data);
   }
 
-  Future<void> tryAddTopLevelCreatedOn() async {
-    final snap =
-        await gradesDocumentRef.get(const GetOptions(source: Source.cache));
+  Future<void> maybeAddTopLevelCreatedOn() async {
+    final snap = await gradesDocumentRef.get();
     final data = snap.data();
-    if (data is Map && data['createdOn'] == null) {
+    if (!snap.exists || (data is Map && data['createdOn'] == null)) {
       gradesDocumentRef.set(
           {'createdOn': FieldValue.serverTimestamp()}, SetOptions(merge: true));
     }
