@@ -33,6 +33,8 @@ dependencies:
     path: ../key_value_store
   sharezone_widgets:
     path: ../sharezone_widgets
+  sharezone_utils:
+    path: ../sharezone_utils
   mockito: ^5.4.4
   equatable: ^2.0.5
   scrollable_positioned_list: ^0.3.8

@@ -16,7 +16,7 @@ import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/nav
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_bloc.dart';
 import 'package:sharezone/settings/src/widgets/settings_subpage_settings.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../../../support/support_page.dart';

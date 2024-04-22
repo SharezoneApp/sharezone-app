@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
 import 'package:sharezone/widgets/avatar_card.dart';

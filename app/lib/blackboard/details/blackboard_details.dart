@@ -20,7 +20,7 @@ import 'package:sharezone/filesharing/dialog/attachment_list.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
