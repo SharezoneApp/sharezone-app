@@ -322,6 +322,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       user: api.user.userStream,
       functions: widget.blocDependencies.functions,
     );
+    trySetSharezonePlusAnalyticsUserProperties(
+        analytics, crashAnalytics, subscriptionService);
 
     final feedbackApi = FirebaseFeedbackApi(firestore);
 

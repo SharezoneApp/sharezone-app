@@ -8,7 +8,9 @@
 
 import 'dart:async';
 
+import 'package:analytics/analytics.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:crash_analytics/crash_analytics.dart';
 import 'package:user/user.dart';
 
 class SubscriptionService {
@@ -78,4 +80,33 @@ enum SharezonePlusFeature {
   addEventToLocalCalendar,
   viewPastEvents,
   homeworkDueDateChips,
+}
+
+void trySetSharezonePlusAnalyticsUserProperties(Analytics analytics,
+    CrashAnalytics crashAnalytics, SubscriptionService subscriptionService) {
+  try {
+    subscriptionService.sharezonePlusStatusStream.listen((final status) {
+      if (status != null) {
+        analytics.setUserProperty(
+          name: 'has_plus',
+          value: status.hasPlus.toString(),
+        );
+        if (status.period != null) {
+          analytics.setUserProperty(
+            name: 'plus_period',
+            value: status.period!,
+          );
+        }
+        var source = status.source ?? SubscriptionSource.unknown;
+        analytics.setUserProperty(
+          name: 'plus_source',
+          value: source.stableDbKey,
+        );
+      }
+    });
+  } catch (e) {
+    crashAnalytics
+        .log('Error setting user properties regarding Sharezone Plus: $e');
+    crashAnalytics.recordError(e, StackTrace.current);
+  }
 }
