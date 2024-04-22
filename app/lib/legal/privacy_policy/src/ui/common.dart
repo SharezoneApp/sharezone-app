@@ -20,7 +20,10 @@ import 'ui.dart';
 class PrivacyPolicyHeading extends StatelessWidget {
   const PrivacyPolicyHeading({
     super.key,
+    required this.headingText,
   });
+
+  final String headingText;
 
   @override
   Widget build(BuildContext context) {

@@ -16,11 +16,13 @@ class MainContentWide extends StatelessWidget {
   const MainContentWide({
     required this.privacyPolicy,
     this.showBackButton = true,
+    this.headingText = 'Datenschutzerklärung',
     super.key,
   });
 
   final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
+  final String headingText;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class MainContentWide extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const PrivacyPolicyHeading(),
+                          PrivacyPolicyHeading(headingText: headingText),
                           if (privacyPolicy.hasNotYetEnteredIntoForce)
                             Padding(
                               padding: const EdgeInsets.symmetric(

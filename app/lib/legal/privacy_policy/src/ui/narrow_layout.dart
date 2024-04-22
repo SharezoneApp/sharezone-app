@@ -13,12 +13,14 @@ import 'ui.dart';
 class MainContentNarrow extends StatelessWidget {
   const MainContentNarrow({
     required this.privacyPolicy,
+    this.headingText = 'Datenschutzerklärung',
     this.showBackButton = true,
     super.key,
   });
 
   final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
+  final String headingText;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class MainContentNarrow extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const PrivacyPolicyHeading(),
+                        PrivacyPolicyHeading(headingText: headingText),
                         if (privacyPolicy.hasNotYetEnteredIntoForce)
                           Padding(
                             padding: const EdgeInsets.symmetric(

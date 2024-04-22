@@ -23,6 +23,7 @@ class PrivacyPolicyPage extends StatelessWidget {
     PrivacyPolicy? privacyPolicy,
     PrivacyPolicyPageConfig? config,
     this.showBackButton = true,
+    this.headingText = 'Datenschutzerklärung',
   })  : privacyPolicy = privacyPolicy ?? v2PrivacyPolicy,
         config = config ?? PrivacyPolicyPageConfig(),
         anchorController = AnchorController();
@@ -31,6 +32,7 @@ class PrivacyPolicyPage extends StatelessWidget {
   final PrivacyPolicyPageConfig config;
   final AnchorController anchorController;
   final bool showBackButton;
+  final String headingText;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +85,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                         return MainContentWide(
                           privacyPolicy: privacyPolicy,
                           showBackButton: showBackButton,
+                          headingText: headingText,
                         );
                       } else if (constraints.maxWidth > 500 &&
                           constraints.maxHeight > 400) {
@@ -91,6 +94,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                         return MainContentNarrow(
                           privacyPolicy: privacyPolicy,
                           showBackButton: showBackButton,
+                          headingText: headingText,
                         );
                       } else {
                         tocController.changeExpansionBehavior(ExpansionBehavior
@@ -98,6 +102,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                         return MainContentMobile(
                           privacyPolicy: privacyPolicy,
                           showBackButton: showBackButton,
+                          headingText: headingText,
                         );
                       }
                     }),
