@@ -125,8 +125,7 @@ class SharezonePlusPageController extends ChangeNotifier {
       if (PlatformCheck.isWeb) {
         await _buyOnWeb();
       } else {
-        await _purchaseService
-            .purchase(const ProductId('default-dev-plus-subscription'));
+        await _purchaseService.purchase(_getProductId());
       }
     } catch (e, s) {
       _crashAnalytics.recordError('Error when buying Sharezone Plus: $e', s);
@@ -134,6 +133,25 @@ class SharezonePlusPageController extends ChangeNotifier {
       notifyListeners();
       rethrow;
     }
+  }
+
+  ProductId _getProductId() {
+    final platform = PlatformCheck.currentPlatform;
+    return switch (selectedPurchasePeriod) {
+      PurchasePeriod.lifetime => switch (platform) {
+          Platform.android => const ProductId('sz_plus_lifetime_play_store'),
+          Platform.iOS ||
+          Platform.macOS =>
+            const ProductId('sz_plus_lifetime_app_store'),
+          _ => throw UnsupportedError('Platform $platform is not supported.'),
+        },
+      PurchasePeriod.monthly => switch (platform) {
+          Platform.android =>
+            const ProductId('sz_plus_subscription_play_store:monthly'),
+          Platform.iOS || Platform.macOS => const ProductId('?'),
+          _ => throw UnsupportedError('Platform $platform is not supported.'),
+        },
+    };
   }
 
   Future<bool> isBuyingEnabled() async {
