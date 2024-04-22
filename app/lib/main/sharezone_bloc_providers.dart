@@ -345,7 +345,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       ChangeNotifierProvider(
         create: (context) => SharezonePlusPageController(
-          buyingFlagApi: BuyingFlagApi(client: http.Client()),
+          buyingFlagApi: BuyingEnabledApi(client: http.Client()),
           userId: UserId(api.uID),
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,

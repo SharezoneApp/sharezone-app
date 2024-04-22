@@ -107,7 +107,7 @@ void main() {
     // Sharezone Plus subscription.
     patrolTest('"isBuyingEnabled" flag callable', config: config, ($) async {
       final client = http.Client();
-      BuyingFlagApi api = BuyingFlagApi(client: client);
+      BuyingEnabledApi api = BuyingEnabledApi(client: client);
 
       expect(await api.isBuyingEnabled() != BuyingFlag.unknown, true);
     });

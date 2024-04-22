@@ -13,10 +13,10 @@ import 'package:helper_functions/helper_functions.dart';
 import 'package:http/http.dart' as http;
 import 'package:retry/retry.dart';
 
-class BuyingFlagApi {
+class BuyingEnabledApi {
   final http.Client _client;
 
-  const BuyingFlagApi({
+  const BuyingEnabledApi({
     required http.Client client,
   }) : _client = client;
 

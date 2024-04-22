@@ -32,7 +32,7 @@ class SharezonePlusPageController extends ChangeNotifier {
   late CrashAnalytics _crashAnalytics;
   late StripeCheckoutSession _stripeCheckoutSession;
   late UserId _userId;
-  late BuyingFlagApi _buyingFlagApi;
+  late BuyingEnabledApi _buyingFlagApi;
   late SharezonePlusPageAnalytics _analytics;
 
   StreamSubscription<bool>? _hasPlusSubscription;
@@ -44,7 +44,7 @@ class SharezonePlusPageController extends ChangeNotifier {
     required StripeCheckoutSession stripeCheckoutSession,
     required CrashAnalytics crashAnalytics,
     required UserId userId,
-    required BuyingFlagApi buyingFlagApi,
+    required BuyingEnabledApi buyingFlagApi,
     required SharezonePlusPageAnalytics analytics,
   }) {
     _purchaseService = purchaseService;
@@ -145,7 +145,8 @@ class SharezonePlusPageController extends ChangeNotifier {
     return switch (flag) {
       BuyingFlag.enabled => true,
       BuyingFlag.disabled => false,
-      BuyingFlag.unknown => throw const CouldNotDetermineIsBuyingEnabled(),
+      BuyingFlag.unknown =>
+        throw const CouldNotDetermineIsBuyingEnabledException(),
     };
   }
 
@@ -189,7 +190,7 @@ class SharezonePlusPageController extends ChangeNotifier {
       }
 
       if (!canCancelSubscription(source)) {
-        throw CanNotCancelOnThisPlatform(source);
+        throw CanNotCancelOnThisPlatformException(source);
       }
 
       if (source == SubscriptionSource.stripe) {
@@ -199,7 +200,7 @@ class SharezonePlusPageController extends ChangeNotifier {
         if (managementUrl != null) {
           await launchUrl(Uri.parse(managementUrl));
         } else {
-          throw const CouldNotGetManagementUrl();
+          throw const CouldNotGetManagementUrlException();
         }
       }
     } catch (e, s) {
@@ -246,16 +247,16 @@ class SharezonePlusPageController extends ChangeNotifier {
   }
 }
 
-class CanNotCancelOnThisPlatform implements Exception {
+class CanNotCancelOnThisPlatformException implements Exception {
   final SubscriptionSource? source;
 
-  const CanNotCancelOnThisPlatform(this.source);
+  const CanNotCancelOnThisPlatformException(this.source);
 }
 
-class CouldNotGetManagementUrl implements Exception {
-  const CouldNotGetManagementUrl();
+class CouldNotGetManagementUrlException implements Exception {
+  const CouldNotGetManagementUrlException();
 }
 
-class CouldNotDetermineIsBuyingEnabled implements Exception {
-  const CouldNotDetermineIsBuyingEnabled();
+class CouldNotDetermineIsBuyingEnabledException implements Exception {
+  const CouldNotDetermineIsBuyingEnabledException();
 }
