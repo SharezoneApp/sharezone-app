@@ -67,9 +67,7 @@ class _DrawerItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final typeOfUser =
-        BlocProvider.of<SharezoneContext>(context).api.user.data?.typeOfUser ??
-            TypeOfUser.unknown;
+    final typeOfUser = context.watch<TypeOfUser?>() ?? TypeOfUser.unknown;
     return SafeArea(
       right: false,
       child: Column(
