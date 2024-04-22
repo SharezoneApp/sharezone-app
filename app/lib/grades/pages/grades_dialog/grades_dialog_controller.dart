@@ -38,6 +38,41 @@ class GradesDialogController extends ChangeNotifier {
         ? terms.firstWhere((t) => t.id == _selectedTermId)
         : null;
 
+    final termSub =
+        term?.subjects.firstWhereOrNull((s) => s.id == _selectSubjectId);
+
+    Weight? getWeightFor(GradeTypeId gradeTypeId) {
+      if (term == null) return null;
+      if (subject == null) return null;
+      if (termSub == null) {
+        // Default weights (50%/50%) for a new term
+        if (gradeTypeId != GradeType.writtenExam.id &&
+            gradeTypeId != GradeType.oralParticipation.id) {
+          return Weight.zero;
+        }
+        return null;
+      }
+
+      return switch (termSub.weightType) {
+        WeightType.inheritFromTerm => term.gradeTypeWeightings.isNotEmpty
+            ? term.gradeTypeWeightings[gradeTypeId] ?? Weight.zero
+            : null,
+        WeightType.perGradeType => termSub.gradeTypeWeights.isNotEmpty
+            ? termSub.gradeTypeWeights[gradeTypeId] ?? Weight.zero
+            : null,
+        WeightType.perGrade => throw UnimplementedError(),
+      };
+    }
+
+    var takeIntoAccountState = TakeIntoAccountState.enabled;
+    if (getWeightFor(_gradeType.id) == Weight.zero) {
+      takeIntoAccountState = TakeIntoAccountState.disabledGradeTypeWithNoWeight;
+    }
+    if (_gradingSystemOfSelectedTerm != null &&
+        _gradingSystem != _gradingSystemOfSelectedTerm) {
+      takeIntoAccountState = TakeIntoAccountState.disabledWrongGradingSystem;
+    }
+
     final posGradesRes = gradesService.getPossibleGrades(_gradingSystem);
     SelectableGrades selectableGrades = (
       distinctGrades: _getPossibleDistinctGrades(posGradesRes),
@@ -84,7 +119,7 @@ class GradesDialogController extends ChangeNotifier {
       isGradeMissing: _isGradeMissing,
       selectedGradeErrorText: _gradeErrorText,
       isTermMissing: _isTermMissing,
-      isTakeIntoAccountEnabled: _isTakeIntoAccountEnabled,
+      takeIntoAccountState: takeIntoAccountState,
       gradeFieldController: _gradeFieldController,
     );
   }
@@ -103,7 +138,6 @@ class GradesDialogController extends ChangeNotifier {
     _gradeType = GradeType.writtenExam;
     _title = _gradeType.predefinedType?.toUiString();
     _takeIntoAccount = true;
-    _isTakeIntoAccountEnabled = true;
     _titleController = TextEditingController(text: _title);
     _subjects = gradesService.getSubjects();
     _gradeFieldController = TextEditingController();
@@ -220,7 +254,6 @@ class GradesDialogController extends ChangeNotifier {
     // likely that the grade and the grade system doesn't match anymore.
     _resetGradeField();
     _gradingSystem = res;
-    _isTakeIntoAccountEnabled = res == _gradingSystemOfSelectedTerm;
     notifyListeners();
   }
 
@@ -254,7 +287,6 @@ class GradesDialogController extends ChangeNotifier {
   TermId? _selectedTermId;
   late bool _isTermMissing;
   GradingSystem? _gradingSystemOfSelectedTerm;
-  late bool _isTakeIntoAccountEnabled;
   IList<TermResult> _selectableTerms = IList(const []);
   void setTerm(TermId res) {
     _selectedTermId = res;
@@ -268,7 +300,6 @@ class GradesDialogController extends ChangeNotifier {
       _gradingSystem = gradingSystemOfTerm;
     }
 
-    _isTakeIntoAccountEnabled = _gradingSystem == gradingSystemOfTerm;
     _gradingSystemOfSelectedTerm = gradingSystemOfTerm;
 
     notifyListeners();
@@ -399,6 +430,22 @@ class GradesDialogController extends ChangeNotifier {
       details = _detailsController.text;
     }
 
+    final takeIntoAccount =
+        switch ((_takeIntoAccount, view.takeIntoAccountState)) {
+      // If the grade type has no weight, it will not be taken into account
+      // anyways. Thus we can takeIntoAccount true here, so its easier for the
+      // user when changing the weight of the grade type afterwards, so that he
+      // doesn't have to manually enable "takeIntoAccount" it as well.
+      (_, TakeIntoAccountState.disabledGradeTypeWithNoWeight) => true,
+      // It will automatically not be taken into account if the grading system
+      // of the term is different from the selected grading system. Thus we can
+      // takeIntoAccount true here, so its easier for the user when changing the
+      // grade type afterwards.
+      (_, TakeIntoAccountState.disabledWrongGradingSystem) => true,
+      (true, _) => true,
+      (false, _) => false,
+    };
+
     try {
       final gradeId = GradeId(randomIDString(20));
       gradesService.addGrade(
@@ -409,7 +456,7 @@ class GradesDialogController extends ChangeNotifier {
           type: _gradeType.id,
           value: _grade!,
           date: _date,
-          takeIntoAccount: _takeIntoAccount,
+          takeIntoAccount: takeIntoAccount,
           gradingSystem: _gradingSystem,
           title: _title!,
           details: details,

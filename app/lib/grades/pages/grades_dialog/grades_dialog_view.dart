@@ -70,7 +70,7 @@ class GradesDialogView {
   final IList<GradeType> selectableGradingTypes;
 
   final bool takeIntoAccount;
-  final bool isTakeIntoAccountEnabled;
+  final TakeIntoAccountState takeIntoAccountState;
   final ({TermId id, String name})? selectedTerm;
 
   /// If `true`, the action text to select a term will change to red.
@@ -99,7 +99,7 @@ class GradesDialogView {
     required this.titleErrorText,
     required this.detailsController,
     required this.takeIntoAccount,
-    required this.isTakeIntoAccountEnabled,
+    required this.takeIntoAccountState,
     required this.titleController,
     required this.isSubjectMissing,
     required this.isGradeTypeMissing,
@@ -108,6 +108,12 @@ class GradesDialogView {
     required this.isTermMissing,
     required this.gradeFieldController,
   });
+}
+
+enum TakeIntoAccountState {
+  enabled,
+  disabledWrongGradingSystem,
+  disabledGradeTypeWithNoWeight
 }
 
 typedef SubjectView = ({

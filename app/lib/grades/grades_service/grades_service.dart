@@ -844,6 +844,7 @@ class Weight extends Equatable {
 
   const Weight.percent(num percent) : asFactor = percent / 100;
   const Weight.factor(this.asFactor);
+  static const zero = Weight.factor(0);
 
   @override
   String toString() {

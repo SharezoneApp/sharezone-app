@@ -401,7 +401,8 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Provider.of<GradesDialogController>(context);
     final view = controller.view;
-    final isEnabled = view.isTakeIntoAccountEnabled;
+    final state = view.takeIntoAccountState;
+    final isEnabled = state == TakeIntoAccountState.enabled;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -420,11 +421,21 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
                 : null,
           ),
         ),
-        if (!isEnabled)
+        if (state == TakeIntoAccountState.disabledWrongGradingSystem)
           Padding(
             padding: const EdgeInsets.only(left: 58, bottom: 12),
             child: Text(
               'Das Notensystem, welches du ausgewählt hast, ist nicht dasselbe wie das Notensystem deines Halbjahres. Du kannst die Note weiterhin eintragen, aber sie wird nicht in den Schnitt deines Halbjahres einfließen.',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+              ),
+            ),
+          ),
+        if (state == TakeIntoAccountState.disabledGradeTypeWithNoWeight)
+          Padding(
+            padding: const EdgeInsets.only(left: 58, bottom: 12),
+            child: Text(
+              'Der ausgewählte Notentyp hat aktuell eine Gewichtung von 0. Du kannst die Note weiterhin eintragen, aber sie wird den Schnitt der Fachnote nicht beeinflussen. Du kannst die Gewichtung nach Speichern der Note im Fach oder im Halbjahr anpassen, damit die Note in den Schnitt einfließt.',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
               ),
