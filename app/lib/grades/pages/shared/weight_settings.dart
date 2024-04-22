@@ -46,7 +46,7 @@ class WeightSettings extends StatelessWidget {
           trailing: IconButton(
             tooltip: 'Wie wird die Note berechnet?',
             onPressed: () => _HelpDialog.show(context),
-            icon: const _HelpDialog(),
+            icon: const Icon(Icons.help_outline),
           ),
         ),
         const SizedBox(height: 8),
@@ -256,7 +256,7 @@ class _HelpDialog extends StatelessWidget {
     return const GradesHelpDialog(
       title: Text('Wie wird die Note eines Fachs berechnet?'),
       text: Text(
-        'In Sharezone kannst du genau bestimmen, wie die Note für jedes Fach berechnet wird, indem du die Gewichtung der verschiedenen Notentypen festlegst. Zum Beispiel kannst du einstellen, dass die Gesamtnote aus 50% schriftlichen Prüfungen und 50% mündlicher Beteiligung zusammengesetzt wird. Diese Flexibilität ermöglicht es dir, die Bewertungskriterien deiner Schule genau abzubilden und sicherzustellen, dass jede Art von Leistung angemessen berücksichtigt wird.',
+        'In Sharezone kannst du genau bestimmen, wie die Note für jedes Fach berechnet wird, indem du die Gewichtung der verschiedenen Notentypen festlegst. Zum Beispiel kannst du einstellen, dass die Gesamtnote aus 50% schriftlichen Prüfungen und 50% mündlicher Beteiligung zusammengesetzt wird.\n\nDiese Flexibilität ermöglicht es dir, die Bewertungskriterien deiner Schule genau abzubilden und sicherzustellen, dass jede Art von Leistung angemessen berücksichtigt wird.',
       ),
     );
   }
