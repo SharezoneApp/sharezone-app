@@ -235,7 +235,8 @@ class GradesDialogController extends ChangeNotifier {
 
   bool _isGradeParsable() {
     try {
-      double.parse(_grade!);
+      final g = _grade!.replaceAll(',', '.');
+      double.parse(g);
       return true;
     } catch (e) {
       return false;
