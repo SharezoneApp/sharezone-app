@@ -8,13 +8,11 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/keys.dart';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/main/sharezone.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/util/flavor.dart';
-import 'package:http/http.dart' as http;
-import 'package:platform_check/platform_check.dart';
 
 void main() {
   const config = PatrolTesterConfig(
