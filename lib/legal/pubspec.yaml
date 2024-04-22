@@ -54,3 +54,6 @@ dev_dependencies:
     path: ../sharezone_lints
   flutter_test:
     sdk: flutter
+
+flutter:
+  uses-material-design: true
