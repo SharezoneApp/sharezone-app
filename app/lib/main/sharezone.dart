@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/dynamic_links.dart';

@@ -24,7 +24,7 @@ import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_pag
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:platform_check/platform_check.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/subpages/my_profile/my_profile_page.dart';

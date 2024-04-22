@@ -13,7 +13,7 @@ import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc.dart';
 import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/imprint/models/imprint.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 
 class ImprintPage extends StatefulWidget {
   static const tag = 'imprint-page';

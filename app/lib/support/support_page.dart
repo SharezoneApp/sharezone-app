@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/support/support_page_controller.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';

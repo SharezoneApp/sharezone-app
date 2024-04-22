@@ -10,8 +10,8 @@ import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/ui/ui.dart';
 

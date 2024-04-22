@@ -15,7 +15,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/support/support_page.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
