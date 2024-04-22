@@ -192,14 +192,23 @@ class _SelectSubjectDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subjects = context.select<GradesDialogController, IList<SubjectView>>(
+    var subjects = context.select<GradesDialogController, IList<SubjectView>>(
         (c) => c.view.selectableSubjects);
+    final hasPlus =
+        Provider.of<SubscriptionService>(context).isSubscriptionActive();
+    if (!hasPlus) {
+      subjects = subjects.take(3).toIList();
+    }
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: SimpleDialog(
         title: const Text("Fach auswählen"),
         contentPadding: const EdgeInsets.all(12),
         children: [
+          if (!hasPlus) ...[
+            const _CanOnlyUseThreeSubjectsWarning(),
+            const Divider()
+          ],
           for (final subject in subjects)
             _SubjectTile(
               abbreviation: subject.abbreviation,
@@ -210,6 +219,54 @@ class _SelectSubjectDialog extends StatelessWidget {
           const Divider(),
           const JoinCreateCourseFooter(),
         ],
+      ),
+    );
+  }
+}
+
+class _CanOnlyUseThreeSubjectsWarning extends StatelessWidget {
+  const _CanOnlyUseThreeSubjectsWarning();
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Theme.of(context).brightness == Brightness.dark
+          // Has a better contrast in darkmode
+          ? Colors.orangeAccent
+          : Colors.orange,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10.0),
+        ),
+      ),
+      child: InkWell(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 30),
+          child: const Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 3.0),
+                  child: Icon(
+                    Icons.error_outline_outlined,
+                    size: 25,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 5,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                    child: DefaultTextStyle(
+                      style: TextStyle(color: Colors.black),
+                      child: Text(
+                          'Du kannst zum Testen der Notenfunktion maximal 3 Fächer benutzen. Um alle Fächer zu benutzen kaufe Sharezone Plus.'),
+                    )),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
