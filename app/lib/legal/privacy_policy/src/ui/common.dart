@@ -20,7 +20,7 @@ import 'ui.dart';
 class PrivacyPolicyHeading extends StatelessWidget {
   const PrivacyPolicyHeading({
     super.key,
-    required this.headingText,
+    this.headingText = 'Datenschutzerklärung',
   });
 
   final String headingText;
@@ -28,7 +28,7 @@ class PrivacyPolicyHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Datenschutzerklärung',
+      headingText,
       style: Theme.of(context).textTheme.headlineSmall!.copyWith(
             fontSize: 24,
             color: Theme.of(context).isDarkTheme
