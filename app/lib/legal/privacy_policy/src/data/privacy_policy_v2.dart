@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// ignore_for_file: unnecessary_string_escapes
+
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import '../privacy_policy_src.dart';
