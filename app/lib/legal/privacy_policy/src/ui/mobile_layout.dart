@@ -15,18 +15,20 @@ class MainContentMobile extends StatelessWidget {
   const MainContentMobile({
     required this.privacyPolicy,
     this.showBackButton = true,
+    this.headingText = 'Datenschutzerklärung',
     super.key,
   });
 
   final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
+  final String headingText;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: showBackButton,
-        title: const Text('Datenschutzerklärung'),
+        title: Text(headingText),
         actions: [
           IconButton(
               onPressed: () {

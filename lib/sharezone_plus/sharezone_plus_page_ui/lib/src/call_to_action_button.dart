@@ -23,7 +23,7 @@ class CallToActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaxWidthConstraintBox(
-      maxWidth: 300,
+      maxWidth: 350,
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(

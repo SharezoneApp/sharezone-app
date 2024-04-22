@@ -10,8 +10,8 @@ import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/ui/ui.dart';
 
@@ -23,6 +23,7 @@ class PrivacyPolicyPage extends StatelessWidget {
     PrivacyPolicy? privacyPolicy,
     PrivacyPolicyPageConfig? config,
     this.showBackButton = true,
+    this.headingText = 'Datenschutzerklärung',
   })  : privacyPolicy = privacyPolicy ?? v2PrivacyPolicy,
         config = config ?? PrivacyPolicyPageConfig(),
         anchorController = AnchorController();
@@ -31,6 +32,7 @@ class PrivacyPolicyPage extends StatelessWidget {
   final PrivacyPolicyPageConfig config;
   final AnchorController anchorController;
   final bool showBackButton;
+  final String headingText;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +85,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                         return MainContentWide(
                           privacyPolicy: privacyPolicy,
                           showBackButton: showBackButton,
+                          headingText: headingText,
                         );
                       } else if (constraints.maxWidth > 500 &&
                           constraints.maxHeight > 400) {
@@ -91,6 +94,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                         return MainContentNarrow(
                           privacyPolicy: privacyPolicy,
                           showBackButton: showBackButton,
+                          headingText: headingText,
                         );
                       } else {
                         tocController.changeExpansionBehavior(ExpansionBehavior
@@ -98,6 +102,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                         return MainContentMobile(
                           privacyPolicy: privacyPolicy,
                           showBackButton: showBackButton,
+                          headingText: headingText,
                         );
                       }
                     }),

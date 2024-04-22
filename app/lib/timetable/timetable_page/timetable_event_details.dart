@@ -24,7 +24,7 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/timetable_edit/event/timetable_event_edit_page.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
