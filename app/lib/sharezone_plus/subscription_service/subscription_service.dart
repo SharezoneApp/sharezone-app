@@ -91,17 +91,19 @@ void trySetSharezonePlusAnalyticsUserProperties(Analytics analytics,
           name: 'has_plus',
           value: status.hasPlus.toString(),
         );
-        if (status.period != null) {
+        if (status.hasPlus) {
+          if (status.period != null) {
+            analytics.setUserProperty(
+              name: 'plus_period',
+              value: status.period!,
+            );
+          }
+          var source = status.source ?? SubscriptionSource.unknown;
           analytics.setUserProperty(
-            name: 'plus_period',
-            value: status.period!,
+            name: 'plus_source',
+            value: source.stableDbKey,
           );
         }
-        var source = status.source ?? SubscriptionSource.unknown;
-        analytics.setUserProperty(
-          name: 'plus_source',
-          value: source.stableDbKey,
-        );
       }
     });
   } catch (e) {
