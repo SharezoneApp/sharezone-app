@@ -17,6 +17,5 @@ export 'src/sharezone_plus_faq.dart';
 export 'src/sharezone_plus_legal_text.dart';
 export 'src/sharezone_plus_page_header.dart';
 export 'src/sharezone_plus_page_theme.dart';
-export 'src/sharezone_plus_price.dart';
 export 'src/sharezone_plus_support_note.dart';
 export 'src/why_sharezone_plus_card.dart';
