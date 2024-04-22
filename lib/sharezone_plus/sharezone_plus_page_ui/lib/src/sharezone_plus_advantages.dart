@@ -31,6 +31,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
       children: [
         _Grades(onOpen: onOpenedAdvantage),
         _MoreColors(onOpen: onOpenedAdvantage),
+        _QuickHomeworkDueDate(onOpen: onOpenedAdvantage),
         if (isHomeworkReminderFeatureVisible)
           _HomeworkReminder(onOpen: onOpenedAdvantage),
         _PastEvents(onOpen: onOpenedAdvantage),
@@ -332,6 +333,27 @@ class _SupportOpenSource extends StatelessWidget {
           await launchUrl(Uri.parse(href));
         },
       ),
+    );
+  }
+}
+
+class _QuickHomeworkDueDate extends StatelessWidget {
+  const _QuickHomeworkDueDate({
+    required this.onOpen,
+  });
+
+  final ValueChanged<String>? onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      onOpen: () {
+        if (onOpen != null) onOpen!('smart_homework_due_date');
+      },
+      icon: const Icon(Icons.check_box),
+      title: const Text('Schnellauswahl für Fälligkeitsdatum'),
+      description: const Text(
+          'Mit Sharezone Plus kannst du das Fälligkeitsdatum einer Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.'),
     );
   }
 }
