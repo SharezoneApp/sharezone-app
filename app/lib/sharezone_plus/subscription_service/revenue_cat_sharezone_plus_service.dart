@@ -14,12 +14,10 @@ class RevenueCatPurchaseService implements PurchaseService {
   @override
   Future<void> purchase(ProductId id) async {
     final offerings = await Purchases.getOfferings();
-    final availablePackages = offerings
-        .getOffering('default-dev-plus-subscription')!
-        .availablePackages;
+    final availablePackages =
+        offerings.getOffering('sharezone-plus')!.availablePackages;
     final packageToPurchase = availablePackages
-        // ignore: deprecated_member_use
-        .singleWhere((package) => package.offeringIdentifier == id.toString());
+        .singleWhere((package) => package.storeProduct.identifier == '$id');
     await Purchases.purchasePackage(packageToPurchase);
   }
 
