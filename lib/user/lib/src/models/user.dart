@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:characters/characters.dart';
-import 'package:helper_functions/helper_functions.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
-import 'package:user/src/models/subscription.dart';
+import 'package:helper_functions/helper_functions.dart';
+import 'package:user/src/models/sharezone_plus_status.dart';
 
 import 'features.dart';
 import 'state_enum.dart';
@@ -36,7 +36,7 @@ class AppUser {
   final UserTipData userTipData;
   final DateTime? createdOn;
   final Features? features;
-  final Subscription? subscription;
+  final SharezonePlusStatus? sharezonePlus;
 
   final Map<String, dynamic> legalData;
 
@@ -57,7 +57,7 @@ class AppUser {
     required this.userTipData,
     required this.createdOn,
     this.features,
-    required this.subscription,
+    required this.sharezonePlus,
     required this.legalData,
   });
 
@@ -78,7 +78,7 @@ class AppUser {
         userSettings: UserSettings.defaultSettings(),
         userTipData: UserTipData.empty(),
         createdOn: null,
-        subscription: null,
+        sharezonePlus: null,
         legalData: {});
   }
 
@@ -100,7 +100,7 @@ class AppUser {
         userSettings: UserSettings.defaultSettings(),
         userTipData: UserTipData.empty(),
         createdOn: null,
-        subscription: null,
+        sharezonePlus: null,
         legalData: {},
       );
     }
@@ -122,7 +122,7 @@ class AppUser {
       userTipData: UserTipData.fromData(data['tips']),
       createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       features: Features.fromJson(data['features']),
-      subscription: Subscription.fromData(data['subscription']),
+      sharezonePlus: SharezonePlusStatus.fromData(data['sharezonePlus']),
       legalData: decodeMap(data['legal'] ?? {},
           (key, decodedMapValue) => decodedMapValue as Map),
     );
@@ -143,7 +143,6 @@ class AppUser {
       'settings': userSettings.toJson(),
       'tips': userTipData.toJson(),
       'features': features?.toJson(),
-      'subscription': null,
     };
   }
 
@@ -177,7 +176,7 @@ class AppUser {
     bool? commentsNotifications,
     UserSettings? userSettings,
     UserTipData? userTipData,
-    Subscription? subscription,
+    SharezonePlusStatus? sharezonePlus,
     Features? features,
   }) {
     return AppUser._(
@@ -199,7 +198,7 @@ class AppUser {
       createdOn: createdOn,
       referredBy: referredBy,
       features: features ?? this.features,
-      subscription: subscription ?? this.subscription,
+      sharezonePlus: sharezonePlus ?? this.sharezonePlus,
       legalData: legalData,
     );
   }
