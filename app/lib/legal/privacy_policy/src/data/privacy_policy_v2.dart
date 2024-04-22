@@ -114,11 +114,11 @@ DocumentSection section(
     DocumentSection(DocumentSectionId(id), name, subsections.toIList());
 
 const v2MarkdownPrivacyPolicy = """
-# Information über die Verarbeitung personenbezogener Daten
+# Informationen über die Verarbeitung personenbezogener Daten
 
 Hey, du bzw. ihr! Das ist die Datenschutzerklärung unserer App „Sharezone“ (kurz: „App“). Im Folgenden informieren wir, die Sharezone UG (haftungsbeschränkt), Speditionstraße 15A, 40221 Düsseldorf, Deutschland (kurz: „Sharezone“, „wir“ oder „uns“), über die Erhebung personenbezogener Daten bei der Nutzung der App.
 
-> Um diese Informationen über die Datenverarbeitung verständlicher zu gestalten, bieten wir euch an einigen komplizierten Stellen in den hervorgehobenen Textfeldern vereinfachte Zusammenfassungen (kurz: „Einfach gesagt:“) des jeweiligen Abschnitts an.
+> Um diese Informationen über die Datenverarbeitung verständlicher zu gestalten, bieten wir euch an einigen komplizierten Stellen in den hervorgehobenen Textfeldern vereinfachte Zusammenfassungen (kurz: „Einfach gesagt:“) des jeweiligen Abschnitts an.  
 Auch wenn wir euch die Zusammenfassung anbieten, ist es wichtig und erforderlich, dass ihr die allein maßgeblich geltenden „Informationen über die Verarbeitung personenbezogener Daten“ gänzlich lest.
 
 ## 1. Wichtige Begriffe
@@ -157,7 +157,7 @@ Eure Daten: Die von euch in der App hinzugefügten Daten, Posts, Dateien (z. B. 
 
 Diese Daten könnt ihr selbst jederzeit löschen. Löscht ihr euren Account, ohne zuvor eure Inhalte zu löschen, so wird euer Nickname bei den Inhalten bei der Angabe „Erstellt von“ anonymisiert. Die Inhalte bleiben für die anderen Gruppenmitglieder weiterhin verfügbar. Kommentare bei Inhalten oder Nachrichten im Messenger von dir werden gelöscht.
 
-Einzig beim Dienst Firebase Authentication (zur Authentifizierung der Nutzer erforderlich) und Firebase Hosting (zur Web-Hosting der [Web App](https://web.sharezone.net), unserer [Webseite](https://sharezone.net) und unserer [Dokumentation](https://docs.sharezone.net)) werden möglicherweise Daten außerhalb der EU verarbeitet. Weitere Informationen dazu werden in [17. Datenübertragung in Drittländer außerhalb der EU](#17-datenübertragung-in-drittländer-außerhalb-der-eu) beschrieben. Soweit Daten in den USA verarbeitet werden, weisen wir daraufhin, dass [Google unter dem Privacy Shield Framework zertifiziert ist](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active) und hierdurch zusichert, das europäische Datenschutzrecht einzuhalten.
+Einzig beim Dienst Firebase Authentication (zur Authentifizierung der Nutzer erforderlich) und Firebase Hosting (zur Web-Hosting der [Web App](https://web.sharezone.net), unserer [Webseite](https://sharezone.net) und unserer [Dokumentation](https://docs.sharezone.net)) werden möglicherweise Daten außerhalb der EU verarbeitet. Weitere Informationen dazu werden in [17. Datenübertragung in Drittländer außerhalb der EU](#17-datenübertragung-in-drittländer-außerhalb-der-eu) beschrieben. Soweit Daten in den USA verarbeitet werden, weisen wir daraufhin, dass [Google unter dem Data Privacy Framework zertifiziert ist](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active) und hierdurch zusichert, das europäische Datenschutzrecht einzuhalten.
 
 Des Weiteren haben wir mit Google einen sog. „Auftragsverarbeitungsvertrag“ geschlossen, der sicherstellt, dass Google nur nach unseren Anweisungen handelt und sich im Übrigen auch nach diesem Vertrag an die Vorgaben der europäischen Datenschutzgesetze, insbesondere an die der DSGVO hält.
 
@@ -501,9 +501,9 @@ Diese App nutzt aus Gründen der Sicherheit von Daten und zum Schutz der Übertr
 
 ## 19. Datenübertragung in Drittländer außerhalb der EU
 
-Soweit Daten von Google für das Hosting und Betreiben unserer App in den USA verarbeitet werden, weisen wir daraufhin, dass [Google unter dem Privacy Shield Framework zertifiziert ist](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active) und hierdurch zusichert, das europäische Datenschutzrecht einzuhalten.
+Soweit Daten von Google für das Hosting und Betreiben unserer App in den USA verarbeitet werden, weisen wir daraufhin, dass [Google unter dem Data Privacy Framework zertifiziert ist](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active) und hierdurch zusichert, das europäische Datenschutzrecht einzuhalten.
 
-Das EU-U.S. und Swiss-U.S. Privacy Shield Framework wurde gemeinsam von U.S. Department of Commerce, der EU Kommission und der Schweizer Regierung entwickelt, um Unternehmen die in den jeweiligen Wirtschaftsräumen Dienste zur Verfügung stellen eine Rahmen zu geben, in dem die Datenschutzanforderung beim Transfer von personenbezogenen Daten den Datenschutzanforderung der EU, der Schweiz und den Vereinigten Staaten entsprechen. Google ist zertifiziertes Mitglied dieses Programms. Weitere Informationen zu diesem Programm findest du unter https://www.dataprivacyframework.gov. Weitere Anforderungen zur Zertifizierung von Google finden Sie unter https://www.privacyshield.gov/participant?id=a2zt000000001L5AAI&status=Active.
+Das EU-U.S. und Swiss-U.S. Data Privacy Framework wurde gemeinsam von U.S. Department of Commerce, der EU Kommission und der Schweizer Regierung entwickelt, um Unternehmen die in den jeweiligen Wirtschaftsräumen Dienste zur Verfügung stellen eine Rahmen zu geben, in dem die Datenschutzanforderung beim Transfer von personenbezogenen Daten den Datenschutzanforderung der EU, der Schweiz und den Vereinigten Staaten entsprechen. Google ist zertifiziertes Mitglied dieses Programms. Weitere Informationen zu diesem Programm findest du unter https://www.dataprivacyframework.gov. Weitere Anforderungen zur Zertifizierung von Google finden Sie unter https://www.privacyshield.gov/participant?id=a2zt000000001L5AAI&status=Active.
 
 ### a. Firebase Authentication
 
@@ -513,7 +513,7 @@ Aus Sicherheitsgründen wird dabei die IP-Adresse kurzfristig geloggt und kann i
 
 Solltest du dein Konto mit einer E-Mail-Adresse oder einem Apple/Google-Konto verknüpft haben, werden weitere Daten verarbeitet, weil diese Information beim Einloggen erforderlich sind. Eine genaue Auflistung der Daten findest du unter [b. Registrierung mit E-Mail-Adresse \& Passwort oder Google/Apple Sign In ab einem Alter von 16 Jahren und älter](#b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-älter).
 
-Der Dienst Firebase Authentication wird in den USA von Google gehostet. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, ist [Google unter dem Privacy Shield Framework zertifiziert](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active).
+Der Dienst Firebase Authentication wird in den USA von Google gehostet. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, ist [Google unter dem Data Privacy Framework zertifiziert](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active).
 
 Rechtsgrundlage für die befristete Speicherung der IP-Adresse stellt für den Fall einer Registrierung nach Ziffer 9 lit. b. eure Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) für die Nutzung des Dienstes dar. Im Übrigen erfolgt die technisch zwingend erforderliche Speicherung aufgrund eures und unseres berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO), euch die App performant zur Verfügung zu stellen.
 
@@ -523,7 +523,7 @@ Rechtsgrundlage für die befristete Speicherung der IP-Adresse stellt für den F
 
 Bei jedem Zugriff wird die IP-Adresse aus Sicherheitsgründen in den Logs gespeichert. Diese IP-Adresse bleibt [laut Google](https://firebase.google.com/support/privacy#examples_of_end-user_personal_data_processed_by_firebase) für ein paar Monate gespeichert. Weitere personenbezogene Daten werden bei der Nutzung von Firebase Hosting nicht verarbeitet.
 
-Der Dienst Firebase Hosting wird in den USA, Europa und Asien von Google gehostet. Je nachdem wo du dich aktuell auf der Welt befindest, wirst das nächstmögliche Rechenzentrum verwendet, um eine möglichst kurze Ladezeit zu ermöglichen. In den aller meisten Fällen solltest du mit einem Rechenzentrum aus Europa geleitet werden, wo schlussendlich die Daten verarbeitet werden. Auch wenn es unwahrscheinlich ist, könnte deine Anfrage an ein Rechenzentrum außerhalb von EU weitergeleitet werden. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, ist [Google unter dem Privacy Shield Framework zertifiziert](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active).
+Der Dienst Firebase Hosting wird in den USA, Europa und Asien von Google gehostet. Je nachdem wo du dich aktuell auf der Welt befindest, wirst das nächstmögliche Rechenzentrum verwendet, um eine möglichst kurze Ladezeit zu ermöglichen. In den aller meisten Fällen solltest du mit einem Rechenzentrum aus Europa geleitet werden, wo schlussendlich die Daten verarbeitet werden. Auch wenn es unwahrscheinlich ist, könnte deine Anfrage an ein Rechenzentrum außerhalb von EU weitergeleitet werden. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, ist [Google unter dem Data Privacy Framework zertifiziert](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active).
 
 Rechtsgrundlage für die befristete Speicherung der IP-Adresse stellt für den Fall einer Registrierung nach Ziffer 9 lit. b. eure Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) für die Nutzung des Dienstes dar. Im Übrigen erfolgt die technisch zwingend erforderliche Speicherung aufgrund eures und unseres berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO), euch die Web-App performant zur Verfügung zu stellen.
 
