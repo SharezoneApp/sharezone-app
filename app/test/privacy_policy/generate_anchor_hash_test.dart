@@ -8,6 +8,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 
 void main() {
   /// We are testing this since changing the anchor hash generation algorithm
@@ -36,6 +37,45 @@ void main() {
         '6-wie-lange-speichern-wir-deine-daten',
         '7-welche-rechte-hast-du',
         'glueckwunsch-du-hast-es-geschafft',
+      ]);
+    });
+    test('toc real life example', () {
+      final sections = [
+        'Vorbemerkungen / Geltungsbereich',
+        'Nutzungsvoraussetzungen',
+        'Angebotene Funktionen',
+        'Registrierung / Zustandekommen des Nutzungsvertrags',
+        'Sharezone Plus',
+        'Nutzungsrechte',
+        'Veröffentlichen von Inhalten',
+        'Verfügbarkeit der Plattform',
+        'Pflichten der Nutzer / Nutzerverhalten',
+        'Verantwortlichkeit für Inhalte der Nutzer',
+        'Haftung / Freistellungsanspruch',
+        'Beendigung des Nutzungsvertrags / Kündigung',
+        'Änderungen der Allgemeinen Nutzungsbedingungen',
+        'Datenschutz',
+        'Schlussbestimmungen',
+      ];
+
+      final anchorHashes = sections.map(generateAnchorHash).toList();
+
+      expect(anchorHashes, [
+        'vorbemerkungen--geltungsbereich',
+        'nutzungsvoraussetzungen',
+        'angebotene-funktionen',
+        'registrierung--zustandekommen-des-nutzungsvertrags',
+        'sharezone-plus',
+        'nutzungsrechte',
+        'veroeffentlichen-von-inhalten',
+        'verfuegbarkeit-der-plattform',
+        'pflichten-der-nutzer--nutzerverhalten',
+        'verantwortlichkeit-fuer-inhalte-der-nutzer',
+        'haftung--freistellungsanspruch',
+        'beendigung-des-nutzungsvertrags--kuendigung',
+        'aenderungen-der-allgemeinen-nutzungsbedingungen',
+        'datenschutz',
+        'schlussbestimmungen'
       ]);
     });
     test('replaces special chars', () {
@@ -110,6 +150,10 @@ void main() {
     });
     test('privacy policy v2 anchors are correct', () {
       expectCorrectAnchorHashes(v2PrivacyPolicy);
+    });
+
+    test('terms of service v1 anchor hashes are correct', () {
+      expectCorrectAnchorHashes(termsOfServicePolicy);
     });
   });
 }
