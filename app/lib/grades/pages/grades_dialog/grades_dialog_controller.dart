@@ -84,22 +84,6 @@ class GradesDialogController extends ChangeNotifier {
           : null
     );
 
-    final tk = switch ((_takeIntoAccount, takeIntoAccountState)) {
-      // If the grade type has no weight, it will not be taken into account
-      // anyways. Thus we can takeIntoAccount true here, so its easier for the
-      // user when changing the weight of the grade type afterwards, so that he
-      // doesn't have to manually enable "takeIntoAccount" it as well.
-      (_, TakeIntoAccountState.disabledGradeTypeWithNoWeight) => true,
-      // It will automatically not be taken into account if the grading system
-      // of the term is different from the selected grading system. Thus we can
-      // takeIntoAccount true here, so its easier for the user when changing the
-      // grade type afterwards.
-      (_, TakeIntoAccountState.disabledWrongGradingSystem) => true,
-      (true, _) => true,
-      (false, _) => false,
-    };
-    print('take into account: $tk');
-
     return GradesDialogView(
       selectedGrade: _grade,
       selectableGrades: selectableGrades,
