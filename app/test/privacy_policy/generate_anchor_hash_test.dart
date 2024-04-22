@@ -40,7 +40,6 @@ void main() {
     });
     test('toc real life example', () {
       final sections = [
-        'Inhaltsverzeichnis',
         'Vorbemerkungen / Geltungsbereich',
         'Nutzungsvoraussetzungen',
         'Angebotene Funktionen',
@@ -61,7 +60,6 @@ void main() {
       final anchorHashes = sections.map(generateAnchorHash).toList();
 
       expect(anchorHashes, [
-        'inhaltsverzeichnis',
         'vorbemerkungen--geltungsbereich',
         'nutzungsvoraussetzungen',
         'angebotene-funktionen',
