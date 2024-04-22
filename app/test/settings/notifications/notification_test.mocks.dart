@@ -454,6 +454,12 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
         ),
       ) as _i3.UserTipData);
   @override
+  Map<String, dynamic> get legalData => (super.noSuchMethod(
+        Invocation.getter(#legalData),
+        returnValue: <String, dynamic>{},
+        returnValueForMissingStub: <String, dynamic>{},
+      ) as Map<String, dynamic>);
+  @override
   Map<String, dynamic> toCreateJson() => (super.noSuchMethod(
         Invocation.method(
           #toCreateJson,

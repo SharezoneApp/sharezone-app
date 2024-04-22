@@ -13,7 +13,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
 import 'package:sharezone/legal/privacy_policy/src/ui/common.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';

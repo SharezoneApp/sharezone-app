@@ -10,14 +10,13 @@ import 'package:app_review/app_review.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_bloc.dart';
 import 'package:sharezone/settings/src/widgets/settings_subpage_settings.dart';
 import 'package:sharezone/util/launch_link.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../../../support/support_page.dart';

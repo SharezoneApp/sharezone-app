@@ -308,16 +308,6 @@ class _FakeCourse_23 extends _i1.SmartFake implements _i22.Course {
         );
 }
 
-class _FakeCourseId_24 extends _i1.SmartFake implements _i8.CourseId {
-  _FakeCourseId_24(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [DocumentReference].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -1628,27 +1618,6 @@ class MockCourseGateway extends _i1.Mock implements _i15.CourseGateway {
         returnValue: <_i22.Course>[],
         returnValueForMissingStub: <_i22.Course>[],
       ) as List<_i22.Course>);
-  @override
-  _i8.CourseId generateCourseId() => (super.noSuchMethod(
-        Invocation.method(
-          #generateCourseId,
-          [],
-        ),
-        returnValue: _FakeCourseId_24(
-          this,
-          Invocation.method(
-            #generateCourseId,
-            [],
-          ),
-        ),
-        returnValueForMissingStub: _FakeCourseId_24(
-          this,
-          Invocation.method(
-            #generateCourseId,
-            [],
-          ),
-        ),
-      ) as _i8.CourseId);
   @override
   bool canEditCourse(_i22.Course? course) => (super.noSuchMethod(
         Invocation.method(
