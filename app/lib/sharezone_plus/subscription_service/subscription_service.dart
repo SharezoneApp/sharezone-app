@@ -6,20 +6,25 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:clock/clock.dart';
+import 'dart:async';
+
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:user/user.dart';
 
 class SubscriptionService {
   final Stream<AppUser?> user;
-  final Clock clock;
+  final FirebaseFunctions functions;
 
+  late Stream<SharezonePlusStatus?> sharezonePlusStatusStream;
+  late StreamSubscription<AppUser?> _userSubscription;
   late AppUser? _user;
 
   SubscriptionService({
     required this.user,
-    required this.clock,
+    required this.functions,
   }) {
-    user.listen((event) {
+    sharezonePlusStatusStream = user.map((event) => event?.sharezonePlus);
+    _userSubscription = user.listen((event) {
       _user = event;
     });
   }
@@ -27,8 +32,9 @@ class SubscriptionService {
   bool isSubscriptionActive([AppUser? appUser]) {
     appUser ??= _user;
 
-    if (appUser?.subscription == null) return false;
-    return clock.now().isBefore(appUser!.subscription!.expiresAt);
+    final plus = appUser?.sharezonePlus;
+    if (plus == null) return false;
+    return plus.hasPlus;
   }
 
   Stream<bool> isSubscriptionActiveStream() {
@@ -41,27 +47,25 @@ class SubscriptionService {
     if (!_user!.typeOfUser.isStudent) return true;
 
     if (!isSubscriptionActive()) return false;
-    return _user!.subscription!.tier.hasUnlocked(feature);
+    return true;
   }
 
   Stream<bool> hasFeatureUnlockedStream(SharezonePlusFeature feature) {
     return user.map((event) => hasFeatureUnlocked(feature));
   }
-}
 
-const _featuresMap = {
-  SubscriptionTier.teacherPlus: {
-    SharezonePlusFeature.submissionsList,
-    SharezonePlusFeature.infoSheetReadByUsersList,
-    SharezonePlusFeature.homeworkDoneByUsersList,
-    SharezonePlusFeature.filterTimetableByClass,
-    SharezonePlusFeature.changeHomeworkReminderTime,
-    SharezonePlusFeature.plusSupport,
-    SharezonePlusFeature.moreGroupColors,
-    SharezonePlusFeature.addEventToLocalCalendar,
-    SharezonePlusFeature.viewPastEvents,
-  },
-};
+  SubscriptionSource? getSource() {
+    return _user?.sharezonePlus?.source;
+  }
+
+  Future<void> cancelStripeSubscription() async {
+    await functions.httpsCallable('cancelStripeSubscription').call();
+  }
+
+  void dispose() {
+    _userSubscription.cancel();
+  }
+}
 
 enum SharezonePlusFeature {
   submissionsList,
@@ -74,10 +78,4 @@ enum SharezonePlusFeature {
   addEventToLocalCalendar,
   viewPastEvents,
   homeworkDueDateChips,
-}
-
-extension SubscriptionTierExtension on SubscriptionTier {
-  bool hasUnlocked(SharezonePlusFeature feature) {
-    return _featuresMap[this]?.contains(feature) ?? false;
-  }
 }

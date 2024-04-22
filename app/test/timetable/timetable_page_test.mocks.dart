@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:clock/clock.dart' as _i2;
+import 'package:cloud_functions/cloud_functions.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart'
     as _i3;
@@ -24,8 +24,9 @@ import 'package:user/user.dart' as _i5;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeClock_0 extends _i1.SmartFake implements _i2.Clock {
-  _FakeClock_0(
+class _FakeFirebaseFunctions_0 extends _i1.SmartFake
+    implements _i2.FirebaseFunctions {
+  _FakeFirebaseFunctions_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -46,17 +47,34 @@ class MockSubscriptionService extends _i1.Mock
         returnValueForMissingStub: _i4.Stream<_i5.AppUser?>.empty(),
       ) as _i4.Stream<_i5.AppUser?>);
   @override
-  _i2.Clock get clock => (super.noSuchMethod(
-        Invocation.getter(#clock),
-        returnValue: _FakeClock_0(
+  _i2.FirebaseFunctions get functions => (super.noSuchMethod(
+        Invocation.getter(#functions),
+        returnValue: _FakeFirebaseFunctions_0(
           this,
-          Invocation.getter(#clock),
+          Invocation.getter(#functions),
         ),
-        returnValueForMissingStub: _FakeClock_0(
+        returnValueForMissingStub: _FakeFirebaseFunctions_0(
           this,
-          Invocation.getter(#clock),
+          Invocation.getter(#functions),
         ),
-      ) as _i2.Clock);
+      ) as _i2.FirebaseFunctions);
+  @override
+  _i4.Stream<_i5.SharezonePlusStatus?> get sharezonePlusStatusStream =>
+      (super.noSuchMethod(
+        Invocation.getter(#sharezonePlusStatusStream),
+        returnValue: _i4.Stream<_i5.SharezonePlusStatus?>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i5.SharezonePlusStatus?>.empty(),
+      ) as _i4.Stream<_i5.SharezonePlusStatus?>);
+  @override
+  set sharezonePlusStatusStream(
+          _i4.Stream<_i5.SharezonePlusStatus?>? _sharezonePlusStatusStream) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #sharezonePlusStatusStream,
+          _sharezonePlusStatusStream,
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   bool isSubscriptionActive([_i5.AppUser? appUser]) => (super.noSuchMethod(
         Invocation.method(
@@ -96,4 +114,21 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i4.Stream<bool>.empty(),
         returnValueForMissingStub: _i4.Stream<bool>.empty(),
       ) as _i4.Stream<bool>);
+  @override
+  _i4.Future<void> cancelStripeSubscription() => (super.noSuchMethod(
+        Invocation.method(
+          #cancelStripeSubscription,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

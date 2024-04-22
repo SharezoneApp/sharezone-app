@@ -44,6 +44,8 @@ class ExpansionCard extends StatefulWidget {
     this.backgroundColor,
     this.openTooltip = 'Aufklappen',
     this.closeTooltip = 'Zuklappen',
+    this.onOpen,
+    this.onClose,
   });
 
   /// The header of the card.
@@ -76,6 +78,12 @@ class ExpansionCard extends StatefulWidget {
   /// The default value is `Zuklappen`.
   final String closeTooltip;
 
+  /// A callback that is called when the card is opened.
+  final VoidCallback? onOpen;
+
+  /// A callback that is called when the card is closed.
+  final VoidCallback? onClose;
+
   @override
   State<ExpansionCard> createState() => ExpansionCardState();
 }
@@ -93,6 +101,13 @@ class ExpansionCardState extends State<ExpansionCard> {
         key: ValueKey(widget.header),
         onTap: () {
           setState(() => isExpanded = !isExpanded);
+
+          if (widget.onOpen != null && !isExpanded) {
+            widget.onOpen!();
+          }
+          if (widget.onClose != null && isExpanded) {
+            widget.onClose!();
+          }
         },
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
