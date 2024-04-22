@@ -194,7 +194,7 @@ class _Items extends StatelessWidget {
         if (feedback.hasDislikes) _Dislikes(dislikes: feedback.dislikes!),
         if (feedback.hasMissing) _Missing(missing: feedback.missing!),
         if (feedback.hasHeardFrom) _HeardFrom(heardFrom: feedback.heardFrom!),
-        if (feedback.hasDeviceInformation)
+        if (feedback.hasDeviceInformation && showDeviceInformation)
           _DeviceInformation(deviceInformation: feedback.deviceInformation!),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
