@@ -13,9 +13,9 @@ import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart'
     hide SubjectView;
-import 'package:sharezone/grades/pages/shared/select_grade_type_dialog.dart';
+import 'package:sharezone/grades/pages/shared/final_grade_type_settings.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
-import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page.dart';
+import 'package:sharezone/grades/pages/shared/weight_settings.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_view.dart';
@@ -138,13 +138,7 @@ class _Loaded extends StatelessWidget {
             ),
             const Divider(),
             const SizedBox(height: 8),
-            _FinalGradeType(
-              displayName:
-                  view.finalGradeType.predefinedType?.toUiString() ?? '?',
-              icon: view.finalGradeType.predefinedType?.getIcon() ??
-                  const Icon(Icons.help),
-              selectableGradingTypes: view.selectableGradingTypes,
-            ),
+            _FinalGradeType(view: view),
           ],
         ),
       ),
@@ -456,7 +450,7 @@ class _GradingTypeWeights extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SubjectWeights(
+    return WeightSettings(
       weights: weights,
       selectableGradingTypes: selectableGradingTypes,
       onRemoveGradeType: (gradeTypeId) {
@@ -492,83 +486,22 @@ class _GradingSystem extends StatelessWidget {
 
 class _FinalGradeType extends StatelessWidget {
   const _FinalGradeType({
-    required this.icon,
-    required this.displayName,
-    required this.selectableGradingTypes,
+    required this.view,
   });
 
-  final Icon icon;
-  final String displayName;
-  final IList<GradeType> selectableGradingTypes;
+  final TermSettingsPageView view;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          contentPadding: const EdgeInsets.all(0),
-          title: const Text('Endnote eines Faches'),
-          subtitle: Text(
-            'Die berechnete Fachnote kann von einem Notentyp überschrieben werden.',
-            style: TextStyle(
-                color:
-                    Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
-          ),
-          trailing: IconButton(
-            tooltip: 'Was ist die Endnote?',
-            icon: const Icon(Icons.help_outline),
-            onPressed: () => _FinalGradeTypeHelpDialog.show(context),
-          ),
-        ),
-        ListTile(
-          leading: icon,
-          title: Text(displayName),
-          onTap: () async {
-            final type = await SelectGradeTypeDialog.show(
-              context: context,
-              selectableGradingTypes: selectableGradingTypes.toList(),
-            );
-
-            if (type != null && context.mounted) {
-              final controller = context.read<TermSettingsPageController>();
-              controller.setFinalGradeType(type);
-            }
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class _FinalGradeTypeHelpDialog extends StatelessWidget {
-  const _FinalGradeTypeHelpDialog();
-
-  static void show(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const _FinalGradeTypeHelpDialog(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaxWidthConstraintBox(
-      maxWidth: 550,
-      child: AlertDialog(
-        title: const Text('Was ist die Endnote eines Faches?'),
-        content: const SingleChildScrollView(
-          child: Text(
-            'Die Endnote ist die abschließende Note, die du in einem Fach bekommst, zum Beispiel die Note auf deinem Zeugnis. Manchmal berücksichtigt deine Lehrkraft zusätzliche Faktoren, die von der üblichen Berechnungsformel abweichen können – etwa 50% Prüfungen und 50% mündliche Beteiligung. In solchen Fällen kannst du die in Sharezone automatisch berechnete Note durch diese finale Note ersetzen.\n\nDiese Einstellung kann entweder für alle Fächer eines Halbjahres gleichzeitig festgelegt oder für jedes Fach individuell angepasst werden. So hast du die Flexibilität, je nach Bedarf spezifische Anpassungen vorzunehmen.',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
+    return FinalGradeTypeSettings(
+      icon: view.finalGradeType.predefinedType?.getIcon() ??
+          const Icon(Icons.help),
+      displayName: view.finalGradeType.predefinedType?.toUiString() ?? '?',
+      selectableGradingTypes: view.selectableGradingTypes,
+      onSetFinalGradeType: (type) {
+        final controller = context.read<TermSettingsPageController>();
+        controller.setFinalGradeType(type);
+      },
     );
   }
 }

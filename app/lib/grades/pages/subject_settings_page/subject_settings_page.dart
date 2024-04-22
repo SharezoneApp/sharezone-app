@@ -6,12 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:collection/collection.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
-import 'package:sharezone/grades/pages/shared/select_grade_type_dialog.dart';
+import 'package:sharezone/grades/pages/shared/final_grade_type_settings.dart';
+import 'package:sharezone/grades/pages/shared/weight_settings.dart';
 import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page_controller.dart';
 import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page_view.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -107,13 +106,9 @@ class _Loaded extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              _FinalGradeType(
-                displayName: view.finalGradeTypeDisplayName,
-                icon: view.finalGradeTypeIcon,
-                selectableGradingTypes: view.selectableGradingTypes,
-              ),
+              _FinalGradeType(view: view),
               const Divider(),
-              SubjectWeights(
+              WeightSettings(
                 selectableGradingTypes: view.selectableGradingTypes,
                 weights: view.weights,
                 onRemoveGradeType: (gradeTypeId) {
@@ -140,268 +135,21 @@ class _Loaded extends StatelessWidget {
 
 class _FinalGradeType extends StatelessWidget {
   const _FinalGradeType({
-    required this.icon,
-    required this.displayName,
-    required this.selectableGradingTypes,
+    required this.view,
   });
 
-  final Icon icon;
-  final String displayName;
-  final IList<GradeType> selectableGradingTypes;
+  final SubjectSettingsPageView view;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Endnote',
-          style: TextStyle(fontSize: 16),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Solange keine Endnote für einen Kurs feststeht, wird eine vorläufige Kursnote anhand der eingetragenen Noten berechnet. Wenn eine Endnote feststeht, kann die berechnete Kursnote überschrieben werden.',
-          style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
-        ),
-        const SizedBox(height: 8),
-        ListTile(
-          leading: icon,
-          title: Text(displayName),
-          onTap: () async {
-            final type = await SelectGradeTypeDialog.show(
-              context: context,
-              selectableGradingTypes: selectableGradingTypes.toList(),
-            );
-
-            if (type != null && context.mounted) {
-              final controller = context.read<SubjectSettingsPageController>();
-              controller.setFinalGradeType(type);
-            }
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class SubjectWeights extends StatelessWidget {
-  const SubjectWeights({
-    super.key,
-    required this.weights,
-    required this.selectableGradingTypes,
-    required this.onSetGradeWeight,
-    required this.onRemoveGradeType,
-  });
-
-  final IMap<GradeTypeId, Weight> weights;
-  final IList<GradeType> selectableGradingTypes;
-  final void Function(GradeTypeId gradeTypeId, Weight weight) onSetGradeWeight;
-  final void Function(GradeTypeId gradeTypeId) onRemoveGradeType;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Berechnung der Fachnote', style: TextStyle(fontSize: 16)),
-        const SizedBox(height: 8),
-        Text(
-          'Lege die Gewichtung der Notentypen für die Berechnung der Fachnote fest.',
-          style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
-        ),
-        const SizedBox(height: 8),
-        for (final entry in weights.entries)
-          _SubjectWeight(
-            gradeTypeId: entry.key,
-            weight: entry.value,
-            onSetGradeWeight: onSetGradeWeight,
-            onRemoveGradeType: onRemoveGradeType,
-          ),
-        _AddSubjectWeight(
-          selectableGradingTypes: selectableGradingTypes,
-          onSetGradeWeight: onSetGradeWeight,
-        )
-      ],
-    );
-  }
-}
-
-class _SubjectWeight extends StatelessWidget {
-  const _SubjectWeight({
-    required this.gradeTypeId,
-    required this.weight,
-    required this.onSetGradeWeight,
-    required this.onRemoveGradeType,
-  });
-
-  final GradeTypeId gradeTypeId;
-  final Weight weight;
-  final void Function(GradeTypeId gradeTypeId, Weight weight) onSetGradeWeight;
-  final void Function(GradeTypeId gradeTypeId) onRemoveGradeType;
-
-  GradeType? getGradeType(BuildContext context) {
-    final getPossibleGrades =
-        context.read<GradesService>().getPossibleGradeTypes();
-    return getPossibleGrades
-        .firstWhereOrNull((element) => element.id == gradeTypeId);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final gradeType = getGradeType(context);
-    final name = gradeType?.predefinedType?.toUiString() ?? '?';
-    return ListTile(
-      title: Text(name),
-      onTap: () async {
-        final newValue = await showDialog<double>(
-          context: context,
-          builder: (context) => _WeightTextField(
-            initialValue: weight.asPercentage,
-          ),
-        );
-
-        if (newValue != null && context.mounted) {
-          onSetGradeWeight(gradeTypeId, Weight.percent(newValue));
-        }
+    return FinalGradeTypeSettings(
+      icon: view.finalGradeTypeIcon,
+      displayName: view.finalGradeTypeDisplayName,
+      selectableGradingTypes: view.selectableGradingTypes,
+      onSetFinalGradeType: (type) {
+        final controller = context.read<SubjectSettingsPageController>();
+        controller.setFinalGradeType(type);
       },
-      leading: IconButton(
-        tooltip: 'Entfernen',
-        icon: const Icon(
-          Icons.remove_circle_outline,
-          color: Colors.red,
-        ),
-        onPressed: () => onRemoveGradeType(gradeTypeId),
-      ),
-      trailing: Text(
-        '${weight.asPercentage}%',
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-        ),
-      ),
-    );
-  }
-}
-
-class _WeightTextField extends StatefulWidget {
-  const _WeightTextField({
-    required this.initialValue,
-  });
-
-  final num initialValue;
-
-  @override
-  State<_WeightTextField> createState() => _WeightTextFieldState();
-}
-
-class _WeightTextFieldState extends State<_WeightTextField> {
-  String? errorText;
-  String? value;
-
-  bool get isValid => errorText == null && value != null && value!.isNotEmpty;
-
-  bool isChangeValid(String change) {
-    final isEmpty = change.isEmpty;
-    if (isEmpty) {
-      return false;
-    }
-
-    final asDouble = double.tryParse(change);
-    if (asDouble == null) {
-      return false;
-    }
-
-    return asDouble >= 0;
-  }
-
-  void popWithValue(BuildContext context) {
-    final asDouble = double.parse(value!);
-    Navigator.of(context).pop(asDouble);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      contentPadding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
-      content: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 400,
-          minWidth: 250,
-        ),
-        child: PrefilledTextField(
-          autofocus: true,
-          prefilledText: '${widget.initialValue}',
-          onChanged: (v) {
-            final isValid = isChangeValid(v);
-            setState(() {
-              value = v;
-              errorText =
-                  isValid ? null : 'Bitte gebe eine gültige Zahl (>= 0) ein.';
-            });
-          },
-          onEditingComplete: () {
-            if (isValid) {
-              popWithValue(context);
-            }
-          },
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'Gewichtung in %',
-            hintText: 'z.B. 56.5',
-            errorText: errorText,
-          ),
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Abbrechen'),
-        ),
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 250),
-          child: FilledButton(
-            key: ValueKey(isValid),
-            onPressed: isValid ? () => popWithValue(context) : null,
-            child: const Text('Speichern'),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _AddSubjectWeight extends StatelessWidget {
-  const _AddSubjectWeight({
-    required this.selectableGradingTypes,
-    required this.onSetGradeWeight,
-  });
-
-  final IList<GradeType> selectableGradingTypes;
-  final void Function(GradeTypeId gradeTypeId, Weight weight) onSetGradeWeight;
-
-  Future<void> onTap(BuildContext context) async {
-    final type = await SelectGradeTypeDialog.show(
-      context: context,
-      selectableGradingTypes: selectableGradingTypes.toList(),
-    );
-
-    if (type != null && context.mounted) {
-      onSetGradeWeight(type.id, const Weight.factor(0));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: IconButton(
-        icon: const Icon(Icons.add_circle_outline),
-        onPressed: () => onTap(context),
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      title: const Text('Neue Gewichtung hinzufügen'),
-      onTap: () => onTap(context),
     );
   }
 }
