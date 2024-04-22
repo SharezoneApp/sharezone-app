@@ -26,6 +26,20 @@ Future<void> navigateToSharezonePlusPage(BuildContext context) async {
   navigationBloc.navigateTo(NavigationItem.sharezonePlus);
 }
 
+void openSharezonePlusPageAsFullscreenDialog(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      fullscreenDialog: true,
+      builder: ((context) => Scaffold(
+            appBar: AppBar(),
+            body: const SharezonePlusPageMain(),
+          )),
+      settings: const RouteSettings(name: SharezonePlusPage.tag),
+    ),
+  );
+}
+
 class SharezonePlusPage extends StatelessWidget {
   static const String tag = 'sharezone-plus-page';
 

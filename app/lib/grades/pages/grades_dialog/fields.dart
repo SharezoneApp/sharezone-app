@@ -229,41 +229,40 @@ class _CanOnlyUseThreeSubjectsWarning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const color = Colors.orange;
     return Material(
-      color: Theme.of(context).brightness == Brightness.dark
-          // Has a better contrast in darkmode
-          ? Colors.orangeAccent
-          : Colors.orange,
+      color: color,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10.0),
         ),
       ),
-      child: InkWell(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 30),
-          child: const Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 3.0),
-                  child: Icon(
-                    Icons.error_outline_outlined,
-                    size: 25,
-                    color: Colors.black,
-                  ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                child: Text(
+                  'Du kannst zum Testen der Notenfunktion maximal 3 Fächer benutzen. Um alle Fächer zu benutzen kaufe Sharezone Plus.',
+                  style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.center,
                 ),
               ),
-              Expanded(
-                flex: 5,
-                child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                    child: DefaultTextStyle(
-                      style: TextStyle(color: Colors.black),
-                      child: Text(
-                          'Du kannst zum Testen der Notenfunktion maximal 3 Fächer benutzen. Um alle Fächer zu benutzen kaufe Sharezone Plus.'),
-                    )),
-              )
+              const SizedBox(height: 5),
+              FilledButton(
+                onPressed: () =>
+                    openSharezonePlusPageAsFullscreenDialog(context),
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: color,
+                ),
+                child: const Text('Zu Sharezone Plus'),
+              ),
+              const SizedBox(height: 5),
             ],
           ),
         ),
