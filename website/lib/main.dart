@@ -60,13 +60,12 @@ final GoRouter _router = GoRouter(
             return const TermsOfServicePage();
           },
         ),
-        if (isSharezonePlusPageEnabledFlag)
-          GoRoute(
-            path: SharezonePlusPage.tag,
-            builder: (BuildContext context, GoRouterState state) {
-              return const SharezonePlusPage();
-            },
-          ),
+        GoRoute(
+          path: SharezonePlusPage.tag,
+          builder: (BuildContext context, GoRouterState state) {
+            return const SharezonePlusPage();
+          },
+        ),
       ],
     ),
   ],
