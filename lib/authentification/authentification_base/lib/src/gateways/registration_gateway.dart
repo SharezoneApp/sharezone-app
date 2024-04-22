@@ -43,7 +43,10 @@ class RegistrationGateway extends BlocBase {
   RegistrationGateway(this.userCollection, this._auth);
 
   void _addUserToFirestore(AppUser user) {
-    userCollection.doc(user.id).set(user.toEditJson(), SetOptions(merge: true));
+    final data = user.toEditJson();
+    data['legal'] = user.legalData;
+
+    userCollection.doc(user.id).set(data, SetOptions(merge: true));
   }
 
   Future<AppUser> registerUser(TypeOfUser typeOfUser) async {

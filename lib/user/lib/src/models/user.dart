@@ -143,6 +143,7 @@ class AppUser {
       'settings': userSettings.toJson(),
       'tips': userTipData.toJson(),
       'features': features?.toJson(),
+      'legal': legalData,
     };
   }
 

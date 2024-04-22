@@ -53,10 +53,7 @@ class _DataProtectionOverview extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: const OnboardingNavigationBar(
-        action: OnboardingNavigationBarContinueButton(
-          nextPage: _PrivacyPolicy(),
-          nextTag: _PrivacyPolicy.tag,
-        ),
+        action: _SignUpButton(),
       ),
     );
   }

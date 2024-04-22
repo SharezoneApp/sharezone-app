@@ -190,3 +190,66 @@ class OnboardingNavigationBarContinueButton extends StatelessWidget {
     );
   }
 }
+
+class _SignUpButton extends StatefulWidget {
+  const _SignUpButton();
+
+  @override
+  _SignUpButtonState createState() => _SignUpButtonState();
+}
+
+class _SignUpButtonState extends State<_SignUpButton> {
+  bool isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
+        disabledForegroundColor:
+            Theme.of(context).primaryColor.withOpacity(0.38),
+      ),
+      onPressed: isLoading
+          ? null
+          : () async {
+              final bloc = BlocProvider.of<RegistrationBloc>(context);
+              try {
+                setState(() => isLoading = true);
+                await bloc.signUp();
+                if (!context.mounted) return;
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              } catch (e, s) {
+                setState(() => isLoading = false);
+                showSnackSec(
+                  text: handleErrorMessage(e.toString(), s),
+                  context: context,
+                );
+              }
+            },
+      child: Stack(
+        key: const ValueKey('SubmitButton'),
+        alignment: Alignment.center,
+        children: [
+          Text(
+            "Weiter".toUpperCase(),
+            style: TextStyle(
+              fontSize: 20,
+              color: isLoading ? Colors.transparent : Colors.white,
+            ),
+          ),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 275),
+            child: isLoading
+                ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(color: Colors.white),
+                  )
+                : Container(),
+          )
+        ],
+      ),
+    );
+  }
+}
