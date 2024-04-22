@@ -35,6 +35,9 @@ class BuySection extends StatelessWidget {
     required this.onPeriodChanged,
     this.isPriceLoading = false,
     this.isPurchaseButtonLoading = false,
+    this.onLetParentsBuy,
+    this.showLetParentsBuyButton = false,
+    this.isLetParentsBuyButtonLoading = false,
   });
 
   final bool isPriceLoading;
@@ -42,6 +45,9 @@ class BuySection extends StatelessWidget {
   final String? monthlyPrice;
   final String? lifetimePrice;
   final VoidCallback? onPurchase;
+  final VoidCallback? onLetParentsBuy;
+  final bool showLetParentsBuyButton;
+  final bool isLetParentsBuyButtonLoading;
   final PurchasePeriod currentPeriod;
   final ValueChanged<PurchasePeriod> onPeriodChanged;
 
@@ -96,6 +102,13 @@ class BuySection extends StatelessWidget {
             isEnabled: !isPriceLoading && !isPurchaseButtonLoading,
             isLoading: isPriceLoading || isPurchaseButtonLoading,
           ),
+          if (showLetParentsBuyButton && onLetParentsBuy != null) ...[
+            const SizedBox(height: 6),
+            _LetParentsBuyButton(
+              onPressed: onLetParentsBuy!,
+              isLoading: isLetParentsBuyButtonLoading,
+            ),
+          ],
           const SizedBox(height: 12),
           _LegalText(period: currentPeriod),
         ],
@@ -123,7 +136,7 @@ class _PurchaseButton extends StatelessWidget {
       ignoring: isLoading,
       child: CallToActionButton(
         text: isLoading
-            ? const _LoadingSpinner()
+            ? const _LoadingSpinner(color: Colors.white)
             : Text(
                 switch (period) {
                   PurchasePeriod.monthly => 'Abonnieren',
@@ -137,17 +150,46 @@ class _PurchaseButton extends StatelessWidget {
   }
 }
 
-class _LoadingSpinner extends StatelessWidget {
-  const _LoadingSpinner();
+class _LetParentsBuyButton extends StatelessWidget {
+  const _LetParentsBuyButton({
+    required this.onPressed,
+    required this.isLoading,
+  });
+
+  final VoidCallback onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    final primaryColor = Theme.of(context).colorScheme.primary;
+    return IgnorePointer(
+      ignoring: isLoading,
+      child: CallToActionButton(
+        text: isLoading
+            ? _LoadingSpinner(color: primaryColor)
+            : const Text('Eltern bezahlen lassen'),
+        onPressed: onPressed,
+        backgroundColor: Colors.transparent,
+        borderColor: primaryColor,
+        textColor: primaryColor,
+      ),
+    );
+  }
+}
+
+class _LoadingSpinner extends StatelessWidget {
+  const _LoadingSpinner({
+    required this.color,
+  });
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
       height: 24.5,
       width: 24.5,
-      child: CircularProgressIndicator(
-        color: Colors.white,
-      ),
+      child: CircularProgressIndicator(color: color),
     );
   }
 }
