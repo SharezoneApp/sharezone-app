@@ -78,16 +78,16 @@ class SharezonePlusStatus {
 }
 
 enum SubscriptionSource {
-  playStore(uiString: 'Play Store', stableDbKey: 'playstore'),
-  appStore(uiString: 'App Store', stableDbKey: 'appstore'),
-  stripe(uiString: 'Stripe', stableDbKey: 'stripe'),
-  unknown(uiString: 'Unknown', stableDbKey: 'unknown');
+  playStore(uiString: 'Play Store', stableAnalyticsKey: 'playstore'),
+  appStore(uiString: 'App Store', stableAnalyticsKey: 'appstore'),
+  stripe(uiString: 'Stripe', stableAnalyticsKey: 'stripe'),
+  unknown(uiString: 'Unknown', stableAnalyticsKey: 'unknown');
 
   const SubscriptionSource({
     required this.uiString,
-    required this.stableDbKey,
+    required this.stableAnalyticsKey,
   });
 
   final String uiString;
-  final String stableDbKey;
+  final String stableAnalyticsKey;
 }
