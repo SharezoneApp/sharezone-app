@@ -192,14 +192,23 @@ class _SelectSubjectDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subjects = context.select<GradesDialogController, IList<SubjectView>>(
+    var subjects = context.select<GradesDialogController, IList<SubjectView>>(
         (c) => c.view.selectableSubjects);
+    final hasPlus =
+        Provider.of<SubscriptionService>(context).isSubscriptionActive();
+    if (!hasPlus) {
+      subjects = subjects.take(3).toIList();
+    }
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: SimpleDialog(
         title: const Text("Fach auswählen"),
         contentPadding: const EdgeInsets.all(12),
         children: [
+          if (!hasPlus) ...[
+            const _CanOnlyUseThreeSubjectsWarning(),
+            const Divider()
+          ],
           for (final subject in subjects)
             _SubjectTile(
               abbreviation: subject.abbreviation,
@@ -210,6 +219,53 @@ class _SelectSubjectDialog extends StatelessWidget {
           const Divider(),
           const JoinCreateCourseFooter(),
         ],
+      ),
+    );
+  }
+}
+
+class _CanOnlyUseThreeSubjectsWarning extends StatelessWidget {
+  const _CanOnlyUseThreeSubjectsWarning();
+
+  @override
+  Widget build(BuildContext context) {
+    const color = Colors.orange;
+    return Material(
+      color: color,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10.0),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                child: Text(
+                  'Du kannst zum Testen der Notenfunktion maximal 3 Fächer benutzen. Um alle Fächer zu benutzen kaufe Sharezone Plus.',
+                  style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 5),
+              FilledButton(
+                onPressed: () =>
+                    openSharezonePlusPageAsFullscreenDialog(context),
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: color,
+                ),
+                child: const Text('Zu Sharezone Plus'),
+              ),
+              const SizedBox(height: 5),
+            ],
+          ),
+        ),
       ),
     );
   }
