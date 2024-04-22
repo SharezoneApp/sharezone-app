@@ -8,6 +8,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 
 void main() {
   /// We are testing this since changing the anchor hash generation algorithm
@@ -149,6 +150,10 @@ void main() {
     });
     test('privacy policy v2 anchors are correct', () {
       expectCorrectAnchorHashes(v2PrivacyPolicy);
+    });
+
+    test('terms of service v1 anchor hashes are correct', () {
+      expectCorrectAnchorHashes(termsOfServicePolicy);
     });
   });
 }

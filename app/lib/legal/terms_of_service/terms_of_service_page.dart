@@ -18,11 +18,11 @@ class TermsOfServicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PrivacyPolicyPage(privacyPolicy: anbPolicy);
+    return PrivacyPolicyPage(privacyPolicy: termsOfServicePolicy);
   }
 }
 
-final anbPolicy = PrivacyPolicy(
+final termsOfServicePolicy = PrivacyPolicy(
   markdownText: tocMarkdown,
   tableOfContentSections: tocDocumentSections.toIList(),
   version: '1.0.0',
