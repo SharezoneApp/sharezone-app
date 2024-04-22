@@ -19,15 +19,11 @@ final v2PrivacyPolicy = PrivacyPolicy(
   markdownText: v2MarkdownPrivacyPolicy,
   tableOfContentSections: v2TocDocumentSections.toIList(),
   version: '2.0.0',
-  // Placeholder URL, this doesn't work yet (redirect still needs to be created)
   downloadUrl: Uri.parse('https://sharezone.net/dse-v2-0-0-pdf'),
-  lastChanged: DateTime(2022, 11, 10),
-  // placeholder
-  entersIntoForceOnOrNull: DateTime(2023, 01, 20),
+  lastChanged: DateTime(2024, 04, 22),
 );
 
 final v2TocDocumentSections = [
-  section('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
   section('1-wichtige-begriffe', '1. Wichtige Begriffe'),
   section('2-geltungsbereich', '2. Geltungsbereich'),
   section(
@@ -84,21 +80,30 @@ final v2TocDocumentSections = [
       section('googlefirebase-analytics', 'Google/Firebase Analytics'),
     ],
   ),
-  section('15-empfaenger-oder-kategorien-von-empfaengern',
-      '15. Empfänger oder Kategorien von Empfängern'),
-  section('16-ssltls-verschluesselung', '16. SSL/TLS-Verschlüsselung'),
-  section('17-videokonferenzen', '17. Videokonferenzen'),
+  section('15-zahlungsdienstleister', '15. Zahlungsdienstleister', [
+    section('a-google-play-store-android', 'a. Google Play Store (Android)'),
+    section('b-apple-app-store-ios--macos', 'b. Apple App Store (iOS & macOS)'),
+    section('c-stripe-web', 'c. Stripe (Web)'),
+    section('d-revenuecat-ios-android-macos',
+        'd. RevenueCat (iOS, Android, macOS)'),
+  ]),
+  section('16-kommunikationsdienstleister', '16. Kommunikationsdienstleister', [
+    section('a-scaleway', 'a. Scaleway'),
+  ]),
+  section('17-empfaenger-oder-kategorien-von-empfaengern',
+      '17. Empfänger oder Kategorien von Empfängern'),
+  section('18-ssltls-verschluesselung', '18. SSL/TLS-Verschlüsselung'),
   section(
-    '18-datenuebertragung-in-drittlaender-ausserhalb-der-eu',
-    '18. Datenübertragung in Drittländer außerhalb der EU',
+    '19-datenuebertragung-in-drittlaender-ausserhalb-der-eu',
+    '19. Datenübertragung in Drittländer außerhalb der EU',
     [
       section('a-firebase-authentication', 'a. Firebase Authentication'),
       section('b-firebase-hosting', 'b. Firebase Hosting'),
     ],
   ),
-  section('19-datenschutzbeauftragter', '19. Datenschutzbeauftragter'),
-  section('20-vorbehalt-der-aenderung-dieser-informationen',
-      '20. Vorbehalt der Änderung dieser Informationen'),
+  section('20-datenschutzbeauftragter', '20. Datenschutzbeauftragter'),
+  section('21-vorbehalt-der-aenderung-dieser-informationen',
+      '21. Vorbehalt der Änderung dieser Informationen'),
 ];
 
 DocumentSection section(
@@ -140,32 +145,6 @@ Hey, du bzw. ihr! Das ist die Datenschutzerklärung unserer App „Sharezone“ 
 > Um diese Informationen über die Datenverarbeitung verständlicher zu gestalten, bieten wir euch an einigen komplizierten Stellen in den hervorgehobenen Textfeldern vereinfachte Zusammenfassungen (kurz: „Einfach gesagt:“) des jeweiligen Abschnitts an.
 Auch wenn wir euch die Zusammenfassung anbieten, ist es wichtig und erforderlich, dass ihr die allein maßgeblich geltenden „Informationen über die Verarbeitung personenbezogener Daten“ gänzlich lest.
 
-Nachfolgend findet ihr eine Übersicht des Inhalts. Durch einen Klick auf eine bestimmte Überschrift landet ihr direkt bei der betreffenden Stelle.
-
-## Inhaltsverzeichnis
-
-* [Inhaltsverzeichnis](#inhaltsverzeichnis)
-* [1. Wichtige Begriffe](#1-wichtige-begriffe)
-* [2. Geltungsbereich](#2-geltungsbereich)
-* [3. Verantwortlichkeit und Kontakt](#3-verantwortlichkeit-und-kontakt)
-* [4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten](#4-hosting-backend-infrastruktur-und-speicherort-fr-eure-daten)
-* [5. Deine Rechte](#5-deine-rechte)
-* [6. Eure Kontaktaufnahme](#6-eure-kontaktaufnahme)
-* [7. Unser Umgang mit euren Daten](#7-unser-umgang-mit-euren-daten)
-* [8. Account, Nickname und Passwort](#8-account-nickname-und-passwort)
-* [9. Verarbeitung der IP-Adresse](#9-verarbeitung-der-ip-adresse)
-* [10. Speicherdauer und Speicherfristen](#10-speicherdauer-und-speicherfristen)
-* [11. Verarbeitung des gewählten Account-Typs und des Bundeslandes](#11-verarbeitung-des-gewhlten-account-typs-und-des-bundeslandes)
-* [12. Anonyme statistische Auswertung der App-Nutzung](#12-anonyme-statistische-auswertung-der-app-nutzung)
-* [13. Push-Nachrichten](#13-push-nachrichten)
-* [14. Instance ID](#14-instance-id)
-* [15. Empfänger oder Kategorien von Empfängern](#15-empfnger-oder-kategorien-von-empfngern)
-* [16. SSL/TLS-Verschlüsselung](#16-ssltls-verschlsselung)
-* [17. Videokonferenzen](#17-videokonferenzen)
-* [18. Datenübertragung in Drittländer außerhalb der EU](#18-datenbertragung-in-drittlnder-auerhalb-der-eu)
-* [19. Datenschutzbeauftragter](#19-datenschutzbeauftragter)
-* [20. Vorbehalt der Änderung dieser Informationen](#20-vorbehalt-der-nderung-dieser-informationen)
-
 ## 1. Wichtige Begriffe
 
 Unter dem nachfolgenden Link findest du die offizielle Erläuterung von wichtigen Begriffen aus der Datenschutz-Grundverordnung (kurz: „DSGVO“), von denen wir auch einige in dieser Information verwenden. Bitte klickt diesen und etwa weiter angegebene Links in dieser Information nur an, wenn ihr mit dem Öffnen dieser fremden Seiten von dritten Anbietern und deren Datenverarbeitung und Datenschutzerklärung einverstanden seid:
@@ -176,7 +155,7 @@ Solltest du einmal ein Wort (z.B. “verarbeiten“, “personenbezogenen Daten�
 
 ## 2. Geltungsbereich
 
-Diese Datenschutzerklärung gilt für diese App „Sharezone“ und für die über diese App verarbeiteten personenbezogenen Daten.
+Diese Datenschutzerklärung gilt für die App „Sharezone“ und für die über diese App verarbeiteten personenbezogenen Daten.
 
 Für Anwendungen und Internetseiten anderer Anbieter, auf die gegebenenfalls z.B. - wie in Ziffer 1. dieser Erklärung - über Links verwiesen wird, gelten allein die dortigen Datenschutzhinweise und /–erklärungen. Bitte öffnet diese Inhalte von anderen dritten Anbietern nur, wenn ihr mit dem Öffnen dieser fremden Inhalte von Dritten und deren Datenverarbeitung und Datenschutzerklärung einverstanden seid.
 
@@ -184,8 +163,8 @@ Für Anwendungen und Internetseiten anderer Anbieter, auf die gegebenenfalls z.B
 
 Verantwortlicher für die Verarbeitung personenbezogener Daten dieser App im Sinne der DSGVO ist:
 
-Sharezone UG (haftungsbeschränkt)
-Speditionstraße 15A
+Sharezone UG (haftungsbeschränkt)\
+Speditionstraße 15A\
 40221 Düsseldorf
 
 nachfolgend kurz: „wir“, „uns“ oder „Sharezone“
@@ -202,9 +181,7 @@ Eure Daten: Die von euch in der App hinzugefügten Daten, Posts, Dateien (z. B. 
 
 Diese Daten könnt ihr selbst jederzeit löschen. Löscht ihr euren Account, ohne zuvor eure Inhalte zu löschen, so wird euer Nickname bei den Inhalten bei der Angabe „Erstellt von“ anonymisiert. Die Inhalte bleiben für die anderen Gruppenmitglieder weiterhin verfügbar. Kommentare bei Inhalten oder Nachrichten im Messenger von dir werden gelöscht.
 
-Einzig der Dienst Firebase Authentication (zur Authentifizierung der Nutzer erforderlich) und Firebase Hosting (Web-Hosting der Web-App) läuft über die Rechenzentren von Google in den USA. Diesbezüglich haben wir mit Google die [EU Standardvertragsklauseln](https://cloud.google.com/terms/eu-model-contract-clause) der EU Kommission abgeschlossen.
-
-Diese Maßnahme gewährleistet, dass im Rahmen der Datenverarbeitung in der USA die Vorgaben der DSGVO strengstens beachtet werden.
+Einzig beim Dienst Firebase Authentication (zur Authentifizierung der Nutzer erforderlich) und Firebase Hosting (zur Web-Hosting der [Web App](https://web.sharezone.net), unserer [Webseite](https://sharezone.net) und unserer [Dokumentation](https://docs.sharezone.net)) werden möglicherweise Daten außerhalb der EU verarbeitet. Weitere Informationen dazu werden in [17. Datenübertragung in Drittländer außerhalb der EU](#17-datenübertragung-in-drittländer-außerhalb-der-eu) beschrieben. Soweit Daten in den USA verarbeitet werden, weisen wir daraufhin, dass [Google unter dem Privacy Shield Framework zertifiziert ist](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active) und hierdurch zusichert, das europäische Datenschutzrecht einzuhalten.
 
 Des Weiteren haben wir mit Google einen sog. „Auftragsverarbeitungsvertrag“ geschlossen, der sicherstellt, dass Google nur nach unseren Anweisungen handelt und sich im Übrigen auch nach diesem Vertrag an die Vorgaben der europäischen Datenschutzgesetze, insbesondere an die der DSGVO hält.
 
@@ -221,9 +198,9 @@ Weitere Informationen zur Google Cloud Plattform und deren IT-Sicherheit & Daten
 
 Die technisch notwendige Nutzung von Diensten von Google und Speicherung eurer freiwillig mitgeteilten Inhalte erfolgt aus eurem und unserem berechtigten Interesse (Art. 6 Abs. 1 S. 1 lit. f. DSGVO) zu einer sicheren, dauerhaft verfügbaren sowie performanten Darbietung, Aufrechterhaltung und Betrieb dieser App, damit ihr euren Schulalltag schnell und einfach digital mit unserer App organisieren könnt, um euch auf das Wesentliche in der Schule konzentrieren zu können.
 
-Backups (=Sicherungskopien) werden sowohl innerhalb als auch außerhalb der Google Cloud bei einem anderen Hosting-Anbieter innerhalb von Deutschland gespeichert.
+Backups (=Sicherungskopien) werden sowohl innerhalb als auch außerhalb der Google Cloud bei einem anderen Hosting-Anbieter innerhalb der EU gespeichert.
 
-Wenn ihr älter als 16 Jahre alt seid, erfolgt die Verarbeitung der vorgenannten Daten auf der Rechtsgrundlage euer Einwilligung gemäß Art. 6 Abs. 1 S. 1 lit. a DSGVO).  
+Wenn ihr älter als 16 Jahre alt seid, erfolgt die Verarbeitung der vorgenannten Daten auf der Rechtsgrundlage euer Einwilligung gemäß Art. 6 Abs. 1 S. 1 lit. a DSGVO.  
 
 ## 5. Deine Rechte
 
@@ -324,7 +301,7 @@ Aus Gründen der Datensicherheit, also um unerlaubte Zugriffe aufklären oder Mi
 
 Wenn ihr unsere App nutzen möchtet, erheben wir die vorgenannten Daten, die für uns unabdingbar technisch erforderlich sind, um euch unsere App überhaupt anbieten zu können und um die Verbesserung der Stabilität, Funktionalität und Sicherheit für beide Seiten zu gewährleisten, sodass die Erhebung dieser Daten aufgrund eines berechtigten Interesses auf beiden Seiten erfolgt (Rechtsgrundlage ist daher Art. 6 Abs. 1 S. 1 lit. f DSGVO).
 
-Wenn ihr älter als 16 Jahre alt seid, erfolgt die Verarbeitung der vorgenannten Daten auf der Rechtsgrundlage euer Einwilligung gemäß Art. 6 Abs. 1 S. 1 lit. a DSGVO).
+Wenn ihr älter als 16 Jahre alt seid, erfolgt die Verarbeitung der vorgenannten Daten auf der Rechtsgrundlage euer Einwilligung gemäß Art. 6 Abs. 1 S. 1 lit. a DSGVO.
 
 ## 8. Account, Nickname und Passwort
 
@@ -338,7 +315,7 @@ Wenn ihr unter 16 Jahre alt seid, dürft ihr lediglich diesen anonymen Account n
 
 Jeder Nutzer, der die App verwendet, bekommt stets automatisch ein anonymes Konto zugewiesen. Dieses Konto erhält ein Pseudonym als Nickname (etwa „Anonymer Tiger“). Dieser Nickname kann in den Einstellungen auch nach eurem Belieben abschließend in entweder euren Spitznamen oder Fantasienamen umbenannt werden (etwa “Matze“ für “Matthias Mustermann“, “Jen“ für “Jennifer Musterfrau“ oder einfach “Schlauer Fuchs“).
 
-Der Fantasie- oder euer freiwillig angegebene Nickname in der App ist erforderlich, damit die anderen Teilnehmer*innen aus euren Kursen, Klassen oder Schule (**nachfolgend zusammengefasst als „Gruppe“ bezeichnet**) euch in den Anwendungsmöglichkeiten der App von anderen Schüler*innen unterscheiden können (Zweck der Verarbeitung).
+Der Fantasie- oder euer freiwillig angegebene Nickname in der App ist erforderlich, damit die anderen Teilnehmer\*innen aus euren Kursen, Klassen oder Schule (**nachfolgend zusammengefasst als „Gruppe“ bezeichnet**) euch in den Anwendungsmöglichkeiten der App von anderen Schüler\*innen unterscheiden können (Zweck der Verarbeitung).
 
 Soweit ihr unter 16 Jahren alt seid, verbieten wir für die Erlangung eines Nutzungsrechts an der App ausdrücklich, dass ihr dabei euren echten Namen verwendet, damit eure Privatsphäre so weit wie möglich gewahrt bleibt.
 
@@ -364,9 +341,33 @@ Die Registrierung mittels der Registrierungsdaten erfolgt auf eurem Wunsch, d.h.
 
 * Außerdem können wir dich über sicherheitsrelevante Informationen über deinen Account informieren (z.B. Login von einem fremden Gerät).
 
-Euer frei wählbarer Nickname hilft darüber hinaus anderen Teilnehmer*innen aus eurer Gruppe, euch in den Anwendungsmöglichkeiten der App von anderen Schüler*innen, Lehrkräften und Eltern zu unterscheiden. Ihr könnt dafür auch euren Spitznamen oder einen Fantasienamen wählen.
+Euer frei wählbarer Nickname hilft darüber hinaus anderen Teilnehmer\*innen aus eurer Gruppe, euch in den Anwendungsmöglichkeiten der App von anderen Schüler\*innen, Lehrkräften und Eltern zu unterscheiden. Ihr könnt dafür auch euren Spitznamen oder einen Fantasienamen wählen.
 
 Die Registrierung und Anmeldung mit den Registrierungsdaten haben den Zweck, dass ihr euch stets von jedem beliebigen Gerät auf euren Account einloggen könnt. Wenn ihr euer Passwort vergessen habt, könnt ihr die Option „Passwort vergessen“ auswählen. Wir schicken euch dann eine E-Mail mit einem Link, über den ihr ein neues Passwort setzen könnt. Des Weiteren kann der Missbrauch der App verhindert bzw. verfolgt werden.
+
+Hier findest du eine kurze Auflistung der Daten, die verarbeitet werden, je nachdem, welchen Provider du auswählst:
+
+**E-Mail-Adresse**:
+
+* IP-Adresse
+* E-Mail-Adresse
+* Passwort
+
+**Google Sign In**:
+
+* IP-Adresse
+* User-ID deines Google Accounts
+* Name deines Google Accounts
+* Profilbild deines Google Accounts
+
+Solltest, du dich mit deinem Google Account anmelden, werden wir nur die IP-Adresse und die User-ID verwenden. Dennoch werden der Name und das Profilbild von deinem Google-Account verarbeitet, weil dies aktuell technisch nicht anders möglich ist.
+
+**Apple Sign In**:
+
+* IP-Adresse
+* User-ID deines Apple Accounts
+
+Die Anmeldung mit Apple Sign In und Google Sign In haben so konfiguriert, dass wir möglichst und nur technisch notwendige Daten (beispielweise keine E-Mail-Adresse) verarbeiten, um eure Privatsphäre zu schützen und der Datenminimierung (Art. 5 Abs. 1 lit. c DSGVO) nachzukommen.
 
 Mit der freiwilligen Angabe eurer Registrierungsdaten, zur Nutzung der technisch bedingten Vorteile der App, erklärt ihr eure Einwilligung zur Verarbeitung der Registrierungsdaten (Rechtsgrundlage Art. 6 Abs. 1 S. 1 lit. a DSGVO). Ohne Abgabe eurer Einwilligung ist die Nutzung dieser App nur gemäß Ziffer 9.a. (anonymer Account) möglich.
 
@@ -390,7 +391,7 @@ Aufgrund gesetzlicher Verjährungsfristen sind wir dazu angehalten, diese Daten 
 
 Rechtsgrundlage für die technisch zwingend erforderliche Verarbeitung der IP-Adresse stellt in Fällen Ziffer 9.a. unser berechtigtes Interesse (Art. 6 Abs. 1 S. 1 lit. f DSGVO) dar, euch die App und dessen Anwendungsmöglichkeiten dauerhaft verfügbar zu machen, sowie die App performant darzubieten, aufrecht zu halten und zu betreiben, um euer berechtigtes Interesse (Art. 6 Abs. 1 S. 1 lit. f DSGVO) an der Nutzung der App zu erfüllen, dass ihr euren Schulalltag schnell, einfach und digital mit unserer App organisieren könnt.
 
-In Fällen den Ziffer 9.b. besteht die Rechtsgrundlage für die Verarbeitung eurer IP-Adresse neben dem berechtigten Interesse des Weiteren in eurer Einwilligung gemäß Art. 6 Abs. 1 S.1 lit. a DSGVO)
+In Fällen den Ziffer 9.b. besteht die Rechtsgrundlage für die Verarbeitung eurer IP-Adresse neben dem berechtigten Interesse des Weiteren in eurer Einwilligung gemäß Art. 6 Abs. 1 S.1 lit. a DSGVO.
 
 Wenn ihr mit der Speicherung nicht einverstanden seid, kann die App technisch bedingt nicht genutzt werden.
 
@@ -402,7 +403,7 @@ Sämtliche Fristen beginnen mit Ablauf des Monats, in welchem die Bearbeitung de
 
 Im Übrigen bemisst sich die Dauer der Speicherung von personenbezogenen Daten anhand der gesetzlichen Aufbewahrungsrechte und –Pflichten (etwa aus dem Handels- oder Steuerrecht). Nach Ablauf der Frist werden die Daten zum Ende des Monats gelöscht, sofern sie nicht für die Anbahnung, Durchführung und Beendigung eines Vertrages erforderlich sind und / oder kein berechtigtes Interesse unsererseits an der Verarbeitung besteht.
 
-Wird die App länger als zwei Jahre nicht mehr verwendet, wird das Konto automatisch gelöscht. Bei anonymen Accounts tritt diese Löschung bereits nach sechs Monaten anstatt zwei Jahren ein.
+Wird die App länger als zwei Jahre nicht mehr verwendet, wird das Konto automatisch gelöscht. Bei anonymen Accounts tritt diese Löschung bereits nach zwölf Monaten anstatt zwei Jahren ein.
 
 ## 11. Verarbeitung des gewählten Account-Typs und des Bundeslandes
 
@@ -460,7 +461,7 @@ Nutzt Instance-IDs, um sicherzustellen, dass genügend verschiedene Installation
 
 ### Firebase Predictions
 
-Nutzt Instance-IDs, um für die App spezifische Nutzungsdaten (Events) abzurufen und analysieren zu können.
+Nutzt Instance-IDs, um für die App spezifische Nutzungsdaten (Events) abzurufen und analysieren zu können.\
 Daraus werden Vorhersagen generiert, wie z.B., dass ein Nutzer bald die App deinstallieren wird. Die Instance-ID kann bis zu 180 in Backup-Systemen verbleiben.
 
 ### Firebase Remote Config
@@ -481,7 +482,35 @@ Rechtsgrundlage der Verarbeitung ist Art. 6, Absatz 1(b) der DSGVO, der besagt, 
 >
 > Dabei werden keine personenbezogenen Daten an Google übermittelt.
 
-## 15. Empfänger oder Kategorien von Empfängern
+## 15. Zahlungsdienstleister
+
+Die App bietet eine Möglichkeit, die "Sharezone Plus" Mitgliedschaft zu erwerben. Rechtsgrundlage der Verarbeitung ist Art. 6 Abs. S. 1 lit. b DSGVO, der besagt, dass die Daten zum Abschluss eines Vertrages erforderlich sind. Dafür werden folgende Zahlungsdienstleister verwendet:
+
+### a. Google Play Store (Android)
+
+Wenn du die Mitgliedschaft über den Google Play Store erwirbst, gelten die Datenschutzbestimmungen von Google. Diese findest du [hier](https://policies.google.com/privacy?hl=de&gl=de).
+
+### b. Apple App Store (iOS & macOS)
+
+Wenn du die Mitgliedschaft über den Apple App Store erwirbst, gelten die Datenschutzbestimmungen von Apple. Diese findest du [hier](https://www.apple.com/de/privacy/).
+
+### c. Stripe (Web)
+
+Wenn du die Mitgliedschaft über Stripe erwirbst, gelten die Datenschutzbestimmungen von Stripe. Diese findest du [hier](https://stripe.com/de/privacy).
+
+### d. RevenueCat (iOS, Android, macOS)
+
+Wenn du die Mitgliedschaft über iOS, Android oder macOS erwirbst, wird für den Kauf der Mitgliedschaft RevenueCat verwendet. Die Datenschutzbestimmungen von RevenueCat findest du [hier](https://www.revenuecat.com/privacy).
+
+## 16. Kommunikationsdienstleister
+
+Um euch über Änderungen zu informieren, nutzen wir Kommunikationsdienstleister. Rechtsgrundlage der Verarbeitung ist Art. 6 Abs. S. 1 lit. b DSGVO, um über Änderung des Vertrags zu informieren. Dafür werden folgende Kommunikationsdienstleister verwendet:
+
+### a. Scaleway
+
+Um euch E-Mails zu schicken, nutzen wir Scaleway. Die Datenschutzbestimmungen von Scaleway findest du [hier](https://www.scaleway.com/en/privacy-policy/).
+
+## 17. Empfänger oder Kategorien von Empfängern
 
 In der Regel werden personenbezogene Daten, die du uns zu deiner Person mitteilst, nur durch uns verarbeitet. Zur Erfüllung unserer Aufgaben und Pflichten kann es aber erforderlich sein, dass wir die zu eurer Person gespeicherten personenbezogenen Daten gegebenenfalls gegenüber natürlichen und juristischen Personen, Behörden, Einrichtungen oder anderen Stellen gegenüber offenlegen müssen. In Betracht kommen dabei insbesondere folgende Kategorien von Empfängern:
 
@@ -490,27 +519,15 @@ In der Regel werden personenbezogene Daten, die du uns zu deiner Person mitteils
 * Nicht-öffentliche Stellen sofern es sich hierbei um einen Auftragsverarbeiter handelt
 * Rechtsanwälte, Steuerberater, Notare, Wirtschaftsprüfer
 
-## 16. SSL/TLS-Verschlüsselung
+## 18. SSL/TLS-Verschlüsselung
 
 Diese App nutzt aus Gründen der Sicherheit von Daten und zum Schutz der Übertragung vertraulicher Inhalte, wie zum Beispiel der Anfragen, die du an uns sendest, eine SSL/TLS-Verschlüsselung, die von Google Firebase standardmäßig zur Verfügung gestellt wird. Eine verschlüsselte Verbindung erkennt ihr z.B. daran, dass die Adresszeile des Browsers von "http://" auf "https://" wechselt und an dem Schloss-Symbol in der Browserzeile. Über die SSL/TLS-Verschlüsselung können die Daten, die ihr an uns übermittelt, nicht von Dritten bei der Übertragung mitgelesen werden.
 
-## 17. Videokonferenzen
+## 19. Datenübertragung in Drittländer außerhalb der EU
 
-Die App ermöglicht ebenfalls die freiwillige Nutzung von Videokonferenzen, damit ihr z.B. Fernunterricht über „Sharezone“ durchführen könnt. Dafür wird der Dienst Jitsi Meet verwendet, eine Open Source Videokonferenzlösung der Firma 8x8 Inc. (2125 O'Nel Dr, San Jose, CA 95131, Vereinigte Staaten – nachfolgend kurz 8X8), die lokal auf einem Server gespeichert wird.
+Soweit Daten von Google für das Hosting und Betreiben unserer App in den USA verarbeitet werden, weisen wir daraufhin, dass [Google unter dem Privacy Shield Framework zertifiziert ist](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active) und hierdurch zusichert, das europäische Datenschutzrecht einzuhalten.
 
-Nutzer können so sichere und mit umfassenden Funktionen ausgestattete Videokonferenzen abhalten. Dies kann mit der App passieren oder über den Browser (https://meet.sharezone.net). Tritt der Nutzer über den Browser bei, wird die App „Sharezone“ nicht benötigt.
-
-Die Software Jitsi Meet ist lokal auf unseren Server mit Standort **Belgien** (siehe Ziffer 4. Hosting, Backend-Infrastruktur und Speicherplatz für eure Daten) installiert und sendet keine Daten an die Firma 8x8 Inc.
-
-Bei der Nutzung wird deine Stimme (falls Mikrofon aktiviert) und dein Videobild (falls Videofunktion aktiviert ist) während der Videokonferenz temporär während der Nutzung verarbeitet, damit du mit anderen Personen kommunizieren kannst.
-
-Auf der Grundlage von WebRTC werden Daten über Datagram Transport Layer Security (DTLS) und Secure Real-Time Transport Protocol (SRTP) verschlüsselt übertragen. WebRTC bietet jedoch (noch) keine stabile Möglichkeit, Videokonferenzen mit mehr als zwei Teilnehmer*innen Ende-zu-Ende zu verschlüsseln. Das bedeutet: Auf dem Transportweg ist die Videokonferenz verschlüsselt, auf dem Videokonferenz-Server hingegen wird der gesamte Datenverkehr entschlüsselt und ist damit theoretisch für uns einsehbar, falls Jitsi über unsere Server genutzt wird. Jedoch werden wir zu keiner Zeit davon Gebrauch machen und speichern keinerlei Informationen zu den Videokonferenzen.
-
-Bei Nutzung des Dienstes erfolgt die kurzzeitige Zwischenspeicherung der Daten zu dem Zweck, den Teilnehmer*innen die Nutzung der Videokonferenz zu ermöglichen.
-
-Rechtsgrundlage für die kurzzeitige Zwischenspeicherung stellt für den Fall einer Registrierung nach Ziffer 9 lit. b. eure Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) für die Nutzung des Dienstes dar. Im Übrigen erfolgt die technisch zwingend erforderliche Zwischenspeicherung aufgrund eures und unseres berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO), euch eine Videokonferenzlösung aus Deutschland heraus anzubieten, damit ihr etwa Fernunterricht wahrnehmen könnt.
-
-## 18. Datenübertragung in Drittländer außerhalb der EU
+Das EU-U.S. und Swiss-U.S. Privacy Shield Framework wurde gemeinsam von U.S. Department of Commerce, der EU Kommission und der Schweizer Regierung entwickelt, um Unternehmen die in den jeweiligen Wirtschaftsräumen Dienste zur Verfügung stellen eine Rahmen zu geben, in dem die Datenschutzanforderung beim Transfer von personenbezogenen Daten den Datenschutzanforderung der EU, der Schweiz und den Vereinigten Staaten entsprechen. Google ist zertifiziertes Mitglied dieses Programms. Weitere Informationen zu diesem Programm findest du unter https://www.dataprivacyframework.gov. Weitere Anforderungen zur Zertifizierung von Google finden Sie unter https://www.privacyshield.gov/participant?id=a2zt000000001L5AAI&status=Active.
 
 ### a. Firebase Authentication
 
@@ -518,28 +535,28 @@ Zur Nutzung von Sharezone ist es erforderlich ein Benutzerkonto zu haben (warum 
 
 Aus Sicherheitsgründen wird dabei die IP-Adresse kurzfristig geloggt und kann in den Backups [laut Google](https://firebase.google.com/support/privacy#examples_of_end-user_personal_data_processed_by_firebase) bis zu 180 Tagen verbleiben.
 
-Solltest du dein Konto mit einer E-Mail-Adresse oder einem Google-Konto verknüpft haben, wird diese E-Mail-Adresse (bei Google-Konten die E-Mail-Adresse des Google-Kontos) bei Firebase Authentication gespeichert, weil diese Information beim Einloggen erforderlich ist.
+Solltest du dein Konto mit einer E-Mail-Adresse oder einem Apple/Google-Konto verknüpft haben, werden weitere Daten verarbeitet, weil diese Information beim Einloggen erforderlich sind. Eine genaue Auflistung der Daten findest du unter [b. Registrierung mit E-Mail-Adresse \& Passwort oder Google/Apple Sign In ab einem Alter von 16 Jahren und älter](#b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-älter).
 
-Der Dienst Firebase Authentication wird in den USA von Google gehostet. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, haben wir mit Google die EU-Standardvertragsklauseln abgeschlossen.
+Der Dienst Firebase Authentication wird in den USA von Google gehostet. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, ist [Google unter dem Privacy Shield Framework zertifiziert](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active).
 
 Rechtsgrundlage für die befristete Speicherung der IP-Adresse stellt für den Fall einer Registrierung nach Ziffer 9 lit. b. eure Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) für die Nutzung des Dienstes dar. Im Übrigen erfolgt die technisch zwingend erforderliche Speicherung aufgrund eures und unseres berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO), euch die App performant zur Verfügung zu stellen.
 
 ### b. Firebase Hosting
 
-Über Firebase Hosting läuft das Web-Hosting der Web-App (https://web.sharezone.net). Solltest du die Web-App von Sharezone nutzen, schickst du eine Anfrage an Firebase Hosting, um die Seite zu laden.
+Über Firebase Hosting läuft das Web-Hosting der Web-App (https://web.sharezone.net), unserer Webseite (https://sharezone.net) und unserer Dokumentation (https://docs.sharezone.net). Solltest dieser Webseiten von Sharezone verwenden, schickst du eine Anfrage an Firebase Hosting, um die Seite zu laden.
 
-Bei jedem Zugriff wird die IP-Adresse aus Sicherheitsgründen in den Logs gespeichert. Diese IP-Adresse bleibt [laut Google](https://firebase.google.com/support/privacy#examples_of_end-user_personal_data_processed_by_firebase) für ein paar Monate gespeichert.
+Bei jedem Zugriff wird die IP-Adresse aus Sicherheitsgründen in den Logs gespeichert. Diese IP-Adresse bleibt [laut Google](https://firebase.google.com/support/privacy#examples_of_end-user_personal_data_processed_by_firebase) für ein paar Monate gespeichert. Weitere personenbezogene Daten werden bei der Nutzung von Firebase Hosting nicht verarbeitet.
 
-Der Dienst Firebase Hosting wird in den USA von Google gehostet. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, haben wir mit Google die EU-Standardvertragsklauseln abgeschlossen.
+Der Dienst Firebase Hosting wird in den USA, Europa und Asien von Google gehostet. Je nachdem wo du dich aktuell auf der Welt befindest, wirst das nächstmögliche Rechenzentrum verwendet, um eine möglichst kurze Ladezeit zu ermöglichen. In den aller meisten Fällen solltest du mit einem Rechenzentrum aus Europa geleitet werden, wo schlussendlich die Daten verarbeitet werden. Auch wenn es unwahrscheinlich ist, könnte deine Anfrage an ein Rechenzentrum außerhalb von EU weitergeleitet werden. Um eine datenschutzgerechte Verarbeitung zu ermöglichen, ist [Google unter dem Privacy Shield Framework zertifiziert](https://www.privacyshield.gov/ps/participant?id=a2zt000000001L5AAI&status=active).
 
 Rechtsgrundlage für die befristete Speicherung der IP-Adresse stellt für den Fall einer Registrierung nach Ziffer 9 lit. b. eure Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) für die Nutzung des Dienstes dar. Im Übrigen erfolgt die technisch zwingend erforderliche Speicherung aufgrund eures und unseres berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO), euch die Web-App performant zur Verfügung zu stellen.
 
-## 19. Datenschutzbeauftragter
+## 20. Datenschutzbeauftragter
 
 Der Verantwortliche hat die Kontaktdaten seines ggf. gem. Art. 37 DSGVO benannten Datenschutzbeauftragten mitzuteilen, wenn die Pflicht zur Ernennung eines Datenschutzbeauftragten besteht.
 
 Wir sind derzeit nicht verpflichtet einen Datenschutzbeauftragten zu haben.
 
-## 20. Vorbehalt der Änderung dieser Informationen
+## 21. Vorbehalt der Änderung dieser Informationen
 
 Änderung der Rechtslage oder Gesetze können eine Anpassung dieser Informationen erforderlich machen. Wir bitten dich daher höflich, diese Informationen bei jedem Besuch unserer Internetseiten zur Kenntnis zu nehmen.""";
