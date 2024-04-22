@@ -21,7 +21,10 @@ class TermsOfServicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PrivacyPolicyPage(privacyPolicy: termsOfServicePolicy);
+    return PrivacyPolicyPage(
+      privacyPolicy: termsOfServicePolicy,
+      headingText: 'Allgemeine Nutzungsbedingungen',
+    );
   }
 }
 
