@@ -506,17 +506,21 @@ class _FinalGradeType extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Endnote eines Faches',
-          style: TextStyle(fontSize: 16),
+        ListTile(
+          contentPadding: const EdgeInsets.all(0),
+          title: const Text('Endnote eines Faches'),
+          subtitle: Text(
+            'Die berechnete Fachnote kann von einem Notentyp überschrieben werden.',
+            style: TextStyle(
+                color:
+                    Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
+          ),
+          trailing: IconButton(
+            tooltip: 'Was ist die Endnote?',
+            icon: const Icon(Icons.help_outline),
+            onPressed: () => _FinalGradeTypeHelpDialog.show(context),
+          ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Die berechnete Fachnote kann von einem Notentyp überschrieben werden.',
-          style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
-        ),
-        const SizedBox(height: 8),
         ListTile(
           leading: icon,
           title: Text(displayName),
@@ -533,6 +537,38 @@ class _FinalGradeType extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+class _FinalGradeTypeHelpDialog extends StatelessWidget {
+  const _FinalGradeTypeHelpDialog();
+
+  static void show(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => const _FinalGradeTypeHelpDialog(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 550,
+      child: AlertDialog(
+        title: const Text('Was ist die Endnote eines Faches?'),
+        content: const SingleChildScrollView(
+          child: Text(
+            'Die Endnote ist die abschließende Note, die du in einem Fach bekommst, zum Beispiel die Note auf deinem Zeugnis. Manchmal berücksichtigt deine Lehrkraft zusätzliche Faktoren, die von der üblichen Berechnungsformel abweichen können – etwa 50% Prüfungen und 50% mündliche Beteiligung. In solchen Fällen kannst du die in Sharezone automatisch berechnete Note durch diese finale Note ersetzen.\n\nDiese Einstellung kann entweder für alle Fächer eines Halbjahres gleichzeitig festgelegt oder für jedes Fach individuell angepasst werden. So hast du die Flexibilität, je nach Bedarf spezifische Anpassungen vorzunehmen.',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 }
