@@ -128,9 +128,15 @@ class SharezonePlusPageController extends ChangeNotifier {
         await _purchaseService.purchase(_getProductId());
       }
     } catch (e, s) {
-      _crashAnalytics.recordError('Error when buying Sharezone Plus: $e', s);
       isPurchaseButtonLoading = false;
       notifyListeners();
+
+      if ('$e'.contains('PURCHASE_CANCELLED')) {
+        // User aborted the purchase.
+        return;
+      }
+
+      _crashAnalytics.recordError('Error when buying Sharezone Plus: $e', s);
       rethrow;
     }
   }
@@ -148,7 +154,9 @@ class SharezonePlusPageController extends ChangeNotifier {
       PurchasePeriod.monthly => switch (platform) {
           Platform.android =>
             const ProductId('sz_plus_subscription_play_store:monthly'),
-          Platform.iOS || Platform.macOS => const ProductId('?'),
+          Platform.iOS ||
+          Platform.macOS =>
+            const ProductId('sz_plus_subscription_monthly_app_store'),
           _ => throw UnsupportedError('Platform $platform is not supported.'),
         },
     };

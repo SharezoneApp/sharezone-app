@@ -192,11 +192,12 @@ class _UnsubscribeButton extends StatelessWidget {
     const flatRed = Color(0xFFF55F4B);
     return CallToActionButton(
       onPressed: () async {
-        await showDialog(
+        final shouldCancel = await showDialog<bool>(
           context: context,
           builder: (context) => const _UnsubscribeNoteDialog(),
         );
-        if (!context.mounted) {
+
+        if (shouldCancel != true || !context.mounted) {
           return;
         }
 
@@ -267,7 +268,7 @@ class _UnsubscribeNoteDialog extends StatelessWidget {
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(context).pop(true),
             child: const Text('Kündigen'),
           ),
         ],
