@@ -16,6 +16,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/grades/models/grade_id.dart';
 import 'package:sharezone/grades/models/subject_id.dart';
 import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
@@ -32,7 +33,7 @@ import 'term_details_page_test.mocks.dart';
 ])
 void main() {
   group(TermDetailsPage, () {
-    final termId = TermId('term-1');
+    const termId = TermId('term-1');
     late MockTermDetailsPageController controller;
     late MockTermDetailsPageControllerFactory controllerFactory;
 
@@ -52,7 +53,7 @@ void main() {
     }
 
     void setEmptyState() {
-      setState(TermDetailsPageLoaded(
+      setState(const TermDetailsPageLoaded(
         term: (
           id: TermId('term-1'),
           displayName: '10/2',
@@ -67,7 +68,7 @@ void main() {
       setState(
         TermDetailsPageLoaded(
           term: (
-            id: TermId('term-1'),
+            id: const TermId('term-1'),
             displayName: '10/2',
             avgGrade: ('1,0', GradePerformance.good),
           ),
@@ -75,16 +76,18 @@ void main() {
             (
               grades: [
                 (
+                  id: GradeId('1'),
                   gradeTypeIcon: const Icon(Icons.note_add),
-                  date: Date.fromDateTime(DateTime(2021, 2, 2)),
+                  date: Date.fromDateTime(DateTime(2021, 2, 2)).toDateString,
                   grade: '1,0',
-                  gradeTypeName: 'Klausur',
+                  title: 'Klausur',
                 ),
                 (
+                  id: GradeId('2'),
                   gradeTypeIcon: const Icon(Icons.text_format),
-                  date: Date.fromDateTime(DateTime(2021, 2, 1)),
+                  date: Date.fromDateTime(DateTime(2021, 2, 1)).toDateString,
                   grade: '2+',
-                  gradeTypeName: 'Vokabeltest',
+                  title: 'Vokabeltest',
                 ),
               ],
               subject: (
@@ -92,7 +95,7 @@ void main() {
                 abbreviation: 'DE',
                 grade: '2,0',
                 design: Design.random(random),
-                id: SubjectId('1'),
+                id: const SubjectId('1'),
               ),
             ),
             (
@@ -102,7 +105,7 @@ void main() {
                 abbreviation: 'E',
                 grade: '2+',
                 design: Design.random(random),
-                id: SubjectId('2'),
+                id: const SubjectId('2'),
               ),
             ),
             (
@@ -112,7 +115,7 @@ void main() {
                 abbreviation: 'DE',
                 grade: '1-',
                 design: Design.random(random),
-                id: SubjectId('3'),
+                id: const SubjectId('3'),
               ),
             ),
           ],
@@ -135,7 +138,7 @@ void main() {
           value: controllerFactory,
           child: ChangeNotifierProvider<TermDetailsPageController>.value(
             value: controller,
-            child: TermDetailsPage(id: termId),
+            child: const TermDetailsPage(id: termId),
           ),
         ),
         wrapper: materialAppWrapper(theme: theme),

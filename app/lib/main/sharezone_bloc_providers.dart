@@ -64,9 +64,12 @@ import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
-import 'package:sharezone/grades/grades_flag.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
+import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
@@ -107,9 +110,10 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/c
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart';
 import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_settings_bloc_factory.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_analytics.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
@@ -318,16 +322,19 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         CloudFunctionHolidayApiClient(api.references.functions);
 
     const clock = Clock();
-    final subscriptionEnabledFlag = context.read<SubscriptionEnabledFlag>();
     final subscriptionService = SubscriptionService(
       user: api.user.userStream,
-      clock: clock,
-      isSubscriptionEnabledFlag: subscriptionEnabledFlag,
+      functions: widget.blocDependencies.functions,
     );
+    trySetSharezonePlusAnalyticsUserProperties(
+        analytics, crashAnalytics, subscriptionService);
 
     final feedbackApi = FirebaseFeedbackApi(firestore);
-    final gradesEnabledFlag =
-        GradesEnabledFlag(widget.blocDependencies.keyValueStore);
+
+    final userDocRef = api.references.users.doc(api.uID);
+    final gradesService = GradesService(
+        repository:
+            FirestoreGradesStateRepository(userDocumentRef: userDocRef));
 
     final iCalLinksGateway = ICalLinksGateway(
       firestore: widget.blocDependencies.firestore,
@@ -337,6 +344,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
     providers = [
+      Provider<Analytics>(create: (context) => analytics),
       Provider<CrashAnalytics>(create: (context) => crashAnalytics),
       Provider<SubscriptionService>(
         create: (context) => subscriptionService,
@@ -347,9 +355,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       ChangeNotifierProvider(
         create: (context) => SharezonePlusPageController(
+          buyingFlagApi: BuyingEnabledApi(client: http.Client()),
           userId: UserId(api.uID),
           purchaseService: RevenueCatPurchaseService(),
           subscriptionService: subscriptionService,
+          crashAnalytics: crashAnalytics,
+          analytics: SharezonePlusPageAnalytics(analytics),
           stripeCheckoutSession: StripeCheckoutSession(
             createCheckoutSessionFunctionUrl: widget
                 .blocDependencies.remoteConfiguration
@@ -421,12 +432,35 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           userId: api.userId,
         ),
       ),
-      ChangeNotifierProvider.value(value: gradesEnabledFlag),
+      Provider<GradesService>(
+        create: (context) => gradesService,
+      ),
       ChangeNotifierProvider(
-        create: (context) => GradesPageController(),
+        create: (context) => GradesPageController(
+          gradesService: gradesService,
+        ),
       ),
       Provider(
-        create: (context) => const TermDetailsPageControllerFactory(),
+        create: (context) => TermDetailsPageControllerFactory(
+          gradesService: gradesService,
+          crashAnalytics: crashAnalytics,
+          analytics: analytics,
+        ),
+      ),
+      Provider(
+        create: (context) => GradeDetailsPageControllerFactory(
+          gradesService: gradesService,
+          crashAnalytics: crashAnalytics,
+          analytics: analytics,
+        ),
+      ),
+      Provider(
+        create: (context) => GradesDialogControllerFactory(
+          crashAnalytics: crashAnalytics,
+          gradesService: gradesService,
+          coursesStream: () => api.course.streamCourses(),
+          analytics: analytics,
+        ),
       ),
       ChangeNotifierProvider(
         create: (context) => IcalLinksPageController(
@@ -434,6 +468,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           userId: api.userId,
         ),
       ),
+      Provider(
+        create: (context) => TermSettingsPageControllerFactory(
+          gradesService: gradesService,
+          coursesStream: () => api.course.streamCourses(),
+        ),
+      )
     ];
 
     mainBlocProviders = <BlocProvider>[
@@ -528,8 +568,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
           analytics: analytics,
           appFunctions: api.references.functions,
-          subscriptionEnabledFlag: subscriptionEnabledFlag,
-          gradesEnabledFlag: gradesEnabledFlag,
           keyValueStore: widget.blocDependencies.keyValueStore,
         ),
       ),

@@ -3,12 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i4;
+import 'dart:ui' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i3;
+import 'package:mockito/src/dummies.dart' as _i4;
+import 'package:sharezone/grades/grades_service/grades_service.dart' as _i2;
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart'
-    as _i2;
+    as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -23,31 +24,53 @@ import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart'
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeGradesService_0 extends _i1.SmartFake implements _i2.GradesService {
+  _FakeGradesService_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [GradesPageController].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGradesPageController extends _i1.Mock
-    implements _i2.GradesPageController {
+    implements _i3.GradesPageController {
   @override
-  _i2.GradesPageState get state => (super.noSuchMethod(
+  _i3.GradesPageState get state => (super.noSuchMethod(
         Invocation.getter(#state),
-        returnValue: _i3.dummyValue<_i2.GradesPageState>(
+        returnValue: _i4.dummyValue<_i3.GradesPageState>(
           this,
           Invocation.getter(#state),
         ),
-        returnValueForMissingStub: _i3.dummyValue<_i2.GradesPageState>(
+        returnValueForMissingStub: _i4.dummyValue<_i3.GradesPageState>(
           this,
           Invocation.getter(#state),
         ),
-      ) as _i2.GradesPageState);
+      ) as _i3.GradesPageState);
   @override
-  set state(_i2.GradesPageState? _state) => super.noSuchMethod(
+  set state(_i3.GradesPageState? _state) => super.noSuchMethod(
         Invocation.setter(
           #state,
           _state,
         ),
         returnValueForMissingStub: null,
       );
+  @override
+  _i2.GradesService get gradesService => (super.noSuchMethod(
+        Invocation.getter(#gradesService),
+        returnValue: _FakeGradesService_0(
+          this,
+          Invocation.getter(#gradesService),
+        ),
+        returnValueForMissingStub: _FakeGradesService_0(
+          this,
+          Invocation.getter(#gradesService),
+        ),
+      ) as _i2.GradesService);
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
@@ -63,7 +86,7 @@ class MockGradesPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i4.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -71,7 +94,7 @@ class MockGradesPageController extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i4.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i5.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

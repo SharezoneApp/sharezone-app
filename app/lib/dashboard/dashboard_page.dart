@@ -41,7 +41,7 @@ import 'package:sharezone/navigation/scaffold/sharezone_custom_scaffold.dart';
 import 'package:sharezone/overview/cache/profile_page_hint_cache.dart';
 import 'package:sharezone/settings/src/subpages/changelog_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
-import 'package:sharezone/sharezone_v2/sz_v2_annoucement_dialog.dart';
+import 'package:sharezone/sharezone_v2/sz_v2_announcement_dialog.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';

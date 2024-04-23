@@ -13,10 +13,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_settings.dart';
-import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
-import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
-import 'package:sharezone/privacy_policy/src/ui/ui.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone/legal/privacy_policy/src/ui/ui.dart';
 
 import 'helper.dart';
 

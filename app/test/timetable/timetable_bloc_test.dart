@@ -81,11 +81,11 @@ void main() {
     final klasse10a = createSchoolClass('10a');
     final klasse5b = createSchoolClass('5b');
 
-    final mathe10aId = GroupId('mathe10a');
-    final deutsch5bId = GroupId('deutsch5bId');
+    const mathe10aId = GroupId('mathe10a');
+    const deutsch5bId = GroupId('deutsch5bId');
 
     // Die Informatik AG ist mit keiner Schulklasse verknüpft.
-    final informatikAgId = GroupId('informatikAg');
+    const informatikAgId = GroupId('informatikAg');
 
     final lesson10a = createLesson(mathe10aId.id);
     final lesson5b = createLesson(deutsch5bId.id);

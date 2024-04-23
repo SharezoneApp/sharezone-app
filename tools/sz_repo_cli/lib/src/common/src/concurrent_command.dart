@@ -21,6 +21,9 @@ abstract class ConcurrentCommand extends CommandBase {
         help:
             'Only run the task for the given package(s). Package names can be separated by comma. E.g. `--only package1` or `--only=package1,package2`.',
       )
+      ..addOption('exclude',
+          help:
+              'Exclude the given package(s) from the task. Package names can be separated by comma. E.g. `--exclude package1` or `--exclude=package1,package2`.')
       ..addConcurrencyOption(defaultMaxConcurrency: defaultMaxConcurrency)
       ..addPackageTimeoutOption(
           defaultInMinutes: defaultPackageTimeout.inMinutes);
@@ -63,17 +66,23 @@ abstract class ConcurrentCommand extends CommandBase {
   Stream<Package> get packagesToProcess {
     var stream = repo.streamPackages();
 
-    final onlyPackageNames = _parseOnlyArg();
+    final onlyPackageNames = _parseCommaSeparatedList('only');
     if (onlyPackageNames.isNotEmpty) {
       stream =
           stream.where((package) => onlyPackageNames.contains(package.name));
     }
 
+    final excludePackageNames = _parseCommaSeparatedList('exclude');
+    if (excludePackageNames.isNotEmpty) {
+      stream = stream
+          .where((package) => !excludePackageNames.contains(package.name));
+    }
+
     return stream;
   }
 
-  List<String> _parseOnlyArg() {
-    final onlyArg = argResults!['only'] as String?;
+  List<String> _parseCommaSeparatedList(String optionName) {
+    final onlyArg = argResults![optionName] as String?;
     if (onlyArg == null) {
       return [];
     }

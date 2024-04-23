@@ -36,6 +36,9 @@ export 'src/common/widgets/action_item_button.dart';
 // dialog_wrapper
 export 'src/dialog_wrapper.dart';
 
+// theme_settings
+export 'src/theme_settings.dart';
+
 // dimensions
 export 'src/dimensions.dart';
 

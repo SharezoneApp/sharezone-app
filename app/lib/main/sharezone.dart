@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/dynamic_links.dart';
@@ -29,7 +28,6 @@ import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone/widgets/development_stage_banner.dart';
@@ -129,11 +127,6 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                             firebaseMessaging: FirebaseMessaging.instance,
                             mobileDeviceInformationRetriever:
                                 MobileDeviceInformationRetriever(),
-                          ),
-                        ),
-                        ChangeNotifierProvider<SubscriptionEnabledFlag>(
-                          create: (context) => SubscriptionEnabledFlag(
-                            widget.blocDependencies.keyValueStore,
                           ),
                         ),
                       ],

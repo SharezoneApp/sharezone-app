@@ -57,7 +57,7 @@ class _Loading extends StatelessWidget {
   const _Loading();
 
   static final dummyFeedbacks = [
-    FeedbackView(
+    const FeedbackView(
       id: FeedbackId('1'),
       createdOn: '2022-01-01',
       rating: '5',
@@ -68,7 +68,7 @@ class _Loading extends StatelessWidget {
       hasUnreadMessages: false,
       lastMessage: null,
     ),
-    FeedbackView(
+    const FeedbackView(
       id: FeedbackId('2'),
       createdOn: '2022-01-02',
       rating: '4',

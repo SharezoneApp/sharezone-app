@@ -454,6 +454,12 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
         ),
       ) as _i3.UserTipData);
   @override
+  Map<String, dynamic> get legalData => (super.noSuchMethod(
+        Invocation.getter(#legalData),
+        returnValue: <String, dynamic>{},
+        returnValueForMissingStub: <String, dynamic>{},
+      ) as Map<String, dynamic>);
+  @override
   Map<String, dynamic> toCreateJson() => (super.noSuchMethod(
         Invocation.method(
           #toCreateJson,
@@ -485,7 +491,7 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
     bool? commentsNotifications,
     _i3.UserSettings? userSettings,
     _i3.UserTipData? userTipData,
-    _i3.Subscription? subscription,
+    _i3.SharezonePlusStatus? sharezonePlus,
     _i3.Features? features,
   }) =>
       (super.noSuchMethod(
@@ -505,7 +511,7 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
             #commentsNotifications: commentsNotifications,
             #userSettings: userSettings,
             #userTipData: userTipData,
-            #subscription: subscription,
+            #sharezonePlus: sharezonePlus,
             #features: features,
           },
         ),
@@ -527,7 +533,7 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
               #commentsNotifications: commentsNotifications,
               #userSettings: userSettings,
               #userTipData: userTipData,
-              #subscription: subscription,
+              #sharezonePlus: sharezonePlus,
               #features: features,
             },
           ),
@@ -550,7 +556,7 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
               #commentsNotifications: commentsNotifications,
               #userSettings: userSettings,
               #userTipData: userTipData,
-              #subscription: subscription,
+              #sharezonePlus: sharezonePlus,
               #features: features,
             },
           ),

@@ -59,7 +59,7 @@ class _SubscribeSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        SharezonePlusPrice('4,99€'),
+        Text('4,99€'),
         SizedBox(height: 12),
         _SubscribeButton(),
         SizedBox(height: 12),

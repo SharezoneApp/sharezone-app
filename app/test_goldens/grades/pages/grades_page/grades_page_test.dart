@@ -49,7 +49,7 @@ void main() {
     void setWithData() {
       final random = Random(42);
       final currentTerm = (
-        id: TermId('term-0'),
+        id: const TermId('term-0'),
         displayName: '11/1',
         avgGrade: ('1,4', GradePerformance.good),
         subjects: [
@@ -58,66 +58,66 @@ void main() {
             abbreviation: 'DE',
             grade: '2,0',
             design: Design.random(random),
-            id: SubjectId('1'),
+            id: const SubjectId('1'),
           ),
           (
             displayName: 'Englisch',
             abbreviation: 'E',
             grade: '2+',
             design: Design.random(random),
-            id: SubjectId('2'),
+            id: const SubjectId('2'),
           ),
           (
             displayName: 'Mathe',
             abbreviation: 'DE',
             grade: '1-',
             design: Design.random(random),
-            id: SubjectId('3'),
+            id: const SubjectId('3'),
           ),
           (
             displayName: 'Sport',
             abbreviation: 'DE',
             grade: '1,0',
             design: Design.random(random),
-            id: SubjectId('4'),
+            id: const SubjectId('4'),
           ),
           (
             displayName: 'Physik',
             abbreviation: 'PH',
             grade: '3,0',
             design: Design.random(random),
-            id: SubjectId('5'),
+            id: const SubjectId('5'),
           ),
         ]
       );
       final pastTerms = [
         (
-          id: TermId('term-1'),
+          id: const TermId('term-1'),
           displayName: '10/2',
           avgGrade: ('1,0', GradePerformance.good),
         ),
         (
-          id: TermId('term-3'),
+          id: const TermId('term-3'),
           displayName: '9/2',
           avgGrade: ('1,0', GradePerformance.good),
         ),
         (
-          id: TermId('term-2'),
+          id: const TermId('term-2'),
           displayName: '10/1',
           avgGrade: ('2,4', GradePerformance.satisfactory),
         ),
         (
-          id: TermId('term-6'),
+          id: const TermId('term-6'),
           displayName: 'Q1/1',
           avgGrade: ('2,4', GradePerformance.satisfactory),
         ),
         (
-          id: TermId('term-5'),
+          id: const TermId('term-5'),
           displayName: '8/2',
           avgGrade: ('1,7', GradePerformance.good),
         ),
         (
-          id: TermId('term-4'),
+          id: const TermId('term-4'),
           displayName: '9/1',
           avgGrade: ('3,7', GradePerformance.bad),
         ),

@@ -8,10 +8,12 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:build_context/build_context.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
@@ -19,12 +21,12 @@ import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
 import 'package:platform_check/platform_check.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
@@ -32,6 +34,8 @@ import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
@@ -372,6 +376,9 @@ class _TodoUntilPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
+    final subscriptionService = Provider.of<SubscriptionService>(context);
+    final dueDateChipsUnlocked = subscriptionService
+        .hasFeatureUnlocked(SharezonePlusFeature.homeworkDueDateChips);
 
     return MaxWidthConstraintBox(
       child: SafeArea(
@@ -402,18 +409,93 @@ class _TodoUntilPicker extends StatelessWidget {
               ),
             ),
             if (showLessonChips)
-              const Padding(
-                padding: EdgeInsets.only(top: 4, left: 3.0),
-                child: _DueDateChips(
-                  initialChips: IListConst([
-                    DueDateSelection.nextSchoolday,
-                    DueDateSelection.inXLessons(1),
-                    DueDateSelection.inXLessons(2),
-                  ]),
-                ),
-              ),
+              dueDateChipsUnlocked
+                  ? const Padding(
+                      padding: EdgeInsets.only(top: 4, left: 3.0),
+                      child: _DueDateChips(
+                        initialChips: IListConst([
+                          DueDateSelection.nextSchoolday,
+                          DueDateSelection.inXLessons(1),
+                          DueDateSelection.inXLessons(2),
+                        ]),
+                      ),
+                    )
+                  : const _DueDateChipsLockedPlus(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _DueDateChipsLockedPlus extends StatelessWidget {
+  const _DueDateChipsLockedPlus();
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: () async {
+        final analytics = AnalyticsProvider.ofOrNullObject(context);
+        analytics.log(NamedAnalyticsEvent(
+          name: 'plus_due_date_chips_tapped',
+        ));
+        showSharezonePlusFeatureInfoDialog(
+          context: context,
+          navigateToPlusPage: () =>
+              openSharezonePlusPageAsFullscreenDialog(context),
+          description: const Text(
+              'Mit Sharezone Plus kannst du Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.'),
+        );
+      },
+      child: Stack(
+        alignment: Alignment.centerLeft,
+        children: [
+          const _DueDateChips(
+            ignoreChanges: true,
+            initialChips: IListConst([
+              DueDateSelection.nextSchoolday,
+              DueDateSelection.inXLessons(1),
+              DueDateSelection.inXLessons(2),
+            ]),
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  context.isDarkThemeEnabled
+                      ? Colors.grey.withOpacity(.9)
+                      : primaryColor.withOpacity(.5),
+                  Colors.transparent,
+                ],
+              ),
+              borderRadius: PlatformCheck.isDesktopOrWeb
+                  ? BorderRadius.circular(14.0)
+                  : null,
+            ),
+            child: ColoredBox(
+              color: Colors.black.withOpacity(0),
+              child: const SizedBox(
+                width: 400,
+                height: 50,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: SharezonePlusChip(
+                backgroundColor:
+                    context.isDarkThemeEnabled ? primaryColor : Colors.white,
+                foregroundColor:
+                    context.isDarkThemeEnabled ? Colors.white : null,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -558,9 +640,11 @@ Map<String, dynamic> _getAnalyticsData(DueDateSelection s) {
 class _DueDateChips extends StatefulWidget {
   const _DueDateChips({
     required this.initialChips,
+    this.ignoreChanges = false,
   });
 
   final IList<DueDateSelection> initialChips;
+  final bool ignoreChanges;
 
   @override
   State<_DueDateChips> createState() => _DueDateChipsState();
@@ -600,7 +684,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
     final state = bloc.state;
 
     final bool lessonChipsSelectable;
-    if (state is Ready) {
+    if (state is Ready && !widget.ignoreChanges) {
       lessonChipsSelectable = state.dueDate.lessonChipsSelectable;
       controller.updateSelection(state.dueDate.selection);
     } else {

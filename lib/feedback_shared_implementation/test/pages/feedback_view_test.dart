@@ -14,7 +14,7 @@ void main() {
   group(FeedbackView, () {
     test('.fromUserFeedback() empty', () {
       final feedback = UserFeedback.create();
-      final view = FeedbackView.fromUserFeedback(feedback, UserId('1'));
+      final view = FeedbackView.fromUserFeedback(feedback, const UserId('1'));
 
       expect(view.rating, isNull);
       expect(view.likes, '');
@@ -32,7 +32,7 @@ void main() {
         likes: 'l',
         missing: 'm',
       );
-      final view = FeedbackView.fromUserFeedback(feedback, UserId('1'));
+      final view = FeedbackView.fromUserFeedback(feedback, const UserId('1'));
 
       expect(view.rating, '5.0/5.0');
       expect(view.likes, 'l');
@@ -43,7 +43,7 @@ void main() {
     });
 
     test('.hasX returns null even it is empty', () {
-      final view = FeedbackView(
+      const view = FeedbackView(
         id: FeedbackId('id'),
         createdOn: '',
         rating: '',

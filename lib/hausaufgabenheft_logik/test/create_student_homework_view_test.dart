@@ -32,7 +32,7 @@ void main() {
       const white = Color.fromRGBO(255, 255, 255, 1);
 
       final homework = HomeworkReadModel(
-        id: HomeworkId('Id'),
+        id: const HomeworkId('Id'),
         status: CompletionStatus.open,
         todoDate: const Date(year: 2019, month: 1, day: 28).asDateTime(),
         subject: Subject(

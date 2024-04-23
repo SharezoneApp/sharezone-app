@@ -1,0 +1,61 @@
+# Copyright (c) 2024 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: legal
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.1.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # We use a custom version to be able to scroll to a
+  # specific heading inside the text and to be able
+  # to know which section is currently read by the user 
+  # (used e.g. by the privacy policy).
+  flutter_markdown:
+    git:
+      url: https://github.com/SharezoneApp/packages
+      path: packages/flutter_markdown
+      ref: 2f680bb80119f6fd037a7bda0984bc811b5dccb8
+  analytics:
+    path: ../analytics
+  key_value_store:
+    path: ../key_value_store
+  sharezone_widgets:
+    path: ../sharezone_widgets
+  sharezone_utils:
+    path: ../sharezone_utils
+  mockito: ^5.4.4
+  equatable: ^2.0.5
+  scrollable_positioned_list: ^0.3.8
+  common_domain_models:
+    path: ../common_domain_models
+  clock: ^1.1.1
+  fast_immutable_collections: ^9.1.5
+  url_launcher: ^6.2.5
+  collection: ^1.17.2
+  intl: ^0.18.1
+  diacritic: ^0.1.4
+  provider: ^6.0.3
+  markdown: ^7.1.1
+
+dev_dependencies:
+  meta: ^1.1.8
+  build_runner: ^2.4.7
+  sharezone_lints:
+    path: ../sharezone_lints
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

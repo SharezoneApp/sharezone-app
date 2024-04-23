@@ -30,7 +30,7 @@ void main() {
     late MockFeedbackHistoryPageAnalytics mockFeedbackHistoryPageAnalytics;
     late FeedbackHistoryPageController controller;
     late StreamController<List<UserFeedback>> feedbackStreamController;
-    final userId = UserId('test-user');
+    const userId = UserId('test-user');
 
     setUp(() {
       mockFeedbackApi = MockFeedbackApi();

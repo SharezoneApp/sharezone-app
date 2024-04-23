@@ -8,7 +8,6 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc.dart';
 import 'package:sharezone/calendrical_events/bloc/calendrical_events_page_bloc_factory.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_events_layout.dart';
@@ -17,7 +16,6 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
@@ -80,13 +78,6 @@ class _PastEventsIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSharezonePlusEnabled =
-        context.watch<SubscriptionEnabledFlag>().isEnabled;
-
-    if (!isSharezonePlusEnabled) {
-      return const SizedBox();
-    }
-
     return IconButton(
       tooltip: 'Vergangene Termine',
       onPressed: () {

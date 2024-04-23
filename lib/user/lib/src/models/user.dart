@@ -7,9 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:characters/characters.dart';
-import 'package:helper_functions/helper_functions.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
-import 'package:user/src/models/subscription.dart';
+import 'package:helper_functions/helper_functions.dart';
+import 'package:user/src/models/sharezone_plus_status.dart';
 
 import 'features.dart';
 import 'state_enum.dart';
@@ -36,7 +36,9 @@ class AppUser {
   final UserTipData userTipData;
   final DateTime? createdOn;
   final Features? features;
-  final Subscription? subscription;
+  final SharezonePlusStatus? sharezonePlus;
+
+  final Map<String, dynamic> legalData;
 
   AppUser._({
     required this.id,
@@ -55,28 +57,29 @@ class AppUser {
     required this.userTipData,
     required this.createdOn,
     this.features,
-    required this.subscription,
+    required this.sharezonePlus,
+    required this.legalData,
   });
 
   factory AppUser.create({required String id}) {
     return AppUser._(
-      id: id,
-      name: "Anonymer Account",
-      abbreviation: "AA",
-      typeOfUser: TypeOfUser.student,
-      notificationTokens: [],
-      reminderTime: "18:00",
-      referralLink: null,
-      referredBy: null,
-      referralScore: 0,
-      state: StateEnum.anonymous,
-      blackboardNotifications: true,
-      commentsNotifications: true,
-      userSettings: UserSettings.defaultSettings(),
-      userTipData: UserTipData.empty(),
-      createdOn: null,
-      subscription: null,
-    );
+        id: id,
+        name: "Anonymer Account",
+        abbreviation: "AA",
+        typeOfUser: TypeOfUser.student,
+        notificationTokens: [],
+        reminderTime: "18:00",
+        referralLink: null,
+        referredBy: null,
+        referralScore: 0,
+        state: StateEnum.anonymous,
+        blackboardNotifications: true,
+        commentsNotifications: true,
+        userSettings: UserSettings.defaultSettings(),
+        userTipData: UserTipData.empty(),
+        createdOn: null,
+        sharezonePlus: null,
+        legalData: {});
   }
 
   factory AppUser.fromData(Map<String, dynamic>? data, {required String id}) {
@@ -97,7 +100,8 @@ class AppUser {
         userSettings: UserSettings.defaultSettings(),
         userTipData: UserTipData.empty(),
         createdOn: null,
-        subscription: null,
+        sharezonePlus: null,
+        legalData: {},
       );
     }
     return AppUser._(
@@ -118,7 +122,9 @@ class AppUser {
       userTipData: UserTipData.fromData(data['tips']),
       createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       features: Features.fromJson(data['features']),
-      subscription: Subscription.fromData(data['subscription']),
+      sharezonePlus: SharezonePlusStatus.fromData(data['sharezonePlus']),
+      legalData: decodeMap(data['legal'] ?? {},
+          (key, decodedMapValue) => decodedMapValue as Map),
     );
   }
 
@@ -137,7 +143,6 @@ class AppUser {
       'settings': userSettings.toJson(),
       'tips': userTipData.toJson(),
       'features': features?.toJson(),
-      'subscription': null,
     };
   }
 
@@ -171,7 +176,7 @@ class AppUser {
     bool? commentsNotifications,
     UserSettings? userSettings,
     UserTipData? userTipData,
-    Subscription? subscription,
+    SharezonePlusStatus? sharezonePlus,
     Features? features,
   }) {
     return AppUser._(
@@ -193,7 +198,8 @@ class AppUser {
       createdOn: createdOn,
       referredBy: referredBy,
       features: features ?? this.features,
-      subscription: subscription ?? this.subscription,
+      sharezonePlus: sharezonePlus ?? this.sharezonePlus,
+      legalData: legalData,
     );
   }
 }

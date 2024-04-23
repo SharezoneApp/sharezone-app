@@ -29,6 +29,9 @@ class StripeCheckoutSession {
   /// [successUrl] and [cancelUrl] are the URLs to which the user is redirected
   /// after the payment is completed or canceled.
   ///
+  /// [period] is the period for which the user is buying the subscription
+  /// / lifetime purchase.
+  ///
   /// Returns the URL of the Stripe checkout session. The user must be
   /// redirected to this URL to complete the payment.
   Future<String> create({
@@ -36,6 +39,7 @@ class StripeCheckoutSession {
     String? buysFor,
     required Uri successUrl,
     required Uri cancelUrl,
+    required String period,
   }) async {
     assert(
       userId != null || buysFor != null,
@@ -55,6 +59,7 @@ class StripeCheckoutSession {
               if (buysFor != null) 'buysFor': buysFor,
               'successUrl': '$successUrl',
               'cancelUrl': '$cancelUrl',
+              'period': period,
             },
           ),
         );

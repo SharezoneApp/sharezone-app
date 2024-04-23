@@ -14,11 +14,13 @@ import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
+import 'package:sharezone/grades/pages/grades_page/grades_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/homework/parent/homework_page.dart';
 import 'package:sharezone/settings/settings_page.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
 
@@ -105,6 +107,12 @@ class NavigateToLocationExecutor
         break;
       case FeedbackPage.tag:
         _navigationBloc!.navigateTo(NavigationItem.feedbackBox);
+        break;
+      case SharezonePlusPage.tag:
+        _navigationBloc!.navigateTo(NavigationItem.sharezonePlus);
+        break;
+      case GradesPage.tag:
+        _navigationBloc!.navigateTo(NavigationItem.grades);
         break;
       default:
         _navigationService!.pushNamed(tag);

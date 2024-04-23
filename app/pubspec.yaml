@@ -11,7 +11,7 @@ description: A collaborative school planner for students, teachers and parents.
 # Note that we do not store the current build number in the pubspec.yaml. The
 # build number is automatically increased by the CD pipeline (using `sz deploy`
 # command).
-version: 1.7.9+0
+version: 2.0.0+0
 publish_to: none
 
 environment:
@@ -131,6 +131,9 @@ dependencies:
   last_online_reporting:
     path: ../lib/last_online_reporting
   logging: ^1.1.1
+  # Can be replaced once Flutter officially supports the new Material Symbols,
+  # see https://github.com/flutter/flutter/issues/102560.
+  material_symbols_icons: ^4.2719.3
   markdown: ^7.1.1
   meta: ^1.1.8
   notifications:
@@ -147,7 +150,7 @@ dependencies:
   permission_handler: ^11.1.0
   photo_view: ^0.14.0
   provider: ^6.0.3
-  purchases_flutter: ^6.6.0
+  purchases_flutter: ^6.27.0
   qr_code_scanner:
     path: ../lib/qr_code_scanner
   qr_flutter: ^4.0.0
