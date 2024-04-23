@@ -73,8 +73,8 @@ class SubscriptionService {
           final response = await functions
               .httpsCallable('showLetParentsBuyButton')
               .call<bool>({
-                'platform': PlatformCheck.currentPlatform.name;
-              });
+            'platform': PlatformCheck.currentPlatform.name,
+          });
           return response.data;
         },
         maxAttempts: 3,
