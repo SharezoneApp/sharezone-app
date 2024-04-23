@@ -264,7 +264,7 @@ class _LegalText extends StatelessWidget {
 }
 
 const _termsOfServiceSentence =
-    'Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unser [Datenschutzerklärung](https://sharezone.net/privacy-policy)';
+    'Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)';
 
 class _LifetimeLegalText extends StatelessWidget {
   const _LifetimeLegalText({
