@@ -204,7 +204,12 @@ class _ExtendableBottomNavigationBarContentState
                       controller: widget.controller,
                       currentNavigationItem: widget.currentNavigationItem,
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 6),
+                    _SharezonePlusChip(
+                      controller: widget.controller,
+                      currentNavigationItem: widget.currentNavigationItem,
+                    ),
+                    const SizedBox(width: 6),
                     _ProfileChip(
                       controller: widget.controller,
                       currentNavigationItem: widget.currentNavigationItem,
@@ -303,10 +308,14 @@ class _ProfileChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Chip(
-      controller: controller,
-      navigationItem: NavigationItem.accountPage,
-      currentNavigationItem: currentNavigationItem,
+    return Tooltip(
+      message: NavigationItem.accountPage.getName(),
+      child: _Chip(
+        controller: controller,
+        navigationItem: NavigationItem.accountPage,
+        currentNavigationItem: currentNavigationItem,
+        showName: false,
+      ),
     );
   }
 }
@@ -322,10 +331,35 @@ class _FeedbackBoxChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Chip(
-      controller: controller,
-      navigationItem: NavigationItem.feedbackBox,
-      currentNavigationItem: currentNavigationItem,
+    return Expanded(
+      child: _Chip(
+        controller: controller,
+        navigationItem: NavigationItem.feedbackBox,
+        currentNavigationItem: currentNavigationItem,
+        showName: true,
+      ),
+    );
+  }
+}
+
+class _SharezonePlusChip extends StatelessWidget {
+  const _SharezonePlusChip({
+    required this.controller,
+    required this.currentNavigationItem,
+  });
+
+  final PanelController controller;
+  final NavigationItem currentNavigationItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: _Chip(
+        controller: controller,
+        navigationItem: NavigationItem.sharezonePlus,
+        currentNavigationItem: currentNavigationItem,
+        showName: true,
+      ),
     );
   }
 }
@@ -335,6 +369,7 @@ class _Chip extends StatelessWidget {
     required this.controller,
     required this.navigationItem,
     required this.currentNavigationItem,
+    required this.showName,
   });
 
   /// [PanelController] is from the "sliding_up_panel" and is needed to close
@@ -343,6 +378,7 @@ class _Chip extends StatelessWidget {
 
   final NavigationItem navigationItem;
   final NavigationItem currentNavigationItem;
+  final bool showName;
 
   @override
   Widget build(BuildContext context) {
@@ -350,34 +386,33 @@ class _Chip extends StatelessWidget {
     final color = Theme.of(context).isDarkTheme
         ? Theme.of(context).primaryColor
         : darkBlueColor;
-    return Expanded(
-      child: InkWell(
-        borderRadius: borderRadius,
-        onTap: () async {
-          controller.close();
-          if (currentNavigationItem != navigationItem) {
-            await waitForClosingPanel();
-            if (!context.mounted) return;
-            final bloc = BlocProvider.of<NavigationBloc>(context);
-            bloc.navigateTo(navigationItem);
-          }
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context)
-                .primaryColor
-                .withOpacity(Theme.of(context).isDarkTheme ? 0.15 : 0.2),
-            borderRadius: borderRadius,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-            child: Row(
-              children: [
-                IconTheme(
-                  data:
-                      context.theme.iconTheme.copyWith(color: color, size: 20),
-                  child: navigationItem.getIcon(),
-                ),
+    return InkWell(
+      borderRadius: borderRadius,
+      onTap: () async {
+        controller.close();
+        if (currentNavigationItem != navigationItem) {
+          await waitForClosingPanel();
+          if (!context.mounted) return;
+          final bloc = BlocProvider.of<NavigationBloc>(context);
+          bloc.navigateTo(navigationItem);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context)
+              .primaryColor
+              .withOpacity(Theme.of(context).isDarkTheme ? 0.15 : 0.2),
+          borderRadius: borderRadius,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+          child: Row(
+            children: [
+              IconTheme(
+                data: context.theme.iconTheme.copyWith(color: color, size: 20),
+                child: navigationItem.getIcon(),
+              ),
+              if (showName) ...[
                 const SizedBox(width: 6),
                 Expanded(
                   child: Padding(
@@ -392,8 +427,8 @@ class _Chip extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ]
+            ],
           ),
         ),
       ),

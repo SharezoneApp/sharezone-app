@@ -143,6 +143,7 @@ class AppUser {
       'settings': userSettings.toJson(),
       'tips': userTipData.toJson(),
       'features': features?.toJson(),
+      'legal': legalData,
     };
   }
 
@@ -178,6 +179,7 @@ class AppUser {
     UserTipData? userTipData,
     SharezonePlusStatus? sharezonePlus,
     Features? features,
+    Map<String, dynamic>? legalData,
   }) {
     return AppUser._(
       id: id ?? this.id,
@@ -199,7 +201,7 @@ class AppUser {
       referredBy: referredBy,
       features: features ?? this.features,
       sharezonePlus: sharezonePlus ?? this.sharezonePlus,
-      legalData: legalData,
+      legalData: legalData ?? this.legalData,
     );
   }
 }
