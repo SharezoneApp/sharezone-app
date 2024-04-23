@@ -409,8 +409,10 @@ class _ShowTestFlightDialog extends StatelessWidget {
       maxWidth: 450,
       child: AlertDialog(
         title: const Text('TestFlight'),
-        content: const Text(
-          'Du hast Sharezone über TestFlight installiert. Apple erlaubt keine In-App-Käufe über TestFlight.\n\nUm Sharezone-Plus zu kaufen, lade bitte die App aus dem App Store herunter. Dort kannst du Sharezone-Plus kaufen.\n\nDanach kannst du die App wieder über TestFlight installieren.',
+        content: const SingleChildScrollView(
+          child: Text(
+            'Du hast Sharezone über TestFlight installiert. Apple erlaubt keine In-App-Käufe über TestFlight.\n\nUm Sharezone-Plus zu kaufen, lade bitte die App aus dem App Store herunter. Dort kannst du Sharezone-Plus kaufen.\n\nDanach kannst du die App wieder über TestFlight installieren.',
+          ),
         ),
         actions: [
           TextButton(
