@@ -22,7 +22,6 @@ import 'package:sharezone/settings/src/subpages/timetable/bloc/timetable_setting
 import 'package:sharezone/settings/src/subpages/timetable/periods/periods_edit_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/weekdays/weekdays_edit_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
@@ -39,7 +38,9 @@ class TimetableSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc =
         BlocProvider.of<TimetableSettingsBlocFactory>(context).create();
-    final isPlusEnabled = context.watch<SubscriptionEnabledFlag>().isEnabled;
+    final isPlusEnabled = context
+        .watch<SubscriptionService>()
+        .hasFeatureUnlocked(SharezonePlusFeature.iCalLinks);
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(

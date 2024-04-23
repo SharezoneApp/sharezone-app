@@ -74,7 +74,7 @@ class _Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final view = ICalLinkView(
-      id: ICalLinkId('1'),
+      id: const ICalLinkId('1'),
       name: 'Mein Stundenplan',
       sources: [],
       status: ICalLinkStatus.available,

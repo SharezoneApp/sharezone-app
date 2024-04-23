@@ -9,5 +9,5 @@
 import 'src/id.dart';
 
 class ICalLinkId extends Id {
-  ICalLinkId(String id) : super(id, 'ICalExportId');
+  const ICalLinkId(super.id);
 }
