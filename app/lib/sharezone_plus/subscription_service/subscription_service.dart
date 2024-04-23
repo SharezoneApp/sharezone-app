@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:analytics/analytics.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:crash_analytics/crash_analytics.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:retry/retry.dart';
 import 'package:user/user.dart';
 
@@ -71,7 +72,9 @@ class SubscriptionService {
         () async {
           final response = await functions
               .httpsCallable('showLetParentsBuyButton')
-              .call<bool>();
+              .call<bool>({
+            'platform': PlatformCheck.currentPlatform.name,
+          });
           return response.data;
         },
         maxAttempts: 3,
