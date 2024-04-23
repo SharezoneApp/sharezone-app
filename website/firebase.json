@@ -126,17 +126,12 @@
       },
       {
         "source": "/datenschutzerklaerung",
-        "destination": "https://sharezone.net/privacy-policy-page",
+        "destination": "https://sharezone.net/privacy-policy",
         "type": 302
       },
       {
         "source": "/dse",
-        "destination": "https://sharezone.net/privacy-policy-page",
-        "type": 302
-      },
-      {
-        "source": "/privacy-policy",
-        "destination": "https://sharezone.net/privacy-policy-page",
+        "destination": "https://sharezone.net/privacy-policy",
         "type": 302
       },
       {
@@ -171,7 +166,7 @@
       },
       {
         "source": "/imprint#privacy-app",
-        "destination": "https://sharezone.net/privacy-policy-page",
+        "destination": "https://sharezone.net/privacy-policy",
         "type": 302
       },
       {
