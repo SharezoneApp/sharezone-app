@@ -282,6 +282,24 @@ class MockSubscriptionService extends _i1.Mock
         returnValueForMissingStub: _i2.Future<void>.value(),
       ) as _i2.Future<void>);
   @override
+  _i2.Future<bool> showLetParentsBuyButton() => (super.noSuchMethod(
+        Invocation.method(
+          #showLetParentsBuyButton,
+          [],
+        ),
+        returnValue: _i2.Future<bool>.value(false),
+        returnValueForMissingStub: _i2.Future<bool>.value(false),
+      ) as _i2.Future<bool>);
+  @override
+  _i2.Future<String?> getPlusWebsiteBuyToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getPlusWebsiteBuyToken,
+          [],
+        ),
+        returnValue: _i2.Future<String?>.value(),
+        returnValueForMissingStub: _i2.Future<String?>.value(),
+      ) as _i2.Future<String?>);
+  @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
           #dispose,

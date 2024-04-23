@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:analytics/analytics.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:crash_analytics/crash_analytics.dart';
+import 'package:retry/retry.dart';
 import 'package:user/user.dart';
 
 class SubscriptionService {
@@ -62,6 +63,38 @@ class SubscriptionService {
 
   Future<void> cancelStripeSubscription() async {
     await functions.httpsCallable('cancelStripeSubscription').call();
+  }
+
+  Future<bool> showLetParentsBuyButton() async {
+    try {
+      return retry(
+        () async {
+          final response = await functions
+              .httpsCallable('showLetParentsBuyButton')
+              .call<bool>();
+          return response.data;
+        },
+        maxAttempts: 3,
+      );
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<String?> getPlusWebsiteBuyToken() async {
+    try {
+      return retry(
+        () async {
+          final response = await functions
+              .httpsCallable('createPlusWebsiteBuyToken')
+              .call<Map<String, dynamic>>();
+          return response.data['token'];
+        },
+        maxAttempts: 3,
+      );
+    } catch (e) {
+      return null;
+    }
   }
 
   void dispose() {
