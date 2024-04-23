@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:legal/legal.dart';
 
 class TermsOfServicePage extends StatelessWidget {
-  // Be careful when changing the tag since it breaks the links to our privacy
-  // policy.
+  // Be careful when changing the tag since it breaks the links to our terms of
+  // serivce.
   static const tag = "terms-of-service";
 
   const TermsOfServicePage({super.key});
