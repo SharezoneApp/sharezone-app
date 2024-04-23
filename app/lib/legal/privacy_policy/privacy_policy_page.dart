@@ -16,7 +16,9 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'src/ui/ui.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
-  static const tag = "privacy-policy-page";
+  // Be careful when changing the tag since it breaks the links to our privacy
+  // policy.
+  static const tag = "privacy-policy";
 
   PrivacyPolicyPage({
     super.key,
