@@ -18,6 +18,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'home/home_page.dart';
 import 'legal/imprint_page.dart';
+import 'sharezone_plus/success_page.dart';
 
 void main() {
   usePathUrlStrategy();
@@ -61,11 +62,18 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-          path: SharezonePlusPage.tag,
-          builder: (BuildContext context, GoRouterState state) {
-            return const SharezonePlusPage();
-          },
-        ),
+            path: SharezonePlusPage.tag,
+            builder: (BuildContext context, GoRouterState state) {
+              return const SharezonePlusPage();
+            },
+            routes: [
+              GoRoute(
+                path: 'success',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const PlusSuccessPage();
+                },
+              ),
+            ]),
       ],
     ),
   ],

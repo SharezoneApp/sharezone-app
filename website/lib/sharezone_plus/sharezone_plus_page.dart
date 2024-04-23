@@ -9,9 +9,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_website/flavor.dart';
 import 'package:sharezone_website/page.dart';
+import 'package:sharezone_website/utils.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 final isSharezonePlusPageEnabledFlag =
@@ -32,6 +34,20 @@ Future<UserData?> fetchUserData(String? token) async {
   return (username: username, userId: userId);
 }
 
+Future<Uri> getStripeCheckoutSessionUrl(
+    String userId, PurchasePeriod period) async {
+  const link =
+      "https://europe-west1-sharezone-debug.cloudfunctions.net/createStripeCheckoutSession";
+  final response = await Dio().post(link, data: {
+    'buysFor': userId,
+    'successUrl': '${Uri.base.origin + Uri.base.path}/success',
+    'cancelUrl': Uri.base.toString(),
+    'period': period.name,
+  });
+  final dataMap = response.data as Map;
+  return Uri.parse(dataMap['url'] as String);
+}
+
 class SharezonePlusPage extends StatelessWidget {
   const SharezonePlusPage({super.key});
 
@@ -45,28 +61,79 @@ class SharezonePlusPage extends StatelessWidget {
       future: fetchUserData(urlToken),
       builder: (context, snapshot) {
         final data = snapshot.data;
+        var purchasePeriod = PurchasePeriod.monthly;
         return PageTemplate(
           children: [
             MaxWidthConstraintBox(
               maxWidth: 750,
               child: Column(
                 children: [
+                  SizedBox(height: 50),
                   if (snapshot.hasError) Text('Error: ${snapshot.error}'),
-                  if (data != null)
+                  if (urlToken != null)
                     DecoratedBox(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(17.5),
                       ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
+                          Text('Sharezone Plus kaufen für',
+                              style: TextStyle(fontSize: 26)),
                           Row(
-                            children: [Text('Name: ${data.username}')],
-                          )
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              PlatformSvg.asset(
+                                "assets/icons/students.svg",
+                                width: 180,
+                                height: 180,
+                              ),
+                              SizedBox(width: 30),
+                              Column(
+                                children: [
+                                  Text(
+                                    data?.username ?? 'Lädt...',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                  Text(data?.userId ?? '',
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.grey.withOpacity(.8))),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 18),
+                          StatefulBuilder(builder: (context, setState) {
+                            return BuySection(
+                              monthlyPrice: '1,99€',
+                              lifetimePrice: '19,99€',
+                              onPurchase: data?.userId != null
+                                  ? () async {
+                                      final url =
+                                          await getStripeCheckoutSessionUrl(
+                                              data!.userId, purchasePeriod);
+                                      await launchUrl(url.toString());
+                                    }
+                                  : null,
+                              currentPeriod: purchasePeriod,
+                              onPeriodChanged: (p) {
+                                setState(() {
+                                  purchasePeriod = p;
+                                });
+                              },
+                            );
+                          }),
                         ],
                       ),
                     ),
-                  SizedBox(height: 18),
-                  WhyPlusSharezoneCard(),
+                  SizedBox(height: 25),
+                  Text('Vorteile von Sharezone Plus',
+                      style: TextStyle(fontSize: 23)),
                   SizedBox(height: 18),
                   SharezonePlusAdvantages(
                     isHomeworkDoneListsFeatureVisible: true,
