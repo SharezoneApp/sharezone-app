@@ -503,7 +503,7 @@ const _markdownText2 = '''
 
 Sharezone Plus bietet dir die Möglichkeit “Plus-Features” zu erwerben.
 
-Damit kannst du zum Beispiel deine Noten verwalten, hast mehr Speicherplatz in der Dateiablage oder kannst unkomprimiert Bilder hochladen.  
+Damit kannst du zum Beispiel deine Noten verwalten oder hast mehr Speicherplatz in der Dateiablage.  
 
 Du kannst die App auch ohne Sharezone Plus weiterhin kostenlos nutzen, mit ein paar kleinen Einschränkungen.  
 
