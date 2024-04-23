@@ -57,7 +57,17 @@ class SharezonePlusPageController extends ChangeNotifier {
     _crashAnalytics = crashAnalytics;
     _analytics = analytics;
 
+    _fetchShowLetParentsBuyButtonValue();
     listenToStatus();
+  }
+
+  Future<void> _fetchShowLetParentsBuyButtonValue() async {
+    // We have this button behind a feature flag because the backend and the
+    // website isn't ready yet. It's not our intention hide this button during
+    // the App Store reviews (we show the button during the App Store reviews).
+    showLetParentsBuyButton =
+        await _subscriptionService.showLetParentsBuyButton();
+    notifyListeners();
   }
 
   void listenToStatus() {
@@ -111,6 +121,9 @@ class SharezonePlusPageController extends ChangeNotifier {
   /// This is used to show a loading indicator on the purchase button while the
   /// purchase is in progress.
   bool isPurchaseButtonLoading = false;
+
+  bool showLetParentsBuyButton = false;
+  bool isLetParentsBuyButtonLoading = false;
 
   /// The purchase option that the user has selected.
   PurchasePeriod selectedPurchasePeriod = PurchasePeriod.monthly;
@@ -237,6 +250,18 @@ class SharezonePlusPageController extends ChangeNotifier {
 
   Future<void> _cancelStripeSubscription() async {
     await _subscriptionService.cancelStripeSubscription();
+  }
+
+  Future<String?> getBuyWebsiteToken() async {
+    isLetParentsBuyButtonLoading = true;
+    notifyListeners();
+
+    final token = await _subscriptionService.getPlusWebsiteBuyToken();
+    isLetParentsBuyButtonLoading = false;
+    notifyListeners();
+
+    _analytics.logClickedLetParentsBuyButton();
+    return token;
   }
 
   bool canCancelSubscription(SubscriptionSource source) {

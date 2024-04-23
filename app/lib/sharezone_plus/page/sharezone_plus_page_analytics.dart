@@ -54,4 +54,8 @@ class SharezonePlusPageAnalytics {
   void logOpenGitHub() {
     analytics.log(NamedAnalyticsEvent(name: 'sz_plus_page_opened_github'));
   }
+
+  void logClickedLetParentsBuyButton() {
+    analytics.log(NamedAnalyticsEvent(name: 'sz_plus_clicked_let_parents_buy'));
+  }
 }

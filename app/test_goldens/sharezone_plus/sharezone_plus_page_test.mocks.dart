@@ -313,6 +313,36 @@ class MockSharezonePlusPageController extends _i2.Mock
         returnValueForMissingStub: null,
       );
   @override
+  bool get showLetParentsBuyButton => (super.noSuchMethod(
+        Invocation.getter(#showLetParentsBuyButton),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  set showLetParentsBuyButton(bool? _showLetParentsBuyButton) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #showLetParentsBuyButton,
+          _showLetParentsBuyButton,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  bool get isLetParentsBuyButtonLoading => (super.noSuchMethod(
+        Invocation.getter(#isLetParentsBuyButtonLoading),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  set isLetParentsBuyButtonLoading(bool? _isLetParentsBuyButtonLoading) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #isLetParentsBuyButtonLoading,
+          _isLetParentsBuyButtonLoading,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   _i23.PurchasePeriod get selectedPurchasePeriod => (super.noSuchMethod(
         Invocation.getter(#selectedPurchasePeriod),
         returnValue: _i23.PurchasePeriod.monthly,
@@ -380,6 +410,15 @@ class MockSharezonePlusPageController extends _i2.Mock
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+  @override
+  _i24.Future<String?> getBuyWebsiteToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getBuyWebsiteToken,
+          [],
+        ),
+        returnValue: _i24.Future<String?>.value(),
+        returnValueForMissingStub: _i24.Future<String?>.value(),
+      ) as _i24.Future<String?>);
   @override
   bool canCancelSubscription(_i19.SubscriptionSource? source) =>
       (super.noSuchMethod(

@@ -80,6 +80,17 @@ class MockSharezonePlusPageController extends ChangeNotifier
 
   @override
   void logOpenedFaq(String question) {}
+
+  @override
+  bool showLetParentsBuyButton = false;
+
+  @override
+  bool isLetParentsBuyButtonLoading = false;
+
+  @override
+  Future<String?> getBuyWebsiteToken() {
+    throw UnimplementedError();
+  }
 }
 
 void main() {
