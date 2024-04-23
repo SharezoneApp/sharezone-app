@@ -13,11 +13,13 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_analytics.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/purchase_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:stripe_checkout_session/stripe_checkout_session.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -129,6 +131,12 @@ class SharezonePlusPageController extends ChangeNotifier {
   PurchasePeriod selectedPurchasePeriod = PurchasePeriod.monthly;
 
   Future<void> buy() async {
+    if (_isTestFlightUser()) {
+      isPurchaseButtonLoading = false;
+      notifyListeners();
+      throw const IsTestFlightUserException();
+    }
+
     try {
       _analytics.logSubscribed(
         selectedPurchasePeriod.name,
@@ -152,6 +160,12 @@ class SharezonePlusPageController extends ChangeNotifier {
       _crashAnalytics.recordError('Error when buying Sharezone Plus: $e', s);
       rethrow;
     }
+  }
+
+  bool _isTestFlightUser() {
+    final isAlphaOrBeta = kDevelopmentStageOrNull?.toLowerCase() == 'alpha' ||
+        kDevelopmentStageOrNull?.toLowerCase() == 'beta';
+    return isAlphaOrBeta && PlatformCheck.isMacOsOrIOS;
   }
 
   ProductId _getProductId() {
@@ -310,4 +324,8 @@ class CouldNotGetManagementUrlException implements Exception {
 
 class CouldNotDetermineIsBuyingEnabledException implements Exception {
   const CouldNotDetermineIsBuyingEnabledException();
+}
+
+class IsTestFlightUserException implements Exception {
+  const IsTestFlightUserException();
 }
