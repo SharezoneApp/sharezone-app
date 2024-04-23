@@ -26,7 +26,9 @@ export 'src/privacy_policy_src.dart'
 export 'src/data/data.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
-  static const tag = "privacy-policy-page";
+  // Be careful when changing the tag since it breaks the links to our privacy
+  // policy.
+  static const tag = "privacy-policy";
 
   PrivacyPolicyPage({
     super.key,
