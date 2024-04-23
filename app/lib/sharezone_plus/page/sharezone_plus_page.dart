@@ -379,6 +379,15 @@ class _PurchaseSection extends StatelessWidget {
               if (!context.mounted) {
                 return;
               }
+
+              if (e is IsTestFlightUserException) {
+                showDialog(
+                  context: context,
+                  builder: (context) => const _ShowTestFlightDialog(),
+                );
+                return;
+              }
+
               showDialog(
                 context: context,
                 builder: (context) => BuyingFailedDialog(error: '$e'),
@@ -387,6 +396,31 @@ class _PurchaseSection extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+class _ShowTestFlightDialog extends StatelessWidget {
+  const _ShowTestFlightDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 450,
+      child: AlertDialog(
+        title: const Text('TestFlight'),
+        content: const SingleChildScrollView(
+          child: Text(
+            'Du hast Sharezone über TestFlight installiert. Apple erlaubt keine In-App-Käufe über TestFlight.\n\nUm Sharezone-Plus zu kaufen, lade bitte die App aus dem App Store herunter. Dort kannst du Sharezone-Plus kaufen.\n\nDanach kannst du die App wieder über TestFlight installieren.',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 }
