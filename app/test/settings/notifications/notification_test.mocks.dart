@@ -493,6 +493,7 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
     _i3.UserTipData? userTipData,
     _i3.SharezonePlusStatus? sharezonePlus,
     _i3.Features? features,
+    Map<String, dynamic>? legalData,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -513,6 +514,7 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
             #userTipData: userTipData,
             #sharezonePlus: sharezonePlus,
             #features: features,
+            #legalData: legalData,
           },
         ),
         returnValue: _FakeAppUser_1(
@@ -535,6 +537,7 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
               #userTipData: userTipData,
               #sharezonePlus: sharezonePlus,
               #features: features,
+              #legalData: legalData,
             },
           ),
         ),
@@ -558,6 +561,7 @@ class MockAppUser extends _i1.Mock implements _i3.AppUser {
               #userTipData: userTipData,
               #sharezonePlus: sharezonePlus,
               #features: features,
+              #legalData: legalData,
             },
           ),
         ),
