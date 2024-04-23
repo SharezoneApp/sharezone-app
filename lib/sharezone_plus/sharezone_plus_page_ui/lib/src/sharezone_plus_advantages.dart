@@ -36,6 +36,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
           _HomeworkReminder(onOpen: onOpenedAdvantage),
         _PastEvents(onOpen: onOpenedAdvantage),
         _AddEventsToLocalCalendar(onOpen: onOpenedAdvantage),
+        _IcalFeature(onOpen: onOpenedAdvantage),
         if (isHomeworkDoneListsFeatureVisible)
           _HomeworkDoneLists(onOpen: onOpenedAdvantage),
         _ReadByInformationSheets(onOpen: onOpenedAdvantage),
@@ -153,6 +154,27 @@ class _AddEventsToLocalCalendar extends StatelessWidget {
       title: const Text('Termine zum lokalen Kalender hinzufügen'),
       description: const Text(
           'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.'),
+    );
+  }
+}
+
+class _IcalFeature extends StatelessWidget {
+  const _IcalFeature({
+    required this.onOpen,
+  });
+
+  final ValueChanged<String>? onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      onOpen: () {
+        if (onOpen != null) onOpen!('ical_links');
+      },
+      icon: const Icon(Icons.link),
+      title: const Text('Stundenplan exportieren (iCal)'),
+      description: const Text(
+          'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.'),
     );
   }
 }

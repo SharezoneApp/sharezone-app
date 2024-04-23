@@ -78,6 +78,10 @@ import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
 import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
+import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller_factory.dart';
+import 'package:sharezone/ical_links/list/ical_links_page_controller.dart';
+import 'package:sharezone/ical_links/shared/ical_link_analytics.dart';
+import 'package:sharezone/ical_links/shared/ical_links_gateway.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/onboarding/onboarding_navigator.dart';
@@ -332,6 +336,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         repository:
             FirestoreGradesStateRepository(userDocumentRef: userDocRef));
 
+    final iCalLinksGateway = ICalLinksGateway(
+      firestore: widget.blocDependencies.firestore,
+      functions: widget.blocDependencies.functions,
+    );
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
@@ -411,6 +419,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           crashAnalytics: crashAnalytics,
         ),
       ),
+      Provider(
+        create: (context) => ICalLinksDialogControllerFactory(
+          gateway: iCalLinksGateway,
+          analytics: ICalLinksAnalytics(analytics),
+          userId: api.userId,
+        ),
+      ),
       ChangeNotifierProvider(
         create: (context) => HasUnreadFeedbackMessagesProvider(
           feedbackApi: feedbackApi,
@@ -445,6 +460,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           gradesService: gradesService,
           coursesStream: () => api.course.streamCourses(),
           analytics: analytics,
+        ),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => IcalLinksPageController(
+          gateway: iCalLinksGateway,
+          userId: api.userId,
         ),
       ),
       Provider(
