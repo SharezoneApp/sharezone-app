@@ -8,8 +8,11 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
@@ -294,6 +297,41 @@ class _UnsubscribeNoteDialog extends StatelessWidget {
 class _PurchaseSection extends StatelessWidget {
   const _PurchaseSection();
 
+  Future<void> onLetParentsBuy(BuildContext context) async {
+    final controller = context.read<SharezonePlusPageController>();
+    final token = await controller.getBuyWebsiteToken();
+
+    if (!context.mounted) {
+      return;
+    }
+
+    if (token == null) {
+      showDialog(
+        context: context,
+        builder: (context) => const BuyingFailedDialog(
+          error: 'Der Token für den Link konnte nicht geladen werden.',
+        ),
+      );
+      return;
+    }
+
+    final shouldShare = await showDialog<bool>(
+      context: context,
+      builder: (context) => const _ShareLetParentsBuyLinkDialog(),
+    );
+
+    if (shouldShare == true && context.mounted) {
+      final url = 'https://sharezone.net/plus?token=$token';
+      if (PlatformCheck.isDesktopOrWeb) {
+        Clipboard.setData(ClipboardData(text: url));
+        showSnackSec(
+            context: context, text: 'Link in die Zwischenablage kopiert.');
+      } else {
+        Share.share(url);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<SharezonePlusPageController>();
@@ -315,6 +353,9 @@ class _PurchaseSection extends StatelessWidget {
           onPeriodChanged: controller.setPeriodOption,
           isPriceLoading: isLoading,
           isPurchaseButtonLoading: controller.isPurchaseButtonLoading,
+          onLetParentsBuy: () => onLetParentsBuy(context),
+          showLetParentsBuyButton: controller.showLetParentsBuyButton,
+          isLetParentsBuyButtonLoading: controller.isLetParentsBuyButtonLoading,
           onPurchase: () async {
             final controller = context.read<SharezonePlusPageController>();
 
@@ -346,6 +387,35 @@ class _PurchaseSection extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+class _ShareLetParentsBuyLinkDialog extends StatelessWidget {
+  const _ShareLetParentsBuyLinkDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 450,
+      child: AlertDialog(
+        title: const Text('Eltern bezahlen lassen'),
+        content: const SingleChildScrollView(
+          child: Text(
+            'Du kannst deinen Eltern einen Link schicken, damit sie Sharezone-Plus für dich kaufen können.\n\nDer Link ist nur für dich gültig und enthält die Verbindung zu deinem Account.',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Abbrechen'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Link teilen'),
+          ),
+        ],
+      ),
     );
   }
 }
