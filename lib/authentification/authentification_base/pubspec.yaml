@@ -30,6 +30,7 @@ dependencies:
   streaming_shared_preferences: ^2.0.0
   user:
     path: ../../user
+  clock: ^1.1.1
   cloud_firestore: ^4.15.5
   firebase_auth: ^4.17.5
   google_sign_in: ^6.1.6
