@@ -38,9 +38,6 @@ class TimetableSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc =
         BlocProvider.of<TimetableSettingsBlocFactory>(context).create();
-    final isPlusEnabled = context
-        .watch<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.iCalLinks);
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
@@ -64,7 +61,8 @@ class TimetableSettingsPage extends StatelessWidget {
                   _TimetableEnabledWeekDaysField(),
                   const Divider(),
                   _TimetablePeriodsField(),
-                  if (isPlusEnabled) ...[const Divider(), const _ICalLinks()],
+                  const Divider(),
+                  const _ICalLinks(),
                   // We only show the time picker settings on iOS because on
                   // other platforms we use the different time picker where we
                   // have a visible steps option.
@@ -182,7 +180,13 @@ class _ICalLinks extends StatelessWidget {
         if (isUnlocked) {
           Navigator.pushNamed(context, ICalLinksPage.tag);
         } else {
-          navigateToSharezonePlusPage(context);
+          showSharezonePlusFeatureInfoDialog(
+            context: context,
+            navigateToPlusPage: () =>
+                openSharezonePlusPageAsFullscreenDialog(context),
+            description: const Text(
+                'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.'),
+          );
         }
       },
       trailing: isUnlocked ? null : const SharezonePlusChip(),
