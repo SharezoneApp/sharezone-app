@@ -10,6 +10,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:go_router/go_router.dart';
+import 'package:legal/legal.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_website/flavor.dart';
 import 'package:sharezone_website/page.dart';
@@ -116,6 +118,10 @@ class SharezonePlusPage extends StatelessWidget {
                             return BuySection(
                               monthlyPrice: '1,99€',
                               lifetimePrice: '19,99€',
+                              onPressedPrivacyPolicy: () =>
+                                  context.push('/${PrivacyPolicyPage.tag}'),
+                              onPressedTermsOfService: () =>
+                                  context.push('/${TermsOfServicePage.tag}'),
                               onPurchase: data?.userId != null
                                   ? () async {
                                       setState(() {
@@ -182,6 +188,10 @@ class SharezonePlusPage extends StatelessWidget {
                           });
                         },
                         bottom: const _ManageSubscriptionText(),
+                        onPressedPrivacyPolicy: () =>
+                            context.push('/${PrivacyPolicyPage.tag}'),
+                        onPressedTermsOfService: () =>
+                            context.push('/${TermsOfServicePage.tag}'),
                       );
                     }),
                     const SizedBox(height: 32),

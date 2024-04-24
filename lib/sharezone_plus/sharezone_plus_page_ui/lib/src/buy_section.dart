@@ -33,6 +33,8 @@ class BuySection extends StatelessWidget {
     required this.onPurchase,
     required this.currentPeriod,
     required this.onPeriodChanged,
+    required this.onPressedTermsOfService,
+    required this.onPressedPrivacyPolicy,
     this.isPriceLoading = false,
     this.isPurchaseButtonLoading = false,
     this.onLetParentsBuy,
@@ -52,6 +54,8 @@ class BuySection extends StatelessWidget {
   final PurchasePeriod currentPeriod;
   final ValueChanged<PurchasePeriod> onPeriodChanged;
   final Widget? bottom;
+  final VoidCallback? onPressedTermsOfService;
+  final VoidCallback? onPressedPrivacyPolicy;
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +120,8 @@ class BuySection extends StatelessWidget {
             period: currentPeriod,
             monthlyPrice: monthlyPrice,
             lifetimePrice: lifetimePrice,
+            onPressedTermsOfService: onPressedTermsOfService,
+            onPressedPrivacyPolicy: onPressedPrivacyPolicy,
           ),
           if (bottom != null) bottom!,
         ],
@@ -250,18 +256,29 @@ class _LegalText extends StatelessWidget {
     required this.period,
     required this.monthlyPrice,
     required this.lifetimePrice,
+    required this.onPressedTermsOfService,
+    required this.onPressedPrivacyPolicy,
   });
 
   final PurchasePeriod period;
   final String? monthlyPrice;
   final String? lifetimePrice;
+  final VoidCallback? onPressedTermsOfService;
+  final VoidCallback? onPressedPrivacyPolicy;
 
   @override
   Widget build(BuildContext context) {
     return switch (period) {
-      PurchasePeriod.monthly =>
-        _MonthlySubscriptionLegalText(price: monthlyPrice),
-      PurchasePeriod.lifetime => _LifetimeLegalText(price: lifetimePrice),
+      PurchasePeriod.monthly => _MonthlySubscriptionLegalText(
+          price: monthlyPrice,
+          onPressedTermsOfService: onPressedTermsOfService,
+          onPressedPrivacyPolicy: onPressedPrivacyPolicy,
+        ),
+      PurchasePeriod.lifetime => _LifetimeLegalText(
+          price: lifetimePrice,
+          onPressedTermsOfService: onPressedTermsOfService,
+          onPressedPrivacyPolicy: onPressedPrivacyPolicy,
+        ),
     };
   }
 }
@@ -272,9 +289,13 @@ const _termsOfServiceSentence =
 class _LifetimeLegalText extends StatelessWidget {
   const _LifetimeLegalText({
     required this.price,
+    required this.onPressedTermsOfService,
+    required this.onPressedPrivacyPolicy,
   });
 
   final String? price;
+  final VoidCallback? onPressedTermsOfService;
+  final VoidCallback? onPressedPrivacyPolicy;
 
   @override
   Widget build(BuildContext context) {
@@ -282,6 +303,8 @@ class _LifetimeLegalText extends StatelessWidget {
     return StyledMarkdownText(
       text:
           'Einmalige Zahlung von $price (kein Abo o. ä.). $_termsOfServiceSentence',
+      onPressedPrivacyPolicy: onPressedPrivacyPolicy,
+      onPressedTermsOfService: onPressedTermsOfService,
     );
   }
 }
@@ -289,23 +312,30 @@ class _LifetimeLegalText extends StatelessWidget {
 class _MonthlySubscriptionLegalText extends StatelessWidget {
   const _MonthlySubscriptionLegalText({
     required this.price,
+    required this.onPressedTermsOfService,
+    required this.onPressedPrivacyPolicy,
   });
 
   final String? price;
+  final VoidCallback? onPressedTermsOfService;
+  final VoidCallback? onPressedPrivacyPolicy;
 
   @override
   Widget build(BuildContext context) {
     final currentPlatform = PlatformCheck.currentPlatform;
     final price = this.price ?? '...';
     return StyledMarkdownText(
-        text: switch (currentPlatform) {
-      Platform.android =>
-        'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. $_termsOfServiceSentence',
-      Platform.iOS ||
-      Platform.macOS =>
-        'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über den App Store kündigst. $_termsOfServiceSentence',
-      _ =>
-        'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht vor Ablauf der aktuellen Zahlungsperiode über die App kündigst. $_termsOfServiceSentence',
-    });
+      text: switch (currentPlatform) {
+        Platform.android =>
+          'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. $_termsOfServiceSentence',
+        Platform.iOS ||
+        Platform.macOS =>
+          'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über den App Store kündigst. $_termsOfServiceSentence',
+        _ =>
+          'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht vor Ablauf der aktuellen Zahlungsperiode über die App kündigst. $_termsOfServiceSentence',
+      },
+      onPressedPrivacyPolicy: onPressedPrivacyPolicy,
+      onPressedTermsOfService: onPressedTermsOfService,
+    );
   }
 }

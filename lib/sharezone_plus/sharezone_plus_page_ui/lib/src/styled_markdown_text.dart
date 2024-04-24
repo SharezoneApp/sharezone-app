@@ -15,10 +15,14 @@ class StyledMarkdownText extends StatelessWidget {
     super.key,
     required this.text,
     this.alignment = WrapAlignment.center,
+    this.onPressedTermsOfService,
+    this.onPressedPrivacyPolicy,
   });
 
   final String text;
   final WrapAlignment alignment;
+  final VoidCallback? onPressedTermsOfService;
+  final VoidCallback? onPressedPrivacyPolicy;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +38,15 @@ class StyledMarkdownText extends StatelessWidget {
       onTapLink: (text, href, title) async {
         if (href == null) return;
 
-        if (href == 'https://sharezone.net/terms-of-service') {
-          Navigator.pushNamed(context, 'terms-of-service');
+        if (href == 'https://sharezone.net/terms-of-service' &&
+            onPressedTermsOfService != null) {
+          onPressedTermsOfService!();
           return;
         }
 
-        if (href == 'https://sharezone.net/privacy-policy') {
-          Navigator.pushNamed(context, 'privacy-policy');
+        if (href == 'https://sharezone.net/privacy-policy' &&
+            onPressedPrivacyPolicy != null) {
+          onPressedPrivacyPolicy!();
           return;
         }
 
