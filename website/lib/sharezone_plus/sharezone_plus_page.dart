@@ -298,32 +298,3 @@ class _CustomerPortalDialog extends StatelessWidget {
     );
   }
 }
-
-class _SubscribeSection extends StatelessWidget {
-  const _SubscribeSection();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Text('4,99€'),
-        SizedBox(height: 12),
-        _SubscribeButton(),
-        SizedBox(height: 12),
-        SharezonePlusLegalText(),
-      ],
-    );
-  }
-}
-
-class _SubscribeButton extends StatelessWidget {
-  const _SubscribeButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return CallToActionButton(
-      text: const Text('Abonnieren'),
-      onPressed: () {},
-    );
-  }
-}

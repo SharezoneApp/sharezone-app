@@ -11,7 +11,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/widgets/section.dart';
 
-import '../../main.dart';
 import '../home_page.dart';
 
 class Welcome extends StatelessWidget {
