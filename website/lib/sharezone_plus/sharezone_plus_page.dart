@@ -124,7 +124,15 @@ class SharezonePlusPage extends StatelessWidget {
                                       final url =
                                           await getStripeCheckoutSessionUrl(
                                               data!.userId, purchasePeriod);
-                                      await launchUrl(url.toString());
+                                      await launchUrl(
+                                        url.toString(),
+                                        // Since the request for creating the checkout session is asynchronous, we
+                                        // can't open the checkout in a new tab due to the browser security
+                                        // policy.
+                                        //
+                                        // See https://github.com/flutter/flutter/issues/78524.
+                                        webOnlyWindowName: "_self",
+                                      );
                                       if (context.mounted) {
                                         setState(() {
                                           isPurchaseButtonLoading = false;
