@@ -9,5 +9,5 @@
 import 'package:common_domain_models/common_domain_models.dart';
 
 class SavedGradeId extends Id {
-  const SavedGradeId(super.id);
+  const SavedGradeId(super.value);
 }

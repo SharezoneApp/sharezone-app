@@ -24,7 +24,7 @@ import 'grade_details_page_test.mocks.dart';
   MockSpec<GradeDetailsPageControllerFactory>(),
 ])
 void main() {
-  final id = GradeId('1');
+  const id = GradeId('1');
 
   late MockGradeDetailsPageControllerFactory controllerFactory;
   late MockGradeDetailsPageController controller;
@@ -73,7 +73,7 @@ void main() {
                 create: (context) => controller,
               ),
             ],
-            child: GradeDetailsPage(id: id),
+            child: const GradeDetailsPage(id: id),
           ),
         ),
       );

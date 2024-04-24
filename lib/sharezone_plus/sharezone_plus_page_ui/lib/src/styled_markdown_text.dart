@@ -39,6 +39,11 @@ class StyledMarkdownText extends StatelessWidget {
           return;
         }
 
+        if (href == 'https://sharezone.net/privacy-policy') {
+          Navigator.pushNamed(context, 'privacy-policy');
+          return;
+        }
+
         await launchUrl(Uri.parse(href));
       },
     );

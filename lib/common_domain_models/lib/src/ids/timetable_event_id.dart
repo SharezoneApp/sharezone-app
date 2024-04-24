@@ -9,5 +9,5 @@
 import 'src/id.dart';
 
 class TimetableEventId extends Id {
-  const TimetableEventId(super.id);
+  const TimetableEventId(super.value);
 }

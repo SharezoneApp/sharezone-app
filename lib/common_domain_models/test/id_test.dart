@@ -22,7 +22,7 @@ void main() {
         // range' error.
         for (var i = 0; i < 100; i++) {
           final id = Id.generate(random: random);
-          expect(id.id.length, 20);
+          expect(id.value.length, 20);
         }
       });
     });

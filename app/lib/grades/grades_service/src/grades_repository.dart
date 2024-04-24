@@ -125,23 +125,24 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
 
   static Map<String, Object> toDto(GradesState state) {
     final currentTermOrNull =
-        state.terms.firstWhereOrNull((term) => term.isActiveTerm)?.id.id;
+        state.terms.firstWhereOrNull((term) => term.isActiveTerm)?.id.value;
     return {
       if (currentTermOrNull != null) 'currentTerm': currentTermOrNull,
       'terms': state.terms
-          .map((term) => MapEntry(term.id.id, TermDto.fromTerm(term).toData()))
+          .map((term) =>
+              MapEntry(term.id.value, TermDto.fromTerm(term).toData()))
           .toMap(),
       'grades': state.terms
           .expand((term) => term.subjects.expand((p0) => p0.grades))
-          .map((g) => MapEntry(g.id.id, GradeDto.fromGrade(g).toData()))
+          .map((g) => MapEntry(g.id.value, GradeDto.fromGrade(g).toData()))
           .toMap(),
       'customGradeTypes': state.customGradeTypes
-          .map((element) => MapEntry(element.id.id,
+          .map((element) => MapEntry(element.id.value,
               CustomGradeTypeDto.fromGradeType(element).toData()))
           .toMap(),
       'subjects': state.subjects
-          .map((subject) =>
-              MapEntry(subject.id.id, SubjectDto.fromSubject(subject).toData()))
+          .map((subject) => MapEntry(
+              subject.id.value, SubjectDto.fromSubject(subject).toData()))
           .toMap()
     };
   }
@@ -228,7 +229,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     final combinedTermSubjects = allTermSubjects
         .map((termSub) {
           final subject = subjects.firstWhereOrNull(
-              (subject) => subject.id.id == termSub.termSubject.id);
+              (subject) => subject.id.value == termSub.termSubject.id);
           if (subject == null) {
             log('No subject found for the term subject id ${termSub.termSubject.id}.');
             return null;
@@ -259,11 +260,11 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             .map((key, value) => MapEntry(GradeTypeId(key), value.toWeight()))
             .toIMap(),
         weightingForTermGrade:
-            subTerm.subjectWeights[subject.id.id]?.toWeight() ??
+            subTerm.subjectWeights[subject.id.value]?.toWeight() ??
                 const Weight.factor(1),
         grades: grades
             .where((grade) =>
-                grade.subjectId == subject.id && grade.termId.id == termId)
+                grade.subjectId == subject.id && grade.termId.value == termId)
             .toIList(),
         weightType: termSubject.gradeComposition.weightType,
         gradingSystem: subTerm.gradingSystem.toGradingSystemModel(),
@@ -282,7 +283,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             gradingSystem: dto.gradingSystem.toGradingSystemModel(),
             isActiveTerm: data['currentTerm'] == dto.id,
             subjects: termSubjects
-                .where((subject) => subject.termId.id == dto.id)
+                .where((subject) => subject.termId.value == dto.id)
                 .toIList(),
             name: dto.displayName,
             // Change both to num
@@ -411,7 +412,7 @@ class CustomGradeTypeDto {
 
   factory CustomGradeTypeDto.fromGradeType(GradeType gradeType) {
     return CustomGradeTypeDto(
-      id: gradeType.id.id,
+      id: gradeType.id.value,
       displayName: gradeType.displayName!,
     );
   }
@@ -447,16 +448,16 @@ class TermDto {
 
   factory TermDto.fromTerm(TermModel term) {
     return TermDto(
-      id: term.id.id,
+      id: term.id.value,
       displayName: term.name,
       createdOn: term.createdOn?.toTimestampOrNull(),
-      finalGradeTypeId: term.finalGradeType.id,
+      finalGradeTypeId: term.finalGradeType.value,
       gradingSystem: term.gradingSystem.spec.gradingSystem,
       subjects: term.subjects.map(TermSubjectDto.fromSubject).toList(),
       subjectWeights: Map.fromEntries(term.subjects.map((subject) =>
-          MapEntry(subject.id.id, subject.weightingForTermGrade.toDto()))),
+          MapEntry(subject.id.value, subject.weightingForTermGrade.toDto()))),
       gradeTypeWeights: term.gradeTypeWeightings
-          .map((gradeId, weight) => MapEntry(gradeId.id, weight.toDto()))
+          .map((gradeId, weight) => MapEntry(gradeId.value, weight.toDto()))
           .unlock,
     );
   }
@@ -511,9 +512,9 @@ class TermSubjectDto {
 
   factory TermSubjectDto.fromSubject(SubjectModel subject) {
     return TermSubjectDto(
-      id: subject.id.id,
-      grades: subject.grades.map((grade) => grade.id.id).toList(),
-      finalGradeType: subject.finalGradeType.id,
+      id: subject.id.value,
+      grades: subject.grades.map((grade) => grade.id.value).toList(),
+      finalGradeType: subject.finalGradeType.value,
       gradeComposition: SubjectGradeCompositionDto.fromSubject(subject),
       createdOn: subject.createdOn?.toTimestampOrNull(),
     );
@@ -558,10 +559,10 @@ class SubjectGradeCompositionDto {
     return SubjectGradeCompositionDto(
       weightType: subject.weightType,
       gradeTypeWeights: subject.gradeTypeWeightings
-          .map((gradeId, weight) => MapEntry(gradeId.id, weight.toDto()))
+          .map((gradeId, weight) => MapEntry(gradeId.value, weight.toDto()))
           .unlock,
       gradeWeights: Map.fromEntries(subject.grades
-          .map((grade) => MapEntry(grade.id.id, grade.weight.toDto()))),
+          .map((grade) => MapEntry(grade.id.value, grade.weight.toDto()))),
     );
   }
 
@@ -612,13 +613,13 @@ class GradeDto {
 
   factory GradeDto.fromGrade(GradeModel grade) {
     return GradeDto(
-      id: grade.id.id,
-      termId: grade.termId.id,
-      subjectId: grade.subjectId.id,
+      id: grade.id.value,
+      termId: grade.termId.value,
+      subjectId: grade.subjectId.value,
       numValue: grade.value.asNum,
       originalInput: grade.originalInput,
       gradingSystem: grade.gradingSystem.spec.gradingSystem,
-      gradeType: grade.gradeType.id,
+      gradeType: grade.gradeType.value,
       receivedAt: grade.date,
       includeInGrading: grade.takenIntoAccount,
       title: grade.title,
@@ -691,7 +692,7 @@ class SubjectDto {
 
   factory SubjectDto.fromSubject(Subject subject) {
     return SubjectDto(
-      id: subject.id.id,
+      id: subject.id.value,
       design: subject.design,
       name: subject.name,
       abbreviation: subject.abbreviation,
@@ -745,7 +746,7 @@ class ConnectedCourseDto {
 
   factory ConnectedCourseDto.fromConnectedCourse(ConnectedCourse course) {
     return ConnectedCourseDto(
-      id: course.id.id,
+      id: course.id.value,
       name: course.name,
       abbreviation: course.abbreviation,
       subjectName: course.subjectName,

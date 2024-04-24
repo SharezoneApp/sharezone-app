@@ -136,7 +136,7 @@ void main() {
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -162,7 +162,7 @@ void main() {
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -298,7 +298,7 @@ void main() {
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -588,7 +588,7 @@ void main() {
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -611,7 +611,7 @@ void main() {
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -655,7 +655,7 @@ void main() {
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -702,7 +702,7 @@ void main() {
       ]);
 
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
         courseName: 'Foo course',
@@ -786,7 +786,7 @@ void main() {
       when(mockDocumentReference.id).thenReturn('bar_course');
 
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'bar_course',
         courseName: 'Bar course',

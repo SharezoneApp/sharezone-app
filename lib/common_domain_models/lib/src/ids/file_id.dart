@@ -9,5 +9,5 @@
 import 'src/id.dart';
 
 class FileId extends Id {
-  const FileId(super.id);
+  const FileId(super.value);
 }

@@ -110,7 +110,11 @@ class BuySection extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 12),
-          _LegalText(period: currentPeriod),
+          _LegalText(
+            period: currentPeriod,
+            monthlyPrice: monthlyPrice,
+            lifetimePrice: lifetimePrice,
+          ),
         ],
       ),
     );
@@ -239,48 +243,66 @@ class _PeriodOption extends StatelessWidget {
 }
 
 class _LegalText extends StatelessWidget {
-  const _LegalText({required this.period});
+  const _LegalText({
+    required this.period,
+    required this.monthlyPrice,
+    required this.lifetimePrice,
+  });
 
   final PurchasePeriod period;
+  final String? monthlyPrice;
+  final String? lifetimePrice;
 
   @override
   Widget build(BuildContext context) {
     return switch (period) {
-      PurchasePeriod.monthly => const _MonthlySubscriptionLegalText(),
-      PurchasePeriod.lifetime => const _LifetimeLegalText(),
+      PurchasePeriod.monthly =>
+        _MonthlySubscriptionLegalText(price: monthlyPrice),
+      PurchasePeriod.lifetime => _LifetimeLegalText(price: lifetimePrice),
     };
   }
 }
 
 const _termsOfServiceSentence =
-    'Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast.';
+    'Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)';
 
 class _LifetimeLegalText extends StatelessWidget {
-  const _LifetimeLegalText();
+  const _LifetimeLegalText({
+    required this.price,
+  });
+
+  final String? price;
 
   @override
   Widget build(BuildContext context) {
-    return const StyledMarkdownText(
-      text: 'Einmalige Zahlung (kein Abo o. ä.). $_termsOfServiceSentence',
+    final price = this.price ?? '...';
+    return StyledMarkdownText(
+      text:
+          'Einmalige Zahlung von $price (kein Abo o. ä.). $_termsOfServiceSentence',
     );
   }
 }
 
 class _MonthlySubscriptionLegalText extends StatelessWidget {
-  const _MonthlySubscriptionLegalText();
+  const _MonthlySubscriptionLegalText({
+    required this.price,
+  });
+
+  final String? price;
 
   @override
   Widget build(BuildContext context) {
     final currentPlatform = PlatformCheck.currentPlatform;
+    final price = this.price ?? '...';
     return StyledMarkdownText(
         text: switch (currentPlatform) {
       Platform.android =>
-        'Dein Abo ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. $_termsOfServiceSentence',
+        'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. $_termsOfServiceSentence',
       Platform.iOS ||
       Platform.macOS =>
-        'Dein Abo ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über den App Store kündigst. $_termsOfServiceSentence',
+        'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über den App Store kündigst. $_termsOfServiceSentence',
       _ =>
-        'Dein Abo ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht vor Ablauf der aktuellen Zahlungsperiode über die App kündigst. $_termsOfServiceSentence',
+        'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht vor Ablauf der aktuellen Zahlungsperiode über die App kündigst. $_termsOfServiceSentence',
     });
   }
 }

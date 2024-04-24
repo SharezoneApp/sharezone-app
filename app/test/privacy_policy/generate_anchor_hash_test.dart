@@ -130,8 +130,8 @@ void main() {
 
       final actualAnchorHashes = privacyPolicy.tableOfContentSections
           .expand((section) => [
-                section.id.id,
-                ...section.subsections.map((subsection) => subsection.id.id)
+                section.id.value,
+                ...section.subsections.map((subsection) => subsection.id.value)
               ])
           .toList();
       final expectedAnchorHashes = privacyPolicy.tableOfContentSections

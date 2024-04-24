@@ -11,7 +11,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'auto_id_generator.dart';
 
 class AbgabeEventId extends Id {
-  const AbgabeEventId(super.id);
+  const AbgabeEventId(super.value);
 }
 
 abstract class AbgabeCommand {

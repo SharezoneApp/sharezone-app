@@ -9,5 +9,5 @@
 import 'src/id.dart';
 
 class UserId extends Id {
-  const UserId(super.id);
+  const UserId(super.value);
 }
