@@ -13,13 +13,15 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/support/support_page.dart';
-import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -356,6 +358,10 @@ class _PurchaseSection extends StatelessWidget {
           onLetParentsBuy: () => onLetParentsBuy(context),
           showLetParentsBuyButton: controller.showLetParentsBuyButton,
           isLetParentsBuyButtonLoading: controller.isLetParentsBuyButtonLoading,
+          onPressedPrivacyPolicy: () =>
+              Navigator.pushNamed(context, PrivacyPolicyPage.tag),
+          onPressedTermsOfService: () =>
+              Navigator.pushNamed(context, TermsOfServicePage.tag),
           onPurchase: () async {
             final controller = context.read<SharezonePlusPageController>();
 

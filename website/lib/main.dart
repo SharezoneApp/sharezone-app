@@ -18,15 +18,11 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'home/home_page.dart';
 import 'legal/imprint_page.dart';
+import 'sharezone_plus/success_page.dart';
 
 void main() {
   usePathUrlStrategy();
   runApp(const MyApp());
-}
-
-class SharezoneStyle {
-  static const primaryColor = Color(0xFF68B3E9);
-  static const font = 'Rubik';
 }
 
 /// The route configuration.
@@ -61,11 +57,18 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-          path: SharezonePlusPage.tag,
-          builder: (BuildContext context, GoRouterState state) {
-            return const SharezonePlusPage();
-          },
-        ),
+            path: SharezonePlusPage.tag,
+            builder: (BuildContext context, GoRouterState state) {
+              return const SharezonePlusPage();
+            },
+            routes: [
+              GoRoute(
+                path: 'success',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const PlusSuccessPage();
+                },
+              ),
+            ]),
       ],
     ),
   ],
@@ -81,17 +84,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: _router,
         title: 'Sharezone - Vernetzter Schulplaner',
-        theme: ThemeData(
-          useMaterial3: false,
-          primaryColor: SharezoneStyle.primaryColor,
-          fontFamily: SharezoneStyle.font,
-          scaffoldBackgroundColor: Colors.white,
-          pageTransitionsTheme: const PageTransitionsTheme(
-            builders: {
-              TargetPlatform.macOS: FadeTransiationsBuilder(),
-            },
-          ),
-        ),
+        theme: getLightTheme(),
       ),
     );
   }
