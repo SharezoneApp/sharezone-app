@@ -939,9 +939,11 @@ class HomeworkDialogApi {
 
   Future<HomeworkDto> loadHomework(HomeworkId homeworkId) async {
     try {
-      return _api.homework.singleHomework(homeworkId.id, source: Source.cache);
+      return _api.homework
+          .singleHomework(homeworkId.value, source: Source.cache);
     } catch (e) {
-      return _api.homework.singleHomework(homeworkId.id, source: Source.server);
+      return _api.homework
+          .singleHomework(homeworkId.value, source: Source.server);
     }
   }
 
@@ -953,13 +955,13 @@ class HomeworkDialogApi {
   }
 
   Future<Course> loadCourse(CourseId courseId) async {
-    return (await _api.course.streamCourse(courseId.id).first)!;
+    return (await _api.course.streamCourse(courseId.value).first)!;
   }
 
   Future<HomeworkDto> createHomework(
       CourseId courseId, UserInput userInput) async {
     final localFiles = userInput.localFiles;
-    final course = (await _api.course.streamCourse(courseId.id).first)!;
+    final course = (await _api.course.streamCourse(courseId.value).first)!;
     final authorID = _api.user.authUser!.uid;
     final authorReference = _api.references.users.doc(authorID);
     final user = (await _api.user.userStream.first)!;
@@ -967,7 +969,7 @@ class HomeworkDialogApi {
     final typeOfUser = user.typeOfUser;
 
     final attachments = await _api.fileSharing.uploadAttachments(
-        localFiles, courseId.id, authorReference.id, authorName,
+        localFiles, courseId.value, authorReference.id, authorName,
         isPrivate: userInput.private);
 
     final homework = HomeworkDto.create(
@@ -1011,7 +1013,7 @@ class HomeworkDialogApi {
   Future<HomeworkDto> editHomework(HomeworkId homeworkId, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
     final oldHomework =
-        await _api.homework.singleHomeworkStream(homeworkId.id).first;
+        await _api.homework.singleHomeworkStream(homeworkId.value).first;
     List<String> attachments = oldHomework.attachments.toList();
     final editorName = (await _api.user.userStream.first)!.name;
     final editorID = _api.user.authUser!.uid;

@@ -181,7 +181,7 @@ class TermSettingsPageController extends ChangeNotifier {
     final connectedCourses = _getConnectedCourses(subjectId);
     // We generate a new subject ID because the previous subject ID was just the
     // course ID (as temporary ID).
-    final newSubjectId = SubjectId(Id.generate().id);
+    final newSubjectId = SubjectId(Id.generate().value);
     gradesService.addSubject(
       Subject(
         id: newSubjectId,

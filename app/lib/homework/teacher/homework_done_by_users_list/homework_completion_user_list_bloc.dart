@@ -50,7 +50,7 @@ class HomeworkCompletionUserListBloc extends BlocBase {
   }
 
   Stream<List<UserHasCompletedHomeworkView>> get userViews {
-    return _gateway.singleHomeworkStream(_id.id).asyncMap(_mapToViews);
+    return _gateway.singleHomeworkStream(_id.value).asyncMap(_mapToViews);
   }
 
   Future<List<UserHasCompletedHomeworkView>> _mapToViews(

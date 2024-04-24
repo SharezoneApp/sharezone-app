@@ -57,7 +57,7 @@ class CreateTermPageController extends ChangeNotifier {
     }
 
     try {
-      final termId = TermId(Id.generate().id);
+      final termId = TermId(Id.generate().value);
       gradesService.addTerm(
         id: termId,
         name: view.name!,

@@ -62,7 +62,7 @@ class DocumentController {
 
   Future<void> scrollToDocumentSection(DocumentSectionId documentSectionId) {
     return anchorController.scrollToAnchor(
-      documentSectionId.id,
+      documentSectionId.value,
       duration: const Duration(milliseconds: 100),
       // Overscroll a tiny bit. Otherwise it can sometimes happen that the
       // section / element we scroll to is still not marked as currently read.

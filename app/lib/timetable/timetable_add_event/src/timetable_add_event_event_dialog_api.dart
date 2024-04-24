@@ -23,7 +23,7 @@ class EventDialogApi {
   EventDialogApi(this._api);
 
   Future<Course> loadCourse(CourseId courseId) async {
-    return (await _api.course.streamCourse(courseId.id).first)!;
+    return (await _api.course.streamCourse(courseId.value).first)!;
   }
 
   Future<void> createEvent(
@@ -33,7 +33,7 @@ class EventDialogApi {
       // The 'createdOn' field will be added in the gateway because we use
       // serverTimestamp().
       createdOn: null,
-      groupID: command.courseId.id,
+      groupID: command.courseId.value,
       groupType: GroupType.course,
       eventType: command.eventType,
       date: command.date,
