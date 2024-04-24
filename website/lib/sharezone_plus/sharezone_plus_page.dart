@@ -77,130 +77,134 @@ class SharezonePlusPage extends StatelessWidget {
           children: [
             MaxWidthConstraintBox(
               maxWidth: 750,
-              child: Column(
-                children: [
-                  const SizedBox(height: 50),
-                  if (snapshot.hasError) Text('Error: ${snapshot.error}'),
-                  if (hasToken)
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(17.5),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            'Sharezone Plus kaufen für',
-                            style: TextStyle(fontSize: 26),
-                          ),
-                          const SizedBox(height: 6),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                                child: const Icon(Icons.person),
-                              ),
-                              const SizedBox(width: 12),
-                              Flexible(
-                                child: Text(
-                                  data?.username ?? 'Lädt...',
-                                  style: const TextStyle(fontSize: 20),
-                                  overflow: TextOverflow.ellipsis,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 50),
+                    if (snapshot.hasError) Text('Error: ${snapshot.error}'),
+                    if (hasToken)
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(17.5),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'Sharezone Plus kaufen für',
+                              style: TextStyle(fontSize: 26),
+                            ),
+                            const SizedBox(height: 6),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  child: const Icon(Icons.person),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 18),
-                          StatefulBuilder(builder: (context, setState) {
-                            return BuySection(
-                              monthlyPrice: '1,99€',
-                              lifetimePrice: '19,99€',
-                              onPressedPrivacyPolicy: () =>
-                                  context.push('/${PrivacyPolicyPage.tag}'),
-                              onPressedTermsOfService: () =>
-                                  context.push('/${TermsOfServicePage.tag}'),
-                              onPurchase: data?.userId != null
-                                  ? () async {
-                                      setState(() {
-                                        isPurchaseButtonLoading = true;
-                                      });
-                                      final url =
-                                          await getStripeCheckoutSessionUrl(
-                                              data!.userId, purchasePeriod);
-                                      await launchUrl(
-                                        url.toString(),
-                                        // Since the request for creating the checkout session is asynchronous, we
-                                        // can't open the checkout in a new tab due to the browser security
-                                        // policy.
-                                        //
-                                        // See https://github.com/flutter/flutter/issues/78524.
-                                        webOnlyWindowName: "_self",
-                                      );
-                                      if (context.mounted) {
+                                const SizedBox(width: 12),
+                                Flexible(
+                                  child: Text(
+                                    data?.username ?? 'Lädt...',
+                                    style: const TextStyle(fontSize: 20),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 18),
+                            StatefulBuilder(builder: (context, setState) {
+                              return BuySection(
+                                monthlyPrice: '1,99€',
+                                lifetimePrice: '19,99€',
+                                onPressedPrivacyPolicy: () =>
+                                    context.push('/${PrivacyPolicyPage.tag}'),
+                                onPressedTermsOfService: () =>
+                                    context.push('/${TermsOfServicePage.tag}'),
+                                onPurchase: data?.userId != null
+                                    ? () async {
                                         setState(() {
-                                          isPurchaseButtonLoading = false;
+                                          isPurchaseButtonLoading = true;
                                         });
+                                        final url =
+                                            await getStripeCheckoutSessionUrl(
+                                                data!.userId, purchasePeriod);
+                                        await launchUrl(
+                                          url.toString(),
+                                          // Since the request for creating the checkout session is asynchronous, we
+                                          // can't open the checkout in a new tab due to the browser security
+                                          // policy.
+                                          //
+                                          // See https://github.com/flutter/flutter/issues/78524.
+                                          webOnlyWindowName: "_self",
+                                        );
+                                        if (context.mounted) {
+                                          setState(() {
+                                            isPurchaseButtonLoading = false;
+                                          });
+                                        }
                                       }
-                                    }
-                                  : null,
-                              currentPeriod: purchasePeriod,
-                              isPurchaseButtonLoading: isPurchaseButtonLoading,
-                              onPeriodChanged: (p) {
-                                setState(() {
-                                  purchasePeriod = p;
-                                });
-                              },
-                              bottom: const _ManageSubscriptionText(),
-                            );
-                          }),
-                        ],
+                                    : null,
+                                currentPeriod: purchasePeriod,
+                                isPurchaseButtonLoading:
+                                    isPurchaseButtonLoading,
+                                onPeriodChanged: (p) {
+                                  setState(() {
+                                    purchasePeriod = p;
+                                  });
+                                },
+                                bottom: const _ManageSubscriptionText(),
+                              );
+                            }),
+                          ],
+                        ),
                       ),
+                    const SizedBox(height: 25),
+                    const Text(
+                      'Vorteile von Sharezone Plus',
+                      style: TextStyle(fontSize: 23),
                     ),
-                  const SizedBox(height: 25),
-                  const Text(
-                    'Vorteile von Sharezone Plus',
-                    style: TextStyle(fontSize: 23),
-                  ),
-                  const SizedBox(height: 18),
-                  const SharezonePlusAdvantages(
-                    isHomeworkDoneListsFeatureVisible: true,
-                    isHomeworkReminderFeatureVisible: true,
-                  ),
-                  const SizedBox(height: 18),
-                  if (!hasToken) ...[
-                    StatefulBuilder(builder: (context, setState) {
-                      return BuySection(
-                        monthlyPrice: '1,99€',
-                        lifetimePrice: '19,99€',
-                        onPurchase: () async {
-                          showDialog(
-                            context: context,
-                            builder: (context) => const _BuyDialog(),
-                          );
-                        },
-                        currentPeriod: purchasePeriod,
-                        onPeriodChanged: (p) {
-                          setState(() {
-                            purchasePeriod = p;
-                          });
-                        },
-                        bottom: const _ManageSubscriptionText(),
-                        onPressedPrivacyPolicy: () =>
-                            context.push('/${PrivacyPolicyPage.tag}'),
-                        onPressedTermsOfService: () =>
-                            context.push('/${TermsOfServicePage.tag}'),
-                      );
-                    }),
+                    const SizedBox(height: 18),
+                    const SharezonePlusAdvantages(
+                      isHomeworkDoneListsFeatureVisible: true,
+                      isHomeworkReminderFeatureVisible: true,
+                    ),
+                    const SizedBox(height: 18),
+                    if (!hasToken) ...[
+                      StatefulBuilder(builder: (context, setState) {
+                        return BuySection(
+                          monthlyPrice: '1,99€',
+                          lifetimePrice: '19,99€',
+                          onPurchase: () async {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const _BuyDialog(),
+                            );
+                          },
+                          currentPeriod: purchasePeriod,
+                          onPeriodChanged: (p) {
+                            setState(() {
+                              purchasePeriod = p;
+                            });
+                          },
+                          bottom: const _ManageSubscriptionText(),
+                          onPressedPrivacyPolicy: () =>
+                              context.push('/${PrivacyPolicyPage.tag}'),
+                          onPressedTermsOfService: () =>
+                              context.push('/${TermsOfServicePage.tag}'),
+                        );
+                      }),
+                      const SizedBox(height: 32),
+                    ],
+                    const SharezonePlusFaq(),
+                    const SizedBox(height: 18),
+                    const SharezonePlusSupportNote(),
                     const SizedBox(height: 32),
                   ],
-                  const SharezonePlusFaq(),
-                  const SizedBox(height: 18),
-                  const SharezonePlusSupportNote(),
-                  const SizedBox(height: 32),
-                ],
+                ),
               ),
             ),
           ],
