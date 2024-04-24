@@ -9,5 +9,5 @@
 import 'package:common_domain_models/common_domain_models.dart';
 
 class SubjectId extends Id {
-  const SubjectId(super.id);
+  const SubjectId(super.value);
 }

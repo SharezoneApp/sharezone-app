@@ -9,5 +9,5 @@
 import 'src/id.dart';
 
 class HomeworkId extends Id {
-  const HomeworkId(super.id);
+  const HomeworkId(super.value);
 }
