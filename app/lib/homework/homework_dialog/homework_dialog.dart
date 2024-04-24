@@ -20,7 +20,6 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
@@ -32,7 +31,6 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
@@ -48,9 +46,7 @@ class HomeworkDialog extends StatefulWidget {
     required this.id,
     this.homeworkDialogApi,
     this.nextLessonCalculator,
-    this.showDueDateSelectionChips = kDebugMode ||
-        kDevelopmentStage == 'ALPHA' ||
-        kDevelopmentStage == 'BETA',
+    this.showDueDateSelectionChips = true,
   });
 
   static const tag = "homework-dialog";
