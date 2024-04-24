@@ -25,11 +25,6 @@ void main() {
   runApp(const MyApp());
 }
 
-class SharezoneStyle {
-  static const primaryColor = Color(0xFF68B3E9);
-  static const font = 'Rubik';
-}
-
 /// The route configuration.
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
@@ -89,17 +84,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: _router,
         title: 'Sharezone - Vernetzter Schulplaner',
-        theme: ThemeData(
-          useMaterial3: false,
-          primaryColor: SharezoneStyle.primaryColor,
-          fontFamily: SharezoneStyle.font,
-          scaffoldBackgroundColor: Colors.white,
-          pageTransitionsTheme: const PageTransitionsTheme(
-            builders: {
-              TargetPlatform.macOS: FadeTransiationsBuilder(),
-            },
-          ),
-        ),
+        theme: getLightTheme(),
       ),
     );
   }

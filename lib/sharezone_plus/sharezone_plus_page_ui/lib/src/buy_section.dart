@@ -38,6 +38,7 @@ class BuySection extends StatelessWidget {
     this.onLetParentsBuy,
     this.showLetParentsBuyButton = false,
     this.isLetParentsBuyButtonLoading = false,
+    this.bottom,
   });
 
   final bool isPriceLoading;
@@ -50,6 +51,7 @@ class BuySection extends StatelessWidget {
   final bool isLetParentsBuyButtonLoading;
   final PurchasePeriod currentPeriod;
   final ValueChanged<PurchasePeriod> onPeriodChanged;
+  final Widget? bottom;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +117,7 @@ class BuySection extends StatelessWidget {
             monthlyPrice: monthlyPrice,
             lifetimePrice: lifetimePrice,
           ),
+          if (bottom != null) bottom!,
         ],
       ),
     );

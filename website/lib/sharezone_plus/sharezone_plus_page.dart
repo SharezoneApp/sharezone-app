@@ -9,7 +9,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_website/flavor.dart';
 import 'package:sharezone_website/page.dart';
@@ -62,15 +62,16 @@ class SharezonePlusPage extends StatelessWidget {
       builder: (context, snapshot) {
         final data = snapshot.data;
         var purchasePeriod = PurchasePeriod.monthly;
+        final hasToken = urlToken != null;
         return PageTemplate(
           children: [
             MaxWidthConstraintBox(
               maxWidth: 750,
               child: Column(
                 children: [
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   if (snapshot.hasError) Text('Error: ${snapshot.error}'),
-                  if (urlToken != null)
+                  if (hasToken)
                     DecoratedBox(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(17.5),
@@ -79,8 +80,10 @@ class SharezonePlusPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Sharezone Plus kaufen für',
-                              style: TextStyle(fontSize: 26)),
+                          const Text(
+                            'Sharezone Plus kaufen für',
+                            style: TextStyle(fontSize: 26),
+                          ),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +93,7 @@ class SharezonePlusPage extends StatelessWidget {
                                 width: 180,
                                 height: 180,
                               ),
-                              SizedBox(width: 30),
+                              const SizedBox(width: 30),
                               Column(
                                 children: [
                                   Text(
@@ -107,7 +110,7 @@ class SharezonePlusPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 18),
+                          const SizedBox(height: 18),
                           StatefulBuilder(builder: (context, setState) {
                             return BuySection(
                               monthlyPrice: '1,99€',
@@ -126,32 +129,104 @@ class SharezonePlusPage extends StatelessWidget {
                                   purchasePeriod = p;
                                 });
                               },
+                              bottom: const _ManageSubscriptionText(),
                             );
                           }),
                         ],
                       ),
                     ),
-                  SizedBox(height: 25),
-                  Text('Vorteile von Sharezone Plus',
-                      style: TextStyle(fontSize: 23)),
-                  SizedBox(height: 18),
-                  SharezonePlusAdvantages(
+                  const SizedBox(height: 25),
+                  const Text(
+                    'Vorteile von Sharezone Plus',
+                    style: TextStyle(fontSize: 23),
+                  ),
+                  const SizedBox(height: 18),
+                  const SharezonePlusAdvantages(
                     isHomeworkDoneListsFeatureVisible: true,
                     isHomeworkReminderFeatureVisible: true,
                   ),
-                  SizedBox(height: 18),
-                  _SubscribeSection(),
-                  SizedBox(height: 32),
-                  SharezonePlusFaq(),
-                  SizedBox(height: 18),
-                  SharezonePlusSupportNote(),
-                  SizedBox(height: 32),
+                  const SizedBox(height: 18),
+                  if (!hasToken) ...[
+                    const _SubscribeSection(),
+                    const SizedBox(height: 32),
+                  ],
+                  const SharezonePlusFaq(),
+                  const SizedBox(height: 18),
+                  const SharezonePlusSupportNote(),
+                  const SizedBox(height: 32),
                 ],
               ),
             ),
           ],
         );
       },
+    );
+  }
+}
+
+class _ManageSubscriptionText extends StatelessWidget {
+  const _ManageSubscriptionText();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: MarkdownBody(
+        data:
+            'Du hast bereits ein Abo? Klicke [hier](https://billing.stripe.com/p/login/eVa7uh3DvbMfbTy144) um es zu verwalten (z.B. Kündigen, Zahlungsmethode ändern, etc.).',
+        styleSheet: MarkdownStyleSheet(
+          a: TextStyle(
+            color: Theme.of(context).primaryColor,
+            decoration: TextDecoration.underline,
+          ),
+          textAlign: WrapAlignment.center,
+        ),
+        onTapLink: (text, href, title) async {
+          if (href == null) return;
+          showDialog(
+            context: context,
+            builder: (context) => _CustomerPortalDialog(url: href),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _CustomerPortalDialog extends StatelessWidget {
+  const _CustomerPortalDialog({
+    required this.url,
+  });
+
+  final String url;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 450,
+      child: AlertDialog(
+        title: const Text('Kundenportal'),
+        content: const SingleChildScrollView(
+          child: Text(
+            'Um dich zu authentifizieren, nutze bitte die E-Mail-Adresse, die du bei der Bestellung verwendet hast.',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Abbrechen'),
+          ),
+          FilledButton(
+            child: const Text('Zum Kundenportal'),
+            onPressed: () async {
+              await launchUrl(url);
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

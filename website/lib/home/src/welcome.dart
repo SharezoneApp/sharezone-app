@@ -47,7 +47,6 @@ class Welcome extends StatelessWidget {
                           fontSize: isTablet(context) ? 64 : 85,
                           fontWeight: FontWeight.w700,
                           color: Colors.black87,
-                          fontFamily: SharezoneStyle.font,
                         ),
                         textAlign: TextAlign.center,
                       ),
