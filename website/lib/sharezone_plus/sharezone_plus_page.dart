@@ -21,12 +21,19 @@ final isSharezonePlusPageEnabledFlag =
 
 typedef UserData = ({String username, String userId});
 
+String getFirebaseProjectId() {
+  return switch (Flavor.fromEnvironment()) {
+    Flavor.dev => 'sharezone-debug',
+    Flavor.prod => 'sharezone-c2bd8',
+  };
+}
+
 Future<UserData?> fetchUserData(String? token) async {
   if (token == null) {
     return null;
   }
-  const link =
-      "https://europe-west1-sharezone-debug.cloudfunctions.net/getDataForPlusWebsiteBuyToken";
+  final link =
+      "https://europe-west1-${getFirebaseProjectId()}.cloudfunctions.net/getDataForPlusWebsiteBuyToken";
   final response = await Dio().post(link, data: {'token': token});
   final dataMap = response.data as Map;
   final username = dataMap['username'] as String;
@@ -36,8 +43,8 @@ Future<UserData?> fetchUserData(String? token) async {
 
 Future<Uri> getStripeCheckoutSessionUrl(
     String userId, PurchasePeriod period) async {
-  const link =
-      "https://europe-west1-sharezone-debug.cloudfunctions.net/createStripeCheckoutSession";
+  final link =
+      "https://europe-west1-${getFirebaseProjectId()}.cloudfunctions.net/createStripeCheckoutSession";
   final response = await Dio().post(link, data: {
     'buysFor': userId,
     'successUrl': '${Uri.base.origin + Uri.base.path}/success',
@@ -147,7 +154,25 @@ class SharezonePlusPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 18),
                   if (!hasToken) ...[
-                    const _SubscribeSection(),
+                    StatefulBuilder(builder: (context, setState) {
+                      return BuySection(
+                        monthlyPrice: '1,99€',
+                        lifetimePrice: '19,99€',
+                        onPurchase: () async {
+                          showDialog(
+                            context: context,
+                            builder: (context) => const _BuyDialog(),
+                          );
+                        },
+                        currentPeriod: purchasePeriod,
+                        onPeriodChanged: (p) {
+                          setState(() {
+                            purchasePeriod = p;
+                          });
+                        },
+                        bottom: const _ManageSubscriptionText(),
+                      );
+                    }),
                     const SizedBox(height: 32),
                   ],
                   const SharezonePlusFaq(),
@@ -160,6 +185,38 @@ class SharezonePlusPage extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _BuyDialog extends StatelessWidget {
+  const _BuyDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 450,
+      child: AlertDialog(
+        title: const Text('Sharezone Plus kaufen'),
+        content: MarkdownBody(
+          data:
+              'Um Sharezone Plus für deinen eigenen Account zu erwerben, musst du Sharezone Plus über die Web-App kaufen.\n\nFalls du Sharezone Plus als Elternteil für dein Kind kaufen möchtest, musst du den Link öffnen, den du von deinem Kind erhalten hast.\n\nSolltest du Fragen haben, kannst du uns gerne eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net) schreiben.',
+          onTapLink: (text, href, title) async {
+            if (href == null) return;
+            await launchUrl(href);
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Abbrechen'),
+          ),
+          FilledButton(
+            child: const Text('Zur Web-App'),
+            onPressed: () => launchUrl('https://web.sharezone.net'),
+          ),
+        ],
+      ),
     );
   }
 }
