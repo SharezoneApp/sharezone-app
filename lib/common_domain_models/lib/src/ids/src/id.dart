@@ -9,13 +9,13 @@
 import 'dart:math';
 
 class Id {
-  final String id;
+  final String value;
 
-  const Id(this.id) : assert(id != "");
+  const Id(this.value) : assert(value != "");
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || other is Id && other.id == id;
+    return identical(this, other) || other is Id && other.value == value;
   }
 
   /// Generates a new random [Id] with the given [length] using characters
@@ -34,10 +34,10 @@ class Id {
   }
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => value.hashCode;
 
   @override
   String toString() {
-    return id;
+    return value;
   }
 }

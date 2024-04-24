@@ -194,7 +194,7 @@ class GradesDialogController extends ChangeNotifier {
           .firstWhereOrNull((subject) => subject.name == course.subject);
       final hasSubjectForThisCourse = matchingSubject != null;
       if (!hasSubjectForThisCourse) {
-        final subjectId = SubjectId(Id.generate().id);
+        final subjectId = SubjectId(Id.generate().value);
         subjects.add(course.toSubject(subjectId));
       }
     }

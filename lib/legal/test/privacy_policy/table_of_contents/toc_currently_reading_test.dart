@@ -800,7 +800,7 @@ class TestCurrentlyReadingController {
     final config = PrivacyPolicyPageConfig(
       threshold: threshold,
       endSection: PrivacyPolicyEndSection(
-        sectionName: endSection?.id ?? 'metadaten',
+        sectionName: endSection?.value ?? 'metadaten',
         generateMarkdown: (pp) => _generateEndSectionMarkdown(endSection),
       ),
     );

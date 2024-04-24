@@ -9,5 +9,5 @@
 import 'datei_id.dart';
 
 class AbgabedateiId extends DateiId {
-  const AbgabedateiId(super.id);
+  const AbgabedateiId(super.value);
 }

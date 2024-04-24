@@ -351,7 +351,7 @@ TestSubject subjectWith({
   List<ConnectedCourse> connectedCourses = const [],
 }) {
   final idRes = id ?? SubjectId(randomAlpha(5));
-  final nameRes = name ?? idRes.id;
+  final nameRes = name ?? idRes.value;
   final abbreviationRes = abbreviation ?? nameRes.substring(0, 2);
   return TestSubject(
     id: idRes,

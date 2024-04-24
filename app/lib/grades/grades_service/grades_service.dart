@@ -792,7 +792,7 @@ enum WeightType {
 }
 
 class GradeTypeId extends Id {
-  const GradeTypeId(super.id);
+  const GradeTypeId(super.value);
 }
 
 class Subject extends Equatable {

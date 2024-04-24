@@ -9,5 +9,5 @@
 import 'src/id.dart';
 
 class BlackboardItemId extends Id {
-  const BlackboardItemId(super.id);
+  const BlackboardItemId(super.value);
 }

@@ -93,7 +93,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
 
     if (widget.id != null) {
       homework = szContext.api.homework
-          .singleHomework(widget.id!.id, source: Source.cache)
+          .singleHomework(widget.id!.value, source: Source.cache)
           .then((value) {
         bloc = HomeworkDialogBloc(
           homeworkId: widget.id,

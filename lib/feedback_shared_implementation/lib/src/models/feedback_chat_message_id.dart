@@ -9,5 +9,5 @@
 import 'package:common_domain_models/common_domain_models.dart';
 
 class FeedbackChatMessageId extends Id {
-  const FeedbackChatMessageId(super.id);
+  const FeedbackChatMessageId(super.value);
 }
