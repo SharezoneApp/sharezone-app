@@ -69,6 +69,7 @@ class SharezonePlusPage extends StatelessWidget {
       builder: (context, snapshot) {
         final data = snapshot.data;
         var purchasePeriod = PurchasePeriod.monthly;
+        var isPurchaseButtonLoading = false;
         final hasToken = urlToken != null;
         return PageTemplate(
           children: [
@@ -91,29 +92,22 @@ class SharezonePlusPage extends StatelessWidget {
                             'Sharezone Plus kaufen für',
                             style: TextStyle(fontSize: 26),
                           ),
+                          const SizedBox(height: 6),
                           Row(
-                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              PlatformSvg.asset(
-                                "assets/icons/students.svg",
-                                width: 180,
-                                height: 180,
+                              CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                child: const Icon(Icons.person),
                               ),
-                              const SizedBox(width: 30),
-                              Column(
-                                children: [
-                                  Text(
-                                    data?.username ?? 'Lädt...',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                  ),
-                                  Text(data?.userId ?? '',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.grey.withOpacity(.8))),
-                                ],
+                              const SizedBox(width: 12),
+                              Flexible(
+                                child: Text(
+                                  data?.username ?? 'Lädt...',
+                                  style: const TextStyle(fontSize: 20),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ],
                           ),
@@ -124,13 +118,22 @@ class SharezonePlusPage extends StatelessWidget {
                               lifetimePrice: '19,99€',
                               onPurchase: data?.userId != null
                                   ? () async {
+                                      setState(() {
+                                        isPurchaseButtonLoading = true;
+                                      });
                                       final url =
                                           await getStripeCheckoutSessionUrl(
                                               data!.userId, purchasePeriod);
                                       await launchUrl(url.toString());
+                                      if (context.mounted) {
+                                        setState(() {
+                                          isPurchaseButtonLoading = false;
+                                        });
+                                      }
                                     }
                                   : null,
                               currentPeriod: purchasePeriod,
+                              isPurchaseButtonLoading: isPurchaseButtonLoading,
                               onPeriodChanged: (p) {
                                 setState(() {
                                   purchasePeriod = p;
