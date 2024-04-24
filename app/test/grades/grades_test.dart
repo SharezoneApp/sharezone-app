@@ -127,7 +127,7 @@ void main() {
             weight: const Weight.factor(0.5),
             grades: [
               gradeWith(
-                  id: GradeId('grade1'),
+                  id: const GradeId('grade1'),
                   value: 3.0,
                   includeInGradeCalculations: false),
               gradeWith(value: 1.5),
@@ -146,7 +146,7 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Sport'))
-              .grade(GradeId('grade1'))
+              .grade(const GradeId('grade1'))
               .isTakenIntoAccount,
           false);
 
@@ -163,7 +163,7 @@ void main() {
             weightType: WeightType.perGrade,
             grades: [
               gradeWith(
-                id: GradeId('grade1'),
+                id: const GradeId('grade1'),
                 value: 3.0,
                 includeInGradeCalculations: false,
               ),
@@ -181,7 +181,7 @@ void main() {
         termId: term.id,
         subjectId: const SubjectId('Sport'),
         weights: {
-          GradeId('grade1'): const Weight.percent(100),
+          const GradeId('grade1'): const Weight.percent(100),
         },
       );
 
@@ -189,7 +189,7 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Sport'))
-              .grade(GradeId('grade1'))
+              .grade(const GradeId('grade1'))
               .isTakenIntoAccount,
           true);
       expect(
@@ -344,8 +344,8 @@ void main() {
       final controller = GradesTestController();
 
       const subjectId = SubjectId('Deutsch');
-      final grade1Id = GradeId('grade1');
-      final grade2Id = GradeId('grade2');
+      const grade1Id = GradeId('grade1');
+      const grade2Id = GradeId('grade2');
 
       const presentation = GradeType.presentation;
       const exam = GradeType.writtenExam;
@@ -691,11 +691,11 @@ void main() {
             name: 'Deutsch',
             grades: [
               gradeWith(
-                  id: GradeId('grade1'),
+                  id: const GradeId('grade1'),
                   value: "2+",
                   gradingSystem: GradingSystem.oneToSixWithPlusAndMinus),
               gradeWith(
-                  id: GradeId('grade2'),
+                  id: const GradeId('grade2'),
                   value: 1.75,
                   gradingSystem: GradingSystem.oneToSixWithPlusAndMinus),
             ],
@@ -708,14 +708,14 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Deutsch'))
-              .grade(GradeId('grade1'))
+              .grade(const GradeId('grade1'))
               .originalInput,
           '2+');
       expect(
           controller
               .term(term.id)
               .subject(const SubjectId('Deutsch'))
-              .grade(GradeId('grade2'))
+              .grade(const GradeId('grade2'))
               .originalInput,
           1.75);
     });
@@ -1052,7 +1052,7 @@ void main() {
             id: const SubjectId('Philosophie'),
             grades: [
               gradeWith(
-                id: GradeId('grade1'),
+                id: const GradeId('grade1'),
                 value: 4.0,
                 date: Date.fromDateTime(DateTime(2024, 03, 26)),
               ),
@@ -1066,7 +1066,7 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Philosophie'))
-              .grade(GradeId('grade1'))
+              .grade(const GradeId('grade1'))
               .date,
           Date('2024-03-26'));
     });
@@ -1079,12 +1079,12 @@ void main() {
             id: const SubjectId('Philosophie'),
             grades: [
               gradeWith(
-                id: GradeId('grade1'),
+                id: const GradeId('grade1'),
                 gradingSystem: GradingSystem.oneToFiveWithDecimals,
                 value: 2.5,
               ),
               gradeWith(
-                id: GradeId('grade2'),
+                id: const GradeId('grade2'),
                 gradingSystem: GradingSystem.sixToOneWithDecimals,
                 value: 4.2,
               ),
@@ -1097,7 +1097,7 @@ void main() {
       final grade1 = controller
           .term(term.id)
           .subject(const SubjectId('Philosophie'))
-          .grade(GradeId('grade1'));
+          .grade(const GradeId('grade1'));
       // On both since the calculated averageGrade is only a [GradeValue], not a [GradeResult].
       expect(grade1.gradingSystem, GradingSystem.oneToFiveWithDecimals);
       expect(grade1.value.gradingSystem, GradingSystem.oneToFiveWithDecimals);
@@ -1105,7 +1105,7 @@ void main() {
       final grade2 = controller
           .term(term.id)
           .subject(const SubjectId('Philosophie'))
-          .grade(GradeId('grade2'));
+          .grade(const GradeId('grade2'));
       expect(grade2.gradingSystem, GradingSystem.sixToOneWithDecimals);
       expect(grade2.value.gradingSystem, GradingSystem.sixToOneWithDecimals);
     });
@@ -1118,11 +1118,11 @@ void main() {
             id: const SubjectId('Philosophie'),
             grades: [
               gradeWith(
-                id: GradeId('grade1'),
+                id: const GradeId('grade1'),
                 value: 4.0,
               ),
               gradeWith(
-                id: GradeId('grade2'),
+                id: const GradeId('grade2'),
                 value: 4.5,
               ),
             ],
@@ -1131,7 +1131,7 @@ void main() {
       );
       controller.createTerm(term);
 
-      controller.deleteGrade(gradeId: GradeId('grade1'));
+      controller.deleteGrade(gradeId: const GradeId('grade1'));
 
       expect(
           controller
@@ -1147,7 +1147,7 @@ void main() {
               .grades
               .single
               .id,
-          GradeId('grade2'));
+          const GradeId('grade2'));
     });
     test(
         'When trying to add a grade with the same id as an existing grade then a $DuplicateGradeIdException is thrown',
@@ -1160,7 +1160,7 @@ void main() {
             id: const SubjectId('Philosophie'),
             grades: [
               gradeWith(
-                id: GradeId('grade1'),
+                id: const GradeId('grade1'),
                 value: 4.0,
               ),
             ],
@@ -1174,11 +1174,11 @@ void main() {
           termId: term.id,
           subjectId: const SubjectId('Philosophie'),
           value: gradeWith(
-            id: GradeId('grade1'),
+            id: const GradeId('grade1'),
             value: 4.0,
           ),
         ),
-        throwsA(DuplicateGradeIdException(GradeId('grade1'))),
+        throwsA(const DuplicateGradeIdException(GradeId('grade1'))),
       );
     });
     test(
@@ -1192,7 +1192,7 @@ void main() {
             id: const SubjectId('Philosophie'),
             grades: [
               gradeWith(
-                id: GradeId('grade1'),
+                id: const GradeId('grade1'),
                 value: 4.0,
               ),
             ],
@@ -1203,9 +1203,9 @@ void main() {
 
       expect(
         () => controller.deleteGrade(
-          gradeId: GradeId('unknown'),
+          gradeId: const GradeId('unknown'),
         ),
-        throwsA(GradeNotFoundException(GradeId('unknown'))),
+        throwsA(const GradeNotFoundException(GradeId('unknown'))),
       );
     });
     test('A grade has a title', () {
@@ -1217,7 +1217,7 @@ void main() {
             id: const SubjectId('Philosophie'),
             grades: [
               gradeWith(
-                id: GradeId('grade1'),
+                id: const GradeId('grade1'),
                 value: 4.0,
                 title: 'Klausur',
               ),
@@ -1231,7 +1231,7 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Philosophie'))
-              .grade(GradeId('grade1'))
+              .grade(const GradeId('grade1'))
               .title,
           'Klausur');
     });
@@ -1244,7 +1244,7 @@ void main() {
             id: const SubjectId('Philosophie'),
             grades: [
               gradeWith(
-                id: GradeId('grade1'),
+                id: const GradeId('grade1'),
                 value: 4.0,
                 details: 'my details',
               ),
@@ -1258,7 +1258,7 @@ void main() {
           controller
               .term(term.id)
               .subject(const SubjectId('Philosophie'))
-              .grade(GradeId('grade1'))
+              .grade(const GradeId('grade1'))
               .details,
           'my details');
     });

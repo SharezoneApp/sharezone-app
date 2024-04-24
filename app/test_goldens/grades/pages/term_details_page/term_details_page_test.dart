@@ -76,14 +76,14 @@ void main() {
             (
               grades: [
                 (
-                  id: GradeId('1'),
+                  id: const GradeId('1'),
                   gradeTypeIcon: const Icon(Icons.note_add),
                   date: Date.fromDateTime(DateTime(2021, 2, 2)).toDateString,
                   grade: '1,0',
                   title: 'Klausur',
                 ),
                 (
-                  id: GradeId('2'),
+                  id: const GradeId('2'),
                   gradeTypeIcon: const Icon(Icons.text_format),
                   date: Date.fromDateTime(DateTime(2021, 2, 1)).toDateString,
                   grade: '2+',

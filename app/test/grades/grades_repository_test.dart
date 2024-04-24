@@ -83,7 +83,7 @@ void main() {
               id: const SubjectId('Philosophie'),
               grades: [
                 gradeWith(
-                  id: GradeId('grade1'),
+                  id: const GradeId('grade1'),
                   value: 4.0,
                 ),
               ],
@@ -187,7 +187,7 @@ void main() {
           subjectId: const SubjectId('mathe'),
           termId: const TermId('02-10-term'),
           value: Grade(
-            id: GradeId('grade-1'),
+            id: const GradeId('grade-1'),
             value: '13',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             type: const GradeTypeId('my-custom-grade-type'),
@@ -200,7 +200,7 @@ void main() {
           subjectId: const SubjectId('mathe'),
           termId: const TermId('02-10-term'),
           value: Grade(
-            id: GradeId('grade-2'),
+            id: const GradeId('grade-2'),
             value: '3',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             type: GradeType.vocabularyTest.id,
@@ -214,7 +214,7 @@ void main() {
           subjectId: const SubjectId('englisch'),
           termId: const TermId('01-10-term'),
           value: Grade(
-            id: GradeId('grade-3'),
+            id: const GradeId('grade-3'),
             value: '2-',
             gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
             type: const GradeTypeId('my-custom-grade-type'),
@@ -227,7 +227,7 @@ void main() {
           subjectId: const SubjectId('englisch'),
           termId: const TermId('01-10-term'),
           value: Grade(
-            id: GradeId('grade-4'),
+            id: const GradeId('grade-4'),
             value: 'Sehr zufriedenstellend',
             gradingSystem: GradingSystem.austrianBehaviouralGrades,
             type: GradeType.oralParticipation.id,
@@ -251,7 +251,7 @@ void main() {
           gradeType: const GradeTypeId('my-custom-grade-type'),
           weight: const Weight.percent(200));
       service.changeGradeWeight(
-          id: GradeId('grade-1'),
+          id: const GradeId('grade-1'),
           termId: const TermId('02-10-term'),
           weight: const Weight.factor(0.5));
       service.changeSubjectWeightTypeSettings(
@@ -499,7 +499,7 @@ void main() {
                 gradingSystem: GradingSystemModel.zeroToFifteenPoints,
                 grades: IListConst([
                   GradeModel(
-                    id: GradeId('grade-1'),
+                    id: const GradeId('grade-1'),
                     subjectId: const SubjectId('mathe'),
                     termId: const TermId('02-10-term'),
                     originalInput: '13',
@@ -517,7 +517,7 @@ void main() {
                     details: 'hello',
                   ),
                   GradeModel(
-                    id: GradeId('grade-2'),
+                    id: const GradeId('grade-2'),
                     subjectId: const SubjectId('mathe'),
                     termId: const TermId('02-10-term'),
                     originalInput: 3,
@@ -582,7 +582,7 @@ void main() {
               grades: IListConst(
                 [
                   GradeModel(
-                    id: GradeId('grade-3'),
+                    id: const GradeId('grade-3'),
                     subjectId: const SubjectId('englisch'),
                     termId: const TermId('01-10-term'),
                     originalInput: '2-',
@@ -601,7 +601,7 @@ void main() {
                     details: 'ollah',
                   ),
                   GradeModel(
-                    id: GradeId('grade-4'),
+                    id: const GradeId('grade-4'),
                     subjectId: const SubjectId('englisch'),
                     termId: const TermId('01-10-term'),
                     originalInput: 'Sehr zufriedenstellend',
