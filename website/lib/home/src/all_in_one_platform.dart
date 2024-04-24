@@ -14,7 +14,6 @@ import 'package:sharezone_website/widgets/row_spacing.dart';
 import 'package:sharezone_website/widgets/section.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart' hide Headline;
 
-import '../../main.dart';
 import '../home_page.dart';
 
 class AllInOnePlace extends StatefulWidget {
@@ -226,7 +225,6 @@ class __FeatureCardState extends State<_FeatureCard> {
                             child: DefaultTextStyle(
                               style: TextStyle(
                                 color: Colors.grey[600],
-                                fontFamily: SharezoneStyle.font,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
