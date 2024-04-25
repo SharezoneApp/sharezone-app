@@ -69,6 +69,16 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                 ),
                 if (!isTablet(context))
                   AnimatedSwitcher(
+                    // Adding the default transitionBuilder here fixes
+                    // https://github.com/flutter/flutter/issues/121336. The bug can occur
+                    // when clicking the card very quickly.
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
                     duration: const Duration(milliseconds: 300),
                     child: SizedBox(
                       key: ValueKey(currentFeature),
