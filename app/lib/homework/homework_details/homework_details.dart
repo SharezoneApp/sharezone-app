@@ -106,16 +106,19 @@ class HomeworkDetails extends StatelessWidget {
           /// This is neccessary as the homeworkItem can be null at the beginning.
           if (view == null) return const CircularProgressIndicator();
 
-          return Scaffold(
-            body: CustomScrollView(
-              slivers: <Widget>[
-                HomeworkTitleAppBar(view: view),
-                SliverToBoxAdapter(
-                  child: _HomeworkDetailsBody(view: view),
-                ),
-              ],
+          return SelectionArea(
+            child: Scaffold(
+              body: CustomScrollView(
+                slivers: <Widget>[
+                  HomeworkTitleAppBar(view: view),
+                  SliverToBoxAdapter(
+                    child: _HomeworkDetailsBody(view: view),
+                  ),
+                ],
+              ),
+              bottomNavigationBar:
+                  _BottomHomeworkIsDoneActionButton(view: view),
             ),
-            bottomNavigationBar: _BottomHomeworkIsDoneActionButton(view: view),
           );
         },
       ),
