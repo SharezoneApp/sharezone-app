@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller.dart';
@@ -158,27 +159,35 @@ class _TitleFieldBase extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              PrefilledTextField(
-                prefilledText: prefilledTitle,
-                focusNode: focusNode,
-                cursorColor: Colors.white,
-                maxLines: null,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w400,
+              Theme(
+                data: Theme.of(context).copyWith(
+                  textSelectionTheme: !context.isDarkThemeEnabled
+                      ? const TextSelectionThemeData(
+                          selectionColor: Colors.white24)
+                      : null,
                 ),
-                decoration: const InputDecoration(
-                  hintText: "Name eingeben (z.B. Meine Prüfungen)",
-                  hintStyle: TextStyle(color: Colors.white),
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
-                  fillColor: Colors.transparent,
+                child: PrefilledTextField(
+                  prefilledText: prefilledTitle,
+                  focusNode: focusNode,
+                  cursorColor: Colors.white,
+                  maxLines: null,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: "Name eingeben (z.B. Meine Prüfungen)",
+                    hintStyle: TextStyle(color: Colors.white),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.zero,
+                    fillColor: Colors.transparent,
+                  ),
+                  onChanged: onChanged,
+                  textCapitalization: TextCapitalization.sentences,
                 ),
-                onChanged: onChanged,
-                textCapitalization: TextCapitalization.sentences,
               ),
               Text(
                 errorText ?? "",

@@ -957,28 +957,36 @@ class _TitleFieldBase extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              PrefilledTextField(
-                key: HwDialogKeys.titleTextField,
-                prefilledText: prefilledTitle,
-                focusNode: focusNode,
-                cursorColor: Colors.white,
-                maxLines: null,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w400,
+              Theme(
+                data: Theme.of(context).copyWith(
+                  textSelectionTheme: !context.isDarkThemeEnabled
+                      ? const TextSelectionThemeData(
+                          selectionColor: Colors.white24)
+                      : null,
                 ),
-                decoration: const InputDecoration(
-                  hintText: "Titel eingeben (z.B. AB Nr. 1 - 3)",
-                  hintStyle: TextStyle(color: Colors.white),
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
-                  fillColor: Colors.transparent,
+                child: PrefilledTextField(
+                  key: HwDialogKeys.titleTextField,
+                  prefilledText: prefilledTitle,
+                  focusNode: focusNode,
+                  cursorColor: Colors.white,
+                  maxLines: null,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: "Titel eingeben (z.B. AB Nr. 1 - 3)",
+                    hintStyle: TextStyle(color: Colors.white),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.zero,
+                    fillColor: Colors.transparent,
+                  ),
+                  onChanged: onChanged,
+                  textCapitalization: TextCapitalization.sentences,
                 ),
-                onChanged: onChanged,
-                textCapitalization: TextCapitalization.sentences,
               ),
               Text(
                 errorText ?? "",

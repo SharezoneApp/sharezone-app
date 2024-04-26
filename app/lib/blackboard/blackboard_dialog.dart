@@ -339,27 +339,35 @@ class _TitleField extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                PrefilledTextField(
-                  prefilledText: initialTitle,
-                  focusNode: focusNode,
-                  cursorColor: Colors.white,
-                  maxLines: null,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w400,
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    textSelectionTheme: !context.isDarkThemeEnabled
+                        ? const TextSelectionThemeData(
+                            selectionColor: Colors.white24)
+                        : null,
                   ),
-                  decoration: const InputDecoration(
-                    hintText: "Titel eingeben",
-                    hintStyle: TextStyle(color: Colors.white),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.zero,
-                    fillColor: Colors.transparent,
+                  child: PrefilledTextField(
+                    prefilledText: initialTitle,
+                    focusNode: focusNode,
+                    cursorColor: Colors.white,
+                    maxLines: null,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: const InputDecoration(
+                      hintText: "Titel eingeben",
+                      hintStyle: TextStyle(color: Colors.white),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                      fillColor: Colors.transparent,
+                    ),
+                    onChanged: (String title) => bloc.changeTitle(title),
+                    textCapitalization: TextCapitalization.sentences,
                   ),
-                  onChanged: (String title) => bloc.changeTitle(title),
-                  textCapitalization: TextCapitalization.sentences,
                 ),
                 Text(
                   snapshot.error?.toString() ?? "",
