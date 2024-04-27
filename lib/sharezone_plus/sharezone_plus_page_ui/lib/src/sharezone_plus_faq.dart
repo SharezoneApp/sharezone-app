@@ -119,11 +119,11 @@ class _DoesTheFileStorageLimitAlsoForGroups extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Erhält der gesamte Kurs 50 GB Speicherplatz?'),
+      header: const Text('Erhält der gesamte Kurs 30 GB Speicherplatz?'),
       body: const Text(
-        'Nein, der Speicherplatz von 50 GB mit Sharezone Plus gilt nur für '
+        'Nein, der Speicherplatz von 30 GB mit Sharezone Plus gilt nur für '
         'deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest '
-        'beispielsweise 20 GB in den Deutsch-Kurs hochladen, 20 GB in den '
+        'beispielsweise 5 GB in den Deutsch-Kurs hochladen, 15 GB in den '
         'Mathe-Kurs und hättest noch weitere 10 GB für alle Kurse zur '
         'Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen '
         'Speicherplatz.',
