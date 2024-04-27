@@ -137,16 +137,16 @@ class SharezonePlusPageController extends ChangeNotifier {
     }
 
     try {
-      _analytics.logSubscribed(
-        selectedPurchasePeriod.name,
-        PlatformCheck.currentPlatform.name,
-      );
-
       if (PlatformCheck.isWeb) {
         await _buyOnWeb();
       } else {
         await _purchaseService.purchase(_getProductId());
       }
+
+      _analytics.logSubscribed(
+        selectedPurchasePeriod.name,
+        PlatformCheck.currentPlatform.name,
+      );
     } catch (e, s) {
       isPurchaseButtonLoading = false;
       notifyListeners();
