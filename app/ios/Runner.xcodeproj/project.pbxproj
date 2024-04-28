@@ -169,6 +169,7 @@
 				294CDE54247692890023286B /* Copy GoogleServices-Info.json to correct location */,
 				2924414725A4B87A008F5B67 /* Crashlytics */,
 				687FADE66BF1B0B38D71FB59 /* [CP] Embed Pods Frameworks */,
+				EEEA4FA16F6DC83308507C4D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -331,6 +332,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessagingInterop/FirebaseMessagingInterop.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebasePerformance/FirebasePerformance.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfig/FirebaseRemoteConfig.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfigInterop/FirebaseRemoteConfigInterop.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseSessions/FirebaseSessions.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseSharedSwift/FirebaseSharedSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseStorage/FirebaseStorage.framework",
@@ -397,6 +399,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessagingInterop.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebasePerformance.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfig.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfigInterop.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseSessions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseSharedSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseStorage.framework",
@@ -460,6 +463,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
+		};
+		EEEA4FA16F6DC83308507C4D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestoreAbseilBinary/FirebaseFirestoreAbseilBinary_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestoreBinary/FirebaseFirestore_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestoreGRPCBoringSSLBinary/FirebaseFirestoreGRPCBoringSSLBinary_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestoreGRPCCPPBinary/FirebaseFirestoreGRPCCPPBinary_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestoreGRPCCoreBinary/FirebaseFirestoreGRPCCoreBinary_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestoreInternalBinary/FirebaseFirestoreInternalBinary_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/firebase_messaging/firebase_messaging_Privacy.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFirestoreAbseilBinary_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFirestore_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFirestoreGRPCBoringSSLBinary_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFirestoreGRPCCPPBinary_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFirestoreGRPCCoreBinary_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFirestoreInternalBinary_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/firebase_messaging_Privacy.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
