@@ -439,13 +439,18 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
         )),
       ) as _i24.Future<_i2.DocumentSnapshot<T>>);
   @override
-  _i24.Stream<_i2.DocumentSnapshot<T>> snapshots(
-          {bool? includeMetadataChanges = false}) =>
+  _i24.Stream<_i2.DocumentSnapshot<T>> snapshots({
+    bool? includeMetadataChanges = false,
+    _i25.ListenSource? source = _i25.ListenSource.defaultSource,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #snapshots,
           [],
-          {#includeMetadataChanges: includeMetadataChanges},
+          {
+            #includeMetadataChanges: includeMetadataChanges,
+            #source: source,
+          },
         ),
         returnValue: _i24.Stream<_i2.DocumentSnapshot<T>>.empty(),
         returnValueForMissingStub: _i24.Stream<_i2.DocumentSnapshot<T>>.empty(),
