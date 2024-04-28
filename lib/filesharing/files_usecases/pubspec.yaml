@@ -30,7 +30,7 @@ dependencies:
   sharezone_widgets:
     path: ../../sharezone_widgets
   file_picker: ^8.0.3
-  chewie: ^1.3.5
+  chewie: ^1.8.1
   flutter_cache_manager: any
   flutter_image_compress: ^2.1.0
   image_picker: ^1.1.0
