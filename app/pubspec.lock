@@ -1463,10 +1463,10 @@ packages:
     dependency: transitive
     description:
       name: mobile_scanner
-      sha256: "1b60b8f9d4ce0cb0e7d7bc223c955d083a0737bee66fa1fcfe5de48225e0d5b3"
+      sha256: f34c83198d9381f6c100dfaec647c275630840cbcda5d6c5eb6ba264beb96be4
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.7"
+    version: "5.0.1"
   mockito:
     dependency: "direct dev"
     description:

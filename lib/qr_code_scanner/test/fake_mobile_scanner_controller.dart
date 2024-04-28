@@ -14,15 +14,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 class FakeMobileScannerController extends Fake
     implements MobileScannerController {
-  @override
-  final ValueNotifier<MobileScannerArguments?> startArguments = ValueNotifier(
-    MobileScannerArguments(
-      hasTorch: true,
-      size: const Size(100, 100),
-      textureId: 0,
-    ),
-  );
-
   final StreamController<BarcodeCapture> barcodesController =
       StreamController<BarcodeCapture>();
 
@@ -33,16 +24,8 @@ class FakeMobileScannerController extends Fake
   bool torchEnabled = false;
 
   @override
-  bool hasTorch = true;
-
-  @override
-  bool autoStart = true;
-
-  @override
-  Future<MobileScannerArguments?> start({
-    CameraFacing? cameraFacingOverride,
-  }) async {
-    return null;
+  Future<void> start({CameraFacing? cameraDirection}) async {
+    return;
   }
 
   void handleEvent(Map map) {
@@ -61,11 +44,6 @@ class FakeMobileScannerController extends Fake
   @override
   Future<void> toggleTorch() async {
     torchEnabled = !torchEnabled;
-  }
-
-  @override
-  void dispose() {
-    barcodesController.close();
   }
 
   @override
