@@ -194,6 +194,8 @@ dependency_overrides:
   # Is required to be able to build the app using Flutter 3.10. Can be removed
   # when app_review uses package_info_plus > 5.0.1.
   package_info_plus: ^8.0.0
+  # Can be removed once pdfx uses device_info_plus >= 10.0.0.
+  device_info_plus: ^10.1.0
 
 dev_dependencies:
   async: ^2.4.1

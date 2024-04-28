@@ -50,3 +50,7 @@ dev_dependencies:
     path: ../../test_randomness
   sharezone_lints:
     path: ../../sharezone_lints
+
+dependency_overrides:
+  # Can be removed once pdfx uses device_info_plus >= 10.0.0.
+  device_info_plus: ^10.1.0
