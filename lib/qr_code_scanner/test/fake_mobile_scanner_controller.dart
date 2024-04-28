@@ -28,6 +28,24 @@ class FakeMobileScannerController extends Fake
     return;
   }
 
+  @override
+  MobileScannerState get value => const MobileScannerState(
+        isInitialized: true,
+        isRunning: true,
+        size: Size.zero,
+        cameraDirection: CameraFacing.back,
+        torchState: TorchState.off,
+        zoomScale: 1.0,
+        availableCameras: null,
+        error: null,
+      );
+
+  @override
+  void addListener(VoidCallback listener) {}
+
+  @override
+  void removeListener(VoidCallback listener) {}
+
   void handleEvent(Map map) {
     barcodesController.add(
       BarcodeCapture(
@@ -49,5 +67,10 @@ class FakeMobileScannerController extends Fake
   @override
   Future<void> updateScanWindow(Rect? window) async {
     // Do nothing.
+  }
+
+  @override
+  Future<void> dispose() async {
+    barcodesController.close();
   }
 }
