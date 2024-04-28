@@ -80,6 +80,7 @@ class MockHomeworkCompletionUserListBlocFactory extends _i1.Mock
           ),
         ),
       ) as _i2.HomeworkCompletionUserListBloc);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -103,6 +104,7 @@ class MockHomeworkCompletionUserListBloc extends _i1.Mock
         returnValueForMissingStub:
             _i6.Stream<List<_i7.UserHasCompletedHomeworkView>>.empty(),
       ) as _i6.Stream<List<_i7.UserHasCompletedHomeworkView>>);
+
   @override
   void logOpenHomeworkDoneByUsersList() => super.noSuchMethod(
         Invocation.method(
@@ -111,6 +113,7 @@ class MockHomeworkCompletionUserListBloc extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -132,6 +135,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i6.Stream<_i9.AppUser?>.empty(),
         returnValueForMissingStub: _i6.Stream<_i9.AppUser?>.empty(),
       ) as _i6.Stream<_i9.AppUser?>);
+
   @override
   _i3.FirebaseFunctions get functions => (super.noSuchMethod(
         Invocation.getter(#functions),
@@ -144,6 +148,7 @@ class MockSubscriptionService extends _i1.Mock
           Invocation.getter(#functions),
         ),
       ) as _i3.FirebaseFunctions);
+
   @override
   _i6.Stream<_i9.SharezonePlusStatus?> get sharezonePlusStatusStream =>
       (super.noSuchMethod(
@@ -151,6 +156,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i6.Stream<_i9.SharezonePlusStatus?>.empty(),
         returnValueForMissingStub: _i6.Stream<_i9.SharezonePlusStatus?>.empty(),
       ) as _i6.Stream<_i9.SharezonePlusStatus?>);
+
   @override
   set sharezonePlusStatusStream(
           _i6.Stream<_i9.SharezonePlusStatus?>? _sharezonePlusStatusStream) =>
@@ -161,6 +167,7 @@ class MockSubscriptionService extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool isSubscriptionActive([_i9.AppUser? appUser]) => (super.noSuchMethod(
         Invocation.method(
@@ -170,6 +177,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i6.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
         Invocation.method(
@@ -179,6 +187,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i6.Stream<bool>.empty(),
         returnValueForMissingStub: _i6.Stream<bool>.empty(),
       ) as _i6.Stream<bool>);
+
   @override
   bool hasFeatureUnlocked(_i8.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
@@ -189,6 +198,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i6.Stream<bool> hasFeatureUnlockedStream(
           _i8.SharezonePlusFeature? feature) =>
@@ -200,6 +210,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i6.Stream<bool>.empty(),
         returnValueForMissingStub: _i6.Stream<bool>.empty(),
       ) as _i6.Stream<bool>);
+
   @override
   _i6.Future<void> cancelStripeSubscription() => (super.noSuchMethod(
         Invocation.method(
@@ -209,6 +220,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i6.Future<void>.value(),
         returnValueForMissingStub: _i6.Future<void>.value(),
       ) as _i6.Future<void>);
+
   @override
   _i6.Future<bool> showLetParentsBuyButton() => (super.noSuchMethod(
         Invocation.method(
@@ -218,6 +230,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i6.Future<bool>.value(false),
         returnValueForMissingStub: _i6.Future<bool>.value(false),
       ) as _i6.Future<bool>);
+
   @override
   _i6.Future<String?> getPlusWebsiteBuyToken() => (super.noSuchMethod(
         Invocation.method(
@@ -227,6 +240,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i6.Future<String?>.value(),
         returnValueForMissingStub: _i6.Future<String?>.value(),
       ) as _i6.Future<String?>);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(

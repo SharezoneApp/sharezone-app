@@ -183,6 +183,7 @@ class MockPastCalendricalEventsPageControllerFactory extends _i1.Mock
           Invocation.getter(#subscriptionService),
         ),
       ) as _i2.SubscriptionService);
+
   @override
   _i3.TimetableGateway get timetableGateway => (super.noSuchMethod(
         Invocation.getter(#timetableGateway),
@@ -195,6 +196,7 @@ class MockPastCalendricalEventsPageControllerFactory extends _i1.Mock
           Invocation.getter(#timetableGateway),
         ),
       ) as _i3.TimetableGateway);
+
   @override
   _i4.CourseGateway get courseGateway => (super.noSuchMethod(
         Invocation.getter(#courseGateway),
@@ -207,6 +209,7 @@ class MockPastCalendricalEventsPageControllerFactory extends _i1.Mock
           Invocation.getter(#courseGateway),
         ),
       ) as _i4.CourseGateway);
+
   @override
   _i5.SchoolClassGateway get schoolClassGateway => (super.noSuchMethod(
         Invocation.getter(#schoolClassGateway),
@@ -219,6 +222,7 @@ class MockPastCalendricalEventsPageControllerFactory extends _i1.Mock
           Invocation.getter(#schoolClassGateway),
         ),
       ) as _i5.SchoolClassGateway);
+
   @override
   _i6.Clock get clock => (super.noSuchMethod(
         Invocation.getter(#clock),
@@ -231,6 +235,7 @@ class MockPastCalendricalEventsPageControllerFactory extends _i1.Mock
           Invocation.getter(#clock),
         ),
       ) as _i6.Clock);
+
   @override
   _i7.PastCalendricalEventsPageAnalytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -243,6 +248,7 @@ class MockPastCalendricalEventsPageControllerFactory extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i7.PastCalendricalEventsPageAnalytics);
+
   @override
   _i8.PastCalendricalEventsPageController create() => (super.noSuchMethod(
         Invocation.method(
@@ -284,6 +290,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
           Invocation.getter(#state),
         ),
       ) as _i8.PastCalendricalEventsPageState);
+
   @override
   set state(_i8.PastCalendricalEventsPageState? _state) => super.noSuchMethod(
         Invocation.setter(
@@ -292,6 +299,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i3.TimetableGateway get timetableGateway => (super.noSuchMethod(
         Invocation.getter(#timetableGateway),
@@ -304,6 +312,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
           Invocation.getter(#timetableGateway),
         ),
       ) as _i3.TimetableGateway);
+
   @override
   _i4.CourseGateway get courseGateway => (super.noSuchMethod(
         Invocation.getter(#courseGateway),
@@ -316,6 +325,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
           Invocation.getter(#courseGateway),
         ),
       ) as _i4.CourseGateway);
+
   @override
   _i5.SchoolClassGateway get schoolClassGateway => (super.noSuchMethod(
         Invocation.getter(#schoolClassGateway),
@@ -328,6 +338,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
           Invocation.getter(#schoolClassGateway),
         ),
       ) as _i5.SchoolClassGateway);
+
   @override
   _i7.PastCalendricalEventsPageAnalytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -340,12 +351,14 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i7.PastCalendricalEventsPageAnalytics);
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   void setSortOrder(_i8.EventsSortingOrder? order) => super.noSuchMethod(
         Invocation.method(
@@ -354,6 +367,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -362,6 +376,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -370,6 +385,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -378,6 +394,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(
@@ -404,6 +421,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#eventID),
         ),
       ) as String);
+
   @override
   String get groupID => (super.noSuchMethod(
         Invocation.getter(#groupID),
@@ -416,6 +434,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#groupID),
         ),
       ) as String);
+
   @override
   String get authorID => (super.noSuchMethod(
         Invocation.getter(#authorID),
@@ -428,18 +447,21 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#authorID),
         ),
       ) as String);
+
   @override
   _i16.GroupType get groupType => (super.noSuchMethod(
         Invocation.getter(#groupType),
         returnValue: _i16.GroupType.course,
         returnValueForMissingStub: _i16.GroupType.course,
       ) as _i16.GroupType);
+
   @override
   _i12.EventType get eventType => (super.noSuchMethod(
         Invocation.getter(#eventType),
         returnValue: _i12.EventType.event,
         returnValueForMissingStub: _i12.EventType.event,
       ) as _i12.EventType);
+
   @override
   _i9.Date get date => (super.noSuchMethod(
         Invocation.getter(#date),
@@ -452,6 +474,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#date),
         ),
       ) as _i9.Date);
+
   @override
   _i10.Time get startTime => (super.noSuchMethod(
         Invocation.getter(#startTime),
@@ -464,6 +487,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#startTime),
         ),
       ) as _i10.Time);
+
   @override
   _i10.Time get endTime => (super.noSuchMethod(
         Invocation.getter(#endTime),
@@ -476,6 +500,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#endTime),
         ),
       ) as _i10.Time);
+
   @override
   String get title => (super.noSuchMethod(
         Invocation.getter(#title),
@@ -488,12 +513,14 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#title),
         ),
       ) as String);
+
   @override
   bool get sendNotification => (super.noSuchMethod(
         Invocation.getter(#sendNotification),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i11.LessonLength get length => (super.noSuchMethod(
         Invocation.getter(#length),
@@ -506,6 +533,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#length),
         ),
       ) as _i11.LessonLength);
+
   @override
   DateTime get startDateTime => (super.noSuchMethod(
         Invocation.getter(#startDateTime),
@@ -518,6 +546,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#startDateTime),
         ),
       ) as DateTime);
+
   @override
   DateTime get endDateTime => (super.noSuchMethod(
         Invocation.getter(#endDateTime),
@@ -530,6 +559,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
           Invocation.getter(#endDateTime),
         ),
       ) as DateTime);
+
   @override
   Map<String, dynamic> toJson() => (super.noSuchMethod(
         Invocation.method(
@@ -539,6 +569,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
         returnValue: <String, dynamic>{},
         returnValueForMissingStub: <String, dynamic>{},
       ) as Map<String, dynamic>);
+
   @override
   _i12.CalendricalEvent copyWith({
     String? eventID,

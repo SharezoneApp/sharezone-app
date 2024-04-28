@@ -79,6 +79,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
           Invocation.getter(#userId),
         ),
       ) as _i2.UserId);
+
   @override
   _i3.ChangeTypeOfUserAnalytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -91,6 +92,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i3.ChangeTypeOfUserAnalytics);
+
   @override
   _i4.ChangeTypeOfUserService get service => (super.noSuchMethod(
         Invocation.getter(#service),
@@ -103,6 +105,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
           Invocation.getter(#service),
         ),
       ) as _i4.ChangeTypeOfUserService);
+
   @override
   _i5.ChangeTypeOfUserState get state => (super.noSuchMethod(
         Invocation.getter(#state),
@@ -115,6 +118,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
           Invocation.getter(#state),
         ),
       ) as _i5.ChangeTypeOfUserState);
+
   @override
   set state(_i5.ChangeTypeOfUserState? _state) => super.noSuchMethod(
         Invocation.setter(
@@ -123,6 +127,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   set initialTypeOfUser(_i7.TypeOfUser? _initialTypeOfUser) =>
       super.noSuchMethod(
@@ -132,6 +137,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   set selectedTypeOfUser(_i7.TypeOfUser? _selectedTypeOfUser) =>
       super.noSuchMethod(
@@ -141,12 +147,14 @@ class MockChangeTypeOfUserController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i8.Future<void> changeTypeOfUser() => (super.noSuchMethod(
         Invocation.method(
@@ -156,6 +164,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),
       ) as _i8.Future<void>);
+
   @override
   void setSelectedTypeOfUser(_i7.TypeOfUser? typeOfUser) => super.noSuchMethod(
         Invocation.method(
@@ -164,6 +173,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -172,6 +182,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -180,6 +191,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -188,6 +200,7 @@ class MockChangeTypeOfUserController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(

@@ -46,6 +46,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i4.Stream<_i5.AppUser?>.empty(),
         returnValueForMissingStub: _i4.Stream<_i5.AppUser?>.empty(),
       ) as _i4.Stream<_i5.AppUser?>);
+
   @override
   _i2.FirebaseFunctions get functions => (super.noSuchMethod(
         Invocation.getter(#functions),
@@ -58,6 +59,7 @@ class MockSubscriptionService extends _i1.Mock
           Invocation.getter(#functions),
         ),
       ) as _i2.FirebaseFunctions);
+
   @override
   _i4.Stream<_i5.SharezonePlusStatus?> get sharezonePlusStatusStream =>
       (super.noSuchMethod(
@@ -65,6 +67,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i4.Stream<_i5.SharezonePlusStatus?>.empty(),
         returnValueForMissingStub: _i4.Stream<_i5.SharezonePlusStatus?>.empty(),
       ) as _i4.Stream<_i5.SharezonePlusStatus?>);
+
   @override
   set sharezonePlusStatusStream(
           _i4.Stream<_i5.SharezonePlusStatus?>? _sharezonePlusStatusStream) =>
@@ -75,6 +78,7 @@ class MockSubscriptionService extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool isSubscriptionActive([_i5.AppUser? appUser]) => (super.noSuchMethod(
         Invocation.method(
@@ -84,6 +88,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i4.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
         Invocation.method(
@@ -93,6 +98,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i4.Stream<bool>.empty(),
         returnValueForMissingStub: _i4.Stream<bool>.empty(),
       ) as _i4.Stream<bool>);
+
   @override
   bool hasFeatureUnlocked(_i3.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
@@ -103,6 +109,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i4.Stream<bool> hasFeatureUnlockedStream(
           _i3.SharezonePlusFeature? feature) =>
@@ -114,6 +121,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i4.Stream<bool>.empty(),
         returnValueForMissingStub: _i4.Stream<bool>.empty(),
       ) as _i4.Stream<bool>);
+
   @override
   _i4.Future<void> cancelStripeSubscription() => (super.noSuchMethod(
         Invocation.method(
@@ -123,6 +131,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   _i4.Future<bool> showLetParentsBuyButton() => (super.noSuchMethod(
         Invocation.method(
@@ -132,6 +141,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i4.Future<bool>.value(false),
         returnValueForMissingStub: _i4.Future<bool>.value(false),
       ) as _i4.Future<bool>);
+
   @override
   _i4.Future<String?> getPlusWebsiteBuyToken() => (super.noSuchMethod(
         Invocation.method(
@@ -141,6 +151,7 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: _i4.Future<String?>.value(),
         returnValueForMissingStub: _i4.Future<String?>.value(),
       ) as _i4.Future<String?>);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(

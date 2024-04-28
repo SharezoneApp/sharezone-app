@@ -58,6 +58,7 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   _i4.Stream<List<_i5.UserFeedback>> streamFeedbacks(String? userId) =>
       (super.noSuchMethod(
@@ -68,6 +69,7 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
         returnValue: _i4.Stream<List<_i5.UserFeedback>>.empty(),
         returnValueForMissingStub: _i4.Stream<List<_i5.UserFeedback>>.empty(),
       ) as _i4.Stream<List<_i5.UserFeedback>>);
+
   @override
   _i4.Stream<List<_i6.FeedbackChatMessage>> streamChatMessages(
           _i7.FeedbackId? feedbackId) =>
@@ -80,6 +82,7 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
         returnValueForMissingStub:
             _i4.Stream<List<_i6.FeedbackChatMessage>>.empty(),
       ) as _i4.Stream<List<_i6.FeedbackChatMessage>>);
+
   @override
   _i4.Stream<_i5.UserFeedback> streamFeedback(_i7.FeedbackId? feedbackId) =>
       (super.noSuchMethod(
@@ -90,6 +93,7 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
         returnValue: _i4.Stream<_i5.UserFeedback>.empty(),
         returnValueForMissingStub: _i4.Stream<_i5.UserFeedback>.empty(),
       ) as _i4.Stream<_i5.UserFeedback>);
+
   @override
   _i4.Stream<bool> streamHasUnreadFeedbackMessages(_i8.UserId? userId) =>
       (super.noSuchMethod(
@@ -100,6 +104,7 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
         returnValue: _i4.Stream<bool>.empty(),
         returnValueForMissingStub: _i4.Stream<bool>.empty(),
       ) as _i4.Stream<bool>);
+
   @override
   _i4.Future<List<_i5.UserFeedback>> getFeedbacksForSupportTeam({
     DateTime? startAfter,
@@ -119,6 +124,7 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
         returnValueForMissingStub:
             _i4.Future<List<_i5.UserFeedback>>.value(<_i5.UserFeedback>[]),
       ) as _i4.Future<List<_i5.UserFeedback>>);
+
   @override
   void markMessageAsRead(
     _i7.FeedbackId? feedbackId,
@@ -134,6 +140,7 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void sendResponse({
     required _i7.FeedbackId? feedbackId,
@@ -166,6 +173,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void crash() => super.noSuchMethod(
         Invocation.method(
@@ -174,6 +182,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i4.Future<void> recordFlutterError(_i10.FlutterErrorDetails? details) =>
       (super.noSuchMethod(
@@ -184,6 +193,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   _i4.Future<void> recordError(
     dynamic exception,
@@ -202,6 +212,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   void log(String? msg) => super.noSuchMethod(
         Invocation.method(
@@ -210,6 +221,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i4.Future<void> setCustomKey(
     String? key,
@@ -226,6 +238,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   _i4.Future<void> setUserIdentifier(String? identifier) => (super.noSuchMethod(
         Invocation.method(
@@ -235,6 +248,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
   @override
   _i4.Future<void> setCrashAnalyticsEnabled(bool? enabled) =>
       (super.noSuchMethod(
@@ -264,6 +278,7 @@ class MockFeedbackHistoryPageAnalytics extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i2.Analytics);
+
   @override
   void logOpenedPage() => super.noSuchMethod(
         Invocation.method(

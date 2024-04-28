@@ -97,6 +97,7 @@ class MockGradeDetailsPageController extends _i1.Mock
           Invocation.getter(#id),
         ),
       ) as _i2.GradeId);
+
   @override
   _i2.GradesService get gradesService => (super.noSuchMethod(
         Invocation.getter(#gradesService),
@@ -109,6 +110,7 @@ class MockGradeDetailsPageController extends _i1.Mock
           Invocation.getter(#gradesService),
         ),
       ) as _i2.GradesService);
+
   @override
   _i3.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
         Invocation.getter(#crashAnalytics),
@@ -121,6 +123,7 @@ class MockGradeDetailsPageController extends _i1.Mock
           Invocation.getter(#crashAnalytics),
         ),
       ) as _i3.CrashAnalytics);
+
   @override
   _i4.Analytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -133,6 +136,7 @@ class MockGradeDetailsPageController extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i4.Analytics);
+
   @override
   _i5.GradeDetailsPageState get state => (super.noSuchMethod(
         Invocation.getter(#state),
@@ -145,6 +149,7 @@ class MockGradeDetailsPageController extends _i1.Mock
           Invocation.getter(#state),
         ),
       ) as _i5.GradeDetailsPageState);
+
   @override
   set state(_i5.GradeDetailsPageState? _state) => super.noSuchMethod(
         Invocation.setter(
@@ -153,12 +158,14 @@ class MockGradeDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   void deleteGrade() => super.noSuchMethod(
         Invocation.method(
@@ -167,6 +174,7 @@ class MockGradeDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -175,6 +183,7 @@ class MockGradeDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -183,6 +192,7 @@ class MockGradeDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -191,6 +201,7 @@ class MockGradeDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(
@@ -218,6 +229,7 @@ class MockGradeDetailsPageControllerFactory extends _i1.Mock
           Invocation.getter(#gradesService),
         ),
       ) as _i2.GradesService);
+
   @override
   _i3.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
         Invocation.getter(#crashAnalytics),
@@ -230,6 +242,7 @@ class MockGradeDetailsPageControllerFactory extends _i1.Mock
           Invocation.getter(#crashAnalytics),
         ),
       ) as _i3.CrashAnalytics);
+
   @override
   _i4.Analytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -242,6 +255,7 @@ class MockGradeDetailsPageControllerFactory extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i4.Analytics);
+
   @override
   _i5.GradeDetailsPageController create(_i2.GradeId? id) => (super.noSuchMethod(
         Invocation.method(

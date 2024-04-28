@@ -199,8 +199,8 @@ dependency_overrides:
 
 dev_dependencies:
   async: ^2.4.1
-  built_collection: ^5.1.0
-  build_runner: ^2.4.7
+  built_collection: ^5.1.1
+  build_runner: ^2.4.9
   flutter_test:
     sdk: flutter
   golden_toolkit: ^0.15.0

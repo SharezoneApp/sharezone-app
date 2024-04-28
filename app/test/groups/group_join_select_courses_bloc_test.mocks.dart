@@ -91,6 +91,7 @@ class MockConnectionsGateway extends _i1.Mock
           Invocation.getter(#joinedCoursesPackage),
         ),
       ) as _i2.DataCollectionPackage<_i4.Course>);
+
   @override
   set joinedCoursesPackage(
           _i2.DataCollectionPackage<_i4.Course>? _joinedCoursesPackage) =>
@@ -101,12 +102,14 @@ class MockConnectionsGateway extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   List<_i4.Course> get newJoinedCourses => (super.noSuchMethod(
         Invocation.getter(#newJoinedCourses),
         returnValue: <_i4.Course>[],
         returnValueForMissingStub: <_i4.Course>[],
       ) as List<_i4.Course>);
+
   @override
   set newJoinedCourses(List<_i4.Course>? _newJoinedCourses) =>
       super.noSuchMethod(
@@ -116,6 +119,7 @@ class MockConnectionsGateway extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i3.References get references => (super.noSuchMethod(
         Invocation.getter(#references),
@@ -128,6 +132,7 @@ class MockConnectionsGateway extends _i1.Mock
           Invocation.getter(#references),
         ),
       ) as _i3.References);
+
   @override
   String get memberID => (super.noSuchMethod(
         Invocation.getter(#memberID),
@@ -140,6 +145,7 @@ class MockConnectionsGateway extends _i1.Mock
           Invocation.getter(#memberID),
         ),
       ) as String);
+
   @override
   _i8.Stream<_i4.ConnectionsData?> streamConnectionsData() =>
       (super.noSuchMethod(
@@ -150,6 +156,7 @@ class MockConnectionsGateway extends _i1.Mock
         returnValue: _i8.Stream<_i4.ConnectionsData?>.empty(),
         returnValueForMissingStub: _i8.Stream<_i4.ConnectionsData?>.empty(),
       ) as _i8.Stream<_i4.ConnectionsData?>);
+
   @override
   _i8.Future<_i4.ConnectionsData> get() => (super.noSuchMethod(
         Invocation.method(
@@ -173,6 +180,7 @@ class MockConnectionsGateway extends _i1.Mock
           ),
         )),
       ) as _i8.Future<_i4.ConnectionsData>);
+
   @override
   _i8.Future<_i5.AppFunctionsResult<dynamic>> joinByKey({
     required String? publicKey,
@@ -217,6 +225,7 @@ class MockConnectionsGateway extends _i1.Mock
           ),
         )),
       ) as _i8.Future<_i5.AppFunctionsResult<dynamic>>);
+
   @override
   _i8.Future<_i5.AppFunctionsResult<dynamic>> joinByJoinLink(
           {required String? joinLink}) =>
@@ -246,6 +255,7 @@ class MockConnectionsGateway extends _i1.Mock
           ),
         )),
       ) as _i8.Future<_i5.AppFunctionsResult<dynamic>>);
+
   @override
   _i8.Future<void> addConnectionCreate({
     required String? id,
@@ -265,6 +275,7 @@ class MockConnectionsGateway extends _i1.Mock
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),
       ) as _i8.Future<void>);
+
   @override
   _i8.Future<void> addCoursePersonalDesign({
     required String? id,
@@ -284,6 +295,7 @@ class MockConnectionsGateway extends _i1.Mock
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),
       ) as _i8.Future<void>);
+
   @override
   _i8.Future<void> removeCoursePersonalDesign({
     required String? courseID,
@@ -301,6 +313,7 @@ class MockConnectionsGateway extends _i1.Mock
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),
       ) as _i8.Future<void>);
+
   @override
   _i8.Future<_i5.AppFunctionsResult<bool>> joinWithId({
     required String? id,
@@ -341,6 +354,7 @@ class MockConnectionsGateway extends _i1.Mock
           ),
         )),
       ) as _i8.Future<_i5.AppFunctionsResult<bool>>);
+
   @override
   _i8.Future<_i5.AppFunctionsResult<bool>> leave({
     required String? id,
@@ -381,6 +395,7 @@ class MockConnectionsGateway extends _i1.Mock
           ),
         )),
       ) as _i8.Future<_i5.AppFunctionsResult<bool>>);
+
   @override
   _i8.Future<_i5.AppFunctionsResult<bool>> delete({
     required String? id,
@@ -425,6 +440,7 @@ class MockConnectionsGateway extends _i1.Mock
           ),
         )),
       ) as _i8.Future<_i5.AppFunctionsResult<bool>>);
+
   @override
   _i8.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
@@ -448,6 +464,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i10.CrashAnalytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void crash() => super.noSuchMethod(
         Invocation.method(
@@ -456,6 +473,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i10.CrashAnalytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i8.Future<void> recordFlutterError(_i11.FlutterErrorDetails? details) =>
       (super.noSuchMethod(
@@ -466,6 +484,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i10.CrashAnalytics {
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),
       ) as _i8.Future<void>);
+
   @override
   _i8.Future<void> recordError(
     dynamic exception,
@@ -484,6 +503,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i10.CrashAnalytics {
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),
       ) as _i8.Future<void>);
+
   @override
   void log(String? msg) => super.noSuchMethod(
         Invocation.method(
@@ -492,6 +512,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i10.CrashAnalytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i8.Future<void> setCustomKey(
     String? key,
@@ -508,6 +529,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i10.CrashAnalytics {
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),
       ) as _i8.Future<void>);
+
   @override
   _i8.Future<void> setUserIdentifier(String? identifier) => (super.noSuchMethod(
         Invocation.method(
@@ -517,6 +539,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i10.CrashAnalytics {
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),
       ) as _i8.Future<void>);
+
   @override
   _i8.Future<void> setCrashAnalyticsEnabled(bool? enabled) =>
       (super.noSuchMethod(
