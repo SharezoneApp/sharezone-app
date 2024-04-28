@@ -28,7 +28,7 @@ dependencies:
     path: ../../platform_check
   sharezone_widgets:
     path: ../../sharezone_widgets
-  url_launcher: ^6.2.5
+  url_launcher: ^6.2.6
 
 dev_dependencies:
   golden_toolkit: ^0.15.0

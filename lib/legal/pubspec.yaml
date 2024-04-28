@@ -42,7 +42,7 @@ dependencies:
     path: ../common_domain_models
   clock: ^1.1.1
   fast_immutable_collections: ^9.1.5
-  url_launcher: ^6.2.5
+  url_launcher: ^6.2.6
   collection: ^1.17.2
   intl: ^0.18.1
   diacritic: ^0.1.4
