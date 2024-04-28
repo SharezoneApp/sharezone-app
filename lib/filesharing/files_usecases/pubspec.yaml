@@ -44,7 +44,7 @@ dependencies:
   pdfx: ^2.6.0
   open_file_plus: ^3.4.1
   path: ^1.8.3
-  path_provider: ^2.0.11
+  path_provider: ^2.1.3
   photo_view: any
   url_launcher: ^6.2.5
   video_player: any
