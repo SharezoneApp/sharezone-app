@@ -99,6 +99,20 @@ void main() {
         expect(controller.terms, isEmpty);
       });
     });
+    test('when deleting a term the currentTerm is set to null', () {
+      final repository = TestFirestoreGradesStateRepository();
+      final controller = GradesTestController(
+          gradesService: GradesService(repository: repository));
+
+      final term = termWith(name: 'term1');
+      controller.createTerm(term);
+      controller.deleteTerm(term.id);
+
+      // containsKey should be true as otherwise Firestore won't change the
+      // currentTerm to null
+      expect(repository.data.containsKey('currentTerm'), isTrue);
+      expect(repository.data['currentTerm'], isNull);
+    });
     test('serializes expected data map for empty state', () {
       final res = FirestoreGradesStateRepository.toDto((
         customGradeTypes: const IListConst([]),
@@ -107,6 +121,7 @@ void main() {
       ));
 
       expect(res, {
+        'currentTerm': null,
         'customGradeTypes': {},
         'subjects': {},
         'grades': {},
@@ -115,6 +130,7 @@ void main() {
     });
     test('deserializes expected state from data map', () {
       final res = FirestoreGradesStateRepository.fromData({
+        'currentTerm': null,
         'customGradeTypes': {},
         'subjects': {},
         'grades': {},
@@ -915,7 +931,7 @@ void main() {
 /// We use the Firestore (de-)serialization methods to test the repository.
 /// This lets us not depend on Firestore here (and having to mock it).
 class TestFirestoreGradesStateRepository extends GradesStateRepository {
-  Map<String, Object> data = {};
+  Map<String, Object?> data = {};
 
   @override
   BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>.seeded(

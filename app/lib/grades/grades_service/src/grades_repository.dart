@@ -50,19 +50,19 @@ class InMemoryGradesStateRepository extends GradesStateRepository {
     ));
   }
 
-  Map<String, Object> _data = {};
+  Map<String, Object?> data = {};
 
   @override
   void updateState(GradesState state) {
     // We use the Firestore Repository methods so we test the (de)serialization
     // even in our unit tests, which means a bigger test coverage.
-    _data = FirestoreGradesStateRepository.toDto(state);
+    data = FirestoreGradesStateRepository.toDto(state);
     // debugPrint(json.encode(data, toEncodable: (val) {
     //   if (val is Timestamp) {
     //     return val.millisecondsSinceEpoch;
     //   }
     // }));
-    this.state.add(FirestoreGradesStateRepository.fromData(_data));
+    this.state.add(FirestoreGradesStateRepository.fromData(data));
   }
 }
 
@@ -123,11 +123,11 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     }
   }
 
-  static Map<String, Object> toDto(GradesState state) {
+  static Map<String, Object?> toDto(GradesState state) {
     final currentTermOrNull =
         state.terms.firstWhereOrNull((term) => term.isActiveTerm)?.id.value;
     return {
-      if (currentTermOrNull != null) 'currentTerm': currentTermOrNull,
+      'currentTerm': currentTermOrNull,
       'terms': state.terms
           .map((term) =>
               MapEntry(term.id.value, TermDto.fromTerm(term).toData()))
