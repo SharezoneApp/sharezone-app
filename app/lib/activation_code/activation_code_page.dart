@@ -72,7 +72,7 @@ class _EnterActivationCodeAppBar extends StatelessWidget
 }
 
 class _Note extends StatelessWidget {
-  const _Note({super.key});
+  const _Note();
 
   @override
   Widget build(BuildContext context) {
