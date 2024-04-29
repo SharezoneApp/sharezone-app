@@ -70,20 +70,25 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
   final DocumentReference userDocumentRef;
   DocumentReference get gradesDocumentRef =>
       userDocumentRef.collection('Grades').doc('AllInOne');
+  bool? topLevelCreatedOnExists;
 
   FirestoreGradesStateRepository({required this.userDocumentRef}) {
     gradesDocumentRef.snapshots().listen((event) {
-      if (event.exists) {
-        final data = event.data() as Map<String, Object?>;
-        final newState = fromData(data);
-        state.add(newState);
-
-        // debugPrint(json.encode(data, toEncodable: (val) {
-        //   if (val is Timestamp) {
-        //     return val.millisecondsSinceEpoch;
-        //   }
-        // }));
+      if (!event.exists) {
+        topLevelCreatedOnExists = false;
+        return;
       }
+      final data = event.data() as Map<String, Object?>;
+      final newState = fromData(data);
+      state.add(newState);
+
+      topLevelCreatedOnExists = data['createdOn'] != null;
+
+      // debugPrint(json.encode(data, toEncodable: (val) {
+      //   if (val is Timestamp) {
+      //     return val.millisecondsSinceEpoch;
+      //   }
+      // }));
     });
   }
 
@@ -98,29 +103,29 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
 
   @override
   Future<void> updateState(GradesState state) async {
-    final stateBefore = this.state.value;
+    // We only want to create the document here, since we're unsure if the top
+    // level createdOn field already exists or not. This should realistically
+    // never happen.
+    if (topLevelCreatedOnExists == null) {
+      // Without <String, Object?> an error is thrown.
+      gradesDocumentRef.set(<String, Object?>{}, SetOptions(merge: true));
+    }
 
-    // If our state is empty, we assume that the user might have just created
-    // their first term which is why this method was called. Thus we want to add
-    // a createdOn field to the top level of the document (if it doesn't exist
-    // yet). This will create the document so that .update below will work.
-    if (stateBefore.isEmpty) {
-      await maybeAddTopLevelCreatedOn();
+    // We're sure that the top level createdOn does not exist yet, so we add it.
+    // This will also create the document if it doesn't exist yet.
+    if (topLevelCreatedOnExists == false) {
+      gradesDocumentRef.set(
+        {'createdOn': FieldValue.serverTimestamp()},
+        SetOptions(merge: true),
+      );
     }
 
     final data = toDto(state);
     // Adding the top level createdOn should've created the document if it
-    // didn't exist yet. Thus we can use update instead of set here.
+    // didn't exist yet. Thus we can use update instead of set here, which is
+    // the only way that deleting grades or terms work, since set (with merge
+    // being true) will never delete fields.
     gradesDocumentRef.update(data);
-  }
-
-  Future<void> maybeAddTopLevelCreatedOn() async {
-    final snap = await gradesDocumentRef.get();
-    final data = snap.data();
-    if (!snap.exists || (data is Map && data['createdOn'] == null)) {
-      gradesDocumentRef.set(
-          {'createdOn': FieldValue.serverTimestamp()}, SetOptions(merge: true));
-    }
   }
 
   static Map<String, Object> toDto(GradesState state) {
