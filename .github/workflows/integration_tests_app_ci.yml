@@ -278,7 +278,7 @@ jobs:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.3
+        run: pip3 install codemagic-cli-tools==0.50.7
 
       - name: Setup signing
         env:
