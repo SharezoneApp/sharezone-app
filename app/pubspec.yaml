@@ -30,12 +30,7 @@ dependencies:
   animator: ^3.3.0
   app_functions:
     path: ../lib/app_functions
-  app_review:
-    # We can use the published version once a new version is published that
-    # is newer than 2.1.2+1.
-    git:
-      url: https://github.com/fluttercommunity/app_review
-      ref: c4d1919670d6196b0a00c65b514cd9f3fbb42f55
+  in_app_review: ^2.0.9
   authentification_base:
     path: ../lib/authentification/authentification_base
   authentification_qrcode:

@@ -93,15 +93,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  app_review:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: c4d1919670d6196b0a00c65b514cd9f3fbb42f55
-      resolved-ref: c4d1919670d6196b0a00c65b514cd9f3fbb42f55
-      url: "https://github.com/fluttercommunity/app_review"
-    source: git
-    version: "2.1.2+1"
   args:
     dependency: transitive
     description:
@@ -566,10 +557,11 @@ packages:
   fast_rsa:
     dependency: transitive
     description:
-      name: fast_rsa
-      sha256: "2619f8869c0245919fc8f3695f786bf7a7e75e4bb87a7f13ad3b3223fa35bdf0"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: "48b396e7fb3bba206b1f35624ca415ddcd268f9b"
+      resolved-ref: "48b396e7fb3bba206b1f35624ca415ddcd268f9b"
+      url: "https://github.com/nilsreichardt/flutter-rsa.git"
+    source: git
     version: "3.6.1"
   feedback_shared_implementation:
     dependency: "direct main"
@@ -1304,6 +1296,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
+  in_app_review:
+    dependency: "direct main"
+    description:
+      name: in_app_review
+      sha256: "99869244d09adc76af16bf8fd731dd13cef58ecafd5917847589c49f378cbb30"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.9"
+  in_app_review_platform_interface:
+    dependency: transitive
+    description:
+      name: in_app_review_platform_interface
+      sha256: fed2c755f2125caa9ae10495a3c163aa7fab5af3585a9c62ef4a6920c5b45f10
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   infinite_listview:
     dependency: transitive
     description:
