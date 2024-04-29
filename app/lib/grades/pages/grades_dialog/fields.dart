@@ -247,7 +247,7 @@ class _CanOnlyUseThreeSubjectsWarning extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                 child: Text(
-                  'Du kannst zum Testen der Notenfunktion maximal 3 Fächer benutzen. Um alle Fächer zu benutzen kaufe Sharezone Plus.',
+                  'Du kannst zum Testen der Notenfunktion maximal 3 Fächer benutzen. Um alle Fächer zu benutzen, kaufe Sharezone Plus.',
                   style: TextStyle(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
