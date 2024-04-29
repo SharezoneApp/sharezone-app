@@ -156,6 +156,12 @@ jobs:
     steps:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
 
+      # Our Android configurations require Java 17.
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.3
 
