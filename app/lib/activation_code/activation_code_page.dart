@@ -35,14 +35,14 @@ class _EnterActivationCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const _EnterActivationCodeAppBar(),
+    return const Scaffold(
+      appBar: _EnterActivationCodeAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: _EnterActivationCodeDescription(),
+          child: _Note(),
         ),
       ),
-      bottomNavigationBar: const ContactSupport(),
+      bottomNavigationBar: ContactSupport(),
     );
   }
 }
@@ -71,9 +71,31 @@ class _EnterActivationCodeAppBar extends StatelessWidget
   Size get preferredSize => const Size.fromHeight(190);
 }
 
-class _EnterActivationCodeDescription extends StatelessWidget {
+class _Note extends StatelessWidget {
+  const _Note({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Padding(
+      padding: EdgeInsets.only(top: 12),
+      child: MaxWidthConstraintBox(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Was ist der Aktivierungscode?',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Mit dem Aktivierungscode können Features, die noch in der Entwicklung sind, freigeschaltet und bereits getestet werden. Der Aktivierungscode wird von uns bereitgestellt und ist nur für Testzwecke gedacht.\n\nFalls du einen Sharecode hast und eine Gruppe beitreten willst, musst du diesen über die Seite "Gruppen" eingeben.',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
