@@ -97,6 +97,7 @@ class MockTermDetailsPageController extends _i1.Mock
           Invocation.getter(#state),
         ),
       ) as _i5.TermDetailsPageState);
+
   @override
   set state(_i5.TermDetailsPageState? _state) => super.noSuchMethod(
         Invocation.setter(
@@ -105,6 +106,7 @@ class MockTermDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i2.TermId get termId => (super.noSuchMethod(
         Invocation.getter(#termId),
@@ -117,6 +119,7 @@ class MockTermDetailsPageController extends _i1.Mock
           Invocation.getter(#termId),
         ),
       ) as _i2.TermId);
+
   @override
   _i2.GradesService get gradesService => (super.noSuchMethod(
         Invocation.getter(#gradesService),
@@ -129,6 +132,7 @@ class MockTermDetailsPageController extends _i1.Mock
           Invocation.getter(#gradesService),
         ),
       ) as _i2.GradesService);
+
   @override
   _i3.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
         Invocation.getter(#crashAnalytics),
@@ -141,6 +145,7 @@ class MockTermDetailsPageController extends _i1.Mock
           Invocation.getter(#crashAnalytics),
         ),
       ) as _i3.CrashAnalytics);
+
   @override
   _i4.Analytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -153,12 +158,14 @@ class MockTermDetailsPageController extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i4.Analytics);
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   void deleteTerm() => super.noSuchMethod(
         Invocation.method(
@@ -167,6 +174,7 @@ class MockTermDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -175,6 +183,7 @@ class MockTermDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -183,6 +192,7 @@ class MockTermDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -191,6 +201,7 @@ class MockTermDetailsPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(
@@ -218,6 +229,7 @@ class MockTermDetailsPageControllerFactory extends _i1.Mock
           Invocation.getter(#gradesService),
         ),
       ) as _i2.GradesService);
+
   @override
   _i3.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
         Invocation.getter(#crashAnalytics),
@@ -230,6 +242,7 @@ class MockTermDetailsPageControllerFactory extends _i1.Mock
           Invocation.getter(#crashAnalytics),
         ),
       ) as _i3.CrashAnalytics);
+
   @override
   _i4.Analytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -242,6 +255,7 @@ class MockTermDetailsPageControllerFactory extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i4.Analytics);
+
   @override
   _i5.TermDetailsPageController create(_i2.TermId? termId) =>
       (super.noSuchMethod(

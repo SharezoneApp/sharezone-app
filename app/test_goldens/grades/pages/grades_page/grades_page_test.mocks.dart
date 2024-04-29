@@ -51,6 +51,7 @@ class MockGradesPageController extends _i1.Mock
           Invocation.getter(#state),
         ),
       ) as _i3.GradesPageState);
+
   @override
   set state(_i3.GradesPageState? _state) => super.noSuchMethod(
         Invocation.setter(
@@ -59,6 +60,7 @@ class MockGradesPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i2.GradesService get gradesService => (super.noSuchMethod(
         Invocation.getter(#gradesService),
@@ -71,12 +73,14 @@ class MockGradesPageController extends _i1.Mock
           Invocation.getter(#gradesService),
         ),
       ) as _i2.GradesService);
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -85,6 +89,7 @@ class MockGradesPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -93,6 +98,7 @@ class MockGradesPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i5.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -101,6 +107,7 @@ class MockGradesPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(

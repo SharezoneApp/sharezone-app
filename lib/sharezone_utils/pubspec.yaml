@@ -15,10 +15,10 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  url_launcher: ^6.2.5
+  url_launcher: ^6.2.6
   sharezone_widgets:
     path: ../sharezone_widgets
-  device_info_plus: ^9.0.3
+  device_info_plus: ^10.1.0
   flutter:
     sdk: flutter
   rxdart: ^0.27.5

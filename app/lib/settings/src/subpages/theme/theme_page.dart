@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:app_review/app_review.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
@@ -242,7 +242,11 @@ class _RateAppButton extends StatelessWidget {
   }
 
   Future<void> _launchInAppReview() async {
-    AppReview.requestReview;
+    final InAppReview inAppReview = InAppReview.instance;
+
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
+    }
   }
 
   String _getStoreLink() {

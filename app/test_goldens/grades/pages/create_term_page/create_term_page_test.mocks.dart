@@ -73,6 +73,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
           Invocation.getter(#terms),
         ),
       ) as _i2.BehaviorSubject<_i3.IList<_i4.TermResult>>);
+
   @override
   void addTerm({
     required _i5.TermId? id,
@@ -95,6 +96,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void editTerm({
     required _i5.TermId? id,
@@ -117,6 +119,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void deleteTerm(_i5.TermId? id) => super.noSuchMethod(
         Invocation.method(
@@ -125,6 +128,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void changeSubjectWeightForTermGrade({
     required _i6.SubjectId? id,
@@ -143,6 +147,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void changeSubjectWeightTypeSettings({
     required _i6.SubjectId? id,
@@ -161,6 +166,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void changeGradeTypeWeightForSubject({
     required _i6.SubjectId? id,
@@ -181,6 +187,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeGradeTypeWeightForSubject({
     required _i6.SubjectId? id,
@@ -199,6 +206,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addGrade({
     required _i6.SubjectId? subjectId,
@@ -217,6 +225,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void deleteGrade(_i7.GradeId? gradeId) => super.noSuchMethod(
         Invocation.method(
@@ -225,6 +234,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void changeGradeWeight({
     required _i7.GradeId? id,
@@ -243,6 +253,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void changeGradeTypeWeightForTerm({
     required _i5.TermId? termId,
@@ -261,6 +272,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeGradeTypeWeightForTerm({
     required _i5.TermId? termId,
@@ -277,6 +289,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void changeSubjectFinalGradeType({
     required _i6.SubjectId? id,
@@ -295,6 +308,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i4.PossibleGradesResult getPossibleGrades(
           _i4.GradingSystem? gradingSystem) =>
@@ -318,6 +332,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
           ),
         ),
       ) as _i4.PossibleGradesResult);
+
   @override
   _i3.IList<_i4.GradeType> getPossibleGradeTypes() => (super.noSuchMethod(
         Invocation.method(
@@ -339,6 +354,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
           ),
         ),
       ) as _i3.IList<_i4.GradeType>);
+
   @override
   void addCustomGradeType(_i4.GradeType? gradeType) => super.noSuchMethod(
         Invocation.method(
@@ -347,6 +363,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addSubject(_i4.Subject? subject) => super.noSuchMethod(
         Invocation.method(
@@ -355,6 +372,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i3.IList<_i4.Subject> getSubjects() => (super.noSuchMethod(
         Invocation.method(
@@ -376,6 +394,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
           ),
         ),
       ) as _i3.IList<_i4.Subject>);
+
   @override
   _i4.Subject? getSubject(_i6.SubjectId? id) => (super.noSuchMethod(
         Invocation.method(
@@ -398,6 +417,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void crash() => super.noSuchMethod(
         Invocation.method(
@@ -406,6 +426,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i10.Future<void> recordFlutterError(_i11.FlutterErrorDetails? details) =>
       (super.noSuchMethod(
@@ -416,6 +437,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         returnValue: _i10.Future<void>.value(),
         returnValueForMissingStub: _i10.Future<void>.value(),
       ) as _i10.Future<void>);
+
   @override
   _i10.Future<void> recordError(
     dynamic exception,
@@ -434,6 +456,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         returnValue: _i10.Future<void>.value(),
         returnValueForMissingStub: _i10.Future<void>.value(),
       ) as _i10.Future<void>);
+
   @override
   void log(String? msg) => super.noSuchMethod(
         Invocation.method(
@@ -442,6 +465,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i10.Future<void> setCustomKey(
     String? key,
@@ -458,6 +482,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         returnValue: _i10.Future<void>.value(),
         returnValueForMissingStub: _i10.Future<void>.value(),
       ) as _i10.Future<void>);
+
   @override
   _i10.Future<void> setUserIdentifier(String? identifier) =>
       (super.noSuchMethod(
@@ -468,6 +493,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
         returnValue: _i10.Future<void>.value(),
         returnValueForMissingStub: _i10.Future<void>.value(),
       ) as _i10.Future<void>);
+
   @override
   _i10.Future<void> setCrashAnalyticsEnabled(bool? enabled) =>
       (super.noSuchMethod(
@@ -492,6 +518,7 @@ class MockAnalytics extends _i1.Mock implements _i12.Analytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void setAnalyticsCollectionEnabled(bool? value) => super.noSuchMethod(
         Invocation.method(
@@ -500,6 +527,7 @@ class MockAnalytics extends _i1.Mock implements _i12.Analytics {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i10.Future<void> logSignUp({required String? signUpMethod}) =>
       (super.noSuchMethod(
@@ -511,6 +539,7 @@ class MockAnalytics extends _i1.Mock implements _i12.Analytics {
         returnValue: _i10.Future<void>.value(),
         returnValueForMissingStub: _i10.Future<void>.value(),
       ) as _i10.Future<void>);
+
   @override
   _i10.Future<void> setCurrentScreen({required String? screenName}) =>
       (super.noSuchMethod(
@@ -522,6 +551,7 @@ class MockAnalytics extends _i1.Mock implements _i12.Analytics {
         returnValue: _i10.Future<void>.value(),
         returnValueForMissingStub: _i10.Future<void>.value(),
       ) as _i10.Future<void>);
+
   @override
   _i10.Future<void> setUserProperty({
     required String? name,

@@ -89,6 +89,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
           Invocation.getter(#api),
         ),
       ) as _i2.FeedbackApi);
+
   @override
   _i3.UserId get userId => (super.noSuchMethod(
         Invocation.getter(#userId),
@@ -101,6 +102,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
           Invocation.getter(#userId),
         ),
       ) as _i3.UserId);
+
   @override
   _i4.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
         Invocation.getter(#crashAnalytics),
@@ -113,6 +115,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
           Invocation.getter(#crashAnalytics),
         ),
       ) as _i4.CrashAnalytics);
+
   @override
   _i5.FeedbackHistoryPageAnalytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -125,6 +128,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i5.FeedbackHistoryPageAnalytics);
+
   @override
   _i6.FeedbackHistoryPageState get state => (super.noSuchMethod(
         Invocation.getter(#state),
@@ -137,12 +141,14 @@ class MockFeedbackHistoryPageController extends _i1.Mock
           Invocation.getter(#state),
         ),
       ) as _i6.FeedbackHistoryPageState);
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i8.Future<void> startStreaming() => (super.noSuchMethod(
         Invocation.method(
@@ -152,6 +158,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
         returnValue: _i8.Future<void>.value(),
         returnValueForMissingStub: _i8.Future<void>.value(),
       ) as _i8.Future<void>);
+
   @override
   void logOpenedPage() => super.noSuchMethod(
         Invocation.method(
@@ -160,6 +167,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -168,6 +176,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -176,6 +185,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -184,6 +194,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(

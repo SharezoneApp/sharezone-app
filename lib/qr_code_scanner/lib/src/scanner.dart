@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -43,15 +45,31 @@ class Scanner extends StatefulWidget {
 
 class _ScannerState extends State<Scanner> {
   late MobileScannerController controller;
+  late StreamSubscription<BarcodeCapture> barcodeSubscription;
 
   @override
   void initState() {
     super.initState();
     controller = widget.mockController ?? MobileScannerController();
+    listenToDetections();
+  }
+
+  void listenToDetections() {
+    barcodeSubscription = controller.barcodes.listen((capture) {
+      final firstBarcode = capture.barcodes.firstOrNull;
+      if (firstBarcode == null) {
+        return;
+      }
+
+      if (widget.onDetect != null && firstBarcode.rawValue != null) {
+        widget.onDetect!(firstBarcode.rawValue!);
+      }
+    });
   }
 
   @override
   void dispose() {
+    barcodeSubscription.cancel();
     controller.dispose();
     super.dispose();
   }
@@ -66,23 +84,13 @@ class _ScannerState extends State<Scanner> {
       },
       // The overlay (including controls like torch and text) that is
       // displayed above the camera view of the scanner.
-      overlay: ScanOverlay(
-        description: widget.description,
-        hasTorch: controller.hasTorch,
-        onTorchToggled: () => controller.toggleTorch(),
-      ),
-      onDetect: (capture) {
-        // We just take the first barcode that is detected to keep it
-        // simple. Ideally, we would take the barcode that is closest to the
-        // center of the screen.
-        final firstBarcode = capture.barcodes.firstOrNull;
-        if (firstBarcode == null) {
-          return;
-        }
-
-        if (widget.onDetect != null && firstBarcode.rawValue != null) {
-          widget.onDetect!(firstBarcode.rawValue!);
-        }
+      overlayBuilder: (context, constraints) {
+        final hasTorch = controller.value.torchState != TorchState.unavailable;
+        return ScanOverlay(
+          description: widget.description,
+          hasTorch: hasTorch,
+          onTorchToggled: () => controller.toggleTorch(),
+        );
       },
     );
   }

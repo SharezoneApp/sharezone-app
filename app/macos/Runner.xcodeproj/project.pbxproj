@@ -207,6 +207,7 @@
 				2C99A494D8F3B9EDEB669A8E /* [CP] Embed Pods Frameworks */,
 				E1EE90409DEEBEA4D0F6E83F /* FlutterFire: "flutterfire bundle-service-file" */,
 				403EA27B45BDBF945BB26A93 /* FlutterFire: "flutterfire upload-crashlytics-symbols" */,
+				EA5C6AC4D899FDF5E828AFCA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -389,6 +390,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\n#!/bin/bash\nPATH=${PATH}:$FLUTTER_ROOT/bin:$HOME/.pub-cache/bin\n# Define the Resources directory path\nRESOURCES_DIR=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Resources\n\n# Create the Resources directory if it does not exist\n mkdir -p \"$RESOURCES_DIR\"\n\n flutterfire bundle-service-file --plist-destination=\"$RESOURCES_DIR\" --build-configuration=${CONFIGURATION} --platform=macos --apple-project-path=${SRCROOT}\n";
+		};
+		EA5C6AC4D899FDF5E828AFCA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -30,12 +30,7 @@ dependencies:
   animator: ^3.3.0
   app_functions:
     path: ../lib/app_functions
-  app_review:
-    # We can use the published version once a new version is published that
-    # is newer than 2.1.2+1.
-    git:
-      url: https://github.com/fluttercommunity/app_review
-      ref: c4d1919670d6196b0a00c65b514cd9f3fbb42f55
+  in_app_review: ^2.0.9
   authentification_base:
     path: ../lib/authentification/authentification_base
   authentification_qrcode:
@@ -51,10 +46,10 @@ dependencies:
     path: ../lib/build_context
   characters: ^1.0.0
   clock: ^1.1.1
-  cloud_firestore: ^4.15.5
+  cloud_firestore: ^4.17.2
   cloud_firestore_helper:
     path: ../lib/cloud_firestore_helper
-  cloud_functions: ^4.4.0
+  cloud_functions: ^4.7.3
   collection: ^1.17.2
   common_domain_models:
     path: ../lib/common_domain_models
@@ -81,13 +76,13 @@ dependencies:
     path: ../lib/filesharing/files_usecases
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
-  firebase_auth: ^4.17.5
-  firebase_core: ^2.25.4
+  firebase_auth: ^4.19.4
+  firebase_core: ^2.30.1
   firebase_hausaufgabenheft_logik:
     path: ../lib/firebase_hausaufgabenheft_logik
-  firebase_messaging: ^14.7.16
-  firebase_performance: ^0.9.3+14
-  firebase_storage: ^11.6.6
+  firebase_messaging: ^14.9.1
+  firebase_performance: ^0.9.4+4
+  firebase_storage: ^11.7.4
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
@@ -141,12 +136,7 @@ dependencies:
   numberpicker: ^2.1.1
   open_file_plus: ^3.4.1
   overlay_support: ^2.1.0
-  package_info_plus:
-    # Can be removed when package_info_plus > 5.0.1 is released.
-    git:
-      url: https://github.com/fluttercommunity/plus_plugins
-      path: packages/package_info_plus/package_info_plus
-      ref: d24474d7b388fe43a9dd339b708834470bb14c90
+  package_info_plus: ^8.0.0
   permission_handler: ^11.1.0
   photo_view: ^0.14.0
   provider: ^6.0.3
@@ -162,8 +152,8 @@ dependencies:
   retry: ^3.1.2
   rxdart: ^0.27.1
   scrollable_positioned_list: ^0.3.8
-  share: ^2.0.4
-  shared_preferences: ^2.0.5
+  share_plus: ^9.0.0
+  shared_preferences: ^2.2.3
   sharezone_common:
     path: ../lib/sharezone_common
   sharezone_utils:
@@ -182,12 +172,12 @@ dependencies:
   time:
     path: ../lib/time
   timeago: ^3.1.0
-  url_launcher: ^6.2.5
+  url_launcher: ^6.2.6
   url_launcher_extended:
     path: ../lib/url_launcher_extended
   user:
     path: ../lib/user
-  video_player: ^2.4.2
+  video_player: ^2.8.6
 
 # Falls hier etwas hinzugefügt wird, MUSS ab jetzt ein Kommentar hinzugefügt:
 # * warum der dependency_override hinzugefügt wird.
@@ -198,22 +188,14 @@ dependency_overrides:
   states_rebuilder: 6.4.0
   # Is required to be able to build the app using Flutter 3.10. Can be removed
   # when app_review uses package_info_plus > 5.0.1.
-  package_info_plus:
-    git:
-      url: https://github.com/fluttercommunity/plus_plugins
-      path: packages/package_info_plus/package_info_plus
-      ref: d24474d7b388fe43a9dd339b708834470bb14c90
-  # Is required to be able to build the app using Flutter 3.19. Can be removed
-  # when firebase_core uses web >= 0.5.1.
-  web:
-    git:
-      url: https://github.com/dart-lang/web/
-      ref: d96c01d2252372c9e0fa7ffa52d2d1df331c248b
+  package_info_plus: ^8.0.0
+  # Can be removed once pdfx uses device_info_plus >= 10.0.0.
+  device_info_plus: ^10.1.0
 
 dev_dependencies:
   async: ^2.4.1
-  built_collection: ^5.1.0
-  build_runner: ^2.4.7
+  built_collection: ^5.1.1
+  build_runner: ^2.4.9
   flutter_test:
     sdk: flutter
   golden_toolkit: ^0.15.0
