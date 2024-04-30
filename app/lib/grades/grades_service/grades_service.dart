@@ -394,6 +394,11 @@ class GradesService {
     if (!_hasGradeTypeWithId(id)) {
       throw GradeTypeNotFoundException(id);
     }
+    if (_terms.any((term) => term.subjects
+        .expand((p0) => p0.grades)
+        .any((element) => element.gradeType == id))) {
+      throw GradeTypeStillAssignedException(id);
+    }
     if (_terms.any((term) => term.finalGradeType == id)) {
       throw GradeTypeStillAssignedException(id);
     }
