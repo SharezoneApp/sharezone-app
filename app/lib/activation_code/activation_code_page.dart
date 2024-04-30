@@ -90,7 +90,7 @@ class _Note extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                'Mit dem Aktivierungscode können Features, die noch in der Entwicklung sind, freigeschaltet und bereits getestet werden. Der Aktivierungscode wird von uns bereitgestellt und ist nur für Testzwecke gedacht.\n\nFalls du einen Sharecode hast und eine Gruppe beitreten willst, musst du diesen über die Seite "Gruppen" eingeben.',
+                'Mit dem Aktivierungscode können Features, die noch in der Entwicklung sind, freigeschaltet und bereits getestet werden. Der Aktivierungscode wird von uns bereitgestellt und ist nur für Testzwecke gedacht.\n\nFalls du einen Sharecode hast und einer Gruppe beitreten willst, musst du diesen über die Seite "Gruppen" eingeben.',
               ),
             ],
           ),
