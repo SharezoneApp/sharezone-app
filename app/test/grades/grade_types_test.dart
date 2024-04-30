@@ -93,11 +93,65 @@ void main() {
       expect(() => controller.deleteCustomGradeType(const GradeTypeId('foo')),
           throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))));
     });
-    test('A custom grade type can be deleted if it is not assigned to anything',
+    test(
+        'A custom grade type can be deleted if it is not assigned to anything (simple case)',
         () {
       final controller = GradesTestController();
       controller.createCustomGradeType(
           const GradeType(id: GradeTypeId('foo'), displayName: 'Foo'));
+      controller.deleteCustomGradeType(const GradeTypeId('foo'));
+
+      expect(controller.getCustomGradeTypes(), isEmpty);
+    });
+    test('A custom grade type can be deleted if it is not assigned to anything',
+        () {
+      final controller = GradesTestController();
+
+      const termId = TermId('foo');
+      controller.createTerm(termWith(
+        id: termId,
+        finalGradeType: const GradeTypeId('foo'),
+        gradeTypeWeights: {const GradeTypeId('foo'): const Weight.factor(2)},
+        subjects: [
+          subjectWith(
+            id: const SubjectId('bar'),
+            finalGradeType: const GradeTypeId('foo'),
+            weightType: WeightType.perGradeType,
+            gradeTypeWeights: {
+              const GradeTypeId('foo'): const Weight.factor(2)
+            },
+            grades: [
+              gradeWith(
+                id: const GradeId('bar'),
+                type: const GradeTypeId('foo'),
+                value: 3,
+              ),
+            ],
+          ),
+        ],
+      ));
+
+      controller.changeFinalGradeTypeForSubject(
+        termId: const TermId('foo'),
+        subjectId: const SubjectId('bar'),
+        gradeType: GradeType.other.id,
+      );
+      controller.changeFinalGradeTypeForTerm(
+        termId: termId,
+        gradeTypeId: GradeType.other.id,
+      );
+      controller.removeWeightTypeForSubject(
+        termId: termId,
+        subjectId: const SubjectId('bar'),
+        gradeTypeId: const GradeTypeId('foo'),
+      );
+      controller.removeGradeTypeWeightForTerm(
+        termId: termId,
+        gradeTypeId: const GradeTypeId('foo'),
+      );
+      // TODO: Add this test as comment to issue regarding editing grades
+      // As of right now (when writing this test), the grade can't be edited yet
+      controller.deleteGrade(gradeId: const GradeId('bar'));
       controller.deleteCustomGradeType(const GradeTypeId('foo'));
 
       expect(controller.getCustomGradeTypes(), isEmpty);

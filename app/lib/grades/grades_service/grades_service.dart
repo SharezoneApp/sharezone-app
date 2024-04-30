@@ -260,6 +260,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  // TODO: If gradeType is not there then a special exception should be thrown
   void removeGradeTypeWeightForSubject({
     required SubjectId id,
     required TermId termId,
@@ -347,6 +348,13 @@ class GradesService {
       return _updateTerm(newTerm);
     }
     final newTerm = _term(termId).setFinalGradeTypeForSubject(id, gradeType);
+    _updateTerm(newTerm);
+  }
+
+  // TODO: Test seperately
+  void changeFinalGradeTypeForTerm(
+      {required TermId termId, required GradeTypeId gradeTypeId}) {
+    final newTerm = _term(termId).setFinalGradeType(gradeTypeId);
     _updateTerm(newTerm);
   }
 

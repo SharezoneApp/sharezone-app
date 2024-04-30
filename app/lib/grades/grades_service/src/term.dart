@@ -158,8 +158,10 @@ class TermModel extends Equatable {
   }
 
   TermModel setFinalGradeType(GradeTypeId gradeType) {
-    final newSubjects =
-        subjects.where((s) => s.isFinalGradeTypeOverridden == false).map((s) {
+    // TODO: This was deleting all subjects that had no overridden final grade
+    // type. Test this seperately.
+    final newSubjects = subjects.map((s) {
+      if (s.isFinalGradeTypeOverridden) return s;
       final newSubject = s.copyWith(finalGradeType: gradeType);
       return newSubject;
     }).toIList();

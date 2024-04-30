@@ -298,6 +298,12 @@ class GradesTestController {
   void deleteCustomGradeType(GradeTypeId gradeTypeId) {
     service.deleteCustomGradeType(gradeTypeId);
   }
+
+  void changeFinalGradeTypeForTerm(
+      {required TermId termId, required GradeTypeId gradeTypeId}) {
+    service.changeFinalGradeTypeForTerm(
+        termId: termId, gradeTypeId: gradeTypeId);
+  }
 }
 
 TestTerm termWith({
