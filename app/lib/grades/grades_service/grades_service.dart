@@ -382,6 +382,12 @@ class GradesService {
     _updateState(newState);
   }
 
+  void deleteCustomGradeType(GradeTypeId id) {
+    final newState = _state.copyWith(
+        customGradeTypes: _customGradeTypes.removeWhere((gt) => gt.id == id));
+    _updateState(newState);
+  }
+
   GradeType _getGradeType(GradeTypeId finalGradeType) {
     return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
   }

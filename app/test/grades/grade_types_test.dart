@@ -85,6 +85,15 @@ void main() {
 
       expect(controller.getCustomGradeTypes().single.displayName, 'Foo');
     });
+    test('A custom grade type can be deleted if it is not assigned to anything',
+        () {
+      final controller = GradesTestController();
+      controller.createCustomGradeType(
+          const GradeType(id: GradeTypeId('foo'), displayName: 'Foo'));
+      controller.deleteCustomGradeType(const GradeTypeId('foo'));
+
+      expect(controller.getCustomGradeTypes(), isEmpty);
+    });
     test(
         'Trying to add a grade with an non-existing gradeType will cause an UnknownGradeTypeException',
         () {
