@@ -151,7 +151,10 @@ class SharezonePlusPageController extends ChangeNotifier {
       isPurchaseButtonLoading = false;
       notifyListeners();
 
-      if ('$e'.contains('PURCHASE_CANCELLED')) {
+      // iOS RevenueCat throws a 'PURCHASE_CANCELLED' error when the user
+      // cancels the purchase. Android throws a 'PurchaseCancelledError'.
+      if ('$e'.contains('PURCHASE_CANCELLED') ||
+          '$e'.contains('PurchaseCancelledError')) {
         // User aborted the purchase.
         return;
       }
