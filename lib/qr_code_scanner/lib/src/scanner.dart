@@ -51,6 +51,7 @@ class _ScannerState extends State<Scanner> {
   void initState() {
     super.initState();
     controller = widget.mockController ?? MobileScannerController();
+    controller.start();
     listenToDetections();
   }
 
