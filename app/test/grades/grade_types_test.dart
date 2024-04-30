@@ -98,6 +98,22 @@ void main() {
     // * A custom grade type should be deletable if it is still assigned in weight maps
     // * Trying to delete a predefined grade type will throw an ArgumentError
     test(
+        'Trying to delete an unknown custom grade type that is still assigned as a final grade to a term throws an $GradeTypeStillAssignedException',
+        () {
+      final controller = GradesTestController();
+
+      controller.createTerm(
+        termWith(
+          id: const TermId('foo'),
+          finalGradeType: const GradeTypeId('foo'),
+        ),
+      );
+
+      // TODO Should return the term id or maybe even that the final grade type
+      // is still assigned to this term
+      expect(() => controller.deleteCustomGradeType(const GradeTypeId('foo')),
+          throwsA(const GradeTypeStillAssignedException(GradeTypeId('foo'))));
+    });
     test(
         'A custom grade type can be deleted if it is not assigned to anything (simple case)',
         () {

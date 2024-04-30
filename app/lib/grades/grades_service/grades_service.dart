@@ -394,6 +394,9 @@ class GradesService {
     if (!_hasGradeTypeWithId(id)) {
       throw GradeTypeNotFoundException(id);
     }
+    if (_terms.any((term) => term.finalGradeType == id)) {
+      throw GradeTypeStillAssignedException(id);
+    }
     final newState = _state.copyWith(
         customGradeTypes: _customGradeTypes.removeWhere((gt) => gt.id == id));
     _updateState(newState);
@@ -485,6 +488,15 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
   final GradeTypeId id;
 
   const GradeTypeNotFoundException(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class GradeTypeStillAssignedException extends Equatable implements Exception {
+  final GradeTypeId id;
+
+  const GradeTypeStillAssignedException(this.id);
 
   @override
   List<Object?> get props => [id];
