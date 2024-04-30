@@ -383,6 +383,9 @@ class GradesService {
   }
 
   void deleteCustomGradeType(GradeTypeId id) {
+    if (!_hasGradeTypeWithId(id)) {
+      throw GradeTypeNotFoundException(id);
+    }
     final newState = _state.copyWith(
         customGradeTypes: _customGradeTypes.removeWhere((gt) => gt.id == id));
     _updateState(newState);
