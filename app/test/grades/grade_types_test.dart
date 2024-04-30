@@ -93,6 +93,11 @@ void main() {
       expect(() => controller.deleteCustomGradeType(const GradeTypeId('foo')),
           throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))));
     });
+    // TODO:
+    // * If a custom grade type is deleted then it should be removed from all weight maps
+    // * A custom grade type should be deletable if it is still assigned in weight maps
+    // * Trying to delete a predefined grade type will throw an ArgumentError
+    test(
     test(
         'A custom grade type can be deleted if it is not assigned to anything (simple case)',
         () {
