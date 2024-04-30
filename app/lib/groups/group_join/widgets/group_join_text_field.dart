@@ -37,7 +37,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
   void initState() {
     super.initState();
     if (!PlatformCheck.isWeb) {
-      copySharecodeFromClipboardOrOpenKeyboard();
+      copySharecodeFromClipboardOrOpenKeyboard(sharecodeFieldFocusNode);
     }
   }
 
@@ -129,22 +129,23 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
     );
   }
 
-  void copySharecodeFromClipboardOrOpenKeyboard() {
+  void copySharecodeFromClipboardOrOpenKeyboard(FocusNode focusNode) {
     final bloc = BlocProvider.of<GroupJoinBloc>(context);
     bloc.getSharecodeFromClipboard().then((sharecode) {
       if (sharecode == null) {
-        _openKeyboardForSharecodeField();
+        _openKeyboardForSharecodeField(focusNode);
       } else {
-        showCopySharecodeFromClipboardDialog(sharecode);
+        showCopySharecodeFromClipboardDialog(sharecode, focusNode);
       }
     });
   }
 
-  void _openKeyboardForSharecodeField() {
-    FocusManager.instance.primaryFocus?.unfocus();
+  void _openKeyboardForSharecodeField(FocusNode focusNode) {
+    FocusManager.instance.primaryFocus?.requestFocus(focusNode);
   }
 
-  Future<void> showCopySharecodeFromClipboardDialog(Sharecode sharecode) async {
+  Future<void> showCopySharecodeFromClipboardDialog(
+      Sharecode sharecode, FocusNode focusNode) async {
     final bloc = BlocProvider.of<GroupJoinBloc>(context);
 
     final result = await showLeftRightAdaptiveDialog<bool>(
@@ -174,7 +175,7 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
       final groupJoinResultDialog = GroupJoinResultDialog(bloc);
       groupJoinResultDialog.show(context);
     } else {
-      _openKeyboardForSharecodeField();
+      _openKeyboardForSharecodeField(focusNode);
     }
   }
 
