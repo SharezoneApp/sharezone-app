@@ -17,6 +17,7 @@ void main() {
       final controller = GradesTestController();
 
       final gradeTypes = controller.getPossibleGradeTypes();
+      expect(gradeTypes, GradeType.predefinedGradeTypes);
 
       expect(
           gradeTypes.map((element) => (
