@@ -507,7 +507,11 @@ class _ChatBubble extends StatelessWidget {
                   ? CrossAxisAlignment.end
                   : CrossAxisAlignment.start,
               children: [
-                MarkdownBody(data: text),
+                MarkdownBody(
+                  data: text,
+                  selectable: true,
+                  softLineBreak: true,
+                ),
                 const SizedBox(height: 4),
                 Text(
                   sentAt,
