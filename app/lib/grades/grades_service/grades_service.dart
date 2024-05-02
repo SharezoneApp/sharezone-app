@@ -391,6 +391,9 @@ class GradesService {
   }
 
   void deleteCustomGradeType(GradeTypeId id) {
+    if (GradeType.predefinedGradeTypes.any((gt) => gt.id == id)) {
+      throw ArgumentError('Cannot delete a predefined grade type.');
+    }
     if (!_hasGradeTypeWithId(id)) {
       throw GradeTypeNotFoundException(id);
     }
