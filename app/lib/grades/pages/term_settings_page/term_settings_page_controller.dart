@@ -172,6 +172,12 @@ class TermSettingsPageController extends ChangeNotifier {
       termId: termId,
       weight: weight,
     );
+
+    // Wait for Firestore listener to update the subject weights. The view
+    // fetches the weights from the grades service. The better solution would be
+    // to stream the weights from the grades service to the view.
+    await Future.delayed(const Duration(milliseconds: 500));
+
     state = TermSettingsLoaded(view);
     notifyListeners();
   }
