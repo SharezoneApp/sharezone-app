@@ -66,7 +66,7 @@ jobs:
     runs-on: macos-13
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.7
@@ -117,7 +117,7 @@ jobs:
           - flavor: dev
             serviceAccountSecret: FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG
     steps:
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -154,7 +154,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       # Our Android configurations require Java 17.
       - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
@@ -219,7 +219,7 @@ jobs:
     runs-on: macos-13
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.7
