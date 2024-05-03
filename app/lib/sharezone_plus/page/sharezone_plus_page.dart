@@ -329,7 +329,12 @@ class _PurchaseSection extends StatelessWidget {
         showSnackSec(
             context: context, text: 'Link in die Zwischenablage kopiert.');
       } else {
-        Share.share(url);
+        final box = context.findRenderObject() as RenderBox?;
+        Share.share(
+          url,
+          // See: https://github.com/fluttercommunity/plus_plugins/tree/main/packages/share_plus/share_plus#ipad
+          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+        );
       }
     }
   }

@@ -1388,4 +1388,45 @@ void main() {
           throwsA(const SubjectNotFoundException(SubjectId('Unknown'))));
     });
   });
+  test(
+      'Regression test: Changing the final grade type of a term shouldnt delete any subjects',
+      () {
+    final controller = GradesTestController();
+
+    controller.createTerm(
+      termWith(
+        id: const TermId('term1'),
+        finalGradeType: GradeType.other.id,
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Deutsch'),
+            finalGradeType: GradeType.vocabularyTest.id,
+            grades: [gradeWith(value: 2)],
+          ),
+          subjectWith(
+            id: const SubjectId('Sport'),
+            grades: [gradeWith(value: 2)],
+          ),
+        ],
+      ),
+    );
+
+    // This would delete any subject with no overridden final grade type before
+    // fixing the bug.
+    controller.editTerm(
+      const TermId('term1'),
+      finalGradeType: GradeType.vocabularyTest.id,
+    );
+
+    expect(
+        controller
+            .term(const TermId('term1'))
+            .subjects
+            .map((sub) => sub.id)
+            .toList(),
+        [
+          const SubjectId('Deutsch'),
+          const SubjectId('Sport'),
+        ]);
+  });
 }
