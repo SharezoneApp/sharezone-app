@@ -197,6 +197,14 @@ void main() {
               .calculatedGrade!
               .asNum,
           2.5);
+
+      expect(controller.term(const TermId('foo')).gradeTypeWeightings, isEmpty);
+      expect(
+          controller
+              .term(const TermId('foo'))
+              .subject(const SubjectId('bar'))
+              .gradeTypeWeights,
+          isEmpty);
     });
     test(
         'Trying to delete a predefined grade type will throw an $ArgumentError',
