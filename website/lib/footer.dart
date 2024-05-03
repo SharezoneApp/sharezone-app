@@ -9,8 +9,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:legal/legal.dart';
 import 'package:sharezone_website/legal/imprint_page.dart';
-import 'package:sharezone_website/legal/privacy_policy.dart';
 import 'package:sharezone_website/support_page.dart';
 import 'package:sharezone_website/utils.dart';
 
@@ -205,7 +205,9 @@ class _FooterLegal extends StatelessWidget {
       title: "Rechtliches",
       links: [
         _FooterAction("Impressum", tag: ImprintPage.tag),
-        _FooterAction("Datenschutz", tag: PrivacyPolicyPage.tag),
+        _FooterAction("Allgemeine Nutzungsbedingungen (ANB)",
+            tag: TermsOfServicePage.tag),
+        _FooterAction("Datenschutzerklärung", tag: PrivacyPolicyPage.tag),
       ],
     );
   }

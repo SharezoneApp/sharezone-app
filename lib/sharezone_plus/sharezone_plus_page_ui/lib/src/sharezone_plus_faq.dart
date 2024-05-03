@@ -7,8 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SharezonePlusFaq extends StatelessWidget {
   const SharezonePlusFaq({super.key});
@@ -26,6 +28,8 @@ class SharezonePlusFaq extends StatelessWidget {
           _DoAlsoGroupMemberGetPlus(),
           SizedBox(height: 12),
           _DoesTheFileStorageLimitAlsoForGroups(),
+          SizedBox(height: 12),
+          _SchoolClassLicense(),
         ],
       ),
     );
@@ -115,14 +119,49 @@ class _DoesTheFileStorageLimitAlsoForGroups extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Erhält der gesamte Kurs 50 GB Speicherplatz?'),
+      header: const Text('Erhält der gesamte Kurs 30 GB Speicherplatz?'),
       body: const Text(
-        'Nein, der Speicherplatz von 50 GB mit Sharezone Plus gilt nur für '
+        'Nein, der Speicherplatz von 30 GB mit Sharezone Plus gilt nur für '
         'deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest '
-        'beispielsweise 20 GB in den Deutsch-Kurs hochladen, 20 GB in den '
+        'beispielsweise 5 GB in den Deutsch-Kurs hochladen, 15 GB in den '
         'Mathe-Kurs und hättest noch weitere 10 GB für alle Kurse zur '
         'Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen '
         'Speicherplatz.',
+      ),
+      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+    );
+  }
+}
+
+class _SchoolClassLicense extends StatelessWidget {
+  const _SchoolClassLicense();
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionCard(
+      header: const Text('Gibt es eine Lizenz für meine gesamte Klasse?'),
+      body: MarkdownBody(
+        data:
+            'Du bist interessiert an einer Lizenz für deine gesamte Klasse? Schreib'
+            ' uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net).',
+        styleSheet: MarkdownStyleSheet(
+          a: TextStyle(
+            color: Theme.of(context).primaryColor,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+        onTapLink: (text, href, title) async {
+          try {
+            final uri = Uri.parse(href!);
+            await launchUrl(uri);
+          } on Exception catch (_) {
+            if (!context.mounted) return;
+            showSnackSec(
+              text: 'E-Mail: plus@sharezone.net',
+              context: context,
+            );
+          }
+        },
       ),
       backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
     );

@@ -48,9 +48,11 @@ class _SharezonePlusFeatureInfoDialog extends StatelessWidget {
                 child: title!,
               ),
             ),
-      content: SharezonePlusFeatureInfoCard(
-        withLearnMoreButton: false,
-        child: description,
+      content: SingleChildScrollView(
+        child: SharezonePlusFeatureInfoCard(
+          withLearnMoreButton: false,
+          child: description,
+        ),
       ),
       actionsPadding: const EdgeInsets.fromLTRB(16, 0, 24, 24),
       actions: [

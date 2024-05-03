@@ -81,19 +81,19 @@ void main() {
     final klasse10a = createSchoolClass('10a');
     final klasse5b = createSchoolClass('5b');
 
-    final mathe10aId = GroupId('mathe10a');
-    final deutsch5bId = GroupId('deutsch5bId');
+    const mathe10aId = GroupId('mathe10a');
+    const deutsch5bId = GroupId('deutsch5bId');
 
     // Die Informatik AG ist mit keiner Schulklasse verknüpft.
-    final informatikAgId = GroupId('informatikAg');
+    const informatikAgId = GroupId('informatikAg');
 
-    final lesson10a = createLesson(mathe10aId.id);
-    final lesson5b = createLesson(deutsch5bId.id);
-    final lessonAg = createLesson(informatikAgId.id);
+    final lesson10a = createLesson(mathe10aId.value);
+    final lesson5b = createLesson(deutsch5bId.value);
+    final lessonAg = createLesson(informatikAgId.value);
 
-    final event10a = createEvent(mathe10aId.id);
-    final event5b = createEvent(deutsch5bId.id);
-    final eventAg = createEvent(informatikAgId.id);
+    final event10a = createEvent(mathe10aId.value);
+    final event5b = createEvent(deutsch5bId.value);
+    final eventAg = createEvent(informatikAgId.value);
 
     group('SchoolClassSelection', () {
       late TimetableBloc bloc;
@@ -116,8 +116,8 @@ void main() {
 
         schoolClassGateway.addSchoolClasses([klasse10a, klasse5b]);
 
-        schoolClassGateway.addCourse(klasse10a.id, mathe10aId.id);
-        schoolClassGateway.addCourse(klasse5b.id, deutsch5bId.id);
+        schoolClassGateway.addCourse(klasse10a.id, mathe10aId.value);
+        schoolClassGateway.addCourse(klasse5b.id, deutsch5bId.value);
 
         timetableGateway.addLessons([lesson10a, lesson5b, lessonAg]);
         timetableGateway.addEvents([event10a, event5b, eventAg]);

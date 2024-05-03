@@ -14,15 +14,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 class FakeMobileScannerController extends Fake
     implements MobileScannerController {
-  @override
-  final ValueNotifier<MobileScannerArguments?> startArguments = ValueNotifier(
-    MobileScannerArguments(
-      hasTorch: true,
-      size: const Size(100, 100),
-      textureId: 0,
-    ),
-  );
-
   final StreamController<BarcodeCapture> barcodesController =
       StreamController<BarcodeCapture>();
 
@@ -33,17 +24,27 @@ class FakeMobileScannerController extends Fake
   bool torchEnabled = false;
 
   @override
-  bool hasTorch = true;
-
-  @override
-  bool autoStart = true;
-
-  @override
-  Future<MobileScannerArguments?> start({
-    CameraFacing? cameraFacingOverride,
-  }) async {
-    return null;
+  Future<void> start({CameraFacing? cameraDirection}) async {
+    return;
   }
+
+  @override
+  MobileScannerState get value => const MobileScannerState(
+        isInitialized: true,
+        isRunning: true,
+        size: Size.zero,
+        cameraDirection: CameraFacing.back,
+        torchState: TorchState.off,
+        zoomScale: 1.0,
+        availableCameras: null,
+        error: null,
+      );
+
+  @override
+  void addListener(VoidCallback listener) {}
+
+  @override
+  void removeListener(VoidCallback listener) {}
 
   void handleEvent(Map map) {
     barcodesController.add(
@@ -64,12 +65,12 @@ class FakeMobileScannerController extends Fake
   }
 
   @override
-  void dispose() {
-    barcodesController.close();
+  Future<void> updateScanWindow(Rect? window) async {
+    // Do nothing.
   }
 
   @override
-  Future<void> updateScanWindow(Rect? window) async {
-    // Do nothing.
+  Future<void> dispose() async {
+    barcodesController.close();
   }
 }

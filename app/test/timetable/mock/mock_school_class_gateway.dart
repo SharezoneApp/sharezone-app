@@ -99,8 +99,8 @@ class MockSchoolClassGateway implements SchoolClassGateway {
   @override
   Stream<List<String>> streamCoursesID(String schoolClassID) {
     return Stream.value(_courses.valueOrNull!
-        .where((course) => course.schoolClassId!.id == schoolClassID)
-        .map((course) => course.courseId.id)
+        .where((course) => course.schoolClassId!.value == schoolClassID)
+        .map((course) => course.courseId.value)
         .toList());
   }
 

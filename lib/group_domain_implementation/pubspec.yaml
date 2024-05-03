@@ -21,7 +21,7 @@ dependencies:
     path: ../sharezone_common
   user:
     path: ../user
-  cloud_firestore: ^4.15.5
+  cloud_firestore: ^4.17.2
   flutter:
     sdk: flutter
 

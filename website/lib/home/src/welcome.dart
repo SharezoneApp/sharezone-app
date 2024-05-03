@@ -11,7 +11,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_website/widgets/section.dart';
 
-import '../../main.dart';
 import '../home_page.dart';
 
 class Welcome extends StatelessWidget {
@@ -47,7 +46,6 @@ class Welcome extends StatelessWidget {
                           fontSize: isTablet(context) ? 64 : 85,
                           fontWeight: FontWeight.w700,
                           color: Colors.black87,
-                          fontFamily: SharezoneStyle.font,
                         ),
                         textAlign: TextAlign.center,
                       ),

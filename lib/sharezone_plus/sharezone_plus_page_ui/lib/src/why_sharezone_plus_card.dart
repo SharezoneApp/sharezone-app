@@ -47,7 +47,7 @@ class _WhyPlusSharezoneImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 200,
+        maxHeight: 250,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(17.5),

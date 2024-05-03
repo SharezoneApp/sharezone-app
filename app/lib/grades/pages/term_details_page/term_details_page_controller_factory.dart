@@ -6,13 +6,28 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:sharezone/grades/models/term_id.dart';
+import 'package:analytics/analytics.dart';
+import 'package:crash_analytics/crash_analytics.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller.dart';
 
 class TermDetailsPageControllerFactory {
-  const TermDetailsPageControllerFactory();
+  final GradesService gradesService;
+  final CrashAnalytics crashAnalytics;
+  final Analytics analytics;
+
+  const TermDetailsPageControllerFactory({
+    required this.gradesService,
+    required this.crashAnalytics,
+    required this.analytics,
+  });
 
   TermDetailsPageController create(TermId termId) {
-    return TermDetailsPageController(termId: termId);
+    return TermDetailsPageController(
+      termId: termId,
+      gradesService: gradesService,
+      crashAnalytics: crashAnalytics,
+      analytics: analytics,
+    );
   }
 }

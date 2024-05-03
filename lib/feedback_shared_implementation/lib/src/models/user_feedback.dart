@@ -28,7 +28,6 @@ class UserFeedback {
   final String missing;
   final String heardFrom;
   final String uid;
-  final String userContactInformation;
   final FeedbackDeviceInformation? deviceInformation;
   final Map<UserId, UnreadMessageStatus>? unreadMessagesStatus;
   final FeedbackChatMessage? lastMessage;
@@ -50,14 +49,13 @@ class UserFeedback {
     required this.missing,
     required this.heardFrom,
     required this.uid,
-    required this.userContactInformation,
     required this.deviceInformation,
     required this.unreadMessagesStatus,
     required this.lastMessage,
   });
 
   factory UserFeedback.create() {
-    return UserFeedback._(
+    return const UserFeedback._(
       id: FeedbackId("feedbackId"),
       createdOn: null,
       rating: null,
@@ -66,7 +64,6 @@ class UserFeedback {
       missing: "",
       heardFrom: "",
       uid: "",
-      userContactInformation: "",
       deviceInformation: null,
       unreadMessagesStatus: null,
       lastMessage: null,
@@ -81,7 +78,6 @@ class UserFeedback {
       'missing': missing,
       'heardFrom': heardFrom,
       'uid': uid,
-      'userContactInformation': userContactInformation,
       'createdOn': FieldValue.serverTimestamp(),
       'deviceInformation': deviceInformation?.toJson(),
     }..removeWhere((string, object) =>
@@ -98,7 +94,6 @@ class UserFeedback {
       missing: map['missing'] ?? '',
       heardFrom: map['heardFrom'] ?? '',
       uid: map['uid'] ?? '',
-      userContactInformation: map['userContactInformation'] ?? '',
       deviceInformation: map['deviceInformation'] != null
           ? FeedbackDeviceInformation.fromJson(map['deviceInformation'])
           : null,
@@ -131,7 +126,6 @@ class UserFeedback {
     String? missing,
     String? heardFrom,
     String? uid,
-    String? userContactInformation,
     FeedbackDeviceInformation? deviceInformation,
     Map<UserId, UnreadMessageStatus>? unreadMessagesStatus,
     FeedbackChatMessage? lastMessage,
@@ -145,8 +139,6 @@ class UserFeedback {
       missing: missing ?? this.missing,
       heardFrom: heardFrom ?? this.heardFrom,
       uid: uid ?? this.uid,
-      userContactInformation:
-          userContactInformation ?? this.userContactInformation,
       deviceInformation: deviceInformation ?? this.deviceInformation,
       unreadMessagesStatus: unreadMessagesStatus ?? this.unreadMessagesStatus,
       lastMessage: lastMessage ?? this.lastMessage,
@@ -166,7 +158,6 @@ class UserFeedback {
         other.missing == missing &&
         other.heardFrom == heardFrom &&
         other.uid == uid &&
-        other.userContactInformation == userContactInformation &&
         other.deviceInformation == deviceInformation;
   }
 
@@ -180,13 +171,12 @@ class UserFeedback {
         missing.hashCode ^
         heardFrom.hashCode ^
         uid.hashCode ^
-        userContactInformation.hashCode ^
         deviceInformation.hashCode;
   }
 
   @override
   String toString() {
-    return 'UserFeedback(createdOn: $createdOn, id: $id, rating: $rating, likes: $likes, dislikes: $dislikes, missing: $missing, heardFrom: $heardFrom, uid: $uid, userContactInformation: $userContactInformation, deviceInformation: $deviceInformation)';
+    return 'UserFeedback(createdOn: $createdOn, id: $id, rating: $rating, likes: $likes, dislikes: $dislikes, missing: $missing, heardFrom: $heardFrom, uid: $uid, deviceInformation: $deviceInformation)';
   }
 }
 

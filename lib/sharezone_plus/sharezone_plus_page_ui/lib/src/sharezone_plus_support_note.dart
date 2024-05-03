@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone_plus_page_ui/src/markdown_centered_text.dart';
+import 'package:sharezone_plus_page_ui/src/styled_markdown_text.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharezonePlusSupportNote extends StatelessWidget {
@@ -19,7 +19,7 @@ class SharezonePlusSupportNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaxWidthConstraintBox(
       maxWidth: 710,
-      child: MarkdownCenteredText(
+      child: StyledMarkdownText(
         text: 'Du hast noch Fragen zu Sharezone Plus? Schreib uns an '
             '[plus@sharezone.net](mailto:plus@sharezone.net) eine E-Mail und '
             'wir helfen dir gerne weiter.',

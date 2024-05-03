@@ -81,7 +81,8 @@ Future<void> _listMacCertificates(ProcessRunner processRunner) async {
   await processRunner.run(
     [
       'app-store-connect',
-      'list-certificates',
+      'certificates',
+      'list',
       '--type',
       'MAC_INSTALLER_DISTRIBUTION',
       '--save',

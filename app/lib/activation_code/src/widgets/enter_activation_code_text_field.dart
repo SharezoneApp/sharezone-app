@@ -45,7 +45,8 @@ class EnterActivationCodeTextField extends StatelessWidget
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   labelText: 'Aktivierungscode',
-                  hintText: "z.B. Promo2020",
+                  hintText: "z.B. NavigationV2",
+                  labelStyle: const TextStyle(color: Colors.white),
                   suffixIcon: Theme(
                     data: Theme.of(context),
                     child: ContinueRoundButton(

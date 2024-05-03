@@ -8,10 +8,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/grades/models/subject_id.dart';
 import 'package:sharezone/grades/models/term_id.dart';
+import 'package:sharezone/grades/pages/grades_details_page/grade_details_page.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/shared/term_tile.dart';
+import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -49,6 +52,9 @@ class TermDetailsPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Halbjahresdetails'),
+            actions: const [
+              _DeleteIconButton(),
+            ],
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -64,6 +70,62 @@ class TermDetailsPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _DeleteIconButton extends StatelessWidget {
+  const _DeleteIconButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final isLoaded = context.select<TermDetailsPageController, bool>(
+      (controller) => controller.state is TermDetailsPageLoaded,
+    );
+    if (!isLoaded) return const SizedBox();
+
+    return IconButton(
+      tooltip: 'Halbjahr löschen',
+      icon: const Icon(Icons.delete),
+      onPressed: () async {
+        final shouldDelete = await showDialog<bool>(
+          context: context,
+          builder: (_) => const _ConfirmDeleteDialog(),
+        );
+
+        if (shouldDelete == true && context.mounted) {
+          final controller = context.read<TermDetailsPageController>();
+          controller.deleteTerm();
+          Navigator.pop(context);
+        }
+      },
+    );
+  }
+}
+
+class _ConfirmDeleteDialog extends StatelessWidget {
+  const _ConfirmDeleteDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 400,
+      child: AlertDialog(
+        title: const Text('Halbjahr löschen'),
+        content: const Text(
+            'Möchtest du das Halbjahr inkl. aller Noten wirklich löschen?\n\nDiese Aktion kann nicht rückgängig gemacht werden.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Abbrechen'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Löschen'),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -98,6 +160,7 @@ class _Loaded extends StatelessWidget {
     return Column(
       children: [
         _TermInformationCard(
+          termId: state.term.id,
           displayName: state.term.displayName,
           grade: state.term.avgGrade,
         ),
@@ -131,10 +194,12 @@ class _Error extends StatelessWidget {
 
 class _TermInformationCard extends StatelessWidget {
   const _TermInformationCard({
+    required this.termId,
     required this.displayName,
     required this.grade,
   });
 
+  final TermId termId;
   final String displayName;
   final AvgGradeView grade;
 
@@ -145,15 +210,11 @@ class _TermInformationCard extends StatelessWidget {
       child: Column(
         children: [
           TermTile(
+            termId: termId,
             displayName: displayName,
             avgGrade: grade,
             title: 'Aktuelles Halbjahr',
           ),
-          ListTile(
-            leading: const Icon(Icons.edit),
-            title: const Text('Berechnung des Schnitts'),
-            onTap: () => snackbarSoon(context: context),
-          )
         ],
       ),
     );
@@ -183,15 +244,17 @@ class _SubjectCard extends StatelessWidget {
                 design: subject.design,
               ),
               title: Text(subject.displayName),
-              trailing: Text(
-                subject.grade,
-                style: const TextStyle(fontSize: 18),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _EditSubjectIconButton(subjectId: subject.id),
+                  const SizedBox(width: 16),
+                  Text(
+                    subject.grade,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
               ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: const Text('Berechnung der Fachnote'),
-              onTap: () => snackbarSoon(context: context),
             ),
             if (savedGrades.isNotEmpty) const Divider(),
             for (final savedGrade in savedGrades) ...[
@@ -200,6 +263,35 @@ class _SubjectCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _EditSubjectIconButton extends StatelessWidget {
+  const _EditSubjectIconButton({
+    required this.subjectId,
+  });
+
+  final SubjectId subjectId;
+
+  @override
+  Widget build(BuildContext context) {
+    final termId = context.watch<TermDetailsPageController>().termId;
+    return IconButton(
+      tooltip: 'Fachnote bearbeiten',
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SubjectSettingsPage(
+              subjectId: subjectId,
+              termId: termId,
+            ),
+            settings: const RouteSettings(name: SubjectSettingsPage.tag),
+          ),
+        );
+      },
+      icon: const Icon(Icons.edit),
     );
   }
 }
@@ -214,9 +306,15 @@ class _SavedGradeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(savedGrade.gradeTypeName),
+      title: Text(savedGrade.title),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GradeDetailsPage(id: savedGrade.id),
+        ),
+      ),
       subtitle: Text(
-        savedGrade.date.toDateString,
+        savedGrade.date,
         style: TextStyle(
           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
         ),

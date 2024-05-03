@@ -130,7 +130,7 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Items(
+    return const _Items(
       feedback: FeedbackView(
         id: FeedbackId('1'),
         createdOn: '2022-01-01',
@@ -194,7 +194,7 @@ class _Items extends StatelessWidget {
         if (feedback.hasDislikes) _Dislikes(dislikes: feedback.dislikes!),
         if (feedback.hasMissing) _Missing(missing: feedback.missing!),
         if (feedback.hasHeardFrom) _HeardFrom(heardFrom: feedback.heardFrom!),
-        if (feedback.hasDeviceInformation)
+        if (feedback.hasDeviceInformation && showDeviceInformation)
           _DeviceInformation(deviceInformation: feedback.deviceInformation!),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
@@ -507,7 +507,11 @@ class _ChatBubble extends StatelessWidget {
                   ? CrossAxisAlignment.end
                   : CrossAxisAlignment.start,
               children: [
-                MarkdownBody(data: text),
+                MarkdownBody(
+                  data: text,
+                  selectable: true,
+                  softLineBreak: true,
+                ),
                 const SizedBox(height: 4),
                 Text(
                   sentAt,

@@ -25,7 +25,7 @@ void main() {
   group(FeedbackDetailsPage, () {
     late MockFeedbackDetailsPageController controller;
     late MockFeedbackDetailsPageControllerFactory factory;
-    final feedbackId = FeedbackId('feedbackId');
+    const feedbackId = FeedbackId('feedbackId');
 
     setUp(() {
       controller = MockFeedbackDetailsPageController();
@@ -47,7 +47,7 @@ void main() {
       await tester.pumpWidgetBuilder(
         Provider<FeedbackDetailsPageControllerFactory>.value(
           value: factory,
-          child: FeedbackDetailsPage(
+          child: const FeedbackDetailsPage(
             feedbackId: feedbackId,
             onContactSupportPressed: null,
           ),
@@ -59,7 +59,7 @@ void main() {
     group('loaded', () {
       setUp(() {
         setControllerState(
-          FeedbackDetailsPageLoaded(
+          const FeedbackDetailsPageLoaded(
             feedback: FeedbackView(
                 id: feedbackId,
                 createdOn: '2022-01-01',
@@ -72,7 +72,7 @@ void main() {
                 missing: 'Nothing! 😊',
                 hasUnreadMessages: null,
                 lastMessage: null),
-            chatMessages: const [
+            chatMessages: [
               FeedbackMessageView(
                 isMyMessage: true,
                 message: 'Hello!',

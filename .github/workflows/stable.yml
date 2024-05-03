@@ -66,16 +66,16 @@ jobs:
     runs-on: macos-13
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.3
+        run: pip3 install codemagic-cli-tools==0.50.7
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -118,13 +118,13 @@ jobs:
           - flavor: dev
             serviceAccountSecret: FIREBASE_SERVICE_ACCOUNT_SHAREZONE_DEBUG
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -156,10 +156,16 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+
+      # Our Android configurations require Java 17.
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+        with:
+          distribution: "oracle"
+          java-version: "17"
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.3
+        run: pip3 install codemagic-cli-tools==0.50.7
 
       - name: Setup signing
         working-directory: app/android
@@ -179,7 +185,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -215,16 +221,16 @@ jobs:
     runs-on: macos-13
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.3
+        run: pip3 install codemagic-cli-tools==0.50.7
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}

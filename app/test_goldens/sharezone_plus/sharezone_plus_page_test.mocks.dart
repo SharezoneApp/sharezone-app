@@ -15,7 +15,6 @@ import 'package:feedback_shared_implementation/feedback_shared_implementation.da
     as _i21;
 import 'package:firebase_auth/firebase_auth.dart' as _i35;
 import 'package:flutter/material.dart' as _i1;
-import 'package:key_value_store/key_value_store.dart' as _i22;
 import 'package:mockito/mockito.dart' as _i2;
 import 'package:mockito/src/dummies.dart' as _i32;
 import 'package:rxdart/rxdart.dart' as _i3;
@@ -23,7 +22,6 @@ import 'package:shared_preferences/shared_preferences.dart' as _i7;
 import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart'
     as _i36;
 import 'package:sharezone/filesharing/file_sharing_api.dart' as _i12;
-import 'package:sharezone/grades/grades_flag.dart' as _i37;
 import 'package:sharezone/main/application_bloc.dart' as _i31;
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart'
     as _i30;
@@ -34,7 +32,7 @@ import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/nav
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart'
     as _i29;
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart'
-    as _i23;
+    as _i22;
 import 'package:sharezone/util/api.dart' as _i4;
 import 'package:sharezone/util/api/blackboard_api.dart' as _i11;
 import 'package:sharezone/util/api/connections_gateway.dart' as _i15;
@@ -45,6 +43,7 @@ import 'package:sharezone/util/api/timetable_gateway.dart' as _i18;
 import 'package:sharezone/util/api/user_api.dart' as _i13;
 import 'package:sharezone/util/navigation_service.dart' as _i8;
 import 'package:sharezone_common/references.dart' as _i14;
+import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart' as _i23;
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart'
     as _i6;
 import 'package:user/user.dart' as _i19;
@@ -276,53 +275,148 @@ class _FakeFeedbackApi_19 extends _i2.SmartFake implements _i21.FeedbackApi {
         );
 }
 
-class _FakeKeyValueStore_20 extends _i2.SmartFake
-    implements _i22.KeyValueStore {
-  _FakeKeyValueStore_20(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [SharezonePlusPageController].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSharezonePlusPageController extends _i2.Mock
-    implements _i23.SharezonePlusPageController {
+    implements _i22.SharezonePlusPageController {
   @override
-  set hasPlus(bool? _hasPlus) => super.noSuchMethod(
+  set monthlySubscriptionPrice(String? _monthlySubscriptionPrice) =>
+      super.noSuchMethod(
         Invocation.setter(
-          #hasPlus,
-          _hasPlus,
+          #monthlySubscriptionPrice,
+          _monthlySubscriptionPrice,
         ),
         returnValueForMissingStub: null,
       );
+
   @override
-  set price(String? _price) => super.noSuchMethod(
+  set lifetimePrice(String? _lifetimePrice) => super.noSuchMethod(
         Invocation.setter(
-          #price,
-          _price,
+          #lifetimePrice,
+          _lifetimePrice,
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  bool get isPurchaseButtonLoading => (super.noSuchMethod(
+        Invocation.getter(#isPurchaseButtonLoading),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  set isPurchaseButtonLoading(bool? _isPurchaseButtonLoading) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #isPurchaseButtonLoading,
+          _isPurchaseButtonLoading,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool get showLetParentsBuyButton => (super.noSuchMethod(
+        Invocation.getter(#showLetParentsBuyButton),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  set showLetParentsBuyButton(bool? _showLetParentsBuyButton) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #showLetParentsBuyButton,
+          _showLetParentsBuyButton,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool get isLetParentsBuyButtonLoading => (super.noSuchMethod(
+        Invocation.getter(#isLetParentsBuyButtonLoading),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  set isLetParentsBuyButtonLoading(bool? _isLetParentsBuyButtonLoading) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #isLetParentsBuyButtonLoading,
+          _isLetParentsBuyButtonLoading,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i23.PurchasePeriod get selectedPurchasePeriod => (super.noSuchMethod(
+        Invocation.getter(#selectedPurchasePeriod),
+        returnValue: _i23.PurchasePeriod.monthly,
+        returnValueForMissingStub: _i23.PurchasePeriod.monthly,
+      ) as _i23.PurchasePeriod);
+
+  @override
+  set selectedPurchasePeriod(_i23.PurchasePeriod? _selectedPurchasePeriod) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #selectedPurchasePeriod,
+          _selectedPurchasePeriod,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool get isCancelled => (super.noSuchMethod(
+        Invocation.getter(#isCancelled),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  bool get hasLifetime => (super.noSuchMethod(
+        Invocation.getter(#hasLifetime),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
-  _i24.Future<void> buySubscription() => (super.noSuchMethod(
+  void listenToStatus() => super.noSuchMethod(
         Invocation.method(
-          #buySubscription,
+          #listenToStatus,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i24.Future<void> buy() => (super.noSuchMethod(
+        Invocation.method(
+          #buy,
           [],
         ),
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
+  @override
+  _i24.Future<bool> isBuyingEnabled() => (super.noSuchMethod(
+        Invocation.method(
+          #isBuyingEnabled,
+          [],
+        ),
+        returnValue: _i24.Future<bool>.value(false),
+        returnValueForMissingStub: _i24.Future<bool>.value(false),
+      ) as _i24.Future<bool>);
+
   @override
   _i24.Future<void> cancelSubscription() => (super.noSuchMethod(
         Invocation.method(
@@ -332,6 +426,64 @@ class MockSharezonePlusPageController extends _i2.Mock
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
+  @override
+  _i24.Future<String?> getBuyWebsiteToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getBuyWebsiteToken,
+          [],
+        ),
+        returnValue: _i24.Future<String?>.value(),
+        returnValueForMissingStub: _i24.Future<String?>.value(),
+      ) as _i24.Future<String?>);
+
+  @override
+  bool canCancelSubscription(_i19.SubscriptionSource? source) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #canCancelSubscription,
+          [source],
+        ),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  void setPeriodOption(_i23.PurchasePeriod? period) => super.noSuchMethod(
+        Invocation.method(
+          #setPeriodOption,
+          [period],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void logOpenedAdvantage(String? advantage) => super.noSuchMethod(
+        Invocation.method(
+          #logOpenedAdvantage,
+          [advantage],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void logOpenedFaq(String? question) => super.noSuchMethod(
+        Invocation.method(
+          #logOpenedFaq,
+          [question],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void logOpenGitHub() => super.noSuchMethod(
+        Invocation.method(
+          #logOpenGitHub,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -340,6 +492,7 @@ class MockSharezonePlusPageController extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void addListener(_i25.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -348,6 +501,7 @@ class MockSharezonePlusPageController extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void removeListener(_i25.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
@@ -356,6 +510,7 @@ class MockSharezonePlusPageController extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(
@@ -384,6 +539,7 @@ class MockNavigationBloc extends _i2.Mock implements _i26.NavigationBloc {
           Invocation.getter(#scaffoldKey),
         ),
       ) as _i1.GlobalKey<_i1.State<_i1.StatefulWidget>>);
+
   @override
   _i1.GlobalKey<_i1.State<_i1.StatefulWidget>> get drawerKey =>
       (super.noSuchMethod(
@@ -398,6 +554,7 @@ class MockNavigationBloc extends _i2.Mock implements _i26.NavigationBloc {
           Invocation.getter(#drawerKey),
         ),
       ) as _i1.GlobalKey<_i1.State<_i1.StatefulWidget>>);
+
   @override
   _i1.GlobalKey<_i1.State<_i1.StatefulWidget>> get controllerKey =>
       (super.noSuchMethod(
@@ -412,24 +569,28 @@ class MockNavigationBloc extends _i2.Mock implements _i26.NavigationBloc {
           Invocation.getter(#controllerKey),
         ),
       ) as _i1.GlobalKey<_i1.State<_i1.StatefulWidget>>);
+
   @override
   _i24.Stream<_i27.NavigationItem> get currentItemStream => (super.noSuchMethod(
         Invocation.getter(#currentItemStream),
         returnValue: _i24.Stream<_i27.NavigationItem>.empty(),
         returnValueForMissingStub: _i24.Stream<_i27.NavigationItem>.empty(),
       ) as _i24.Stream<_i27.NavigationItem>);
+
   @override
   _i27.NavigationItem get currentItem => (super.noSuchMethod(
         Invocation.getter(#currentItem),
         returnValue: _i27.NavigationItem.overview,
         returnValueForMissingStub: _i27.NavigationItem.overview,
       ) as _i27.NavigationItem);
+
   @override
   dynamic Function(_i27.NavigationItem) get navigateTo => (super.noSuchMethod(
         Invocation.getter(#navigateTo),
         returnValue: (_i27.NavigationItem __p0) => null,
         returnValueForMissingStub: (_i27.NavigationItem __p0) => null,
       ) as dynamic Function(_i27.NavigationItem));
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -459,6 +620,7 @@ class MockNavigationExperimentCache extends _i2.Mock
           Invocation.getter(#currentNavigation),
         ),
       ) as _i3.ValueStream<_i29.NavigationExperimentOption>);
+
   @override
   void setNavigation(_i29.NavigationExperimentOption? option) =>
       super.noSuchMethod(
@@ -468,6 +630,7 @@ class MockNavigationExperimentCache extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -492,6 +655,7 @@ class MockNavigationAnalytics extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void logDrawerEvent(_i27.NavigationItem? item) => super.noSuchMethod(
         Invocation.method(
@@ -500,6 +664,7 @@ class MockNavigationAnalytics extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void logUsedSwipeUpLine() => super.noSuchMethod(
         Invocation.method(
@@ -508,6 +673,7 @@ class MockNavigationAnalytics extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void logDrawerLogoClick() => super.noSuchMethod(
         Invocation.method(
@@ -516,6 +682,7 @@ class MockNavigationAnalytics extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void logOpenDrawer() => super.noSuchMethod(
         Invocation.method(
@@ -524,6 +691,7 @@ class MockNavigationAnalytics extends _i2.Mock
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -550,6 +718,7 @@ class MockSharezoneContext extends _i2.Mock implements _i31.SharezoneContext {
           Invocation.getter(#api),
         ),
       ) as _i4.SharezoneGateway);
+
   @override
   _i5.Analytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -562,6 +731,7 @@ class MockSharezoneContext extends _i2.Mock implements _i31.SharezoneContext {
           Invocation.getter(#analytics),
         ),
       ) as _i5.Analytics);
+
   @override
   _i6.StreamingSharedPreferences get streamingSharedPreferences =>
       (super.noSuchMethod(
@@ -575,6 +745,7 @@ class MockSharezoneContext extends _i2.Mock implements _i31.SharezoneContext {
           Invocation.getter(#streamingSharedPreferences),
         ),
       ) as _i6.StreamingSharedPreferences);
+
   @override
   _i7.SharedPreferences get sharedPreferences => (super.noSuchMethod(
         Invocation.getter(#sharedPreferences),
@@ -587,6 +758,7 @@ class MockSharezoneContext extends _i2.Mock implements _i31.SharezoneContext {
           Invocation.getter(#sharedPreferences),
         ),
       ) as _i7.SharedPreferences);
+
   @override
   _i8.NavigationService get navigationService => (super.noSuchMethod(
         Invocation.getter(#navigationService),
@@ -599,6 +771,7 @@ class MockSharezoneContext extends _i2.Mock implements _i31.SharezoneContext {
           Invocation.getter(#navigationService),
         ),
       ) as _i8.NavigationService);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -625,6 +798,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#uID),
         ),
       ) as String);
+
   @override
   _i9.UserId get userId => (super.noSuchMethod(
         Invocation.getter(#userId),
@@ -637,6 +811,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#userId),
         ),
       ) as _i9.UserId);
+
   @override
   _i10.HomeworkGateway get homework => (super.noSuchMethod(
         Invocation.getter(#homework),
@@ -649,6 +824,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#homework),
         ),
       ) as _i10.HomeworkGateway);
+
   @override
   _i11.BlackboardGateway get blackboard => (super.noSuchMethod(
         Invocation.getter(#blackboard),
@@ -661,6 +837,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#blackboard),
         ),
       ) as _i11.BlackboardGateway);
+
   @override
   _i12.FileSharingGateway get fileSharing => (super.noSuchMethod(
         Invocation.getter(#fileSharing),
@@ -673,6 +850,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#fileSharing),
         ),
       ) as _i12.FileSharingGateway);
+
   @override
   _i13.UserGateway get user => (super.noSuchMethod(
         Invocation.getter(#user),
@@ -685,6 +863,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#user),
         ),
       ) as _i13.UserGateway);
+
   @override
   _i14.References get references => (super.noSuchMethod(
         Invocation.getter(#references),
@@ -697,6 +876,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#references),
         ),
       ) as _i14.References);
+
   @override
   String get memberID => (super.noSuchMethod(
         Invocation.getter(#memberID),
@@ -709,6 +889,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#memberID),
         ),
       ) as String);
+
   @override
   _i15.ConnectionsGateway get connectionsGateway => (super.noSuchMethod(
         Invocation.getter(#connectionsGateway),
@@ -721,6 +902,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#connectionsGateway),
         ),
       ) as _i15.ConnectionsGateway);
+
   @override
   _i16.CourseGateway get course => (super.noSuchMethod(
         Invocation.getter(#course),
@@ -733,6 +915,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#course),
         ),
       ) as _i16.CourseGateway);
+
   @override
   _i17.SchoolClassGateway get schoolClassGateway => (super.noSuchMethod(
         Invocation.getter(#schoolClassGateway),
@@ -745,6 +928,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#schoolClassGateway),
         ),
       ) as _i17.SchoolClassGateway);
+
   @override
   _i18.TimetableGateway get timetable => (super.noSuchMethod(
         Invocation.getter(#timetable),
@@ -757,6 +941,7 @@ class MockSharezoneGateway extends _i2.Mock implements _i4.SharezoneGateway {
           Invocation.getter(#timetable),
         ),
       ) as _i18.TimetableGateway);
+
   @override
   _i24.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
@@ -784,6 +969,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
           Invocation.getter(#references),
         ),
       ) as _i14.References);
+
   @override
   String get uID => (super.noSuchMethod(
         Invocation.getter(#uID),
@@ -796,24 +982,28 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
           Invocation.getter(#uID),
         ),
       ) as String);
+
   @override
   _i24.Stream<_i19.AppUser?> get userStream => (super.noSuchMethod(
         Invocation.getter(#userStream),
         returnValue: _i24.Stream<_i19.AppUser?>.empty(),
         returnValueForMissingStub: _i24.Stream<_i19.AppUser?>.empty(),
       ) as _i24.Stream<_i19.AppUser?>);
+
   @override
   _i24.Stream<_i33.AuthUser?> get authUserStream => (super.noSuchMethod(
         Invocation.getter(#authUserStream),
         returnValue: _i24.Stream<_i33.AuthUser?>.empty(),
         returnValueForMissingStub: _i24.Stream<_i33.AuthUser?>.empty(),
       ) as _i24.Stream<_i33.AuthUser?>);
+
   @override
   _i24.Stream<bool> get isSignedInStream => (super.noSuchMethod(
         Invocation.getter(#isSignedInStream),
         returnValue: _i24.Stream<bool>.empty(),
         returnValueForMissingStub: _i24.Stream<bool>.empty(),
       ) as _i24.Stream<bool>);
+
   @override
   _i24.Stream<_i34.DocumentSnapshot<Object?>> get userDocument =>
       (super.noSuchMethod(
@@ -822,12 +1012,14 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValueForMissingStub:
             _i24.Stream<_i34.DocumentSnapshot<Object?>>.empty(),
       ) as _i24.Stream<_i34.DocumentSnapshot<Object?>>);
+
   @override
   _i24.Stream<_i33.Provider?> get providerStream => (super.noSuchMethod(
         Invocation.getter(#providerStream),
         returnValue: _i24.Stream<_i33.Provider?>.empty(),
         returnValueForMissingStub: _i24.Stream<_i33.Provider?>.empty(),
       ) as _i24.Stream<_i33.Provider?>);
+
   @override
   _i24.Future<_i19.AppUser> get() => (super.noSuchMethod(
         Invocation.method(
@@ -850,6 +1042,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
           ),
         )),
       ) as _i24.Future<_i19.AppUser>);
+
   @override
   _i24.Future<void> logOut() => (super.noSuchMethod(
         Invocation.method(
@@ -859,6 +1052,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   bool isAnonymous() => (super.noSuchMethod(
         Invocation.method(
@@ -868,6 +1062,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i24.Stream<bool?> isAnonymousStream() => (super.noSuchMethod(
         Invocation.method(
@@ -877,6 +1072,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Stream<bool?>.empty(),
         returnValueForMissingStub: _i24.Stream<bool?>.empty(),
       ) as _i24.Stream<bool?>);
+
   @override
   _i24.Future<void> linkWithCredential(_i35.AuthCredential? credential) =>
       (super.noSuchMethod(
@@ -887,6 +1083,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   _i24.Future<void> changeState(_i19.StateEnum? state) => (super.noSuchMethod(
         Invocation.method(
@@ -896,6 +1093,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   _i24.Future<void> addNotificationToken(String? token) => (super.noSuchMethod(
         Invocation.method(
@@ -905,6 +1103,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   void removeNotificationToken(String? token) => super.noSuchMethod(
         Invocation.method(
@@ -913,6 +1112,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i24.Future<void> setHomeworkReminderTime(_i1.TimeOfDay? timeOfDay) =>
       (super.noSuchMethod(
@@ -923,6 +1123,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   _i24.Future<void> updateSettings(_i19.UserSettings? userSettings) =>
       (super.noSuchMethod(
@@ -933,6 +1134,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   _i24.Future<void> updateSettingsSingleFiled(
     String? fieldName,
@@ -949,6 +1151,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   _i24.Future<void> updateUserTip(
     _i19.UserTipKey? userTipKey,
@@ -965,6 +1168,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   void setBlackboardNotifications(bool? enabled) => super.noSuchMethod(
         Invocation.method(
@@ -973,6 +1177,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void setCommentsNotifications(bool? enabled) => super.noSuchMethod(
         Invocation.method(
@@ -981,6 +1186,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   _i24.Future<void> changeEmail(String? email) => (super.noSuchMethod(
         Invocation.method(
@@ -990,6 +1196,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   _i24.Future<void> addUser({
     required _i19.AppUser? user,
@@ -1007,6 +1214,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<void>.value(),
         returnValueForMissingStub: _i24.Future<void>.value(),
       ) as _i24.Future<void>);
+
   @override
   _i24.Future<bool> deleteUser(_i4.SharezoneGateway? gateway) =>
       (super.noSuchMethod(
@@ -1017,6 +1225,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
         returnValue: _i24.Future<bool>.value(false),
         returnValueForMissingStub: _i24.Future<bool>.value(false),
       ) as _i24.Future<bool>);
+
   @override
   _i24.Future<_i20.AppFunctionsResult<bool>> updateUser(
           _i19.AppUser? userData) =>
@@ -1043,6 +1252,7 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
           ),
         )),
       ) as _i24.Future<_i20.AppFunctionsResult<bool>>);
+
   @override
   _i24.Future<void> dispose() => (super.noSuchMethod(
         Invocation.method(
@@ -1071,6 +1281,7 @@ class MockHasUnreadFeedbackMessagesProvider extends _i2.Mock
           Invocation.getter(#feedbackApi),
         ),
       ) as _i21.FeedbackApi);
+
   @override
   _i9.UserId get userId => (super.noSuchMethod(
         Invocation.getter(#userId),
@@ -1083,104 +1294,21 @@ class MockHasUnreadFeedbackMessagesProvider extends _i2.Mock
           Invocation.getter(#userId),
         ),
       ) as _i9.UserId);
+
   @override
   bool get hasUnreadFeedbackMessages => (super.noSuchMethod(
         Invocation.getter(#hasUnreadFeedbackMessages),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
-  @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void addListener(_i25.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void removeListener(_i25.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-}
 
-/// A class which mocks [GradesEnabledFlag].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockGradesEnabledFlag extends _i2.Mock implements _i37.GradesEnabledFlag {
-  @override
-  _i22.KeyValueStore get keyValueStore => (super.noSuchMethod(
-        Invocation.getter(#keyValueStore),
-        returnValue: _FakeKeyValueStore_20(
-          this,
-          Invocation.getter(#keyValueStore),
-        ),
-        returnValueForMissingStub: _FakeKeyValueStore_20(
-          this,
-          Invocation.getter(#keyValueStore),
-        ),
-      ) as _i22.KeyValueStore);
-  @override
-  bool get isEnabled => (super.noSuchMethod(
-        Invocation.getter(#isEnabled),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
-  @override
-  void toggle() => super.noSuchMethod(
-        Invocation.method(
-          #toggle,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void addListener(_i25.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
-  void removeListener(_i25.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -1189,6 +1317,25 @@ class MockGradesEnabledFlag extends _i2.Mock implements _i37.GradesEnabledFlag {
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  void addListener(_i25.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i25.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
   @override
   void notifyListeners() => super.noSuchMethod(
         Invocation.method(

@@ -101,6 +101,7 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
                   builder: (context) => FeedbackDetailsPage(
                     feedbackId: feedbackId,
                     onContactSupportPressed: null,
+                    showDeviceInformation: true,
                   ),
                   settings: const RouteSettings(name: FeedbackDetailsPage.tag),
                 ),

@@ -91,6 +91,7 @@ class MockCourseCreateBlocFactory extends _i1.Mock
           ),
         ),
       ) as _i2.CourseCreateBloc);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -113,6 +114,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   set initialCourse(_i6.Course? _initialCourse) => super.noSuchMethod(
         Invocation.setter(
@@ -121,18 +123,21 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool get hasSchoolClassId => (super.noSuchMethod(
         Invocation.getter(#hasSchoolClassId),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i3.Stream<String> get subject => (super.noSuchMethod(
         Invocation.getter(#subject),
         returnValue: _i3.Stream<String>.empty(),
         returnValueForMissingStub: _i3.Stream<String>.empty(),
       ) as _i3.Stream<String>);
+
   @override
   _i3.Stream<List<(_i4.SchoolClassId, String)>?> get myAdminSchoolClasses =>
       (super.noSuchMethod(
@@ -141,24 +146,28 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         returnValueForMissingStub:
             _i3.Stream<List<(_i4.SchoolClassId, String)>?>.empty(),
       ) as _i3.Stream<List<(_i4.SchoolClassId, String)>?>);
+
   @override
   dynamic Function(String) get changeName => (super.noSuchMethod(
         Invocation.getter(#changeName),
         returnValue: (String __p0) => null,
         returnValueForMissingStub: (String __p0) => null,
       ) as dynamic Function(String));
+
   @override
   dynamic Function(String) get changeSubject => (super.noSuchMethod(
         Invocation.getter(#changeSubject),
         returnValue: (String __p0) => null,
         returnValueForMissingStub: (String __p0) => null,
       ) as dynamic Function(String));
+
   @override
   dynamic Function(String) get changeAbbreviation => (super.noSuchMethod(
         Invocation.getter(#changeAbbreviation),
         returnValue: (String __p0) => null,
         returnValueForMissingStub: (String __p0) => null,
       ) as dynamic Function(String));
+
   @override
   _i3.StreamTransformer<String, String> get validateSubject =>
       (super.noSuchMethod(
@@ -172,6 +181,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
           Invocation.getter(#validateSubject),
         ),
       ) as _i3.StreamTransformer<String, String>);
+
   @override
   void loadAdminSchoolClasses() => super.noSuchMethod(
         Invocation.method(
@@ -180,6 +190,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void setInitialTemplate(_i7.CourseTemplate? template) => super.noSuchMethod(
         Invocation.method(
@@ -188,6 +199,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   void setSchoolClassId(_i4.SchoolClassId? schoolClassId) => super.noSuchMethod(
         Invocation.method(
@@ -196,6 +208,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool hasUserEditInput() => (super.noSuchMethod(
         Invocation.method(
@@ -205,6 +218,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i3.Future<(_i4.CourseId, String)> submitCourse() => (super.noSuchMethod(
         Invocation.method(
@@ -244,6 +258,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
           )
         )),
       ) as _i3.Future<(_i4.CourseId, String)>);
+
   @override
   _i3.Future<(_i4.CourseId, String)> submitWithCourseTemplate(
           _i7.CourseTemplate? courseTemplate) =>
@@ -285,6 +300,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
           )
         )),
       ) as _i3.Future<(_i4.CourseId, String)>);
+
   @override
   _i3.Future<void> deleteCourse(_i4.CourseId? courseId) => (super.noSuchMethod(
         Invocation.method(
@@ -294,6 +310,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   bool isCourseTemplateAlreadyAdded(_i7.CourseTemplate? courseTemplate) =>
       (super.noSuchMethod(
@@ -304,6 +321,7 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(

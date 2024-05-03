@@ -9,7 +9,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/grades/models/term_id.dart';
+import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
@@ -41,7 +42,7 @@ class _FAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
-      onPressed: () => snackbarSoon(context: context),
+      onPressed: () => Navigator.pushNamed(context, GradesDialog.tag),
       icon: const Icon(Icons.add),
       tooltip: 'Neue Note',
     );
@@ -171,7 +172,8 @@ class _Empty extends StatelessWidget {
                         leading: const Icon(Icons.add_circle_outline),
                         centerTitle: true,
                         title: const Text("Note eintragen"),
-                        onTap: () {},
+                        onTap: () =>
+                            Navigator.pushNamed(context, GradesDialog.tag),
                       ),
                     ),
                   ],
@@ -198,9 +200,11 @@ class _EmptyTerm3 extends StatelessWidget {
           transform: Matrix4.translationValues(0, -110, 0),
           child: const CustomCard(
             child: TermTile(
+              termId: TermId('8/2'),
               displayName: 'Vergangenes Halbjahr',
               avgGrade: ("3,8", GradePerformance.bad),
               title: '8/2',
+              showEditButton: false,
             ),
           ),
         ),
@@ -222,9 +226,11 @@ class _EmptyTerm2 extends StatelessWidget {
           transform: Matrix4.translationValues(0, -55, 0),
           child: const CustomCard(
             child: TermTile(
+              termId: TermId('9/1'),
               displayName: 'Vergangenes Halbjahr',
               avgGrade: ("2,6", GradePerformance.satisfactory),
               title: '9/1',
+              showEditButton: false,
             ),
           ),
         ),
@@ -242,9 +248,11 @@ class _EmptyTerm1 extends StatelessWidget {
       padding: EdgeInsets.only(top: 70),
       child: CustomCard(
         child: TermTile(
+          termId: TermId('9/2'),
           displayName: 'Aktuelles Halbjahr',
           avgGrade: ("1,3", GradePerformance.good),
           title: '9/2',
+          showEditButton: false,
         ),
       ),
     );
@@ -307,35 +315,39 @@ class _CurrentTerm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TermTile(
+              termId: id,
               title: 'Aktuelles Halbjahr',
               displayName: displayName,
               avgGrade: avgGrade,
+              showEditButton: false,
             ),
-            const Divider(height: 0),
-            const SizedBox(height: 6),
-            const Padding(
-              padding: EdgeInsets.only(left: 12),
-              child: Text(
-                'Aktuelle Noten',
-                style: TextStyle(
-                  color: Colors.grey,
+            if (subjects.isNotEmpty) ...[
+              const Divider(height: 0),
+              const SizedBox(height: 6),
+              const Padding(
+                padding: EdgeInsets.only(left: 12),
+                child: Text(
+                  'Aktuelle Noten',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
                 ),
               ),
-            ),
-            for (final subject in subjects)
-              ListTile(
-                mouseCursor: SystemMouseCursors.click,
-                leading: SubjectAvatar(
-                  design: subject.design,
-                  abbreviation: subject.abbreviation,
-                ),
-                title: Text(subject.displayName),
-                trailing: Text(subject.grade,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                    )),
-              )
+              for (final subject in subjects)
+                ListTile(
+                  mouseCursor: SystemMouseCursors.click,
+                  leading: SubjectAvatar(
+                    design: subject.design,
+                    abbreviation: subject.abbreviation,
+                  ),
+                  title: Text(subject.displayName),
+                  trailing: Text(subject.grade,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                      )),
+                )
+            ]
           ],
         ),
       ),
@@ -363,9 +375,11 @@ class _PastTerm extends StatelessWidget {
         child: CustomCard(
           onTap: () => openTermDetailsPage(context, id),
           child: TermTile(
+            termId: id,
             title: 'Vergangenes Halbjahr',
             displayName: displayName,
             avgGrade: avgGrade,
+            showEditButton: false,
           ),
         ),
       ),

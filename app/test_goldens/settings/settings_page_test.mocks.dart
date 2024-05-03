@@ -95,6 +95,7 @@ class MockSharezoneContext extends _i1.Mock implements _i7.SharezoneContext {
           Invocation.getter(#api),
         ),
       ) as _i2.SharezoneGateway);
+
   @override
   _i3.Analytics get analytics => (super.noSuchMethod(
         Invocation.getter(#analytics),
@@ -107,6 +108,7 @@ class MockSharezoneContext extends _i1.Mock implements _i7.SharezoneContext {
           Invocation.getter(#analytics),
         ),
       ) as _i3.Analytics);
+
   @override
   _i4.StreamingSharedPreferences get streamingSharedPreferences =>
       (super.noSuchMethod(
@@ -120,6 +122,7 @@ class MockSharezoneContext extends _i1.Mock implements _i7.SharezoneContext {
           Invocation.getter(#streamingSharedPreferences),
         ),
       ) as _i4.StreamingSharedPreferences);
+
   @override
   _i5.SharedPreferences get sharedPreferences => (super.noSuchMethod(
         Invocation.getter(#sharedPreferences),
@@ -132,6 +135,7 @@ class MockSharezoneContext extends _i1.Mock implements _i7.SharezoneContext {
           Invocation.getter(#sharedPreferences),
         ),
       ) as _i5.SharedPreferences);
+
   @override
   _i6.NavigationService get navigationService => (super.noSuchMethod(
         Invocation.getter(#navigationService),
@@ -144,6 +148,7 @@ class MockSharezoneContext extends _i1.Mock implements _i7.SharezoneContext {
           Invocation.getter(#navigationService),
         ),
       ) as _i6.NavigationService);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(

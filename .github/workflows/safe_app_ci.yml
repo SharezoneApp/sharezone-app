@@ -64,7 +64,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
@@ -98,13 +98,13 @@ jobs:
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -127,13 +127,13 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -162,13 +162,13 @@ jobs:
     # require macOS arm64. Therefore, we need to use macos-14.
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -195,52 +195,10 @@ jobs:
       # this workflows finished.
       - name: Upload failed golden tests
         if: failure()
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
         with:
           name: failed-golden-tests
           # When golden test fail then the results are stored in "failures"
           # folders. Since golden tests run in several different places (e.g. /app,
           # or packages in /lib) the failures folder will be spread in different places.
           path: "**/failures/*.png"
-
-  # Checks if the generated files are up to date.
-  check-code-generation:
-    needs: changes
-    if: ${{ needs.changes.outputs.changesFound == 'true' }}
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-
-      - name: Set Flutter version from FVM config file to environment variables
-        id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
-
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
-        with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
-
-      - name: Install Sharezone CLI
-        run: |
-          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
-          echo $(pwd)/bin >> $GITHUB_PATH
-
-      # - name: Clean Flutter
-      #   run: sz exec --onlyFlutter -- flutter clean
-
-      - name: Get dependencies
-        run: sz pub get
-
-      - name: Run code generation via "sz build_runner build"
-        run: |
-          sz build_runner build \
-            -c 4 \
-            --package-timeout-minutes 15
-
-      - name: Fail if generated files have changed
-        run: |
-          git diff --exit-code -- '**/*.mocks.dart' '**/*.g.dart'
-
-          # Print the Git diff with the file names and their status as a
-          # summary. 
-          git diff --name-status -- '**/*.mocks.dart' '**/*.g.dart'

@@ -7,7 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone/grades/models/term_id.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
+import 'package:sharezone/grades/pages/term_settings_page/term_settings_page.dart';
 
 class TermTile extends StatelessWidget {
   const TermTile({
@@ -15,8 +17,12 @@ class TermTile extends StatelessWidget {
     required this.displayName,
     required this.avgGrade,
     required this.title,
+    required this.termId,
+    this.showEditButton = true,
   });
 
+  final TermId termId;
+  final bool showEditButton;
   final String title;
   final DisplayName displayName;
   final AvgGradeView avgGrade;
@@ -49,8 +55,39 @@ class TermTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 6),
-          _TermGrade(grade: avgGrade)
+          Row(
+            children: [
+              if (showEditButton) ...[
+                _EditIconButton(termId: termId),
+                const SizedBox(width: 6),
+              ],
+              _TermGrade(grade: avgGrade),
+            ],
+          )
         ],
+      ),
+    );
+  }
+}
+
+class _EditIconButton extends StatelessWidget {
+  const _EditIconButton({
+    required this.termId,
+  });
+
+  final TermId termId;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: 'Bearbeiten des Schnitts',
+      icon: const Icon(Icons.edit),
+      color: Theme.of(context).listTileTheme.iconColor,
+      onPressed: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => TermSettingsPage(termId: termId),
+        ),
       ),
     );
   }

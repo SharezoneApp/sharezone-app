@@ -81,7 +81,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
@@ -139,7 +139,7 @@ jobs:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
         uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
@@ -149,7 +149,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
-      - uses: subosito/flutter-action@62f096cacda5168a3bd7b95793373be14fa4fbaf
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}

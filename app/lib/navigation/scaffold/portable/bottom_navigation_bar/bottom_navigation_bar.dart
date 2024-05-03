@@ -181,6 +181,7 @@ class SecondNavigationRow extends StatelessWidget {
     return [
       NavigationItem.group,
       NavigationItem.events,
+      NavigationItem.grades,
       NavigationItem.settings,
     ];
   }
@@ -190,6 +191,7 @@ class SecondNavigationRow extends StatelessWidget {
       NavigationItem.group,
       NavigationItem.filesharing,
       NavigationItem.events,
+      NavigationItem.grades,
       NavigationItem.settings,
     ];
   }

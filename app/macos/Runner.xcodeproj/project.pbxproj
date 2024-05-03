@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		050166062FA8422804230514 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4DE3049D10BB3BEED2E472 /* Pods_Runner.framework */; };
+		292FF9352BD725D50032A363 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 292FF9342BD725D50032A363 /* StoreKit.framework */; };
 		335BBD1B22A9A15E00E9071D /* GeneratedPluginRegistrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335BBD1A22A9A15E00E9071D /* GeneratedPluginRegistrant.swift */; };
 		33CC10F12044A3C60003C045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC10F02044A3C60003C045 /* AppDelegate.swift */; };
 		33CC10F32044A3C60003C045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33CC10F22044A3C60003C045 /* Assets.xcassets */; };
@@ -56,6 +57,7 @@
 /* Begin PBXFileReference section */
 		088A618CE0EF1204594A1058 /* Pods-Runner.profile-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-dev.xcconfig"; sourceTree = "<group>"; };
 		197A81E14B36E1523E5EEA9C /* Pods-Runner.release-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-prod.xcconfig"; sourceTree = "<group>"; };
+		292FF9342BD725D50032A363 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2F4DE3049D10BB3BEED2E472 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		333000ED22D3DE5D00554162 /* Warnings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Warnings.xcconfig; sourceTree = "<group>"; };
 		335BBD1A22A9A15E00E9071D /* GeneratedPluginRegistrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedPluginRegistrant.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				050166062FA8422804230514 /* Pods_Runner.framework in Frameworks */,
+				292FF9352BD725D50032A363 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +185,7 @@
 		D73912EC22F37F3D000D13A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				292FF9342BD725D50032A363 /* StoreKit.framework */,
 				2F4DE3049D10BB3BEED2E472 /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
@@ -203,6 +207,7 @@
 				2C99A494D8F3B9EDEB669A8E /* [CP] Embed Pods Frameworks */,
 				E1EE90409DEEBEA4D0F6E83F /* FlutterFire: "flutterfire bundle-service-file" */,
 				403EA27B45BDBF945BB26A93 /* FlutterFire: "flutterfire upload-crashlytics-symbols" */,
+				EA5C6AC4D899FDF5E828AFCA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -385,6 +390,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\n#!/bin/bash\nPATH=${PATH}:$FLUTTER_ROOT/bin:$HOME/.pub-cache/bin\n# Define the Resources directory path\nRESOURCES_DIR=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Resources\n\n# Create the Resources directory if it does not exist\n mkdir -p \"$RESOURCES_DIR\"\n\n flutterfire bundle-service-file --plist-destination=\"$RESOURCES_DIR\" --build-configuration=${CONFIGURATION} --platform=macos --apple-project-path=${SRCROOT}\n";
+		};
+		EA5C6AC4D899FDF5E828AFCA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

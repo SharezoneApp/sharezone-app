@@ -100,6 +100,7 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#courseGateway),
         ),
       ) as _i2.CourseGateway);
+
   @override
   _i3.SchoolClassGateway get schoolClassGateway => (super.noSuchMethod(
         Invocation.getter(#schoolClassGateway),
@@ -112,6 +113,7 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#schoolClassGateway),
         ),
       ) as _i3.SchoolClassGateway);
+
   @override
   _i4.UserGateway get userGateway => (super.noSuchMethod(
         Invocation.getter(#userGateway),
@@ -124,6 +126,7 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#userGateway),
         ),
       ) as _i4.UserGateway);
+
   @override
   _i5.ConnectionsGateway get connectionsGateway => (super.noSuchMethod(
         Invocation.getter(#connectionsGateway),
@@ -136,12 +139,14 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#connectionsGateway),
         ),
       ) as _i5.ConnectionsGateway);
+
   @override
   List<_i8.Course> get currentCourses => (super.noSuchMethod(
         Invocation.getter(#currentCourses),
         returnValue: <_i8.Course>[],
         returnValueForMissingStub: <_i8.Course>[],
       ) as List<_i8.Course>);
+
   @override
   _i9.Stream<List<_i8.SchoolClass>?> streamSchoolClasses() =>
       (super.noSuchMethod(
@@ -152,6 +157,7 @@ class MockCourseCreateGateway extends _i1.Mock
         returnValue: _i9.Stream<List<_i8.SchoolClass>?>.empty(),
         returnValueForMissingStub: _i9.Stream<List<_i8.SchoolClass>?>.empty(),
       ) as _i9.Stream<List<_i8.SchoolClass>?>);
+
   @override
   (_i6.CourseId, String) createCourse(_i10.UserInput? userInput) =>
       (super.noSuchMethod(
@@ -192,6 +198,7 @@ class MockCourseCreateGateway extends _i1.Mock
           )
         ),
       ) as (_i6.CourseId, String));
+
   @override
   _i9.Future<(_i6.CourseId, String)> createSchoolClassCourse(
     _i10.UserInput? userInput,
@@ -250,6 +257,7 @@ class MockCourseCreateGateway extends _i1.Mock
           )
         )),
       ) as _i9.Future<(_i6.CourseId, String)>);
+
   @override
   _i9.Future<void> deleteCourse(_i6.CourseId? courseId) => (super.noSuchMethod(
         Invocation.method(

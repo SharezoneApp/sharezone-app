@@ -9,5 +9,5 @@
 import 'package:common_domain_models/src/ids/group_id.dart';
 
 class SchoolClassId extends GroupId {
-  SchoolClassId(String id) : super(id, 'SchoolClassId');
+  const SchoolClassId(super.value);
 }

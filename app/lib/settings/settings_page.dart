@@ -10,6 +10,7 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -21,9 +22,9 @@ import 'package:sharezone/settings/src/subpages/theme/theme_page.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
-import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:platform_check/platform_check.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/subpages/my_profile/my_profile_page.dart';
@@ -93,6 +94,14 @@ class _LegalSection extends StatelessWidget {
             onTap: () {
               _logOpenPrivacyPolicy(analytics);
               Navigator.pushNamed(context, PrivacyPolicyPage.tag);
+            },
+          ),
+          _SettingsOption(
+            title: "Allgemeine Nutzungsbedingungen (ANB)",
+            icon: const Icon(Icons.description),
+            onTap: () {
+              _logOpenPrivacyPolicy(analytics);
+              Navigator.pushNamed(context, TermsOfServicePage.tag);
             },
           ),
           _SettingsOption(

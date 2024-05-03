@@ -9,12 +9,14 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/keys.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/onboarding/bloc/registration_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/widgets/bottom_bar_button.dart';
-import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -23,7 +25,6 @@ import 'package:user/user.dart';
 part 'pages/advantages.dart';
 part 'pages/choose_type_of_user.dart';
 part 'pages/data_protection_overview.dart';
-part 'pages/privacy_policy.dart';
 
 class SignUpPage extends StatefulWidget {
   static const tag = 'sign-up-page';
@@ -189,6 +190,69 @@ class OnboardingNavigationBarContinueButton extends StatelessWidget {
       text: "Weiter",
       onTap: () =>
           Navigator.push(context, FadeRoute(child: nextPage, tag: nextTag)),
+    );
+  }
+}
+
+class _SignUpButton extends StatefulWidget {
+  const _SignUpButton();
+
+  @override
+  _SignUpButtonState createState() => _SignUpButtonState();
+}
+
+class _SignUpButtonState extends State<_SignUpButton> {
+  bool isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
+        disabledForegroundColor:
+            Theme.of(context).primaryColor.withOpacity(0.38),
+      ),
+      onPressed: isLoading
+          ? null
+          : () async {
+              final bloc = BlocProvider.of<RegistrationBloc>(context);
+              try {
+                setState(() => isLoading = true);
+                await bloc.signUp();
+                if (!context.mounted) return;
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              } catch (e, s) {
+                setState(() => isLoading = false);
+                showSnackSec(
+                  text: handleErrorMessage(e.toString(), s),
+                  context: context,
+                );
+              }
+            },
+      child: Stack(
+        key: const ValueKey('SubmitButton'),
+        alignment: Alignment.center,
+        children: [
+          Text(
+            "Weiter".toUpperCase(),
+            style: TextStyle(
+              fontSize: 20,
+              color: isLoading ? Colors.transparent : Colors.white,
+            ),
+          ),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 275),
+            child: isLoading
+                ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(color: Colors.white),
+                  )
+                : Container(),
+          )
+        ],
+      ),
     );
   }
 }

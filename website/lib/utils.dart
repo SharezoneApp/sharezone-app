@@ -13,9 +13,16 @@ import 'package:url_launcher/url_launcher.dart' as url_launcher;
 /// Launches the given [url] in the browser.
 ///
 /// If the [url] can't be launched, a [SnackBar] is shown.
-Future<void> launchUrl(String url, {BuildContext? context}) async {
+Future<void> launchUrl(
+  String url, {
+  BuildContext? context,
+  String? webOnlyWindowName,
+}) async {
   try {
-    await url_launcher.launchUrl(Uri.parse(url));
+    await url_launcher.launchUrl(
+      Uri.parse(url),
+      webOnlyWindowName: webOnlyWindowName,
+    );
   } catch (e) {
     if (context == null) return;
     if (!context.mounted) return;

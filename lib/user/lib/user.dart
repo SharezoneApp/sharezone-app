@@ -10,7 +10,7 @@ library user;
 
 export 'src/models/features.dart';
 export 'src/models/state_enum.dart';
-export 'src/models/subscription.dart';
+export 'src/models/sharezone_plus_status.dart';
 export 'src/models/timetable/enabled_weekdays.dart';
 export 'src/models/timetable/period.dart';
 export 'src/models/tips/user_tip_data.dart';

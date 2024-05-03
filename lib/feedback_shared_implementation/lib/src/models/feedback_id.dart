@@ -9,5 +9,5 @@
 import 'package:common_domain_models/common_domain_models.dart';
 
 class FeedbackId extends Id {
-  FeedbackId(String id) : super(id, 'FeedbackId');
+  const FeedbackId(super.value);
 }

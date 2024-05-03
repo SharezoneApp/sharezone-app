@@ -30,7 +30,6 @@ class FeedbackBloc extends BlocBase {
   final _dislikeSubject = BehaviorSubject<String?>();
   final _missingSubject = BehaviorSubject<String?>();
   final _heardFromSubject = BehaviorSubject<String?>();
-  final _contactOptions = BehaviorSubject<String?>();
 
   FeedbackBloc(this._api, this._cache, this._platformInformationRetriever,
       this.uid, this.feedbackAnalytics);
@@ -40,20 +39,17 @@ class FeedbackBloc extends BlocBase {
   Function(String?) get changeDislike => _dislikeSubject.sink.add;
   Function(String?) get changeMissing => _missingSubject.sink.add;
   Function(String?) get changeHeardFrom => _heardFromSubject.sink.add;
-  Function(String?) get changeContactOptions => _contactOptions.sink.add;
 
   ValueStream<double?> get rating => _ratingSubject;
   ValueStream<String?> get like => _likeSubject;
   ValueStream<String?> get dislike => _dislikeSubject;
   ValueStream<String?> get missing => _missingSubject;
   ValueStream<String?> get heardFrom => _heardFromSubject;
-  ValueStream<String?> get contactOptions => _contactOptions;
 
   /// Submits the feedback given to the [FeedbackApi].
   ///
-  /// Will add uid, contact information and platform information to the
-  /// [UserFeedback] and platform information will be read from the
-  /// [PlatformInformationRetriever].
+  /// Will add uid and platform information to the [UserFeedback] and platform
+  /// information will be read from the [PlatformInformationRetriever].
   ///
   /// Throws a [CoolDownException] if
   /// [FeedbackCache.hasFeedbackSubmissionCoolDown] returns true.
@@ -75,7 +71,6 @@ class FeedbackBloc extends BlocBase {
     final dislikes = _dislikeSubject.valueOrNull;
     final missing = _missingSubject.valueOrNull;
     final heardFrom = _heardFromSubject.valueOrNull;
-    final userContactInformation = _contactOptions.valueOrNull;
 
     await _platformInformationRetriever.init();
 
@@ -93,7 +88,6 @@ class FeedbackBloc extends BlocBase {
       missing: missing,
       heardFrom: heardFrom,
       uid: uid,
-      userContactInformation: userContactInformation,
       deviceInformation: deviceInfo,
     );
 
@@ -114,12 +108,10 @@ class FeedbackBloc extends BlocBase {
     changeMissing(null);
     changeLike(null);
     changeHeardFrom(null);
-    changeContactOptions(null);
   }
 
   @override
   void dispose() {
-    _contactOptions.close();
     _dislikeSubject.close();
     _heardFromSubject.close();
     _likeSubject.close();
