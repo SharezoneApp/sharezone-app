@@ -97,7 +97,7 @@ void main() {
     // TODO:
     // * If a custom grade type is deleted then it should be removed from all weight maps
     test(
-        'A custom grade type should be deletable if it is still assigned in weight maps',
+        'If a custom grade type is deleted then it should be removed from all weight maps',
         () {
       final controller = GradesTestController();
 
