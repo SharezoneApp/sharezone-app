@@ -72,7 +72,7 @@ class HomeworkDetailsViewFactory implements BlocBase {
     final typeOfUser = await typeOfUserStream.first;
     return HomeworkDetailsView(
       isDone: homework.forUsers[uid]! || hasSubmitted,
-      authorName: homework.authorName ?? "-",
+      authorName: homework.authorName,
       courseName: homework.courseName,
       todoUntil: _formatTodoUntil(homework.todoUntil, homework.withSubmissions),
       id: homework.id,

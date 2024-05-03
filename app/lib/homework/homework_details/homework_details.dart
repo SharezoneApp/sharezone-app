@@ -464,16 +464,18 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
 }
 
 class _HomeworkAuthorTile extends StatelessWidget {
-  const _HomeworkAuthorTile({this.authorName});
+  const _HomeworkAuthorTile({
+    required this.authorName,
+  });
 
-  final String? authorName;
+  final String authorName;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.person),
       title: const Text("Erstellt von:"),
-      subtitle: Text(authorName ?? "-"),
+      subtitle: Text(authorName),
     );
   }
 }

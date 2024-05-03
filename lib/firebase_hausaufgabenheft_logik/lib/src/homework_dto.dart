@@ -22,7 +22,7 @@ class HomeworkDto {
 
   final DocumentReference? authorReference;
   final String authorID;
-  final String? authorName;
+  final String authorName;
 
   final String title;
   final String description;
