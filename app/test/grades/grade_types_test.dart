@@ -94,8 +94,43 @@ void main() {
       expect(() => controller.deleteCustomGradeType(const GradeTypeId('foo')),
           throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))));
     });
-    // TODO:
-    // * If a custom grade type is deleted then it should be removed from all weight maps
+    test(
+        'A custom grade type should be deletable if it is still assigned in weight maps',
+        () {
+      final controller = GradesTestController();
+
+      controller.createTerm(
+        termWith(
+          id: const TermId('foo'),
+          gradeTypeWeights: {const GradeTypeId('foo'): const Weight.factor(2)},
+          subjects: [
+            subjectWith(
+              id: const SubjectId('bar'),
+              gradeTypeWeights: {
+                const GradeTypeId('foo'): const Weight.factor(2)
+              },
+              weightType: WeightType.perGradeType,
+              grades: [
+                // Added so that the subject will definitely be created
+                gradeWith(
+                  id: const GradeId('bar'),
+                  value: 3,
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
+      controller.deleteCustomGradeType(const GradeTypeId('foo'));
+
+      expect(
+          controller
+              .getCustomGradeTypes()
+              .where((element) => element.id == const GradeTypeId('foo'))
+              .toList(),
+          isEmpty);
+    });
     test(
         'If a custom grade type is deleted then it should be removed from all weight maps',
         () {
