@@ -252,6 +252,10 @@ class GradesTestController {
       design: subject.design,
       connectedCourses: subject.connectedCourses,
     ));
+
+    if (subject.grades.isNotEmpty) {
+      throw ArgumentError('Use addGrade to add grades to a subject');
+    }
   }
 
   IList<TestSubject> getSubjects() {
