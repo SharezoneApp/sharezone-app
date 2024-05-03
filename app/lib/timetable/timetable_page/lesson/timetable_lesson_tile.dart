@@ -35,14 +35,13 @@ class TimetableEntryLesson extends StatelessWidget {
       child: Material(
         color: design?.color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(4),
-        child: Stack(
-          children: [
-            InkWell(
-              borderRadius: const BorderRadius.all(Radius.circular(4)),
-              onTap: () =>
-                  showLessonModelSheet(context, lesson, groupInfo?.design),
-              onLongPress: () => onLessonLongPress(context, lesson),
-              child: Padding(
+        child: InkWell(
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          onTap: () => showLessonModelSheet(context, lesson, groupInfo?.design),
+          onLongPress: () => onLessonLongPress(context, lesson),
+          child: Stack(
+            children: [
+              Padding(
                 padding: const EdgeInsets.only(top: 3, left: 6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,16 +60,16 @@ class TimetableEntryLesson extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            if (lesson.isDropped)
-              Positioned.fill(
-                child: CustomPaint(
-                  painter: _StrikeThroughPainter(
-                    color: design?.color,
+              if (lesson.isDropped)
+                Positioned.fill(
+                  child: CustomPaint(
+                    painter: _StrikeThroughPainter(
+                      color: design?.color,
+                    ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
