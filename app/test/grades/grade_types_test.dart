@@ -96,7 +96,73 @@ void main() {
     });
     // TODO:
     // * If a custom grade type is deleted then it should be removed from all weight maps
-    // * A custom grade type should be deletable if it is still assigned in weight maps
+    test(
+        'A custom grade type should be deletable if it is still assigned in weight maps',
+        () {
+      final controller = GradesTestController();
+
+      controller.createTerm(termWith(
+        id: const TermId('foo'),
+        gradeTypeWeights: {const GradeTypeId('foo'): const Weight.factor(2)},
+        subjects: [
+          subjectWith(
+            id: const SubjectId('bar'),
+            gradeTypeWeights: {
+              const GradeTypeId('foo'): const Weight.factor(2)
+            },
+            weightType: WeightType.perGradeType,
+            grades: [
+              gradeWith(
+                id: const GradeId('bar'),
+                type: const GradeTypeId('foo'),
+                value: 3,
+              ),
+            ],
+          ),
+        ],
+      ));
+
+      controller.deleteGrade(gradeId: const GradeId('bar'));
+      controller.deleteCustomGradeType(const GradeTypeId('foo'));
+
+      controller.createCustomGradeType(
+          const GradeType(id: GradeTypeId('foo'), displayName: 'foo'));
+      controller.addGrade(
+          termId: const TermId('foo'),
+          subjectId: const SubjectId('bar'),
+          value: gradeWith(value: 4, type: const GradeTypeId('foo')));
+      controller.addGrade(
+          termId: const TermId('foo'),
+          subjectId: const SubjectId('bar'),
+          value: gradeWith(value: 1, type: GradeType.other.id));
+
+      // If the grade type weights are really removed, then the calculated grade
+      // should reflect that.
+      // If the grade type weights would still be there, then the calculated
+      // grade would be 3, since the grade type weight for 'foo' is 2.
+      expect(
+          controller
+              .term(const TermId('foo'))
+              .subject(const SubjectId('bar'))
+              .calculatedGrade!
+              .asNum,
+          2.5);
+
+      // Change the weight type to inherit from term so that we can check that
+      // the grade type weight are removed from the term as well.
+      controller.changeWeightTypeForSubject(
+          termId: const TermId('foo'),
+          subjectId: const SubjectId('bar'),
+          weightType: WeightType.inheritFromTerm);
+
+      expect(
+          controller
+              .term(const TermId('foo'))
+              .subject(const SubjectId('bar'))
+              .calculatedGrade!
+              .asNum,
+          2.5);
+    });
     test(
         'Trying to delete a predefined grade type will throw an $ArgumentError',
         () {

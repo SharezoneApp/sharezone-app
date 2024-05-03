@@ -405,7 +405,18 @@ class GradesService {
     if (_terms.any((term) => term.finalGradeType == id)) {
       throw GradeTypeStillAssignedException(id);
     }
+
+    final newTerms = _terms.map((term) {
+      var newTerm = term.removeWeightingOfGradeType(id);
+      for (var subject in newTerm.subjects) {
+        subject = subject.removeGradeTypeWeight(id);
+        newTerm = newTerm.replaceSubject(subject);
+      }
+      return newTerm;
+    }).toIList();
+
     final newState = _state.copyWith(
+        terms: newTerms,
         customGradeTypes: _customGradeTypes.removeWhere((gt) => gt.id == id));
     _updateState(newState);
   }
