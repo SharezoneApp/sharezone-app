@@ -222,8 +222,6 @@ void main() {
         ),
       );
 
-      // TODO Should return the term id or maybe even that the final grade type
-      // is still assigned to this term
       expect(() => controller.deleteCustomGradeType(const GradeTypeId('foo')),
           throwsA(const GradeTypeStillAssignedException(GradeTypeId('foo'))));
     });
@@ -248,8 +246,6 @@ void main() {
         ),
       );
 
-      // TODO Should return the term id or maybe even that the final grade type
-      // is still assigned to this term
       expect(() => controller.deleteCustomGradeType(const GradeTypeId('foo')),
           throwsA(const GradeTypeStillAssignedException(GradeTypeId('foo'))));
     });
@@ -309,8 +305,7 @@ void main() {
         termId: termId,
         gradeTypeId: const GradeTypeId('foo'),
       );
-      // TODO: Add this test as comment to issue regarding editing grades
-      // As of right now (when writing this test), the grade can't be edited yet
+
       controller.deleteGrade(gradeId: const GradeId('bar'));
       controller.deleteCustomGradeType(const GradeTypeId('foo'));
 

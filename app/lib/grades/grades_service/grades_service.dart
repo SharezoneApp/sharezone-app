@@ -260,7 +260,6 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
-  // TODO: If gradeType is not there then a special exception should be thrown
   void removeGradeTypeWeightForSubject({
     required SubjectId id,
     required TermId termId,
@@ -390,11 +389,14 @@ class GradesService {
     if (!_hasGradeTypeWithId(id)) {
       throw GradeTypeNotFoundException(id);
     }
-    if (_terms.any((term) => term.subjects
-        .expand((p0) => p0.grades)
-        .any((element) => element.gradeType == id))) {
+
+    final anyGradeHasGradeTypeAssigned = _terms.any((term) => term.subjects
+        .expand((subj) => subj.grades)
+        .any((grade) => grade.gradeType == id));
+    if (anyGradeHasGradeTypeAssigned) {
       throw GradeTypeStillAssignedException(id);
     }
+
     if (_terms.any((term) => term.finalGradeType == id)) {
       throw GradeTypeStillAssignedException(id);
     }
@@ -408,9 +410,10 @@ class GradesService {
       return newTerm;
     }).toIList();
 
-    final newState = _state.copyWith(
-        terms: newTerms,
-        customGradeTypes: _customGradeTypes.removeWhere((gt) => gt.id == id));
+    final newCustomGrades = _customGradeTypes.removeWhere((gt) => gt.id == id);
+
+    final newState =
+        _state.copyWith(terms: newTerms, customGradeTypes: newCustomGrades);
     _updateState(newState);
   }
 
