@@ -382,6 +382,17 @@ class GradesService {
     _updateState(newState);
   }
 
+  /// Deletes a custom grade type and removes it from all weight maps.
+  ///
+  /// A custom grade type can only be deleted if it is not assigned to any grade
+  /// or as the final grade type of any term, otherwise a
+  /// [GradeTypeStillAssignedException] is thrown.
+  ///
+  /// Throws [GradeTypeNotFoundException] if the grade type with the given [id]
+  /// does not exist.
+  ///
+  /// Throws [ArgumentError] if the grade type with the given [id] is a
+  /// predefined grade type.
   void deleteCustomGradeType(GradeTypeId id) {
     if (GradeType.predefinedGradeTypes.any((gt) => gt.id == id)) {
       throw ArgumentError('Cannot delete a predefined grade type.');
