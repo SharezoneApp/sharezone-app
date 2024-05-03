@@ -351,13 +351,6 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
-  // TODO: Test seperately
-  void changeFinalGradeTypeForTerm(
-      {required TermId termId, required GradeTypeId gradeTypeId}) {
-    final newTerm = _term(termId).setFinalGradeType(gradeTypeId);
-    _updateTerm(newTerm);
-  }
-
   /// Returns the possible grades for the given grading system as strings.
   ///
   /// The strings are ordered from the best grade to the worst grade.

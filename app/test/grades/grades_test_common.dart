@@ -305,8 +305,7 @@ class GradesTestController {
 
   void changeFinalGradeTypeForTerm(
       {required TermId termId, required GradeTypeId gradeTypeId}) {
-    service.changeFinalGradeTypeForTerm(
-        termId: termId, gradeTypeId: gradeTypeId);
+    service.editTerm(id: termId, finalGradeType: gradeTypeId);
   }
 }
 
