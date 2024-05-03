@@ -154,7 +154,6 @@ class HomeworkCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
           ),
-          isThreeLine: true,
           subtitle: Text.rich(
             TextSpan(children: <TextSpan>[
               TextSpan(text: "${homework!.courseName}\n"),
@@ -176,6 +175,7 @@ class HomeworkCard extends StatelessWidget {
             abbreviation: homework!.subjectAbbreviation,
           ),
           trailing: _getTrailingWidget(context),
+          mouseCursor: SystemMouseCursors.click,
         ),
       ),
     );
@@ -219,9 +219,14 @@ class HomeworkCard extends StatelessWidget {
       );
     } else {
       return IconButton(
+        tooltip: homework!.withSubmissions
+            ? 'Abgaben anzeigen'
+            : '"Erledigt von" anzeigen',
         iconSize: 50,
-        icon: Chip(
-          label: Text(
+        icon: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: DefaultTextStyle.of(context).style.color,
+          child: Text(
             '${homework!.withSubmissions ? homework?.submitters.length ?? 0 : homework!.assignedUserArrays.completedStudentUids.length}',
           ),
         ),
