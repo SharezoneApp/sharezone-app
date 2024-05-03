@@ -11,7 +11,9 @@ import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
+import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:time/time.dart';
 
 class Lesson {
@@ -31,8 +33,19 @@ class Lesson {
   final WeekDay weekday;
   final WeekType weektype;
   final String? teacher, place;
+  final Map<SubstitutionId, Substitution> substitutions;
   LessonLength get length => calculateLessonLength(startTime, endTime);
+
+  /// Defines, if the lesson is dropped.
+  ///
+  /// Will be injected by the [TimetableBuilder] when the lesson is dropped.
   final bool isDropped;
+
+  /// The new place of the lesson.
+  ///
+  /// Will be injected by the [TimetableBuilder] when the lesson is moved to
+  /// another place.
+  final String? newPlace;
 
   Lesson({
     required this.createdOn,
@@ -43,12 +56,14 @@ class Lesson {
     this.endDate,
     this.periodNumber,
     this.isDropped = false,
+    this.newPlace,
     required this.startTime,
     required this.endTime,
     required this.weekday,
     required this.weektype,
     required this.teacher,
     required this.place,
+    this.substitutions = const {},
   });
 
   factory Lesson.fromData(Map<String, dynamic> data, {required String id}) {
@@ -66,6 +81,13 @@ class Lesson {
       weektype: WeekType.values.byName(data['weektype'] as String),
       teacher: data['teacher'] as String?,
       place: data['place'] as String?,
+      substitutions: decodeMapAdvanced(
+        data['substitutions'],
+        (key, value) {
+          final id = SubstitutionId(key);
+          return MapEntry(id, Substitution.fromData(value, id: id));
+        },
+      ),
     );
   }
 
@@ -82,6 +104,8 @@ class Lesson {
       'weektype': weektype.name,
       'teacher': teacher,
       'place': place,
+      'substitutions': substitutions
+          .map((key, value) => MapEntry(key.value, value.toJson())),
     };
   }
 
@@ -100,6 +124,7 @@ class Lesson {
     String? teacher,
     String? place,
     bool? isDropped,
+    String? newPlace,
   }) {
     return Lesson(
       createdOn: createdOn ?? this.createdOn,
@@ -116,6 +141,7 @@ class Lesson {
       teacher: teacher ?? this.teacher,
       place: place ?? this.place,
       isDropped: isDropped ?? this.isDropped,
+      newPlace: newPlace ?? this.newPlace,
     );
   }
 
@@ -136,4 +162,103 @@ LessonLength calculateLessonLength(Time start, Time end) {
 DateTime _parseTimeString(String time) {
   return DateTime(
       2019, 1, 1, int.parse(time.split(":")[0]), int.parse(time.split(":")[1]));
+}
+
+enum SubstitutionType {
+  /// The lesson is canceled.
+  canceled,
+
+  /// The lesson is moved to another room.
+  placeChange,
+
+  /// Unknown substitution type.
+  unknown,
+}
+
+sealed class Substitution {
+  final SubstitutionId id;
+  final SubstitutionType type;
+
+  /// The date of the substitution.
+  final Date date;
+
+  /// Defines, if the group members should be notified when the substitution is
+  /// created.
+  final bool notifyGroupMembers;
+
+  const Substitution({
+    required this.id,
+    required this.type,
+    required this.date,
+    required this.notifyGroupMembers,
+  });
+
+  static Substitution fromData(
+    Map<String, dynamic> data, {
+    required SubstitutionId id,
+  }) {
+    final type = SubstitutionType.values
+        .tryByName(data['type'], defaultValue: SubstitutionType.unknown);
+    return switch (type) {
+      SubstitutionType.canceled => SubstitutionCanceled(
+          id: id,
+          date: Date.parse(data['date'] as String),
+          notifyGroupMembers: data['notifyGroupMembers'] as bool,
+        ),
+      SubstitutionType.placeChange => SubstitutionPlaceChange(
+          id: id,
+          date: Date.parse(data['date'] as String),
+          notifyGroupMembers: data['notifyGroupMembers'] as bool,
+          newPlace: data['newPlace'] as String,
+        ),
+      SubstitutionType.unknown => SubstitutionUnknown(
+          id: id,
+          date: Date.parse(data['date'] as String),
+          notifyGroupMembers: data['notifyGroupMembers'] as bool,
+        )
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type.name,
+      'date': date.toDateString,
+      'notifyGroupMembers': notifyGroupMembers,
+    };
+  }
+}
+
+class SubstitutionCanceled extends Substitution {
+  const SubstitutionCanceled({
+    required super.id,
+    required super.date,
+    required super.notifyGroupMembers,
+  }) : super(type: SubstitutionType.canceled);
+}
+
+class SubstitutionPlaceChange extends Substitution {
+  final String newPlace;
+
+  const SubstitutionPlaceChange({
+    required super.id,
+    required this.newPlace,
+    required super.date,
+    required super.notifyGroupMembers,
+  }) : super(type: SubstitutionType.placeChange);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      ...super.toJson(),
+      'newPlace': newPlace,
+    };
+  }
+}
+
+class SubstitutionUnknown extends Substitution {
+  const SubstitutionUnknown({
+    required super.id,
+    required super.date,
+    required super.notifyGroupMembers,
+  }) : super(type: SubstitutionType.unknown);
 }
