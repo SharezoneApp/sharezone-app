@@ -252,6 +252,10 @@ class GradesTestController {
       design: subject.design,
       connectedCourses: subject.connectedCourses,
     ));
+
+    if (subject.grades.isNotEmpty) {
+      throw ArgumentError('Use addGrade to add grades to a subject');
+    }
   }
 
   IList<TestSubject> getSubjects() {
@@ -293,6 +297,15 @@ class GradesTestController {
 
   void deleteGrade({required GradeId gradeId}) {
     service.deleteGrade(gradeId);
+  }
+
+  void deleteCustomGradeType(GradeTypeId gradeTypeId) {
+    service.deleteCustomGradeType(gradeTypeId);
+  }
+
+  void changeFinalGradeTypeForTerm(
+      {required TermId termId, required GradeTypeId gradeTypeId}) {
+    service.editTerm(id: termId, finalGradeType: gradeTypeId);
   }
 }
 

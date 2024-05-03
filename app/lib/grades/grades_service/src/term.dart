@@ -81,6 +81,12 @@ class TermModel extends Equatable {
     return subjects.where((s) => s.id == id).first;
   }
 
+  TermModel replaceSubject(SubjectModel subject) {
+    return _copyWith(
+      subjects: subjects.replaceAllWhere((s) => s.id == subject.id, subject),
+    );
+  }
+
   TermModel _copyWith({
     TermId? id,
     IList<SubjectModel>? subjects,

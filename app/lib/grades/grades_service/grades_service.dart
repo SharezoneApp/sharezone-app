@@ -382,6 +382,52 @@ class GradesService {
     _updateState(newState);
   }
 
+  /// Deletes a custom grade type and removes it from all weight maps.
+  ///
+  /// A custom grade type can only be deleted if it is not assigned to any grade
+  /// or as the final grade type of any term, otherwise a
+  /// [GradeTypeStillAssignedException] is thrown.
+  ///
+  /// Throws [GradeTypeNotFoundException] if the grade type with the given [id]
+  /// does not exist.
+  ///
+  /// Throws [ArgumentError] if the grade type with the given [id] is a
+  /// predefined grade type.
+  void deleteCustomGradeType(GradeTypeId id) {
+    if (GradeType.predefinedGradeTypes.any((gt) => gt.id == id)) {
+      throw ArgumentError('Cannot delete a predefined grade type.');
+    }
+    if (!_hasGradeTypeWithId(id)) {
+      throw GradeTypeNotFoundException(id);
+    }
+
+    final anyGradeHasGradeTypeAssigned = _terms.any((term) => term.subjects
+        .expand((subj) => subj.grades)
+        .any((grade) => grade.gradeType == id));
+    if (anyGradeHasGradeTypeAssigned) {
+      throw GradeTypeStillAssignedException(id);
+    }
+
+    if (_terms.any((term) => term.finalGradeType == id)) {
+      throw GradeTypeStillAssignedException(id);
+    }
+
+    final newTerms = _terms.map((term) {
+      var newTerm = term.removeWeightingOfGradeType(id);
+      for (var subject in newTerm.subjects) {
+        subject = subject.removeGradeTypeWeight(id);
+        newTerm = newTerm.replaceSubject(subject);
+      }
+      return newTerm;
+    }).toIList();
+
+    final newCustomGrades = _customGradeTypes.removeWhere((gt) => gt.id == id);
+
+    final newState =
+        _state.copyWith(terms: newTerms, customGradeTypes: newCustomGrades);
+    _updateState(newState);
+  }
+
   GradeType _getGradeType(GradeTypeId finalGradeType) {
     return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
   }
@@ -468,6 +514,15 @@ class GradeTypeNotFoundException extends Equatable implements Exception {
   final GradeTypeId id;
 
   const GradeTypeNotFoundException(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class GradeTypeStillAssignedException extends Equatable implements Exception {
+  final GradeTypeId id;
+
+  const GradeTypeStillAssignedException(this.id);
 
   @override
   List<Object?> get props => [id];
