@@ -10,6 +10,7 @@ import 'package:date/date.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
 import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone_common/references.dart';

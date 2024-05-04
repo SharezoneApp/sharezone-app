@@ -14,6 +14,7 @@ import 'package:group_domain_models/group_domain_models.dart';
 
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
 
 import 'timetable_lesson_sheet.dart';
 

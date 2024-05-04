@@ -10,7 +10,7 @@ import 'package:analytics/analytics.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
-import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
 import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
 
