@@ -30,7 +30,6 @@ import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart'
 import 'package:sharezone/timetable/src/widgets/timetable_week_view.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_event_details.dart';
-import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
 import 'package:sharezone/widgets/tutorial_video_player.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
