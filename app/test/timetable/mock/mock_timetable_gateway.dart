@@ -130,13 +130,27 @@ class MockTimetableGateway implements TimetableGateway {
   }
 
   @override
-  void addSubstitutionToLesson(String lessonId, Substitution substitution) {}
+  void addSubstitutionToLesson(
+      {required String lessonId,
+      required Substitution substitution,
+      required bool notifyGroupMembers}) {
+    throw UnimplementedError();
+  }
 
   @override
   void removeSubstitutionFromLesson(
-      String lessonId, SubstitutionId substitutionId) {}
+      {required String lessonId,
+      required SubstitutionId substitutionId,
+      required bool notifyGroupMembers}) {
+    throw UnimplementedError();
+  }
 
   @override
-  void updateSubstitutionInLesson(String lessonId,
-      SubstitutionId substitutionId, Substitution substitution) {}
+  void updateSubstitutionInLesson(
+      {required String lessonId,
+      required SubstitutionId substitutionId,
+      required bool notifyGroupMembers,
+      String? newPlace}) {
+    throw UnimplementedError();
+  }
 }

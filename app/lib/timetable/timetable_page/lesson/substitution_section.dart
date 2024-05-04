@@ -61,13 +61,8 @@ class _SubstitutionSection extends StatelessWidget {
                         .onSurface
                         .withOpacity(0.6),
                   ),
-                  onPressed: () {
-                    final controller = context.read<SubstitutionController>();
-                    controller.removeSubstitution(
-                      lesson: lesson,
-                      substitutionId: lesson.getSubstitutionFor(date)!.id,
-                    );
-                  },
+                  onPressed: () => Navigator.pop(
+                      context, _LessonModelSheetAction.removeCancelLesson),
                 ),
               ),
             ),
@@ -91,15 +86,12 @@ class _SubstitutionSection extends StatelessWidget {
   }
 }
 
-Future<void> cancelLesson(
+Future<void> _cancelLesson(
   BuildContext context,
   Lesson lesson,
   Date date,
 ) async {
-  final shouldNotifyMembers = await showDialog<bool>(
-    context: context,
-    builder: (context) => _CancelLessonDialog(),
-  );
+  final shouldNotifyMembers = await _showCancelLessonDialog(context);
   if (shouldNotifyMembers == null) {
     // User canceled the dialog
     return;
@@ -111,7 +103,7 @@ Future<void> cancelLesson(
 
   final controller = context.read<SubstitutionController>();
   controller.addCancelSubstitution(
-    lesson: lesson,
+    lessonId: lesson.lessonID!,
     date: date,
     notifyGroupMembers: shouldNotifyMembers,
   );
@@ -121,33 +113,98 @@ Future<void> cancelLesson(
   );
 }
 
-class _CancelLessonDialog extends StatefulWidget {
-  @override
-  _CancelLessonDialogState createState() => _CancelLessonDialogState();
+Future<void> _removeCancelSubstitution(
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+) async {
+  final shouldNotifyMembers = await _removeCancelSubstitutionDialog(context);
+  if (shouldNotifyMembers == null) {
+    // User canceled the dialog
+    return;
+  }
+
+  if (!context.mounted) {
+    return;
+  }
+
+  final controller = context.read<SubstitutionController>();
+  controller.removeSubstitution(
+    lessonId: lesson.lessonID!,
+    substitutionId: lesson.getSubstitutionFor(date)!.id,
+    notifyGroupMembers: shouldNotifyMembers,
+  );
+  showSnackSec(
+    text: 'Entfallene Stunde wiederhergestellt',
+    context: context,
+  );
 }
 
-class _CancelLessonDialogState extends State<_CancelLessonDialog> {
+Future<bool?> _showCancelLessonDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) => const _SubstitutionDialog(
+      title: 'Stunde entfallen lassen',
+      actionText: 'Entfallen lassen',
+      description:
+          'Möchtest du wirklich die Schulstunde für den gesamten Kurs entfallen lassen?',
+      notifyOptionText:
+          'Informiere deine Kursmitglieder, dass die Stunde entfällt.',
+    ),
+  );
+}
+
+Future<bool?> _removeCancelSubstitutionDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) => const _SubstitutionDialog(
+      title: 'Entfallene Stunde wiederherstellen',
+      actionText: 'Wiederherstellen',
+      description:
+          'Möchtest du wirklich die Stunde wirklich wieder stattfinden lassen?',
+      notifyOptionText:
+          'Informiere deine Kursmitglieder, dass die Stunde stattfindet.',
+    ),
+  );
+}
+
+class _SubstitutionDialog extends StatefulWidget {
+  const _SubstitutionDialog({
+    required this.title,
+    required this.description,
+    required this.notifyOptionText,
+    required this.actionText,
+  });
+
+  final String title;
+  final String description;
+  final String notifyOptionText;
+  final String actionText;
+
+  @override
+  _SubstitutionDialogState createState() => _SubstitutionDialogState();
+}
+
+class _SubstitutionDialogState extends State<_SubstitutionDialog> {
   bool shouldNotifyMembers = false;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Stunde entfallen lassen"),
+      title: Text(widget.title),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
-            child: Text(
-              "Möchtest du wirklich die Schulstunde für den gesamten Kurs entfallen lassen?",
-            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+            child: Text(widget.description),
           ),
           SwitchListTile.adaptive(
-            title: const Text(
-              'Informiere deine Kursmitglieder, dass die Stunde entfällt.',
-              style: TextStyle(fontSize: 14),
+            title: Text(
+              widget.notifyOptionText,
+              style: const TextStyle(fontSize: 14),
             ),
             secondary: const Icon(Icons.notifications),
             value: shouldNotifyMembers,
@@ -164,7 +221,7 @@ class _CancelLessonDialogState extends State<_CancelLessonDialog> {
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).colorScheme.error,
           ),
-          child: const Text("ENTFALLEN LASSEN"),
+          child: Text(widget.actionText.toUpperCase()),
         ),
       ],
     );

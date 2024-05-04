@@ -19,49 +19,54 @@ class SubstitutionController {
   });
 
   void addCancelSubstitution({
-    required Lesson lesson,
+    required String lessonId,
     required Date date,
     required bool notifyGroupMembers,
   }) {
     final substitution = SubstitutionCanceled(
       id: _generateId(),
       date: date,
-      notifyGroupMembers: notifyGroupMembers,
       createdBy: userId,
     );
-    log('Adding substitution for lesson ${lesson.lessonID}');
-    gateway.addSubstitutionToLesson(lesson.lessonID!, substitution);
+    log('Adding substitution for lesson $lessonId');
+    gateway.addSubstitutionToLesson(
+      lessonId: lessonId,
+      notifyGroupMembers: notifyGroupMembers,
+      substitution: substitution,
+    );
     analytics.log(NamedAnalyticsEvent(name: 'substitution_cancelled', data: {
       'notify_group_members': notifyGroupMembers,
     }));
   }
 
   void removeSubstitution({
-    required Lesson lesson,
+    required String lessonId,
     required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
   }) {
-    gateway.removeSubstitutionFromLesson(lesson.lessonID!, substitutionId);
+    gateway.removeSubstitutionFromLesson(
+      lessonId: lessonId,
+      notifyGroupMembers: notifyGroupMembers,
+      substitutionId: substitutionId,
+    );
     analytics.log(NamedAnalyticsEvent(name: 'substitution_removed'));
   }
 
   void addPlaceChangeSubstitution({
-    required Lesson lesson,
-    required Date date,
+    required String lessonId,
     required bool notifyGroupMembers,
+    required SubstitutionId substitutionId,
     required String newPlace,
   }) {
-    final substitution = SubstitutionPlaceChange(
-      id: _generateId(),
-      date: date,
+    gateway.updateSubstitutionInLesson(
+      lessonId: lessonId,
       notifyGroupMembers: notifyGroupMembers,
+      substitutionId: substitutionId,
       newPlace: newPlace,
-      createdBy: userId,
     );
-    gateway.addSubstitutionToLesson(lesson.lessonID!, substitution);
     analytics
         .log(NamedAnalyticsEvent(name: 'substitution_place_changed', data: {
       'notify_group_members': notifyGroupMembers,
-      'new_place': newPlace,
     }));
   }
 

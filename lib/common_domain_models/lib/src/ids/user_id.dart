@@ -10,4 +10,9 @@ import 'src/id.dart';
 
 class UserId extends Id {
   const UserId(super.value);
+
+  static UserId? tryParse(String? value) {
+    if (value == null) return null;
+    return UserId(value);
+  }
 }

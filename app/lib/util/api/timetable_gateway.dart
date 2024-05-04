@@ -64,23 +64,44 @@ class TimetableGateway {
     return references.events.doc(event.eventID).delete().then((_) => true);
   }
 
-  void addSubstitutionToLesson(String lessonId, Substitution substitution) {
+  void addSubstitutionToLesson({
+    required String lessonId,
+    required Substitution substitution,
+    required bool notifyGroupMembers,
+  }) {
     references.lessons.doc(lessonId).update({
-      'substitutions.${substitution.id}': substitution.toCreateJson(),
+      'substitutions.${substitution.id}':
+          substitution.toCreateJson(notifyGroupMembers: notifyGroupMembers),
     });
   }
 
-  void removeSubstitutionFromLesson(
-      String lessonId, SubstitutionId substitutionId) {
+  void removeSubstitutionFromLesson({
+    required String lessonId,
+    required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
+  }) {
     references.lessons.doc(lessonId).update({
-      'substitutions.$substitutionId': FieldValue.delete(),
+      'substitutions.$substitutionId.deleted': {
+        'by': memberID,
+        'on': FieldValue.serverTimestamp(),
+        'notifyGroupMembers': notifyGroupMembers,
+      }
     });
   }
 
-  void updateSubstitutionInLesson(String lessonId,
-      SubstitutionId substitutionId, Substitution substitution) {
+  void updateSubstitutionInLesson({
+    required String lessonId,
+    required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
+    String? newPlace,
+  }) {
     references.lessons.doc(lessonId).update({
-      'substitutions.$substitutionId': substitution.toUpdateJson(),
+      if (newPlace != null) 'substitutions.$substitutionId.newPlace': newPlace,
+      'substitutions.$substitutionId.updated': {
+        'by': memberID,
+        'on': FieldValue.serverTimestamp(),
+        'notifyGroupMembers': notifyGroupMembers,
+      }
     });
   }
 

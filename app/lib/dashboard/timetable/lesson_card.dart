@@ -53,7 +53,6 @@ class _LessonCard extends StatelessWidget {
               Align(
                 child: Column(
                   children: <Widget>[
-                    SizedBox(height: isNow ? 12 : 0),
                     _LessonNumber(view.periodNumber),
                     SizedBox(height: isNow ? 8 : 3),
                     CircleAvatar(

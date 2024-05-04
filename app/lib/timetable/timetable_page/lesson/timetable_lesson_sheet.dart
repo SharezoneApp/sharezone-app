@@ -30,7 +30,14 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 part 'substitution_section.dart';
 
-enum _LessonModelSheetAction { edit, delete, design, cancelLesson, changeRoom }
+enum _LessonModelSheetAction {
+  edit,
+  delete,
+  design,
+  cancelLesson,
+  changeRoom,
+  removeCancelLesson,
+}
 
 enum _LessonLongPressResult { edit, delete, changeDesign, report }
 
@@ -195,10 +202,13 @@ Future<void> showLessonModelSheet(
       editCourseDesign(context, lesson.groupID);
       break;
     case _LessonModelSheetAction.cancelLesson:
-      cancelLesson(context, lesson, date);
+      _cancelLesson(context, lesson, date);
       break;
     case _LessonModelSheetAction.changeRoom:
       // todo
+      break;
+    case _LessonModelSheetAction.removeCancelLesson:
+      _removeCancelSubstitution(context, lesson, date);
       break;
   }
 }

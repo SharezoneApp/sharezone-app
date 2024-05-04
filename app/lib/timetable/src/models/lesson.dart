@@ -154,8 +154,10 @@ class Lesson {
   ///
   /// If there is no substitution for the given [date], `null` will be returned.
   Substitution? getSubstitutionFor(Date date) {
-    return substitutions.values
-        .firstWhereOrNull((substitution) => substitution.date == date);
+    return substitutions.values.firstWhereOrNull(
+      (substitution) =>
+          substitution.date == date && substitution.isDeleted == false,
+    );
   }
 
   @override
@@ -195,22 +197,25 @@ sealed class Substitution {
   /// The date of the substitution.
   final Date date;
 
-  /// Defines, if the group members should be notified when the substitution is
-  /// created.
-  final bool notifyGroupMembers;
-
   /// The user who created the substitution.
   final UserId createdBy;
 
-  /// The user who updated the substitution.
   final UserId? updatedBy;
+
+  /// Defines, if the substitution is deleted.
+  ///
+  /// We don't delete the substitution from the database. Instead, we set this
+  /// flag to `true` to mark the substitution as deleted. This is required to
+  /// send notifications to the group members when the substitution is deleted
+  /// while supporting offline mode.
+  final bool isDeleted;
 
   const Substitution({
     required this.id,
     required this.type,
     required this.date,
-    required this.notifyGroupMembers,
     required this.createdBy,
+    this.isDeleted = false,
     this.updatedBy,
   });
 
@@ -220,46 +225,46 @@ sealed class Substitution {
   }) {
     final type = SubstitutionType.values
         .tryByName(data['type'], defaultValue: SubstitutionType.unknown);
+    final updatedBy = UserId.tryParse(data['updated']?['by']);
+    final createdBy = UserId(data['created']['by'] as String);
+    final isDeleted = data['deleted'] != null;
     return switch (type) {
       SubstitutionType.canceled => SubstitutionCanceled(
           id: id,
           date: Date.parse(data['date'] as String),
-          notifyGroupMembers: data['notifyGroupMembers'] as bool,
-          createdBy: UserId(data['createdBy'] as String),
+          createdBy: createdBy,
+          isDeleted: isDeleted,
+          updatedBy: updatedBy,
         ),
       SubstitutionType.placeChange => SubstitutionPlaceChange(
           id: id,
           date: Date.parse(data['date'] as String),
-          notifyGroupMembers: data['notifyGroupMembers'] as bool,
-          createdBy: UserId(data['createdBy'] as String),
+          createdBy: createdBy,
           newPlace: data['newPlace'] as String,
+          isDeleted: isDeleted,
+          updatedBy: updatedBy,
         ),
       SubstitutionType.unknown => SubstitutionUnknown(
           id: id,
           date: Date.parse(data['date'] as String),
-          createdBy: UserId(data['createdBy'] as String),
-          notifyGroupMembers: data['notifyGroupMembers'] as bool,
+          createdBy: createdBy,
+          isDeleted: isDeleted,
+          updatedBy: updatedBy,
         )
     };
   }
 
-  Map<String, dynamic> toCreateJson() {
+  Map<String, dynamic> toCreateJson({
+    required bool notifyGroupMembers,
+  }) {
     return {
       'type': type.name,
       'date': date.toDateString,
-      'notifyGroupMembers': notifyGroupMembers,
-      'createdOn': FieldValue.serverTimestamp(),
-      'createdBy': createdBy.value,
-    };
-  }
-
-  Map<String, dynamic> toUpdateJson() {
-    return {
-      'type': type.name,
-      'date': date.toDateString,
-      'notifyGroupMembers': notifyGroupMembers,
-      'updatedOn': FieldValue.serverTimestamp(),
-      'updatedBy': updatedBy?.value,
+      'created': {
+        'on': FieldValue.serverTimestamp(),
+        'by': createdBy.value,
+        'notifyGroupMembers': notifyGroupMembers,
+      },
     };
   }
 }
@@ -268,8 +273,8 @@ class SubstitutionCanceled extends Substitution {
   const SubstitutionCanceled({
     required super.id,
     required super.date,
-    required super.notifyGroupMembers,
     required super.createdBy,
+    super.isDeleted,
     super.updatedBy,
   }) : super(type: SubstitutionType.canceled);
 }
@@ -281,23 +286,17 @@ class SubstitutionPlaceChange extends Substitution {
     required super.id,
     required this.newPlace,
     required super.date,
-    required super.notifyGroupMembers,
     required super.createdBy,
+    super.isDeleted,
     super.updatedBy,
   }) : super(type: SubstitutionType.placeChange);
 
   @override
-  Map<String, dynamic> toCreateJson() {
+  Map<String, dynamic> toCreateJson({
+    required bool notifyGroupMembers,
+  }) {
     return {
-      ...super.toCreateJson(),
-      'newPlace': newPlace,
-    };
-  }
-
-  @override
-  Map<String, dynamic> toUpdateJson() {
-    return {
-      ...super.toCreateJson(),
+      ...super.toCreateJson(notifyGroupMembers: notifyGroupMembers),
       'newPlace': newPlace,
     };
   }
@@ -307,8 +306,8 @@ class SubstitutionUnknown extends Substitution {
   const SubstitutionUnknown({
     required super.id,
     required super.date,
-    required super.notifyGroupMembers,
     required super.createdBy,
+    super.isDeleted,
     super.updatedBy,
   }) : super(type: SubstitutionType.unknown);
 }
