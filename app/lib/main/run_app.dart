@@ -16,6 +16,7 @@ import 'package:authentification_base/authentification.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
@@ -67,11 +68,13 @@ Future<void> runFlutterApp({required Flavor flavor}) async {
     dynamicLinkBloc: dependencies.dynamicLinkBloc,
     flavor: flavor,
   ));
-  // Required on web/desktop to automatically enable accessibility features,
-  // see:
-  // * https://github.com/flutter/flutter/issues/115158#issuecomment-1319080131
-  // * https://github.com/gskinnerTeam/flutter-wonderous-app/issues/146
-  WidgetsFlutterBinding.ensureInitialized().ensureSemantics();
+  if (PlatformCheck.isDesktopOrWeb) {
+    // Required on web/desktop to automatically enable accessibility features,
+    // see:
+    // * https://github.com/flutter/flutter/issues/115158#issuecomment-1319080131
+    // * https://github.com/gskinnerTeam/flutter-wonderous-app/issues/146
+    WidgetsFlutterBinding.ensureInitialized().ensureSemantics();
+  }
 }
 
 Future<AppDependencies> initializeDependencies({
