@@ -40,6 +40,7 @@ enum _LessonModelSheetAction {
   cancelLesson,
   changeRoom,
   removeCancelLesson,
+  removePlaceChange,
   showSubstitutionPlusDialog,
 }
 
@@ -209,13 +210,16 @@ Future<void> showLessonModelSheet(
       _cancelLesson(context, lesson, date);
       break;
     case _LessonModelSheetAction.changeRoom:
-      // todo
+      _changeRoom(context, lesson, date);
       break;
     case _LessonModelSheetAction.removeCancelLesson:
       _removeCancelSubstitution(context, lesson, date);
       break;
     case _LessonModelSheetAction.showSubstitutionPlusDialog:
       _showPlusDialog(context);
+      break;
+    case _LessonModelSheetAction.removePlaceChange:
+      _removePlaceChangeSubstitution(context, lesson, date);
       break;
   }
 }
@@ -376,9 +380,9 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
               leading: const Icon(Icons.swap_horiz),
               title: Text("Wochentyp: ${getWeekTypeText(lesson.weektype)}"),
             ),
-          ListTile(
-            leading: const Icon(Icons.place),
-            title: Text("Raum: ${lesson.place ?? "-"}"),
+          _Place(
+            lesson: lesson,
+            date: date,
           ),
           const Divider(),
           _SubstitutionSection(
@@ -386,6 +390,41 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
             hasPermissionsToManageLessons: hasPermissionsToManageLessons,
             lesson: lesson,
           )
+        ],
+      ),
+    );
+  }
+}
+
+class _Place extends StatelessWidget {
+  const _Place({
+    required this.date,
+    required this.lesson,
+  });
+
+  final Date date;
+  final Lesson lesson;
+
+  @override
+  Widget build(BuildContext context) {
+    final substitution = lesson.getSubstitutionFor(date);
+    final newPlace =
+        substitution is SubstitutionPlaceChange ? substitution.newPlace : null;
+    return ListTile(
+      leading: const Icon(Icons.place),
+      title: Row(
+        children: [
+          const Text("Raum: "),
+          Text(
+            lesson.place ?? "-",
+            style: TextStyle(
+              decoration: newPlace != null ? TextDecoration.lineThrough : null,
+            ),
+          ),
+          if (newPlace != null) ...[
+            const SizedBox(width: 4),
+            Text('-> $newPlace'),
+          ]
         ],
       ),
     );

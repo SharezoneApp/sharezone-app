@@ -35,11 +35,14 @@ LessonView _buildLessonView(
   required Date date,
 }) {
   final timeline = _getTimeStatus(lesson.startTime, lesson.endTime);
+  final substitution = lesson.getSubstitutionFor(date);
+  final newPlace =
+      substitution is SubstitutionPlaceChange ? substitution.newPlace : null;
   return LessonView(
     start: lesson.startTime.toString(),
     end: lesson.endTime.toString(),
     lesson: lesson,
-    room: lesson.place,
+    room: newPlace ?? lesson.place,
     design: groupInfo?.design ?? Design.standard(),
     abbreviation: groupInfo?.abbreviation ?? "",
     timeStatus: timeline,

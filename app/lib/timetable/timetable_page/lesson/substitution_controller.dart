@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:analytics/analytics.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -31,7 +29,6 @@ class SubstitutionController {
       date: date,
       createdBy: userId,
     );
-    log('Adding substitution for lesson $lessonId');
     gateway.addSubstitutionToLesson(
       lessonId: lessonId,
       notifyGroupMembers: notifyGroupMembers,
@@ -58,14 +55,37 @@ class SubstitutionController {
   void addPlaceChangeSubstitution({
     required String lessonId,
     required bool notifyGroupMembers,
+    required Date date,
+    required String newPlace,
+  }) {
+    final substitution = SubstitutionPlaceChange(
+      id: _generateId(),
+      date: date,
+      createdBy: userId,
+      newPlace: newPlace,
+    );
+    gateway.addSubstitutionToLesson(
+      lessonId: lessonId,
+      notifyGroupMembers: notifyGroupMembers,
+      substitution: substitution,
+    );
+    analytics
+        .log(NamedAnalyticsEvent(name: 'substitution_place_changed', data: {
+      'notify_group_members': notifyGroupMembers,
+    }));
+  }
+
+  void updatePlaceSubstitution({
+    required String lessonId,
     required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
     required String newPlace,
   }) {
     gateway.updateSubstitutionInLesson(
       lessonId: lessonId,
       notifyGroupMembers: notifyGroupMembers,
-      substitutionId: substitutionId,
       newPlace: newPlace,
+      substitutionId: substitutionId,
     );
     analytics
         .log(NamedAnalyticsEvent(name: 'substitution_place_changed', data: {
