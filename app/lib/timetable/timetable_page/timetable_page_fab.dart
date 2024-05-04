@@ -39,10 +39,54 @@ void _showLessonAddConfirmation(BuildContext context) {
   );
 }
 
+void showTutorialHowToUseSubstitutionDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Vertretungsplan'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: min(MediaQuery.of(context).size.height * 2, 300),
+              child: const TutorialVideoPlayer(
+                aspectRatio: 4 / 2.9,
+                videoUrl:
+                    'https://sharezone.net/substitutions-demo',
+              ),
+            ),
+            const SizedBox(height: 8),
+            const ListTile(
+              title: Text('1. Navigiere zu der betroffenen Schulstunde.'),
+            ),
+            const ListTile(
+              title: Text('2. Klicke auf die Schulstunde.'),
+            ),
+            const ListTile(
+              title: Text('3. Wähle die Art der Vertretung aus.'),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
+}
+
 Future<void> openTimetableAddSheet(BuildContext context) async {
   final fabOptionValue = await showModalBottomSheet<_FABAddTimetableOption>(
-      context: context, builder: (context) => _TimetableAddSheet());
-  if (!context.mounted) return;
+    context: context,
+    builder: (context) => _TimetableAddSheet(),
+  );
+  if (!context.mounted || fabOptionValue == null) {
+    return;
+  }
 
   switch (fabOptionValue) {
     case _FABAddTimetableOption.lesson:
@@ -54,60 +98,66 @@ Future<void> openTimetableAddSheet(BuildContext context) async {
     case _FABAddTimetableOption.exam:
       openEventDialogAndShowConfirmationIfSuccessful(context, isExam: true);
       break;
-    case null:
+    case _FABAddTimetableOption.substitution:
+      showTutorialHowToUseSubstitutionDialog(context);
       break;
   }
 }
 
-enum _FABAddTimetableOption { lesson, event, exam }
+enum _FABAddTimetableOption { lesson, event, exam, substitution }
 
 class _TimetableAddSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final titleColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.5);
     return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
       child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const SizedBox(height: 20),
-            Text("Neu erstellen",
-                style: TextStyle(
-                    color: Theme.of(context).isDarkTheme
-                        ? Colors.grey[100]
-                        : Colors.grey[800],
-                    fontSize: 18)),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              child: SizedBox(
-                height: 150,
-                child: Stack(
-                  children: <Widget>[
-                    ModalBottomSheetBigIconButton<_FABAddTimetableOption>(
-                      title: "Schulstunde",
-                      alignment: Alignment.centerLeft,
-                      iconData: Icons.access_time,
-                      popValue: _FABAddTimetableOption.lesson,
-                      tooltip: "Neue Schulstunde erstellen",
-                    ),
-                    ModalBottomSheetBigIconButton<_FABAddTimetableOption>(
-                      title: "Termin",
-                      alignment: Alignment.center,
-                      iconData: Icons.event,
-                      popValue: _FABAddTimetableOption.event,
-                      tooltip: "Neuen Termin erstellen",
-                    ),
-                    ModalBottomSheetBigIconButton<_FABAddTimetableOption>(
-                      alignment: Alignment.centerRight,
-                      title: "Prüfung",
-                      iconData: Icons.school,
-                      popValue: _FABAddTimetableOption.exam,
-                      tooltip: "Neue Prüfung erstellen",
-                    ),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                  "Stundenplan",
+                  style: TextStyle(color: titleColor),
                 ),
+                visualDensity: VisualDensity.compact,
               ),
-            )
-          ],
+              ListTile(
+                title: const Text("Schulstunde"),
+                leading: const Icon(Icons.access_time),
+                onTap: () =>
+                    Navigator.pop(context, _FABAddTimetableOption.lesson),
+              ),
+              ListTile(
+                title: const Text("Vertretungsplan"),
+                leading: const Icon(Icons.cancel),
+                onTap: () =>
+                    Navigator.pop(context, _FABAddTimetableOption.substitution),
+              ),
+              const Divider(),
+              ListTile(
+                title: Text(
+                  "Kalender",
+                  style: TextStyle(color: titleColor),
+                ),
+                visualDensity: VisualDensity.compact,
+              ),
+              ListTile(
+                title: const Text("Termin"),
+                leading: const Icon(Icons.event),
+                onTap: () =>
+                    Navigator.pop(context, _FABAddTimetableOption.event),
+              ),
+              ListTile(
+                title: const Text("Prüfung"),
+                leading: const Icon(Icons.school),
+                onTap: () =>
+                    Navigator.pop(context, _FABAddTimetableOption.exam),
+              ),
+            ],
+          ),
         ),
       ),
     );

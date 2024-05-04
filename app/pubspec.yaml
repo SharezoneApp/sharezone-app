@@ -178,6 +178,7 @@ dependencies:
   user:
     path: ../lib/user
   video_player: ^2.8.6
+  chewie: ^1.8.1
 
 # Falls hier etwas hinzugefügt wird, MUSS ab jetzt ein Kommentar hinzugefügt:
 # * warum der dependency_override hinzugefügt wird.
