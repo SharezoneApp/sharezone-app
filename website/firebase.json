@@ -221,7 +221,7 @@
       },
       {
         "source": "/substitutions-demo",
-        "destination": "'https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Resources%2Fcancel_lesson_demo.mp4?alt=media&token=4f58f829-441b-4b3f-92f8-7ac6bc3fd093'",
+        "destination": "https://firebasestorage.googleapis.com/v0/b/sharezone-c2bd8.appspot.com/o/Resources%2Fcancel_lesson_demo.mp4?alt=media&token=4f58f829-441b-4b3f-92f8-7ac6bc3fd093",
         "type": 302
       }
     ],
