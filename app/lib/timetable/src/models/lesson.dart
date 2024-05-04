@@ -6,7 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
+import 'package:collection/collection.dart';
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -81,13 +83,15 @@ class Lesson {
       weektype: WeekType.values.byName(data['weektype'] as String),
       teacher: data['teacher'] as String?,
       place: data['place'] as String?,
-      substitutions: decodeMapAdvanced(
-        data['substitutions'],
-        (key, value) {
-          final id = SubstitutionId(key);
-          return MapEntry(id, Substitution.fromData(value, id: id));
-        },
-      ),
+      substitutions: data['substitutions'] == null
+          ? const {}
+          : decodeMapAdvanced(
+              data['substitutions'],
+              (key, value) {
+                final id = SubstitutionId(key);
+                return MapEntry(id, Substitution.fromData(value, id: id));
+              },
+            ),
     );
   }
 
@@ -104,8 +108,6 @@ class Lesson {
       'weektype': weektype.name,
       'teacher': teacher,
       'place': place,
-      'substitutions': substitutions
-          .map((key, value) => MapEntry(key.value, value.toJson())),
     };
   }
 
@@ -125,6 +127,7 @@ class Lesson {
     String? place,
     bool? isDropped,
     String? newPlace,
+    Map<SubstitutionId, Substitution>? substitutions,
   }) {
     return Lesson(
       createdOn: createdOn ?? this.createdOn,
@@ -142,7 +145,16 @@ class Lesson {
       place: place ?? this.place,
       isDropped: isDropped ?? this.isDropped,
       newPlace: newPlace ?? this.newPlace,
+      substitutions: substitutions ?? this.substitutions,
     );
+  }
+
+  /// Returns the substitution for the given [date].
+  ///
+  /// If there is no substitution for the given [date], `null` will be returned.
+  Substitution? getSubstitutionFor(Date date) {
+    return substitutions.values
+        .firstWhereOrNull((substitution) => substitution.date == date);
   }
 
   @override
@@ -219,11 +231,21 @@ sealed class Substitution {
     };
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toCreateJson() {
     return {
       'type': type.name,
       'date': date.toDateString,
       'notifyGroupMembers': notifyGroupMembers,
+      'createdOn': FieldValue.serverTimestamp(),
+    };
+  }
+
+  Map<String, dynamic> toUpdateJson() {
+    return {
+      'type': type.name,
+      'date': date.toDateString,
+      'notifyGroupMembers': notifyGroupMembers,
+      'updatedOn': FieldValue.serverTimestamp(),
     };
   }
 }
@@ -247,9 +269,17 @@ class SubstitutionPlaceChange extends Substitution {
   }) : super(type: SubstitutionType.placeChange);
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toCreateJson() {
     return {
-      ...super.toJson(),
+      ...super.toCreateJson(),
+      'newPlace': newPlace,
+    };
+  }
+
+  @override
+  Map<String, dynamic> toUpdateJson() {
+    return {
+      ...super.toCreateJson(),
       'newPlace': newPlace,
     };
   }

@@ -120,8 +120,10 @@ import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_dependencies.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_factory.dart';
+import 'package:sharezone/timetable/timetable_page/lesson/substitution_controller.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
 import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/firebase_auth_token_retreiver_impl.dart';
@@ -472,6 +474,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => TermSettingsPageControllerFactory(
           gradesService: gradesService,
           coursesStream: () => api.course.streamCourses(),
+        ),
+      ),
+      Provider(
+        create: (context) => SubstitutionController(
+          gateway: api.timetable,
+          analytics: analytics,
         ),
       )
     ];

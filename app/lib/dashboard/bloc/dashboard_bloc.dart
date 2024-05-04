@@ -103,7 +103,7 @@ class DashboardBloc extends BlocBase {
         // Die Views werden jede Sekunde neu gebaut, damit der "Ablauf" der
         // Stunde in Echtzeit angezeigt wird (ausfaden der Stunden).
         .repeatEvery(const Duration(seconds: 1))
-        .map(_buildSortedViews);
+        .map((v) => _buildSortedViews(v, Date.fromDateTime(clock.now())));
 
     final subscription = viewsStream.listen(_lessonViewsSubject.add);
 

@@ -54,10 +54,7 @@ class TimetableBuilder {
       ]));
 
       entries.addAll(filteredLessons.map((lesson) {
-        final searchingLessonId = "vMJ0IvBa2MzxnZCZP65P";
-        final searchingDate = Date("2024-03-12");
-
-        if (lesson.lessonID == searchingLessonId && date == searchingDate) {
+        if (lesson.getSubstitutionFor(date) != null) {
           lesson = lesson.copyWith(isDropped: true);
         }
 

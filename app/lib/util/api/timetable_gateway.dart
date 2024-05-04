@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date/date.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:sharezone_common/references.dart';
 
 class TimetableGateway {
@@ -61,6 +62,26 @@ class TimetableGateway {
 
   Future<bool> deleteEvent(CalendricalEvent event) {
     return references.events.doc(event.eventID).delete().then((_) => true);
+  }
+
+  void addSubstitutionToLesson(String lessonId, Substitution substitution) {
+    references.lessons.doc(lessonId).update({
+      'substitutions.${substitution.id}': substitution.toCreateJson(),
+    });
+  }
+
+  void removeSubstitutionFromLesson(
+      String lessonId, SubstitutionId substitutionId) {
+    references.lessons.doc(lessonId).update({
+      'substitutions.$substitutionId': FieldValue.delete(),
+    });
+  }
+
+  void updateSubstitutionInLesson(String lessonId,
+      SubstitutionId substitutionId, Substitution substitution) {
+    references.lessons.doc(lessonId).update({
+      'substitutions.$substitutionId': substitution.toUpdateJson(),
+    });
   }
 
   Stream<List<Lesson>> streamLessons() {

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -19,10 +20,12 @@ import 'timetable_lesson_sheet.dart';
 class TimetableEntryLesson extends StatelessWidget {
   final Lesson lesson;
   final GroupInfo? groupInfo;
+  final Date date;
 
   const TimetableEntryLesson({
     super.key,
     required this.lesson,
+    required this.date,
     this.groupInfo,
   });
 
@@ -37,7 +40,12 @@ class TimetableEntryLesson extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(4)),
-          onTap: () => showLessonModelSheet(context, lesson, groupInfo?.design),
+          onTap: () => showLessonModelSheet(
+            context,
+            lesson,
+            date,
+            groupInfo?.design,
+          ),
           onLongPress: () => onLessonLongPress(context, lesson),
           child: Stack(
             children: [

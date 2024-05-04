@@ -28,7 +28,12 @@ class _LessonCard extends StatelessWidget {
         hasAlreadyTakenPlace:
             view.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace,
         child: CustomCard.roundVertical(
-          onTap: () => showLessonModelSheet(context, view.lesson, view.design),
+          onTap: () => showLessonModelSheet(
+            context,
+            view.lesson,
+            view.date,
+            view.design,
+          ),
           onLongPress: () => onLessonLongPress(context, view.lesson),
           size: isNow ? const Size(150, 65) : const Size(125, 60),
           child: Stack(
