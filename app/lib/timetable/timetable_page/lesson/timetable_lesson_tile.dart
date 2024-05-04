@@ -31,9 +31,12 @@ class TimetableEntryLesson extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dropDesign = Design.fromColor(Colors.grey[600]!);
-    final isDropped = lesson.getSubstitutionFor(date) is SubstitutionCanceled;
-    final design = isDropped ? dropDesign : groupInfo?.design;
+    final cancelledDesign = Design.fromColor(Colors.grey[600]!);
+    final substitution = lesson.getSubstitutionFor(date);
+    final isCancelled = substitution is SubstitutionCanceled;
+    final design = isCancelled ? cancelledDesign : groupInfo?.design;
+    final newPlace =
+        substitution is SubstitutionPlaceChange ? substitution.newPlace : null;
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Material(
@@ -59,18 +62,30 @@ class TimetableEntryLesson extends StatelessWidget {
                       abbreviation: groupInfo?.abbreviation,
                       groupName: groupInfo?.name ?? "",
                       color: design?.color,
-                      isStrikeThrough: isDropped,
+                      isStrikeThrough: isCancelled,
                     ),
-                    if (lesson.place != null)
-                      Room(
-                        room: lesson.place!,
-                        color: design?.color,
-                        isStrikeThrough: isDropped,
-                      ),
+                    Row(
+                      children: [
+                        if (lesson.place != null)
+                          Room(
+                            room: lesson.place!,
+                            color: design?.color,
+                            isStrikeThrough: isCancelled || newPlace != null,
+                          ),
+                        if (lesson.place != null && newPlace != null)
+                          const SizedBox(width: 4),
+                        if (newPlace != null)
+                          Room(
+                            room: newPlace,
+                            color: design?.color,
+                            isStrikeThrough: isCancelled,
+                          ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-              if (isDropped)
+              if (isCancelled)
                 Positioned.fill(
                   child: CustomPaint(
                     painter: _StrikeThroughPainter(
@@ -108,12 +123,13 @@ class _StrikeThroughPainter extends CustomPainter {
 }
 
 class GroupName extends StatelessWidget {
-  const GroupName(
-      {super.key,
-      required this.groupName,
-      required this.abbreviation,
-      required this.color,
-      this.isStrikeThrough = false});
+  const GroupName({
+    super.key,
+    required this.groupName,
+    required this.abbreviation,
+    required this.color,
+    this.isStrikeThrough = false,
+  });
 
   final String groupName;
   final String? abbreviation;
