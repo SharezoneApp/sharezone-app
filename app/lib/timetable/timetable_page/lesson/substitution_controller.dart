@@ -10,10 +10,12 @@ import 'package:sharezone/util/api/timetable_gateway.dart';
 class SubstitutionController {
   final TimetableGateway gateway;
   final Analytics analytics;
+  final UserId userId;
 
   const SubstitutionController({
     required this.gateway,
     required this.analytics,
+    required this.userId,
   });
 
   void addCancelSubstitution({
@@ -25,6 +27,7 @@ class SubstitutionController {
       id: _generateId(),
       date: date,
       notifyGroupMembers: notifyGroupMembers,
+      createdBy: userId,
     );
     log('Adding substitution for lesson ${lesson.lessonID}');
     gateway.addSubstitutionToLesson(lesson.lessonID!, substitution);
@@ -52,6 +55,7 @@ class SubstitutionController {
       date: date,
       notifyGroupMembers: notifyGroupMembers,
       newPlace: newPlace,
+      createdBy: userId,
     );
     gateway.addSubstitutionToLesson(lesson.lessonID!, substitution);
     analytics

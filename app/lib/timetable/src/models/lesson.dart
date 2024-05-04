@@ -9,6 +9,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:collection/collection.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -198,11 +199,19 @@ sealed class Substitution {
   /// created.
   final bool notifyGroupMembers;
 
+  /// The user who created the substitution.
+  final UserId createdBy;
+
+  /// The user who updated the substitution.
+  final UserId? updatedBy;
+
   const Substitution({
     required this.id,
     required this.type,
     required this.date,
     required this.notifyGroupMembers,
+    required this.createdBy,
+    this.updatedBy,
   });
 
   static Substitution fromData(
@@ -216,16 +225,19 @@ sealed class Substitution {
           id: id,
           date: Date.parse(data['date'] as String),
           notifyGroupMembers: data['notifyGroupMembers'] as bool,
+          createdBy: UserId(data['createdBy'] as String),
         ),
       SubstitutionType.placeChange => SubstitutionPlaceChange(
           id: id,
           date: Date.parse(data['date'] as String),
           notifyGroupMembers: data['notifyGroupMembers'] as bool,
+          createdBy: UserId(data['createdBy'] as String),
           newPlace: data['newPlace'] as String,
         ),
       SubstitutionType.unknown => SubstitutionUnknown(
           id: id,
           date: Date.parse(data['date'] as String),
+          createdBy: UserId(data['createdBy'] as String),
           notifyGroupMembers: data['notifyGroupMembers'] as bool,
         )
     };
@@ -237,6 +249,7 @@ sealed class Substitution {
       'date': date.toDateString,
       'notifyGroupMembers': notifyGroupMembers,
       'createdOn': FieldValue.serverTimestamp(),
+      'createdBy': createdBy.value,
     };
   }
 
@@ -246,6 +259,7 @@ sealed class Substitution {
       'date': date.toDateString,
       'notifyGroupMembers': notifyGroupMembers,
       'updatedOn': FieldValue.serverTimestamp(),
+      'updatedBy': updatedBy?.value,
     };
   }
 }
@@ -255,6 +269,8 @@ class SubstitutionCanceled extends Substitution {
     required super.id,
     required super.date,
     required super.notifyGroupMembers,
+    required super.createdBy,
+    super.updatedBy,
   }) : super(type: SubstitutionType.canceled);
 }
 
@@ -266,6 +282,8 @@ class SubstitutionPlaceChange extends Substitution {
     required this.newPlace,
     required super.date,
     required super.notifyGroupMembers,
+    required super.createdBy,
+    super.updatedBy,
   }) : super(type: SubstitutionType.placeChange);
 
   @override
@@ -290,5 +308,7 @@ class SubstitutionUnknown extends Substitution {
     required super.id,
     required super.date,
     required super.notifyGroupMembers,
+    required super.createdBy,
+    super.updatedBy,
   }) : super(type: SubstitutionType.unknown);
 }

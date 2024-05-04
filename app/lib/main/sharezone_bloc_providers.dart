@@ -480,6 +480,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => SubstitutionController(
           gateway: api.timetable,
           analytics: analytics,
+          userId: api.userId,
         ),
       )
     ];
