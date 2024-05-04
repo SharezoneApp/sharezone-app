@@ -67,6 +67,11 @@ Future<void> runFlutterApp({required Flavor flavor}) async {
     dynamicLinkBloc: dependencies.dynamicLinkBloc,
     flavor: flavor,
   ));
+  // Required on web/desktop to automatically enable accessibility features,
+  // see:
+  // * https://github.com/flutter/flutter/issues/115158#issuecomment-1319080131
+  // * https://github.com/gskinnerTeam/flutter-wonderous-app/issues/146
+  WidgetsFlutterBinding.ensureInitialized().ensureSemantics();
 }
 
 Future<AppDependencies> initializeDependencies({
