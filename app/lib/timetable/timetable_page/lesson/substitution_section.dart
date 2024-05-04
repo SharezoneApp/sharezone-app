@@ -43,32 +43,43 @@ class _SubstitutionSection extends StatelessWidget {
             _LessonCancelledCard(
               courseId: lesson.groupID,
               createdBy: lesson.getSubstitutionFor(date)!.createdBy,
+              hasPermissionsToManageLessons: hasPermissionsToManageLessons,
             ),
           if (newPlace != null)
             _RoomChanged(
               newPlace: newPlace,
               courseId: lesson.groupID,
               enteredBy: substitution?.updatedBy ?? substitution!.createdBy,
+              hasPermissionsToManageLessons: hasPermissionsToManageLessons,
             )
-        ] else if (hasPermissionsToManageLessons) ...[
-          ListTile(
-            leading: const Icon(Icons.cancel),
-            title: const Text("Stunde entfallen lassen"),
-            onTap: () => Navigator.pop(
-                context,
-                hasUnlocked
-                    ? _LessonModelSheetAction.cancelLesson
-                    : _LessonModelSheetAction.showSubstitutionPlusDialog),
-          ),
-          ListTile(
-            leading: const Icon(Icons.place_outlined),
-            title: const Text("Raumänderung"),
-            onTap: () => Navigator.pop(
-                context,
-                hasUnlocked
-                    ? _LessonModelSheetAction.addRoomSubstitution
-                    : _LessonModelSheetAction.showSubstitutionPlusDialog),
-          ),
+        ] else ...[
+          if (hasPermissionsToManageLessons) ...[
+            ListTile(
+              leading: const Icon(Icons.cancel),
+              title: const Text("Stunde entfallen lassen"),
+              onTap: () => Navigator.pop(
+                  context,
+                  hasUnlocked
+                      ? _LessonModelSheetAction.cancelLesson
+                      : _LessonModelSheetAction.showSubstitutionPlusDialog),
+            ),
+            ListTile(
+              leading: const Icon(Icons.place_outlined),
+              title: const Text("Raumänderung"),
+              onTap: () => Navigator.pop(
+                  context,
+                  hasUnlocked
+                      ? _LessonModelSheetAction.addRoomSubstitution
+                      : _LessonModelSheetAction.showSubstitutionPlusDialog),
+            ),
+          ] else
+            const ListTile(
+              leading: Icon(Icons.info),
+              title: Text(
+                'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
+              ),
+              subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
+            )
         ],
       ],
     );
@@ -79,10 +90,12 @@ class _LessonCancelledCard extends StatelessWidget {
   const _LessonCancelledCard({
     required this.createdBy,
     required this.courseId,
+    required this.hasPermissionsToManageLessons,
   });
 
   final String courseId;
   final UserId createdBy;
+  final bool hasPermissionsToManageLessons;
 
   @override
   Widget build(BuildContext context) {
@@ -102,15 +115,20 @@ class _LessonCancelledCard extends StatelessWidget {
             enteredBy: createdBy,
             color: color,
           ),
-          trailing: IconButton(
-            tooltip: 'Rückgängig machen',
-            icon: Icon(
-              Icons.delete,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-            ),
-            onPressed: () => Navigator.pop(
-                context, _LessonModelSheetAction.removeCancelLesson),
-          ),
+          trailing: hasPermissionsToManageLessons
+              ? IconButton(
+                  tooltip: 'Rückgängig machen',
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                  onPressed: () => Navigator.pop(
+                      context, _LessonModelSheetAction.removeCancelLesson),
+                )
+              : null,
         ),
       ),
     );
@@ -122,11 +140,13 @@ class _RoomChanged extends StatelessWidget {
     required this.newPlace,
     required this.enteredBy,
     required this.courseId,
+    required this.hasPermissionsToManageLessons,
   });
 
   final String newPlace;
   final String courseId;
   final UserId enteredBy;
+  final bool hasPermissionsToManageLessons;
 
   @override
   Widget build(BuildContext context) {
@@ -146,32 +166,38 @@ class _RoomChanged extends StatelessWidget {
             enteredBy: enteredBy,
             color: color,
           ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                tooltip: 'Raum ändern',
-                icon: Icon(
-                  Icons.edit,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                ),
-                onPressed: () => Navigator.pop(
-                    context, _LessonModelSheetAction.updateRoomSubstitution),
-              ),
-              const SizedBox(width: 8),
-              IconButton(
-                tooltip: 'Rückgängig machen',
-                icon: Icon(
-                  Icons.delete,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                ),
-                onPressed: () => Navigator.pop(
-                    context, _LessonModelSheetAction.removePlaceChange),
-              ),
-            ],
-          ),
+          trailing: hasPermissionsToManageLessons
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      tooltip: 'Raum ändern',
+                      icon: Icon(
+                        Icons.edit,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6),
+                      ),
+                      onPressed: () => Navigator.pop(context,
+                          _LessonModelSheetAction.updateRoomSubstitution),
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton(
+                      tooltip: 'Rückgängig machen',
+                      icon: Icon(
+                        Icons.delete,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6),
+                      ),
+                      onPressed: () => Navigator.pop(
+                          context, _LessonModelSheetAction.removePlaceChange),
+                    ),
+                  ],
+                )
+              : null,
         ),
       ),
     );
