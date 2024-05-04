@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -309,60 +311,69 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final hasPermissionsToManageLessons = hasPermissionToManageLessons(
         api.course.getRoleFromCourseNoSync(lesson.groupID)!);
+    // The perfect height to show the full content of the sheet (assuming a/b
+    // week is not enabled).
+    final initialChildSize =
+        min((0.5 / MediaQuery.of(context).size.height) * 1000, 1.0);
     return SafeArea(
       left: true,
       bottom: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: initialChildSize,
+        builder: (context, scrollController) {
+          return ListView(
+            controller: scrollController,
             children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Text("Details",
-                      style: Theme.of(context).textTheme.titleLarge),
-                ),
-              ),
+              const SizedBox(height: 8),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  const _ChangeColorIcon(),
-                  ReportIcon(
-                      item: ReportItemReference.lesson(lesson.lessonID!),
-                      color: getIconGrey(context)),
-                  if (hasPermissionsToManageLessons) ...const [
-                    _EditIcon(),
-                    DeleteIcon(),
-                  ],
-                  const SizedBox(width: 4),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Text("Details",
+                          style: Theme.of(context).textTheme.titleLarge),
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const _ChangeColorIcon(),
+                      ReportIcon(
+                          item: ReportItemReference.lesson(lesson.lessonID!),
+                          color: getIconGrey(context)),
+                      if (hasPermissionsToManageLessons) ...const [
+                        _EditIcon(),
+                        DeleteIcon(),
+                      ],
+                      const SizedBox(width: 4),
+                    ],
+                  ),
                 ],
               ),
+              const Divider(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: _LessonBasicSection(
+                  design: design,
+                  lesson: lesson,
+                  date: date,
+                ),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: _SubstitutionSection(
+                  date: date,
+                  hasPermissionsToManageLessons: hasPermissionsToManageLessons,
+                  lesson: lesson,
+                ),
+              ),
+              const SizedBox(height: 8),
             ],
-          ),
-          const Divider(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: _LessonBasicSection(
-              design: design,
-              lesson: lesson,
-              date: date,
-            ),
-          ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: _SubstitutionSection(
-              date: date,
-              hasPermissionsToManageLessons: hasPermissionsToManageLessons,
-              lesson: lesson,
-            ),
-          ),
-          const SizedBox(height: 8),
-        ],
+          );
+        },
       ),
     );
   }
