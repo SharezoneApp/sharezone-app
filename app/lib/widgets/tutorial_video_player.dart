@@ -1,3 +1,11 @@
+// Copyright (c) 2024 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'dart:developer';
 
 import 'package:chewie/chewie.dart';
@@ -71,23 +79,20 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.7,
-      child: AspectRatio(
-        aspectRatio: widget.aspectRatio,
-        child: Center(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: _chewieController == null
-                    ? const SizedBox.shrink()
-                    : Chewie(controller: _chewieController!),
-              ),
-              if (error != null) _ErrorText(error: error!)
-            ],
-          ),
+    return AspectRatio(
+      aspectRatio: widget.aspectRatio,
+      child: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: _chewieController == null
+                  ? const SizedBox.shrink()
+                  : Chewie(controller: _chewieController!),
+            ),
+            if (error != null) _ErrorText(error: error!)
+          ],
         ),
       ),
     );
