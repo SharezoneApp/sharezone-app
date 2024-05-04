@@ -32,7 +32,8 @@ class TimetableEntryLesson extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dropDesign = Design.fromColor(Colors.grey[600]!);
-    final design = lesson.isDropped ? dropDesign : groupInfo?.design;
+    final isDropped = lesson.getSubstitutionFor(date) is SubstitutionCanceled;
+    final design = isDropped ? dropDesign : groupInfo?.design;
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Material(
@@ -58,17 +59,18 @@ class TimetableEntryLesson extends StatelessWidget {
                       abbreviation: groupInfo?.abbreviation,
                       groupName: groupInfo?.name ?? "",
                       color: design?.color,
-                      isStrikeThrough: lesson.isDropped,
+                      isStrikeThrough: isDropped,
                     ),
                     if (lesson.place != null)
                       Room(
                         room: lesson.place!,
                         color: design?.color,
+                        isStrikeThrough: isDropped,
                       ),
                   ],
                 ),
               ),
-              if (lesson.isDropped)
+              if (isDropped)
                 Positioned.fill(
                   child: CustomPaint(
                     painter: _StrikeThroughPainter(
@@ -150,11 +152,13 @@ class Room extends StatelessWidget {
   const Room({
     super.key,
     required this.room,
+    this.isStrikeThrough = false,
     this.color,
   });
 
   final String room;
   final Color? color;
+  final bool isStrikeThrough;
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +166,11 @@ class Room extends StatelessWidget {
       padding: const EdgeInsets.only(top: 4),
       child: Text(
         room,
-        style: TextStyle(color: color, fontSize: 12),
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+          decoration: isStrikeThrough ? TextDecoration.lineThrough : null,
+        ),
       ),
     );
   }

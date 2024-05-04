@@ -54,10 +54,6 @@ class TimetableBuilder {
       ]));
 
       entries.addAll(filteredLessons.map((lesson) {
-        if (lesson.getSubstitutionFor(date) != null) {
-          lesson = lesson.copyWith(isDropped: true);
-        }
-
         return _buildElementForLesson(
           date,
           lesson,

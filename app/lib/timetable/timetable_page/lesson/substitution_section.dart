@@ -243,7 +243,7 @@ class _SubstitutionDialog extends StatefulWidget {
 }
 
 class _SubstitutionDialogState extends State<_SubstitutionDialog> {
-  bool shouldNotifyMembers = false;
+  bool shouldNotifyMembers = true;
 
   @override
   Widget build(BuildContext context) {

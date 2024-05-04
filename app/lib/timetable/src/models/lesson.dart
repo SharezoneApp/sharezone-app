@@ -39,17 +39,6 @@ class Lesson {
   final Map<SubstitutionId, Substitution> substitutions;
   LessonLength get length => calculateLessonLength(startTime, endTime);
 
-  /// Defines, if the lesson is dropped.
-  ///
-  /// Will be injected by the [TimetableBuilder] when the lesson is dropped.
-  final bool isDropped;
-
-  /// The new place of the lesson.
-  ///
-  /// Will be injected by the [TimetableBuilder] when the lesson is moved to
-  /// another place.
-  final String? newPlace;
-
   Lesson({
     required this.createdOn,
     required this.lessonID,
@@ -58,8 +47,6 @@ class Lesson {
     this.startDate,
     this.endDate,
     this.periodNumber,
-    this.isDropped = false,
-    this.newPlace,
     required this.startTime,
     required this.endTime,
     required this.weekday,
@@ -126,8 +113,6 @@ class Lesson {
     WeekType? weektype,
     String? teacher,
     String? place,
-    bool? isDropped,
-    String? newPlace,
     Map<SubstitutionId, Substitution>? substitutions,
   }) {
     return Lesson(
@@ -144,8 +129,6 @@ class Lesson {
       weektype: weektype ?? this.weektype,
       teacher: teacher ?? this.teacher,
       place: place ?? this.place,
-      isDropped: isDropped ?? this.isDropped,
-      newPlace: newPlace ?? this.newPlace,
       substitutions: substitutions ?? this.substitutions,
     );
   }
