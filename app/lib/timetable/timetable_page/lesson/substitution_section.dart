@@ -26,8 +26,9 @@ class _SubstitutionSection extends StatelessWidget {
     final newPlace =
         substitution is SubstitutionPlaceChange ? substitution.newPlace : null;
     final hasUnlocked = context.watch<SubscriptionService>().hasFeatureUnlocked(
-          SharezonePlusFeature.substitutions,
-        );
+              SharezonePlusFeature.substitutions,
+            ) ||
+        !isStableStage;
     final hasSubstitution = isDropped || newPlace != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +45,9 @@ class _SubstitutionSection extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
             ),
           ),
-          trailing: hasUnlocked ? null : const SharezonePlusChip(),
+          // We show the beta chip as long as the update isn't on the stable
+          // track.
+          trailing: hasUnlocked ? const _BetaChip() : const SharezonePlusChip(),
         ),
         if (hasSubstitution) ...[
           if (isDropped)
@@ -61,35 +64,49 @@ class _SubstitutionSection extends StatelessWidget {
               hasPermissionsToManageLessons: hasPermissionsToManageLessons,
             )
         ] else ...[
-          if (hasPermissionsToManageLessons) ...[
-            ListTile(
-              leading: const Icon(Icons.cancel),
-              title: const Text("Stunde entfallen lassen"),
-              onTap: () => Navigator.pop(
-                  context,
-                  hasUnlocked
-                      ? _LessonModelSheetAction.cancelLesson
-                      : _LessonModelSheetAction.showSubstitutionPlusDialog),
-            ),
-            ListTile(
-              leading: const Icon(Icons.place_outlined),
-              title: const Text("Raumänderung"),
-              onTap: () => Navigator.pop(
-                  context,
-                  hasUnlocked
-                      ? _LessonModelSheetAction.addRoomSubstitution
-                      : _LessonModelSheetAction.showSubstitutionPlusDialog),
-            ),
-          ] else
-            const ListTile(
-              leading: Icon(Icons.info),
-              title: Text(
-                'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
+          if (!isStableStage)
+            if (hasPermissionsToManageLessons) ...[
+              ListTile(
+                leading: const Icon(Icons.cancel),
+                title: const Text("Stunde entfallen lassen"),
+                onTap: () => Navigator.pop(
+                    context,
+                    hasUnlocked
+                        ? _LessonModelSheetAction.cancelLesson
+                        : _LessonModelSheetAction.showSubstitutionPlusDialog),
               ),
-              subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
-            )
+              ListTile(
+                leading: const Icon(Icons.place_outlined),
+                title: const Text("Raumänderung"),
+                onTap: () => Navigator.pop(
+                    context,
+                    hasUnlocked
+                        ? _LessonModelSheetAction.addRoomSubstitution
+                        : _LessonModelSheetAction.showSubstitutionPlusDialog),
+              ),
+            ] else
+              const ListTile(
+                leading: Icon(Icons.info),
+                title: Text(
+                  'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
+                ),
+                subtitle:
+                    Text('Bitte wende dich an deinen Kurs-Administrator.'),
+              )
         ],
       ],
+    );
+  }
+}
+
+class _BetaChip extends StatelessWidget {
+  const _BetaChip();
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(
+      label: const Text('Beta'),
+      backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
     );
   }
 }
