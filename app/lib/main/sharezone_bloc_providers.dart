@@ -26,6 +26,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik_
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
@@ -480,6 +481,8 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           gateway: api.timetable,
           analytics: analytics,
           userId: api.userId,
+          courseMemberAccessor:
+              FirestoreCourseMemberAccessor(api.references.firestore),
         ),
       )
     ];

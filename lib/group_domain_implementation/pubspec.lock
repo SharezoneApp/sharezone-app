@@ -150,7 +150,7 @@ packages:
     source: hosted
     version: "3.0.0"
   common_domain_models:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../common_domain_models"
       relative: true

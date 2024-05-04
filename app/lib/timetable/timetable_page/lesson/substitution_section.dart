@@ -38,34 +38,9 @@ class _SubstitutionSection extends StatelessWidget {
           ),
         ),
         if (isDropped)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-            child: Material(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.red.withOpacity(0.1),
-              child: ListTile(
-                iconColor: Colors.red,
-                textColor: Colors.red,
-                leading: const Icon(Icons.cancel),
-                title: const Text("Stunde entfällt"),
-                subtitle: Text(
-                  "Eingetragen von: Nils",
-                  style: TextStyle(color: Colors.red.withOpacity(0.8)),
-                ),
-                trailing: IconButton(
-                  tooltip: 'Rückgängig machen',
-                  icon: Icon(
-                    Icons.delete,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
-                  ),
-                  onPressed: () => Navigator.pop(
-                      context, _LessonModelSheetAction.removeCancelLesson),
-                ),
-              ),
-            ),
+          _LessonCancelledCard(
+            courseId: lesson.groupID,
+            createdBy: lesson.getSubstitutionFor(date)!.createdBy,
           )
         else if (hasPermissionsToManageLessons) ...[
           ListTile(
@@ -82,6 +57,85 @@ class _SubstitutionSection extends StatelessWidget {
           ),
         ],
       ],
+    );
+  }
+}
+
+class _LessonCancelledCard extends StatelessWidget {
+  const _LessonCancelledCard({
+    required this.createdBy,
+    required this.courseId,
+  });
+
+  final String courseId;
+  final UserId createdBy;
+
+  @override
+  Widget build(BuildContext context) {
+    const color = Colors.red;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+      child: Material(
+        borderRadius: BorderRadius.circular(12),
+        color: color.withOpacity(0.1),
+        child: ListTile(
+          iconColor: color,
+          textColor: color,
+          leading: const Icon(Icons.cancel),
+          title: const Text("Stunde entfällt"),
+          subtitle: _EnteredBy(
+            courseId: courseId,
+            createdBy: createdBy,
+            color: color,
+          ),
+          trailing: IconButton(
+            tooltip: 'Rückgängig machen',
+            icon: Icon(
+              Icons.delete,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            ),
+            onPressed: () => Navigator.pop(
+                context, _LessonModelSheetAction.removeCancelLesson),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _EnteredBy extends StatelessWidget {
+  const _EnteredBy({
+    required this.courseId,
+    required this.createdBy,
+    required this.color,
+  });
+
+  final String courseId;
+  final UserId createdBy;
+  final MaterialColor color;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String?>(
+      initialData: 'Lädt...',
+      future: context
+          .read<SubstitutionController>()
+          .getMemberName(courseId, createdBy),
+      builder: (context, snapshot) {
+        // Showing '?' if the name could not be loaded. Probably because the
+        // user is not in the course anymore.
+        final name = snapshot.data ?? '?';
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Eingetragen von: $name",
+              style: TextStyle(color: color.withOpacity(0.8)),
+            ),
+          ),
+        );
+      },
     );
   }
 }
