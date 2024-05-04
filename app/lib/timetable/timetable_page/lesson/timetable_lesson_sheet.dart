@@ -38,7 +38,8 @@ enum _LessonModelSheetAction {
   delete,
   design,
   cancelLesson,
-  changeRoom,
+  addRoomSubstitution,
+  updateRoomSubstitution,
   removeCancelLesson,
   removePlaceChange,
   showSubstitutionPlusDialog,
@@ -209,8 +210,8 @@ Future<void> showLessonModelSheet(
     case _LessonModelSheetAction.cancelLesson:
       _cancelLesson(context, lesson, date);
       break;
-    case _LessonModelSheetAction.changeRoom:
-      _changeRoom(context, lesson, date);
+    case _LessonModelSheetAction.addRoomSubstitution:
+      _addRoomSubstitution(context, lesson, date);
       break;
     case _LessonModelSheetAction.removeCancelLesson:
       _removeCancelSubstitution(context, lesson, date);
@@ -220,6 +221,9 @@ Future<void> showLessonModelSheet(
       break;
     case _LessonModelSheetAction.removePlaceChange:
       _removePlaceChangeSubstitution(context, lesson, date);
+      break;
+    case _LessonModelSheetAction.updateRoomSubstitution:
+      _updateRoomSubstitution(context, lesson, date);
       break;
   }
 }

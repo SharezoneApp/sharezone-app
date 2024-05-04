@@ -48,7 +48,7 @@ class _SubstitutionSection extends StatelessWidget {
             _RoomChanged(
               newPlace: newPlace,
               courseId: lesson.groupID,
-              enteredBy: lesson.getSubstitutionFor(date)!.createdBy,
+              enteredBy: substitution?.updatedBy ?? substitution!.createdBy,
             )
         ] else if (hasPermissionsToManageLessons) ...[
           ListTile(
@@ -66,7 +66,7 @@ class _SubstitutionSection extends StatelessWidget {
             onTap: () => Navigator.pop(
                 context,
                 hasUnlocked
-                    ? _LessonModelSheetAction.changeRoom
+                    ? _LessonModelSheetAction.addRoomSubstitution
                     : _LessonModelSheetAction.showSubstitutionPlusDialog),
           ),
         ],
@@ -146,14 +146,31 @@ class _RoomChanged extends StatelessWidget {
             enteredBy: enteredBy,
             color: color,
           ),
-          trailing: IconButton(
-            tooltip: 'Rückgängig machen',
-            icon: Icon(
-              Icons.delete,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-            ),
-            onPressed: () => Navigator.pop(
-                context, _LessonModelSheetAction.removePlaceChange),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                tooltip: 'Raum ändern',
+                icon: Icon(
+                  Icons.edit,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                ),
+                onPressed: () => Navigator.pop(
+                    context, _LessonModelSheetAction.updateRoomSubstitution),
+              ),
+              const SizedBox(width: 8),
+              IconButton(
+                tooltip: 'Rückgängig machen',
+                icon: Icon(
+                  Icons.delete,
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                ),
+                onPressed: () => Navigator.pop(
+                    context, _LessonModelSheetAction.removePlaceChange),
+              ),
+            ],
           ),
         ),
       ),
@@ -295,7 +312,7 @@ Future<bool?> _removePlaceSubstitutionDialog(BuildContext context) {
   );
 }
 
-Future<void> _changeRoom(
+Future<void> _addRoomSubstitution(
   BuildContext context,
   Lesson lesson,
   Date date,
@@ -338,6 +355,36 @@ Future<bool?> _showCancelLessonDialog(BuildContext context) {
   );
 }
 
+Future<void> _updateRoomSubstitution(
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+) async {
+  final result = await _showChangeRoomDialog(context);
+  final shouldNotifyMembers = result.$1;
+  if (shouldNotifyMembers == null) {
+    // User canceled the dialog
+    return;
+  }
+
+  if (!context.mounted) {
+    return;
+  }
+
+  final controller = context.read<SubstitutionController>();
+  final substitution = lesson.getSubstitutionFor(date)!;
+  controller.updatePlaceSubstitution(
+    lessonId: lesson.lessonID!,
+    newPlace: result.$2,
+    substitutionId: substitution.id,
+    notifyGroupMembers: shouldNotifyMembers,
+  );
+  showSnackSec(
+    text: 'Raumänderung eingetragen',
+    context: context,
+  );
+}
+
 Future<bool?> _removeCancelSubstitutionDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
@@ -362,24 +409,37 @@ Future<(bool?, String)> _showChangeRoomDialog(BuildContext context) async {
       description: 'Möchtest du wirklich den Raum für die Stunde ändern?',
       notifyOptionText:
           'Informiere deine Kursmitglieder über die Raumänderung.',
-      bottom: Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: ListTile(
-          leading: const Icon(Icons.place_outlined),
-          title: TextField(
-            autofocus: true,
-            controller: textController,
-            decoration: const InputDecoration(
-              labelText: 'Neuer Raum',
-              hintText: 'z.B. D203',
-            ),
-            maxLength: 32,
-          ),
-        ),
-      ),
+      bottom: _ChangeRoomTextField(textController: textController),
     ),
   );
   return (shouldNotify, textController.text);
+}
+
+class _ChangeRoomTextField extends StatelessWidget {
+  const _ChangeRoomTextField({
+    required this.textController,
+  });
+
+  final TextEditingController textController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: ListTile(
+        leading: const Icon(Icons.place_outlined),
+        title: TextField(
+          autofocus: true,
+          controller: textController,
+          decoration: const InputDecoration(
+            labelText: 'Neuer Raum',
+            hintText: 'z.B. D203',
+          ),
+          maxLength: 32,
+        ),
+      ),
+    );
+  }
 }
 
 class _SubstitutionDialog extends StatefulWidget {
