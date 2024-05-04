@@ -306,16 +306,7 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final courseName = BlocProvider.of<SharezoneContext>(context)
-            .api
-            .course
-            .getCourse(lesson.groupID)
-            ?.name ??
-        "-";
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final timetableBloc = BlocProvider.of<TimetableBloc>(context);
-
-    final isABWeekEnabled = timetableBloc.current.isABWeekEnabled();
     final hasPermissionsToManageLessons = hasPermissionToManageLessons(
         api.course.getRoleFromCourseNoSync(lesson.groupID)!);
     return SafeArea(
@@ -353,49 +344,89 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
             ],
           ),
           const Divider(height: 16),
-          ListTile(
-            leading: const Icon(Icons.group),
-            title: Text.rich(
-              TextSpan(
-                style: TextStyle(
-                    color: Theme.of(context).isDarkTheme
-                        ? Colors.white
-                        : Colors.grey[800],
-                    fontSize: 16),
-                children: <TextSpan>[
-                  const TextSpan(text: "Kursname: "),
-                  TextSpan(
-                      text: courseName, style: TextStyle(color: design?.color))
-                ],
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: _LessonBasicSection(
+              design: design,
+              lesson: lesson,
+              date: date,
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.access_time),
-            title: Text("${lesson.startTime} - ${lesson.endTime}"),
-          ),
-          ListTile(
-            leading: const Icon(Icons.event),
-            title:
-                Text("Wochentag: ${weekDayEnumToGermanString(lesson.weekday)}"),
-          ),
-          if (isABWeekEnabled)
-            ListTile(
-              leading: const Icon(Icons.swap_horiz),
-              title: Text("Wochentyp: ${getWeekTypeText(lesson.weektype)}"),
-            ),
-          _Place(
-            lesson: lesson,
-            date: date,
           ),
           const Divider(),
-          _SubstitutionSection(
-            date: date,
-            hasPermissionsToManageLessons: hasPermissionsToManageLessons,
-            lesson: lesson,
-          )
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: _SubstitutionSection(
+              date: date,
+              hasPermissionsToManageLessons: hasPermissionsToManageLessons,
+              lesson: lesson,
+            ),
+          ),
+          const SizedBox(height: 8),
         ],
       ),
+    );
+  }
+}
+
+class _LessonBasicSection extends StatelessWidget {
+  const _LessonBasicSection({
+    required this.design,
+    required this.lesson,
+    required this.date,
+  });
+
+  final Design? design;
+  final Lesson lesson;
+  final Date date;
+
+  @override
+  Widget build(BuildContext context) {
+    final courseName = BlocProvider.of<SharezoneContext>(context)
+            .api
+            .course
+            .getCourse(lesson.groupID)
+            ?.name ??
+        "-";
+    final timetableBloc = BlocProvider.of<TimetableBloc>(context);
+    final isABWeekEnabled = timetableBloc.current.isABWeekEnabled();
+    return Column(
+      children: [
+        ListTile(
+          leading: const Icon(Icons.group),
+          title: Text.rich(
+            TextSpan(
+              style: TextStyle(
+                  color: Theme.of(context).isDarkTheme
+                      ? Colors.white
+                      : Colors.grey[800],
+                  fontSize: 16),
+              children: <TextSpan>[
+                const TextSpan(text: "Kursname: "),
+                TextSpan(
+                    text: courseName, style: TextStyle(color: design?.color))
+              ],
+            ),
+          ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.access_time),
+          title: Text("${lesson.startTime} - ${lesson.endTime}"),
+        ),
+        ListTile(
+          leading: const Icon(Icons.event),
+          title:
+              Text("Wochentag: ${weekDayEnumToGermanString(lesson.weekday)}"),
+        ),
+        if (isABWeekEnabled)
+          ListTile(
+            leading: const Icon(Icons.swap_horiz),
+            title: Text("Wochentyp: ${getWeekTypeText(lesson.weektype)}"),
+          ),
+        _Place(
+          lesson: lesson,
+          date: date,
+        ),
+      ],
     );
   }
 }
