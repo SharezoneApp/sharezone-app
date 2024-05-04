@@ -18,11 +18,12 @@ List<LessonView> _buildSortedViews(
 
   final views = [
     for (final lesson in lessons)
-      _buildLessonView(
-        lesson,
-        groupInfo: groupInfoOf(lesson),
-        date: date,
-      )
+      if (lesson.getSubstitutionFor(date) is! SubstitutionCanceled)
+        _buildLessonView(
+          lesson,
+          groupInfo: groupInfoOf(lesson),
+          date: date,
+        )
   ];
 
   return views;
