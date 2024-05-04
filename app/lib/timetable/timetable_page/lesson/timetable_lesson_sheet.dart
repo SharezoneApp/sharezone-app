@@ -21,6 +21,8 @@ import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_de
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
@@ -38,6 +40,7 @@ enum _LessonModelSheetAction {
   cancelLesson,
   changeRoom,
   removeCancelLesson,
+  showSubstitutionPlusDialog,
 }
 
 enum _LessonLongPressResult { edit, delete, changeDesign, report }
@@ -211,7 +214,19 @@ Future<void> showLessonModelSheet(
     case _LessonModelSheetAction.removeCancelLesson:
       _removeCancelSubstitution(context, lesson, date);
       break;
+    case _LessonModelSheetAction.showSubstitutionPlusDialog:
+      _showPlusDialog(context);
+      break;
   }
+}
+
+void _showPlusDialog(BuildContext context) {
+  showSharezonePlusFeatureInfoDialog(
+    context: context,
+    navigateToPlusPage: () => navigateToSharezonePlusPage(context),
+    description: const Text(
+        'Schalte mit Sharezone Plus den Vertretungsplan frei, um z.B. den Entfall einer Schulstunden zu markieren.\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern).'),
+  );
 }
 
 Future _deleteLesson(BuildContext context, Lesson lesson) async {

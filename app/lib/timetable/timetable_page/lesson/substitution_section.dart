@@ -14,28 +14,25 @@ class _SubstitutionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDropped = lesson.getSubstitutionFor(date) is SubstitutionCanceled;
+    final hasUnlocked = context.watch<SubscriptionService>().hasFeatureUnlocked(
+          SharezonePlusFeature.substitutions,
+        );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(18, 4, 18, 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Vertretungsplan',
-                style: TextStyle(fontSize: 16),
-              ),
-              Text(
-                'Für ${DateFormat('dd.MM.yyyy').format(date.toDateTime)}',
-                style: TextStyle(
-                  fontSize: 12,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                ),
-              ),
-            ],
+        ListTile(
+          title: const Text(
+            'Vertretungsplan',
+            style: TextStyle(fontSize: 16),
           ),
+          subtitle: Text(
+            'Für ${DateFormat('dd.MM.yyyy').format(date.toDateTime)}',
+            style: TextStyle(
+              fontSize: 12,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            ),
+          ),
+          trailing: hasUnlocked ? null : const SharezonePlusChip(),
         ),
         if (isDropped)
           _LessonCancelledCard(
@@ -46,14 +43,20 @@ class _SubstitutionSection extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.cancel),
             title: const Text("Stunde entfallen lassen"),
-            onTap: () =>
-                Navigator.pop(context, _LessonModelSheetAction.cancelLesson),
+            onTap: () => Navigator.pop(
+                context,
+                hasUnlocked
+                    ? _LessonModelSheetAction.cancelLesson
+                    : _LessonModelSheetAction.showSubstitutionPlusDialog),
           ),
           ListTile(
             leading: const Icon(Icons.place_outlined),
             title: const Text("Raumänderung"),
-            onTap: () =>
-                Navigator.pop(context, _LessonModelSheetAction.changeRoom),
+            onTap: () => Navigator.pop(
+                context,
+                hasUnlocked
+                    ? _LessonModelSheetAction.changeRoom
+                    : _LessonModelSheetAction.showSubstitutionPlusDialog),
           ),
         ],
       ],
