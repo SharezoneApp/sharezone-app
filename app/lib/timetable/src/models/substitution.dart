@@ -79,14 +79,14 @@ sealed class Substitution {
     final createdBy = UserId(data['created']['by'] as String);
     final isDeleted = data['deleted'] != null;
     return switch (type) {
-      SubstitutionType.lessonCanceled => SubstitutionCanceled(
+      SubstitutionType.lessonCanceled => LessonCanceledSubstitution(
           id: id,
           date: Date.parse(data['date'] as String),
           createdBy: createdBy,
           isDeleted: isDeleted,
           updatedBy: updatedBy,
         ),
-      SubstitutionType.locationChanged => SubstitutionPlaceChange(
+      SubstitutionType.locationChanged => LocationChangedSubstitution(
           id: id,
           date: Date.parse(data['date'] as String),
           createdBy: createdBy,
@@ -94,7 +94,7 @@ sealed class Substitution {
           isDeleted: isDeleted,
           updatedBy: updatedBy,
         ),
-      SubstitutionType.unknown => SubstitutionUnknown(
+      SubstitutionType.unknown => UnknownSubstitution(
           id: id,
           date: Date.parse(data['date'] as String),
           createdBy: createdBy,
@@ -119,8 +119,8 @@ sealed class Substitution {
   }
 }
 
-class SubstitutionCanceled extends Substitution {
-  const SubstitutionCanceled({
+class LessonCanceledSubstitution extends Substitution {
+  const LessonCanceledSubstitution({
     required super.id,
     required super.date,
     required super.createdBy,
@@ -129,10 +129,10 @@ class SubstitutionCanceled extends Substitution {
   }) : super(type: SubstitutionType.lessonCanceled);
 }
 
-class SubstitutionPlaceChange extends Substitution {
+class LocationChangedSubstitution extends Substitution {
   final String newLocation;
 
-  const SubstitutionPlaceChange({
+  const LocationChangedSubstitution({
     required super.id,
     required this.newLocation,
     required super.date,
@@ -154,8 +154,8 @@ class SubstitutionPlaceChange extends Substitution {
   }
 }
 
-class SubstitutionUnknown extends Substitution {
-  const SubstitutionUnknown({
+class UnknownSubstitution extends Substitution {
+  const UnknownSubstitution({
     required super.id,
     required super.date,
     required super.createdBy,

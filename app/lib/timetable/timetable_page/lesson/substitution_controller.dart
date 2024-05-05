@@ -32,7 +32,7 @@ class SubstitutionController {
     required Date date,
     required bool notifyGroupMembers,
   }) {
-    final substitution = SubstitutionCanceled(
+    final substitution = LessonCanceledSubstitution(
       id: _generateId(),
       date: date,
       createdBy: userId,
@@ -42,7 +42,7 @@ class SubstitutionController {
       notifyGroupMembers: notifyGroupMembers,
       substitution: substitution,
     );
-    analytics.log(NamedAnalyticsEvent(name: 'substitution_cancelled', data: {
+    analytics.log(NamedAnalyticsEvent(name: 'substitution_canceled', data: {
       'notify_group_members': notifyGroupMembers,
     }));
   }
@@ -66,7 +66,7 @@ class SubstitutionController {
     required Date date,
     required String newLocation,
   }) {
-    final substitution = SubstitutionPlaceChange(
+    final substitution = LocationChangedSubstitution(
       id: _generateId(),
       date: date,
       createdBy: userId,

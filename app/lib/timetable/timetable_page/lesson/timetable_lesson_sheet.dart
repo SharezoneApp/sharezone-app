@@ -456,7 +456,7 @@ class _Place extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final substitution = lesson.getSubstitutionFor(date);
-    final newLocation = substitution is SubstitutionPlaceChange
+    final newLocation = substitution is LocationChangedSubstitution
         ? substitution.newLocation
         : null;
     return ListTile(

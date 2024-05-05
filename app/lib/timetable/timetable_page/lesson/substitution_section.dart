@@ -22,8 +22,8 @@ class _SubstitutionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final substitution = lesson.getSubstitutionFor(date);
-    final isCanceled = substitution is SubstitutionCanceled;
-    final newLocation = substitution is SubstitutionPlaceChange
+    final isCanceled = substitution is LessonCanceledSubstitution;
+    final newLocation = substitution is LocationChangedSubstitution
         ? substitution.newLocation
         : null;
     final hasUnlocked = context.watch<SubscriptionService>().hasFeatureUnlocked(
