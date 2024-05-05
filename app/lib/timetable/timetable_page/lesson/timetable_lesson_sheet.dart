@@ -456,8 +456,9 @@ class _Place extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final substitution = lesson.getSubstitutionFor(date);
-    final newPlace =
-        substitution is SubstitutionPlaceChange ? substitution.newPlace : null;
+    final newLocation = substitution is SubstitutionPlaceChange
+        ? substitution.newLocation
+        : null;
     return ListTile(
       leading: const Icon(Icons.place),
       title: Row(
@@ -466,12 +467,13 @@ class _Place extends StatelessWidget {
           Text(
             lesson.place ?? "-",
             style: TextStyle(
-              decoration: newPlace != null ? TextDecoration.lineThrough : null,
+              decoration:
+                  newLocation != null ? TextDecoration.lineThrough : null,
             ),
           ),
-          if (newPlace != null) ...[
+          if (newLocation != null) ...[
             const SizedBox(width: 4),
-            Text('-> $newPlace'),
+            Text('-> $newLocation'),
           ]
         ],
       ),

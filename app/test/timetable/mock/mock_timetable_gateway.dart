@@ -151,7 +151,7 @@ class MockTimetableGateway implements TimetableGateway {
       {required String lessonId,
       required SubstitutionId substitutionId,
       required bool notifyGroupMembers,
-      String? newPlace}) {
+      String? newLocation}) {
     throw UnimplementedError();
   }
 }

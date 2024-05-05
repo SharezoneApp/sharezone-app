@@ -22,14 +22,15 @@ class _SubstitutionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final substitution = lesson.getSubstitutionFor(date);
-    final isDropped = substitution is SubstitutionCanceled;
-    final newPlace =
-        substitution is SubstitutionPlaceChange ? substitution.newPlace : null;
+    final isCanceled = substitution is SubstitutionCanceled;
+    final newLocation = substitution is SubstitutionPlaceChange
+        ? substitution.newLocation
+        : null;
     final hasUnlocked = context.watch<SubscriptionService>().hasFeatureUnlocked(
               SharezonePlusFeature.substitutions,
             ) ||
         !isStableStage;
-    final hasSubstitution = isDropped || newPlace != null;
+    final hasSubstitution = isCanceled || newLocation != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,15 +51,15 @@ class _SubstitutionSection extends StatelessWidget {
           trailing: hasUnlocked ? const _BetaChip() : const SharezonePlusChip(),
         ),
         if (hasSubstitution) ...[
-          if (isDropped)
+          if (isCanceled)
             _LessonCancelledCard(
               courseId: lesson.groupID,
               createdBy: lesson.getSubstitutionFor(date)!.createdBy,
               hasPermissionsToManageLessons: hasPermissionsToManageLessons,
             ),
-          if (newPlace != null)
+          if (newLocation != null)
             _RoomChanged(
-              newPlace: newPlace,
+              newLocation: newLocation,
               courseId: lesson.groupID,
               enteredBy: substitution?.updatedBy ?? substitution!.createdBy,
               hasPermissionsToManageLessons: hasPermissionsToManageLessons,
@@ -162,13 +163,13 @@ class _LessonCancelledCard extends StatelessWidget {
 
 class _RoomChanged extends StatelessWidget {
   const _RoomChanged({
-    required this.newPlace,
+    required this.newLocation,
     required this.enteredBy,
     required this.courseId,
     required this.hasPermissionsToManageLessons,
   });
 
-  final String newPlace;
+  final String newLocation;
   final String courseId;
   final UserId enteredBy;
   final bool hasPermissionsToManageLessons;
@@ -185,7 +186,7 @@ class _RoomChanged extends StatelessWidget {
           iconColor: color,
           textColor: color,
           leading: const Icon(Icons.place_outlined),
-          title: Text("Raumänderung: $newPlace"),
+          title: Text("Raumänderung: $newLocation"),
           subtitle: _EnteredBy(
             courseId: courseId,
             enteredBy: enteredBy,
@@ -383,7 +384,7 @@ Future<void> _addRoomSubstitution(
   controller.addPlaceChangeSubstitution(
     lessonId: lesson.lessonID!,
     date: date,
-    newPlace: result.$2,
+    newLocation: result.$2,
     notifyGroupMembers: shouldNotifyMembers,
   );
   showSnackSec(
@@ -426,7 +427,7 @@ Future<void> _updateRoomSubstitution(
   final substitution = lesson.getSubstitutionFor(date)!;
   controller.updatePlaceSubstitution(
     lessonId: lesson.lessonID!,
-    newPlace: result.$2,
+    newLocation: result.$2,
     substitutionId: substitution.id,
     notifyGroupMembers: shouldNotifyMembers,
   );

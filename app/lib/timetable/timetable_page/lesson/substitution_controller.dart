@@ -64,13 +64,13 @@ class SubstitutionController {
     required String lessonId,
     required bool notifyGroupMembers,
     required Date date,
-    required String newPlace,
+    required String newLocation,
   }) {
     final substitution = SubstitutionPlaceChange(
       id: _generateId(),
       date: date,
       createdBy: userId,
-      newPlace: newPlace,
+      newLocation: newLocation,
     );
     gateway.addSubstitutionToLesson(
       lessonId: lessonId,
@@ -87,12 +87,12 @@ class SubstitutionController {
     required String lessonId,
     required SubstitutionId substitutionId,
     required bool notifyGroupMembers,
-    required String newPlace,
+    required String newLocation,
   }) {
     gateway.updateSubstitutionInLesson(
       lessonId: lessonId,
       notifyGroupMembers: notifyGroupMembers,
-      newPlace: newPlace,
+      newLocation: newLocation,
       substitutionId: substitutionId,
     );
     analytics

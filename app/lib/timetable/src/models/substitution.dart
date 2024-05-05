@@ -90,7 +90,7 @@ sealed class Substitution {
           id: id,
           date: Date.parse(data['date'] as String),
           createdBy: createdBy,
-          newPlace: data['newPlace'] as String,
+          newLocation: data['newPlace'] as String,
           isDeleted: isDeleted,
           updatedBy: updatedBy,
         ),
@@ -130,11 +130,11 @@ class SubstitutionCanceled extends Substitution {
 }
 
 class SubstitutionPlaceChange extends Substitution {
-  final String newPlace;
+  final String newLocation;
 
   const SubstitutionPlaceChange({
     required super.id,
-    required this.newPlace,
+    required this.newLocation,
     required super.date,
     required super.createdBy,
     super.isDeleted,
@@ -147,7 +147,9 @@ class SubstitutionPlaceChange extends Substitution {
   }) {
     return {
       ...super.toCreateJson(notifyGroupMembers: notifyGroupMembers),
-      'newPlace': newPlace,
+      // We use a database field `newPlace` because `place` is already used for
+      // the original place of the lesson.
+      'newPlace': newLocation,
     };
   }
 }

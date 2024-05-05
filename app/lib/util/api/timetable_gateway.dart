@@ -94,10 +94,11 @@ class TimetableGateway {
     required String lessonId,
     required SubstitutionId substitutionId,
     required bool notifyGroupMembers,
-    String? newPlace,
+    String? newLocation,
   }) {
     references.lessons.doc(lessonId).update({
-      if (newPlace != null) 'substitutions.$substitutionId.newPlace': newPlace,
+      if (newLocation != null)
+        'substitutions.$substitutionId.newPlace': newLocation,
       'substitutions.$substitutionId.updated': {
         'by': memberID,
         'on': FieldValue.serverTimestamp(),

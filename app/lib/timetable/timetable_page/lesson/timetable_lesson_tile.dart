@@ -36,8 +36,9 @@ class TimetableEntryLesson extends StatelessWidget {
     final substitution = lesson.getSubstitutionFor(date);
     final isCancelled = substitution is SubstitutionCanceled;
     final design = isCancelled ? cancelledDesign : groupInfo?.design;
-    final newPlace =
-        substitution is SubstitutionPlaceChange ? substitution.newPlace : null;
+    final newLocation = substitution is SubstitutionPlaceChange
+        ? substitution.newLocation
+        : null;
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Material(
@@ -71,13 +72,13 @@ class TimetableEntryLesson extends StatelessWidget {
                           Room(
                             room: lesson.place!,
                             color: design?.color,
-                            isStrikeThrough: isCancelled || newPlace != null,
+                            isStrikeThrough: isCancelled || newLocation != null,
                           ),
-                        if (lesson.place != null && newPlace != null)
+                        if (lesson.place != null && newLocation != null)
                           const SizedBox(width: 4),
-                        if (newPlace != null)
+                        if (newLocation != null)
                           Room(
-                            room: newPlace,
+                            room: newLocation,
                             color: design?.color,
                             isStrikeThrough: isCancelled,
                           ),
