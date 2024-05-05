@@ -9,18 +9,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
-import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone/timetable/src/models/substitution_id.dart';
 
 enum SubstitutionType {
   /// The lesson is canceled.
-  cancelled,
+  lessonCanceled,
 
   /// The lesson is moved to another room.
-  placeChanged,
+  locationChanged,
 
   /// Unknown substitution type.
-  unknown,
+  unknown;
+
+  String toDatabaseString() {
+    return switch (this) {
+      lessonCanceled => 'lessonCanceled',
+      locationChanged => 'placeChanged',
+      unknown => 'unknown',
+    };
+  }
+
+  static SubstitutionType fromDatabaseString(String value) {
+    return switch (value) {
+      'lessonCanceled' => lessonCanceled,
+      'placeChanged' => locationChanged,
+      _ => unknown,
+    };
+  }
 }
 
 sealed class Substitution {
@@ -59,20 +74,19 @@ sealed class Substitution {
     Map<String, dynamic> data, {
     required SubstitutionId id,
   }) {
-    final type = SubstitutionType.values
-        .tryByName(data['type'], defaultValue: SubstitutionType.unknown);
+    final type = SubstitutionType.fromDatabaseString(data['type']);
     final updatedBy = UserId.tryParse(data['updated']?['by']);
     final createdBy = UserId(data['created']['by'] as String);
     final isDeleted = data['deleted'] != null;
     return switch (type) {
-      SubstitutionType.cancelled => SubstitutionCanceled(
+      SubstitutionType.lessonCanceled => SubstitutionCanceled(
           id: id,
           date: Date.parse(data['date'] as String),
           createdBy: createdBy,
           isDeleted: isDeleted,
           updatedBy: updatedBy,
         ),
-      SubstitutionType.placeChanged => SubstitutionPlaceChange(
+      SubstitutionType.locationChanged => SubstitutionPlaceChange(
           id: id,
           date: Date.parse(data['date'] as String),
           createdBy: createdBy,
@@ -94,7 +108,7 @@ sealed class Substitution {
     required bool notifyGroupMembers,
   }) {
     return {
-      'type': type.name,
+      'type': type.toDatabaseString(),
       'date': date.toDateString,
       'created': {
         'on': FieldValue.serverTimestamp(),
@@ -112,7 +126,7 @@ class SubstitutionCanceled extends Substitution {
     required super.createdBy,
     super.isDeleted,
     super.updatedBy,
-  }) : super(type: SubstitutionType.cancelled);
+  }) : super(type: SubstitutionType.lessonCanceled);
 }
 
 class SubstitutionPlaceChange extends Substitution {
@@ -125,7 +139,7 @@ class SubstitutionPlaceChange extends Substitution {
     required super.createdBy,
     super.isDeleted,
     super.updatedBy,
-  }) : super(type: SubstitutionType.placeChanged);
+  }) : super(type: SubstitutionType.locationChanged);
 
   @override
   Map<String, dynamic> toCreateJson({
