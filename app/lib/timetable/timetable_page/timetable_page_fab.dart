@@ -52,8 +52,7 @@ void showTutorialHowToUseSubstitutionDialog(BuildContext context) {
               height: min(MediaQuery.of(context).size.height * 2, 300),
               child: const TutorialVideoPlayer(
                 aspectRatio: 4 / 2.9,
-                videoUrl:
-                    'https://sharezone.net/substitutions-demo',
+                videoUrl: 'https://sharezone.net/substitutions-demo',
               ),
             ),
             const SizedBox(height: 8),
