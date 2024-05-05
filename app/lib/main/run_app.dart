@@ -68,12 +68,24 @@ Future<void> runFlutterApp({required Flavor flavor}) async {
     dynamicLinkBloc: dependencies.dynamicLinkBloc,
     flavor: flavor,
   ));
+
   if (PlatformCheck.isDesktopOrWeb) {
     // Required on web/desktop to automatically enable accessibility features,
     // see:
     // * https://github.com/flutter/flutter/issues/115158#issuecomment-1319080131
     // * https://github.com/gskinnerTeam/flutter-wonderous-app/issues/146
     WidgetsFlutterBinding.ensureInitialized().ensureSemantics();
+  }
+
+  if (PlatformCheck.isWeb) {
+    // This is intentionally not a debugPrint, as it's a message for users who
+    // open the console on web.
+    //
+    // ignore: avoid_print
+    print(
+      '''Thanks for checking out Sharezone!
+If you encounter any issues please report them at https://github.com/SharezoneApp/sharezone-app/issues.''',
+    );
   }
 }
 
