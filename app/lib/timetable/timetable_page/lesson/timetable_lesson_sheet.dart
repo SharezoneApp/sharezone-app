@@ -435,7 +435,7 @@ class _LessonBasicSection extends StatelessWidget {
             leading: const Icon(Icons.swap_horiz),
             title: Text("Wochentyp: ${getWeekTypeText(lesson.weektype)}"),
           ),
-        _Place(
+        _Location(
           lesson: lesson,
           date: date,
         ),
@@ -444,8 +444,8 @@ class _LessonBasicSection extends StatelessWidget {
   }
 }
 
-class _Place extends StatelessWidget {
-  const _Place({
+class _Location extends StatelessWidget {
+  const _Location({
     required this.date,
     required this.lesson,
   });

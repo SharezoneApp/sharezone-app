@@ -34,8 +34,8 @@ class TimetableEntryLesson extends StatelessWidget {
   Widget build(BuildContext context) {
     final canceledDesign = Design.fromColor(Colors.grey[600]!);
     final substitution = lesson.getSubstitutionFor(date);
-    final isCancelled = substitution is LessonCanceledSubstitution;
-    final design = isCancelled ? canceledDesign : groupInfo?.design;
+    final isCanceled = substitution is LessonCanceledSubstitution;
+    final design = isCanceled ? canceledDesign : groupInfo?.design;
     final newLocation = substitution is LocationChangedSubstitution
         ? substitution.newLocation
         : null;
@@ -64,7 +64,7 @@ class TimetableEntryLesson extends StatelessWidget {
                       abbreviation: groupInfo?.abbreviation,
                       groupName: groupInfo?.name ?? "",
                       color: design?.color,
-                      isStrikeThrough: isCancelled,
+                      isStrikeThrough: isCanceled,
                     ),
                     Row(
                       children: [
@@ -72,7 +72,7 @@ class TimetableEntryLesson extends StatelessWidget {
                           Room(
                             room: lesson.place!,
                             color: design?.color,
-                            isStrikeThrough: isCancelled || newLocation != null,
+                            isStrikeThrough: isCanceled || newLocation != null,
                           ),
                         if (lesson.place != null && newLocation != null)
                           const SizedBox(width: 4),
@@ -80,14 +80,14 @@ class TimetableEntryLesson extends StatelessWidget {
                           Room(
                             room: newLocation,
                             color: design?.color,
-                            isStrikeThrough: isCancelled,
+                            isStrikeThrough: isCanceled,
                           ),
                       ],
                     ),
                   ],
                 ),
               ),
-              if (isCancelled)
+              if (isCanceled)
                 Positioned.fill(
                   child: CustomPaint(
                     painter: _StrikeThroughPainter(

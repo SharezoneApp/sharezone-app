@@ -52,7 +52,7 @@ class _SubstitutionSection extends StatelessWidget {
         ),
         if (hasSubstitution) ...[
           if (isCanceled)
-            _LessonCancelledCard(
+            _LessonCanceledCard(
               courseId: lesson.groupID,
               createdBy: lesson.getSubstitutionFor(date)!.createdBy,
               hasPermissionsToManageLessons: hasPermissionsToManageLessons,
@@ -112,8 +112,8 @@ class _BetaChip extends StatelessWidget {
   }
 }
 
-class _LessonCancelledCard extends StatelessWidget {
-  const _LessonCancelledCard({
+class _LessonCanceledCard extends StatelessWidget {
+  const _LessonCanceledCard({
     required this.createdBy,
     required this.courseId,
     required this.hasPermissionsToManageLessons,
