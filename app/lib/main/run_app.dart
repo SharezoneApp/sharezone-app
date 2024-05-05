@@ -83,7 +83,7 @@ Future<void> runFlutterApp({required Flavor flavor}) async {
     //
     // ignore: avoid_print
     print(
-      '''Thanks for checking out Sharezone on the web!
+      '''Thanks for checking out Sharezone!
 If you encounter any issues please report them at https://github.com/SharezoneApp/sharezone-app/issues.''',
     );
   }
