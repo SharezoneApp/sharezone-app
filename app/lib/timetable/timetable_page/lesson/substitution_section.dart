@@ -65,35 +65,33 @@ class _SubstitutionSection extends StatelessWidget {
               hasPermissionsToManageLessons: hasPermissionsToManageLessons,
             )
         ] else ...[
-          if (!isStableStage)
-            if (hasPermissionsToManageLessons) ...[
-              ListTile(
-                leading: const Icon(Icons.cancel),
-                title: const Text("Stunde entfallen lassen"),
-                onTap: () => Navigator.pop(
-                    context,
-                    hasUnlocked
-                        ? _LessonModelSheetAction.cancelLesson
-                        : _LessonModelSheetAction.showSubstitutionPlusDialog),
+          if (hasPermissionsToManageLessons) ...[
+            ListTile(
+              leading: const Icon(Icons.cancel),
+              title: const Text("Stunde entfallen lassen"),
+              onTap: () => Navigator.pop(
+                  context,
+                  hasUnlocked
+                      ? _LessonModelSheetAction.cancelLesson
+                      : _LessonModelSheetAction.showSubstitutionPlusDialog),
+            ),
+            ListTile(
+              leading: const Icon(Icons.place_outlined),
+              title: const Text("Raumänderung"),
+              onTap: () => Navigator.pop(
+                  context,
+                  hasUnlocked
+                      ? _LessonModelSheetAction.addRoomSubstitution
+                      : _LessonModelSheetAction.showSubstitutionPlusDialog),
+            ),
+          ] else
+            const ListTile(
+              leading: Icon(Icons.info),
+              title: Text(
+                'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
               ),
-              ListTile(
-                leading: const Icon(Icons.place_outlined),
-                title: const Text("Raumänderung"),
-                onTap: () => Navigator.pop(
-                    context,
-                    hasUnlocked
-                        ? _LessonModelSheetAction.addRoomSubstitution
-                        : _LessonModelSheetAction.showSubstitutionPlusDialog),
-              ),
-            ] else
-              const ListTile(
-                leading: Icon(Icons.info),
-                title: Text(
-                  'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
-                ),
-                subtitle:
-                    Text('Bitte wende dich an deinen Kurs-Administrator.'),
-              )
+              subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
+            )
         ],
       ],
     );
