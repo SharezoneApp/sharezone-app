@@ -117,6 +117,7 @@ enum SharezonePlusFeature {
   viewPastEvents,
   homeworkDueDateChips,
   iCalLinks,
+  substitutions,
 }
 
 void trySetSharezonePlusAnalyticsUserProperties(Analytics analytics,

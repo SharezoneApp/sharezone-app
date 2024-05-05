@@ -23,6 +23,7 @@ import 'package:sharezone/dashboard/timetable/lesson_view.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/lesson_data_snapshot.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/util/api/blackboard_api.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
@@ -103,7 +104,7 @@ class DashboardBloc extends BlocBase {
         // Die Views werden jede Sekunde neu gebaut, damit der "Ablauf" der
         // Stunde in Echtzeit angezeigt wird (ausfaden der Stunden).
         .repeatEvery(const Duration(seconds: 1))
-        .map(_buildSortedViews);
+        .map((v) => _buildSortedViews(v, Date.fromDateTime(clock.now())));
 
     final subscription = viewsStream.listen(_lessonViewsSubject.add);
 

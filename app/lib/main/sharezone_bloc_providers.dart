@@ -26,6 +26,7 @@ import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik_
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
@@ -120,6 +121,7 @@ import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_dependencies.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_factory.dart';
+import 'package:sharezone/timetable/timetable_page/lesson/substitution_controller.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
@@ -472,6 +474,15 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => TermSettingsPageControllerFactory(
           gradesService: gradesService,
           coursesStream: () => api.course.streamCourses(),
+        ),
+      ),
+      Provider(
+        create: (context) => SubstitutionController(
+          gateway: api.timetable,
+          analytics: analytics,
+          userId: api.userId,
+          courseMemberAccessor:
+              FirestoreCourseMemberAccessor(api.references.firestore),
         ),
       )
     ];

@@ -34,6 +34,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
         _QuickHomeworkDueDate(onOpen: onOpenedAdvantage),
         if (isHomeworkReminderFeatureVisible)
           _HomeworkReminder(onOpen: onOpenedAdvantage),
+        _Substitutions(onOpen: onOpenedAdvantage),
         _PastEvents(onOpen: onOpenedAdvantage),
         _AddEventsToLocalCalendar(onOpen: onOpenedAdvantage),
         _IcalFeature(onOpen: onOpenedAdvantage),
@@ -112,6 +113,34 @@ class _SelectTimetableBySchoolClass extends StatelessWidget {
       title: const Text('Stundenplan nach Klasse auswählen'),
       description: const Text(
           'Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.'),
+    );
+  }
+}
+
+class _Substitutions extends StatelessWidget {
+  const _Substitutions({
+    required this.onOpen,
+  });
+
+  final ValueChanged<String>? onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      onOpen: () {
+        if (onOpen != null) onOpen!('substitutions');
+      },
+      icon: const Icon(Icons.cancel),
+      title: const Text('Vertretungsplan'),
+      description: const MarkdownBody(
+        data: '''Schalte mit Sharezone Plus den Vertretungsplan frei:
+* Entfall einer Schulstunden markieren
+* Raumänderungen
+
+Sogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern). Ebenfalls können Kursmitglieder mit nur einem 1-Klick über die Änderung informiert werden. 
+
+Beachte, dass der Vertretungsplan manuell eingetragen werden muss und nicht automatisch importiert wird.''',
+      ),
     );
   }
 }

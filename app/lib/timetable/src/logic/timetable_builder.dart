@@ -53,11 +53,13 @@ class TimetableBuilder {
           ),
       ]));
 
-      entries.addAll(filteredLessons.map((lesson) => _buildElementForLesson(
-            date,
-            lesson,
-            propertiesMap[lesson.lessonID]!,
-          )));
+      entries.addAll(filteredLessons.map((lesson) {
+        return _buildElementForLesson(
+          date,
+          lesson,
+          propertiesMap[lesson.lessonID]!,
+        );
+      }));
       entries.addAll(filteredEvents.map((event) => _buildElementForEvent(
             event,
             propertiesMap[event.eventID] ?? TimetableElementProperties.standard,

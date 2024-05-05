@@ -10,6 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date/date.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
+import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:sharezone_common/references.dart';
 
 class TimetableGateway {
@@ -61,6 +63,48 @@ class TimetableGateway {
 
   Future<bool> deleteEvent(CalendricalEvent event) {
     return references.events.doc(event.eventID).delete().then((_) => true);
+  }
+
+  void addSubstitutionToLesson({
+    required String lessonId,
+    required Substitution substitution,
+    required bool notifyGroupMembers,
+  }) {
+    references.lessons.doc(lessonId).update({
+      'substitutions.${substitution.id}':
+          substitution.toCreateJson(notifyGroupMembers: notifyGroupMembers),
+    });
+  }
+
+  void removeSubstitutionFromLesson({
+    required String lessonId,
+    required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
+  }) {
+    references.lessons.doc(lessonId).update({
+      'substitutions.$substitutionId.deleted': {
+        'by': memberID,
+        'on': FieldValue.serverTimestamp(),
+        'notifyGroupMembers': notifyGroupMembers,
+      }
+    });
+  }
+
+  void updateSubstitutionInLesson({
+    required String lessonId,
+    required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
+    String? newLocation,
+  }) {
+    references.lessons.doc(lessonId).update({
+      if (newLocation != null)
+        'substitutions.$substitutionId.newPlace': newLocation,
+      'substitutions.$substitutionId.updated': {
+        'by': memberID,
+        'on': FieldValue.serverTimestamp(),
+        'notifyGroupMembers': notifyGroupMembers,
+      }
+    });
   }
 
   Stream<List<Lesson>> streamLessons() {

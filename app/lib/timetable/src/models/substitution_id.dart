@@ -6,13 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'src/id.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 
-class UserId extends Id {
-  const UserId(super.value);
-
-  static UserId? tryParse(String? value) {
-    if (value == null) return null;
-    return UserId(value);
-  }
+class SubstitutionId extends Id {
+  const SubstitutionId(super.id);
 }

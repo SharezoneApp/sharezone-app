@@ -6,26 +6,48 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:common_domain_models/common_domain_models.dart';
+import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:design/design.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/main/application_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
+import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/main/constants.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
+import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
 import 'package:sharezone/timetable/timetable_edit/lesson/timetable_lesson_edit_page.dart';
+import 'package:sharezone/timetable/timetable_page/lesson/substitution_controller.dart';
+import 'package:sharezone/timetable/timetable_permissions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import '../../timetable_permissions.dart';
+part 'substitution_section.dart';
 
-enum _LessonModelSheetAction { edit, delete, design }
+enum _LessonModelSheetAction {
+  edit,
+  delete,
+  design,
+  cancelLesson,
+  addRoomSubstitution,
+  updateRoomSubstitution,
+  removeCancelLesson,
+  removePlaceChange,
+  showSubstitutionPlusDialog,
+}
 
 enum _LessonLongPressResult { edit, delete, changeDesign, report }
 
@@ -163,16 +185,21 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
 }
 
 Future<void> showLessonModelSheet(
-    BuildContext context, Lesson lesson, Design? design) async {
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+  Design? design,
+) async {
   final popOption = await showModalBottomSheet<_LessonModelSheetAction>(
     isScrollControlled: true,
     context: context,
     builder: (context) => _TimetableLessonBottomModelSheet(
       lesson: lesson,
       design: design,
+      date: date,
     ),
   );
-  if (!context.mounted) return;
+  if (!context.mounted || popOption == null) return;
 
   switch (popOption) {
     case _LessonModelSheetAction.delete:
@@ -184,9 +211,34 @@ Future<void> showLessonModelSheet(
     case _LessonModelSheetAction.design:
       editCourseDesign(context, lesson.groupID);
       break;
-    default:
+    case _LessonModelSheetAction.cancelLesson:
+      _cancelLesson(context, lesson, date);
+      break;
+    case _LessonModelSheetAction.addRoomSubstitution:
+      _addRoomSubstitution(context, lesson, date);
+      break;
+    case _LessonModelSheetAction.removeCancelLesson:
+      _removeCancelSubstitution(context, lesson, date);
+      break;
+    case _LessonModelSheetAction.showSubstitutionPlusDialog:
+      _showPlusDialog(context);
+      break;
+    case _LessonModelSheetAction.removePlaceChange:
+      _removePlaceChangeSubstitution(context, lesson, date);
+      break;
+    case _LessonModelSheetAction.updateRoomSubstitution:
+      _updateRoomSubstitution(context, lesson, date);
       break;
   }
+}
+
+void _showPlusDialog(BuildContext context) {
+  showSharezonePlusFeatureInfoDialog(
+    context: context,
+    navigateToPlusPage: () => navigateToSharezonePlusPage(context),
+    description: const Text(
+        'Schalte mit Sharezone Plus den Vertretungsplan frei, um z.B. den Entfall einer Schulstunden zu markieren.\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern).'),
+  );
 }
 
 Future _deleteLesson(BuildContext context, Lesson lesson) async {
@@ -248,11 +300,97 @@ Color? getIconGrey(BuildContext context) =>
 class _TimetableLessonBottomModelSheet extends StatelessWidget {
   final Lesson lesson;
   final Design? design;
+  final Date date;
 
   const _TimetableLessonBottomModelSheet({
     required this.lesson,
+    required this.date,
     this.design,
   });
+
+  @override
+  Widget build(BuildContext context) {
+    final api = BlocProvider.of<SharezoneContext>(context).api;
+    final hasPermissionsToManageLessons = hasPermissionToManageLessons(
+        api.course.getRoleFromCourseNoSync(lesson.groupID)!);
+    // The perfect height to show the full content of the sheet (assuming a/b
+    // week is not enabled).
+    final initialChildSize =
+        min((0.5 / MediaQuery.of(context).size.height) * 1000, 1.0);
+    return SafeArea(
+      left: true,
+      bottom: true,
+      child: DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: initialChildSize,
+        builder: (context, scrollController) {
+          return ListView(
+            controller: scrollController,
+            children: <Widget>[
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Text("Details",
+                          style: Theme.of(context).textTheme.titleLarge),
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const _ChangeColorIcon(),
+                      ReportIcon(
+                          item: ReportItemReference.lesson(lesson.lessonID!),
+                          color: getIconGrey(context)),
+                      if (hasPermissionsToManageLessons) ...const [
+                        _EditIcon(),
+                        DeleteIcon(),
+                      ],
+                      const SizedBox(width: 4),
+                    ],
+                  ),
+                ],
+              ),
+              const Divider(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: _LessonBasicSection(
+                  design: design,
+                  lesson: lesson,
+                  date: date,
+                ),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: _SubstitutionSection(
+                  date: date,
+                  hasPermissionsToManageLessons: hasPermissionsToManageLessons,
+                  lesson: lesson,
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _LessonBasicSection extends StatelessWidget {
+  const _LessonBasicSection({
+    required this.design,
+    required this.lesson,
+    required this.date,
+  });
+
+  final Design? design;
+  final Lesson lesson;
+  final Date date;
 
   @override
   Widget build(BuildContext context) {
@@ -262,81 +400,81 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
             .getCourse(lesson.groupID)
             ?.name ??
         "-";
-    final api = BlocProvider.of<SharezoneContext>(context).api;
     final timetableBloc = BlocProvider.of<TimetableBloc>(context);
-
     final isABWeekEnabled = timetableBloc.current.isABWeekEnabled();
-    final hasPermissionsToManageLessons = hasPermissionToManageLessons(
-        api.course.getRoleFromCourseNoSync(lesson.groupID)!);
-    return SafeArea(
-      left: true,
-      bottom: true,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Text("Details",
-                      style: Theme.of(context).textTheme.titleLarge),
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  const _ChangeColorIcon(),
-                  ReportIcon(
-                      item: ReportItemReference.lesson(lesson.lessonID!),
-                      color: getIconGrey(context)),
-                  if (hasPermissionsToManageLessons) ...const [
-                    _EditIcon(),
-                    DeleteIcon(),
-                  ],
-                  const SizedBox(width: 4),
-                ],
-              ),
-            ],
-          ),
-          const Divider(height: 16),
-          ListTile(
-            leading: const Icon(Icons.group),
-            title: Text.rich(
-              TextSpan(
-                style: TextStyle(
-                    color: Theme.of(context).isDarkTheme
-                        ? Colors.white
-                        : Colors.grey[800],
-                    fontSize: 16),
-                children: <TextSpan>[
-                  const TextSpan(text: "Kursname: "),
-                  TextSpan(
-                      text: courseName, style: TextStyle(color: design?.color))
-                ],
-              ),
+    return Column(
+      children: [
+        ListTile(
+          leading: const Icon(Icons.group),
+          title: Text.rich(
+            TextSpan(
+              style: TextStyle(
+                  color: Theme.of(context).isDarkTheme
+                      ? Colors.white
+                      : Colors.grey[800],
+                  fontSize: 16),
+              children: <TextSpan>[
+                const TextSpan(text: "Kursname: "),
+                TextSpan(
+                    text: courseName, style: TextStyle(color: design?.color))
+              ],
             ),
           ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.access_time),
+          title: Text("${lesson.startTime} - ${lesson.endTime}"),
+        ),
+        ListTile(
+          leading: const Icon(Icons.event),
+          title:
+              Text("Wochentag: ${weekDayEnumToGermanString(lesson.weekday)}"),
+        ),
+        if (isABWeekEnabled)
           ListTile(
-            leading: const Icon(Icons.access_time),
-            title: Text("${lesson.startTime} - ${lesson.endTime}"),
+            leading: const Icon(Icons.swap_horiz),
+            title: Text("Wochentyp: ${getWeekTypeText(lesson.weektype)}"),
           ),
-          ListTile(
-            leading: const Icon(Icons.event),
-            title:
-                Text("Wochentag: ${weekDayEnumToGermanString(lesson.weekday)}"),
-          ),
-          if (isABWeekEnabled)
-            ListTile(
-              leading: const Icon(Icons.swap_horiz),
-              title: Text("Wochentyp: ${getWeekTypeText(lesson.weektype)}"),
+        _Location(
+          lesson: lesson,
+          date: date,
+        ),
+      ],
+    );
+  }
+}
+
+class _Location extends StatelessWidget {
+  const _Location({
+    required this.date,
+    required this.lesson,
+  });
+
+  final Date date;
+  final Lesson lesson;
+
+  @override
+  Widget build(BuildContext context) {
+    final substitution = lesson.getSubstitutionFor(date);
+    final newLocation = substitution is LocationChangedSubstitution
+        ? substitution.newLocation
+        : null;
+    return ListTile(
+      leading: const Icon(Icons.place),
+      title: Row(
+        children: [
+          const Text("Raum: "),
+          Text(
+            lesson.place ?? "-",
+            style: TextStyle(
+              decoration:
+                  newLocation != null ? TextDecoration.lineThrough : null,
             ),
-          ListTile(
-            leading: const Icon(Icons.place),
-            title: Text("Raum: ${lesson.place ?? "-"}"),
           ),
+          if (newLocation != null) ...[
+            const SizedBox(width: 4),
+            Text('-> $newLocation'),
+          ]
         ],
       ),
     );

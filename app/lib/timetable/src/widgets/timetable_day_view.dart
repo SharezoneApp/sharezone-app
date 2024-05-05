@@ -143,8 +143,13 @@ class _TimetableDayViewState extends State<TimetableDayView> {
                 for (final element
                     in widget.elements
                       ..sort((e1, e2) => e1.priority.compareTo(e2.priority)))
-                  TimetableElementTile(element, widget.hourHeight, widget.width,
-                      widget.timetableBegin)
+                  TimetableElementTile(
+                    element,
+                    widget.hourHeight,
+                    widget.width,
+                    widget.timetableBegin,
+                    widget.date,
+                  )
               ],
             );
           }),
@@ -403,12 +408,14 @@ class TimetableElementTile extends StatelessWidget {
   final TimetableElement timetableElement;
   final double hourHeight, width;
   final Time timetableBegin;
+  final Date date;
 
   const TimetableElementTile(
     this.timetableElement,
     this.hourHeight,
     this.width,
-    this.timetableBegin, {
+    this.timetableBegin,
+    this.date, {
     super.key,
   });
 
@@ -421,14 +428,14 @@ class TimetableElementTile extends StatelessWidget {
       top: dimensions.topPosition,
       height: dimensions.height,
       width: dimensions.width,
-      child: _getChild(context),
+      child: _getChild(context, date),
     );
   }
 
-  Widget _getChild(BuildContext context) {
+  Widget _getChild(BuildContext context, Date date) {
     final runtimeType = timetableElement.data.runtimeType;
     if (runtimeType == Lesson) {
-      return _getChildLesson(context);
+      return _getChildLesson(context, date);
     } else if (runtimeType == CalendricalEvent) {
       return _getChildEvent(context);
     } else {
@@ -436,10 +443,11 @@ class TimetableElementTile extends StatelessWidget {
     }
   }
 
-  Widget _getChildLesson(BuildContext context) {
+  Widget _getChildLesson(BuildContext context, Date date) {
     return TimetableEntryLesson(
       lesson: timetableElement.data as Lesson,
       groupInfo: timetableElement.groupInfo,
+      date: date,
     );
   }
 

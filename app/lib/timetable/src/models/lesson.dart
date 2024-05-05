@@ -7,11 +7,14 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
+import 'package:collection/collection.dart';
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
+import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:time/time.dart';
 
 class Lesson {
@@ -31,6 +34,7 @@ class Lesson {
   final WeekDay weekday;
   final WeekType weektype;
   final String? teacher, place;
+  final Map<SubstitutionId, Substitution> substitutions;
   LessonLength get length => calculateLessonLength(startTime, endTime);
 
   Lesson({
@@ -47,6 +51,7 @@ class Lesson {
     required this.weektype,
     required this.teacher,
     required this.place,
+    this.substitutions = const {},
   });
 
   factory Lesson.fromData(Map<String, dynamic> data, {required String id}) {
@@ -64,6 +69,15 @@ class Lesson {
       weektype: WeekType.values.byName(data['weektype'] as String),
       teacher: data['teacher'] as String?,
       place: data['place'] as String?,
+      substitutions: data['substitutions'] == null
+          ? const {}
+          : decodeMapAdvanced(
+              data['substitutions'],
+              (key, value) {
+                final id = SubstitutionId(key);
+                return MapEntry(id, Substitution.fromData(value, id: id));
+              },
+            ),
     );
   }
 
@@ -97,6 +111,7 @@ class Lesson {
     WeekType? weektype,
     String? teacher,
     String? place,
+    Map<SubstitutionId, Substitution>? substitutions,
   }) {
     return Lesson(
       createdOn: createdOn ?? this.createdOn,
@@ -112,6 +127,17 @@ class Lesson {
       weektype: weektype ?? this.weektype,
       teacher: teacher ?? this.teacher,
       place: place ?? this.place,
+      substitutions: substitutions ?? this.substitutions,
+    );
+  }
+
+  /// Returns the substitution for the given [date].
+  ///
+  /// If there is no substitution for the given [date], `null` will be returned.
+  Substitution? getSubstitutionFor(Date date) {
+    return substitutions.values.firstWhereOrNull(
+      (substitution) =>
+          substitution.date == date && substitution.isDeleted == false,
     );
   }
 
