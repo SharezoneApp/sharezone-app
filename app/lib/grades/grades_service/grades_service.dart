@@ -382,11 +382,21 @@ class GradesService {
     _updateState(newState);
   }
 
+  /// Edits properties of a custom grade type.
+  ///
+  /// Throws [ArgumentError] if the display name is empty.
+  ///
+  /// Throws [GradeTypeNotFoundException] if the grade type with the given [id]
+  /// does not exist.
+  ///
+  /// Throws [ArgumentError] if the grade type with the given [id] is a
+  /// predefined grade type.
   void editCustomGradeType(
       {required GradeTypeId id, required String displayName}) {
     if (displayName.isEmpty) {
       throw ArgumentError('The display name must not be empty.');
     }
+
     final isPredefinedGradeType =
         GradeType.predefinedGradeTypes.map((gt) => gt.id).contains(id);
     if (isPredefinedGradeType) {
