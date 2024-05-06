@@ -292,6 +292,16 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  /// Replaces an existing grade with [Grade.id] with the [newGrade].
+  ///
+  /// Throws [GradeNotFoundException] if no grade with the given [Grade.id]
+  /// of [newGrade] exists.
+  ///
+  /// Throws [GradeTypeNotFoundException] if the grade type of [newGrade] does
+  /// not exist.
+  ///
+  /// Throws [InvalidGradeValueException] if the [Grade.value] of the [newGrade]
+  /// is not valid for the [Grade.gradingSystem] of the [newGrade].
   void editGrade(Grade newGrade) {
     if (!_hasGradeWithId(newGrade.id)) {
       throw GradeNotFoundException(newGrade.id);
