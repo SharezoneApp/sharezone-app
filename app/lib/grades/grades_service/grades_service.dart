@@ -292,16 +292,16 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
-  void editGrade(Grade grade) {
-    if (!_hasGradeWithId(grade.id)) {
-      throw GradeNotFoundException(grade.id);
+  void editGrade(Grade newGrade) {
+    if (!_hasGradeWithId(newGrade.id)) {
+      throw GradeNotFoundException(newGrade.id);
     }
-    if (!_hasGradeTypeWithId(grade.type)) {
-      throw GradeTypeNotFoundException(grade.type);
+    if (!_hasGradeTypeWithId(newGrade.type)) {
+      throw GradeTypeNotFoundException(newGrade.type);
     }
 
-    final term = _terms.firstWhere((term) => term.containsGrade(grade.id));
-    final newTerm = term.replaceGrade(grade);
+    final term = _terms.firstWhere((term) => term.containsGrade(newGrade.id));
+    final newTerm = term.replaceGrade(newGrade);
 
     _updateTerm(newTerm);
   }
