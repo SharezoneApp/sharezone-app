@@ -292,8 +292,28 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
-  bool _hasGradeWithId(GradeId id) {
-    return _terms.any((term) => term.hasGrade(id));
+  /// Replaces an existing grade with [Grade.id] with the [newGrade].
+  ///
+  /// Throws [GradeNotFoundException] if no grade with the given [Grade.id]
+  /// of [newGrade] exists.
+  ///
+  /// Throws [GradeTypeNotFoundException] if the grade type of [newGrade] does
+  /// not exist.
+  ///
+  /// Throws [InvalidGradeValueException] if the [Grade.value] of the [newGrade]
+  /// is not valid for the [Grade.gradingSystem] of the [newGrade].
+  void editGrade(Grade newGrade) {
+    if (!_hasGradeWithId(newGrade.id)) {
+      throw GradeNotFoundException(newGrade.id);
+    }
+    if (!_hasGradeTypeWithId(newGrade.type)) {
+      throw GradeTypeNotFoundException(newGrade.type);
+    }
+
+    final term = _terms.firstWhere((term) => term.containsGrade(newGrade.id));
+    final newTerm = term.replaceGrade(newGrade);
+
+    _updateTerm(newTerm);
   }
 
   void deleteGrade(GradeId gradeId) {
@@ -304,6 +324,10 @@ class GradesService {
       return;
     }
     throw GradeNotFoundException(gradeId);
+  }
+
+  bool _hasGradeWithId(GradeId id) {
+    return _terms.any((term) => term.hasGrade(id));
   }
 
   void changeGradeWeight({

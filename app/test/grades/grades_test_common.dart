@@ -295,6 +295,13 @@ class GradesTestController {
     service.deleteTerm(id);
   }
 
+  void editGrade(TestGrade grade) {
+    if (grade.weight != null) {
+      throw UnimplementedError();
+    }
+    service.editGrade(_toGrade(grade));
+  }
+
   void deleteGrade({required GradeId gradeId}) {
     service.deleteGrade(gradeId);
   }
@@ -424,7 +431,7 @@ class TestSubject {
 }
 
 TestGrade gradeWith({
-  required Object value,
+  Object? value,
   bool includeInGradeCalculations = true,
   GradeTypeId? type,
   Weight? weight,
@@ -436,7 +443,7 @@ TestGrade gradeWith({
 }) {
   return TestGrade(
     id: id ?? GradeId(randomAlpha(5)),
-    value: value,
+    value: value ?? randomBetween(0, 15),
     includeInGradeCalculations: includeInGradeCalculations,
     date: date ?? Date('2024-02-22'),
     gradingSystem: gradingSystem ?? GradingSystem.zeroToFifteenPoints,

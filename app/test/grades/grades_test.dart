@@ -1150,6 +1150,125 @@ void main() {
           const GradeId('grade2'));
     });
     test(
+        'Trying to edit a grade with an unknown Id will throw $GradeNotFoundException',
+        () {
+      final controller = GradesTestController();
+
+      edit() => controller.editGrade(gradeWith(id: const GradeId('foo')));
+
+      expect(edit, throwsA(const GradeNotFoundException(GradeId('foo'))));
+    });
+    test('A grade can be edited', () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(id: const GradeId('grade1')),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      controller.editGrade(
+        gradeWith(
+          id: const GradeId('grade1'),
+          date: Date('2024-03-22'),
+          details: 'foo details',
+          includeInGradeCalculations: false,
+          title: 'foo title',
+          type: GradeType.other.id,
+          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+          value: '23',
+        ),
+      );
+
+      final actualGrade = controller
+          .term(term.id)
+          .subject(const SubjectId('Philosophie'))
+          .grade(const GradeId('grade1'));
+
+      expect(
+        actualGrade,
+        GradeResult(
+          id: const GradeId('grade1'),
+          isTakenIntoAccount: false,
+          value: const GradeValue(
+            asNum: 23,
+            displayableGrade: null,
+            gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+            suffix: '%',
+          ),
+          date: Date('2024-03-22'),
+          title: 'foo title',
+          gradeTypeId: GradeType.other.id,
+          details: 'foo details',
+          originalInput: '23',
+        ),
+      );
+    });
+    test(
+        'If the edited grade has an unknown grade type a $GradeTypeNotFoundException is thrown',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(id: const GradeId('grade1')),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+        () => controller.editGrade(
+          gradeWith(
+            id: const GradeId('grade1'),
+            type: const GradeTypeId('foo'),
+          ),
+        ),
+        throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))),
+      );
+    });
+    test(
+        'If the edited grade has an invalid grade value a $InvalidGradeValueException is thrown',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Philosophie'),
+            grades: [
+              gradeWith(id: const GradeId('grade1')),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+        () => controller.editGrade(
+          gradeWith(
+            id: const GradeId('grade1'),
+            gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+            value: '8+',
+          ),
+        ),
+        throwsA(const InvalidGradeValueException(
+          gradeInput: '8+',
+          gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+        )),
+      );
+    });
+    test(
         'When trying to add a grade with the same id as an existing grade then a $DuplicateGradeIdException is thrown',
         () {
       final controller = GradesTestController();
