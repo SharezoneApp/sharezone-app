@@ -384,6 +384,9 @@ class GradesService {
 
   void editCustomGradeType(
       {required GradeTypeId id, required String displayName}) {
+    if (displayName.isEmpty) {
+      throw ArgumentError('The display name must not be empty.');
+    }
     final isPredefinedGradeType =
         GradeType.predefinedGradeTypes.map((gt) => gt.id).contains(id);
     if (isPredefinedGradeType) {

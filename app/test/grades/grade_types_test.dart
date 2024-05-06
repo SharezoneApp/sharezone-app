@@ -422,5 +422,17 @@ void main() {
       expect(controller.term(const TermId('foo')).finalGradeType.displayName,
           'bar');
     });
+    test(
+        'Trying to edit the name of a custom grade type to an empty string throws an $ArgumentError',
+        () {
+      final controller = GradesTestController();
+      controller.createCustomGradeType(
+          const GradeType(id: GradeTypeId('foo'), displayName: 'foo'));
+
+      expect(
+          () => controller.editCustomGradeType(const GradeTypeId('foo'),
+              displayName: ''),
+          throwsArgumentError);
+    });
   });
 }
