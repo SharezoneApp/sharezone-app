@@ -292,8 +292,10 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
-  bool _hasGradeWithId(GradeId id) {
-    return _terms.any((term) => term.hasGrade(id));
+  void editGrade(Grade grade) {
+    if (!_hasGradeWithId(grade.id)) {
+      throw GradeNotFoundException(grade.id);
+    }
   }
 
   void deleteGrade(GradeId gradeId) {
@@ -304,6 +306,10 @@ class GradesService {
       return;
     }
     throw GradeNotFoundException(gradeId);
+  }
+
+  bool _hasGradeWithId(GradeId id) {
+    return _terms.any((term) => term.hasGrade(id));
   }
 
   void changeGradeWeight({

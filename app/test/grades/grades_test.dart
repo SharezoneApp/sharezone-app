@@ -1429,4 +1429,13 @@ void main() {
           const SubjectId('Sport'),
         ]);
   });
+  test(
+      'Trying to edit a grade with an unknown Id will throw $GradeNotFoundException',
+      () {
+    final controller = GradesTestController();
+
+    edit() => controller.editGrade(gradeWith(id: const GradeId('foo')));
+
+    expect(edit, throwsA(const GradeNotFoundException(GradeId('foo'))));
+  });
 }
