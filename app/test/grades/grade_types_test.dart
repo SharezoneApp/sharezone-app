@@ -394,13 +394,33 @@ void main() {
     });
     test('One can change the name of a custom grade type', () {
       final controller = GradesTestController();
-
       controller.createCustomGradeType(
           const GradeType(id: GradeTypeId('foo'), displayName: 'foo'));
+
+      controller.createTerm(termWith(
+        id: const TermId('foo'),
+        finalGradeType: const GradeTypeId('foo'),
+        subjects: [
+          subjectWith(
+            id: const SubjectId('bar'),
+            finalGradeType: const GradeTypeId('foo'),
+            grades: [
+              gradeWith(
+                id: const GradeId('bar'),
+                type: const GradeTypeId('foo'),
+                value: 3,
+              ),
+            ],
+          ),
+        ],
+      ));
+
       controller.editCustomGradeType(const GradeTypeId('foo'),
           displayName: 'bar');
 
       expect(controller.getCustomGradeTypes().single.displayName, 'bar');
+      expect(controller.term(const TermId('foo')).finalGradeType.displayName,
+          'bar');
     });
   });
 }
