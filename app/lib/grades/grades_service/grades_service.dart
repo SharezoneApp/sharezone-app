@@ -296,6 +296,9 @@ class GradesService {
     if (!_hasGradeWithId(grade.id)) {
       throw GradeNotFoundException(grade.id);
     }
+    if (!_hasGradeTypeWithId(grade.type)) {
+      throw GradeTypeNotFoundException(grade.type);
+    }
 
     final term = _terms.firstWhere((term) => term.containsGrade(grade.id));
     final newTerm = term.replaceGrade(grade);

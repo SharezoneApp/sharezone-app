@@ -1490,7 +1490,33 @@ void main() {
       ),
     );
   });
+  test(
+      'If the edited grade has an unknown grade type a $GradeTypeNotFoundException is thrown',
+      () {
+    final controller = GradesTestController();
+
+    final term = termWith(
+      subjects: [
+        subjectWith(
+          id: const SubjectId('Philosophie'),
+          grades: [
+            gradeWith(id: const GradeId('grade1')),
+          ],
+        ),
+      ],
+    );
+    controller.createTerm(term);
+
+    expect(
+      () => controller.editGrade(
+        gradeWith(
+          id: const GradeId('grade1'),
+          type: const GradeTypeId('foo'),
+        ),
+      ),
+      throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))),
+    );
+  });
   // TODO:
-  // * If edited grade has an unknown grade type a GradeTypeNotFoundException is thrown
   // * If edited grade has an invalid grade value a InvalidGradeValueException is thrown
 }
