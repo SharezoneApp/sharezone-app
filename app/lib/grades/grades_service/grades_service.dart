@@ -389,6 +389,9 @@ class GradesService {
     if (isPredefinedGradeType) {
       throw ArgumentError('Cannot edit a predefined grade type.');
     }
+    if (!_hasGradeTypeWithId(id)) {
+      throw GradeTypeNotFoundException(id);
+    }
   }
 
   /// Deletes a custom grade type and removes it from all weight maps.

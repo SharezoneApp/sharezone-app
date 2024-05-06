@@ -382,5 +382,15 @@ void main() {
             throwsArgumentError);
       }
     });
+    test(
+        'Trying to edit an unknown custom grade type will throw an $GradeTypeNotFoundException',
+        () {
+      final controller = GradesTestController();
+
+      expect(
+          () => controller.editCustomGradeType(const GradeTypeId('foo'),
+              displayName: 'foo'),
+          throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))));
+    });
   });
 }
