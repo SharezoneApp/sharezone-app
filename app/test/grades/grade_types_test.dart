@@ -371,5 +371,16 @@ void main() {
       expect(gradeTypeIds, containsOnce(const GradeTypeId('custom')));
       expect(gradeTypeIds, containsOnce(GradeType.oralParticipation.id));
     });
+    test('Trying to edit a predefined grade type will throw an ArgumentError',
+        () {
+      final controller = GradesTestController();
+
+      for (final gradeType in controller.getPossibleGradeTypes()) {
+        expect(
+            () => controller.editCustomGradeType(gradeType.id,
+                displayName: 'foo'),
+            throwsArgumentError);
+      }
+    });
   });
 }

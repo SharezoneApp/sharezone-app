@@ -382,6 +382,15 @@ class GradesService {
     _updateState(newState);
   }
 
+  void editCustomGradeType(
+      {required GradeTypeId id, required String displayName}) {
+    final isPredefinedGradeType =
+        GradeType.predefinedGradeTypes.map((gt) => gt.id).contains(id);
+    if (isPredefinedGradeType) {
+      throw ArgumentError('Cannot edit a predefined grade type.');
+    }
+  }
+
   /// Deletes a custom grade type and removes it from all weight maps.
   ///
   /// A custom grade type can only be deleted if it is not assigned to any grade
