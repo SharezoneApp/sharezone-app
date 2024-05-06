@@ -193,11 +193,10 @@ class TermModel extends Equatable {
     final subject = subjects.firstWhere((s) => s.hasGrade(grade.id));
     final gradeModel = _toGradeModel(grade, subjectId: subject.id);
 
-    final newSubjects = subjects
-        .map((subj) =>
-            subj.hasGrade(grade.id) ? subj.replaceGrade(gradeModel) : subj)
-        .toIList();
+    final newSubject = subject.replaceGrade(gradeModel);
 
+    final newSubjects =
+        subjects.replaceAllWhere((s) => s.id == subject.id, newSubject);
     return _copyWith(subjects: newSubjects);
   }
 
