@@ -392,5 +392,15 @@ void main() {
               displayName: 'foo'),
           throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))));
     });
+    test('One can change the name of a custom grade type', () {
+      final controller = GradesTestController();
+
+      controller.createCustomGradeType(
+          const GradeType(id: GradeTypeId('foo'), displayName: 'foo'));
+      controller.editCustomGradeType(const GradeTypeId('foo'),
+          displayName: 'bar');
+
+      expect(controller.getCustomGradeTypes().single.displayName, 'bar');
+    });
   });
 }

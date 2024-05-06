@@ -392,6 +392,13 @@ class GradesService {
     if (!_hasGradeTypeWithId(id)) {
       throw GradeTypeNotFoundException(id);
     }
+
+    final newCustomGradeTypes = _customGradeTypes.replaceAllWhere(
+        (element) => element.id == id,
+        GradeType(id: id, displayName: displayName));
+
+    final newState = _state.copyWith(customGradeTypes: newCustomGradeTypes);
+    _updateState(newState);
   }
 
   /// Deletes a custom grade type and removes it from all weight maps.
