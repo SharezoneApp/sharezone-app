@@ -296,6 +296,11 @@ class GradesService {
     if (!_hasGradeWithId(grade.id)) {
       throw GradeNotFoundException(grade.id);
     }
+
+    final term = _terms.firstWhere((term) => term.containsGrade(grade.id));
+    final newTerm = term.replaceGrade(grade);
+
+    _updateTerm(newTerm);
   }
 
   void deleteGrade(GradeId gradeId) {

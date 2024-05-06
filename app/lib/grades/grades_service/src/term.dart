@@ -180,30 +180,25 @@ class TermModel extends Equatable {
       orElse: () => throw SubjectNotFoundException(toSubject),
     );
 
-    final originalInput = grade.value;
-    final gradingSystem = grade.gradingSystem.toGradingSystemModel();
-    final gradeVal = gradingSystem.toNumOrThrow(grade.value);
-
-    subject = subject.addGrade(GradeModel(
-      id: grade.id,
-      subjectId: toSubject,
-      termId: id,
-      date: grade.date,
-      originalInput: originalInput,
-      value: gradingSystem.toGradeResult(gradeVal),
-      gradingSystem: gradingSystem,
-      takenIntoAccount: grade.takeIntoAccount,
-      gradeType: grade.type,
-      weight: const Weight.factor(1),
-      title: grade.title,
-      details: grade.details,
-    ));
+    subject = subject.addGrade(_toGradeModel(grade, subjectId: subject.id));
 
     return subjects.where((element) => element.id == toSubject).isNotEmpty
         ? _copyWith(
             subjects: subjects.replaceAllWhere(
                 (element) => element.id == toSubject, subject))
         : _copyWith(subjects: subjects.add(subject));
+  }
+
+  TermModel replaceGrade(Grade grade) {
+    final subject = subjects.firstWhere((s) => s.hasGrade(grade.id));
+    final gradeModel = _toGradeModel(grade, subjectId: subject.id);
+
+    final newSubjects = subjects
+        .map((subj) =>
+            subj.hasGrade(grade.id) ? subj.replaceGrade(gradeModel) : subj)
+        .toIList();
+
+    return _copyWith(subjects: newSubjects);
   }
 
   TermModel removeGrade(GradeId gradeId) {
@@ -216,6 +211,27 @@ class TermModel extends Equatable {
 
     return _copyWith(
       subjects: subjects.replaceAllWhere((s) => s.id == subject.id, newSubject),
+    );
+  }
+
+  GradeModel _toGradeModel(Grade grade, {required SubjectId subjectId}) {
+    final originalInput = grade.value;
+    final gradingSystem = grade.gradingSystem.toGradingSystemModel();
+    final gradeVal = gradingSystem.toNumOrThrow(grade.value);
+
+    return GradeModel(
+      id: grade.id,
+      subjectId: subjectId,
+      termId: id,
+      date: grade.date,
+      originalInput: originalInput,
+      value: gradingSystem.toGradeResult(gradeVal),
+      gradingSystem: gradingSystem,
+      takenIntoAccount: grade.takeIntoAccount,
+      gradeType: grade.type,
+      weight: const Weight.factor(1),
+      title: grade.title,
+      details: grade.details,
     );
   }
 
@@ -300,6 +316,10 @@ class TermModel extends Equatable {
 
   TermModel setGradingSystem(GradingSystemModel gradingSystem) {
     return _copyWith(gradingSystem: gradingSystem);
+  }
+
+  bool containsGrade(GradeId id) {
+    return subjects.any((s) => s.hasGrade(id));
   }
 }
 
@@ -418,6 +438,13 @@ class SubjectModel extends Equatable {
 
   GradeModel grade(GradeId id) {
     return grades.firstWhere((element) => element.id == id);
+  }
+
+  SubjectModel replaceGrade(GradeModel grade) {
+    final newGrades = grades
+        .replaceAllWhere((subjGrade) => subjGrade.id == grade.id, grade)
+        .toIList();
+    return copyWith(grades: newGrades);
   }
 
   SubjectModel copyWith({

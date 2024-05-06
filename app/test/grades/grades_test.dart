@@ -1438,4 +1438,41 @@ void main() {
 
     expect(edit, throwsA(const GradeNotFoundException(GradeId('foo'))));
   });
+  test('The grade value can be edited', () {
+    final controller = GradesTestController();
+
+    final term = termWith(
+      subjects: [
+        subjectWith(
+          id: const SubjectId('Philosophie'),
+          grades: [
+            gradeWith(
+              id: const GradeId('grade1'),
+              value: 4.0,
+            ),
+          ],
+        ),
+      ],
+    );
+    controller.createTerm(term);
+
+    controller.editGrade(
+      gradeWith(
+        id: const GradeId('grade1'),
+        value: 3.0,
+      ),
+    );
+
+    expect(
+        controller
+            .term(term.id)
+            .subject(const SubjectId('Philosophie'))
+            .grade(const GradeId('grade1'))
+            .value
+            .asNum,
+        3.0);
+  });
+  // TODO:
+  // * If edited grade has an unknown grade type a GradeTypeNotFoundException is thrown
+  // * If edited grade has an invalid grade value a InvalidGradeValueException is thrown
 }
