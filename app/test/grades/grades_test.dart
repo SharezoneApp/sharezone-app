@@ -1517,6 +1517,35 @@ void main() {
       throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))),
     );
   });
-  // TODO:
-  // * If edited grade has an invalid grade value a InvalidGradeValueException is thrown
+  test(
+      'If the edited grade has an invalid grade value a $InvalidGradeValueException is thrown',
+      () {
+    final controller = GradesTestController();
+
+    final term = termWith(
+      subjects: [
+        subjectWith(
+          id: const SubjectId('Philosophie'),
+          grades: [
+            gradeWith(id: const GradeId('grade1')),
+          ],
+        ),
+      ],
+    );
+    controller.createTerm(term);
+
+    expect(
+      () => controller.editGrade(
+        gradeWith(
+          id: const GradeId('grade1'),
+          gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+          value: '8+',
+        ),
+      ),
+      throwsA(const InvalidGradeValueException(
+        gradeInput: '8+',
+        gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+      )),
+    );
+  });
 }
