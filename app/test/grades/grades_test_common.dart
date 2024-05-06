@@ -296,6 +296,9 @@ class GradesTestController {
   }
 
   void editGrade(TestGrade grade) {
+    if (grade.weight != null) {
+      throw UnimplementedError();
+    }
     service.editGrade(_toGrade(grade));
   }
 

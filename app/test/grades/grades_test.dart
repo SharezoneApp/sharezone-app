@@ -1438,7 +1438,7 @@ void main() {
 
     expect(edit, throwsA(const GradeNotFoundException(GradeId('foo'))));
   });
-  test('The grade value can be edited', () {
+  test('A grade can be edited', () {
     final controller = GradesTestController();
 
     final term = termWith(
@@ -1446,10 +1446,7 @@ void main() {
         subjectWith(
           id: const SubjectId('Philosophie'),
           grades: [
-            gradeWith(
-              id: const GradeId('grade1'),
-              value: 4.0,
-            ),
+            gradeWith(id: const GradeId('grade1')),
           ],
         ),
       ],
@@ -1459,18 +1456,39 @@ void main() {
     controller.editGrade(
       gradeWith(
         id: const GradeId('grade1'),
-        value: 3.0,
+        date: Date('2024-03-22'),
+        details: 'foo details',
+        includeInGradeCalculations: false,
+        title: 'foo title',
+        type: GradeType.other.id,
+        gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+        value: '23',
       ),
     );
 
+    final actualGrade = controller
+        .term(term.id)
+        .subject(const SubjectId('Philosophie'))
+        .grade(const GradeId('grade1'));
+
     expect(
-        controller
-            .term(term.id)
-            .subject(const SubjectId('Philosophie'))
-            .grade(const GradeId('grade1'))
-            .value
-            .asNum,
-        3.0);
+      actualGrade,
+      GradeResult(
+        id: const GradeId('grade1'),
+        isTakenIntoAccount: false,
+        value: const GradeValue(
+          asNum: 23,
+          displayableGrade: null,
+          gradingSystem: GradingSystem.zeroToHundredPercentWithDecimals,
+          suffix: '%',
+        ),
+        date: Date('2024-03-22'),
+        title: 'foo title',
+        gradeTypeId: GradeType.other.id,
+        details: 'foo details',
+        originalInput: '23',
+      ),
+    );
   });
   // TODO:
   // * If edited grade has an unknown grade type a GradeTypeNotFoundException is thrown
