@@ -307,6 +307,10 @@ class GradesTestController {
       {required TermId termId, required GradeTypeId gradeTypeId}) {
     service.editTerm(id: termId, finalGradeType: gradeTypeId);
   }
+
+  void editCustomGradeType(GradeTypeId id, {required String displayName}) {
+    service.editCustomGradeType(id: id, displayName: displayName);
+  }
 }
 
 TestTerm termWith({

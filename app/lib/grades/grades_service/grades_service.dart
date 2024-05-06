@@ -382,6 +382,38 @@ class GradesService {
     _updateState(newState);
   }
 
+  /// Edits properties of a custom grade type.
+  ///
+  /// Throws [ArgumentError] if the [displayName] is empty.
+  ///
+  /// Throws [GradeTypeNotFoundException] if the grade type with the given [id]
+  /// does not exist.
+  ///
+  /// Throws [ArgumentError] if the grade type with the given [id] is a
+  /// predefined grade type.
+  void editCustomGradeType(
+      {required GradeTypeId id, required String displayName}) {
+    if (displayName.isEmpty) {
+      throw ArgumentError('The display name must not be empty.');
+    }
+
+    final isPredefinedGradeType =
+        GradeType.predefinedGradeTypes.map((gt) => gt.id).contains(id);
+    if (isPredefinedGradeType) {
+      throw ArgumentError('Cannot edit a predefined grade type.');
+    }
+    if (!_hasGradeTypeWithId(id)) {
+      throw GradeTypeNotFoundException(id);
+    }
+
+    final newCustomGradeTypes = _customGradeTypes.replaceAllWhere(
+        (element) => element.id == id,
+        GradeType(id: id, displayName: displayName));
+
+    final newState = _state.copyWith(customGradeTypes: newCustomGradeTypes);
+    _updateState(newState);
+  }
+
   /// Deletes a custom grade type and removes it from all weight maps.
   ///
   /// A custom grade type can only be deleted if it is not assigned to any grade

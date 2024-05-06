@@ -371,5 +371,68 @@ void main() {
       expect(gradeTypeIds, containsOnce(const GradeTypeId('custom')));
       expect(gradeTypeIds, containsOnce(GradeType.oralParticipation.id));
     });
+    test('Trying to edit a predefined grade type will throw an ArgumentError',
+        () {
+      final controller = GradesTestController();
+
+      for (final gradeType in controller.getPossibleGradeTypes()) {
+        expect(
+            () => controller.editCustomGradeType(gradeType.id,
+                displayName: 'foo'),
+            throwsArgumentError);
+      }
+    });
+    test(
+        'Trying to edit an unknown custom grade type will throw an $GradeTypeNotFoundException',
+        () {
+      final controller = GradesTestController();
+
+      expect(
+          () => controller.editCustomGradeType(const GradeTypeId('foo'),
+              displayName: 'foo'),
+          throwsA(const GradeTypeNotFoundException(GradeTypeId('foo'))));
+    });
+    test('One can change the name of a custom grade type', () {
+      final controller = GradesTestController();
+      controller.createCustomGradeType(
+          const GradeType(id: GradeTypeId('foo'), displayName: 'foo'));
+
+      controller.createTerm(termWith(
+        id: const TermId('foo'),
+        finalGradeType: const GradeTypeId('foo'),
+        subjects: [
+          subjectWith(
+            id: const SubjectId('bar'),
+            finalGradeType: const GradeTypeId('foo'),
+            grades: [
+              gradeWith(
+                id: const GradeId('bar'),
+                type: const GradeTypeId('foo'),
+                value: 3,
+              ),
+            ],
+          ),
+        ],
+      ));
+
+      controller.editCustomGradeType(const GradeTypeId('foo'),
+          displayName: 'bar');
+
+      expect(controller.getCustomGradeTypes().single.displayName, 'bar');
+      expect(controller.term(const TermId('foo')).finalGradeType.displayName,
+          'bar');
+    });
+    test(
+        'Trying to edit the name of a custom grade type to an empty string throws an $ArgumentError',
+        () {
+      final controller = GradesTestController();
+      controller.createCustomGradeType(
+          const GradeType(id: GradeTypeId('foo'), displayName: 'foo'));
+
+      expect(
+          () => controller.editCustomGradeType(const GradeTypeId('foo'),
+              displayName: ''),
+          throwsArgumentError);
+    });
   });
 }
