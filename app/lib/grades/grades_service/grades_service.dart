@@ -384,7 +384,7 @@ class GradesService {
 
   /// Edits properties of a custom grade type.
   ///
-  /// Throws [ArgumentError] if the display name is empty.
+  /// Throws [ArgumentError] if the [displayName] is empty.
   ///
   /// Throws [GradeTypeNotFoundException] if the grade type with the given [id]
   /// does not exist.
