@@ -486,6 +486,9 @@ class GradesDialogController extends ChangeNotifier {
     final connectedCourses = _getConnectedCourses(subject.id);
 
     gradesService.addSubject(
+      // Not passing the id here would require some refactoring, so for now we
+      // just pass the id of the subject.
+      // ignore: invalid_use_of_visible_for_testing_member
       id: subject.id,
       SubjectInput(
         abbreviation: subject.abbreviation,
