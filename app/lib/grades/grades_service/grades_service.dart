@@ -273,7 +273,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
-  void addGrade({
+  GradeId addGrade({
     required SubjectId subjectId,
     required TermId termId,
     required GradeInput value,
@@ -297,6 +297,8 @@ class GradesService {
     }
     newTerm = newTerm.addGrade(grade, toSubject: subjectId);
     _updateTerm(newTerm);
+
+    return gradeId;
   }
 
   /// Replaces an existing grade with [_Grade.id] with the [newGrade].
