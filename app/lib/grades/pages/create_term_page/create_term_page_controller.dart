@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -57,9 +56,7 @@ class CreateTermPageController extends ChangeNotifier {
     }
 
     try {
-      final termId = TermId(Id.generate().value);
-      gradesService.addTerm(
-        id: termId,
+      final termId = gradesService.addTerm(
         name: view.name!,
         isActiveTerm: view.isActiveTerm,
         finalGradeType: GradeType.schoolReportGrade.id,

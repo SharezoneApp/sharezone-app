@@ -124,13 +124,15 @@ class GradesService {
     );
   }
 
-  void addTerm({
-    required TermId id,
+  TermId addTerm({
     required String name,
     required GradeTypeId finalGradeType,
     required GradingSystem gradingSystem,
     required bool isActiveTerm,
+    @visibleForTesting TermId? id,
   }) {
+    final termId = id ?? TermId(Id.generate().value);
+
     IList<TermModel> newTerms = _terms;
     if (isActiveTerm) {
       newTerms = newTerms.map((term) => term.setIsActiveTerm(false)).toIList();
@@ -142,7 +144,7 @@ class GradesService {
 
     newTerms = newTerms.add(
       TermModel(
-        id: id,
+        id: termId,
         isActiveTerm: isActiveTerm,
         name: name,
         finalGradeType: finalGradeType,
@@ -150,6 +152,7 @@ class GradesService {
       ),
     );
     _updateTerms(newTerms);
+    return termId;
   }
 
   /// Edits the given values of the term (does not edit if the value is null).

@@ -29,7 +29,6 @@ class TermDialogController extends ChangeNotifier {
 
   Future<void> addTerm() async {
     gradesService.addTerm(
-      id: TermId(termName),
       gradingSystem: gradingSystem,
       name: termName,
       finalGradeType: GradeType.schoolReportGrade.id,
