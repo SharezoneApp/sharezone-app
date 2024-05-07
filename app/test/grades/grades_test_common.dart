@@ -80,6 +80,7 @@ class GradesTestController {
       // other settings (weights) that refer to the term.
       for (var grade in subject.grades) {
         service.addGrade(
+          id: grade.id,
           subjectId: subject.id,
           termId: termId,
           value: _toGrade(grade),
@@ -138,9 +139,8 @@ class GradesTestController {
         .addAll(testSubject.grades.map((g) => g.type));
   }
 
-  Grade _toGrade(TestGrade testGrade) {
-    return Grade(
-      id: testGrade.id,
+  GradeInput _toGrade(TestGrade testGrade) {
+    return GradeInput(
       value: testGrade.value,
       date: testGrade.date,
       takeIntoAccount: testGrade.includeInGradeCalculations,
@@ -238,6 +238,7 @@ class GradesTestController {
     required TestGrade value,
   }) {
     return service.addGrade(
+      id: value.id,
       subjectId: subjectId,
       termId: termId,
       value: _toGrade(value),
@@ -299,7 +300,7 @@ class GradesTestController {
     if (grade.weight != null) {
       throw UnimplementedError();
     }
-    service.editGrade(_toGrade(grade));
+    service.editGrade(grade.id, _toGrade(grade));
   }
 
   void deleteGrade({required GradeId gradeId}) {

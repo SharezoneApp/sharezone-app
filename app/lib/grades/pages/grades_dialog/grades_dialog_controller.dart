@@ -17,7 +17,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
-import 'package:sharezone_utils/random_string.dart';
 
 import 'grades_dialog_view.dart';
 
@@ -448,12 +447,10 @@ class GradesDialogController extends ChangeNotifier {
     };
 
     try {
-      final gradeId = GradeId(randomIDString(20));
       gradesService.addGrade(
         subjectId: _selectSubjectId!,
         termId: _selectedTermId!,
-        value: Grade(
-          id: gradeId,
+        value: GradeInput(
           type: _gradeType.id,
           value: _grade!,
           date: _date,

@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// ignore_for_file: library_private_types_in_public_api
+
 part of '../grades_service.dart';
 
 @visibleForTesting
@@ -174,7 +176,7 @@ class TermModel extends Equatable {
     return _copyWith(finalGradeType: gradeType, subjects: newSubjects);
   }
 
-  TermModel addGrade(Grade grade, {required SubjectId toSubject}) {
+  TermModel addGrade(_Grade grade, {required SubjectId toSubject}) {
     var subject = subjects.firstWhere(
       (s) => s.id == toSubject,
       orElse: () => throw SubjectNotFoundException(toSubject),
@@ -189,7 +191,7 @@ class TermModel extends Equatable {
         : _copyWith(subjects: subjects.add(subject));
   }
 
-  TermModel replaceGrade(Grade grade) {
+  TermModel replaceGrade(_Grade grade) {
     final subject = subjects.firstWhere((s) => s.hasGrade(grade.id));
     final gradeModel = _toGradeModel(grade, subjectId: subject.id);
 
@@ -213,7 +215,7 @@ class TermModel extends Equatable {
     );
   }
 
-  GradeModel _toGradeModel(Grade grade, {required SubjectId subjectId}) {
+  GradeModel _toGradeModel(_Grade grade, {required SubjectId subjectId}) {
     final originalInput = grade.value;
     final gradingSystem = grade.gradingSystem.toGradingSystemModel();
     final gradeVal = gradingSystem.toNumOrThrow(grade.value);

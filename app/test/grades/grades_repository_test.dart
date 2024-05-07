@@ -200,10 +200,10 @@ void main() {
       ));
 
       service.addGrade(
+          id: const GradeId('grade-1'),
           subjectId: const SubjectId('mathe'),
           termId: const TermId('02-10-term'),
-          value: Grade(
-            id: const GradeId('grade-1'),
+          value: GradeInput(
             value: '13',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             type: const GradeTypeId('my-custom-grade-type'),
@@ -213,10 +213,10 @@ void main() {
             details: 'hello',
           ));
       service.addGrade(
+          id: const GradeId('grade-2'),
           subjectId: const SubjectId('mathe'),
           termId: const TermId('02-10-term'),
-          value: Grade(
-            id: const GradeId('grade-2'),
+          value: GradeInput(
             value: '3',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             type: GradeType.vocabularyTest.id,
@@ -227,10 +227,10 @@ void main() {
           ));
 
       service.addGrade(
+          id: const GradeId('grade-3'),
           subjectId: const SubjectId('englisch'),
           termId: const TermId('01-10-term'),
-          value: Grade(
-            id: const GradeId('grade-3'),
+          value: GradeInput(
             value: '2-',
             gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
             type: const GradeTypeId('my-custom-grade-type'),
@@ -240,10 +240,10 @@ void main() {
             details: 'ollah',
           ));
       service.addGrade(
+          id: const GradeId('grade-4'),
           subjectId: const SubjectId('englisch'),
           termId: const TermId('01-10-term'),
-          value: Grade(
-            id: const GradeId('grade-4'),
+          value: GradeInput(
             value: 'Sehr zufriedenstellend',
             gradingSystem: GradingSystem.austrianBehaviouralGrades,
             type: GradeType.oralParticipation.id,

@@ -273,45 +273,51 @@ class GradesService {
   void addGrade({
     required SubjectId subjectId,
     required TermId termId,
-    required Grade value,
+    required GradeInput value,
+    @visibleForTesting GradeId? id,
   }) {
+    final gradeId = id ?? GradeId(Id.generate().value);
+    final grade = value.toGrade(gradeId);
+
     final subject = _getSubjectOrThrow(subjectId);
     if (!_hasGradeTypeWithId(value.type)) {
       throw GradeTypeNotFoundException(value.type);
     }
 
-    if (_hasGradeWithId(value.id)) {
-      throw DuplicateGradeIdException(value.id);
+    if (_hasGradeWithId(gradeId)) {
+      throw DuplicateGradeIdException(gradeId);
     }
 
     var newTerm = _term(termId);
     if (!newTerm.hasSubject(subjectId)) {
       newTerm = newTerm.addSubject(subject);
     }
-    newTerm = newTerm.addGrade(value, toSubject: subjectId);
+    newTerm = newTerm.addGrade(grade, toSubject: subjectId);
     _updateTerm(newTerm);
   }
 
-  /// Replaces an existing grade with [Grade.id] with the [newGrade].
+  /// Replaces an existing grade with [_Grade.id] with the [newGrade].
   ///
-  /// Throws [GradeNotFoundException] if no grade with the given [Grade.id]
+  /// Throws [GradeNotFoundException] if no grade with the given [_Grade.id]
   /// of [newGrade] exists.
   ///
   /// Throws [GradeTypeNotFoundException] if the grade type of [newGrade] does
   /// not exist.
   ///
-  /// Throws [InvalidGradeValueException] if the [Grade.value] of the [newGrade]
-  /// is not valid for the [Grade.gradingSystem] of the [newGrade].
-  void editGrade(Grade newGrade) {
-    if (!_hasGradeWithId(newGrade.id)) {
-      throw GradeNotFoundException(newGrade.id);
+  /// Throws [InvalidGradeValueException] if the [_Grade.value] of the [newGrade]
+  /// is not valid for the [_Grade.gradingSystem] of the [newGrade].
+  void editGrade(GradeId id, GradeInput newGrade) {
+    final grade = newGrade.toGrade(id);
+
+    if (!_hasGradeWithId(id)) {
+      throw GradeNotFoundException(id);
     }
     if (!_hasGradeTypeWithId(newGrade.type)) {
       throw GradeTypeNotFoundException(newGrade.type);
     }
 
-    final term = _terms.firstWhere((term) => term.containsGrade(newGrade.id));
-    final newTerm = term.replaceGrade(newGrade);
+    final term = _terms.firstWhere((term) => term.containsGrade(id));
+    final newTerm = term.replaceGrade(grade);
 
     _updateTerm(newTerm);
   }
@@ -867,9 +873,21 @@ class GradeValue extends Equatable {
   });
 }
 
-class Grade {
+class _Grade extends GradeInput {
   final GradeId id;
+  _Grade({
+    required this.id,
+    required super.value,
+    required super.gradingSystem,
+    required super.type,
+    required super.date,
+    required super.takeIntoAccount,
+    required super.title,
+    required super.details,
+  });
+}
 
+class GradeInput {
   /// Either a number or a string like '1+', '2-', etc.
   final Object value;
   final GradingSystem gradingSystem;
@@ -884,8 +902,7 @@ class Grade {
   /// Punkte'.
   final String? details;
 
-  Grade({
-    required this.id,
+  GradeInput({
     required this.value,
     required this.gradingSystem,
     required this.type,
@@ -894,6 +911,21 @@ class Grade {
     required this.title,
     required this.details,
   });
+}
+
+extension on GradeInput {
+  _Grade toGrade(GradeId id) {
+    return _Grade(
+      id: id,
+      value: value,
+      gradingSystem: gradingSystem,
+      type: type,
+      date: date,
+      takeIntoAccount: takeIntoAccount,
+      title: title,
+      details: details,
+    );
+  }
 }
 
 enum WeightType {
