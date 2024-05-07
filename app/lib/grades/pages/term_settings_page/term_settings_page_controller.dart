@@ -185,12 +185,9 @@ class TermSettingsPageController extends ChangeNotifier {
   SubjectId _createSubject(SubjectId subjectId) {
     final subject = view.subjects.firstWhere((s) => s.id == subjectId);
     final connectedCourses = _getConnectedCourses(subjectId);
-    // We generate a new subject ID because the previous subject ID was just the
-    // course ID (as temporary ID).
-    final newSubjectId = SubjectId(Id.generate().value);
-    gradesService.addSubject(
-      Subject(
-        id: newSubjectId,
+
+    final newSubjectId = gradesService.addSubject(
+      SubjectInput(
         design: subject.design,
         name: subject.displayName,
         abbreviation: subject.abbreviation,

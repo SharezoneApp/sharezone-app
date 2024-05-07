@@ -486,10 +486,10 @@ class GradesDialogController extends ChangeNotifier {
     final connectedCourses = _getConnectedCourses(subject.id);
 
     gradesService.addSubject(
-      Subject(
+      id: subject.id,
+      SubjectInput(
         abbreviation: subject.abbreviation,
         design: subject.design,
-        id: subject.id,
         name: subject.name,
         connectedCourses: connectedCourses,
       ),

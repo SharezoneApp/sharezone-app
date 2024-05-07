@@ -170,34 +170,38 @@ void main() {
         isActiveTerm: false,
       );
 
-      service.addSubject(Subject(
+      service.addSubject(
         id: const SubjectId('mathe'),
-        design: Design.random(random),
-        name: 'Mathe',
-        abbreviation: 'M',
-        connectedCourses: const IListConst([
-          ConnectedCourse(
-            id: CourseId('connected-mathe-course'),
-            name: 'Mathe 8a',
-            abbreviation: 'M',
-            subjectName: 'Mathe',
-          )
-        ]),
-      ));
-      service.addSubject(Subject(
+        SubjectInput(
+          design: Design.random(random),
+          name: 'Mathe',
+          abbreviation: 'M',
+          connectedCourses: const IListConst([
+            ConnectedCourse(
+              id: CourseId('connected-mathe-course'),
+              name: 'Mathe 8a',
+              abbreviation: 'M',
+              subjectName: 'Mathe',
+            )
+          ]),
+        ),
+      );
+      service.addSubject(
         id: const SubjectId('englisch'),
-        design: Design.random(random),
-        name: 'Englisch',
-        abbreviation: 'E',
-        connectedCourses: const IListConst([
-          ConnectedCourse(
-            id: CourseId('connected-englisch-course'),
-            name: 'Englisch 8a',
-            abbreviation: 'E',
-            subjectName: 'Englisch',
-          )
-        ]),
-      ));
+        SubjectInput(
+          design: Design.random(random),
+          name: 'Englisch',
+          abbreviation: 'E',
+          connectedCourses: const IListConst([
+            ConnectedCourse(
+              id: CourseId('connected-englisch-course'),
+              name: 'Englisch 8a',
+              abbreviation: 'E',
+              subjectName: 'Englisch',
+            )
+          ]),
+        ),
+      );
 
       service.addGrade(
           id: const GradeId('grade-1'),

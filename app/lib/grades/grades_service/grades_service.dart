@@ -499,16 +499,22 @@ class GradesService {
     return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
   }
 
-  void addSubject(Subject subject) {
+  SubjectId addSubject(SubjectInput subjectInput,
+      {@visibleForTesting SubjectId? id}) {
+    final subjectId = id ?? SubjectId(Id.generate().value);
+    final subject = subjectInput.toSubject(subjectId);
+
     if (subject.createdOn != null) {
       throw ArgumentError(
           'The createdOn field should not be set when adding a new subject.');
     }
-    if (getSubjects().any((s) => s.id == subject.id)) {
-      throw SubjectAlreadyExistsException(subject.id);
+    if (getSubjects().any((s) => s.id == subjectId)) {
+      throw SubjectAlreadyExistsException(subjectId);
     }
     final newState = _state.copyWith(subjects: _subjects.add(subject));
     _updateState(newState);
+
+    return subjectId;
   }
 
   IList<Subject> getSubjects() {
@@ -943,8 +949,24 @@ class GradeTypeId extends Id {
   const GradeTypeId(super.value);
 }
 
-class Subject extends Equatable {
+class Subject extends SubjectInput {
   final SubjectId id;
+
+  @override
+  List<Object?> get props =>
+      [id, design, name, abbreviation, connectedCourses, createdOn];
+
+  const Subject({
+    required this.id,
+    required super.design,
+    required super.name,
+    required super.abbreviation,
+    required super.connectedCourses,
+    super.createdOn,
+  });
+}
+
+class SubjectInput extends Equatable {
   final Design design;
   final String name;
   final String abbreviation;
@@ -953,16 +975,28 @@ class Subject extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, design, name, abbreviation, connectedCourses, createdOn];
+      [design, name, abbreviation, connectedCourses, createdOn];
 
-  const Subject({
-    required this.id,
+  const SubjectInput({
     required this.design,
     required this.name,
     required this.abbreviation,
     required this.connectedCourses,
     this.createdOn,
   });
+}
+
+extension on SubjectInput {
+  Subject toSubject(SubjectId id) {
+    return Subject(
+      id: id,
+      design: design,
+      name: name,
+      abbreviation: abbreviation,
+      connectedCourses: connectedCourses,
+      createdOn: createdOn,
+    );
+  }
 }
 
 class ConnectedCourse extends Equatable {

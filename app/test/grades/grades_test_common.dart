@@ -67,13 +67,15 @@ class GradesTestController {
     }
 
     for (var subject in testTerm.subjects.values) {
-      service.addSubject(Subject(
+      service.addSubject(
         id: subject.id,
-        name: subject.name,
-        abbreviation: subject.abbreviation,
-        design: subject.design,
-        connectedCourses: subject.connectedCourses,
-      ));
+        SubjectInput(
+          name: subject.name,
+          abbreviation: subject.abbreviation,
+          design: subject.design,
+          connectedCourses: subject.connectedCourses,
+        ),
+      );
 
       // A subject is added to a term implicitly when adding a grade with the
       // subject id. So we need to add the grades here first before setting the
@@ -237,7 +239,7 @@ class GradesTestController {
     required SubjectId subjectId,
     required TestGrade value,
   }) {
-    return service.addGrade(
+    service.addGrade(
       id: value.id,
       subjectId: subjectId,
       termId: termId,
@@ -246,13 +248,15 @@ class GradesTestController {
   }
 
   void addSubject(TestSubject subject) {
-    service.addSubject(Subject(
+    service.addSubject(
       id: subject.id,
-      name: subject.name,
-      abbreviation: subject.abbreviation,
-      design: subject.design,
-      connectedCourses: subject.connectedCourses,
-    ));
+      SubjectInput(
+        name: subject.name,
+        abbreviation: subject.abbreviation,
+        design: subject.design,
+        connectedCourses: subject.connectedCourses,
+      ),
+    );
 
     if (subject.grades.isNotEmpty) {
       throw ArgumentError('Use addGrade to add grades to a subject');
