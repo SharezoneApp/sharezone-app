@@ -301,16 +301,16 @@ class GradesService {
     return gradeId;
   }
 
-  /// Replaces an existing grade with [_Grade.id] with the [newGrade].
+  /// Replaces an existing grade with [id] with the [newGrade].
   ///
-  /// Throws [GradeNotFoundException] if no grade with the given [_Grade.id]
-  /// of [newGrade] exists.
+  /// Throws [GradeNotFoundException] if no grade with the given [id] of
+  /// [newGrade] exists.
   ///
   /// Throws [GradeTypeNotFoundException] if the grade type of [newGrade] does
   /// not exist.
   ///
-  /// Throws [InvalidGradeValueException] if the [_Grade.value] of the [newGrade]
-  /// is not valid for the [_Grade.gradingSystem] of the [newGrade].
+  /// Throws [InvalidGradeValueException] if the [_Grade.value] of the
+  /// [newGrade] is not valid for the [_Grade.gradingSystem] of the [newGrade].
   void editGrade(GradeId id, GradeInput newGrade) {
     final grade = newGrade.toGrade(id);
 
