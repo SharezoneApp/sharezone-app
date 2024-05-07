@@ -149,10 +149,8 @@ void main() {
       final random = Random(42);
 
       service.addCustomGradeType(
-        const GradeType(
-          id: GradeTypeId('my-custom-grade-type'),
-          displayName: 'My Custom Grade Type',
-        ),
+        id: const GradeTypeId('my-custom-grade-type'),
+        displayName: 'My Custom Grade Type',
       );
 
       service.addTerm(

@@ -407,14 +407,23 @@ class GradesService {
   /// Creates a custom grade type.
   ///
   /// If the grade type already exists, nothing will happen.
-  void addCustomGradeType(GradeType gradeType) {
-    if (_hasGradeTypeWithId(gradeType.id)) {
-      // Already exists
-      return;
+  GradeTypeId addCustomGradeType({
+    required String displayName,
+    @visibleForTesting GradeTypeId? id,
+  }) {
+    final gradeTypeId = id ?? GradeTypeId(Id.generate().value);
+    final gradeType = GradeType(id: gradeTypeId, displayName: displayName);
+
+    if (_hasGradeTypeWithId(gradeTypeId)) {
+      // Already exists.
+      return gradeTypeId;
     }
+
     final newState =
         _state.copyWith(customGradeTypes: _customGradeTypes.add(gradeType));
     _updateState(newState);
+
+    return gradeTypeId;
   }
 
   /// Edits properties of a custom grade type.

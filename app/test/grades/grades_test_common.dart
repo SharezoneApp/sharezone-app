@@ -40,10 +40,8 @@ class GradesTestController {
     if (createMissingGradeTypes) {
       for (var id in _getAllGradeTypeIds(testTerm)) {
         service.addCustomGradeType(
-          GradeType(
-            id: id,
-            displayName: randomAlpha(5),
-          ),
+          id: id,
+          displayName: randomAlpha(5),
         );
       }
     }
@@ -231,7 +229,10 @@ class GradesTestController {
   }
 
   void createCustomGradeType(GradeType gradeType) {
-    return service.addCustomGradeType(gradeType);
+    service.addCustomGradeType(
+      displayName: gradeType.displayName ?? gradeType.predefinedType.toString(),
+      id: gradeType.id,
+    );
   }
 
   void addGrade({
