@@ -8,15 +8,15 @@ import 'dart:async' as _i10;
 import 'package:analytics/src/analytics/analytics.dart' as _i12;
 import 'package:crash_analytics/src/crash_analytics.dart' as _i9;
 import 'package:fast_immutable_collections/fast_immutable_collections.dart'
-    as _i3;
+    as _i5;
 import 'package:flutter/material.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:rxdart/rxdart.dart' as _i2;
-import 'package:sharezone/grades/grades_service/grades_service.dart' as _i4;
-import 'package:sharezone/grades/models/grade_id.dart' as _i7;
-import 'package:sharezone/grades/models/subject_id.dart' as _i6;
-import 'package:sharezone/grades/models/term_id.dart' as _i5;
+import 'package:sharezone/grades/grades_service/grades_service.dart' as _i6;
+import 'package:sharezone/grades/models/grade_id.dart' as _i4;
+import 'package:sharezone/grades/models/subject_id.dart' as _i7;
+import 'package:sharezone/grades/models/term_id.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -42,8 +42,28 @@ class _FakeBehaviorSubject_0<T> extends _i1.SmartFake
         );
 }
 
-class _FakeIList_1<T> extends _i1.SmartFake implements _i3.IList<T> {
-  _FakeIList_1(
+class _FakeTermId_1 extends _i1.SmartFake implements _i3.TermId {
+  _FakeTermId_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeGradeId_2 extends _i1.SmartFake implements _i4.GradeId {
+  _FakeGradeId_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeIList_3<T> extends _i1.SmartFake implements _i5.IList<T> {
+  _FakeIList_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -55,55 +75,102 @@ class _FakeIList_1<T> extends _i1.SmartFake implements _i3.IList<T> {
   String toString([bool? prettyPrint]) => super.toString();
 }
 
+class _FakeGradeTypeId_4 extends _i1.SmartFake implements _i6.GradeTypeId {
+  _FakeGradeTypeId_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeSubjectId_5 extends _i1.SmartFake implements _i7.SubjectId {
+  _FakeSubjectId_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [GradesService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGradesService extends _i1.Mock implements _i4.GradesService {
+class MockGradesService extends _i1.Mock implements _i6.GradesService {
   @override
-  _i2.BehaviorSubject<_i3.IList<_i4.TermResult>> get terms =>
+  _i2.BehaviorSubject<_i5.IList<_i6.TermResult>> get terms =>
       (super.noSuchMethod(
         Invocation.getter(#terms),
-        returnValue: _FakeBehaviorSubject_0<_i3.IList<_i4.TermResult>>(
+        returnValue: _FakeBehaviorSubject_0<_i5.IList<_i6.TermResult>>(
           this,
           Invocation.getter(#terms),
         ),
         returnValueForMissingStub:
-            _FakeBehaviorSubject_0<_i3.IList<_i4.TermResult>>(
+            _FakeBehaviorSubject_0<_i5.IList<_i6.TermResult>>(
           this,
           Invocation.getter(#terms),
         ),
-      ) as _i2.BehaviorSubject<_i3.IList<_i4.TermResult>>);
+      ) as _i2.BehaviorSubject<_i5.IList<_i6.TermResult>>);
 
   @override
-  void addTerm({
-    required _i5.TermId? id,
+  _i3.TermId addTerm({
     required String? name,
-    required _i4.GradeTypeId? finalGradeType,
-    required _i4.GradingSystem? gradingSystem,
+    required _i6.GradeTypeId? finalGradeType,
+    required _i6.GradingSystem? gradingSystem,
     required bool? isActiveTerm,
+    _i3.TermId? id,
   }) =>
-      super.noSuchMethod(
+      (super.noSuchMethod(
         Invocation.method(
           #addTerm,
           [],
           {
-            #id: id,
             #name: name,
             #finalGradeType: finalGradeType,
             #gradingSystem: gradingSystem,
             #isActiveTerm: isActiveTerm,
+            #id: id,
           },
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _FakeTermId_1(
+          this,
+          Invocation.method(
+            #addTerm,
+            [],
+            {
+              #name: name,
+              #finalGradeType: finalGradeType,
+              #gradingSystem: gradingSystem,
+              #isActiveTerm: isActiveTerm,
+              #id: id,
+            },
+          ),
+        ),
+        returnValueForMissingStub: _FakeTermId_1(
+          this,
+          Invocation.method(
+            #addTerm,
+            [],
+            {
+              #name: name,
+              #finalGradeType: finalGradeType,
+              #gradingSystem: gradingSystem,
+              #isActiveTerm: isActiveTerm,
+              #id: id,
+            },
+          ),
+        ),
+      ) as _i3.TermId);
 
   @override
   void editTerm({
-    required _i5.TermId? id,
+    required _i3.TermId? id,
     bool? isActiveTerm,
     String? name,
-    _i4.GradeTypeId? finalGradeType,
-    _i4.GradingSystem? gradingSystem,
+    _i6.GradeTypeId? finalGradeType,
+    _i6.GradingSystem? gradingSystem,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -121,7 +188,7 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
       );
 
   @override
-  void deleteTerm(_i5.TermId? id) => super.noSuchMethod(
+  void deleteTerm(_i3.TermId? id) => super.noSuchMethod(
         Invocation.method(
           #deleteTerm,
           [id],
@@ -131,9 +198,9 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
 
   @override
   void changeSubjectWeightForTermGrade({
-    required _i6.SubjectId? id,
-    required _i5.TermId? termId,
-    required _i4.Weight? weight,
+    required _i7.SubjectId? id,
+    required _i3.TermId? termId,
+    required _i6.Weight? weight,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -150,9 +217,9 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
 
   @override
   void changeSubjectWeightTypeSettings({
-    required _i6.SubjectId? id,
-    required _i5.TermId? termId,
-    required _i4.WeightType? perGradeType,
+    required _i7.SubjectId? id,
+    required _i3.TermId? termId,
+    required _i6.WeightType? perGradeType,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -169,10 +236,10 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
 
   @override
   void changeGradeTypeWeightForSubject({
-    required _i6.SubjectId? id,
-    required _i5.TermId? termId,
-    required _i4.GradeTypeId? gradeType,
-    required _i4.Weight? weight,
+    required _i7.SubjectId? id,
+    required _i3.TermId? termId,
+    required _i6.GradeTypeId? gradeType,
+    required _i6.Weight? weight,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -190,9 +257,9 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
 
   @override
   void removeGradeTypeWeightForSubject({
-    required _i6.SubjectId? id,
-    required _i5.TermId? termId,
-    required _i4.GradeTypeId? gradeType,
+    required _i7.SubjectId? id,
+    required _i3.TermId? termId,
+    required _i6.GradeTypeId? gradeType,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -208,12 +275,13 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
       );
 
   @override
-  void addGrade({
-    required _i6.SubjectId? subjectId,
-    required _i5.TermId? termId,
-    required _i4.Grade? value,
+  _i4.GradeId addGrade({
+    required _i7.SubjectId? subjectId,
+    required _i3.TermId? termId,
+    required _i6.GradeInput? value,
+    _i4.GradeId? id,
   }) =>
-      super.noSuchMethod(
+      (super.noSuchMethod(
         Invocation.method(
           #addGrade,
           [],
@@ -221,13 +289,55 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
             #subjectId: subjectId,
             #termId: termId,
             #value: value,
+            #id: id,
           },
+        ),
+        returnValue: _FakeGradeId_2(
+          this,
+          Invocation.method(
+            #addGrade,
+            [],
+            {
+              #subjectId: subjectId,
+              #termId: termId,
+              #value: value,
+              #id: id,
+            },
+          ),
+        ),
+        returnValueForMissingStub: _FakeGradeId_2(
+          this,
+          Invocation.method(
+            #addGrade,
+            [],
+            {
+              #subjectId: subjectId,
+              #termId: termId,
+              #value: value,
+              #id: id,
+            },
+          ),
+        ),
+      ) as _i4.GradeId);
+
+  @override
+  void editGrade(
+    _i4.GradeId? id,
+    _i6.GradeInput? newGrade,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #editGrade,
+          [
+            id,
+            newGrade,
+          ],
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void deleteGrade(_i7.GradeId? gradeId) => super.noSuchMethod(
+  void deleteGrade(_i4.GradeId? gradeId) => super.noSuchMethod(
         Invocation.method(
           #deleteGrade,
           [gradeId],
@@ -237,9 +347,9 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
 
   @override
   void changeGradeWeight({
-    required _i7.GradeId? id,
-    required _i5.TermId? termId,
-    required _i4.Weight? weight,
+    required _i4.GradeId? id,
+    required _i3.TermId? termId,
+    required _i6.Weight? weight,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -256,9 +366,9 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
 
   @override
   void changeGradeTypeWeightForTerm({
-    required _i5.TermId? termId,
-    required _i4.GradeTypeId? gradeType,
-    required _i4.Weight? weight,
+    required _i3.TermId? termId,
+    required _i6.GradeTypeId? gradeType,
+    required _i6.Weight? weight,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -275,8 +385,8 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
 
   @override
   void removeGradeTypeWeightForTerm({
-    required _i5.TermId? termId,
-    required _i4.GradeTypeId? gradeType,
+    required _i3.TermId? termId,
+    required _i6.GradeTypeId? gradeType,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -292,9 +402,9 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
 
   @override
   void changeSubjectFinalGradeType({
-    required _i6.SubjectId? id,
-    required _i5.TermId? termId,
-    required _i4.GradeTypeId? gradeType,
+    required _i7.SubjectId? id,
+    required _i3.TermId? termId,
+    required _i6.GradeTypeId? gradeType,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -310,99 +420,174 @@ class MockGradesService extends _i1.Mock implements _i4.GradesService {
       );
 
   @override
-  _i4.PossibleGradesResult getPossibleGrades(
-          _i4.GradingSystem? gradingSystem) =>
+  _i6.PossibleGradesResult getPossibleGrades(
+          _i6.GradingSystem? gradingSystem) =>
       (super.noSuchMethod(
         Invocation.method(
           #getPossibleGrades,
           [gradingSystem],
         ),
-        returnValue: _i8.dummyValue<_i4.PossibleGradesResult>(
+        returnValue: _i8.dummyValue<_i6.PossibleGradesResult>(
           this,
           Invocation.method(
             #getPossibleGrades,
             [gradingSystem],
           ),
         ),
-        returnValueForMissingStub: _i8.dummyValue<_i4.PossibleGradesResult>(
+        returnValueForMissingStub: _i8.dummyValue<_i6.PossibleGradesResult>(
           this,
           Invocation.method(
             #getPossibleGrades,
             [gradingSystem],
           ),
         ),
-      ) as _i4.PossibleGradesResult);
+      ) as _i6.PossibleGradesResult);
 
   @override
-  _i3.IList<_i4.GradeType> getPossibleGradeTypes() => (super.noSuchMethod(
+  _i5.IList<_i6.GradeType> getPossibleGradeTypes() => (super.noSuchMethod(
         Invocation.method(
           #getPossibleGradeTypes,
           [],
         ),
-        returnValue: _FakeIList_1<_i4.GradeType>(
+        returnValue: _FakeIList_3<_i6.GradeType>(
           this,
           Invocation.method(
             #getPossibleGradeTypes,
             [],
           ),
         ),
-        returnValueForMissingStub: _FakeIList_1<_i4.GradeType>(
+        returnValueForMissingStub: _FakeIList_3<_i6.GradeType>(
           this,
           Invocation.method(
             #getPossibleGradeTypes,
             [],
           ),
         ),
-      ) as _i3.IList<_i4.GradeType>);
+      ) as _i5.IList<_i6.GradeType>);
 
   @override
-  void addCustomGradeType(_i4.GradeType? gradeType) => super.noSuchMethod(
+  _i6.GradeTypeId addCustomGradeType({
+    required String? displayName,
+    _i6.GradeTypeId? id,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
           #addCustomGradeType,
-          [gradeType],
+          [],
+          {
+            #displayName: displayName,
+            #id: id,
+          },
+        ),
+        returnValue: _FakeGradeTypeId_4(
+          this,
+          Invocation.method(
+            #addCustomGradeType,
+            [],
+            {
+              #displayName: displayName,
+              #id: id,
+            },
+          ),
+        ),
+        returnValueForMissingStub: _FakeGradeTypeId_4(
+          this,
+          Invocation.method(
+            #addCustomGradeType,
+            [],
+            {
+              #displayName: displayName,
+              #id: id,
+            },
+          ),
+        ),
+      ) as _i6.GradeTypeId);
+
+  @override
+  void editCustomGradeType({
+    required _i6.GradeTypeId? id,
+    required String? displayName,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #editCustomGradeType,
+          [],
+          {
+            #id: id,
+            #displayName: displayName,
+          },
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  void addSubject(_i4.Subject? subject) => super.noSuchMethod(
+  void deleteCustomGradeType(_i6.GradeTypeId? id) => super.noSuchMethod(
+        Invocation.method(
+          #deleteCustomGradeType,
+          [id],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i7.SubjectId addSubject(
+    _i6.SubjectInput? subjectInput, {
+    _i7.SubjectId? id,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
           #addSubject,
-          [subject],
+          [subjectInput],
+          {#id: id},
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _FakeSubjectId_5(
+          this,
+          Invocation.method(
+            #addSubject,
+            [subjectInput],
+            {#id: id},
+          ),
+        ),
+        returnValueForMissingStub: _FakeSubjectId_5(
+          this,
+          Invocation.method(
+            #addSubject,
+            [subjectInput],
+            {#id: id},
+          ),
+        ),
+      ) as _i7.SubjectId);
 
   @override
-  _i3.IList<_i4.Subject> getSubjects() => (super.noSuchMethod(
+  _i5.IList<_i6.Subject> getSubjects() => (super.noSuchMethod(
         Invocation.method(
           #getSubjects,
           [],
         ),
-        returnValue: _FakeIList_1<_i4.Subject>(
+        returnValue: _FakeIList_3<_i6.Subject>(
           this,
           Invocation.method(
             #getSubjects,
             [],
           ),
         ),
-        returnValueForMissingStub: _FakeIList_1<_i4.Subject>(
+        returnValueForMissingStub: _FakeIList_3<_i6.Subject>(
           this,
           Invocation.method(
             #getSubjects,
             [],
           ),
         ),
-      ) as _i3.IList<_i4.Subject>);
+      ) as _i5.IList<_i6.Subject>);
 
   @override
-  _i4.Subject? getSubject(_i6.SubjectId? id) => (super.noSuchMethod(
+  _i6.Subject? getSubject(_i7.SubjectId? id) => (super.noSuchMethod(
         Invocation.method(
           #getSubject,
           [id],
         ),
         returnValueForMissingStub: null,
-      ) as _i4.Subject?);
+      ) as _i6.Subject?);
 }
 
 /// A class which mocks [CrashAnalytics].
