@@ -40,10 +40,8 @@ class GradesTestController {
     if (createMissingGradeTypes) {
       for (var id in _getAllGradeTypeIds(testTerm)) {
         service.addCustomGradeType(
-          GradeType(
-            id: id,
-            displayName: randomAlpha(5),
-          ),
+          id: id,
+          displayName: randomAlpha(5),
         );
       }
     }
@@ -67,19 +65,22 @@ class GradesTestController {
     }
 
     for (var subject in testTerm.subjects.values) {
-      service.addSubject(Subject(
+      service.addSubject(
         id: subject.id,
-        name: subject.name,
-        abbreviation: subject.abbreviation,
-        design: subject.design,
-        connectedCourses: subject.connectedCourses,
-      ));
+        SubjectInput(
+          name: subject.name,
+          abbreviation: subject.abbreviation,
+          design: subject.design,
+          connectedCourses: subject.connectedCourses,
+        ),
+      );
 
       // A subject is added to a term implicitly when adding a grade with the
       // subject id. So we need to add the grades here first before setting the
       // other settings (weights) that refer to the term.
       for (var grade in subject.grades) {
         service.addGrade(
+          id: grade.id,
           subjectId: subject.id,
           termId: termId,
           value: _toGrade(grade),
@@ -138,9 +139,8 @@ class GradesTestController {
         .addAll(testSubject.grades.map((g) => g.type));
   }
 
-  Grade _toGrade(TestGrade testGrade) {
-    return Grade(
-      id: testGrade.id,
+  GradeInput _toGrade(TestGrade testGrade) {
+    return GradeInput(
       value: testGrade.value,
       date: testGrade.date,
       takeIntoAccount: testGrade.includeInGradeCalculations,
@@ -229,7 +229,10 @@ class GradesTestController {
   }
 
   void createCustomGradeType(GradeType gradeType) {
-    return service.addCustomGradeType(gradeType);
+    service.addCustomGradeType(
+      displayName: gradeType.displayName ?? gradeType.predefinedType.toString(),
+      id: gradeType.id,
+    );
   }
 
   void addGrade({
@@ -237,7 +240,8 @@ class GradesTestController {
     required SubjectId subjectId,
     required TestGrade value,
   }) {
-    return service.addGrade(
+    service.addGrade(
+      id: value.id,
       subjectId: subjectId,
       termId: termId,
       value: _toGrade(value),
@@ -245,13 +249,15 @@ class GradesTestController {
   }
 
   void addSubject(TestSubject subject) {
-    service.addSubject(Subject(
+    service.addSubject(
       id: subject.id,
-      name: subject.name,
-      abbreviation: subject.abbreviation,
-      design: subject.design,
-      connectedCourses: subject.connectedCourses,
-    ));
+      SubjectInput(
+        name: subject.name,
+        abbreviation: subject.abbreviation,
+        design: subject.design,
+        connectedCourses: subject.connectedCourses,
+      ),
+    );
 
     if (subject.grades.isNotEmpty) {
       throw ArgumentError('Use addGrade to add grades to a subject');
@@ -299,7 +305,7 @@ class GradesTestController {
     if (grade.weight != null) {
       throw UnimplementedError();
     }
-    service.editGrade(_toGrade(grade));
+    service.editGrade(grade.id, _toGrade(grade));
   }
 
   void deleteGrade({required GradeId gradeId}) {

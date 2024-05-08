@@ -124,13 +124,15 @@ class GradesService {
     );
   }
 
-  void addTerm({
-    required TermId id,
+  TermId addTerm({
     required String name,
     required GradeTypeId finalGradeType,
     required GradingSystem gradingSystem,
     required bool isActiveTerm,
+    @visibleForTesting TermId? id,
   }) {
+    final termId = id ?? TermId(Id.generate().value);
+
     IList<TermModel> newTerms = _terms;
     if (isActiveTerm) {
       newTerms = newTerms.map((term) => term.setIsActiveTerm(false)).toIList();
@@ -142,7 +144,7 @@ class GradesService {
 
     newTerms = newTerms.add(
       TermModel(
-        id: id,
+        id: termId,
         isActiveTerm: isActiveTerm,
         name: name,
         finalGradeType: finalGradeType,
@@ -150,6 +152,7 @@ class GradesService {
       ),
     );
     _updateTerms(newTerms);
+    return termId;
   }
 
   /// Edits the given values of the term (does not edit if the value is null).
@@ -270,48 +273,56 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
-  void addGrade({
+  GradeId addGrade({
     required SubjectId subjectId,
     required TermId termId,
-    required Grade value,
+    required GradeInput value,
+    @visibleForTesting GradeId? id,
   }) {
+    final gradeId = id ?? GradeId(Id.generate().value);
+    final grade = value.toGrade(gradeId);
+
     final subject = _getSubjectOrThrow(subjectId);
     if (!_hasGradeTypeWithId(value.type)) {
       throw GradeTypeNotFoundException(value.type);
     }
 
-    if (_hasGradeWithId(value.id)) {
-      throw DuplicateGradeIdException(value.id);
+    if (_hasGradeWithId(gradeId)) {
+      throw DuplicateGradeIdException(gradeId);
     }
 
     var newTerm = _term(termId);
     if (!newTerm.hasSubject(subjectId)) {
       newTerm = newTerm.addSubject(subject);
     }
-    newTerm = newTerm.addGrade(value, toSubject: subjectId);
+    newTerm = newTerm.addGrade(grade, toSubject: subjectId);
     _updateTerm(newTerm);
+
+    return gradeId;
   }
 
-  /// Replaces an existing grade with [Grade.id] with the [newGrade].
+  /// Replaces an existing grade with [id] with the [newGrade].
   ///
-  /// Throws [GradeNotFoundException] if no grade with the given [Grade.id]
-  /// of [newGrade] exists.
+  /// Throws [GradeNotFoundException] if no grade with the given [id] of
+  /// [newGrade] exists.
   ///
   /// Throws [GradeTypeNotFoundException] if the grade type of [newGrade] does
   /// not exist.
   ///
-  /// Throws [InvalidGradeValueException] if the [Grade.value] of the [newGrade]
-  /// is not valid for the [Grade.gradingSystem] of the [newGrade].
-  void editGrade(Grade newGrade) {
-    if (!_hasGradeWithId(newGrade.id)) {
-      throw GradeNotFoundException(newGrade.id);
+  /// Throws [InvalidGradeValueException] if the [_Grade.value] of the
+  /// [newGrade] is not valid for the [_Grade.gradingSystem] of the [newGrade].
+  void editGrade(GradeId id, GradeInput newGrade) {
+    final grade = newGrade.toGrade(id);
+
+    if (!_hasGradeWithId(id)) {
+      throw GradeNotFoundException(id);
     }
     if (!_hasGradeTypeWithId(newGrade.type)) {
       throw GradeTypeNotFoundException(newGrade.type);
     }
 
-    final term = _terms.firstWhere((term) => term.containsGrade(newGrade.id));
-    final newTerm = term.replaceGrade(newGrade);
+    final term = _terms.firstWhere((term) => term.containsGrade(id));
+    final newTerm = term.replaceGrade(grade);
 
     _updateTerm(newTerm);
   }
@@ -396,14 +407,23 @@ class GradesService {
   /// Creates a custom grade type.
   ///
   /// If the grade type already exists, nothing will happen.
-  void addCustomGradeType(GradeType gradeType) {
-    if (_hasGradeTypeWithId(gradeType.id)) {
-      // Already exists
-      return;
+  GradeTypeId addCustomGradeType({
+    required String displayName,
+    @visibleForTesting GradeTypeId? id,
+  }) {
+    final gradeTypeId = id ?? GradeTypeId(Id.generate().value);
+    final gradeType = GradeType(id: gradeTypeId, displayName: displayName);
+
+    if (_hasGradeTypeWithId(gradeTypeId)) {
+      // Already exists.
+      return gradeTypeId;
     }
+
     final newState =
         _state.copyWith(customGradeTypes: _customGradeTypes.add(gradeType));
     _updateState(newState);
+
+    return gradeTypeId;
   }
 
   /// Edits properties of a custom grade type.
@@ -488,16 +508,22 @@ class GradesService {
     return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
   }
 
-  void addSubject(Subject subject) {
+  SubjectId addSubject(SubjectInput subjectInput,
+      {@visibleForTesting SubjectId? id}) {
+    final subjectId = id ?? SubjectId(Id.generate().value);
+    final subject = subjectInput.toSubject(subjectId);
+
     if (subject.createdOn != null) {
       throw ArgumentError(
           'The createdOn field should not be set when adding a new subject.');
     }
-    if (getSubjects().any((s) => s.id == subject.id)) {
-      throw SubjectAlreadyExistsException(subject.id);
+    if (getSubjects().any((s) => s.id == subjectId)) {
+      throw SubjectAlreadyExistsException(subjectId);
     }
     final newState = _state.copyWith(subjects: _subjects.add(subject));
     _updateState(newState);
+
+    return subjectId;
   }
 
   IList<Subject> getSubjects() {
@@ -867,9 +893,21 @@ class GradeValue extends Equatable {
   });
 }
 
-class Grade {
+class _Grade extends GradeInput {
   final GradeId id;
+  _Grade({
+    required this.id,
+    required super.value,
+    required super.gradingSystem,
+    required super.type,
+    required super.date,
+    required super.takeIntoAccount,
+    required super.title,
+    required super.details,
+  });
+}
 
+class GradeInput {
   /// Either a number or a string like '1+', '2-', etc.
   final Object value;
   final GradingSystem gradingSystem;
@@ -884,8 +922,7 @@ class Grade {
   /// Punkte'.
   final String? details;
 
-  Grade({
-    required this.id,
+  GradeInput({
     required this.value,
     required this.gradingSystem,
     required this.type,
@@ -894,6 +931,21 @@ class Grade {
     required this.title,
     required this.details,
   });
+}
+
+extension on GradeInput {
+  _Grade toGrade(GradeId id) {
+    return _Grade(
+      id: id,
+      value: value,
+      gradingSystem: gradingSystem,
+      type: type,
+      date: date,
+      takeIntoAccount: takeIntoAccount,
+      title: title,
+      details: details,
+    );
+  }
 }
 
 enum WeightType {
@@ -906,8 +958,24 @@ class GradeTypeId extends Id {
   const GradeTypeId(super.value);
 }
 
-class Subject extends Equatable {
+class Subject extends SubjectInput {
   final SubjectId id;
+
+  @override
+  List<Object?> get props =>
+      [id, design, name, abbreviation, connectedCourses, createdOn];
+
+  const Subject({
+    required this.id,
+    required super.design,
+    required super.name,
+    required super.abbreviation,
+    required super.connectedCourses,
+    super.createdOn,
+  });
+}
+
+class SubjectInput extends Equatable {
   final Design design;
   final String name;
   final String abbreviation;
@@ -916,16 +984,28 @@ class Subject extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, design, name, abbreviation, connectedCourses, createdOn];
+      [design, name, abbreviation, connectedCourses, createdOn];
 
-  const Subject({
-    required this.id,
+  const SubjectInput({
     required this.design,
     required this.name,
     required this.abbreviation,
     required this.connectedCourses,
     this.createdOn,
   });
+}
+
+extension on SubjectInput {
+  Subject toSubject(SubjectId id) {
+    return Subject(
+      id: id,
+      design: design,
+      name: name,
+      abbreviation: abbreviation,
+      connectedCourses: connectedCourses,
+      createdOn: createdOn,
+    );
+  }
 }
 
 class ConnectedCourse extends Equatable {
