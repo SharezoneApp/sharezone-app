@@ -444,7 +444,7 @@ class _Teacher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isUnlocked = Provider.of<SubscriptionService>(context)
-        .hasFeatureUnlocked(SharezonePlusFeature.manageTeachers);
+        .hasFeatureUnlocked(SharezonePlusFeature.addTeachersToTimetable);
     final hasTeacher = lesson.teacher != null;
     final showSharezonePlusAd = !isUnlocked && hasTeacher;
     return ListTile(

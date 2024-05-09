@@ -387,7 +387,7 @@ class TeacherField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isUnlocked = Provider.of<SubscriptionService>(context)
-        .hasFeatureUnlocked(SharezonePlusFeature.manageTeachers);
+        .hasFeatureUnlocked(SharezonePlusFeature.addTeachersToTimetable);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: ListTile(

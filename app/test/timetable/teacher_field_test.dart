@@ -23,7 +23,7 @@ void main() {
 
     Widget buildWidget({bool isUnlocked = true}) {
       when(mockSubscriptionService
-              .hasFeatureUnlocked(SharezonePlusFeature.manageTeachers))
+              .hasFeatureUnlocked(SharezonePlusFeature.addTeachersToTimetable))
           .thenReturn(isUnlocked);
       return Provider<SubscriptionService>.value(
         value: mockSubscriptionService,
