@@ -451,7 +451,7 @@ class _Teacher extends StatelessWidget {
       leading: const Icon(Icons.person),
       title: Text(getTitle(isUnlocked)),
       subtitle: showSharezonePlusAd
-          ? const Text("Nur für Sharezone Plus Nutzer")
+          ? const Text("Nur für Plus-Nutzer sichtbar.")
           : null,
       trailing: showSharezonePlusAd ? const SharezonePlusChip() : null,
       onTap: showSharezonePlusAd
