@@ -50,9 +50,14 @@ class TimetableEditLessonPage extends StatefulWidget {
   final ConnectionsGateway connectionsGateway;
   final TimetableBloc timetableBloc;
   final Lesson initialLesson;
-  const TimetableEditLessonPage(this.initialLesson, this.timetableGateway,
-      this.connectionsGateway, this.timetableBloc,
-      {super.key});
+
+  const TimetableEditLessonPage(
+    this.initialLesson,
+    this.timetableGateway,
+    this.connectionsGateway,
+    this.timetableBloc, {
+    super.key,
+  });
 
   @override
   State createState() => _TimetableEditLessonPageState();
@@ -125,6 +130,8 @@ class _TimetableEditPage extends StatelessWidget {
               _EndTimeField(),
               const Divider(height: 8),
               _RoomField(initialLesson),
+              const Divider(),
+              _TeacherField(initialLesson),
             ],
           ),
         ),
@@ -331,21 +338,66 @@ class _RoomField extends StatelessWidget {
     final bloc = BlocProvider.of<TimetableEditBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: PrefilledTextField(
+      child: ListTile(
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 6, bottom: 26),
+          child: Icon(Icons.place),
+        ),
+        title: PrefilledTextField(
           prefilledText: initialLesson.place,
           decoration: const InputDecoration(
-            icon: Padding(
-              padding: EdgeInsets.only(left: 6),
-              child: Icon(Icons.place),
-            ),
             border: OutlineInputBorder(),
             labelText: "Raum",
           ),
           textCapitalization: TextCapitalization.sentences,
           maxLength: 32,
           onChanged: bloc.changeRoom,
+        ),
+      ),
+    );
+  }
+}
+
+class _TeacherField extends StatelessWidget {
+  const _TeacherField(this.initialLesson);
+
+  final Lesson initialLesson;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TimetableEditBloc>(context);
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: ListTile(
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 6),
+          child: Icon(Icons.person),
+        ),
+        title: Autocomplete(
+          initialValue: TextEditingValue(text: initialLesson.teacher ?? ''),
+          optionsBuilder: (textEditingValue) {
+            final teachers = bloc.teachers;
+            return teachers
+                .where((teacher) => teacher
+                    .toLowerCase()
+                    .contains(textEditingValue.text.toLowerCase().trim()))
+                .toList();
+          },
+          fieldViewBuilder:
+              (context, textEditingController, focusNode, onFieldSubmitted) {
+            return TextField(
+              controller: textEditingController,
+              focusNode: focusNode,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Lehrkraft",
+                hintText: "z.B. Frau Stark",
+              ),
+              textCapitalization: TextCapitalization.sentences,
+              onChanged: bloc.changeTeacher,
+            );
+          },
+          onSelected: bloc.changeTeacher,
         ),
       ),
     );

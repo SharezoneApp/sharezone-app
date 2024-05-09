@@ -439,7 +439,53 @@ class _LessonBasicSection extends StatelessWidget {
           lesson: lesson,
           date: date,
         ),
+        _Teacher(lesson: lesson),
       ],
+    );
+  }
+}
+
+class _Teacher extends StatelessWidget {
+  const _Teacher({
+    required this.lesson,
+  });
+
+  final Lesson lesson;
+
+  String getTitle(bool isTeacherFeatureUnlocked) {
+    if (lesson.teacher == null) {
+      return "Lehrkraft: -";
+    }
+
+    if (!isTeacherFeatureUnlocked) {
+      return "Lehrkraft: ***";
+    }
+
+    return "Lehrkraft: ${lesson.teacher}";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isUnlocked = Provider.of<SubscriptionService>(context)
+        .hasFeatureUnlocked(SharezonePlusFeature.manageTeachers);
+    final hasTeacher = lesson.teacher != null;
+    final showSharezonePlusAd = !isUnlocked && hasTeacher;
+    return ListTile(
+      leading: const Icon(Icons.person),
+      title: Text(getTitle(isUnlocked)),
+      subtitle: showSharezonePlusAd
+          ? const Text("Nur für Sharezone Plus Nutzer")
+          : null,
+      trailing: showSharezonePlusAd ? const SharezonePlusChip() : null,
+      onTap: showSharezonePlusAd
+          ? () => showSharezonePlusFeatureInfoDialog(
+                context: context,
+                navigateToPlusPage: () => navigateToSharezonePlusPage(context),
+                title: const Text("Lehrkraft im Stundenplan"),
+                description: const Text(
+                    "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft nicht angezeigt."),
+              )
+          : null,
     );
   }
 }

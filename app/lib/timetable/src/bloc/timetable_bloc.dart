@@ -19,6 +19,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/lesson_data_snapshot.dart';
+import 'package:sharezone/timetable/timetable_edit/lesson/timetable_lesson_edit_bloc.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_view.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
@@ -44,6 +45,7 @@ class TimetableBloc extends BlocBase {
   final TimetableGateway timetableGateway;
   final CourseGateway courseGateway;
   final SchoolClassFilterAnalytics schoolClassFilterAnalytics;
+  final currentTeachersSubject = BehaviorSubject<CurrentTeachers>();
 
   TimetableBloc(
     this.schoolClassGateway,
@@ -103,6 +105,7 @@ class TimetableBloc extends BlocBase {
             List<Lesson>, List<String>, SchoolClassFilter, List<Lesson>>(
         lessonsStream, coursesOfSchoolClass, _selectedSchoolOptionSubject,
         (lessons, coursesOfSchoolClass, schoolClassFilter) {
+      _setCurrentTeachers(lessons);
       if (schoolClassFilter.shouldFilterForClass) {
         lessons = _getLessonsOfASchoolClass(coursesOfSchoolClass, lessons);
       }
@@ -207,6 +210,16 @@ class TimetableBloc extends BlocBase {
       );
     });
     return streamGroup;
+  }
+
+  void _setCurrentTeachers(List<Lesson> lessons) {
+    final teachers =
+        lessons.where((l) => l.teacher != null).map((l) => l.teacher!);
+    if (currentTeachersSubject.hasValue) {
+      currentTeachersSubject.add(currentTeachersSubject.value.addAll(teachers));
+    } else {
+      currentTeachersSubject.add(CurrentTeachers(teachers.toSet()));
+    }
   }
 
   @override
