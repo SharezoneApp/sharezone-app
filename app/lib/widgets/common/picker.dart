@@ -56,53 +56,47 @@ Future<T?> showSheetBuilder<T>({
     context: context,
     isScrollControlled: false,
     builder: (context) {
-      return clearAppTheme(
-        context: context,
-        child: Opacity(
-          opacity: 1,
-          child: Material(
-            color: null,
-            clipBehavior: Clip.antiAlias,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(height: 6),
+      return SafeArea(
+        child: Material(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(height: 6),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: 4,
+                  width: MediaQuery.of(context).size.width / 6,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      color: Colors.grey[400]),
+                ),
+              ),
+              const SizedBox(height: 12),
+              if (title != null)
                 Align(
                   alignment: Alignment.topCenter,
-                  child: Container(
-                    height: 4,
-                    width: MediaQuery.of(context).size.width / 6,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        color: Colors.grey[400]),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey[500]),
                   ),
                 ),
-                const SizedBox(height: 12),
-                if (title != null)
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey[500]),
-                    ),
-                  ),
-                if (title != null) const SizedBox(height: 12),
-                child(context),
-                const SizedBox(height: 6),
-                actions != null
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: actions(context),
-                      )
-                    : const SizedBox(height: 0),
-                const SizedBox(height: 6),
-              ],
-            ),
+              if (title != null) const SizedBox(height: 12),
+              child(context),
+              const SizedBox(height: 6),
+              actions != null
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: actions(context),
+                    )
+                  : const SizedBox(height: 0),
+              const SizedBox(height: 6),
+            ],
           ),
         ),
       );
