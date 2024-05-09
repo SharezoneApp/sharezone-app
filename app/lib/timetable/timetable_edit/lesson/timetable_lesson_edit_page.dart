@@ -22,7 +22,7 @@ import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weekday.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
-import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
+import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_details.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
