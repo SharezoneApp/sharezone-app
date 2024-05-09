@@ -193,7 +193,7 @@ So funktioniert es:
 2. Sorge dafür, dass dein Video mehr als 10.000 Aufrufe erzielt.
 3. Schick uns den Link zu deinem Video an plus@sharezone.net.
 
-Deiner Kreativität sind keine Grenzen gesetzt, solange dein Video den Richtlinien der jeweiligen Plattform entspricht.''',
+Deiner Kreativität sind keine Grenzen gesetzt. Bitte beachte außerdem unsere Bedingungen für das Content Creator Programm: https://sharezone.net/content-creator-programm.''',
         styleSheet: MarkdownStyleSheet(
           a: TextStyle(
             color: Theme.of(context).primaryColor,
