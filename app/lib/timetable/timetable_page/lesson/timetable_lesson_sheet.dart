@@ -478,16 +478,20 @@ class _Teacher extends StatelessWidget {
           : null,
       trailing: showSharezonePlusAd ? const SharezonePlusChip() : null,
       onTap: showSharezonePlusAd
-          ? () => showSharezonePlusFeatureInfoDialog(
-                context: context,
-                navigateToPlusPage: () => navigateToSharezonePlusPage(context),
-                title: const Text("Lehrkraft im Stundenplan"),
-                description: const Text(
-                    "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft nicht angezeigt."),
-              )
+          ? () => showTeachersInTimetablePlusDialog(context)
           : null,
     );
   }
+}
+
+Future<void> showTeachersInTimetablePlusDialog(BuildContext context) {
+  return showSharezonePlusFeatureInfoDialog(
+    context: context,
+    navigateToPlusPage: () => navigateToSharezonePlusPage(context),
+    title: const Text("Lehrkraft im Stundenplan"),
+    description: const Text(
+        "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft nicht angezeigt."),
+  );
 }
 
 class _Location extends StatelessWidget {

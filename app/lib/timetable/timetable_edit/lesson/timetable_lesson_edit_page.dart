@@ -13,7 +13,9 @@ import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_period.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
@@ -365,6 +367,8 @@ class _TeacherField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isUnlocked = Provider.of<SubscriptionService>(context)
+        .hasFeatureUnlocked(SharezonePlusFeature.manageTeachers);
     final bloc = BlocProvider.of<TimetableEditBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
@@ -373,31 +377,43 @@ class _TeacherField extends StatelessWidget {
           padding: EdgeInsets.only(left: 6),
           child: Icon(Icons.person),
         ),
-        title: Autocomplete(
-          initialValue: TextEditingValue(text: initialLesson.teacher ?? ''),
-          optionsBuilder: (textEditingValue) {
-            final teachers = bloc.teachers;
-            return teachers
-                .where((teacher) => teacher
-                    .toLowerCase()
-                    .contains(textEditingValue.text.toLowerCase().trim()))
-                .toList();
-          },
-          fieldViewBuilder:
-              (context, textEditingController, focusNode, onFieldSubmitted) {
-            return TextField(
-              controller: textEditingController,
-              focusNode: focusNode,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Lehrkraft",
-                hintText: "z.B. Frau Stark",
-              ),
-              textCapitalization: TextCapitalization.sentences,
-              onChanged: bloc.changeTeacher,
-            );
-          },
-          onSelected: bloc.changeTeacher,
+        onTap: isUnlocked
+            ? null
+            : () => showTeachersInTimetablePlusDialog(context),
+        title: IgnorePointer(
+          ignoring: !isUnlocked,
+          child: Autocomplete(
+            initialValue: TextEditingValue(text: initialLesson.teacher ?? ''),
+            optionsBuilder: (textEditingValue) {
+              final teachers = bloc.teachers;
+              return teachers
+                  .where((teacher) => teacher
+                      .toLowerCase()
+                      .contains(textEditingValue.text.toLowerCase().trim()))
+                  .toList();
+            },
+            fieldViewBuilder:
+                (context, textEditingController, focusNode, onFieldSubmitted) {
+              return TextField(
+                controller: textEditingController,
+                focusNode: focusNode,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: "Lehrkraft",
+                  hintText: "z.B. Frau Stark",
+                  suffixIcon: isUnlocked
+                      ? null
+                      : const Padding(
+                          padding: EdgeInsets.fromLTRB(4, 4, 12, 4),
+                          child: SharezonePlusChip(),
+                        ),
+                ),
+                textCapitalization: TextCapitalization.sentences,
+                onChanged: bloc.changeTeacher,
+              );
+            },
+            onSelected: bloc.changeTeacher,
+          ),
         ),
       ),
     );
