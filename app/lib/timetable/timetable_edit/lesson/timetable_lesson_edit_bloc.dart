@@ -12,7 +12,6 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
@@ -40,7 +39,6 @@ class TimetableEditBloc extends BlocBase {
   final TimetableGateway gateway;
   final ConnectionsGateway connectionsGateway;
   final TimetableBloc timetableBloc;
-  CurrentTeachers get teachers => timetableBloc.currentTeachersSubject.value;
 
   TimetableEditBloc({
     required this.gateway,

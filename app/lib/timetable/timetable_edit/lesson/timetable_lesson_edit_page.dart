@@ -95,6 +95,7 @@ class _TimetableEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final editBloc = BlocProvider.of<TimetableEditBloc>(context);
     final timetableBloc = BlocProvider.of<TimetableBloc>(context);
     return PopScope(
       canPop: false,
@@ -131,9 +132,16 @@ class _TimetableEditPage extends StatelessWidget {
               const Divider(),
               _EndTimeField(),
               const Divider(height: 8),
-              _RoomField(initialLesson),
+              RoomField(
+                onChanged: editBloc.changeRoom,
+                initialPlace: initialLesson.place,
+              ),
               const Divider(),
-              _TeacherField(initialLesson),
+              TeacherField(
+                onTeacherChanged: editBloc.changeTeacher,
+                teachers: timetableBloc.currentTeachers,
+                initialTeacher: initialLesson.teacher,
+              ),
             ],
           ),
         ),
@@ -330,14 +338,18 @@ class _EndTimeField extends StatelessWidget {
   }
 }
 
-class _RoomField extends StatelessWidget {
-  const _RoomField(this.initialLesson);
+class RoomField extends StatelessWidget {
+  const RoomField({
+    super.key,
+    required this.onChanged,
+    this.initialPlace,
+  });
 
-  final Lesson initialLesson;
+  final String? initialPlace;
+  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<TimetableEditBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: ListTile(
@@ -346,30 +358,36 @@ class _RoomField extends StatelessWidget {
           child: Icon(Icons.place),
         ),
         title: PrefilledTextField(
-          prefilledText: initialLesson.place,
+          prefilledText: initialPlace,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             labelText: "Raum",
           ),
           textCapitalization: TextCapitalization.sentences,
           maxLength: 32,
-          onChanged: bloc.changeRoom,
+          onChanged: onChanged,
         ),
       ),
     );
   }
 }
 
-class _TeacherField extends StatelessWidget {
-  const _TeacherField(this.initialLesson);
+class TeacherField extends StatelessWidget {
+  const TeacherField({
+    super.key,
+    required this.teachers,
+    required this.onTeacherChanged,
+    this.initialTeacher,
+  });
 
-  final Lesson initialLesson;
+  final String? initialTeacher;
+  final CurrentTeachers teachers;
+  final ValueChanged<String> onTeacherChanged;
 
   @override
   Widget build(BuildContext context) {
     final isUnlocked = Provider.of<SubscriptionService>(context)
         .hasFeatureUnlocked(SharezonePlusFeature.manageTeachers);
-    final bloc = BlocProvider.of<TimetableEditBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: ListTile(
@@ -383,9 +401,8 @@ class _TeacherField extends StatelessWidget {
         title: IgnorePointer(
           ignoring: !isUnlocked,
           child: Autocomplete(
-            initialValue: TextEditingValue(text: initialLesson.teacher ?? ''),
+            initialValue: TextEditingValue(text: initialTeacher ?? ''),
             optionsBuilder: (textEditingValue) {
-              final teachers = bloc.teachers;
               return teachers
                   .where((teacher) => teacher
                       .toLowerCase()
@@ -409,10 +426,10 @@ class _TeacherField extends StatelessWidget {
                         ),
                 ),
                 textCapitalization: TextCapitalization.sentences,
-                onChanged: bloc.changeTeacher,
+                onChanged: onTeacherChanged,
               );
             },
-            onSelected: bloc.changeTeacher,
+            onSelected: onTeacherChanged,
           ),
         ),
       ),

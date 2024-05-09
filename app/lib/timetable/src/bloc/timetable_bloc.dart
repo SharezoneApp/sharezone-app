@@ -13,6 +13,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:date/weektype.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/widgets.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
@@ -45,7 +46,10 @@ class TimetableBloc extends BlocBase {
   final TimetableGateway timetableGateway;
   final CourseGateway courseGateway;
   final SchoolClassFilterAnalytics schoolClassFilterAnalytics;
-  final currentTeachersSubject = BehaviorSubject<CurrentTeachers>();
+
+  final _currentTeachersSubject =
+      BehaviorSubject<CurrentTeachers>.seeded(ISet());
+  CurrentTeachers get currentTeachers => _currentTeachersSubject.value;
 
   TimetableBloc(
     this.schoolClassGateway,
@@ -215,11 +219,7 @@ class TimetableBloc extends BlocBase {
   void _setCurrentTeachers(List<Lesson> lessons) {
     final teachers =
         lessons.where((l) => l.teacher != null).map((l) => l.teacher!);
-    if (currentTeachersSubject.hasValue) {
-      currentTeachersSubject.add(currentTeachersSubject.value.addAll(teachers));
-    } else {
-      currentTeachersSubject.add(CurrentTeachers(teachers.toSet()));
-    }
+    _currentTeachersSubject.add(_currentTeachersSubject.value.addAll(teachers));
   }
 
   @override
