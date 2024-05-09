@@ -399,6 +399,7 @@ class TeacherField extends StatelessWidget {
             ? null
             : () => showTeachersInTimetablePlusDialog(context),
         title: IgnorePointer(
+          key: const Key('teacher-ignore-pointer-widget'),
           ignoring: !isUnlocked,
           child: Autocomplete(
             initialValue: TextEditingValue(text: initialTeacher ?? ''),
