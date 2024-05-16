@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_console/activation_codes/activation_codes_page.dart';
 import 'package:sharezone_console/pages/change_type_of_user.dart';
 import 'package:sharezone_console/pages/feedbacks/feedbacks_page.dart';
+import 'package:sharezone_console/pages/fix_ical_calendars.dart';
 
 Future<void> openPage(BuildContext context, Widget widget) {
   return Navigator.push(
@@ -46,6 +47,13 @@ class HomePage extends StatelessWidget {
             title: const Text("Feedbacks"),
             onTap: () {
               openPage(context, FeedbacksPage());
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.calendar_today),
+            title: const Text("Fix iCal Calendars"),
+            onTap: () {
+              openPage(context, FixICalCalendars());
             },
           ),
         ],

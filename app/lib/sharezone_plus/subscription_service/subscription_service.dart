@@ -118,6 +118,7 @@ enum SharezonePlusFeature {
   homeworkDueDateChips,
   iCalLinks,
   substitutions,
+  addTeachersToTimetable,
 }
 
 void trySetSharezonePlusAnalyticsUserProperties(Analytics analytics,

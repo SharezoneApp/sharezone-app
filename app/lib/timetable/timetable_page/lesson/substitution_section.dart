@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-part of 'timetable_lesson_sheet.dart';
+part of 'timetable_lesson_details.dart';
 
 class _SubstitutionSection extends StatelessWidget {
   const _SubstitutionSection({
@@ -72,8 +72,8 @@ class _SubstitutionSection extends StatelessWidget {
               onTap: () => Navigator.pop(
                   context,
                   hasUnlocked
-                      ? _LessonModelSheetAction.cancelLesson
-                      : _LessonModelSheetAction.showSubstitutionPlusDialog),
+                      ? _LessonDialogAction.cancelLesson
+                      : _LessonDialogAction.showSubstitutionPlusDialog),
             ),
             ListTile(
               leading: const Icon(Icons.place_outlined),
@@ -81,8 +81,8 @@ class _SubstitutionSection extends StatelessWidget {
               onTap: () => Navigator.pop(
                   context,
                   hasUnlocked
-                      ? _LessonModelSheetAction.addRoomSubstitution
-                      : _LessonModelSheetAction.showSubstitutionPlusDialog),
+                      ? _LessonDialogAction.addRoomSubstitution
+                      : _LessonDialogAction.showSubstitutionPlusDialog),
             ),
           ] else
             const ListTile(
@@ -150,7 +150,7 @@ class _LessonCanceledCard extends StatelessWidget {
                         .withOpacity(0.6),
                   ),
                   onPressed: () => Navigator.pop(
-                      context, _LessonModelSheetAction.removeCancelLesson),
+                      context, _LessonDialogAction.removeCancelLesson),
                 )
               : null,
         ),
@@ -203,8 +203,8 @@ class _RoomChanged extends StatelessWidget {
                             .onSurface
                             .withOpacity(0.6),
                       ),
-                      onPressed: () => Navigator.pop(context,
-                          _LessonModelSheetAction.updateRoomSubstitution),
+                      onPressed: () => Navigator.pop(
+                          context, _LessonDialogAction.updateRoomSubstitution),
                     ),
                     const SizedBox(width: 8),
                     IconButton(
@@ -217,7 +217,7 @@ class _RoomChanged extends StatelessWidget {
                             .withOpacity(0.6),
                       ),
                       onPressed: () => Navigator.pop(
-                          context, _LessonModelSheetAction.removePlaceChange),
+                          context, _LessonDialogAction.removePlaceChange),
                     ),
                   ],
                 )

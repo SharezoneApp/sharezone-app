@@ -16,7 +16,7 @@ import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/substitution.dart';
 
-import 'timetable_lesson_sheet.dart';
+import 'timetable_lesson_details.dart';
 
 class TimetableEntryLesson extends StatelessWidget {
   final Lesson lesson;
