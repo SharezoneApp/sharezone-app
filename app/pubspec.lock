@@ -1644,13 +1644,13 @@ packages:
     source: hosted
     version: "3.7.0-dev.2"
   patrol_finders:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: patrol_finders
-      sha256: ac33527cc1b63e3aa131dbd7107cfda8ee2df0fb4a4a423c067174a2e60db77b
+      sha256: fbc98e89e1df4568f638389f4b320b6adb5d8e98d9d2ed86e370e01f4708787c
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3-dev.1"
   pdfx:
     dependency: transitive
     description:

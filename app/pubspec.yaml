@@ -199,6 +199,8 @@ dependency_overrides:
   device_info_plus: ^10.1.0
   # Can be removed once flutter_localizations uses intl >= 0.19.0
   intl: ^0.19.0
+  # Can be removed once patrol uses patrol_finders 2.0.3
+  patrol_finders: ^2.0.3-dev.1
 
 dev_dependencies:
   async: ^2.4.1
