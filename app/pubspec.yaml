@@ -215,7 +215,8 @@ dev_dependencies:
   bloc_test: ^9.1.4
   bloc_presentation_test: ^1.0.0
   path: ^1.8.3
-  patrol: ^3.3.0
+  # Can be switched to stable version once 3.7.0 is released.
+  patrol: ^3.7.0-dev.2
 
 patrol:
   app_name: Sharezone App
