@@ -125,6 +125,7 @@ class Lesson {
       periodNumber: periodNumber ?? this.periodNumber,
       weekday: weekday ?? this.weekday,
       weektype: weektype ?? this.weektype,
+      // A function because otherwise one can't set the teacher null
       teacher: teacher != null ? teacher() : this.teacher,
       place: place ?? this.place,
       substitutions: substitutions ?? this.substitutions,

@@ -215,8 +215,7 @@ class TimetableBloc extends BlocBase {
   }
 
   void _setCurrentTeachers(List<Lesson> lessons) {
-    final teachers =
-        lessons.where((l) => l.teacher != null).map((l) => l.teacher!);
+    final teachers = lessons.map((l) => l.teacher).nonNulls;
     _currentTeachersSubject.add(_currentTeachersSubject.value.addAll(teachers));
   }
 
