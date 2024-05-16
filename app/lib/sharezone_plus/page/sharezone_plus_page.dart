@@ -87,7 +87,9 @@ class SharezonePlusPageMain extends StatelessWidget {
                     const SizedBox(height: 18),
                     const _CallToActionSection(),
                     const SizedBox(height: 32),
-                    const SharezonePlusFaq(),
+                    const SharezonePlusFaq(
+                      showContentCreatorQuestion: true,
+                    ),
                     const SizedBox(height: 18),
                     const SharezonePlusSupportNote(),
                   ],
