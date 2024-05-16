@@ -11,7 +11,6 @@ import 'dart:developer';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
@@ -22,8 +21,6 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/validators.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
-
-typedef CurrentTeachers = ISet<String>;
 
 class TimetableEditBloc extends BlocBase {
   final _courseSegmentSubject = BehaviorSubject<Course>();

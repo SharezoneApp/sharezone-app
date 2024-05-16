@@ -11,6 +11,7 @@ import 'dart:developer';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:provider/provider.dart';
@@ -381,7 +382,7 @@ class TeacherField extends StatelessWidget {
   });
 
   final String? initialTeacher;
-  final CurrentTeachers teachers;
+  final ISet<String> teachers;
   final ValueChanged<String> onTeacherChanged;
 
   @override

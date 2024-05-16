@@ -20,7 +20,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/lesson_data_snapshot.dart';
-import 'package:sharezone/timetable/timetable_edit/lesson/timetable_lesson_edit_bloc.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_view.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
@@ -47,9 +46,8 @@ class TimetableBloc extends BlocBase {
   final CourseGateway courseGateway;
   final SchoolClassFilterAnalytics schoolClassFilterAnalytics;
 
-  final _currentTeachersSubject =
-      BehaviorSubject<CurrentTeachers>.seeded(ISet());
-  CurrentTeachers get currentTeachers => _currentTeachersSubject.value;
+  final _currentTeachersSubject = BehaviorSubject<ISet<String>>.seeded(ISet());
+  ISet<String> get currentTeachers => _currentTeachersSubject.value;
 
   TimetableBloc(
     this.schoolClassGateway,
