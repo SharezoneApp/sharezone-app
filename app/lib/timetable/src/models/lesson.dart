@@ -109,7 +109,7 @@ class Lesson {
     int? periodNumber,
     WeekDay? weekday,
     WeekType? weektype,
-    String? teacher,
+    String? Function()? teacher,
     String? place,
     Map<SubstitutionId, Substitution>? substitutions,
   }) {
@@ -125,7 +125,8 @@ class Lesson {
       periodNumber: periodNumber ?? this.periodNumber,
       weekday: weekday ?? this.weekday,
       weektype: weektype ?? this.weektype,
-      teacher: teacher ?? this.teacher,
+      // A function because otherwise one can't set the teacher null
+      teacher: teacher != null ? teacher() : this.teacher,
       place: place ?? this.place,
       substitutions: substitutions ?? this.substitutions,
     );

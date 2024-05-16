@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:math';
-
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
@@ -37,7 +35,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 part 'substitution_section.dart';
 
-enum _LessonModelSheetAction {
+enum _LessonDialogAction {
   edit,
   delete,
   design,
@@ -47,6 +45,7 @@ enum _LessonModelSheetAction {
   removeCancelLesson,
   removePlaceChange,
   showSubstitutionPlusDialog,
+  showTeachersPlusDialog,
 }
 
 enum _LessonLongPressResult { edit, delete, changeDesign, report }
@@ -190,8 +189,7 @@ Future<void> showLessonModelSheet(
   Date date,
   Design? design,
 ) async {
-  final popOption = await showModalBottomSheet<_LessonModelSheetAction>(
-    isScrollControlled: true,
+  final popOption = await showDialog<_LessonDialogAction>(
     context: context,
     builder: (context) => _TimetableLessonBottomModelSheet(
       lesson: lesson,
@@ -202,32 +200,35 @@ Future<void> showLessonModelSheet(
   if (!context.mounted || popOption == null) return;
 
   switch (popOption) {
-    case _LessonModelSheetAction.delete:
+    case _LessonDialogAction.delete:
       _deleteLesson(context, lesson);
       break;
-    case _LessonModelSheetAction.edit:
+    case _LessonDialogAction.edit:
       _openTimetableEditPage(context, lesson);
       break;
-    case _LessonModelSheetAction.design:
+    case _LessonDialogAction.design:
       editCourseDesign(context, lesson.groupID);
       break;
-    case _LessonModelSheetAction.cancelLesson:
+    case _LessonDialogAction.cancelLesson:
       _cancelLesson(context, lesson, date);
       break;
-    case _LessonModelSheetAction.addRoomSubstitution:
+    case _LessonDialogAction.addRoomSubstitution:
       _addRoomSubstitution(context, lesson, date);
       break;
-    case _LessonModelSheetAction.removeCancelLesson:
+    case _LessonDialogAction.removeCancelLesson:
       _removeCancelSubstitution(context, lesson, date);
       break;
-    case _LessonModelSheetAction.showSubstitutionPlusDialog:
+    case _LessonDialogAction.showSubstitutionPlusDialog:
       _showPlusDialog(context);
       break;
-    case _LessonModelSheetAction.removePlaceChange:
+    case _LessonDialogAction.removePlaceChange:
       _removePlaceChangeSubstitution(context, lesson, date);
       break;
-    case _LessonModelSheetAction.updateRoomSubstitution:
+    case _LessonDialogAction.updateRoomSubstitution:
       _updateRoomSubstitution(context, lesson, date);
+      break;
+    case _LessonDialogAction.showTeachersPlusDialog:
+      showTeachersInTimetablePlusDialog(context);
       break;
   }
 }
@@ -313,70 +314,46 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final hasPermissionsToManageLessons = hasPermissionToManageLessons(
         api.course.getRoleFromCourseNoSync(lesson.groupID)!);
-    // The perfect height to show the full content of the sheet (assuming a/b
-    // week is not enabled).
-    final initialChildSize =
-        min((0.5 / MediaQuery.of(context).size.height) * 1000, 1.0);
-    return SafeArea(
-      left: true,
-      bottom: true,
-      child: DraggableScrollableSheet(
-        expand: false,
-        initialChildSize: initialChildSize,
-        builder: (context, scrollController) {
-          return ListView(
-            controller: scrollController,
+    return SimpleDialog(
+      children: <Widget>[
+        const SizedBox(height: 8),
+        ListTile(
+          leading: const CloseButton(),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text("Details",
-                          style: Theme.of(context).textTheme.titleLarge),
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      const _ChangeColorIcon(),
-                      ReportIcon(
-                          item: ReportItemReference.lesson(lesson.lessonID!),
-                          color: getIconGrey(context)),
-                      if (hasPermissionsToManageLessons) ...const [
-                        _EditIcon(),
-                        DeleteIcon(),
-                      ],
-                      const SizedBox(width: 4),
-                    ],
-                  ),
-                ],
-              ),
-              const Divider(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: _LessonBasicSection(
-                  design: design,
-                  lesson: lesson,
-                  date: date,
-                ),
-              ),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: _SubstitutionSection(
-                  date: date,
-                  hasPermissionsToManageLessons: hasPermissionsToManageLessons,
-                  lesson: lesson,
-                ),
-              ),
-              const SizedBox(height: 8),
+              const _ChangeColorIcon(),
+              ReportIcon(
+                  item: ReportItemReference.lesson(lesson.lessonID!),
+                  color: getIconGrey(context)),
+              if (hasPermissionsToManageLessons) ...const [
+                _EditIcon(),
+                DeleteIcon(),
+              ],
+              const SizedBox(width: 4),
             ],
-          );
-        },
-      ),
+          ),
+        ),
+        const Divider(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: _LessonBasicSection(
+            design: design,
+            lesson: lesson,
+            date: date,
+          ),
+        ),
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: _SubstitutionSection(
+            date: date,
+            hasPermissionsToManageLessons: hasPermissionsToManageLessons,
+            lesson: lesson,
+          ),
+        ),
+        const SizedBox(height: 8),
+      ],
     );
   }
 }
@@ -439,9 +416,60 @@ class _LessonBasicSection extends StatelessWidget {
           lesson: lesson,
           date: date,
         ),
+        _Teacher(lesson: lesson),
       ],
     );
   }
+}
+
+class _Teacher extends StatelessWidget {
+  const _Teacher({
+    required this.lesson,
+  });
+
+  final Lesson lesson;
+
+  String getTitle(bool isTeacherFeatureUnlocked) {
+    if (lesson.teacher == null) {
+      return "Lehrkraft: -";
+    }
+
+    if (!isTeacherFeatureUnlocked) {
+      return "Lehrkraft: ***";
+    }
+
+    return "Lehrkraft: ${lesson.teacher}";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isUnlocked = Provider.of<SubscriptionService>(context)
+        .hasFeatureUnlocked(SharezonePlusFeature.addTeachersToTimetable);
+    final hasTeacher = lesson.teacher != null;
+    final showSharezonePlusAd = !isUnlocked && hasTeacher;
+    return ListTile(
+      leading: const Icon(Icons.person),
+      title: Text(getTitle(isUnlocked)),
+      subtitle: showSharezonePlusAd
+          ? const Text("Nur für Plus-Nutzer sichtbar.")
+          : null,
+      trailing: showSharezonePlusAd ? const SharezonePlusChip() : null,
+      onTap: showSharezonePlusAd
+          ? () =>
+              Navigator.pop(context, _LessonDialogAction.showTeachersPlusDialog)
+          : null,
+    );
+  }
+}
+
+Future<void> showTeachersInTimetablePlusDialog(BuildContext context) {
+  return showSharezonePlusFeatureInfoDialog(
+    context: context,
+    navigateToPlusPage: () => navigateToSharezonePlusPage(context),
+    title: const Text("Lehrkraft im Stundenplan"),
+    description: const Text(
+        "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft nicht angezeigt."),
+  );
 }
 
 class _Location extends StatelessWidget {
@@ -487,7 +515,7 @@ class DeleteIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => Navigator.pop(context, _LessonModelSheetAction.delete),
+      onPressed: () => Navigator.pop(context, _LessonDialogAction.delete),
       icon: const Icon(Icons.delete),
       tooltip: 'Löschen',
       color: getIconGrey(context),
@@ -501,7 +529,7 @@ class _EditIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => Navigator.pop(context, _LessonModelSheetAction.edit),
+      onPressed: () => Navigator.pop(context, _LessonDialogAction.edit),
       icon: const Icon(Icons.edit),
       tooltip: 'Bearbeiten',
       color: getIconGrey(context),
@@ -518,7 +546,7 @@ class _ChangeColorIcon extends StatelessWidget {
       icon: const Icon(Icons.color_lens),
       color: getIconGrey(context),
       tooltip: 'Farbe ändern',
-      onPressed: () => Navigator.pop(context, _LessonModelSheetAction.design),
+      onPressed: () => Navigator.pop(context, _LessonDialogAction.design),
     );
   }
 }

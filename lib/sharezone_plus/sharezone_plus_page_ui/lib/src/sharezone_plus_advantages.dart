@@ -35,6 +35,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
         if (isHomeworkReminderFeatureVisible)
           _HomeworkReminder(onOpen: onOpenedAdvantage),
         _Substitutions(onOpen: onOpenedAdvantage),
+        _TeachersTimetable(onOpen: onOpenedAdvantage),
         _PastEvents(onOpen: onOpenedAdvantage),
         _AddEventsToLocalCalendar(onOpen: onOpenedAdvantage),
         _IcalFeature(onOpen: onOpenedAdvantage),
@@ -140,6 +141,28 @@ class _Substitutions extends StatelessWidget {
 Sogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern). Ebenfalls können Kursmitglieder mit nur einem 1-Klick über die Änderung informiert werden. 
 
 Beachte, dass der Vertretungsplan manuell eingetragen werden muss und nicht automatisch importiert wird.''',
+      ),
+    );
+  }
+}
+
+class _TeachersTimetable extends StatelessWidget {
+  const _TeachersTimetable({
+    required this.onOpen,
+  });
+
+  final ValueChanged<String>? onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      onOpen: () {
+        if (onOpen != null) onOpen!('teachers_timetable');
+      },
+      icon: const Icon(Icons.person),
+      title: const Text('Lehrkraft im Stundenplan'),
+      description: const Text(
+        '''Trage den Name der Lehrkraft zur jeweiligen Schulstunde im Stundenplan ein. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft nicht angezeigt.''',
       ),
     );
   }
