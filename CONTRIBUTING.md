@@ -41,6 +41,12 @@ Our Sharezone app uses the [Flutter](https://flutter.dev) framework. In order to
 
 Please follow the official documentation: [Install Flutter](https://docs.flutter.dev/get-started/install)
 
+### Java
+
+To build the Android app, you must have **Java 17** installed. You can download Java 17 from the [official website](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
+
+In case you don't want to build the Android app, you can skip this step.
+
 ### Sharezone CLI
 
 We written our own CLI to manage our repository. Common use cases for the CLI are:
