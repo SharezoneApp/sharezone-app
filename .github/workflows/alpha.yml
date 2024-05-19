@@ -323,9 +323,9 @@ jobs:
           SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
           # Required for workaround https://github.com/flutter/flutter/issues/148354
-          export FLUTTER_ROOT=${{ steps.flutter-action.outputs.VERSION }}
-          echo "FLUTTER_ROOT:"
-          echo "$FLUTTER_ROOT"
+          export FLUTTER_CACHE_PATH=${{ steps.flutter-action.outputs.CACHE-PATH }}
+          echo "FLUTTER_CACHE_PATH:"
+          echo "$FLUTTER_CACHE_PATH"
           
           sz deploy app macos \
             --stage alpha \

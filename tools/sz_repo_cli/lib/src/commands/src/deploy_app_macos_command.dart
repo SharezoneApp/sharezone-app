@@ -138,7 +138,7 @@ class DeployAppMacOsCommand extends CommandBase {
         [
           'chmod',
           '755',
-          '\$FLUTTER_ROOT/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework',
+          '\$FLUTTER_CACHE_PATH/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework',
         ],
         workingDirectory: repo.sharezoneFlutterApp.location,
       );
