@@ -133,8 +133,6 @@ class DeployAppMacOsCommand extends CommandBase {
         workingDirectory: repo.sharezoneFlutterApp.path,
       );
 
-      await _buildApp(processRunner, buildNumber: buildNumber);
-
       // Workaround for https://github.com/flutter/flutter/issues/148354
       await processRunner.run(
         [
@@ -144,6 +142,17 @@ class DeployAppMacOsCommand extends CommandBase {
         ],
         workingDirectory: repo.sharezoneFlutterApp.location,
       );
+
+      // print $FLUTTER_ROOT
+      await processRunner.run(
+        [
+          'echo',
+          '\$FLUTTER_ROOT',
+        ],
+        workingDirectory: repo.sharezoneFlutterApp.location,
+      );
+
+      await _buildApp(processRunner, buildNumber: buildNumber);
 
       await _createSignedPackage();
       await publishToAppStoreConnect(
