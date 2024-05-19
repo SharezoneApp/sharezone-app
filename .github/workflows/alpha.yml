@@ -16,6 +16,8 @@ concurrency:
   group: app-release
 
 on:
+  # temp
+  pull_request:
   push:
     branches:
       - main
@@ -280,6 +282,7 @@ jobs:
         uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
 
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+        id: flutter-action
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -303,6 +306,7 @@ jobs:
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_KEY_IDENTIFIER }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.SHAREZONE_APP_STORE_CONNECT_PRIVATE_KEY }}
+        shell: bash
         run: |
           # Because we are publishing every commit a new alpha version, we are
           # able to use the last commit message (title and description) as release
@@ -318,6 +322,9 @@ jobs:
           # longer than 4000 characters.
           SHORT_LAST_COMMIT_MESSAGE=${LAST_COMMIT_MESSAGE:0:4000}
 
+          # Required for workaround https://github.com/flutter/flutter/issues/148354
+          export FLUTTER_ROOT=${{ steps.flutter-action.outputs.VERSION }}
+          
           sz deploy app macos \
             --stage alpha \
             --whats-new "$SHORT_LAST_COMMIT_MESSAGE"

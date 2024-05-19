@@ -133,6 +133,16 @@ class DeployAppMacOsCommand extends CommandBase {
         workingDirectory: repo.sharezoneFlutterApp.path,
       );
 
+      // Workaround for https://github.com/flutter/flutter/issues/148354
+      await processRunner.run(
+        [
+          'chmod',
+          '755',
+          '\$FLUTTER_ROOT/bin/cache/artifacts/engine/darwin-x64-release/FlutterMacOS.xcframework/macos-arm64_x86_64/FlutterMacOS.framework',
+        ],
+        workingDirectory: repo.sharezoneFlutterApp.location,
+      );
+
       await _buildApp(processRunner, buildNumber: buildNumber);
 
       await _createSignedPackage();
