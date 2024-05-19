@@ -45,8 +45,22 @@ class MobileFilePicker extends FilePickerImplementation {
   Future<List<PlatformFile>> _pickMultiPlatformFilesOrNull(
       [mobile_file_picker.FileType type =
           mobile_file_picker.FileType.any]) async {
-    final files = (await mobile_file_picker.FilePicker.platform
-        .pickFiles(type: type, allowMultiple: true));
+    final files = (await mobile_file_picker.FilePicker.platform.pickFiles(
+      type: type,
+      allowMultiple: true,
+      // On Android, the compression quality is set to 0, which means no
+      // compression. This is because we had a customer who reported a crash
+      // caused by the compression of the image. The image can be compressed
+      // later with [ImageCompressor].
+      //
+      // See:
+      // * https://github.com/SharezoneApp/sharezone-app/issues/1635
+      // * https://github.com/miguelpruivo/flutter_file_picker/issues/1499#issuecomment-2071760579
+      //
+      // On other platforms, the compression quality is set to 30, which is the
+      // default.
+      compressionQuality: PlatformCheck.isAndroid ? 0 : 30,
+    ));
     return files?.files ?? [];
   }
 
