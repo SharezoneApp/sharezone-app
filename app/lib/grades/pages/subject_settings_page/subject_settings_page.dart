@@ -34,7 +34,7 @@ class SubjectSettingsPage extends StatelessWidget {
       create: (context) {
         final gradesService = context.read<GradesService>();
         return SubjectSettingsPageController(
-          subjectId: subjectId,
+          subRef: gradesService.term(termId).subject(subjectId),
           termId: termId,
           gradesService: gradesService,
         );

@@ -22,9 +22,10 @@ class TermDetailsPageControllerFactory {
     required this.analytics,
   });
 
+  // TODO Change TermId to TermRef
   TermDetailsPageController create(TermId termId) {
     return TermDetailsPageController(
-      termId: termId,
+      termRef: gradesService.term(termId),
       gradesService: gradesService,
       crashAnalytics: crashAnalytics,
       analytics: analytics,

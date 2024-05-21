@@ -56,7 +56,7 @@ class CreateTermPageController extends ChangeNotifier {
     }
 
     try {
-      final termId = gradesService.addTerm(
+      final termRef = gradesService.addTerm(
         name: view.name!,
         isActiveTerm: view.isActiveTerm,
         finalGradeType: GradeType.schoolReportGrade.id,
@@ -70,18 +70,12 @@ class CreateTermPageController extends ChangeNotifier {
       //
       // https://stackoverflow.com/questions/74454570/has-firestore-removed-the-soft-limit-of-1-write-per-second-to-a-single-document
       await _waitForFirestoreLimit();
-      gradesService.changeGradeTypeWeightForTerm(
-        termId: termId,
-        gradeType: GradeType.writtenExam.id,
-        weight: const Weight.percent(50),
-      );
+      termRef.changeGradeTypeWeight(
+          GradeType.writtenExam.id, const Weight.percent(50));
 
       await _waitForFirestoreLimit();
-      gradesService.changeGradeTypeWeightForTerm(
-        termId: termId,
-        gradeType: GradeType.oralParticipation.id,
-        weight: const Weight.percent(50),
-      );
+      termRef.changeGradeTypeWeight(
+          GradeType.oralParticipation.id, const Weight.percent(50));
     } catch (e, s) {
       crashAnalytics.recordError('Could not save term: $e', s);
       throw CouldNotSaveTermException('$e');

@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// ignore_for_file: deprecated_member_use_from_same_package, provide_deprecation_message
+
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -124,7 +126,7 @@ class GradesService {
     );
   }
 
-  TermId addTerm({
+  TermRef addTerm({
     required String name,
     required GradeTypeId finalGradeType,
     required GradingSystem gradingSystem,
@@ -152,7 +154,12 @@ class GradesService {
       ),
     );
     _updateTerms(newTerms);
-    return termId;
+
+    return term(termId);
+  }
+
+  TermRef term(TermId id) {
+    return TermRef(id, this);
   }
 
   /// Edits the given values of the term (does not edit if the value is null).
@@ -165,6 +172,7 @@ class GradesService {
   /// a valid grade type.
   ///
   /// Throws [ArgumentError] if the term with the given [id] does not exist.
+  @deprecated
   void editTerm({
     required TermId id,
     final bool? isActiveTerm,
@@ -217,6 +225,7 @@ class GradesService {
   /// No subjects will be deleted.
   ///
   /// Throws [ArgumentError] if the term with the given [id] does not exist.
+  @deprecated
   void deleteTerm(TermId id) {
     IList<TermModel> newTerms = _terms;
 
@@ -231,6 +240,7 @@ class GradesService {
 
   TermModel _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
+  @deprecated
   void changeSubjectWeightForTermGrade(
       {required SubjectId id, required TermId termId, required Weight weight}) {
     final subject = _getSubjectOrThrow(id);
@@ -244,6 +254,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  @deprecated
   void changeSubjectWeightTypeSettings(
       {required SubjectId id,
       required TermId termId,
@@ -252,6 +263,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  @deprecated
   void changeGradeTypeWeightForSubject({
     required SubjectId id,
     required TermId termId,
@@ -263,6 +275,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  @deprecated
   void removeGradeTypeWeightForSubject({
     required SubjectId id,
     required TermId termId,
@@ -273,6 +286,18 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  GradeRef getGradeRef(GradeId id) {
+    final term = _terms.firstWhereOrNull((term) => term.hasGrade(id));
+    if (term == null) {
+      throw GradeNotFoundException(id);
+    }
+    final subject =
+        term.subjects.firstWhereOrNull((subject) => subject.hasGrade(id));
+
+    return this.term(term.id).subject(subject!.id).grade(id);
+  }
+
+  @deprecated
   GradeId addGrade({
     required SubjectId subjectId,
     required TermId termId,
@@ -311,6 +336,7 @@ class GradesService {
   ///
   /// Throws [InvalidGradeValueException] if the [_Grade.value] of the
   /// [newGrade] is not valid for the [_Grade.gradingSystem] of the [newGrade].
+  @deprecated
   void editGrade(GradeId id, GradeInput newGrade) {
     final grade = newGrade.toGrade(id);
 
@@ -327,6 +353,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  @deprecated
   void deleteGrade(GradeId gradeId) {
     final term = _terms.firstWhereOrNull((term) => term.hasGrade(gradeId));
     if (term != null) {
@@ -341,6 +368,7 @@ class GradesService {
     return _terms.any((term) => term.hasGrade(id));
   }
 
+  @deprecated
   void changeGradeWeight({
     required GradeId id,
     required TermId termId,
@@ -355,6 +383,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  @deprecated
   void changeGradeTypeWeightForTerm(
       {required TermId termId,
       required GradeTypeId gradeType,
@@ -364,6 +393,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  @deprecated
   void removeGradeTypeWeightForTerm({
     required TermId termId,
     required GradeTypeId gradeType,
@@ -372,6 +402,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
+  @deprecated
   void changeSubjectFinalGradeType({
     required SubjectId id,
     required TermId termId,
@@ -540,6 +571,129 @@ class GradesService {
       throw SubjectNotFoundException(id);
     }
     return sub;
+  }
+}
+
+class TermRef {
+  final TermId id;
+
+  final GradesService _service;
+
+  TermRef(this.id, this._service);
+
+  SubjectRef subject(SubjectId id) {
+    return SubjectRef(id, this, _service);
+  }
+
+  SubjectRef addSubject(SubjectInput subjectInput,
+      {@visibleForTesting SubjectId? id}) {
+    final subjectId = _service.addSubject(subjectInput, id: id);
+    return SubjectRef(subjectId, this, _service);
+  }
+
+  void changeFinalGradeType(GradeTypeId gradeType) {
+    _service.editTerm(id: id, finalGradeType: gradeType);
+  }
+
+  void changeGradingSystem(GradingSystem gradingSystem) {
+    _service.editTerm(id: id, gradingSystem: gradingSystem);
+  }
+
+  void changeName(String name) {
+    _service.editTerm(id: id, name: name);
+  }
+
+  void changeActiveTerm(bool isActiveTerm) {
+    _service.editTerm(id: id, isActiveTerm: isActiveTerm);
+  }
+
+  void delete() {
+    _service.deleteTerm(id);
+  }
+
+  void changeGradeTypeWeight(GradeTypeId gradeType, Weight weight) {
+    _service.changeGradeTypeWeightForTerm(
+        termId: id, gradeType: gradeType, weight: weight);
+  }
+
+  void removeGradeTypeWeight(GradeTypeId gradeType) {
+    _service.removeGradeTypeWeightForTerm(termId: id, gradeType: gradeType);
+  }
+}
+
+class SubjectRef {
+  final SubjectId id;
+  final TermRef termRef;
+  final GradesService _service;
+
+  SubjectRef(this.id, this.termRef, this._service);
+
+  GradeRef grade(GradeId id) {
+    return GradeRef(id, termRef, this, _service);
+  }
+
+  GradeRef addGrade(GradeInput gradeInput, {@visibleForTesting GradeId? id}) {
+    if (_service.getSubject(this.id) == null) {
+      throw SubjectNotFoundException(this.id);
+    }
+    return grade(id ?? GradeId(Id.generate().value)).create(gradeInput);
+  }
+
+  void changeFinalGradeType(GradeTypeId? gradeType) {
+    _service.changeSubjectFinalGradeType(
+        id: id, termId: termRef.id, gradeType: gradeType);
+  }
+
+  void changeWeightType(WeightType perGradeType) {
+    _service.changeSubjectWeightTypeSettings(
+        id: id, termId: termRef.id, perGradeType: perGradeType);
+  }
+
+  void changeWeightForTermGrade(Weight weight) {
+    _service.changeSubjectWeightForTermGrade(
+        id: id, termId: termRef.id, weight: weight);
+  }
+
+  void changeGradeTypeWeight(GradeTypeId gradeType, Weight weight) {
+    _service.changeGradeTypeWeightForSubject(
+        id: id, termId: termRef.id, gradeType: gradeType, weight: weight);
+  }
+
+  void removeGradeTypeWeight(GradeTypeId gradeType) {
+    _service.removeGradeTypeWeightForSubject(
+        id: id, termId: termRef.id, gradeType: gradeType);
+  }
+}
+
+class GradeRef {
+  final GradeId id;
+  final TermRef termRef;
+  final SubjectRef subjectRef;
+  final GradesService _service;
+
+  GradeRef(this.id, this.termRef, this.subjectRef, this._service);
+
+  GradeRef create(GradeInput gradeInput) {
+    _service.addGrade(
+      id: id,
+      subjectId: subjectRef.id,
+      termId: termRef.id,
+      value: gradeInput,
+    );
+
+    return this;
+  }
+
+  void changeWeight(Weight weight) {
+    _service.changeGradeWeight(id: id, termId: termRef.id, weight: weight);
+  }
+
+  void edit(GradeInput newGrade) {
+    _service.editGrade(id, newGrade);
+  }
+
+  void delete() {
+    _service.deleteGrade(id);
   }
 }
 

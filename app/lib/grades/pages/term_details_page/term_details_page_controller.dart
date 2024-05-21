@@ -19,19 +19,20 @@ import 'package:sharezone/grades/pages/grades_view.dart';
 
 class TermDetailsPageController extends ChangeNotifier {
   late TermDetailsPageState state = const TermDetailsPageLoading();
-  final TermId termId;
+  final TermRef termRef;
+  TermId get termId => termRef.id;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
   final Analytics analytics;
   late StreamSubscription<TermResult?> _termStreamSubscription;
 
   TermDetailsPageController({
-    required this.termId,
+    required this.termRef,
     required this.gradesService,
     required this.crashAnalytics,
     required this.analytics,
   }) {
-    _termStreamSubscription = _getTermStream(termId).listen((term) {
+    _termStreamSubscription = _getTermStream(termRef.id).listen((term) {
       if (term == null) {
         state = const TermDetailsPageError('Term not found');
       } else {
@@ -99,7 +100,7 @@ class TermDetailsPageController extends ChangeNotifier {
   }
 
   void deleteTerm() {
-    gradesService.deleteTerm(termId);
+    termRef.delete();
     analytics.log(NamedAnalyticsEvent(name: 'term_deleted'));
   }
 
