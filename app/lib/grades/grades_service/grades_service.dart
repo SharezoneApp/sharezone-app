@@ -286,7 +286,7 @@ class GradesService {
     _updateTerm(newTerm);
   }
 
-  GradeRef getGradeRef(GradeId id) {
+  GradeRef grade(GradeId id) {
     final term = _terms.firstWhereOrNull((term) => term.hasGrade(id));
     if (term == null) {
       throw GradeNotFoundException(id);
@@ -583,12 +583,6 @@ class TermRef {
 
   SubjectRef subject(SubjectId id) {
     return SubjectRef(id, this, _service);
-  }
-
-  SubjectRef addSubject(SubjectInput subjectInput,
-      {@visibleForTesting SubjectId? id}) {
-    final subjectId = _service.addSubject(subjectInput, id: id);
-    return SubjectRef(subjectId, this, _service);
   }
 
   void changeFinalGradeType(GradeTypeId gradeType) {

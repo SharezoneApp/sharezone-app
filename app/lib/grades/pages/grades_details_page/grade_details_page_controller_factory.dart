@@ -24,7 +24,7 @@ class GradeDetailsPageControllerFactory {
 
   GradeDetailsPageController create(GradeId id) {
     return GradeDetailsPageController(
-      gradeRef: gradesService.getGradeRef(id),
+      gradeRef: gradesService.grade(id),
       gradesService: gradesService,
       crashAnalytics: crashAnalytics,
       analytics: analytics,

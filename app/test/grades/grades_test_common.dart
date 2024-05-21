@@ -291,11 +291,11 @@ class GradesTestController {
     if (grade.weight != null) {
       throw UnimplementedError();
     }
-    service.getGradeRef(grade.id).edit(_toGrade(grade));
+    service.grade(grade.id).edit(_toGrade(grade));
   }
 
   void deleteGrade({required GradeId gradeId}) {
-    service.getGradeRef(gradeId).delete();
+    service.grade(gradeId).delete();
   }
 
   void deleteCustomGradeType(GradeTypeId gradeTypeId) {
