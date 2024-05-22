@@ -42,6 +42,7 @@ enum _LessonDialogAction {
   cancelLesson,
   addRoomSubstitution,
   updateRoomSubstitution,
+  addTeacherSubstitution,
   removeCancelLesson,
   removePlaceChange,
   showSubstitutionPlusDialog,
@@ -229,6 +230,9 @@ Future<void> showLessonModelSheet(
       break;
     case _LessonDialogAction.showTeachersPlusDialog:
       showTeachersInTimetablePlusDialog(context);
+      break;
+    case _LessonDialogAction.addTeacherSubstitution:
+      _addTeacherSubstitution(context, lesson, date);
       break;
   }
 }

@@ -84,6 +84,15 @@ class _SubstitutionSection extends StatelessWidget {
                       ? _LessonDialogAction.addRoomSubstitution
                       : _LessonDialogAction.showSubstitutionPlusDialog),
             ),
+            ListTile(
+              leading: const Icon(Icons.person_outline),
+              title: const Text("Lehrkraft ändern"),
+              onTap: () => Navigator.pop(
+                  context,
+                  hasUnlocked
+                      ? _LessonDialogAction.addTeacherSubstitution
+                      : _LessonDialogAction.showSubstitutionPlusDialog),
+            ),
           ] else
             const ListTile(
               leading: Icon(Icons.info),
@@ -391,6 +400,35 @@ Future<void> _addRoomSubstitution(
   );
 }
 
+Future<void> _addTeacherSubstitution(
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+) async {
+  final result = await _showChangeTeacherDialog(context);
+  final shouldNotifyMembers = result.$1;
+  if (shouldNotifyMembers == null) {
+    // User canceled the dialog
+    return;
+  }
+
+  if (!context.mounted) {
+    return;
+  }
+
+  final controller = context.read<SubstitutionController>();
+  controller.addPlaceChangeSubstitution(
+    lessonId: lesson.lessonID!,
+    date: date,
+    newLocation: result.$2,
+    notifyGroupMembers: shouldNotifyMembers,
+  );
+  showSnackSec(
+    text: 'Vertretungslehrkraft eingetragen',
+    context: context,
+  );
+}
+
 Future<bool?> _showCancelLessonDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
@@ -465,6 +503,23 @@ Future<(bool?, String)> _showChangeRoomDialog(BuildContext context) async {
   return (shouldNotify, textController.text);
 }
 
+Future<(bool?, String)> _showChangeTeacherDialog(BuildContext context) async {
+  String teacher = '';
+  final shouldNotify = await showDialog<bool>(
+    context: context,
+    builder: (context) => _SubstitutionDialog(
+      title: 'Vertretungslehrkraft ändern',
+      actionText: 'Lehrkraft speichern',
+      description: 'Möchtest du wirklich die Vertretungslehrkraft ändern?',
+      notifyOptionText:
+          'Informiere deine Kursmitglieder über die Lehrkraftänderung.',
+      bottom:
+          _ChangeTeacherTextField(onTeacherChanged: (value) => value = teacher),
+    ),
+  );
+  return (shouldNotify, teacher);
+}
+
 class _ChangeRoomTextField extends StatelessWidget {
   const _ChangeRoomTextField({
     required this.textController,
@@ -487,6 +542,26 @@ class _ChangeRoomTextField extends StatelessWidget {
           ),
           maxLength: 32,
         ),
+      ),
+    );
+  }
+}
+
+class _ChangeTeacherTextField extends StatelessWidget {
+  const _ChangeTeacherTextField({
+    required this.onTeacherChanged,
+  });
+
+  final ValueChanged<String> onTeacherChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final teachers = BlocProvider.of<TimetableBloc>(context).currentTeachers;
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: TeacherField(
+        teachers: teachers,
+        onTeacherChanged: onTeacherChanged,
       ),
     );
   }
