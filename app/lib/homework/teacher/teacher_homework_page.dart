@@ -6,10 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/homework/shared/homework_archived.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -18,29 +20,13 @@ import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import 'src/teacher_archived_homework_list.dart';
-import 'src/teacher_homework_bottom_action_bar.dart';
-import 'src/teacher_open_homework_list.dart';
+import 'src/teacher_src.dart';
 
 class TeacherHomeworkPage extends StatelessWidget {
   const TeacherHomeworkPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ///
-    /// !!ACHTUNG!!
-    ///
-    /// Falls hier was geändert wird, dann sollte dies auch im
-    /// app/test/homework/teacher/teacher_homework_page_widget_test.dart
-    /// geändert werden.
-    /// Dort musste die Seite aufgrund des nicht mockbaren, hier verwendeten
-    /// [SharezoneMainScaffold] nachgebaut werden.
-    ///
-    /// https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1459
-    /// https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1458
-    ///
-    /// !!ACHTUNG!!
-    ///
     final bottomBarBackgroundColor =
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     return ChangeNotifierProvider<BottomOfScrollViewInvisibilityController>(
@@ -83,6 +69,8 @@ class TeacherHomeworkPage extends StatelessWidget {
   }
 }
 
+enum HomeworkTab { open, archived }
+
 final Color? overscrollColor = Colors.grey[600];
 
 class TeacherHomeworkBody extends StatelessWidget {
@@ -95,7 +83,7 @@ class TeacherHomeworkBody extends StatelessWidget {
     bloc.add(LoadHomeworks());
     return StreamBuilder<TeacherHomeworkPageState>(
       stream: bloc.stream,
-      initialData: Uninitialized(),
+      initialData: bloc.state,
       builder: (context, snapshot) {
         final state = snapshot.hasData ? snapshot.data : Uninitialized();
 

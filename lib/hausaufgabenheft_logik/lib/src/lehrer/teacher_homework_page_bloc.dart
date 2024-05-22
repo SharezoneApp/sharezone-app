@@ -66,8 +66,15 @@ class _States {
 
   // ignore: unused_field
   static final _placeholder = Success(
-    TeacherOpenHomeworkListView([],
-        sorting: HomeworkSort.smallestDateSubjectAndTitle),
+    TeacherOpenHomeworkListView([
+      TeacherHomeworkSectionView('Heute', [
+        _Homeworks._noSubmissionNoPermissions,
+      ]),
+      TeacherHomeworkSectionView('Morgen', [
+        _Homeworks._withSubmissionWithPermissions,
+        ..._generateRandomHomeworks(count: 18)
+      ]),
+    ], sorting: HomeworkSort.smallestDateSubjectAndTitle),
     TeacherArchivedHomeworkListView([], loadedAllArchivedHomeworks: true),
   );
 
@@ -197,19 +204,21 @@ class TeacherHomeworkPageBloc
     });
     on<AdvanceArchivedHomeworks>((event, emit) async {
       await Future.delayed(const Duration(milliseconds: 1200));
-      _advanveArchivedHwLazyLoadingState();
+      _advanveArchivedHwLazyLoadingState(emit);
     });
     on<LoadHomeworks>((event, emit) {
       // Reset so that we can inspect the lazy loading again when we change
       // away and back to the homework page again.
       _archivedHwLazyLoadingState =
           _ArchivedHwLazyLoadingState.askedForFirstBatch;
-
       _currentSort == HomeworkSort.smallestDateSubjectAndTitle
           ? _States._homeworksAllLoadedSortedByTodoDate(
               _archivedHwLazyLoadingState)
           : _States._homeworksAllLoadedSortedBySubject(
               _archivedHwLazyLoadingState);
+
+      emit(Success(
+          _States._placeholder.open, _States.__archivedHomeworksFirstState));
     });
   }
 
@@ -217,19 +226,29 @@ class TeacherHomeworkPageBloc
   _ArchivedHwLazyLoadingState _archivedHwLazyLoadingState =
       _ArchivedHwLazyLoadingState.askedForFirstBatch;
 
-  void _advanveArchivedHwLazyLoadingState() {
+  void _advanveArchivedHwLazyLoadingState(
+      Emitter<TeacherHomeworkPageState> emit) {
+    TeacherArchivedHomeworkListView lv;
     switch (_archivedHwLazyLoadingState) {
       case _ArchivedHwLazyLoadingState.askedForFirstBatch:
         _archivedHwLazyLoadingState =
             _ArchivedHwLazyLoadingState.askedForSecondBatch;
+        lv = _States.__archivedHomeworksSecondState;
         break;
       case _ArchivedHwLazyLoadingState.askedForSecondBatch:
         _archivedHwLazyLoadingState = _ArchivedHwLazyLoadingState.askedForAll;
+        lv = _States.__archivedHomeworksLoadedAllState;
         break;
       case _ArchivedHwLazyLoadingState.askedForAll:
       default:
-        return;
+        lv = _States.__archivedHomeworksLoadedAllState;
+        break;
     }
+
+    return emit(Success(
+      _States._placeholder.open,
+      lv,
+    ));
   }
 
   @override
