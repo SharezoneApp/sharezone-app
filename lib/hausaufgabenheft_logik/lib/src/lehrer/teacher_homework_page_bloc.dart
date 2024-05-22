@@ -201,6 +201,13 @@ class TeacherHomeworkPageBloc
   TeacherHomeworkPageBloc() : super(Uninitialized()) {
     on<OpenHwSortingChanged>((event, emit) {
       _currentSort = event.sort;
+      final state = _currentSort == HomeworkSort.smallestDateSubjectAndTitle
+          ? _States._homeworksAllLoadedSortedByTodoDate(
+              _archivedHwLazyLoadingState)
+          : _States._homeworksAllLoadedSortedBySubject(
+              _archivedHwLazyLoadingState);
+
+      emit(state);
     });
     on<AdvanceArchivedHomeworks>((event, emit) async {
       await Future.delayed(const Duration(milliseconds: 1200));
@@ -211,14 +218,13 @@ class TeacherHomeworkPageBloc
       // away and back to the homework page again.
       _archivedHwLazyLoadingState =
           _ArchivedHwLazyLoadingState.askedForFirstBatch;
-      _currentSort == HomeworkSort.smallestDateSubjectAndTitle
+      final state = _currentSort == HomeworkSort.smallestDateSubjectAndTitle
           ? _States._homeworksAllLoadedSortedByTodoDate(
               _archivedHwLazyLoadingState)
           : _States._homeworksAllLoadedSortedBySubject(
               _archivedHwLazyLoadingState);
 
-      emit(Success(
-          _States._placeholder.open, _States.__archivedHomeworksFirstState));
+      emit(state);
     });
   }
 
