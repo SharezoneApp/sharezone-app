@@ -127,7 +127,7 @@ class _HomeworkPageState extends State<_HomeworkPage> {
     final bloc = BlocProvider.of<HomeworkPageBloc>(context);
     // Placeholder, may be turned to true for local development or might be
     // replaced with a feature flag system later.
-    const newTeacherPageActivated = false;
+    const newTeacherPageActivated = true;
     if (widget.typeOfUser == TypeOfUser.student ||
         (widget.typeOfUser == TypeOfUser.teacher && newTeacherPageActivated)) {
       /// We translate [TypeOfUser] (legacy) to [HomeworkPageTypeOfUser] because
