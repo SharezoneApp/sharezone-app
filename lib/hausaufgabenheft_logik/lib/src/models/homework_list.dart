@@ -38,8 +38,6 @@ class HomeworkList extends ListBase<HomeworkReadModel> {
   void addAll(Iterable<HomeworkReadModel> iterable) =>
       _homeworks.addAll(iterable);
 
-  void sortWith(Sort<HomeworkReadModel> sort) => sort.sort(this);
-
   @override
   String toString() {
     var s = 'HomeworkList([\n';
@@ -49,10 +47,24 @@ class HomeworkList extends ListBase<HomeworkReadModel> {
     s += '])';
     return s;
   }
+}
+
+extension SortWith<T> on List<T> {
+  void sortWith(Sort<T> sort) {
+    sort.sort(this);
+  }
+}
+
+extension HomeworkListExtension on List<HomeworkReadModel> {
+  HomeworkList get completed => HomeworkList(
+      where((homework) => homework.status == CompletionStatus.completed)
+          .toList());
+  HomeworkList get open => HomeworkList(
+      where((homework) => homework.status == CompletionStatus.open).toList());
 
   List<Subject> getDistinctOrderedSubjects() {
     final subjects = <Subject>{};
-    for (final homework in _homeworks) {
+    for (final homework in this) {
       subjects.add(homework.subject);
     }
     return subjects.toList();
@@ -60,15 +72,7 @@ class HomeworkList extends ListBase<HomeworkReadModel> {
 
   HomeworkList getOverdue([Date? now]) {
     now = now ?? Date.now();
-    return HomeworkList(_homeworks
-        .where((homeworks) => homeworks.isOverdueRelativeTo(now!))
-        .toList());
+    return HomeworkList(
+        where((homeworks) => homeworks.isOverdueRelativeTo(now!)).toList());
   }
-
-  HomeworkList get completed => HomeworkList(_homeworks
-      .where((homework) => homework.status == CompletionStatus.completed)
-      .toList());
-  HomeworkList get open => HomeworkList(_homeworks
-      .where((homework) => homework.status == CompletionStatus.open)
-      .toList());
 }
