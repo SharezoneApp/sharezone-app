@@ -13,7 +13,6 @@ import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_blo
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 
 import '../completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart';
-import '../completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc.dart';
 import '../completed_homeworks/views/completed_homework_list_view_factory.dart';
 import '../models/models.dart';
 import '../open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
@@ -39,10 +38,8 @@ HomeworkPageBloc createHomeworkPageBloc(
 
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);
-  final lazyLoadingCompletedHomeworksBloc =
-      LazyLoadingCompletedHomeworksBloc(dependencies.dataSource);
   final completedHomeworksViewBloc = CompletedHomeworksViewBloc(
-      lazyLoadingCompletedHomeworksBloc, completedHomeworkListViewFactory,
+      dependencies.dataSource, completedHomeworkListViewFactory,
       nrOfInitialCompletedHomeworksToLoad:
           config.nrOfInitialCompletedHomeworksToLoad);
 
