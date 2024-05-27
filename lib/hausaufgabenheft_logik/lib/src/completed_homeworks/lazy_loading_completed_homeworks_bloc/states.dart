@@ -7,13 +7,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
-
-import '../../models/homework_list.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 abstract class LazyLoadingCompletedHomeworksBlocState extends Equatable {}
 
 class Success extends LazyLoadingCompletedHomeworksBlocState {
-  final HomeworkList homeworks;
+  final List<HomeworkReadModel> homeworks;
   final bool loadedAllHomeworks;
 
   Success(this.homeworks, {required this.loadedAllHomeworks});

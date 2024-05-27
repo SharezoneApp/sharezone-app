@@ -6,14 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 abstract class OpenHomeworkListBlocState {}
 
 class Uninitialized extends OpenHomeworkListBlocState {}
 
 class Success extends OpenHomeworkListBlocState {
-  final HomeworkList homeworks;
+  final List<HomeworkReadModel> homeworks;
 
   Success(this.homeworks);
 }

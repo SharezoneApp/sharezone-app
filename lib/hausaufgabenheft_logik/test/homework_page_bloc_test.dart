@@ -507,7 +507,7 @@ HomeworkPageBloc createBloc(
       completionDispatcher: RepositoryHomeworkCompletionDispatcher(repository),
       getOpenOverdueHomeworkIds: () async {
         final open = await repository.openHomeworks.first;
-        return HomeworkList(open).getOverdue().map((hw) => hw.id).toList();
+        return open.getOverdue().map((hw) => hw.id).toList();
       },
       keyValueStore: keyValueStore ?? InMemoryKeyValueStore(),
       getCurrentDateTime: getCurrentDateTime,

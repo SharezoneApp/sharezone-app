@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
 
 import 'subcategorizer.dart';
@@ -19,7 +18,7 @@ class TodoDateSubcategorizer extends Subcategorizer {
   TodoDateSubcategorizer(this.currentDate, this._viewFactory);
 
   @override
-  List<HomeworkSectionView> subcategorize(HomeworkList homeworks) {
+  List<HomeworkSectionView> subcategorize(List<HomeworkReadModel> homeworks) {
     final latestHomeworkList = homeworks;
     final now = currentDate;
     final tomorrow = now.addDays(1);

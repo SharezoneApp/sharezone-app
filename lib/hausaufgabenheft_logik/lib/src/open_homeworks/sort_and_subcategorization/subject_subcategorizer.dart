@@ -18,7 +18,7 @@ class SubjectSubcategeorizer extends Subcategorizer {
   SubjectSubcategeorizer(this._viewFactory);
 
   @override
-  List<HomeworkSectionView> subcategorize(HomeworkList homeworks) {
+  List<HomeworkSectionView> subcategorize(List<HomeworkReadModel> homeworks) {
     final subjects = homeworks.getDistinctOrderedSubjects();
     final homeworkSections = <HomeworkSectionView>[];
     for (final subject in subjects) {

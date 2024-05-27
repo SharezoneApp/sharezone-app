@@ -6,48 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:collection';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework_completion_status.dart';
 
-import 'homework/homework.dart';
-import 'date.dart';
-import 'subject.dart';
 import '../open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
-
-class HomeworkList extends ListBase<HomeworkReadModel> {
-  final List<HomeworkReadModel> _homeworks;
-
-  HomeworkList(List<HomeworkReadModel> homeworks)
-      : _homeworks = List.from(homeworks);
-  @override
-  int get length => _homeworks.length;
-
-  @override
-  set length(int newLength) => _homeworks.length = newLength;
-
-  @override
-  HomeworkReadModel operator [](int index) => _homeworks[index];
-
-  @override
-  void operator []=(int index, value) => _homeworks[index] = value;
-
-  @override // Overwritten for performance reasons as stated in ListBase
-  void add(HomeworkReadModel element) => _homeworks.add(element);
-
-  @override // Overwritten for performance reasons as stated in ListBase
-  void addAll(Iterable<HomeworkReadModel> iterable) =>
-      _homeworks.addAll(iterable);
-
-  @override
-  String toString() {
-    var s = 'HomeworkList([\n';
-    for (final homework in _homeworks) {
-      s += '$homework\n';
-    }
-    s += '])';
-    return s;
-  }
-}
+import 'date.dart';
+import 'homework/homework.dart';
+import 'subject.dart';
 
 extension SortWith<T> on List<T> {
   void sortWith(Sort<T> sort) {

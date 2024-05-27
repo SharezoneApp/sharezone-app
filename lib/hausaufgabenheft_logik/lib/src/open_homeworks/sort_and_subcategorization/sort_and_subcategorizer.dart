@@ -20,7 +20,7 @@ class HomeworkSortAndSubcategorizer {
   HomeworkSortAndSubcategorizer(this.getMatchingSubcategorizer);
 
   List<HomeworkSectionView> sortAndSubcategorize(
-      HomeworkList homeworks, Sort<HomeworkReadModel> sort) {
+      List<HomeworkReadModel> homeworks, Sort<HomeworkReadModel> sort) {
     homeworks.sortWith(sort);
     return getMatchingSubcategorizer(sort).subcategorize(homeworks);
   }

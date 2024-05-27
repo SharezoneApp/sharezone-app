@@ -17,7 +17,7 @@ import 'create_homework_util.dart';
 import 'test_data/homeworks.dart';
 
 void main() {
-  group('HomeworkList', () {
+  group('List<HomeworkReadModel>', () {
     group('sort with SubjectSmallestDateAndTitleSort', () {
       testSubjectSort('firstly sorts by Subject',
           (homeworks) => homeworks.sortWith(SubjectSmallestDateAndTitleSort()));
@@ -32,7 +32,7 @@ void main() {
 
       testSort(
         'integration test',
-        unsorted: HomeworkList(unsortedHomework),
+        unsorted: unsortedHomework,
         sorted: sortedHomeworksForSortBySubjectDateTitle,
         sort: (homeworks) =>
             homeworks.sortWith(SubjectSmallestDateAndTitleSort()),
@@ -52,7 +52,7 @@ void main() {
 
       testSort(
         'integration test',
-        unsorted: HomeworkList(unsortedHomework),
+        unsorted: unsortedHomework,
         sorted: sortedHomeworksForSortByDateSubjectTitle,
         sort: (homeworks) =>
             homeworks.sortWith(SmallestDateSubjectAndTitleSort()),
@@ -67,7 +67,7 @@ void main() {
       );
       final unsorted = List<HomeworkReadModel>.from(sorted)..shuffle();
       testSort('does sort titles starting with numbers by their value',
-          unsorted: HomeworkList(unsorted),
+          unsorted: unsorted,
           sorted: sorted,
           sort: (hw) => hw.sortWith(SmallestDateSubjectAndTitleSort()),
           skip: true);
@@ -81,7 +81,7 @@ void main() {
     final homeworks = [
       for (final subject in subjects) createHomework(subject: subject.name)
     ];
-    final homeworkList = HomeworkList(homeworks);
+    final homeworkList = homeworks;
 
     final result = homeworkList.getDistinctOrderedSubjects();
 
@@ -91,14 +91,13 @@ void main() {
 
 void testDateSort(String title, ListCallback sort) => testSort(
       title,
-      unsorted:
-          HomeworkList([haDate_23_02_19, haDate_02_01_19, haDate_30_2_2020]),
+      unsorted: [haDate_23_02_19, haDate_02_01_19, haDate_30_2_2020],
       sorted: [haDate_02_01_19, haDate_23_02_19, haDate_30_2_2020],
       sort: sort,
     );
 
 void testSort(String title,
-    {required HomeworkList unsorted,
+    {required List<HomeworkReadModel> unsorted,
     required List<HomeworkReadModel> sorted,
     required ListCallback sort,
     bool skip = false}) {
@@ -110,17 +109,16 @@ void testSort(String title,
 
 void testSubjectSort(String title, ListCallback sort) => testSort(
       title,
-      unsorted: HomeworkList(
-          [haSubjectInformatics, haSubjectEnglish, haSubjectMaths]),
+      unsorted: [haSubjectInformatics, haSubjectEnglish, haSubjectMaths],
       sorted: [haSubjectEnglish, haSubjectInformatics, haSubjectMaths],
       sort: sort,
     );
 
 void testTitleSort(String title, ListCallback sort) => testSort(
       title,
-      unsorted: HomeworkList([haTitleBlatt, haTitleAufgaben, haTitleClown]),
+      unsorted: [haTitleBlatt, haTitleAufgaben, haTitleClown],
       sorted: [haTitleAufgaben, haTitleBlatt, haTitleClown],
       sort: sort,
     );
 
-typedef ListCallback = void Function(HomeworkList);
+typedef ListCallback = void Function(List<HomeworkReadModel>);

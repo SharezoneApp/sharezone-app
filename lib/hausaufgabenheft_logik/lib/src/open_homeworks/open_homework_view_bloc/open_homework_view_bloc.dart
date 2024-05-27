@@ -11,10 +11,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart'
     as hws_bloc;
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view_factory.dart';
 
 import 'events.dart';
@@ -29,14 +28,14 @@ class OpenHomeworksViewBloc
   final OpenHomeworkListViewFactory _listViewFactory;
   final hws_bloc.OpenHomeworkListBloc _openHomeworksBloc;
 
-  late Stream<HomeworkList> _openHomeworks;
+  late Stream<List<HomeworkReadModel>> _openHomeworks;
   late StreamSubscription _streamSubscription;
-  HomeworkList? _latestHomeworks;
+  List<HomeworkReadModel>? _latestHomeworks;
   Sort<HomeworkReadModel>? _currentSort;
 
   OpenHomeworksViewBloc(this._openHomeworksBloc, this._listViewFactory)
       : super(Uninitialized()) {
-    _latestHomeworks = HomeworkList([]);
+    _latestHomeworks = [];
     _openHomeworks = _openHomeworksBloc.stream.transform(_toHomeworkList);
 
     on<LoadHomeworks>((event, emit) {
@@ -65,7 +64,7 @@ class OpenHomeworksViewBloc
 }
 
 class _CreateListView extends OpenHomeworkViewEvent {
-  final HomeworkList? homeworks;
+  final List<HomeworkReadModel>? homeworks;
   final Sort<HomeworkReadModel>? sort;
 
   _CreateListView(this.homeworks, this.sort);
@@ -75,7 +74,7 @@ class _CreateListView extends OpenHomeworkViewEvent {
 }
 
 final _toHomeworkList = StreamTransformer<hws_bloc.OpenHomeworkListBlocState,
-    HomeworkList>.fromHandlers(handleData: (state, sink) {
+    List<HomeworkReadModel>>.fromHandlers(handleData: (state, sink) {
   if (state is hws_bloc.Success) {
     sink.add(state.homeworks);
   }

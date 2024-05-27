@@ -8,7 +8,6 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart'
     as list_bloc;
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
@@ -63,7 +62,7 @@ class MockOpenHomeworkListViewFactory implements OpenHomeworkListViewFactory {
 class MockOpenHomeworkListBloc extends Bloc<list_bloc.OpenHomeworkListBlocEvent,
         list_bloc.OpenHomeworkListBlocState>
     implements list_bloc.OpenHomeworkListBloc {
-  var homeworkListToReturn = HomeworkList([]);
+  var homeworkListToReturn = <HomeworkReadModel>[];
 
   MockOpenHomeworkListBloc() : super(list_bloc.Uninitialized()) {
     on<list_bloc.OpenHomeworkListBlocEvent>((event, emit) {

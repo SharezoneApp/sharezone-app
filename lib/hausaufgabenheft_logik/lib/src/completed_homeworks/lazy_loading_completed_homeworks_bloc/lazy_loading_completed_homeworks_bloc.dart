@@ -10,7 +10,6 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
 
 import '../../data_source/homework_data_source.dart';
-import '../../models/homework_list.dart';
 import 'events.dart';
 import 'states.dart';
 
@@ -32,7 +31,7 @@ class LazyLoadingCompletedHomeworksBloc extends Bloc<
                 event.numberOfHomeworksToLoad);
         _lazyLoadingController!.results.listen((res) => add(
               _Yield(Success(
-                HomeworkList(res.homeworks),
+                res.homeworks,
                 loadedAllHomeworks: !res.moreHomeworkAvailable,
               )),
             ));

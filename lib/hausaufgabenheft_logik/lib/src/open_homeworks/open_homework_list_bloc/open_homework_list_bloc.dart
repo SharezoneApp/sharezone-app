@@ -8,7 +8,6 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:hausaufgabenheft_logik/src/data_source/homework_data_source.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 
 import 'events.dart';
 import 'states.dart';
@@ -22,8 +21,7 @@ class OpenHomeworkListBloc
 
   OpenHomeworkListBloc(this._repository) : super(Uninitialized()) {
     on<LoadHomeworks>((event, emit) {
-      _repository.openHomeworks
-          .listen((hws) => add(_Yield(Success(HomeworkList(hws)))));
+      _repository.openHomeworks.listen((hws) => add(_Yield(Success(hws))));
     });
     on<_Yield>((event, emit) => emit(event.payload));
   }
