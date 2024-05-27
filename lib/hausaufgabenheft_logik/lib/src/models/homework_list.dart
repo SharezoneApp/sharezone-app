@@ -56,16 +56,9 @@ extension SortWith<T> on List<T> {
 }
 
 extension HomeworkListExtension on List<HomeworkReadModel> {
-  @deprecated
-  HomeworkList get completedHl => HomeworkList(
-      where((homework) => homework.status == CompletionStatus.completed)
-          .toList());
   List<HomeworkReadModel> get completed =>
       where((homework) => homework.status == CompletionStatus.completed)
           .toList();
-  @deprecated
-  HomeworkList get openHl => HomeworkList(
-      where((homework) => homework.status == CompletionStatus.open).toList());
   List<HomeworkReadModel> get open =>
       where((homework) => homework.status == CompletionStatus.open).toList();
 
@@ -75,13 +68,6 @@ extension HomeworkListExtension on List<HomeworkReadModel> {
       subjects.add(homework.subject);
     }
     return subjects.toList();
-  }
-
-  @deprecated
-  HomeworkList getOverdueHl([Date? now]) {
-    now = now ?? Date.now();
-    return HomeworkList(
-        where((homeworks) => homeworks.isOverdueRelativeTo(now!)).toList());
   }
 
   List<HomeworkReadModel> getOverdue([Date? now]) {

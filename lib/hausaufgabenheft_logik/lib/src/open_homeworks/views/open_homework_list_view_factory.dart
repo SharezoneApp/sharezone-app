@@ -39,7 +39,7 @@ class OpenHomeworkListViewFactory {
 
   bool _shouldShowCompleteOverdueHomeworkPrompt(HomeworkList openHomeworks) {
     var now = _getCurrentDate();
-    var overdueOpenHomeworks = openHomeworks.getOverdueHl(now);
+    var overdueOpenHomeworks = openHomeworks.getOverdue(now);
     return overdueOpenHomeworks.length > 2;
   }
 }
