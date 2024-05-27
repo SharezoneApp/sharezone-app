@@ -10,6 +10,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:rxdart/rxdart.dart';
@@ -117,12 +118,15 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 
   Future<void> _mapHomeworkChangedCompletionStatus(
       CompletionStatusChanged event) async {
-    await _homeworkCompletionReceiver
-        .add(SingleHomeworkCompletionEvent(event.homeworkId, event.newValue));
+    await _homeworkCompletionReceiver.changeCompletionStatus(
+        HomeworkId(event.homeworkId),
+        event.newValue == true
+            ? CompletionStatus.completed
+            : CompletionStatus.open);
   }
 
   Future<void> _mapHomeworkMarkOverdueToState(CompletedAllOverdue event) async {
-    await _homeworkCompletionReceiver.add(AllOverdueHomeworkCompletionEvent());
+    await _homeworkCompletionReceiver.completeAllOverdueHomeworks();
   }
 
   @override
