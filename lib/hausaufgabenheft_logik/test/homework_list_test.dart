@@ -79,7 +79,9 @@ void main() {
     var deutsch = Subject('Deutsch', abbreviation: 'De');
     final subjects = [mathe, englisch, mathe, mathe, deutsch];
     final homeworks = [
-      for (final subject in subjects) createHomework(subject: subject.name)
+      for (final subject in subjects)
+        createHomework(
+            subject: subject.name, abbreviation: subject.abbreviation)
     ];
     final homeworkList = homeworks;
 
