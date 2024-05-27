@@ -14,9 +14,8 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/homework_completion/homework_page_completion_dispatcher.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart'
-    as open;
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -29,28 +28,29 @@ import 'package:rxdart/rxdart.dart';
 ///   between visits of the homework page.
 class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     implements bloc_base.BlocBase {
-  final open.OpenHomeworksViewBloc _openHomeworksViewBloc;
   final HomeworkPageCompletionDispatcher _homeworkCompletionReceiver;
   final HomeworkDataSource _homeworkDataSource;
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
   final int numberOfInitialCompletedHomeworksToLoad;
   final CompletedHomeworkListViewFactory _completedHomeworkListViewFactory;
+  final OpenHomeworkListViewFactory _openHomeworkListViewFactory;
+  final sortingStream = BehaviorSubject<HomeworkSort>();
   LazyLoadingController? _lazyLoadingController;
 
   /// Whether [close] or [dispose] has been called;
   bool _isClosed = false;
 
   HomeworkPageBloc({
-    required open.OpenHomeworksViewBloc openHomeworksViewBloc,
     required HomeworkPageCompletionDispatcher homeworkCompletionReceiver,
     required HomeworkSortingCache homeworkSortingCache,
     required HomeworkDataSource homeworkDataSource,
     required CompletedHomeworkListViewFactory completedHomeworkListViewFactory,
+    required OpenHomeworkListViewFactory openHomeworkListViewFactory,
     required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
-  })  : _openHomeworksViewBloc = openHomeworksViewBloc,
-        _homeworkDataSource = homeworkDataSource,
+  })  : _homeworkDataSource = homeworkDataSource,
+        _openHomeworkListViewFactory = openHomeworkListViewFactory,
         _homeworkSortingCache = homeworkSortingCache,
         _homeworkCompletionReceiver = homeworkCompletionReceiver,
         _completedHomeworkListViewFactory = completedHomeworkListViewFactory,
@@ -82,29 +82,32 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 
   StreamSubscription? _combineLatestSubscription;
   Future<void> _mapLoadHomeworksToState() async {
+    final sortEnum = (await _homeworkSortingCache.getLastSorting(
+        orElse: HomeworkSort.smallestDateSubjectAndTitle))!;
+    sortingStream.add(sortEnum);
+
+    final openHwListStream = Rx.combineLatest2<List<HomeworkReadModel>,
+            HomeworkSort, OpenHomeworkListView>(
+        _homeworkDataSource.openHomeworks, sortingStream, (openHws, sort) {
+      final sortObj = sort.toSortObject(getCurrentDate: _getCurrentDate);
+      return _openHomeworkListViewFactory.create(openHws, sortObj);
+    });
+
     _lazyLoadingController =
         _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
             numberOfInitialCompletedHomeworksToLoad);
 
-    final sortEnum = (await _homeworkSortingCache.getLastSorting(
-        orElse: HomeworkSort.smallestDateSubjectAndTitle))!;
-    final sort = sortEnum.toSortObject(getCurrentDate: _getCurrentDate);
-    _openHomeworksViewBloc.add(open.LoadHomeworks(sort));
-
-    final completedHomeworksSuccessStates =
+    final completedHomeworkListViewStream =
         _lazyLoadingController!.results.map((s) {
       final view = _completedHomeworkListViewFactory.create(
           s.homeworks, !s.moreHomeworkAvailable);
       return view;
     });
 
-    final openHomeworksSuccessStates =
-        _openHomeworksViewBloc.stream.whereType<open.Success>();
-
-    _combineLatestSubscription =
-        Rx.combineLatest2<CompletedHomeworkListView, open.Success, Success>(
-      completedHomeworksSuccessStates,
-      openHomeworksSuccessStates,
+    _combineLatestSubscription = Rx.combineLatest2<CompletedHomeworkListView,
+        OpenHomeworkListView, Success>(
+      completedHomeworkListViewStream,
+      openHwListStream,
       _toSuccessState,
     ).listen((s) {
       if (!_isClosed) {
@@ -113,9 +116,9 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     });
   }
 
-  Success _toSuccessState(
-          CompletedHomeworkListView completed, open.Success open) =>
-      Success(completed, open.openHomeworkListView);
+  Success _toSuccessState(CompletedHomeworkListView completed,
+          OpenHomeworkListView openHomeworkListView) =>
+      Success(completed, openHomeworkListView);
 
   void _mapAdvanceCompletedHomeworks(AdvanceCompletedHomeworks event) async {
     _lazyLoadingController!.advanceBy(event.advanceBy);
@@ -123,8 +126,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 
   Future<void> _mapFilterChangedToState(OpenHwSortingChanged event) async {
     await _homeworkSortingCache.setLastSorting(event.sort);
-    final newSorting = event.sort.toSortObject(getCurrentDate: _getCurrentDate);
-    _openHomeworksViewBloc.add(open.SortingChanged(newSorting));
+    sortingStream.add(event.sort);
   }
 
   Future<void> _mapHomeworkChangedCompletionStatus(
@@ -143,6 +145,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   @override
   Future<void> close() {
     _isClosed = true;
+    sortingStream.close();
     _combineLatestSubscription?.cancel();
     return super.close();
   }
@@ -150,6 +153,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   @override
   void dispose() {
     _isClosed = true;
+    sortingStream.close();
     _combineLatestSubscription?.cancel();
   }
 }

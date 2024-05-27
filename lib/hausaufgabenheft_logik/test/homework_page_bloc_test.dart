@@ -186,7 +186,7 @@ void main() {
       bloc.add(LoadHomeworks());
       bloc.add(OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle));
 
-      Success result = await bloc.stream.whereType<Success>().skip(1).first;
+      Success result = await bloc.stream.whereType<Success>().first;
 
       final notDone = result.open;
       expect(notDone.sections.length, 5);
