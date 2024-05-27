@@ -8,7 +8,6 @@
 
 import 'package:clock/clock.dart';
 import 'package:hausaufgabenheft_logik/src/homework_completion/homework_page_completion_dispatcher.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 
@@ -31,9 +30,8 @@ HomeworkPageBloc createHomeworkPageBloc(
       subcategorizerFactory.getMatchingSubcategorizer);
   final openHomeworkListViewFactory =
       OpenHomeworkListViewFactory(sortAndSubcategorizer, () => Date.now());
-  final openHomeworkListBloc = OpenHomeworkListBloc(dependencies.dataSource);
-  final openHomeworksViewBloc =
-      OpenHomeworksViewBloc(openHomeworkListBloc, openHomeworkListViewFactory);
+  final openHomeworksViewBloc = OpenHomeworksViewBloc(
+      dependencies.dataSource, openHomeworkListViewFactory);
 
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);
