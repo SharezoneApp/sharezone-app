@@ -10,7 +10,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
-import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
+import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_bloc/open_homework_list_bloc.dart'
     as hws_bloc;
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';

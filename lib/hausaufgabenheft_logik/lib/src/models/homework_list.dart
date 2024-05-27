@@ -6,11 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/models/homework/homework_completion_status.dart';
+import 'package:hausaufgabenheft_logik/src/models/homework_completion_status.dart';
 
 import '../open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
 import 'date.dart';
-import 'homework/homework.dart';
+import 'homework.dart';
 import 'subject.dart';
 
 extension SortWith<T> on List<T> {

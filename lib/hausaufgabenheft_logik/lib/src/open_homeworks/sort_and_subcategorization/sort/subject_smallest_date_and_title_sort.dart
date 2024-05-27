@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import '../../../models/homework/homework.dart';
+import '../../../models/homework.dart';
 import 'src/sort.dart';
 import 'src/sort_with_operations.dart';
 import 'src/homework_attribute_sorts.dart';

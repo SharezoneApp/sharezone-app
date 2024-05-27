@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework/homework_completion_status.dart';
+import 'package:hausaufgabenheft_logik/src/models/homework_completion_status.dart';
 
-import '../date.dart';
-import '../subject.dart';
-import '../title.dart';
+import 'date.dart';
+import 'subject.dart';
+import 'title.dart';
 
 /// The read model of a Homework that is specific to one user.
 /// The Homework should only be used to display a homework, created specifically

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
+import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 
 import '../../views/homework_view.dart';
 import '../../views/student_homework_view_factory.dart';
