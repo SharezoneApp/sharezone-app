@@ -12,14 +12,13 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart'
-    as completed;
+import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/homework_completion/homework_page_completion_dispatcher.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart'
     as open;
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
+import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// This Bloc serves basically only as an interface to the outer world with 2
 /// tasks:
@@ -31,24 +30,30 @@ import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_blo
 class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     implements bloc_base.BlocBase {
   final open.OpenHomeworksViewBloc _openHomeworksViewBloc;
-  final completed.CompletedHomeworksViewBloc _completedHomeworksViewBloc;
   final HomeworkPageCompletionDispatcher _homeworkCompletionReceiver;
+  final HomeworkDataSource _homeworkDataSource;
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
+  final int numberOfInitialCompletedHomeworksToLoad;
+  final CompletedHomeworkListViewFactory _completedHomeworkListViewFactory;
+  LazyLoadingController? _lazyLoadingController;
 
   /// Whether [close] or [dispose] has been called;
   bool _isClosed = false;
 
   HomeworkPageBloc({
     required open.OpenHomeworksViewBloc openHomeworksViewBloc,
-    required completed.CompletedHomeworksViewBloc completedHomeworksViewBloc,
     required HomeworkPageCompletionDispatcher homeworkCompletionReceiver,
     required HomeworkSortingCache homeworkSortingCache,
+    required HomeworkDataSource homeworkDataSource,
+    required CompletedHomeworkListViewFactory completedHomeworkListViewFactory,
+    required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
   })  : _openHomeworksViewBloc = openHomeworksViewBloc,
-        _completedHomeworksViewBloc = completedHomeworksViewBloc,
+        _homeworkDataSource = homeworkDataSource,
         _homeworkSortingCache = homeworkSortingCache,
         _homeworkCompletionReceiver = homeworkCompletionReceiver,
+        _completedHomeworkListViewFactory = completedHomeworkListViewFactory,
         _getCurrentDateTime = getCurrentDateTime,
         super(Uninitialized()) {
     on<LoadHomeworks>((event, emit) {
@@ -77,7 +82,9 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 
   StreamSubscription? _combineLatestSubscription;
   Future<void> _mapLoadHomeworksToState() async {
-    _completedHomeworksViewBloc.add(completed.StartTransformingHomeworks());
+    _lazyLoadingController =
+        _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
+            numberOfInitialCompletedHomeworksToLoad);
 
     final sortEnum = (await _homeworkSortingCache.getLastSorting(
         orElse: HomeworkSort.smallestDateSubjectAndTitle))!;
@@ -85,13 +92,17 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     _openHomeworksViewBloc.add(open.LoadHomeworks(sort));
 
     final completedHomeworksSuccessStates =
-        _completedHomeworksViewBloc.stream.whereType<completed.Success>();
+        _lazyLoadingController!.results.map((s) {
+      final view = _completedHomeworkListViewFactory.create(
+          s.homeworks, !s.moreHomeworkAvailable);
+      return view;
+    });
 
     final openHomeworksSuccessStates =
         _openHomeworksViewBloc.stream.whereType<open.Success>();
 
     _combineLatestSubscription =
-        Rx.combineLatest2<completed.Success, open.Success, Success>(
+        Rx.combineLatest2<CompletedHomeworkListView, open.Success, Success>(
       completedHomeworksSuccessStates,
       openHomeworksSuccessStates,
       _toSuccessState,
@@ -102,12 +113,12 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     });
   }
 
-  Success _toSuccessState(completed.Success completed, open.Success open) =>
-      Success(completed.completedHomeworksView, open.openHomeworkListView);
+  Success _toSuccessState(
+          CompletedHomeworkListView completed, open.Success open) =>
+      Success(completed, open.openHomeworkListView);
 
   void _mapAdvanceCompletedHomeworks(AdvanceCompletedHomeworks event) async {
-    _completedHomeworksViewBloc
-        .add(completed.AdvanceCompletedHomeworks(event.advanceBy));
+    _lazyLoadingController!.advanceBy(event.advanceBy);
   }
 
   Future<void> _mapFilterChangedToState(OpenHwSortingChanged event) async {

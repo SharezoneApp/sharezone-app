@@ -13,12 +13,8 @@ import 'package:bloc/bloc.dart';
 import 'package:clock/clock.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart'
-    as completed;
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
-import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
@@ -514,18 +510,6 @@ HomeworkPageBloc createBloc(
       nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad,
     ),
   );
-}
-
-completed.CompletedHomeworksViewBloc createCompletedHomeworksViewBloc(
-    StudentHomeworkViewFactory viewFactory,
-    InMemoryHomeworkRepository repository,
-    {required int nrOfInitialCompletedHomeworksToLoad}) {
-  final completedHomeworkListViewFactory =
-      CompletedHomeworkListViewFactory(viewFactory);
-  final completedHomeworksViewBloc = completed.CompletedHomeworksViewBloc(
-      repository, completedHomeworkListViewFactory,
-      nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad);
-  return completedHomeworksViewBloc;
 }
 
 InMemoryHomeworkRepository createRepositoy() => InMemoryHomeworkRepository();

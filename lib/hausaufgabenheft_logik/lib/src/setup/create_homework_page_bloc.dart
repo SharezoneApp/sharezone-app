@@ -12,7 +12,6 @@ import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_list_blo
 import 'package:hausaufgabenheft_logik/src/open_homeworks/open_homework_view_bloc/open_homework_view_bloc.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 
-import '../completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart';
 import '../completed_homeworks/views/completed_homework_list_view_factory.dart';
 import '../models/models.dart';
 import '../open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
@@ -38,10 +37,6 @@ HomeworkPageBloc createHomeworkPageBloc(
 
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);
-  final completedHomeworksViewBloc = CompletedHomeworksViewBloc(
-      dependencies.dataSource, completedHomeworkListViewFactory,
-      nrOfInitialCompletedHomeworksToLoad:
-          config.nrOfInitialCompletedHomeworksToLoad);
 
   final homeworkPageCompletionReceiver = HomeworkPageCompletionDispatcher(
       dependencies.completionDispatcher,
@@ -49,7 +44,10 @@ HomeworkPageBloc createHomeworkPageBloc(
 
   return HomeworkPageBloc(
     openHomeworksViewBloc: openHomeworksViewBloc,
-    completedHomeworksViewBloc: completedHomeworksViewBloc,
+    completedHomeworkListViewFactory: completedHomeworkListViewFactory,
+    homeworkDataSource: dependencies.dataSource,
+    numberOfInitialCompletedHomeworksToLoad:
+        config.nrOfInitialCompletedHomeworksToLoad,
     homeworkCompletionReceiver: homeworkPageCompletionReceiver,
     homeworkSortingCache: HomeworkSortingCache(dependencies.keyValueStore),
     getCurrentDateTime: dependencies.getCurrentDateTime ?? () => clock.now(),
