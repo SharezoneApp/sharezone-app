@@ -15,7 +15,7 @@ import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_s
 import '../completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart';
 import '../completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc.dart';
 import '../completed_homeworks/views/completed_homework_list_view_factory.dart';
-import '../models/models_used_by_homework.dart';
+import '../models/models.dart';
 import '../open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
 import '../open_homeworks/sort_and_subcategorization/subcategorizer_factory.dart';
 import '../open_homeworks/views/open_homework_list_view_factory.dart';

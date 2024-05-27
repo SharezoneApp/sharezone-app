@@ -43,7 +43,7 @@ export 'src/student_homework_page_bloc/events.dart';
 export 'src/student_homework_page_bloc/student_homework_page_bloc.dart';
 export 'src/student_homework_page_bloc/states.dart';
 export 'src/models/homework.dart';
-export 'src/models/models_used_by_homework.dart';
+export 'src/models/models.dart';
 export 'src/open_homeworks/sort_and_subcategorization/sort/smallest_date_subject_and_title_sort.dart';
 export 'src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
 export 'src/open_homeworks/sort_and_subcategorization/sort/subject_smallest_date_and_title_sort.dart';

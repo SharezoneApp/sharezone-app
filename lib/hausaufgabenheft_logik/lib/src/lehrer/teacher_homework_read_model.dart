@@ -8,7 +8,7 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework.dart';
-import 'package:hausaufgabenheft_logik/src/models/models_used_by_homework.dart';
+import 'package:hausaufgabenheft_logik/src/models/models.dart';
 
 /// Ein ReadModel für die Lehrer-Hausaufgaben-Seite.
 /// Siehe [HomeworkReadModel].
