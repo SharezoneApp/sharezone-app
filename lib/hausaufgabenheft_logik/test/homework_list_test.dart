@@ -8,7 +8,7 @@
 
 import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/models_used_by_homework.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
+import 'package:hausaufgabenheft_logik/src/homework_list_extensions.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/smallest_date_subject_and_title_sort.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/subject_smallest_date_and_title_sort.dart';
 import 'package:test/test.dart';

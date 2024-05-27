@@ -54,3 +54,4 @@ export 'src/views/homework_view.dart';
 export 'src/open_homeworks/views/homework_section_view.dart';
 export 'src/data_source/homework_data_source.dart';
 export 'src/homework_completion/homework_completion_dispatcher.dart';
+export 'src/homework_list_extensions.dart';

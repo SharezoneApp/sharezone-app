@@ -8,10 +8,10 @@
 
 import 'package:hausaufgabenheft_logik/src/models/homework_completion_status.dart';
 
-import '../open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
-import 'date.dart';
-import 'homework.dart';
-import 'subject.dart';
+import 'open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
+import 'models/date.dart';
+import 'models/homework.dart';
+import 'models/subject.dart';
 
 extension SortWith<T> on List<T> {
   void sortWith(Sort<T> sort) {

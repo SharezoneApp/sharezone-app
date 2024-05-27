@@ -18,7 +18,6 @@ import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homewor
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc.dart'
     as lazy_loading;
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
