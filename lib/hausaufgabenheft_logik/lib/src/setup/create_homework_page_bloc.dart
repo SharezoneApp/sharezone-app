@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:clock/clock.dart';
+import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/src/homework_completion/homework_page_completion_dispatcher.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 
 import '../completed_homeworks/views/completed_homework_list_view_factory.dart';
 import '../models/models.dart';
 import '../open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
-import '../open_homeworks/sort_and_subcategorization/subcategorizer_factory.dart';
 import '../open_homeworks/views/open_homework_list_view_factory.dart';
 import '../student_homework_page_bloc/student_homework_page_bloc.dart';
 import '../views/student_homework_view_factory.dart';
@@ -22,13 +22,16 @@ import 'dependencies.dart';
 
 HomeworkPageBloc createHomeworkPageBloc(
     HausaufgabenheftDependencies dependencies, HausaufgabenheftConfig config) {
+  getCurrentDate() => Date.now();
+
   final viewFactory = StudentHomeworkViewFactory(
       defaultColorValue: config.defaultCourseColorValue);
-  final subcategorizerFactory = SubcategorizerFactory(viewFactory);
   final sortAndSubcategorizer = HomeworkSortAndSubcategorizer(
-      subcategorizerFactory.getMatchingSubcategorizer);
+    defaultColor: Color(config.defaultCourseColorValue),
+    getCurrentDate: getCurrentDate,
+  );
   final openHomeworkListViewFactory =
-      OpenHomeworkListViewFactory(sortAndSubcategorizer, () => Date.now());
+      OpenHomeworkListViewFactory(sortAndSubcategorizer, getCurrentDate);
 
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);
