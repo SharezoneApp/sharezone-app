@@ -86,8 +86,8 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
         _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
             numberOfInitialCompletedHomeworksToLoad);
 
-    final sortEnum = (await _homeworkSortingCache.getLastSorting(
-        orElse: HomeworkSort.smallestDateSubjectAndTitle))!;
+    final sortEnum = await _homeworkSortingCache.getLastSorting() ??
+        HomeworkSort.smallestDateSubjectAndTitle;
     sortingStream.add(sortEnum);
 
     _combineLatestSubscription = Rx.combineLatest3<List<HomeworkReadModel>,
