@@ -35,7 +35,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   final int numberOfInitialCompletedHomeworksToLoad;
   final CompletedHomeworkListViewFactory _completedHomeworkListViewFactory;
   final OpenHomeworkListViewFactory _openHomeworkListViewFactory;
-  final sortingStream = BehaviorSubject<HomeworkSort>();
+  final _currentSortStream = BehaviorSubject<Sort<HomeworkReadModel>>();
   LazyLoadingController? _lazyLoadingController;
 
   /// Whether [close] or [dispose] has been called;
@@ -88,15 +88,15 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 
     final sortEnum = await _homeworkSortingCache.getLastSorting() ??
         HomeworkSort.smallestDateSubjectAndTitle;
-    sortingStream.add(sortEnum);
+    _currentSortStream
+        .add(sortEnum.toSortObject(getCurrentDate: _getCurrentDate));
 
     _combineLatestSubscription = Rx.combineLatest3<List<HomeworkReadModel>,
-            HomeworkSort, LazyLoadingResult, Success>(
+            Sort<HomeworkReadModel>, LazyLoadingResult, Success>(
         _homeworkDataSource.openHomeworks,
-        sortingStream,
+        _currentSortStream,
         _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
-      final sortObj = sort.toSortObject(getCurrentDate: _getCurrentDate);
-      final open = _openHomeworkListViewFactory.create(openHws, sortObj);
+      final open = _openHomeworkListViewFactory.create(openHws, sort);
 
       final completed = _completedHomeworkListViewFactory.create(
           lazyCompletedHwsRes.homeworks,
@@ -116,7 +116,8 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 
   Future<void> _mapFilterChangedToState(OpenHwSortingChanged event) async {
     await _homeworkSortingCache.setLastSorting(event.sort);
-    sortingStream.add(event.sort);
+    _currentSortStream
+        .add(event.sort.toSortObject(getCurrentDate: _getCurrentDate));
   }
 
   Future<void> _mapHomeworkChangedCompletionStatus(
@@ -135,7 +136,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   @override
   Future<void> close() {
     _isClosed = true;
-    sortingStream.close();
+    _currentSortStream.close();
     _combineLatestSubscription?.cancel();
     return super.close();
   }
@@ -143,7 +144,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   @override
   void dispose() {
     _isClosed = true;
-    sortingStream.close();
+    _currentSortStream.close();
     _combineLatestSubscription?.cancel();
   }
 }
