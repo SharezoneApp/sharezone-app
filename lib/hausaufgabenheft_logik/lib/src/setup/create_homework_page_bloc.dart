@@ -22,7 +22,9 @@ import 'dependencies.dart';
 
 HomeworkPageBloc createHomeworkPageBloc(
     HausaufgabenheftDependencies dependencies, HausaufgabenheftConfig config) {
-  getCurrentDate() => Date.now();
+  final getCurrentDateTime =
+      dependencies.getCurrentDateTime ?? () => clock.now();
+  getCurrentDate() => Date.fromDateTime(getCurrentDateTime());
 
   final viewFactory = StudentHomeworkViewFactory(
       defaultColorValue: config.defaultCourseColorValue);
