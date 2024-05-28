@@ -11,6 +11,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
@@ -19,25 +20,25 @@ import 'homework_dto.dart';
 typedef CourseColorRetriever = FutureOr<int> Function(String courseId);
 
 class HomeworkTransformer extends StreamTransformerBase<
-    QuerySnapshot<Map<String, dynamic>>, List<HomeworkReadModel>> {
+    QuerySnapshot<Map<String, dynamic>>, IList<HomeworkReadModel>> {
   final String userId;
   final CourseColorRetriever getCourseColorHexValue;
 
   HomeworkTransformer(this.userId, {required this.getCourseColorHexValue});
 
   @override
-  Stream<List<HomeworkReadModel>> bind(Stream<QuerySnapshot> stream) {
+  Stream<IList<HomeworkReadModel>> bind(Stream<QuerySnapshot> stream) {
     return stream.asyncMap(querySnapshotToHomeworks);
   }
 
-  Future<List<HomeworkReadModel>> querySnapshotToHomeworks(
+  Future<IList<HomeworkReadModel>> querySnapshotToHomeworks(
       QuerySnapshot querySnapshot) async {
-    final homeworks = <HomeworkReadModel>[];
+    IList<HomeworkReadModel> homeworks = const IListConst([]);
     for (final document in querySnapshot.docs) {
       final homework = await tryToConvertToHomework(document, userId,
           getCourseColorHexValue: getCourseColorHexValue);
       if (homework != null) {
-        homeworks.add(homework);
+        homeworks = homeworks.add(homework);
       }
     }
     return homeworks;

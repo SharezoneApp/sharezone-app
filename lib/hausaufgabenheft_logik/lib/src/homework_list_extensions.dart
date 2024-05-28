@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework_completion_status.dart';
 
 import 'open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
@@ -13,29 +14,29 @@ import 'models/date.dart';
 import 'models/homework.dart';
 import 'models/subject.dart';
 
-extension SortWith<T> on List<T> {
-  void sortWith(Sort<T> sort) {
-    sort.sort(this);
+extension SortWith<T> on IList<T> {
+  IList<T> sortWith(Sort<T> sort) {
+    return sort.sort(this);
   }
 }
 
-extension HomeworkListExtension on List<HomeworkReadModel> {
-  List<HomeworkReadModel> get completed =>
+extension HomeworkListExtension on IList<HomeworkReadModel> {
+  IList<HomeworkReadModel> get completed =>
       where((homework) => homework.status == CompletionStatus.completed)
-          .toList();
-  List<HomeworkReadModel> get open =>
-      where((homework) => homework.status == CompletionStatus.open).toList();
+          .toIList();
+  IList<HomeworkReadModel> get open =>
+      where((homework) => homework.status == CompletionStatus.open).toIList();
 
-  List<Subject> getDistinctOrderedSubjects() {
+  IList<Subject> getDistinctOrderedSubjects() {
     final subjects = <Subject>{};
     for (final homework in this) {
       subjects.add(homework.subject);
     }
-    return subjects.toList();
+    return subjects.toIList();
   }
 
-  List<HomeworkReadModel> getOverdue([Date? now]) {
+  IList<HomeworkReadModel> getOverdue([Date? now]) {
     now = now ?? Date.now();
-    return where((homeworks) => homeworks.isOverdueRelativeTo(now!)).toList();
+    return where((homeworks) => homeworks.isOverdueRelativeTo(now!)).toIList();
   }
 }

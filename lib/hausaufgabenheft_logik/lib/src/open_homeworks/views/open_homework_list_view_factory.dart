@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/models.dart';
 import 'package:hausaufgabenheft_logik/src/homework_list_extensions.dart';
@@ -23,7 +24,7 @@ class OpenHomeworkListViewFactory {
       this._sortAndSubcategorizer, this._getCurrentDate);
 
   OpenHomeworkListView create(
-      List<HomeworkReadModel> openHomeworks, Sort<HomeworkReadModel> sort) {
+      IList<HomeworkReadModel> openHomeworks, Sort<HomeworkReadModel> sort) {
     final homeworkSectionViews =
         _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
 
@@ -38,7 +39,7 @@ class OpenHomeworkListViewFactory {
   }
 
   bool _shouldShowCompleteOverdueHomeworkPrompt(
-      List<HomeworkReadModel> openHomeworks) {
+      IList<HomeworkReadModel> openHomeworks) {
     var now = _getCurrentDate();
     var overdueOpenHomeworks = openHomeworks.getOverdue(now);
     return overdueOpenHomeworks.length > 2;

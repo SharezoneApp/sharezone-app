@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 /// The [HomeworkPageCompletionDispatcher] is a homework page sepecific input for
@@ -19,7 +20,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 /// [AllOverdueHomeworkCompletionEvent] while the [HomeworkCompletionDispatcher]
 /// is not bound to the homework page.
 class HomeworkPageCompletionDispatcher {
-  final Future<List<HomeworkId>> Function() getCurrentOverdueHomeworkIds;
+  final Future<IList<HomeworkId>> Function() getCurrentOverdueHomeworkIds;
   final HomeworkCompletionDispatcher _homeworkCompletionDispatcher;
 
   HomeworkPageCompletionDispatcher(this._homeworkCompletionDispatcher,

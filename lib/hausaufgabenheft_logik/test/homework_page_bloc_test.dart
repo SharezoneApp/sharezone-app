@@ -11,6 +11,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:clock/clock.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
@@ -480,9 +481,12 @@ void main() {
 
 extension on OpenHomeworkListView {
   List<StudentHomeworkView> get orderedHomeworks {
-    final listOfListOfHomeworks = sections.map((s) => s.homeworks).toList();
+    final listOfListOfHomeworks =
+        sections.map((s) => s.homeworks.toList()).toList();
     if (listOfListOfHomeworks.isEmpty) return [];
-    if (listOfListOfHomeworks.length == 1) return listOfListOfHomeworks.single;
+    if (listOfListOfHomeworks.length == 1) {
+      return listOfListOfHomeworks.single.toList();
+    }
     return listOfListOfHomeworks.reduce((l1, l2) => [...l1, ...l2]).toList();
   }
 }
@@ -500,7 +504,7 @@ HomeworkPageBloc createBloc(
       completionDispatcher: RepositoryHomeworkCompletionDispatcher(repository),
       getOpenOverdueHomeworkIds: () async {
         final open = await repository.openHomeworks.first;
-        return open.getOverdue().map((hw) => hw.id).toList();
+        return open.getOverdue().map((hw) => hw.id).toIList();
       },
       keyValueStore: keyValueStore ?? InMemoryKeyValueStore(),
       getCurrentDateTime: getCurrentDateTime,

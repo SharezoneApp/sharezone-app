@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:key_value_store/key_value_store.dart';
 import '../data_source/homework_data_source.dart';
 import '../homework_completion/homework_completion_dispatcher.dart';
@@ -20,7 +21,7 @@ class HausaufgabenheftDependencies {
 
   /// Used to complete all overdue homeworks at once by using the completion
   /// dispatcher.
-  final Future<List<HomeworkId>> Function() getOpenOverdueHomeworkIds;
+  final Future<IList<HomeworkId>> Function() getOpenOverdueHomeworkIds;
 
   final KeyValueStore keyValueStore;
 

@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/homework_completion/homework_page_completion_dispatcher.dart';
@@ -84,7 +85,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
         _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
             numberOfInitialCompletedHomeworksToLoad);
 
-    _combineLatestSubscription = Rx.combineLatest3<List<HomeworkReadModel>,
+    _combineLatestSubscription = Rx.combineLatest3<IList<HomeworkReadModel>,
             Sort<HomeworkReadModel>, LazyLoadingResult, Success>(
         _homeworkDataSource.openHomeworks,
         _currentSortStream,

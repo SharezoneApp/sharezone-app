@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
@@ -22,9 +23,9 @@ class HomeworkSortAndSubcategorizer {
           getCurrentDate: getCurrentDate,
         );
 
-  List<HomeworkSectionView> sortAndSubcategorize(
-      List<HomeworkReadModel> homeworks, Sort<HomeworkReadModel> sort) {
-    homeworks.sortWith(sort);
+  IList<HomeworkSectionView> sortAndSubcategorize(
+      IList<HomeworkReadModel> homeworks, Sort<HomeworkReadModel> sort) {
+    final sorted = homeworks.sortWith(sort);
 
     final matchingSubcategorizer = switch (sort) {
       SubjectSmallestDateAndTitleSort() =>
@@ -33,12 +34,12 @@ class HomeworkSortAndSubcategorizer {
         _TodoDateSubcategorizer(getCurrentDate(), _viewFactory),
     };
 
-    return matchingSubcategorizer.subcategorize(homeworks);
+    return matchingSubcategorizer.subcategorize(sorted);
   }
 }
 
 abstract class _Subcategorizer {
-  List<HomeworkSectionView> subcategorize(List<HomeworkReadModel> homeworks);
+  IList<HomeworkSectionView> subcategorize(IList<HomeworkReadModel> homeworks);
 }
 
 class _SubjectSubcategeorizer extends _Subcategorizer {
@@ -47,17 +48,17 @@ class _SubjectSubcategeorizer extends _Subcategorizer {
   _SubjectSubcategeorizer(this._viewFactory);
 
   @override
-  List<HomeworkSectionView> subcategorize(List<HomeworkReadModel> homeworks) {
+  IList<HomeworkSectionView> subcategorize(IList<HomeworkReadModel> homeworks) {
     final subjects = homeworks.getDistinctOrderedSubjects();
-    final homeworkSections = <HomeworkSectionView>[];
+    var homeworkSections = IList<HomeworkSectionView>();
     for (final subject in subjects) {
-      final List<HomeworkReadModel> homeworksWithSubject =
-          homeworks.where((h) => h.subject == subject).toList();
+      final IList<HomeworkReadModel> homeworksWithSubject =
+          homeworks.where((h) => h.subject == subject).toIList();
 
       final homeworkViewsWithSubject =
-          homeworksWithSubject.map((h) => _viewFactory.createFrom(h)).toList();
+          homeworksWithSubject.map((h) => _viewFactory.createFrom(h)).toIList();
 
-      homeworkSections
+      homeworkSections = homeworkSections
           .add(HomeworkSectionView(subject.name, homeworkViewsWithSubject));
     }
     return homeworkSections;
@@ -71,27 +72,24 @@ class _TodoDateSubcategorizer extends _Subcategorizer {
   _TodoDateSubcategorizer(this.currentDate, this._viewFactory);
 
   @override
-  List<HomeworkSectionView> subcategorize(List<HomeworkReadModel> homeworks) {
-    final latestHomeworkList = homeworks;
+  IList<HomeworkSectionView> subcategorize(IList<HomeworkReadModel> homeworks) {
     final now = currentDate;
     final tomorrow = now.addDays(1);
     final in2Days = tomorrow.addDays(1);
 
-    final List<HomeworkReadModel> overdueHomework = latestHomeworkList
-        .where((h) => Date.fromDateTime(h.todoDate) < now)
-        .toList();
-    final List<HomeworkReadModel> todayHomework = latestHomeworkList
-        .where((h) => Date.fromDateTime(h.todoDate) == now)
-        .toList();
-    final List<HomeworkReadModel> tomorrowHomework = latestHomeworkList
+    final IList<HomeworkReadModel> overdueHomework =
+        homeworks.where((h) => Date.fromDateTime(h.todoDate) < now).toIList();
+    final IList<HomeworkReadModel> todayHomework =
+        homeworks.where((h) => Date.fromDateTime(h.todoDate) == now).toIList();
+    final IList<HomeworkReadModel> tomorrowHomework = homeworks
         .where((h) => Date.fromDateTime(h.todoDate) == tomorrow)
-        .toList();
-    final List<HomeworkReadModel> in2DaysHomework = latestHomeworkList
+        .toIList();
+    final IList<HomeworkReadModel> in2DaysHomework = homeworks
         .where((h) => Date.fromDateTime(h.todoDate) == in2Days)
-        .toList();
-    final List<HomeworkReadModel> futureHomework = latestHomeworkList
+        .toIList();
+    final IList<HomeworkReadModel> futureHomework = homeworks
         .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
-        .toList();
+        .toIList();
 
     final overdueSec = HomeworkSectionView.fromModels(
         'Überfällig', overdueHomework, _viewFactory);
@@ -112,6 +110,6 @@ class _TodoDateSubcategorizer extends _Subcategorizer {
       afterTwoDaysSec
     ];
 
-    return sections.where((section) => section.isNotEmpty).toList();
+    return sections.where((section) => section.isNotEmpty).toIList();
   }
 }

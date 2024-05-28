@@ -6,11 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+
 import '../../views/homework_view.dart';
 
 class CompletedHomeworkListView {
   final bool loadedAllCompletedHomeworks;
-  final List<StudentHomeworkView> orderedHomeworks;
+  final IList<StudentHomeworkView> orderedHomeworks;
 
   CompletedHomeworkListView(this.orderedHomeworks,
       {required this.loadedAllCompletedHomeworks});

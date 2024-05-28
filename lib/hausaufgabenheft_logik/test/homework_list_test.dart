@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:test/test.dart';
 
@@ -79,7 +80,7 @@ void main() {
         createHomework(
             subject: subject.name, abbreviation: subject.abbreviation)
     ];
-    final homeworkList = homeworks;
+    final homeworkList = homeworks.toIList();
 
     final result = homeworkList.getDistinctOrderedSubjects();
 
@@ -100,8 +101,8 @@ void testSort(String title,
     required ListCallback sort,
     bool skip = false}) {
   test(title, () {
-    sort(unsorted);
-    expect(unsorted, sorted);
+    final actualSorted = sort(unsorted.toIList());
+    expect(actualSorted.toList(), sorted);
   }, skip: skip);
 }
 
@@ -119,4 +120,5 @@ void testTitleSort(String title, ListCallback sort) => testSort(
       sort: sort,
     );
 
-typedef ListCallback = void Function(List<HomeworkReadModel>);
+typedef ListCallback = IList<HomeworkReadModel> Function(
+    IList<HomeworkReadModel>);

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 import 'homework_transformation.dart';
@@ -22,7 +23,7 @@ class FirestoreRealtimeCompletedHomeworkLoader
       this._homeworkCollection, this._userId, this._homeworkTransformer);
 
   @override
-  Stream<List<HomeworkReadModel>> loadMostRecentHomeworks(
+  Stream<IList<HomeworkReadModel>> loadMostRecentHomeworks(
       int numberOfHomeworks) {
     return _homeworkCollection
         .where('assignedUserArrays.completedStudentUids',

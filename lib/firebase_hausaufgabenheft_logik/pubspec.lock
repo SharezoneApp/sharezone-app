@@ -158,6 +158,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  fast_immutable_collections:
+    dependency: "direct main"
+    description:
+      name: fast_immutable_collections
+      sha256: b910ccdc99bb38a2abbce07c5afb8f81d4e222a892e4d095a548b99814837b0c
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.2.1"
   firebase_core:
     dependency: transitive
     description:

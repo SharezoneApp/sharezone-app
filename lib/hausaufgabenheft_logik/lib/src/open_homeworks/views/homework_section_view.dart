@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 
 import '../../views/homework_view.dart';
@@ -14,7 +15,7 @@ import '../../views/student_homework_view_factory.dart';
 
 class HomeworkSectionView extends Equatable {
   final String title;
-  final List<StudentHomeworkView> homeworks;
+  final IList<StudentHomeworkView> homeworks;
 
   bool get isEmpty => homeworks.isEmpty;
   bool get isNotEmpty => homeworks.isNotEmpty;
@@ -26,11 +27,13 @@ class HomeworkSectionView extends Equatable {
 
   factory HomeworkSectionView.fromModels(
       String title,
-      List<HomeworkReadModel> homeworks,
+      IList<HomeworkReadModel> homeworks,
       StudentHomeworkViewFactory viewFactory) {
-    return HomeworkSectionView(title, [
-      for (final h in homeworks) viewFactory.createFrom(h),
-    ]);
+    return HomeworkSectionView(
+        title,
+        IList([
+          for (final h in homeworks) viewFactory.createFrom(h),
+        ]));
   }
 
   @override
