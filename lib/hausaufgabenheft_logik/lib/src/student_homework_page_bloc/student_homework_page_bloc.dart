@@ -82,43 +82,33 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 
   StreamSubscription? _combineLatestSubscription;
   Future<void> _mapLoadHomeworksToState() async {
-    final sortEnum = (await _homeworkSortingCache.getLastSorting(
-        orElse: HomeworkSort.smallestDateSubjectAndTitle))!;
-    sortingStream.add(sortEnum);
-
-    final openHwListStream = Rx.combineLatest2<List<HomeworkReadModel>,
-            HomeworkSort, OpenHomeworkListView>(
-        _homeworkDataSource.openHomeworks, sortingStream, (openHws, sort) {
-      final sortObj = sort.toSortObject(getCurrentDate: _getCurrentDate);
-      return _openHomeworkListViewFactory.create(openHws, sortObj);
-    });
-
     _lazyLoadingController =
         _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
             numberOfInitialCompletedHomeworksToLoad);
 
-    final completedHomeworkListViewStream =
-        _lazyLoadingController!.results.map((s) {
-      final view = _completedHomeworkListViewFactory.create(
-          s.homeworks, !s.moreHomeworkAvailable);
-      return view;
-    });
+    final sortEnum = (await _homeworkSortingCache.getLastSorting(
+        orElse: HomeworkSort.smallestDateSubjectAndTitle))!;
+    sortingStream.add(sortEnum);
 
-    _combineLatestSubscription = Rx.combineLatest2<CompletedHomeworkListView,
-        OpenHomeworkListView, Success>(
-      completedHomeworkListViewStream,
-      openHwListStream,
-      _toSuccessState,
-    ).listen((s) {
+    _combineLatestSubscription = Rx.combineLatest3<List<HomeworkReadModel>,
+            HomeworkSort, LazyLoadingResult, Success>(
+        _homeworkDataSource.openHomeworks,
+        sortingStream,
+        _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
+      final sortObj = sort.toSortObject(getCurrentDate: _getCurrentDate);
+      final open = _openHomeworkListViewFactory.create(openHws, sortObj);
+
+      final completed = _completedHomeworkListViewFactory.create(
+          lazyCompletedHwsRes.homeworks,
+          !lazyCompletedHwsRes.moreHomeworkAvailable);
+
+      return Success(completed, open);
+    }).listen((s) {
       if (!_isClosed) {
         add(_Yield(s));
       }
     });
   }
-
-  Success _toSuccessState(CompletedHomeworkListView completed,
-          OpenHomeworkListView openHomeworkListView) =>
-      Success(completed, openHomeworkListView);
 
   void _mapAdvanceCompletedHomeworks(AdvanceCompletedHomeworks event) async {
     _lazyLoadingController!.advanceBy(event.advanceBy);
