@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+
 /// Sorts the [listToSort] sequentially with the [comparisions].
 /// If a comparision does treat the objects as equal, the next comparision will be executed on those.
 /// The result of the last comparision will be used either way.
@@ -29,10 +31,10 @@
 /// h6 - Informatik: “Buch S. 33” (06.10.19)
 /// h5 - Mathematik: “Buch S. 33” (01.01.19)
 /// h7 - Mathematik: “Buch S. 37” (06.10.20)
-void sortWithOperations<T>(
-    List<T> listToSort, List<Comparision<T>> comparisions) {
+IList<T> sortWithOperations<T>(
+    IList<T> listToSort, IList<Comparision<T>> comparisions) {
   final last = comparisions.last;
-  listToSort.sort((ha1, ha2) {
+  return listToSort.sort((ha1, ha2) {
     for (final comparision in comparisions) {
       final result = comparision(ha1, ha2);
       if (result.objectsAreNotEqual || comparision == last) {

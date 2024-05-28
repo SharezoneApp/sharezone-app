@@ -25,6 +25,7 @@ dependencies:
   time:
     path: ../time
   cloud_firestore: ^4.17.2
+  fast_immutable_collections: ^9.1.5
   flutter:
     sdk: flutter
   clock: ^1.1.1

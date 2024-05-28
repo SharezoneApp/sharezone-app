@@ -10,6 +10,7 @@ import 'dart:async';
 
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_hausaufgabenheft_logik/src/realtime_updating_lazy_loading_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
@@ -22,14 +23,14 @@ class ReportingInMemoryHomeworkLoader extends InMemoryHomeworkLoader {
 
   bool wasInvoked = false;
   @override
-  Stream<List<HomeworkReadModel>> loadMostRecentHomeworks(
+  Stream<IList<HomeworkReadModel>> loadMostRecentHomeworks(
       int numberOfHomeworks) {
     wasInvoked = true;
     return super.loadMostRecentHomeworks(numberOfHomeworks);
   }
 }
 
-List<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
+IList<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
       length,
       (index) => HomeworkReadModel(
           id: HomeworkId("$index"),
@@ -38,21 +39,21 @@ List<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
           subject: Subject("Mathe", abbreviation: 'Ma'),
           title: const Title("ABC"),
           withSubmissions: false),
-    );
+    ).toIList();
 
-Stream<List<HomeworkReadModel>> getHomeworkResultsAsStream(
+Stream<IList<HomeworkReadModel>> getHomeworkResultsAsStream(
         Stream<LazyLoadingResult> resultStream) =>
     resultStream.map((res) => res.homeworks);
 
 void main() {
   group('LazyLoadingController', () {
     late ReportingInMemoryHomeworkLoader homeworkLoader;
-    late rx.BehaviorSubject<List<HomeworkReadModel>> homeworkSubject;
+    late rx.BehaviorSubject<IList<HomeworkReadModel>> homeworkSubject;
 
-    void addToDataSource(List<HomeworkReadModel> homeworks) {
-      final hws = homeworkSubject.valueOrNull;
+    void addToDataSource(IList<HomeworkReadModel> homeworks) {
+      var hws = homeworkSubject.valueOrNull;
       if (hws != null) {
-        hws.addAll(homeworks);
+        hws = hws.addAll(homeworks);
         homeworkSubject.add(hws);
       } else {
         homeworkSubject.add(homeworks);
@@ -60,7 +61,7 @@ void main() {
     }
 
     setUp(() {
-      homeworkSubject = rx.BehaviorSubject<List<HomeworkReadModel>>();
+      homeworkSubject = rx.BehaviorSubject<IList<HomeworkReadModel>>();
       homeworkLoader = ReportingInMemoryHomeworkLoader(homeworkSubject);
     });
 

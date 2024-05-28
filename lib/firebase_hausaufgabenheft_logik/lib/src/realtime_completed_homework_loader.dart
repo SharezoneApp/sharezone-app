@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 abstract class RealtimeCompletedHomeworkLoader {
-  Stream<List<HomeworkReadModel>> loadMostRecentHomeworks(
+  Stream<IList<HomeworkReadModel>> loadMostRecentHomeworks(
       int numberOfHomeworks);
 }

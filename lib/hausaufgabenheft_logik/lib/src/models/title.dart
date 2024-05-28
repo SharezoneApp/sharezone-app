@@ -6,26 +6,18 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-class Title implements Comparable<Title> {
+import 'package:equatable/equatable.dart';
+
+class Title extends Equatable implements Comparable<Title> {
   final String value;
+
+  @override
+  List<Object> get props => [value];
 
   const Title(this.value);
 
   @override
-  bool operator ==(other) {
-    return identical(this, other) || other is Title && value == other.value;
-  }
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
   int compareTo(Title other) {
     return value.compareTo(other.value);
-  }
-
-  @override
-  String toString() {
-    return 'Title(value: $value)';
   }
 }

@@ -20,8 +20,8 @@ class HomeworkSortingCache {
     await _keyValueStore.setString(_key, homeworkSortToString(homeworkSort));
   }
 
-  Future<HomeworkSort?> getLastSorting({HomeworkSort? orElse}) async {
+  Future<HomeworkSort?> getLastSorting() async {
     final string = _keyValueStore.getString(_key);
-    return string != null ? homeworkSortFromString(string) : orElse;
+    return string != null ? homeworkSortFromString(string) : null;
   }
 }

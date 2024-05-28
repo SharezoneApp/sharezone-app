@@ -7,13 +7,14 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:collection/collection.dart' show DeepCollectionEquality;
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 import 'homework_section_view.dart';
 
 class OpenHomeworkListView {
   final bool showCompleteOverdueHomeworkPrompt;
-  final List<HomeworkSectionView> sections;
+  final IList<HomeworkSectionView> sections;
   final HomeworkSort sorting;
 
   OpenHomeworkListView(

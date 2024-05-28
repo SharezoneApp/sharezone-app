@@ -10,6 +10,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'homework_transformation.dart';
 
@@ -24,7 +25,7 @@ class FirestoreHomeworkDataSource extends HomeworkDataSource {
       this.createLazyLoadingController, this._homeworkTransformer);
 
   @override
-  Stream<List<HomeworkReadModel>> get openHomeworks {
+  Stream<IList<HomeworkReadModel>> get openHomeworks {
     return _homeworkCollection
         .where("assignedUserArrays.openStudentUids", arrayContains: uid)
         .snapshots()
@@ -37,12 +38,12 @@ class FirestoreHomeworkDataSource extends HomeworkDataSource {
     return homework;
   }
 
-  Future<List<HomeworkId>> getCurrentOpenOverdueHomeworkIds() async {
+  Future<IList<HomeworkId>> getCurrentOpenOverdueHomeworkIds() async {
     final open = await openHomeworks.first;
     final overdue = open
         .where((homeworks) => homeworks.isOverdueRelativeTo(Date.now()))
         .toList();
-    final overdueIds = overdue.map((hws) => hws.id).toList();
+    final overdueIds = overdue.map((hws) => hws.id).toIList();
     return overdueIds;
   }
 
