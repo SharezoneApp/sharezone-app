@@ -11,41 +11,40 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
 
 class HomeworkSortAndSubcategorizer {
-  final Color defaultColor;
+  final StudentHomeworkViewFactory _viewFactory;
   final Date Function() getCurrentDate;
+
   HomeworkSortAndSubcategorizer({
-    required this.defaultColor,
+    required Color defaultColor,
     required this.getCurrentDate,
-  });
+  }) : _viewFactory = StudentHomeworkViewFactory(
+          defaultColorValue: defaultColor.value,
+          getCurrentDate: getCurrentDate,
+        );
 
   List<HomeworkSectionView> sortAndSubcategorize(
       List<HomeworkReadModel> homeworks, Sort<HomeworkReadModel> sort) {
     homeworks.sortWith(sort);
 
-    final studentHomeworkViewFactory = StudentHomeworkViewFactory(
-      defaultColorValue: defaultColor.value,
-      getCurrentDate: getCurrentDate,
-    );
-
     final matchingSubcategorizer = switch (sort) {
       SubjectSmallestDateAndTitleSort() =>
-        SubjectSubcategeorizer(studentHomeworkViewFactory),
+        _SubjectSubcategeorizer(_viewFactory),
       SmallestDateSubjectAndTitleSort() =>
-        TodoDateSubcategorizer(getCurrentDate(), studentHomeworkViewFactory),
+        _TodoDateSubcategorizer(getCurrentDate(), _viewFactory),
     };
 
     return matchingSubcategorizer.subcategorize(homeworks);
   }
 }
 
-abstract class Subcategorizer {
+abstract class _Subcategorizer {
   List<HomeworkSectionView> subcategorize(List<HomeworkReadModel> homeworks);
 }
 
-class SubjectSubcategeorizer extends Subcategorizer {
+class _SubjectSubcategeorizer extends _Subcategorizer {
   final StudentHomeworkViewFactory _viewFactory;
 
-  SubjectSubcategeorizer(this._viewFactory);
+  _SubjectSubcategeorizer(this._viewFactory);
 
   @override
   List<HomeworkSectionView> subcategorize(List<HomeworkReadModel> homeworks) {
@@ -65,11 +64,11 @@ class SubjectSubcategeorizer extends Subcategorizer {
   }
 }
 
-class TodoDateSubcategorizer extends Subcategorizer {
+class _TodoDateSubcategorizer extends _Subcategorizer {
   final Date currentDate;
   final StudentHomeworkViewFactory _viewFactory;
 
-  TodoDateSubcategorizer(this.currentDate, this._viewFactory);
+  _TodoDateSubcategorizer(this.currentDate, this._viewFactory);
 
   @override
   List<HomeworkSectionView> subcategorize(List<HomeworkReadModel> homeworks) {
