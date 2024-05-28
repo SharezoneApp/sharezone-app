@@ -21,26 +21,20 @@ class HomeworkSortAndSubcategorizer {
   List<HomeworkSectionView> sortAndSubcategorize(
       List<HomeworkReadModel> homeworks, Sort<HomeworkReadModel> sort) {
     homeworks.sortWith(sort);
-    return SubcategorizerFactory(StudentHomeworkViewFactory(
+
+    final studentHomeworkViewFactory = StudentHomeworkViewFactory(
       defaultColorValue: defaultColor.value,
       getCurrentDate: getCurrentDate,
-    )).getMatchingSubcategorizer(sort).subcategorize(homeworks);
-  }
-}
+    );
 
-class SubcategorizerFactory {
-  final StudentHomeworkViewFactory _viewFactory;
+    final matchingSubcategorizer = switch (sort) {
+      SubjectSmallestDateAndTitleSort() =>
+        SubjectSubcategeorizer(studentHomeworkViewFactory),
+      SmallestDateSubjectAndTitleSort() =>
+        TodoDateSubcategorizer(getCurrentDate(), studentHomeworkViewFactory),
+    };
 
-  SubcategorizerFactory(this._viewFactory);
-
-  Subcategorizer getMatchingSubcategorizer(Sort sort) {
-    if (sort is SubjectSmallestDateAndTitleSort) {
-      return SubjectSubcategeorizer(_viewFactory);
-    } else if (sort is SmallestDateSubjectAndTitleSort) {
-      return TodoDateSubcategorizer(sort.getCurrentDate(), _viewFactory);
-    } else {
-      throw UnimplementedError('No matching Subcategorizer for $sort');
-    }
+    return matchingSubcategorizer.subcategorize(homeworks);
   }
 }
 
