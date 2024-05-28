@@ -19,13 +19,6 @@ import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_li
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:rxdart/rxdart.dart';
 
-/// This Bloc serves basically only as an interface to the outer world with 2
-/// tasks:
-/// * It delegates all incoming [HomeworkPageEvent]s to the other blocs.
-/// * It merges the Success states from the [OpenHomeworksViewBloc] and
-///   [CompletedHomeworksViewBloc] together into one [Success] state.
-/// * It caches the last sorting of Homeworks so that it stays consistent
-///   between visits of the homework page.
 class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     implements bloc_base.BlocBase {
   final HomeworkPageCompletionDispatcher _homeworkCompletionReceiver;
@@ -82,14 +75,14 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 
   StreamSubscription? _combineLatestSubscription;
   Future<void> _mapLoadHomeworksToState() async {
-    _lazyLoadingController =
-        _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
-            numberOfInitialCompletedHomeworksToLoad);
-
     final sortEnum = await _homeworkSortingCache.getLastSorting() ??
         HomeworkSort.smallestDateSubjectAndTitle;
     _currentSortStream
         .add(sortEnum.toSortObject(getCurrentDate: _getCurrentDate));
+
+    _lazyLoadingController =
+        _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
+            numberOfInitialCompletedHomeworksToLoad);
 
     _combineLatestSubscription = Rx.combineLatest3<List<HomeworkReadModel>,
             Sort<HomeworkReadModel>, LazyLoadingResult, Success>(
