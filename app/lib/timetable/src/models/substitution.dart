@@ -18,6 +18,9 @@ enum SubstitutionType {
   /// The lesson is moved to another room.
   locationChanged,
 
+  /// The teacher changed for the lesson.
+  teacherChanged,
+
   /// Unknown substitution type.
   unknown;
 
@@ -25,6 +28,7 @@ enum SubstitutionType {
     return switch (this) {
       lessonCanceled => 'lessonCanceled',
       locationChanged => 'placeChanged',
+      teacherChanged => 'teacherChanged',
       unknown => 'unknown',
     };
   }
@@ -33,6 +37,7 @@ enum SubstitutionType {
     return switch (value) {
       'lessonCanceled' => lessonCanceled,
       'placeChanged' => locationChanged,
+      'teacherChanged' => teacherChanged,
       _ => unknown,
     };
   }
@@ -94,6 +99,14 @@ sealed class Substitution {
           isDeleted: isDeleted,
           updatedBy: updatedBy,
         ),
+      SubstitutionType.teacherChanged => TeacherChangedSubstitution(
+          id: id,
+          date: Date.parse(data['date'] as String),
+          createdBy: createdBy,
+          newTeacher: data['newTeacher'] as String,
+          isDeleted: isDeleted,
+          updatedBy: updatedBy,
+        ),
       SubstitutionType.unknown => UnknownSubstitution(
           id: id,
           date: Date.parse(data['date'] as String),
@@ -150,6 +163,29 @@ class LocationChangedSubstitution extends Substitution {
       // We use a database field `newPlace` because `place` is already used for
       // the original place of the lesson.
       'newPlace': newLocation,
+    };
+  }
+}
+
+class TeacherChangedSubstitution extends Substitution {
+  final String newTeacher;
+
+  const TeacherChangedSubstitution({
+    required super.id,
+    required this.newTeacher,
+    required super.date,
+    required super.createdBy,
+    super.isDeleted,
+    super.updatedBy,
+  }) : super(type: SubstitutionType.teacherChanged);
+
+  @override
+  Map<String, dynamic> toCreateJson({
+    required bool notifyGroupMembers,
+  }) {
+    return {
+      ...super.toCreateJson(notifyGroupMembers: notifyGroupMembers),
+      'newTeacher': newTeacher,
     };
   }
 }

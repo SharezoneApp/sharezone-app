@@ -417,10 +417,40 @@ Future<void> _addTeacherSubstitution(
   }
 
   final controller = context.read<SubstitutionController>();
-  controller.addPlaceChangeSubstitution(
+  controller.addTeacherSubstitution(
     lessonId: lesson.lessonID!,
     date: date,
-    newLocation: result.$2,
+    newTeacher: result.$2,
+    notifyGroupMembers: shouldNotifyMembers,
+  );
+  showSnackSec(
+    text: 'Vertretungslehrkraft eingetragen',
+    context: context,
+  );
+}
+
+Future<void> _updateTeacherSubstitution(
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+) async {
+  final result = await _showChangeTeacherDialog(context);
+  final shouldNotifyMembers = result.$1;
+  if (shouldNotifyMembers == null) {
+    // User canceled the dialog
+    return;
+  }
+
+  if (!context.mounted) {
+    return;
+  }
+
+  final controller = context.read<SubstitutionController>();
+  final substitution = lesson.getSubstitutionFor(date)!;
+  controller.updateTeacherSubstitution(
+    lessonId: lesson.lessonID!,
+    newTeacher: result.$2,
+    substitutionId: substitution.id,
     notifyGroupMembers: shouldNotifyMembers,
   );
   showSnackSec(
