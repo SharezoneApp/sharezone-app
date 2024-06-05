@@ -5,7 +5,6 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:common_domain_models/common_domain_models.dart' as _i5;
 import 'package:group_domain_models/group_domain_models.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sharezone/timetable/timetable_add_event/src/timetable_add_event_event_dialog_api.dart'
@@ -39,8 +38,7 @@ class _FakeCourse_0 extends _i1.SmartFake implements _i2.Course {
 /// See the documentation for Mockito's code generation for more information.
 class MockEventDialogApi extends _i1.Mock implements _i3.EventDialogApi {
   @override
-  _i4.Future<_i2.Course> loadCourse(_i5.CourseId? courseId) =>
-      (super.noSuchMethod(
+  _i4.Future<_i2.Course> loadCourse(dynamic courseId) => (super.noSuchMethod(
         Invocation.method(
           #loadCourse,
           [courseId],
