@@ -21,16 +21,13 @@ class _SubstitutionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final substitution = lesson.getSubstitutionFor(date);
-    final isCanceled = substitution is LessonCanceledSubstitution;
-    final newLocation = substitution is LocationChangedSubstitution
-        ? substitution.newLocation
-        : null;
+    final substitutions = lesson.getSubstitutionFor(date);
+    final canceledSubstitution = substitutions.getLessonCanceledSubstitution();
+    final locationSubstitution = substitutions.getLocationChangedSubstitution();
     final hasUnlocked = context.watch<SubscriptionService>().hasFeatureUnlocked(
               SharezonePlusFeature.substitutions,
             ) ||
         !isStableStage;
-    final hasSubstitution = isCanceled || newLocation != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,22 +47,22 @@ class _SubstitutionSection extends StatelessWidget {
           // track.
           trailing: hasUnlocked ? const _BetaChip() : const SharezonePlusChip(),
         ),
-        if (hasSubstitution) ...[
-          if (isCanceled)
-            _LessonCanceledCard(
-              courseId: lesson.groupID,
-              createdBy: lesson.getSubstitutionFor(date)!.createdBy,
-              hasPermissionsToManageLessons: hasPermissionsToManageLessons,
-            ),
-          if (newLocation != null)
-            _RoomChanged(
-              newLocation: newLocation,
-              courseId: lesson.groupID,
-              enteredBy: substitution?.updatedBy ?? substitution!.createdBy,
-              hasPermissionsToManageLessons: hasPermissionsToManageLessons,
-            )
-        ] else ...[
-          if (hasPermissionsToManageLessons) ...[
+        if (canceledSubstitution != null)
+          _LessonCanceledCard(
+            courseId: lesson.groupID,
+            createdBy: locationSubstitution!.createdBy,
+            hasPermissionsToManageLessons: hasPermissionsToManageLessons,
+          ),
+        if (locationSubstitution != null)
+          _RoomChanged(
+            newLocation: locationSubstitution.newLocation,
+            courseId: lesson.groupID,
+            enteredBy: locationSubstitution.updatedBy ??
+                locationSubstitution.createdBy,
+            hasPermissionsToManageLessons: hasPermissionsToManageLessons,
+          ),
+        if (hasPermissionsToManageLessons) ...[
+          if (canceledSubstitution == null && locationSubstitution == null)
             ListTile(
               leading: const Icon(Icons.cancel),
               title: const Text("Stunde entfallen lassen"),
@@ -75,6 +72,7 @@ class _SubstitutionSection extends StatelessWidget {
                       ? _LessonDialogAction.cancelLesson
                       : _LessonDialogAction.showSubstitutionPlusDialog),
             ),
+          if (canceledSubstitution == null && locationSubstitution == null)
             ListTile(
               leading: const Icon(Icons.place_outlined),
               title: const Text("Raumänderung"),
@@ -84,6 +82,7 @@ class _SubstitutionSection extends StatelessWidget {
                       ? _LessonDialogAction.addRoomSubstitution
                       : _LessonDialogAction.showSubstitutionPlusDialog),
             ),
+          if (canceledSubstitution == null)
             ListTile(
               leading: const Icon(Icons.person_outline),
               title: const Text("Lehrkraft ändern"),
@@ -93,15 +92,14 @@ class _SubstitutionSection extends StatelessWidget {
                       ? _LessonDialogAction.addTeacherSubstitution
                       : _LessonDialogAction.showSubstitutionPlusDialog),
             ),
-          ] else
-            const ListTile(
-              leading: Icon(Icons.info),
-              title: Text(
-                'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
-              ),
-              subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
-            )
-        ],
+        ] else
+          const ListTile(
+            leading: Icon(Icons.info),
+            title: Text(
+              'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
+            ),
+            subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
+          )
       ],
     );
   }
@@ -312,6 +310,8 @@ Future<void> _removeCancelSubstitution(
     date: date,
     snackBarText: 'Entfallene Stunde wiederhergestellt',
     showConfirmationDialog: _removeCancelSubstitutionDialog,
+    substitutionId:
+        lesson.getSubstitutionFor(date).getLessonCanceledSubstitution()?.id,
   );
 }
 
@@ -321,7 +321,14 @@ Future<void> _removeSubstitution({
   required Date date,
   required String snackBarText,
   required Future<bool?> Function(BuildContext context) showConfirmationDialog,
+  required SubstitutionId? substitutionId,
 }) async {
+  if (substitutionId == null) {
+    // Substitution isn't available anymore. Probably because it was removed by
+    // another user.
+    return;
+  }
+
   final shouldNotifyMembers = await showConfirmationDialog(context);
   if (shouldNotifyMembers == null) {
     // User canceled the dialog
@@ -335,7 +342,7 @@ Future<void> _removeSubstitution({
   final controller = context.read<SubstitutionController>();
   controller.removeSubstitution(
     lessonId: lesson.lessonID!,
-    substitutionId: lesson.getSubstitutionFor(date)!.id,
+    substitutionId: substitutionId,
     notifyGroupMembers: shouldNotifyMembers,
   );
   showSnackSec(
@@ -355,6 +362,8 @@ Future<void> _removePlaceChangeSubstitution(
     date: date,
     snackBarText: 'Raumänderung entfernt',
     showConfirmationDialog: _removePlaceSubstitutionDialog,
+    substitutionId:
+        lesson.getSubstitutionFor(date).getLocationChangedSubstitution()?.id,
   );
 }
 
@@ -446,7 +455,14 @@ Future<void> _updateTeacherSubstitution(
   }
 
   final controller = context.read<SubstitutionController>();
-  final substitution = lesson.getSubstitutionFor(date)!;
+  final substitution =
+      lesson.getSubstitutionFor(date).getTeacherChangedSubstitution();
+  if (substitution == null) {
+    // Substitution isn't available anymore. Probably because it was removed by
+    // another user.
+    return;
+  }
+
   controller.updateTeacherSubstitution(
     lessonId: lesson.lessonID!,
     newTeacher: result.$2,
@@ -490,7 +506,14 @@ Future<void> _updateRoomSubstitution(
   }
 
   final controller = context.read<SubstitutionController>();
-  final substitution = lesson.getSubstitutionFor(date)!;
+  final substitution =
+      lesson.getSubstitutionFor(date).getLocationChangedSubstitution();
+  if (substitution == null) {
+    // Substitution isn't available anymore. Probably because it was removed by
+    // another user.
+    return;
+  }
+
   controller.updatePlaceSubstitution(
     lessonId: lesson.lessonID!,
     newLocation: result.$2,

@@ -28,6 +28,7 @@ import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/substitution.dart';
+import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:sharezone/timetable/timetable_edit/lesson/timetable_lesson_edit_page.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/substitution_controller.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
@@ -487,10 +488,9 @@ class _Location extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final substitution = lesson.getSubstitutionFor(date);
-    final newLocation = substitution is LocationChangedSubstitution
-        ? substitution.newLocation
-        : null;
+    final substitutions = lesson.getSubstitutionFor(date);
+    final newLocation =
+        substitutions.getLocationChangedSubstitution()?.newLocation;
     return ListTile(
       leading: const Icon(Icons.place),
       title: Row(

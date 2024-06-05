@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:sharezone/timetable/src/models/substitution_id.dart';
@@ -198,4 +199,24 @@ class UnknownSubstitution extends Substitution {
     super.isDeleted,
     super.updatedBy,
   }) : super(type: SubstitutionType.unknown);
+}
+
+extension SubstitutionList on List<Substitution?> {
+  LocationChangedSubstitution? getLocationChangedSubstitution() {
+    return firstWhereOrNull(
+            (substitution) => substitution is LocationChangedSubstitution)
+        as LocationChangedSubstitution?;
+  }
+
+  TeacherChangedSubstitution? getTeacherChangedSubstitution() {
+    return firstWhereOrNull(
+            (substitution) => substitution is TeacherChangedSubstitution)
+        as TeacherChangedSubstitution?;
+  }
+
+  LessonCanceledSubstitution? getLessonCanceledSubstitution() {
+    return firstWhereOrNull(
+            (substitution) => substitution is LessonCanceledSubstitution)
+        as LessonCanceledSubstitution?;
+  }
 }
