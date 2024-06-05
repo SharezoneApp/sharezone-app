@@ -24,6 +24,7 @@ class _SubstitutionSection extends StatelessWidget {
     final substitutions = lesson.getSubstitutionFor(date);
     final canceledSubstitution = substitutions.getLessonCanceledSubstitution();
     final locationSubstitution = substitutions.getLocationChangedSubstitution();
+    final teacherSubstitution = substitutions.getTeacherChangedSubstitution();
     final hasUnlocked = context.watch<SubscriptionService>().hasFeatureUnlocked(
               SharezonePlusFeature.substitutions,
             ) ||
@@ -83,15 +84,24 @@ class _SubstitutionSection extends StatelessWidget {
                       : _LessonDialogAction.showSubstitutionPlusDialog),
             ),
           if (canceledSubstitution == null)
-            ListTile(
-              leading: const Icon(Icons.person_outline),
-              title: const Text("Lehrkraft ändern"),
-              onTap: () => Navigator.pop(
-                  context,
-                  hasUnlocked
-                      ? _LessonDialogAction.addTeacherSubstitution
-                      : _LessonDialogAction.showSubstitutionPlusDialog),
-            ),
+            if (teacherSubstitution == null)
+              ListTile(
+                leading: const Icon(Icons.person_outline),
+                title: const Text("Lehrkraft ändern"),
+                onTap: () => Navigator.pop(
+                    context,
+                    hasUnlocked
+                        ? _LessonDialogAction.addTeacherSubstitution
+                        : _LessonDialogAction.showSubstitutionPlusDialog),
+              )
+            else
+              _TeacherChanged(
+                newTeacher: teacherSubstitution.newTeacher,
+                enteredBy: teacherSubstitution.updatedBy ??
+                    teacherSubstitution.createdBy,
+                courseId: lesson.groupID,
+                hasPermissionsToManageLessons: hasPermissionsToManageLessons,
+              ),
         ] else
           const ListTile(
             leading: Icon(Icons.info),
@@ -182,6 +192,126 @@ class _RoomChanged extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const color = Colors.orange;
+    return _OrangeCard(
+      leading: const Icon(Icons.place_outlined),
+      title: Text("Raumänderung: $newLocation"),
+      subtitle: _EnteredBy(
+        courseId: courseId,
+        enteredBy: enteredBy,
+        color: color,
+      ),
+      trailing: hasPermissionsToManageLessons
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  tooltip: 'Raum ändern',
+                  icon: Icon(
+                    Icons.edit,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                  onPressed: () => Navigator.pop(
+                      context, _LessonDialogAction.updateRoomSubstitution),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  tooltip: 'Rückgängig machen',
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                  onPressed: () => Navigator.pop(
+                      context, _LessonDialogAction.removePlaceChange),
+                ),
+              ],
+            )
+          : null,
+    );
+  }
+}
+
+class _TeacherChanged extends StatelessWidget {
+  const _TeacherChanged({
+    required this.newTeacher,
+    required this.enteredBy,
+    required this.courseId,
+    required this.hasPermissionsToManageLessons,
+  });
+
+  final String newTeacher;
+  final String courseId;
+  final UserId enteredBy;
+  final bool hasPermissionsToManageLessons;
+
+  @override
+  Widget build(BuildContext context) {
+    const color = Colors.orange;
+    return _OrangeCard(
+      leading: const Icon(Icons.person_outline),
+      title: Text('Vertretung: $newTeacher'),
+      subtitle: _EnteredBy(
+        courseId: courseId,
+        enteredBy: enteredBy,
+        color: color,
+      ),
+      trailing: hasPermissionsToManageLessons
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  tooltip: 'Lehrkraft ändern',
+                  icon: Icon(
+                    Icons.edit,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                  onPressed: () => Navigator.pop(
+                      context, _LessonDialogAction.updateTeacherSubstitution),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  tooltip: 'Rückgängig machen',
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                  onPressed: () => Navigator.pop(
+                      context, _LessonDialogAction.removeTeacherSubstitution),
+                ),
+              ],
+            )
+          : null,
+    );
+  }
+}
+
+class _OrangeCard extends StatelessWidget {
+  const _OrangeCard({
+    this.title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+  });
+
+  final Widget? title;
+  final Widget? subtitle;
+  final Widget? leading;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    const color = Colors.orange;
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
       child: Material(
@@ -190,45 +320,10 @@ class _RoomChanged extends StatelessWidget {
         child: ListTile(
           iconColor: color,
           textColor: color,
-          leading: const Icon(Icons.place_outlined),
-          title: Text("Raumänderung: $newLocation"),
-          subtitle: _EnteredBy(
-            courseId: courseId,
-            enteredBy: enteredBy,
-            color: color,
-          ),
-          trailing: hasPermissionsToManageLessons
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      tooltip: 'Raum ändern',
-                      icon: Icon(
-                        Icons.edit,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.6),
-                      ),
-                      onPressed: () => Navigator.pop(
-                          context, _LessonDialogAction.updateRoomSubstitution),
-                    ),
-                    const SizedBox(width: 8),
-                    IconButton(
-                      tooltip: 'Rückgängig machen',
-                      icon: Icon(
-                        Icons.delete,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.6),
-                      ),
-                      onPressed: () => Navigator.pop(
-                          context, _LessonDialogAction.removePlaceChange),
-                    ),
-                  ],
-                )
-              : null,
+          leading: leading,
+          title: title,
+          subtitle: subtitle,
+          trailing: trailing,
         ),
       ),
     );
@@ -475,6 +570,35 @@ Future<void> _updateTeacherSubstitution(
   );
 }
 
+Future<void> _removeTeacherSubstitution(
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+) async {
+  await _removeSubstitution(
+    context: context,
+    lesson: lesson,
+    date: date,
+    snackBarText: 'Vertretungslehrkraft entfernt',
+    showConfirmationDialog: _removeTeacherSubstitutionDialog,
+    substitutionId:
+        lesson.getSubstitutionFor(date).getTeacherChangedSubstitution()?.id,
+  );
+}
+
+Future<bool?> _removeTeacherSubstitutionDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) => const _SubstitutionDialog(
+      title: 'Vertretungslehrkraft entfernen',
+      actionText: 'Entfernen',
+      description:
+          'Möchtest du wirklich die Vertretungslehrkraft für die Stunde entfernen?',
+      notifyOptionText: 'Informiere deine Kursmitglieder über die Entfernung.',
+    ),
+  );
+}
+
 Future<bool?> _showCancelLessonDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
@@ -567,7 +691,7 @@ Future<(bool?, String)> _showChangeTeacherDialog(BuildContext context) async {
       notifyOptionText:
           'Informiere deine Kursmitglieder über die Lehrkraftänderung.',
       bottom:
-          _ChangeTeacherTextField(onTeacherChanged: (value) => value = teacher),
+          _ChangeTeacherTextField(onTeacherChanged: (value) => teacher = value),
     ),
   );
   return (shouldNotify, teacher);

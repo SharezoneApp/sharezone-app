@@ -44,6 +44,8 @@ enum _LessonDialogAction {
   addRoomSubstitution,
   updateRoomSubstitution,
   addTeacherSubstitution,
+  updateTeacherSubstitution,
+  removeTeacherSubstitution,
   removeCancelLesson,
   removePlaceChange,
   showSubstitutionPlusDialog,
@@ -235,6 +237,12 @@ Future<void> showLessonModelSheet(
     case _LessonDialogAction.addTeacherSubstitution:
       _addTeacherSubstitution(context, lesson, date);
       break;
+    case _LessonDialogAction.updateTeacherSubstitution:
+      _updateTeacherSubstitution(context, lesson, date);
+      break;
+    case _LessonDialogAction.removeTeacherSubstitution:
+      _removeTeacherSubstitution(context, lesson, date);
+      break;
   }
 }
 
@@ -421,7 +429,10 @@ class _LessonBasicSection extends StatelessWidget {
           lesson: lesson,
           date: date,
         ),
-        _Teacher(lesson: lesson),
+        _Teacher(
+          lesson: lesson,
+          date: date,
+        ),
       ],
     );
   }
@@ -430,23 +441,38 @@ class _LessonBasicSection extends StatelessWidget {
 class _Teacher extends StatelessWidget {
   const _Teacher({
     required this.lesson,
+    required this.date,
   });
 
   final Lesson lesson;
+  final Date date;
 
   String getTitle() {
-    if (lesson.teacher == null) {
-      return "Lehrkraft: -";
-    }
-
-    return "Lehrkraft: ${lesson.teacher}";
+    return lesson.teacher ?? "-";
   }
 
   @override
   Widget build(BuildContext context) {
+    final substitutions = lesson.getSubstitutionFor(date);
+    final newTeacher =
+        substitutions.getTeacherChangedSubstitution()?.newTeacher;
+    final hasNewTeacher = newTeacher != null;
     return ListTile(
       leading: const Icon(Icons.person),
-      title: Text(getTitle()),
+      title: Text.rich(
+        TextSpan(
+          text: 'Lehrkraft: ',
+          children: [
+            TextSpan(
+              text: getTitle(),
+              style: TextStyle(
+                decoration: hasNewTeacher ? TextDecoration.lineThrough : null,
+              ),
+            ),
+          ],
+        ),
+      ),
+      subtitle: hasNewTeacher ? Text('Vertretung: $newTeacher') : null,
     );
   }
 }
