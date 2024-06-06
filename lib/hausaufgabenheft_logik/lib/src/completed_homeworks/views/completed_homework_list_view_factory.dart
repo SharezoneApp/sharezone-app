@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
-import 'completed_homwork_list_view.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import '../../views/student_homework_view_factory.dart';
 
 class CompletedHomeworkListViewFactory {
@@ -15,12 +15,12 @@ class CompletedHomeworkListViewFactory {
 
   CompletedHomeworkListViewFactory(this._studentHomeworkViewFactory);
 
-  CompletedHomeworkListView create(
-      HomeworkList completedHomeworks, bool loadedAllCompletedHomeworks) {
-    final orderedHomeworks = [
+  CompletedHomeworkListView create(IList<HomeworkReadModel> completedHomeworks,
+      bool loadedAllCompletedHomeworks) {
+    final orderedHomeworks = IList([
       for (final completedHomework in completedHomeworks)
         _studentHomeworkViewFactory.createFrom(completedHomework)
-    ];
+    ]);
     return CompletedHomeworkListView(orderedHomeworks,
         loadedAllCompletedHomeworks: loadedAllCompletedHomeworks);
   }

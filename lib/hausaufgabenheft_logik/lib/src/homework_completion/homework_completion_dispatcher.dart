@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework/homework_completion_status.dart';
+import 'package:hausaufgabenheft_logik/src/models/homework_completion_status.dart';
 
 /// The boundary to the outer world.
 /// The only purpose for this class is to change the completion status of a

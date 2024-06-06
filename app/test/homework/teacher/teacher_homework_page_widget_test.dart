@@ -13,6 +13,7 @@ import 'package:analytics/null_analytics_backend.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' as flutter show Color;
 import 'package:flutter/material.dart' hide Color;
 import 'package:flutter_test/flutter_test.dart';
@@ -161,16 +162,22 @@ void main() {
           bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
 
       homeworkPageBloc.emitNewState(Success(
-        TeacherOpenHomeworkListView([
-          TeacherHomeworkSectionView('Section 1', [
-            randomHomeworkViewWith(title: 'HW in first Section'),
-          ]),
-          TeacherHomeworkSectionView('Section 2', [
-            randomHomeworkViewWith(title: 'HW in second Section'),
-          ]),
-        ], sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
+        TeacherOpenHomeworkListView(
+            IList([
+              TeacherHomeworkSectionView(
+                  'Section 1',
+                  IListConst([
+                    randomHomeworkViewWith(title: 'HW in first Section'),
+                  ])),
+              TeacherHomeworkSectionView(
+                  'Section 2',
+                  IList([
+                    randomHomeworkViewWith(title: 'HW in second Section'),
+                  ])),
+            ]),
+            sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
         TeacherArchivedHomeworkListView(
-          [],
+          const IListConst([]),
           loadedAllArchivedHomeworks: true,
         ),
       ));
@@ -242,7 +249,7 @@ void main() {
       await pumpHomeworkPage(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.archived);
 
-      final firstHomeworkBatch = generateRandomHomeworks(count: 30);
+      final firstHomeworkBatch = generateRandomHomeworks(count: 30).toIList();
 
       homeworkPageBloc.emitNewState(
         Success(
@@ -274,10 +281,8 @@ void main() {
           reason:
               "After scrolling down to near the last loaded homework the bloc should've received the event to load the next archived homeworks (as there are more to load in this test).");
 
-      final allLoadedHomeworks = [
-        ...firstHomeworkBatch,
-        ...generateRandomHomeworks(count: 10)
-      ];
+      final allLoadedHomeworks =
+          IList([...firstHomeworkBatch, ...generateRandomHomeworks(count: 10)]);
 
       homeworkPageBloc.emitNewState(
         Success(
@@ -362,11 +367,13 @@ void main() {
           bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
 
       homeworkPageBloc.emitNewState(Success(
-        TeacherOpenHomeworkListView([
-          TeacherHomeworkSectionView('Section 1', views),
-        ], sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
+        TeacherOpenHomeworkListView(
+            IList([
+              TeacherHomeworkSectionView('Section 1', views.toIList()),
+            ]),
+            sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
         TeacherArchivedHomeworkListView(
-          [],
+          const IListConst([]),
           loadedAllArchivedHomeworks: true,
         ),
       ));
@@ -416,7 +423,7 @@ void main() {
         _noOpenHomeworks,
         TeacherArchivedHomeworkListView(
           // No homeworks loaded already
-          [],
+          const IListConst([]),
           // but there are homeworks to load
           loadedAllArchivedHomeworks: false,
         ),
@@ -489,32 +496,37 @@ TeacherHomeworkView randomHomeworkViewWith({
 
 Success _openHomeworksWith(HomeworkSort sort) {
   return Success(
-    TeacherOpenHomeworkListView([
-      TeacherHomeworkSectionView('Heute', [
-        randomHomeworkViewWith(title: 'S. 32'),
-        randomHomeworkViewWith(title: 'S. 34'),
-        randomHomeworkViewWith(title: 'S. 31'),
-      ])
-    ], sorting: sort),
+    TeacherOpenHomeworkListView(
+        IList([
+          TeacherHomeworkSectionView(
+              'Heute',
+              IList([
+                randomHomeworkViewWith(title: 'S. 32'),
+                randomHomeworkViewWith(title: 'S. 34'),
+                randomHomeworkViewWith(title: 'S. 31'),
+              ])),
+        ]),
+        sorting: sort),
     _noArchivedHomeworks,
   );
 }
 
 final _noHomeworks = Success(
   TeacherOpenHomeworkListView(
-    [],
+    const IListConst([]),
     sorting: HomeworkSort.smallestDateSubjectAndTitle,
   ),
   TeacherArchivedHomeworkListView(
-    [],
+    const IListConst([]),
     loadedAllArchivedHomeworks: true,
   ),
 );
 
-final _noOpenHomeworks = TeacherOpenHomeworkListView([],
+final _noOpenHomeworks = TeacherOpenHomeworkListView(const IListConst([]),
     sorting: HomeworkSort.smallestDateSubjectAndTitle);
-final _noArchivedHomeworks =
-    TeacherArchivedHomeworkListView([], loadedAllArchivedHomeworks: true);
+final _noArchivedHomeworks = TeacherArchivedHomeworkListView(
+    const IListConst([]),
+    loadedAllArchivedHomeworks: true);
 
 Future<void> _pumpHomeworkPageWithNoHomeworks(
   WidgetTester tester, {

@@ -8,11 +8,12 @@
 
 import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:collection/collection.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 import 'teacher_homework_section_view.dart';
 
 class TeacherOpenHomeworkListView {
-  final List<TeacherHomeworkSectionView> sections;
+  final IList<TeacherHomeworkSectionView> sections;
   final HomeworkSort sorting;
 
   TeacherOpenHomeworkListView(

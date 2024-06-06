@@ -6,9 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/models/homework/homework.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework/models_used_by_homework.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:hausaufgabenheft_logik/src/models/homework.dart';
+import 'package:hausaufgabenheft_logik/src/models/models.dart';
+import 'package:hausaufgabenheft_logik/src/homework_list_extensions.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
@@ -23,9 +24,9 @@ class OpenHomeworkListViewFactory {
       this._sortAndSubcategorizer, this._getCurrentDate);
 
   OpenHomeworkListView create(
-      List<HomeworkReadModel> openHomeworks, Sort<HomeworkReadModel> sort) {
-    final homeworkSectionViews = _sortAndSubcategorizer.sortAndSubcategorize(
-        openHomeworks as HomeworkList, sort);
+      IList<HomeworkReadModel> openHomeworks, Sort<HomeworkReadModel> sort) {
+    final homeworkSectionViews =
+        _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
 
     final showCompleteOverdueHomeworkPrompt =
         _shouldShowCompleteOverdueHomeworkPrompt(openHomeworks);
@@ -37,7 +38,8 @@ class OpenHomeworkListViewFactory {
     );
   }
 
-  bool _shouldShowCompleteOverdueHomeworkPrompt(HomeworkList openHomeworks) {
+  bool _shouldShowCompleteOverdueHomeworkPrompt(
+      IList<HomeworkReadModel> openHomeworks) {
     var now = _getCurrentDate();
     var overdueOpenHomeworks = openHomeworks.getOverdue(now);
     return overdueOpenHomeworks.length > 2;

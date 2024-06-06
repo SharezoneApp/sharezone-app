@@ -44,7 +44,7 @@ class OpenHomeworkList extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HomeworkPageBloc>(context);
 
-    if (_nullOrEmpty(homeworkListView.sections)) return Container();
+    if (homeworkListView.sections.isEmpty) return Container();
     return GlowingOverscrollColorChanger(
       color: overscrollColor,
       child: AnimatedStaggeredScrollView(
@@ -72,7 +72,4 @@ class OpenHomeworkList extends StatelessWidget {
       ),
     );
   }
-
-  bool _nullOrEmpty(List<HomeworkSectionView> homeworkSections) =>
-      homeworkSections.isEmpty;
 }

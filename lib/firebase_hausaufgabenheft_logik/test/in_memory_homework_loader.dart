@@ -6,17 +6,18 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_hausaufgabenheft_logik/src/realtime_completed_homework_loader.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:rxdart/subjects.dart';
 
 class InMemoryHomeworkLoader extends RealtimeCompletedHomeworkLoader {
-  final BehaviorSubject<List<HomeworkReadModel>> _completedHomeworksSubject;
+  final BehaviorSubject<IList<HomeworkReadModel>> _completedHomeworksSubject;
 
   InMemoryHomeworkLoader(this._completedHomeworksSubject);
 
   @override
-  Stream<List<HomeworkReadModel>> loadMostRecentHomeworks(
+  Stream<IList<HomeworkReadModel>> loadMostRecentHomeworks(
       int numberOfHomeworks) {
     return _completedHomeworksSubject.map((homeworks) {
       if (homeworks.length < numberOfHomeworks) return homeworks;

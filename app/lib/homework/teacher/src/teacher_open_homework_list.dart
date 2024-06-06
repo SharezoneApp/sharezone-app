@@ -29,7 +29,7 @@ class TeacherOpenHomeworkList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (_nullOrEmpty(homeworkListView.sections)) return Container();
+    if (homeworkListView.sections.isEmpty) return Container();
     return GlowingOverscrollColorChanger(
         color: overscrollColor,
         child: AnimatedStaggeredScrollView(
@@ -48,7 +48,4 @@ class TeacherOpenHomeworkList extends StatelessWidget {
           ],
         ));
   }
-
-  bool _nullOrEmpty(List<TeacherHomeworkSectionView> homeworkSections) =>
-      homeworkSections.isEmpty;
 }

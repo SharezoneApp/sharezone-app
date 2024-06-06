@@ -7,11 +7,15 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:clock/clock.dart';
+import 'package:equatable/equatable.dart';
 
-class Date implements Comparable<Date> {
+class Date extends Equatable implements Comparable<Date> {
   final int day;
   final int month;
   final int year;
+
+  @override
+  List<Object> get props => [day, month, year];
 
   const Date({
     required this.day,
@@ -30,63 +34,29 @@ class Date implements Comparable<Date> {
 
   DateTime asDateTime() => DateTime(year, month, day, 0, 0, 0, 0, 0);
 
+  Date addDays(int daysToAdd) {
+    final dateTime = asDateTime();
+    DateTime newDateTime;
+    newDateTime = dateTime.add(Duration(days: daysToAdd));
+    return Date.fromDateTime(newDateTime);
+  }
+
+  @override
+  int compareTo(Date other) {
+    if (year.compareTo(other.year) != 0) {
+      return year.compareTo(other.year);
+    } else if (month.compareTo(other.month) != 0) {
+      return month.compareTo(other.month);
+    } else {
+      return day.compareTo(other.day);
+    }
+  }
+
   bool operator >(Date other) {
     return compareTo(other) > 0;
   }
 
   bool operator <(Date other) {
     return compareTo(other) < 0;
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Date &&
-        other.day == day &&
-        other.month == month &&
-        other.year == year;
-  }
-
-  @override
-  int compareTo(Date other) {
-    if (year > other.year) {
-      return 1;
-    } else if (year < other.year) {
-      return -1;
-    } else {
-      if (month > other.month) {
-        return 1;
-      } else if (month < other.month) {
-        return -1;
-      } else {
-        if (day > other.day) {
-          return 1;
-        } else if (day < other.day) {
-          return -1;
-        }
-        return 0;
-      }
-    }
-  }
-
-  @override
-  int get hashCode => day.hashCode ^ month.hashCode ^ year.hashCode;
-
-  @override
-  String toString() {
-    return 'Date(day: $day, month: $month, year: $year)';
-  }
-
-  /// Does NOT roll over to the next month, just plain stupid addition
-  Date addDaysWithNoChecking(int days) {
-    return Date(year: year, month: month, day: day + days);
-  }
-
-  Date addDays(int daysToAdd) {
-    final dateTime = asDateTime();
-    DateTime newDateTime;
-    newDateTime = dateTime.add(Duration(days: daysToAdd));
-    return Date.fromDateTime(newDateTime);
   }
 }
