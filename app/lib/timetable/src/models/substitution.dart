@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:sharezone/timetable/src/models/substitution_id.dart';
@@ -18,6 +19,9 @@ enum SubstitutionType {
   /// The lesson is moved to another room.
   locationChanged,
 
+  /// The teacher changed for the lesson.
+  teacherChanged,
+
   /// Unknown substitution type.
   unknown;
 
@@ -25,6 +29,7 @@ enum SubstitutionType {
     return switch (this) {
       lessonCanceled => 'lessonCanceled',
       locationChanged => 'placeChanged',
+      teacherChanged => 'teacherChanged',
       unknown => 'unknown',
     };
   }
@@ -33,6 +38,7 @@ enum SubstitutionType {
     return switch (value) {
       'lessonCanceled' => lessonCanceled,
       'placeChanged' => locationChanged,
+      'teacherChanged' => teacherChanged,
       _ => unknown,
     };
   }
@@ -91,6 +97,14 @@ sealed class Substitution {
           date: Date.parse(data['date'] as String),
           createdBy: createdBy,
           newLocation: data['newPlace'] as String,
+          isDeleted: isDeleted,
+          updatedBy: updatedBy,
+        ),
+      SubstitutionType.teacherChanged => TeacherChangedSubstitution(
+          id: id,
+          date: Date.parse(data['date'] as String),
+          createdBy: createdBy,
+          newTeacher: data['newTeacher'] as String,
           isDeleted: isDeleted,
           updatedBy: updatedBy,
         ),
@@ -154,6 +168,29 @@ class LocationChangedSubstitution extends Substitution {
   }
 }
 
+class TeacherChangedSubstitution extends Substitution {
+  final String newTeacher;
+
+  const TeacherChangedSubstitution({
+    required super.id,
+    required this.newTeacher,
+    required super.date,
+    required super.createdBy,
+    super.isDeleted,
+    super.updatedBy,
+  }) : super(type: SubstitutionType.teacherChanged);
+
+  @override
+  Map<String, dynamic> toCreateJson({
+    required bool notifyGroupMembers,
+  }) {
+    return {
+      ...super.toCreateJson(notifyGroupMembers: notifyGroupMembers),
+      'newTeacher': newTeacher,
+    };
+  }
+}
+
 class UnknownSubstitution extends Substitution {
   const UnknownSubstitution({
     required super.id,
@@ -162,4 +199,24 @@ class UnknownSubstitution extends Substitution {
     super.isDeleted,
     super.updatedBy,
   }) : super(type: SubstitutionType.unknown);
+}
+
+extension SubstitutionList on List<Substitution?> {
+  LocationChangedSubstitution? getLocationChangedSubstitution() {
+    return firstWhereOrNull(
+            (substitution) => substitution is LocationChangedSubstitution)
+        as LocationChangedSubstitution?;
+  }
+
+  TeacherChangedSubstitution? getTeacherChangedSubstitution() {
+    return firstWhereOrNull(
+            (substitution) => substitution is TeacherChangedSubstitution)
+        as TeacherChangedSubstitution?;
+  }
+
+  LessonCanceledSubstitution? getLessonCanceledSubstitution() {
+    return firstWhereOrNull(
+            (substitution) => substitution is LessonCanceledSubstitution)
+        as LessonCanceledSubstitution?;
+  }
 }

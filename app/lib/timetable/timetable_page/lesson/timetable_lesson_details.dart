@@ -28,6 +28,7 @@ import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/substitution.dart';
+import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:sharezone/timetable/timetable_edit/lesson/timetable_lesson_edit_page.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/substitution_controller.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
@@ -42,6 +43,9 @@ enum _LessonDialogAction {
   cancelLesson,
   addRoomSubstitution,
   updateRoomSubstitution,
+  addTeacherSubstitution,
+  updateTeacherSubstitution,
+  removeTeacherSubstitution,
   removeCancelLesson,
   removePlaceChange,
   showSubstitutionPlusDialog,
@@ -230,6 +234,15 @@ Future<void> showLessonModelSheet(
     case _LessonDialogAction.showTeachersPlusDialog:
       showTeachersInTimetablePlusDialog(context);
       break;
+    case _LessonDialogAction.addTeacherSubstitution:
+      _addTeacherSubstitution(context, lesson, date);
+      break;
+    case _LessonDialogAction.updateTeacherSubstitution:
+      _updateTeacherSubstitution(context, lesson, date);
+      break;
+    case _LessonDialogAction.removeTeacherSubstitution:
+      _removeTeacherSubstitution(context, lesson, date);
+      break;
   }
 }
 
@@ -416,7 +429,10 @@ class _LessonBasicSection extends StatelessWidget {
           lesson: lesson,
           date: date,
         ),
-        _Teacher(lesson: lesson),
+        _Teacher(
+          lesson: lesson,
+          date: date,
+        ),
       ],
     );
   }
@@ -425,39 +441,38 @@ class _LessonBasicSection extends StatelessWidget {
 class _Teacher extends StatelessWidget {
   const _Teacher({
     required this.lesson,
+    required this.date,
   });
 
   final Lesson lesson;
+  final Date date;
 
-  String getTitle(bool isTeacherFeatureUnlocked) {
-    if (lesson.teacher == null) {
-      return "Lehrkraft: -";
-    }
-
-    if (!isTeacherFeatureUnlocked) {
-      return "Lehrkraft: ***";
-    }
-
-    return "Lehrkraft: ${lesson.teacher}";
+  String getTitle() {
+    return lesson.teacher ?? "-";
   }
 
   @override
   Widget build(BuildContext context) {
-    final isUnlocked = Provider.of<SubscriptionService>(context)
-        .hasFeatureUnlocked(SharezonePlusFeature.addTeachersToTimetable);
-    final hasTeacher = lesson.teacher != null;
-    final showSharezonePlusAd = !isUnlocked && hasTeacher;
+    final substitutions = lesson.getSubstitutionFor(date);
+    final newTeacher =
+        substitutions.getTeacherChangedSubstitution()?.newTeacher;
+    final hasNewTeacher = newTeacher != null;
     return ListTile(
       leading: const Icon(Icons.person),
-      title: Text(getTitle(isUnlocked)),
-      subtitle: showSharezonePlusAd
-          ? const Text("Nur für Plus-Nutzer sichtbar.")
-          : null,
-      trailing: showSharezonePlusAd ? const SharezonePlusChip() : null,
-      onTap: showSharezonePlusAd
-          ? () =>
-              Navigator.pop(context, _LessonDialogAction.showTeachersPlusDialog)
-          : null,
+      title: Text.rich(
+        TextSpan(
+          text: 'Lehrkraft: ',
+          children: [
+            TextSpan(
+              text: getTitle(),
+              style: TextStyle(
+                decoration: hasNewTeacher ? TextDecoration.lineThrough : null,
+              ),
+            ),
+          ],
+        ),
+      ),
+      subtitle: hasNewTeacher ? Text('Vertretung: $newTeacher') : null,
     );
   }
 }
@@ -468,7 +483,7 @@ Future<void> showTeachersInTimetablePlusDialog(BuildContext context) {
     navigateToPlusPage: () => navigateToSharezonePlusPage(context),
     title: const Text("Lehrkraft im Stundenplan"),
     description: const Text(
-        "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft nicht angezeigt."),
+        "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt."),
   );
 }
 
@@ -483,10 +498,9 @@ class _Location extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final substitution = lesson.getSubstitutionFor(date);
-    final newLocation = substitution is LocationChangedSubstitution
-        ? substitution.newLocation
-        : null;
+    final substitutions = lesson.getSubstitutionFor(date);
+    final newLocation =
+        substitutions.getLocationChangedSubstitution()?.newLocation;
     return ListTile(
       leading: const Icon(Icons.place),
       title: Row(
