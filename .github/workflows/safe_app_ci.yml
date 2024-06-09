@@ -116,7 +116,11 @@ jobs:
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
-        run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
+        run: sz analyze \
+          --max-concurrent-packages 1 \
+          --package-timeout-minutes 15
 
   # We split the tests into two jobs, because we want to run the golden tests on
   # a macOS runner, because the golden tests were generated on macOS. To reduce
@@ -145,9 +149,11 @@ jobs:
       - run: echo $(pwd)/bin >> $GITHUB_PATH
 
       - name: Run tests via "sz test"
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
         run: |
           sz test \
-            -c 4 \
+            -c 1 \
             --package-timeout-minutes 15 \
             --exclude-goldens
 
@@ -178,11 +184,9 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
-      # Running with -c 1 as using -c 4 would lead to to this dependency error:
-      # https://github.com/SharezoneApp/sharezone-app/pull/1322#issuecomment-1981410505
-      # We don't know why this happens.
-      # In the future please try to use a higher concurrency value again.
       - name: Run tests via "sz test"
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
         run: |
           sz test \
             -c 1 \

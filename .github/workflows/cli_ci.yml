@@ -99,9 +99,11 @@ jobs:
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
         run: |
           sz analyze \
-            --max-concurrent-packages 3 \
+            --max-concurrent-packages 1 \
             --package-timeout-minutes 15 \
             --only sz_repo_cli
 
@@ -139,8 +141,10 @@ jobs:
       # Because of this, we need to exclude the golden tests because they
       # require a macOS runner.
       - name: Run tests via "sz test"
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
         run: sz test \
-          -c 4 \
+          -c 1 \
           --package-timeout-minutes 15 \
           --exclude-goldens \
           --only sz_repo_cli
