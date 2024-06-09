@@ -7,12 +7,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone/sharezone_rewrapped/sharezone_rewrapped_view.dart';
+import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_view.dart';
 
 void main() {
-  group(SharezoneRewrappedView, () {
+  group(SharezoneWrappedView, () {
     test('should format totalAmountOfLessonHours correctly', () {
-      final view = SharezoneRewrappedView.fromValues(
+      final view = SharezoneWrappedView.fromValues(
         totalAmountOfLessonHours: 91234,
         amountOfLessonHoursTopThreeCourses: [],
         totalAmountOfHomeworks: 0,
@@ -24,7 +24,7 @@ void main() {
     });
 
     test('should format amountOfLessonHoursTopThreeCourses correctly', () {
-      final view = SharezoneRewrappedView.fromValues(
+      final view = SharezoneWrappedView.fromValues(
         totalAmountOfLessonHours: 0,
         amountOfLessonHoursTopThreeCourses: [
           ('Deutsch', 12345),
@@ -44,7 +44,7 @@ void main() {
     });
 
     test('should format totalAmountOfHomeworks correctly', () {
-      final view = SharezoneRewrappedView.fromValues(
+      final view = SharezoneWrappedView.fromValues(
         totalAmountOfLessonHours: 0,
         amountOfLessonHoursTopThreeCourses: [],
         totalAmountOfHomeworks: 1002,
@@ -56,7 +56,7 @@ void main() {
     });
 
     test('should format amountOfHomeworksTopThreeCourses correctly', () {
-      final view = SharezoneRewrappedView.fromValues(
+      final view = SharezoneWrappedView.fromValues(
         totalAmountOfLessonHours: 0,
         amountOfLessonHoursTopThreeCourses: [],
         totalAmountOfHomeworks: 0,
@@ -76,7 +76,7 @@ void main() {
     });
 
     test('should format totalAmountOfExams correctly', () {
-      final view = SharezoneRewrappedView.fromValues(
+      final view = SharezoneWrappedView.fromValues(
         totalAmountOfLessonHours: 0,
         amountOfLessonHoursTopThreeCourses: [],
         totalAmountOfHomeworks: 0,
@@ -88,7 +88,7 @@ void main() {
     });
 
     test('should format amountOfExamsTopThreeCourses correctly', () {
-      final view = SharezoneRewrappedView.fromValues(
+      final view = SharezoneWrappedView.fromValues(
         totalAmountOfLessonHours: 0,
         amountOfLessonHoursTopThreeCourses: [],
         totalAmountOfHomeworks: 0,

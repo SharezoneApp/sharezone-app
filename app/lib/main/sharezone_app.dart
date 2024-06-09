@@ -56,6 +56,7 @@ import 'package:sharezone/settings/src/subpages/notification.dart';
 import 'package:sharezone/settings/src/subpages/theme/theme_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
+import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_page.dart';
 import 'package:sharezone/sharezone_v2/sz_v2_announcement_dialog.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
@@ -207,6 +208,8 @@ class _SharezoneAppState extends State<SharezoneApp>
                 ICalLinksDialog.tag: (context) => const ICalLinksDialog(),
                 CreateTermPage.tag: (context) => const CreateTermPage(),
                 GradesDialog.tag: (context) => const GradesDialog(),
+                SharezoneWrappedPage.tag: (context) =>
+                    const SharezoneWrappedPage(),
               },
               navigatorKey: navigationService.navigatorKey,
             ),

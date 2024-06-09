@@ -19,11 +19,13 @@ import 'package:sharezone/settings/src/subpages/changelog_page.dart';
 import 'package:sharezone/settings/src/subpages/notification.dart';
 import 'package:sharezone/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/settings/src/subpages/theme/theme_page.dart';
+import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_page.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/widgets/limited_chip.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -167,6 +169,12 @@ class _AppSettingsSection extends StatelessWidget {
           title: "Stundenplan",
           icon: Icon(Icons.access_time),
           tag: TimetableSettingsPage.tag,
+        ),
+        _SettingsOption(
+          title: "Schuljahr 23/24 Sharezone Wrapped",
+          icon: Icon(Icons.fast_rewind),
+          tag: SharezoneWrappedPage.tag,
+          trailing: LimitedChip(),
         )
       ],
     );
@@ -249,11 +257,13 @@ class _SettingsOption extends StatelessWidget {
     this.icon,
     this.onTap,
     this.tag,
+    this.trailing,
   });
 
   final String? title;
   final Widget? icon;
   final GestureTapCallback? onTap;
+  final Widget? trailing;
   final String? tag;
 
   @override
@@ -262,6 +272,7 @@ class _SettingsOption extends StatelessWidget {
       title: Text(title!),
       leading: icon,
       onTap: onTap ?? () => Navigator.pushNamed(context, tag!),
+      trailing: trailing,
     );
   }
 }

@@ -12,21 +12,21 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/weektype.dart';
 import 'package:equatable/equatable.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/sharezone_rewrapped/sharezone_rewrapped_repository.dart';
+import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_repository.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 
-class SharezoneRewrappedController {
+class SharezoneWrappedController {
   final CrashAnalytics crashAnalytics;
   final Analytics analytics;
-  final SharezoneRewrappedRepository repository;
+  final SharezoneWrappedRepository repository;
 
-  const SharezoneRewrappedController({
+  const SharezoneWrappedController({
     required this.repository,
     required this.crashAnalytics,
     required this.analytics,
   });
 
-  Future<SharezoneRewrappedValues> getValues() async {
+  Future<SharezoneWrappedValues> getValues() async {
     try {
       final courses = repository.getCourses();
       final courseIds = courses.map((course) => CourseId(course.id)).toList();
@@ -51,7 +51,7 @@ class SharezoneRewrappedController {
 
       _logGenerationAnalytics();
 
-      return SharezoneRewrappedValues(
+      return SharezoneWrappedValues(
         totalAmountOfLessonHours: totalAmountOfLessonHours,
         amountOfLessonHoursTopThreeCourses:
             lessonHoursTopThreeCourses.withCourseName(courses),
@@ -64,13 +64,13 @@ class SharezoneRewrappedController {
       );
     } catch (e, s) {
       crashAnalytics.recordError(
-          'Failed to get values for SharezoneRewrapped: $e', s);
+          'Failed to get values for SharezoneWrapped: $e', s);
       rethrow;
     }
   }
 
   void _logGenerationAnalytics() {
-    analytics.log(NamedAnalyticsEvent(name: 'sz_rewrapped_generated'));
+    analytics.log(NamedAnalyticsEvent(name: 'sz_Wrapped_generated'));
   }
 
   /// Calculates the amount of lesson hours per course per school year.
@@ -163,7 +163,7 @@ extension on List<(CourseId, int)> {
   }
 }
 
-class SharezoneRewrappedValues extends Equatable {
+class SharezoneWrappedValues extends Equatable {
   final int totalAmountOfLessonHours;
   final List<(CourseId, CourseName, int)> amountOfLessonHoursTopThreeCourses;
   final int totalAmountOfHomeworks;
@@ -171,7 +171,7 @@ class SharezoneRewrappedValues extends Equatable {
   final int totalAmountOfExams;
   final List<(CourseId, CourseName, int)> amountOfExamsTopThreeCourses;
 
-  const SharezoneRewrappedValues({
+  const SharezoneWrappedValues({
     required this.totalAmountOfLessonHours,
     required this.amountOfLessonHoursTopThreeCourses,
     required this.totalAmountOfHomeworks,

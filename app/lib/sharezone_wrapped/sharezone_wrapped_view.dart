@@ -10,7 +10,7 @@ import 'package:collection/collection.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:intl/intl.dart';
 
-class SharezoneRewrappedView {
+class SharezoneWrappedView {
   /// The total amount of lesson hours formatted as [String].
   ///
   /// Example: `91.234 Std.`
@@ -65,7 +65,7 @@ class SharezoneRewrappedView {
   /// ```
   final List<String> amountOfExamsTopThreeCourses;
 
-  SharezoneRewrappedView({
+  SharezoneWrappedView({
     required this.totalAmountOfLessonHours,
     required this.amountOfLessonHoursTopThreeCourses,
     required this.totalAmountOfHomeworks,
@@ -74,7 +74,7 @@ class SharezoneRewrappedView {
     required this.totalAmountOfExams,
   });
 
-  factory SharezoneRewrappedView.fromValues({
+  factory SharezoneWrappedView.fromValues({
     required int totalAmountOfLessonHours,
     required List<(CourseName, int)> amountOfLessonHoursTopThreeCourses,
     required int totalAmountOfHomeworks,
@@ -83,7 +83,7 @@ class SharezoneRewrappedView {
     required List<(CourseName, int)> amountOfExamsTopThreeCourses,
   }) {
     final formatter = NumberFormat.decimalPattern('de_DE');
-    return SharezoneRewrappedView(
+    return SharezoneWrappedView(
       totalAmountOfLessonHours:
           '${formatter.format(totalAmountOfLessonHours)} Std.',
       amountOfLessonHoursTopThreeCourses: amountOfLessonHoursTopThreeCourses

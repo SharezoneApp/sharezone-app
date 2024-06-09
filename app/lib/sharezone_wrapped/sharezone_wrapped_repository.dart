@@ -13,12 +13,12 @@ import 'package:retry/retry.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 
-class SharezoneRewrappedRepository {
+class SharezoneWrappedRepository {
   final FirebaseFirestore firestore;
   final ConnectionsGateway connectionsGateway;
   final UserId userId;
 
-  const SharezoneRewrappedRepository({
+  const SharezoneWrappedRepository({
     required this.firestore,
     required this.userId,
     required this.connectionsGateway,
