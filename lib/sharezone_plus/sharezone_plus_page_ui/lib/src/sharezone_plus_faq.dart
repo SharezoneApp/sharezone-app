@@ -150,7 +150,7 @@ class _SchoolClassLicense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Gibt es spezielle Angebote für Familien?'),
+      header: const Text('Gibt es spezielle Angebote für Schulklassen?'),
       body: MarkdownBody(
         data:
             'Du bist interessiert an einer Lizenz für deine gesamte Klasse? Schreib'
@@ -188,7 +188,7 @@ class _FamilyLicense extends StatelessWidget {
       header: const Text('Gibt es spezielle Angebote für Familien?'),
       body: MarkdownBody(
         data:
-            'Ja, für Familien mit mehreren Kindern bieten wir besondere Konditionen an. Schreibt uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net), um mehr zu erfahren',
+            'Ja, für Familien mit mehreren Kindern bieten wir besondere Konditionen an. Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net), um mehr zu erfahren.',
         styleSheet: MarkdownStyleSheet(
           a: TextStyle(
             color: Theme.of(context).primaryColor,
