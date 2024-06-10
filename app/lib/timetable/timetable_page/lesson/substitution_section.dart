@@ -48,7 +48,7 @@ class _SubstitutionSection extends StatelessWidget {
         if (canceledSubstitution != null)
           _LessonCanceledCard(
             courseId: lesson.groupID,
-            createdBy: locationSubstitution!.createdBy,
+            createdBy: canceledSubstitution.createdBy,
             hasPermissionsToManageLessons: hasPermissionsToManageLessons,
           ),
         if (locationSubstitution != null)
