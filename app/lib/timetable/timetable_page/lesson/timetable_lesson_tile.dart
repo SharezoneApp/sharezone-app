@@ -34,7 +34,7 @@ class TimetableEntryLesson extends StatelessWidget {
   Widget build(BuildContext context) {
     final canceledDesign = Design.fromColor(Colors.grey[600]!);
     final substitutions = lesson.getSubstitutionFor(date);
-    final isCanceled = substitutions is LessonCanceledSubstitution;
+    final isCanceled = substitutions.getLessonCanceledSubstitution() != null;
     final design = isCanceled ? canceledDesign : groupInfo?.design;
     final newLocation =
         substitutions.getLocationChangedSubstitution()?.newLocation;
