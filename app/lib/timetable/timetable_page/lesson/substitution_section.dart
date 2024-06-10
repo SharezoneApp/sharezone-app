@@ -26,9 +26,8 @@ class _SubstitutionSection extends StatelessWidget {
     final locationSubstitution = substitutions.getLocationChangedSubstitution();
     final teacherSubstitution = substitutions.getTeacherChangedSubstitution();
     final hasUnlocked = context.watch<SubscriptionService>().hasFeatureUnlocked(
-              SharezonePlusFeature.substitutions,
-            ) ||
-        !isStableStage;
+          SharezonePlusFeature.substitutions,
+        );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -44,9 +43,7 @@ class _SubstitutionSection extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
             ),
           ),
-          // We show the beta chip as long as the update isn't on the stable
-          // track.
-          trailing: hasUnlocked ? const _BetaChip() : const SharezonePlusChip(),
+          trailing: hasUnlocked ? null : const SharezonePlusChip(),
         ),
         if (canceledSubstitution != null)
           _LessonCanceledCard(
@@ -111,18 +108,6 @@ class _SubstitutionSection extends StatelessWidget {
             subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
           )
       ],
-    );
-  }
-}
-
-class _BetaChip extends StatelessWidget {
-  const _BetaChip();
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      label: const Text('Beta'),
-      backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
     );
   }
 }
