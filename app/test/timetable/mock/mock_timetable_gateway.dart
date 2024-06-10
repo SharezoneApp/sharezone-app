@@ -147,11 +147,13 @@ class MockTimetableGateway implements TimetableGateway {
   }
 
   @override
-  void updateSubstitutionInLesson(
-      {required String lessonId,
-      required SubstitutionId substitutionId,
-      required bool notifyGroupMembers,
-      String? newLocation}) {
+  void updateSubstitutionInLesson({
+    required String lessonId,
+    required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
+    String? newLocation,
+    String? newTeacher,
+  }) {
     throw UnimplementedError();
   }
 }
