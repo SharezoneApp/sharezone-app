@@ -477,10 +477,8 @@ class _DeleteAccountDialogContentState
                         onChanged: (s) => setState(() => password = s),
                         onEditingComplete: () async => tryToDeleteUser(context),
                         autofocus: false,
-                        style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           labelText: 'Passwort',
-                          labelStyle: const TextStyle(color: Colors.black),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
