@@ -74,7 +74,11 @@ Future<void> runFlutterApp({required Flavor flavor}) async {
     // see:
     // * https://github.com/flutter/flutter/issues/115158#issuecomment-1319080131
     // * https://github.com/gskinnerTeam/flutter-wonderous-app/issues/146
-    WidgetsFlutterBinding.ensureInitialized().ensureSemantics();
+    //
+    // Currently disabled because of:
+    // https://github.com/flutter/flutter/issues/150020
+    //
+    // WidgetsFlutterBinding.ensureInitialized().ensureSemantics();
   }
 
   if (PlatformCheck.isWeb) {

@@ -409,6 +409,10 @@ class _DeleteAccountDialogContentState
   ];
 
   Future<void> tryToDeleteUser(BuildContext context) async {
+    if (isEmptyOrNull(password)) {
+      return;
+    }
+
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     final authUser = api.user.authUser!;
@@ -473,10 +477,8 @@ class _DeleteAccountDialogContentState
                         onChanged: (s) => setState(() => password = s),
                         onEditingComplete: () async => tryToDeleteUser(context),
                         autofocus: false,
-                        style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           labelText: 'Passwort',
-                          labelStyle: const TextStyle(color: Colors.black),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
