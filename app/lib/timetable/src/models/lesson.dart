@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
-import 'package:collection/collection.dart';
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
@@ -132,14 +131,14 @@ class Lesson {
     );
   }
 
-  /// Returns the substitution for the given [date].
+  /// Returns the substitutions for the given [date].
   ///
-  /// If there is no substitution for the given [date], `null` will be returned.
-  Substitution? getSubstitutionFor(Date date) {
-    return substitutions.values.firstWhereOrNull(
-      (substitution) =>
-          substitution.date == date && substitution.isDeleted == false,
-    );
+  /// If there is no substitution for the given [date], the list will be empty.
+  List<Substitution?> getSubstitutionFor(Date date) {
+    return substitutions.values
+        .where((substitution) =>
+            substitution.date == date && substitution.isDeleted == false)
+        .toList();
   }
 
   @override

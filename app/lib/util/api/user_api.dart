@@ -195,6 +195,11 @@ class UserGateway implements UserGatewayAuthentifcation {
     return;
   }
 
+  @override
+  Future<void> sendVerificationEmail() async {
+    await authUser!.firebaseUser.sendEmailVerification();
+  }
+
   Future<bool> deleteUser(SharezoneGateway gateway) async {
     if (await hasInternetAccess()) {
       final currentUser = references.firebaseAuth!.currentUser!;
