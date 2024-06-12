@@ -143,8 +143,9 @@ jobs:
       - name: Run tests via "sz test"
         # We don't run the analysis in parallel to prevent
         # https://github.com/SharezoneApp/sharezone-app/issues/1658.
-        run: sz test \
-          -c 1 \
-          --package-timeout-minutes 15 \
-          --exclude-goldens \
-          --only sz_repo_cli
+        run: |
+          sz test \
+            -c 1 \
+            --package-timeout-minutes 15 \
+            --exclude-goldens \
+            --only sz_repo_cli
