@@ -162,7 +162,7 @@ class _TeachersTimetable extends StatelessWidget {
       icon: const Icon(Icons.person),
       title: const Text('Lehrkraft im Stundenplan'),
       description: const Text(
-        '''Trage den Name der Lehrkraft zur jeweiligen Schulstunde im Stundenplan ein. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft nicht angezeigt.''',
+        '''Trage den Name der Lehrkraft zur jeweiligen Schulstunde im Stundenplan ein. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt.''',
       ),
     );
   }

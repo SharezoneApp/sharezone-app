@@ -115,4 +115,9 @@ jobs:
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
-        run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
+        run: |
+          sz analyze \
+            --max-concurrent-packages 1 \
+            --package-timeout-minutes 15

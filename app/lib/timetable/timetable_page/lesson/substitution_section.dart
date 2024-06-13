@@ -21,16 +21,13 @@ class _SubstitutionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final substitution = lesson.getSubstitutionFor(date);
-    final isCanceled = substitution is LessonCanceledSubstitution;
-    final newLocation = substitution is LocationChangedSubstitution
-        ? substitution.newLocation
-        : null;
+    final substitutions = lesson.getSubstitutionFor(date);
+    final canceledSubstitution = substitutions.getLessonCanceledSubstitution();
+    final locationSubstitution = substitutions.getLocationChangedSubstitution();
+    final teacherSubstitution = substitutions.getTeacherChangedSubstitution();
     final hasUnlocked = context.watch<SubscriptionService>().hasFeatureUnlocked(
-              SharezonePlusFeature.substitutions,
-            ) ||
-        !isStableStage;
-    final hasSubstitution = isCanceled || newLocation != null;
+          SharezonePlusFeature.substitutions,
+        );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,26 +43,24 @@ class _SubstitutionSection extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
             ),
           ),
-          // We show the beta chip as long as the update isn't on the stable
-          // track.
-          trailing: hasUnlocked ? const _BetaChip() : const SharezonePlusChip(),
+          trailing: hasUnlocked ? null : const SharezonePlusChip(),
         ),
-        if (hasSubstitution) ...[
-          if (isCanceled)
-            _LessonCanceledCard(
-              courseId: lesson.groupID,
-              createdBy: lesson.getSubstitutionFor(date)!.createdBy,
-              hasPermissionsToManageLessons: hasPermissionsToManageLessons,
-            ),
-          if (newLocation != null)
-            _RoomChanged(
-              newLocation: newLocation,
-              courseId: lesson.groupID,
-              enteredBy: substitution?.updatedBy ?? substitution!.createdBy,
-              hasPermissionsToManageLessons: hasPermissionsToManageLessons,
-            )
-        ] else ...[
-          if (hasPermissionsToManageLessons) ...[
+        if (canceledSubstitution != null)
+          _LessonCanceledCard(
+            courseId: lesson.groupID,
+            createdBy: canceledSubstitution.createdBy,
+            hasPermissionsToManageLessons: hasPermissionsToManageLessons,
+          ),
+        if (locationSubstitution != null)
+          _RoomChanged(
+            newLocation: locationSubstitution.newLocation,
+            courseId: lesson.groupID,
+            enteredBy: locationSubstitution.updatedBy ??
+                locationSubstitution.createdBy,
+            hasPermissionsToManageLessons: hasPermissionsToManageLessons,
+          ),
+        if (hasPermissionsToManageLessons) ...[
+          if (canceledSubstitution == null && locationSubstitution == null)
             ListTile(
               leading: const Icon(Icons.cancel),
               title: const Text("Stunde entfallen lassen"),
@@ -75,6 +70,7 @@ class _SubstitutionSection extends StatelessWidget {
                       ? _LessonDialogAction.cancelLesson
                       : _LessonDialogAction.showSubstitutionPlusDialog),
             ),
+          if (canceledSubstitution == null && locationSubstitution == null)
             ListTile(
               leading: const Icon(Icons.place_outlined),
               title: const Text("Raumänderung"),
@@ -84,28 +80,34 @@ class _SubstitutionSection extends StatelessWidget {
                       ? _LessonDialogAction.addRoomSubstitution
                       : _LessonDialogAction.showSubstitutionPlusDialog),
             ),
-          ] else
-            const ListTile(
-              leading: Icon(Icons.info),
-              title: Text(
-                'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
+          if (canceledSubstitution == null)
+            if (teacherSubstitution == null)
+              ListTile(
+                leading: const Icon(Icons.person_outline),
+                title: const Text("Lehrkraft ändern"),
+                onTap: () => Navigator.pop(
+                    context,
+                    hasUnlocked
+                        ? _LessonDialogAction.addTeacherSubstitution
+                        : _LessonDialogAction.showSubstitutionPlusDialog),
+              )
+            else
+              _TeacherChanged(
+                newTeacher: teacherSubstitution.newTeacher,
+                enteredBy: teacherSubstitution.updatedBy ??
+                    teacherSubstitution.createdBy,
+                courseId: lesson.groupID,
+                hasPermissionsToManageLessons: hasPermissionsToManageLessons,
               ),
-              subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
-            )
-        ],
+        ] else
+          const ListTile(
+            leading: Icon(Icons.info),
+            title: Text(
+              'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
+            ),
+            subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
+          )
       ],
-    );
-  }
-}
-
-class _BetaChip extends StatelessWidget {
-  const _BetaChip();
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      label: const Text('Beta'),
-      backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
     );
   }
 }
@@ -175,6 +177,126 @@ class _RoomChanged extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const color = Colors.orange;
+    return _OrangeCard(
+      leading: const Icon(Icons.place_outlined),
+      title: Text("Raumänderung: $newLocation"),
+      subtitle: _EnteredBy(
+        courseId: courseId,
+        enteredBy: enteredBy,
+        color: color,
+      ),
+      trailing: hasPermissionsToManageLessons
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  tooltip: 'Raum ändern',
+                  icon: Icon(
+                    Icons.edit,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                  onPressed: () => Navigator.pop(
+                      context, _LessonDialogAction.updateRoomSubstitution),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  tooltip: 'Rückgängig machen',
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                  onPressed: () => Navigator.pop(
+                      context, _LessonDialogAction.removePlaceChange),
+                ),
+              ],
+            )
+          : null,
+    );
+  }
+}
+
+class _TeacherChanged extends StatelessWidget {
+  const _TeacherChanged({
+    required this.newTeacher,
+    required this.enteredBy,
+    required this.courseId,
+    required this.hasPermissionsToManageLessons,
+  });
+
+  final String newTeacher;
+  final String courseId;
+  final UserId enteredBy;
+  final bool hasPermissionsToManageLessons;
+
+  @override
+  Widget build(BuildContext context) {
+    const color = Colors.orange;
+    return _OrangeCard(
+      leading: const Icon(Icons.person_outline),
+      title: Text('Vertretung: $newTeacher'),
+      subtitle: _EnteredBy(
+        courseId: courseId,
+        enteredBy: enteredBy,
+        color: color,
+      ),
+      trailing: hasPermissionsToManageLessons
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  tooltip: 'Lehrkraft ändern',
+                  icon: Icon(
+                    Icons.edit,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                  onPressed: () => Navigator.pop(
+                      context, _LessonDialogAction.updateTeacherSubstitution),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  tooltip: 'Rückgängig machen',
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.6),
+                  ),
+                  onPressed: () => Navigator.pop(
+                      context, _LessonDialogAction.removeTeacherSubstitution),
+                ),
+              ],
+            )
+          : null,
+    );
+  }
+}
+
+class _OrangeCard extends StatelessWidget {
+  const _OrangeCard({
+    this.title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+  });
+
+  final Widget? title;
+  final Widget? subtitle;
+  final Widget? leading;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    const color = Colors.orange;
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
       child: Material(
@@ -183,45 +305,10 @@ class _RoomChanged extends StatelessWidget {
         child: ListTile(
           iconColor: color,
           textColor: color,
-          leading: const Icon(Icons.place_outlined),
-          title: Text("Raumänderung: $newLocation"),
-          subtitle: _EnteredBy(
-            courseId: courseId,
-            enteredBy: enteredBy,
-            color: color,
-          ),
-          trailing: hasPermissionsToManageLessons
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      tooltip: 'Raum ändern',
-                      icon: Icon(
-                        Icons.edit,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.6),
-                      ),
-                      onPressed: () => Navigator.pop(
-                          context, _LessonDialogAction.updateRoomSubstitution),
-                    ),
-                    const SizedBox(width: 8),
-                    IconButton(
-                      tooltip: 'Rückgängig machen',
-                      icon: Icon(
-                        Icons.delete,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.6),
-                      ),
-                      onPressed: () => Navigator.pop(
-                          context, _LessonDialogAction.removePlaceChange),
-                    ),
-                  ],
-                )
-              : null,
+          leading: leading,
+          title: title,
+          subtitle: subtitle,
+          trailing: trailing,
         ),
       ),
     );
@@ -303,6 +390,8 @@ Future<void> _removeCancelSubstitution(
     date: date,
     snackBarText: 'Entfallene Stunde wiederhergestellt',
     showConfirmationDialog: _removeCancelSubstitutionDialog,
+    substitutionId:
+        lesson.getSubstitutionFor(date).getLessonCanceledSubstitution()?.id,
   );
 }
 
@@ -312,7 +401,14 @@ Future<void> _removeSubstitution({
   required Date date,
   required String snackBarText,
   required Future<bool?> Function(BuildContext context) showConfirmationDialog,
+  required SubstitutionId? substitutionId,
 }) async {
+  if (substitutionId == null) {
+    // Substitution isn't available anymore. Probably because it was removed by
+    // another user.
+    return;
+  }
+
   final shouldNotifyMembers = await showConfirmationDialog(context);
   if (shouldNotifyMembers == null) {
     // User canceled the dialog
@@ -326,7 +422,7 @@ Future<void> _removeSubstitution({
   final controller = context.read<SubstitutionController>();
   controller.removeSubstitution(
     lessonId: lesson.lessonID!,
-    substitutionId: lesson.getSubstitutionFor(date)!.id,
+    substitutionId: substitutionId,
     notifyGroupMembers: shouldNotifyMembers,
   );
   showSnackSec(
@@ -346,6 +442,8 @@ Future<void> _removePlaceChangeSubstitution(
     date: date,
     snackBarText: 'Raumänderung entfernt',
     showConfirmationDialog: _removePlaceSubstitutionDialog,
+    substitutionId:
+        lesson.getSubstitutionFor(date).getLocationChangedSubstitution()?.id,
   );
 }
 
@@ -391,6 +489,101 @@ Future<void> _addRoomSubstitution(
   );
 }
 
+Future<void> _addTeacherSubstitution(
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+) async {
+  final result = await _showChangeTeacherDialog(context);
+  final shouldNotifyMembers = result.$1;
+  if (shouldNotifyMembers == null) {
+    // User canceled the dialog
+    return;
+  }
+
+  if (!context.mounted) {
+    return;
+  }
+
+  final controller = context.read<SubstitutionController>();
+  controller.addTeacherSubstitution(
+    lessonId: lesson.lessonID!,
+    date: date,
+    newTeacher: result.$2,
+    notifyGroupMembers: shouldNotifyMembers,
+  );
+  showSnackSec(
+    text: 'Vertretungslehrkraft eingetragen',
+    context: context,
+  );
+}
+
+Future<void> _updateTeacherSubstitution(
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+) async {
+  final result = await _showChangeTeacherDialog(context);
+  final shouldNotifyMembers = result.$1;
+  if (shouldNotifyMembers == null) {
+    // User canceled the dialog
+    return;
+  }
+
+  if (!context.mounted) {
+    return;
+  }
+
+  final controller = context.read<SubstitutionController>();
+  final substitution =
+      lesson.getSubstitutionFor(date).getTeacherChangedSubstitution();
+  if (substitution == null) {
+    // Substitution isn't available anymore. Probably because it was removed by
+    // another user.
+    return;
+  }
+
+  controller.updateTeacherSubstitution(
+    lessonId: lesson.lessonID!,
+    newTeacher: result.$2,
+    substitutionId: substitution.id,
+    notifyGroupMembers: shouldNotifyMembers,
+  );
+  showSnackSec(
+    text: 'Vertretungslehrkraft eingetragen',
+    context: context,
+  );
+}
+
+Future<void> _removeTeacherSubstitution(
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+) async {
+  await _removeSubstitution(
+    context: context,
+    lesson: lesson,
+    date: date,
+    snackBarText: 'Vertretungslehrkraft entfernt',
+    showConfirmationDialog: _removeTeacherSubstitutionDialog,
+    substitutionId:
+        lesson.getSubstitutionFor(date).getTeacherChangedSubstitution()?.id,
+  );
+}
+
+Future<bool?> _removeTeacherSubstitutionDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) => const _SubstitutionDialog(
+      title: 'Vertretungslehrkraft entfernen',
+      actionText: 'Entfernen',
+      description:
+          'Möchtest du wirklich die Vertretungslehrkraft für die Stunde entfernen?',
+      notifyOptionText: 'Informiere deine Kursmitglieder über die Entfernung.',
+    ),
+  );
+}
+
 Future<bool?> _showCancelLessonDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
@@ -422,7 +615,14 @@ Future<void> _updateRoomSubstitution(
   }
 
   final controller = context.read<SubstitutionController>();
-  final substitution = lesson.getSubstitutionFor(date)!;
+  final substitution =
+      lesson.getSubstitutionFor(date).getLocationChangedSubstitution();
+  if (substitution == null) {
+    // Substitution isn't available anymore. Probably because it was removed by
+    // another user.
+    return;
+  }
+
   controller.updatePlaceSubstitution(
     lessonId: lesson.lessonID!,
     newLocation: result.$2,
@@ -465,6 +665,23 @@ Future<(bool?, String)> _showChangeRoomDialog(BuildContext context) async {
   return (shouldNotify, textController.text);
 }
 
+Future<(bool?, String)> _showChangeTeacherDialog(BuildContext context) async {
+  String teacher = '';
+  final shouldNotify = await showDialog<bool>(
+    context: context,
+    builder: (context) => _SubstitutionDialog(
+      title: 'Vertretungslehrkraft ändern',
+      actionText: 'Lehrkraft speichern',
+      description: 'Möchtest du wirklich die Vertretungslehrkraft ändern?',
+      notifyOptionText:
+          'Informiere deine Kursmitglieder über die Lehrkraftänderung.',
+      bottom:
+          _ChangeTeacherTextField(onTeacherChanged: (value) => teacher = value),
+    ),
+  );
+  return (shouldNotify, teacher);
+}
+
 class _ChangeRoomTextField extends StatelessWidget {
   const _ChangeRoomTextField({
     required this.textController,
@@ -487,6 +704,26 @@ class _ChangeRoomTextField extends StatelessWidget {
           ),
           maxLength: 32,
         ),
+      ),
+    );
+  }
+}
+
+class _ChangeTeacherTextField extends StatelessWidget {
+  const _ChangeTeacherTextField({
+    required this.onTeacherChanged,
+  });
+
+  final ValueChanged<String> onTeacherChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final teachers = BlocProvider.of<TimetableBloc>(context).currentTeachers;
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: TeacherField(
+        teachers: teachers,
+        onTeacherChanged: onTeacherChanged,
       ),
     );
   }

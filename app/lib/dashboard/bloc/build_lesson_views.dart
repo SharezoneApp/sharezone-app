@@ -18,7 +18,8 @@ List<LessonView> _buildSortedViews(
 
   final views = [
     for (final lesson in lessons)
-      if (lesson.getSubstitutionFor(date) is! LessonCanceledSubstitution)
+      if (lesson.getSubstitutionFor(date).getLessonCanceledSubstitution() ==
+          null)
         _buildLessonView(
           lesson,
           groupInfo: groupInfoOf(lesson),
@@ -35,15 +36,13 @@ LessonView _buildLessonView(
   required Date date,
 }) {
   final timeline = _getTimeStatus(lesson.startTime, lesson.endTime);
-  final substitution = lesson.getSubstitutionFor(date);
-  final newLocation = substitution is LocationChangedSubstitution
-      ? substitution.newLocation
-      : null;
+  final locationSubstitution =
+      lesson.getSubstitutionFor(date).getLocationChangedSubstitution();
   return LessonView(
     start: lesson.startTime.toString(),
     end: lesson.endTime.toString(),
     lesson: lesson,
-    room: newLocation ?? lesson.place,
+    room: locationSubstitution?.newLocation ?? lesson.place,
     design: groupInfo?.design ?? Design.standard(),
     abbreviation: groupInfo?.abbreviation ?? "",
     timeStatus: timeline,
