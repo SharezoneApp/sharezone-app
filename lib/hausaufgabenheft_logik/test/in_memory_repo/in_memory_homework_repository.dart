@@ -9,20 +9,21 @@
 import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'firebase_realtime_updating_lazy_loading_controller.dart';
 import 'realtime_completed_homework_loader.dart';
 
 class InMemoryHomeworkRepository extends HomeworkDataSource {
-  final List<HomeworkReadModel> _homeworks = [];
-  List<HomeworkReadModel> get _openHomeworks =>
-      _homeworks.where((h) => h.status == CompletionStatus.open).toList();
-  List<HomeworkReadModel> get _completedHomeworks =>
-      _homeworks.where((h) => h.status == CompletionStatus.completed).toList();
+  IList<HomeworkReadModel> _homeworks = const IListConst([]);
+  IList<HomeworkReadModel> get _openHomeworks =>
+      _homeworks.where((h) => h.status == CompletionStatus.open).toIList();
+  IList<HomeworkReadModel> get _completedHomeworks =>
+      _homeworks.where((h) => h.status == CompletionStatus.completed).toIList();
 
-  final _openHomeworkStream = BehaviorSubject<List<HomeworkReadModel>>();
-  final _completedHomeworkStream = BehaviorSubject<List<HomeworkReadModel>>();
+  final _openHomeworkStream = BehaviorSubject<IList<HomeworkReadModel>>();
+  final _completedHomeworkStream = BehaviorSubject<IList<HomeworkReadModel>>();
   final Duration fakeDelay;
 
   InMemoryHomeworkRepository({this.fakeDelay = Duration.zero}) {
@@ -30,30 +31,30 @@ class InMemoryHomeworkRepository extends HomeworkDataSource {
   }
 
   @override
-  Stream<List<HomeworkReadModel>> get openHomeworks =>
+  Stream<IList<HomeworkReadModel>> get openHomeworks =>
       _openHomeworkStream.stream.delay(fakeDelay);
 
   final bool _loadedAllCompleted = false;
   bool get loadedAllCompleted => _loadedAllCompleted;
 
   Future<void> add(HomeworkReadModel homework) async {
-    _homeworks.add(homework);
+    _homeworks = _homeworks.add(homework);
     addHomeworksToStreams();
   }
 
   Future<void> delete(HomeworkReadModel homework) async {
-    _homeworks.removeWhere((h) => h.id == homework.id);
+    _homeworks = _homeworks.removeWhere((h) => h.id == homework.id);
     addHomeworksToStreams();
   }
 
-  Future<List<HomeworkReadModel>> getAll() async {
+  Future<IList<HomeworkReadModel>> getAll() async {
     await Future.delayed(fakeDelay);
     return _homeworks;
   }
 
   Future<void> update(HomeworkReadModel homework) async {
     final index = _homeworks.indexWhere((h) => h.id == homework.id);
-    _homeworks[index] = homework;
+    _homeworks = _homeworks.replace(index, homework);
     addHomeworksToStreams();
   }
 
@@ -76,12 +77,12 @@ class InMemoryHomeworkRepository extends HomeworkDataSource {
 }
 
 class InMemoryHomeworkLoader extends RealtimeCompletedHomeworkLoader {
-  final BehaviorSubject<List<HomeworkReadModel>> _completedHomeworksSubject;
+  final BehaviorSubject<IList<HomeworkReadModel>> _completedHomeworksSubject;
 
   InMemoryHomeworkLoader(this._completedHomeworksSubject);
 
   @override
-  Stream<List<HomeworkReadModel>> loadMostRecentHomeworks(
+  Stream<IList<HomeworkReadModel>> loadMostRecentHomeworks(
       int numberOfHomeworks) {
     return _completedHomeworksSubject.map((homeworks) {
       if (homeworks.length < numberOfHomeworks) return homeworks;

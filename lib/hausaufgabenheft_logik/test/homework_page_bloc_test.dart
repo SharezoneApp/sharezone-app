@@ -11,17 +11,11 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:clock/clock.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/completed_homeworks_view_bloc/completed_homeworks_view_bloc.dart'
-    as completed;
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/lazy_loading_completed_homeworks_bloc/lazy_loading_completed_homeworks_bloc.dart'
-    as lazy_loading;
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_list.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
-import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
@@ -193,7 +187,7 @@ void main() {
       bloc.add(LoadHomeworks());
       bloc.add(OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle));
 
-      Success result = await bloc.stream.whereType<Success>().skip(1).first;
+      Success result = await bloc.stream.whereType<Success>().first;
 
       final notDone = result.open;
       expect(notDone.sections.length, 5);
@@ -487,9 +481,12 @@ void main() {
 
 extension on OpenHomeworkListView {
   List<StudentHomeworkView> get orderedHomeworks {
-    final listOfListOfHomeworks = sections.map((s) => s.homeworks).toList();
+    final listOfListOfHomeworks =
+        sections.map((s) => s.homeworks.toList()).toList();
     if (listOfListOfHomeworks.isEmpty) return [];
-    if (listOfListOfHomeworks.length == 1) return listOfListOfHomeworks.single;
+    if (listOfListOfHomeworks.length == 1) {
+      return listOfListOfHomeworks.single.toList();
+    }
     return listOfListOfHomeworks.reduce((l1, l2) => [...l1, ...l2]).toList();
   }
 }
@@ -507,7 +504,7 @@ HomeworkPageBloc createBloc(
       completionDispatcher: RepositoryHomeworkCompletionDispatcher(repository),
       getOpenOverdueHomeworkIds: () async {
         final open = await repository.openHomeworks.first;
-        return HomeworkList(open).getOverdue().map((hw) => hw.id).toList();
+        return open.getOverdue().map((hw) => hw.id).toIList();
       },
       keyValueStore: keyValueStore ?? InMemoryKeyValueStore(),
       getCurrentDateTime: getCurrentDateTime,
@@ -517,20 +514,6 @@ HomeworkPageBloc createBloc(
       nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad,
     ),
   );
-}
-
-completed.CompletedHomeworksViewBloc createCompletedHomeworksViewBloc(
-    StudentHomeworkViewFactory viewFactory,
-    InMemoryHomeworkRepository repository,
-    {required int nrOfInitialCompletedHomeworksToLoad}) {
-  final completedHomeworkListViewFactory =
-      CompletedHomeworkListViewFactory(viewFactory);
-  final lazyLoadingCompletedHomeworksBloc =
-      lazy_loading.LazyLoadingCompletedHomeworksBloc(repository);
-  final completedHomeworksViewBloc = completed.CompletedHomeworksViewBloc(
-      lazyLoadingCompletedHomeworksBloc, completedHomeworkListViewFactory,
-      nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad);
-  return completedHomeworksViewBloc;
 }
 
 InMemoryHomeworkRepository createRepositoy() => InMemoryHomeworkRepository();

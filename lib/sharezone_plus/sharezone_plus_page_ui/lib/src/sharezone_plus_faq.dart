@@ -35,6 +35,8 @@ class SharezonePlusFaq extends StatelessWidget {
           const _DoesTheFileStorageLimitAlsoForGroups(),
           const SizedBox(height: 12),
           const _SchoolClassLicense(),
+          const SizedBox(height: 12),
+          const _FamilyLicense(),
           if (showContentCreatorQuestion) ...[
             const SizedBox(height: 12),
             const _ContentCreator(),
@@ -148,11 +150,45 @@ class _SchoolClassLicense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Gibt es eine Lizenz für meine gesamte Klasse?'),
+      header: const Text('Gibt es spezielle Angebote für Schulklassen?'),
       body: MarkdownBody(
         data:
             'Du bist interessiert an einer Lizenz für deine gesamte Klasse? Schreib'
             ' uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net).',
+        styleSheet: MarkdownStyleSheet(
+          a: TextStyle(
+            color: Theme.of(context).primaryColor,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+        onTapLink: (text, href, title) async {
+          try {
+            final uri = Uri.parse(href!);
+            await launchUrl(uri);
+          } on Exception catch (_) {
+            if (!context.mounted) return;
+            showSnackSec(
+              text: 'E-Mail: plus@sharezone.net',
+              context: context,
+            );
+          }
+        },
+      ),
+      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+    );
+  }
+}
+
+class _FamilyLicense extends StatelessWidget {
+  const _FamilyLicense();
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionCard(
+      header: const Text('Gibt es spezielle Angebote für Familien?'),
+      body: MarkdownBody(
+        data:
+            'Ja, für Familien mit mehreren Kindern bieten wir besondere Konditionen an. Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net), um mehr zu erfahren.',
         styleSheet: MarkdownStyleSheet(
           a: TextStyle(
             color: Theme.of(context).primaryColor,

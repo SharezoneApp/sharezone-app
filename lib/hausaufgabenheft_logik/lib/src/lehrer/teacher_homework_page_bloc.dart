@@ -11,6 +11,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:meta/meta.dart';
@@ -66,38 +67,37 @@ class _States {
 
   // ignore: unused_field
   static final _placeholder = Success(
-    TeacherOpenHomeworkListView([
-      TeacherHomeworkSectionView('Heute', [
-        _Homeworks._noSubmissionNoPermissions,
-      ]),
-      TeacherHomeworkSectionView('Morgen', [
-        _Homeworks._withSubmissionWithPermissions,
-        ..._generateRandomHomeworks(count: 18)
-      ]),
-    ], sorting: HomeworkSort.smallestDateSubjectAndTitle),
-    TeacherArchivedHomeworkListView([], loadedAllArchivedHomeworks: true),
+    TeacherOpenHomeworkListView(const IListConst([]),
+        sorting: HomeworkSort.smallestDateSubjectAndTitle),
+    TeacherArchivedHomeworkListView(const IListConst([]),
+        loadedAllArchivedHomeworks: true),
   );
 
   /// Answer for [_ArchivedHwLazyLoadingState.askedForFirstBatch]
-  static final __archivedHomeworksFirstState = TeacherArchivedHomeworkListView([
-    _Homeworks._noSubmissionNoPermissions,
-    _Homeworks._withSubmissionWithPermissions,
-    ..._generateRandomHomeworks(count: 18)
-  ], loadedAllArchivedHomeworks: false);
+  static final __archivedHomeworksFirstState = TeacherArchivedHomeworkListView(
+      IList([
+        _Homeworks._noSubmissionNoPermissions,
+        _Homeworks._withSubmissionWithPermissions,
+        ..._generateRandomHomeworks(count: 18)
+      ]),
+      loadedAllArchivedHomeworks: false);
 
   /// Answer for [_ArchivedHwLazyLoadingState.askedForSecondBatch]
-  static final __archivedHomeworksSecondState =
-      TeacherArchivedHomeworkListView([
-    ...__archivedHomeworksFirstState.orderedHomeworks,
-    ..._generateRandomHomeworks(count: 10)
-  ], loadedAllArchivedHomeworks: false);
+  static final __archivedHomeworksSecondState = TeacherArchivedHomeworkListView(
+      IList([
+        ...__archivedHomeworksFirstState.orderedHomeworks,
+        ..._generateRandomHomeworks(count: 10)
+      ]),
+      loadedAllArchivedHomeworks: false);
 
   /// Answer for [_ArchivedHwLazyLoadingState.askedForAll]
   static final __archivedHomeworksLoadedAllState =
-      TeacherArchivedHomeworkListView([
-    ...__archivedHomeworksSecondState.orderedHomeworks,
-    ..._generateRandomHomeworks(count: 10)
-  ], loadedAllArchivedHomeworks: true);
+      TeacherArchivedHomeworkListView(
+          IList([
+            ...__archivedHomeworksSecondState.orderedHomeworks,
+            ..._generateRandomHomeworks(count: 10)
+          ]),
+          loadedAllArchivedHomeworks: true);
 
   static TeacherArchivedHomeworkListView __getArchivedListView(
       _ArchivedHwLazyLoadingState loadingState) {
@@ -114,26 +114,36 @@ class _States {
   static Success _homeworksAllLoadedSortedBySubject(
       _ArchivedHwLazyLoadingState loadingState) {
     return Success(
-        TeacherOpenHomeworkListView([
-          TeacherHomeworkSectionView('Mathe', [
-            _Homeworks._noSubmissionWithPermissions,
-            _Homeworks._withSubmissionNoPermissions
-          ])
-        ], sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
+        TeacherOpenHomeworkListView(
+            IList([
+              TeacherHomeworkSectionView(
+                  'Mathe',
+                  IList([
+                    _Homeworks._noSubmissionWithPermissions,
+                    _Homeworks._withSubmissionNoPermissions
+                  ]))
+            ]),
+            sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
         __getArchivedListView(loadingState));
   }
 
   static Success _homeworksAllLoadedSortedByTodoDate(
       _ArchivedHwLazyLoadingState loadingState) {
     return Success(
-      TeacherOpenHomeworkListView([
-        TeacherHomeworkSectionView('Heute', [
-          _Homeworks._noSubmissionWithPermissions,
-        ]),
-        TeacherHomeworkSectionView('In 3 Tagen', [
-          _Homeworks._withSubmissionNoPermissions,
-        ])
-      ], sorting: HomeworkSort.smallestDateSubjectAndTitle),
+      TeacherOpenHomeworkListView(
+          IList([
+            TeacherHomeworkSectionView(
+                'Heute',
+                IList([
+                  _Homeworks._noSubmissionWithPermissions,
+                ])),
+            TeacherHomeworkSectionView(
+                'In 3 Tagen',
+                IList([
+                  _Homeworks._withSubmissionNoPermissions,
+                ]))
+          ]),
+          sorting: HomeworkSort.smallestDateSubjectAndTitle),
       __getArchivedListView(loadingState),
     );
   }

@@ -6,11 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+
 import 'teacher_homework_view.dart';
 
 class TeacherArchivedHomeworkListView {
   final bool loadedAllArchivedHomeworks;
-  final List<TeacherHomeworkView> orderedHomeworks;
+  final IList<TeacherHomeworkView> orderedHomeworks;
 
   TeacherArchivedHomeworkListView(this.orderedHomeworks,
       {required this.loadedAllArchivedHomeworks});
