@@ -7,11 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_hausaufgabenheft_logik/src/firestore_homework_data_source.dart';
 
-import 'firestore_realtime_completed_homework_loader.dart';
-import 'homework_transformation.dart';
-import 'realtime_updating_lazy_loading_controller_factory.dart';
+import '../firebase_hausaufgabenheft_logik.dart';
 
 FirestoreHomeworkDataSource createDefaultFirestoreRepository(
     CollectionReference homeworkCollection,

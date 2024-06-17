@@ -10,7 +10,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-import 'homework_transformation.dart';
 import 'realtime_completed_homework_loader.dart';
 
 class FirestoreRealtimeCompletedHomeworkLoader

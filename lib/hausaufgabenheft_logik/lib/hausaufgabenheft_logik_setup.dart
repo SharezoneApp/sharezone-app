@@ -25,3 +25,4 @@ export 'src/setup/config.dart';
 export 'src/setup/dependencies.dart';
 export 'src/setup/create_homework_page_bloc.dart';
 export 'src/student_homework_page_bloc/student_homework_page_bloc.dart';
+export 'src/firebase/firebase_hausaufgabenheft_logik_setup.dart';

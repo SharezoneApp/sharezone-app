@@ -19,8 +19,9 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:meta/meta.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/api.dart';

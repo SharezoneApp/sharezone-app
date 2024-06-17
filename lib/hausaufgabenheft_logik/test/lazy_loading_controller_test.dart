@@ -11,12 +11,12 @@ import 'dart:async';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:firebase_hausaufgabenheft_logik/src/realtime_updating_lazy_loading_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:rxdart/subjects.dart' as rx;
 
-import 'in_memory_homework_loader.dart';
+import 'in_memory_repo/firebase_realtime_updating_lazy_loading_controller.dart';
+import 'in_memory_repo/in_memory_homework_repository.dart';
 
 class ReportingInMemoryHomeworkLoader extends InMemoryHomeworkLoader {
   ReportingInMemoryHomeworkLoader(super.completedHomeworksSubject);

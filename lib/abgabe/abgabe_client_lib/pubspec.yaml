@@ -28,8 +28,8 @@ dependencies:
     path: ../../filesharing/files_basics
   filesharing_logic:
     path: ../../filesharing/filesharing_logic
-  firebase_hausaufgabenheft_logik:
-    path: ../../firebase_hausaufgabenheft_logik
+  hausaufgabenheft_logik:
+    path: ../../hausaufgabenheft_logik
   built_collection: ^5.1.0
   cloud_firestore: ^4.17.2
   gcloud: any

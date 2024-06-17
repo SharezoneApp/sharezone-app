@@ -53,3 +53,4 @@ export 'src/student_homework_page_bloc/events.dart';
 export 'src/student_homework_page_bloc/states.dart';
 export 'src/student_homework_page_bloc/student_homework_page_bloc.dart';
 export 'src/views/homework_view.dart';
+export 'src/firebase/firebase_hausaufgabenheft_logik.dart';

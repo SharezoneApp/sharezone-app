@@ -15,8 +15,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-import 'homework_dto.dart';
-
 typedef CourseColorRetriever = FutureOr<int> Function(String courseId);
 
 class HomeworkTransformer extends StreamTransformerBase<
