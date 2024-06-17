@@ -28,7 +28,7 @@ void main() {
   Bloc.observer = VerboseBlocObserver();
   group('GIVEN a Student with Homework WHEN he opens the homework page', () {
     late HomeworkPageBloc bloc;
-    late InMemoryHomeworkRepository repository;
+    late InMemoryHomeworkRepository<HomeworkReadModel> repository;
     late HomeworkSortingCache homeworkSortingCache;
     late KeyValueStore kvs;
 
@@ -373,7 +373,7 @@ void main() {
 
     group('CompletedHomeworks lazy loading ', () {
       HomeworkPageBloc bloc;
-      late InMemoryHomeworkRepository repository;
+      late InMemoryHomeworkRepository<HomeworkReadModel> repository;
 
       setUp(() {
         repository = createRepositoy();
@@ -493,7 +493,7 @@ extension on OpenHomeworkListView {
 
 const uid = 'uid';
 HomeworkPageBloc createBloc(
-  InMemoryHomeworkRepository repository, {
+  InMemoryHomeworkRepository<HomeworkReadModel> repository, {
   int nrOfInitialCompletedHomeworksToLoad = 1000,
   DateTime Function()? getCurrentDateTime,
   KeyValueStore? keyValueStore,
@@ -501,6 +501,7 @@ HomeworkPageBloc createBloc(
   return createHomeworkPageBloc(
     HausaufgabenheftDependencies(
       dataSource: repository,
+      teacherHomeworkDataSource: InMemoryHomeworkRepository(),
       completionDispatcher: RepositoryHomeworkCompletionDispatcher(repository),
       getOpenOverdueHomeworkIds: () async {
         final open = await repository.openHomeworks.first;
@@ -516,13 +517,14 @@ HomeworkPageBloc createBloc(
   );
 }
 
-InMemoryHomeworkRepository createRepositoy() => InMemoryHomeworkRepository();
+InMemoryHomeworkRepository<HomeworkReadModel> createRepositoy() =>
+    InMemoryHomeworkRepository<HomeworkReadModel>();
 
 Date dateFromDay(int day) => Date(year: 2019, month: 1, day: day);
 
 class RepositoryHomeworkCompletionDispatcher
     extends HomeworkCompletionDispatcher {
-  final InMemoryHomeworkRepository _repository;
+  final InMemoryHomeworkRepository<HomeworkReadModel> _repository;
 
   RepositoryHomeworkCompletionDispatcher(this._repository);
 

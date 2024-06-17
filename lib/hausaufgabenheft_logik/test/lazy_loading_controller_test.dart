@@ -18,13 +18,13 @@ import 'package:rxdart/subjects.dart' as rx;
 import 'in_memory_repo/firebase_realtime_updating_lazy_loading_controller.dart';
 import 'in_memory_repo/in_memory_homework_repository.dart';
 
-class ReportingInMemoryHomeworkLoader extends InMemoryHomeworkLoader {
+class ReportingInMemoryHomeworkLoader<T extends BaseHomeworkReadModel>
+    extends InMemoryHomeworkLoader<T> {
   ReportingInMemoryHomeworkLoader(super.completedHomeworksSubject);
 
   bool wasInvoked = false;
   @override
-  Stream<IList<HomeworkReadModel>> loadMostRecentHomeworks(
-      int numberOfHomeworks) {
+  Stream<IList<T>> loadMostRecentHomeworks(int numberOfHomeworks) {
     wasInvoked = true;
     return super.loadMostRecentHomeworks(numberOfHomeworks);
   }
@@ -47,7 +47,7 @@ Stream<IList<HomeworkReadModel>> getHomeworkResultsAsStream(
 
 void main() {
   group('LazyLoadingController', () {
-    late ReportingInMemoryHomeworkLoader homeworkLoader;
+    late ReportingInMemoryHomeworkLoader<HomeworkReadModel> homeworkLoader;
     late rx.BehaviorSubject<IList<HomeworkReadModel>> homeworkSubject;
 
     void addToDataSource(IList<HomeworkReadModel> homeworks) {
@@ -62,7 +62,8 @@ void main() {
 
     setUp(() {
       homeworkSubject = rx.BehaviorSubject<IList<HomeworkReadModel>>();
-      homeworkLoader = ReportingInMemoryHomeworkLoader(homeworkSubject);
+      homeworkLoader =
+          ReportingInMemoryHomeworkLoader<HomeworkReadModel>(homeworkSubject);
     });
 
     tearDown(() {

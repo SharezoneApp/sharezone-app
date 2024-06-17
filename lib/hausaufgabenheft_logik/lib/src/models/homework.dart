@@ -14,30 +14,20 @@ import 'date.dart';
 import 'subject.dart';
 import 'title.dart';
 
-/// The read model of a Homework that is specific to one user.
-/// The Homework should only be used to display a homework, created specifically
-/// for one user. It should not be edited and put in a repository.
-///
-/// In Sharezone it used in the context of the HomeworkPage, as it is basically
-/// a merge from the information of the homework-details (title, subject, ...)
-/// and the specific done status of the user viewing the homework.
-class HomeworkReadModel extends Equatable {
+abstract class BaseHomeworkReadModel extends Equatable {
   final HomeworkId id;
   final DateTime todoDate;
   final Subject subject;
   final Title title;
   final bool withSubmissions;
-  final CompletionStatus status;
 
   @override
-  List<Object?> get props =>
-      [id, todoDate, subject, title, withSubmissions, status];
+  List<Object?> get props => [id, todoDate, subject, title, withSubmissions];
 
-  const HomeworkReadModel({
+  const BaseHomeworkReadModel({
     required this.id,
     required this.title,
     required this.subject,
-    required this.status,
     required this.withSubmissions,
     required this.todoDate,
   });
@@ -45,4 +35,28 @@ class HomeworkReadModel extends Equatable {
   bool isOverdueRelativeTo(Date today) {
     return Date.fromDateTime(todoDate) < today;
   }
+}
+
+/// The read model of a Homework that is specific to one user.
+/// The Homework should only be used to display a homework, created specifically
+/// for one user. It should not be edited and put in a repository.
+///
+/// In Sharezone it used in the context of the HomeworkPage, as it is basically
+/// a merge from the information of the homework-details (title, subject, ...)
+/// and the specific done status of the user viewing the homework.
+class HomeworkReadModel extends BaseHomeworkReadModel {
+  final CompletionStatus status;
+
+  @override
+  List<Object?> get props =>
+      [id, todoDate, subject, title, withSubmissions, status];
+
+  const HomeworkReadModel({
+    required super.id,
+    required super.title,
+    required super.subject,
+    required this.status,
+    required super.withSubmissions,
+    required super.todoDate,
+  });
 }

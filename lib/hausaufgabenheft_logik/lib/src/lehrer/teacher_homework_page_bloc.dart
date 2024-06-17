@@ -10,263 +10,133 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
-import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:hausaufgabenheft_logik/color.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
+    hide Uninitialized, LoadHomeworks, OpenHwSortingChanged, Success, Sort;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
-import 'package:meta/meta.dart';
-import 'package:test_randomness/test_randomness.dart';
+import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
+import 'package:rxdart/rxdart.dart';
+
+import 'completed_homeworks/views/completed_homework_list_view_factory.dart';
 
 export 'events.dart';
 export 'states.dart';
 
-class _Homeworks {
-  static final _noSubmissionNoPermissions = randomHomeworkViewWith(
-    title: 'S. 35 a)',
-    colorDate: false,
-    withSubmissions: false,
-    canViewCompletionOrSubmissionList: false,
-    canDeleteForEveryone: true,
-    canEditForEveryone: true,
-  );
-
-  static final _noSubmissionWithPermissions = randomHomeworkViewWith(
-    title: 'AB "Dichter"',
-    withSubmissions: false,
-    canViewCompletionOrSubmissionList: true,
-    canDeleteForEveryone: false,
-    canEditForEveryone: false,
-  );
-
-  static final _withSubmissionNoPermissions = randomHomeworkViewWith(
-    title: 'AB "trigonometrie"',
-    withSubmissions: true,
-    canViewCompletionOrSubmissionList: false,
-    canDeleteForEveryone: true,
-    canEditForEveryone: false,
-  );
-
-  static final _withSubmissionWithPermissions = randomHomeworkViewWith(
-    title: 'S. 23 b)',
-    withSubmissions: true,
-    canViewCompletionOrSubmissionList: true,
-    canDeleteForEveryone: false,
-    canEditForEveryone: true,
-  );
-}
-
-enum _ArchivedHwLazyLoadingState {
-  askedForFirstBatch,
-  askedForSecondBatch,
-  askedForAll
-}
-
-class _States {
-  // ignore: unused_field
-  static final _uninitialized = Uninitialized();
-
-  // ignore: unused_field
-  static final _placeholder = Success(
-    TeacherOpenHomeworkListView(const IListConst([]),
-        sorting: HomeworkSort.smallestDateSubjectAndTitle),
-    TeacherArchivedHomeworkListView(const IListConst([]),
-        loadedAllArchivedHomeworks: true),
-  );
-
-  /// Answer for [_ArchivedHwLazyLoadingState.askedForFirstBatch]
-  static final __archivedHomeworksFirstState = TeacherArchivedHomeworkListView(
-      IList([
-        _Homeworks._noSubmissionNoPermissions,
-        _Homeworks._withSubmissionWithPermissions,
-        ..._generateRandomHomeworks(count: 18)
-      ]),
-      loadedAllArchivedHomeworks: false);
-
-  /// Answer for [_ArchivedHwLazyLoadingState.askedForSecondBatch]
-  static final __archivedHomeworksSecondState = TeacherArchivedHomeworkListView(
-      IList([
-        ...__archivedHomeworksFirstState.orderedHomeworks,
-        ..._generateRandomHomeworks(count: 10)
-      ]),
-      loadedAllArchivedHomeworks: false);
-
-  /// Answer for [_ArchivedHwLazyLoadingState.askedForAll]
-  static final __archivedHomeworksLoadedAllState =
-      TeacherArchivedHomeworkListView(
-          IList([
-            ...__archivedHomeworksSecondState.orderedHomeworks,
-            ..._generateRandomHomeworks(count: 10)
-          ]),
-          loadedAllArchivedHomeworks: true);
-
-  static TeacherArchivedHomeworkListView __getArchivedListView(
-      _ArchivedHwLazyLoadingState loadingState) {
-    switch (loadingState) {
-      case _ArchivedHwLazyLoadingState.askedForFirstBatch:
-        return __archivedHomeworksFirstState;
-      case _ArchivedHwLazyLoadingState.askedForSecondBatch:
-        return __archivedHomeworksSecondState;
-      case _ArchivedHwLazyLoadingState.askedForAll:
-        return __archivedHomeworksLoadedAllState;
-    }
-  }
-
-  static Success _homeworksAllLoadedSortedBySubject(
-      _ArchivedHwLazyLoadingState loadingState) {
-    return Success(
-        TeacherOpenHomeworkListView(
-            IList([
-              TeacherHomeworkSectionView(
-                  'Mathe',
-                  IList([
-                    _Homeworks._noSubmissionWithPermissions,
-                    _Homeworks._withSubmissionNoPermissions
-                  ]))
-            ]),
-            sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
-        __getArchivedListView(loadingState));
-  }
-
-  static Success _homeworksAllLoadedSortedByTodoDate(
-      _ArchivedHwLazyLoadingState loadingState) {
-    return Success(
-      TeacherOpenHomeworkListView(
-          IList([
-            TeacherHomeworkSectionView(
-                'Heute',
-                IList([
-                  _Homeworks._noSubmissionWithPermissions,
-                ])),
-            TeacherHomeworkSectionView(
-                'In 3 Tagen',
-                IList([
-                  _Homeworks._withSubmissionNoPermissions,
-                ]))
-          ]),
-          sorting: HomeworkSort.smallestDateSubjectAndTitle),
-      __getArchivedListView(loadingState),
-    );
-  }
-}
-
-List<TeacherHomeworkView> _generateRandomHomeworks({required int count}) {
-  return List.generate(
-      count, (index) => randomHomeworkViewWith(/*Random content*/));
-}
-
-@visibleForTesting
-TeacherHomeworkView randomHomeworkViewWith({
-  String? title,
-  int? nrOfStudentsCompletedOrSubmitted,
-  bool? withSubmissions,
-  bool? colorDate,
-  bool? canViewCompletionOrSubmissionList,
-  bool? canDeleteForEveryone,
-  bool? canEditForEveryone,
-}) {
-  bool randomBool() {
-    // 👈😎👉 SO SMART 👈😎👉
-    return randomBetween(0, 2).isEven;
-  }
-
-  String randomDate() {
-    final randomDay = randomBetween(0, 30);
-    final randomMonthNr = randomBetween(0, 12);
-    final randomMonth =
-        randomMonthNr < 10 ? '0$randomMonthNr' : '$randomMonthNr';
-
-    return '$randomDay.$randomMonth.2021';
-  }
-
-  final subject = randomBool() ? 'Englisch' : 'Mathe';
-  return TeacherHomeworkView(
-    id: HomeworkId(randomAlphaNumeric(10)),
-    title: title ?? 'S. ${randomBetween(1, 300)} Nr. ${randomBetween(1, 20)}',
-    abbreviation: subject.substring(0, 1),
-    colorDate: colorDate ?? randomBool(),
-    nrOfStudentsCompletedOrSubmitted:
-        nrOfStudentsCompletedOrSubmitted ?? randomBetween(0, 30),
-    subject: subject,
-    subjectColor: Color.fromARGB(200, randomBetween(100, 200), 200, 255),
-    todoDate: randomDate(),
-    withSubmissions: withSubmissions ?? randomBool(),
-    canViewCompletionOrSubmissionList:
-        canViewCompletionOrSubmissionList ?? randomBool(),
-    canDeleteForEveryone: canDeleteForEveryone ?? randomBool(),
-    canEditForEveryone: canEditForEveryone ?? randomBool(),
-  );
-}
-
-/// A fake bloc for the homework page for teachers.
-///
-/// Fake means that it really doesn't do much. It doesn't work yet.
-/// The current implementation only makes it look as roughly how it should work
-/// in the end. In reality only the fake homeworks above are returned.
-///
-/// It is currently only used for local development of the new teacher homework
-/// UI. The real logic will be implemented in the future.
 class TeacherHomeworkPageBloc
     extends Bloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
     implements bloc_base.BlocBase {
-  TeacherHomeworkPageBloc() : super(Uninitialized()) {
-    on<OpenHwSortingChanged>((event, emit) {
-      _currentSort = event.sort;
-      final state = _currentSort == HomeworkSort.smallestDateSubjectAndTitle
-          ? _States._homeworksAllLoadedSortedByTodoDate(
-              _archivedHwLazyLoadingState)
-          : _States._homeworksAllLoadedSortedBySubject(
-              _archivedHwLazyLoadingState);
+  final HomeworkDataSource<TeacherHomeworkReadModel> _homeworkDataSource;
+  final HomeworkSortingCache _homeworkSortingCache;
+  final DateTime Function() _getCurrentDateTime;
+  final int numberOfInitialCompletedHomeworksToLoad;
+  final TeacherCompletedHomeworkListViewFactory
+      _completedHomeworkListViewFactory;
+  final TeacherOpenHomeworkListViewFactory _openHomeworkListViewFactory;
+  final _currentSortStream = BehaviorSubject<Sort<TeacherHomeworkReadModel>>();
+  LazyLoadingController<TeacherHomeworkReadModel>? _lazyLoadingController;
 
-      emit(state);
-    });
-    on<AdvanceArchivedHomeworks>((event, emit) async {
-      await Future.delayed(const Duration(milliseconds: 1200));
-      _advanveArchivedHwLazyLoadingState(emit);
-    });
+  /// Whether [close] or [dispose] has been called;
+  bool _isClosed = false;
+
+  TeacherHomeworkPageBloc({
+    required HomeworkSortingCache homeworkSortingCache,
+    required HomeworkDataSource<TeacherHomeworkReadModel> homeworkDataSource,
+    required TeacherCompletedHomeworkListViewFactory
+        completedHomeworkListViewFactory,
+    required TeacherOpenHomeworkListViewFactory openHomeworkListViewFactory,
+    required this.numberOfInitialCompletedHomeworksToLoad,
+    required DateTime Function() getCurrentDateTime,
+  })  : _homeworkDataSource = homeworkDataSource,
+        _openHomeworkListViewFactory = openHomeworkListViewFactory,
+        _homeworkSortingCache = homeworkSortingCache,
+        _completedHomeworkListViewFactory = completedHomeworkListViewFactory,
+        _getCurrentDateTime = getCurrentDateTime,
+        super(Uninitialized()) {
     on<LoadHomeworks>((event, emit) {
-      // Reset so that we can inspect the lazy loading again when we change
-      // away and back to the homework page again.
-      _archivedHwLazyLoadingState =
-          _ArchivedHwLazyLoadingState.askedForFirstBatch;
-      final state = _currentSort == HomeworkSort.smallestDateSubjectAndTitle
-          ? _States._homeworksAllLoadedSortedByTodoDate(
-              _archivedHwLazyLoadingState)
-          : _States._homeworksAllLoadedSortedBySubject(
-              _archivedHwLazyLoadingState);
-
-      emit(state);
+      _mapLoadHomeworksToState();
+    });
+    on<AdvanceArchivedHomeworks>((event, emit) {
+      _mapAdvanceArchivedHomeworks(event);
+    });
+    on<OpenHwSortingChanged>((event, emit) {
+      _mapFilterChangedToState(event);
+    });
+    on<_Yield>((event, emit) {
+      emit(event.success);
     });
   }
 
-  HomeworkSort _currentSort = HomeworkSort.smallestDateSubjectAndTitle;
-  _ArchivedHwLazyLoadingState _archivedHwLazyLoadingState =
-      _ArchivedHwLazyLoadingState.askedForFirstBatch;
+  Date _getCurrentDate() {
+    return Date.fromDateTime(_getCurrentDateTime());
+  }
 
-  void _advanveArchivedHwLazyLoadingState(
-      Emitter<TeacherHomeworkPageState> emit) {
-    TeacherArchivedHomeworkListView lv;
-    switch (_archivedHwLazyLoadingState) {
-      case _ArchivedHwLazyLoadingState.askedForFirstBatch:
-        _archivedHwLazyLoadingState =
-            _ArchivedHwLazyLoadingState.askedForSecondBatch;
-        lv = _States.__archivedHomeworksSecondState;
-        break;
-      case _ArchivedHwLazyLoadingState.askedForSecondBatch:
-        _archivedHwLazyLoadingState = _ArchivedHwLazyLoadingState.askedForAll;
-        lv = _States.__archivedHomeworksLoadedAllState;
-        break;
-      case _ArchivedHwLazyLoadingState.askedForAll:
-      default:
-        lv = _States.__archivedHomeworksLoadedAllState;
-        break;
-    }
+  StreamSubscription? _combineLatestSubscription;
+  Future<void> _mapLoadHomeworksToState() async {
+    final sortEnum = await _homeworkSortingCache.getLastSorting() ??
+        HomeworkSort.smallestDateSubjectAndTitle;
+    _currentSortStream
+        .add(sortEnum.toSortObject(getCurrentDate: _getCurrentDate));
 
-    return emit(Success(
-      _States._placeholder.open,
-      lv,
-    ));
+    _lazyLoadingController =
+        _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
+            numberOfInitialCompletedHomeworksToLoad);
+
+    _combineLatestSubscription = Rx.combineLatest3<
+            IList<TeacherHomeworkReadModel>,
+            Sort<TeacherHomeworkReadModel>,
+            LazyLoadingResult<TeacherHomeworkReadModel>,
+            Success>(_homeworkDataSource.openHomeworks, _currentSortStream,
+        _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
+      final open = _openHomeworkListViewFactory.create(openHws, sort);
+
+      final archived = _completedHomeworkListViewFactory.create(
+          lazyCompletedHwsRes.homeworks,
+          !lazyCompletedHwsRes.moreHomeworkAvailable);
+
+      return Success(open, archived);
+    }).listen((s) {
+      if (!_isClosed) {
+        add(_Yield(s));
+      }
+    });
+  }
+
+  void _mapAdvanceArchivedHomeworks(AdvanceArchivedHomeworks event) async {
+    _lazyLoadingController!.advanceBy(event.advanceBy);
+  }
+
+  Future<void> _mapFilterChangedToState(OpenHwSortingChanged event) async {
+    await _homeworkSortingCache.setLastSorting(event.sort);
+    _currentSortStream
+        .add(event.sort.toSortObject(getCurrentDate: _getCurrentDate));
   }
 
   @override
-  void dispose() {}
+  Future<void> close() {
+    _isClosed = true;
+    _currentSortStream.close();
+    _combineLatestSubscription?.cancel();
+    return super.close();
+  }
+
+  @override
+  void dispose() {
+    _isClosed = true;
+    _currentSortStream.close();
+    _combineLatestSubscription?.cancel();
+  }
+}
+
+/// As you can't yield in a listen callback of a stream
+/// and you can't return the stream as this stops the
+/// bloc from working (as the Stream never finishes)
+/// this acts a as a simple wrapper to yield the
+/// given value
+class _Yield extends TeacherHomeworkPageEvent {
+  final Success success;
+
+  _Yield(this.success);
+
+  @override
+  List<Object> get props => [success];
 }

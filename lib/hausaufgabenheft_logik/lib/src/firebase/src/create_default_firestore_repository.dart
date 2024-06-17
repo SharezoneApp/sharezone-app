@@ -7,13 +7,18 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
-import '../firebase_hausaufgabenheft_logik.dart';
+import 'teacher_firestore_homework_data_source.dart';
+import 'teacher_firestore_realtime_completed_homework_loader.dart';
+import 'teacher_homework_transformation.dart';
 
-FirestoreHomeworkDataSource createDefaultFirestoreRepository(
-    CollectionReference homeworkCollection,
-    String uid,
-    CourseColorRetriever getCourseColorFromCourseId) {
+({
+  FirestoreHomeworkDataSource student,
+  HomeworkDataSource<TeacherHomeworkReadModel> teacher
+}) createDefaultFirestoreRepositories(CollectionReference homeworkCollection,
+    String uid, CourseColorRetriever getCourseColorFromCourseId) {
   final homeworkLoader = FirestoreRealtimeCompletedHomeworkLoader(
     homeworkCollection,
     uid,
@@ -30,5 +35,26 @@ FirestoreHomeworkDataSource createDefaultFirestoreRepository(
     HomeworkTransformer(uid,
         getCourseColorHexValue: getCourseColorFromCourseId),
   );
-  return firestoreHomeworkRepository;
+
+  final teacherHomeworkLoader = TeacherFirestoreRealtimeCompletedHomeworkLoader(
+    homeworkCollection,
+    uid,
+    TeacherHomeworkTransformer(uid,
+        getCourseColorHexValue: getCourseColorFromCourseId),
+  );
+
+  final teacherLazyLoadingControllerFactory =
+      RealtimeUpdatingLazyLoadingControllerFactory(teacherHomeworkLoader);
+  final firestoreTeacherHomeworkRepository = TeacherFirestoreHomeworkDataSource(
+    homeworkCollection,
+    uid,
+    teacherLazyLoadingControllerFactory.create,
+    TeacherHomeworkTransformer(uid,
+        getCourseColorHexValue: getCourseColorFromCourseId),
+  );
+
+  return (
+    student: firestoreHomeworkRepository,
+    teacher: firestoreTeacherHomeworkRepository
+  );
 }

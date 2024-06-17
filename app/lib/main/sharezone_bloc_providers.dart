@@ -226,7 +226,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final homeworkCollection = firestore.collection("Homework");
     final uid = api.uID;
     final crashAnalytics = getCrashAnalytics();
-    final firestoreHomeworkRepository = createDefaultFirestoreRepository(
+    final firestoreHomeworkRepositories = createDefaultFirestoreRepositories(
       homeworkCollection,
       uid,
       (courseId) =>
@@ -256,10 +256,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           20,
     );
     final dependencies = HausaufgabenheftDependencies(
-      dataSource: firestoreHomeworkRepository,
+      dataSource: firestoreHomeworkRepositories.student,
+      teacherHomeworkDataSource: firestoreHomeworkRepositories.teacher,
       completionDispatcher: homeworkCompletionDispatcher,
-      getOpenOverdueHomeworkIds:
-          firestoreHomeworkRepository.getCurrentOpenOverdueHomeworkIds,
+      getOpenOverdueHomeworkIds: firestoreHomeworkRepositories
+          .student.getCurrentOpenOverdueHomeworkIds,
       keyValueStore: widget.blocDependencies.keyValueStore,
     );
     final homeworkPageBloc = createHomeworkPageBloc(dependencies, config);

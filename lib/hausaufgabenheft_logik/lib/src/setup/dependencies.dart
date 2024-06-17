@@ -9,11 +9,14 @@
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:key_value_store/key_value_store.dart';
 
 class HausaufgabenheftDependencies {
   /// Used to load open and completed homeworks
   final HomeworkDataSource<HomeworkReadModel> dataSource;
+
+  final HomeworkDataSource<TeacherHomeworkReadModel> teacherHomeworkDataSource;
 
   /// Used change the completion status of a homework
   final HomeworkCompletionDispatcher completionDispatcher;
@@ -28,6 +31,7 @@ class HausaufgabenheftDependencies {
 
   HausaufgabenheftDependencies({
     required this.dataSource,
+    required this.teacherHomeworkDataSource,
     required this.completionDispatcher,
     required this.getOpenOverdueHomeworkIds,
     required this.keyValueStore,

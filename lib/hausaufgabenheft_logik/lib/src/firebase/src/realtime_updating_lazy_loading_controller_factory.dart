@@ -6,17 +6,20 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+
 import 'realtime_completed_homework_loader.dart';
 import 'realtime_updating_lazy_loading_controller.dart';
 
-class RealtimeUpdatingLazyLoadingControllerFactory {
-  final RealtimeCompletedHomeworkLoader _homeworkLoader;
+class RealtimeUpdatingLazyLoadingControllerFactory<
+    T extends BaseHomeworkReadModel> {
+  final RealtimeCompletedHomeworkLoader<T> _homeworkLoader;
 
   RealtimeUpdatingLazyLoadingControllerFactory(this._homeworkLoader);
 
-  RealtimeUpdatingLazyLoadingController create(
+  RealtimeUpdatingLazyLoadingController<T> create(
       int initialNumberOfHomeworksToLoad) {
-    return RealtimeUpdatingLazyLoadingController(_homeworkLoader,
+    return RealtimeUpdatingLazyLoadingController<T>(_homeworkLoader,
         initialNumberOfHomeworksToLoad: initialNumberOfHomeworksToLoad);
   }
 }

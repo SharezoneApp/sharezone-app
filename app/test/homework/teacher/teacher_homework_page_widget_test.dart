@@ -12,12 +12,15 @@ import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' as flutter show Color;
 import 'package:flutter/material.dart' hide Color;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
+    show HomeworkSort;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/homework/shared/shared.dart';
@@ -29,7 +32,9 @@ import 'package:sharezone/homework/teacher/teacher_homework_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:test_randomness/test_randomness.dart';
 
-class MockTeacherHomeworkPageBloc extends TeacherHomeworkPageBloc {
+class MockTeacherHomeworkPageBloc
+    extends MockBloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
+    implements TeacherHomeworkPageBloc {
   final _queuedStates = Queue<TeacherHomeworkPageState>();
 
   final receivedEvents = <TeacherHomeworkPageEvent>[];
