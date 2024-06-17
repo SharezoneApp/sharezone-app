@@ -6,12 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/homework/shared/homework_archived.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
