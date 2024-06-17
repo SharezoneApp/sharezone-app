@@ -14,11 +14,12 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'homework_transformation.dart';
 
-class FirestoreHomeworkDataSource extends HomeworkDataSource {
+class FirestoreHomeworkDataSource
+    extends HomeworkDataSource<HomeworkReadModel> {
   final CollectionReference _homeworkCollection;
   final String uid;
-  final LazyLoadingController Function(int nrOfInitialHomeworksToLoad)
-      createLazyLoadingController;
+  final LazyLoadingController<HomeworkReadModel> Function(
+      int nrOfInitialHomeworksToLoad) createLazyLoadingController;
   final HomeworkTransformer _homeworkTransformer;
 
   FirestoreHomeworkDataSource(this._homeworkCollection, this.uid,
@@ -48,8 +49,9 @@ class FirestoreHomeworkDataSource extends HomeworkDataSource {
   }
 
   @override
-  LazyLoadingController getLazyLoadingCompletedHomeworksController(
-      int nrOfInitialHomeworkToLoad) {
+  LazyLoadingController<HomeworkReadModel>
+      getLazyLoadingCompletedHomeworksController(
+          int nrOfInitialHomeworkToLoad) {
     return createLazyLoadingController(nrOfInitialHomeworkToLoad);
   }
 }

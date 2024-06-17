@@ -8,18 +8,18 @@
 
 import 'dart:async';
 
-import 'package:hausaufgabenheft_logik/src/data_source/homework_data_source.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'realtime_completed_homework_loader.dart';
 
-class RealtimeUpdatingLazyLoadingController extends LazyLoadingController {
+class RealtimeUpdatingLazyLoadingController
+    extends LazyLoadingController<HomeworkReadModel> {
   /// The number of homeworks that will be initially loaded on construction.
   /// If it is 0 then an empty LazyLoading result will be given back without
   /// calling the [FirebaseRealtimeCompletedHomeworkLoader].
   final int initialNumberOfHomeworksToLoad;
   final RealtimeCompletedHomeworkLoader _homeworkLoader;
 
-  final StreamController<LazyLoadingResult> _controller =
-      StreamController<LazyLoadingResult>();
+  final _controller = StreamController<LazyLoadingResult<HomeworkReadModel>>();
   int _numberOfHomeworksToAdvance = 0;
 
   /// The latest stream of lazy loading results.
@@ -42,7 +42,8 @@ class RealtimeUpdatingLazyLoadingController extends LazyLoadingController {
   }
 
   @override
-  Stream<LazyLoadingResult> get results => _controller.stream;
+  Stream<LazyLoadingResult<HomeworkReadModel>> get results =>
+      _controller.stream;
 
   /// Advances the current number of loaded homeworks by [numberOfHomeworks].
   ///
@@ -62,7 +63,7 @@ class RealtimeUpdatingLazyLoadingController extends LazyLoadingController {
     });
   }
 
-  Stream<LazyLoadingResult> _getLazyLoadingResultStream(
+  Stream<LazyLoadingResult<HomeworkReadModel>> _getLazyLoadingResultStream(
       int nrOfHomeworksToLoad) {
     final homeworksStream =
         _homeworkLoader.loadMostRecentHomeworks(nrOfHomeworksToLoad);

@@ -6,23 +6,22 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 import 'package:collection/collection.dart' show DeepCollectionEquality;
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-abstract class HomeworkDataSource {
-  Stream<IList<HomeworkReadModel>> get openHomeworks;
-  LazyLoadingController getLazyLoadingCompletedHomeworksController(
+abstract class HomeworkDataSource<T> {
+  Stream<IList<T>> get openHomeworks;
+  LazyLoadingController<T> getLazyLoadingCompletedHomeworksController(
       int nrOfInitialHomeworkToLoad);
 }
 
-abstract class LazyLoadingController {
-  Stream<LazyLoadingResult> get results;
+abstract class LazyLoadingController<T> {
+  Stream<LazyLoadingResult<T>> get results;
   void advanceBy(int numberOfHomeworks);
 }
 
-class LazyLoadingResult {
-  final IList<HomeworkReadModel> homeworks;
+class LazyLoadingResult<T> {
+  final IList<T> homeworks;
   final bool moreHomeworkAvailable;
 
   LazyLoadingResult(this.homeworks, {required this.moreHomeworkAvailable});

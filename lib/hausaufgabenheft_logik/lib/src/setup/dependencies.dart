@@ -8,13 +8,12 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:key_value_store/key_value_store.dart';
-import '../data_source/homework_data_source.dart';
-import '../homework_completion/homework_completion_dispatcher.dart';
 
 class HausaufgabenheftDependencies {
   /// Used to load open and completed homeworks
-  final HomeworkDataSource dataSource;
+  final HomeworkDataSource<HomeworkReadModel> dataSource;
 
   /// Used change the completion status of a homework
   final HomeworkCompletionDispatcher completionDispatcher;

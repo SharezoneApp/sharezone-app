@@ -42,7 +42,7 @@ IList<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
     ).toIList();
 
 Stream<IList<HomeworkReadModel>> getHomeworkResultsAsStream(
-        Stream<LazyLoadingResult> resultStream) =>
+        Stream<LazyLoadingResult<HomeworkReadModel>> resultStream) =>
     resultStream.map((res) => res.homeworks);
 
 void main() {

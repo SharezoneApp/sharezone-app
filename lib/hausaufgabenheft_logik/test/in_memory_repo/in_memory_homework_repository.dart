@@ -15,7 +15,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'firebase_realtime_updating_lazy_loading_controller.dart';
 import 'realtime_completed_homework_loader.dart';
 
-class InMemoryHomeworkRepository extends HomeworkDataSource {
+class InMemoryHomeworkRepository extends HomeworkDataSource<HomeworkReadModel> {
   IList<HomeworkReadModel> _homeworks = const IListConst([]);
   IList<HomeworkReadModel> get _openHomeworks =>
       _homeworks.where((h) => h.status == CompletionStatus.open).toIList();
@@ -68,8 +68,9 @@ class InMemoryHomeworkRepository extends HomeworkDataSource {
   }
 
   @override
-  LazyLoadingController getLazyLoadingCompletedHomeworksController(
-      int nrOfInitialHomeworkToLoad) {
+  LazyLoadingController<HomeworkReadModel>
+      getLazyLoadingCompletedHomeworksController(
+          int nrOfInitialHomeworkToLoad) {
     return RealtimeUpdatingLazyLoadingController(
         InMemoryHomeworkLoader(_completedHomeworkStream),
         initialNumberOfHomeworksToLoad: nrOfInitialHomeworkToLoad);

@@ -23,14 +23,14 @@ import 'package:rxdart/rxdart.dart';
 class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     implements bloc_base.BlocBase {
   final HomeworkPageCompletionDispatcher _homeworkCompletionReceiver;
-  final HomeworkDataSource _homeworkDataSource;
+  final HomeworkDataSource<HomeworkReadModel> _homeworkDataSource;
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
   final int numberOfInitialCompletedHomeworksToLoad;
   final CompletedHomeworkListViewFactory _completedHomeworkListViewFactory;
   final OpenHomeworkListViewFactory _openHomeworkListViewFactory;
   final _currentSortStream = BehaviorSubject<Sort<HomeworkReadModel>>();
-  LazyLoadingController? _lazyLoadingController;
+  LazyLoadingController<HomeworkReadModel>? _lazyLoadingController;
 
   /// Whether [close] or [dispose] has been called;
   bool _isClosed = false;
@@ -38,7 +38,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   HomeworkPageBloc({
     required HomeworkPageCompletionDispatcher homeworkCompletionReceiver,
     required HomeworkSortingCache homeworkSortingCache,
-    required HomeworkDataSource homeworkDataSource,
+    required HomeworkDataSource<HomeworkReadModel> homeworkDataSource,
     required CompletedHomeworkListViewFactory completedHomeworkListViewFactory,
     required OpenHomeworkListViewFactory openHomeworkListViewFactory,
     required this.numberOfInitialCompletedHomeworksToLoad,
@@ -85,10 +85,11 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
         _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
             numberOfInitialCompletedHomeworksToLoad);
 
-    _combineLatestSubscription = Rx.combineLatest3<IList<HomeworkReadModel>,
-            Sort<HomeworkReadModel>, LazyLoadingResult, Success>(
-        _homeworkDataSource.openHomeworks,
-        _currentSortStream,
+    _combineLatestSubscription = Rx.combineLatest3<
+            IList<HomeworkReadModel>,
+            Sort<HomeworkReadModel>,
+            LazyLoadingResult<HomeworkReadModel>,
+            Success>(_homeworkDataSource.openHomeworks, _currentSortStream,
         _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
       final open = _openHomeworkListViewFactory.create(openHws, sort);
 
