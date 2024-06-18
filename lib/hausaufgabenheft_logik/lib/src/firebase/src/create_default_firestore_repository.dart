@@ -11,7 +11,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
 import 'teacher_firestore_homework_data_source.dart';
-import 'teacher_firestore_realtime_completed_homework_loader.dart';
+import 'teacher_firestore_realtime_archived_homework_loader.dart';
 import 'teacher_homework_transformation.dart';
 
 ({
@@ -36,7 +36,7 @@ import 'teacher_homework_transformation.dart';
         getCourseColorHexValue: getCourseColorFromCourseId),
   );
 
-  final teacherHomeworkLoader = TeacherFirestoreRealtimeCompletedHomeworkLoader(
+  final teacherHomeworkLoader = TeacherFirestoreRealtimeArchivedHomeworkLoader(
     homeworkCollection,
     uid,
     TeacherHomeworkTransformer(uid,

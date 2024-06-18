@@ -14,13 +14,13 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'realtime_completed_homework_loader.dart';
 import 'teacher_homework_transformation.dart';
 
-class TeacherFirestoreRealtimeCompletedHomeworkLoader
+class TeacherFirestoreRealtimeArchivedHomeworkLoader
     extends RealtimeCompletedHomeworkLoader<TeacherHomeworkReadModel> {
   final CollectionReference _homeworkCollection;
   final String _userId;
   final TeacherHomeworkTransformer _homeworkTransformer;
 
-  TeacherFirestoreRealtimeCompletedHomeworkLoader(
+  TeacherFirestoreRealtimeArchivedHomeworkLoader(
       this._homeworkCollection, this._userId, this._homeworkTransformer);
 
   @override
