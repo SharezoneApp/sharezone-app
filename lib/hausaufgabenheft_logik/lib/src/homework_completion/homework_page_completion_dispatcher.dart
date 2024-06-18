@@ -20,23 +20,19 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 /// [AllOverdueHomeworkCompletionEvent] while the [HomeworkCompletionDispatcher]
 /// is not bound to the homework page.
 class HomeworkPageCompletionDispatcher {
-  final Future<IList<HomeworkId>> Function() getCurrentOverdueHomeworkIds;
-  final HomeworkCompletionDispatcher _homeworkCompletionDispatcher;
+  final StudentHomeworkPageApi _api;
 
-  HomeworkPageCompletionDispatcher(this._homeworkCompletionDispatcher,
-      {required this.getCurrentOverdueHomeworkIds});
+  HomeworkPageCompletionDispatcher(this._api);
 
   Future<void> changeCompletionStatus(
       HomeworkId homeworkId, CompletionStatus newCompletionValue) async {
-    _homeworkCompletionDispatcher
-        .dispatch(HomeworkCompletion(homeworkId, newCompletionValue));
+    _api.completeHomework(homeworkId, newCompletionValue);
   }
 
   Future<void> completeAllOverdueHomeworks() async {
-    final hws = await getCurrentOverdueHomeworkIds();
+    final hws = await _api.getOpenOverdueHomeworkIds();
     for (final hw in hws) {
-      _homeworkCompletionDispatcher
-          .dispatch(HomeworkCompletion(hw, CompletionStatus.completed));
+      _api.completeHomework(hw, CompletionStatus.completed);
     }
   }
 }

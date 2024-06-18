@@ -40,7 +40,6 @@
 library hausaufgabenheft_logik;
 
 export 'src/completed_homeworks/views/completed_homwork_list_view.dart';
-export 'src/homework_completion/homework_completion_dispatcher.dart';
 export 'src/homework_list_extensions.dart';
 export 'src/models/homework.dart';
 export 'src/models/models.dart';

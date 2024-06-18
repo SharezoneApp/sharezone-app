@@ -521,29 +521,6 @@ InMemoryHomeworkRepository<HomeworkReadModel> createRepositoy() =>
 
 Date dateFromDay(int day) => Date(year: 2019, month: 1, day: day);
 
-class RepositoryHomeworkCompletionDispatcher
-    extends HomeworkCompletionDispatcher {
-  final InMemoryHomeworkRepository<HomeworkReadModel> _repository;
-
-  RepositoryHomeworkCompletionDispatcher(this._repository);
-
-  @override
-  Future<void> dispatch(HomeworkCompletion homeworkCompletion) async {
-    final hw = await _repository.findById(homeworkCompletion.homeworkId);
-    final newHw = HomeworkReadModel(
-      id: hw.id,
-      title: hw.title,
-      status: hw.status == CompletionStatus.open
-          ? CompletionStatus.completed
-          : CompletionStatus.open,
-      subject: hw.subject,
-      withSubmissions: hw.withSubmissions,
-      todoDate: hw.todoDate,
-    );
-    await _repository.update(newHw);
-  }
-}
-
 class VerboseBlocObserver extends BlocObserver {
   @override
   void onError(BlocBase<dynamic> bloc, Object error, StackTrace stacktrace) {

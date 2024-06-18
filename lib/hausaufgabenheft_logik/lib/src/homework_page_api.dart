@@ -14,18 +14,13 @@ class HomeworkPageApi {
   });
 }
 
-abstract class StudentHomeworkPageApi implements HomeworkCompletionDispatcher {
+abstract class StudentHomeworkPageApi {
   Stream<IList<HomeworkReadModel>> get openHomeworks;
   LazyLoadingController<HomeworkReadModel>
       getLazyLoadingCompletedHomeworksController(int nrOfInitialHomeworkToLoad);
   Future<void> completeHomework(
       HomeworkId homeworkId, CompletionStatus newCompletionStatus);
   Future<IList<HomeworkId>> getOpenOverdueHomeworkIds();
-  @override
-  void dispatch(HomeworkCompletion homeworkCompletion) {
-    completeHomework(
-        homeworkCompletion.homeworkId, homeworkCompletion.newCompletionValue);
-  }
 }
 
 abstract class TeacherAndParentHomeworkPageApi {

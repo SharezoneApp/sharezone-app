@@ -39,10 +39,8 @@ HomeworkPageBloc createHomeworkPageBloc(
       CompletedHomeworkListViewFactory(viewFactory);
 
   // TODO: Just take StudentHomeworkApi or delete and inline into HomeworkPageBloc
-  final homeworkPageCompletionReceiver = HomeworkPageCompletionDispatcher(
-      dependencies.api.students,
-      getCurrentOverdueHomeworkIds:
-          dependencies.api.students.getOpenOverdueHomeworkIds);
+  final homeworkPageCompletionReceiver =
+      HomeworkPageCompletionDispatcher(dependencies.api.students);
 
   return HomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,
