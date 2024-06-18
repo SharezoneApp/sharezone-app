@@ -14,7 +14,6 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
-import 'package:hausaufgabenheft_logik/src/homework_completion/homework_page_completion_dispatcher.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
@@ -22,7 +21,6 @@ import 'package:rxdart/rxdart.dart';
 
 class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     implements bloc_base.BlocBase {
-  final HomeworkPageCompletionDispatcher _homeworkCompletionReceiver;
   final StudentHomeworkPageApi _homeworkApi;
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
@@ -36,7 +34,6 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   bool _isClosed = false;
 
   HomeworkPageBloc({
-    required HomeworkPageCompletionDispatcher homeworkCompletionReceiver,
     required HomeworkSortingCache homeworkSortingCache,
     required StudentHomeworkPageApi homeworkApi,
     required CompletedHomeworkListViewFactory completedHomeworkListViewFactory,
@@ -46,7 +43,6 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   })  : _homeworkApi = homeworkApi,
         _openHomeworkListViewFactory = openHomeworkListViewFactory,
         _homeworkSortingCache = homeworkSortingCache,
-        _homeworkCompletionReceiver = homeworkCompletionReceiver,
         _completedHomeworkListViewFactory = completedHomeworkListViewFactory,
         _getCurrentDateTime = getCurrentDateTime,
         super(Uninitialized()) {
@@ -117,7 +113,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 
   Future<void> _mapHomeworkChangedCompletionStatus(
       CompletionStatusChanged event) async {
-    await _homeworkCompletionReceiver.changeCompletionStatus(
+    await _homeworkApi.completeHomework(
         HomeworkId(event.homeworkId),
         event.newValue == true
             ? CompletionStatus.completed
@@ -125,7 +121,10 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   }
 
   Future<void> _mapHomeworkMarkOverdueToState(CompletedAllOverdue event) async {
-    await _homeworkCompletionReceiver.completeAllOverdueHomeworks();
+    final hws = await _homeworkApi.getOpenOverdueHomeworkIds();
+    for (final hw in hws) {
+      _homeworkApi.completeHomework(hw, CompletionStatus.completed);
+    }
   }
 
   @override
