@@ -28,8 +28,7 @@ class TeacherFirestoreRealtimeCompletedHomeworkLoader
       int numberOfHomeworks) {
     return _homeworkCollection
         .where('assignedUserArrays.allAssignedUids', arrayContains: _userId)
-        // TODO:
-        // .orderBy('createdOn', descending: true)
+        .orderBy('createdOn', descending: true)
         .limit(numberOfHomeworks)
         .snapshots()
         .transform(_homeworkTransformer);
