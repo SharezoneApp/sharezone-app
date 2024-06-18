@@ -10,10 +10,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/src/models/models.dart';
 
-import 'sort_and_subcategorization/sort/src/sort.dart';
-import 'sort_and_subcategorization/sort_and_subcategorizer.dart';
-import 'sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
-
 class TeacherOpenHomeworkListViewFactory {
   final TeacherHomeworkSortAndSubcategorizer _sortAndSubcategorizer;
   final Date Function() _getCurrentDate;

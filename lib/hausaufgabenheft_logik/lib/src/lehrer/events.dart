@@ -9,7 +9,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
     show HomeworkSort;
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
 abstract class TeacherHomeworkPageEvent extends Equatable {
   @override
