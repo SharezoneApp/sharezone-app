@@ -8,12 +8,12 @@
 
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-import 'realtime_completed_homework_loader.dart';
+import 'advanceable_homework_loader.dart';
 import 'realtime_updating_lazy_loading_controller.dart';
 
 class RealtimeUpdatingLazyLoadingControllerFactory<
     T extends BaseHomeworkReadModel> {
-  final RealtimeCompletedHomeworkLoader<T> _homeworkLoader;
+  final AdvanceableHomeworkLoader<T> _homeworkLoader;
 
   RealtimeUpdatingLazyLoadingControllerFactory(this._homeworkLoader);
 

@@ -11,11 +11,11 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
-import 'realtime_completed_homework_loader.dart';
+import 'advanceable_homework_loader.dart';
 import 'teacher_homework_transformation.dart';
 
 class TeacherFirestoreRealtimeArchivedHomeworkLoader
-    extends RealtimeCompletedHomeworkLoader<TeacherHomeworkReadModel> {
+    extends AdvanceableHomeworkLoader<TeacherHomeworkReadModel> {
   final CollectionReference _homeworkCollection;
   final String _userId;
   final TeacherHomeworkTransformer _homeworkTransformer;
@@ -24,8 +24,7 @@ class TeacherFirestoreRealtimeArchivedHomeworkLoader
       this._homeworkCollection, this._userId, this._homeworkTransformer);
 
   @override
-  Stream<IList<TeacherHomeworkReadModel>> loadMostRecentHomeworks(
-      int numberOfHomeworks) {
+  Stream<IList<TeacherHomeworkReadModel>> loadHomeworks(int numberOfHomeworks) {
     return _homeworkCollection
         .where('assignedUserArrays.allAssignedUids', arrayContains: _userId)
         .orderBy('createdOn', descending: true)

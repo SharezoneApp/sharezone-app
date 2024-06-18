@@ -10,10 +10,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-import 'realtime_completed_homework_loader.dart';
+import 'advanceable_homework_loader.dart';
 
 class FirestoreRealtimeCompletedHomeworkLoader
-    extends RealtimeCompletedHomeworkLoader<HomeworkReadModel> {
+    extends AdvanceableHomeworkLoader<HomeworkReadModel> {
   final CollectionReference _homeworkCollection;
   final String _userId;
   final HomeworkTransformer _homeworkTransformer;
@@ -22,8 +22,7 @@ class FirestoreRealtimeCompletedHomeworkLoader
       this._homeworkCollection, this._userId, this._homeworkTransformer);
 
   @override
-  Stream<IList<HomeworkReadModel>> loadMostRecentHomeworks(
-      int numberOfHomeworks) {
+  Stream<IList<HomeworkReadModel>> loadHomeworks(int numberOfHomeworks) {
     return _homeworkCollection
         .where('assignedUserArrays.completedStudentUids',
             arrayContains: _userId)

@@ -9,7 +9,6 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-abstract class RealtimeCompletedHomeworkLoader<
-    T extends BaseHomeworkReadModel> {
-  Stream<IList<T>> loadMostRecentHomeworks(int numberOfHomeworks);
+abstract class AdvanceableHomeworkLoader<T extends BaseHomeworkReadModel> {
+  Stream<IList<T>> loadHomeworks(int numberOfHomeworks);
 }
