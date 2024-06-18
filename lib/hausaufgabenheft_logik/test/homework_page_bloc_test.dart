@@ -11,9 +11,11 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:clock/clock.dart';
+import 'package:common_domain_models/src/ids/homework_id.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
+import 'package:hausaufgabenheft_logik/src/lehrer/teacher_homework_read_model.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
@@ -500,7 +502,10 @@ HomeworkPageBloc createBloc(
 }) {
   return createHomeworkPageBloc(
     HausaufgabenheftDependencies(
-      api: ,
+      api: HomeworkPageApi(
+          students: InMemoryStudentHomeworkPageApi(repo: repository),
+          teachersAndParents: InMemoryTeacherAndParentHomeworkPageApi(
+              repo: InMemoryHomeworkRepository<TeacherHomeworkReadModel>())),
       keyValueStore: keyValueStore ?? InMemoryKeyValueStore(),
       getCurrentDateTime: getCurrentDateTime,
     ),
@@ -558,4 +563,63 @@ class VerboseBlocObserver extends BlocObserver {
     log('${bloc.runtimeType} event: ${event.runtimeType}');
     super.onEvent(bloc, event);
   }
+}
+
+class InMemoryStudentHomeworkPageApi extends StudentHomeworkPageApi {
+  final InMemoryHomeworkRepository<HomeworkReadModel> repo;
+
+  InMemoryStudentHomeworkPageApi({required this.repo});
+
+  @override
+  Future<void> completeHomework(
+      HomeworkId homeworkId, CompletionStatus newCompletionStatus) async {
+    final hw = await repo.findById(homeworkId);
+    final newHw = HomeworkReadModel(
+      id: hw.id,
+      title: hw.title,
+      status: newCompletionStatus,
+      subject: hw.subject,
+      withSubmissions: hw.withSubmissions,
+      todoDate: hw.todoDate,
+    );
+    await repo.update(newHw);
+  }
+
+  @override
+  LazyLoadingController<HomeworkReadModel>
+      getLazyLoadingCompletedHomeworksController(
+          int nrOfInitialHomeworkToLoad) {
+    return repo
+        .getLazyLoadingCompletedHomeworksController(nrOfInitialHomeworkToLoad);
+  }
+
+  @override
+  Future<IList<HomeworkId>> getOpenOverdueHomeworkIds() async {
+    final open = await repo.openHomeworks.first;
+    return open
+        .where((hw) => hw.todoDate.isBefore(DateTime.now()))
+        .map((hw) => hw.id)
+        .toIList();
+  }
+
+  @override
+  Stream<IList<HomeworkReadModel>> get openHomeworks => repo.openHomeworks;
+}
+
+class InMemoryTeacherAndParentHomeworkPageApi
+    extends TeacherAndParentHomeworkPageApi {
+  final InMemoryHomeworkRepository<TeacherHomeworkReadModel> repo;
+
+  InMemoryTeacherAndParentHomeworkPageApi({required this.repo});
+
+  @override
+  LazyLoadingController<TeacherHomeworkReadModel>
+      getLazyLoadingArchivedHomeworksController(int nrOfInitialHomeworkToLoad) {
+    return repo
+        .getLazyLoadingCompletedHomeworksController(nrOfInitialHomeworkToLoad);
+  }
+
+  @override
+  Stream<IList<TeacherHomeworkReadModel>> get openHomeworks =>
+      repo.openHomeworks;
 }

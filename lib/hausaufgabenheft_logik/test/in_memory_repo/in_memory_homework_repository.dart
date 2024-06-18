@@ -18,7 +18,7 @@ import 'realtime_completed_homework_loader.dart';
 
 class InMemoryHomeworkRepository<T extends BaseHomeworkReadModel>
     extends HomeworkDataSource<T> {
-  IList<T> _homeworks = const IListConst([]);
+  IList<T> _homeworks = IList<T>(const []);
   IList<T> get _openHomeworks => _homeworks.where((h) {
         if (h is TeacherHomeworkReadModel) {
           return h.status == ArchivalStatus.open;
