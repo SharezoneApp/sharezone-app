@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -30,8 +31,17 @@ class TeacherFirestoreHomeworkDataSource
 
   @override
   Stream<IList<TeacherHomeworkReadModel>> get openHomeworks {
+    final startOfThisDay = clock.now().copyWith(
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+          microsecond: 0,
+        );
+
     return _homeworkCollection
         .where("assignedUserArrays.allAssignedUids", arrayContains: uid)
+        .where("todoUntil", isGreaterThanOrEqualTo: startOfThisDay)
         .snapshots()
         .transform(_homeworkTransformer);
   }
