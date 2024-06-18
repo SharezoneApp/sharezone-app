@@ -21,6 +21,7 @@ class HausaufgabenheftDependencies {
   /// Used change the completion status of a homework
   final HomeworkCompletionDispatcher completionDispatcher;
 
+  // TODO: Can't this be handled by the homework logic internally?
   /// Used to complete all overdue homeworks at once by using the completion
   /// dispatcher.
   final Future<IList<HomeworkId>> Function() getOpenOverdueHomeworkIds;
