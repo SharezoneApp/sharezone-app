@@ -500,13 +500,7 @@ HomeworkPageBloc createBloc(
 }) {
   return createHomeworkPageBloc(
     HausaufgabenheftDependencies(
-      dataSource: repository,
-      teacherHomeworkDataSource: InMemoryHomeworkRepository(),
-      completionDispatcher: RepositoryHomeworkCompletionDispatcher(repository),
-      getOpenOverdueHomeworkIds: () async {
-        final open = await repository.openHomeworks.first;
-        return open.getOverdue().map((hw) => hw.id).toIList();
-      },
+      api: ,
       keyValueStore: keyValueStore ?? InMemoryKeyValueStore(),
       getCurrentDateTime: getCurrentDateTime,
     ),

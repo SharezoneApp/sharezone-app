@@ -8,53 +8,31 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
+import 'package:hausaufgabenheft_logik/src/firebase/src/firestore_student_api.dart';
 
-import 'teacher_firestore_homework_data_source.dart';
-import 'teacher_firestore_realtime_archived_homework_loader.dart';
+import 'firestore_teacher_and_parents_homework_page_api.dart';
 import 'teacher_homework_transformation.dart';
 
-({
-  FirestoreHomeworkDataSource student,
-  HomeworkDataSource<TeacherHomeworkReadModel> teacher
-}) createDefaultFirestoreRepositories(CollectionReference homeworkCollection,
-    String uid, CourseColorRetriever getCourseColorFromCourseId) {
-  final homeworkLoader = FirestoreRealtimeCompletedHomeworkLoader(
-    homeworkCollection,
-    uid,
-    HomeworkTransformer(uid,
+HomeworkPageApi createDefaultFirestoreRepositories(
+    CollectionReference homeworkCollection,
+    String uid,
+    CourseColorRetriever getCourseColorFromCourseId) {
+  final studentApi = FirestoreStudentHomeworkApi(
+    uid: uid,
+    homeworkCollection: homeworkCollection,
+    homeworkTransformer: HomeworkTransformer(uid,
         getCourseColorHexValue: getCourseColorFromCourseId),
   );
 
-  final lazyLoadingControllerFactory =
-      RealtimeUpdatingLazyLoadingControllerFactory(homeworkLoader);
-  final firestoreHomeworkRepository = FirestoreHomeworkDataSource(
-    homeworkCollection,
-    uid,
-    lazyLoadingControllerFactory.create,
-    HomeworkTransformer(uid,
-        getCourseColorHexValue: getCourseColorFromCourseId),
-  );
-
-  final teacherHomeworkLoader = TeacherFirestoreRealtimeArchivedHomeworkLoader(
+  final teacherAndParentApi = FirestoreTeacherAndParentsHomeworkPageApi(
     homeworkCollection,
     uid,
     TeacherHomeworkTransformer(uid,
         getCourseColorHexValue: getCourseColorFromCourseId),
   );
 
-  final teacherLazyLoadingControllerFactory =
-      RealtimeUpdatingLazyLoadingControllerFactory(teacherHomeworkLoader);
-  final firestoreTeacherHomeworkRepository = TeacherFirestoreHomeworkDataSource(
-    homeworkCollection,
-    uid,
-    teacherLazyLoadingControllerFactory.create,
-    TeacherHomeworkTransformer(uid,
-        getCourseColorHexValue: getCourseColorFromCourseId),
-  );
-
-  return (
-    student: firestoreHomeworkRepository,
-    teacher: firestoreTeacherHomeworkRepository
+  return HomeworkPageApi(
+    students: studentApi,
+    teachersAndParents: teacherAndParentApi,
   );
 }

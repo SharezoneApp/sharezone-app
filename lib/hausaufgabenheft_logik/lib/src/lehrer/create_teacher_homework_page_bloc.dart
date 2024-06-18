@@ -37,7 +37,7 @@ TeacherHomeworkPageBloc createTeacherHomeworkPageBloc(
   return TeacherHomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,
     completedHomeworkListViewFactory: completedHomeworkListViewFactory,
-    homeworkDataSource: dependencies.teacherHomeworkDataSource,
+    homeworkApi: dependencies.api.teachersAndParents,
     numberOfInitialCompletedHomeworksToLoad:
         config.nrOfInitialCompletedHomeworksToLoad,
     homeworkSortingCache: HomeworkSortingCache(dependencies.keyValueStore),

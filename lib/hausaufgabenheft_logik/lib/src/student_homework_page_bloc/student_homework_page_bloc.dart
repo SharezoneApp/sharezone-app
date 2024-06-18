@@ -23,7 +23,7 @@ import 'package:rxdart/rxdart.dart';
 class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
     implements bloc_base.BlocBase {
   final HomeworkPageCompletionDispatcher _homeworkCompletionReceiver;
-  final HomeworkDataSource<HomeworkReadModel> _homeworkDataSource;
+  final StudentHomeworkPageApi _homeworkApi;
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
   final int numberOfInitialCompletedHomeworksToLoad;
@@ -38,12 +38,12 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   HomeworkPageBloc({
     required HomeworkPageCompletionDispatcher homeworkCompletionReceiver,
     required HomeworkSortingCache homeworkSortingCache,
-    required HomeworkDataSource<HomeworkReadModel> homeworkDataSource,
+    required StudentHomeworkPageApi homeworkApi,
     required CompletedHomeworkListViewFactory completedHomeworkListViewFactory,
     required OpenHomeworkListViewFactory openHomeworkListViewFactory,
     required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
-  })  : _homeworkDataSource = homeworkDataSource,
+  })  : _homeworkApi = homeworkApi,
         _openHomeworkListViewFactory = openHomeworkListViewFactory,
         _homeworkSortingCache = homeworkSortingCache,
         _homeworkCompletionReceiver = homeworkCompletionReceiver,
@@ -82,14 +82,14 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
         .add(sortEnum.toSortObject(getCurrentDate: _getCurrentDate));
 
     _lazyLoadingController =
-        _homeworkDataSource.getLazyLoadingCompletedHomeworksController(
+        _homeworkApi.getLazyLoadingCompletedHomeworksController(
             numberOfInitialCompletedHomeworksToLoad);
 
     _combineLatestSubscription = Rx.combineLatest3<
             IList<HomeworkReadModel>,
             Sort<HomeworkReadModel>,
             LazyLoadingResult<HomeworkReadModel>,
-            Success>(_homeworkDataSource.openHomeworks, _currentSortStream,
+            Success>(_homeworkApi.openHomeworks, _currentSortStream,
         _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
       final open = _openHomeworkListViewFactory.create(openHws, sort);
 

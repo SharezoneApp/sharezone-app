@@ -226,15 +226,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final homeworkCollection = firestore.collection("Homework");
     final uid = api.uID;
     final crashAnalytics = getCrashAnalytics();
-    final firestoreHomeworkRepositories = createDefaultFirestoreRepositories(
+    final homeworkApi = createDefaultFirestoreRepositories(
       homeworkCollection,
       uid,
       (courseId) =>
           getCourseColorFromCourseId(api, courseId) ??
           Design.standard().color.value,
     );
-    final homeworkCompletionDispatcher =
-        FirestoreHomeworkCompletionDispatcher(homeworkCollection, () => uid);
 
     final config = HausaufgabenheftConfig(
       defaultCourseColorValue: Colors.lightBlue.value,
@@ -256,11 +254,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           20,
     );
     final dependencies = HausaufgabenheftDependencies(
-      dataSource: firestoreHomeworkRepositories.student,
-      teacherHomeworkDataSource: firestoreHomeworkRepositories.teacher,
-      completionDispatcher: homeworkCompletionDispatcher,
-      getOpenOverdueHomeworkIds: firestoreHomeworkRepositories
-          .student.getCurrentOpenOverdueHomeworkIds,
+      api: homeworkApi,
       keyValueStore: widget.blocDependencies.keyValueStore,
     );
     final homeworkPageBloc = createHomeworkPageBloc(dependencies, config);

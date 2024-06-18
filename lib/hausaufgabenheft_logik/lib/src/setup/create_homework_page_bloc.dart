@@ -38,17 +38,19 @@ HomeworkPageBloc createHomeworkPageBloc(
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);
 
+  // TODO: Just take StudentHomeworkApi or delete and inline into HomeworkPageBloc
   final homeworkPageCompletionReceiver = HomeworkPageCompletionDispatcher(
-      dependencies.completionDispatcher,
-      getCurrentOverdueHomeworkIds: dependencies.getOpenOverdueHomeworkIds);
+      dependencies.api.students,
+      getCurrentOverdueHomeworkIds:
+          dependencies.api.students.getOpenOverdueHomeworkIds);
 
   return HomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,
     completedHomeworkListViewFactory: completedHomeworkListViewFactory,
-    homeworkDataSource: dependencies.dataSource,
+    homeworkCompletionReceiver: homeworkPageCompletionReceiver,
+    homeworkApi: dependencies.api.students,
     numberOfInitialCompletedHomeworksToLoad:
         config.nrOfInitialCompletedHomeworksToLoad,
-    homeworkCompletionReceiver: homeworkPageCompletionReceiver,
     homeworkSortingCache: HomeworkSortingCache(dependencies.keyValueStore),
     getCurrentDateTime: dependencies.getCurrentDateTime ?? () => clock.now(),
   );
