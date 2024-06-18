@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
@@ -31,4 +32,35 @@ abstract class TeacherAndParentHomeworkPageApi {
   Stream<IList<TeacherHomeworkReadModel>> get openHomeworks;
   LazyLoadingController<TeacherHomeworkReadModel>
       getLazyLoadingArchivedHomeworksController(int nrOfInitialHomeworkToLoad);
+}
+
+abstract class LazyLoadingController<T> {
+  Stream<LazyLoadingResult<T>> get results;
+  void advanceBy(int numberOfHomeworks);
+}
+
+class LazyLoadingResult<T> {
+  final IList<T> homeworks;
+  final bool moreHomeworkAvailable;
+
+  LazyLoadingResult(this.homeworks, {required this.moreHomeworkAvailable});
+
+  LazyLoadingResult.empty({this.moreHomeworkAvailable = true})
+      : homeworks = const IListConst([]);
+
+  @override
+  String toString() {
+    return 'LazyLoadingResult(homeworks: $homeworks, $moreHomeworkAvailable)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is LazyLoadingResult &&
+            const DeepCollectionEquality().equals(other.homeworks, homeworks) &&
+            other.moreHomeworkAvailable == moreHomeworkAvailable;
+  }
+
+  @override
+  int get hashCode => homeworks.hashCode ^ moreHomeworkAvailable.hashCode;
 }
