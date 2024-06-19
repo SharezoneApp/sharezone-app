@@ -31,7 +31,7 @@ void main() {
     test('Create Student homework View test', () {
       const white = Color.fromRGBO(255, 255, 255, 1);
 
-      final homework = HomeworkReadModel(
+      final homework = StudentHomeworkReadModel(
         id: const HomeworkId('Id'),
         status: CompletionStatus.open,
         todoDate: const Date(year: 2019, month: 1, day: 28).asDateTime(),

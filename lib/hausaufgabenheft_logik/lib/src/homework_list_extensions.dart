@@ -20,11 +20,11 @@ extension SortWith<T> on IList<T> {
   }
 }
 
-extension HomeworkListExtension on IList<HomeworkReadModel> {
-  IList<HomeworkReadModel> get completed =>
+extension HomeworkListExtension on IList<StudentHomeworkReadModel> {
+  IList<StudentHomeworkReadModel> get completed =>
       where((homework) => homework.status == CompletionStatus.completed)
           .toIList();
-  IList<HomeworkReadModel> get open =>
+  IList<StudentHomeworkReadModel> get open =>
       where((homework) => homework.status == CompletionStatus.open).toIList();
 
   IList<Subject> getDistinctOrderedSubjects() {
@@ -35,7 +35,7 @@ extension HomeworkListExtension on IList<HomeworkReadModel> {
     return subjects.toIList();
   }
 
-  IList<HomeworkReadModel> getOverdue([Date? now]) {
+  IList<StudentHomeworkReadModel> getOverdue([Date? now]) {
     now = now ?? Date.now();
     return where((homeworks) => homeworks.isOverdueRelativeTo(now!)).toIList();
   }

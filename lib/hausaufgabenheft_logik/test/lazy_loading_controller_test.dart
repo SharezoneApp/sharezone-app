@@ -30,9 +30,10 @@ class ReportingInMemoryHomeworkLoader<T extends BaseHomeworkReadModel>
   }
 }
 
-IList<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
+IList<StudentHomeworkReadModel> listOfHomeworksWithLength(int length) =>
+    List.generate(
       length,
-      (index) => HomeworkReadModel(
+      (index) => StudentHomeworkReadModel(
           id: HomeworkId("$index"),
           todoDate: clock.now(),
           status: CompletionStatus.completed,
@@ -41,16 +42,17 @@ IList<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
           withSubmissions: false),
     ).toIList();
 
-Stream<IList<HomeworkReadModel>> getHomeworkResultsAsStream(
-        Stream<LazyLoadingResult<HomeworkReadModel>> resultStream) =>
+Stream<IList<StudentHomeworkReadModel>> getHomeworkResultsAsStream(
+        Stream<LazyLoadingResult<StudentHomeworkReadModel>> resultStream) =>
     resultStream.map((res) => res.homeworks);
 
 void main() {
   group('LazyLoadingController', () {
-    late ReportingInMemoryHomeworkLoader<HomeworkReadModel> homeworkLoader;
-    late rx.BehaviorSubject<IList<HomeworkReadModel>> homeworkSubject;
+    late ReportingInMemoryHomeworkLoader<StudentHomeworkReadModel>
+        homeworkLoader;
+    late rx.BehaviorSubject<IList<StudentHomeworkReadModel>> homeworkSubject;
 
-    void addToDataSource(IList<HomeworkReadModel> homeworks) {
+    void addToDataSource(IList<StudentHomeworkReadModel> homeworks) {
       var hws = homeworkSubject.valueOrNull;
       if (hws != null) {
         hws = hws.addAll(homeworks);
@@ -61,9 +63,10 @@ void main() {
     }
 
     setUp(() {
-      homeworkSubject = rx.BehaviorSubject<IList<HomeworkReadModel>>();
+      homeworkSubject = rx.BehaviorSubject<IList<StudentHomeworkReadModel>>();
       homeworkLoader =
-          ReportingInMemoryHomeworkLoader<HomeworkReadModel>(homeworkSubject);
+          ReportingInMemoryHomeworkLoader<StudentHomeworkReadModel>(
+              homeworkSubject);
     });
 
     tearDown(() {

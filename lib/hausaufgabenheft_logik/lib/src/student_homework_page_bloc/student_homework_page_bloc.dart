@@ -27,8 +27,8 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
   final int numberOfInitialCompletedHomeworksToLoad;
   final CompletedHomeworkListViewFactory _completedHomeworkListViewFactory;
   final OpenHomeworkListViewFactory _openHomeworkListViewFactory;
-  final _currentSortStream = BehaviorSubject<Sort<HomeworkReadModel>>();
-  LazyLoadingController<HomeworkReadModel>? _lazyLoadingController;
+  final _currentSortStream = BehaviorSubject<Sort<StudentHomeworkReadModel>>();
+  LazyLoadingController<StudentHomeworkReadModel>? _lazyLoadingController;
 
   /// Whether [close] or [dispose] has been called;
   bool _isClosed = false;
@@ -82,9 +82,9 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
             numberOfInitialCompletedHomeworksToLoad);
 
     _combineLatestSubscription = Rx.combineLatest3<
-            IList<HomeworkReadModel>,
-            Sort<HomeworkReadModel>,
-            LazyLoadingResult<HomeworkReadModel>,
+            IList<StudentHomeworkReadModel>,
+            Sort<StudentHomeworkReadModel>,
+            LazyLoadingResult<StudentHomeworkReadModel>,
             Success>(_homeworkApi.openHomeworks, _currentSortStream,
         _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
       final open = _openHomeworkListViewFactory.create(openHws, sort);

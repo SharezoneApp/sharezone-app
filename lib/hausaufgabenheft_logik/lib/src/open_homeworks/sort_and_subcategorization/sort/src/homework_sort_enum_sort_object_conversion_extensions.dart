@@ -8,7 +8,7 @@
 
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-extension HomeworkSortToEnumExtension on Sort<HomeworkReadModel> {
+extension HomeworkSortToEnumExtension on Sort<StudentHomeworkReadModel> {
   HomeworkSort toEnum() {
     if (this is SmallestDateSubjectAndTitleSort) {
       return HomeworkSort.smallestDateSubjectAndTitle;
@@ -21,7 +21,7 @@ extension HomeworkSortToEnumExtension on Sort<HomeworkReadModel> {
 }
 
 extension HomeworkSortEnumToSortExtension on HomeworkSort {
-  Sort<HomeworkReadModel> toSortObject(
+  Sort<StudentHomeworkReadModel> toSortObject(
       {required Date Function()? getCurrentDate}) {
     switch (this) {
       case HomeworkSort.smallestDateSubjectAndTitle:

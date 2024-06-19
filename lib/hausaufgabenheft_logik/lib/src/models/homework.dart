@@ -44,14 +44,14 @@ abstract class BaseHomeworkReadModel extends Equatable {
 /// In Sharezone it used in the context of the HomeworkPage, as it is basically
 /// a merge from the information of the homework-details (title, subject, ...)
 /// and the specific done status of the user viewing the homework.
-class HomeworkReadModel extends BaseHomeworkReadModel {
+class StudentHomeworkReadModel extends BaseHomeworkReadModel {
   final CompletionStatus status;
 
   @override
   List<Object?> get props =>
       [id, todoDate, subject, title, withSubmissions, status];
 
-  const HomeworkReadModel({
+  const StudentHomeworkReadModel({
     required super.id,
     required super.title,
     required super.subject,

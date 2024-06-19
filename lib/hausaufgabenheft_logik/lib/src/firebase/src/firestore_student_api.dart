@@ -15,7 +15,7 @@ import 'package:hausaufgabenheft_logik/src/firebase/src/advanceable_homework_loa
 import 'realtime_updating_lazy_loading_controller.dart';
 
 class FirestoreStudentHomeworkApi extends StudentHomeworkPageApi
-    implements AdvanceableHomeworkLoader<HomeworkReadModel> {
+    implements AdvanceableHomeworkLoader<StudentHomeworkReadModel> {
   final CollectionReference homeworkCollection;
   final String uid;
   final HomeworkTransformer homeworkTransformer;
@@ -53,15 +53,15 @@ class FirestoreStudentHomeworkApi extends StudentHomeworkPageApi
   }
 
   @override
-  LazyLoadingController<HomeworkReadModel>
+  LazyLoadingController<StudentHomeworkReadModel>
       getLazyLoadingCompletedHomeworksController(
           int nrOfInitialHomeworkToLoad) {
-    return RealtimeUpdatingLazyLoadingController<HomeworkReadModel>(this,
+    return RealtimeUpdatingLazyLoadingController<StudentHomeworkReadModel>(this,
         initialNumberOfHomeworksToLoad: nrOfInitialHomeworkToLoad);
   }
 
   @override
-  Stream<IList<HomeworkReadModel>> loadHomeworks(int numberOfHomeworks) {
+  Stream<IList<StudentHomeworkReadModel>> loadHomeworks(int numberOfHomeworks) {
     return homeworkCollection
         .where('assignedUserArrays.completedStudentUids', arrayContains: uid)
         .orderBy('createdOn', descending: true)
@@ -81,7 +81,7 @@ class FirestoreStudentHomeworkApi extends StudentHomeworkPageApi
   }
 
   @override
-  Stream<IList<HomeworkReadModel>> get openHomeworks {
+  Stream<IList<StudentHomeworkReadModel>> get openHomeworks {
     return homeworkCollection
         .where("assignedUserArrays.openStudentUids", arrayContains: uid)
         .snapshots()

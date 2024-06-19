@@ -15,7 +15,8 @@ class CompletedHomeworkListViewFactory {
 
   CompletedHomeworkListViewFactory(this._studentHomeworkViewFactory);
 
-  CompletedHomeworkListView create(IList<HomeworkReadModel> completedHomeworks,
+  CompletedHomeworkListView create(
+      IList<StudentHomeworkReadModel> completedHomeworks,
       bool loadedAllCompletedHomeworks) {
     final orderedHomeworks = IList([
       for (final completedHomework in completedHomeworks)

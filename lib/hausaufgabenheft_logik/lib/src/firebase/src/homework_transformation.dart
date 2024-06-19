@@ -18,20 +18,20 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 typedef CourseColorRetriever = FutureOr<int> Function(String courseId);
 
 class HomeworkTransformer extends StreamTransformerBase<
-    QuerySnapshot<Map<String, dynamic>>, IList<HomeworkReadModel>> {
+    QuerySnapshot<Map<String, dynamic>>, IList<StudentHomeworkReadModel>> {
   final String userId;
   final CourseColorRetriever getCourseColorHexValue;
 
   HomeworkTransformer(this.userId, {required this.getCourseColorHexValue});
 
   @override
-  Stream<IList<HomeworkReadModel>> bind(Stream<QuerySnapshot> stream) {
+  Stream<IList<StudentHomeworkReadModel>> bind(Stream<QuerySnapshot> stream) {
     return stream.asyncMap(querySnapshotToHomeworks);
   }
 
-  Future<IList<HomeworkReadModel>> querySnapshotToHomeworks(
+  Future<IList<StudentHomeworkReadModel>> querySnapshotToHomeworks(
       QuerySnapshot querySnapshot) async {
-    IList<HomeworkReadModel> homeworks = const IListConst([]);
+    IList<StudentHomeworkReadModel> homeworks = const IListConst([]);
     for (final document in querySnapshot.docs) {
       final homework = await tryToConvertToHomework(document, userId,
           getCourseColorHexValue: getCourseColorHexValue);
@@ -43,10 +43,10 @@ class HomeworkTransformer extends StreamTransformerBase<
   }
 }
 
-Future<HomeworkReadModel?> tryToConvertToHomework(
+Future<StudentHomeworkReadModel?> tryToConvertToHomework(
     DocumentSnapshot documentSnapshot, String uid,
     {CourseColorRetriever? getCourseColorHexValue}) async {
-  HomeworkReadModel? converted;
+  StudentHomeworkReadModel? converted;
   try {
     final homework = HomeworkDto.fromData(
         documentSnapshot.data() as Map<String, dynamic>,
@@ -70,7 +70,7 @@ Future<HomeworkReadModel?> tryToConvertToHomework(
       );
     }
 
-    converted = HomeworkReadModel(
+    converted = StudentHomeworkReadModel(
       id: HomeworkId(homework.id),
       todoDate: homework.todoUntil,
       status: homework.isDoneBy(uid)

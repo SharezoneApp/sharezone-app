@@ -30,7 +30,7 @@ void main() {
   Bloc.observer = VerboseBlocObserver();
   group('GIVEN a Student with Homework WHEN he opens the homework page', () {
     late HomeworkPageBloc bloc;
-    late InMemoryHomeworkRepository<HomeworkReadModel> repository;
+    late InMemoryHomeworkRepository<StudentHomeworkReadModel> repository;
     late HomeworkSortingCache homeworkSortingCache;
     late KeyValueStore kvs;
 
@@ -44,7 +44,7 @@ void main() {
     /// Adds the homeworks to the top level group repository, or if repo is
     /// specified into the given repository (for use in a sub-group, where
     /// the top level repository is not used)
-    Future addToRepository(List<HomeworkReadModel> homeworks,
+    Future addToRepository(List<StudentHomeworkReadModel> homeworks,
         [InMemoryHomeworkRepository? repo]) async {
       for (var homework in homeworks) {
         await (repo ?? repository).add(homework);
@@ -375,14 +375,15 @@ void main() {
 
     group('CompletedHomeworks lazy loading ', () {
       HomeworkPageBloc bloc;
-      late InMemoryHomeworkRepository<HomeworkReadModel> repository;
+      late InMemoryHomeworkRepository<StudentHomeworkReadModel> repository;
 
       setUp(() {
         repository = createRepositoy();
         bloc = createBloc(repository);
       });
 
-      List<HomeworkReadModel> generateCompleted(int nrOfCompletedHomeworks,
+      List<StudentHomeworkReadModel> generateCompleted(
+          int nrOfCompletedHomeworks,
           {String Function(int index)? getTitle}) {
         String title(int i) => getTitle != null ? getTitle(i) : '$i';
 
@@ -495,7 +496,7 @@ extension on OpenHomeworkListView {
 
 const uid = 'uid';
 HomeworkPageBloc createBloc(
-  InMemoryHomeworkRepository<HomeworkReadModel> repository, {
+  InMemoryHomeworkRepository<StudentHomeworkReadModel> repository, {
   int nrOfInitialCompletedHomeworksToLoad = 1000,
   DateTime Function()? getCurrentDateTime,
   KeyValueStore? keyValueStore,
@@ -516,8 +517,8 @@ HomeworkPageBloc createBloc(
   );
 }
 
-InMemoryHomeworkRepository<HomeworkReadModel> createRepositoy() =>
-    InMemoryHomeworkRepository<HomeworkReadModel>();
+InMemoryHomeworkRepository<StudentHomeworkReadModel> createRepositoy() =>
+    InMemoryHomeworkRepository<StudentHomeworkReadModel>();
 
 Date dateFromDay(int day) => Date(year: 2019, month: 1, day: day);
 
@@ -543,7 +544,7 @@ class VerboseBlocObserver extends BlocObserver {
 }
 
 class InMemoryStudentHomeworkPageApi extends StudentHomeworkPageApi {
-  final InMemoryHomeworkRepository<HomeworkReadModel> repo;
+  final InMemoryHomeworkRepository<StudentHomeworkReadModel> repo;
 
   InMemoryStudentHomeworkPageApi({required this.repo});
 
@@ -551,7 +552,7 @@ class InMemoryStudentHomeworkPageApi extends StudentHomeworkPageApi {
   Future<void> completeHomework(
       HomeworkId homeworkId, CompletionStatus newCompletionStatus) async {
     final hw = await repo.findById(homeworkId);
-    final newHw = HomeworkReadModel(
+    final newHw = StudentHomeworkReadModel(
       id: hw.id,
       title: hw.title,
       status: newCompletionStatus,
@@ -563,7 +564,7 @@ class InMemoryStudentHomeworkPageApi extends StudentHomeworkPageApi {
   }
 
   @override
-  LazyLoadingController<HomeworkReadModel>
+  LazyLoadingController<StudentHomeworkReadModel>
       getLazyLoadingCompletedHomeworksController(
           int nrOfInitialHomeworkToLoad) {
     return repo
@@ -580,7 +581,8 @@ class InMemoryStudentHomeworkPageApi extends StudentHomeworkPageApi {
   }
 
   @override
-  Stream<IList<HomeworkReadModel>> get openHomeworks => repo.openHomeworks;
+  Stream<IList<StudentHomeworkReadModel>> get openHomeworks =>
+      repo.openHomeworks;
 }
 
 class InMemoryTeacherAndParentHomeworkPageApi

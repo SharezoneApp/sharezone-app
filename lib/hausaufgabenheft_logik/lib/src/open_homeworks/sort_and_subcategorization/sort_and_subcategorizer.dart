@@ -24,7 +24,8 @@ class HomeworkSortAndSubcategorizer {
         );
 
   IList<HomeworkSectionView> sortAndSubcategorize(
-      IList<HomeworkReadModel> homeworks, Sort<HomeworkReadModel> sort) {
+      IList<StudentHomeworkReadModel> homeworks,
+      Sort<StudentHomeworkReadModel> sort) {
     final sorted = homeworks.sortWith(sort);
 
     final matchingSubcategorizer = switch (sort) {
@@ -39,7 +40,8 @@ class HomeworkSortAndSubcategorizer {
 }
 
 abstract class _Subcategorizer {
-  IList<HomeworkSectionView> subcategorize(IList<HomeworkReadModel> homeworks);
+  IList<HomeworkSectionView> subcategorize(
+      IList<StudentHomeworkReadModel> homeworks);
 }
 
 class _SubjectSubcategeorizer extends _Subcategorizer {
@@ -48,11 +50,12 @@ class _SubjectSubcategeorizer extends _Subcategorizer {
   _SubjectSubcategeorizer(this._viewFactory);
 
   @override
-  IList<HomeworkSectionView> subcategorize(IList<HomeworkReadModel> homeworks) {
+  IList<HomeworkSectionView> subcategorize(
+      IList<StudentHomeworkReadModel> homeworks) {
     final subjects = homeworks.getDistinctOrderedSubjects();
     var homeworkSections = IList<HomeworkSectionView>();
     for (final subject in subjects) {
-      final IList<HomeworkReadModel> homeworksWithSubject =
+      final IList<StudentHomeworkReadModel> homeworksWithSubject =
           homeworks.where((h) => h.subject == subject).toIList();
 
       final homeworkViewsWithSubject =
@@ -72,22 +75,23 @@ class _TodoDateSubcategorizer extends _Subcategorizer {
   _TodoDateSubcategorizer(this.currentDate, this._viewFactory);
 
   @override
-  IList<HomeworkSectionView> subcategorize(IList<HomeworkReadModel> homeworks) {
+  IList<HomeworkSectionView> subcategorize(
+      IList<StudentHomeworkReadModel> homeworks) {
     final now = currentDate;
     final tomorrow = now.addDays(1);
     final in2Days = tomorrow.addDays(1);
 
-    final IList<HomeworkReadModel> overdueHomework =
+    final IList<StudentHomeworkReadModel> overdueHomework =
         homeworks.where((h) => Date.fromDateTime(h.todoDate) < now).toIList();
-    final IList<HomeworkReadModel> todayHomework =
+    final IList<StudentHomeworkReadModel> todayHomework =
         homeworks.where((h) => Date.fromDateTime(h.todoDate) == now).toIList();
-    final IList<HomeworkReadModel> tomorrowHomework = homeworks
+    final IList<StudentHomeworkReadModel> tomorrowHomework = homeworks
         .where((h) => Date.fromDateTime(h.todoDate) == tomorrow)
         .toIList();
-    final IList<HomeworkReadModel> in2DaysHomework = homeworks
+    final IList<StudentHomeworkReadModel> in2DaysHomework = homeworks
         .where((h) => Date.fromDateTime(h.todoDate) == in2Days)
         .toIList();
-    final IList<HomeworkReadModel> futureHomework = homeworks
+    final IList<StudentHomeworkReadModel> futureHomework = homeworks
         .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
         .toIList();
 

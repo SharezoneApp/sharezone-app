@@ -19,7 +19,7 @@ sealed class Sort<T> {
 /// Sorts the homeworks firstly by date (earliest date first).
 /// If they have the same date, they will be sorted alphabetically by subject.
 /// If they have the same date and subject, they will be sorted alphabetically by title.
-class SmallestDateSubjectAndTitleSort extends Sort<HomeworkReadModel> {
+class SmallestDateSubjectAndTitleSort extends Sort<StudentHomeworkReadModel> {
   late Date Function() getCurrentDate;
 
   SmallestDateSubjectAndTitleSort({Date Function()? getCurrentDate}) {
@@ -27,8 +27,8 @@ class SmallestDateSubjectAndTitleSort extends Sort<HomeworkReadModel> {
   }
 
   @override
-  IList<HomeworkReadModel> sort(IList<HomeworkReadModel> list) {
-    return sortWithOperations<HomeworkReadModel>(
+  IList<StudentHomeworkReadModel> sort(IList<StudentHomeworkReadModel> list) {
+    return sortWithOperations<StudentHomeworkReadModel>(
         list, const IListConst([dateSort, subjectSort, titleSort]));
   }
 
@@ -46,10 +46,10 @@ class SmallestDateSubjectAndTitleSort extends Sort<HomeworkReadModel> {
 /// Sorts the homeworks firstly by Subject.
 /// If they have the same subject, they will be sorted by date (earliest date first).
 /// If they have the same date and subject, they will be sorted alphabetically by title.
-class SubjectSmallestDateAndTitleSort extends Sort<HomeworkReadModel> {
+class SubjectSmallestDateAndTitleSort extends Sort<StudentHomeworkReadModel> {
   @override
-  IList<HomeworkReadModel> sort(IList<HomeworkReadModel> list) {
-    return sortWithOperations<HomeworkReadModel>(
+  IList<StudentHomeworkReadModel> sort(IList<StudentHomeworkReadModel> list) {
+    return sortWithOperations<StudentHomeworkReadModel>(
         list, const IListConst([subjectSort, dateSort, titleSort]));
   }
 

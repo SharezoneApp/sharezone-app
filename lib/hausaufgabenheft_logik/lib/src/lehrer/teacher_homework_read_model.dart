@@ -9,7 +9,7 @@
 import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 
 /// Ein ReadModel für die Lehrer-Hausaufgaben-Seite.
-/// Siehe [HomeworkReadModel].
+/// Siehe [StudentHomeworkReadModel].
 class TeacherHomeworkReadModel extends BaseHomeworkReadModel {
   final ArchivalStatus status;
   final int nrOfStudentsCompleted;

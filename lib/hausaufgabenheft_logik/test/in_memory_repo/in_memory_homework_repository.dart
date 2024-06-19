@@ -22,7 +22,7 @@ class InMemoryHomeworkRepository<T extends BaseHomeworkReadModel> {
         if (h is TeacherHomeworkReadModel) {
           return h.status == ArchivalStatus.open;
         } else {
-          final hw = h as HomeworkReadModel;
+          final hw = h as StudentHomeworkReadModel;
           return hw.status == CompletionStatus.open;
         }
       }).toIList();
@@ -30,7 +30,7 @@ class InMemoryHomeworkRepository<T extends BaseHomeworkReadModel> {
         if (h is TeacherHomeworkReadModel) {
           return h.status == ArchivalStatus.archived;
         } else {
-          final hw = h as HomeworkReadModel;
+          final hw = h as StudentHomeworkReadModel;
           return hw.status == CompletionStatus.completed;
         }
       }).toIList();

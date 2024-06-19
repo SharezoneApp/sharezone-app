@@ -23,8 +23,8 @@ class HomeworkPageApi {
 }
 
 abstract class StudentHomeworkPageApi {
-  Stream<IList<HomeworkReadModel>> get openHomeworks;
-  LazyLoadingController<HomeworkReadModel>
+  Stream<IList<StudentHomeworkReadModel>> get openHomeworks;
+  LazyLoadingController<StudentHomeworkReadModel>
       getLazyLoadingCompletedHomeworksController(int nrOfInitialHomeworkToLoad);
   Future<void> completeHomework(
       HomeworkId homeworkId, CompletionStatus newCompletionStatus);
