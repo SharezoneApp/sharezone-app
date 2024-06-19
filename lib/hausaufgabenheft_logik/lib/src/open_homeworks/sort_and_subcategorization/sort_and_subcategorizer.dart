@@ -12,16 +12,13 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
 
 class HomeworkSortAndSubcategorizer {
-  final StudentHomeworkViewFactory _viewFactory;
+  final StudentHomeworkViewFactory viewFactory;
   final Date Function() getCurrentDate;
 
   HomeworkSortAndSubcategorizer({
-    required Color defaultColor,
+    required this.viewFactory,
     required this.getCurrentDate,
-  }) : _viewFactory = StudentHomeworkViewFactory(
-          defaultColorValue: defaultColor.value,
-          getCurrentDate: getCurrentDate,
-        );
+  });
 
   IList<HomeworkSectionView> sortAndSubcategorize(
       IList<StudentHomeworkReadModel> homeworks,
@@ -55,15 +52,15 @@ class HomeworkSortAndSubcategorizer {
         .toIList();
 
     final overdueSec = HomeworkSectionView.fromModels(
-        'Überfällig', overdueHomework, _viewFactory);
+        'Überfällig', overdueHomework, viewFactory);
     final todaySec =
-        HomeworkSectionView.fromModels('Heute', todayHomework, _viewFactory);
-    final tomorrowSec = HomeworkSectionView.fromModels(
-        'Morgen', tomorrowHomework, _viewFactory);
+        HomeworkSectionView.fromModels('Heute', todayHomework, viewFactory);
+    final tomorrowSec =
+        HomeworkSectionView.fromModels('Morgen', tomorrowHomework, viewFactory);
     final inTwoDaysSec = HomeworkSectionView.fromModels(
-        'Übermorgen', in2DaysHomework, _viewFactory);
+        'Übermorgen', in2DaysHomework, viewFactory);
     final afterTwoDaysSec =
-        HomeworkSectionView.fromModels('Später', futureHomework, _viewFactory);
+        HomeworkSectionView.fromModels('Später', futureHomework, viewFactory);
 
     final sections = [
       overdueSec,
@@ -85,7 +82,7 @@ class HomeworkSortAndSubcategorizer {
           homeworks.where((h) => h.subject == subject).toIList();
 
       final homeworkViewsWithSubject =
-          homeworksWithSubject.map((h) => _viewFactory.createFrom(h)).toIList();
+          homeworksWithSubject.map((h) => viewFactory.createFrom(h)).toIList();
 
       homeworkSections = homeworkSections
           .add(HomeworkSectionView(subject.name, homeworkViewsWithSubject));

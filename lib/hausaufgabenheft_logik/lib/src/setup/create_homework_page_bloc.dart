@@ -28,7 +28,7 @@ HomeworkPageBloc createHomeworkPageBloc(
   final viewFactory = StudentHomeworkViewFactory(
       defaultColorValue: config.defaultCourseColorValue);
   final sortAndSubcategorizer = HomeworkSortAndSubcategorizer(
-    defaultColor: Color(config.defaultCourseColorValue),
+    viewFactory: viewFactory,
     getCurrentDate: getCurrentDate,
   );
   final openHomeworkListViewFactory =
