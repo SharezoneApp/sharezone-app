@@ -39,7 +39,7 @@ class TeacherHomeworkReadModel extends BaseHomeworkReadModel {
         canEditForEveryone,
       ];
 
-  TeacherHomeworkReadModel({
+  const TeacherHomeworkReadModel({
     required this.nrOfStudentsCompleted,
     required this.canViewCompletions,
     required this.canViewSubmissions,
