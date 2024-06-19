@@ -28,56 +28,15 @@ class HomeworkSortAndSubcategorizer {
       Sort<StudentHomeworkReadModel> sort) {
     final sorted = homeworks.sortWith(sort);
 
-    final matchingSubcategorizer = switch (sort) {
-      SubjectSmallestDateAndTitleSort() =>
-        _SubjectSubcategeorizer(_viewFactory),
-      SmallestDateSubjectAndTitleSort() =>
-        _TodoDateSubcategorizer(getCurrentDate(), _viewFactory),
+    return switch (sort) {
+      SubjectSmallestDateAndTitleSort() => _subcategorizeByDate(sorted),
+      SmallestDateSubjectAndTitleSort() => _subcategorizeBySubject(sorted),
     };
-
-    return matchingSubcategorizer.subcategorize(sorted);
   }
-}
 
-abstract class _Subcategorizer {
-  IList<HomeworkSectionView> subcategorize(
-      IList<StudentHomeworkReadModel> homeworks);
-}
-
-class _SubjectSubcategeorizer extends _Subcategorizer {
-  final StudentHomeworkViewFactory _viewFactory;
-
-  _SubjectSubcategeorizer(this._viewFactory);
-
-  @override
-  IList<HomeworkSectionView> subcategorize(
+  IList<HomeworkSectionView> _subcategorizeByDate(
       IList<StudentHomeworkReadModel> homeworks) {
-    final subjects = homeworks.getDistinctOrderedSubjects();
-    var homeworkSections = IList<HomeworkSectionView>();
-    for (final subject in subjects) {
-      final IList<StudentHomeworkReadModel> homeworksWithSubject =
-          homeworks.where((h) => h.subject == subject).toIList();
-
-      final homeworkViewsWithSubject =
-          homeworksWithSubject.map((h) => _viewFactory.createFrom(h)).toIList();
-
-      homeworkSections = homeworkSections
-          .add(HomeworkSectionView(subject.name, homeworkViewsWithSubject));
-    }
-    return homeworkSections;
-  }
-}
-
-class _TodoDateSubcategorizer extends _Subcategorizer {
-  final Date currentDate;
-  final StudentHomeworkViewFactory _viewFactory;
-
-  _TodoDateSubcategorizer(this.currentDate, this._viewFactory);
-
-  @override
-  IList<HomeworkSectionView> subcategorize(
-      IList<StudentHomeworkReadModel> homeworks) {
-    final now = currentDate;
+    final now = getCurrentDate();
     final tomorrow = now.addDays(1);
     final in2Days = tomorrow.addDays(1);
 
@@ -115,5 +74,22 @@ class _TodoDateSubcategorizer extends _Subcategorizer {
     ];
 
     return sections.where((section) => section.isNotEmpty).toIList();
+  }
+
+  IList<HomeworkSectionView> _subcategorizeBySubject(
+      IList<StudentHomeworkReadModel> homeworks) {
+    final subjects = homeworks.getDistinctOrderedSubjects();
+    var homeworkSections = IList<HomeworkSectionView>();
+    for (final subject in subjects) {
+      final IList<StudentHomeworkReadModel> homeworksWithSubject =
+          homeworks.where((h) => h.subject == subject).toIList();
+
+      final homeworkViewsWithSubject =
+          homeworksWithSubject.map((h) => _viewFactory.createFrom(h)).toIList();
+
+      homeworkSections = homeworkSections
+          .add(HomeworkSectionView(subject.name, homeworkViewsWithSubject));
+    }
+    return homeworkSections;
   }
 }
