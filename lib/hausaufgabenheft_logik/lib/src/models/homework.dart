@@ -60,3 +60,51 @@ class StudentHomeworkReadModel extends BaseHomeworkReadModel {
     required super.todoDate,
   });
 }
+
+/// Ein ReadModel für die Lehrer-Hausaufgaben-Seite.
+/// Siehe [StudentHomeworkReadModel].
+class TeacherHomeworkReadModel extends BaseHomeworkReadModel {
+  final ArchivalStatus status;
+  final int nrOfStudentsCompleted;
+  final bool canViewCompletions;
+  final bool canViewSubmissions;
+
+  /// If the user has the permission to delete the homework for everyone in the
+  /// group.
+  final bool canDeleteForEveryone;
+
+  /// If the user has the permission to edit the homework for everyone in the
+  /// group.
+  final bool canEditForEveryone;
+
+  @override
+  List<Object?> get props => [
+        id,
+        todoDate,
+        subject,
+        title,
+        withSubmissions,
+        status,
+        nrOfStudentsCompleted,
+        canViewCompletions,
+        canViewSubmissions,
+        canDeleteForEveryone,
+        canEditForEveryone,
+      ];
+
+  const TeacherHomeworkReadModel({
+    required this.nrOfStudentsCompleted,
+    required this.canViewCompletions,
+    required this.canViewSubmissions,
+    required this.canDeleteForEveryone,
+    required this.canEditForEveryone,
+    required this.status,
+    required super.id,
+    required super.title,
+    required super.subject,
+    required super.withSubmissions,
+    required super.todoDate,
+  });
+}
+
+enum ArchivalStatus { open, archived }
