@@ -14,7 +14,6 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
 class TeacherHomeworkTransformer extends StreamTransformerBase<
     QuerySnapshot<Map<String, dynamic>>, IList<TeacherHomeworkReadModel>> {

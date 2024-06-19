@@ -11,7 +11,6 @@ import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/src/firebase/src/advanceable_homework_loader.dart';
 import 'package:hausaufgabenheft_logik/src/firebase/src/teacher_homework_transformation.dart';
 
