@@ -9,7 +9,6 @@
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
     hide SmallestDateSubjectAndTitleSort, SubjectSmallestDateAndTitleSort, Sort;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
-import 'package:hausaufgabenheft_logik/src/lehrer/sort_and_subcategorization/sort/homework_sorts.dart';
 
 extension HomeworkSortToEnumExtension on Sort<TeacherHomeworkReadModel> {
   HomeworkSort toEnum() {

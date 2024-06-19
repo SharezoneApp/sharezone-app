@@ -10,8 +10,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
-import 'homework_attribute_sorts.dart';
-import 'sort_with_operations.dart';
 
 sealed class Sort<T> {
   IList<T> sort(IList<T> list);

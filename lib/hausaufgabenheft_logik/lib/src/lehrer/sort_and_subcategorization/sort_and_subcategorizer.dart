@@ -17,7 +17,6 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/src/lehrer/homework_list_extensions.dart';
 
-import 'sort/homework_sorts.dart';
 
 class TeacherHomeworkSortAndSubcategorizer {
   final TeacherHomeworkViewFactory _viewFactory;
