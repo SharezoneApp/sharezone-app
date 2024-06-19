@@ -37,13 +37,6 @@ abstract class BaseHomeworkReadModel extends Equatable {
   }
 }
 
-/// The read model of a Homework that is specific to one user.
-/// The Homework should only be used to display a homework, created specifically
-/// for one user. It should not be edited and put in a repository.
-///
-/// In Sharezone it used in the context of the HomeworkPage, as it is basically
-/// a merge from the information of the homework-details (title, subject, ...)
-/// and the specific done status of the user viewing the homework.
 class StudentHomeworkReadModel extends BaseHomeworkReadModel {
   final CompletionStatus status;
 
@@ -61,8 +54,6 @@ class StudentHomeworkReadModel extends BaseHomeworkReadModel {
   });
 }
 
-/// Ein ReadModel für die Lehrer-Hausaufgaben-Seite.
-/// Siehe [StudentHomeworkReadModel].
 class TeacherHomeworkReadModel extends BaseHomeworkReadModel {
   final ArchivalStatus status;
   final int nrOfStudentsCompleted;
