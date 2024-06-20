@@ -9,6 +9,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -69,11 +70,18 @@ Future<TeacherHomeworkReadModel?> tryToConvertToHomework(
       );
     }
 
+    final startOfThisDay = clock.now().copyWith(
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+          microsecond: 0,
+        );
+
     converted = TeacherHomeworkReadModel(
       id: HomeworkId(homework.id),
       todoDate: homework.todoUntil,
-      // TODO: This is not correct I think
-      status: homework.todoUntil.isBefore(DateTime.now())
+      status: homework.todoUntil.isBefore(startOfThisDay)
           ? ArchivalStatus.archived
           : ArchivalStatus.open,
       subject: subject,
