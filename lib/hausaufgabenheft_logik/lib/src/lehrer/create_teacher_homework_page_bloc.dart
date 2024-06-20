@@ -29,7 +29,7 @@ TeacherHomeworkPageBloc createTeacherHomeworkPageBloc(
     getCurrentDate: getCurrentDate,
   );
   final openHomeworkListViewFactory =
-      TeacherOpenHomeworkListViewFactory(sortAndSubcategorizer, getCurrentDate);
+      TeacherOpenHomeworkListViewFactory(sortAndSubcategorizer);
 
   final completedHomeworkListViewFactory =
       TeacherCompletedHomeworkListViewFactory(viewFactory);
