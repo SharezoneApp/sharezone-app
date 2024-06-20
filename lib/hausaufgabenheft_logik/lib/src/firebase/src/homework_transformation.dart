@@ -15,14 +15,14 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-typedef CourseColorRetriever = FutureOr<int> Function(String courseId);
+import 'teacher_homework_transformation.dart';
 
 class HomeworkTransformer extends StreamTransformerBase<
     QuerySnapshot<Map<String, dynamic>>, IList<StudentHomeworkReadModel>> {
   final String userId;
-  final CourseColorRetriever getCourseColorHexValue;
+  final CourseDataRetreiver getCourseData;
 
-  HomeworkTransformer(this.userId, {required this.getCourseColorHexValue});
+  HomeworkTransformer(this.userId, {required this.getCourseData});
 
   @override
   Stream<IList<StudentHomeworkReadModel>> bind(Stream<QuerySnapshot> stream) {
@@ -34,7 +34,7 @@ class HomeworkTransformer extends StreamTransformerBase<
     IList<StudentHomeworkReadModel> homeworks = const IListConst([]);
     for (final document in querySnapshot.docs) {
       final homework = await tryToConvertToHomework(document, userId,
-          getCourseColorHexValue: getCourseColorHexValue);
+          getCourseData: getCourseData);
       if (homework != null) {
         homeworks = homeworks.add(homework);
       }
@@ -45,38 +45,28 @@ class HomeworkTransformer extends StreamTransformerBase<
 
 Future<StudentHomeworkReadModel?> tryToConvertToHomework(
     DocumentSnapshot documentSnapshot, String uid,
-    {CourseColorRetriever? getCourseColorHexValue}) async {
+    {required CourseDataRetreiver getCourseData}) async {
   StudentHomeworkReadModel? converted;
   try {
     final homework = HomeworkDto.fromData(
         documentSnapshot.data() as Map<String, dynamic>,
         id: documentSnapshot.id);
 
-    int? courseColorHex;
-    if (getCourseColorHexValue != null) {
-      courseColorHex = await getCourseColorHexValue(homework.courseID);
-    }
-    Subject subject;
-    if (courseColorHex != null) {
-      subject = Subject(
-        homework.subject,
-        color: Color(courseColorHex),
-        abbreviation: homework.subjectAbbreviation,
-      );
-    } else {
-      subject = Subject(
-        homework.subject,
-        abbreviation: homework.subjectAbbreviation,
-      );
-    }
+    final courseId = CourseId(homework.courseID);
+    final data = await getCourseData(CourseId(homework.courseID));
 
     converted = StudentHomeworkReadModel(
       id: HomeworkId(homework.id),
+      courseId: courseId,
       todoDate: homework.todoUntil,
       status: homework.isDoneBy(uid)
           ? CompletionStatus.completed
           : CompletionStatus.open,
-      subject: subject,
+      subject: Subject(
+        homework.subject,
+        color: Color(data.colorHexValue),
+        abbreviation: homework.subjectAbbreviation,
+      ),
       withSubmissions: homework.withSubmissions,
       title: Title(homework.title),
     );

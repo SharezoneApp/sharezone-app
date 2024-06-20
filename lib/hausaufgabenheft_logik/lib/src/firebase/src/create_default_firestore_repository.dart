@@ -16,19 +16,17 @@ import 'teacher_homework_transformation.dart';
 HomeworkPageApi createDefaultFirestoreRepositories(
     CollectionReference homeworkCollection,
     String uid,
-    CourseColorRetriever getCourseColorFromCourseId) {
+    CourseDataRetreiver getCourseData) {
   final studentApi = FirestoreStudentHomeworkApi(
     uid: uid,
     homeworkCollection: homeworkCollection,
-    homeworkTransformer: HomeworkTransformer(uid,
-        getCourseColorHexValue: getCourseColorFromCourseId),
+    homeworkTransformer: HomeworkTransformer(uid, getCourseData: getCourseData),
   );
 
   final teacherAndParentApi = FirestoreTeacherAndParentsHomeworkPageApi(
     homeworkCollection,
     uid,
-    TeacherHomeworkTransformer(uid,
-        getCourseColorHexValue: getCourseColorFromCourseId),
+    TeacherHomeworkTransformer(uid, getCourseData: getCourseData),
   );
 
   return HomeworkPageApi(

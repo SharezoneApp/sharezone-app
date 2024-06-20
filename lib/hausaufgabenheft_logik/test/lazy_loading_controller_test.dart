@@ -36,6 +36,7 @@ IList<StudentHomeworkReadModel> listOfHomeworksWithLength(int length) =>
       (index) => StudentHomeworkReadModel(
           id: HomeworkId("$index"),
           todoDate: clock.now(),
+          courseId: const CourseId("testCourseId"),
           status: CompletionStatus.completed,
           subject: Subject("Mathe", abbreviation: 'Ma'),
           title: const Title("ABC"),

@@ -35,6 +35,7 @@ void main() {
         id: const HomeworkId('Id'),
         status: CompletionStatus.open,
         todoDate: const Date(year: 2019, month: 1, day: 28).asDateTime(),
+        courseId: const CourseId('maths'),
         subject: Subject(
           'Mathematik',
           color: white,

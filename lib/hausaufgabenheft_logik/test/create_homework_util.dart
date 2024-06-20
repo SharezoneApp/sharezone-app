@@ -24,6 +24,7 @@ StudentHomeworkReadModel createHomework(
   id = id == 'willBeRandom' ? randomAlphaNumeric(5) : id;
   return StudentHomeworkReadModel(
     id: HomeworkId(id),
+    courseId: const CourseId('testCourseId'),
     todoDate: todoDate.asDateTime(),
     subject: Subject(subject, color: subjectColor, abbreviation: abbreviation),
     title: Title(title),

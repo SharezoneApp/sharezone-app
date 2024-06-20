@@ -554,6 +554,7 @@ class InMemoryStudentHomeworkPageApi extends StudentHomeworkPageApi {
     final newHw = StudentHomeworkReadModel(
       id: hw.id,
       title: hw.title,
+      courseId: hw.courseId,
       status: newCompletionStatus,
       subject: hw.subject,
       withSubmissions: hw.withSubmissions,

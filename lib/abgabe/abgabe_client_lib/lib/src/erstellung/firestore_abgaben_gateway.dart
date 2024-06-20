@@ -56,9 +56,14 @@ class FirestoreAbgabeGateway
     return homeworkCollection
         .doc('$homeworkId')
         .snapshots()
-        .asyncMap((event) => tryToConvertToHomework(event, '$userId'))
         .whereNotNull()
-        .map((event) => event.todoDate);
+        .asyncMap((event) {
+      final homework = HomeworkDto.fromData(
+        event.data() as Map<String, dynamic>,
+        id: event.id,
+      );
+      return homework.todoUntil;
+    });
   }
 
   @override
