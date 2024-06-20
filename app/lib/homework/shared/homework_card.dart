@@ -376,7 +376,7 @@ void _logHomeworkReportViaCardLongPress(Analytics analytics) {
 
 Future showLongPressIfUserHasPermissions(
     BuildContext context,
-    void Function(bool newHomeworkStatus) setHomeworkStatus,
+    void Function(bool newHomeworkStatus)? setHomeworkStatus,
     HomeworkView homeworkView) async {
   final sharezoneContext = BlocProvider.of<SharezoneContext>(context);
   final api = sharezoneContext.api;
@@ -431,7 +431,7 @@ Future showLongPressIfUserHasPermissions(
       _logHomeworkDoneViaCardLongPress(analytics);
       final result =
           (await confirmToMarkHomeworkAsDoneWithoutSubmission(context))!;
-      if (result) setHomeworkStatus(true);
+      if (result) setHomeworkStatus?.call(true);
       break;
     case _HomeworkTileLongPressModelSheetOption.edit:
       _logHomeworkEditViaCardLongPress(analytics);
