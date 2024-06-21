@@ -59,7 +59,7 @@ class _DashboardTipCard extends StatelessWidget {
               child: Text(dashboardTip.action.title.toUpperCase()),
               onPressed: () {
                 dashboardTip.markAsShown();
-                dashboardTip.action.onTap();
+                dashboardTip.action.onTap(context);
               },
             ),
           ],

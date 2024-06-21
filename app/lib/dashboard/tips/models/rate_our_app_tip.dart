@@ -22,7 +22,7 @@ class RateOurAppTip implements DashboardTip {
 
   @override
   Action get action =>
-      Action(title: "App bewerten", onTap: () => launchURL(_getStoreLink()));
+      Action(title: "App bewerten", onTap: (_) => launchURL(_getStoreLink()));
 
   String _getStoreLink() {
     const sharezoneLink = 'https://sharezone.net';
