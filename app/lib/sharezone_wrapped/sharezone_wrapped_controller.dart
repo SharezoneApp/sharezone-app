@@ -70,7 +70,7 @@ class SharezoneWrappedController {
   }
 
   void _logGenerationAnalytics() {
-    analytics.log(NamedAnalyticsEvent(name: 'sz_Wrapped_generated'));
+    analytics.log(NamedAnalyticsEvent(name: 'sz_wrapped_generated'));
   }
 
   /// Calculates the amount of lesson hours per course per school year.
@@ -100,7 +100,7 @@ class SharezoneWrappedController {
 
     return lessonMinutesPerCourse.entries
         // Divide by 60 to get the amount of hours.
-        .map((entry) => (entry.key, entry.value ~/ 60))
+        .map((entry) => (entry.key, ((entry.value / 60) * 40).toInt()))
         .toList();
   }
 
