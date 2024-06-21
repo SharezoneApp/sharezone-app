@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LimitedChip extends StatelessWidget {
   const LimitedChip({
@@ -19,8 +18,8 @@ class LimitedChip extends StatelessWidget {
             backgroundColor ?? Theme.of(context).primaryColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(7.5),
       ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
+      child: const Padding(
+        padding: EdgeInsets.fromLTRB(8, 4, 10, 4),
         child: Text('LIMITED'),
       ),
     );

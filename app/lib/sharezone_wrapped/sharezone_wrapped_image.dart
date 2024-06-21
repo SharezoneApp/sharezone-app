@@ -169,9 +169,7 @@ class SharezoneWrappedImage extends StatelessWidget {
 }
 
 class _CreatedWithSharezoneText extends StatelessWidget {
-  const _CreatedWithSharezoneText({
-    super.key,
-  });
+  const _CreatedWithSharezoneText();
 
   @override
   Widget build(BuildContext context) {
@@ -187,9 +185,7 @@ class _CreatedWithSharezoneText extends StatelessWidget {
 }
 
 class _MySchoolYearTitle extends StatelessWidget {
-  const _MySchoolYearTitle({
-    super.key,
-  });
+  const _MySchoolYearTitle();
 
   @override
   Widget build(BuildContext context) {
