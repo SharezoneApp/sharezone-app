@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_view.dart';
 
@@ -27,9 +28,9 @@ void main() {
       final view = SharezoneWrappedView.fromValues(
         totalAmountOfLessonHours: 0,
         amountOfLessonHoursTopThreeCourses: [
-          ('Deutsch', 12345),
-          ('Mathematik', 9876),
-          ('Englisch', 8765),
+          (const CourseId('1'), 'Deutsch', 12345),
+          (const CourseId('2'), 'Mathematik', 9876),
+          (const CourseId('3'), 'Englisch', 8765),
         ],
         totalAmountOfHomeworks: 0,
         amountOfHomeworksTopThreeCourses: [],
@@ -61,9 +62,9 @@ void main() {
         amountOfLessonHoursTopThreeCourses: [],
         totalAmountOfHomeworks: 0,
         amountOfHomeworksTopThreeCourses: [
-          ('Deutsch', 1234),
-          ('Mathematik', 98),
-          ('Englisch', 87),
+          (const CourseId('1'), 'Deutsch', 1234),
+          (const CourseId('2'), 'Mathematik', 98),
+          (const CourseId('3'), 'Englisch', 87),
         ],
         totalAmountOfExams: 0,
         amountOfExamsTopThreeCourses: [],
@@ -95,9 +96,9 @@ void main() {
         amountOfHomeworksTopThreeCourses: [],
         totalAmountOfExams: 0,
         amountOfExamsTopThreeCourses: [
-          ('Deutsch', 1234),
-          ('Mathematik', 98),
-          ('Englisch', 87),
+          (const CourseId('1'), 'Deutsch', 1234),
+          (const CourseId('2'), 'Mathematik', 98),
+          (const CourseId('3'), 'Englisch', 87),
         ],
       );
       expect(view.amountOfExamsTopThreeCourses, [

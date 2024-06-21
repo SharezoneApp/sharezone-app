@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:collection/collection.dart';
+import 'package:common_domain_models/common_domain_models.dart';
+import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:intl/intl.dart';
 
@@ -74,31 +76,38 @@ class SharezoneWrappedView {
     required this.totalAmountOfExams,
   });
 
+  static String getShortenedCourseName(String courseName) {
+    final characters = courseName.characters;
+    const maxLength = 20;
+    if (characters.length <= maxLength) return courseName;
+    return '${courseName.characters.take(maxLength)}...';
+  }
+
   factory SharezoneWrappedView.fromValues({
     required int totalAmountOfLessonHours,
-    required List<(CourseName, int)> amountOfLessonHoursTopThreeCourses,
+    required List<(CourseId, CourseName, int)>
+        amountOfLessonHoursTopThreeCourses,
     required int totalAmountOfHomeworks,
-    required List<(CourseName, int)> amountOfHomeworksTopThreeCourses,
+    required List<(CourseId, CourseName, int)> amountOfHomeworksTopThreeCourses,
     required int totalAmountOfExams,
-    required List<(CourseName, int)> amountOfExamsTopThreeCourses,
+    required List<(CourseId, CourseName, int)> amountOfExamsTopThreeCourses,
   }) {
     final formatter = NumberFormat.decimalPattern('de_DE');
     return SharezoneWrappedView(
-      totalAmountOfLessonHours:
-          '${formatter.format(totalAmountOfLessonHours)} Std.',
-      amountOfLessonHoursTopThreeCourses: amountOfLessonHoursTopThreeCourses
-          .mapIndexed((index, value) =>
-              '${index + 1}. ${value.$1}: ${formatter.format(value.$2)} Std.')
-          .toList(),
+      totalAmountOfLessonHours: formatter.format(totalAmountOfLessonHours),
+      amountOfLessonHoursTopThreeCourses:
+          amountOfLessonHoursTopThreeCourses.mapIndexed((index, value) {
+        return '${index + 1}. ${getShortenedCourseName(value.$2)}: ${formatter.format(value.$3)} Std.';
+      }).toList(),
       totalAmountOfHomeworks: formatter.format(totalAmountOfHomeworks),
       amountOfHomeworksTopThreeCourses: amountOfHomeworksTopThreeCourses
           .mapIndexed((index, value) =>
-              '${index + 1}. ${value.$1}: ${formatter.format(value.$2)}')
+              '${index + 1}. ${getShortenedCourseName(value.$2)}: ${formatter.format(value.$3)}')
           .toList(),
       totalAmountOfExams: formatter.format(totalAmountOfExams),
       amountOfExamsTopThreeCourses: amountOfExamsTopThreeCourses
           .mapIndexed((index, value) =>
-              '${index + 1}. ${value.$1}: ${formatter.format(value.$2)}')
+              '${index + 1}. ${getShortenedCourseName(value.$2)}: ${formatter.format(value.$3)}')
           .toList(),
     );
   }

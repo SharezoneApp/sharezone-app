@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
+import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/weektype.dart';
@@ -157,8 +158,8 @@ extension on List<(CourseId, int)> {
   List<(CourseId, CourseName, int)> withCourseName(List<Course> courses) {
     return map((entry) {
       final course =
-          courses.firstWhere((course) => course.id == entry.$1.value);
-      return (entry.$1, course.name, entry.$2);
+          courses.firstWhereOrNull((course) => course.id == entry.$1.value);
+      return (entry.$1, course?.name ?? '?', entry.$2);
     }).toList();
   }
 }

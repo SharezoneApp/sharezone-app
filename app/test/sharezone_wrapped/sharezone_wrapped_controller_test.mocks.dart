@@ -3,18 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i7;
 
-import 'package:analytics/src/analytics/analytics.dart' as _i11;
+import 'package:analytics/src/analytics/analytics.dart' as _i12;
+import 'package:clock/clock.dart' as _i5;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i2;
 import 'package:common_domain_models/common_domain_models.dart' as _i4;
-import 'package:crash_analytics/src/crash_analytics.dart' as _i9;
-import 'package:flutter/foundation.dart' as _i10;
-import 'package:group_domain_models/group_domain_models.dart' as _i8;
+import 'package:crash_analytics/src/crash_analytics.dart' as _i10;
+import 'package:flutter/foundation.dart' as _i11;
+import 'package:group_domain_models/group_domain_models.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_repository.dart'
-    as _i5;
-import 'package:sharezone/timetable/src/models/lesson.dart' as _i7;
+    as _i6;
+import 'package:sharezone/timetable/src/models/lesson.dart' as _i8;
 import 'package:sharezone/util/api/connections_gateway.dart' as _i3;
 
 // ignore_for_file: type=lint
@@ -62,11 +63,21 @@ class _FakeUserId_2 extends _i1.SmartFake implements _i4.UserId {
         );
 }
 
+class _FakeClock_3 extends _i1.SmartFake implements _i5.Clock {
+  _FakeClock_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [SharezoneWrappedRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSharezoneWrappedRepository extends _i1.Mock
-    implements _i5.SharezoneWrappedRepository {
+    implements _i6.SharezoneWrappedRepository {
   @override
   _i2.FirebaseFirestore get firestore => (super.noSuchMethod(
         Invocation.getter(#firestore),
@@ -107,75 +118,88 @@ class MockSharezoneWrappedRepository extends _i1.Mock
       ) as _i4.UserId);
 
   @override
-  _i6.Future<int?> getTotalAmountOfHomeworks() => (super.noSuchMethod(
+  _i5.Clock get clock => (super.noSuchMethod(
+        Invocation.getter(#clock),
+        returnValue: _FakeClock_3(
+          this,
+          Invocation.getter(#clock),
+        ),
+        returnValueForMissingStub: _FakeClock_3(
+          this,
+          Invocation.getter(#clock),
+        ),
+      ) as _i5.Clock);
+
+  @override
+  _i7.Future<int?> getTotalAmountOfHomeworks() => (super.noSuchMethod(
         Invocation.method(
           #getTotalAmountOfHomeworks,
           [],
         ),
-        returnValue: _i6.Future<int?>.value(),
-        returnValueForMissingStub: _i6.Future<int?>.value(),
-      ) as _i6.Future<int?>);
+        returnValue: _i7.Future<int?>.value(),
+        returnValueForMissingStub: _i7.Future<int?>.value(),
+      ) as _i7.Future<int?>);
 
   @override
-  _i6.Future<int?> getAmountOfHomeworksFor({required _i4.CourseId? courseId}) =>
+  _i7.Future<int?> getAmountOfHomeworksFor({required _i4.CourseId? courseId}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAmountOfHomeworksFor,
           [],
           {#courseId: courseId},
         ),
-        returnValue: _i6.Future<int?>.value(),
-        returnValueForMissingStub: _i6.Future<int?>.value(),
-      ) as _i6.Future<int?>);
+        returnValue: _i7.Future<int?>.value(),
+        returnValueForMissingStub: _i7.Future<int?>.value(),
+      ) as _i7.Future<int?>);
 
   @override
-  _i6.Future<int?> getTotalAmountOfExams() => (super.noSuchMethod(
+  _i7.Future<int?> getTotalAmountOfExams() => (super.noSuchMethod(
         Invocation.method(
           #getTotalAmountOfExams,
           [],
         ),
-        returnValue: _i6.Future<int?>.value(),
-        returnValueForMissingStub: _i6.Future<int?>.value(),
-      ) as _i6.Future<int?>);
+        returnValue: _i7.Future<int?>.value(),
+        returnValueForMissingStub: _i7.Future<int?>.value(),
+      ) as _i7.Future<int?>);
 
   @override
-  _i6.Future<int?> getAmountOfExamsFor({required _i4.CourseId? courseId}) =>
+  _i7.Future<int?> getAmountOfExamsFor({required _i4.CourseId? courseId}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAmountOfExamsFor,
           [],
           {#courseId: courseId},
         ),
-        returnValue: _i6.Future<int?>.value(),
-        returnValueForMissingStub: _i6.Future<int?>.value(),
-      ) as _i6.Future<int?>);
+        returnValue: _i7.Future<int?>.value(),
+        returnValueForMissingStub: _i7.Future<int?>.value(),
+      ) as _i7.Future<int?>);
 
   @override
-  _i6.Future<List<_i7.Lesson>> getLessons() => (super.noSuchMethod(
+  _i7.Future<List<_i8.Lesson>> getLessons() => (super.noSuchMethod(
         Invocation.method(
           #getLessons,
           [],
         ),
-        returnValue: _i6.Future<List<_i7.Lesson>>.value(<_i7.Lesson>[]),
+        returnValue: _i7.Future<List<_i8.Lesson>>.value(<_i8.Lesson>[]),
         returnValueForMissingStub:
-            _i6.Future<List<_i7.Lesson>>.value(<_i7.Lesson>[]),
-      ) as _i6.Future<List<_i7.Lesson>>);
+            _i7.Future<List<_i8.Lesson>>.value(<_i8.Lesson>[]),
+      ) as _i7.Future<List<_i8.Lesson>>);
 
   @override
-  List<_i8.Course> getCourses() => (super.noSuchMethod(
+  List<_i9.Course> getCourses() => (super.noSuchMethod(
         Invocation.method(
           #getCourses,
           [],
         ),
-        returnValue: <_i8.Course>[],
-        returnValueForMissingStub: <_i8.Course>[],
-      ) as List<_i8.Course>);
+        returnValue: <_i9.Course>[],
+        returnValueForMissingStub: <_i9.Course>[],
+      ) as List<_i9.Course>);
 }
 
 /// A class which mocks [CrashAnalytics].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
+class MockCrashAnalytics extends _i1.Mock implements _i10.CrashAnalytics {
   @override
   set enableInDevMode(bool? _enableInDevMode) => super.noSuchMethod(
         Invocation.setter(
@@ -195,18 +219,18 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
       );
 
   @override
-  _i6.Future<void> recordFlutterError(_i10.FlutterErrorDetails? details) =>
+  _i7.Future<void> recordFlutterError(_i11.FlutterErrorDetails? details) =>
       (super.noSuchMethod(
         Invocation.method(
           #recordFlutterError,
           [details],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i6.Future<void> recordError(
+  _i7.Future<void> recordError(
     dynamic exception,
     StackTrace? stack, {
     bool? fatal = false,
@@ -220,9 +244,9 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
           ],
           {#fatal: fatal},
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
   void log(String? msg) => super.noSuchMethod(
@@ -234,7 +258,7 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
       );
 
   @override
-  _i6.Future<void> setCustomKey(
+  _i7.Future<void> setCustomKey(
     String? key,
     dynamic value,
   ) =>
@@ -246,38 +270,38 @@ class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
             value,
           ],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i6.Future<void> setUserIdentifier(String? identifier) => (super.noSuchMethod(
+  _i7.Future<void> setUserIdentifier(String? identifier) => (super.noSuchMethod(
         Invocation.method(
           #setUserIdentifier,
           [identifier],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i6.Future<void> setCrashAnalyticsEnabled(bool? enabled) =>
+  _i7.Future<void> setCrashAnalyticsEnabled(bool? enabled) =>
       (super.noSuchMethod(
         Invocation.method(
           #setCrashAnalyticsEnabled,
           [enabled],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [Analytics].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAnalytics extends _i1.Mock implements _i11.Analytics {
+class MockAnalytics extends _i1.Mock implements _i12.Analytics {
   @override
-  void log(_i11.AnalyticsEvent? event) => super.noSuchMethod(
+  void log(_i12.AnalyticsEvent? event) => super.noSuchMethod(
         Invocation.method(
           #log,
           [event],
@@ -295,31 +319,31 @@ class MockAnalytics extends _i1.Mock implements _i11.Analytics {
       );
 
   @override
-  _i6.Future<void> logSignUp({required String? signUpMethod}) =>
+  _i7.Future<void> logSignUp({required String? signUpMethod}) =>
       (super.noSuchMethod(
         Invocation.method(
           #logSignUp,
           [],
           {#signUpMethod: signUpMethod},
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i6.Future<void> setCurrentScreen({required String? screenName}) =>
+  _i7.Future<void> setCurrentScreen({required String? screenName}) =>
       (super.noSuchMethod(
         Invocation.method(
           #setCurrentScreen,
           [],
           {#screenName: screenName},
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i6.Future<void> setUserProperty({
+  _i7.Future<void> setUserProperty({
     required String? name,
     required String? value,
   }) =>
@@ -332,7 +356,7 @@ class MockAnalytics extends _i1.Mock implements _i11.Analytics {
             #value: value,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
