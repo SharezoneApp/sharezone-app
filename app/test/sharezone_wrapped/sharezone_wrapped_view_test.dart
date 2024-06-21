@@ -21,7 +21,7 @@ void main() {
         totalAmountOfExams: 0,
         amountOfExamsTopThreeCourses: [],
       );
-      expect(view.totalAmountOfLessonHours, '91.234 Std.');
+      expect(view.totalAmountOfLessonHours, '91.234');
     });
 
     test('should format amountOfLessonHoursTopThreeCourses correctly', () {
