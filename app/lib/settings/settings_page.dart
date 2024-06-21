@@ -10,6 +10,8 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:remote_configuration/remote_configuration.dart';
 import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -147,35 +149,38 @@ class _LegalSection extends StatelessWidget {
 class _AppSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const _SettingsSection(
+    final remoteConfig = context.read<RemoteConfiguration>();
+    final showWrapped = remoteConfig.getBool('show_sz_wrapped_23_24');
+    return _SettingsSection(
       title: 'App-Einstellungen',
       children: <Widget>[
-        _SettingsOption(
+        const _SettingsOption(
           title: "Mein Konto",
           icon: Icon(Icons.account_circle),
           tag: MyProfilePage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Benachrichtigungen",
           icon: Icon(Icons.notifications_active),
           tag: NotificationPage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Erscheinungsbild",
           icon: Icon(Icons.color_lens),
           tag: ThemePage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Stundenplan",
           icon: Icon(Icons.access_time),
           tag: TimetableSettingsPage.tag,
         ),
-        _SettingsOption(
-          title: "Schuljahr 23/24 Sharezone Wrapped",
-          icon: Icon(Icons.fast_rewind),
-          tag: SharezoneWrappedPage.tag,
-          trailing: LimitedChip(),
-        )
+        if (showWrapped)
+          const _SettingsOption(
+            title: "Schuljahr 23/24 Sharezone Wrapped",
+            icon: Icon(Icons.fast_rewind),
+            tag: SharezoneWrappedPage.tag,
+            trailing: LimitedChip(),
+          )
       ],
     );
   }
