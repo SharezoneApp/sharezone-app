@@ -1216,6 +1216,16 @@ class MockUserGateway extends _i2.Mock implements _i13.UserGateway {
       ) as _i24.Future<void>);
 
   @override
+  _i24.Future<void> sendVerificationEmail() => (super.noSuchMethod(
+        Invocation.method(
+          #sendVerificationEmail,
+          [],
+        ),
+        returnValue: _i24.Future<void>.value(),
+        returnValueForMissingStub: _i24.Future<void>.value(),
+      ) as _i24.Future<void>);
+
+  @override
   _i24.Future<bool> deleteUser(_i4.SharezoneGateway? gateway) =>
       (super.noSuchMethod(
         Invocation.method(
