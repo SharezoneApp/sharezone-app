@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 class SharezoneWrappedView {
   /// The total amount of lesson hours formatted as [String].
   ///
-  /// Example: `91.234 Std.`
+  /// Example: `91.234`
   final String totalAmountOfLessonHours;
 
   /// The amount of lesson hours for the top three courses formatted as

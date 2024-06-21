@@ -51,8 +51,6 @@ class SharezoneWrappedRepository {
 
   Future<int?> getAmountOfHomeworksFor({required CourseId courseId}) async {
     return _retry(() async {
-      // Open question: What happens, when there is a homework where the user is
-      // not assigned?
       final res = await firestore
           .collection('Homework')
           .where('courseID', isEqualTo: '$courseId')
