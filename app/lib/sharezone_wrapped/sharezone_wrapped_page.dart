@@ -279,7 +279,7 @@ class _LoadingScreen extends StatelessWidget {
 }
 
 class _OnlyAvailableOnMobileDialog extends StatelessWidget {
-  const _OnlyAvailableOnMobileDialog({super.key});
+  const _OnlyAvailableOnMobileDialog();
 
   @override
   Widget build(BuildContext context) {
