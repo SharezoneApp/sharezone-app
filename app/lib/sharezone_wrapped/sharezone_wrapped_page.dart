@@ -8,9 +8,12 @@
 
 import 'dart:typed_data';
 
+import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_controller.dart';
 import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_image.dart';
 import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_view.dart';
@@ -34,6 +37,16 @@ class _SharezoneWrappedPageState extends State<SharezoneWrappedPage> {
   SharezoneWrappedValues? values;
   late ScreenshotController _screenshotController;
 
+  @override
+  void initState() {
+    super.initState();
+    _screenshotController = ScreenshotController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      generateWrapped();
+    });
+  }
+
   Future<void> fetchValues() async {
     try {
       final controller = context.read<SharezoneWrappedController>();
@@ -54,21 +67,58 @@ class _SharezoneWrappedPageState extends State<SharezoneWrappedPage> {
 
     final hasNotFailedToFetchValues = values != null;
     if (hasNotFailedToFetchValues) {
-      final capture = await _screenshotController.capture();
+      final capture = await _screenshotController.captureFromLongWidget(
+        SharezoneWrappedImage(
+          view: SharezoneWrappedView.fromValues(
+            totalAmountOfLessonHours: values?.totalAmountOfLessonHours ?? 0,
+            amountOfLessonHoursTopThreeCourses:
+                values?.amountOfLessonHoursTopThreeCourses ?? [],
+            totalAmountOfHomeworks: values?.totalAmountOfHomeworks ?? 0,
+            amountOfHomeworksTopThreeCourses:
+                values?.amountOfHomeworksTopThreeCourses ?? [],
+            totalAmountOfExams: values?.totalAmountOfExams ?? 0,
+            amountOfExamsTopThreeCourses:
+                values?.amountOfExamsTopThreeCourses ?? [],
+          ),
+        ),
+      );
       setState(() {
         _imageData = capture;
       });
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _screenshotController = ScreenshotController();
+  Future<void> share(BuildContext context) async {
+    if (PlatformCheck.isWeb) {
+      showDialog(
+        context: context,
+        builder: (_) => const _OnlyAvailableOnMobileDialog(),
+      );
+      return;
+    }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      generateWrapped();
-    });
+    try {
+      final image = XFile.fromData(
+        _imageData!,
+        mimeType: 'image/png',
+      );
+
+      final result = await Share.shareXFiles([image]);
+
+      if (mounted) {
+        // ignore: use_build_context_synchronously
+        final analytics = context.read<Analytics>();
+        analytics.log(
+          NamedAnalyticsEvent(name: 'sz_wrapped_shared_${result.status.name}'),
+        );
+      }
+    } on Exception catch (e) {
+      showSnack(
+        // ignore: use_build_context_synchronously
+        context: context,
+        text: 'Share failed: $e',
+      );
+    }
   }
 
   @override
@@ -80,127 +130,107 @@ class _SharezoneWrappedPageState extends State<SharezoneWrappedPage> {
           children: [
             SingleChildScrollView(
               padding: const EdgeInsets.all(12),
-              child: MaxWidthConstraintBox(
-                maxWidth: 550,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Idea: when opening the page: creating an actual image and
-                    // displaying it.
-                    Container(
-                      // add border
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: darkBlueColor,
-                          width: 4,
+              child: SafeArea(
+                child: MaxWidthConstraintBox(
+                  maxWidth: 550,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Idea: when opening the page: creating an actual image and
+                      // displaying it.
+                      Container(
+                        // add border
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: darkBlueColor,
+                            width: 4,
+                          ),
                         ),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => Theme(
-                                data: getDarkTheme(),
-                                child: Scaffold(
-                                  appBar: AppBar(
-                                    leading: const CloseButton(),
-                                  ),
-                                  body: Center(
-                                    child: Hero(
-                                      tag: 'sharezone-wrapped-image',
-                                      child: Image.memory(
-                                        _imageData!,
-                                        fit: BoxFit.contain,
-                                        semanticLabel: 'Sharezone Wrapped',
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Theme(
+                                  data: getDarkTheme(),
+                                  child: Scaffold(
+                                    appBar: AppBar(
+                                      leading: const CloseButton(),
+                                    ),
+                                    body: Center(
+                                      child: Hero(
+                                        tag: 'sharezone-wrapped-image',
+                                        child: Image.memory(
+                                          _imageData!,
+                                          fit: BoxFit.contain,
+                                          semanticLabel: 'Sharezone Wrapped',
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
+                            );
+                          },
+                          child: _imageData == null
+                              ? Container()
+                              : Hero(
+                                  tag: 'sharezone-wrapped-image',
+                                  child: Image.memory(
+                                    _imageData!,
+                                    semanticLabel: 'Sharezone Wrapped',
+                                    height: MediaQuery.of(context).size.height *
+                                        0.55,
+                                  ),
+                                ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Wrapped',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Text(
+                        'Schuljahr 23/24',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Hier ist dein Schuljahr in Zahlen. Teile es mit deinen Freunden auf Instagram, TikTok und Co.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.6),
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Builder(
+                        // Builder is required to set sharePositionOrigin
+                        // correctly in the share parameters.
+                        builder: (context) {
+                          return ElevatedButton.icon(
+                            icon: const Icon(Icons.share),
+                            onPressed: () => share(context),
+                            label: const Text("Teilen"),
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
                             ),
                           );
                         },
-                        child: _imageData == null
-                            ? Screenshot(
-                                controller: _screenshotController,
-                                child: SharezoneWrappedImage(
-                                  view: SharezoneWrappedView.fromValues(
-                                    totalAmountOfLessonHours:
-                                        values?.totalAmountOfLessonHours ?? 0,
-                                    amountOfLessonHoursTopThreeCourses: values
-                                            ?.amountOfLessonHoursTopThreeCourses ??
-                                        [],
-                                    totalAmountOfHomeworks:
-                                        values?.totalAmountOfHomeworks ?? 0,
-                                    amountOfHomeworksTopThreeCourses: values
-                                            ?.amountOfHomeworksTopThreeCourses ??
-                                        [],
-                                    totalAmountOfExams:
-                                        values?.totalAmountOfExams ?? 0,
-                                    amountOfExamsTopThreeCourses:
-                                        values?.amountOfExamsTopThreeCourses ??
-                                            [],
-                                  ),
-                                ),
-                              )
-                            : Hero(
-                                tag: 'sharezone-wrapped-image',
-                                child: Image.memory(
-                                  _imageData!,
-                                  semanticLabel: 'Sharezone Wrapped',
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.6,
-                                ),
-                              ),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    const Text(
-                      'Wrapped',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const Text(
-                      'Schuljahr 23/24',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Hier ist dein Schuljahr in Zahlen. Teile es mit deinen Freunden auf Instagram, TikTok und Co.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.6),
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.share),
-                      onPressed: () async {
-                        // final capture = await _screenshotController.capture();
-
-                        // setState(() {
-                        //   _imageData = capture;
-                        //   print("Saved!");
-                        // });
-                      },
-                      label: const Text("Teilen"),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -244,6 +274,26 @@ class _LoadingScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _OnlyAvailableOnMobileDialog extends StatelessWidget {
+  const _OnlyAvailableOnMobileDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Nur auf iOS & Android verfügbar'),
+      content: const Text(
+        'Du kannst dein Sharezone Wrapped nur mit der Sharezone iOS- und Android-App teilen. Lade dir dafür die Sharezone-App aus dem App Store / Play Store herunter.',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Alles klar'),
+        ),
+      ],
     );
   }
 }

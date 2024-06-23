@@ -22,9 +22,11 @@ class SharezoneWrappedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const width = 540.0;
+    const height = 960.0;
     return SizedBox(
-      height: 960,
-      width: 540,
+      height: height,
+      width: width,
       child: Material(
         color: blueColor,
         child: Padding(
@@ -42,7 +44,7 @@ class SharezoneWrappedImage extends StatelessWidget {
                   const SizedBox(height: 32),
                   Container(
                     padding: const EdgeInsets.all(12),
-                    width: MediaQuery.of(context).size.width,
+                    width: width,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -82,7 +84,7 @@ class SharezoneWrappedImage extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: (540 / 2) - 18,
+                        width: (width / 2) - 18,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -121,7 +123,7 @@ class SharezoneWrappedImage extends StatelessWidget {
                       ),
                       const SizedBox(width: 12),
                       Container(
-                        width: (540 / 2) - 18,
+                        width: (width / 2) - 18,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),

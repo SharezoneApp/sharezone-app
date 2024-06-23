@@ -78,7 +78,7 @@ class SharezoneWrappedView {
 
   static String getShortenedCourseName(String courseName) {
     final characters = courseName.characters;
-    const maxLength = 20;
+    const maxLength = 19;
     if (characters.length <= maxLength) return courseName;
     return '${courseName.characters.take(maxLength)}...';
   }
