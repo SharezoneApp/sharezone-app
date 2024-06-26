@@ -24,7 +24,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class SharezoneWrappedPage extends StatefulWidget {
   const SharezoneWrappedPage({super.key});
 
-  static const tag = "sharezone-Wrapped-page";
+  static const tag = "sharezone-wrapped-page";
 
   @override
   State<SharezoneWrappedPage> createState() => _SharezoneWrappedPageState();

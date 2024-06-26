@@ -30,7 +30,7 @@ class SharezoneWrappedTip implements DashboardTip {
 
   @override
   String get text =>
-      "Das Schuljahr ist vorbei! Sieh dir dein Sharezone Wrapped 23/24 an 🎉";
+      "Das Schuljahr ist vorbei! Sieh dir dein Sharezone Wrapped 23/24 (dein Schuljahr in Zahlen) an 🎉";
 
   @override
   String get title => "Sharezone Wrapped 23/24";
