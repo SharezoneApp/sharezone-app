@@ -19,6 +19,10 @@ class UserTipsBloc extends BlocBase {
     return _userGateway.userStream.map((user) => user?.userTipData);
   }
 
+  Stream<DateTime?> streamAccountCreatedOn() {
+    return _userGateway.userStream.map((user) => user?.createdOn);
+  }
+
   void enableUserTip(UserTipKey tipKey) {
     _updateUserTip(tipKey, true);
   }

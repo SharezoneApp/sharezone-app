@@ -10,6 +10,8 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:remote_configuration/remote_configuration.dart';
 import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -19,11 +21,13 @@ import 'package:sharezone/settings/src/subpages/changelog_page.dart';
 import 'package:sharezone/settings/src/subpages/notification.dart';
 import 'package:sharezone/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/settings/src/subpages/theme/theme_page.dart';
+import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_page.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/widgets/limited_chip.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -145,29 +149,38 @@ class _LegalSection extends StatelessWidget {
 class _AppSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const _SettingsSection(
+    final remoteConfig = context.read<RemoteConfiguration>();
+    final showWrapped = remoteConfig.getBool('show_sz_wrapped_23_24');
+    return _SettingsSection(
       title: 'App-Einstellungen',
       children: <Widget>[
-        _SettingsOption(
+        const _SettingsOption(
           title: "Mein Konto",
           icon: Icon(Icons.account_circle),
           tag: MyProfilePage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Benachrichtigungen",
           icon: Icon(Icons.notifications_active),
           tag: NotificationPage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Erscheinungsbild",
           icon: Icon(Icons.color_lens),
           tag: ThemePage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Stundenplan",
           icon: Icon(Icons.access_time),
           tag: TimetableSettingsPage.tag,
-        )
+        ),
+        if (showWrapped)
+          const _SettingsOption(
+            title: "Schuljahr 23/24 Sharezone Wrapped",
+            icon: Icon(Icons.fast_rewind),
+            tag: SharezoneWrappedPage.tag,
+            trailing: LimitedChip(),
+          )
       ],
     );
   }
@@ -249,11 +262,13 @@ class _SettingsOption extends StatelessWidget {
     this.icon,
     this.onTap,
     this.tag,
+    this.trailing,
   });
 
   final String? title;
   final Widget? icon;
   final GestureTapCallback? onTap;
+  final Widget? trailing;
   final String? tag;
 
   @override
@@ -262,6 +277,7 @@ class _SettingsOption extends StatelessWidget {
       title: Text(title!),
       leading: icon,
       onTap: onTap ?? () => Navigator.pushNamed(context, tag!),
+      trailing: trailing,
     );
   }
 }
