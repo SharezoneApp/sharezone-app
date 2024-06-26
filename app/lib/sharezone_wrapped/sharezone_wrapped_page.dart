@@ -9,6 +9,7 @@
 import 'dart:typed_data';
 
 import 'package:analytics/analytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
@@ -97,13 +98,22 @@ class _SharezoneWrappedPageState extends State<SharezoneWrappedPage> {
       return;
     }
 
+    showSnackSec(
+      context: context,
+      text: 'Teilen wird vorbereitet...',
+    );
+
     try {
       final image = XFile.fromData(
         _imageData!,
         mimeType: 'image/png',
       );
 
-      final result = await Share.shareXFiles([image]);
+      final box = context.findRenderObject() as RenderBox;
+      final result = await Share.shareXFiles(
+        [image],
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+      );
 
       if (mounted) {
         // ignore: use_build_context_synchronously
@@ -111,6 +121,8 @@ class _SharezoneWrappedPageState extends State<SharezoneWrappedPage> {
         analytics.log(
           NamedAnalyticsEvent(name: 'sz_wrapped_shared_${result.status.name}'),
         );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
       }
     } on Exception catch (e) {
       showSnack(
@@ -220,7 +232,10 @@ class _SharezoneWrappedPageState extends State<SharezoneWrappedPage> {
                         // correctly in the share parameters.
                         builder: (context) {
                           return ElevatedButton.icon(
-                            icon: const Icon(Icons.share),
+                            icon: Icon(
+                              themeIconData(Icons.share,
+                                  cupertinoIcon: CupertinoIcons.share),
+                            ),
                             onPressed: () => share(context),
                             label: const Text("Teilen"),
                             style: ElevatedButton.styleFrom(
@@ -229,6 +244,8 @@ class _SharezoneWrappedPageState extends State<SharezoneWrappedPage> {
                           );
                         },
                       ),
+                      const SizedBox(height: 12),
+                      const _FAQ(),
                     ],
                   ),
                 ),
@@ -330,6 +347,29 @@ class _ErrorScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _FAQ extends StatelessWidget {
+  const _FAQ();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        ExpansionCard(
+          header: Text('Wie wurden die Schulstunden berechnet?'),
+          body: Text(
+              'Die Angabe der Schulstunden aus deinem Schuljahr sind eine Hochrechnung auf Basis von deinem aktuellen Stundenplan. Es wurde angenommen, dass es 40 Schulwochen gibt. Feiertage wurden nicht berücksichtigt.'),
+        ),
+        SizedBox(height: 12),
+        ExpansionCard(
+          header: Text('Ich habe nicht alle Prüfungen eingetragen. Was nun?'),
+          body: Text(
+              'Wenn du nicht alle Prüfungen eingetragen hast, kannst du diese nachtragen. Wenn du erneut auf diese Seite öffnest (über die Einstellungen), wird dein Sharezone Wrapped aktualisiert.'),
+        ),
+      ],
     );
   }
 }
