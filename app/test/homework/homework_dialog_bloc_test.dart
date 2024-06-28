@@ -34,6 +34,7 @@ void main() {
     late MockCourseGateway courseGateway;
     late MockHomeworkDialogApi homeworkDialogApi;
     late MockNextLessonCalculator nextLessonCalculator;
+    late MockNextSchooldayCalculator nextSchooldayCalculator;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
 
@@ -41,6 +42,7 @@ void main() {
       courseGateway = MockCourseGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
+      nextSchooldayCalculator = MockNextSchooldayCalculator();
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
     });
@@ -50,9 +52,9 @@ void main() {
         api: homeworkDialogApi,
         clockOverride: clock,
         nextLessonCalculator: nextLessonCalculator,
+        nextSchooldayCalculator: nextSchooldayCalculator,
         analytics: analytics,
         markdownAnalytics: MarkdownAnalytics(analytics),
-        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 
@@ -60,10 +62,10 @@ void main() {
       return HomeworkDialogBloc(
         api: homeworkDialogApi,
         nextLessonCalculator: nextLessonCalculator,
+        nextSchooldayCalculator: nextSchooldayCalculator,
         analytics: analytics,
         homeworkId: id,
         markdownAnalytics: MarkdownAnalytics(analytics),
-        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 

@@ -27,6 +27,7 @@ import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculator.dart';
 import 'package:test_randomness/test_randomness.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
@@ -80,6 +81,26 @@ class MockNextLessonCalculator implements NextLessonCalculator {
     return datesToReturn?.elementAt(inLessons - 1) ?? dateToReturn;
   }
 }
+
+class MockNextSchooldayCalculator implements NextSchooldayCalculator {
+
+  Date? dateToReturn;
+  List<Date>? datesToReturn;
+
+
+  @override
+  Future<Date?> tryCalculateNextSchoolday() async {
+    return tryCalculateXNextSchoolday(inSchooldays: 1);
+  }
+
+  @override
+  Future<Date?> tryCalculateXNextSchoolday({int inSchooldays = 1}) async {
+     return datesToReturn?.elementAt(inSchooldays - 1) ?? dateToReturn;
+  }
+  
+}
+
+
 
 class MockHomeworkDialogApi implements HomeworkDialogApi {
   late UserInput userInputToBeCreated;
