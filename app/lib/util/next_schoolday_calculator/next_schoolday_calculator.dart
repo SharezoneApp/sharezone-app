@@ -35,10 +35,10 @@ class NextSchooldayCalculator {
     assert(inSchooldays > 0);
     try {
       final user = await _userGateway.get();
-      final enabledWeekdays = _userGateway.data!.userSettings.enabledWeekDays;
+      final enabledWeekdays = user.userSettings.enabledWeekDays;
       final holidays = await _tryLoadHolidays(user);
       final results =
-          _NextSchooldayCaluclation(enabledWeekdays, holidays, user.userSettings)
+          _NextSchooldayCaluclation(enabledWeekdays, holidays)
               .calculate(days: inSchooldays);
       if (results.isEmpty) return null;
       return results.elementAt(inSchooldays - 1);
@@ -62,9 +62,8 @@ class NextSchooldayCalculator {
 class _NextSchooldayCaluclation {
   final EnabledWeekDays enabledWeekdays;
   final List<Holiday?> holidays;
-  final UserSettings userSettings;
 
-  _NextSchooldayCaluclation(this.enabledWeekdays, this.holidays, this.userSettings);
+  _NextSchooldayCaluclation(this.enabledWeekdays, this.holidays);
 
   List<Date> calculate({int days = 3}) {
     if (enabledWeekdays.getEnabledWeekDaysList().isEmpty) return [];
