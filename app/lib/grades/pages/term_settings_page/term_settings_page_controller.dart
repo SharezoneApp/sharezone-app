@@ -19,7 +19,8 @@ import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_vie
 
 class TermSettingsPageController extends ChangeNotifier {
   final GradesService gradesService;
-  final TermId termId;
+  final TermRef termRef;
+  TermId get termId => termRef.id;
   final Stream<List<Course>> coursesStream;
 
   late String name;
@@ -44,7 +45,7 @@ class TermSettingsPageController extends ChangeNotifier {
 
   TermSettingsPageController({
     required this.gradesService,
-    required this.termId,
+    required this.termRef,
     required this.coursesStream,
   }) {
     final term = _getTerm();
@@ -95,69 +96,51 @@ class TermSettingsPageController extends ChangeNotifier {
 
   void setName(String name) {
     this.name = name;
-    gradesService.editTerm(
-      id: termId,
-      name: name,
-    );
+    termRef.changeName(name);
     state = TermSettingsLoaded(view);
     notifyListeners();
   }
 
   void setIsActiveTerm(bool isActiveTerm) {
     this.isActiveTerm = isActiveTerm;
-    gradesService.editTerm(
-      id: termId,
-      isActiveTerm: isActiveTerm,
-    );
+    termRef.changeActiveTerm(isActiveTerm);
     state = TermSettingsLoaded(view);
     notifyListeners();
   }
 
   void setGradingSystem(GradingSystem gradingSystem) {
     this.gradingSystem = gradingSystem;
-    gradesService.editTerm(
-      id: termId,
-      gradingSystem: gradingSystem,
-    );
+    termRef.changeGradingSystem(gradingSystem);
     state = TermSettingsLoaded(view);
     notifyListeners();
   }
 
   void setFinalGradeType(GradeType gradeType) {
-    gradesService.editTerm(
-      id: termId,
-      finalGradeType: gradeType.id,
-    );
+    termRef.changeFinalGradeType(finalGradeType.id);
     finalGradeType = gradeType;
     state = TermSettingsLoaded(view);
     notifyListeners();
   }
 
   void setGradeWeight(GradeTypeId gradeTypeId, Weight weight) {
-    gradesService.changeGradeTypeWeightForTerm(
-      termId: termId,
-      gradeType: gradeTypeId,
-      weight: weight,
-    );
+    termRef.changeGradeTypeWeight(gradeTypeId, weight);
     _weights = _weights.add(gradeTypeId, weight);
     state = TermSettingsLoaded(view);
     notifyListeners();
   }
 
   void removeGradeType(GradeTypeId gradeTypeId) {
-    gradesService.removeGradeTypeWeightForTerm(
-      termId: termId,
-      gradeType: gradeTypeId,
-    );
+    termRef.removeGradeTypeWeight(gradeTypeId);
     _weights = _weights.remove(gradeTypeId);
     state = TermSettingsLoaded(view);
     notifyListeners();
   }
 
   Future<void> setSubjectWeight(SubjectId subjectId, Weight weight) async {
+    final subRef = termRef.subject(subjectId);
     final isNewSubject = gradesService.getSubject(subjectId) == null;
     if (isNewSubject) {
-      subjectId = _createSubject(subjectId);
+      subjectId = _createSubject(subRef);
 
       // Firestore had a soft limit of 1 write per second per document. However,
       // this limit isn't mentioned in the documentation anymore. We still keep
@@ -167,11 +150,7 @@ class TermSettingsPageController extends ChangeNotifier {
       await Future.delayed(const Duration(milliseconds: 500));
     }
 
-    gradesService.changeSubjectWeightForTermGrade(
-      id: subjectId,
-      termId: termId,
-      weight: weight,
-    );
+    subRef.changeWeightForTermGrade(weight);
 
     // Wait for Firestore listener to update the subject weights. The view
     // fetches the weights from the grades service. The better solution would be
@@ -182,9 +161,9 @@ class TermSettingsPageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  SubjectId _createSubject(SubjectId subjectId) {
-    final subject = view.subjects.firstWhere((s) => s.id == subjectId);
-    final connectedCourses = _getConnectedCourses(subjectId);
+  SubjectId _createSubject(SubjectRef subRef) {
+    final subject = view.subjects.firstWhere((s) => s.id == subRef.id);
+    final connectedCourses = _getConnectedCourses(subRef.id);
 
     final newSubjectId = gradesService.addSubject(
       SubjectInput(

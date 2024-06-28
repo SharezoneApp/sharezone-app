@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -153,14 +155,14 @@ void main() {
         displayName: 'My Custom Grade Type',
       );
 
-      service.addTerm(
+      final term0210 = service.addTerm(
         id: const TermId('02-10-term'),
         name: '02/10',
         finalGradeType: GradeType.schoolReportGrade.id,
         gradingSystem: GradingSystem.zeroToFifteenPoints,
         isActiveTerm: true,
       );
-      service.addTerm(
+      final term0110 = service.addTerm(
         id: const TermId('01-10-term'),
         name: '01/10',
         finalGradeType: const GradeTypeId('my-custom-grade-type'),
@@ -201,11 +203,10 @@ void main() {
         ),
       );
 
-      service.addGrade(
-          id: const GradeId('grade-1'),
-          subjectId: const SubjectId('mathe'),
-          termId: const TermId('02-10-term'),
-          value: GradeInput(
+      final mathGrade1 = term0210
+          .subject(const SubjectId('mathe'))
+          .grade(const GradeId('grade-1'))
+          .create(GradeInput(
             value: '13',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             type: const GradeTypeId('my-custom-grade-type'),
@@ -214,11 +215,10 @@ void main() {
             title: 'hallo',
             details: 'hello',
           ));
-      service.addGrade(
-          id: const GradeId('grade-2'),
-          subjectId: const SubjectId('mathe'),
-          termId: const TermId('02-10-term'),
-          value: GradeInput(
+      final mathGrade2 = term0210
+          .subject(const SubjectId('mathe'))
+          .grade(const GradeId('grade-2'))
+          .create(GradeInput(
             value: '3',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             type: GradeType.vocabularyTest.id,
@@ -227,12 +227,10 @@ void main() {
             title: 'abcdef',
             details: 'ghijkl',
           ));
-
-      service.addGrade(
-          id: const GradeId('grade-3'),
-          subjectId: const SubjectId('englisch'),
-          termId: const TermId('01-10-term'),
-          value: GradeInput(
+      final englishGrade1 = term0110
+          .subject(const SubjectId('englisch'))
+          .grade(const GradeId('grade-3'))
+          .create(GradeInput(
             value: '2-',
             gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
             type: const GradeTypeId('my-custom-grade-type'),
@@ -241,11 +239,10 @@ void main() {
             title: 'hallo',
             details: 'ollah',
           ));
-      service.addGrade(
-          id: const GradeId('grade-4'),
-          subjectId: const SubjectId('englisch'),
-          termId: const TermId('01-10-term'),
-          value: GradeInput(
+      final englishGrade2 = term0110
+          .subject(const SubjectId('englisch'))
+          .grade(const GradeId('grade-4'))
+          .create(GradeInput(
             value: 'Sehr zufriedenstellend',
             gradingSystem: GradingSystem.austrianBehaviouralGrades,
             type: GradeType.oralParticipation.id,
@@ -255,31 +252,19 @@ void main() {
             details: 'robot noises',
           ));
 
-      service.changeSubjectFinalGradeType(
-          id: const SubjectId('englisch'),
-          termId: const TermId('01-10-term'),
-          gradeType: GradeType.oralParticipation.id);
-      service.changeGradeTypeWeightForTerm(
-          termId: const TermId('02-10-term'),
-          gradeType: GradeType.vocabularyTest.id,
-          weight: const Weight.factor(1.5));
-      service.changeGradeTypeWeightForSubject(
-          id: const SubjectId('mathe'),
-          termId: const TermId('02-10-term'),
-          gradeType: const GradeTypeId('my-custom-grade-type'),
-          weight: const Weight.percent(200));
-      service.changeGradeWeight(
-          id: const GradeId('grade-1'),
-          termId: const TermId('02-10-term'),
-          weight: const Weight.factor(0.5));
-      service.changeSubjectWeightTypeSettings(
-          id: const SubjectId('mathe'),
-          termId: const TermId('02-10-term'),
-          perGradeType: WeightType.perGrade);
-      service.changeSubjectWeightForTermGrade(
-          id: const SubjectId('mathe'),
-          termId: const TermId('02-10-term'),
-          weight: const Weight.percent(250));
+      term0110
+          .subject(const SubjectId('englisch'))
+          .changeFinalGradeType(GradeType.oralParticipation.id);
+
+      term0210.changeGradeTypeWeight(
+          GradeType.vocabularyTest.id, const Weight.factor(1.5));
+
+      term0210.subject(const SubjectId('mathe'))
+        ..changeGradeTypeWeight(const GradeTypeId('my-custom-grade-type'),
+            const Weight.percent(200))
+        ..grade(GradeId('grade-1')).changeWeight(const Weight.factor(0.5))
+        ..changeWeightType(WeightType.perGrade)
+        ..changeWeightForTermGrade(const Weight.percent(250));
 
       final res = repository.data;
 
