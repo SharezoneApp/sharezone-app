@@ -645,6 +645,7 @@ void main() {
       bloc.add(const TitleChanged('abc'));
       bloc.add(const CourseChanged(CourseId('foo_course')));
       bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
+      await pumpEventQueue(); // Wait for the due date to be checked for next schoolday
       bloc.add(const Save());
       await bloc.stream.whereType<SavedSuccessfully>().first;
 
