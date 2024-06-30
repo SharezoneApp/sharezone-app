@@ -40,7 +40,7 @@ class NextSchooldayCalculator {
       final results =
           _NextSchooldayCaluclation(enabledWeekdays, holidays)
               .calculate(days: inSchooldays);
-      if (results.isEmpty) return null;
+      if (results.isEmpty) return Date.today().addDays(1);
       return results.elementAt(inSchooldays - 1);
     } catch (e, s) {
       log('Could not calculate next schoolday: $e\n$s', error: e, stackTrace: s);
