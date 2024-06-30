@@ -86,13 +86,15 @@ void main() {
         nextLessonCalculator.dateToReturn = null;
         final testClock = Clock.fixed(Date.parse(currentDate).toDateTime);
         addCourse(courseWith(id: 'foo'));
-        final bloc = createBlocForNewHomeworkDialog(clock: testClock);
+        
+        await withClock(testClock, () async {
+            final bloc = createBlocForNewHomeworkDialog(clock: testClock);          
+            bloc.add(const CourseChanged(CourseId('foo')));
+            await pumpEventQueue();
 
-        bloc.add(const CourseChanged(CourseId('foo')));
-        await pumpEventQueue();
-
-        final state = bloc.state as Ready;
-        expect(state.dueDate.$1, Date.parse(expectedLessonDate));
+            final state = bloc.state as Ready;
+            expect(state.dueDate.$1, Date.parse(expectedLessonDate));
+        });
       }
 
       //                    | Current date  | Next lesson date |
