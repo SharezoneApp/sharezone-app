@@ -164,6 +164,7 @@ class _SharezonePlusAd extends StatelessWidget {
     return EventView(
       groupID: 'groupId',
       dateText: dateText,
+      upcomingSoon: false,
       title: title,
       courseName: courseName,
       event: CalendricalEvent(
