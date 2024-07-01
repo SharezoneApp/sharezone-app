@@ -40,7 +40,7 @@ class EventView {
       groupID: event.groupID,
       courseName: info?.name,
       dateText: DateParser(event.date).toYMMMd,
-      upcomingSoon: event.date.isBefore(Date.today().addDays(7)),
+      upcomingSoon: event.date.isBefore(Date.today().addDays(14)),
       title: event.title,
       design: info?.design,
       event: event,
