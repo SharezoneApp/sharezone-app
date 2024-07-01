@@ -499,7 +499,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required this.nextSchooldayCalculator,
     Clock? clockOverride,
     HomeworkId? homeworkId,
-  })  : super(homeworkId != null
+  }) : super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
             : emptyCreateHomeworkDialogState) {
     isEditing = homeworkId != null;
@@ -647,8 +647,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       (event, emit) async {
         switch (event.newDueDate) {
           case DateDueDateSelection s:
-            final nextSchoolDay = await nextSchooldayCalculator
-                .tryCalculateNextSchoolday();
+            final nextSchoolDay =
+                await nextSchooldayCalculator.tryCalculateNextSchoolday();
             if (s.date == nextSchoolDay) {
               _dateSelection = _dateSelection.copyWith(
                 dueDate: s.date,
@@ -660,8 +660,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                 _dateSelection.copyWith(dueDate: s.date, dueDateSelection: s);
             break;
           case NextSchooldayDueDateSelection s:
-            final nextSchoolDay = await nextSchooldayCalculator
-                .tryCalculateNextSchoolday();
+            final nextSchoolDay =
+                await nextSchooldayCalculator.tryCalculateNextSchoolday();
             _dateSelection = _dateSelection.copyWith(
               dueDate: nextSchoolDay,
               dueDateSelection: s,
@@ -707,8 +707,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             .tryCalculateXNextLesson(course.id, inLessons: inXLessons);
         _hasLessons[course.id] = newLessonDate != null;
 
-        final nextSchoolDay = await nextSchooldayCalculator
-                .tryCalculateNextSchoolday();
+        final nextSchoolDay =
+            await nextSchooldayCalculator.tryCalculateNextSchoolday();
 
         // Manual date was already set, we don't want to overwrite it.
         if (_dateSelection.dueDateSelection != null &&

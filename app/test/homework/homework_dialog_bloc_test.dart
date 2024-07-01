@@ -23,7 +23,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:time/time.dart';
-import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_test.dart';
@@ -86,14 +85,14 @@ void main() {
         nextLessonCalculator.dateToReturn = null;
         final testClock = Clock.fixed(Date.parse(currentDate).toDateTime);
         addCourse(courseWith(id: 'foo'));
-        
-        await withClock(testClock, () async {
-            final bloc = createBlocForNewHomeworkDialog(clock: testClock);          
-            bloc.add(const CourseChanged(CourseId('foo')));
-            await pumpEventQueue();
 
-            final state = bloc.state as Ready;
-            expect(state.dueDate.$1, Date.parse(expectedLessonDate));
+        await withClock(testClock, () async {
+          final bloc = createBlocForNewHomeworkDialog(clock: testClock);
+          bloc.add(const CourseChanged(CourseId('foo')));
+          await pumpEventQueue();
+
+          final state = bloc.state as Ready;
+          expect(state.dueDate.$1, Date.parse(expectedLessonDate));
         });
       }
 

@@ -73,8 +73,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
     final szContext = BlocProvider.of<SharezoneContext>(context);
     final analytics = szContext.analytics;
-    final holidayManager =
-          BlocProvider.of<HolidayBloc>(context).holidayManager;
+    final holidayManager = BlocProvider.of<HolidayBloc>(context).holidayManager;
 
     late NextLessonCalculator nextLessonCalculator;
     if (widget.nextLessonCalculator != null) {

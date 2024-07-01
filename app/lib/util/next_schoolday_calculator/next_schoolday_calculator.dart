@@ -15,35 +15,32 @@ import 'package:sharezone/util/api/user_api.dart';
 import 'package:user/user.dart';
 
 class NextSchooldayCalculator {
-
   final UserGateway _userGateway;
   final HolidayService _holidayManager;
 
   NextSchooldayCalculator({
     required UserGateway userGateway,
     required HolidayService holidayManager,
-  })  : 
-        _userGateway = userGateway,
+  })  : _userGateway = userGateway,
         _holidayManager = holidayManager;
 
   Future<Date?> tryCalculateNextSchoolday() async {
     return tryCalculateXNextSchoolday(inSchooldays: 1);
   }
 
-  Future<Date?> tryCalculateXNextSchoolday(
-      {int inSchooldays = 1}) async {
+  Future<Date?> tryCalculateXNextSchoolday({int inSchooldays = 1}) async {
     assert(inSchooldays > 0);
     try {
       final user = await _userGateway.get();
       final enabledWeekdays = user.userSettings.enabledWeekDays;
       final holidays = await _tryLoadHolidays(user);
-      final results =
-          _NextSchooldayCaluclation(enabledWeekdays, holidays)
-              .calculate(days: inSchooldays);
+      final results = _NextSchooldayCaluclation(enabledWeekdays, holidays)
+          .calculate(days: inSchooldays);
       if (results.isEmpty) return Date.today().addDays(1);
       return results.elementAt(inSchooldays - 1);
     } catch (e, s) {
-      log('Could not calculate next schoolday: $e\n$s', error: e, stackTrace: s);
+      log('Could not calculate next schoolday: $e\n$s',
+          error: e, stackTrace: s);
       return null;
     }
   }

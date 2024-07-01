@@ -88,17 +88,15 @@ class MockNextLessonCalculator implements NextLessonCalculator {
 }
 
 class MockNextSchooldayCalculator implements NextSchooldayCalculator {
-
   EnabledWeekDays enabledWeekdays = EnabledWeekDays.standard;
   Holiday? holiday = Holiday.fromJson(jsonEncode({
-        "start": "${clock.now().year}-12-21",
-        "end": "${clock.now().year + 1}-01-05",
-        "year": clock.now().year,
-        "stateCode": "NW",
-        "name": "weihnachtsferien nordrhein-westfalen 2023",
-        "slug": "weihnachtsferien nordrhein-westfalen 2023-2023-NW"
-      }));
-
+    "start": "${clock.now().year}-12-21",
+    "end": "${clock.now().year + 1}-01-05",
+    "year": clock.now().year,
+    "stateCode": "NW",
+    "name": "weihnachtsferien nordrhein-westfalen 2023",
+    "slug": "weihnachtsferien nordrhein-westfalen 2023-2023-NW"
+  }));
 
   @override
   Future<Date?> tryCalculateNextSchoolday() async {
@@ -107,7 +105,10 @@ class MockNextSchooldayCalculator implements NextSchooldayCalculator {
 
   @override
   Future<Date?> tryCalculateXNextSchoolday({int inSchooldays = 1}) async {
-    if (enabledWeekdays.getEnabledWeekDaysList().isEmpty) return Date.today().addDays(1);
+    if (enabledWeekdays.getEnabledWeekDaysList().isEmpty) {
+      return Date.today().addDays(1);
+    }
+
     List<Date> results = [];
     Date date = Date.today();
     while (results.length < inSchooldays) {
@@ -132,8 +133,6 @@ class MockNextSchooldayCalculator implements NextSchooldayCalculator {
     return false;
   }
 }
-
-
 
 class MockHomeworkDialogApi implements HomeworkDialogApi {
   late UserInput userInputToBeCreated;
@@ -1209,7 +1208,8 @@ class _TestController {
           userSettings: appUser.userSettings.copyWith(
               enabledWeekDays: EnabledWeekDays.fromEnabledWeekDaysList(list)));
     });
-    nextSchooldayCalculator.enabledWeekdays = EnabledWeekDays.fromEnabledWeekDaysList(list);
+    nextSchooldayCalculator.enabledWeekdays =
+        EnabledWeekDays.fromEnabledWeekDaysList(list);
   }
 }
 
