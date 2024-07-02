@@ -75,7 +75,7 @@ jobs:
             projectId: sharezone-c2bd8
             serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
