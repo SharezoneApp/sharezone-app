@@ -7,8 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:clock/clock.dart';
-import 'package:hausaufgabenheft_logik/color.dart';
-import 'package:hausaufgabenheft_logik/src/homework_completion/homework_page_completion_dispatcher.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 
 import '../completed_homeworks/views/completed_homework_list_view_factory.dart';
@@ -29,7 +27,7 @@ HomeworkPageBloc createHomeworkPageBloc(
   final viewFactory = StudentHomeworkViewFactory(
       defaultColorValue: config.defaultCourseColorValue);
   final sortAndSubcategorizer = HomeworkSortAndSubcategorizer(
-    defaultColor: Color(config.defaultCourseColorValue),
+    viewFactory: viewFactory,
     getCurrentDate: getCurrentDate,
   );
   final openHomeworkListViewFactory =
@@ -38,17 +36,12 @@ HomeworkPageBloc createHomeworkPageBloc(
   final completedHomeworkListViewFactory =
       CompletedHomeworkListViewFactory(viewFactory);
 
-  final homeworkPageCompletionReceiver = HomeworkPageCompletionDispatcher(
-      dependencies.completionDispatcher,
-      getCurrentOverdueHomeworkIds: dependencies.getOpenOverdueHomeworkIds);
-
   return HomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,
     completedHomeworkListViewFactory: completedHomeworkListViewFactory,
-    homeworkDataSource: dependencies.dataSource,
+    homeworkApi: dependencies.api.students,
     numberOfInitialCompletedHomeworksToLoad:
         config.nrOfInitialCompletedHomeworksToLoad,
-    homeworkCompletionReceiver: homeworkPageCompletionReceiver,
     homeworkSortingCache: HomeworkSortingCache(dependencies.keyValueStore),
     getCurrentDateTime: dependencies.getCurrentDateTime ?? () => clock.now(),
   );

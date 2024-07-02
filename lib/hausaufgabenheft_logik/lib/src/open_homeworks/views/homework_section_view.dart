@@ -27,7 +27,7 @@ class HomeworkSectionView extends Equatable {
 
   factory HomeworkSectionView.fromModels(
       String title,
-      IList<HomeworkReadModel> homeworks,
+      IList<StudentHomeworkReadModel> homeworks,
       StudentHomeworkViewFactory viewFactory) {
     return HomeworkSectionView(
         title,

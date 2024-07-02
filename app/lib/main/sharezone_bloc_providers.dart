@@ -18,15 +18,14 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
-import 'package:design/design.dart';
 import 'package:dio/dio.dart';
 import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:filesharing_logic/file_uploader.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik_setup.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
@@ -127,6 +126,7 @@ import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_factor
 import 'package:sharezone/timetable/timetable_page/lesson/substitution_controller.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
 import 'package:sharezone/util/api.dart';
+import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/firebase_auth_token_retreiver_impl.dart';
@@ -230,15 +230,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final homeworkCollection = firestore.collection("Homework");
     final uid = api.uID;
     final crashAnalytics = getCrashAnalytics();
-    final firestoreHomeworkRepository = createDefaultFirestoreRepository(
+    final homeworkApi = createDefaultFirestoreRepositories(
       homeworkCollection,
       uid,
-      (courseId) =>
-          getCourseColorFromCourseId(api, courseId) ??
-          Design.standard().color.value,
+      (courseId) => getCourseData(api, courseId.value),
     );
-    final homeworkCompletionDispatcher =
-        FirestoreHomeworkCompletionDispatcher(homeworkCollection, () => uid);
 
     final config = HausaufgabenheftConfig(
       defaultCourseColorValue: Colors.lightBlue.value,
@@ -260,10 +256,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           20,
     );
     final dependencies = HausaufgabenheftDependencies(
-      dataSource: firestoreHomeworkRepository,
-      completionDispatcher: homeworkCompletionDispatcher,
-      getOpenOverdueHomeworkIds:
-          firestoreHomeworkRepository.getCurrentOpenOverdueHomeworkIds,
+      api: homeworkApi,
       keyValueStore: widget.blocDependencies.keyValueStore,
     );
     final homeworkPageBloc = createHomeworkPageBloc(dependencies, config);
@@ -742,8 +735,20 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
   }
 
-  int? getCourseColorFromCourseId(SharezoneGateway api, String courseId) {
-    final course = api.course.getCourse(courseId);
-    return course?.getDesign().color.value;
+  Future<({int colorHexValue, bool isAdmin})> getCourseData(
+      SharezoneGateway api, String courseId) async {
+    final course = api.course.getCourse(courseId)!;
+    final role = _getMemberRole(api.connectionsGateway, courseId);
+    final isAdmin = role == MemberRole.admin || role == MemberRole.owner;
+    return (colorHexValue: course.getDesign().color.value, isAdmin: isAdmin);
+  }
+
+  MemberRole? _getMemberRole(ConnectionsGateway gateway, String courseID) {
+    final connectionsData = gateway.current();
+    if (connectionsData != null) {
+      final courses = connectionsData.courses;
+      return courses[courseID]?.myRole;
+    }
+    return MemberRole.none;
   }
 }

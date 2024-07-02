@@ -13,9 +13,11 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
+    hide HomeworkPageBloc;
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_page_new.dart';
 import 'package:sharezone/homework/parent/src/homework_page_bloc.dart';
@@ -127,7 +129,7 @@ class _HomeworkPageState extends State<_HomeworkPage> {
     final bloc = BlocProvider.of<HomeworkPageBloc>(context);
     // Placeholder, may be turned to true for local development or might be
     // replaced with a feature flag system later.
-    const newTeacherPageActivated = false;
+    const newTeacherPageActivated = true;
     if (widget.typeOfUser == TypeOfUser.student ||
         (widget.typeOfUser == TypeOfUser.teacher && newTeacherPageActivated)) {
       /// We translate [TypeOfUser] (legacy) to [HomeworkPageTypeOfUser] because

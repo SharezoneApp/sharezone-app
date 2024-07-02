@@ -9,6 +9,7 @@
 import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 import 'teacher_homework_section_view.dart';
 
@@ -48,38 +49,38 @@ class TeacherOpenHomeworkListView {
   int get hashCode => sections.hashCode ^ sorting.hashCode;
 }
 
-enum HomeworkSort {
-  /// Sorts the homeworks firstly by date (earliest date first).
-  /// If they have the same date, they will be sorted alphabetically by subject.
-  /// If they have the same date and subject, they will be sorted alphabetically by title.
-  smallestDateSubjectAndTitle,
+// enum HomeworkSort {
+//   /// Sorts the homeworks firstly by date (earliest date first).
+//   /// If they have the same date, they will be sorted alphabetically by subject.
+//   /// If they have the same date and subject, they will be sorted alphabetically by title.
+//   smallestDateSubjectAndTitle,
 
-  /// Sorts the homeworks firstly by Subject.
-  /// If they have the same subject, they will be sorted by date (earliest date first).
-  /// If they have the same date and subject, they will be sorted alphabetically by title.
-  subjectSmallestDateAndTitleSort,
-}
+//   /// Sorts the homeworks firstly by Subject.
+//   /// If they have the same subject, they will be sorted by date (earliest date first).
+//   /// If they have the same date and subject, they will be sorted alphabetically by title.
+//   subjectSmallestDateAndTitleSort,
+// }
 
-const String _subjectSmallestDateAndTitleSortAsString =
-    'smallestDateSubjectAndTitle';
-const String _subjectSmallestDateAndTitleSort =
-    'subjectSmallestDateAndTitleSort';
+// const String _subjectSmallestDateAndTitleSortAsString =
+//     'smallestDateSubjectAndTitle';
+// const String _subjectSmallestDateAndTitleSort =
+//     'subjectSmallestDateAndTitleSort';
 
-HomeworkSort homeworkSortFromString(String s) {
-  switch (s) {
-    case _subjectSmallestDateAndTitleSortAsString:
-      return HomeworkSort.smallestDateSubjectAndTitle;
-    case _subjectSmallestDateAndTitleSort:
-      return HomeworkSort.subjectSmallestDateAndTitleSort;
-  }
-  throw UnimplementedError();
-}
+// HomeworkSort homeworkSortFromString(String s) {
+//   switch (s) {
+//     case _subjectSmallestDateAndTitleSortAsString:
+//       return HomeworkSort.smallestDateSubjectAndTitle;
+//     case _subjectSmallestDateAndTitleSort:
+//       return HomeworkSort.subjectSmallestDateAndTitleSort;
+//   }
+//   throw UnimplementedError();
+// }
 
-String homeworkSortToString(HomeworkSort s) {
-  switch (s) {
-    case HomeworkSort.smallestDateSubjectAndTitle:
-      return _subjectSmallestDateAndTitleSortAsString;
-    case HomeworkSort.subjectSmallestDateAndTitleSort:
-      return _subjectSmallestDateAndTitleSort;
-  }
-}
+// String homeworkSortToString(HomeworkSort s) {
+//   switch (s) {
+//     case HomeworkSort.smallestDateSubjectAndTitle:
+//       return _subjectSmallestDateAndTitleSortAsString;
+//     case HomeworkSort.subjectSmallestDateAndTitleSort:
+//       return _subjectSmallestDateAndTitleSort;
+//   }
+// }

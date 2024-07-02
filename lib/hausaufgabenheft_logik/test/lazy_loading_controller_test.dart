@@ -11,46 +11,49 @@ import 'dart:async';
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:firebase_hausaufgabenheft_logik/src/realtime_updating_lazy_loading_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:rxdart/subjects.dart' as rx;
 
-import 'in_memory_homework_loader.dart';
+import 'in_memory_repo/firebase_realtime_updating_lazy_loading_controller.dart';
+import 'in_memory_repo/in_memory_homework_repository.dart';
 
-class ReportingInMemoryHomeworkLoader extends InMemoryHomeworkLoader {
+class ReportingInMemoryHomeworkLoader<T extends BaseHomeworkReadModel>
+    extends InMemoryHomeworkLoader<T> {
   ReportingInMemoryHomeworkLoader(super.completedHomeworksSubject);
 
   bool wasInvoked = false;
   @override
-  Stream<IList<HomeworkReadModel>> loadMostRecentHomeworks(
-      int numberOfHomeworks) {
+  Stream<IList<T>> loadMostRecentHomeworks(int numberOfHomeworks) {
     wasInvoked = true;
     return super.loadMostRecentHomeworks(numberOfHomeworks);
   }
 }
 
-IList<HomeworkReadModel> listOfHomeworksWithLength(int length) => List.generate(
+IList<StudentHomeworkReadModel> listOfHomeworksWithLength(int length) =>
+    List.generate(
       length,
-      (index) => HomeworkReadModel(
+      (index) => StudentHomeworkReadModel(
           id: HomeworkId("$index"),
           todoDate: clock.now(),
+          courseId: const CourseId("testCourseId"),
           status: CompletionStatus.completed,
           subject: Subject("Mathe", abbreviation: 'Ma'),
           title: const Title("ABC"),
           withSubmissions: false),
     ).toIList();
 
-Stream<IList<HomeworkReadModel>> getHomeworkResultsAsStream(
-        Stream<LazyLoadingResult> resultStream) =>
+Stream<IList<StudentHomeworkReadModel>> getHomeworkResultsAsStream(
+        Stream<LazyLoadingResult<StudentHomeworkReadModel>> resultStream) =>
     resultStream.map((res) => res.homeworks);
 
 void main() {
   group('LazyLoadingController', () {
-    late ReportingInMemoryHomeworkLoader homeworkLoader;
-    late rx.BehaviorSubject<IList<HomeworkReadModel>> homeworkSubject;
+    late ReportingInMemoryHomeworkLoader<StudentHomeworkReadModel>
+        homeworkLoader;
+    late rx.BehaviorSubject<IList<StudentHomeworkReadModel>> homeworkSubject;
 
-    void addToDataSource(IList<HomeworkReadModel> homeworks) {
+    void addToDataSource(IList<StudentHomeworkReadModel> homeworks) {
       var hws = homeworkSubject.valueOrNull;
       if (hws != null) {
         hws = hws.addAll(homeworks);
@@ -61,8 +64,10 @@ void main() {
     }
 
     setUp(() {
-      homeworkSubject = rx.BehaviorSubject<IList<HomeworkReadModel>>();
-      homeworkLoader = ReportingInMemoryHomeworkLoader(homeworkSubject);
+      homeworkSubject = rx.BehaviorSubject<IList<StudentHomeworkReadModel>>();
+      homeworkLoader =
+          ReportingInMemoryHomeworkLoader<StudentHomeworkReadModel>(
+              homeworkSubject);
     });
 
     tearDown(() {

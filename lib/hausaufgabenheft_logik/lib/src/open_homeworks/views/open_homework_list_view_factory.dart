@@ -23,8 +23,8 @@ class OpenHomeworkListViewFactory {
   OpenHomeworkListViewFactory(
       this._sortAndSubcategorizer, this._getCurrentDate);
 
-  OpenHomeworkListView create(
-      IList<HomeworkReadModel> openHomeworks, Sort<HomeworkReadModel> sort) {
+  OpenHomeworkListView create(IList<StudentHomeworkReadModel> openHomeworks,
+      Sort<StudentHomeworkReadModel> sort) {
     final homeworkSectionViews =
         _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
 
@@ -39,7 +39,7 @@ class OpenHomeworkListViewFactory {
   }
 
   bool _shouldShowCompleteOverdueHomeworkPrompt(
-      IList<HomeworkReadModel> openHomeworks) {
+      IList<StudentHomeworkReadModel> openHomeworks) {
     var now = _getCurrentDate();
     var overdueOpenHomeworks = openHomeworks.getOverdue(now);
     return overdueOpenHomeworks.length > 2;

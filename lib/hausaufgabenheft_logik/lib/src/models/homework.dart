@@ -14,30 +14,23 @@ import 'date.dart';
 import 'subject.dart';
 import 'title.dart';
 
-/// The read model of a Homework that is specific to one user.
-/// The Homework should only be used to display a homework, created specifically
-/// for one user. It should not be edited and put in a repository.
-///
-/// In Sharezone it used in the context of the HomeworkPage, as it is basically
-/// a merge from the information of the homework-details (title, subject, ...)
-/// and the specific done status of the user viewing the homework.
-class HomeworkReadModel extends Equatable {
+abstract class BaseHomeworkReadModel extends Equatable {
   final HomeworkId id;
   final DateTime todoDate;
   final Subject subject;
   final Title title;
+  final CourseId courseId;
   final bool withSubmissions;
-  final CompletionStatus status;
 
   @override
   List<Object?> get props =>
-      [id, todoDate, subject, title, withSubmissions, status];
+      [id, todoDate, subject, courseId, title, withSubmissions];
 
-  const HomeworkReadModel({
+  const BaseHomeworkReadModel({
     required this.id,
     required this.title,
     required this.subject,
-    required this.status,
+    required this.courseId,
     required this.withSubmissions,
     required this.todoDate,
   });
@@ -46,3 +39,69 @@ class HomeworkReadModel extends Equatable {
     return Date.fromDateTime(todoDate) < today;
   }
 }
+
+class StudentHomeworkReadModel extends BaseHomeworkReadModel {
+  final CompletionStatus status;
+
+  @override
+  List<Object?> get props =>
+      [id, todoDate, subject, courseId, title, withSubmissions, status];
+
+  const StudentHomeworkReadModel({
+    required super.id,
+    required super.title,
+    required super.subject,
+    required this.status,
+    required super.withSubmissions,
+    required super.todoDate,
+    required super.courseId,
+  });
+}
+
+class TeacherHomeworkReadModel extends BaseHomeworkReadModel {
+  final ArchivalStatus status;
+  final int nrOfStudentsCompleted;
+  final bool canViewCompletions;
+  final bool canViewSubmissions;
+
+  /// If the user has the permission to delete the homework for everyone in the
+  /// group.
+  final bool canDeleteForEveryone;
+
+  /// If the user has the permission to edit the homework for everyone in the
+  /// group.
+  final bool canEditForEveryone;
+
+  @override
+  List<Object?> get props => [
+        id,
+        todoDate,
+        subject,
+        courseId,
+        title,
+        withSubmissions,
+        status,
+        nrOfStudentsCompleted,
+        canViewCompletions,
+        canViewSubmissions,
+        canDeleteForEveryone,
+        canEditForEveryone,
+      ];
+
+  const TeacherHomeworkReadModel({
+    required this.nrOfStudentsCompleted,
+    required this.canViewCompletions,
+    required this.canViewSubmissions,
+    required this.canDeleteForEveryone,
+    required this.canEditForEveryone,
+    required this.status,
+    required super.id,
+    required super.title,
+    required super.subject,
+    required super.courseId,
+    required super.withSubmissions,
+    required super.todoDate,
+  });
+}
+
+enum ArchivalStatus { open, archived }

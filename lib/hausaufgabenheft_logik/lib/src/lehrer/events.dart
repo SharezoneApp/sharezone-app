@@ -7,7 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
+    show HomeworkSort;
 
 abstract class TeacherHomeworkPageEvent extends Equatable {
   @override

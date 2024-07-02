@@ -78,8 +78,6 @@ dependencies:
     path: ../lib/filesharing/filesharing_logic
   firebase_auth: ^4.19.4
   firebase_core: ^2.30.1
-  firebase_hausaufgabenheft_logik:
-    path: ../lib/firebase_hausaufgabenheft_logik
   firebase_messaging: ^14.9.1
   firebase_performance: ^0.9.4+4
   firebase_storage: ^11.7.4

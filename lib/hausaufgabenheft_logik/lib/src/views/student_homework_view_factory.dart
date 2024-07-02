@@ -29,7 +29,7 @@ class StudentHomeworkViewFactory {
     }
   }
 
-  StudentHomeworkView createFrom(HomeworkReadModel homework) {
+  StudentHomeworkView createFrom(StudentHomeworkReadModel homework) {
     final twoDaysInFuture = _getCurrentDate().addDays(2);
     return StudentHomeworkView(
       id: homework.id.toString(),
