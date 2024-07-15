@@ -11,7 +11,7 @@
 # It is used by the Dart `license_checker` package.
 # 
 # Run in `app` to show if some dependency are not allowed:
-# fvm dart lic_ck check-licenses --config ../licenses_config.yaml --problematic
+# dart lic_ck check-licenses --config ../licenses_config.yaml --problematic
 
 permittedLicenses:
   - MIT

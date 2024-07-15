@@ -145,7 +145,6 @@ Future<void> _runTestsDart(
 
   await processRunner.runCommand(
     [
-      'fvm',
       'dart',
       '--define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
       'test',
@@ -174,7 +173,6 @@ Future<void> _runTestsFlutter(
 
     await processRunner.runCommand(
       [
-        'fvm',
         'flutter',
         'test',
         'test_goldens',
@@ -193,7 +191,6 @@ Future<void> _runTestsFlutter(
   if (excludeGoldens || !package.hasGoldenTestsDirectory) {
     await processRunner.runCommand(
       [
-        'fvm',
         'flutter',
         'test',
         '--test-randomize-ordering-seed',
@@ -210,7 +207,6 @@ Future<void> _runTestsFlutter(
 
   await processRunner.runCommand(
     [
-      'fvm',
       'flutter',
       'test',
       // Directory for golden tests.

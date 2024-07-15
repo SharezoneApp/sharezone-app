@@ -93,7 +93,6 @@ When none is specified, the value from pubspec.yaml is used.''',
           getBuildNameWithStage(repo.sharezoneFlutterApp, stage);
       await processRunner.runCommand(
         [
-          'fvm',
           'flutter',
           'build',
           outputType,

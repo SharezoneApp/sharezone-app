@@ -52,7 +52,6 @@ class BuildConsoleCommand extends CommandBase {
       final flavor = argResults![flavorOptionName] as String;
       await processRunner.runCommand(
         [
-          'fvm',
           'flutter',
           'build',
           'web',

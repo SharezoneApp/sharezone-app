@@ -167,7 +167,6 @@ class DeployAppIosCommand extends CommandBase {
       final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
       await processRunner.runCommand(
         [
-          'fvm',
           'dart',
           'run',
           'sz_repo_cli',
