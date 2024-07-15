@@ -65,8 +65,6 @@ in
     pkgs.git
     pkgs.nixpkgs-fmt
 
-    # Running `fvm flutter` -> 'Missing "unzip" tool. Unable to extract Dart SDK.'
-    pkgs.unzip
     android-sdk
     flutter
 
