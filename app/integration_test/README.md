@@ -46,7 +46,7 @@ patrol test \
 You can run the integration tests for the other platforms using the [`patrol_cli`](https://pub.dev/packages/patrol_cli) command:
 
 ```sh
-fvm flutter test \
+flutter test \
   integration_test \
   --flavor dev \
   --dart-define \
@@ -124,7 +124,7 @@ chromedriver --port=4444
 And then run the following command in a different process:
 
 ```sh
-fvm flutter drive \
+flutter drive \
    --driver=test_driver/integration_test.dart \
    --target=integration_test/integration_test_old.dart \
    --flavor dev \
