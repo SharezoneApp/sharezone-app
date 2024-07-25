@@ -10,7 +10,9 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/shared/shared.dart';
+import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
@@ -25,6 +27,8 @@ class TeacherHomeworkPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TeacherHomeworkPageBloc>(context);
+
     final bottomBarBackgroundColor =
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     return ChangeNotifierProvider<BottomOfScrollViewInvisibilityController>(
@@ -53,8 +57,16 @@ class TeacherHomeworkPage extends StatelessWidget {
                 // Else the Sort shown in the button and the current sort
                 // could get out of order
                 maintainState: true,
-                child: TeacherHomeworkBottomActionBar(
+                child: HomeworkBottomActionBar(
+                  currentHomeworkSortStream: bloc.stream
+                      .whereType<Success>()
+                      .map((s) => s.open.sorting),
                   backgroundColor: bottomBarBackgroundColor,
+                  showOverflowMenu: false,
+                  // Not visible since we don't show the overflow menu
+                  onCompletedAllOverdue: () => throw UnimplementedError(),
+                  onSortingChanged: (newSort) =>
+                      bloc.add(OpenHwSortingChanged(newSort)),
                 ),
               ),
             ),

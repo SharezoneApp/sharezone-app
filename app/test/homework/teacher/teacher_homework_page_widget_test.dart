@@ -23,9 +23,10 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
     show HomeworkSort;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/shared/shared.dart';
+import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
 import 'package:sharezone/homework/teacher/src/teacher_archived_homework_list.dart';
-import 'package:sharezone/homework/teacher/src/teacher_homework_bottom_action_bar.dart';
 import 'package:sharezone/homework/teacher/src/teacher_homework_tile.dart';
 import 'package:sharezone/homework/teacher/src/teacher_open_homework_list.dart';
 import 'package:sharezone/homework/teacher/teacher_homework_page.dart';
@@ -95,21 +96,30 @@ Future<void> pumpHomeworkPage(
                 child: DefaultTabController(
                   length: 2,
                   initialIndex: initialTab == HomeworkTab.open ? 0 : 1,
-                  child: const Scaffold(
-                    body: TeacherHomeworkBody(),
-                    appBar: HomeworkTabBar(
+                  child: Scaffold(
+                    body: const TeacherHomeworkBody(),
+                    appBar: const HomeworkTabBar(
                       tabs: [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
                     ),
                     bottomNavigationBar: AnimatedTabVisibility(
-                      visibleInTabIndicies: [0],
+                      visibleInTabIndicies: const [0],
                       maintainState: true,
-                      child: TeacherHomeworkBottomActionBar(
-                        // We dont care in the tests currently
-                        backgroundColor: flutter.Color.fromRGBO(0, 0, 0, 255),
+                      child: HomeworkBottomActionBar(
+                        currentHomeworkSortStream: bloc.stream
+                            .whereType<Success>()
+                            .map((s) => s.open.sorting),
+                        backgroundColor:
+                            const flutter.Color.fromRGBO(0, 0, 0, 255),
+
+                        showOverflowMenu: false,
+                        // Not visible since we don't show the overflow menu
+                        onCompletedAllOverdue: () => throw UnimplementedError(),
+                        onSortingChanged: (newSort) =>
+                            bloc.add(OpenHwSortingChanged(newSort)),
                       ),
                     ),
-                    floatingActionButton:
-                        BottomOfScrollViewInvisibility(child: HomeworkFab()),
+                    floatingActionButton: const BottomOfScrollViewInvisibility(
+                        child: HomeworkFab()),
                   ),
                 ),
               ),
@@ -224,15 +234,15 @@ void main() {
 
       await tester.pump();
 
-      expect(find.text(TeacherSortButton.sortByDateSortButtonUiString),
-          findsOneWidget);
+      expect(
+          find.text(SortButton.sortByDateSortButtonUiString), findsOneWidget);
 
       homeworkPageBloc.emitNewState(
           _openHomeworksWith(HomeworkSort.subjectSmallestDateAndTitleSort));
 
       await tester.pumpAndSettle();
 
-      expect(find.text(TeacherSortButton.sortBySubjectSortButtonUiString),
+      expect(find.text(SortButton.sortBySubjectSortButtonUiString),
           findsOneWidget);
     });
 
@@ -456,7 +466,7 @@ class _HomeworkPageFinders {
 
 class _OpenHomeworkTabFinders {
   Finder get homeworkList => find.byType(TeacherOpenHomeworkList);
-  Finder get bnbSortButton => find.byType(TeacherSortButton);
+  Finder get bnbSortButton => find.byType(SortButton);
   Finder get noHomeworkPlaceholder =>
       // Widget is private. Not sure if this is the best way or if we should make
       // the Widget public and use the type directly.
