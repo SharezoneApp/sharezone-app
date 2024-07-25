@@ -33,6 +33,7 @@ import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:remote_configuration/remote_configuration.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/type_of_user_bloc.dart';
@@ -115,6 +116,8 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dar
 import 'package:sharezone/sharezone_plus/subscription_service/is_buying_enabled.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/revenue_cat_sharezone_plus_service.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_controller.dart';
+import 'package:sharezone/sharezone_wrapped/sharezone_wrapped_repository.dart';
 import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
@@ -348,6 +351,9 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => api.user.authUserStream,
         initialData: null,
       ),
+      Provider<RemoteConfiguration>(
+        create: (context) => widget.blocDependencies.remoteConfiguration,
+      ),
       ChangeNotifierProvider(
         create: (context) => SharezonePlusPageController(
           buyingFlagApi: BuyingEnabledApi(client: http.Client()),
@@ -477,7 +483,19 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           courseMemberAccessor:
               FirestoreCourseMemberAccessor(api.references.firestore),
         ),
-      )
+      ),
+      Provider(
+        create: (context) => SharezoneWrappedController(
+          repository: SharezoneWrappedRepository(
+            firestore: firestore,
+            userId: api.userId,
+            connectionsGateway: api.connectionsGateway,
+            clock: clock,
+          ),
+          crashAnalytics: crashAnalytics,
+          analytics: analytics,
+        ),
+      ),
     ];
 
     mainBlocProviders = <BlocProvider>[

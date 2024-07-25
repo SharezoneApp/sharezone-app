@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 // Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
 // Licensed under the EUPL-1.2-or-later.
 //
@@ -16,6 +18,19 @@ class AnalyticsEvent {
   String toString() {
     return "$runtimeType(name:$name, data: $data)";
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final mapEquals = const DeepCollectionEquality().equals;
+
+    return other is AnalyticsEvent &&
+        other.name == name &&
+        mapEquals(other.data, data);
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ data.hashCode;
 }
 
 // ignore: one_member_abstracts

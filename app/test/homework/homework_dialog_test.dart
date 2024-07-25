@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:convert';
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
@@ -22,11 +24,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
+import 'package:holidays/holidays.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculator.dart';
 import 'package:test_randomness/test_randomness.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
@@ -43,6 +48,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
+import '../dashboard/update_reminder_test.mocks.dart';
 import '../pages/settings/notification_page_test.mocks.dart';
 import 'homework_dialog_bloc_test.dart';
 @GenerateNiceMocks([
@@ -78,6 +84,53 @@ class MockNextLessonCalculator implements NextLessonCalculator {
       return datesForCourses[courseID]?.elementAt(inLessons - 1);
     }
     return datesToReturn?.elementAt(inLessons - 1) ?? dateToReturn;
+  }
+}
+
+class MockNextSchooldayCalculator implements NextSchooldayCalculator {
+  EnabledWeekDays enabledWeekdays = EnabledWeekDays.standard;
+  Holiday? holiday = Holiday.fromJson(jsonEncode({
+    "start": "${clock.now().year}-12-21",
+    "end": "${clock.now().year + 1}-01-05",
+    "year": clock.now().year,
+    "stateCode": "NW",
+    "name": "weihnachtsferien nordrhein-westfalen 2023",
+    "slug": "weihnachtsferien nordrhein-westfalen 2023-2023-NW"
+  }));
+
+  @override
+  Future<Date?> tryCalculateNextSchoolday() async {
+    return tryCalculateXNextSchoolday(inSchooldays: 1);
+  }
+
+  @override
+  Future<Date?> tryCalculateXNextSchoolday({int inSchooldays = 1}) async {
+    if (enabledWeekdays.getEnabledWeekDaysList().isEmpty) {
+      return Date.today().addDays(1);
+    }
+
+    List<Date> results = [];
+    Date date = Date.today();
+    while (results.length < inSchooldays) {
+      date = date.addDays(1);
+      if (_isHolidayAt(date)) continue;
+      if (!_isSchooldayAt(date)) continue;
+      results.add(date);
+    }
+
+    if (results.isEmpty) return null;
+    return results.elementAt(inSchooldays - 1);
+  }
+
+  bool _isSchooldayAt(Date date) {
+    return enabledWeekdays.getEnabledWeekDaysList().contains(date.weekDayEnum);
+  }
+
+  bool _isHolidayAt(Date date) {
+    Date start = Date.fromDateTime(holiday!.start);
+    Date end = Date.fromDateTime(holiday!.end);
+    if (date.isInsideDateRange(start, end)) return true;
+    return false;
   }
 }
 
@@ -229,6 +282,7 @@ void main() {
   group('HomeworkDialog', () {
     late MockHomeworkDialogApi homeworkDialogApi;
     late MockNextLessonCalculator nextLessonCalculator;
+    late MockNextSchooldayCalculator nextSchooldayCalculator;
     late MockSharezoneContext sharezoneContext;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
@@ -248,6 +302,7 @@ void main() {
       userGateway = MockUserGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
+      nextSchooldayCalculator = MockNextSchooldayCalculator();
       sharezoneContext = MockSharezoneContext();
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
@@ -287,12 +342,14 @@ void main() {
                   bloc: MarkdownAnalytics(analytics),
                 ),
                 BlocProvider<SharezoneContext>(bloc: sharezoneContext),
+                BlocProvider<HolidayBloc>(bloc: MockHolidayBloc())
               ],
               child: (context) => MaterialApp(
                 home: Scaffold(
                   body: HomeworkDialog(
                     homeworkDialogApi: homeworkDialogApi,
                     nextLessonCalculator: nextLessonCalculator,
+                    nextSchooldayCalculator: nextSchooldayCalculator,
                     id: homework?.id != null ? HomeworkId(homework!.id) : null,
                     showDueDateSelectionChips: showDueDateSelectionChips,
                   ),
@@ -612,6 +669,7 @@ void main() {
       return _TestController(
         tester,
         nextLessonCalculator,
+        nextSchooldayCalculator,
         homeworkDialogApi,
         courseGateway,
         setClockOverride: (clock) => clockOverride = clock,
@@ -1027,12 +1085,14 @@ class _TestController {
   // final MockHomeworkGateway homeworkGateway;
   final WidgetTester tester;
   final MockNextLessonCalculator nextLessonCalculator;
+  final MockNextSchooldayCalculator nextSchooldayCalculator;
   void Function(Clock clock) setClockOverride;
   void Function(AppUser Function(AppUser) f) editUser;
 
   _TestController(
     this.tester,
     this.nextLessonCalculator,
+    this.nextSchooldayCalculator,
     this.homeworkDialogApi,
     this.courseGateway, {
     required this.editUser,
@@ -1148,6 +1208,8 @@ class _TestController {
           userSettings: appUser.userSettings.copyWith(
               enabledWeekDays: EnabledWeekDays.fromEnabledWeekDaysList(list)));
     });
+    nextSchooldayCalculator.enabledWeekdays =
+        EnabledWeekDays.fromEnabledWeekDaysList(list);
   }
 }
 

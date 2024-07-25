@@ -15,6 +15,7 @@ class EventView {
   final String? courseName;
   final String groupID, dateText, title;
   final Design? design;
+  final bool upcomingSoon;
 
   // Wird nur für die Weitergabe an die Event-Edit
   // und das Event-Sheet verwendet, weil diese noch
@@ -25,6 +26,7 @@ class EventView {
     required this.groupID,
     this.courseName,
     required this.dateText,
+    required this.upcomingSoon,
     required this.title,
     required this.event,
     this.design,
@@ -38,6 +40,7 @@ class EventView {
       groupID: event.groupID,
       courseName: info?.name,
       dateText: DateParser(event.date).toYMMMd,
+      upcomingSoon: event.date.isBefore(Date.today().addDays(14)),
       title: event.title,
       design: info?.design,
       event: event,

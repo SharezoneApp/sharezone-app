@@ -6,9 +6,20 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-{ pkgs, ... }:
+{ pkgs, inputs, lib, ... }:
 
 let
+  pkgs-unstable = import inputs.nixpkgs-unstable { system = pkgs.stdenv.system; };
+  flutter = pkgs-unstable.flutter.overrideAttrs
+    {
+      src = pkgs-unstable.fetchFromGitHub
+        {
+          owner = "flutter";
+          repo = "flutter";
+          rev = "3.22.2";
+          sha256 = "7ndnIw72YxNB+VeeejEeRD+xxuLXOcWo322s5CMWzBM=";
+        };
+    };
   androidenv = android-pkgs.androidenv.override {
     # Seems to only work when androidenv.buildApp is used 
     # afterwards (we don't).
@@ -45,7 +56,7 @@ in
   env = {
     ANDROID_HOME = "${android-sdk-root}";
     ANDROID_SDK_ROOT = "${android-sdk-root}";
-    FLUTTER_ROOT = "${pkgs.flutter}";
+    FLUTTER_ROOT = "${flutter}";
     CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
   };
 
@@ -54,9 +65,8 @@ in
     pkgs.git
     pkgs.nixpkgs-fmt
 
-    # Running `fvm flutter` -> 'Missing "unzip" tool. Unable to extract Dart SDK.'
-    pkgs.unzip
     android-sdk
+    flutter
 
     # For Flutter Web development
     pkgs.google-chrome
@@ -70,36 +80,23 @@ in
   enterShell = ''
     # Make pub cache work so that we can execute
     # e.g. `dart pub global activate fvm`
-    export PATH="$PATH":"$HOME/.pub-cache/bin"
+    #export PATH="$PATH":"$HOME/.pub-cache/bin"
 
     # Make sz cli work
     export PATH="$PATH":"$DEVENV_ROOT/bin"
-
-    if ! command -v fvm &> /dev/null
-    then
-        echo "fvm could not be found. Installing FVM via dart pub global."
-        dart pub global activate fvm
-
-        # fvm install will fail getting dependencies if we dont
-        # cd to app. Using && will only change it for the fvm
-        # install command
-        cd app && fvm install
-    fi
-
-    fvm flutter config --android-sdk ${android-sdk-root}
 
     # When running e.g. `sz pub get -c 0` the analytics
     # will cause the task to fail (maybe because so many signals
     # are sent in a short time). So we just disable analytics
     # so that they can not fail because of this reason.
-    fvm dart --disable-analytics &
-    fvm flutter --disable-analytics
+    dart --disable-analytics &
+    flutter --disable-analytics
     
     # We get the package in the sz cli folder so that one can
     # start running e.g. `sz pub get` right away. Without this 
     # one would first have to run pub get in the sz cli folder 
     # manually.
-    fvm dart pub get --directory ./tools/sz_repo_cli
+    dart pub get --directory ./tools/sz_repo_cli
   '';
 
   languages = {
@@ -108,13 +105,6 @@ in
       enable = true;
       jdk.package = pkgs.jdk17;
     };
-
-    # We're using this standalone version of Dart to run
-    # `dart pub global activate fvm` in enterShell.
-    # This will install fvm and it in turn flutter with 
-    # the actual Dart version that will be used to build,
-    # test, run etc the app.
-    dart.enable = true;
   };
 
   # See full reference at https://devenv.sh/reference/options/

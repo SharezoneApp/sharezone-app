@@ -84,7 +84,6 @@ When none is specified, the value from pubspec.yaml is used.''')
       final buildNumber = argResults![buildNumberOptionName] as String?;
       await processRunner.runCommand(
         [
-          'fvm',
           'flutter',
           'build',
           'macos',

@@ -70,7 +70,6 @@ class DeployWebsiteCommand extends CommandBase {
   Future<void> _build() async {
     final flavor = argResults![flavorOptionName] as String;
     await processRunner.runCommand([
-      'fvm',
       'dart',
       'run',
       'sz_repo_cli',

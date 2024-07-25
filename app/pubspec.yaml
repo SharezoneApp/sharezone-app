@@ -11,7 +11,7 @@ description: A collaborative school planner for students, teachers and parents.
 # Note that we do not store the current build number in the pubspec.yaml. The
 # build number is automatically increased by the CD pipeline (using `sz deploy`
 # command).
-version: 2.1.1+0
+version: 2.1.2+0
 publish_to: none
 
 environment:
@@ -154,6 +154,7 @@ dependencies:
     path: ../lib/remote_configuration
   retry: ^3.1.2
   rxdart: ^0.27.1
+  screenshot: ^3.0.0
   scrollable_positioned_list: ^0.3.8
   share_plus: ^9.0.0
   shared_preferences: ^2.2.3

@@ -250,7 +250,7 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
             title: "Bearbeiten",
             icon: Icon(Icons.edit),
           ),
-        if (isMember)
+        if (!isMember)
           const LongPress(
             popResult: _CourseCardLongPressResult.join,
             title: "Beitreten",
