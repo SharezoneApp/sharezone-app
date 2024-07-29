@@ -139,7 +139,6 @@ import 'package:stripe_checkout_session/stripe_checkout_session.dart';
 import 'package:user/user.dart';
 
 import '../holidays/holiday_bloc.dart';
-import '../homework/parent/src/homework_page_bloc.dart' as old;
 import '../notifications/is_firebase_messaging_supported.dart';
 
 final navigationBloc = NavigationBloc();
@@ -609,7 +608,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<HomeworkPageBloc>(bloc: homeworkPageBloc),
       BlocProvider<NavigationService>(bloc: widget.navigationService!),
       BlocProvider<UserTipsBloc>(bloc: UserTipsBloc(api.user)),
-      BlocProvider<old.HomeworkPageBloc>(bloc: old.HomeworkPageBloc(api)),
       BlocProvider<LessonLengthCache>(bloc: lessonLengthCache),
       BlocProvider<HomeworkCompletionUserListBlocFactory>(
         bloc: HomeworkCompletionUserListBlocFactory(

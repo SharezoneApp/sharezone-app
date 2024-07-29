@@ -29,7 +29,6 @@ import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_help.dart';
-import 'package:sharezone/homework/shared/homework_archived.dart';
 import 'package:sharezone/ical_links/dialog/ical_links_dialog.dart';
 import 'package:sharezone/ical_links/list/ical_links_page.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
@@ -168,8 +167,6 @@ class _SharezoneAppState extends State<SharezoneApp>
                 key: navigationBloc.controllerKey,
               ),
               routes: {
-                HomeworkArchivedPage.tag: (context) =>
-                    const HomeworkArchivedPage(),
                 AccountPage.tag: (context) => const AccountPage(),
                 AboutPage.tag: (context) => const AboutPage(),
                 FeedbackPage.tag: (context) => const FeedbackPage(),
