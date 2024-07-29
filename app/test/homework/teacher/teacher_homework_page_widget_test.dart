@@ -13,7 +13,6 @@ import 'package:analytics/null_analytics_backend.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
-import 'package:bloc_test/bloc_test.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' as flutter show Color;
