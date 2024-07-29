@@ -13,6 +13,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
     hide HomeworkPageBloc;
+import 'package:provider/provider.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -60,10 +61,7 @@ class HomeworkPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final api = BlocProvider.of<SharezoneContext>(context).api;
-    // When hot-reloading this will cause the student homework page to be
-    // displayed even if its the wrong type of user.
-    final typeOfUser = api.user.data?.typeOfUser ?? TypeOfUser.student;
+    final typeOfUser = Provider.of<TypeOfUser>(context);
 
     switch (typeOfUser) {
       case TypeOfUser.student:

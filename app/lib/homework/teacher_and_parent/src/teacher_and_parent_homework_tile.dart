@@ -6,15 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/homework/homework_details/homework_details.dart';
 import 'package:sharezone/homework/shared/homework_tile_template.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_page.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -30,13 +29,7 @@ class TeacherAndParentHomeworkTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isTeacher = BlocProvider.of<SharezoneContext>(context)
-            .api
-            .user
-            .data
-            ?.typeOfUser
-            .isTeacher ??
-        true;
+    final isTeacher = Provider.of<TypeOfUser>(context).isTeacher;
 
     return HomeworkTileTemplate(
       title: homework.title,

@@ -440,6 +440,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           gradesService: gradesService,
         ),
       ),
+      StreamProvider<TypeOfUser>(
+        create: (context) => typeOfUserStream,
+        initialData: TypeOfUser.unknown,
+      ),
       Provider(
         create: (context) => TermDetailsPageControllerFactory(
           gradesService: gradesService,
