@@ -52,8 +52,19 @@ class PrivacyPolicyPage extends StatelessWidget {
               create: (context) {
                 final themeSettings =
                     Provider.of<ThemeSettings>(context, listen: false);
-                return _createPrivacyPolicyThemeSettings(
+                final newSettings = _createPrivacyPolicyThemeSettings(
                     context, themeSettings, config);
+                // As of this writing, we always use
+                // VisualDensitySetting.standard() instead of
+                // VisualDensitySetting.adaptivePlatformDensity() on all
+                // platforms. This may make sense for the general UI, but for
+                // the privacy policy page it is much better to use the adaptive
+                // spacing. This will make the TOC tiles more compact for
+                // desktop (since users will most likely be using a mouse there)
+                // and more spread out for touch users.
+                newSettings.visualDensitySetting =
+                    VisualDensitySetting.adaptivePlatformDensity();
+                return newSettings;
               },
             ),
             Provider<DocumentController>(
