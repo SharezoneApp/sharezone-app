@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
@@ -13,9 +14,11 @@ import 'package:sharezone/homework/homework_details/homework_details.dart';
 import 'package:sharezone/homework/shared/homework_tile_template.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_page.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:user/user.dart';
 
 class TeacherAndParentHomeworkTile extends StatelessWidget {
   final TeacherHomeworkView homework;
@@ -27,6 +30,14 @@ class TeacherAndParentHomeworkTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTeacher = BlocProvider.of<SharezoneContext>(context)
+            .api
+            .user
+            .data
+            ?.typeOfUser
+            .isTeacher ??
+        true;
+
     return HomeworkTileTemplate(
       title: homework.title,
       courseName: homework.subject,
@@ -37,17 +48,19 @@ class TeacherAndParentHomeworkTile extends StatelessWidget {
           ? Colors.redAccent
           : Theme.of(context).textTheme.bodyMedium!.color,
       onTap: () => _showHomeworkDetails(context),
-      trailing: homework.withSubmissions
-          ? _SubmissionsCounter(
-              nrOfSubmitters: homework.nrOfStudentsCompletedOrSubmitted,
-              hasPermissionsToSeeSubmissions:
-                  homework.canViewCompletionOrSubmissionList,
-              homeworkId: homework.id)
-          : _DoneHomeworksCounter(
-              nrOfDoneHomeworks: homework.nrOfStudentsCompletedOrSubmitted,
-              hasPermissionsToSeeDoneHomeworks:
-                  homework.canViewCompletionOrSubmissionList,
-              homeworkId: homework.id),
+      trailing: isTeacher
+          ? homework.withSubmissions
+              ? _SubmissionsCounter(
+                  nrOfSubmitters: homework.nrOfStudentsCompletedOrSubmitted,
+                  hasPermissionsToSeeSubmissions:
+                      homework.canViewCompletionOrSubmissionList,
+                  homeworkId: homework.id)
+              : _DoneHomeworksCounter(
+                  nrOfDoneHomeworks: homework.nrOfStudentsCompletedOrSubmitted,
+                  hasPermissionsToSeeDoneHomeworks:
+                      homework.canViewCompletionOrSubmissionList,
+                  homeworkId: homework.id)
+          : const SizedBox.shrink(),
       onLongPress: () =>
           handleHomeworkTileLongPress(context, homeworkId: homework.id),
       key: Key('${homework.id}'),
