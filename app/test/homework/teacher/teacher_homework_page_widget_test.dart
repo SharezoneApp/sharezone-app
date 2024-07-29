@@ -10,6 +10,7 @@ import 'dart:collection';
 
 import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart';
+import 'package:bloc/bloc.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -32,15 +33,16 @@ import 'package:sharezone/homework/teacher_and_parent/src/teacher_and_parent_ope
 import 'package:sharezone/homework/teacher_and_parent/teacher_and_parent_homework_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:test_randomness/test_randomness.dart';
+import 'package:user/user.dart';
 
 class MockTeacherHomeworkPageBloc
-    extends MockBloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
+    extends Bloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
     implements TeacherHomeworkPageBloc {
   final _queuedStates = Queue<TeacherHomeworkPageState>();
 
   final receivedEvents = <TeacherHomeworkPageEvent>[];
 
-  MockTeacherHomeworkPageBloc() : super() {
+  MockTeacherHomeworkPageBloc() : super(Uninitialized()) {
     on<TeacherHomeworkPageEvent>((event, emit) {
       if (_queuedStates.isNotEmpty) {
         emit(_queuedStates.removeFirst());
@@ -58,6 +60,12 @@ class MockTeacherHomeworkPageBloc
     receivedEvents.add(event);
     super.onEvent(event);
   }
+
+  @override
+  void dispose() {}
+
+  @override
+  int get numberOfInitialCompletedHomeworksToLoad => 10;
 }
 
 enum HomeworkTab { open, archived }
@@ -78,48 +86,54 @@ Future<void> pumpHomeworkPage(
   /// https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1458
   await tester.pumpWidget(
     MaterialApp(
-      home: AnalyticsProvider(
-        /// [NullAnalyticsBackend] does nothing, just used as a replacement for
-        /// testing (else warnings would be printed out for tests.)
-        analytics: Analytics(NullAnalyticsBackend()),
-        child: ChangeNotifierProvider<BottomOfScrollViewInvisibilityController>(
-          create: (_) => BottomOfScrollViewInvisibilityController(),
-          child: MultiBlocProvider(
-            blocProviders: [
-              BlocProvider<NavigationBloc>(bloc: NavigationBloc()),
-              BlocProvider<TeacherHomeworkPageBloc>(bloc: bloc),
-            ],
-            child: (context) => BlocProvider(
-              bloc: NavigationBloc(),
-              child: BlocProvider(
-                bloc: MockTeacherHomeworkPageBloc(),
-                child: DefaultTabController(
-                  length: 2,
-                  initialIndex: initialTab == HomeworkTab.open ? 0 : 1,
-                  child: Scaffold(
-                    body: const TeacherHomeworkBody(),
-                    appBar: const HomeworkTabBar(
-                      tabs: [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
-                    ),
-                    bottomNavigationBar: AnimatedTabVisibility(
-                      visibleInTabIndicies: const [0],
-                      maintainState: true,
-                      child: HomeworkBottomActionBar(
-                        currentHomeworkSortStream: bloc.stream
-                            .whereType<Success>()
-                            .map((s) => s.open.sorting),
-                        backgroundColor:
-                            const flutter.Color.fromRGBO(0, 0, 0, 255),
-
-                        showOverflowMenu: false,
-                        // Not visible since we don't show the overflow menu
-                        onCompletedAllOverdue: () => throw UnimplementedError(),
-                        onSortingChanged: (newSort) =>
-                            bloc.add(OpenHwSortingChanged(newSort)),
+      home: Provider<TypeOfUser>.value(
+        value: TypeOfUser.teacher,
+        child: AnalyticsProvider(
+          /// [NullAnalyticsBackend] does nothing, just used as a replacement for
+          /// testing (else warnings would be printed out for tests.)
+          analytics: Analytics(NullAnalyticsBackend()),
+          child:
+              ChangeNotifierProvider<BottomOfScrollViewInvisibilityController>(
+            create: (_) => BottomOfScrollViewInvisibilityController(),
+            child: MultiBlocProvider(
+              blocProviders: [
+                BlocProvider<NavigationBloc>(bloc: NavigationBloc()),
+                BlocProvider<TeacherHomeworkPageBloc>(bloc: bloc),
+              ],
+              child: (context) => BlocProvider(
+                bloc: NavigationBloc(),
+                child: BlocProvider(
+                  bloc: bloc,
+                  child: DefaultTabController(
+                    length: 2,
+                    initialIndex: initialTab == HomeworkTab.open ? 0 : 1,
+                    child: Scaffold(
+                      body: const TeacherHomeworkBody(),
+                      appBar: const HomeworkTabBar(
+                        tabs: [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
                       ),
+                      bottomNavigationBar: AnimatedTabVisibility(
+                        visibleInTabIndicies: const [0],
+                        maintainState: true,
+                        child: HomeworkBottomActionBar(
+                          currentHomeworkSortStream: bloc.stream
+                              .whereType<Success>()
+                              .map((s) => s.open.sorting),
+                          backgroundColor:
+                              const flutter.Color.fromRGBO(0, 0, 0, 255),
+
+                          showOverflowMenu: false,
+                          // Not visible since we don't show the overflow menu
+                          onCompletedAllOverdue: () =>
+                              throw UnimplementedError(),
+                          onSortingChanged: (newSort) =>
+                              bloc.add(OpenHwSortingChanged(newSort)),
+                        ),
+                      ),
+                      floatingActionButton:
+                          const BottomOfScrollViewInvisibility(
+                              child: HomeworkFab()),
                     ),
-                    floatingActionButton: const BottomOfScrollViewInvisibility(
-                        child: HomeworkFab()),
                   ),
                 ),
               ),
@@ -138,18 +152,23 @@ void main() {
     // Can't use this because of weird async behavior:
     // https://github.com/flutter/flutter/issues/5728
     // setUp(() {
-    //   homeworkPageBloc = MockTeacherHomeworkPageBloc();
+    //   homeworkPageBloc = createBloc();
     // });
 
     tearDown(() {
       homeworkPageBloc.close();
     });
 
+    MockTeacherHomeworkPageBloc createBloc() {
+      final bloc = MockTeacherHomeworkPageBloc();
+      return bloc;
+    }
+
     testWidgets(
         'placeholder is shown on open homework page when no homeworks are to do',
         (tester) async {
       // If I comment this out (--> use the bloc from setUp) it won't work anymore
-      homeworkPageBloc = MockTeacherHomeworkPageBloc();
+      homeworkPageBloc = createBloc();
 
       await _pumpHomeworkPageWithNoHomeworks(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
@@ -160,7 +179,7 @@ void main() {
     testWidgets(
         'placeholder is shown in archived homework page when no homework is archived',
         (tester) async {
-      homeworkPageBloc = MockTeacherHomeworkPageBloc();
+      homeworkPageBloc = createBloc();
 
       await _pumpHomeworkPageWithNoHomeworks(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.archived);
@@ -171,12 +190,9 @@ void main() {
 
     testWidgets('shows open homeworks with section titles in given order',
         (tester) async {
-      homeworkPageBloc = MockTeacherHomeworkPageBloc();
+      homeworkPageBloc = createBloc();
 
-      await pumpHomeworkPage(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
-
-      homeworkPageBloc.emitNewState(Success(
+      final state = Success(
         TeacherOpenHomeworkListView(
             IList([
               TeacherHomeworkSectionView(
@@ -195,9 +211,11 @@ void main() {
           const IListConst([]),
           loadedAllArchivedHomeworks: true,
         ),
-      ));
+      );
+      homeworkPageBloc.emitNewState(state);
 
-      await tester.pump();
+      await pumpHomeworkPage(tester,
+          bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
 
       final sectionTitle1Offset = tester.getCenter(find.text('Section 1'));
       final ha1TitleOffset = tester.getCenter(find.text('HW in first Section'));
@@ -223,7 +241,7 @@ void main() {
 
     testWidgets('shows curent sorting text inside of sort button',
         (tester) async {
-      homeworkPageBloc = MockTeacherHomeworkPageBloc();
+      homeworkPageBloc = createBloc();
 
       await pumpHomeworkPage(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
@@ -259,7 +277,7 @@ void main() {
     }
 
     testWidgets('lazy-loads archived homeworks', (tester) async {
-      homeworkPageBloc = MockTeacherHomeworkPageBloc();
+      homeworkPageBloc = createBloc();
 
       await pumpHomeworkPage(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.archived);
@@ -333,7 +351,7 @@ void main() {
     testWidgets(
         'pressing the sort button changes sorting to subject sort when current sort is date sort',
         (tester) async {
-      homeworkPageBloc = MockTeacherHomeworkPageBloc();
+      homeworkPageBloc = createBloc();
 
       await pumpHomeworkPage(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
@@ -355,7 +373,7 @@ void main() {
     testWidgets(
         'pressing sort button changes sorting to date sort when current sort is subject sort',
         (tester) async {
-      homeworkPageBloc = MockTeacherHomeworkPageBloc();
+      homeworkPageBloc = createBloc();
 
       await pumpHomeworkPage(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
@@ -376,7 +394,7 @@ void main() {
 
     Future<void> pumpHomeworkTiles(
         WidgetTester tester, List<TeacherHomeworkView> views) async {
-      homeworkPageBloc = MockTeacherHomeworkPageBloc();
+      homeworkPageBloc = createBloc();
 
       await pumpHomeworkPage(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
@@ -429,7 +447,7 @@ void main() {
     testWidgets(
         'displays no placeholder on archived homework tab when there are no homeworks loaded locally but not all homeworks have been loaded from the backend',
         (tester) async {
-      homeworkPageBloc = MockTeacherHomeworkPageBloc();
+      homeworkPageBloc = createBloc();
 
       await pumpHomeworkPage(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.archived);
