@@ -20,10 +20,10 @@ import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import 'src/teacher_src.dart';
+import 'src/teacher_and_parent_src.dart';
 
-class TeacherHomeworkPage extends StatelessWidget {
-  const TeacherHomeworkPage({super.key});
+class TeacherAndParentHomeworkPage extends StatelessWidget {
+  const TeacherAndParentHomeworkPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class TeacherHomeworkBody extends StatelessWidget {
           final hasArchivedHomeworks = state.archived.numberOfHomeworks > 0;
 
           final openHomeworkWidget = hasOpenHomeworks
-              ? TeacherOpenHomeworkList(
+              ? TeacherAndParentOpenHomeworkList(
                   homeworkListView: state.open,
                   overscrollColor: overscrollColor,
                 )
@@ -112,7 +112,7 @@ class TeacherHomeworkBody extends StatelessWidget {
 
           final completedHomeworkWidget =
               hasArchivedHomeworks || !state.archived.loadedAllArchivedHomeworks
-                  ? TeacherArchivedHomeworkList(
+                  ? TeacherAndParentArchivedHomeworkList(
                       view: state.archived,
                       bloc: bloc,
                     )

@@ -26,10 +26,10 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
-import 'package:sharezone/homework/teacher/src/teacher_archived_homework_list.dart';
-import 'package:sharezone/homework/teacher/src/teacher_homework_tile.dart';
-import 'package:sharezone/homework/teacher/src/teacher_open_homework_list.dart';
-import 'package:sharezone/homework/teacher/teacher_homework_page.dart';
+import 'package:sharezone/homework/teacher_and_parent/src/teacher_and_parent_archived_homework_list.dart';
+import 'package:sharezone/homework/teacher_and_parent/src/teacher_and_parent_homework_tile.dart';
+import 'package:sharezone/homework/teacher_and_parent/src/teacher_and_parent_open_homework_list.dart';
+import 'package:sharezone/homework/teacher_and_parent/teacher_and_parent_homework_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:test_randomness/test_randomness.dart';
 
@@ -249,7 +249,7 @@ void main() {
     Future<void> scrollDownToEndOfArchivedHomeworkList(WidgetTester tester) {
       return tester.drag(
           find.byWidgetPredicate(
-              (widget) => widget is TeacherArchivedHomeworkList),
+              (widget) => widget is TeacherAndParentArchivedHomeworkList),
           const Offset(0, -5000));
     }
 
@@ -417,12 +417,12 @@ void main() {
       ]);
 
       expect(
-          find.widgetWithText(
-              TeacherHomeworkTile, '$nrOfCompletionsForNormalHomework'),
+          find.widgetWithText(TeacherAndParentHomeworkTile,
+              '$nrOfCompletionsForNormalHomework'),
           findsOneWidget);
       expect(
-          find.widgetWithText(
-              TeacherHomeworkTile, '$nrOfCompletionsForSubmittableHomework'),
+          find.widgetWithText(TeacherAndParentHomeworkTile,
+              '$nrOfCompletionsForSubmittableHomework'),
           findsOneWidget);
     });
 
@@ -465,7 +465,7 @@ class _HomeworkPageFinders {
 }
 
 class _OpenHomeworkTabFinders {
-  Finder get homeworkList => find.byType(TeacherOpenHomeworkList);
+  Finder get homeworkList => find.byType(TeacherAndParentOpenHomeworkList);
   Finder get bnbSortButton => find.byType(SortButton);
   Finder get noHomeworkPlaceholder =>
       // Widget is private. Not sure if this is the best way or if we should make
@@ -475,7 +475,7 @@ class _OpenHomeworkTabFinders {
 }
 
 class _ArchivedHomeworkListFinders {
-  Finder get homeworkList => find.byType(TeacherArchivedHomeworkList);
+  Finder get homeworkList => find.byType(TeacherAndParentArchivedHomeworkList);
   Finder get noHomeworkPlaceholder => find
       // Widget is private. Not sure if this is the best way or if we should make
       // the Widget public and use the type directly.

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/homework/parent/homework_page.dart';
 import 'package:user/user.dart';
 import 'student/student_homework_page.dart';
-import 'teacher/teacher_homework_page.dart';
+import 'teacher_and_parent/teacher_and_parent_homework_page.dart';
 
 enum HomeworkPageTypeOfUser { student, parent, teacher }
 
@@ -42,7 +42,7 @@ class NewHomeworkPage extends StatelessWidget {
       case HomeworkPageTypeOfUser.parent:
         return const HomeworkPage();
       case HomeworkPageTypeOfUser.teacher:
-        return const TeacherHomeworkPage();
+        return const TeacherAndParentHomeworkPage();
       default:
         throw UnimplementedError();
     }

@@ -8,11 +8,11 @@ import 'dart:async' as _i6;
 import 'package:cloud_functions/cloud_functions.dart' as _i3;
 import 'package:common_domain_models/common_domain_models.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc.dart'
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_bloc.dart'
     as _i2;
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart'
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart'
     as _i4;
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/user_has_completed_homework_view.dart'
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/user_has_completed_homework_view.dart'
     as _i7;
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart'
     as _i8;

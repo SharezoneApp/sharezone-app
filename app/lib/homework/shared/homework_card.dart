@@ -23,7 +23,7 @@ import 'package:sharezone/homework/parent/homework_page.dart';
 import 'package:sharezone/homework/parent/src/homework_card_bloc.dart';
 import 'package:sharezone/homework/shared/delete_homework.dart';
 import 'package:sharezone/homework/shared/homework_permissions.dart';
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_icon.dart';

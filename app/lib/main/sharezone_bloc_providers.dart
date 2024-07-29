@@ -78,7 +78,7 @@ import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_g
 import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
 import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller_factory.dart';
 import 'package:sharezone/ical_links/list/ical_links_page_controller.dart';
 import 'package:sharezone/ical_links/shared/ical_link_analytics.dart';
