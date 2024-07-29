@@ -8,13 +8,13 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import 'teacher_homework_view.dart';
+import 'teacher_and_parent_homework_view.dart';
 
-class TeacherArchivedHomeworkListView {
+class TeacherAndParentArchivedHomeworkListView {
   final bool loadedAllArchivedHomeworks;
-  final IList<TeacherHomeworkView> orderedHomeworks;
+  final IList<TeacherAndParentHomeworkView> orderedHomeworks;
 
-  TeacherArchivedHomeworkListView(this.orderedHomeworks,
+  TeacherAndParentArchivedHomeworkListView(this.orderedHomeworks,
       {required this.loadedAllArchivedHomeworks});
 
   int get numberOfHomeworks => orderedHomeworks.length;
@@ -22,7 +22,7 @@ class TeacherArchivedHomeworkListView {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is TeacherArchivedHomeworkListView &&
+        other is TeacherAndParentArchivedHomeworkListView &&
             other.orderedHomeworks == orderedHomeworks &&
             other.loadedAllArchivedHomeworks == loadedAllArchivedHomeworks;
   }

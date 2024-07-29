@@ -8,17 +8,17 @@
 
 import 'package:equatable/equatable.dart';
 
-import 'teacher_archived_homework_list_view.dart';
-import 'teacher_open_homework_list_view.dart';
+import 'teacher_and_parent_archived_homework_list_view.dart';
+import 'teacher_and_parent_open_homework_list_view.dart';
 
-abstract class TeacherHomeworkPageState extends Equatable {
+abstract class TeacherAndParentHomeworkPageState extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class Success extends TeacherHomeworkPageState {
-  final TeacherArchivedHomeworkListView archived;
-  final TeacherOpenHomeworkListView open;
+class Success extends TeacherAndParentHomeworkPageState {
+  final TeacherAndParentArchivedHomeworkListView archived;
+  final TeacherAndParentOpenHomeworkListView open;
 
   Success(this.open, this.archived);
 
@@ -32,7 +32,7 @@ class Success extends TeacherHomeworkPageState {
 }
 
 /// Bloc has not yet been told to load the homeworks.
-class Uninitialized extends TeacherHomeworkPageState {
+class Uninitialized extends TeacherAndParentHomeworkPageState {
   @override
   String toString() {
     return 'HomeworkPageStateUninitialized';

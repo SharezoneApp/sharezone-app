@@ -14,13 +14,13 @@ class TeacherOpenHomeworkListViewFactory {
 
   TeacherOpenHomeworkListViewFactory(this._sortAndSubcategorizer);
 
-  TeacherOpenHomeworkListView create(
+  TeacherAndParentOpenHomeworkListView create(
       IList<TeacherHomeworkReadModel> openHomeworks,
       Sort<TeacherHomeworkReadModel> sort) {
     final homeworkSectionViews =
         _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
 
-    return TeacherOpenHomeworkListView(
+    return TeacherAndParentOpenHomeworkListView(
       homeworkSectionViews,
       sorting: sort.toEnum(),
     );

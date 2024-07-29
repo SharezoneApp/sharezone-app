@@ -11,13 +11,13 @@ import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-import 'teacher_homework_section_view.dart';
+import 'teacher_and_parent_homework_section_view.dart';
 
-class TeacherOpenHomeworkListView {
-  final IList<TeacherHomeworkSectionView> sections;
+class TeacherAndParentOpenHomeworkListView {
+  final IList<TeacherAndParentHomeworkSectionView> sections;
   final HomeworkSort sorting;
 
-  TeacherOpenHomeworkListView(
+  TeacherAndParentOpenHomeworkListView(
     this.sections, {
     required this.sorting,
   }) : super();
@@ -40,7 +40,7 @@ class TeacherOpenHomeworkListView {
     final bool Function(Object, Object) listEquals =
         const DeepCollectionEquality().equals;
 
-    return other is TeacherOpenHomeworkListView &&
+    return other is TeacherAndParentOpenHomeworkListView &&
         listEquals(other.sections, sections) &&
         other.sorting == sorting;
   }

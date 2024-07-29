@@ -18,18 +18,18 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/src/teacher_and_parent/homework_list_extensions.dart';
 
 class TeacherHomeworkSortAndSubcategorizer {
-  final TeacherHomeworkViewFactory _viewFactory;
+  final TeacherAndParentHomeworkViewFactory _viewFactory;
   final Date Function() getCurrentDate;
 
   TeacherHomeworkSortAndSubcategorizer({
     required Color defaultColor,
     required this.getCurrentDate,
-  }) : _viewFactory = TeacherHomeworkViewFactory(
+  }) : _viewFactory = TeacherAndParentHomeworkViewFactory(
           defaultColorValue: defaultColor.value,
           getCurrentDate: getCurrentDate,
         );
 
-  IList<TeacherHomeworkSectionView> sortAndSubcategorize(
+  IList<TeacherAndParentHomeworkSectionView> sortAndSubcategorize(
       IList<TeacherHomeworkReadModel> homeworks,
       Sort<TeacherHomeworkReadModel> sort) {
     final sorted = homeworks.sortWith(sort);
@@ -46,20 +46,20 @@ class TeacherHomeworkSortAndSubcategorizer {
 }
 
 abstract class _Subcategorizer {
-  IList<TeacherHomeworkSectionView> subcategorize(
+  IList<TeacherAndParentHomeworkSectionView> subcategorize(
       IList<TeacherHomeworkReadModel> homeworks);
 }
 
 class _SubjectSubcategeorizer extends _Subcategorizer {
-  final TeacherHomeworkViewFactory _viewFactory;
+  final TeacherAndParentHomeworkViewFactory _viewFactory;
 
   _SubjectSubcategeorizer(this._viewFactory);
 
   @override
-  IList<TeacherHomeworkSectionView> subcategorize(
+  IList<TeacherAndParentHomeworkSectionView> subcategorize(
       IList<TeacherHomeworkReadModel> homeworks) {
     final subjects = homeworks.getDistinctOrderedSubjects();
-    var homeworkSections = IList<TeacherHomeworkSectionView>();
+    var homeworkSections = IList<TeacherAndParentHomeworkSectionView>();
     for (final subject in subjects) {
       final IList<TeacherHomeworkReadModel> homeworksWithSubject =
           homeworks.where((h) => h.subject == subject).toIList();
@@ -68,7 +68,8 @@ class _SubjectSubcategeorizer extends _Subcategorizer {
           homeworksWithSubject.map((h) => _viewFactory.createFrom(h)).toIList();
 
       homeworkSections = homeworkSections.add(
-          TeacherHomeworkSectionView(subject.name, homeworkViewsWithSubject));
+          TeacherAndParentHomeworkSectionView(
+              subject.name, homeworkViewsWithSubject));
     }
     return homeworkSections;
   }
@@ -76,12 +77,12 @@ class _SubjectSubcategeorizer extends _Subcategorizer {
 
 class _TodoDateSubcategorizer extends _Subcategorizer {
   final Date currentDate;
-  final TeacherHomeworkViewFactory _viewFactory;
+  final TeacherAndParentHomeworkViewFactory _viewFactory;
 
   _TodoDateSubcategorizer(this.currentDate, this._viewFactory);
 
   @override
-  IList<TeacherHomeworkSectionView> subcategorize(
+  IList<TeacherAndParentHomeworkSectionView> subcategorize(
       IList<TeacherHomeworkReadModel> homeworks) {
     final now = currentDate;
     final tomorrow = now.addDays(1);
@@ -101,15 +102,15 @@ class _TodoDateSubcategorizer extends _Subcategorizer {
         .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
         .toIList();
 
-    final overdueSec = TeacherHomeworkSectionView.fromModels(
+    final overdueSec = TeacherAndParentHomeworkSectionView.fromModels(
         'Überfällig', overdueHomework, _viewFactory);
-    final todaySec = TeacherHomeworkSectionView.fromModels(
+    final todaySec = TeacherAndParentHomeworkSectionView.fromModels(
         'Heute', todayHomework, _viewFactory);
-    final tomorrowSec = TeacherHomeworkSectionView.fromModels(
+    final tomorrowSec = TeacherAndParentHomeworkSectionView.fromModels(
         'Morgen', tomorrowHomework, _viewFactory);
-    final inTwoDaysSec = TeacherHomeworkSectionView.fromModels(
+    final inTwoDaysSec = TeacherAndParentHomeworkSectionView.fromModels(
         'Übermorgen', in2DaysHomework, _viewFactory);
-    final afterTwoDaysSec = TeacherHomeworkSectionView.fromModels(
+    final afterTwoDaysSec = TeacherAndParentHomeworkSectionView.fromModels(
         'Später', futureHomework, _viewFactory);
 
     final sections = [

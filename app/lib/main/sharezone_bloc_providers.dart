@@ -263,7 +263,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     _disposeCallbacks.add(homeworkPageBloc.dispose);
     _disposeCallbacks.add(homeworkPageBloc.close);
     final teacherHomeworkBloc =
-        createTeacherHomeworkPageBloc(dependencies, config);
+        createTeacherAndParentHomeworkPageBloc(dependencies, config);
     // Not sure if we need to call both, but without .close the linter complains
     _disposeCallbacks.add(teacherHomeworkBloc.dispose);
     _disposeCallbacks.add(teacherHomeworkBloc.close);
@@ -608,7 +608,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<NavigationAnalytics>(bloc: NavigationAnalytics(analytics)),
-      BlocProvider<TeacherHomeworkPageBloc>(bloc: teacherHomeworkBloc),
+      BlocProvider<TeacherAndParentHomeworkPageBloc>(bloc: teacherHomeworkBloc),
       BlocProvider<HomeworkPageBloc>(bloc: homeworkPageBloc),
       BlocProvider<NavigationService>(bloc: widget.navigationService!),
       BlocProvider<UserTipsBloc>(bloc: UserTipsBloc(api.user)),

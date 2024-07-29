@@ -9,7 +9,7 @@
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
 
-class TeacherHomeworkView {
+class TeacherAndParentHomeworkView {
   final HomeworkId id;
   final String abbreviation;
   final bool colorDate;
@@ -41,7 +41,7 @@ class TeacherHomeworkView {
   /// group.
   final bool canEditForEveryone;
 
-  TeacherHomeworkView({
+  TeacherAndParentHomeworkView({
     required this.id,
     required this.abbreviation,
     required this.colorDate,
@@ -65,7 +65,7 @@ class TeacherHomeworkView {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is TeacherHomeworkView &&
+    return other is TeacherAndParentHomeworkView &&
         other.id == id &&
         other.abbreviation == abbreviation &&
         other.colorDate == colorDate &&

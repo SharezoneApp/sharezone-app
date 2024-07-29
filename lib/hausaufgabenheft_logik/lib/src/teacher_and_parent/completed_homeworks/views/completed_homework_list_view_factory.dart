@@ -10,18 +10,18 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
 class TeacherCompletedHomeworkListViewFactory {
-  final TeacherHomeworkViewFactory _teacherHomeworkViewFactory;
+  final TeacherAndParentHomeworkViewFactory _teacherHomeworkViewFactory;
 
   TeacherCompletedHomeworkListViewFactory(this._teacherHomeworkViewFactory);
 
-  TeacherArchivedHomeworkListView create(
+  TeacherAndParentArchivedHomeworkListView create(
       IList<TeacherHomeworkReadModel> completedHomeworks,
       bool loadedAllCompletedHomeworks) {
     final orderedHomeworks = IList([
       for (final completedHomework in completedHomeworks)
         _teacherHomeworkViewFactory.createFrom(completedHomework)
     ]);
-    return TeacherArchivedHomeworkListView(orderedHomeworks,
+    return TeacherAndParentArchivedHomeworkListView(orderedHomeworks,
         loadedAllArchivedHomeworks: loadedAllCompletedHomeworks);
   }
 }

@@ -13,7 +13,7 @@ import 'package:sharezone/homework/shared/shared.dart';
 import 'teacher_and_parent_homework_tile.dart';
 
 class TeacherAndParentOpenHomeworkList extends StatelessWidget {
-  final TeacherOpenHomeworkListView homeworkListView;
+  final TeacherAndParentOpenHomeworkListView homeworkListView;
   final Color? overscrollColor;
 
   const TeacherAndParentOpenHomeworkList({

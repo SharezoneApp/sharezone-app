@@ -20,7 +20,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 class TeacherAndParentHomeworkTile extends StatelessWidget {
-  final TeacherHomeworkView homework;
+  final TeacherAndParentHomeworkView homework;
 
   const TeacherAndParentHomeworkTile({
     super.key,

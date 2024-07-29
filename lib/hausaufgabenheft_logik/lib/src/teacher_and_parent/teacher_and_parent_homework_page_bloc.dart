@@ -22,9 +22,9 @@ import 'completed_homeworks/views/completed_homework_list_view_factory.dart';
 export 'events.dart';
 export 'states.dart';
 
-class TeacherHomeworkPageBloc
-    extends Bloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
-    implements bloc_base.BlocBase {
+class TeacherAndParentHomeworkPageBloc extends Bloc<
+    TeacherAndParentHomeworkPageEvent,
+    TeacherAndParentHomeworkPageState> implements bloc_base.BlocBase {
   final TeacherAndParentHomeworkPageApi _homeworkApi;
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
@@ -38,7 +38,7 @@ class TeacherHomeworkPageBloc
   /// Whether [close] or [dispose] has been called;
   bool _isClosed = false;
 
-  TeacherHomeworkPageBloc({
+  TeacherAndParentHomeworkPageBloc({
     required HomeworkSortingCache homeworkSortingCache,
     required TeacherAndParentHomeworkPageApi homeworkApi,
     required TeacherCompletedHomeworkListViewFactory
@@ -132,7 +132,7 @@ class TeacherHomeworkPageBloc
 /// bloc from working (as the Stream never finishes)
 /// this acts a as a simple wrapper to yield the
 /// given value
-class _Yield extends TeacherHomeworkPageEvent {
+class _Yield extends TeacherAndParentHomeworkPageEvent {
   final Success success;
 
   _Yield(this.success);

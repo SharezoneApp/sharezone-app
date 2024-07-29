@@ -10,13 +10,13 @@ import 'package:equatable/equatable.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
     show HomeworkSort;
 
-abstract class TeacherHomeworkPageEvent extends Equatable {
+abstract class TeacherAndParentHomeworkPageEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
 /// Sorts all open homeworks with the given [sort].
-class OpenHwSortingChanged extends TeacherHomeworkPageEvent {
+class OpenHwSortingChanged extends TeacherAndParentHomeworkPageEvent {
   final HomeworkSort sort;
 
   OpenHwSortingChanged(this.sort);
@@ -31,7 +31,7 @@ class OpenHwSortingChanged extends TeacherHomeworkPageEvent {
 }
 
 /// Tells the bloc to start loading homeworks
-class LoadHomeworks extends TeacherHomeworkPageEvent {
+class LoadHomeworks extends TeacherAndParentHomeworkPageEvent {
   @override
   String toString() {
     return 'LoadHomeworks';
@@ -45,7 +45,7 @@ class LoadHomeworks extends TeacherHomeworkPageEvent {
 /// New state: 10 archived homeworks loaded.
 ///
 /// If all homeworks are already loaded this won't do anything.
-class AdvanceArchivedHomeworks extends TeacherHomeworkPageEvent {
+class AdvanceArchivedHomeworks extends TeacherAndParentHomeworkPageEvent {
   final int advanceBy;
 
   @override

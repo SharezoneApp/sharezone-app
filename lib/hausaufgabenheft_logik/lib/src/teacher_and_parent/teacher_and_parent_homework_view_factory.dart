@@ -11,7 +11,7 @@ import 'package:hausaufgabenheft_logik/src/views/color.dart';
 
 import '../../hausaufgabenheft_logik_lehrer.dart';
 
-class TeacherHomeworkViewFactory {
+class TeacherAndParentHomeworkViewFactory {
   late Date Function() _getCurrentDate;
 
   /// The color value from `color.value`.
@@ -19,7 +19,7 @@ class TeacherHomeworkViewFactory {
   final int defaultColorValue;
   final Color defaultColor;
 
-  TeacherHomeworkViewFactory(
+  TeacherAndParentHomeworkViewFactory(
       {Date Function()? getCurrentDate, required this.defaultColorValue})
       : defaultColor = Color(defaultColorValue) {
     if (getCurrentDate == null) {
@@ -29,9 +29,9 @@ class TeacherHomeworkViewFactory {
     }
   }
 
-  TeacherHomeworkView createFrom(TeacherHomeworkReadModel homework) {
+  TeacherAndParentHomeworkView createFrom(TeacherHomeworkReadModel homework) {
     final twoDaysInFuture = _getCurrentDate().addDays(2);
-    return TeacherHomeworkView(
+    return TeacherAndParentHomeworkView(
       id: homework.id,
       title: homework.title.value,
       subject: homework.subject.name,

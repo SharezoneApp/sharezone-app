@@ -13,8 +13,8 @@ import 'package:sharezone/homework/shared/shared.dart';
 import 'teacher_and_parent_homework_tile.dart';
 
 class TeacherAndParentArchivedHomeworkList extends StatelessWidget {
-  final TeacherArchivedHomeworkListView view;
-  final TeacherHomeworkPageBloc bloc;
+  final TeacherAndParentArchivedHomeworkListView view;
+  final TeacherAndParentHomeworkPageBloc bloc;
 
   const TeacherAndParentArchivedHomeworkList({
     super.key,

@@ -34,28 +34,28 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:test_randomness/test_randomness.dart';
 import 'package:user/user.dart';
 
-class MockTeacherHomeworkPageBloc
-    extends Bloc<TeacherHomeworkPageEvent, TeacherHomeworkPageState>
-    implements TeacherHomeworkPageBloc {
-  final _queuedStates = Queue<TeacherHomeworkPageState>();
+class MockTeacherAndParentHomeworkPageBloc extends Bloc<
+        TeacherAndParentHomeworkPageEvent, TeacherAndParentHomeworkPageState>
+    implements TeacherAndParentHomeworkPageBloc {
+  final _queuedStates = Queue<TeacherAndParentHomeworkPageState>();
 
-  final receivedEvents = <TeacherHomeworkPageEvent>[];
+  final receivedEvents = <TeacherAndParentHomeworkPageEvent>[];
 
-  MockTeacherHomeworkPageBloc() : super(Uninitialized()) {
-    on<TeacherHomeworkPageEvent>((event, emit) {
+  MockTeacherAndParentHomeworkPageBloc() : super(Uninitialized()) {
+    on<TeacherAndParentHomeworkPageEvent>((event, emit) {
       if (_queuedStates.isNotEmpty) {
         emit(_queuedStates.removeFirst());
       }
     });
   }
 
-  void emitNewState(TeacherHomeworkPageState state) {
+  void emitNewState(TeacherAndParentHomeworkPageState state) {
     _queuedStates.add(state);
     add(LoadHomeworks());
   }
 
   @override
-  void onEvent(TeacherHomeworkPageEvent event) {
+  void onEvent(TeacherAndParentHomeworkPageEvent event) {
     receivedEvents.add(event);
     super.onEvent(event);
   }
@@ -71,7 +71,7 @@ enum HomeworkTab { open, archived }
 
 Future<void> pumpHomeworkPage(
   WidgetTester tester, {
-  required TeacherHomeworkPageBloc bloc,
+  required TeacherAndParentHomeworkPageBloc bloc,
   HomeworkTab initialTab = HomeworkTab.open,
 }) async {
   /// Wir müssen hier die Hausaufgaben-Seite nachbauen, weil
@@ -97,7 +97,7 @@ Future<void> pumpHomeworkPage(
             child: MultiBlocProvider(
               blocProviders: [
                 BlocProvider<NavigationBloc>(bloc: NavigationBloc()),
-                BlocProvider<TeacherHomeworkPageBloc>(bloc: bloc),
+                BlocProvider<TeacherAndParentHomeworkPageBloc>(bloc: bloc),
               ],
               child: (context) => BlocProvider(
                 bloc: NavigationBloc(),
@@ -145,8 +145,8 @@ Future<void> pumpHomeworkPage(
 }
 
 void main() {
-  group('TeacherHomeworkPage', () {
-    late MockTeacherHomeworkPageBloc homeworkPageBloc;
+  group('$TeacherAndParentHomeworkPage', () {
+    late MockTeacherAndParentHomeworkPageBloc homeworkPageBloc;
 
     // Can't use this because of weird async behavior:
     // https://github.com/flutter/flutter/issues/5728
@@ -158,8 +158,8 @@ void main() {
       homeworkPageBloc.close();
     });
 
-    MockTeacherHomeworkPageBloc createBloc() {
-      final bloc = MockTeacherHomeworkPageBloc();
+    MockTeacherAndParentHomeworkPageBloc createBloc() {
+      final bloc = MockTeacherAndParentHomeworkPageBloc();
       return bloc;
     }
 
@@ -192,21 +192,21 @@ void main() {
       homeworkPageBloc = createBloc();
 
       final state = Success(
-        TeacherOpenHomeworkListView(
+        TeacherAndParentOpenHomeworkListView(
             IList([
-              TeacherHomeworkSectionView(
+              TeacherAndParentHomeworkSectionView(
                   'Section 1',
                   IListConst([
                     randomHomeworkViewWith(title: 'HW in first Section'),
                   ])),
-              TeacherHomeworkSectionView(
+              TeacherAndParentHomeworkSectionView(
                   'Section 2',
                   IList([
                     randomHomeworkViewWith(title: 'HW in second Section'),
                   ])),
             ]),
             sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
-        TeacherArchivedHomeworkListView(
+        TeacherAndParentArchivedHomeworkListView(
           const IListConst([]),
           loadedAllArchivedHomeworks: true,
         ),
@@ -270,7 +270,8 @@ void main() {
           const Offset(0, -5000));
     }
 
-    List<TeacherHomeworkView> generateRandomHomeworks({required int count}) {
+    List<TeacherAndParentHomeworkView> generateRandomHomeworks(
+        {required int count}) {
       return List.generate(
           count, (index) => randomHomeworkViewWith(/*Random content*/));
     }
@@ -286,7 +287,7 @@ void main() {
       homeworkPageBloc.emitNewState(
         Success(
           _noOpenHomeworks,
-          TeacherArchivedHomeworkListView(
+          TeacherAndParentArchivedHomeworkListView(
             firstHomeworkBatch,
             loadedAllArchivedHomeworks: false,
           ),
@@ -319,7 +320,7 @@ void main() {
       homeworkPageBloc.emitNewState(
         Success(
           _noOpenHomeworks,
-          TeacherArchivedHomeworkListView(
+          TeacherAndParentArchivedHomeworkListView(
             allLoadedHomeworks,
             // Now all homeworks are loaded
             loadedAllArchivedHomeworks: true,
@@ -392,19 +393,19 @@ void main() {
     });
 
     Future<void> pumpHomeworkTiles(
-        WidgetTester tester, List<TeacherHomeworkView> views) async {
+        WidgetTester tester, List<TeacherAndParentHomeworkView> views) async {
       homeworkPageBloc = createBloc();
 
       await pumpHomeworkPage(tester,
           bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
 
       homeworkPageBloc.emitNewState(Success(
-        TeacherOpenHomeworkListView(
+        TeacherAndParentOpenHomeworkListView(
             IList([
-              TeacherHomeworkSectionView('Section 1', views.toIList()),
+              TeacherAndParentHomeworkSectionView('Section 1', views.toIList()),
             ]),
             sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
-        TeacherArchivedHomeworkListView(
+        TeacherAndParentArchivedHomeworkListView(
           const IListConst([]),
           loadedAllArchivedHomeworks: true,
         ),
@@ -453,7 +454,7 @@ void main() {
 
       homeworkPageBloc.emitNewState(Success(
         _noOpenHomeworks,
-        TeacherArchivedHomeworkListView(
+        TeacherAndParentArchivedHomeworkListView(
           // No homeworks loaded already
           const IListConst([]),
           // but there are homeworks to load
@@ -505,12 +506,12 @@ bool _randomBool() {
   return randomBetween(0, 2).isEven;
 }
 
-TeacherHomeworkView randomHomeworkViewWith({
+TeacherAndParentHomeworkView randomHomeworkViewWith({
   String? title,
   int? nrOfStudentsCompletedOrSubmitted,
   bool? withSubmissions,
 }) {
-  return TeacherHomeworkView(
+  return TeacherAndParentHomeworkView(
     id: HomeworkId(randomAlphaNumeric(10)),
     title: title ?? 'S. ${randomBetween(1, 300)} Nr. ${randomBetween(1, 20)}',
     abbreviation: 'E',
@@ -528,9 +529,9 @@ TeacherHomeworkView randomHomeworkViewWith({
 
 Success _openHomeworksWith(HomeworkSort sort) {
   return Success(
-    TeacherOpenHomeworkListView(
+    TeacherAndParentOpenHomeworkListView(
         IList([
-          TeacherHomeworkSectionView(
+          TeacherAndParentHomeworkSectionView(
               'Heute',
               IList([
                 randomHomeworkViewWith(title: 'S. 32'),
@@ -544,25 +545,26 @@ Success _openHomeworksWith(HomeworkSort sort) {
 }
 
 final _noHomeworks = Success(
-  TeacherOpenHomeworkListView(
+  TeacherAndParentOpenHomeworkListView(
     const IListConst([]),
     sorting: HomeworkSort.smallestDateSubjectAndTitle,
   ),
-  TeacherArchivedHomeworkListView(
+  TeacherAndParentArchivedHomeworkListView(
     const IListConst([]),
     loadedAllArchivedHomeworks: true,
   ),
 );
 
-final _noOpenHomeworks = TeacherOpenHomeworkListView(const IListConst([]),
+final _noOpenHomeworks = TeacherAndParentOpenHomeworkListView(
+    const IListConst([]),
     sorting: HomeworkSort.smallestDateSubjectAndTitle);
-final _noArchivedHomeworks = TeacherArchivedHomeworkListView(
+final _noArchivedHomeworks = TeacherAndParentArchivedHomeworkListView(
     const IListConst([]),
     loadedAllArchivedHomeworks: true);
 
 Future<void> _pumpHomeworkPageWithNoHomeworks(
   WidgetTester tester, {
-  required MockTeacherHomeworkPageBloc bloc,
+  required MockTeacherAndParentHomeworkPageBloc bloc,
   HomeworkTab initialTab = HomeworkTab.open,
 }) async {
   await pumpHomeworkPage(tester, bloc: bloc, initialTab: initialTab);

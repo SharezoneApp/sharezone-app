@@ -16,13 +16,13 @@ import '../../hausaufgabenheft_logik_lehrer.dart';
 import '../models/date.dart';
 import 'completed_homeworks/views/completed_homework_list_view_factory.dart';
 
-TeacherHomeworkPageBloc createTeacherHomeworkPageBloc(
+TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
     HausaufgabenheftDependencies dependencies, HausaufgabenheftConfig config) {
   final getCurrentDateTime =
       dependencies.getCurrentDateTime ?? () => clock.now();
   getCurrentDate() => Date.fromDateTime(getCurrentDateTime());
 
-  final viewFactory = TeacherHomeworkViewFactory(
+  final viewFactory = TeacherAndParentHomeworkViewFactory(
       defaultColorValue: config.defaultCourseColorValue);
   final sortAndSubcategorizer = TeacherHomeworkSortAndSubcategorizer(
     defaultColor: Color(config.defaultCourseColorValue),
@@ -34,7 +34,7 @@ TeacherHomeworkPageBloc createTeacherHomeworkPageBloc(
   final completedHomeworkListViewFactory =
       TeacherCompletedHomeworkListViewFactory(viewFactory);
 
-  return TeacherHomeworkPageBloc(
+  return TeacherAndParentHomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,
     completedHomeworkListViewFactory: completedHomeworkListViewFactory,
     homeworkApi: dependencies.api.teachersAndParents,
