@@ -25,8 +25,8 @@ class HomeworkSortAndSubcategorizer {
     final sorted = homeworks.sortWith(sort);
 
     return switch (sort) {
-      SubjectSmallestDateAndTitleSort() => _subcategorizeByDate(sorted),
-      SmallestDateSubjectAndTitleSort() => _subcategorizeBySubject(sorted),
+      SmallestDateSubjectAndTitleSort() => _subcategorizeByDate(sorted),
+      SubjectSmallestDateAndTitleSort() => _subcategorizeBySubject(sorted),
     };
   }
 
