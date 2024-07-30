@@ -8,10 +8,10 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework.dart';
+import 'package:hausaufgabenheft_logik/src/shared/models/homework.dart';
 
-import '../../views/student_homework_view.dart';
-import '../../views/student_homework_view_factory.dart';
+import 'student_homework_view.dart';
+import 'student_homework_view_factory.dart';
 
 class StudentHomeworkSectionView extends Equatable {
   final String title;

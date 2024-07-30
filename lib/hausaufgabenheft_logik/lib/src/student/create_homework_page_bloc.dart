@@ -8,13 +8,13 @@
 
 import 'package:clock/clock.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
+import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
 
-import '../open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
-import '../open_homeworks/views/student_open_homework_list_view_factory.dart';
-import '../views/student_homework_view_factory.dart';
-import 'config.dart';
-import 'dependencies.dart';
+import '../shared/sort_and_subcategorizer.dart';
+import 'views/student_open_homework_list_view_factory.dart';
+import 'views/student_homework_view_factory.dart';
+import '../shared/setup/config.dart';
+import '../shared/setup/dependencies.dart';
 
 StudentHomeworkPageBloc createStudentHomeworkPageBloc(
     HausaufgabenheftDependencies dependencies, HausaufgabenheftConfig config) {

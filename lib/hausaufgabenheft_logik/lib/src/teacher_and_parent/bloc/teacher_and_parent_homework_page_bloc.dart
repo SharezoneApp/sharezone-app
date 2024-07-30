@@ -14,7 +14,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
     hide Uninitialized, LoadHomeworks, OpenHwSortingChanged, Success, Sort;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
-import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
+import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
 import 'package:rxdart/rxdart.dart';
 
 export 'events.dart';

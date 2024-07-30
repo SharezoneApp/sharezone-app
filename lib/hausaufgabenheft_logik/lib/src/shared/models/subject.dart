@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
-import 'package:hausaufgabenheft_logik/src/views/color.dart';
+import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 
 class Subject extends Equatable {
   final String name;

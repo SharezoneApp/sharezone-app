@@ -8,8 +8,8 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
-import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
+import 'package:hausaufgabenheft_logik/src/shared/sort_and_subcategorizer.dart';
+import 'package:hausaufgabenheft_logik/src/student/views/student_homework_view_factory.dart';
 
 class StudentOpenHomeworkListViewFactory {
   final HomeworkSortAndSubcategorizer<StudentHomeworkReadModel>

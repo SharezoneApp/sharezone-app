@@ -6,12 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/models/homework.dart';
-import 'package:hausaufgabenheft_logik/src/models/models.dart';
-import 'package:hausaufgabenheft_logik/src/views/color.dart';
-import 'package:hausaufgabenheft_logik/src/views/student_homework_view.dart';
+import 'package:hausaufgabenheft_logik/src/shared/models/models.dart';
+import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 
-class StudentHomeworkViewFactory {
+import '../../../hausaufgabenheft_logik_lehrer.dart';
+
+class TeacherAndParentHomeworkViewFactory {
   late Date Function() _getCurrentDate;
 
   /// The color value from `color.value`.
@@ -19,7 +19,7 @@ class StudentHomeworkViewFactory {
   final int defaultColorValue;
   final Color defaultColor;
 
-  StudentHomeworkViewFactory(
+  TeacherAndParentHomeworkViewFactory(
       {Date Function()? getCurrentDate, required this.defaultColorValue})
       : defaultColor = Color(defaultColorValue) {
     if (getCurrentDate == null) {
@@ -29,56 +29,49 @@ class StudentHomeworkViewFactory {
     }
   }
 
-  StudentHomeworkView createFrom(StudentHomeworkReadModel homework) {
+  TeacherAndParentHomeworkView createFrom(TeacherHomeworkReadModel homework) {
     final twoDaysInFuture = _getCurrentDate().addDays(2);
-    return StudentHomeworkView(
-      id: homework.id.toString(),
+    return TeacherAndParentHomeworkView(
+      id: homework.id,
       title: homework.title.value,
       subject: homework.subject.name,
       abbreviation: homework.subject.abbreviation,
       todoDate: _getLocaleDateString(Date.fromDateTime(homework.todoDate),
           time: _getTime(homework.withSubmissions, homework.todoDate)),
       withSubmissions: homework.withSubmissions,
-      isCompleted: homework.status == CompletionStatus.completed,
+      nrOfStudentsCompletedOrSubmitted: homework.nrOfStudentsCompleted,
+      canViewCompletionOrSubmissionList: homework.withSubmissions
+          ? homework.canViewSubmissions
+          : homework.canViewCompletions,
       colorDate: homework.isOverdueRelativeTo(twoDaysInFuture),
       subjectColor: homework.subject.color ?? defaultColor,
+      canDeleteForEveryone: false,
+      canEditForEveryone: false,
     );
   }
 
   String _getLocaleDateString(Date date, {String? time}) {
     final months = {
-      1: 'Jan',
-      2: 'Feb',
-      3: 'Mär',
-      4: 'Apr',
+      1: 'Januar',
+      2: 'Februar',
+      3: 'März',
+      4: 'April',
       5: 'Mai',
-      6: 'Jun',
-      7: 'Jul',
-      8: 'Aug',
-      9: 'Sep',
-      10: 'Okt',
-      11: 'Nov',
-      12: 'Dez',
+      6: 'Juni',
+      7: 'Juli',
+      8: 'August',
+      9: 'September',
+      10: 'Oktober',
+      11: 'November',
+      12: 'Dezember',
     };
     assert(months.containsKey(date.month));
 
     final day = date.day.toString();
     final month = months[date.month];
-    // The year suffix is the last two digits of the year, e.g. 2019 -> 19
-    final yearSuffix = date.year.toString().substring(2);
+    final year = date.year.toString();
 
-    final weekdays = {
-      1: 'Mo',
-      2: 'Di',
-      3: 'Mi',
-      4: 'Do',
-      5: 'Fr',
-      6: 'Sa',
-      7: 'So',
-    };
-    final weekday = weekdays[date.asDateTime().weekday];
-
-    final dateString = '$weekday, $day. $month $yearSuffix';
+    final dateString = '$day. $month $year';
     if (time == null) return dateString;
     return '$dateString - $time Uhr';
   }

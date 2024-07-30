@@ -9,7 +9,6 @@
 import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
 class TeacherAndParentOpenHomeworkListView {

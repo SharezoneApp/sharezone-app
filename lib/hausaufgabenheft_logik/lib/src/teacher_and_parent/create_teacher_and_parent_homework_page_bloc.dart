@@ -7,13 +7,13 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:clock/clock.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
-import 'package:hausaufgabenheft_logik/src/setup/config.dart';
-import 'package:hausaufgabenheft_logik/src/setup/dependencies.dart';
-import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
+import 'package:hausaufgabenheft_logik/src/shared/sort_and_subcategorizer.dart';
+import 'package:hausaufgabenheft_logik/src/shared/setup/config.dart';
+import 'package:hausaufgabenheft_logik/src/shared/setup/dependencies.dart';
+import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
 
 import '../../hausaufgabenheft_logik_lehrer.dart';
-import '../models/date.dart';
+import '../shared/models/date.dart';
 
 TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
     HausaufgabenheftDependencies dependencies, HausaufgabenheftConfig config) {

@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/homework_page_api.dart';
+import 'package:hausaufgabenheft_logik/src/shared/homework_page_api.dart';
 import 'package:key_value_store/key_value_store.dart';
 
 class HausaufgabenheftDependencies {

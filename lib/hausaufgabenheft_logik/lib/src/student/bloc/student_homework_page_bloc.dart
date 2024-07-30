@@ -13,8 +13,8 @@ import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/views/student_open_homework_list_view_factory.dart';
-import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
+import 'package:hausaufgabenheft_logik/src/student/views/student_open_homework_list_view_factory.dart';
+import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../views/student_homework_view_factory.dart';

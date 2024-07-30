@@ -8,7 +8,7 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_completion_status.dart';
+import 'package:hausaufgabenheft_logik/src/shared/models/homework_completion_status.dart';
 
 import 'date.dart';
 import 'subject.dart';

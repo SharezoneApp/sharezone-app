@@ -7,10 +7,10 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_completion_status.dart';
+import 'package:hausaufgabenheft_logik/src/shared/models/homework_completion_status.dart';
 
-import 'models/date.dart';
-import 'models/homework.dart';
+import '../shared/models/date.dart';
+import '../shared/models/homework.dart';
 
 extension StudentHomeworkListExtension on IList<StudentHomeworkReadModel> {
   IList<StudentHomeworkReadModel> get completed =>

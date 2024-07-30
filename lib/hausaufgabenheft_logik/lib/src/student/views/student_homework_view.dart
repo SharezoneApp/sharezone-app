@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/views/color.dart';
+import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 
 class StudentHomeworkView {
   final String id;

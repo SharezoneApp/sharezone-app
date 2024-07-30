@@ -19,8 +19,6 @@ import 'package:flutter/material.dart' as flutter show Color;
 import 'package:flutter/material.dart' hide Color;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
-    show HomeworkSort;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
