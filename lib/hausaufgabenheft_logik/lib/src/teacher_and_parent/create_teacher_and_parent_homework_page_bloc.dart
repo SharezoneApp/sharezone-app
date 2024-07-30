@@ -14,7 +14,6 @@ import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_s
 
 import '../../hausaufgabenheft_logik_lehrer.dart';
 import '../models/date.dart';
-import 'completed_homeworks/views/completed_homework_list_view_factory.dart';
 
 TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
     HausaufgabenheftDependencies dependencies, HausaufgabenheftConfig config) {
@@ -31,12 +30,9 @@ TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
       TeacherAndParentOpenHomeworkListViewFactory(
           sortAndSubcategorizer, viewFactory);
 
-  final completedHomeworkListViewFactory =
-      TeacherAndParentCompletedHomeworkListViewFactory(viewFactory);
-
   return TeacherAndParentHomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,
-    completedHomeworkListViewFactory: completedHomeworkListViewFactory,
+    viewFactory: viewFactory,
     homeworkApi: dependencies.api.teachersAndParents,
     numberOfInitialCompletedHomeworksToLoad:
         config.nrOfInitialCompletedHomeworksToLoad,
