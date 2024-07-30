@@ -46,39 +46,3 @@ class StudentOpenHomeworkListView {
   String toString() =>
       'OpenHomeworkListView(sections: $sections, showCompleteOverdueHomeworkPrompt: $showCompleteOverdueHomeworkPrompt)';
 }
-
-enum HomeworkSort {
-  /// Sorts the homeworks firstly by date (earliest date first).
-  /// If they have the same date, they will be sorted alphabetically by subject.
-  /// If they have the same date and subject, they will be sorted alphabetically by title.
-  smallestDateSubjectAndTitle,
-
-  /// Sorts the homeworks firstly by Subject.
-  /// If they have the same subject, they will be sorted by date (earliest date first).
-  /// If they have the same date and subject, they will be sorted alphabetically by title.
-  subjectSmallestDateAndTitleSort,
-}
-
-const String _subjectSmallestDateAndTitleSortAsString =
-    'smallestDateSubjectAndTitle';
-const String _subjectSmallestDateAndTitleSort =
-    'subjectSmallestDateAndTitleSort';
-
-HomeworkSort homeworkSortFromString(String s) {
-  switch (s) {
-    case _subjectSmallestDateAndTitleSortAsString:
-      return HomeworkSort.smallestDateSubjectAndTitle;
-    case _subjectSmallestDateAndTitleSort:
-      return HomeworkSort.subjectSmallestDateAndTitleSort;
-  }
-  throw UnimplementedError();
-}
-
-String homeworkSortToString(HomeworkSort s) {
-  switch (s) {
-    case HomeworkSort.smallestDateSubjectAndTitle:
-      return _subjectSmallestDateAndTitleSortAsString;
-    case HomeworkSort.subjectSmallestDateAndTitleSort:
-      return _subjectSmallestDateAndTitleSort;
-  }
-}
