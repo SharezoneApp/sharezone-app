@@ -16,7 +16,7 @@ class TeacherAndParentOpenHomeworkListViewFactory {
 
   TeacherAndParentOpenHomeworkListView create(
       IList<TeacherHomeworkReadModel> openHomeworks,
-      Sort<TeacherHomeworkReadModel> sort) {
+      Sort<BaseHomeworkReadModel> sort) {
     final homeworkSectionViews =
         _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
 

@@ -8,16 +8,22 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
-sealed class Sort<T> {
-  IList<T> sort(IList<T> list);
+sealed class Sort<F extends BaseHomeworkReadModel> {
+  IList<T> sort<T extends BaseHomeworkReadModel>(IList<T> list);
+}
+
+extension SortWith<T extends BaseHomeworkReadModel,
+    S extends BaseHomeworkReadModel> on IList<T> {
+  IList<T> sortWith(Sort<S> sort) {
+    return sort.sort<T>(this);
+  }
 }
 
 /// Sorts the homeworks firstly by date (earliest date first).
 /// If they have the same date, they will be sorted alphabetically by subject.
 /// If they have the same date and subject, they will be sorted alphabetically by title.
-class SmallestDateSubjectAndTitleSort extends Sort<TeacherHomeworkReadModel> {
+class SmallestDateSubjectAndTitleSort extends Sort<BaseHomeworkReadModel> {
   late Date Function() getCurrentDate;
 
   SmallestDateSubjectAndTitleSort({Date Function()? getCurrentDate}) {
@@ -25,9 +31,11 @@ class SmallestDateSubjectAndTitleSort extends Sort<TeacherHomeworkReadModel> {
   }
 
   @override
-  IList<TeacherHomeworkReadModel> sort(IList<TeacherHomeworkReadModel> list) {
-    return sortWithOperations<TeacherHomeworkReadModel>(
-        list, const IListConst([dateSort, subjectSort, titleSort]));
+  IList<T> sort<T extends BaseHomeworkReadModel>(IList<T> list) {
+    return sortWithOperations<T>(
+        list, IListConst<ComparisonResult Function(T, T)>(
+            // ignore: prefer_const_literals_to_create_immutables
+            [dateSort, subjectSort, titleSort]));
   }
 
   @override
@@ -44,11 +52,13 @@ class SmallestDateSubjectAndTitleSort extends Sort<TeacherHomeworkReadModel> {
 /// Sorts the homeworks firstly by Subject.
 /// If they have the same subject, they will be sorted by date (earliest date first).
 /// If they have the same date and subject, they will be sorted alphabetically by title.
-class SubjectSmallestDateAndTitleSort extends Sort<TeacherHomeworkReadModel> {
+class SubjectSmallestDateAndTitleSort extends Sort<BaseHomeworkReadModel> {
   @override
-  IList<TeacherHomeworkReadModel> sort(IList<TeacherHomeworkReadModel> list) {
-    return sortWithOperations<TeacherHomeworkReadModel>(
-        list, const IListConst([subjectSort, dateSort, titleSort]));
+  IList<T> sort<T extends BaseHomeworkReadModel>(IList<T> list) {
+    return sortWithOperations<T>(
+        list, IListConst<ComparisonResult Function(T, T)>(
+            // ignore: prefer_const_literals_to_create_immutables
+            [subjectSort, dateSort, titleSort]));
   }
 
   @override

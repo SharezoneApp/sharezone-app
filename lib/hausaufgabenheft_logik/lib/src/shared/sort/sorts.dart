@@ -6,4 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-export 'src/student_sort.dart';
+export 'src/sort.dart';
+export 'src/homework_attribute_sorts.dart';
+export 'src/homework_sort_enum_sort_object_conversion_extensions.dart';
+export 'src/sort_with_operations.dart';

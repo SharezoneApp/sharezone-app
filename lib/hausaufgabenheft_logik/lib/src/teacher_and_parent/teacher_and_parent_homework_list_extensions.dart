@@ -8,13 +8,6 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Sort;
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
-
-extension SortWith<T> on IList<T> {
-  IList<T> sortWith(Sort<T> sort) {
-    return sort.sort(this);
-  }
-}
 
 extension HomeworkListExtension on IList<TeacherHomeworkReadModel> {
   IList<TeacherHomeworkReadModel> get completed =>

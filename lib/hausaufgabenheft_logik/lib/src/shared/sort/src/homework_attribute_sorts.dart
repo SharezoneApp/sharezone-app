@@ -8,7 +8,7 @@
 
 import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 
-import 'teacher_and_parent_sort_with_operations.dart';
+import 'sort_with_operations.dart';
 
 ComparisonResult dateSort<T extends BaseHomeworkReadModel>(T ha1, T ha2) =>
     ComparisonResult(ha1.todoDate.compareTo(ha2.todoDate));

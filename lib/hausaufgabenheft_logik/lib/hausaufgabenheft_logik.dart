@@ -43,7 +43,7 @@ export 'src/completed_homeworks/views/student_completed_homwork_list_view.dart';
 export 'src/homework_list_extensions.dart';
 export 'src/models/homework.dart';
 export 'src/models/models.dart';
-export 'src/open_homeworks/sort_and_subcategorization/sort/src/student_sort.dart';
+export 'src/shared/sort/sorts.dart';
 export 'src/open_homeworks/sort_and_subcategorization/student_sort_and_subcategorizer.dart';
 export 'src/open_homeworks/views/student_homework_section_view.dart';
 export 'src/open_homeworks/views/student_open_homework_list_view.dart';

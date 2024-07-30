@@ -7,14 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework.dart';
-import 'package:hausaufgabenheft_logik/src/models/models.dart';
-import 'package:hausaufgabenheft_logik/src/homework_list_extensions.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/student_sort.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/student_sort_and_subcategorizer.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/student_homework_sort_enum_sort_object_conversion_extensions.dart';
-
-import 'student_open_homework_list_view.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 class StudentOpenHomeworkListViewFactory {
   final StudentHomeworkSortAndSubcategorizer _sortAndSubcategorizer;
@@ -25,7 +18,7 @@ class StudentOpenHomeworkListViewFactory {
 
   StudentOpenHomeworkListView create(
       IList<StudentHomeworkReadModel> openHomeworks,
-      Sort<StudentHomeworkReadModel> sort) {
+      Sort<BaseHomeworkReadModel> sort) {
     final homeworkSectionViews =
         _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
 

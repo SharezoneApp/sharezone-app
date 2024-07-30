@@ -6,9 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
+    hide SmallestDateSubjectAndTitleSort, SubjectSmallestDateAndTitleSort, Sort;
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
-extension HomeworkSortToEnumExtension on Sort<StudentHomeworkReadModel> {
+extension HomeworkSortToEnumExtension on Sort<BaseHomeworkReadModel> {
   HomeworkSort toEnum() {
     if (this is SmallestDateSubjectAndTitleSort) {
       return HomeworkSort.smallestDateSubjectAndTitle;
@@ -20,8 +22,8 @@ extension HomeworkSortToEnumExtension on Sort<StudentHomeworkReadModel> {
   }
 }
 
-extension HomeworkSortEnumToSortExtension on HomeworkSort {
-  Sort<StudentHomeworkReadModel> toSortObject(
+extension StudentHomeworkSortEnumToSortExtension on HomeworkSort {
+  Sort<BaseHomeworkReadModel> toSortObject(
       {required Date Function()? getCurrentDate}) {
     switch (this) {
       case HomeworkSort.smallestDateSubjectAndTitle:

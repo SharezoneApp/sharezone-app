@@ -31,7 +31,7 @@ class TeacherAndParentHomeworkSortAndSubcategorizer {
 
   IList<TeacherAndParentHomeworkSectionView> sortAndSubcategorize(
       IList<TeacherHomeworkReadModel> homeworks,
-      Sort<TeacherHomeworkReadModel> sort) {
+      Sort<BaseHomeworkReadModel> sort) {
     final sorted = homeworks.sortWith(sort);
 
     final matchingSubcategorizer = switch (sort) {

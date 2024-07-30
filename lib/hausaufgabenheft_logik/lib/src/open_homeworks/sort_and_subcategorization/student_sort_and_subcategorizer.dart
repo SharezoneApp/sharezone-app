@@ -21,7 +21,7 @@ class StudentHomeworkSortAndSubcategorizer {
 
   IList<StudentHomeworkSectionView> sortAndSubcategorize(
       IList<StudentHomeworkReadModel> homeworks,
-      Sort<StudentHomeworkReadModel> sort) {
+      Sort<BaseHomeworkReadModel> sort) {
     final sorted = homeworks.sortWith(sort);
 
     return switch (sort) {

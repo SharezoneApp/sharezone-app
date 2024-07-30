@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 export 'src/teacher_and_parent/create_teacher_and_parent_homework_page_bloc.dart';
-export 'src/teacher_and_parent/sort_and_subcategorization/sort/teacher_and_parent_homework_sorts.dart';
+export 'src/shared/sort/sorts.dart';
 export 'src/teacher_and_parent/sort_and_subcategorization/teacher_and_parent_sort_and_subcategorizer.dart';
 export 'src/teacher_and_parent/teacher_and_parent_archived_homework_list_view.dart';
 export 'src/teacher_and_parent/teacher_and_parent_homework_page_bloc.dart';

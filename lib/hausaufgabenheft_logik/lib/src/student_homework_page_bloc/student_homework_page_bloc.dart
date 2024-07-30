@@ -14,7 +14,6 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/student_completed_homework_list_view_factory.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/student_homework_sort_enum_sort_object_conversion_extensions.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/student_open_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:rxdart/rxdart.dart';
@@ -29,7 +28,7 @@ class StudentHomeworkPageBloc
   final StudentCompletedHomeworkListViewFactory
       _completedHomeworkListViewFactory;
   final StudentOpenHomeworkListViewFactory _openHomeworkListViewFactory;
-  final _currentSortStream = BehaviorSubject<Sort<StudentHomeworkReadModel>>();
+  final _currentSortStream = BehaviorSubject<Sort<BaseHomeworkReadModel>>();
   LazyLoadingController<StudentHomeworkReadModel>? _lazyLoadingController;
 
   /// Whether [close] or [dispose] has been called;
@@ -86,7 +85,7 @@ class StudentHomeworkPageBloc
 
     _combineLatestSubscription = Rx.combineLatest3<
             IList<StudentHomeworkReadModel>,
-            Sort<StudentHomeworkReadModel>,
+            Sort<BaseHomeworkReadModel>,
             LazyLoadingResult<StudentHomeworkReadModel>,
             Success>(_homeworkApi.openHomeworks, _currentSortStream,
         _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {

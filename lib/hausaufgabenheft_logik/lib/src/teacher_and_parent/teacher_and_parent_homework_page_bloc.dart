@@ -33,7 +33,7 @@ class TeacherAndParentHomeworkPageBloc extends Bloc<
       _completedHomeworkListViewFactory;
   final TeacherAndParentOpenHomeworkListViewFactory
       _openHomeworkListViewFactory;
-  final _currentSortStream = BehaviorSubject<Sort<TeacherHomeworkReadModel>>();
+  final _currentSortStream = BehaviorSubject<Sort<BaseHomeworkReadModel>>();
   LazyLoadingController<TeacherHomeworkReadModel>? _lazyLoadingController;
 
   /// Whether [close] or [dispose] has been called;
@@ -85,7 +85,7 @@ class TeacherAndParentHomeworkPageBloc extends Bloc<
 
     _combineLatestSubscription = Rx.combineLatest3<
             IList<TeacherHomeworkReadModel>,
-            Sort<TeacherHomeworkReadModel>,
+            Sort<BaseHomeworkReadModel>,
             LazyLoadingResult<TeacherHomeworkReadModel>,
             Success>(_homeworkApi.openHomeworks, _currentSortStream,
         _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
