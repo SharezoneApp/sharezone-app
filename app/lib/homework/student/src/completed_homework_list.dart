@@ -15,7 +15,7 @@ import 'package:sharezone/homework/student/src/util.dart';
 import 'homework_tile.dart';
 
 class CompletedHomeworkList extends StatelessWidget {
-  final StudentCompletedHomeworkListView view;
+  final LazyLoadingHomeworkListView<StudentHomeworkView> view;
   final StudentHomeworkPageBloc bloc;
 
   const CompletedHomeworkList({
@@ -27,7 +27,7 @@ class CompletedHomeworkList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LazyLoadingHomeworkList(
-      loadedAllHomeworks: view.loadedAllCompletedHomeworks,
+      loadedAllHomeworks: view.loadedAllHomeworks,
       loadMoreHomeworksCallback: () => bloc.add(AdvanceCompletedHomeworks(10)),
       children: [
         for (final hw in view.orderedHomeworks)

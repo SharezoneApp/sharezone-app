@@ -15,14 +15,14 @@ class TeacherAndParentCompletedHomeworkListViewFactory {
   TeacherAndParentCompletedHomeworkListViewFactory(
       this._teacherHomeworkViewFactory);
 
-  TeacherAndParentArchivedHomeworkListView create(
+  LazyLoadingHomeworkListView<TeacherAndParentHomeworkView> create(
       IList<TeacherHomeworkReadModel> completedHomeworks,
       bool loadedAllCompletedHomeworks) {
     final orderedHomeworks = IList([
       for (final completedHomework in completedHomeworks)
         _teacherHomeworkViewFactory.createFrom(completedHomework)
     ]);
-    return TeacherAndParentArchivedHomeworkListView(orderedHomeworks,
-        loadedAllArchivedHomeworks: loadedAllCompletedHomeworks);
+    return LazyLoadingHomeworkListView(orderedHomeworks,
+        loadedAllHomeworks: loadedAllCompletedHomeworks);
   }
 }

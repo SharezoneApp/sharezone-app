@@ -8,26 +8,23 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
-import '../../views/student_homework_view.dart';
+class LazyLoadingHomeworkListView<T> {
+  final bool loadedAllHomeworks;
+  final IList<T> orderedHomeworks;
 
-class StudentCompletedHomeworkListView {
-  final bool loadedAllCompletedHomeworks;
-  final IList<StudentHomeworkView> orderedHomeworks;
-
-  StudentCompletedHomeworkListView(this.orderedHomeworks,
-      {required this.loadedAllCompletedHomeworks});
+  LazyLoadingHomeworkListView(this.orderedHomeworks,
+      {required this.loadedAllHomeworks});
 
   int get numberOfHomeworks => orderedHomeworks.length;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is StudentCompletedHomeworkListView &&
+        other is LazyLoadingHomeworkListView &&
             other.orderedHomeworks == orderedHomeworks &&
-            other.loadedAllCompletedHomeworks == loadedAllCompletedHomeworks;
+            other.loadedAllHomeworks == loadedAllHomeworks;
   }
 
   @override
-  int get hashCode =>
-      orderedHomeworks.hashCode ^ loadedAllCompletedHomeworks.hashCode;
+  int get hashCode => orderedHomeworks.hashCode ^ loadedAllHomeworks.hashCode;
 }

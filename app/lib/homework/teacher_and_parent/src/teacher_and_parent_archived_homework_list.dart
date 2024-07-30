@@ -13,7 +13,7 @@ import 'package:sharezone/homework/shared/shared.dart';
 import 'teacher_and_parent_homework_tile.dart';
 
 class TeacherAndParentArchivedHomeworkList extends StatelessWidget {
-  final TeacherAndParentArchivedHomeworkListView view;
+  final LazyLoadingHomeworkListView<TeacherAndParentHomeworkView> view;
   final TeacherAndParentHomeworkPageBloc bloc;
 
   const TeacherAndParentArchivedHomeworkList({
@@ -25,7 +25,7 @@ class TeacherAndParentArchivedHomeworkList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LazyLoadingHomeworkList(
-      loadedAllHomeworks: view.loadedAllArchivedHomeworks,
+      loadedAllHomeworks: view.loadedAllHomeworks,
       loadMoreHomeworksCallback: () => bloc.add(AdvanceArchivedHomeworks(10)),
       children: [
         for (final hw in view.orderedHomeworks)

@@ -111,7 +111,7 @@ class TeacherHomeworkBody extends StatelessWidget {
               : _NoOpenHomeworkPlaceholder();
 
           final completedHomeworkWidget =
-              hasArchivedHomeworks || !state.archived.loadedAllArchivedHomeworks
+              hasArchivedHomeworks || !state.archived.loadedAllHomeworks
                   ? TeacherAndParentArchivedHomeworkList(
                       view: state.archived,
                       bloc: bloc,

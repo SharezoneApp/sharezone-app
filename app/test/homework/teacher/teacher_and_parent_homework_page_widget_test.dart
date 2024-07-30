@@ -206,9 +206,9 @@ void main() {
                   ])),
             ]),
             sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
-        TeacherAndParentArchivedHomeworkListView(
+        LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
           const IListConst([]),
-          loadedAllArchivedHomeworks: true,
+          loadedAllHomeworks: true,
         ),
       );
       homeworkPageBloc.emitNewState(state);
@@ -287,9 +287,9 @@ void main() {
       homeworkPageBloc.emitNewState(
         Success(
           _noOpenHomeworks,
-          TeacherAndParentArchivedHomeworkListView(
+          LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
             firstHomeworkBatch,
-            loadedAllArchivedHomeworks: false,
+            loadedAllHomeworks: false,
           ),
         ),
       );
@@ -320,10 +320,10 @@ void main() {
       homeworkPageBloc.emitNewState(
         Success(
           _noOpenHomeworks,
-          TeacherAndParentArchivedHomeworkListView(
+          LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
             allLoadedHomeworks,
             // Now all homeworks are loaded
-            loadedAllArchivedHomeworks: true,
+            loadedAllHomeworks: true,
           ),
         ),
       );
@@ -405,9 +405,9 @@ void main() {
               HomeworkSectionView('Section 1', views.toIList()),
             ]),
             sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
-        TeacherAndParentArchivedHomeworkListView(
+        LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
           const IListConst([]),
-          loadedAllArchivedHomeworks: true,
+          loadedAllHomeworks: true,
         ),
       ));
 
@@ -454,11 +454,11 @@ void main() {
 
       homeworkPageBloc.emitNewState(Success(
         _noOpenHomeworks,
-        TeacherAndParentArchivedHomeworkListView(
+        LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
           // No homeworks loaded already
           const IListConst([]),
           // but there are homeworks to load
-          loadedAllArchivedHomeworks: false,
+          loadedAllHomeworks: false,
         ),
       ));
 
@@ -549,18 +549,19 @@ final _noHomeworks = Success(
     const IListConst([]),
     sorting: HomeworkSort.smallestDateSubjectAndTitle,
   ),
-  TeacherAndParentArchivedHomeworkListView(
+  LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
     const IListConst([]),
-    loadedAllArchivedHomeworks: true,
+    loadedAllHomeworks: true,
   ),
 );
 
 final _noOpenHomeworks = TeacherAndParentOpenHomeworkListView(
     const IListConst([]),
     sorting: HomeworkSort.smallestDateSubjectAndTitle);
-final _noArchivedHomeworks = TeacherAndParentArchivedHomeworkListView(
-    const IListConst([]),
-    loadedAllArchivedHomeworks: true);
+final _noArchivedHomeworks =
+    LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
+        const IListConst([]),
+        loadedAllHomeworks: true);
 
 Future<void> _pumpHomeworkPageWithNoHomeworks(
   WidgetTester tester, {

@@ -7,9 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
-
-import 'teacher_and_parent_archived_homework_list_view.dart';
-import 'teacher_and_parent_open_homework_list_view.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
 abstract class TeacherAndParentHomeworkPageState extends Equatable {
   @override
@@ -17,7 +15,7 @@ abstract class TeacherAndParentHomeworkPageState extends Equatable {
 }
 
 class Success extends TeacherAndParentHomeworkPageState {
-  final TeacherAndParentArchivedHomeworkListView archived;
+  final LazyLoadingHomeworkListView<TeacherAndParentHomeworkView> archived;
   final TeacherAndParentOpenHomeworkListView open;
 
   Success(this.open, this.archived);

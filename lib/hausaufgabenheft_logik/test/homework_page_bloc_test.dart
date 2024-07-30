@@ -400,7 +400,7 @@ void main() {
         bloc.add(LoadHomeworks());
         final Success state = await bloc.stream.whereType<Success>().first;
 
-        expect(state.completed.loadedAllCompletedHomeworks, false);
+        expect(state.completed.loadedAllHomeworks, false);
       });
       test(
         'all completed loaded is true when nrOfInitialCompletedHomeworksToLoad is the bigger as the given homeworks by the repository',
@@ -412,7 +412,7 @@ void main() {
           bloc.add(LoadHomeworks());
           final Success state = await bloc.stream.whereType<Success>().first;
 
-          expect(state.completed.loadedAllCompletedHomeworks, true);
+          expect(state.completed.loadedAllHomeworks, true);
         },
       );
       test(
