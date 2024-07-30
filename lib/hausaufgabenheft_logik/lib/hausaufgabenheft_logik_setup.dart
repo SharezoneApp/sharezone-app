@@ -23,6 +23,6 @@ library;
 
 export 'src/shared/setup/config.dart';
 export 'src/shared/setup/dependencies.dart';
-export 'src/student/create_homework_page_bloc.dart';
+export 'src/student/create_student_homework_page_bloc.dart';
 export 'src/student/bloc/student_homework_page_bloc.dart';
 export 'src/firebase/firebase_hausaufgabenheft_logik_setup.dart';
