@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:clock/clock.dart';
-import 'package:hausaufgabenheft_logik/color.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
 import 'package:hausaufgabenheft_logik/src/setup/config.dart';
 import 'package:hausaufgabenheft_logik/src/setup/dependencies.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
@@ -24,12 +24,12 @@ TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
 
   final viewFactory = TeacherAndParentHomeworkViewFactory(
       defaultColorValue: config.defaultCourseColorValue);
-  final sortAndSubcategorizer = TeacherAndParentHomeworkSortAndSubcategorizer(
-    defaultColor: Color(config.defaultCourseColorValue),
-    getCurrentDate: getCurrentDate,
-  );
+  final sortAndSubcategorizer =
+      HomeworkSortAndSubcategorizer<TeacherHomeworkReadModel>(
+          getCurrentDate: getCurrentDate);
   final openHomeworkListViewFactory =
-      TeacherAndParentOpenHomeworkListViewFactory(sortAndSubcategorizer);
+      TeacherAndParentOpenHomeworkListViewFactory(
+          sortAndSubcategorizer, viewFactory);
 
   final completedHomeworkListViewFactory =
       TeacherAndParentCompletedHomeworkListViewFactory(viewFactory);

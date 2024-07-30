@@ -10,11 +10,9 @@ import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-import 'student_homework_section_view.dart';
-
 class StudentOpenHomeworkListView {
   final bool showCompleteOverdueHomeworkPrompt;
-  final IList<StudentHomeworkSectionView> sections;
+  final IList<HomeworkSectionView<StudentHomeworkView>> sections;
   final HomeworkSort sorting;
 
   StudentOpenHomeworkListView(

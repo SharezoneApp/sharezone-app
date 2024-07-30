@@ -8,25 +8,37 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
+import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
 
 class StudentOpenHomeworkListViewFactory {
-  final StudentHomeworkSortAndSubcategorizer _sortAndSubcategorizer;
+  final HomeworkSortAndSubcategorizer<StudentHomeworkReadModel>
+      _sortAndSubcategorizer;
+  final StudentHomeworkViewFactory _viewFactory;
   final Date Function() _getCurrentDate;
 
   StudentOpenHomeworkListViewFactory(
-      this._sortAndSubcategorizer, this._getCurrentDate);
+      this._sortAndSubcategorizer, this._viewFactory, this._getCurrentDate);
 
   StudentOpenHomeworkListView create(
       IList<StudentHomeworkReadModel> openHomeworks,
       Sort<BaseHomeworkReadModel> sort) {
-    final homeworkSectionViews =
+    final sortedAndSubcategorized =
         _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
+
+    final views = sortedAndSubcategorized
+        .map((section) => HomeworkSectionView(
+            section.title,
+            section.homeworks
+                .map((hw) => _viewFactory.createFrom(hw))
+                .toIList()))
+        .toIList();
 
     final showCompleteOverdueHomeworkPrompt =
         _shouldShowCompleteOverdueHomeworkPrompt(openHomeworks);
 
     return StudentOpenHomeworkListView(
-      homeworkSectionViews,
+      views,
       showCompleteOverdueHomeworkPrompt: showCompleteOverdueHomeworkPrompt,
       sorting: sort.toEnum(),
     );

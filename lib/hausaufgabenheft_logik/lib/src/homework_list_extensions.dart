@@ -7,29 +7,16 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:hausaufgabenheft_logik/src/models/homework_completion_status.dart';
 
-import 'models/date.dart';
 import 'models/homework.dart';
 import 'models/subject.dart';
 
-extension HomeworkListExtension on IList<StudentHomeworkReadModel> {
-  IList<StudentHomeworkReadModel> get completed =>
-      where((homework) => homework.status == CompletionStatus.completed)
-          .toIList();
-  IList<StudentHomeworkReadModel> get open =>
-      where((homework) => homework.status == CompletionStatus.open).toIList();
-
+extension HomeworkListExtension on IList<BaseHomeworkReadModel> {
   IList<Subject> getDistinctOrderedSubjects() {
     final subjects = <Subject>{};
     for (final homework in this) {
       subjects.add(homework.subject);
     }
     return subjects.toIList();
-  }
-
-  IList<StudentHomeworkReadModel> getOverdue([Date? now]) {
-    now = now ?? Date.now();
-    return where((homeworks) => homeworks.isOverdueRelativeTo(now!)).toIList();
   }
 }

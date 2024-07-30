@@ -194,12 +194,12 @@ void main() {
       final state = Success(
         TeacherAndParentOpenHomeworkListView(
             IList([
-              TeacherAndParentHomeworkSectionView(
+              HomeworkSectionView(
                   'Section 1',
                   IListConst([
                     randomHomeworkViewWith(title: 'HW in first Section'),
                   ])),
-              TeacherAndParentHomeworkSectionView(
+              HomeworkSectionView(
                   'Section 2',
                   IList([
                     randomHomeworkViewWith(title: 'HW in second Section'),
@@ -402,7 +402,7 @@ void main() {
       homeworkPageBloc.emitNewState(Success(
         TeacherAndParentOpenHomeworkListView(
             IList([
-              TeacherAndParentHomeworkSectionView('Section 1', views.toIList()),
+              HomeworkSectionView('Section 1', views.toIList()),
             ]),
             sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
         TeacherAndParentArchivedHomeworkListView(
@@ -531,7 +531,7 @@ Success _openHomeworksWith(HomeworkSort sort) {
   return Success(
     TeacherAndParentOpenHomeworkListView(
         IList([
-          TeacherAndParentHomeworkSectionView(
+          HomeworkSectionView(
               'Heute',
               IList([
                 randomHomeworkViewWith(title: 'S. 32'),

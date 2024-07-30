@@ -8,11 +8,10 @@
 
 export 'src/teacher_and_parent/create_teacher_and_parent_homework_page_bloc.dart';
 export 'src/shared/sort/sorts.dart';
-export 'src/teacher_and_parent/sort_and_subcategorization/teacher_and_parent_sort_and_subcategorizer.dart';
 export 'src/teacher_and_parent/teacher_and_parent_archived_homework_list_view.dart';
 export 'src/teacher_and_parent/teacher_and_parent_homework_page_bloc.dart';
 export './src/models/homework.dart';
-export 'src/teacher_and_parent/teacher_and_parent_homework_section_view.dart';
+export 'src/open_homeworks/views/homework_section_view.dart';
 export 'src/teacher_and_parent/teacher_and_parent_homework_view.dart';
 export 'src/teacher_and_parent/teacher_and_parent_homework_view_factory.dart';
 export 'src/teacher_and_parent/teacher_and_parent_open_homework_list_view.dart';

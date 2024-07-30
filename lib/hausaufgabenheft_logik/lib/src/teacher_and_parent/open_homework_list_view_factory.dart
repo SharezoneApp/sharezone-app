@@ -8,20 +8,32 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
 
 class TeacherAndParentOpenHomeworkListViewFactory {
-  final TeacherAndParentHomeworkSortAndSubcategorizer _sortAndSubcategorizer;
+  final HomeworkSortAndSubcategorizer<TeacherHomeworkReadModel>
+      _sortAndSubcategorizer;
+  final TeacherAndParentHomeworkViewFactory _viewFactory;
 
-  TeacherAndParentOpenHomeworkListViewFactory(this._sortAndSubcategorizer);
+  TeacherAndParentOpenHomeworkListViewFactory(
+      this._sortAndSubcategorizer, this._viewFactory);
 
   TeacherAndParentOpenHomeworkListView create(
       IList<TeacherHomeworkReadModel> openHomeworks,
       Sort<BaseHomeworkReadModel> sort) {
-    final homeworkSectionViews =
+    final sortedAndSubcategorized =
         _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
 
+    final views = sortedAndSubcategorized
+        .map((section) => HomeworkSectionView(
+            section.title,
+            section.homeworks
+                .map((hw) => _viewFactory.createFrom(hw))
+                .toIList()))
+        .toIList();
+
     return TeacherAndParentOpenHomeworkListView(
-      homeworkSectionViews,
+      views,
       sorting: sort.toEnum(),
     );
   }

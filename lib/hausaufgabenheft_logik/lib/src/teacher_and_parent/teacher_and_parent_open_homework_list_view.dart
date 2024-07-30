@@ -10,11 +10,10 @@ import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-
-import 'teacher_and_parent_homework_section_view.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
 class TeacherAndParentOpenHomeworkListView {
-  final IList<TeacherAndParentHomeworkSectionView> sections;
+  final IList<HomeworkSectionView<TeacherAndParentHomeworkView>> sections;
   final HomeworkSort sorting;
 
   TeacherAndParentOpenHomeworkListView(
