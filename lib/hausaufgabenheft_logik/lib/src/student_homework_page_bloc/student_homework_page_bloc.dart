@@ -13,10 +13,11 @@ import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/student_completed_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/open_homeworks/views/student_open_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../views/student_homework_view_factory.dart';
 
 class StudentHomeworkPageBloc
     extends Bloc<StudentHomeworkPageEvent, StudentHomeworkPageState>
@@ -25,8 +26,7 @@ class StudentHomeworkPageBloc
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
   final int numberOfInitialCompletedHomeworksToLoad;
-  final StudentCompletedHomeworkListViewFactory
-      _completedHomeworkListViewFactory;
+  final StudentHomeworkViewFactory _viewFactory;
   final StudentOpenHomeworkListViewFactory _openHomeworkListViewFactory;
   final _currentSortStream = BehaviorSubject<Sort<BaseHomeworkReadModel>>();
   LazyLoadingController<StudentHomeworkReadModel>? _lazyLoadingController;
@@ -37,15 +37,14 @@ class StudentHomeworkPageBloc
   StudentHomeworkPageBloc({
     required HomeworkSortingCache homeworkSortingCache,
     required StudentHomeworkPageApi homeworkApi,
-    required StudentCompletedHomeworkListViewFactory
-        completedHomeworkListViewFactory,
+    required StudentHomeworkViewFactory viewFactory,
     required StudentOpenHomeworkListViewFactory openHomeworkListViewFactory,
     required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
   })  : _homeworkApi = homeworkApi,
         _openHomeworkListViewFactory = openHomeworkListViewFactory,
         _homeworkSortingCache = homeworkSortingCache,
-        _completedHomeworkListViewFactory = completedHomeworkListViewFactory,
+        _viewFactory = viewFactory,
         _getCurrentDateTime = getCurrentDateTime,
         super(Uninitialized()) {
     on<LoadHomeworks>((event, emit) {
@@ -91,9 +90,9 @@ class StudentHomeworkPageBloc
         _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
       final open = _openHomeworkListViewFactory.create(openHws, sort);
 
-      final completed = _completedHomeworkListViewFactory.create(
-          lazyCompletedHwsRes.homeworks,
-          !lazyCompletedHwsRes.moreHomeworkAvailable);
+      final completed = LazyLoadingHomeworkListView(
+          lazyCompletedHwsRes.homeworks.map(_viewFactory.createFrom).toIList(),
+          loadedAllHomeworks: !lazyCompletedHwsRes.moreHomeworkAvailable);
 
       return Success(completed, open);
     }).listen((s) {
