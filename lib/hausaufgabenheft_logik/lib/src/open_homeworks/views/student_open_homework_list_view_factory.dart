@@ -10,20 +10,21 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/models.dart';
 import 'package:hausaufgabenheft_logik/src/homework_list_extensions.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/student_sort.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/student_sort_and_subcategorizer.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/student_homework_sort_enum_sort_object_conversion_extensions.dart';
 
-import 'open_homework_list_view.dart';
+import 'student_open_homework_list_view.dart';
 
-class OpenHomeworkListViewFactory {
-  final HomeworkSortAndSubcategorizer _sortAndSubcategorizer;
+class StudentOpenHomeworkListViewFactory {
+  final StudentHomeworkSortAndSubcategorizer _sortAndSubcategorizer;
   final Date Function() _getCurrentDate;
 
-  OpenHomeworkListViewFactory(
+  StudentOpenHomeworkListViewFactory(
       this._sortAndSubcategorizer, this._getCurrentDate);
 
-  OpenHomeworkListView create(IList<StudentHomeworkReadModel> openHomeworks,
+  StudentOpenHomeworkListView create(
+      IList<StudentHomeworkReadModel> openHomeworks,
       Sort<StudentHomeworkReadModel> sort) {
     final homeworkSectionViews =
         _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
@@ -31,7 +32,7 @@ class OpenHomeworkListViewFactory {
     final showCompleteOverdueHomeworkPrompt =
         _shouldShowCompleteOverdueHomeworkPrompt(openHomeworks);
 
-    return OpenHomeworkListView(
+    return StudentOpenHomeworkListView(
       homeworkSectionViews,
       showCompleteOverdueHomeworkPrompt: showCompleteOverdueHomeworkPrompt,
       sorting: sort.toEnum(),

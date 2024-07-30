@@ -30,7 +30,7 @@ class StudentHomeworkPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkPageBloc>(context);
+    final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
 
     final bottomBarBackgroundColor =
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
@@ -99,9 +99,9 @@ class StudentHomeworkBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore:close_sinks
-    final bloc = BlocProvider.of<HomeworkPageBloc>(context);
+    final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
     bloc.add(LoadHomeworks());
-    return StreamBuilder<HomeworkPageState>(
+    return StreamBuilder<StudentHomeworkPageState>(
       stream: bloc.stream,
       initialData: bloc.state,
       builder: (context, snapshot) {

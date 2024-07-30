@@ -24,15 +24,15 @@ TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
 
   final viewFactory = TeacherAndParentHomeworkViewFactory(
       defaultColorValue: config.defaultCourseColorValue);
-  final sortAndSubcategorizer = TeacherHomeworkSortAndSubcategorizer(
+  final sortAndSubcategorizer = TeacherAndParentHomeworkSortAndSubcategorizer(
     defaultColor: Color(config.defaultCourseColorValue),
     getCurrentDate: getCurrentDate,
   );
   final openHomeworkListViewFactory =
-      TeacherOpenHomeworkListViewFactory(sortAndSubcategorizer);
+      TeacherAndParentOpenHomeworkListViewFactory(sortAndSubcategorizer);
 
   final completedHomeworkListViewFactory =
-      TeacherCompletedHomeworkListViewFactory(viewFactory);
+      TeacherAndParentCompletedHomeworkListViewFactory(viewFactory);
 
   return TeacherAndParentHomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,

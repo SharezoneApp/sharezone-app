@@ -10,16 +10,16 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
 
-class HomeworkSortAndSubcategorizer {
+class StudentHomeworkSortAndSubcategorizer {
   final StudentHomeworkViewFactory viewFactory;
   final Date Function() getCurrentDate;
 
-  HomeworkSortAndSubcategorizer({
+  StudentHomeworkSortAndSubcategorizer({
     required this.viewFactory,
     required this.getCurrentDate,
   });
 
-  IList<HomeworkSectionView> sortAndSubcategorize(
+  IList<StudentHomeworkSectionView> sortAndSubcategorize(
       IList<StudentHomeworkReadModel> homeworks,
       Sort<StudentHomeworkReadModel> sort) {
     final sorted = homeworks.sortWith(sort);
@@ -30,7 +30,7 @@ class HomeworkSortAndSubcategorizer {
     };
   }
 
-  IList<HomeworkSectionView> _subcategorizeByDate(
+  IList<StudentHomeworkSectionView> _subcategorizeByDate(
       IList<StudentHomeworkReadModel> homeworks) {
     final now = getCurrentDate();
     final tomorrow = now.addDays(1);
@@ -50,16 +50,16 @@ class HomeworkSortAndSubcategorizer {
         .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
         .toIList();
 
-    final overdueSec = HomeworkSectionView.fromModels(
+    final overdueSec = StudentHomeworkSectionView.fromModels(
         'Überfällig', overdueHomework, viewFactory);
-    final todaySec =
-        HomeworkSectionView.fromModels('Heute', todayHomework, viewFactory);
-    final tomorrowSec =
-        HomeworkSectionView.fromModels('Morgen', tomorrowHomework, viewFactory);
-    final inTwoDaysSec = HomeworkSectionView.fromModels(
+    final todaySec = StudentHomeworkSectionView.fromModels(
+        'Heute', todayHomework, viewFactory);
+    final tomorrowSec = StudentHomeworkSectionView.fromModels(
+        'Morgen', tomorrowHomework, viewFactory);
+    final inTwoDaysSec = StudentHomeworkSectionView.fromModels(
         'Übermorgen', in2DaysHomework, viewFactory);
-    final afterTwoDaysSec =
-        HomeworkSectionView.fromModels('Später', futureHomework, viewFactory);
+    final afterTwoDaysSec = StudentHomeworkSectionView.fromModels(
+        'Später', futureHomework, viewFactory);
 
     final sections = [
       overdueSec,
@@ -72,10 +72,10 @@ class HomeworkSortAndSubcategorizer {
     return sections.where((section) => section.isNotEmpty).toIList();
   }
 
-  IList<HomeworkSectionView> _subcategorizeBySubject(
+  IList<StudentHomeworkSectionView> _subcategorizeBySubject(
       IList<StudentHomeworkReadModel> homeworks) {
     final subjects = homeworks.getDistinctOrderedSubjects();
-    var homeworkSections = IList<HomeworkSectionView>();
+    var homeworkSections = IList<StudentHomeworkSectionView>();
     for (final subject in subjects) {
       final IList<StudentHomeworkReadModel> homeworksWithSubject =
           homeworks.where((h) => h.subject == subject).toIList();
@@ -83,8 +83,8 @@ class HomeworkSortAndSubcategorizer {
       final homeworkViewsWithSubject =
           homeworksWithSubject.map((h) => viewFactory.createFrom(h)).toIList();
 
-      homeworkSections = homeworkSections
-          .add(HomeworkSectionView(subject.name, homeworkViewsWithSubject));
+      homeworkSections = homeworkSections.add(
+          StudentHomeworkSectionView(subject.name, homeworkViewsWithSubject));
     }
     return homeworkSections;
   }

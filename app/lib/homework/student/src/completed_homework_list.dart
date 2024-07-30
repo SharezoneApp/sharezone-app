@@ -15,8 +15,8 @@ import 'package:sharezone/homework/student/src/util.dart';
 import 'homework_tile.dart';
 
 class CompletedHomeworkList extends StatelessWidget {
-  final CompletedHomeworkListView view;
-  final HomeworkPageBloc bloc;
+  final StudentCompletedHomeworkListView view;
+  final StudentHomeworkPageBloc bloc;
 
   const CompletedHomeworkList({
     super.key,
@@ -37,7 +37,7 @@ class CompletedHomeworkList extends StatelessWidget {
               // Spamming the checkbox causes the homework to sometimes
               // get unchecked and checked again, which we do not want.
               if (newStatus == HomeworkStatus.open) {
-                final bloc = BlocProvider.of<HomeworkPageBloc>(context);
+                final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
                 dispatchCompletionStatusChange(newStatus, hw.id, bloc);
               }
             },

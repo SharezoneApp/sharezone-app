@@ -11,7 +11,7 @@ import 'dart:async';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
-    hide HomeworkPageBloc;
+    hide StudentHomeworkPageBloc;
 import 'package:provider/provider.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';

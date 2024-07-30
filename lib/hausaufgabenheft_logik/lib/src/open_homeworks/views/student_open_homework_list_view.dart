@@ -10,14 +10,14 @@ import 'package:collection/collection.dart' show DeepCollectionEquality;
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-import 'homework_section_view.dart';
+import 'student_homework_section_view.dart';
 
-class OpenHomeworkListView {
+class StudentOpenHomeworkListView {
   final bool showCompleteOverdueHomeworkPrompt;
-  final IList<HomeworkSectionView> sections;
+  final IList<StudentHomeworkSectionView> sections;
   final HomeworkSort sorting;
 
-  OpenHomeworkListView(
+  StudentOpenHomeworkListView(
     this.sections, {
     required this.showCompleteOverdueHomeworkPrompt,
     required this.sorting,
@@ -38,7 +38,7 @@ class OpenHomeworkListView {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is OpenHomeworkListView &&
+        other is StudentOpenHomeworkListView &&
             showCompleteOverdueHomeworkPrompt ==
                 other.showCompleteOverdueHomeworkPrompt &&
             const DeepCollectionEquality().equals(sections, other.sections);

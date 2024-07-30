@@ -28,7 +28,7 @@ import 'in_memory_repo/in_memory_homework_repository.dart';
 void main() {
   Bloc.observer = VerboseBlocObserver();
   group('GIVEN a Student with Homework WHEN he opens the homework page', () {
-    late HomeworkPageBloc bloc;
+    late StudentHomeworkPageBloc bloc;
     late InMemoryHomeworkRepository<StudentHomeworkReadModel> repository;
     late HomeworkSortingCache homeworkSortingCache;
     late KeyValueStore kvs;
@@ -150,7 +150,7 @@ void main() {
       bloc.add(LoadHomeworks());
       bloc.add(OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle));
 
-      final Future<HomeworkPageState> findState =
+      final Future<StudentHomeworkPageState> findState =
           bloc.stream.firstWhere((state) {
         if (state is Success) {
           final hws = state.open.orderedHomeworks;
@@ -250,7 +250,7 @@ void main() {
       bloc.add(
           OpenHwSortingChanged(HomeworkSort.subjectSmallestDateAndTitleSort));
 
-      final Future<HomeworkPageState> findMatchingState =
+      final Future<StudentHomeworkPageState> findMatchingState =
           bloc.stream.firstWhere((state) {
         if (state is Success) {
           final sortedOpenHWs = state.open;
@@ -362,7 +362,7 @@ void main() {
       await addToRepository(homeworks);
       bloc.add(LoadHomeworks());
 
-      final Stream<HomeworkPageState> invalidStates = bloc.stream.where(
+      final Stream<StudentHomeworkPageState> invalidStates = bloc.stream.where(
           (state) =>
               state is Success &&
               state.open.showCompleteOverdueHomeworkPrompt == true);
@@ -373,7 +373,7 @@ void main() {
     });
 
     group('CompletedHomeworks lazy loading ', () {
-      HomeworkPageBloc bloc;
+      StudentHomeworkPageBloc bloc;
       late InMemoryHomeworkRepository<StudentHomeworkReadModel> repository;
 
       setUp(() {
@@ -424,7 +424,7 @@ void main() {
 
         bloc.add(LoadHomeworks());
 
-        final Future<HomeworkPageState> expectedPromise = bloc.stream
+        final Future<StudentHomeworkPageState> expectedPromise = bloc.stream
             .firstWhere((state) =>
                 state is Success && state.completed.numberOfHomeworks == 10);
         expect(expectedPromise, completes);
@@ -440,7 +440,7 @@ void main() {
 
           bloc.add(LoadHomeworks());
           bloc.add(AdvanceCompletedHomeworks(10));
-          final Future<HomeworkPageState> findExpectedState = bloc.stream
+          final Future<StudentHomeworkPageState> findExpectedState = bloc.stream
               .firstWhere((state) =>
                   state is Success &&
                   state.completed.numberOfHomeworks ==
@@ -481,7 +481,7 @@ void main() {
   });
 }
 
-extension on OpenHomeworkListView {
+extension on StudentOpenHomeworkListView {
   List<StudentHomeworkView> get orderedHomeworks {
     final listOfListOfHomeworks =
         sections.map((s) => s.homeworks.toList()).toList();
@@ -494,13 +494,13 @@ extension on OpenHomeworkListView {
 }
 
 const uid = 'uid';
-HomeworkPageBloc createBloc(
+StudentHomeworkPageBloc createBloc(
   InMemoryHomeworkRepository<StudentHomeworkReadModel> repository, {
   int nrOfInitialCompletedHomeworksToLoad = 1000,
   DateTime Function()? getCurrentDateTime,
   KeyValueStore? keyValueStore,
 }) {
-  return createHomeworkPageBloc(
+  return createStudentHomeworkPageBloc(
     HausaufgabenheftDependencies(
       api: HomeworkPageApi(
           students: InMemoryStudentHomeworkPageApi(repo: repository),

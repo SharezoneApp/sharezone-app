@@ -13,31 +13,34 @@ import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homework_list_view_factory.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/homework_sort_enum_sort_object_conversion_extensions.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view_factory.dart';
+import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/student_completed_homework_list_view_factory.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/sort_and_subcategorization/sort/src/student_homework_sort_enum_sort_object_conversion_extensions.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/views/student_open_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/student_homework_page_bloc/homework_sorting_cache.dart';
 import 'package:rxdart/rxdart.dart';
 
-class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
+class StudentHomeworkPageBloc
+    extends Bloc<StudentHomeworkPageEvent, StudentHomeworkPageState>
     implements bloc_base.BlocBase {
   final StudentHomeworkPageApi _homeworkApi;
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
   final int numberOfInitialCompletedHomeworksToLoad;
-  final CompletedHomeworkListViewFactory _completedHomeworkListViewFactory;
-  final OpenHomeworkListViewFactory _openHomeworkListViewFactory;
+  final StudentCompletedHomeworkListViewFactory
+      _completedHomeworkListViewFactory;
+  final StudentOpenHomeworkListViewFactory _openHomeworkListViewFactory;
   final _currentSortStream = BehaviorSubject<Sort<StudentHomeworkReadModel>>();
   LazyLoadingController<StudentHomeworkReadModel>? _lazyLoadingController;
 
   /// Whether [close] or [dispose] has been called;
   bool _isClosed = false;
 
-  HomeworkPageBloc({
+  StudentHomeworkPageBloc({
     required HomeworkSortingCache homeworkSortingCache,
     required StudentHomeworkPageApi homeworkApi,
-    required CompletedHomeworkListViewFactory completedHomeworkListViewFactory,
-    required OpenHomeworkListViewFactory openHomeworkListViewFactory,
+    required StudentCompletedHomeworkListViewFactory
+        completedHomeworkListViewFactory,
+    required StudentOpenHomeworkListViewFactory openHomeworkListViewFactory,
     required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
   })  : _homeworkApi = homeworkApi,
@@ -148,7 +151,7 @@ class HomeworkPageBloc extends Bloc<HomeworkPageEvent, HomeworkPageState>
 /// bloc from working (as the Stream never finishes)
 /// this acts a as a simple wrapper to yield the
 /// given value
-class _Yield extends HomeworkPageEvent {
+class _Yield extends StudentHomeworkPageEvent {
   final Success success;
 
   _Yield(this.success);

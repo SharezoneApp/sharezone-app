@@ -9,13 +9,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-abstract class HomeworkPageEvent extends Equatable {
+abstract class StudentHomeworkPageEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
 /// Sorts all open homeworks with the given [sort].
-class OpenHwSortingChanged extends HomeworkPageEvent {
+class OpenHwSortingChanged extends StudentHomeworkPageEvent {
   final HomeworkSort sort;
 
   OpenHwSortingChanged(this.sort);
@@ -31,7 +31,7 @@ class OpenHwSortingChanged extends HomeworkPageEvent {
 
 /// Changes the completion status of the homework with the given [homeworkId]
 /// to [newValue].
-class CompletionStatusChanged extends HomeworkPageEvent {
+class CompletionStatusChanged extends StudentHomeworkPageEvent {
   final String homeworkId;
   final bool newValue;
 
@@ -48,7 +48,7 @@ class CompletionStatusChanged extends HomeworkPageEvent {
 
 /// Marks the completion status of all open homeworks where the todo date lies
 /// before today as completed.
-class CompletedAllOverdue extends HomeworkPageEvent {
+class CompletedAllOverdue extends StudentHomeworkPageEvent {
   @override
   String toString() {
     return 'CompletedAllOverdue';
@@ -56,7 +56,7 @@ class CompletedAllOverdue extends HomeworkPageEvent {
 }
 
 /// Tells the bloc to start loading homeworks
-class LoadHomeworks extends HomeworkPageEvent {
+class LoadHomeworks extends StudentHomeworkPageEvent {
   @override
   String toString() {
     return 'LoadHomeworks';
@@ -70,7 +70,7 @@ class LoadHomeworks extends HomeworkPageEvent {
 /// New state: 10 completed homeworks loaded.
 ///
 /// If all homeworks are already loaded this won't do anything.
-class AdvanceCompletedHomeworks extends HomeworkPageEvent {
+class AdvanceCompletedHomeworks extends StudentHomeworkPageEvent {
   final int advanceBy;
 
   @override

@@ -7,17 +7,17 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:equatable/equatable.dart';
-import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/completed_homwork_list_view.dart';
-import 'package:hausaufgabenheft_logik/src/open_homeworks/views/open_homework_list_view.dart';
+import 'package:hausaufgabenheft_logik/src/completed_homeworks/views/student_completed_homwork_list_view.dart';
+import 'package:hausaufgabenheft_logik/src/open_homeworks/views/student_open_homework_list_view.dart';
 
-abstract class HomeworkPageState extends Equatable {
+abstract class StudentHomeworkPageState extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class Success extends HomeworkPageState {
-  final CompletedHomeworkListView completed;
-  final OpenHomeworkListView open;
+class Success extends StudentHomeworkPageState {
+  final StudentCompletedHomeworkListView completed;
+  final StudentOpenHomeworkListView open;
 
   Success(this.completed, this.open);
 
@@ -31,7 +31,7 @@ class Success extends HomeworkPageState {
 }
 
 /// Bloc has not yet been told to load the homeworks.
-class Uninitialized extends HomeworkPageState {
+class Uninitialized extends StudentHomeworkPageState {
   @override
   String toString() {
     return 'HomeworkPageStateUninitialized';

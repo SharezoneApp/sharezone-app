@@ -10,26 +10,26 @@ import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 
-import '../../views/homework_view.dart';
+import '../../views/student_homework_view.dart';
 import '../../views/student_homework_view_factory.dart';
 
-class HomeworkSectionView extends Equatable {
+class StudentHomeworkSectionView extends Equatable {
   final String title;
   final IList<StudentHomeworkView> homeworks;
 
   bool get isEmpty => homeworks.isEmpty;
   bool get isNotEmpty => homeworks.isNotEmpty;
 
-  const HomeworkSectionView(this.title, this.homeworks);
+  const StudentHomeworkSectionView(this.title, this.homeworks);
 
   @override
   List<Object> get props => [title, homeworks];
 
-  factory HomeworkSectionView.fromModels(
+  factory StudentHomeworkSectionView.fromModels(
       String title,
       IList<StudentHomeworkReadModel> homeworks,
       StudentHomeworkViewFactory viewFactory) {
-    return HomeworkSectionView(
+    return StudentHomeworkSectionView(
         title,
         IList([
           for (final h in homeworks) viewFactory.createFrom(h),

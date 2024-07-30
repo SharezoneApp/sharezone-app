@@ -9,10 +9,10 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
-class TeacherOpenHomeworkListViewFactory {
-  final TeacherHomeworkSortAndSubcategorizer _sortAndSubcategorizer;
+class TeacherAndParentOpenHomeworkListViewFactory {
+  final TeacherAndParentHomeworkSortAndSubcategorizer _sortAndSubcategorizer;
 
-  TeacherOpenHomeworkListViewFactory(this._sortAndSubcategorizer);
+  TeacherAndParentOpenHomeworkListViewFactory(this._sortAndSubcategorizer);
 
   TeacherAndParentOpenHomeworkListView create(
       IList<TeacherHomeworkReadModel> openHomeworks,

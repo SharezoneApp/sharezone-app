@@ -9,7 +9,7 @@
 import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/models.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
-import 'package:hausaufgabenheft_logik/src/views/homework_view.dart';
+import 'package:hausaufgabenheft_logik/src/views/student_homework_view.dart';
 
 class StudentHomeworkViewFactory {
   late Date Function() _getCurrentDate;

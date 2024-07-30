@@ -15,13 +15,13 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
         SubjectSmallestDateAndTitleSort,
         SmallestDateSubjectAndTitleSort;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
-import 'package:hausaufgabenheft_logik/src/teacher_and_parent/homework_list_extensions.dart';
+import 'package:hausaufgabenheft_logik/src/teacher_and_parent/teacher_and_parent_homework_list_extensions.dart';
 
-class TeacherHomeworkSortAndSubcategorizer {
+class TeacherAndParentHomeworkSortAndSubcategorizer {
   final TeacherAndParentHomeworkViewFactory _viewFactory;
   final Date Function() getCurrentDate;
 
-  TeacherHomeworkSortAndSubcategorizer({
+  TeacherAndParentHomeworkSortAndSubcategorizer({
     required Color defaultColor,
     required this.getCurrentDate,
   }) : _viewFactory = TeacherAndParentHomeworkViewFactory(

@@ -29,9 +29,10 @@ class TeacherAndParentHomeworkPageBloc extends Bloc<
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
   final int numberOfInitialCompletedHomeworksToLoad;
-  final TeacherCompletedHomeworkListViewFactory
+  final TeacherAndParentCompletedHomeworkListViewFactory
       _completedHomeworkListViewFactory;
-  final TeacherOpenHomeworkListViewFactory _openHomeworkListViewFactory;
+  final TeacherAndParentOpenHomeworkListViewFactory
+      _openHomeworkListViewFactory;
   final _currentSortStream = BehaviorSubject<Sort<TeacherHomeworkReadModel>>();
   LazyLoadingController<TeacherHomeworkReadModel>? _lazyLoadingController;
 
@@ -41,9 +42,10 @@ class TeacherAndParentHomeworkPageBloc extends Bloc<
   TeacherAndParentHomeworkPageBloc({
     required HomeworkSortingCache homeworkSortingCache,
     required TeacherAndParentHomeworkPageApi homeworkApi,
-    required TeacherCompletedHomeworkListViewFactory
+    required TeacherAndParentCompletedHomeworkListViewFactory
         completedHomeworkListViewFactory,
-    required TeacherOpenHomeworkListViewFactory openHomeworkListViewFactory,
+    required TeacherAndParentOpenHomeworkListViewFactory
+        openHomeworkListViewFactory,
     required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
   })  : _homeworkApi = homeworkApi,

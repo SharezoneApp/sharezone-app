@@ -11,7 +11,7 @@ import 'package:hausaufgabenheft_logik/src/models/homework.dart';
 import 'package:hausaufgabenheft_logik/src/models/models.dart';
 import 'package:hausaufgabenheft_logik/src/views/color.dart';
 import 'package:hausaufgabenheft_logik/src/views/student_homework_view_factory.dart';
-import 'package:hausaufgabenheft_logik/src/views/homework_view.dart';
+import 'package:hausaufgabenheft_logik/src/views/student_homework_view.dart';
 import 'package:test/test.dart';
 
 import 'create_homework_util.dart';

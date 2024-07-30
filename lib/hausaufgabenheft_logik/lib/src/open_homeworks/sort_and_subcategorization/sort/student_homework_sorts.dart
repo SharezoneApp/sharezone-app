@@ -6,4 +6,4 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-export 'src/sort.dart';
+export 'src/student_sort.dart';
