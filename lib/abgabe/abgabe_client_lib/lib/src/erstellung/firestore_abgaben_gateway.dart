@@ -16,7 +16,8 @@ import 'package:abgabe_client_lib/src/models/models.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+
 import 'package:rxdart/rxdart.dart';
 
 class FirestoreAbgabeGateway
@@ -55,9 +56,14 @@ class FirestoreAbgabeGateway
     return homeworkCollection
         .doc('$homeworkId')
         .snapshots()
-        .asyncMap((event) => tryToConvertToHomework(event, '$userId'))
         .whereNotNull()
-        .map((event) => event.todoDate);
+        .asyncMap((event) {
+      final homework = HomeworkDto.fromData(
+        event.data() as Map<String, dynamic>,
+        id: event.id,
+      );
+      return homework.todoUntil;
+    });
   }
 
   @override

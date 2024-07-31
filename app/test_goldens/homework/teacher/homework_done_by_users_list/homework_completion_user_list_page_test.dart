@@ -16,10 +16,10 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc.dart';
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/user_has_completed_homework_view.dart';
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_bloc.dart';
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_page.dart';
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/user_has_completed_homework_view.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 

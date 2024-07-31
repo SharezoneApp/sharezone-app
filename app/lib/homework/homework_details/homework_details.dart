@@ -8,19 +8,20 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/comments/comments_gateway.dart';
 import 'package:sharezone/comments/widgets/comment_section_builder.dart';
 import 'package:sharezone/filesharing/dialog/attachment_list.dart';
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
-import 'package:sharezone/homework/parent/homework_page.dart';
+import 'package:sharezone/homework/homework_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';

@@ -3,8 +3,6 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i7;
-
 import 'package:analytics/analytics.dart' as _i4;
 import 'package:crash_analytics/crash_analytics.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -13,7 +11,7 @@ import 'package:sharezone/grades/grades_service/grades_service.dart' as _i2;
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller.dart'
     as _i5;
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart'
-    as _i8;
+    as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -185,7 +183,7 @@ class MockGradeDetailsPageController extends _i1.Mock
       );
 
   @override
-  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -194,7 +192,7 @@ class MockGradeDetailsPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -216,7 +214,7 @@ class MockGradeDetailsPageController extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGradeDetailsPageControllerFactory extends _i1.Mock
-    implements _i8.GradeDetailsPageControllerFactory {
+    implements _i7.GradeDetailsPageControllerFactory {
   @override
   _i2.GradesService get gradesService => (super.noSuchMethod(
         Invocation.getter(#gradesService),

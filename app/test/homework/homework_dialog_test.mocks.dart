@@ -14,11 +14,10 @@ import 'package:cloud_firestore_platform_interface/cloud_firestore_platform_inte
 import 'package:common_domain_models/common_domain_models.dart' as _i8;
 import 'package:design/design.dart' as _i30;
 import 'package:firebase_auth/firebase_auth.dart' as _i28;
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart'
-    as _i20;
 import 'package:flutter/material.dart' as _i29;
 import 'package:group_domain_models/group_domain_accessors.dart' as _i21;
 import 'package:group_domain_models/group_domain_models.dart' as _i22;
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' as _i20;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i23;
 import 'package:shared_preferences/shared_preferences.dart' as _i6;
