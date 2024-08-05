@@ -17,7 +17,7 @@ import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 class SubjectSettingsPageController extends ChangeNotifier {
   final GradesService gradesService;
   SubjectId get subjectId => subRef.id;
-  final SubjectRef subRef;
+  final TermSubjectRef subRef;
   final TermId termId;
 
   SubjectSettingsPageController({

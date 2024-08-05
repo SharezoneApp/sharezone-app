@@ -161,7 +161,7 @@ class TermSettingsPageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  SubjectId _createSubject(SubjectRef subRef) {
+  SubjectId _createSubject(TermSubjectRef subRef) {
     final subject = view.subjects.firstWhere((s) => s.id == subRef.id);
     final connectedCourses = _getConnectedCourses(subRef.id);
 

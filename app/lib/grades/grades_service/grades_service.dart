@@ -581,8 +581,8 @@ class TermRef {
 
   TermRef(this.id, this._service);
 
-  SubjectRef subject(SubjectId id) {
-    return SubjectRef(id, this, _service);
+  TermSubjectRef subject(SubjectId id) {
+    return TermSubjectRef(id, this, _service);
   }
 
   void changeFinalGradeType(GradeTypeId gradeType) {
@@ -615,12 +615,12 @@ class TermRef {
   }
 }
 
-class SubjectRef {
+class TermSubjectRef {
   final SubjectId id;
   final TermRef termRef;
   final GradesService _service;
 
-  SubjectRef(this.id, this.termRef, this._service);
+  TermSubjectRef(this.id, this.termRef, this._service);
 
   GradeRef grade(GradeId id) {
     return GradeRef(id, termRef, this, _service);
@@ -662,7 +662,7 @@ class SubjectRef {
 class GradeRef {
   final GradeId id;
   final TermRef termRef;
-  final SubjectRef subjectRef;
+  final TermSubjectRef subjectRef;
   final GradesService _service;
 
   GradeRef(this.id, this.termRef, this.subjectRef, this._service);
