@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-// ignore_for_file: deprecated_member_use_from_same_package, provide_deprecation_message
-
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
