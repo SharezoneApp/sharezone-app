@@ -203,7 +203,7 @@ void main() {
         ),
       );
 
-      final mathGrade1 = term0210
+      term0210
           .subject(const SubjectId('mathe'))
           .grade(const GradeId('grade-1'))
           .create(GradeInput(
@@ -215,7 +215,7 @@ void main() {
             title: 'hallo',
             details: 'hello',
           ));
-      final mathGrade2 = term0210
+      term0210
           .subject(const SubjectId('mathe'))
           .grade(const GradeId('grade-2'))
           .create(GradeInput(
@@ -227,7 +227,7 @@ void main() {
             title: 'abcdef',
             details: 'ghijkl',
           ));
-      final englishGrade1 = term0110
+      term0110
           .subject(const SubjectId('englisch'))
           .grade(const GradeId('grade-3'))
           .create(GradeInput(
@@ -239,7 +239,7 @@ void main() {
             title: 'hallo',
             details: 'ollah',
           ));
-      final englishGrade2 = term0110
+      term0110
           .subject(const SubjectId('englisch'))
           .grade(const GradeId('grade-4'))
           .create(GradeInput(
