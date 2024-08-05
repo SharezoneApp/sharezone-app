@@ -56,6 +56,7 @@ class TermDetailsPageController extends ChangeNotifier {
                           DateFormat('dd.MM.yyyy').format(grade.date.toDateTime)
                     ))
                 .toList()
+              ..sortByDate(),
           );
         }).toList();
 
@@ -146,4 +147,11 @@ class TermDetailsPageError extends TermDetailsPageState {
   final String error;
 
   const TermDetailsPageError(this.error);
+}
+
+extension on List<SavedGradeView> {
+  /// Sorts the list of grades by date in descending order.
+  void sortByDate() {
+    sort((a, b) => b.date.compareTo(a.date));
+  }
 }

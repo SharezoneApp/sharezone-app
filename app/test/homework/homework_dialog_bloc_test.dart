@@ -23,7 +23,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:time/time.dart';
-import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_test.dart';
@@ -34,6 +33,7 @@ void main() {
     late MockCourseGateway courseGateway;
     late MockHomeworkDialogApi homeworkDialogApi;
     late MockNextLessonCalculator nextLessonCalculator;
+    late MockNextSchooldayCalculator nextSchooldayCalculator;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
 
@@ -41,6 +41,7 @@ void main() {
       courseGateway = MockCourseGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
+      nextSchooldayCalculator = MockNextSchooldayCalculator();
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
     });
@@ -50,9 +51,9 @@ void main() {
         api: homeworkDialogApi,
         clockOverride: clock,
         nextLessonCalculator: nextLessonCalculator,
+        nextSchooldayCalculator: nextSchooldayCalculator,
         analytics: analytics,
         markdownAnalytics: MarkdownAnalytics(analytics),
-        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 
@@ -60,10 +61,10 @@ void main() {
       return HomeworkDialogBloc(
         api: homeworkDialogApi,
         nextLessonCalculator: nextLessonCalculator,
+        nextSchooldayCalculator: nextSchooldayCalculator,
         analytics: analytics,
         homeworkId: id,
         markdownAnalytics: MarkdownAnalytics(analytics),
-        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 
@@ -84,13 +85,15 @@ void main() {
         nextLessonCalculator.dateToReturn = null;
         final testClock = Clock.fixed(Date.parse(currentDate).toDateTime);
         addCourse(courseWith(id: 'foo'));
-        final bloc = createBlocForNewHomeworkDialog(clock: testClock);
 
-        bloc.add(const CourseChanged(CourseId('foo')));
-        await pumpEventQueue();
+        await withClock(testClock, () async {
+          final bloc = createBlocForNewHomeworkDialog(clock: testClock);
+          bloc.add(const CourseChanged(CourseId('foo')));
+          await pumpEventQueue();
 
-        final state = bloc.state as Ready;
-        expect(state.dueDate.$1, Date.parse(expectedLessonDate));
+          final state = bloc.state as Ready;
+          expect(state.dueDate.$1, Date.parse(expectedLessonDate));
+        });
       }
 
       //                    | Current date  | Next lesson date |
@@ -641,6 +644,7 @@ void main() {
       bloc.add(const TitleChanged('abc'));
       bloc.add(const CourseChanged(CourseId('foo_course')));
       bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
+      await pumpEventQueue(); // Wait for the due date to be checked for next schoolday
       bloc.add(const Save());
       await bloc.stream.whereType<SavedSuccessfully>().first;
 

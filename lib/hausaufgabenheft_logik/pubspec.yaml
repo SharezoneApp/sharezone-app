@@ -17,9 +17,15 @@ environment:
 dependencies:
   common_domain_models:
     path: ../common_domain_models
+  cloud_firestore_helper:
+    path: ../cloud_firestore_helper
+  cloud_firestore: ^4.17.2
+  time:
+    path: ../time
   bloc: ^8.1.2
   rxdart: ^0.27.1
   equatable: ^2.0.5
+  fast_immutable_collections: ^9.1.5
   collection: ^1.17.2
   meta: any
   key_value_store:
@@ -31,6 +37,8 @@ dependencies:
   test_randomness:
     path: ../test_randomness
   clock: ^1.1.1
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
   async: ^2.11.0
@@ -38,5 +46,7 @@ dev_dependencies:
   # compiling the `test` package will fail.
   file: ^7.0.0
   test: ^1.23.1
+  flutter_test:
+    sdk: flutter
   sharezone_lints:
     path: ../sharezone_lints

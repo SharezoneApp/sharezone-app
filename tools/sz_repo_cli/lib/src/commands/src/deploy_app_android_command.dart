@@ -143,7 +143,6 @@ class DeployAndroidCommand extends CommandBase {
       final stage = argResults![releaseStageOptionName] as String;
       await processRunner.runCommand(
         [
-          'fvm',
           'dart',
           'run',
           'sz_repo_cli',

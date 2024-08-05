@@ -64,7 +64,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
@@ -98,7 +98,7 @@ jobs:
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -116,7 +116,12 @@ jobs:
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
-        run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
+        run: |
+          sz analyze \
+            --max-concurrent-packages 1 \
+            --package-timeout-minutes 15
 
   # We split the tests into two jobs, because we want to run the golden tests on
   # a macOS runner, because the golden tests were generated on macOS. To reduce
@@ -127,7 +132,7 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -145,9 +150,11 @@ jobs:
       - run: echo $(pwd)/bin >> $GITHUB_PATH
 
       - name: Run tests via "sz test"
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
         run: |
           sz test \
-            -c 4 \
+            -c 1 \
             --package-timeout-minutes 15 \
             --exclude-goldens
 
@@ -162,7 +169,7 @@ jobs:
     # require macOS arm64. Therefore, we need to use macos-14.
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -178,11 +185,9 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
-      # Running with -c 1 as using -c 4 would lead to to this dependency error:
-      # https://github.com/SharezoneApp/sharezone-app/pull/1322#issuecomment-1981410505
-      # We don't know why this happens.
-      # In the future please try to use a higher concurrency value again.
       - name: Run tests via "sz test"
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
         run: |
           sz test \
             -c 1 \
@@ -195,7 +200,7 @@ jobs:
       # this workflows finished.
       - name: Upload failed golden tests
         if: failure()
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b
         with:
           name: failed-golden-tests
           # When golden test fail then the results are stored in "failures"

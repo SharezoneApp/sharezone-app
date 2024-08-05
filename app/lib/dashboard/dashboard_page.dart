@@ -30,7 +30,7 @@ import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:sharezone/dashboard/widgets/blackboard_card_dashboard.dart';
 import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
-import 'package:sharezone/homework/parent/homework_page.dart';
+import 'package:sharezone/homework/homework_page.dart';
 import 'package:sharezone/homework/shared/homework_card.dart';
 import 'package:sharezone/keys.dart';
 import 'package:sharezone/main/application_bloc.dart';

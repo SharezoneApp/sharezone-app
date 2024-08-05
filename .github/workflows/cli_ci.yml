@@ -50,7 +50,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
@@ -81,7 +81,7 @@ jobs:
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -99,9 +99,11 @@ jobs:
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
         run: |
           sz analyze \
-            --max-concurrent-packages 3 \
+            --max-concurrent-packages 1 \
             --package-timeout-minutes 15 \
             --only sz_repo_cli
 
@@ -116,7 +118,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -139,8 +141,11 @@ jobs:
       # Because of this, we need to exclude the golden tests because they
       # require a macOS runner.
       - name: Run tests via "sz test"
-        run: sz test \
-          -c 4 \
-          --package-timeout-minutes 15 \
-          --exclude-goldens \
-          --only sz_repo_cli
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
+        run: |
+          sz test \
+            -c 1 \
+            --package-timeout-minutes 15 \
+            --exclude-goldens \
+            --only sz_repo_cli

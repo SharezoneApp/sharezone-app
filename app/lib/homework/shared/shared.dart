@@ -10,6 +10,7 @@ export 'animated_staggered_scroll_view.dart';
 export 'animated_tab_visibility.dart';
 export 'bottom_of_scrollview_visibility.dart';
 export 'glowing_overscroll_color_changer.dart';
+export 'handle_homework_tile_long_press.dart';
 export 'homework_fab.dart';
 export 'homework_list_section.dart';
 export 'homework_tab_bar.dart';

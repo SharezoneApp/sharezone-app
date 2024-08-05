@@ -54,7 +54,7 @@ class ExecCommand extends ConcurrentCommand {
     if (argResults!.rest.isEmpty) {
       throw ArgumentError(
           'No command given. Please provide a command like this:\n'
-          'sz_repo_cli exec --onlyFlutter -- fvm dart fix --apply');
+          'sz_repo_cli exec --onlyFlutter -- dart fix --apply');
     }
   }
 

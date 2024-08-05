@@ -83,6 +83,29 @@ class SubstitutionController {
     }));
   }
 
+  void addTeacherSubstitution({
+    required String lessonId,
+    required bool notifyGroupMembers,
+    required Date date,
+    required String newTeacher,
+  }) {
+    final substitution = TeacherChangedSubstitution(
+      id: _generateId(),
+      date: date,
+      createdBy: userId,
+      newTeacher: newTeacher,
+    );
+    gateway.addSubstitutionToLesson(
+      lessonId: lessonId,
+      notifyGroupMembers: notifyGroupMembers,
+      substitution: substitution,
+    );
+    analytics
+        .log(NamedAnalyticsEvent(name: 'substitution_teacher_changed', data: {
+      'notify_group_members': notifyGroupMembers,
+    }));
+  }
+
   void updatePlaceSubstitution({
     required String lessonId,
     required SubstitutionId substitutionId,
@@ -97,6 +120,24 @@ class SubstitutionController {
     );
     analytics
         .log(NamedAnalyticsEvent(name: 'substitution_place_changed', data: {
+      'notify_group_members': notifyGroupMembers,
+    }));
+  }
+
+  void updateTeacherSubstitution({
+    required String lessonId,
+    required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
+    required String newTeacher,
+  }) {
+    gateway.updateSubstitutionInLesson(
+      lessonId: lessonId,
+      notifyGroupMembers: notifyGroupMembers,
+      newTeacher: newTeacher,
+      substitutionId: substitutionId,
+    );
+    analytics
+        .log(NamedAnalyticsEvent(name: 'substitution_teacher_changed', data: {
       'notify_group_members': notifyGroupMembers,
     }));
   }

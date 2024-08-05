@@ -10,4 +10,4 @@
 /// with flutters Color-class
 library;
 
-export 'src/views/color.dart';
+export 'src/shared/color.dart';

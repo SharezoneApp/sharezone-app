@@ -43,6 +43,7 @@ void main() {
         random.nextInt(12) + 1,
         random.nextInt(28) + 1,
       ).toIso8601String(),
+      upcomingSoon: true,
       event: MockCalendricalEvent(),
       groupID: '${random.nextInt(1000)}',
       courseName: 'Course ${random.nextInt(1000)}',
