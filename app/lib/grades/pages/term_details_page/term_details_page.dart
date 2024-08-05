@@ -276,7 +276,6 @@ class _EditSubjectIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Change to TermRef
     final termId = context.watch<TermDetailsPageController>().termId;
     return IconButton(
       tooltip: 'Fachnote bearbeiten',

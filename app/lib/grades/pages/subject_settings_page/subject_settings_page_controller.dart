@@ -18,11 +18,10 @@ class SubjectSettingsPageController extends ChangeNotifier {
   final GradesService gradesService;
   SubjectId get subjectId => subRef.id;
   final TermSubjectRef subRef;
-  final TermId termId;
+  TermId get termId => subRef.termRef.id;
 
   SubjectSettingsPageController({
     required this.subRef,
-    required this.termId,
     required this.gradesService,
   }) {
     final subject = _getSubject();
