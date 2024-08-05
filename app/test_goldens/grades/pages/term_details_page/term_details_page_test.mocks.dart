@@ -26,8 +26,8 @@ import 'package:sharezone/grades/pages/term_details_page/term_details_page_contr
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeTermId_0 extends _i1.SmartFake implements _i2.TermId {
-  _FakeTermId_0(
+class _FakeTermRef_0 extends _i1.SmartFake implements _i2.TermRef {
+  _FakeTermRef_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -67,9 +67,19 @@ class _FakeAnalytics_3 extends _i1.SmartFake implements _i4.Analytics {
         );
 }
 
-class _FakeTermDetailsPageController_4 extends _i1.SmartFake
+class _FakeTermId_4 extends _i1.SmartFake implements _i2.TermId {
+  _FakeTermId_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeTermDetailsPageController_5 extends _i1.SmartFake
     implements _i5.TermDetailsPageController {
-  _FakeTermDetailsPageController_4(
+  _FakeTermDetailsPageController_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -106,17 +116,17 @@ class MockTermDetailsPageController extends _i1.Mock
       );
 
   @override
-  _i2.TermId get termId => (super.noSuchMethod(
-        Invocation.getter(#termId),
-        returnValue: _FakeTermId_0(
+  _i2.TermRef get termRef => (super.noSuchMethod(
+        Invocation.getter(#termRef),
+        returnValue: _FakeTermRef_0(
           this,
-          Invocation.getter(#termId),
+          Invocation.getter(#termRef),
         ),
-        returnValueForMissingStub: _FakeTermId_0(
+        returnValueForMissingStub: _FakeTermRef_0(
           this,
-          Invocation.getter(#termId),
+          Invocation.getter(#termRef),
         ),
-      ) as _i2.TermId);
+      ) as _i2.TermRef);
 
   @override
   _i2.GradesService get gradesService => (super.noSuchMethod(
@@ -156,6 +166,19 @@ class MockTermDetailsPageController extends _i1.Mock
           Invocation.getter(#analytics),
         ),
       ) as _i4.Analytics);
+
+  @override
+  _i2.TermId get termId => (super.noSuchMethod(
+        Invocation.getter(#termId),
+        returnValue: _FakeTermId_4(
+          this,
+          Invocation.getter(#termId),
+        ),
+        returnValueForMissingStub: _FakeTermId_4(
+          this,
+          Invocation.getter(#termId),
+        ),
+      ) as _i2.TermId);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -261,14 +284,14 @@ class MockTermDetailsPageControllerFactory extends _i1.Mock
           #create,
           [termId],
         ),
-        returnValue: _FakeTermDetailsPageController_4(
+        returnValue: _FakeTermDetailsPageController_5(
           this,
           Invocation.method(
             #create,
             [termId],
           ),
         ),
-        returnValueForMissingStub: _FakeTermDetailsPageController_4(
+        returnValueForMissingStub: _FakeTermDetailsPageController_5(
           this,
           Invocation.method(
             #create,

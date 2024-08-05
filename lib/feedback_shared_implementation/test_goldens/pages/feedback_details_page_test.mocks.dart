@@ -3,8 +3,6 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i7;
-
 import 'package:common_domain_models/common_domain_models.dart' as _i3;
 import 'package:feedback_shared_implementation/src/api/feedback_api.dart'
     as _i2;
@@ -13,7 +11,7 @@ import 'package:feedback_shared_implementation/src/models/feedback_id.dart'
 import 'package:feedback_shared_implementation/src/pages/feedback_details_page_controller.dart'
     as _i5;
 import 'package:feedback_shared_implementation/src/pages/feedback_details_page_controller_factory.dart'
-    as _i8;
+    as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 
@@ -172,7 +170,7 @@ class MockFeedbackDetailsPageController extends _i1.Mock
       );
 
   @override
-  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -181,7 +179,7 @@ class MockFeedbackDetailsPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -203,7 +201,7 @@ class MockFeedbackDetailsPageController extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFeedbackDetailsPageControllerFactory extends _i1.Mock
-    implements _i8.FeedbackDetailsPageControllerFactory {
+    implements _i7.FeedbackDetailsPageControllerFactory {
   @override
   _i2.FeedbackApi get feedbackApi => (super.noSuchMethod(
         Invocation.getter(#feedbackApi),
