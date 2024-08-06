@@ -447,19 +447,17 @@ class GradesDialogController extends ChangeNotifier {
     };
 
     try {
-      gradesService.addGrade(
-        subjectId: _selectSubjectId!,
-        termId: _selectedTermId!,
-        value: GradeInput(
-          type: _gradeType.id,
-          value: _grade!,
-          date: _date,
-          takeIntoAccount: takeIntoAccount,
-          gradingSystem: _gradingSystem,
-          title: _title!,
-          details: details,
-        ),
-      );
+      gradesService.term(_selectedTermId!).subject(_selectSubjectId!).addGrade(
+            GradeInput(
+              type: _gradeType.id,
+              value: _grade!,
+              date: _date,
+              takeIntoAccount: takeIntoAccount,
+              gradingSystem: _gradingSystem,
+              title: _title!,
+              details: details,
+            ),
+          );
     } catch (e, s) {
       if (e is InvalidGradeValueException) {
         _gradeErrorText = 'Die Note ist ungültig.';

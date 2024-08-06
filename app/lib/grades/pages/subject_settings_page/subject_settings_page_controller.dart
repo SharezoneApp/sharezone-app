@@ -16,12 +16,12 @@ import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 
 class SubjectSettingsPageController extends ChangeNotifier {
   final GradesService gradesService;
-  final SubjectId subjectId;
-  final TermId termId;
+  SubjectId get subjectId => subRef.id;
+  final TermSubjectRef subRef;
+  TermId get termId => subRef.termRef.id;
 
   SubjectSettingsPageController({
-    required this.subjectId,
-    required this.termId,
+    required this.subRef,
     required this.gradesService,
   }) {
     final subject = _getSubject();
@@ -117,20 +117,11 @@ class SubjectSettingsPageController extends ChangeNotifier {
     // were only copied into the state. Now we need to copy them into the
     // database.
     for (final gradeType in _weights.keys) {
-      gradesService.changeGradeTypeWeightForSubject(
-        id: subjectId,
-        termId: termId,
-        gradeType: gradeType,
-        weight: _weights[gradeType]!,
-      );
+      subRef.changeFinalGradeType(gradeType);
       await waitForFirestoreWriteLimit();
     }
 
-    gradesService.changeSubjectWeightTypeSettings(
-      id: subjectId,
-      termId: termId,
-      perGradeType: WeightType.perGradeType,
-    );
+    subRef.changeWeightType(WeightType.perGradeType);
     await waitForFirestoreWriteLimit();
   }
 
@@ -140,12 +131,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
   }) async {
     await _maybeCopyWeightsFromTerm();
 
-    gradesService.changeGradeTypeWeightForSubject(
-      id: subjectId,
-      termId: termId,
-      gradeType: gradeTypeId,
-      weight: weight,
-    );
+    subRef.changeGradeTypeWeight(gradeTypeId, weight);
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
     _weights = _weights.add(gradeTypeId, weight);
     state = SubjectSettingsLoaded(view);
@@ -155,11 +141,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
   Future<void> removeGradeType(GradeTypeId gradeTypeId) async {
     await _maybeCopyWeightsFromTerm();
 
-    gradesService.removeGradeTypeWeightForSubject(
-      id: subjectId,
-      termId: termId,
-      gradeType: gradeTypeId,
-    );
+    subRef.removeGradeTypeWeight(gradeTypeId);
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
     _weights = _weights.remove(gradeTypeId);
     state = SubjectSettingsLoaded(view);
@@ -169,11 +151,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
   void setFinalGradeType(GradeType gradeType) {
     _finalGradeTypeDisplayName = _getFinalGradeTypeDisplayName(gradeType);
     _finalGradeTypeIcon = _getFinalGradeTypeIcon(gradeType);
-    gradesService.changeSubjectFinalGradeType(
-      id: subjectId,
-      termId: termId,
-      gradeType: gradeType.id,
-    );
+    subRef.changeFinalGradeType(gradeType.id);
     state = SubjectSettingsLoaded(view);
     notifyListeners();
   }

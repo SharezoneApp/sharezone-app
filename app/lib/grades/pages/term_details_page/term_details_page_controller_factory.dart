@@ -24,7 +24,7 @@ class TermDetailsPageControllerFactory {
 
   TermDetailsPageController create(TermId termId) {
     return TermDetailsPageController(
-      termId: termId,
+      termRef: gradesService.term(termId),
       gradesService: gradesService,
       crashAnalytics: crashAnalytics,
       analytics: analytics,

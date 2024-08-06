@@ -101,11 +101,10 @@ void main() {
       // a specific term.
       controller.addSubject(subject);
 
-      void changeWeight() => controller.service.changeSubjectWeightForTermGrade(
-            id: subject.id,
-            termId: term.id,
-            weight: const Weight.factor(2),
-          );
+      void changeWeight() => controller.service
+          .term(term.id)
+          .subject(subject.id)
+          .changeWeightForTermGrade(const Weight.factor(2));
 
       expect(changeWeight, returnsNormally);
       expect(

@@ -19,7 +19,8 @@ import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_view.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 
 class GradeDetailsPageController extends ChangeNotifier {
-  final GradeId id;
+  final GradeRef gradeRef;
+  GradeId get id => gradeRef.id;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
   final Analytics analytics;
@@ -28,7 +29,7 @@ class GradeDetailsPageController extends ChangeNotifier {
   GradeDetailsPageState state = const GradeDetailsPageLoading();
 
   GradeDetailsPageController({
-    required this.id,
+    required this.gradeRef,
     required this.gradesService,
     required this.crashAnalytics,
     required this.analytics,
@@ -111,7 +112,7 @@ class GradeDetailsPageController extends ChangeNotifier {
   }
 
   void deleteGrade() {
-    gradesService.deleteGrade(id);
+    gradeRef.delete();
     analytics.log(NamedAnalyticsEvent(name: 'grade_deleted'));
   }
 

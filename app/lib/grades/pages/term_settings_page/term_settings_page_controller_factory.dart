@@ -28,8 +28,8 @@ class TermSettingsPageControllerFactory {
 
   TermSettingsPageController create(TermId termId) {
     return TermSettingsPageController(
+      termRef: gradesService.term(termId),
       gradesService: gradesService,
-      termId: termId,
       coursesStream: coursesStream(),
     );
   }
