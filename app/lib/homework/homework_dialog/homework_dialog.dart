@@ -337,7 +337,7 @@ class HwDialogErrorStrings {
 }
 
 class _SaveButton extends StatelessWidget {
-  _SaveButton({this.editMode = false});
+  const _SaveButton({this.editMode = false});
 
   final bool editMode;
 
