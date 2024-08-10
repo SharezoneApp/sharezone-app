@@ -10,7 +10,6 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/dashboard/tips/cache/dashboard_tip_cache.dart';
 import 'package:sharezone/dashboard/tips/models/rate_our_app_tip.dart';
-import 'package:sharezone/dashboard/tips/models/wrapped_tip.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
 
@@ -37,16 +36,12 @@ class DashboardTipSystem extends BlocBase {
     UserTipsBloc userTipsBloc,
   ) {
     final rateOurAppTip = RateOurAppTip(cache);
-    final wrappedTip =
-        SharezoneWrappedTip(cache, userTipsBloc.streamAccountCreatedOn());
 
-    final tips = [rateOurAppTip, wrappedTip];
+    final tips = [rateOurAppTip];
 
     return CombineLatestStream(tips.map((tip) => tip.shouldShown()).toList(),
         (streamValues) {
       final showRateOurAppCard = streamValues[0];
-      final showWrappedTip = streamValues[1];
-      if (showWrappedTip) return wrappedTip;
       if (showRateOurAppCard) return rateOurAppTip;
       return null;
     });
