@@ -337,7 +337,6 @@ class HwDialogErrorStrings {
 }
 
 class _SaveButton extends StatelessWidget {
-  bool _homeworkIsSaving = false;
   _SaveButton({this.editMode = false});
 
   final bool editMode;
@@ -363,18 +362,19 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SaveButton(
-      key: HwDialogKeys.saveButton,
-      tooltip: "Hausaufgabe speichern",
-      onPressed: () { //This might be called inside the onPressed function itself, but I think, this is more readable
-        if (!_homeworkIsSaving) {
-          _homeworkIsSaving = true;
-          onPressed(context);
-        }else{
-          patienceSnackBar(context);
-        }
-      },
-    );
+    bool isSaving = false;
+    return StatefulBuilder(builder: (context, setState) {
+      return SaveButton(
+        key: HwDialogKeys.saveButton,
+        tooltip: "Hausaufgabe speichern",
+        onPressed: isSaving
+            ? null
+            : () {
+                setState(() => isSaving = true);
+                onPressed(context);
+              },
+      );
+    });
   }
 }
 
