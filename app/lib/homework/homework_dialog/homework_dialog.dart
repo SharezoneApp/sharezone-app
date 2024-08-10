@@ -362,11 +362,19 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SaveButton(
-      key: HwDialogKeys.saveButton,
-      tooltip: "Hausaufgabe speichern",
-      onPressed: () => onPressed(context),
-    );
+    bool isSaving = false;
+    return StatefulBuilder(builder: (context, setState) {
+      return SaveButton(
+        key: HwDialogKeys.saveButton,
+        tooltip: "Hausaufgabe speichern",
+        onPressed: isSaving
+            ? null
+            : () {
+                setState(() => isSaving = true);
+                onPressed(context);
+              },
+      );
+    });
   }
 }
 
