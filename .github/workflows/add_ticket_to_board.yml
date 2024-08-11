@@ -1,0 +1,28 @@
+# Copyright (c) 2022 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+# We add every new issue to our triage project board.
+
+name: add-ticket-to-board
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add-to-project:
+    name: Add issue to board
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/add-to-project@244f685bbc3b7adfa8466e08b698b5577571133e # v1.0.2
+        with:
+          project-url: https://github.com/orgs/SharezoneApp/projects/8
+          # See the following link for which permissions are required:
+          # https://github.com/actions/add-to-project?tab=readme-ov-file#creating-a-pat-and-adding-it-to-your-repository
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
