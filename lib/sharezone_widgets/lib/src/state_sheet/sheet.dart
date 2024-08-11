@@ -100,7 +100,7 @@ class _DraggableStateSheetInner extends StatelessWidget {
                       ),
                       if (content.actions.isNotEmpty)
                         SafeArea(
-                          child: ButtonBar(
+                          child: OverflowBar(
                             children: <Widget>[
                               for (final action in content.actions)
                                 ActionItemButton(item: action),

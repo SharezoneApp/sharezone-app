@@ -63,7 +63,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
                 textAlign: TextAlign.center,
               ),
             ),
-            ButtonBar(
+            OverflowBar(
               children: <Widget>[
                 TextButton(
                   child: const Text("Schließen"),
