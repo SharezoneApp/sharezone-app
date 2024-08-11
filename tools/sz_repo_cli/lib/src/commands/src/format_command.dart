@@ -32,6 +32,7 @@ class FormatCommand extends ConcurrentCommand {
     await _throwIfPrettierIsNotInstalled();
 
     await _formatActionFiles(repo: repo);
+    await _formatMarkdownFiles(repo: repo);
   }
 
   @override
@@ -49,9 +50,31 @@ class FormatCommand extends ConcurrentCommand {
   Future<void> _formatActionFiles({
     required SharezoneRepo repo,
   }) async {
+    _formatWithCommandKey(
+      repo: repo,
+      commandKey: 'format_action_files',
+      name: 'GitHub Actions',
+    );
+  }
+
+  Future<void> _formatMarkdownFiles({
+    required SharezoneRepo repo,
+  }) async {
+    await _formatWithCommandKey(
+      repo: repo,
+      commandKey: 'format_markdown_files',
+      name: 'Markdown',
+    );
+  }
+
+  Future<void> _formatWithCommandKey({
+    required SharezoneRepo repo,
+    required String commandKey,
+    required String name,
+  }) async {
     final results = await runSourceOfTruthCommand(
       processRunner,
-      commandKey: 'format_action_files',
+      commandKey: commandKey,
       repo: repo,
     );
 
@@ -60,7 +83,7 @@ class FormatCommand extends ConcurrentCommand {
           'The process exited with a non-zero code (${results.exitCode})\n${results.stdout}\n${results.stderr}');
     }
 
-    stdout.writeln('✅ Formatted GitHub Action files.');
+    stdout.writeln('✅ Formatted $name files.');
   }
 }
 
@@ -72,7 +95,6 @@ Future<void> formatCode(
   bool throwIfCodeChanged = false,
 }) {
   return processRunner.runCommand([
-    'fvm',
     'dart',
     'format',
     if (throwIfCodeChanged) '--set-exit-if-changed',

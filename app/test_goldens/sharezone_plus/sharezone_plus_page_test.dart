@@ -11,11 +11,11 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -24,7 +24,6 @@ import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/nav
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -39,7 +38,8 @@ import 'sharezone_plus_page_test.mocks.dart';
   MockSpec<NavigationAnalytics>(),
   MockSpec<SharezoneContext>(),
   MockSpec<SharezoneGateway>(),
-  MockSpec<UserGateway>()
+  MockSpec<UserGateway>(),
+  MockSpec<HasUnreadFeedbackMessagesProvider>(),
 ])
 void main() {
   group(SharezonePlusPage, () {
@@ -49,6 +49,8 @@ void main() {
     late MockSharezoneContext sharezoneContext;
     late MockUserGateway userGateway;
     late MockSharezoneGateway sharezoneGateway;
+    late MockHasUnreadFeedbackMessagesProvider
+        hasUnreadFeedbackMessagesProvider;
 
     setUp(() {
       controller = MockSharezonePlusPageController();
@@ -57,6 +59,8 @@ void main() {
       sharezoneContext = MockSharezoneContext();
       sharezoneGateway = MockSharezoneGateway();
       userGateway = MockUserGateway();
+      hasUnreadFeedbackMessagesProvider =
+          MockHasUnreadFeedbackMessagesProvider();
 
       when(sharezoneContext.api).thenAnswer((_) => sharezoneGateway);
       when(sharezoneGateway.user).thenAnswer((_) => userGateway);
@@ -71,8 +75,13 @@ void main() {
           .thenAnswer((_) => NavigationItem.sharezonePlus);
       when(navigationBloc.scaffoldKey)
           .thenAnswer((_) => GlobalKey<State<StatefulWidget>>());
+      when(hasUnreadFeedbackMessagesProvider.hasUnreadFeedbackMessages)
+          .thenAnswer((_) => false);
 
-      when(controller.price).thenAnswer((_) => fallbackPlusPrice);
+      when(controller.monthlySubscriptionPrice)
+          .thenAnswer((_) => fallbackPlusMonthlyPrice);
+      when(controller.lifetimePrice)
+          .thenAnswer((_) => fallbackPlusLifetimePrice);
     });
 
     Future<void> pumpPlusPage(
@@ -82,17 +91,12 @@ void main() {
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [
-            ChangeNotifierProvider<SubscriptionEnabledFlag>(
-              create: (context) => SubscriptionEnabledFlag(
-                InMemoryKeyValueStore({
-                  SubscriptionEnabledFlag.cacheKey: true,
-                }),
-              ),
-            ),
             ChangeNotifierProvider<SharezonePlusPageController>(
               create: (context) => controller,
             ),
             Provider<TypeOfUser?>.value(value: TypeOfUser.student),
+            ChangeNotifierProvider<HasUnreadFeedbackMessagesProvider>.value(
+                value: hasUnreadFeedbackMessagesProvider),
           ],
           child: MultiBlocProvider(
             blocProviders: [

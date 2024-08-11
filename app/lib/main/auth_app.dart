@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/auth/sign_in_with_qr_code_page.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/download_app_tip/analytics/download_app_tip_analytics.dart';
 import 'package:sharezone/download_app_tip/bloc/download_app_tip_bloc.dart';
@@ -27,7 +28,7 @@ import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factor
 import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
 import 'package:sharezone/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/support/support_page.dart';
-import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 
@@ -103,6 +104,7 @@ class _AuthAppState extends State<AuthApp> {
             SignUpPage.tag: (context) => const SignUpPage(),
             LoginPage.tag: (context) => const LoginPage(),
             PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
+            TermsOfServicePage.tag: (context) => const TermsOfServicePage(),
             SignInWithQrCodePage.tag: (context) => const SignInWithQrCodePage(),
             ImprintPage.tag: (context) => const ImprintPage(),
           },

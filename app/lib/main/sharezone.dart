@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart' hide Provider;
 import 'package:authentification_base/authentification_base.dart' hide Provider;
@@ -16,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/account/theme/theme_settings.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/dynamic_links.dart';
@@ -27,7 +28,6 @@ import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone/widgets/development_stage_banner.dart';
@@ -71,6 +71,7 @@ class Sharezone extends StatefulWidget {
 
 class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   late SignUpBloc signUpBloc;
+  late StreamSubscription<AuthUser?> authSubscription;
 
   @override
   void initState() {
@@ -88,6 +89,10 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
     });
 
     logAppOpen();
+
+    authSubscription = listenToAuthStateChanged().listen((user) {
+      authUserSubject.sink.add(user);
+    });
   }
 
   void logAppOpen() {
@@ -96,6 +101,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    authSubscription.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -123,11 +129,6 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                                 MobileDeviceInformationRetriever(),
                           ),
                         ),
-                        ChangeNotifierProvider<SubscriptionEnabledFlag>(
-                          create: (context) => SubscriptionEnabledFlag(
-                            widget.blocDependencies.keyValueStore,
-                          ),
-                        ),
                       ],
                       child: MultiBlocProvider(
                         blocProviders: [
@@ -145,7 +146,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                             Provider<Flavor>(create: (context) => widget.flavor)
                           ],
                           child: StreamBuilder<AuthUser?>(
-                            stream: listenToAuthStateChanged(),
+                            stream: authUserStream,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 widget.blocDependencies.authUser =

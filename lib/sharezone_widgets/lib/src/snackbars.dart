@@ -133,6 +133,7 @@ void showSnack({
     duration: duration,
     action: action,
     behavior: behavior,
+    width: getSnackBarWidth(context, behavior),
   );
 
   if (key != null) {
@@ -156,4 +157,20 @@ void showSnack({
   } else {
     debugPrint("Fehler! Die SnackBar hat keinen Key und keinen Context!");
   }
+}
+
+double? getSnackBarWidth(BuildContext? context, SnackBarBehavior? behavior) {
+  if (context == null) {
+    return null;
+  }
+
+  final isSmallScreen = MediaQuery.of(context).size.width < 550;
+  if (isSmallScreen) {
+    // For small screens, the snackbar should be full width.
+    return null;
+  }
+
+  // The width of the snackbar can only be set if the behavior is floating.
+  behavior ??= Theme.of(context).snackBarTheme.behavior;
+  return behavior == SnackBarBehavior.floating ? 450 : null;
 }

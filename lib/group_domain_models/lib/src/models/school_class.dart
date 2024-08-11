@@ -105,6 +105,8 @@ class SchoolClass {
   }
 }
 
+typedef SchoolClassName = String;
+
 class SchoolClassData {
   final String id;
   final String name;

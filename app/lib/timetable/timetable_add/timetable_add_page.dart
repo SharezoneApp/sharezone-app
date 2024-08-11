@@ -26,6 +26,7 @@ import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/time_type.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc.dart';
 import 'package:sharezone/timetable/timetable_add/bloc/timetable_add_bloc_factory.dart';
+import 'package:sharezone/timetable/timetable_edit/lesson/timetable_lesson_edit_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone/widgets/fade_switch_between_index_with_tab_controller.dart';
 import 'package:sharezone/widgets/tabs.dart';
@@ -35,7 +36,7 @@ import 'package:time/time.dart';
 import 'package:user/user.dart';
 
 part 'tabs/course_tab.dart';
-part 'tabs/room_tab.dart';
+part 'tabs/room_and_teacher_tab.dart';
 part 'tabs/time_tab.dart';
 part 'tabs/weekday_tab.dart';
 part 'tabs/weektype_tab.dart';
@@ -100,7 +101,7 @@ class _TimetableAddPage extends StatelessWidget {
         _WeekDayTab(),
         if (abWeekEnabled) _WeekTypeTab(),
         _TimeTab(index: abWeekEnabled ? 4 : 3),
-        _RoomTab(index: abWeekEnabled ? 5 : 4),
+        _RoomAndTeachersTab(index: abWeekEnabled ? 5 : 4),
       ],
       abWeekEnabled: abWeekEnabled,
     );

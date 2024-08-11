@@ -6,11 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Action {
   final String title;
-  final VoidCallback onTap;
+  final void Function(BuildContext context) onTap;
 
   const Action({
     required this.title,

@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:math';
-
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/src/date.dart';
@@ -19,6 +17,7 @@ import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_view.dart';
+import 'package:test_randomness/test_randomness.dart';
 import 'package:time/time.dart';
 
 import 'mock/mock_course_gateway.dart';
@@ -50,7 +49,7 @@ void main() {
         endTime: Time(hour: 10, minute: 0),
         groupID: groupId,
         groupType: GroupType.course,
-        lessonID: Random().nextInt(200).toString(),
+        lessonID: szTestRandom.nextInt(200).toString(),
         place: "",
         teacher: "",
         weekday: WeekDay.monday,
@@ -82,19 +81,19 @@ void main() {
     final klasse10a = createSchoolClass('10a');
     final klasse5b = createSchoolClass('5b');
 
-    final mathe10aId = GroupId('mathe10a');
-    final deutsch5bId = GroupId('deutsch5bId');
+    const mathe10aId = GroupId('mathe10a');
+    const deutsch5bId = GroupId('deutsch5bId');
 
     // Die Informatik AG ist mit keiner Schulklasse verknüpft.
-    final informatikAgId = GroupId('informatikAg');
+    const informatikAgId = GroupId('informatikAg');
 
-    final lesson10a = createLesson(mathe10aId.id);
-    final lesson5b = createLesson(deutsch5bId.id);
-    final lessonAg = createLesson(informatikAgId.id);
+    final lesson10a = createLesson(mathe10aId.value);
+    final lesson5b = createLesson(deutsch5bId.value);
+    final lessonAg = createLesson(informatikAgId.value);
 
-    final event10a = createEvent(mathe10aId.id);
-    final event5b = createEvent(deutsch5bId.id);
-    final eventAg = createEvent(informatikAgId.id);
+    final event10a = createEvent(mathe10aId.value);
+    final event5b = createEvent(deutsch5bId.value);
+    final eventAg = createEvent(informatikAgId.value);
 
     group('SchoolClassSelection', () {
       late TimetableBloc bloc;
@@ -117,8 +116,8 @@ void main() {
 
         schoolClassGateway.addSchoolClasses([klasse10a, klasse5b]);
 
-        schoolClassGateway.addCourse(klasse10a.id, mathe10aId.id);
-        schoolClassGateway.addCourse(klasse5b.id, deutsch5bId.id);
+        schoolClassGateway.addCourse(klasse10a.id, mathe10aId.value);
+        schoolClassGateway.addCourse(klasse5b.id, deutsch5bId.value);
 
         timetableGateway.addLessons([lesson10a, lesson5b, lessonAg]);
         timetableGateway.addEvents([event10a, event5b, eventAg]);

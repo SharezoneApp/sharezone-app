@@ -23,7 +23,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:time/time.dart';
-import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_test.dart';
@@ -34,6 +33,7 @@ void main() {
     late MockCourseGateway courseGateway;
     late MockHomeworkDialogApi homeworkDialogApi;
     late MockNextLessonCalculator nextLessonCalculator;
+    late MockNextSchooldayCalculator nextSchooldayCalculator;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
 
@@ -41,6 +41,7 @@ void main() {
       courseGateway = MockCourseGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
+      nextSchooldayCalculator = MockNextSchooldayCalculator();
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
     });
@@ -50,9 +51,9 @@ void main() {
         api: homeworkDialogApi,
         clockOverride: clock,
         nextLessonCalculator: nextLessonCalculator,
+        nextSchooldayCalculator: nextSchooldayCalculator,
         analytics: analytics,
         markdownAnalytics: MarkdownAnalytics(analytics),
-        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 
@@ -60,10 +61,10 @@ void main() {
       return HomeworkDialogBloc(
         api: homeworkDialogApi,
         nextLessonCalculator: nextLessonCalculator,
+        nextSchooldayCalculator: nextSchooldayCalculator,
         analytics: analytics,
         homeworkId: id,
         markdownAnalytics: MarkdownAnalytics(analytics),
-        enabledWeekdays: EnabledWeekDays.standard.getEnabledWeekDaysList(),
       );
     }
 
@@ -84,13 +85,15 @@ void main() {
         nextLessonCalculator.dateToReturn = null;
         final testClock = Clock.fixed(Date.parse(currentDate).toDateTime);
         addCourse(courseWith(id: 'foo'));
-        final bloc = createBlocForNewHomeworkDialog(clock: testClock);
 
-        bloc.add(CourseChanged(CourseId('foo')));
-        await pumpEventQueue();
+        await withClock(testClock, () async {
+          final bloc = createBlocForNewHomeworkDialog(clock: testClock);
+          bloc.add(const CourseChanged(CourseId('foo')));
+          await pumpEventQueue();
 
-        final state = bloc.state as Ready;
-        expect(state.dueDate.$1, Date.parse(expectedLessonDate));
+          final state = bloc.state as Ready;
+          expect(state.dueDate.$1, Date.parse(expectedLessonDate));
+        });
       }
 
       //                    | Current date  | Next lesson date |
@@ -131,12 +134,12 @@ void main() {
     test(
         'Shows error and emits presentation event if title is set to blank when editing a homework and Save is called',
         () async {
-      final homeworkId = HomeworkId('foo_homework_id');
+      const homeworkId = HomeworkId('foo_homework_id');
       addCourse(courseWith(
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -157,12 +160,12 @@ void main() {
     test(
         'Removes error if title is changed to a valid value (editing homework)',
         () async {
-      final homeworkId = HomeworkId('foo_homework_id');
+      const homeworkId = HomeworkId('foo_homework_id');
       addCourse(courseWith(
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -215,7 +218,7 @@ void main() {
       ));
       nextLessonCalculator.dateToReturn = Date('2023-04-02');
       bloc.add(DueDateChanged(DueDateSelection.date(Date('2023-03-28'))));
-      bloc.add(CourseChanged(CourseId('foo_course')));
+      bloc.add(const CourseChanged(CourseId('foo_course')));
 
       Ready state = await bloc.stream
           .whereType<Ready>()
@@ -246,7 +249,7 @@ void main() {
       final nextLessonDate = Date('2024-03-08');
       nextLessonCalculator.dateToReturn = nextLessonDate;
 
-      bloc.add(CourseChanged(CourseId('foo_course')));
+      bloc.add(const CourseChanged(CourseId('foo_course')));
 
       final state = await bloc.stream
           .whereType<Ready>()
@@ -293,12 +296,12 @@ void main() {
     });
     test('emits presentation event if saving an edited homework fails',
         () async {
-      final homeworkId = HomeworkId('foo_homework_id');
+      const homeworkId = HomeworkId('foo_homework_id');
       addCourse(courseWith(
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -469,10 +472,10 @@ void main() {
     });
 
     test('Returns loading state when called for an existing homework', () {
-      final homeworkId = HomeworkId('foo');
+      const homeworkId = HomeworkId('foo');
       final bloc = createBlocForEditingHomeworkDialog(homeworkId);
 
-      expect(bloc.state, LoadingHomework(homeworkId, isEditing: true));
+      expect(bloc.state, const LoadingHomework(homeworkId, isEditing: true));
     });
     test('when submissions are toggled 23:59 is used as the default value',
         () async {
@@ -547,7 +550,7 @@ void main() {
       ));
 
       bloc.add(const TitleChanged('abc'));
-      bloc.add(CourseChanged(CourseId('foo_course')));
+      bloc.add(const CourseChanged(CourseId('foo_course')));
       bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
       bloc.add(
           AttachmentsAdded(IList([randomLocalFileFrom(path: 'foo/bar.png')])));
@@ -564,7 +567,7 @@ void main() {
       ));
 
       bloc.add(const TitleChanged('abc'));
-      bloc.add(CourseChanged(CourseId('foo_course')));
+      bloc.add(const CourseChanged(CourseId('foo_course')));
       bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
 
       // Add and remove attachment just to make it a bit more "tricky"
@@ -583,12 +586,12 @@ void main() {
     test(
         'emits started saving uploading attachments presentation event when editing homework',
         () async {
-      final homeworkId = HomeworkId('foo_homework_id');
+      const homeworkId = HomeworkId('foo_homework_id');
       addCourse(courseWith(
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -606,12 +609,12 @@ void main() {
     test(
         'does not emit started saving uploading attachments presentation event when editing homework without new attachment',
         () async {
-      final homeworkId = HomeworkId('foo_homework_id');
+      const homeworkId = HomeworkId('foo_homework_id');
       addCourse(courseWith(
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -639,8 +642,9 @@ void main() {
       ));
 
       bloc.add(const TitleChanged('abc'));
-      bloc.add(CourseChanged(CourseId('foo_course')));
+      bloc.add(const CourseChanged(CourseId('foo_course')));
       bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
+      await pumpEventQueue(); // Wait for the due date to be checked for next schoolday
       bloc.add(const Save());
       await bloc.stream.whereType<SavedSuccessfully>().first;
 
@@ -650,12 +654,12 @@ void main() {
     });
     test('Analytics is called when a homework is successfully edited',
         () async {
-      final homeworkId = HomeworkId('foo_homework_id');
+      const homeworkId = HomeworkId('foo_homework_id');
       addCourse(courseWith(
         id: 'foo_course',
       ));
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
       );
@@ -673,7 +677,7 @@ void main() {
       ]);
     });
     test('Sucessfully displays and edits existing homework', () async {
-      final homeworkId = HomeworkId('foo_homework_id');
+      const homeworkId = HomeworkId('foo_homework_id');
 
       final fooCourse = courseWith(
         id: 'foo_course',
@@ -702,7 +706,7 @@ void main() {
       ]);
 
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'foo_course',
         courseName: 'Foo course',
@@ -717,14 +721,14 @@ void main() {
       final bloc = createBlocForEditingHomeworkDialog(homeworkId);
       await pumpEventQueue();
 
-      bloc.add(AttachmentRemoved(FileId('foo_attachment_id1')));
+      bloc.add(const AttachmentRemoved(FileId('foo_attachment_id1')));
 
       await pumpEventQueue();
       expect(
         bloc.state,
         Ready(
           title: ('title text', error: null),
-          course: CourseChosen(
+          course: const CourseChosen(
             courseId: CourseId('foo_course'),
             courseName: 'Foo course',
             isChangeable: false,
@@ -739,7 +743,7 @@ void main() {
           description: 'description text',
           attachments: IList([
             FileView(
-                fileId: FileId('foo_attachment_id2'),
+                fileId: const FileId('foo_attachment_id2'),
                 fileName: 'foo_attachment2.pdf',
                 format: FileFormat.pdf,
                 cloudFile: attachment2),
@@ -770,7 +774,7 @@ void main() {
       expect(bloc.state, const SavedSuccessfully(isEditing: true));
     });
     test('Sucessfully displays and edits existing homework 2', () async {
-      final homeworkId = HomeworkId('bar_homework_id');
+      const homeworkId = HomeworkId('bar_homework_id');
 
       final barCourse = courseWith(
         id: 'bar_course',
@@ -786,7 +790,7 @@ void main() {
       when(mockDocumentReference.id).thenReturn('bar_course');
 
       final homework = randomHomeworkWith(
-        id: homeworkId.id,
+        id: homeworkId.value,
         title: 'title text',
         courseId: 'bar_course',
         courseName: 'Bar course',
@@ -806,7 +810,7 @@ void main() {
         bloc.state,
         Ready(
           title: ('title text', error: null),
-          course: CourseChosen(
+          course: const CourseChosen(
             courseId: CourseId('bar_course'),
             courseName: 'Bar course',
             isChangeable: false,

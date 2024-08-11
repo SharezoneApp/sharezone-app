@@ -15,7 +15,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 

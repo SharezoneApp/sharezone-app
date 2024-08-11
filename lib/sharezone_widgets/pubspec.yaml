@@ -15,6 +15,10 @@ environment:
   sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
+  analytics:
+    path: ../analytics
+  key_value_store:
+    path: ../key_value_store
   helper_functions:
     path: ../helper_functions
   build_context:
@@ -22,7 +26,7 @@ dependencies:
   flutter_svg: ^2.0.2
   flutter_staggered_animations: ^1.1.1
   flare_flutter: ^3.0.2
-  intl: ^0.18.1
+  intl: ^0.19.0
   platform_check:
     path: ../platform_check
   shimmer: ^2.0.0
@@ -30,6 +34,11 @@ dependencies:
   flutter:
     sdk: flutter
   clock: ^1.1.1
+  flutter_markdown:
+    git:
+      url: https://github.com/SharezoneApp/packages
+      path: packages/flutter_markdown
+      ref: 2f680bb80119f6fd037a7bda0984bc811b5dccb8
 
 dev_dependencies:
   flutter_test:

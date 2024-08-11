@@ -14,7 +14,6 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:helper_functions/helper_functions.dart';
 
 import '../models/enter_activation_code_result.dart';
@@ -26,7 +25,6 @@ class EnterActivationCodeBloc extends BlocBase {
   final SharezoneAppFunctions appFunctions;
   final _enterActivationCodeSubject =
       BehaviorSubject<EnterActivationCodeResult>();
-  final SubscriptionEnabledFlag subscriptionEnabledFlag;
   final KeyValueStore keyValueStore;
 
   String? _lastEnteredValue;
@@ -35,7 +33,6 @@ class EnterActivationCodeBloc extends BlocBase {
     this.analytics,
     this.crashAnalytics,
     this.appFunctions,
-    this.subscriptionEnabledFlag,
     this.keyValueStore,
   ) {
     _changeEnterActivationCodeResult(NoDataEnterActivationCodeResult());
@@ -77,17 +74,6 @@ class EnterActivationCodeBloc extends BlocBase {
   Future<void> _enterValue(String enteredValue, BuildContext context) async {
     if (isEmptyOrNull(enteredValue)) return;
     _lastEnteredValue = enteredValue;
-
-    if (_lastEnteredValue?.trim() == 'SharezonePlus') {
-      subscriptionEnabledFlag.toggle();
-      _changeEnterActivationCodeResult(
-        SuccessfulEnterActivationCodeResult(
-          'SharezonePlus',
-          '"Sharezone Plus"-Prototyp ${subscriptionEnabledFlag.isEnabled ? 'aktiviert' : 'deaktiviert'}.',
-        ),
-      );
-      return;
-    }
 
     if (_lastEnteredValue?.trim().toLowerCase() == 'clearcache') {
       await _clearCache(context);

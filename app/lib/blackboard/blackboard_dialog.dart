@@ -17,12 +17,10 @@ import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_dialog_bloc.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -341,27 +339,35 @@ class _TitleField extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                PrefilledTextField(
-                  prefilledText: initialTitle,
-                  focusNode: focusNode,
-                  cursorColor: Colors.white,
-                  maxLines: null,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w400,
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    textSelectionTheme: !context.isDarkThemeEnabled
+                        ? const TextSelectionThemeData(
+                            selectionColor: Colors.white24)
+                        : null,
                   ),
-                  decoration: const InputDecoration(
-                    hintText: "Titel eingeben",
-                    hintStyle: TextStyle(color: Colors.white),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.zero,
-                    fillColor: Colors.transparent,
+                  child: PrefilledTextField(
+                    prefilledText: initialTitle,
+                    focusNode: focusNode,
+                    cursorColor: Colors.white,
+                    maxLines: null,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: const InputDecoration(
+                      hintText: "Titel eingeben",
+                      hintStyle: TextStyle(color: Colors.white),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                      fillColor: Colors.transparent,
+                    ),
+                    onChanged: (String title) => bloc.changeTitle(title),
+                    textCapitalization: TextCapitalization.sentences,
                   ),
-                  onChanged: (String title) => bloc.changeTitle(title),
-                  textCapitalization: TextCapitalization.sentences,
                 ),
                 Text(
                   snapshot.error?.toString() ?? "",
@@ -456,28 +462,14 @@ class _TextField extends StatelessWidget {
     final bloc = BlocProvider.of<BlackboardDialogBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ListTile(
-            leading: const Icon(Icons.subject),
-            title: PrefilledTextField(
-              prefilledText: initialText,
-              maxLines: null,
-              scrollPadding: const EdgeInsets.all(16.0),
-              keyboardType: TextInputType.multiline,
-              decoration: const InputDecoration(
-                hintText: "Nachricht verfassen",
-                border: InputBorder.none,
-              ),
-              onChanged: bloc.changeText,
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: MarkdownSupport(),
-          ),
-        ],
+      child: MarkdownField(
+        icon: const Icon(Icons.subject),
+        prefilledText: initialText,
+        inputDecoration: const InputDecoration(
+          hintText: "Nachricht verfassen",
+          border: InputBorder.none,
+        ),
+        onChanged: bloc.changeText,
       ),
     );
   }

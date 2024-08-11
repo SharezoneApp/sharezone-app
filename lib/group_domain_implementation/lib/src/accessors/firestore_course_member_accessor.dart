@@ -10,6 +10,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone_common/references.dart';
@@ -157,5 +158,18 @@ class FirestoreCourseMemberAccessor extends CourseMemberAccessor {
       subscription2.cancel();
     };
     return streamController.stream;
+  }
+
+  @override
+  Future<MemberData?> getMember(String courseId, UserId memberId) async {
+    final docSnapshot = await _memberReference(courseId).doc('$memberId').get();
+    if (!docSnapshot.exists) {
+      return null;
+    }
+
+    return MemberData.fromData(
+      docSnapshot.data() as Map<String, dynamic>,
+      id: docSnapshot.id,
+    );
   }
 }

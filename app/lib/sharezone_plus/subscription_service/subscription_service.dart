@@ -6,28 +6,29 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:clock/clock.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
+import 'dart:async';
+
+import 'package:analytics/analytics.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:crash_analytics/crash_analytics.dart';
+import 'package:platform_check/platform_check.dart';
+import 'package:retry/retry.dart';
 import 'package:user/user.dart';
 
 class SubscriptionService {
   final Stream<AppUser?> user;
-  final Clock clock;
-  final SubscriptionEnabledFlag isSubscriptionEnabledFlag;
+  final FirebaseFunctions functions;
 
+  late Stream<SharezonePlusStatus?> sharezonePlusStatusStream;
+  late StreamSubscription<AppUser?> _userSubscription;
   late AppUser? _user;
-  bool _isEnabled = false;
 
   SubscriptionService({
     required this.user,
-    required this.clock,
-    required this.isSubscriptionEnabledFlag,
+    required this.functions,
   }) {
-    _isEnabled = isSubscriptionEnabledFlag.isEnabled;
-    isSubscriptionEnabledFlag.addListener(() {
-      _isEnabled = isSubscriptionEnabledFlag.isEnabled;
-    });
-    user.listen((event) {
+    sharezonePlusStatusStream = user.map((event) => event?.sharezonePlus);
+    _userSubscription = user.listen((event) {
       _user = event;
     });
   }
@@ -35,48 +36,74 @@ class SubscriptionService {
   bool isSubscriptionActive([AppUser? appUser]) {
     appUser ??= _user;
 
-    // Subscriptions feature is disabled, so every feature is unlocked.
-    if (!_isEnabled) return true;
-
-    if (appUser?.subscription == null) return false;
-    return clock.now().isBefore(appUser!.subscription!.expiresAt);
+    final plus = appUser?.sharezonePlus;
+    if (plus == null) return false;
+    return plus.hasPlus;
   }
 
   Stream<bool> isSubscriptionActiveStream() {
-    // Subscriptions feature is disabled, so every feature is unlocked.
-    if (!_isEnabled) return Stream.value(true);
     return user.map(isSubscriptionActive);
   }
 
   bool hasFeatureUnlocked(SharezonePlusFeature feature) {
-    // Subscriptions feature is disabled, so every feature is unlocked.
-    if (!_isEnabled) return true;
+    // Sharezone Plus is currently only available for students. Thus every other
+    // type of user has all features unlocked.
+    if (!_user!.typeOfUser.isStudent) return true;
 
     if (!isSubscriptionActive()) return false;
-    return _user!.subscription!.tier.hasUnlocked(feature);
+    return true;
   }
 
   Stream<bool> hasFeatureUnlockedStream(SharezonePlusFeature feature) {
-    // Subscriptions feature is disabled, so every feature is unlocked.
-    if (!_isEnabled) return Stream.value(true);
-
     return user.map((event) => hasFeatureUnlocked(feature));
   }
-}
 
-const _featuresMap = {
-  SubscriptionTier.teacherPlus: {
-    SharezonePlusFeature.submissionsList,
-    SharezonePlusFeature.infoSheetReadByUsersList,
-    SharezonePlusFeature.homeworkDoneByUsersList,
-    SharezonePlusFeature.filterTimetableByClass,
-    SharezonePlusFeature.changeHomeworkReminderTime,
-    SharezonePlusFeature.plusSupport,
-    SharezonePlusFeature.moreGroupColors,
-    SharezonePlusFeature.addEventToLocalCalendar,
-    SharezonePlusFeature.viewPastEvents,
-  },
-};
+  SubscriptionSource? getSource() {
+    return _user?.sharezonePlus?.source;
+  }
+
+  Future<void> cancelStripeSubscription() async {
+    await functions.httpsCallable('cancelStripeSubscription').call();
+  }
+
+  Future<bool> showLetParentsBuyButton() async {
+    try {
+      return retry(
+        () async {
+          final response = await functions
+              .httpsCallable('showLetParentsBuyButton')
+              .call<bool>({
+            'platform': PlatformCheck.currentPlatform.name,
+          });
+          return response.data;
+        },
+        maxAttempts: 3,
+      );
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<String?> getPlusWebsiteBuyToken() async {
+    try {
+      return retry(
+        () async {
+          final response = await functions
+              .httpsCallable('createPlusWebsiteBuyToken')
+              .call<Map<String, dynamic>>();
+          return response.data['token'];
+        },
+        maxAttempts: 3,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  void dispose() {
+    _userSubscription.cancel();
+  }
+}
 
 enum SharezonePlusFeature {
   submissionsList,
@@ -88,10 +115,39 @@ enum SharezonePlusFeature {
   moreGroupColors,
   addEventToLocalCalendar,
   viewPastEvents,
+  homeworkDueDateChips,
+  iCalLinks,
+  substitutions,
+  addTeachersToTimetable,
 }
 
-extension SubscriptionTierExtension on SubscriptionTier {
-  bool hasUnlocked(SharezonePlusFeature feature) {
-    return _featuresMap[this]?.contains(feature) ?? false;
+void trySetSharezonePlusAnalyticsUserProperties(Analytics analytics,
+    CrashAnalytics crashAnalytics, SubscriptionService subscriptionService) {
+  try {
+    subscriptionService.sharezonePlusStatusStream.listen((final status) {
+      if (status != null) {
+        analytics.setUserProperty(
+          name: 'has_plus',
+          value: status.hasPlus.toString(),
+        );
+        if (status.hasPlus) {
+          if (status.period != null) {
+            analytics.setUserProperty(
+              name: 'plus_period',
+              value: status.period!,
+            );
+          }
+          var source = status.source ?? SubscriptionSource.unknown;
+          analytics.setUserProperty(
+            name: 'plus_source',
+            value: source.stableAnalyticsKey,
+          );
+        }
+      }
+    });
+  } catch (e) {
+    crashAnalytics
+        .log('Error setting user properties regarding Sharezone Plus: $e');
+    crashAnalytics.recordError(e, StackTrace.current);
   }
 }

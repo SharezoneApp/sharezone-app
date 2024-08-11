@@ -11,7 +11,7 @@ description: A collaborative school planner for students, teachers and parents.
 # Note that we do not store the current build number in the pubspec.yaml. The
 # build number is automatically increased by the CD pipeline (using `sz deploy`
 # command).
-version: 1.7.9+0
+version: 2.1.2+0
 publish_to: none
 
 environment:
@@ -30,12 +30,7 @@ dependencies:
   animator: ^3.3.0
   app_functions:
     path: ../lib/app_functions
-  app_review:
-    # We can use the published version once a new version is published that
-    # is newer than 2.1.2+1.
-    git:
-      url: https://github.com/fluttercommunity/app_review
-      ref: c4d1919670d6196b0a00c65b514cd9f3fbb42f55
+  in_app_review: ^2.0.9
   authentification_base:
     path: ../lib/authentification/authentification_base
   authentification_qrcode:
@@ -51,10 +46,10 @@ dependencies:
     path: ../lib/build_context
   characters: ^1.0.0
   clock: ^1.1.1
-  cloud_firestore: ^4.15.5
+  cloud_firestore: ^4.17.2
   cloud_firestore_helper:
     path: ../lib/cloud_firestore_helper
-  cloud_functions: ^4.4.0
+  cloud_functions: ^4.7.3
   collection: ^1.17.2
   common_domain_models:
     path: ../lib/common_domain_models
@@ -73,19 +68,19 @@ dependencies:
     path: ../lib/dynamic_links
   equatable: ^2.0.5
   fast_immutable_collections: ^9.1.5
+  feedback_shared_implementation:
+    path: ../lib/feedback_shared_implementation
   files_basics:
     path: ../lib/filesharing/files_basics
   files_usecases:
     path: ../lib/filesharing/files_usecases
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
-  firebase_auth: ^4.17.5
-  firebase_core: ^2.25.4
-  firebase_hausaufgabenheft_logik:
-    path: ../lib/firebase_hausaufgabenheft_logik
-  firebase_messaging: ^14.7.16
-  firebase_performance: ^0.9.3+14
-  firebase_storage: ^11.6.6
+  firebase_auth: ^4.19.4
+  firebase_core: ^2.30.1
+  firebase_messaging: ^14.9.1
+  firebase_performance: ^0.9.4+4
+  firebase_storage: ^11.7.4
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
@@ -101,7 +96,7 @@ dependencies:
     git:
       url: https://github.com/SharezoneApp/packages
       path: packages/flutter_markdown
-      ref: 494fa74182c1993cfd39d804f24c4ee136e3905a
+      ref: 2f680bb80119f6fd037a7bda0984bc811b5dccb8
   flutter_timezone: ^1.0.8
   flutter_rating_bar: ^4.0.0
   flutter_sfsymbols: ^2.0.0
@@ -122,13 +117,21 @@ dependencies:
   http: ^1.2.1
   # Used so that we can select a minute interval (only either XX:00 or XX:30)
   # for the homework reminder time picker.
-  interval_time_picker: ^2.0.0+5
-  intl: ^0.18.1
+  interval_time_picker:
+    # Git references can be removed when the following PR is merged:
+    # https://github.com/Fleximex/interval_time_picker/pull/10
+    git:
+      url: https://github.com/nilsreichardt/interval_time_picker.git
+      ref: ed0dd597ef1bbe5429504fe4314976856fa7d213
+  intl: ^0.19.0
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
     path: ../lib/last_online_reporting
   logging: ^1.1.1
+  # Can be replaced once Flutter officially supports the new Material Symbols,
+  # see https://github.com/flutter/flutter/issues/102560.
+  material_symbols_icons: ^4.2719.3
   markdown: ^7.1.1
   meta: ^1.1.8
   notifications:
@@ -136,16 +139,11 @@ dependencies:
   numberpicker: ^2.1.1
   open_file_plus: ^3.4.1
   overlay_support: ^2.1.0
-  package_info_plus:
-    # Can be removed when package_info_plus > 5.0.1 is released.
-    git:
-      url: https://github.com/fluttercommunity/plus_plugins
-      path: packages/package_info_plus/package_info_plus
-      ref: d24474d7b388fe43a9dd339b708834470bb14c90
+  package_info_plus: ^8.0.0
   permission_handler: ^11.1.0
   photo_view: ^0.14.0
   provider: ^6.0.3
-  purchases_flutter: ^6.6.0
+  purchases_flutter: ^6.27.0
   qr_code_scanner:
     path: ../lib/qr_code_scanner
   qr_flutter: ^4.0.0
@@ -157,8 +155,8 @@ dependencies:
   retry: ^3.1.2
   rxdart: ^0.27.1
   scrollable_positioned_list: ^0.3.8
-  share: ^2.0.4
-  shared_preferences: ^2.0.5
+  share_plus: ^9.0.0
+  shared_preferences: ^2.2.3
   sharezone_common:
     path: ../lib/sharezone_common
   sharezone_utils:
@@ -177,12 +175,13 @@ dependencies:
   time:
     path: ../lib/time
   timeago: ^3.1.0
-  url_launcher: ^6.2.5
+  url_launcher: ^6.2.6
   url_launcher_extended:
     path: ../lib/url_launcher_extended
   user:
     path: ../lib/user
-  video_player: ^2.4.2
+  video_player: ^2.8.6
+  chewie: ^1.8.1
 
 # Falls hier etwas hinzugefügt wird, MUSS ab jetzt ein Kommentar hinzugefügt:
 # * warum der dependency_override hinzugefügt wird.
@@ -193,33 +192,31 @@ dependency_overrides:
   states_rebuilder: 6.4.0
   # Is required to be able to build the app using Flutter 3.10. Can be removed
   # when app_review uses package_info_plus > 5.0.1.
-  package_info_plus:
-    git:
-      url: https://github.com/fluttercommunity/plus_plugins
-      path: packages/package_info_plus/package_info_plus
-      ref: d24474d7b388fe43a9dd339b708834470bb14c90
-  # Is required to be able to build the app using Flutter 3.19. Can be removed
-  # when firebase_core uses web >= 0.5.1.
-  web:
-    git:
-      url: https://github.com/dart-lang/web/
-      ref: d96c01d2252372c9e0fa7ffa52d2d1df331c248b
+  package_info_plus: ^8.0.0
+  # Can be removed once pdfx uses device_info_plus >= 10.0.0.
+  device_info_plus: ^10.1.0
+  # Can be removed once flutter_localizations uses intl >= 0.19.0
+  intl: ^0.19.0
+  # Can be removed once patrol uses patrol_finders 2.0.3
+  patrol_finders: ^2.0.3-dev.1
 
 dev_dependencies:
   async: ^2.4.1
-  built_collection: ^5.1.0
-  build_runner: ^2.4.7
+  built_collection: ^5.1.1
+  build_runner: ^2.4.9
   flutter_test:
     sdk: flutter
   golden_toolkit: ^0.15.0
   integration_test:
     sdk: flutter
   mockito: ^5.4.4
-  random_string: ^2.0.1
+  test_randomness:
+    path: ../lib/test_randomness
   bloc_test: ^9.1.4
   bloc_presentation_test: ^1.0.0
   path: ^1.8.3
-  patrol: ^3.3.0
+  # Can be switched to stable version once 3.7.0 is released.
+  patrol: ^3.7.0-dev.2
 
 patrol:
   app_name: Sharezone App

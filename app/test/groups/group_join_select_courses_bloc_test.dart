@@ -13,12 +13,12 @@ import 'package:design/design.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:mockito/annotations.dart';
-import 'package:random_string/random_string.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_select_courses_bloc.dart';
 import 'package:sharezone/groups/group_join/models/group_info_with_selection_state.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 import 'group_join_select_courses_bloc_test.mocks.dart';
 

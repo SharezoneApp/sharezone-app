@@ -15,13 +15,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:sharezone_utils/internet_access.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:user/user.dart';
 
 class UserGateway implements UserGatewayAuthentifcation {
@@ -86,7 +86,16 @@ class UserGateway implements UserGatewayAuthentifcation {
       }
       removeNotificationToken(await FirebaseMessaging.instance.getToken());
     }
-    authUser!.signOut();
+
+    // Because of a weird bug that the dispose method of the blocs are not
+    // closing the streams fast enough, we need to add a delay here to avoid the
+    // stream still listening to the user data after the user signed out which
+    // would cause a permission denied error from Firestore.
+    authUserSubject.sink.add(null);
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    log('Sign out from Firebase Auth.');
+    references.firebaseAuth!.signOut();
   }
 
   String? getEmail() => authUser?.email;
@@ -184,6 +193,11 @@ class UserGateway implements UserGatewayAuthentifcation {
         .set(user.toCreateJson(), SetOptions(merge: true));
 
     return;
+  }
+
+  @override
+  Future<void> sendVerificationEmail() async {
+    await authUser!.firebaseUser.sendEmailVerification();
   }
 
   Future<bool> deleteUser(SharezoneGateway gateway) async {

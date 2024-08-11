@@ -11,7 +11,7 @@
 # It is used by the Dart `license_checker` package.
 # 
 # Run in `app` to show if some dependency are not allowed:
-# fvm dart lic_ck check-licenses --config ../licenses_config.yaml --problematic
+# dart lic_ck check-licenses --config ../licenses_config.yaml --problematic
 
 permittedLicenses:
   - MIT
@@ -61,9 +61,7 @@ packageLicenseOverride:
   dynamic_links: EUPL-1.2-or-later
   files_basics: EUPL-1.2-or-later
   files_usecases: EUPL-1.2-or-later
-  files_web: EUPL-1.2-or-later
   filesharing_logic: EUPL-1.2-or-later
-  firebase_hausaufgabenheft_logik: EUPL-1.2-or-later
   group_domain_implementation: EUPL-1.2-or-later
   group_domain_models: EUPL-1.2-or-later
   hausaufgabenheft_logik: EUPL-1.2-or-later
@@ -81,9 +79,10 @@ packageLicenseOverride:
   sharezone_utils: EUPL-1.2-or-later
   sharezone_widgets: EUPL-1.2-or-later
   stripe_checkout_session: EUPL-1.2-or-later
+  legal: EUPL-1.2-or-later 
   time: EUPL-1.2-or-later
   url_launcher_extended: EUPL-1.2-or-later
   user: EUPL-1.2-or-later
   util: EUPL-1.2-or-later
-
-
+  test_randomness: EUPL-1.2-or-later
+  feedback_shared_implementation: EUPL-1.2-or-later

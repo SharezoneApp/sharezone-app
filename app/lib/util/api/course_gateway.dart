@@ -9,6 +9,7 @@
 import 'dart:async';
 
 import 'package:app_functions/app_functions.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:design/design.dart';
 import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
@@ -255,6 +256,10 @@ class CourseGateway {
   List<Course> getCurrentCourses() {
     return _connectionsGateway.current()?.courses.values.toList() ?? []
       ..sortAlphabetically();
+  }
+
+  CourseId generateCourseId() {
+    return CourseId(references.courses.doc().id);
   }
 
   bool canEditCourse(Course course) => course.version2;

@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 
@@ -16,6 +17,7 @@ class LessonView {
   final String? room, periodNumber;
   final Design design;
   final Lesson lesson;
+  final Date date;
 
   final LessonTimeStatus timeStatus;
 
@@ -23,6 +25,7 @@ class LessonView {
   final double percentTimePassed;
 
   LessonView({
+    required this.date,
     required this.start,
     required this.end,
     required this.room,

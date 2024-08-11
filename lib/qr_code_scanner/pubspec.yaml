@@ -19,7 +19,7 @@ dependencies:
   collection: ^1.17.2
   flutter:
     sdk: flutter
-  mobile_scanner: ^3.4.1
+  mobile_scanner: ^5.0.1
 
 dev_dependencies:
   flutter_test:

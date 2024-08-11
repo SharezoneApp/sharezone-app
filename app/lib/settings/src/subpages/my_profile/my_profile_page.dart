@@ -15,24 +15,23 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
+import 'package:sharezone/account/change_data_bloc.dart';
+import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
-import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_bloc.dart';
-import 'package:sharezone/widgets/material/list_tile_with_description.dart';
 import 'package:sharezone_common/api_errors.dart';
-import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
-import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 import 'user_view.dart';
 
@@ -163,25 +162,7 @@ class _TypeOfUserTile extends StatelessWidget {
       title: const Text("Account-Typ"),
       subtitle: Text(user!.typeOfUser),
       leading: const Icon(Icons.accessibility),
-      onTap: () async {
-        final confirmed = (await showLeftRightAdaptiveDialog<bool>(
-          context: context,
-          defaultValue: false,
-          title: 'Account-Typ',
-          content: const Text(
-              "Der Typ des Accounts kann nur vom Support geändert werden."),
-          right: const AdaptiveDialogAction(
-            isDefaultAction: true,
-            popResult: true,
-            title: "Support kontaktieren",
-          ),
-        ))!;
-
-        if (confirmed) {
-          UrlLauncherExtended().tryLaunchMailOrThrow("support@sharezone.net",
-              subject: "Typ des Accounts ändern [${user!.id}]");
-        }
-      },
+      onTap: () => Navigator.pushNamed(context, ChangeTypeOfUserPage.tag),
     );
   }
 }
@@ -429,10 +410,16 @@ class _DeleteAccountDialogContentState
 
   Future<void> tryToDeleteUser(BuildContext context) async {
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     final authUser = api.user.authUser!;
     final fbUser = authUser.firebaseUser;
     final provider = authUser.provider;
+    if (provider != Provider.anonymous) {
+      if (isEmptyOrNull(password)) {
+        return;
+      }
+    }
+
+    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
 
     setState(() {
       isLoading = true;
@@ -492,10 +479,8 @@ class _DeleteAccountDialogContentState
                         onChanged: (s) => setState(() => password = s),
                         onEditingComplete: () async => tryToDeleteUser(context),
                         autofocus: false,
-                        style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           labelText: 'Passwort',
-                          labelStyle: const TextStyle(color: Colors.black),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {

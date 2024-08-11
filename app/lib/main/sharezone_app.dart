@@ -18,38 +18,45 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/use_account_on_multiple_devices_instruction.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
-import 'package:sharezone/main/bloc_dependencies.dart';
-import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/calendrical_events/page/calendrical_events_page.dart';
 import 'package:sharezone/calendrical_events/page/past_calendrical_events_page.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/feedback/feedback_box_page.dart';
+import 'package:sharezone/feedback/history/feedback_history_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
+import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
-import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
+import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_help.dart';
+import 'package:sharezone/ical_links/dialog/ical_links_dialog.dart';
+import 'package:sharezone/ical_links/list/ical_links_page.dart';
+import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/logging/logging.dart';
+import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/course_join_listener.dart';
+import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/main/sharezone_material_app.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/navigation_controller.dart';
 import 'package:sharezone/notifications/firebase_messaging_callback_configurator.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';
-import 'package:sharezone/homework/shared/homework_archived.dart';
+import 'package:sharezone/settings/settings_page.dart';
+import 'package:sharezone/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/settings/src/subpages/changelog_page.dart';
+import 'package:sharezone/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_page.dart';
 import 'package:sharezone/settings/src/subpages/notification.dart';
-import 'package:sharezone/settings/src/subpages/about/about_page.dart';
-import 'package:sharezone/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/settings/src/subpages/theme/theme_page.dart';
-import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/settings/src/subpages/timetable/timetable_settings_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
-import 'package:sharezone/settings/settings_page.dart';
-import 'package:sharezone/privacy_policy/privacy_policy_page.dart';
+import 'package:sharezone/sharezone_v2/sz_v2_announcement_dialog.dart';
+import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/navigation_service.dart';
@@ -100,6 +107,7 @@ class _SharezoneAppState extends State<SharezoneApp>
           MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
       references: widget.blocDependencies.references,
     );
+    disposeCallbacks.add(_sharezoneGateway.dispose);
 
     final crashAnalytics = getCrashAnalytics();
     startLoggingRecording(crashAnalytics);
@@ -143,10 +151,12 @@ class _SharezoneAppState extends State<SharezoneApp>
               blocDependencies: widget.blocDependencies,
               home: MissingAccountInformationGuard(
                 userCollection: widget.blocDependencies.references.users,
-                child: OnboardingListener(
-                  child: NavigationController(
-                    fbMessagingConfigurator: fbMessagingConfigurator,
-                    key: navigationBloc.controllerKey,
+                child: SharezoneV2AnnoucementDialogGuard(
+                  child: OnboardingListener(
+                    child: NavigationController(
+                      fbMessagingConfigurator: fbMessagingConfigurator,
+                      key: navigationBloc.controllerKey,
+                    ),
                   ),
                 ),
               ),
@@ -156,8 +166,6 @@ class _SharezoneAppState extends State<SharezoneApp>
                 key: navigationBloc.controllerKey,
               ),
               routes: {
-                HomeworkArchivedPage.tag: (context) =>
-                    const HomeworkArchivedPage(),
                 AccountPage.tag: (context) => const AccountPage(),
                 AboutPage.tag: (context) => const AboutPage(),
                 FeedbackPage.tag: (context) => const FeedbackPage(),
@@ -177,6 +185,7 @@ class _SharezoneAppState extends State<SharezoneApp>
                 CalendricalEventsPage.tag: (context) =>
                     const CalendricalEventsPage(),
                 PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
+                TermsOfServicePage.tag: (context) => const TermsOfServicePage(),
                 UseAccountOnMultipleDevicesInstructions.tag: (context) =>
                     const UseAccountOnMultipleDevicesInstructions(),
                 MyProfilePage.tag: (context) => const MyProfilePage(),
@@ -187,6 +196,14 @@ class _SharezoneAppState extends State<SharezoneApp>
                 ImprintPage.tag: (context) => const ImprintPage(),
                 PastCalendricalEventsPage.tag: (context) =>
                     const PastCalendricalEventsPage(),
+                ChangeTypeOfUserPage.tag: (context) =>
+                    const ChangeTypeOfUserPage(),
+                FeedbackHistoryPage.tag: (context) =>
+                    const FeedbackHistoryPage(),
+                ICalLinksPage.tag: (context) => const ICalLinksPage(),
+                ICalLinksDialog.tag: (context) => const ICalLinksDialog(),
+                CreateTermPage.tag: (context) => const CreateTermPage(),
+                GradesDialog.tag: (context) => const GradesDialog(),
               },
               navigatorKey: navigationService.navigatorKey,
             ),

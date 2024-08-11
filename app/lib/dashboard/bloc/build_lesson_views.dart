@@ -8,7 +8,8 @@
 
 part of 'dashboard_bloc.dart';
 
-List<LessonView> _buildSortedViews(LessonDataSnapshot lessonsSnapshot) {
+List<LessonView> _buildSortedViews(
+    LessonDataSnapshot lessonsSnapshot, Date date) {
   GroupInfo? groupInfoOf(Lesson lesson) =>
       lessonsSnapshot.groupInfos[lesson.groupID];
 
@@ -17,25 +18,38 @@ List<LessonView> _buildSortedViews(LessonDataSnapshot lessonsSnapshot) {
 
   final views = [
     for (final lesson in lessons)
-      _buildLessonView(lesson, groupInfo: groupInfoOf(lesson))
+      if (lesson.getSubstitutionFor(date).getLessonCanceledSubstitution() ==
+          null)
+        _buildLessonView(
+          lesson,
+          groupInfo: groupInfoOf(lesson),
+          date: date,
+        )
   ];
 
   return views;
 }
 
-LessonView _buildLessonView(Lesson lesson, {GroupInfo? groupInfo}) {
+LessonView _buildLessonView(
+  Lesson lesson, {
+  GroupInfo? groupInfo,
+  required Date date,
+}) {
   final timeline = _getTimeStatus(lesson.startTime, lesson.endTime);
+  final locationSubstitution =
+      lesson.getSubstitutionFor(date).getLocationChangedSubstitution();
   return LessonView(
     start: lesson.startTime.toString(),
     end: lesson.endTime.toString(),
     lesson: lesson,
-    room: lesson.place,
+    room: locationSubstitution?.newLocation ?? lesson.place,
     design: groupInfo?.design ?? Design.standard(),
     abbreviation: groupInfo?.abbreviation ?? "",
     timeStatus: timeline,
     percentTimePassed:
         _getPercentTimePassed(lesson.startTime, lesson.endTime, timeline),
     periodNumber: lesson.periodNumber.toString(),
+    date: date,
   );
 }
 

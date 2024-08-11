@@ -10,3 +10,8 @@
 String? kDevelopmentStageOrNull =
     kDevelopmentStage == "" ? null : kDevelopmentStage;
 const kDevelopmentStage = String.fromEnvironment('DEVELOPMENT_STAGE');
+
+const isBetaStage = kDevelopmentStage == 'BETA';
+const isAlphaStage = kDevelopmentStage == 'ALPHA';
+const isPreviewStage = kDevelopmentStage == 'PREVIEW';
+const isStableStage = kDevelopmentStage == 'STABLE';

@@ -9,5 +9,10 @@
 import 'src/id.dart';
 
 class UserId extends Id {
-  UserId(String id, [String? userIdName]) : super(id, userIdName ?? 'UserId');
+  const UserId(super.value);
+
+  static UserId? tryParse(String? value) {
+    if (value == null) return null;
+    return UserId(value);
+  }
 }

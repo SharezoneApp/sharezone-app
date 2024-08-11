@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:convert';
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
@@ -17,15 +19,20 @@ import 'package:date/weekday.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:firebase_hausaufgabenheft_logik/src/homework_dto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
+import 'package:holidays/holidays.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
-import 'package:random_string/random_string.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/holidays/holiday_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculator.dart';
+import 'package:test_randomness/test_randomness.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
@@ -41,6 +48,8 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
+import '../dashboard/update_reminder_test.mocks.dart';
+import '../pages/settings/notification_page_test.mocks.dart';
 import 'homework_dialog_bloc_test.dart';
 @GenerateNiceMocks([
   MockSpec<DocumentReference>(),
@@ -75,6 +84,53 @@ class MockNextLessonCalculator implements NextLessonCalculator {
       return datesForCourses[courseID]?.elementAt(inLessons - 1);
     }
     return datesToReturn?.elementAt(inLessons - 1) ?? dateToReturn;
+  }
+}
+
+class MockNextSchooldayCalculator implements NextSchooldayCalculator {
+  EnabledWeekDays enabledWeekdays = EnabledWeekDays.standard;
+  Holiday? holiday = Holiday.fromJson(jsonEncode({
+    "start": "${clock.now().year}-12-21",
+    "end": "${clock.now().year + 1}-01-05",
+    "year": clock.now().year,
+    "stateCode": "NW",
+    "name": "weihnachtsferien nordrhein-westfalen 2023",
+    "slug": "weihnachtsferien nordrhein-westfalen 2023-2023-NW"
+  }));
+
+  @override
+  Future<Date?> tryCalculateNextSchoolday() async {
+    return tryCalculateXNextSchoolday(inSchooldays: 1);
+  }
+
+  @override
+  Future<Date?> tryCalculateXNextSchoolday({int inSchooldays = 1}) async {
+    if (enabledWeekdays.getEnabledWeekDaysList().isEmpty) {
+      return Date.today().addDays(1);
+    }
+
+    List<Date> results = [];
+    Date date = Date.today();
+    while (results.length < inSchooldays) {
+      date = date.addDays(1);
+      if (_isHolidayAt(date)) continue;
+      if (!_isSchooldayAt(date)) continue;
+      results.add(date);
+    }
+
+    if (results.isEmpty) return null;
+    return results.elementAt(inSchooldays - 1);
+  }
+
+  bool _isSchooldayAt(Date date) {
+    return enabledWeekdays.getEnabledWeekDaysList().contains(date.weekDayEnum);
+  }
+
+  bool _isHolidayAt(Date date) {
+    Date start = Date.fromDateTime(holiday!.start);
+    Date end = Date.fromDateTime(holiday!.end);
+    if (date.isInsideDateRange(start, end)) return true;
+    return false;
   }
 }
 
@@ -226,6 +282,7 @@ void main() {
   group('HomeworkDialog', () {
     late MockHomeworkDialogApi homeworkDialogApi;
     late MockNextLessonCalculator nextLessonCalculator;
+    late MockNextSchooldayCalculator nextSchooldayCalculator;
     late MockSharezoneContext sharezoneContext;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
@@ -245,6 +302,7 @@ void main() {
       userGateway = MockUserGateway();
       homeworkDialogApi = MockHomeworkDialogApi();
       nextLessonCalculator = MockNextLessonCalculator();
+      nextSchooldayCalculator = MockNextSchooldayCalculator();
       sharezoneContext = MockSharezoneContext();
       analyticsBackend = LocalAnalyticsBackend();
       analytics = Analytics(analyticsBackend);
@@ -266,28 +324,35 @@ void main() {
             .thenAnswer((_) => Future.value(homework));
       }
       homeworkDialogApi.homeworkToReturn = homework;
+      final subscriptionService = MockSubscriptionService();
+      when(subscriptionService.hasFeatureUnlocked(any)).thenReturn(true);
 
       await withClock(clockOverride ?? clock, () async {
         await tester.pumpWidget(
-          MultiBlocProvider(
-            blocProviders: [
-              BlocProvider<TimePickerSettingsCache>(
-                bloc: TimePickerSettingsCache(
-                  InMemoryStreamingKeyValueStore(),
+          Provider<SubscriptionService>(
+            create: (context) => subscriptionService,
+            child: MultiBlocProvider(
+              blocProviders: [
+                BlocProvider<TimePickerSettingsCache>(
+                  bloc: TimePickerSettingsCache(
+                    InMemoryStreamingKeyValueStore(),
+                  ),
                 ),
-              ),
-              BlocProvider<MarkdownAnalytics>(
-                bloc: MarkdownAnalytics(analytics),
-              ),
-              BlocProvider<SharezoneContext>(bloc: sharezoneContext),
-            ],
-            child: (context) => MaterialApp(
-              home: Scaffold(
-                body: HomeworkDialog(
-                  homeworkDialogApi: homeworkDialogApi,
-                  nextLessonCalculator: nextLessonCalculator,
-                  id: homework?.id != null ? HomeworkId(homework!.id) : null,
-                  showDueDateSelectionChips: showDueDateSelectionChips,
+                BlocProvider<MarkdownAnalytics>(
+                  bloc: MarkdownAnalytics(analytics),
+                ),
+                BlocProvider<SharezoneContext>(bloc: sharezoneContext),
+                BlocProvider<HolidayBloc>(bloc: MockHolidayBloc())
+              ],
+              child: (context) => MaterialApp(
+                home: Scaffold(
+                  body: HomeworkDialog(
+                    homeworkDialogApi: homeworkDialogApi,
+                    nextLessonCalculator: nextLessonCalculator,
+                    nextSchooldayCalculator: nextSchooldayCalculator,
+                    id: homework?.id != null ? HomeworkId(homework!.id) : null,
+                    showDueDateSelectionChips: showDueDateSelectionChips,
+                  ),
                 ),
               ),
             ),
@@ -438,7 +503,7 @@ void main() {
       final userInput = homeworkDialogApi.userInputToBeCreated;
       final courseId = homeworkDialogApi.courseIdForHomeworkToBeCreated;
       expect(userInput.title, 'S. 24 a)');
-      expect(courseId, CourseId('foo_course'));
+      expect(courseId, const CourseId('foo_course'));
       expect(userInput.withSubmission, true);
       // As we activated submissions we assume the default time of 23:59 is
       // used.
@@ -549,7 +614,7 @@ void main() {
       expect(find.text('Nächster Schultag'), findsOneWidget);
       expect(find.text('Nächste Stunde'), findsOneWidget);
       expect(find.text('Übernächste Stunde'), findsOneWidget);
-      expect(find.text('Benutzerdefiniert'), findsOneWidget);
+      expect(find.text('In X Stunden'), findsOneWidget);
     });
 
     testWidgets(
@@ -561,7 +626,7 @@ void main() {
       expect(find.text('Nächster Schultag'), findsNothing);
       expect(find.text('Nächste Stunde'), findsNothing);
       expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
+      expect(find.text('In X Stunden'), findsNothing);
     });
 
     testWidgets('homework lesson chips are not visible in edit mode',
@@ -590,20 +655,21 @@ void main() {
       expect(find.text('Nächster Schultag'), findsNothing);
       expect(find.text('Nächste Stunde'), findsNothing);
       expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
+      expect(find.text('In X Stunden'), findsNothing);
 
       await pumpAndSettleHomeworkDialog(tester,
           showDueDateSelectionChips: false);
       expect(find.text('Nächster Schultag'), findsNothing);
       expect(find.text('Nächste Stunde'), findsNothing);
       expect(find.text('Übernächste Stunde'), findsNothing);
-      expect(find.text('Benutzerdefiniert'), findsNothing);
+      expect(find.text('In X Stunden'), findsNothing);
     });
 
     _TestController createController(WidgetTester tester) {
       return _TestController(
         tester,
         nextLessonCalculator,
+        nextSchooldayCalculator,
         homeworkDialogApi,
         courseGateway,
         setClockOverride: (clock) => clockOverride = clock,
@@ -780,15 +846,15 @@ void main() {
         ('Nächster Schultag', selectable: true),
         ('Nächste Stunde', selectable: false),
         ('Übernächste Stunde', selectable: false),
-        ('Benutzerdefiniert', selectable: false),
+        ('In X Stunden', selectable: false),
       ]);
       // Test that nothing happens when tapping on disabled chips
       await controller.selectLessonChip('Nächste Stunde');
       await controller.selectLessonChip('Übernächste Stunde');
       expect(controller.getSelectedLessonChips(), []);
 
-      // "Benutzerdefiniert" is not selectable, thus it doesn't show the dialog.
-      await controller.selectLessonChip('Benutzerdefiniert');
+      // "In X Stunden" is not selectable, thus it doesn't show the dialog.
+      await controller.selectLessonChip('In X Stunden');
       expect(find.byKey(HwDialogKeys.customLessonChipDialogTextField),
           findsNothing);
     });
@@ -964,6 +1030,7 @@ void main() {
 
       await controller.selectCourse('foo_course');
       await controller.createCustomChip(inXLessons: 3);
+      await tester.ensureVisible(find.byKey(HwDialogKeys.lessonChipDeleteIcon));
       await controller.deleteCustomChip(inXLessons: 3);
       await controller.selectCourse('bar_course');
 
@@ -971,6 +1038,37 @@ void main() {
       // If we in 3 lessons selection would still exist then the date would be
       // 2023-10-14
       expect(controller.getSelectedDueDate(), Date('2023-10-12'));
+    });
+
+    testWidgets('shows hint when presses disabled course tile', (tester) async {
+      final fooCourse = courseWith(
+        id: 'foo_course',
+        name: 'Foo course',
+        subject: 'Foo subject',
+      );
+
+      addCourse(fooCourse);
+
+      homework = randomHomeworkWith(
+        id: 'foo_homework_id',
+        title: 'title text',
+        courseId: 'foo_course',
+        courseName: 'Foo course',
+        subject: 'Foo subject',
+        todoUntil: DateTime(2024, 03, 12),
+        private: false,
+      );
+
+      await pumpAndSettleHomeworkDialog(tester);
+
+      await tester.tap(find.byKey(HwDialogKeys.courseTile));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(
+            'Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.'),
+        findsOneWidget,
+      );
     });
   });
 }
@@ -987,12 +1085,14 @@ class _TestController {
   // final MockHomeworkGateway homeworkGateway;
   final WidgetTester tester;
   final MockNextLessonCalculator nextLessonCalculator;
+  final MockNextSchooldayCalculator nextSchooldayCalculator;
   void Function(Clock clock) setClockOverride;
   void Function(AppUser Function(AppUser) f) editUser;
 
   _TestController(
     this.tester,
     this.nextLessonCalculator,
+    this.nextSchooldayCalculator,
     this.homeworkDialogApi,
     this.courseGateway, {
     required this.editUser,
@@ -1017,7 +1117,7 @@ class _TestController {
         .map((e) => (
               (e.label as Text).data!,
               isSelected: e.selected,
-              // Normal chips use onSelected, "Benutzerdefiniert" (custom value)
+              // Normal chips use onSelected, "In X Stunden" (custom value)
               // chip uses onPressed.
               // If onDeleted is not-null but everything else is null the chip
               // looks like it's selectable in the UI, but it is only deletable,
@@ -1079,7 +1179,7 @@ class _TestController {
   }
 
   Future<void> createCustomChip({required int inXLessons}) async {
-    await selectLessonChip('Benutzerdefiniert');
+    await selectLessonChip('In X Stunden');
     await tester.enterText(
         find.byKey(HwDialogKeys.customLessonChipDialogTextField),
         '$inXLessons');
@@ -1108,6 +1208,8 @@ class _TestController {
           userSettings: appUser.userSettings.copyWith(
               enabledWeekDays: EnabledWeekDays.fromEnabledWeekDaysList(list)));
     });
+    nextSchooldayCalculator.enabledWeekdays =
+        EnabledWeekDays.fromEnabledWeekDaysList(list);
   }
 }
 

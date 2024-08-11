@@ -14,16 +14,20 @@ class CallToActionButton extends StatelessWidget {
     required this.text,
     this.onPressed,
     this.backgroundColor,
+    this.borderColor = Colors.transparent,
+    this.textColor = Colors.white,
   }) : super(key: const ValueKey('call-to-action-button'));
 
   final Widget text;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
+  final Color borderColor;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
     return MaxWidthConstraintBox(
-      maxWidth: 300,
+      maxWidth: 350,
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
@@ -36,8 +40,9 @@ class CallToActionButton extends StatelessWidget {
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.5),
+              side: BorderSide(color: borderColor),
             ),
-            foregroundColor: Colors.white,
+            foregroundColor: textColor,
             shadowColor: Colors.transparent,
             elevation: 0,
           ),

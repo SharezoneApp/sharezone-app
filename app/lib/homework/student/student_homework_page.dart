@@ -10,6 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -29,6 +30,8 @@ class StudentHomeworkPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
+
     final bottomBarBackgroundColor =
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     return ChangeNotifierProvider<BottomOfScrollViewInvisibilityController>(
@@ -60,6 +63,13 @@ class StudentHomeworkPage extends StatelessWidget {
                 curve: Curves.easeInOut,
                 child: HomeworkBottomActionBar(
                   backgroundColor: bottomBarBackgroundColor,
+                  currentHomeworkSortStream: bloc.stream
+                      .whereType<Success>()
+                      .map((s) => s.open.sorting),
+                  showOverflowMenu: true,
+                  onCompletedAllOverdue: () => bloc.add(CompletedAllOverdue()),
+                  onSortingChanged: (sort) =>
+                      bloc.add(OpenHwSortingChanged(sort)),
                 ),
               ),
             ),
@@ -89,9 +99,9 @@ class StudentHomeworkBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore:close_sinks
-    final bloc = BlocProvider.of<HomeworkPageBloc>(context);
+    final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
     bloc.add(LoadHomeworks());
-    return StreamBuilder<HomeworkPageState>(
+    return StreamBuilder<StudentHomeworkPageState>(
       stream: bloc.stream,
       initialData: bloc.state,
       builder: (context, snapshot) {

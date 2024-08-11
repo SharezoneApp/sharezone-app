@@ -8,6 +8,7 @@
 
 import 'package:meta/meta.dart';
 import 'package:notifications/notifications.dart';
+import 'package:sharezone/notifications/action_requests/show_feedback.dart';
 import 'package:sharezone/notifications/widgets/error_dialog.dart';
 
 import 'action_requests/action_requests.dart';
@@ -51,6 +52,7 @@ PushNotificationActionHandler setupPushNotificationActionHandler({
   required ActionRequestExecutorFunc<ShowBlackboardItemRequest>
       showBlackboardItem,
   required ActionRequestExecutorFunc<ShowHomeworkRequest> showHomework,
+  required ActionRequestExecutorFunc<ShowFeedbackRequest> showFeedback,
   required ActionRequestExecutorFunc<ShowNotificationDialogRequest>
       showNotificationDialog,
   required ActionRequestExecutorFunc<ShowTimetableEventRequest>
@@ -80,6 +82,7 @@ PushNotificationActionHandler setupPushNotificationActionHandler({
       showBlackboardItemRegistrationWith(showBlackboardItem),
       showHomeworkRegistrationWith(showHomework),
       showTimetableEventRegistrationWith(showTimetableEvent),
+      showFeedbackRegistrationWith(showFeedback),
       showNotificationDialogRegistrationWith(showNotificationDialog),
       ...testRegistrations,
     ],

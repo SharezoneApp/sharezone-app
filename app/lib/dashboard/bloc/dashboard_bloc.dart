@@ -12,8 +12,8 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:design/design.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
@@ -23,6 +23,7 @@ import 'package:sharezone/dashboard/timetable/lesson_view.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/lesson_data_snapshot.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/util/api/blackboard_api.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
@@ -103,7 +104,7 @@ class DashboardBloc extends BlocBase {
         // Die Views werden jede Sekunde neu gebaut, damit der "Ablauf" der
         // Stunde in Echtzeit angezeigt wird (ausfaden der Stunden).
         .repeatEvery(const Duration(seconds: 1))
-        .map(_buildSortedViews);
+        .map((v) => _buildSortedViews(v, Date.fromDateTime(clock.now())));
 
     final subscription = viewsStream.listen(_lessonViewsSubject.add);
 
@@ -175,7 +176,7 @@ class DashboardBloc extends BlocBase {
 
   void _initializeUnreadBlackboardViews(
       BlackboardGateway gateway, CourseGateway courseGateway) {
-    gateway.blackboardItemStream.listen((blackboardItems) {
+    _subscriptions.add(gateway.blackboardItemStream.listen((blackboardItems) {
       final unreadBlackboardItems = blackboardItems
           .where(
               (item) => item.forUsers[_uid] == false && item.authorID != _uid)
@@ -190,7 +191,7 @@ class DashboardBloc extends BlocBase {
       _numberOfUnreadBlackboardViewsSubject.sink
           .add(unreadBlackboardViews.length);
       _unreadBlackboardViewsSubject.sink.add(unreadBlackboardViews);
-    });
+    }));
   }
 
   List<BlackboardView> _mapBlackboardItemsIntoBlackboardView(

@@ -1,0 +1,7 @@
+# File will be renamed to robots.txt when deploying with "sz deploy website"
+User-agent: *
+# Disallow all because the dev website should not be indexed by search engines
+Disallow: /
+
+# Host
+Host: https://dev.sharezone.net

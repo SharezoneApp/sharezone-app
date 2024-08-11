@@ -33,6 +33,7 @@ class TimetableAddBloc extends BlocBase {
   final _weekTypeSubject = BehaviorSubject<WeekType>();
   final _periodSubject = BehaviorSubject<Period?>();
   final _timeTypeSubject = BehaviorSubject.seeded(TimeType.period);
+  final _teacherSubject = BehaviorSubject<String>();
 
   final TimetableGateway gateway;
   final LessonLengthCache cache;
@@ -75,6 +76,7 @@ class TimetableAddBloc extends BlocBase {
   Function(WeekType) get changeWeekType => _weekTypeSubject.sink.add;
   Function(Period) get changePeriod => _periodSubject.sink.add;
   Function(TimeType) get changeTimeType => _timeTypeSubject.sink.add;
+  Function(String) get changeTeacher => _teacherSubject.sink.add;
 
   Future<Time?> _calculateEndTime(Time startTime) async {
     final lessonsLength = await cache.streamLessonLength().first;
@@ -124,6 +126,10 @@ class TimetableAddBloc extends BlocBase {
       final weekType = _weekTypeSubject.valueOrNull ?? WeekType.always;
       final period = _periodSubject.valueOrNull;
       final timeType = _timeTypeSubject.valueOrNull!;
+      String? teacher = _teacherSubject.valueOrNull;
+      if (teacher?.isEmpty == true) {
+        teacher = null;
+      }
       log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay $period");
 
       final lesson = Lesson(
@@ -134,7 +140,7 @@ class TimetableAddBloc extends BlocBase {
         groupType: GroupType.course,
         startDate: null,
         endDate: null,
-        teacher: null,
+        teacher: teacher,
         place: room,
         weekday: weekDay,
         weektype: weekType,

@@ -55,7 +55,7 @@ ThemeData getLightTheme({
     listTileTheme: ListTileThemeData(
       iconColor: Colors.grey[700]!,
       shape: listTileShape,
-      mouseCursor: MaterialStateMouseCursor.clickable,
+      mouseCursor: WidgetStateMouseCursor.clickable,
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
@@ -90,23 +90,23 @@ ThemeData getLightTheme({
     bottomSheetTheme: _bottomSheetTheme,
     dialogTheme: _dialogTheme,
     switchTheme: SwitchThemeData(
-      trackColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      trackColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return primaryColor;
         }
         return Colors.grey[200];
       }),
-      trackOutlineColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.selected)) {
+      trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
           return primaryColor;
         }
         return Colors.grey;
       }),
-      thumbColor: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.hovered)) {
+      thumbColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.hovered)) {
           return primaryColor.withOpacity(0.2);
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return Colors.white;
         }
         return Colors.grey;

@@ -14,7 +14,6 @@ import 'package:sharezone_website/widgets/row_spacing.dart';
 import 'package:sharezone_website/widgets/section.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart' hide Headline;
 
-import '../../main.dart';
 import '../home_page.dart';
 
 class AllInOnePlace extends StatefulWidget {
@@ -70,6 +69,16 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                 ),
                 if (!isTablet(context))
                   AnimatedSwitcher(
+                    // Adding the default transitionBuilder here fixes
+                    // https://github.com/flutter/flutter/issues/121336. The bug can occur
+                    // when clicking the card very quickly.
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
                     duration: const Duration(milliseconds: 300),
                     child: SizedBox(
                       key: ValueKey(currentFeature),
@@ -216,7 +225,6 @@ class __FeatureCardState extends State<_FeatureCard> {
                             child: DefaultTextStyle(
                               style: TextStyle(
                                 color: Colors.grey[600],
-                                fontFamily: SharezoneStyle.font,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

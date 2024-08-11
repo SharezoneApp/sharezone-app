@@ -9,7 +9,6 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -18,9 +17,17 @@ class HomeworkBottomActionBar extends StatelessWidget {
   const HomeworkBottomActionBar({
     super.key,
     required this.backgroundColor,
+    required this.onSortingChanged,
+    required this.onCompletedAllOverdue,
+    required this.showOverflowMenu,
+    required this.currentHomeworkSortStream,
   });
 
   final Color? backgroundColor;
+  final Stream<HomeworkSort> currentHomeworkSortStream;
+  final void Function(HomeworkSort newSort) onSortingChanged;
+  final VoidCallback onCompletedAllOverdue;
+  final bool showOverflowMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -30,28 +37,31 @@ class HomeworkBottomActionBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          _SortButton(),
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () async {
-              var action =
-                  await showRoundedModalBottomSheet<_BottomSheetAction>(
-                      context: context,
-                      builder: (context) => const _MoreActionsBottomSheet(),
-                      defaultValue: _BottomSheetAction.abort,
-                      isScrollControlled: true);
-              if (!context.mounted) return;
-
-              final bloc = BlocProvider.of<HomeworkPageBloc>(context);
-              switch (action) {
-                case _BottomSheetAction.completeOverdue:
-                  bloc.add(CompletedAllOverdue());
-                  break;
-                case _BottomSheetAction.abort:
-                default:
-              }
-            },
+          SortButton(
+            onSortingChanged: onSortingChanged,
+            currentHomeworkSortStream: currentHomeworkSortStream,
           ),
+          if (showOverflowMenu)
+            IconButton(
+              icon: const Icon(Icons.more_vert),
+              onPressed: () async {
+                var action =
+                    await showRoundedModalBottomSheet<_BottomSheetAction>(
+                        context: context,
+                        builder: (context) => const _MoreActionsBottomSheet(),
+                        defaultValue: _BottomSheetAction.abort,
+                        isScrollControlled: true);
+                if (!context.mounted) return;
+
+                switch (action) {
+                  case _BottomSheetAction.completeOverdue:
+                    onCompletedAllOverdue();
+                    break;
+                  case _BottomSheetAction.abort:
+                  default:
+                }
+              },
+            ),
         ],
       ),
     );
@@ -134,13 +144,28 @@ class _MoreIdeas extends StatelessWidget {
   }
 }
 
-class _SortButton extends StatelessWidget {
+@visibleForTesting
+class SortButton extends StatelessWidget {
+  @visibleForTesting
+  static const sortByDateSortButtonUiString = "Sortiere nach Datum";
+  @visibleForTesting
+  static const sortBySubjectSortButtonUiString = "Sortiere nach Fach";
+
+  const SortButton({
+    super.key,
+    required this.onSortingChanged,
+    required this.currentHomeworkSortStream,
+  });
+
+  final void Function(HomeworkSort newSort) onSortingChanged;
+  final Stream<HomeworkSort> currentHomeworkSortStream;
+
   String _sortString(HomeworkSort sort) {
     switch (sort) {
       case HomeworkSort.smallestDateSubjectAndTitle:
-        return 'Sortiert nach Datum';
+        return sortByDateSortButtonUiString;
       case HomeworkSort.subjectSmallestDateAndTitleSort:
-        return 'Sortiert nach Fach';
+        return sortBySubjectSortButtonUiString;
     }
   }
 
@@ -155,20 +180,16 @@ class _SortButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: close_sinks
-    final bloc = BlocProvider.of<HomeworkPageBloc>(context);
-
-    return StreamBuilder<Success>(
-      stream: bloc.stream.whereType<Success>(),
+    return StreamBuilder<HomeworkSort>(
+      stream: currentHomeworkSortStream,
       builder: (context, snapshot) {
-        final currentSort = snapshot.data?.open.sorting ??
-            HomeworkSort.smallestDateSubjectAndTitle;
+        final currentSort =
+            snapshot.data ?? HomeworkSort.smallestDateSubjectAndTitle;
         return Padding(
           padding: const EdgeInsets.only(left: 4),
           child: InkWell(
             key: const Key("change_homework_sorting"),
-            onTap: () =>
-                bloc.add(OpenHwSortingChanged(_getNextSort(currentSort))),
+            onTap: () => onSortingChanged(_getNextSort(currentSort)),
             borderRadius: const BorderRadius.all(Radius.circular(5)),
             child: Row(
               children: <Widget>[

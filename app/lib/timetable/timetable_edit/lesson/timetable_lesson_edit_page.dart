@@ -11,16 +11,19 @@ import 'dart:developer';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_period.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weekday.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
-import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
+import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_details.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
@@ -50,9 +53,14 @@ class TimetableEditLessonPage extends StatefulWidget {
   final ConnectionsGateway connectionsGateway;
   final TimetableBloc timetableBloc;
   final Lesson initialLesson;
-  const TimetableEditLessonPage(this.initialLesson, this.timetableGateway,
-      this.connectionsGateway, this.timetableBloc,
-      {super.key});
+
+  const TimetableEditLessonPage(
+    this.initialLesson,
+    this.timetableGateway,
+    this.connectionsGateway,
+    this.timetableBloc, {
+    super.key,
+  });
 
   @override
   State createState() => _TimetableEditLessonPageState();
@@ -88,6 +96,7 @@ class _TimetableEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final editBloc = BlocProvider.of<TimetableEditBloc>(context);
     final timetableBloc = BlocProvider.of<TimetableBloc>(context);
     return PopScope(
       canPop: false,
@@ -124,7 +133,16 @@ class _TimetableEditPage extends StatelessWidget {
               const Divider(),
               _EndTimeField(),
               const Divider(height: 8),
-              _RoomField(initialLesson),
+              RoomField(
+                onChanged: editBloc.changeRoom,
+                initialPlace: initialLesson.place,
+              ),
+              const Divider(),
+              TeacherField(
+                onTeacherChanged: editBloc.changeTeacher,
+                teachers: timetableBloc.currentTeachers,
+                initialTeacher: initialLesson.teacher,
+              ),
             ],
           ),
         ),
@@ -321,31 +339,100 @@ class _EndTimeField extends StatelessWidget {
   }
 }
 
-class _RoomField extends StatelessWidget {
-  const _RoomField(this.initialLesson);
+class RoomField extends StatelessWidget {
+  const RoomField({
+    super.key,
+    required this.onChanged,
+    this.initialPlace,
+  });
 
-  final Lesson initialLesson;
+  final String? initialPlace;
+  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<TimetableEditBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: PrefilledTextField(
-          prefilledText: initialLesson.place,
+      child: ListTile(
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 6, bottom: 26),
+          child: Icon(Icons.place),
+        ),
+        title: PrefilledTextField(
+          prefilledText: initialPlace,
           decoration: const InputDecoration(
-            icon: Padding(
-              padding: EdgeInsets.only(left: 6),
-              child: Icon(Icons.place),
-            ),
             border: OutlineInputBorder(),
             labelText: "Raum",
           ),
           textCapitalization: TextCapitalization.sentences,
           maxLength: 32,
-          onChanged: bloc.changeRoom,
+          onChanged: onChanged,
+        ),
+      ),
+    );
+  }
+}
+
+class TeacherField extends StatelessWidget {
+  const TeacherField({
+    super.key,
+    required this.teachers,
+    required this.onTeacherChanged,
+    this.initialTeacher,
+  });
+
+  final String? initialTeacher;
+  final ISet<String> teachers;
+  final ValueChanged<String> onTeacherChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final isUnlocked = Provider.of<SubscriptionService>(context)
+        .hasFeatureUnlocked(SharezonePlusFeature.addTeachersToTimetable);
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: ListTile(
+        leading: const Padding(
+          padding: EdgeInsets.only(left: 6),
+          child: Icon(Icons.person),
+        ),
+        onTap: isUnlocked
+            ? null
+            : () => showTeachersInTimetablePlusDialog(context),
+        title: IgnorePointer(
+          key: const Key('teacher-ignore-pointer-widget'),
+          ignoring: !isUnlocked,
+          child: Autocomplete(
+            initialValue: TextEditingValue(text: initialTeacher ?? ''),
+            optionsBuilder: (textEditingValue) {
+              return teachers
+                  .where((teacher) => teacher
+                      .toLowerCase()
+                      .contains(textEditingValue.text.toLowerCase().trim()))
+                  .toList();
+            },
+            fieldViewBuilder:
+                (context, textEditingController, focusNode, onFieldSubmitted) {
+              return TextField(
+                controller: textEditingController,
+                focusNode: focusNode,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: "Lehrkraft",
+                  hintText: "z.B. Frau Stark",
+                  suffixIcon: isUnlocked
+                      ? null
+                      : const Padding(
+                          padding: EdgeInsets.fromLTRB(4, 4, 12, 4),
+                          child: SharezonePlusChip(),
+                        ),
+                ),
+                textCapitalization: TextCapitalization.sentences,
+                onChanged: onTeacherChanged,
+              );
+            },
+            onSelected: onTeacherChanged,
+          ),
         ),
       ),
     );
