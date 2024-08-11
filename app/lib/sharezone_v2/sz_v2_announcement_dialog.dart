@@ -107,7 +107,7 @@ class _StudentDialogState extends State<_StudentDialog> {
   @override
   Widget build(BuildContext context) {
     final szContext = BlocProvider.of<SharezoneContext>(context);
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
       child: Scaffold(
           appBar: AppBar(

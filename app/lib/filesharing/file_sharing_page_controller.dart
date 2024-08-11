@@ -27,9 +27,9 @@ class FileSharingPageController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pageStateBloc = BlocProvider.of<FileSharingPageStateBloc>(context);
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
 
         final pageState = pageStateBloc.currentStateValue;

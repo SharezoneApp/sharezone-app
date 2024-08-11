@@ -55,9 +55,9 @@ class TimetablePage extends StatelessWidget {
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final bloc = BlocProvider.of<TimetableBloc>(context);
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
         popToOverview(context);
       },
