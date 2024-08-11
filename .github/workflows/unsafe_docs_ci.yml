@@ -128,6 +128,9 @@ jobs:
       - name: Install dependencies
         run: npm install -C docs/
 
+      - name: Build
+        run: npm run build -C docs/
+
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
         with:
