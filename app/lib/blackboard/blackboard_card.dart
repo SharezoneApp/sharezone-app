@@ -45,7 +45,7 @@ void openDetails(
     builder: (BuildContext context) => BlackboardDetails(view: view),
   ))
       .then((BlackboardPopOption? popOption) {
-    if (popOption != null) {
+    if (popOption != null && context.mounted) {
       if (popOption == BlackboardPopOption.deleted) {
         logBlackboardDeleteEvent(context);
         showUserConfirmationOfBlackboardDeleted(context);

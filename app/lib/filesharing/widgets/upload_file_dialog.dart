@@ -26,6 +26,7 @@ Future<void> showUploadFileDialog({
   await uploadTask.onComplete.then((result) {
     if (result.bytesTransferred == result.totalByteCount) {
       analytics.log(NamedAnalyticsEvent(name: "file_add"));
+      if (!context.mounted) return;
       Navigator.pop(context);
     }
   });

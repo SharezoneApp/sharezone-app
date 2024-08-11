@@ -46,6 +46,7 @@ class _WeekTypeList extends StatelessWidget {
                 onTap: () {
                   bloc.changeWeekType(weektype);
                   Future.delayed(const Duration(milliseconds: 200)).then((_) {
+                    if (!context.mounted) return;
                     navigateToNextTab(context);
                   });
                 },

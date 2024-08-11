@@ -75,6 +75,7 @@ class HomeworkCard extends StatelessWidget {
             defaultValue: false,
             name: HomeworkDetails.tag,
           ).then((value) {
+            if (!context.mounted) return;
             if (value) showDataArrivalConfirmedSnackbar(context: context);
           });
         },
@@ -341,6 +342,7 @@ class HomeworkCardRedesigned extends StatelessWidget {
                   defaultValue: false,
                   name: HomeworkDetails.tag,
                 ).then((value) {
+                  if (!context.mounted) return;
                   if (value) showDataArrivalConfirmedSnackbar(context: context);
                 });
               },

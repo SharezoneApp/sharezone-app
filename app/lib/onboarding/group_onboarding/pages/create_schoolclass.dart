@@ -160,6 +160,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
     final schoolClassBloc = BlocProvider.of<MySchoolClassBloc>(context);
     setState(() => isLoading = true);
     schoolClassBloc.createSchoolClass(name).then((result) async {
+      if (!context.mounted) return;
       if (result.hasData && result.data == true) {
         isLoading = false;
         final schoolClassID = schoolClassBloc.schoolClassId;
