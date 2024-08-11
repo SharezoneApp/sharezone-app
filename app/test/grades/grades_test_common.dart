@@ -36,6 +36,7 @@ class GradesTestController {
 
   void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = true}) {
     final termId = testTerm.id;
+    final termRef = service.term(termId);
 
     if (createMissingGradeTypes) {
       for (var id in _getAllGradeTypeIds(testTerm)) {
@@ -56,15 +57,13 @@ class GradesTestController {
 
     if (testTerm.gradeTypeWeights != null) {
       for (var e in testTerm.gradeTypeWeights!.entries) {
-        service.changeGradeTypeWeightForTerm(
-          termId: termId,
-          gradeType: e.key,
-          weight: e.value,
-        );
+        service.term(termId).changeGradeTypeWeight(e.key, e.value);
       }
     }
 
     for (var subject in testTerm.subjects.values) {
+      final subRef = termRef.subject(subject.id);
+
       service.addSubject(
         id: subject.id,
         SubjectInput(
@@ -79,39 +78,27 @@ class GradesTestController {
       // subject id. So we need to add the grades here first before setting the
       // other settings (weights) that refer to the term.
       for (var grade in subject.grades) {
-        service.addGrade(
-          id: grade.id,
-          subjectId: subject.id,
-          termId: termId,
-          value: _toGrade(grade),
-        );
+        final gradeRef = subRef.addGrade(_toGrade(grade), id: grade.id);
+
         if (grade.weight != null) {
-          service.changeGradeWeight(
-            id: grade.id,
-            termId: termId,
-            weight: grade.weight!,
-          );
+          gradeRef.changeWeight(grade.weight!);
         }
       }
 
       if (subject.weight != null) {
-        service.changeSubjectWeightForTermGrade(
-            id: subject.id, termId: termId, weight: subject.weight!);
+        subRef.changeWeightForTermGrade(subject.weight!);
       }
 
       if (subject.weightType != null) {
-        service.changeSubjectWeightTypeSettings(
-            id: subject.id, termId: termId, perGradeType: subject.weightType!);
+        subRef.changeWeightType(subject.weightType!);
       }
 
       for (var e in subject.gradeTypeWeights.entries) {
-        service.changeGradeTypeWeightForSubject(
-            id: subject.id, termId: termId, gradeType: e.key, weight: e.value);
+        subRef.changeGradeTypeWeight(e.key, e.value);
       }
 
       if (subject.finalGradeType != null) {
-        service.changeSubjectFinalGradeType(
-            id: subject.id, termId: termId, gradeType: subject.finalGradeType!);
+        subRef.changeFinalGradeType(subject.finalGradeType!);
       }
     }
   }
@@ -163,8 +150,7 @@ class GradesTestController {
       {required TermId termId,
       required SubjectId subjectId,
       required WeightType weightType}) {
-    service.changeSubjectWeightTypeSettings(
-        id: subjectId, termId: termId, perGradeType: weightType);
+    service.term(termId).subject(subjectId).changeWeightType(weightType);
   }
 
   void removeWeightTypeForSubject({
@@ -172,31 +158,24 @@ class GradesTestController {
     required TermId termId,
     required SubjectId subjectId,
   }) {
-    service.removeGradeTypeWeightForSubject(
-      gradeType: gradeTypeId,
-      id: subjectId,
-      termId: termId,
-    );
+    service.term(termId).subject(subjectId).removeGradeTypeWeight(gradeTypeId);
   }
 
   void removeGradeTypeWeightForTerm({
     required GradeTypeId gradeTypeId,
     required TermId termId,
   }) {
-    service.removeGradeTypeWeightForTerm(
-        gradeType: gradeTypeId, termId: termId);
+    service.term(termId).removeGradeTypeWeight(gradeTypeId);
   }
 
   void changeGradeWeightsForSubject(
       {required TermId termId,
       required SubjectId subjectId,
       required Map<GradeId, Weight> weights}) {
+    final subRef = service.term(termId).subject(subjectId);
     for (var e in weights.entries) {
-      service.changeGradeWeight(
-        id: e.key,
-        termId: termId,
-        weight: e.value,
-      );
+      final gradeRef = subRef.grade(e.key);
+      gradeRef.changeWeight(e.value);
     }
   }
 
@@ -204,9 +183,9 @@ class GradesTestController {
       {required TermId termId,
       required SubjectId subjectId,
       required Map<GradeTypeId, Weight> gradeTypeWeights}) {
+    final subRef = service.term(termId).subject(subjectId);
     for (var e in gradeTypeWeights.entries) {
-      service.changeGradeTypeWeightForSubject(
-          id: subjectId, termId: termId, gradeType: e.key, weight: e.value);
+      subRef.changeGradeTypeWeight(e.key, e.value);
     }
   }
 
@@ -214,8 +193,7 @@ class GradesTestController {
       {required TermId termId,
       required SubjectId subjectId,
       required GradeTypeId? gradeType}) {
-    service.changeSubjectFinalGradeType(
-        id: subjectId, termId: termId, gradeType: gradeType);
+    service.term(termId).subject(subjectId).changeFinalGradeType(gradeType);
   }
 
   IList<GradeType> getPossibleGradeTypes() {
@@ -240,12 +218,10 @@ class GradesTestController {
     required SubjectId subjectId,
     required TestGrade value,
   }) {
-    service.addGrade(
-      id: value.id,
-      subjectId: subjectId,
-      termId: termId,
-      value: _toGrade(value),
-    );
+    service
+        .term(termId)
+        .subject(subjectId)
+        .addGrade(_toGrade(value), id: value.id);
   }
 
   void addSubject(TestSubject subject) {
@@ -288,28 +264,38 @@ class GradesTestController {
     GradeTypeId? finalGradeType,
     GradingSystem? gradingSystem,
   }) {
-    service.editTerm(
-      id: id,
-      isActiveTerm: isActiveTerm,
-      name: name,
-      finalGradeType: finalGradeType,
-      gradingSystem: gradingSystem,
-    );
+    final termRef = service.term(id);
+
+    if (isActiveTerm != null) {
+      termRef.changeActiveTerm(isActiveTerm);
+    }
+
+    if (name != null) {
+      termRef.changeName(name);
+    }
+
+    if (finalGradeType != null) {
+      termRef.changeFinalGradeType(finalGradeType);
+    }
+
+    if (gradingSystem != null) {
+      termRef.changeGradingSystem(gradingSystem);
+    }
   }
 
   void deleteTerm(TermId id) {
-    service.deleteTerm(id);
+    service.term(id).delete();
   }
 
   void editGrade(TestGrade grade) {
     if (grade.weight != null) {
       throw UnimplementedError();
     }
-    service.editGrade(grade.id, _toGrade(grade));
+    service.grade(grade.id).edit(_toGrade(grade));
   }
 
   void deleteGrade({required GradeId gradeId}) {
-    service.deleteGrade(gradeId);
+    service.grade(gradeId).delete();
   }
 
   void deleteCustomGradeType(GradeTypeId gradeTypeId) {
@@ -318,7 +304,7 @@ class GradesTestController {
 
   void changeFinalGradeTypeForTerm(
       {required TermId termId, required GradeTypeId gradeTypeId}) {
-    service.editTerm(id: termId, finalGradeType: gradeTypeId);
+    service.term(termId).changeFinalGradeType(gradeTypeId);
   }
 
   void editCustomGradeType(GradeTypeId id, {required String displayName}) {

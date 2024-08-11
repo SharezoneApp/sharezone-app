@@ -95,7 +95,6 @@ Future<void> formatCode(
   bool throwIfCodeChanged = false,
 }) {
   return processRunner.runCommand([
-    'fvm',
     'dart',
     'format',
     if (throwIfCodeChanged) '--set-exit-if-changed',

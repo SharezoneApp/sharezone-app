@@ -18,7 +18,7 @@ import 'package:sharezone/grades/pages/grades_page/grades_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
-import 'package:sharezone/homework/parent/homework_page.dart';
+import 'package:sharezone/homework/homework_page.dart';
 import 'package:sharezone/settings/settings_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';

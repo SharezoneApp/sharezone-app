@@ -13,15 +13,6 @@ import 'package:file/file.dart' as file;
 import 'package:process/process.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
-import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
-
-/// Defines if FVM is installed.
-///
-/// When [RunProcessCustom.runCommand] is called, it will check if FVM is
-/// installed and set this variable accordingly. This variable increases
-/// performance, because we don't have to check if FVM is installed every time
-/// [RunProcessCustom.runCommand] is called.
-bool? _isFvmInstalled;
 
 extension ProcessRunnerCopyWith on ProcessRunner {
   ProcessRunner copyWith({
@@ -99,8 +90,6 @@ extension RunProcessCustom on ProcessRunner {
     );
   }
 
-  /// Runs a Dart command using FVM if it is installed. Otherwise, it runs
-  /// the command using the Dart SDK.
   Future<ProcessRunnerResult> runCommand(
     List<String> commandLine, {
     file.Directory? workingDirectory,
@@ -111,21 +100,6 @@ extension RunProcessCustom on ProcessRunner {
     ProcessStartMode startMode = ProcessStartMode.normal,
     Map<String, String> addedEnvironment = const {},
   }) async {
-    // If FVM (Flutter Version Management) is not installed, we use regular
-    // Flutter/Dart instead. E.g. `fvm flutter test` -> `flutter test`.
-    if (commandLine.first == 'fvm') {
-      if (_isFvmInstalled == null) {
-        _isFvmInstalled = await isCommandInstalled(this, command: 'fvm');
-        if (_isFvmInstalled == false) {
-          stdout.writeln(
-              '⚠️ FVM (Flutter Version Management) is not installed, using regular Flutter/Dart instead.');
-        }
-      }
-      if (_isFvmInstalled == false) {
-        commandLine = commandLine.skip(1).toList();
-      }
-    }
-
     return run(
       commandLine,
       workingDirectory: workingDirectory,
@@ -134,6 +108,7 @@ extension RunProcessCustom on ProcessRunner {
       stdin: stdin,
       runInShell: runInShell,
       startMode: startMode,
+      addedEnvironment: addedEnvironment,
     );
   }
 }

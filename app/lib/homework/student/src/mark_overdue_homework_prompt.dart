@@ -35,7 +35,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     // ignore:close_sinks
-    final bloc = BlocProvider.of<HomeworkPageBloc>(context);
+    final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
     final analytics = AnalyticsProvider.ofOrNullObject(context);
     cache = BlocProvider.of<OverdueHomeworkDialogDismissedCache>(context);
 

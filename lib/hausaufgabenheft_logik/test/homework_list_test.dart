@@ -55,14 +55,14 @@ void main() {
             homeworks.sortWith(SmallestDateSubjectAndTitleSort()),
       );
 
-      final sorted = List<HomeworkReadModel>.generate(
+      final sorted = List<StudentHomeworkReadModel>.generate(
         15,
         (i) => createHomework(
             todoDate: const Date(year: 2019, month: 02, day: 03),
             subject: 'Subject',
             title: '$i'),
       );
-      final unsorted = List<HomeworkReadModel>.from(sorted)..shuffle();
+      final unsorted = List<StudentHomeworkReadModel>.from(sorted)..shuffle();
       testSort('does sort titles starting with numbers by their value',
           unsorted: unsorted,
           sorted: sorted,
@@ -96,8 +96,8 @@ void testDateSort(String title, ListCallback sort) => testSort(
     );
 
 void testSort(String title,
-    {required List<HomeworkReadModel> unsorted,
-    required List<HomeworkReadModel> sorted,
+    {required List<StudentHomeworkReadModel> unsorted,
+    required List<StudentHomeworkReadModel> sorted,
     required ListCallback sort,
     bool skip = false}) {
   test(title, () {
@@ -120,5 +120,5 @@ void testTitleSort(String title, ListCallback sort) => testSort(
       sort: sort,
     );
 
-typedef ListCallback = IList<HomeworkReadModel> Function(
-    IList<HomeworkReadModel>);
+typedef ListCallback = IList<StudentHomeworkReadModel> Function(
+    IList<StudentHomeworkReadModel>);

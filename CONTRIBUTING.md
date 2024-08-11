@@ -1,10 +1,10 @@
 # Contributing to Sharezone
 
-_Note: The `CONTRIBUTING.md` is in the process of making. See [#28](https://github.com/SharezoneApp/sharezone-app/issues/28) for the missing sections._
+_Note: The `CONTRIBUTING.md` is in the process of being made. See [#28](https://github.com/SharezoneApp/sharezone-app/issues/28) for the missing sections._
 
 ## Welcome
 
-We love, that you are interested in contributing to Sharezone 💙 There are many ways to contribute and we appreciate all of them. This document gives a rough overview of how you can contribute to Sharezone and which steps you need to follow to set up the development environment.
+We love that you are interested in contributing to Sharezone 💙 There are many ways to contribute, and we appreciate all of them. This document gives a rough overview of how you can contribute to Sharezone and which steps you need to follow to set up the development environment.
 
 - [How to set up your development environment](#how-to-set-up-your-development-environment)
 
@@ -25,15 +25,15 @@ You can use the operating system you like. But we recommend to use macOS because
 - Golden tests are only passing with macOS
 - The Sharezone CLI (used for development) only officially supports macOS and Windows (should also work with other operating systems, but might cause problems in some cases)
 
-If you discover unknown issues which are related to the operating system, please submit a new ticket on [GitHub](https://github.com/SharezoneApp/sharezone-app/issues/new/choose).
+If you discover unknown issues that are related to the operating system, please submit a new ticket on [GitHub](https://github.com/SharezoneApp/sharezone-app/issues/new/choose).
 
 ### IDE
 
 _tl;dr: We recommend VS Code._
 
-Flutter supports IDE support for [VS Code](https://code.visualstudio.com/) and [Android Studio](https://developer.android.com/studio). We support only VS Code. This doesn't mean you can't use other IDEs like Android Studio. But you might need set up more configuration steps which aren't documented by us (like launch configurations).
+Flutter supports IDE support for [VS Code](https://code.visualstudio.com/) and [Android Studio](https://developer.android.com/studio). We support only VS Code. This doesn't mean you can't use other IDEs, like Android Studio. But you might need to set up more configuration steps that aren't documented by us (like launch configurations).
 
-We added some files of the `.vscode` folder to this repository. This ensures that all VS Code users have the same VS Code settings (like formatting, launch configurations, etc.) for this repository.
+We added some files from the `.vscode` folder to this repository. This ensures that all VS Code users have the same VS Code settings (like formatting, launch configurations, etc.) for this repository.
 
 ### Flutter
 
@@ -49,7 +49,7 @@ In case you don't want to build the Android app, you can skip this step.
 
 ### Sharezone CLI
 
-We written our own CLI to manage our repository. Common use cases for the CLI are:
+We have written our own CLI to manage our repository. Common use cases for the CLI are:
 
 - Get all Flutter/Dart packages for all packages inside this repository (`sz pub get`)
 - Run all tests for all packages inside this repository (`sz test`)
@@ -87,7 +87,7 @@ Before you can clone this repository, you need to install [git](https://git-scm.
 git clone https://github.com/SharezoneApp/sharezone-app.git
 ```
 
-After cloning the repository, we recommend to execute the following steps:
+After cloning the repository, we recommend executing the following steps:
 
 1. Get all dependencies with `sz pub get`
 
@@ -97,7 +97,7 @@ We use [FVM](https://fvm.app) to have a consistent Flutter version across the de
 
 To install & use FVM, follow the following steps:
 
-1. Install FVM by running `dart pub global activate fvm` or use the other installation methods (see [FVM docs](https://fvm.app/docs/getting_started/installation))
+1. Install FVM by running `dart pub global activate fvm` or using the other installation methods (see [FVM docs](https://fvm.app/docs/getting_started/installation))
 2. Navigate to the root of the repository
 3. Run `fvm install` (This installs the Flutter version from `.fvm/fvm_config.json`)
 

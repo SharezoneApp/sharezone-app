@@ -19,11 +19,12 @@ import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
@@ -36,6 +37,7 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
+import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculator.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
@@ -46,6 +48,7 @@ class HomeworkDialog extends StatefulWidget {
     required this.id,
     this.homeworkDialogApi,
     this.nextLessonCalculator,
+    this.nextSchooldayCalculator,
     this.showDueDateSelectionChips = true,
   });
 
@@ -54,6 +57,7 @@ class HomeworkDialog extends StatefulWidget {
   final HomeworkId? id;
   final HomeworkDialogApi? homeworkDialogApi;
   final NextLessonCalculator? nextLessonCalculator;
+  final NextSchooldayCalculator? nextSchooldayCalculator;
   final bool showDueDateSelectionChips;
 
   @override
@@ -70,18 +74,24 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
     final szContext = BlocProvider.of<SharezoneContext>(context);
     final analytics = szContext.analytics;
-    final enabledWeekDays = szContext
-        .api.user.data!.userSettings.enabledWeekDays
-        .getEnabledWeekDaysList();
+    final holidayManager = BlocProvider.of<HolidayBloc>(context).holidayManager;
 
     late NextLessonCalculator nextLessonCalculator;
     if (widget.nextLessonCalculator != null) {
       nextLessonCalculator = widget.nextLessonCalculator!;
     } else {
-      final holidayManager =
-          BlocProvider.of<HolidayBloc>(context).holidayManager;
       nextLessonCalculator = NextLessonCalculator(
         timetableGateway: szContext.api.timetable,
+        userGateway: szContext.api.user,
+        holidayManager: holidayManager,
+      );
+    }
+
+    late NextSchooldayCalculator nextSchooldayCalculator;
+    if (widget.nextSchooldayCalculator != null) {
+      nextSchooldayCalculator = widget.nextSchooldayCalculator!;
+    } else {
+      nextSchooldayCalculator = NextSchooldayCalculator(
         userGateway: szContext.api.user,
         holidayManager: holidayManager,
       );
@@ -95,7 +105,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
           homeworkId: widget.id,
           api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
           nextLessonCalculator: nextLessonCalculator,
-          enabledWeekdays: enabledWeekDays,
+          nextSchooldayCalculator: nextSchooldayCalculator,
           markdownAnalytics: markdownAnalytics,
           analytics: analytics,
         );
@@ -106,7 +116,7 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
       bloc = HomeworkDialogBloc(
         api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
         nextLessonCalculator: nextLessonCalculator,
-        enabledWeekdays: enabledWeekDays,
+        nextSchooldayCalculator: nextSchooldayCalculator,
         markdownAnalytics: markdownAnalytics,
         analytics: analytics,
       );
@@ -352,11 +362,19 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SaveButton(
-      key: HwDialogKeys.saveButton,
-      tooltip: "Hausaufgabe speichern",
-      onPressed: () => onPressed(context),
-    );
+    bool isSaving = false;
+    return StatefulBuilder(builder: (context, setState) {
+      return SaveButton(
+        key: HwDialogKeys.saveButton,
+        tooltip: "Hausaufgabe speichern",
+        onPressed: isSaving
+            ? null
+            : () {
+                setState(() => isSaving = true);
+                onPressed(context);
+              },
+      );
+    });
   }
 }
 

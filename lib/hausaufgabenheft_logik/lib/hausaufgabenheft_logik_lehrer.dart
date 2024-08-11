@@ -6,11 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-export './src/lehrer/teacher_archived_homework_list_view.dart';
-export './src/lehrer/teacher_homework_view.dart';
-export './src/lehrer/teacher_homework_page_bloc.dart';
-export './src/lehrer/teacher_homework_section_view.dart';
-export './src/lehrer/teacher_open_homework_list_view.dart';
-export './src/lehrer/create_teacher_homework_page_bloc.dart';
-export './src/lehrer/teacher_homework_read_model.dart';
+export 'src/teacher_and_parent/create_teacher_and_parent_homework_page_bloc.dart';
+export 'src/shared/sort/sorts.dart';
+export 'src/shared/lazy_loading_homework_list_view.dart';
+export 'src/teacher_and_parent/bloc/teacher_and_parent_homework_page_bloc.dart';
+export 'src/shared/models/homework.dart';
+export 'src/shared/homework_section_view.dart';
+export 'src/teacher_and_parent/views/teacher_and_parent_homework_view.dart';
+export 'src/teacher_and_parent/views/teacher_and_parent_homework_view_factory.dart';
+export 'src/teacher_and_parent/views/teacher_and_parent_open_homework_list_view.dart';
+export 'src/teacher_and_parent/views/teacher_and_parent_open_homework_list_view_factory.dart';
 // export './src/lehrer/';

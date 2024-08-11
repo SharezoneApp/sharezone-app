@@ -3,8 +3,6 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i7;
-
 import 'package:analytics/analytics.dart' as _i4;
 import 'package:crash_analytics/crash_analytics.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -13,7 +11,7 @@ import 'package:sharezone/grades/grades_service/grades_service.dart' as _i2;
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller.dart'
     as _i5;
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart'
-    as _i8;
+    as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -28,8 +26,8 @@ import 'package:sharezone/grades/pages/term_details_page/term_details_page_contr
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeTermId_0 extends _i1.SmartFake implements _i2.TermId {
-  _FakeTermId_0(
+class _FakeTermRef_0 extends _i1.SmartFake implements _i2.TermRef {
+  _FakeTermRef_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -69,9 +67,19 @@ class _FakeAnalytics_3 extends _i1.SmartFake implements _i4.Analytics {
         );
 }
 
-class _FakeTermDetailsPageController_4 extends _i1.SmartFake
+class _FakeTermId_4 extends _i1.SmartFake implements _i2.TermId {
+  _FakeTermId_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeTermDetailsPageController_5 extends _i1.SmartFake
     implements _i5.TermDetailsPageController {
-  _FakeTermDetailsPageController_4(
+  _FakeTermDetailsPageController_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -108,17 +116,17 @@ class MockTermDetailsPageController extends _i1.Mock
       );
 
   @override
-  _i2.TermId get termId => (super.noSuchMethod(
-        Invocation.getter(#termId),
-        returnValue: _FakeTermId_0(
+  _i2.TermRef get termRef => (super.noSuchMethod(
+        Invocation.getter(#termRef),
+        returnValue: _FakeTermRef_0(
           this,
-          Invocation.getter(#termId),
+          Invocation.getter(#termRef),
         ),
-        returnValueForMissingStub: _FakeTermId_0(
+        returnValueForMissingStub: _FakeTermRef_0(
           this,
-          Invocation.getter(#termId),
+          Invocation.getter(#termRef),
         ),
-      ) as _i2.TermId);
+      ) as _i2.TermRef);
 
   @override
   _i2.GradesService get gradesService => (super.noSuchMethod(
@@ -160,6 +168,19 @@ class MockTermDetailsPageController extends _i1.Mock
       ) as _i4.Analytics);
 
   @override
+  _i2.TermId get termId => (super.noSuchMethod(
+        Invocation.getter(#termId),
+        returnValue: _FakeTermId_4(
+          this,
+          Invocation.getter(#termId),
+        ),
+        returnValueForMissingStub: _FakeTermId_4(
+          this,
+          Invocation.getter(#termId),
+        ),
+      ) as _i2.TermId);
+
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
@@ -185,7 +206,7 @@ class MockTermDetailsPageController extends _i1.Mock
       );
 
   @override
-  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -194,7 +215,7 @@ class MockTermDetailsPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(dynamic listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -216,7 +237,7 @@ class MockTermDetailsPageController extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockTermDetailsPageControllerFactory extends _i1.Mock
-    implements _i8.TermDetailsPageControllerFactory {
+    implements _i7.TermDetailsPageControllerFactory {
   @override
   _i2.GradesService get gradesService => (super.noSuchMethod(
         Invocation.getter(#gradesService),
@@ -263,14 +284,14 @@ class MockTermDetailsPageControllerFactory extends _i1.Mock
           #create,
           [termId],
         ),
-        returnValue: _FakeTermDetailsPageController_4(
+        returnValue: _FakeTermDetailsPageController_5(
           this,
           Invocation.method(
             #create,
             [termId],
           ),
         ),
-        returnValueForMissingStub: _FakeTermDetailsPageController_4(
+        returnValueForMissingStub: _FakeTermDetailsPageController_5(
           this,
           Invocation.method(
             #create,

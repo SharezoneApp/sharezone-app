@@ -12,7 +12,8 @@ import 'dart:developer';
 import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone_common/api_errors.dart';

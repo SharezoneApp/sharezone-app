@@ -3,12 +3,8 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i9;
-
 import 'package:analytics/analytics.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i10;
-import 'package:remote_configuration/src/remote_configuration.dart' as _i8;
 import 'package:shared_preferences/shared_preferences.dart' as _i5;
 import 'package:sharezone/main/application_bloc.dart' as _i7;
 import 'package:sharezone/util/api.dart' as _i2;
@@ -161,71 +157,4 @@ class MockSharezoneContext extends _i1.Mock implements _i7.SharezoneContext {
         ),
         returnValueForMissingStub: null,
       );
-}
-
-/// A class which mocks [RemoteConfiguration].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockRemoteConfiguration extends _i1.Mock
-    implements _i8.RemoteConfiguration {
-  @override
-  void initialize(Map<String, dynamic>? defaultValues) => super.noSuchMethod(
-        Invocation.method(
-          #initialize,
-          [defaultValues],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i9.Future<bool> activate() => (super.noSuchMethod(
-        Invocation.method(
-          #activate,
-          [],
-        ),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
-
-  @override
-  _i9.Future<void> fetch() => (super.noSuchMethod(
-        Invocation.method(
-          #fetch,
-          [],
-        ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
-
-  @override
-  String getString(String? key) => (super.noSuchMethod(
-        Invocation.method(
-          #getString,
-          [key],
-        ),
-        returnValue: _i10.dummyValue<String>(
-          this,
-          Invocation.method(
-            #getString,
-            [key],
-          ),
-        ),
-        returnValueForMissingStub: _i10.dummyValue<String>(
-          this,
-          Invocation.method(
-            #getString,
-            [key],
-          ),
-        ),
-      ) as String);
-
-  @override
-  bool getBool(String? key) => (super.noSuchMethod(
-        Invocation.method(
-          #getBool,
-          [key],
-        ),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
 }

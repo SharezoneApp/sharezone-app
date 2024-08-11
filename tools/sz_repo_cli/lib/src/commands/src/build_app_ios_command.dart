@@ -83,7 +83,6 @@ When none is specified, the value from pubspec.yaml is used.''',
       final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
       await processRunner.runCommand(
         [
-          'fvm',
           'flutter',
           'build',
           'ipa',

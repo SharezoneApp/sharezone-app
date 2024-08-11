@@ -16,7 +16,7 @@ import 'package:sharezone/feedback/feedback_box_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_page.dart';
-import 'package:sharezone/homework/parent/homework_page.dart';
+import 'package:sharezone/homework/homework_page.dart';
 import 'package:sharezone/keys.dart';
 import 'package:sharezone/settings/settings_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
