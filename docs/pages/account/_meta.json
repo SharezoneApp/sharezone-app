@@ -1,7 +1,8 @@
 {
-    "changeemail": "E-Mail ändern",
-    "changename": "Namen ändern",
-    "changepassword": "Passwort ändern",
-    "changeprovince": "Bundesland ändern",
-    "deleteaccount": "Konto löschen"
+    "setup-email": "E-Mail verknüpfen",
+    "change-email": "E-Mail ändern",
+    "change-name": "Namen ändern",
+    "change-password": "Passwort ändern",
+    "change-province": "Bundesland ändern",
+    "delete-account": "Konto löschen"
 }
