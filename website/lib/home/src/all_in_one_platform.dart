@@ -96,13 +96,14 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                     child: ColumnSpacing(
                       spacing: 10,
                       children: [
-                        feature("Videokonferenzen", bulletpoints: [
-                          "Sichere Videokonferenzen über Jitsi",
-                          "Hosting in Deutschland"
-                        ]),
-                        feature(
-                          "Immer verfügbar",
-                          bulletpoints: [
+                        feature("Notensystem", bulletpoints: [
+                          "Speicher deine Noten in Sharezone",
+                          "Verschiedene Notensysteme"
+                          ],
+                          leaveDefaultPicture: true,
+                          height: 60,
+                        ),
+                        feature("Immer verfügbar",bulletpoints: [
                             "Offline Inhalte eintragen",
                             "Mit mehreren Geräten nutzbar",
                           ],
