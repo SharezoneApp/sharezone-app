@@ -20,6 +20,7 @@ class TermModel extends Equatable {
   final GradeTypeId finalGradeType;
   final bool isActiveTerm;
   final String name;
+  final WeightDisplayType weightDisplayType;
 
   @override
   List<Object?> get props => [
@@ -27,6 +28,7 @@ class TermModel extends Equatable {
         createdOn,
         subjects,
         gradeTypeWeightings,
+        weightDisplayType,
         gradingSystem,
         finalGradeType,
         isActiveTerm,
@@ -42,12 +44,14 @@ class TermModel extends Equatable {
     this.createdOn,
     this.subjects = const IListConst([]),
     this.gradeTypeWeightings = const IMapConst({}),
+    this.weightDisplayType = WeightDisplayType.factor,
   });
 
   const TermModel.internal(
     this.id,
     this.subjects,
     this.gradeTypeWeightings,
+    this.weightDisplayType,
     this.finalGradeType,
     this.isActiveTerm,
     this.name,
@@ -93,6 +97,7 @@ class TermModel extends Equatable {
     TermId? id,
     IList<SubjectModel>? subjects,
     IMap<GradeTypeId, Weight>? gradeTypeWeightings,
+    WeightDisplayType? weightDisplayType,
     GradeTypeId? finalGradeType,
     bool? isActiveTerm,
     String? name,
@@ -103,6 +108,7 @@ class TermModel extends Equatable {
       id ?? this.id,
       subjects ?? this.subjects,
       gradeTypeWeightings ?? this.gradeTypeWeightings,
+      weightDisplayType ?? this.weightDisplayType,
       finalGradeType ?? this.finalGradeType,
       isActiveTerm ?? this.isActiveTerm,
       name ?? this.name,

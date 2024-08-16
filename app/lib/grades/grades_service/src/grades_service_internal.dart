@@ -64,6 +64,7 @@ class _GradesServiceInternal {
           ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
           : null,
       gradeTypeWeightings: term.gradeTypeWeightings,
+      weightDisplayType: term.weightDisplayType,
       subjects: term.subjects
           .map(
             (subject) => SubjectResult(

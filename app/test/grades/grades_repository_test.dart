@@ -276,6 +276,7 @@ void main() {
             'displayName': '02/10',
             'createdOn': FieldValue.serverTimestamp(),
             'gradingSystem': 'zeroToFifteenPoints',
+            'weightDisplayType': 'factor',
             'subjectWeights': {
               'mathe': {
                 'value': 2.5,
@@ -316,6 +317,7 @@ void main() {
             'displayName': '01/10',
             'createdOn': FieldValue.serverTimestamp(),
             'gradingSystem': 'oneToSixWithPlusAndMinus',
+            'weightDisplayType': 'factor',
             'subjectWeights': {
               'englisch': {'value': 1.0, 'type': 'factor'},
             },

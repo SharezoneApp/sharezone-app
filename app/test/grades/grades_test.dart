@@ -480,6 +480,27 @@ void main() {
               .keys,
           [exam.id]);
     });
+    test(
+        'A term has ${WeightDisplayType.factor} as a default weight display type',
+        () {
+      final controller = GradesTestController();
+
+      controller.createTerm(
+        termWith(
+          id: const TermId('term1'),
+          subjects: [
+            subjectWith(
+              id: const SubjectId('Deutsch'),
+              abbreviation: 'D',
+              grades: [gradeWith(value: 2)],
+            ),
+          ],
+        ),
+      );
+
+      expect(controller.term(const TermId('term1')).weightDisplayType,
+          WeightDisplayType.factor);
+    });
     test('a grade type weight can be remove from term', () {
       final controller = GradesTestController();
 

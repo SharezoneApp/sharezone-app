@@ -436,6 +436,7 @@ class TermDto {
   final Timestamp? createdOn;
   final GradingSystem gradingSystem;
   final Map<_SubjectId, WeightDto> subjectWeights;
+  final WeightDisplayType weightDisplayType;
   final Map<_GradeTypeId, WeightDto> gradeTypeWeights;
   final List<TermSubjectDto> subjects;
   final _GradeTypeId finalGradeTypeId;
@@ -446,6 +447,7 @@ class TermDto {
     required this.createdOn,
     required this.gradingSystem,
     required this.subjectWeights,
+    required this.weightDisplayType,
     required this.gradeTypeWeights,
     required this.finalGradeTypeId,
     required this.subjects,
@@ -459,6 +461,7 @@ class TermDto {
       finalGradeTypeId: term.finalGradeType.value,
       gradingSystem: term.gradingSystem.spec.gradingSystem,
       subjects: term.subjects.map(TermSubjectDto.fromSubject).toList(),
+      weightDisplayType: term.weightDisplayType,
       subjectWeights: Map.fromEntries(term.subjects.map((subject) =>
           MapEntry(subject.id.value, subject.weightingForTermGrade.toDto()))),
       gradeTypeWeights: term.gradeTypeWeightings
@@ -475,6 +478,9 @@ class TermDto {
       gradingSystem:
           GradingSystem.values.byName(data['gradingSystem'] as String),
       subjectWeights: data['subjectWeights'].toWeightsDtoMap(),
+      weightDisplayType: WeightDisplayType.values.firstWhere(
+          (element) => element.dbKey == data['weightDisplayType'],
+          orElse: () => WeightDisplayType.factor),
       gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
       subjects: (data['subjects'] as Map)
           .mapTo((_, sub) => TermSubjectDto.fromData(sub))
@@ -491,6 +497,7 @@ class TermDto {
       if (createdOn == null) 'createdOn': FieldValue.serverTimestamp(),
       'gradingSystem': gradingSystem.name,
       'subjectWeights': subjectWeights.toWeightDataMap(),
+      'weightDisplayType': weightDisplayType.dbKey,
       'gradeTypeWeights': gradeTypeWeights.toWeightDataMap(),
       'subjects': subjects
           .map((subject) => MapEntry(subject.id, subject.toData()))
