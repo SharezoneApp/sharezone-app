@@ -55,6 +55,10 @@ class GradesTestController {
       gradingSystem: testTerm.gradingSystem,
     );
 
+    if (testTerm.weightDisplayType != null) {
+      service.term(termId).changeWeightDisplayType(testTerm.weightDisplayType!);
+    }
+
     if (testTerm.gradeTypeWeights != null) {
       for (var e in testTerm.gradeTypeWeights!.entries) {
         service.term(termId).changeGradeTypeWeight(e.key, e.value);
@@ -310,6 +314,17 @@ class GradesTestController {
   void editCustomGradeType(GradeTypeId id, {required String displayName}) {
     service.editCustomGradeType(id: id, displayName: displayName);
   }
+
+  void createTerms(List<TestTerm> list, {bool createMissingGradeTypes = true}) {
+    for (var term in list) {
+      createTerm(term, createMissingGradeTypes: createMissingGradeTypes);
+    }
+  }
+
+  void changeWeightDisplayTypeForTerm(
+      {required TermId termId, required WeightDisplayType weightDisplayType}) {
+    service.term(termId).changeWeightDisplayType(weightDisplayType);
+  }
 }
 
 TestTerm termWith({
@@ -320,6 +335,7 @@ TestTerm termWith({
   GradeTypeId finalGradeType = const GradeTypeId('Endnote'),
   bool isActiveTerm = true,
   GradingSystem? gradingSystem,
+  WeightDisplayType? weightDisplayType,
 }) {
   final rdm = randomAlpha(5);
   final idd = id ?? TermId(rdm);
@@ -328,6 +344,7 @@ TestTerm termWith({
     name: name ?? '$idd',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
     gradingSystem: gradingSystem ?? GradingSystem.zeroToFifteenPoints,
+    weightDisplayType: weightDisplayType,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     isActiveTerm: isActiveTerm,
@@ -339,6 +356,7 @@ class TestTerm {
   final String name;
   final IMap<SubjectId, TestSubject> subjects;
   final GradingSystem gradingSystem;
+  final WeightDisplayType? weightDisplayType;
   final Map<GradeTypeId, Weight>? gradeTypeWeights;
   final GradeTypeId finalGradeType;
   final bool isActiveTerm;
@@ -351,6 +369,7 @@ class TestTerm {
     this.gradeTypeWeights,
     required this.isActiveTerm,
     required this.gradingSystem,
+    required this.weightDisplayType,
   });
 }
 

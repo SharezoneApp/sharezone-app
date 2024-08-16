@@ -287,6 +287,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             createdOn: dto.createdOn?.toDate(),
             gradingSystem: dto.gradingSystem.toGradingSystemModel(),
             isActiveTerm: data['currentTerm'] == dto.id,
+            weightDisplayType: dto.weightDisplayType,
             subjects: termSubjects
                 .where((subject) => subject.termId.value == dto.id)
                 .toIList(),

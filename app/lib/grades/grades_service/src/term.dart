@@ -328,6 +328,10 @@ class TermModel extends Equatable {
   bool containsGrade(GradeId id) {
     return subjects.any((s) => s.hasGrade(id));
   }
+
+  TermModel changeWeightDisplayType(WeightDisplayType weightDisplayType) {
+    return _copyWith(weightDisplayType: weightDisplayType);
+  }
 }
 
 class SubjectModel extends Equatable {

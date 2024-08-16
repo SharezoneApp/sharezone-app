@@ -331,6 +331,12 @@ class _GradesServiceInternal {
     _updateTerm(newTerm);
   }
 
+  void changeWeightDisplayTypeForTerm(
+      {required TermId termId, required WeightDisplayType weightDisplayType}) {
+    final newTerm = _term(termId).changeWeightDisplayType(weightDisplayType);
+    _updateTerm(newTerm);
+  }
+
   void changeGradeTypeWeightForTerm(
       {required TermId termId,
       required GradeTypeId gradeType,

@@ -180,6 +180,11 @@ class TermRef {
   void removeGradeTypeWeight(GradeTypeId gradeType) {
     _service.removeGradeTypeWeightForTerm(termId: id, gradeType: gradeType);
   }
+
+  void changeWeightDisplayType(WeightDisplayType weightDisplayType) {
+    _service.changeWeightDisplayTypeForTerm(
+        termId: id, weightDisplayType: weightDisplayType);
+  }
 }
 
 class TermSubjectRef {
