@@ -27,10 +27,10 @@ class TermSettingsPageController extends ChangeNotifier {
   late bool isActiveTerm;
   late GradingSystem gradingSystem;
   late GradeType finalGradeType;
+  late WeightDisplayType weightDisplayType;
   late IMap<GradeTypeId, Weight> _weights;
   IList<Course> courses = IList();
   late StreamSubscription<List<Course>> _courseSubscription;
-  WeightDisplayType weightDisplayType = WeightDisplayType.percent;
 
   TermSettingsState state = const TermSettingsLoading();
 
@@ -61,6 +61,7 @@ class TermSettingsPageController extends ChangeNotifier {
     gradingSystem = term.gradingSystem;
     finalGradeType = term.finalGradeType;
     _weights = term.gradeTypeWeightings;
+    weightDisplayType = term.weightDisplayType;
 
     state = TermSettingsLoaded(view);
 
@@ -139,6 +140,7 @@ class TermSettingsPageController extends ChangeNotifier {
   }
 
   void setWeightDisplayType(WeightDisplayType newDisplayType) {
+    termRef.changeWeightDisplayType(newDisplayType);
     weightDisplayType = newDisplayType;
     state = TermSettingsLoaded(view);
     notifyListeners();
