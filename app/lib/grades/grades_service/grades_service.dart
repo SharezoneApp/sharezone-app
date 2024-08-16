@@ -663,6 +663,11 @@ extension on GradeInput {
   }
 }
 
+enum WeightDisplayType {
+  percent,
+  factor,
+}
+
 enum WeightType {
   perGrade,
   perGradeType,

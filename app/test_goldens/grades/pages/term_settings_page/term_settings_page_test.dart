@@ -60,6 +60,7 @@ void main() {
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             finalGradeType: GradeType.writtenExam,
             selectableGradingTypes: const IListConst([]),
+            weightDisplayType: WeightDisplayType.factor,
             weights: IMapConst({
               GradeType.writtenExam.id: const Weight.factor(2),
               GradeType.oralParticipation.id: const Weight.factor(.5),
@@ -96,10 +97,11 @@ void main() {
             gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
             finalGradeType: GradeType.schoolReportGrade,
             selectableGradingTypes: const IListConst([]),
+            weightDisplayType: WeightDisplayType.percent,
             weights: IMapConst({
-              GradeType.writtenExam.id: const Weight.factor(2),
-              GradeType.oralParticipation.id: const Weight.factor(.5),
-              GradeType.presentation.id: const Weight.factor(1),
+              GradeType.writtenExam.id: const Weight.percent(200),
+              GradeType.oralParticipation.id: const Weight.percent(50),
+              GradeType.presentation.id: const Weight.percent(100),
             }),
             subjects: IListConst([
               (

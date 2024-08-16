@@ -8,6 +8,7 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
@@ -129,7 +130,10 @@ class _Loaded extends StatelessWidget {
             _IsActiveTerm(isActiveTerm: view.isActiveTerm),
             const Divider(),
             const SizedBox(height: 8),
-            _SubjectWeights(subjects: view.subjects),
+            _SubjectWeights(
+              subjects: view.subjects,
+              weightDisplayType: view.weightDisplayType,
+            ),
             const Divider(),
             const SizedBox(height: 8),
             _GradingTypeWeights(
@@ -282,8 +286,10 @@ class _IsActiveTerm extends StatelessWidget {
 class _SubjectWeights extends StatelessWidget {
   const _SubjectWeights({
     required this.subjects,
+    required this.weightDisplayType,
   });
 
+  final WeightDisplayType weightDisplayType;
   final IList<SubjectView> subjects;
 
   @override
@@ -294,6 +300,14 @@ class _SubjectWeights extends StatelessWidget {
         const Text(
           'Gewichtung der Kurse für Notenschnitt vom Halbjahr',
           style: TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 8),
+        _WeightDisplaySetting(
+          weightDisplayType: weightDisplayType,
+          onWeightDisplayTypeChanged: (newDisplayType) {
+            final controller = context.read<TermSettingsPageController>();
+            controller.setWeightDisplayType(newDisplayType);
+          },
         ),
         const SizedBox(height: 8),
         Text(
@@ -309,20 +323,77 @@ class _SubjectWeights extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
-        for (final subject in subjects) _SubjectTile(subject),
+        for (final subject in subjects)
+          _SubjectTile(subject, weightDisplayType),
       ],
     );
   }
 }
 
-class _SubjectTile extends StatelessWidget {
-  const _SubjectTile(this.subject);
+class _WeightDisplaySetting extends StatelessWidget {
+  const _WeightDisplaySetting({
+    required this.weightDisplayType,
+    required this.onWeightDisplayTypeChanged,
+    super.key,
+  });
 
-  final SubjectView subject;
+  final WeightDisplayType weightDisplayType;
+  final void Function(WeightDisplayType) onWeightDisplayTypeChanged;
+
+  String get weightDisplayTypeString => switch (weightDisplayType) {
+        WeightDisplayType.factor => 'Faktor',
+        WeightDisplayType.percent => 'Prozent',
+      };
 
   @override
   Widget build(BuildContext context) {
-    final factor = subject.weight.asFactor.toStringAsPrecision(2);
+    return ListTile(
+      leading: const Icon(Symbols.weight, fill: 1),
+      title: const Text('Gewichtungssystem'),
+      subtitle: Text(weightDisplayTypeString),
+      onTap: () async {
+        final result = await showDialog<WeightDisplayType?>(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Text('Gewichtungssystem'),
+            children: [
+              ListTile(
+                title: const Text('Faktor'),
+                onTap: () {
+                  Navigator.pop(context, WeightDisplayType.factor);
+                },
+              ),
+              ListTile(
+                title: const Text('Prozent'),
+                onTap: () {
+                  Navigator.pop(context, WeightDisplayType.percent);
+                },
+              ),
+            ],
+          ),
+        );
+        if (result != null) {
+          onWeightDisplayTypeChanged(result);
+        }
+      },
+    );
+  }
+}
+
+class _SubjectTile extends StatelessWidget {
+  const _SubjectTile(this.subject, this.weightDisplayType);
+
+  final SubjectView subject;
+  final WeightDisplayType weightDisplayType;
+
+  @override
+  Widget build(BuildContext context) {
+    final factor = switch (weightDisplayType) {
+      WeightDisplayType.factor =>
+        subject.weight.asFactor.toStringAsPrecision(2),
+      WeightDisplayType.percent =>
+        '${subject.weight.asPercentage.toStringAsPrecision(3)}%',
+    };
     return ListTile(
       leading: SubjectAvatar(
         abbreviation: subject.abbreviation,
