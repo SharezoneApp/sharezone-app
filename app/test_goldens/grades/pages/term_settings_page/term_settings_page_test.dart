@@ -135,17 +135,20 @@ void main() {
     Future<void> pushTermSettingsPage(
         WidgetTester tester, ThemeData theme) async {
       await tester.pumpWidgetBuilder(
-        MultiProvider(providers: [
-          Provider<GradesService>(
-            create: (_) => GradesService(),
-          ),
-          Provider<TermSettingsPageControllerFactory>.value(
-            value: controllerFactory,
-          ),
-          ChangeNotifierProvider<TermSettingsPageController>.value(
-            value: controller,
-          ),
-        ], child: const TermSettingsPage(termId: termId)),
+        MultiProvider(
+          providers: [
+            Provider<GradesService>(
+              create: (_) => GradesService(),
+            ),
+            Provider<TermSettingsPageControllerFactory>.value(
+              value: controllerFactory,
+            ),
+            ChangeNotifierProvider<TermSettingsPageController>.value(
+              value: controller,
+            ),
+          ],
+          child: const TermSettingsPage(termId: termId),
+        ),
         wrapper: materialAppWrapper(theme: theme),
       );
     }
