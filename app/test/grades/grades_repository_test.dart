@@ -255,6 +255,7 @@ void main() {
       term0110
           .subject(const SubjectId('englisch'))
           .changeFinalGradeType(GradeType.oralParticipation.id);
+      term0110.changeWeightDisplayType(WeightDisplayType.percent);
 
       term0210.changeGradeTypeWeight(
           GradeType.vocabularyTest.id, const Weight.factor(1.5));
@@ -317,7 +318,7 @@ void main() {
             'displayName': '01/10',
             'createdOn': FieldValue.serverTimestamp(),
             'gradingSystem': 'oneToSixWithPlusAndMinus',
-            'weightDisplayType': 'factor',
+            'weightDisplayType': 'percent',
             'subjectWeights': {
               'englisch': {'value': 1.0, 'type': 'factor'},
             },
