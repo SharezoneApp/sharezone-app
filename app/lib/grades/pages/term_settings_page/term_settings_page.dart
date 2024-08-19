@@ -334,7 +334,6 @@ class _WeightDisplaySetting extends StatelessWidget {
   const _WeightDisplaySetting({
     required this.weightDisplayType,
     required this.onWeightDisplayTypeChanged,
-    super.key,
   });
 
   final WeightDisplayType weightDisplayType;
