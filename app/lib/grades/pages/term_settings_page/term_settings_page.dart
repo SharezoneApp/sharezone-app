@@ -400,16 +400,17 @@ class _SubjectTile extends StatelessWidget {
       ),
       title: Text(subject.displayName),
       onTap: () async {
-        final weight = await showDialog<double>(
+        final weight = await showDialog<Weight>(
           context: context,
           builder: (context) => _FactorDialog(
-            initialValue: subject.weight.asFactor.toDouble(),
+            weight: subject.weight,
+            weightDisplayType: weightDisplayType,
           ),
         );
 
         if (weight != null && context.mounted) {
           final controller = context.read<TermSettingsPageController>();
-          controller.setSubjectWeight(subject.id, Weight.factor(weight));
+          controller.setSubjectWeight(subject.id, weight);
         }
       },
       trailing: Text(
@@ -425,10 +426,12 @@ class _SubjectTile extends StatelessWidget {
 
 class _FactorDialog extends StatefulWidget {
   const _FactorDialog({
-    required this.initialValue,
+    required this.weight,
+    required this.weightDisplayType,
   });
 
-  final double initialValue;
+  final Weight weight;
+  final WeightDisplayType weightDisplayType;
 
   @override
   State<_FactorDialog> createState() => _FactorDialogState();
@@ -436,16 +439,39 @@ class _FactorDialog extends StatefulWidget {
 
 class _FactorDialogState extends State<_FactorDialog> {
   String? errorText;
-  double? value;
+  num? value;
+
+  num get initialValue => switch (widget.weightDisplayType) {
+        WeightDisplayType.factor => widget.weight.asFactor,
+        WeightDisplayType.percent => widget.weight.asPercentage,
+      };
+
+  String get formatted => switch (widget.weightDisplayType) {
+        WeightDisplayType.factor => value == null
+            ? ''
+            // If there are no decimals, we want to show the "1" as "1.0", so
+            // that the user knows that he can write a decimal number and what
+            // the seperator is ("." instead of ",").
+            : value!.hasDecimals
+                ? value.toString()
+                : value!.toStringAsPrecision(2),
+        WeightDisplayType.percent => value?.toString() ?? '',
+      };
+
+  Weight? get valueAsWeight => switch (widget.weightDisplayType) {
+        WeightDisplayType.factor =>
+          value != null ? Weight.factor(value!) : null,
+        WeightDisplayType.percent =>
+          value != null ? Weight.percent(value!) : null,
+      };
 
   @override
   void initState() {
     super.initState();
-    value = widget.initialValue;
+    value = initialValue;
   }
 
-  bool isValid() =>
-      errorText == null && value != null && widget.initialValue != value;
+  bool isValid() => errorText == null && value != null && initialValue != value;
 
   @override
   Widget build(BuildContext context) {
@@ -466,21 +492,25 @@ class _FactorDialogState extends State<_FactorDialog> {
               ),
               const SizedBox(height: 20),
               PrefilledTextField(
-                prefilledText: value?.toStringAsPrecision(2),
+                prefilledText: formatted,
                 autofocus: true,
                 decoration: InputDecoration(
                   labelText: 'Gewichtung',
                   hintText: 'z.B. 1.0',
                   errorText: errorText,
+                  suffixText: switch (widget.weightDisplayType) {
+                    WeightDisplayType.factor => null,
+                    WeightDisplayType.percent => '%',
+                  },
                 ),
                 onEditingComplete: () {
                   if (isValid()) {
-                    Navigator.of(context).pop(value);
+                    Navigator.of(context).pop(valueAsWeight);
                   }
                 },
                 onChanged: (value) {
                   setState(() {
-                    this.value = double.tryParse(value);
+                    this.value = num.tryParse(value);
 
                     final isValid = this.value != null;
                     errorText = isValid ? null : 'Bitte gib eine Zahl ein.';
@@ -498,8 +528,9 @@ class _FactorDialogState extends State<_FactorDialog> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
             child: FilledButton(
-              onPressed:
-                  isValid() ? () => Navigator.of(context).pop(value) : null,
+              onPressed: isValid()
+                  ? () => Navigator.of(context).pop(valueAsWeight)
+                  : null,
               child: const Text('Speichern'),
             ),
           ),

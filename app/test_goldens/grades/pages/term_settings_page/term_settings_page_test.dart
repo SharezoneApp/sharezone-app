@@ -50,78 +50,12 @@ void main() {
       when(controller.state).thenReturn(state);
     }
 
-    void setLoaded2() {
-      final random = Random(35);
-      setState(
-        TermSettingsLoaded(
-          TermSettingsPageView(
-            name: '11/23',
-            isActiveTerm: true,
-            gradingSystem: GradingSystem.zeroToFifteenPoints,
-            finalGradeType: GradeType.writtenExam,
-            selectableGradingTypes: const IListConst([]),
-            weightDisplayType: WeightDisplayType.factor,
-            weights: IMapConst({
-              GradeType.writtenExam.id: const Weight.factor(2),
-              GradeType.oralParticipation.id: const Weight.factor(.5),
-              GradeType.presentation.id: const Weight.factor(1),
-            }),
-            subjects: IListConst([
-              (
-                displayName: 'Deutsch',
-                abbreviation: 'DE',
-                design: Design.random(random),
-                id: const SubjectId('d'),
-                weight: const Weight.factor(1),
-              ),
-              (
-                displayName: 'Englisch',
-                abbreviation: 'E',
-                design: Design.random(random),
-                id: const SubjectId('e'),
-                weight: const Weight.factor(2),
-              ),
-            ]),
-          ),
-        ),
-      );
+    void setLoaded1() {
+      setState(loadedState1);
     }
 
-    void setLoaded1() {
-      final random = Random(42);
-      setState(
-        TermSettingsLoaded(
-          TermSettingsPageView(
-            name: '10/22',
-            isActiveTerm: true,
-            gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-            finalGradeType: GradeType.schoolReportGrade,
-            selectableGradingTypes: const IListConst([]),
-            weightDisplayType: WeightDisplayType.percent,
-            weights: IMapConst({
-              GradeType.writtenExam.id: const Weight.percent(200),
-              GradeType.oralParticipation.id: const Weight.percent(50),
-              GradeType.presentation.id: const Weight.percent(100),
-            }),
-            subjects: IListConst([
-              (
-                displayName: 'Deutsch',
-                abbreviation: 'DE',
-                design: Design.random(random),
-                id: const SubjectId('d'),
-                weight: const Weight.factor(1),
-              ),
-              (
-                displayName: 'Englisch',
-                abbreviation: 'E',
-                design: Design.random(random),
-                id: const SubjectId('e'),
-                weight: const Weight.factor(2),
-              ),
-            ]),
-          ),
-        ),
-      );
+    void setLoaded2() {
+      setState(loadedState2);
     }
 
     void setError() {
@@ -215,3 +149,67 @@ void main() {
     });
   });
 }
+
+final loadedState1 = TermSettingsLoaded(
+  TermSettingsPageView(
+    name: '10/22',
+    isActiveTerm: true,
+    gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+    finalGradeType: GradeType.schoolReportGrade,
+    selectableGradingTypes: const IListConst([]),
+    weightDisplayType: WeightDisplayType.percent,
+    weights: IMapConst({
+      GradeType.writtenExam.id: const Weight.percent(200),
+      GradeType.oralParticipation.id: const Weight.percent(50),
+      GradeType.presentation.id: const Weight.percent(100),
+    }),
+    subjects: IListConst([
+      (
+        displayName: 'Deutsch',
+        abbreviation: 'DE',
+        design: Design.random(Random(42)),
+        id: const SubjectId('d'),
+        weight: const Weight.factor(1),
+      ),
+      (
+        displayName: 'Englisch',
+        abbreviation: 'E',
+        design: Design.random(Random(42)),
+        id: const SubjectId('e'),
+        weight: const Weight.factor(2),
+      ),
+    ]),
+  ),
+);
+
+final loadedState2 = TermSettingsLoaded(
+  TermSettingsPageView(
+    name: '11/23',
+    isActiveTerm: true,
+    gradingSystem: GradingSystem.zeroToFifteenPoints,
+    finalGradeType: GradeType.writtenExam,
+    selectableGradingTypes: const IListConst([]),
+    weightDisplayType: WeightDisplayType.factor,
+    weights: IMapConst({
+      GradeType.writtenExam.id: const Weight.factor(2),
+      GradeType.oralParticipation.id: const Weight.factor(.5),
+      GradeType.presentation.id: const Weight.factor(1),
+    }),
+    subjects: IListConst([
+      (
+        displayName: 'Deutsch',
+        abbreviation: 'DE',
+        design: Design.random(Random(35)),
+        id: const SubjectId('d'),
+        weight: const Weight.factor(1),
+      ),
+      (
+        displayName: 'Englisch',
+        abbreviation: 'E',
+        design: Design.random(Random(35)),
+        id: const SubjectId('e'),
+        weight: const Weight.factor(2),
+      ),
+    ]),
+  ),
+);
