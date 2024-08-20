@@ -44,6 +44,11 @@ class PageTemplate extends StatelessWidget {
                       onTap: () => context.go('/'),
                     ),
                     ListTile(
+                      leading: const Icon(Icons.home),
+                      title: const Text("Plus"),
+                      onTap: () => context.go('/plus'),
+                    ),
+                    ListTile(
                       leading: const Icon(Icons.question_answer),
                       title: const Text("Docs"),
                       onTap: () => launchUrl("https://docs.sharezone.net"),
@@ -129,15 +134,14 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         if (!isPhone(context)) ...[
-                          if (isSharezonePlusPageEnabledFlag)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 30),
-                              child: TransparentButton(
-                                child: const Text("Plus"),
-                                onTap: () =>
-                                    context.go('/${SharezonePlusPage.tag}'),
-                              ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 30),
+                            child: TransparentButton(
+                              child: const Text("Plus"),
+                              onTap: () =>
+                                  context.go('/${SharezonePlusPage.tag}'),
                             ),
+                          ),
                           TransparentButton(
                             child: const Text("Support"),
                             onTap: () => context.go('/${SupportPage.tag}'),
