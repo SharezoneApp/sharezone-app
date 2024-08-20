@@ -671,13 +671,7 @@ extension on GradeInput {
   }
 }
 
-enum WeightDisplayType {
-  percent(dbKey: 'percent'),
-  factor(dbKey: 'factor');
-
-  const WeightDisplayType({required this.dbKey});
-  final String dbKey;
-}
+enum WeightDisplayType { percent, factor }
 
 enum WeightType {
   perGrade,

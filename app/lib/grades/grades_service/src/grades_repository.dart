@@ -479,9 +479,9 @@ class TermDto {
       gradingSystem:
           GradingSystem.values.byName(data['gradingSystem'] as String),
       subjectWeights: data['subjectWeights'].toWeightsDtoMap(),
-      weightDisplayType: WeightDisplayType.values.firstWhere(
-          (element) => element.dbKey == data['weightDisplayType'],
-          orElse: () => WeightDisplayType.factor),
+      weightDisplayType: data['weightDisplayType'] is String
+          ? WeightDisplayType.values.byName(data['weightDisplayType'] as String)
+          : WeightDisplayType.factor,
       gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
       subjects: (data['subjects'] as Map)
           .mapTo((_, sub) => TermSubjectDto.fromData(sub))
@@ -498,7 +498,7 @@ class TermDto {
       if (createdOn == null) 'createdOn': FieldValue.serverTimestamp(),
       'gradingSystem': gradingSystem.name,
       'subjectWeights': subjectWeights.toWeightDataMap(),
-      'weightDisplayType': weightDisplayType.dbKey,
+      'weightDisplayType': weightDisplayType.name,
       'gradeTypeWeights': gradeTypeWeights.toWeightDataMap(),
       'subjects': subjects
           .map((subject) => MapEntry(subject.id, subject.toData()))
