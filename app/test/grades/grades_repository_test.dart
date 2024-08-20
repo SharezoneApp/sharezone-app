@@ -115,6 +115,25 @@ void main() {
       expect(repository.data.containsKey('currentTerm'), isTrue);
       expect(repository.data['currentTerm'], isNull);
     });
+    test(
+        'if `weightDisplayType` is not in data the default ${WeightDisplayType.factor} is used',
+        () {
+      final repository = TestFirestoreGradesStateRepository();
+      final controller = GradesTestController(
+          gradesService: GradesService(repository: repository));
+
+      final term = termWith(id: TermId('term1'));
+      controller.createTerm(term);
+
+      final terms = repository.data['terms'] as Map<String, Object?>;
+      final term1 = terms['term1'] as Map<String, Object?>;
+      // Make sure that the attribute actually exists
+      expect(term1.remove('weightDisplayType'), isNotNull);
+      repository.refreshStateFromUpdatedData();
+
+      expect(repository.state.value.terms.first.weightDisplayType,
+          WeightDisplayType.factor);
+    });
     test('serializes expected data map for empty state', () {
       final res = FirestoreGradesStateRepository.toDto((
         customGradeTypes: const IListConst([]),
@@ -937,5 +956,10 @@ class TestFirestoreGradesStateRepository extends GradesStateRepository {
     data = FirestoreGradesStateRepository.toDto(state);
     final newState = FirestoreGradesStateRepository.fromData(data);
     this.state.add(newState);
+  }
+
+  void refreshStateFromUpdatedData() {
+    final newState = FirestoreGradesStateRepository.fromData(data);
+    state.add(newState);
   }
 }
