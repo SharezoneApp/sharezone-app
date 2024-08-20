@@ -501,6 +501,39 @@ void main() {
       expect(controller.term(const TermId('term1')).weightDisplayType,
           WeightDisplayType.factor);
     });
+    test('The weight display type of a term can be changed', () {
+      final controller = GradesTestController();
+
+      controller.createTerms([
+        termWith(
+          id: const TermId('term1'),
+          weightDisplayType: WeightDisplayType.factor,
+          subjects: [
+            subjectWith(
+              id: const SubjectId('Deutsch'),
+              abbreviation: 'D',
+              grades: [gradeWith(value: 2)],
+            ),
+          ],
+        ),
+      ]);
+
+      controller.changeWeightDisplayTypeForTerm(
+        termId: const TermId('term1'),
+        weightDisplayType: WeightDisplayType.percent,
+      );
+
+      expect(controller.term(const TermId('term1')).weightDisplayType,
+          WeightDisplayType.percent);
+
+      controller.changeWeightDisplayTypeForTerm(
+        termId: const TermId('term1'),
+        weightDisplayType: WeightDisplayType.factor,
+      );
+
+      expect(controller.term(const TermId('term1')).weightDisplayType,
+          WeightDisplayType.factor);
+    });
     test(
         'When changing weight display type for one term then it doesnt affect the type of the other terms',
         () {
@@ -536,8 +569,6 @@ void main() {
         weightDisplayType: WeightDisplayType.percent,
       );
 
-      expect(controller.term(const TermId('term1')).weightDisplayType,
-          WeightDisplayType.percent);
       expect(controller.term(const TermId('term2')).weightDisplayType,
           WeightDisplayType.factor);
     });
