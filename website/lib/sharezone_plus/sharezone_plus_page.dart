@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:go_router/go_router.dart';
@@ -17,9 +16,6 @@ import 'package:sharezone_website/flavor.dart';
 import 'package:sharezone_website/page.dart';
 import 'package:sharezone_website/utils.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-
-final isSharezonePlusPageEnabledFlag =
-    kDebugMode || Flavor.fromEnvironment() == Flavor.dev;
 
 typedef UserData = ({String username, String userId});
 
