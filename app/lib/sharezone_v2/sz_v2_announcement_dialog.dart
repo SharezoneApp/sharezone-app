@@ -245,7 +245,6 @@ class _SharezonePlus extends StatelessWidget {
           _JustText(markdownText: _markdownText2),
           SizedBox(height: 30),
           SharezonePlusAdvantages(
-            isHomeworkDoneListsFeatureVisible: false,
             isHomeworkReminderFeatureVisible: true,
           )
         ],
