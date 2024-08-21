@@ -302,6 +302,40 @@ void main() {
               .asDouble,
           expected);
     });
+    test('Setting a grade weight to a negative number throws an $ArgumentError',
+        () {
+      final controller = GradesTestController();
+
+      final term = termWith(
+        id: const TermId('term1'),
+        subjects: [
+          subjectWith(
+            id: const SubjectId('Mathe'),
+            name: 'Mathe',
+            weightType: WeightType.perGrade,
+            grades: [
+              gradeWith(
+                id: const GradeId('grade1'),
+                value: 1.0,
+                weight: const Weight.factor(0.2),
+              ),
+            ],
+          ),
+        ],
+      );
+      controller.createTerm(term);
+
+      expect(
+        () => controller.changeGradeWeightsForSubject(
+          termId: const TermId('term1'),
+          subjectId: const SubjectId('Mathe'),
+          weights: {
+            const GradeId('grade1'): const Weight.factor(-0.1),
+          },
+        ),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
     test(
         'grades for a subject will be weighted by the settings in term by default',
         () {

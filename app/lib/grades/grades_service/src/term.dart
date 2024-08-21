@@ -549,6 +549,9 @@ class GradeModel extends Equatable {
   }) : assert(originalInput is String || originalInput is num);
 
   GradeModel changeWeight(Weight weight) {
+    if (weight.isNegative) {
+      throw ArgumentError('Weight must be greater than or equal to 0');
+    }
     return copyWith(weight: weight, takenIntoAccount: weight.asFactor > 0);
   }
 

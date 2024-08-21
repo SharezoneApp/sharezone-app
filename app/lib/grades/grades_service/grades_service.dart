@@ -758,6 +758,8 @@ class Weight extends Equatable {
   @override
   List<Object?> get props => [asFactor];
 
+  bool get isNegative => asFactor < 0;
+
   const Weight.percent(num percent) : asFactor = percent / 100;
   const Weight.factor(this.asFactor);
   static const zero = Weight.factor(0);
