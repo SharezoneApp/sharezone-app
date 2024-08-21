@@ -205,8 +205,8 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
                   ?.gradeComposition
                   .gradeWeights
                   .map((key, value) =>
-                      MapEntry(key, value.toWeight()))[dto.id] ??
-              const Weight.factor(1),
+                      MapEntry(key, value.toNonNegativeWeight()))[dto.id] ??
+              NonNegativeWeight.factor(1),
         );
       },
     ).toIList();
@@ -259,14 +259,16 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         isFinalGradeTypeOverridden:
             termSubject.finalGradeType != subTerm.finalGradeTypeId,
         gradeTypeWeightings: termSubject.gradeComposition.gradeTypeWeights
-            .map((key, value) => MapEntry(GradeTypeId(key), value.toWeight()))
+            .map((key, value) =>
+                MapEntry(GradeTypeId(key), value.toNonNegativeWeight()))
             .toIMap(),
         gradeTypeWeightingsFromTerm: subTerm.gradeTypeWeights
-            .map((key, value) => MapEntry(GradeTypeId(key), value.toWeight()))
+            .map((key, value) =>
+                MapEntry(GradeTypeId(key), value.toNonNegativeWeight()))
             .toIMap(),
         weightingForTermGrade:
-            subTerm.subjectWeights[subject.id.value]?.toWeight() ??
-                const Weight.factor(1),
+            subTerm.subjectWeights[subject.id.value]?.toNonNegativeWeight() ??
+                NonNegativeWeight.factor(1),
         grades: grades
             .where((grade) =>
                 grade.subjectId == subject.id && grade.termId.value == termId)
@@ -295,7 +297,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             // Change both to num
             gradeTypeWeightings: dto.gradeTypeWeights
                 .map((key, value) =>
-                    MapEntry(GradeTypeId(key), value.toWeight()))
+                    MapEntry(GradeTypeId(key), value.toNonNegativeWeight()))
                 .toIMap(),
           ),
         )
@@ -383,6 +385,13 @@ class WeightDto {
       value: data['value'] as num,
       type: _WeightNumberType.values.byName(data['type'] as String),
     );
+  }
+
+  NonNegativeWeight toNonNegativeWeight() {
+    return switch (type) {
+      _WeightNumberType.factor => NonNegativeWeight.factor(value),
+      _WeightNumberType.percent => NonNegativeWeight.percent(value),
+    };
   }
 
   Weight toWeight() {

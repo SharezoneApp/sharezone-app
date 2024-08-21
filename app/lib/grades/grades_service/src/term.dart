@@ -15,7 +15,7 @@ class TermModel extends Equatable {
   final TermId id;
   final DateTime? createdOn;
   final IList<SubjectModel> subjects;
-  final IMap<GradeTypeId, Weight> gradeTypeWeightings;
+  final IMap<GradeTypeId, NonNegativeWeight> gradeTypeWeightings;
   final GradingSystemModel gradingSystem;
   final GradeTypeId finalGradeType;
   final bool isActiveTerm;
@@ -96,7 +96,7 @@ class TermModel extends Equatable {
   TermModel _copyWith({
     TermId? id,
     IList<SubjectModel>? subjects,
-    IMap<GradeTypeId, Weight>? gradeTypeWeightings,
+    IMap<GradeTypeId, NonNegativeWeight>? gradeTypeWeightings,
     WeightDisplayType? weightDisplayType,
     GradeTypeId? finalGradeType,
     bool? isActiveTerm,
@@ -151,10 +151,7 @@ class TermModel extends Equatable {
   }
 
   TermModel changeWeightingOfGradeType(GradeTypeId type,
-      {required Weight weight}) {
-    if (weight.isNegative) {
-      throw ArgumentError('Weight must be greater than or equal to 0');
-    }
+      {required NonNegativeWeight weight}) {
     final newWeights = gradeTypeWeightings.add(type, weight);
     final newSubjects = subjects.map((s) {
       final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
@@ -239,7 +236,7 @@ class TermModel extends Equatable {
       gradingSystem: gradingSystem,
       takenIntoAccount: grade.takeIntoAccount,
       gradeType: grade.type,
-      weight: const Weight.factor(1),
+      weight: NonNegativeWeight.factor(1),
       title: grade.title,
       details: grade.details,
     );
@@ -249,10 +246,7 @@ class TermModel extends Equatable {
     return subjects.any((s) => s.hasGrade(gradeId));
   }
 
-  TermModel changeWeighting(SubjectId id, Weight newWeight) {
-    if (newWeight.isNegative) {
-      throw ArgumentError('Weight must be greater than or equal to 0');
-    }
+  TermModel changeWeighting(SubjectId id, NonNegativeWeight newWeight) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       weightingForTermGrade: newWeight,
@@ -264,7 +258,7 @@ class TermModel extends Equatable {
   }
 
   TermModel changeWeightingOfGradeTypeInSubject(
-      SubjectId id, GradeTypeId gradeType, Weight weight) {
+      SubjectId id, GradeTypeId gradeType, NonNegativeWeight weight) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.changeGradeTypeWeight(gradeType, weight: weight);
 
@@ -284,7 +278,7 @@ class TermModel extends Equatable {
   }
 
   TermModel changeWeightOfGrade(
-      GradeId id, SubjectId subjectId, Weight weight) {
+      GradeId id, SubjectId subjectId, NonNegativeWeight weight) {
     final subject = subjects.firstWhere((s) => s.id == subjectId);
     final newSubject = subject.copyWith(
       grades: subject.grades.replaceFirstWhere(
@@ -348,9 +342,9 @@ class SubjectModel extends Equatable {
   final IList<GradeModel> grades;
   final GradeTypeId finalGradeType;
   final bool isFinalGradeTypeOverridden;
-  final Weight weightingForTermGrade;
-  final IMap<GradeTypeId, Weight> gradeTypeWeightings;
-  final IMap<GradeTypeId, Weight> gradeTypeWeightingsFromTerm;
+  final NonNegativeWeight weightingForTermGrade;
+  final IMap<GradeTypeId, NonNegativeWeight> gradeTypeWeightings;
+  final IMap<GradeTypeId, NonNegativeWeight> gradeTypeWeightingsFromTerm;
   final WeightType weightType;
   final String abbreviation;
   final Design design;
@@ -391,10 +385,11 @@ class SubjectModel extends Equatable {
     this.connectedCourses = const IListConst([]),
     this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
-    this.weightingForTermGrade = const Weight.factor(1),
+    NonNegativeWeight? weightingForTermGrade,
     this.gradeTypeWeightings = const IMapConst({}),
     this.gradeTypeWeightingsFromTerm = const IMapConst({}),
-  }) {
+  }) : weightingForTermGrade =
+            weightingForTermGrade ?? NonNegativeWeight.factor(1) {
     gradeVal = _getGradeVal();
   }
 
@@ -439,10 +434,7 @@ class SubjectModel extends Equatable {
   }
 
   SubjectModel changeGradeTypeWeight(GradeTypeId gradeType,
-      {required Weight weight}) {
-    if (weight.isNegative) {
-      throw ArgumentError('Weight must be greater than or equal to 0');
-    }
+      {required NonNegativeWeight weight}) {
     return copyWith(
         gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
   }
@@ -476,10 +468,10 @@ class SubjectModel extends Equatable {
     IList<GradeModel>? grades,
     GradeTypeId? finalGradeType,
     bool? isFinalGradeTypeOverridden,
-    Weight? weightingForTermGrade,
+    NonNegativeWeight? weightingForTermGrade,
     GradingSystemModel? gradingSystem,
-    IMap<GradeTypeId, Weight>? gradeTypeWeightings,
-    IMap<GradeTypeId, Weight>? gradeTypeWeightingsFromTerm,
+    IMap<GradeTypeId, NonNegativeWeight>? gradeTypeWeightings,
+    IMap<GradeTypeId, NonNegativeWeight>? gradeTypeWeightingsFromTerm,
     WeightType? weightType,
     IList<ConnectedCourse>? connectedCourses,
     DateTime? createdOn,
@@ -515,7 +507,7 @@ class GradeModel extends Equatable {
   final GradingSystemModel gradingSystem;
   final GradeTypeId gradeType;
   final bool takenIntoAccount;
-  final Weight weight;
+  final NonNegativeWeight weight;
   final Date date;
   final String title;
   final String? details;
@@ -557,10 +549,7 @@ class GradeModel extends Equatable {
     this.createdOn,
   }) : assert(originalInput is String || originalInput is num);
 
-  GradeModel changeWeight(Weight weight) {
-    if (weight.isNegative) {
-      throw ArgumentError('Weight must be greater than or equal to 0');
-    }
+  GradeModel changeWeight(NonNegativeWeight weight) {
     return copyWith(weight: weight, takenIntoAccount: weight.asFactor > 0);
   }
 
@@ -573,7 +562,7 @@ class GradeModel extends Equatable {
     GradingSystemModel? gradingSystem,
     GradeTypeId? gradeType,
     bool? takenIntoAccount,
-    Weight? weight,
+    NonNegativeWeight? weight,
     String? title,
     String? details,
     DateTime? createdOn,
@@ -594,5 +583,30 @@ class GradeModel extends Equatable {
       createdOn: createdOn ?? this.createdOn,
       originalInput: originalInput ?? this.originalInput,
     );
+  }
+}
+
+/// A [Weight] that is guaranteed to be non-negative.
+///
+/// Used so that we can enforce with the type system that a weight is non-negative
+/// This is better than just checking for non-negativity in the code because it
+/// makes it impossible to create a negative weight in the first place.
+class NonNegativeWeight extends Weight {
+  NonNegativeWeight.fromWeight(Weight weight) : super.factor(weight.asFactor);
+  NonNegativeWeight.factor(num factor) : super.factor(factor) {
+    if (factor < 0) {
+      throw ArgumentError('Weight must be non-negative');
+    }
+  }
+  NonNegativeWeight.percent(num percent) : super.percent(percent) {
+    if (percent < 0) {
+      throw ArgumentError('Weight must be non-negative');
+    }
+  }
+}
+
+extension on Weight {
+  NonNegativeWeight toNonNegativeWeightOrThrow() {
+    return NonNegativeWeight.fromWeight(this);
   }
 }
