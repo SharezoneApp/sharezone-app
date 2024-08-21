@@ -311,12 +311,10 @@ void main() {
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
-            name: 'Mathe',
             weightType: WeightType.perGrade,
             grades: [
               gradeWith(
                 id: const GradeId('grade1'),
-                value: 1.0,
                 weight: const Weight.factor(0.2),
               ),
             ],
@@ -346,18 +344,12 @@ void main() {
         subjects: [
           subjectWith(
             id: const SubjectId('Mathe'),
-            name: 'Mathe',
             weightType: WeightType.perGradeType,
             gradeTypeWeights: {
               GradeType.presentation.id: const Weight.factor(1),
             },
             grades: [
-              gradeWith(
-                id: const GradeId('grade1'),
-                type: GradeType.presentation.id,
-                value: 1.0,
-                weight: const Weight.factor(0.2),
-              ),
+              gradeWith(type: GradeType.presentation.id),
             ],
           ),
         ],
