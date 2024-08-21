@@ -152,6 +152,9 @@ class TermModel extends Equatable {
 
   TermModel changeWeightingOfGradeType(GradeTypeId type,
       {required Weight weight}) {
+    if (weight.isNegative) {
+      throw ArgumentError('Weight must be greater than or equal to 0');
+    }
     final newWeights = gradeTypeWeightings.add(type, weight);
     final newSubjects = subjects.map((s) {
       final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);

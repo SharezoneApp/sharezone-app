@@ -193,6 +193,14 @@ class GradesTestController {
     }
   }
 
+  void changeGradeTypeWeightForTerm(
+      {required TermId termId,
+      required Map<GradeTypeId, Weight> gradeTypeWeights}) {
+    for (var e in gradeTypeWeights.entries) {
+      service.term(termId).changeGradeTypeWeight(e.key, e.value);
+    }
+  }
+
   void changeFinalGradeTypeForSubject(
       {required TermId termId,
       required SubjectId subjectId,
