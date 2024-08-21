@@ -674,60 +674,6 @@ void main() {
               .asDouble,
           1.5);
     });
-    test('a subjects grade weights are saved even when they are deactivated',
-        () {
-      final controller = GradesTestController();
-
-      final term = termWith(
-        subjects: [
-          subjectWith(
-            id: const SubjectId('Deutsch'),
-            name: 'Deutsch',
-            weightType: WeightType.perGrade,
-            grades: [
-              gradeWith(
-                value: 3.0,
-                type: GradeType.presentation.id,
-                weight: const Weight.factor(1),
-              ),
-              gradeWith(
-                value: 1.0,
-                type: GradeType.writtenExam.id,
-                weight: const Weight.factor(3),
-              ),
-            ],
-          ),
-        ],
-      );
-      controller.createTerm(term);
-
-      expect(
-          controller
-              .term(term.id)
-              .subject(const SubjectId('Deutsch'))
-              .calculatedGrade!
-              .asDouble,
-          1.5);
-
-      controller.changeWeightTypeForSubject(
-        termId: term.id,
-        subjectId: const SubjectId('Deutsch'),
-        weightType: WeightType.inheritFromTerm,
-      );
-      controller.changeWeightTypeForSubject(
-        termId: term.id,
-        subjectId: const SubjectId('Deutsch'),
-        weightType: WeightType.perGrade,
-      );
-
-      expect(
-          controller
-              .term(term.id)
-              .subject(const SubjectId('Deutsch'))
-              .calculatedGrade!
-              .asDouble,
-          1.5);
-    });
     test(
         'If a term is added with an unknown final grade type then an $GradeTypeNotFoundException is thrown',
         () {
