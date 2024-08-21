@@ -113,7 +113,6 @@ class _Advantages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SharezonePlusAdvantages(
-      isHomeworkDoneListsFeatureVisible: typeOfUser == TypeOfUser.teacher,
       isHomeworkReminderFeatureVisible: typeOfUser == TypeOfUser.student,
       onOpenedAdvantage: (advantage) {
         final analytics = context.read<SharezonePlusPageController>();
