@@ -434,6 +434,9 @@ class SubjectModel extends Equatable {
 
   SubjectModel changeGradeTypeWeight(GradeTypeId gradeType,
       {required Weight weight}) {
+    if (weight.isNegative) {
+      throw ArgumentError('Weight must be greater than or equal to 0');
+    }
     return copyWith(
         gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
   }
