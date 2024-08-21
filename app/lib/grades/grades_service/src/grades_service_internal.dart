@@ -64,6 +64,7 @@ class _GradesServiceInternal {
           ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
           : null,
       gradeTypeWeightings: term.gradeTypeWeightings,
+      weightDisplayType: term.weightDisplayType,
       subjects: term.subjects
           .map(
             (subject) => SubjectResult(
@@ -327,6 +328,12 @@ class _GradesServiceInternal {
         .first;
     final newTerm = _term(termId).changeWeightOfGrade(id, subject.id, weight);
 
+    _updateTerm(newTerm);
+  }
+
+  void changeWeightDisplayTypeForTerm(
+      {required TermId termId, required WeightDisplayType weightDisplayType}) {
+    final newTerm = _term(termId).changeWeightDisplayType(weightDisplayType);
     _updateTerm(newTerm);
   }
 
