@@ -333,6 +333,14 @@ class GradesTestController {
       {required TermId termId, required WeightDisplayType weightDisplayType}) {
     service.term(termId).changeWeightDisplayType(weightDisplayType);
   }
+
+  void changeTermSubjectWeights(
+      {required TermId termId,
+      required Map<SubjectId, Weight> subjectWeights}) {
+    for (var e in subjectWeights.entries) {
+      service.term(termId).subject(e.key).changeWeightForTermGrade(e.value);
+    }
+  }
 }
 
 TestTerm termWith({

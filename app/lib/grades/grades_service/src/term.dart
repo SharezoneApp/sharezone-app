@@ -250,6 +250,9 @@ class TermModel extends Equatable {
   }
 
   TermModel changeWeighting(SubjectId id, Weight newWeight) {
+    if (newWeight.isNegative) {
+      throw ArgumentError('Weight must be greater than or equal to 0');
+    }
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.copyWith(
       weightingForTermGrade: newWeight,
