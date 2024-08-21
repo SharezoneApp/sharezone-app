@@ -277,14 +277,14 @@ void main() {
       term0110.changeWeightDisplayType(WeightDisplayType.percent);
 
       term0210.changeGradeTypeWeight(
-          GradeType.vocabularyTest.id, const Weight.factor(1.5));
+          GradeType.vocabularyTest.id, NonNegativeWeight.factor(1.5));
 
       term0210.subject(const SubjectId('mathe'))
         ..changeGradeTypeWeight(const GradeTypeId('my-custom-grade-type'),
-            const Weight.percent(200))
-        ..grade(GradeId('grade-1')).changeWeight(const Weight.factor(0.5))
+            NonNegativeWeight.percent(200))
+        ..grade(GradeId('grade-1')).changeWeight(NonNegativeWeight.factor(0.5))
         ..changeWeightType(WeightType.perGrade)
-        ..changeWeightForTermGrade(const Weight.percent(250));
+        ..changeWeightForTermGrade(NonNegativeWeight.percent(250));
 
       final res = repository.data;
 
@@ -536,7 +536,7 @@ void main() {
                     gradingSystem: GradingSystemModel.zeroToFifteenPoints,
                     gradeType: const GradeTypeId('my-custom-grade-type'),
                     takenIntoAccount: true,
-                    weight: const Weight.factor(0.5),
+                    weight: NonNegativeWeight.factor(0.5),
                     date: Date('2024-10-02'),
                     title: 'hallo',
                     details: 'hello',
@@ -555,8 +555,8 @@ void main() {
                     gradingSystem: GradingSystemModel.zeroToFifteenPoints,
                     gradeType: const GradeTypeId('vocabulary-test'),
                     takenIntoAccount: true,
-                    weight: const Weight.factor(1),
-                    // weight: const Weight.factor(0.5),
+                    weight: NonNegativeWeight.factor(1),
+                    // weight: NonNegativeWeight.factor(0.5),
                     // date: Date('2024-10-02'),
                     date: Date('2024-10-03'),
                     title: 'abcdef',
@@ -565,13 +565,14 @@ void main() {
                 ]),
                 finalGradeType: const GradeTypeId('school-report-grade'),
                 isFinalGradeTypeOverridden: false,
-                weightingForTermGrade: const Weight.factor(2.5),
+                weightingForTermGrade: NonNegativeWeight.factor(2.5),
                 gradeTypeWeightings: IMapConst({
                   const GradeTypeId('my-custom-grade-type'):
-                      const Weight.factor(2.0)
+                      NonNegativeWeight.factor(2.0)
                 }),
                 gradeTypeWeightingsFromTerm: IMapConst({
-                  const GradeTypeId('vocabulary-test'): const Weight.factor(1.5)
+                  const GradeTypeId('vocabulary-test'):
+                      NonNegativeWeight.factor(1.5)
                 }),
                 weightType: WeightType.perGrade,
                 abbreviation: 'M',
@@ -589,8 +590,9 @@ void main() {
               )
             ],
           ),
-          gradeTypeWeightings: IMapConst(
-              {const GradeTypeId('vocabulary-test'): const Weight.factor(1.5)}),
+          gradeTypeWeightings: IMapConst({
+            const GradeTypeId('vocabulary-test'): NonNegativeWeight.factor(1.5)
+          }),
           gradingSystem: GradingSystemModel.zeroToFifteenPoints,
           finalGradeType: const GradeTypeId('school-report-grade'),
           isActiveTerm: true,
@@ -620,7 +622,7 @@ void main() {
                     gradingSystem: GradingSystemModel.oneToSixWithPlusAndMinus,
                     gradeType: const GradeTypeId('my-custom-grade-type'),
                     takenIntoAccount: false,
-                    weight: const Weight.factor(1),
+                    weight: NonNegativeWeight.factor(1),
                     date: Date('2024-10-16'),
                     title: 'hallo',
                     details: 'ollah',
@@ -638,7 +640,7 @@ void main() {
                     gradingSystem: GradingSystemModel.austrianBehaviouralGrades,
                     gradeType: const GradeTypeId('oral-participation'),
                     takenIntoAccount: true,
-                    weight: const Weight.factor(1),
+                    weight: NonNegativeWeight.factor(1),
                     date: Date('2024-10-18'),
                     title: 'Beep boop',
                     details: 'robot noises',
@@ -647,7 +649,7 @@ void main() {
               ),
               finalGradeType: const GradeTypeId('oral-participation'),
               isFinalGradeTypeOverridden: true,
-              weightingForTermGrade: const Weight.factor(1),
+              weightingForTermGrade: NonNegativeWeight.factor(1),
               gradeTypeWeightings: const IMapConst({}),
               gradeTypeWeightingsFromTerm: const IMapConst({}),
               weightType: WeightType.inheritFromTerm,

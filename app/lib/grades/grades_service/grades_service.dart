@@ -752,11 +752,11 @@ class ConnectedCourse extends Equatable {
   });
 }
 
-class Weight extends Equatable {
+class Weight {
   final num asFactor;
   num get asPercentage => asFactor * 100;
-  @override
-  List<Object?> get props => [asFactor];
+
+  bool get isNegative => asFactor < 0;
 
   const Weight.percent(num percent) : asFactor = percent / 100;
   const Weight.factor(this.asFactor);
@@ -766,4 +766,11 @@ class Weight extends Equatable {
   String toString() {
     return 'Weight($asFactor / $asPercentage%)';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Weight && other.asFactor == asFactor;
+
+  @override
+  int get hashCode => asFactor.hashCode;
 }
