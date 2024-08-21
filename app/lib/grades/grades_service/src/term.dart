@@ -592,7 +592,8 @@ class GradeModel extends Equatable {
 /// This is better than just checking for non-negativity in the code because it
 /// makes it impossible to create a negative weight in the first place.
 class NonNegativeWeight extends Weight {
-  NonNegativeWeight.fromWeight(Weight weight) : super.factor(weight.asFactor);
+  factory NonNegativeWeight.fromWeight(Weight weight) =>
+      NonNegativeWeight.factor(weight.asFactor);
   NonNegativeWeight.factor(num factor) : super.factor(factor) {
     if (factor < 0) {
       throw ArgumentError('Weight must be non-negative');
