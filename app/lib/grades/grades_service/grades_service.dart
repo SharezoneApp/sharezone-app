@@ -180,6 +180,11 @@ class TermRef {
   void removeGradeTypeWeight(GradeTypeId gradeType) {
     _service.removeGradeTypeWeightForTerm(termId: id, gradeType: gradeType);
   }
+
+  void changeWeightDisplayType(WeightDisplayType weightDisplayType) {
+    _service.changeWeightDisplayTypeForTerm(
+        termId: id, weightDisplayType: weightDisplayType);
+  }
 }
 
 class TermSubjectRef {
@@ -552,6 +557,7 @@ class TermResult extends Equatable {
   final String name;
   final GradeType finalGradeType;
   final IMap<GradeTypeId, Weight> gradeTypeWeightings;
+  final WeightDisplayType weightDisplayType;
 
   SubjectResult subject(SubjectId id) {
     final subject = subjects.firstWhere((element) => element.id == id);
@@ -567,6 +573,7 @@ class TermResult extends Equatable {
     required this.isActiveTerm,
     required this.finalGradeType,
     required this.gradeTypeWeightings,
+    required this.weightDisplayType,
   });
 
   @override
@@ -579,6 +586,7 @@ class TermResult extends Equatable {
         name,
         finalGradeType,
         gradeTypeWeightings,
+        weightDisplayType,
       ];
 }
 
@@ -663,6 +671,8 @@ extension on GradeInput {
   }
 }
 
+enum WeightDisplayType { percent, factor }
+
 enum WeightType {
   perGrade,
   perGradeType,
@@ -742,11 +752,11 @@ class ConnectedCourse extends Equatable {
   });
 }
 
-class Weight extends Equatable {
+class Weight {
   final num asFactor;
   num get asPercentage => asFactor * 100;
-  @override
-  List<Object?> get props => [asFactor];
+
+  bool get isNegative => asFactor < 0;
 
   const Weight.percent(num percent) : asFactor = percent / 100;
   const Weight.factor(this.asFactor);
@@ -756,4 +766,11 @@ class Weight extends Equatable {
   String toString() {
     return 'Weight($asFactor / $asPercentage%)';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Weight && other.asFactor == asFactor;
+
+  @override
+  int get hashCode => asFactor.hashCode;
 }

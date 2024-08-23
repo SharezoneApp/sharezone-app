@@ -205,8 +205,8 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
                   ?.gradeComposition
                   .gradeWeights
                   .map((key, value) =>
-                      MapEntry(key, value.toWeight()))[dto.id] ??
-              const Weight.factor(1),
+                      MapEntry(key, value.toNonNegativeWeight()))[dto.id] ??
+              NonNegativeWeight.factor(1),
         );
       },
     ).toIList();
@@ -259,14 +259,16 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         isFinalGradeTypeOverridden:
             termSubject.finalGradeType != subTerm.finalGradeTypeId,
         gradeTypeWeightings: termSubject.gradeComposition.gradeTypeWeights
-            .map((key, value) => MapEntry(GradeTypeId(key), value.toWeight()))
+            .map((key, value) =>
+                MapEntry(GradeTypeId(key), value.toNonNegativeWeight()))
             .toIMap(),
         gradeTypeWeightingsFromTerm: subTerm.gradeTypeWeights
-            .map((key, value) => MapEntry(GradeTypeId(key), value.toWeight()))
+            .map((key, value) =>
+                MapEntry(GradeTypeId(key), value.toNonNegativeWeight()))
             .toIMap(),
         weightingForTermGrade:
-            subTerm.subjectWeights[subject.id.value]?.toWeight() ??
-                const Weight.factor(1),
+            subTerm.subjectWeights[subject.id.value]?.toNonNegativeWeight() ??
+                NonNegativeWeight.factor(1),
         grades: grades
             .where((grade) =>
                 grade.subjectId == subject.id && grade.termId.value == termId)
@@ -287,6 +289,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             createdOn: dto.createdOn?.toDate(),
             gradingSystem: dto.gradingSystem.toGradingSystemModel(),
             isActiveTerm: data['currentTerm'] == dto.id,
+            weightDisplayType: dto.weightDisplayType,
             subjects: termSubjects
                 .where((subject) => subject.termId.value == dto.id)
                 .toIList(),
@@ -294,7 +297,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             // Change both to num
             gradeTypeWeightings: dto.gradeTypeWeights
                 .map((key, value) =>
-                    MapEntry(GradeTypeId(key), value.toWeight()))
+                    MapEntry(GradeTypeId(key), value.toNonNegativeWeight()))
                 .toIMap(),
           ),
         )
@@ -384,6 +387,13 @@ class WeightDto {
     );
   }
 
+  NonNegativeWeight toNonNegativeWeight() {
+    return switch (type) {
+      _WeightNumberType.factor => NonNegativeWeight.factor(value),
+      _WeightNumberType.percent => NonNegativeWeight.percent(value),
+    };
+  }
+
   Weight toWeight() {
     return switch (type) {
       _WeightNumberType.factor => Weight.factor(value),
@@ -436,6 +446,7 @@ class TermDto {
   final Timestamp? createdOn;
   final GradingSystem gradingSystem;
   final Map<_SubjectId, WeightDto> subjectWeights;
+  final WeightDisplayType weightDisplayType;
   final Map<_GradeTypeId, WeightDto> gradeTypeWeights;
   final List<TermSubjectDto> subjects;
   final _GradeTypeId finalGradeTypeId;
@@ -446,6 +457,7 @@ class TermDto {
     required this.createdOn,
     required this.gradingSystem,
     required this.subjectWeights,
+    required this.weightDisplayType,
     required this.gradeTypeWeights,
     required this.finalGradeTypeId,
     required this.subjects,
@@ -459,6 +471,7 @@ class TermDto {
       finalGradeTypeId: term.finalGradeType.value,
       gradingSystem: term.gradingSystem.spec.gradingSystem,
       subjects: term.subjects.map(TermSubjectDto.fromSubject).toList(),
+      weightDisplayType: term.weightDisplayType,
       subjectWeights: Map.fromEntries(term.subjects.map((subject) =>
           MapEntry(subject.id.value, subject.weightingForTermGrade.toDto()))),
       gradeTypeWeights: term.gradeTypeWeightings
@@ -475,6 +488,9 @@ class TermDto {
       gradingSystem:
           GradingSystem.values.byName(data['gradingSystem'] as String),
       subjectWeights: data['subjectWeights'].toWeightsDtoMap(),
+      weightDisplayType: data['weightDisplayType'] is String
+          ? WeightDisplayType.values.byName(data['weightDisplayType'] as String)
+          : WeightDisplayType.factor,
       gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
       subjects: (data['subjects'] as Map)
           .mapTo((_, sub) => TermSubjectDto.fromData(sub))
@@ -491,6 +507,7 @@ class TermDto {
       if (createdOn == null) 'createdOn': FieldValue.serverTimestamp(),
       'gradingSystem': gradingSystem.name,
       'subjectWeights': subjectWeights.toWeightDataMap(),
+      'weightDisplayType': weightDisplayType.name,
       'gradeTypeWeights': gradeTypeWeights.toWeightDataMap(),
       'subjects': subjects
           .map((subject) => MapEntry(subject.id, subject.toData()))
