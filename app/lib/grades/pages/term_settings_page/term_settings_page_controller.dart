@@ -27,6 +27,7 @@ class TermSettingsPageController extends ChangeNotifier {
   late bool isActiveTerm;
   late GradingSystem gradingSystem;
   late GradeType finalGradeType;
+  late WeightDisplayType weightDisplayType;
   late IMap<GradeTypeId, Weight> _weights;
   IList<Course> courses = IList();
   late StreamSubscription<List<Course>> _courseSubscription;
@@ -41,6 +42,7 @@ class TermSettingsPageController extends ChangeNotifier {
         selectableGradingTypes: gradesService.getPossibleGradeTypes(),
         weights: _weights,
         subjects: _mergeCoursesAndSubjects(),
+        weightDisplayType: weightDisplayType,
       );
 
   TermSettingsPageController({
@@ -59,6 +61,7 @@ class TermSettingsPageController extends ChangeNotifier {
     gradingSystem = term.gradingSystem;
     finalGradeType = term.finalGradeType;
     _weights = term.gradeTypeWeightings;
+    weightDisplayType = term.weightDisplayType;
 
     state = TermSettingsLoaded(view);
 
@@ -132,6 +135,13 @@ class TermSettingsPageController extends ChangeNotifier {
   void removeGradeType(GradeTypeId gradeTypeId) {
     termRef.removeGradeTypeWeight(gradeTypeId);
     _weights = _weights.remove(gradeTypeId);
+    state = TermSettingsLoaded(view);
+    notifyListeners();
+  }
+
+  void setWeightDisplayType(WeightDisplayType newDisplayType) {
+    termRef.changeWeightDisplayType(newDisplayType);
+    weightDisplayType = newDisplayType;
     state = TermSettingsLoaded(view);
     notifyListeners();
   }

@@ -115,6 +115,25 @@ void main() {
       expect(repository.data.containsKey('currentTerm'), isTrue);
       expect(repository.data['currentTerm'], isNull);
     });
+    test(
+        'if `weightDisplayType` is not in data the default ${WeightDisplayType.factor} is used',
+        () {
+      final repository = TestFirestoreGradesStateRepository();
+      final controller = GradesTestController(
+          gradesService: GradesService(repository: repository));
+
+      final term = termWith(id: TermId('term1'));
+      controller.createTerm(term);
+
+      final terms = repository.data['terms'] as Map<String, Object?>;
+      final term1 = terms['term1'] as Map<String, Object?>;
+      // Make sure that the attribute actually exists
+      expect(term1.remove('weightDisplayType'), isNotNull);
+      repository.refreshStateFromUpdatedData();
+
+      expect(repository.state.value.terms.first.weightDisplayType,
+          WeightDisplayType.factor);
+    });
     test('serializes expected data map for empty state', () {
       final res = FirestoreGradesStateRepository.toDto((
         customGradeTypes: const IListConst([]),
@@ -255,16 +274,17 @@ void main() {
       term0110
           .subject(const SubjectId('englisch'))
           .changeFinalGradeType(GradeType.oralParticipation.id);
+      term0110.changeWeightDisplayType(WeightDisplayType.percent);
 
       term0210.changeGradeTypeWeight(
-          GradeType.vocabularyTest.id, const Weight.factor(1.5));
+          GradeType.vocabularyTest.id, NonNegativeWeight.factor(1.5));
 
       term0210.subject(const SubjectId('mathe'))
         ..changeGradeTypeWeight(const GradeTypeId('my-custom-grade-type'),
-            const Weight.percent(200))
-        ..grade(GradeId('grade-1')).changeWeight(const Weight.factor(0.5))
+            NonNegativeWeight.percent(200))
+        ..grade(GradeId('grade-1')).changeWeight(NonNegativeWeight.factor(0.5))
         ..changeWeightType(WeightType.perGrade)
-        ..changeWeightForTermGrade(const Weight.percent(250));
+        ..changeWeightForTermGrade(NonNegativeWeight.percent(250));
 
       final res = repository.data;
 
@@ -276,6 +296,7 @@ void main() {
             'displayName': '02/10',
             'createdOn': FieldValue.serverTimestamp(),
             'gradingSystem': 'zeroToFifteenPoints',
+            'weightDisplayType': 'factor',
             'subjectWeights': {
               'mathe': {
                 'value': 2.5,
@@ -316,6 +337,7 @@ void main() {
             'displayName': '01/10',
             'createdOn': FieldValue.serverTimestamp(),
             'gradingSystem': 'oneToSixWithPlusAndMinus',
+            'weightDisplayType': 'percent',
             'subjectWeights': {
               'englisch': {'value': 1.0, 'type': 'factor'},
             },
@@ -514,7 +536,7 @@ void main() {
                     gradingSystem: GradingSystemModel.zeroToFifteenPoints,
                     gradeType: const GradeTypeId('my-custom-grade-type'),
                     takenIntoAccount: true,
-                    weight: const Weight.factor(0.5),
+                    weight: NonNegativeWeight.factor(0.5),
                     date: Date('2024-10-02'),
                     title: 'hallo',
                     details: 'hello',
@@ -533,8 +555,8 @@ void main() {
                     gradingSystem: GradingSystemModel.zeroToFifteenPoints,
                     gradeType: const GradeTypeId('vocabulary-test'),
                     takenIntoAccount: true,
-                    weight: const Weight.factor(1),
-                    // weight: const Weight.factor(0.5),
+                    weight: NonNegativeWeight.factor(1),
+                    // weight: NonNegativeWeight.factor(0.5),
                     // date: Date('2024-10-02'),
                     date: Date('2024-10-03'),
                     title: 'abcdef',
@@ -543,13 +565,14 @@ void main() {
                 ]),
                 finalGradeType: const GradeTypeId('school-report-grade'),
                 isFinalGradeTypeOverridden: false,
-                weightingForTermGrade: const Weight.factor(2.5),
+                weightingForTermGrade: NonNegativeWeight.factor(2.5),
                 gradeTypeWeightings: IMapConst({
                   const GradeTypeId('my-custom-grade-type'):
-                      const Weight.factor(2.0)
+                      NonNegativeWeight.factor(2.0)
                 }),
                 gradeTypeWeightingsFromTerm: IMapConst({
-                  const GradeTypeId('vocabulary-test'): const Weight.factor(1.5)
+                  const GradeTypeId('vocabulary-test'):
+                      NonNegativeWeight.factor(1.5)
                 }),
                 weightType: WeightType.perGrade,
                 abbreviation: 'M',
@@ -567,8 +590,9 @@ void main() {
               )
             ],
           ),
-          gradeTypeWeightings: IMapConst(
-              {const GradeTypeId('vocabulary-test'): const Weight.factor(1.5)}),
+          gradeTypeWeightings: IMapConst({
+            const GradeTypeId('vocabulary-test'): NonNegativeWeight.factor(1.5)
+          }),
           gradingSystem: GradingSystemModel.zeroToFifteenPoints,
           finalGradeType: const GradeTypeId('school-report-grade'),
           isActiveTerm: true,
@@ -598,7 +622,7 @@ void main() {
                     gradingSystem: GradingSystemModel.oneToSixWithPlusAndMinus,
                     gradeType: const GradeTypeId('my-custom-grade-type'),
                     takenIntoAccount: false,
-                    weight: const Weight.factor(1),
+                    weight: NonNegativeWeight.factor(1),
                     date: Date('2024-10-16'),
                     title: 'hallo',
                     details: 'ollah',
@@ -616,7 +640,7 @@ void main() {
                     gradingSystem: GradingSystemModel.austrianBehaviouralGrades,
                     gradeType: const GradeTypeId('oral-participation'),
                     takenIntoAccount: true,
-                    weight: const Weight.factor(1),
+                    weight: NonNegativeWeight.factor(1),
                     date: Date('2024-10-18'),
                     title: 'Beep boop',
                     details: 'robot noises',
@@ -625,7 +649,7 @@ void main() {
               ),
               finalGradeType: const GradeTypeId('oral-participation'),
               isFinalGradeTypeOverridden: true,
-              weightingForTermGrade: const Weight.factor(1),
+              weightingForTermGrade: NonNegativeWeight.factor(1),
               gradeTypeWeightings: const IMapConst({}),
               gradeTypeWeightingsFromTerm: const IMapConst({}),
               weightType: WeightType.inheritFromTerm,
@@ -934,5 +958,10 @@ class TestFirestoreGradesStateRepository extends GradesStateRepository {
     data = FirestoreGradesStateRepository.toDto(state);
     final newState = FirestoreGradesStateRepository.fromData(data);
     this.state.add(newState);
+  }
+
+  void refreshStateFromUpdatedData() {
+    final newState = FirestoreGradesStateRepository.fromData(data);
+    state.add(newState);
   }
 }

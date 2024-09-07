@@ -372,6 +372,7 @@ class _SaveButton extends StatelessWidget {
             : () {
                 setState(() => isSaving = true);
                 onPressed(context);
+                setState(() => isSaving = false);
               },
       );
     });

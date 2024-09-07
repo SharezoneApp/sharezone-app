@@ -64,6 +64,7 @@ class _GradesServiceInternal {
           ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
           : null,
       gradeTypeWeightings: term.gradeTypeWeightings,
+      weightDisplayType: term.weightDisplayType,
       subjects: term.subjects
           .map(
             (subject) => SubjectResult(
@@ -215,7 +216,7 @@ class _GradesServiceInternal {
       newTerm = newTerm.addSubject(subject);
     }
 
-    newTerm = newTerm.changeWeighting(id, weight);
+    newTerm = newTerm.changeWeighting(id, weight.toNonNegativeWeightOrThrow());
     _updateTerm(newTerm);
   }
 
@@ -233,8 +234,8 @@ class _GradesServiceInternal {
     required GradeTypeId gradeType,
     required Weight weight,
   }) {
-    final newTerm = _term(termId)
-        .changeWeightingOfGradeTypeInSubject(id, gradeType, weight);
+    final newTerm = _term(termId).changeWeightingOfGradeTypeInSubject(
+        id, gradeType, weight.toNonNegativeWeightOrThrow());
     _updateTerm(newTerm);
   }
 
@@ -325,8 +326,15 @@ class _GradesServiceInternal {
         .subjects
         .where((element) => element.grades.any((grade) => grade.id == id))
         .first;
-    final newTerm = _term(termId).changeWeightOfGrade(id, subject.id, weight);
+    final newTerm = _term(termId).changeWeightOfGrade(
+        id, subject.id, weight.toNonNegativeWeightOrThrow());
 
+    _updateTerm(newTerm);
+  }
+
+  void changeWeightDisplayTypeForTerm(
+      {required TermId termId, required WeightDisplayType weightDisplayType}) {
+    final newTerm = _term(termId).changeWeightDisplayType(weightDisplayType);
     _updateTerm(newTerm);
   }
 
@@ -334,8 +342,8 @@ class _GradesServiceInternal {
       {required TermId termId,
       required GradeTypeId gradeType,
       required Weight weight}) {
-    final newTerm =
-        _term(termId).changeWeightingOfGradeType(gradeType, weight: weight);
+    final newTerm = _term(termId).changeWeightingOfGradeType(gradeType,
+        weight: weight.toNonNegativeWeightOrThrow());
     _updateTerm(newTerm);
   }
 
