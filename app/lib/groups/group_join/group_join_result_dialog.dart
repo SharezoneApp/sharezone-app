@@ -94,10 +94,13 @@ class GroupJoinResultDialog {
   Future<void> show(BuildContext context) {
     hideKeyboard(context: context);
     final joinResultStream = groupJoinBloc.joinResult;
-    final stateSheetContentStream = joinResultStream.map((joinResult) =>
-        mapStateSheetContentFromJoinResult(joinResult, context));
+    final stateSheetContentStream = joinResultStream.map((joinResult) {
+      if (!context.mounted) return const StateSheetContent(body: SizedBox());
+      return mapStateSheetContentFromJoinResult(joinResult, context);
+    });
     joinResultStream.listen((joinResult) {
       if (joinResult is RequireCourseSelectionsJoinResult) {
+        if (!context.mounted) return;
         openGroupJoinCoursePageIfNotYetOpen(context, joinResult);
       }
     });

@@ -139,7 +139,7 @@ dependencies:
   numberpicker: ^2.1.1
   open_file_plus: ^3.4.1
   overlay_support: ^2.1.0
-  package_info_plus: ^8.0.0
+  package_info_plus: ^8.0.2
   permission_handler: ^11.1.0
   photo_view: ^0.14.0
   provider: ^6.0.3
@@ -192,7 +192,10 @@ dependency_overrides:
   states_rebuilder: 6.4.0
   # Is required to be able to build the app using Flutter 3.10. Can be removed
   # when app_review uses package_info_plus > 5.0.1.
-  package_info_plus: ^8.0.0
+  package_info_plus: ^8.0.2
+  # Is required to be able to build the app using Flutter 3.24. Can be removed
+  # when the packages are using win32 >= 5.5.1
+  win32: ^5.5.4
   # Can be removed once pdfx uses device_info_plus >= 10.0.0.
   device_info_plus: ^10.1.0
   # Can be removed once flutter_localizations uses intl >= 0.19.0

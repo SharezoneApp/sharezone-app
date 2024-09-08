@@ -155,18 +155,20 @@ class _EmailField extends StatelessWidget {
             onEditingComplete: () async {
               final isValid = await bloc.submitValid.first;
               if (isValid) {
-                bloc
-                    .submit()
-                    .then((_) => showSnack(
-                        text: _ResetPasswordPage.erfolg,
-                        duration: const Duration(seconds: 5),
-                        context: context))
-                    .catchError((e, StackTrace s) {
-                  log('$e', error: e, stackTrace: s);
+                bloc.submit().then((_) {
+                  if (!context.mounted) return;
                   showSnack(
-                      text: _ResetPasswordPage.error,
+                      text: _ResetPasswordPage.erfolg,
                       duration: const Duration(seconds: 5),
                       context: context);
+                }).catchError((e, s) {
+                  log('$e', error: e, stackTrace: s);
+                  if (!context.mounted) return;
+                  showSnack(
+                    text: _ResetPasswordPage.error,
+                    duration: const Duration(seconds: 5),
+                    context: context,
+                  );
                 });
               }
             },
@@ -196,11 +198,12 @@ class _SubmitButton extends StatelessWidget {
             FocusManager.instance.primaryFocus?.unfocus();
             sendDataToFrankfurtSnackBar(context);
             snapshot.hasData && snapshot.data == true
-                ? bloc
-                    .submit()
-                    .then((_) => showConfirmationDialog(context))
-                    .catchError((e, StackTrace s) {
+                ? bloc.submit().then((_) {
+                    if (!context.mounted) return;
+                    showConfirmationDialog(context);
+                  }).catchError((e, StackTrace s) {
                     log('$e', error: e, stackTrace: s);
+                    if (!context.mounted) return;
                     showSnack(
                         text: _ResetPasswordPage.error,
                         duration: const Duration(seconds: 5),

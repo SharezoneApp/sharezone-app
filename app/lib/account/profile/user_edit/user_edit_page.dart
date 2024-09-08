@@ -114,9 +114,9 @@ class _UserEditPageState extends State<UserEditPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: bloc,
-      child: PopScope(
+      child: PopScope<Object?>(
         canPop: false,
-        onPopInvoked: (didPop) async {
+        onPopInvokedWithResult: (didPop, _) async {
           if (didPop) {
             return;
           }

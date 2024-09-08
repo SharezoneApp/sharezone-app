@@ -71,9 +71,9 @@ class _TimetableAddPageState extends State<TimetableAddPage> {
   Widget build(BuildContext context) {
     bloc = BlocProvider.of<TimetableAddBlocFactory>(context).create();
     final timetableBloc = BlocProvider.of<TimetableBloc>(context);
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
         final shouldPop = await warnUserAboutLeavingForm(context);
         if (shouldPop && context.mounted) {
