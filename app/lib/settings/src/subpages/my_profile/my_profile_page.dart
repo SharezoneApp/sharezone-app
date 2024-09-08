@@ -413,7 +413,7 @@ class _DeleteAccountDialogContentState
     final authUser = api.user.authUser!;
     final fbUser = authUser.firebaseUser;
     final provider = authUser.provider;
-    if (provider != Provider.anonymous) {
+    if (provider == Provider.email) {
       if (isEmptyOrNull(password)) {
         return;
       }
