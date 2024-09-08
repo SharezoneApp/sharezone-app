@@ -195,7 +195,7 @@ dependency_overrides:
   package_info_plus: ^8.0.2
   # Is required to be able to build the app using Flutter 3.24. Can be removed
   # when the packages are using win32 >= 5.5.1
-  win32: ^5.5.1
+  win32: ^5.5.4
   # Can be removed once pdfx uses device_info_plus >= 10.0.0.
   device_info_plus: ^10.1.0
   # Can be removed once flutter_localizations uses intl >= 0.19.0
