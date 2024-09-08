@@ -49,42 +49,46 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
     analytics.log(_OverdueAnalyticsEvent.displayed());
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-      child: CustomCard(
-        borderWidth: 2,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                "Alle überfälligen Hausaufgaben abhaken?",
-                style: textTheme.titleLarge?.apply(fontSizeFactor: 0.9),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            OverflowBar(
-              children: <Widget>[
-                TextButton(
-                  child: const Text("Schließen"),
-                  onPressed: () {
-                    analytics.log(_OverdueAnalyticsEvent.closed());
-                    setState(() {
-                      visible = false;
-                    });
-                    cache.setAlreadyDismissed(true);
-                  },
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: CustomCard(
+          borderWidth: 2,
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  "Alle überfälligen Hausaufgaben abhaken?",
+                  style: textTheme.titleLarge?.apply(fontSizeFactor: 0.9),
+                  textAlign: TextAlign.center,
                 ),
-                FilledButton(
-                  onPressed: () {
-                    analytics.log(_OverdueAnalyticsEvent.confirmed());
-                    bloc.add(CompletedAllOverdue());
-                  },
-                  child: const Text("Abhaken"),
-                )
-              ],
-            ),
-          ],
+              ),
+              OverflowBar(
+                children: <Widget>[
+                  TextButton(
+                    child: const Text("Schließen"),
+                    onPressed: () {
+                      analytics.log(_OverdueAnalyticsEvent.closed());
+                      setState(() {
+                        visible = false;
+                      });
+                      cache.setAlreadyDismissed(true);
+                    },
+                  ),
+                  FilledButton(
+                    onPressed: () {
+                      analytics.log(_OverdueAnalyticsEvent.confirmed());
+                      bloc.add(CompletedAllOverdue());
+                    },
+                    child: const Text("Abhaken"),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
