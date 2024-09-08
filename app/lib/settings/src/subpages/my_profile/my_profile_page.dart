@@ -459,7 +459,8 @@ class _DeleteAccountDialogContentState
     const text = "Ja, ich möchte mein Konto löschen.";
 
     // Because of https://github.com/flutter/flutter/issues/154793 we shouldn't
-    // show the CupertinoAlertDialog on macOS.
+    // show the CupertinoAlertDialog on macOS. Can be removed when the issue is
+    // fixed and rolled out to the stable channel.
     if (ThemePlatform.isCupertino && !PlatformCheck.isMacOS) {
       return CupertinoAlertDialog(
         title: const _DeleteAccountDialogTitle(),
