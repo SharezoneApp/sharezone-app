@@ -97,7 +97,7 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                       spacing: 10,
                       children: [
                         feature("Notensystem", bulletpoints: [
-                          "Speicher deine Noten in Sharezone",
+                          "Speichere deine Noten in Sharezone",
                           "Verschiedene Notensysteme"
                           ],
                           leaveDefaultPicture: true,
