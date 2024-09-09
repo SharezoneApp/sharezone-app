@@ -96,13 +96,17 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                     child: ColumnSpacing(
                       spacing: 10,
                       children: [
-                        feature("Notensystem", bulletpoints: [
-                          "Speichere deine Noten in Sharezone",
-                          "Verschiedene Notensysteme"
+                        feature(
+                          "Notensystem",
+                          bulletpoints: [
+                            "Speichere deine Noten in Sharezone",
+                            "Verschiedene Notensysteme"
                           ],
                           height: 60,
                         ),
-                        feature("Immer verfügbar",bulletpoints: [
+                        feature(
+                          "Immer verfügbar",
+                          bulletpoints: [
                             "Offline Inhalte eintragen",
                             "Mit mehreren Geräten nutzbar",
                           ],
