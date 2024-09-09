@@ -16,6 +16,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
@@ -413,7 +414,7 @@ class _DeleteAccountDialogContentState
     final authUser = api.user.authUser!;
     final fbUser = authUser.firebaseUser;
     final provider = authUser.provider;
-    if (provider != Provider.anonymous) {
+    if (provider == Provider.email) {
       if (isEmptyOrNull(password)) {
         return;
       }
@@ -457,7 +458,10 @@ class _DeleteAccountDialogContentState
     final provider = api.user.authUser!.provider;
     const text = "Ja, ich möchte mein Konto löschen.";
 
-    if (ThemePlatform.isCupertino) {
+    // Because of https://github.com/flutter/flutter/issues/154793 we shouldn't
+    // show the CupertinoAlertDialog on macOS. Can be removed when the issue is
+    // fixed and rolled out to the stable channel.
+    if (ThemePlatform.isCupertino && !PlatformCheck.isMacOS) {
       return CupertinoAlertDialog(
         title: const _DeleteAccountDialogTitle(),
         content: SingleChildScrollView(

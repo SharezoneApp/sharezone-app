@@ -247,9 +247,9 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
               const Center(child: CircularProgressIndicator()),
             SavedSuccessfully() => throw UnimplementedError(
                 'Placeholder, we pop the Navigator above so this should not be reached.'),
-            Ready() => PopScope(
+            Ready() => PopScope<Object?>(
                 canPop: false,
-                onPopInvoked: (didPop) async {
+                onPopInvokedWithResult: (didPop, _) async {
                   if (didPop) return;
 
                   final hasInputChanged = hasModifiedData();

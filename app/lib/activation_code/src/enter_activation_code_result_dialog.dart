@@ -59,11 +59,13 @@ class EnterActivationCodeResultDialog {
         body: LoadingEnterActivationCodeResultDialog());
   }
 
-  Future<void> show(BuildContext context) {
+  Future<void> show(BuildContext context) async {
     hideKeyboard(context: context);
     final joinResultStream = enterActivationCodeBloc.enterActivationCodeResult;
-    final stateSheetContentStream = joinResultStream.map((joinResult) =>
-        mapStateSheetContentFromJoinResult(joinResult, context));
+    final stateSheetContentStream = joinResultStream.map((joinResult) {
+      if (!context.mounted) return const StateSheetContent(body: SizedBox());
+      return mapStateSheetContentFromJoinResult(joinResult, context);
+    });
     final stateSheet = StateSheet(stateSheetContentStream);
 
     return stateSheet.showSheet(context);

@@ -8,6 +8,7 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
@@ -129,7 +130,10 @@ class _Loaded extends StatelessWidget {
             _IsActiveTerm(isActiveTerm: view.isActiveTerm),
             const Divider(),
             const SizedBox(height: 8),
-            _SubjectWeights(subjects: view.subjects),
+            _SubjectWeights(
+              subjects: view.subjects,
+              weightDisplayType: view.weightDisplayType,
+            ),
             const Divider(),
             const SizedBox(height: 8),
             _GradingTypeWeights(
@@ -282,8 +286,10 @@ class _IsActiveTerm extends StatelessWidget {
 class _SubjectWeights extends StatelessWidget {
   const _SubjectWeights({
     required this.subjects,
+    required this.weightDisplayType,
   });
 
+  final WeightDisplayType weightDisplayType;
   final IList<SubjectView> subjects;
 
   @override
@@ -294,6 +300,14 @@ class _SubjectWeights extends StatelessWidget {
         const Text(
           'Gewichtung der Kurse für Notenschnitt vom Halbjahr',
           style: TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 8),
+        _WeightDisplaySetting(
+          weightDisplayType: weightDisplayType,
+          onWeightDisplayTypeChanged: (newDisplayType) {
+            final controller = context.read<TermSettingsPageController>();
+            controller.setWeightDisplayType(newDisplayType);
+          },
         ),
         const SizedBox(height: 8),
         Text(
@@ -309,20 +323,76 @@ class _SubjectWeights extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
             ),
           ),
-        for (final subject in subjects) _SubjectTile(subject),
+        for (final subject in subjects)
+          _SubjectTile(subject, weightDisplayType),
       ],
     );
   }
 }
 
-class _SubjectTile extends StatelessWidget {
-  const _SubjectTile(this.subject);
+class _WeightDisplaySetting extends StatelessWidget {
+  const _WeightDisplaySetting({
+    required this.weightDisplayType,
+    required this.onWeightDisplayTypeChanged,
+  });
 
-  final SubjectView subject;
+  final WeightDisplayType weightDisplayType;
+  final void Function(WeightDisplayType) onWeightDisplayTypeChanged;
+
+  String get weightDisplayTypeString => switch (weightDisplayType) {
+        WeightDisplayType.factor => 'Faktor',
+        WeightDisplayType.percent => 'Prozent',
+      };
 
   @override
   Widget build(BuildContext context) {
-    final factor = subject.weight.asFactor.toStringAsPrecision(2);
+    return ListTile(
+      leading: const Icon(Symbols.weight, fill: 1),
+      title: const Text('Gewichtungssystem'),
+      subtitle: Text(weightDisplayTypeString),
+      onTap: () async {
+        final result = await showDialog<WeightDisplayType?>(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: const Text('Gewichtungssystem'),
+            children: [
+              ListTile(
+                title: const Text('Faktor'),
+                onTap: () {
+                  Navigator.pop(context, WeightDisplayType.factor);
+                },
+              ),
+              ListTile(
+                title: const Text('Prozent'),
+                onTap: () {
+                  Navigator.pop(context, WeightDisplayType.percent);
+                },
+              ),
+            ],
+          ),
+        );
+        if (result != null) {
+          onWeightDisplayTypeChanged(result);
+        }
+      },
+    );
+  }
+}
+
+class _SubjectTile extends StatelessWidget {
+  const _SubjectTile(this.subject, this.weightDisplayType);
+
+  final SubjectView subject;
+  final WeightDisplayType weightDisplayType;
+
+  @override
+  Widget build(BuildContext context) {
+    final factor = switch (weightDisplayType) {
+      WeightDisplayType.factor =>
+        subject.weight.asFactor.toStringAsPrecision(2),
+      WeightDisplayType.percent =>
+        '${subject.weight.asPercentage.toStringAsPrecision(3)}%',
+    };
     return ListTile(
       leading: SubjectAvatar(
         abbreviation: subject.abbreviation,
@@ -330,16 +400,17 @@ class _SubjectTile extends StatelessWidget {
       ),
       title: Text(subject.displayName),
       onTap: () async {
-        final weight = await showDialog<double>(
+        final weight = await showDialog<Weight>(
           context: context,
           builder: (context) => _FactorDialog(
-            initialValue: subject.weight.asFactor.toDouble(),
+            weight: subject.weight,
+            weightDisplayType: weightDisplayType,
           ),
         );
 
         if (weight != null && context.mounted) {
           final controller = context.read<TermSettingsPageController>();
-          controller.setSubjectWeight(subject.id, Weight.factor(weight));
+          controller.setSubjectWeight(subject.id, weight);
         }
       },
       trailing: Text(
@@ -355,10 +426,12 @@ class _SubjectTile extends StatelessWidget {
 
 class _FactorDialog extends StatefulWidget {
   const _FactorDialog({
-    required this.initialValue,
+    required this.weight,
+    required this.weightDisplayType,
   });
 
-  final double initialValue;
+  final Weight weight;
+  final WeightDisplayType weightDisplayType;
 
   @override
   State<_FactorDialog> createState() => _FactorDialogState();
@@ -366,16 +439,39 @@ class _FactorDialog extends StatefulWidget {
 
 class _FactorDialogState extends State<_FactorDialog> {
   String? errorText;
-  double? value;
+  num? value;
+
+  num get initialValue => switch (widget.weightDisplayType) {
+        WeightDisplayType.factor => widget.weight.asFactor,
+        WeightDisplayType.percent => widget.weight.asPercentage,
+      };
+
+  String get formatted => switch (widget.weightDisplayType) {
+        WeightDisplayType.factor => value == null
+            ? ''
+            // If there are no decimals, we want to show the "1" as "1.0", so
+            // that the user knows that he can write a decimal number and what
+            // the seperator is ("." instead of ",").
+            : value!.hasDecimals
+                ? value.toString()
+                : value!.toStringAsPrecision(2),
+        WeightDisplayType.percent => value?.toString() ?? '',
+      };
+
+  Weight? get valueAsWeight => switch (widget.weightDisplayType) {
+        WeightDisplayType.factor =>
+          value != null ? Weight.factor(value!) : null,
+        WeightDisplayType.percent =>
+          value != null ? Weight.percent(value!) : null,
+      };
 
   @override
   void initState() {
     super.initState();
-    value = widget.initialValue;
+    value = initialValue;
   }
 
-  bool isValid() =>
-      errorText == null && value != null && widget.initialValue != value;
+  bool isValid() => errorText == null && value != null && initialValue != value;
 
   @override
   Widget build(BuildContext context) {
@@ -396,21 +492,25 @@ class _FactorDialogState extends State<_FactorDialog> {
               ),
               const SizedBox(height: 20),
               PrefilledTextField(
-                prefilledText: value?.toStringAsPrecision(2),
+                prefilledText: formatted,
                 autofocus: true,
                 decoration: InputDecoration(
                   labelText: 'Gewichtung',
                   hintText: 'z.B. 1.0',
                   errorText: errorText,
+                  suffixText: switch (widget.weightDisplayType) {
+                    WeightDisplayType.factor => null,
+                    WeightDisplayType.percent => '%',
+                  },
                 ),
                 onEditingComplete: () {
                   if (isValid()) {
-                    Navigator.of(context).pop(value);
+                    Navigator.of(context).pop(valueAsWeight);
                   }
                 },
                 onChanged: (value) {
                   setState(() {
-                    this.value = double.tryParse(value);
+                    this.value = num.tryParse(value);
 
                     final isValid = this.value != null;
                     errorText = isValid ? null : 'Bitte gib eine Zahl ein.';
@@ -428,8 +528,9 @@ class _FactorDialogState extends State<_FactorDialog> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
             child: FilledButton(
-              onPressed:
-                  isValid() ? () => Navigator.of(context).pop(value) : null,
+              onPressed: isValid()
+                  ? () => Navigator.of(context).pop(valueAsWeight)
+                  : null,
               child: const Text('Speichern'),
             ),
           ),

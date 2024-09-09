@@ -107,7 +107,7 @@ class _StudentDialogState extends State<_StudentDialog> {
   @override
   Widget build(BuildContext context) {
     final szContext = BlocProvider.of<SharezoneContext>(context);
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
       child: Scaffold(
           appBar: AppBar(
@@ -245,7 +245,6 @@ class _SharezonePlus extends StatelessWidget {
           _JustText(markdownText: _markdownText2),
           SizedBox(height: 30),
           SharezonePlusAdvantages(
-            isHomeworkDoneListsFeatureVisible: false,
             isHomeworkReminderFeatureVisible: true,
           )
         ],

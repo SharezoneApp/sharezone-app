@@ -19,6 +19,7 @@ class TermSettingsPageView extends Equatable {
   final IList<GradeType> selectableGradingTypes;
   final IMap<GradeTypeId, Weight> weights;
   final IList<SubjectView> subjects;
+  final WeightDisplayType weightDisplayType;
 
   const TermSettingsPageView({
     required this.name,
@@ -28,6 +29,7 @@ class TermSettingsPageView extends Equatable {
     required this.selectableGradingTypes,
     required this.weights,
     required this.subjects,
+    required this.weightDisplayType,
   });
 
   @override
@@ -39,6 +41,7 @@ class TermSettingsPageView extends Equatable {
         selectableGradingTypes,
         weights,
         subjects,
+        weightDisplayType,
       ];
 }
 

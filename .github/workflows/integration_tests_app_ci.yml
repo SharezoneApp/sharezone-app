@@ -85,14 +85,14 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       # Our Android configurations require Java 17.
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@6a0805fcefea3d4657a47ac4c165951e33482018
         with:
           distribution: "oracle"
           java-version: "17"
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+        uses: kuhnroyal/flutter-fvm-config-action@4155f8ca4c30a4f2f50df69caa0e4259f6cd1142
 
       - uses: subosito/flutter-action@main
         with:
@@ -182,7 +182,7 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+        uses: kuhnroyal/flutter-fvm-config-action@4155f8ca4c30a4f2f50df69caa0e4259f6cd1142
 
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
@@ -234,7 +234,7 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+        uses: kuhnroyal/flutter-fvm-config-action@4155f8ca4c30a4f2f50df69caa0e4259f6cd1142
 
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
@@ -309,7 +309,7 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+        uses: kuhnroyal/flutter-fvm-config-action@4155f8ca4c30a4f2f50df69caa0e4259f6cd1142
 
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:

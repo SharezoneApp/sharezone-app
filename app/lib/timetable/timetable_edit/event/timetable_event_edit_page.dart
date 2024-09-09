@@ -89,9 +89,9 @@ class _TimetableEditEventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isExam = initialEvent.eventType == EventType.exam;
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
 
         final shouldPop = await warnUserAboutLeavingOrSavingForm(
