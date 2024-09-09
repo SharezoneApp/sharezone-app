@@ -100,7 +100,6 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                           "Speichere deine Noten in Sharezone",
                           "Verschiedene Notensysteme"
                           ],
-                          leaveDefaultPicture: true,
                           height: 60,
                         ),
                         feature("Immer verfügbar",bulletpoints: [
