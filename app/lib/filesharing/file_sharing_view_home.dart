@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:files_basics/files_models.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
@@ -45,6 +46,11 @@ class FileSharingViewHome extends StatelessWidget {
                 key: ValueKey(snapshot),
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  const FileStorageUsageIndicator(
+                    usedStorage: KiloByteSize(gigabytes: 9),
+                    totalStorage: KiloByteSize(gigabytes: 10),
+                    plusStorage: KiloByteSize(gigabytes: 30),
+                  ),
                   const FileSharingHeadline(title: "Kursordner"),
                   WrappableList(
                     minWidth: 150,
@@ -83,6 +89,49 @@ class _CourseFolderCard extends StatelessWidget {
       },
       text: fileSharingData.courseName,
       icon: Icon(Icons.folder, color: Colors.grey[600]),
+    );
+  }
+}
+
+class FileStorageUsageIndicator extends StatelessWidget {
+  const FileStorageUsageIndicator({
+    required this.usedStorage,
+    required this.totalStorage,
+    required this.plusStorage,
+    super.key,
+  });
+
+  final KiloByteSize usedStorage;
+  final KiloByteSize totalStorage;
+  final KiloByteSize plusStorage;
+
+  double get _usedStoragePercentage =>
+      usedStorage.inBytes / totalStorage.inBytes;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(
+          "Speicherplatz: ${usedStorage.inGigabytes.toStringAsFixed(2)} GB von ${totalStorage.inGigabytes.toInt()} GB belegt"),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          LinearProgressIndicator(
+            value: _usedStoragePercentage,
+            backgroundColor: Colors.grey,
+            color: switch (_usedStoragePercentage) {
+              < 0.7 => Colors.blueAccent,
+              < 0.9 => Colors.orange,
+              _ => Colors.red,
+            },
+            minHeight: 6,
+          ),
+          if (_usedStoragePercentage >= 0.7) ...[
+            const SizedBox(height: 4),
+            const Text("Hol dir mehr Speicherplatz mit Sharezone Plus (30 GB)"),
+          ]
+        ],
+      ),
     );
   }
 }
