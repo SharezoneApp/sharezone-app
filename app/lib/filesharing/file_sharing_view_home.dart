@@ -9,8 +9,11 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
+import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -60,6 +63,40 @@ class FileSharingViewHome extends StatelessWidget {
                         _CourseFolderCard(fileSharingData)
                     ],
                   ),
+                  if (kDebugMode) ...[
+                    const SizedBox(height: 16),
+                    TextButton(
+                      child: const Text('Zu wenig Speicherplatz Dialog öffnen'),
+                      onPressed: () {
+                        showLeftRightAdaptiveDialog(
+                          context: context,
+                          title: 'Zu wenig Speicherplatz',
+                          content: Column(
+                            children: [
+                              const Text('''
+Die Datei (13 MB), die du hochladen wolltest, passt nicht mehr in dein Speicherplatz (10 GB).
+                                  
+Lösche von dir hochgeladene Dateien, um Speicherplatz freizugeben oder kaufe mehr Speicherplatz mit Sharezone Plus.'''),
+                              const SizedBox(height: 16),
+                              SharezonePlusFeatureInfoCard(
+                                child: Text(
+                                    'Mit Sharezone Plus erhältst du 30 GB Speicherplatz.'),
+                                withLearnMoreButton: true,
+                                onLearnMorePressed: () {
+                                  final bloc =
+                                      BlocProvider.of<NavigationBloc>(context);
+                                  Navigator.pop(context);
+                                  bloc.navigateTo(NavigationItem.sharezonePlus);
+                                },
+                              ),
+                            ],
+                          ),
+                          left: null,
+                          right: AdaptiveDialogAction.ok,
+                        );
+                      },
+                    ),
+                  ]
                 ],
               ),
             ),
