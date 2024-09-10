@@ -18,6 +18,7 @@ import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // ignore:implementation_imports
+import 'file_sharing_storage_usage_page.dart';
 import 'logic/file_sharing_page_state_bloc.dart';
 import 'models/file_sharing_page_state.dart';
 import 'widgets/card_with_icon_and_text.dart';
@@ -49,10 +50,15 @@ class FileSharingViewHome extends StatelessWidget {
                 key: ValueKey(snapshot),
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const FileStorageUsageIndicator(
-                    usedStorage: KiloByteSize(gigabytes: 9),
-                    totalStorage: KiloByteSize(gigabytes: 10),
-                    plusStorage: KiloByteSize(gigabytes: 30),
+                  FileStorageUsageIndicator(
+                    usedStorage: const KiloByteSize(gigabytes: 9),
+                    totalStorage: const KiloByteSize(gigabytes: 10),
+                    plusStorage: const KiloByteSize(gigabytes: 30),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              const FileSharingStorageUsagePage()));
+                    },
                   ),
                   const FileSharingHeadline(title: "Kursordner"),
                   WrappableList(
@@ -135,12 +141,14 @@ class FileStorageUsageIndicator extends StatelessWidget {
     required this.usedStorage,
     required this.totalStorage,
     required this.plusStorage,
+    this.onTap,
     super.key,
   });
 
   final KiloByteSize usedStorage;
   final KiloByteSize totalStorage;
   final KiloByteSize plusStorage;
+  final VoidCallback? onTap;
 
   double get _usedStoragePercentage =>
       usedStorage.inBytes / totalStorage.inBytes;
@@ -148,6 +156,7 @@ class FileStorageUsageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       title: Text(
           "Speicherplatz: ${usedStorage.inGigabytes.toStringAsFixed(2)} GB von ${totalStorage.inGigabytes.toInt()} GB belegt"),
       subtitle: Column(
