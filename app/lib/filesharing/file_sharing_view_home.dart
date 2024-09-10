@@ -74,7 +74,7 @@ class FileSharingViewHome extends StatelessWidget {
                           content: Column(
                             children: [
                               const Text('''
-Die Datei (13 MB), die du hochladen wolltest, passt nicht mehr in dein Speicherplatz (10 GB).
+Die Datei (13 MB), die du hochladen wolltest, passt nicht mehr in deinen noch freien Speicherplatz (10 MB).
                                   
 Lösche von dir hochgeladene Dateien, um Speicherplatz freizugeben oder kaufe mehr Speicherplatz mit Sharezone Plus.'''),
                               const SizedBox(height: 16),
