@@ -543,62 +543,69 @@ class _DeleteAccountDialogContentState
       );
     }
 
-    return AlertDialog(
-      title: const _DeleteAccountDialogTitle(),
-      contentPadding: const EdgeInsets.only(top: 24),
-      content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: _DeleteAccountDialogText(),
-            ),
-            provider == Provider.email
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const SizedBox(height: 16),
-                        const Text(
-                            "Bitte gib dein Passwort ein, um deinen Account zu löschen."),
-                        TextField(
-                          onChanged: (s) => setState(() => password = s),
-                          onEditingComplete: () async =>
-                              tryToDeleteUser(context),
-                          autofocus: false,
-                          decoration: InputDecoration(
-                            labelText: 'Passwort',
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _obscureText = !_obscureText;
-                                });
-                              },
-                              child: Icon(_obscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
+    return MaxWidthConstraintBox(
+      maxWidth: 400,
+      child: AlertDialog(
+        title: const _DeleteAccountDialogTitle(),
+        contentPadding: const EdgeInsets.only(top: 24),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: _DeleteAccountDialogText(),
+              ),
+              provider == Provider.email
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          const SizedBox(height: 16),
+                          const Text(
+                              "Bitte gib dein Passwort ein, um deinen Account zu löschen."),
+                          TextField(
+                            onChanged: (s) => setState(() => password = s),
+                            onEditingComplete: () async =>
+                                tryToDeleteUser(context),
+                            autofocus: false,
+                            decoration: InputDecoration(
+                              labelText: 'Passwort',
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                                child: Icon(_obscureText
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                              ),
                             ),
+                            obscureText: _obscureText,
                           ),
-                          obscureText: _obscureText,
-                        ),
-                      ],
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 4),
+                      child: DeleteConfirmationCheckbox(
+                        confirm: signOut!,
+                        onChanged: (value) => setState(() => signOut = value),
+                        text: text,
+                      ),
                     ),
-                  )
-                : DeleteConfirmationCheckbox(
-                    confirm: signOut!,
-                    onChanged: (value) => setState(() => signOut = value),
-                    text: text,
-                  ),
-            if (isNotEmptyOrNull(error))
-              DeleteAccountDialogErrorText(text: error!)
-          ],
+              if (isNotEmptyOrNull(error))
+                DeleteAccountDialogErrorText(text: error!)
+            ],
+          ),
         ),
+        actions: isLoading ? loadingCircle : actions(context),
       ),
-      actions: isLoading ? loadingCircle : actions(context),
     );
   }
 }
