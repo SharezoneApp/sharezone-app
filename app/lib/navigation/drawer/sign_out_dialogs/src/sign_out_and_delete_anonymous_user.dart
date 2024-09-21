@@ -98,7 +98,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
           ),
         ),
         actions: <Widget>[
-          CupertinoActionSheetAction(
+          CupertinoDialogAction(
             child: const Text("Abbrechen"),
             onPressed: () => Navigator.pop(context, false),
           ),
@@ -112,7 +112,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
               ],
             ),
           if (confirmedToDeleteAccount && !isLoading)
-            CupertinoActionSheetAction(
+            CupertinoDialogAction(
                 isDefaultAction: true,
                 isDestructiveAction: true,
                 onPressed: () => tryToSignOutAndDeleteUser(context),

@@ -458,10 +458,7 @@ class _DeleteAccountDialogContentState
     final provider = api.user.authUser!.provider;
     const text = "Ja, ich möchte mein Konto löschen.";
 
-    // Because of https://github.com/flutter/flutter/issues/154793 we shouldn't
-    // show the CupertinoAlertDialog on macOS. Can be removed when the issue is
-    // fixed and rolled out to the stable channel.
-    if (ThemePlatform.isCupertino && !PlatformCheck.isMacOS) {
+    if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
         title: const _DeleteAccountDialogTitle(),
         content: SingleChildScrollView(
@@ -516,7 +513,7 @@ class _DeleteAccountDialogContentState
           ),
         ),
         actions: <Widget>[
-          CupertinoActionSheetAction(
+          CupertinoDialogAction(
             child: const Text("Abbrechen"),
             onPressed: () => Navigator.pop(context),
           ),
@@ -533,7 +530,7 @@ class _DeleteAccountDialogContentState
                   ? isNotEmptyOrNull(password)
                   : signOut!) &&
               !isLoading)
-            CupertinoActionSheetAction(
+            CupertinoDialogAction(
               isDefaultAction: true,
               isDestructiveAction: true,
               onPressed: () => tryToDeleteUser(context),
