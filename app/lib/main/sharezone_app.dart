@@ -141,7 +141,7 @@ class _SharezoneAppState extends State<SharezoneApp>
       navigationService: navigationService,
       beitrittsversuche: widget.beitrittsversuche,
       child: ShowCaseWidget(
-        builder: Builder(builder: (context) {
+        builder: (context) {
           final navigationBloc = BlocProvider.of<NavigationBloc>(context);
           return CourseJoinListener(
             beitrittsversuche: widget.beitrittsversuche,
@@ -208,7 +208,7 @@ class _SharezoneAppState extends State<SharezoneApp>
               navigatorKey: navigationService.navigatorKey,
             ),
           );
-        }),
+        },
       ),
     );
   }

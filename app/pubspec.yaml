@@ -165,7 +165,7 @@ dependencies:
     path: ../lib/sharezone_plus/sharezone_plus_page_ui
   sharezone_widgets:
     path: ../lib/sharezone_widgets
-  showcaseview: ^2.0.1
+  showcaseview: ^3.0.0
   sliding_up_panel:
     git:
       url: https://github.com/nilsreichardt/sliding_up_panel
