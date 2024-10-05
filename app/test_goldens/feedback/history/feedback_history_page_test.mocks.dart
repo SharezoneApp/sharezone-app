@@ -4,6 +4,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i8;
+import 'dart:ui' as _i9;
 
 import 'package:common_domain_models/common_domain_models.dart' as _i3;
 import 'package:crash_analytics/crash_analytics.dart' as _i4;
@@ -177,7 +178,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
       );
 
   @override
-  void addListener(dynamic listener) => super.noSuchMethod(
+  void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -186,7 +187,7 @@ class MockFeedbackHistoryPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(dynamic listener) => super.noSuchMethod(
+  void removeListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

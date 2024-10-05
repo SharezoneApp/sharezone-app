@@ -3,6 +3,8 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:ui' as _i5;
+
 import 'package:common_domain_models/common_domain_models.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i4;
@@ -134,7 +136,7 @@ class MockSupportPageController extends _i1.Mock
       );
 
   @override
-  void addListener(dynamic listener) => super.noSuchMethod(
+  void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -143,7 +145,7 @@ class MockSupportPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(dynamic listener) => super.noSuchMethod(
+  void removeListener(_i5.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
