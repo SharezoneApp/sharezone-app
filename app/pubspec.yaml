@@ -104,6 +104,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.2
   font_awesome_flutter: ^10.4.0
+  google_mobile_ads: ^5.2.0
   group_domain_implementation:
     path: ../lib/group_domain_implementation
   group_domain_models:
