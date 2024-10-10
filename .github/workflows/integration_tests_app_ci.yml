@@ -190,6 +190,7 @@ jobs:
           model: "iPhone 16"
 
       - name: Build app
+        working-directory: app
         run: |
           flutter build ipa \
             --flavor dev \
