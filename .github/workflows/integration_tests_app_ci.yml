@@ -169,7 +169,7 @@ jobs:
 
   ios-integration-test:
     needs: changes
-    runs-on: macos-14
+    runs-on: macos-15
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     steps:
@@ -187,7 +187,7 @@ jobs:
       - uses: futureware-tech/simulator-action@48e51da14445b3eedca643bba4b78d9d8332ff31
         id: simulator
         with:
-          model: "iPhone 15"
+          model: "iPhone 16"
 
       - name: Run integration tests
         working-directory: app
