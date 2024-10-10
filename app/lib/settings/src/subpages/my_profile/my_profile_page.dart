@@ -15,6 +15,7 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
@@ -66,6 +67,7 @@ class MyProfilePage extends StatelessWidget {
                       _PasswordTile(provider: user.provider),
                       _StateTile(state: user.state),
                       _ProviderTile(provider: user.provider),
+                      _UserId(user.id),
                       _EnterActivationTile(),
                       _PrivacyOptOut(),
                       const Divider(),
@@ -290,6 +292,27 @@ class _PrivacyOptOut extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _UserId extends StatelessWidget {
+  const _UserId(this.userID);
+
+  final String userID;
+
+  void copyUserId(BuildContext context) {
+    Clipboard.setData(ClipboardData(text: userID));
+    showSnack(context: context, text: 'User ID wurde kopiert');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.tag),
+      title: const Text("User ID"),
+      subtitle: Text(userID),
+      onTap: () => copyUserId(context),
     );
   }
 }
