@@ -11,5 +11,6 @@
 /// More dartdocs go here.
 library;
 
+export 'src/imprint/imprint.dart';
 export 'src/privacy_policy/privacy_policy_page.dart';
 export 'src/terms_of_service/terms_of_service_page.dart';

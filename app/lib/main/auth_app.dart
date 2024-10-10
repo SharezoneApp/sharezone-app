@@ -24,8 +24,6 @@ import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart'
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/onboarding/welcome_page.dart';
 import 'package:sharezone/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
-import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
-import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
 import 'package:sharezone/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
@@ -85,11 +83,6 @@ class _AuthAppState extends State<AuthApp> {
             ),
           ),
           BlocProvider<RegistrationBloc>(bloc: bloc),
-          BlocProvider<ImprintBlocFactory>(
-            bloc: ImprintBlocFactory(
-              ImprintGateway(widget.blocDependencies.firestore),
-            ),
-          ),
           BlocProvider<ImprintAnalytics>(
               bloc: ImprintAnalytics(widget.analytics)),
         ],

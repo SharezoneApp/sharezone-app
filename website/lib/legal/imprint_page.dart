@@ -8,12 +8,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:legal/legal.dart';
 import 'package:sharezone_website/page.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/section.dart';
 
 import '../utils.dart';
-import 'imprint.dart';
 
 class ImprintPage extends StatelessWidget {
   const ImprintPage({super.key});
@@ -40,8 +40,8 @@ class ImprintPage extends StatelessWidget {
                   Theme(
                     data: ThemeData.light(),
                     child: MarkdownBody(
-                      data: Imprint.offline().asMarkdown,
-                      onTapLink: (link, href, title) => launchUrl(link),
+                      data: markdownImprint,
+                      onTapLink: (link, href, title) => launchUrl(href!),
                       selectable: true,
                       softLineBreak: true,
                     ),
