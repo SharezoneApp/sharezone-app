@@ -57,7 +57,7 @@ class _LeaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _DangerButton(
+    return DangerButtonOutlined(
       onPressed: onPressed,
       label: label,
       icon: const Icon(Icons.exit_to_app),
@@ -65,8 +65,9 @@ class _LeaveButton extends StatelessWidget {
   }
 }
 
-class _DangerButton extends StatelessWidget {
-  const _DangerButton({
+class DangerButtonOutlined extends StatelessWidget {
+  const DangerButtonOutlined({
+    super.key,
     this.onPressed,
     required this.label,
     required this.icon,
@@ -85,7 +86,44 @@ class _DangerButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           shadowColor: Colors.transparent,
           foregroundColor: Colors.red,
-          backgroundColor: Colors.red.withOpacity(0.2),
+          backgroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: Colors.red.withOpacity(0.5),
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(512),
+          ),
+        ),
+        onPressed: onPressed,
+        label: label,
+      ),
+    );
+  }
+}
+
+class DangerButtonFilled extends StatelessWidget {
+  const DangerButtonFilled({
+    super.key,
+    this.onPressed,
+    required this.label,
+    required this.icon,
+  });
+
+  final VoidCallback? onPressed;
+  final Widget label;
+  final Widget icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: FilledButton.icon(
+        icon: icon,
+        style: FilledButton.styleFrom(
+          shadowColor: Colors.transparent,
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.red,
         ),
         onPressed: onPressed,
         label: label,
@@ -105,7 +143,7 @@ class _DeleteSchoolClassButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _DangerButton(
+    return DangerButtonFilled(
       icon: const Icon(Icons.delete),
       onPressed: onPressed,
       label: label,

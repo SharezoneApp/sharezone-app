@@ -21,6 +21,7 @@ import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
+import 'package:sharezone/groups/src/widgets/danger_section.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
@@ -68,9 +69,8 @@ class MyProfilePage extends StatelessWidget {
                       _ProviderTile(provider: user.provider),
                       _EnterActivationTile(),
                       _PrivacyOptOut(),
-                      const Divider(),
+                      const Divider(height: 32),
                       SignOutButton(isAnonymous: user.isAnonymous),
-                      const SizedBox(height: 8),
                       _DeleteAccountButton(),
                     ],
                   );
@@ -302,14 +302,9 @@ class SignOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ElevatedButton.icon(
+      child: DangerButtonOutlined(
         key: const ValueKey('sign-out-button-E2E'),
         icon: const Icon(Icons.exit_to_app),
-        style: ElevatedButton.styleFrom(
-          shadowColor: Colors.transparent,
-          backgroundColor: Colors.red.withOpacity(0.2),
-          foregroundColor: Colors.red,
-        ),
         onPressed: () => signOut(context, isAnonymous),
         label: Text("Abmelden".toUpperCase()),
       ),
@@ -322,39 +317,12 @@ class _DeleteAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: _DangerButton(
+      child: DangerButtonFilled(
         icon: const Icon(Icons.delete),
-        title: "Konto löschen",
-        onTap: () => showDialog(
+        label: Text("Konto löschen".toUpperCase()),
+        onPressed: () => showDialog(
           context: context,
           builder: (context) => _DeleteAccountDialogContent(),
-        ),
-      ),
-    );
-  }
-}
-
-class _DangerButton extends StatelessWidget {
-  const _DangerButton({this.onTap, this.title, this.icon});
-
-  final VoidCallback? onTap;
-  final String? title;
-  final Icon? icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-      child: ButtonTheme(
-        minWidth: getScreenSize(context).width,
-        child: ElevatedButton.icon(
-          icon: icon!,
-          label: Text(title!.toUpperCase()),
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.redAccent,
-          ),
-          onPressed: onTap,
         ),
       ),
     );
