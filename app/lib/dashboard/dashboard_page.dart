@@ -24,6 +24,7 @@ import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/dashboard/analytics/dashboard_analytics.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
+import 'package:sharezone/dashboard/sections/ad_section.dart';
 import 'package:sharezone/dashboard/timetable/lesson_view.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
@@ -135,6 +136,7 @@ class DashboardPageBody extends StatelessWidget {
               if (!PlatformCheck.isWeb) _UpdateReminder(),
               _DashboardTipSection(),
               const _HomeworkSection(),
+              const DashboardAds(),
               _EventsSection(),
               _BlackboardSection(),
               const HolidayCountdownSection(),
