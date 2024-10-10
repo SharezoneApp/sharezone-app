@@ -41,7 +41,7 @@ class CardWithIconAndText extends StatelessWidget {
                   Expanded(
                     child: Text(
                       text!,
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16, height: 1.3),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
