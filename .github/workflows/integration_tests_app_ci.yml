@@ -184,12 +184,6 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      # Because macos-12 doesn't have Metal support, we need to disable Impeller
-      # https://github.com/flutter/flutter/issues/126768
-      - name: Disable Impeller
-        working-directory: app/ios/Runner
-        run: /usr/libexec/PlistBuddy -c "Add :FLTEnableImpeller bool false" Info.plist
-
       - uses: futureware-tech/simulator-action@48e51da14445b3eedca643bba4b78d9d8332ff31
         id: simulator
         with:
