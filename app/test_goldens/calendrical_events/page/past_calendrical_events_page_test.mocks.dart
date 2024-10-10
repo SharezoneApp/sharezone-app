@@ -3,9 +3,11 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:ui' as _i15;
+
 import 'package:clock/clock.dart' as _i6;
 import 'package:date/date.dart' as _i9;
-import 'package:group_domain_models/group_domain_models.dart' as _i15;
+import 'package:group_domain_models/group_domain_models.dart' as _i16;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i14;
 import 'package:sharezone/calendrical_events/analytics/past_calendrical_events_page_analytics.dart'
@@ -376,7 +378,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
       );
 
   @override
-  void addListener(dynamic listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -385,7 +387,7 @@ class MockPastCalendricalEventsPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(dynamic listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -447,11 +449,11 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
       ) as String);
 
   @override
-  _i15.GroupType get groupType => (super.noSuchMethod(
+  _i16.GroupType get groupType => (super.noSuchMethod(
         Invocation.getter(#groupType),
-        returnValue: _i15.GroupType.course,
-        returnValueForMissingStub: _i15.GroupType.course,
-      ) as _i15.GroupType);
+        returnValue: _i16.GroupType.course,
+        returnValueForMissingStub: _i16.GroupType.course,
+      ) as _i16.GroupType);
 
   @override
   _i12.EventType get eventType => (super.noSuchMethod(
@@ -573,7 +575,7 @@ class MockCalendricalEvent extends _i1.Mock implements _i12.CalendricalEvent {
     String? eventID,
     String? groupID,
     String? authorID,
-    _i15.GroupType? groupType,
+    _i16.GroupType? groupType,
     _i12.EventType? eventType,
     _i9.Date? date,
     _i10.Time? startTime,

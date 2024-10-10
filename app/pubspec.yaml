@@ -165,7 +165,7 @@ dependencies:
     path: ../lib/sharezone_plus/sharezone_plus_page_ui
   sharezone_widgets:
     path: ../lib/sharezone_widgets
-  showcaseview: ^2.0.1
+  showcaseview: ^3.0.0
   sliding_up_panel:
     git:
       url: https://github.com/nilsreichardt/sliding_up_panel
@@ -200,8 +200,6 @@ dependency_overrides:
   device_info_plus: ^10.1.0
   # Can be removed once flutter_localizations uses intl >= 0.19.0
   intl: ^0.19.0
-  # Can be removed once patrol uses patrol_finders 2.0.3
-  patrol_finders: ^2.0.3-dev.1
 
 dev_dependencies:
   async: ^2.4.1
@@ -218,8 +216,7 @@ dev_dependencies:
   bloc_test: ^9.1.4
   bloc_presentation_test: ^1.0.0
   path: ^1.8.3
-  # Can be switched to stable version once 3.7.0 is released.
-  patrol: ^3.7.0-dev.2
+  patrol: ^3.11.1
 
 patrol:
   app_name: Sharezone App

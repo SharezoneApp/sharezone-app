@@ -4,6 +4,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i6;
+import 'dart:ui' as _i9;
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart'
     as _i3;
@@ -14,7 +15,7 @@ import 'package:sharezone/grades/grades_service/grades_service.dart' as _i2;
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller.dart'
     as _i5;
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart'
-    as _i9;
+    as _i10;
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_view.dart'
     as _i4;
 
@@ -221,6 +222,23 @@ class MockTermSettingsPageController extends _i1.Mock
       );
 
   @override
+  _i2.WeightDisplayType get weightDisplayType => (super.noSuchMethod(
+        Invocation.getter(#weightDisplayType),
+        returnValue: _i2.WeightDisplayType.percent,
+        returnValueForMissingStub: _i2.WeightDisplayType.percent,
+      ) as _i2.WeightDisplayType);
+
+  @override
+  set weightDisplayType(_i2.WeightDisplayType? _weightDisplayType) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #weightDisplayType,
+          _weightDisplayType,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i3.IList<_i7.Course> get courses => (super.noSuchMethod(
         Invocation.getter(#courses),
         returnValue: _FakeIList_3<_i7.Course>(
@@ -359,6 +377,16 @@ class MockTermSettingsPageController extends _i1.Mock
       );
 
   @override
+  void setWeightDisplayType(_i2.WeightDisplayType? newDisplayType) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setWeightDisplayType,
+          [newDisplayType],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i6.Future<void> setSubjectWeight(
     _i2.SubjectId? subjectId,
     _i2.Weight? weight,
@@ -385,7 +413,7 @@ class MockTermSettingsPageController extends _i1.Mock
       );
 
   @override
-  void addListener(dynamic listener) => super.noSuchMethod(
+  void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -394,7 +422,7 @@ class MockTermSettingsPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(dynamic listener) => super.noSuchMethod(
+  void removeListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -416,7 +444,7 @@ class MockTermSettingsPageController extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockTermSettingsPageControllerFactory extends _i1.Mock
-    implements _i9.TermSettingsPageControllerFactory {
+    implements _i10.TermSettingsPageControllerFactory {
   @override
   _i2.GradesService get gradesService => (super.noSuchMethod(
         Invocation.getter(#gradesService),
