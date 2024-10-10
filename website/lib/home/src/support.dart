@@ -41,7 +41,7 @@ class Support extends StatelessWidget {
             const SizedBox(height: 20),
             SectionActionButton(
               text: "Support kontaktieren",
-              onTap: () => context.go('/$SupportPage.tag'),
+              onTap: () => context.go('/${SupportPage.tag}'),
             ),
           ],
         ),
