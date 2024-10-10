@@ -81,7 +81,7 @@ class _Header extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: MarkdownBody(
             data:
-                "Besuche für weitere Informationen einfach https://www.sharezone.net.",
+                "Besuche für weitere Informationen einfach https://web.sharezone.net.",
             selectable: true,
             styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
                 .copyWith(
