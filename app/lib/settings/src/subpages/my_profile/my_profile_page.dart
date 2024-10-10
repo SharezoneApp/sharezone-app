@@ -282,7 +282,7 @@ class _PrivacyOptOut extends StatelessWidget {
             onChanged: (isEnabled) => setCollectionEnabled(isEnabled),
           ),
           description: const Padding(
-            padding: EdgeInsets.only(left: 56, right: 20),
+            padding: EdgeInsets.only(left: 41, right: 20),
             child: Text(
               "Durch das Teilen von anonymen Nutzerdaten hilfst du uns, die App noch einfacher und benutzerfreundlicher zu machen.",
               style: TextStyle(fontSize: 11, color: Colors.grey),
