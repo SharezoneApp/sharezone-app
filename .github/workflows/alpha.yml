@@ -127,6 +127,10 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(realpath ./bin) >> $GITHUB_PATH
 
+      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3
+        with:
+          python-version: "3.9"
+
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.7
 
@@ -208,10 +212,14 @@ jobs:
             --release-notes "$LAST_COMMIT_MESSAGE"
 
   deploy-alpha-ios-app:
-    runs-on: macos-13
+    runs-on: macos-14
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+
+      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3
+        with:
+          python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.7
@@ -267,10 +275,14 @@ jobs:
             --export-options-plist=$HOME/export_options.plist
 
   deploy-alpha-macos-app:
-    runs-on: macos-13
+    runs-on: macos-14
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+
+      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3
+        with:
+          python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.7

@@ -63,10 +63,14 @@ jobs:
     # We skip the deployment if no changelog is provided because we assume that
     # nothing has changed in the iOS app and therefore no new version is needed.
     if: github.event.inputs.ios-changelog != ''
-    runs-on: macos-13
+    runs-on: macos-14
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+
+      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3
+        with:
+          python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.7
@@ -162,6 +166,10 @@ jobs:
           distribution: "oracle"
           java-version: "17"
 
+      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3
+        with:
+          python-version: "3.9"
+
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.7
 
@@ -216,10 +224,14 @@ jobs:
     # We skip the deployment if no changelog is provided because we assume that
     # nothing has changed in the macOS app and therefore no new version is needed.
     if: github.event.inputs.macos-changelog != ''
-    runs-on: macos-13
+    runs-on: macos-14
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+
+      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3
+        with:
+          python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.7
