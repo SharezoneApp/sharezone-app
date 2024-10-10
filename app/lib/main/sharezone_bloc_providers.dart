@@ -103,8 +103,6 @@ import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
 import 'package:sharezone/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
-import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
-import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_analytics.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_controller.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart';
@@ -604,11 +602,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<UserSettingsBloc>(bloc: UserSettingsBloc(api.user)),
-      BlocProvider<ImprintBlocFactory>(
-        bloc: ImprintBlocFactory(
-          ImprintGateway(widget.blocDependencies.firestore),
-        ),
-      ),
       BlocProvider<ImprintAnalytics>(bloc: ImprintAnalytics(analytics)),
       BlocProvider<OnboardingNavigator>(bloc: onboardingNavigator),
       BlocProvider<GroupOnboardingBloc>(
