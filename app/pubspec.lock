@@ -571,11 +571,11 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "48b396e7fb3bba206b1f35624ca415ddcd268f9b"
-      resolved-ref: "48b396e7fb3bba206b1f35624ca415ddcd268f9b"
-      url: "https://github.com/nilsreichardt/flutter-rsa.git"
+      ref: "13fc5edafb7a74bd8e11394f86557f3669024f0e"
+      resolved-ref: "13fc5edafb7a74bd8e11394f86557f3669024f0e"
+      url: "https://github.com/jerson/flutter-rsa"
     source: git
-    version: "3.6.1"
+    version: "3.6.4"
   feedback_shared_implementation:
     dependency: "direct main"
     description:
