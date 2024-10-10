@@ -32,12 +32,7 @@ dependencies:
   util:
     path: ../../util
   cloud_firestore: ^4.17.2
-  fast_rsa:
-    # Git reference can be removed once the following PR is merged:
-    # https://github.com/jerson/flutter-rsa/pull/70
-    git:
-      url: https://github.com/nilsreichardt/flutter-rsa.git
-      ref: 48b396e7fb3bba206b1f35624ca415ddcd268f9b
+  fast_rsa: ^3.6.4
   firebase_auth: ^4.19.4
   rxdart: ^0.27.1
   clock: ^1.1.1
