@@ -189,6 +189,12 @@ jobs:
         with:
           model: "iPhone 16"
 
+      - name: Build app
+        run: |
+          flutter build ipa \
+            --flavor dev \
+            -t lib/main_dev.dart
+
       - name: Run integration tests
         working-directory: app
         env:
@@ -205,9 +211,7 @@ jobs:
           # using not the default flavor will cause an exception when
           # uninstalling the app, see:
           # https://github.com/flutter/flutter/issues/88690
-          flutter drive \
-            --driver=test_driver/integration_test.dart \
-            --target=integration_test/integration_test_old.dart \
+          flutter test integration_test/integration_test_old.dart \
             --flavor prod \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
