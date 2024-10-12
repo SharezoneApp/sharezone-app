@@ -486,7 +486,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
               FirestoreCourseMemberAccessor(api.references.firestore),
         ),
       ),
-      Provider(
+      ChangeNotifierProvider(
         create: (context) => AdsController(
           subscriptionService: subscriptionService,
           remoteConfiguration: widget.blocDependencies.remoteConfiguration,
