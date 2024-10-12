@@ -16,7 +16,6 @@ import 'package:authentification_base/authentification.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
