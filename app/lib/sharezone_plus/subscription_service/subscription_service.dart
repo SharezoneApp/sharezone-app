@@ -106,6 +106,7 @@ class SubscriptionService {
 }
 
 enum SharezonePlusFeature {
+  removeAds,
   submissionsList,
   infoSheetReadByUsersList,
   homeworkDoneByUsersList,
