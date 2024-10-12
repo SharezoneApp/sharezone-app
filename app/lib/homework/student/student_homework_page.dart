@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/ads/ad_banner.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -55,22 +56,29 @@ class StudentHomeworkPage extends StatelessWidget {
             body: const StudentHomeworkBody(),
             navigationItem: NavigationItem.homework,
             bottomBarConfiguration: BottomBarConfiguration(
-              bottomBar: AnimatedTabVisibility(
-                visibleInTabIndicies: const [0],
-                // Else the Sort shown in the button and the current sort
-                // could get out of order
-                maintainState: true,
-                curve: Curves.easeInOut,
-                child: HomeworkBottomActionBar(
-                  backgroundColor: bottomBarBackgroundColor,
-                  currentHomeworkSortStream: bloc.stream
-                      .whereType<Success>()
-                      .map((s) => s.open.sorting),
-                  showOverflowMenu: true,
-                  onCompletedAllOverdue: () => bloc.add(CompletedAllOverdue()),
-                  onSortingChanged: (sort) =>
-                      bloc.add(OpenHwSortingChanged(sort)),
-                ),
+              bottomBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const AdBanner(),
+                  AnimatedTabVisibility(
+                    visibleInTabIndicies: const [0],
+                    // Else the Sort shown in the button and the current sort
+                    // could get out of order
+                    maintainState: true,
+                    curve: Curves.easeInOut,
+                    child: HomeworkBottomActionBar(
+                      backgroundColor: bottomBarBackgroundColor,
+                      currentHomeworkSortStream: bloc.stream
+                          .whereType<Success>()
+                          .map((s) => s.open.sorting),
+                      showOverflowMenu: true,
+                      onCompletedAllOverdue: () =>
+                          bloc.add(CompletedAllOverdue()),
+                      onSortingChanged: (sort) =>
+                          bloc.add(OpenHwSortingChanged(sort)),
+                    ),
+                  ),
+                ],
               ),
             ),
             floatingActionButton:
