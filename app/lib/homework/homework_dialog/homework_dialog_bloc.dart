@@ -21,6 +21,7 @@ import 'package:filesharing_logic/filesharing_logic_models.dart';
 
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
+import 'package:key_value_store/key_value_store.dart';
 import 'package:meta/meta.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/api.dart';
@@ -460,6 +461,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   HomeworkDto? _initialHomework;
   late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
+  final KeyValueStore keyValueStore;
 
   _DateSelection _initialDateSelection = _DateSelection.noSelection;
   _DateSelection _dateSelection = _DateSelection.noSelection;
@@ -498,6 +500,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required this.analytics,
     required this.markdownAnalytics,
     required this.nextSchooldayCalculator,
+    required this.keyValueStore,
     Clock? clockOverride,
     HomeworkId? homeworkId,
   }) : super(homeworkId != null
@@ -605,6 +608,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                   .containsMarkdown(_initialHomework?.description ?? '')) {
             markdownAnalytics.logMarkdownUsedHomework();
           }
+
+          _increaseLocalEditingCounter();
         } else {
           try {
             // try-catch won't work for this case as we don't await the future.
@@ -630,6 +635,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
           if (markdownAnalytics.containsMarkdown(_homework.description)) {
             markdownAnalytics.logMarkdownUsedHomework();
           }
+
+          _increaseLocalCreationCounter();
         }
 
         emit(SavedSuccessfully(isEditing: isEditing));
@@ -800,6 +807,24 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         emit(_getNewState());
       },
     );
+  }
+
+  void _increaseLocalEditingCounter() {
+    _increaseLocalCounter('homework-editing-counter');
+  }
+
+  void _increaseLocalCreationCounter() {
+    _increaseLocalCounter('homework-creation-counter');
+  }
+
+  /// Increases the counter for the given key in the local key-value store.
+  ///
+  /// The counter can later be used to trigger different actions based on the
+  /// amount of creations or edits (e.g. show an ad after the user
+  /// created/edited 5 homeworks).
+  void _increaseLocalCounter(String key) {
+    final counter = keyValueStore.getInt(key) ?? 0;
+    keyValueStore.setInt(key, counter + 1);
   }
 
   Ready _getNewState() {
