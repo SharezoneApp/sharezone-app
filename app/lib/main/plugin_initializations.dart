@@ -84,6 +84,7 @@ class PluginInitializations {
           'https://europe-west1-sharezone-c2bd8.cloudfunctions.net/createStripeCheckoutSession',
       // TODO: Set later to false
       'ads_enabled': true,
+      'ad_content_url': 'https://sharezone.net',
     });
 
     try {
