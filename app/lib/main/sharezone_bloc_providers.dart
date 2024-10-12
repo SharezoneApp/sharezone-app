@@ -37,6 +37,7 @@ import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/type_of_user_bloc.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_page_bloc.dart';
 import 'package:sharezone/calendrical_events/analytics/calendrical_events_page_analytics.dart';
@@ -479,7 +480,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           courseMemberAccessor:
               FirestoreCourseMemberAccessor(api.references.firestore),
         ),
-      )
+      ),
+      Provider(
+        create: (context) => AdsController(
+          subscriptionService: subscriptionService,
+          remoteConfiguration: widget.blocDependencies.remoteConfiguration,
+        ),
+        lazy: false,
+      ),
     ];
 
     mainBlocProviders = <BlocProvider>[
