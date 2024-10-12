@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
@@ -9,6 +10,7 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 class AdsController extends ChangeNotifier {
   final SubscriptionService subscriptionService;
   final RemoteConfiguration remoteConfiguration;
+  final KeyValueStore keyValueStore;
 
   /// Defines if ads are visible for the current user.
   bool areAdsVisible = false;
@@ -17,6 +19,7 @@ class AdsController extends ChangeNotifier {
   AdsController({
     required this.subscriptionService,
     required this.remoteConfiguration,
+    required this.keyValueStore,
   }) {
     if (remoteConfiguration.getBool('ads_enabled')) {
       _initializeMobileAdsSDK();
@@ -75,6 +78,57 @@ class AdsController extends ChangeNotifier {
       contentUrl: remoteConfiguration.getString('ad_content_url'),
       neighboringContentUrls:
           remoteConfiguration.getStringList('ad_neighboring_urls'),
+    );
+  }
+
+  Future<void> maybeShowFullscreenAd() async {
+    if (areAdsVisible && _shouldShowFullscreenAd()) {
+      await _showFullscreenAd(adUnitId: getAdUnitId());
+    }
+  }
+
+  bool _shouldShowFullscreenAd() {
+    final editingHwCounter =
+        keyValueStore.getInt('homework-editing-counter') ?? 0;
+    final creatingHwCounter =
+        keyValueStore.getInt('homework-creating-counter') ?? 0;
+    final sum = editingHwCounter + creatingHwCounter;
+
+    if (sum == 0) {
+      // For a better user experience, we don't want to show an ad when the user
+      // shows his first homework. Technically, the sum should then be 1, but
+      // since we're not waiting for the counter to increment, we need to check
+      // for 0.
+      return false;
+    }
+
+    return sum % 5 == 0;
+  }
+
+  Future<void> _showFullscreenAd({
+    required String adUnitId,
+  }) async {
+    InterstitialAd.load(
+      adUnitId: adUnitId,
+      request: createAdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdFailedToShowFullScreenContent: (ad, err) {
+              ad.dispose();
+            },
+            onAdDismissedFullScreenContent: (ad) {
+              ad.dispose();
+            },
+          );
+
+          debugPrint('$ad loaded.');
+          ad.show();
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('InterstitialAd failed to load: $error');
+        },
+      ),
     );
   }
 

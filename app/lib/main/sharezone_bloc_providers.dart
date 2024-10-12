@@ -31,6 +31,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
 import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
@@ -334,6 +335,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       firestore: widget.blocDependencies.firestore,
       functions: widget.blocDependencies.functions,
     );
+
+    final keyValueStore =
+        FlutterKeyValueStore(widget.blocDependencies.sharedPreferences);
+
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
@@ -485,9 +490,11 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         create: (context) => AdsController(
           subscriptionService: subscriptionService,
           remoteConfiguration: widget.blocDependencies.remoteConfiguration,
+          keyValueStore: keyValueStore,
         ),
         lazy: false,
       ),
+      Provider<KeyValueStore>.value(value: keyValueStore)
     ];
 
     mainBlocProviders = <BlocProvider>[
