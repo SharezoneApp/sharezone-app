@@ -101,7 +101,6 @@ Future<AppDependencies> initializeDependencies({
   // sein können
   timeago.setLocaleMessages('de', timeago.DeMessages());
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
 
   await _initializeFirebase(flavor);
 
