@@ -371,6 +371,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           hasPlusSupportUnlockedStream: subscriptionService
               .hasFeatureUnlockedStream(SharezonePlusFeature.plusSupport),
           isUserInGroupOnboardingStream: signUpBloc.signedUp,
+          typeOfUserStream: typeOfUserStream,
         ),
       ),
       StreamProvider<TypeOfUser?>.value(
