@@ -32,8 +32,8 @@ class AdsController extends ChangeNotifier {
       return switch (PlatformCheck.currentPlatform) {
         // Test ad unit IDs from:
         // https://developers.google.com/admob/flutter/banner#android
-        Platform.android => 'ca-app-pub-3940256099942544/2247696110',
-        Platform.iOS => 'ca-app-pub-3940256099942544/3986624511',
+        Platform.android => 'ca-app-pub-3940256099942544/6300978111',
+        Platform.iOS => 'ca-app-pub-3940256099942544/2934735716',
         _ => 'N/A',
       };
     }
