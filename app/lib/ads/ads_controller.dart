@@ -23,7 +23,7 @@ class AdsController extends ChangeNotifier {
   }) {
     if (remoteConfiguration.getBool('ads_enabled')) {
       _initializeMobileAdsSDK();
-      listenToSubscriptionService();
+      _listenToSubscriptionService();
     }
   }
 
@@ -47,7 +47,7 @@ class AdsController extends ChangeNotifier {
     };
   }
 
-  void listenToSubscriptionService() {
+  void _listenToSubscriptionService() {
     _subscription = subscriptionService
         .hasFeatureUnlockedStream(SharezonePlusFeature.removeAds)
         .listen((hasUnlocked) {

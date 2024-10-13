@@ -15,11 +15,13 @@ class SharezonePlusAdvantages extends StatelessWidget {
   const SharezonePlusAdvantages({
     super.key,
     required this.isHomeworkReminderFeatureVisible,
+    this.isRemoveAdsFeatureVisible = false,
     this.onOpenedAdvantage,
     this.onGitHubOpen,
   });
 
   final bool isHomeworkReminderFeatureVisible;
+  final bool isRemoveAdsFeatureVisible;
   final ValueChanged<String>? onOpenedAdvantage;
   final VoidCallback? onGitHubOpen;
 
@@ -27,6 +29,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (isRemoveAdsFeatureVisible) _RemoveAds(onOpen: onOpenedAdvantage),
         _Grades(onOpen: onOpenedAdvantage),
         _MoreColors(onOpen: onOpenedAdvantage),
         _QuickHomeworkDueDate(onOpen: onOpenedAdvantage),
@@ -47,6 +50,27 @@ class SharezonePlusAdvantages extends StatelessWidget {
           onGitHubOpen: onGitHubOpen,
         ),
       ],
+    );
+  }
+}
+
+class _RemoveAds extends StatelessWidget {
+  const _RemoveAds({
+    required this.onOpen,
+  });
+
+  final ValueChanged<String>? onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      onOpen: () {
+        if (onOpen != null) onOpen!('remove_ads');
+      },
+      icon: const Icon(Icons.block),
+      title: const Text('Werbung entfernen'),
+      description: const Text(
+          'Genieße Sharezone komplett werbefrei.\n\nHinweis: Wir testen derzeit die Anzeige von Werbung. Es ist möglich, dass wir in Zukunft die Werbung wieder für alle Nutzer entfernen.'),
     );
   }
 }
