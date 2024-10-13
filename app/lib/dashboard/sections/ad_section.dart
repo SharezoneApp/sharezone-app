@@ -86,6 +86,7 @@ class _DashboardAdsState extends State<DashboardAds> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(4),
@@ -117,7 +118,7 @@ class _DashboardAdsState extends State<DashboardAds> {
               minWidth: 320, // minimum recommended width
               minHeight: 90, // minimum recommended height
               maxWidth: 500,
-              maxHeight: 120,
+              maxHeight: 100,
             ),
             child: AdWidget(ad: nativeAd!),
           ),
