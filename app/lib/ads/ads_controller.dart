@@ -33,6 +33,20 @@ class AdsController extends ChangeNotifier {
     }
   }
 
+  /// Determines if the user should be shown an info dialog about ads.
+  ///
+  /// We show an info dialog about our ads experiment after the first app open.
+  bool shouldShowInfoDialog() {
+    final hasShownDialog =
+        keyValueStore.getBool('ads-info-dialog-shown') ?? false;
+    if (!hasShownDialog) {
+      keyValueStore.setBool('ads-info-dialog-shown', true);
+      return true;
+    }
+
+    return false;
+  }
+
   String getAdUnitId(AdFormat format) {
     if (kDebugMode) {
       return switch (PlatformCheck.currentPlatform) {

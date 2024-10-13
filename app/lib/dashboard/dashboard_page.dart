@@ -18,7 +18,10 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:holidays/holidays.dart' hide State;
 import 'package:platform_check/platform_check.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharezone/ads/ad_info_dialog.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/dashboard/analytics/dashboard_analytics.dart';
@@ -85,6 +88,17 @@ class _DashboardPageState extends State<DashboardPage> {
   void initState() {
     super.initState();
     showTipCardIfIsAvailable(context);
+    maybeShowAdInfoDialog();
+  }
+
+  void maybeShowAdInfoDialog() {
+    final controller = context.read<AdsController>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final shouldShowDialog = controller.shouldShowInfoDialog();
+      if (shouldShowDialog) {
+        showAdInfoDialog(context);
+      }
+    });
   }
 
   @override
