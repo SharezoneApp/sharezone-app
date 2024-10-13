@@ -10,13 +10,17 @@ import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
+import 'package:user/user.dart';
 
 class SupportPageController extends ChangeNotifier {
-  bool hasPlusSupportUnlocked = false;
+  bool get hasPlusSupportUnlocked =>
+      _hasSharezonePlus && _typeOfUser == TypeOfUser.student;
+  bool _hasSharezonePlus = false;
   bool isUserInGroupOnboarding = false;
   UserId? userId;
   String? userEmail;
   String? userName;
+  TypeOfUser? _typeOfUser;
 
   bool get isUserSignedIn => userId != null;
 
@@ -25,6 +29,7 @@ class SupportPageController extends ChangeNotifier {
   late StreamSubscription<String?> _userEmailSubscription;
   late StreamSubscription<bool> _hasPlusSupportUnlockedSubscription;
   late StreamSubscription<bool> _isUserInGroupOnboardingSubscription;
+  late StreamSubscription<TypeOfUser?> _typeOfUserSubscription;
 
   SupportPageController({
     required Stream<UserId?> userIdStream,
@@ -32,6 +37,7 @@ class SupportPageController extends ChangeNotifier {
     required Stream<String?> userEmailStream,
     required Stream<bool> hasPlusSupportUnlockedStream,
     required Stream<bool> isUserInGroupOnboardingStream,
+    required Stream<TypeOfUser?> typeOfUserStream,
   }) {
     _userIdSubscription = userIdStream.listen((userId) {
       this.userId = userId;
@@ -50,13 +56,18 @@ class SupportPageController extends ChangeNotifier {
 
     _hasPlusSupportUnlockedSubscription =
         hasPlusSupportUnlockedStream.listen((hasPlusSupportUnlocked) {
-      this.hasPlusSupportUnlocked = hasPlusSupportUnlocked;
+      _hasSharezonePlus = hasPlusSupportUnlocked;
       notifyListeners();
     });
 
     _isUserInGroupOnboardingSubscription =
         isUserInGroupOnboardingStream.listen((isUserInGroupOnboarding) {
       this.isUserInGroupOnboarding = isUserInGroupOnboarding;
+      notifyListeners();
+    });
+
+    _typeOfUserSubscription = typeOfUserStream.listen((typeOfUser) {
+      _typeOfUser = typeOfUser;
       notifyListeners();
     });
   }
@@ -120,6 +131,7 @@ class SupportPageController extends ChangeNotifier {
     _userIdSubscription.cancel();
     _hasPlusSupportUnlockedSubscription.cancel();
     _isUserInGroupOnboardingSubscription.cancel();
+    _typeOfUserSubscription.cancel();
     super.dispose();
   }
 }

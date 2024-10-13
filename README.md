@@ -41,10 +41,6 @@ We might expand to more languages and regions in the future 🌍🚀
 
 ## Open-Source
 
-We are currently in the process of open-sourcing this repository.\
-This means not everything is just quite perfect right now: For example we still need to migrate [our old issues](https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues) to GitHub, add documentation, add labels and more.\
-We track the outstanding work [in this project.](https://github.com/SharezoneApp/sharezone-app/projects/1)
-
 This project is licensed under [EUPL v1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12) or later.\
 For some files other licenses or terms (regarding e.g. copyright) might apply. This can be indicated, for example, by a notice included in the file itself or a README in a parent folder.\
 Guidelines for users and developers for the EUPL v1.2 can be found [here](https://joinup.ec.europa.eu/collection/eupl/guidelines-users-and-developers).

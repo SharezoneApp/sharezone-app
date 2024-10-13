@@ -68,6 +68,7 @@ class _AuthAppState extends State<AuthApp> {
             userEmailStream: Stream.value(null),
             hasPlusSupportUnlockedStream: Stream.value(false),
             isUserInGroupOnboardingStream: Stream.value(false),
+            typeOfUserStream: Stream.value(null),
           ),
         ),
       ],
