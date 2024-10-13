@@ -58,8 +58,7 @@ class AdsController extends ChangeNotifier {
   String getAdUnitId(AdFormat format) {
     if (kDebugMode) {
       return switch (PlatformCheck.currentPlatform) {
-        // Test ad unit IDs from:
-        // https://developers.google.com/admob/flutter/banner#android
+        // Test ad unit IDs from: https://developers.google.com/admob/flutter/
         Platform.android => switch (format) {
             AdFormat.banner => 'ca-app-pub-3940256099942544/6300978111',
             AdFormat.native => 'ca-app-pub-3940256099942544/2247696110',

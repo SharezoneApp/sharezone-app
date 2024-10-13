@@ -44,17 +44,14 @@ class _AdBannerState extends State<AdBanner> {
         request: context.read<AdsController>().createAdRequest(),
         size: size,
         listener: BannerAdListener(
-          // Called when an ad is successfully received.
           onAdLoaded: (ad) {
             debugPrint('$ad loaded.');
             setState(() {
               _isLoaded = true;
             });
           },
-          // Called when an ad request failed.
           onAdFailedToLoad: (ad, err) {
             debugPrint('BannerAd failed to load: $err');
-            // Dispose the ad here to free resources.
             ad.dispose();
           },
         ),
