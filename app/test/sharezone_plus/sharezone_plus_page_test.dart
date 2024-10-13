@@ -100,33 +100,6 @@ class MockSharezonePlusPageController extends ChangeNotifier
   }
 }
 
-// class MockAdsController extends ChangeNotifier implements AdsController {
-//   @override
-//   bool areAdsVisible = false;
-
-//   @override
-//   Future<void> maybeShowFullscreenAd() async {}
-
-//   @override
-//   AdRequest createAdRequest() {
-//     throw UnimplementedError();
-//   }
-
-//   @override
-//   String getAdUnitId() {
-//     return '_';
-//   }
-
-//   @override
-//   KeyValueStore get keyValueStore => throw UnimplementedError();
-
-//   @override
-//   RemoteConfiguration get remoteConfiguration => throw UnimplementedError();
-
-//   @override
-//   SubscriptionService get subscriptionService => throw UnimplementedError();
-// }
-
 @GenerateNiceMocks([MockSpec<SubscriptionService>()])
 void main() {
   group(SharezonePlusPage, () {
