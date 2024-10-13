@@ -7,6 +7,12 @@ import 'package:platform_check/platform_check.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
+enum AdFormat {
+  banner,
+  native,
+  interstitial,
+}
+
 class AdsController extends ChangeNotifier {
   final SubscriptionService subscriptionService;
   final RemoteConfiguration remoteConfiguration;
@@ -27,13 +33,21 @@ class AdsController extends ChangeNotifier {
     }
   }
 
-  String getAdUnitId() {
+  String getAdUnitId(AdFormat format) {
     if (kDebugMode) {
       return switch (PlatformCheck.currentPlatform) {
         // Test ad unit IDs from:
         // https://developers.google.com/admob/flutter/banner#android
-        Platform.android => 'ca-app-pub-3940256099942544/6300978111',
-        Platform.iOS => 'ca-app-pub-3940256099942544/2934735716',
+        Platform.android => switch (format) {
+            AdFormat.banner => 'ca-app-pub-3940256099942544/6300978111',
+            AdFormat.native => 'ca-app-pub-3940256099942544/2247696110',
+            AdFormat.interstitial => 'ca-app-pub-3940256099942544/1033173712',
+          },
+        Platform.iOS => switch (format) {
+            AdFormat.banner => 'ca-app-pub-3940256099942544/2934735716',
+            AdFormat.native => 'ca-app-pub-3940256099942544/3986624511',
+            AdFormat.interstitial => 'ca-app-pub-3940256099942544/4411468910',
+          },
         _ => 'N/A',
       };
     }
@@ -83,7 +97,7 @@ class AdsController extends ChangeNotifier {
 
   Future<void> maybeShowFullscreenAd() async {
     if (areAdsVisible && _shouldShowFullscreenAd()) {
-      await _showFullscreenAd(adUnitId: getAdUnitId());
+      await _showFullscreenAd(adUnitId: getAdUnitId(AdFormat.interstitial));
     }
   }
 

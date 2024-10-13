@@ -26,7 +26,7 @@ class _DashboardAdsState extends State<DashboardAds> {
   /// Loads a native ad.
   void loadAd() {
     nativeAd = NativeAd(
-      adUnitId: context.read<AdsController>().getAdUnitId(),
+      adUnitId: context.read<AdsController>().getAdUnitId(AdFormat.native),
       listener: NativeAdListener(
         onAdLoaded: (ad) {
           debugPrint('$NativeAd loaded.');

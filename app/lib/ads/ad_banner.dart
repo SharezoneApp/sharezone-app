@@ -32,7 +32,7 @@ class _AdBannerState extends State<AdBanner> {
       }
 
       ad = BannerAd(
-        adUnitId: context.read<AdsController>().getAdUnitId(),
+        adUnitId: context.read<AdsController>().getAdUnitId(AdFormat.banner),
         request: context.read<AdsController>().createAdRequest(),
         size: size,
         listener: BannerAdListener(
