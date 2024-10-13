@@ -51,24 +51,26 @@ void main() {
 
     HomeworkDialogBloc createBlocForNewHomeworkDialog({Clock? clock}) {
       return HomeworkDialogBloc(
-          api: homeworkDialogApi,
-          clockOverride: clock,
-          nextLessonCalculator: nextLessonCalculator,
-          nextSchooldayCalculator: nextSchooldayCalculator,
-          analytics: analytics,
-          markdownAnalytics: MarkdownAnalytics(analytics),
-          keyValueStore: keyValueStore);
+        api: homeworkDialogApi,
+        clockOverride: clock,
+        nextLessonCalculator: nextLessonCalculator,
+        nextSchooldayCalculator: nextSchooldayCalculator,
+        analytics: analytics,
+        markdownAnalytics: MarkdownAnalytics(analytics),
+        keyValueStore: keyValueStore,
+      );
     }
 
     HomeworkDialogBloc createBlocForEditingHomeworkDialog(HomeworkId id) {
       return HomeworkDialogBloc(
-          api: homeworkDialogApi,
-          nextLessonCalculator: nextLessonCalculator,
-          nextSchooldayCalculator: nextSchooldayCalculator,
-          analytics: analytics,
-          homeworkId: id,
-          markdownAnalytics: MarkdownAnalytics(analytics),
-          keyValueStore: keyValueStore);
+        api: homeworkDialogApi,
+        nextLessonCalculator: nextLessonCalculator,
+        nextSchooldayCalculator: nextSchooldayCalculator,
+        analytics: analytics,
+        homeworkId: id,
+        markdownAnalytics: MarkdownAnalytics(analytics),
+        keyValueStore: keyValueStore,
+      );
     }
 
     void addCourse(Course course) {
