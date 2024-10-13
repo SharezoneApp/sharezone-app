@@ -85,8 +85,7 @@ class EnterActivationCodeBloc extends BlocBase {
     // In case you are in A/B test group, you can't deactivate the ads by
     // entering 'ads' in the activation code field.
     if (_lastEnteredValue?.trim().toLowerCase() == 'ads') {
-      final currentValue = keyValueStore.getBool('show-ads') ?? false;
-      keyValueStore.setBool('show-ads', !currentValue);
+      _toggleAds();
       return;
     }
 
@@ -94,6 +93,18 @@ class EnterActivationCodeBloc extends BlocBase {
 
     final enterActivationCodeResult = await _runAppFunction(enteredValue);
     _changeEnterActivationCodeResult(enterActivationCodeResult);
+  }
+
+  void _toggleAds() {
+    final currentValue = keyValueStore.getBool('show-ads') ?? false;
+    keyValueStore.setBool('show-ads', !currentValue);
+
+    _changeEnterActivationCodeResult(
+      SuccessfulEnterActivationCodeResult(
+        'ads',
+        'Ads wurden ${!currentValue ? 'aktiviert' : 'deaktiviert'}. Starte die App neu, um die Änderungen zu sehen.',
+      ),
+    );
   }
 
   Future<void> _clearCache(BuildContext context) async {

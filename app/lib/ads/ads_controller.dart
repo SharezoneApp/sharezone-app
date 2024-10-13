@@ -35,13 +35,17 @@ class AdsController extends ChangeNotifier {
     required this.remoteConfiguration,
     required this.keyValueStore,
   }) {
-    final isRemoteConfigFlagEnabled =
-        remoteConfiguration.getBool('ads_enabled');
-    final isActivationFlagEnabled = keyValueStore.getBool('show-ads') ?? false;
-    if (isRemoteConfigFlagEnabled || isActivationFlagEnabled) {
+    if (_isQualifiedForAds()) {
       _initializeMobileAdsSDK();
       _listenToSubscriptionService();
     }
+  }
+
+  bool _isQualifiedForAds() {
+    final isRemoteConfigFlagEnabled =
+        remoteConfiguration.getBool('ads_enabled');
+    final isActivationFlagEnabled = keyValueStore.getBool('show-ads') ?? false;
+    return isRemoteConfigFlagEnabled || isActivationFlagEnabled;
   }
 
   /// Determines if the user should be shown an info dialog about ads.
@@ -98,7 +102,7 @@ class AdsController extends ChangeNotifier {
       if (hasUnlocked) {
         areAdsVisible = false;
       } else {
-        areAdsVisible = remoteConfiguration.getBool('ads_enabled');
+        areAdsVisible = _isQualifiedForAds();
       }
       notifyListeners();
     });
