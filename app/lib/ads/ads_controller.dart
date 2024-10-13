@@ -35,7 +35,10 @@ class AdsController extends ChangeNotifier {
     required this.remoteConfiguration,
     required this.keyValueStore,
   }) {
-    if (remoteConfiguration.getBool('ads_enabled')) {
+    final isRemoteConfigFlagEnabled =
+        remoteConfiguration.getBool('ads_enabled');
+    final isActivationFlagEnabled = keyValueStore.getBool('show-ads') ?? false;
+    if (isRemoteConfigFlagEnabled || isActivationFlagEnabled) {
       _initializeMobileAdsSDK();
       _listenToSubscriptionService();
     }
@@ -117,6 +120,10 @@ class AdsController extends ChangeNotifier {
   }
 
   Future<void> maybeShowFullscreenAd() async {
+    if (!PlatformCheck.isMobile) {
+      return;
+    }
+
     if (areAdsVisible && _shouldShowFullscreenAd()) {
       await _showFullscreenAd(adUnitId: getAdUnitId(AdFormat.interstitial));
     }

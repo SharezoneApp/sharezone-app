@@ -80,6 +80,16 @@ class EnterActivationCodeBloc extends BlocBase {
       return;
     }
 
+    // Required for testing as long we run the A/B test.
+    //
+    // In case you are in A/B test group, you can't deactivate the ads by
+    // entering 'ads' in the activation code field.
+    if (_lastEnteredValue?.trim().toLowerCase() == 'ads') {
+      final currentValue = keyValueStore.getBool('show-ads') ?? false;
+      keyValueStore.setBool('show-ads', !currentValue);
+      return;
+    }
+
     _changeEnterActivationCodeResult(LoadingEnterActivationCodeResult());
 
     final enterActivationCodeResult = await _runAppFunction(enteredValue);
