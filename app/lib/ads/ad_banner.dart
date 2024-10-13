@@ -8,6 +8,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ads/ads_controller.dart';
 
@@ -25,38 +26,40 @@ class _AdBannerState extends State<AdBanner> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final size =
-          await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-              MediaQuery.sizeOf(context).width.truncate());
+    if (PlatformCheck.isMobile) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final size =
+            await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                MediaQuery.sizeOf(context).width.truncate());
 
-      if (size == null) {
-        // Unable to get width of anchored banner.
-        return;
-      }
+        if (size == null) {
+          // Unable to get width of anchored banner.
+          return;
+        }
 
-      if (!mounted) {
-        return;
-      }
+        if (!mounted) {
+          return;
+        }
 
-      ad = BannerAd(
-        adUnitId: context.read<AdsController>().getAdUnitId(AdFormat.banner),
-        request: context.read<AdsController>().createAdRequest(),
-        size: size,
-        listener: BannerAdListener(
-          onAdLoaded: (ad) {
-            debugPrint('$ad loaded.');
-            setState(() {
-              _isLoaded = true;
-            });
-          },
-          onAdFailedToLoad: (ad, err) {
-            debugPrint('BannerAd failed to load: $err');
-            ad.dispose();
-          },
-        ),
-      )..load();
-    });
+        ad = BannerAd(
+          adUnitId: context.read<AdsController>().getAdUnitId(AdFormat.banner),
+          request: context.read<AdsController>().createAdRequest(),
+          size: size,
+          listener: BannerAdListener(
+            onAdLoaded: (ad) {
+              debugPrint('$ad loaded.');
+              setState(() {
+                _isLoaded = true;
+              });
+            },
+            onAdFailedToLoad: (ad, err) {
+              debugPrint('BannerAd failed to load: $err');
+              ad.dispose();
+            },
+          ),
+        )..load();
+      });
+    }
   }
 
   @override

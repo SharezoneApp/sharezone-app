@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
@@ -26,9 +27,11 @@ class _DashboardAdsState extends State<DashboardAds> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      loadAd();
-    });
+    if (PlatformCheck.isMobile) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        loadAd();
+      });
+    }
   }
 
   /// Loads a native ad.
