@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
     hide StudentHomeworkPageBloc;
 import 'package:provider/provider.dart';
-import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
@@ -42,9 +41,6 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
     ),
   );
   if (successful == true && context.mounted) {
-    final adsController = context.read<AdsController>();
-    adsController.maybeShowFullscreenAd();
-
     await showUserConfirmationOfHomeworkArrival(context: context);
   }
 }

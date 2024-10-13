@@ -28,6 +28,7 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:key_value_store/key_value_store.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
@@ -242,7 +243,9 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
         listener: (context, state) {
           if (state is SavedSuccessfully) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            final adsController = context.read<AdsController>();
             Navigator.pop(context);
+            adsController.maybeShowFullscreenAd();
           }
         },
         builder: (context, state) {
