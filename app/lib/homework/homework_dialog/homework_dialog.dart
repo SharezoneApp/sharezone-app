@@ -19,7 +19,6 @@ import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
@@ -27,6 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
@@ -238,7 +238,9 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
         listener: (context, state) {
           if (state is SavedSuccessfully) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            final adsController = context.read<AdsController>();
             Navigator.pop(context);
+            adsController.maybeShowFullscreenAd();
           }
         },
         builder: (context, state) {

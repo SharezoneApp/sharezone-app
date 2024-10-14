@@ -13,6 +13,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -112,8 +113,10 @@ class _Advantages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final areAdsVisible = context.watch<AdsController>().areAdsVisible;
     return SharezonePlusAdvantages(
       isHomeworkReminderFeatureVisible: typeOfUser == TypeOfUser.student,
+      isRemoveAdsFeatureVisible: areAdsVisible,
       onOpenedAdvantage: (advantage) {
         final analytics = context.read<SharezonePlusPageController>();
         analytics.logOpenedAdvantage(advantage);

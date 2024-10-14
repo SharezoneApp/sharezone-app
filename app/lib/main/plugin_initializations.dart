@@ -81,7 +81,14 @@ class PluginInitializations {
       'firebase_messaging_vapid_key':
           'BNT7Da6B6wi-mUBcGrt-9HxeIJZsPTsPpmR8cae_LhgJPcSFb5j0T8o-r-oFV1xAtXVXfRPIZlgUJR3tx8mLbbA',
       'stripe_checkout_session_function_url':
-          'https://europe-west1-sharezone-c2bd8.cloudfunctions.net/createStripeCheckoutSession'
+          'https://europe-west1-sharezone-c2bd8.cloudfunctions.net/createStripeCheckoutSession',
+      // Setting the ads_enabled to false will also have the positive side
+      // effect that the ads won't be shown for the first app open which
+      // provides a better user experience.
+      'ads_enabled': false,
+      'ad_content_url': 'https://sharezone.net',
+      'ad_neighboring_urls':
+          'https://sharezone.net/android,https://sharezone.net/ios',
     });
 
     try {

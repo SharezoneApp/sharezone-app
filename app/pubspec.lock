@@ -1107,6 +1107,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.1+4"
+  google_mobile_ads:
+    dependency: "direct main"
+    description:
+      name: google_mobile_ads
+      sha256: "4775006383a27a5d86d46f8fb452bfcb17794fc0a46c732979e49a8eb1c8963f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.0"
   google_sign_in:
     dependency: transitive
     description:

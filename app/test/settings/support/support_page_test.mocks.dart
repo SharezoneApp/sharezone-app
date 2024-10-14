@@ -29,23 +29,6 @@ import 'package:sharezone/support/support_page_controller.dart' as _i2;
 class MockSupportPageController extends _i1.Mock
     implements _i2.SupportPageController {
   @override
-  bool get hasPlusSupportUnlocked => (super.noSuchMethod(
-        Invocation.getter(#hasPlusSupportUnlocked),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-
-  @override
-  set hasPlusSupportUnlocked(bool? _hasPlusSupportUnlocked) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #hasPlusSupportUnlocked,
-          _hasPlusSupportUnlocked,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
   bool get isUserInGroupOnboarding => (super.noSuchMethod(
         Invocation.getter(#isUserInGroupOnboarding),
         returnValue: false,
@@ -88,6 +71,13 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  bool get hasPlusSupportUnlocked => (super.noSuchMethod(
+        Invocation.getter(#hasPlusSupportUnlocked),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
 
   @override
   bool get isUserSignedIn => (super.noSuchMethod(
