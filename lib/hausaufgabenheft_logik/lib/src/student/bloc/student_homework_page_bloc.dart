@@ -12,9 +12,11 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/src/student/views/student_open_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../views/student_homework_view_factory.dart';
@@ -29,6 +31,7 @@ class StudentHomeworkPageBloc
   final StudentHomeworkViewFactory _viewFactory;
   final StudentOpenHomeworkListViewFactory _openHomeworkListViewFactory;
   final _currentSortStream = BehaviorSubject<Sort<BaseHomeworkReadModel>>();
+  final KeyValueStore _keyValueStore;
   LazyLoadingController<StudentHomeworkReadModel>? _lazyLoadingController;
 
   /// Whether [close] or [dispose] has been called;
@@ -41,11 +44,13 @@ class StudentHomeworkPageBloc
     required StudentOpenHomeworkListViewFactory openHomeworkListViewFactory,
     required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
+    required KeyValueStore keyValueStore,
   })  : _homeworkApi = homeworkApi,
         _openHomeworkListViewFactory = openHomeworkListViewFactory,
         _homeworkSortingCache = homeworkSortingCache,
         _viewFactory = viewFactory,
         _getCurrentDateTime = getCurrentDateTime,
+        _keyValueStore = keyValueStore,
         super(Uninitialized()) {
     on<LoadHomeworks>((event, emit) {
       _mapLoadHomeworksToState();
@@ -119,6 +124,16 @@ class StudentHomeworkPageBloc
         event.newValue == true
             ? CompletionStatus.completed
             : CompletionStatus.open);
+
+    if (event.newValue == true) {
+      _incrementCheckedHomeworkCounter();
+    }
+  }
+
+  void _incrementCheckedHomeworkCounter() {
+    final currentCounter =
+        _keyValueStore.getInt('checked-homework-counter') ?? 0;
+    _keyValueStore.setInt('checked-homework-counter', currentCounter + 1);
   }
 
   Future<void> _mapHomeworkMarkOverdueToState(CompletedAllOverdue event) async {

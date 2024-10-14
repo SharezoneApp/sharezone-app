@@ -140,21 +140,18 @@ class AdsController extends ChangeNotifier {
   }
 
   bool _shouldShowFullscreenAd() {
-    final editingHwCounter =
-        keyValueStore.getInt('homework-editing-counter') ?? 0;
-    final creatingHwCounter =
-        keyValueStore.getInt('homework-creating-counter') ?? 0;
-    final sum = editingHwCounter + creatingHwCounter;
+    final checkedHwCounter =
+        keyValueStore.getInt('checked-homework-counter') ?? 0;
 
-    if (sum == 0) {
-      // For a better user experience, we don't want to show an ad when the user
-      // shows his first homework. Technically, the sum should then be 1, but
-      // since we're not waiting for the counter to increment, we need to check
-      // for 0.
+    if (checkedHwCounter == 0) {
+      // For a better user experience, we don't show an ad when the user
+      // completes their first homework. Technically, counter should then be 1,
+      // but since we're not waiting for the counter to increment, we need to
+      // check for 0.
       return false;
     }
 
-    return sum % 5 == 0;
+    return checkedHwCounter % 5 == 0;
   }
 
   Future<void> _showFullscreenAd({
