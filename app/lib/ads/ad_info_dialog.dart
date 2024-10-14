@@ -22,7 +22,7 @@ void showAdInfoDialog(BuildContext context) async {
             children: [
               const TextSpan(
                 text:
-                    'Wir führen ein Experiment mit Werbung in Sharezone durch. Wenn du keine Werbung sehen möchten, kannst du ',
+                    'Innerhalb der nächsten Wochen führen wir ein Experiment mit Werbung in Sharezone durch. Wenn du keine Werbung sehen möchten, kannst du ',
               ),
               TextSpan(
                 text: 'Sharezone Plus',
