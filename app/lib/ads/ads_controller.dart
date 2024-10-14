@@ -52,9 +52,7 @@ class AdsController extends ChangeNotifier {
   ///
   /// We show an info dialog about our ads experiment after the first app open.
   bool shouldShowInfoDialog() {
-    final isRemoteConfigFlagEnabled =
-        remoteConfiguration.getBool('ads_enabled');
-    if (!isRemoteConfigFlagEnabled) {
+    if (!_isQualifiedForAds()) {
       return false;
     }
 
