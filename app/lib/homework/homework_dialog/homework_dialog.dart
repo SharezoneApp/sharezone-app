@@ -19,13 +19,11 @@ import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib show BlocProvider;
 import 'package:flutter_bloc/flutter_bloc.dart' hide BlocProvider;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
-import 'package:key_value_store/key_value_store.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ads/ads_controller.dart';
@@ -77,7 +75,6 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
     final szContext = BlocProvider.of<SharezoneContext>(context);
     final analytics = szContext.analytics;
     final holidayManager = BlocProvider.of<HolidayBloc>(context).holidayManager;
-    final keyValueStore = context.read<KeyValueStore>();
 
     late NextLessonCalculator nextLessonCalculator;
     if (widget.nextLessonCalculator != null) {
@@ -111,7 +108,6 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
           nextSchooldayCalculator: nextSchooldayCalculator,
           markdownAnalytics: markdownAnalytics,
           analytics: analytics,
-          keyValueStore: keyValueStore,
         );
         return value;
       });
@@ -123,7 +119,6 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
         nextSchooldayCalculator: nextSchooldayCalculator,
         markdownAnalytics: markdownAnalytics,
         analytics: analytics,
-        keyValueStore: keyValueStore,
       );
     }
   }

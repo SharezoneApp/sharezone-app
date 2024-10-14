@@ -18,7 +18,6 @@ import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
@@ -37,7 +36,6 @@ void main() {
     late MockNextSchooldayCalculator nextSchooldayCalculator;
     late LocalAnalyticsBackend analyticsBackend;
     late Analytics analytics;
-    late InMemoryKeyValueStore keyValueStore;
 
     setUp(() {
       courseGateway = MockCourseGateway();
@@ -45,7 +43,6 @@ void main() {
       nextLessonCalculator = MockNextLessonCalculator();
       nextSchooldayCalculator = MockNextSchooldayCalculator();
       analyticsBackend = LocalAnalyticsBackend();
-      keyValueStore = InMemoryKeyValueStore();
       analytics = Analytics(analyticsBackend);
     });
 
@@ -57,7 +54,6 @@ void main() {
         nextSchooldayCalculator: nextSchooldayCalculator,
         analytics: analytics,
         markdownAnalytics: MarkdownAnalytics(analytics),
-        keyValueStore: keyValueStore,
       );
     }
 
@@ -69,7 +65,6 @@ void main() {
         analytics: analytics,
         homeworkId: id,
         markdownAnalytics: MarkdownAnalytics(analytics),
-        keyValueStore: keyValueStore,
       );
     }
 
@@ -854,45 +849,6 @@ void main() {
       expect(homeworkDialogApi.removedCloudFilesFromEditing, []);
 
       expect(bloc.state, const SavedSuccessfully(isEditing: true));
-    });
-
-    test('Increases local editing counter when editing a homework', () async {
-      const homeworkId = HomeworkId('foo_homework_id');
-      addCourse(courseWith(
-        id: 'foo_course',
-      ));
-      final homework = randomHomeworkWith(
-        id: homeworkId.value,
-        title: 'title text',
-        courseId: 'foo_course',
-      );
-      homeworkDialogApi.homeworkToReturn = homework;
-
-      final bloc = createBlocForEditingHomeworkDialog(homeworkId);
-      await pumpEventQueue();
-
-      bloc.add(const TitleChanged('new title'));
-      bloc.add(const Save());
-      await bloc.stream.whereType<SavedSuccessfully>().first;
-
-      expect(keyValueStore.getInt('homework-editing-counter'), 1);
-    });
-
-    test('Increases local creation counter when creating a new homework',
-        () async {
-      final bloc = createBlocForNewHomeworkDialog();
-      addCourse(courseWith(
-        id: 'foo_course',
-      ));
-
-      bloc.add(const TitleChanged('abc'));
-      bloc.add(const CourseChanged(CourseId('foo_course')));
-      bloc.add(DueDateChanged(DueDateSelection.date(Date('2024-03-08'))));
-      await pumpEventQueue();
-      bloc.add(const Save());
-      await bloc.stream.whereType<SavedSuccessfully>().first;
-
-      expect(keyValueStore.getInt('homework-creation-counter'), 1);
     });
   });
 }

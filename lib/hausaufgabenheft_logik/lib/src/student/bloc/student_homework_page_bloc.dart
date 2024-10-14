@@ -12,10 +12,9 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:hausaufgabenheft_logik/src/student/views/student_open_homework_list_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
+import 'package:hausaufgabenheft_logik/src/student/views/student_open_homework_list_view_factory.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
 
