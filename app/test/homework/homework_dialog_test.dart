@@ -52,7 +52,6 @@ import 'package:test_randomness/test_randomness.dart';
 import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
-import '../dashboard/update_reminder_test.mocks.dart';
 import 'homework_dialog_bloc_test.dart';
 @GenerateNiceMocks([
   MockSpec<DocumentReference>(),
@@ -62,6 +61,7 @@ import 'homework_dialog_bloc_test.dart';
   MockSpec<HomeworkGateway>(),
   MockSpec<CourseGateway>(),
   MockSpec<SubscriptionService>(),
+  MockSpec<HolidayBloc>(),
 ])
 import 'homework_dialog_test.mocks.dart';
 
