@@ -10,10 +10,14 @@ import 'dart:math';
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:platform_check/platform_check.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/ads/ad_banner.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -49,6 +53,19 @@ class TimetablePage extends StatelessWidget {
   static const timetableScale = 1.00;
 
   TimetablePage({super.key});
+
+  String getAdUnitId(BuildContext context) {
+    if (kDebugMode) {
+      return context.read<AdsController>().getTestAdUnitId(AdFormat.banner);
+    }
+
+    return switch (PlatformCheck.currentPlatform) {
+      // Copied from the AdMob Console
+      Platform.android => 'ca-app-pub-7730914075870960/7645268953',
+      Platform.iOS => 'ca-app-pub-7730914075870960/6326053086',
+      _ => 'N/A',
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +115,7 @@ class TimetablePage extends StatelessWidget {
             bottomBar: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const AdBanner(),
+                AdBanner(adUnitId: getAdUnitId(context)),
                 SchoolClassFilterBottomBar(
                   backgroundColor: bottomBarBackgroundColor,
                 ),

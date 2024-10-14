@@ -87,6 +87,8 @@ class PluginInitializations {
       // provides a better user experience.
       'ads_enabled': false,
       'ad_content_url': 'https://sharezone.net',
+      'ad_neighboring_urls':
+          'https://sharezone.net/android,https://sharezone.net/ios',
     });
 
     try {

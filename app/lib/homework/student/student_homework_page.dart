@@ -7,11 +7,14 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/ads/ad_banner.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -28,6 +31,19 @@ import 'src/open_homework_list.dart';
 
 class StudentHomeworkPage extends StatelessWidget {
   const StudentHomeworkPage({super.key});
+
+  String getAdUnitId(BuildContext context) {
+    if (kDebugMode) {
+      return context.read<AdsController>().getTestAdUnitId(AdFormat.banner);
+    }
+
+    return switch (PlatformCheck.currentPlatform) {
+      // Copied from the AdMob Console
+      Platform.android => 'ca-app-pub-7730914075870960/6002721082',
+      Platform.iOS => 'ca-app-pub-7730914075870960/5068913364',
+      _ => 'N/A',
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +75,7 @@ class StudentHomeworkPage extends StatelessWidget {
               bottomBar: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const AdBanner(),
+                  AdBanner(adUnitId: getAdUnitId(context)),
                   AnimatedTabVisibility(
                     visibleInTabIndicies: const [0],
                     // Else the Sort shown in the button and the current sort

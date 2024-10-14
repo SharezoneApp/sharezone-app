@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:platform_check/platform_check.dart';
@@ -27,17 +28,30 @@ class _DashboardAdsState extends State<DashboardAds> {
   @override
   void initState() {
     super.initState();
-    if (PlatformCheck.isMobile) {
+    if (context.read<AdsController>().isQualifiedForAds()) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         loadAd();
       });
     }
   }
 
+  String getAdUnitId() {
+    if (kDebugMode) {
+      return context.read<AdsController>().getTestAdUnitId(AdFormat.native);
+    }
+
+    return switch (PlatformCheck.currentPlatform) {
+      // Copied from the AdMob Console
+      Platform.android => 'ca-app-pub-7730914075870960/4681798929',
+      Platform.iOS => 'ca-app-pub-7730914075870960/2027715422',
+      _ => 'N/A',
+    };
+  }
+
   /// Loads a native ad.
   void loadAd() {
     nativeAd = NativeAd(
-      adUnitId: context.read<AdsController>().getAdUnitId(AdFormat.native),
+      adUnitId: getAdUnitId(),
       listener: NativeAdListener(
         onAdLoaded: (ad) {
           debugPrint('$NativeAd loaded.');

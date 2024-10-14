@@ -8,12 +8,16 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ads/ads_controller.dart';
 
 class AdBanner extends StatefulWidget {
-  const AdBanner({super.key});
+  const AdBanner({
+    super.key,
+    required this.adUnitId,
+  });
+
+  final String adUnitId;
 
   @override
   State<AdBanner> createState() => _AdBannerState();
@@ -26,7 +30,7 @@ class _AdBannerState extends State<AdBanner> {
   @override
   void initState() {
     super.initState();
-    if (PlatformCheck.isMobile) {
+    if (context.read<AdsController>().isQualifiedForAds()) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         final size =
             await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
@@ -42,7 +46,7 @@ class _AdBannerState extends State<AdBanner> {
         }
 
         ad = BannerAd(
-          adUnitId: context.read<AdsController>().getAdUnitId(AdFormat.banner),
+          adUnitId: widget.adUnitId,
           request: context.read<AdsController>().createAdRequest(),
           size: size,
           listener: BannerAdListener(

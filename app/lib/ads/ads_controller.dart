@@ -35,13 +35,18 @@ class AdsController extends ChangeNotifier {
     required this.remoteConfiguration,
     required this.keyValueStore,
   }) {
-    if (_isQualifiedForAds()) {
+    if (isQualifiedForAds()) {
       _initializeMobileAdsSDK();
       _listenToSubscriptionService();
     }
   }
 
-  bool _isQualifiedForAds() {
+  bool isQualifiedForAds() {
+    if (!PlatformCheck.isMobile) {
+      // Google AdMob SDK is only available on mobile platforms.
+      return false;
+    }
+
     final isRemoteConfigFlagEnabled =
         remoteConfiguration.getBool('ads_enabled');
     final isActivationFlagEnabled = keyValueStore.getBool('show-ads') ?? false;
@@ -52,7 +57,7 @@ class AdsController extends ChangeNotifier {
   ///
   /// We show an info dialog about our ads experiment after the first app open.
   bool shouldShowInfoDialog() {
-    if (!_isQualifiedForAds()) {
+    if (!isQualifiedForAds()) {
       return false;
     }
 
@@ -66,29 +71,36 @@ class AdsController extends ChangeNotifier {
     return false;
   }
 
-  String getAdUnitId(AdFormat format) {
-    if (kDebugMode) {
-      return switch (PlatformCheck.currentPlatform) {
-        // Test ad unit IDs from: https://developers.google.com/admob/flutter/
-        Platform.android => switch (format) {
-            AdFormat.banner => 'ca-app-pub-3940256099942544/6300978111',
-            AdFormat.native => 'ca-app-pub-3940256099942544/2247696110',
-            AdFormat.interstitial => 'ca-app-pub-3940256099942544/1033173712',
-          },
-        Platform.iOS => switch (format) {
-            AdFormat.banner => 'ca-app-pub-3940256099942544/2934735716',
-            AdFormat.native => 'ca-app-pub-3940256099942544/3986624511',
-            AdFormat.interstitial => 'ca-app-pub-3940256099942544/4411468910',
-          },
-        _ => 'N/A',
-      };
-    }
+  // Returns the test ad unit ID for the given [format].
+  //
+  // Used for testing purposes only.
+  String getTestAdUnitId(AdFormat format) {
+    // From: https://developers.google.com/admob/flutter/banner#always_test_with_test_ads
+    const testAdUnitIdBannerAndroid = 'ca-app-pub-3940256099942544/6300978111';
+    const testAdUnitIdBannerIOS = 'ca-app-pub-3940256099942544/2934735716';
+
+    // From: https://developers.google.com/admob/flutter/native/templates#always_test_with_test_ads
+    const testAdUnitIdNativeAndroid = 'ca-app-pub-3940256099942544/2247696110';
+    const testAdUnitIdNativeIOS = 'ca-app-pub-3940256099942544/3986624511';
+
+    // From: https://developers.google.com/admob/flutter/interstitial#always_test_with_test_ads
+    const testAdUnitIdInterstitialAndroid =
+        'ca-app-pub-3940256099942544/1033173712';
+    const testAdUnitIdInterstitialIOS =
+        'ca-app-pub-3940256099942544/4411468910';
 
     return switch (PlatformCheck.currentPlatform) {
-      // In case you need to change the ad unit ID, also update the one in the
-      // AndroidManifest.xml file.
-      Platform.android => 'ca-app-pub-7730914075870960~2331360962',
-      Platform.iOS => 'ca-app-pub-7730914075870960~4953718516',
+      // Test ad unit IDs from: https://developers.google.com/admob/flutter/
+      Platform.android => switch (format) {
+          AdFormat.banner => testAdUnitIdBannerAndroid,
+          AdFormat.native => testAdUnitIdNativeAndroid,
+          AdFormat.interstitial => testAdUnitIdInterstitialAndroid,
+        },
+      Platform.iOS => switch (format) {
+          AdFormat.banner => testAdUnitIdBannerIOS,
+          AdFormat.native => testAdUnitIdNativeIOS,
+          AdFormat.interstitial => testAdUnitIdInterstitialIOS,
+        },
       _ => 'N/A',
     };
   }
@@ -100,7 +112,7 @@ class AdsController extends ChangeNotifier {
       if (hasUnlocked) {
         areAdsVisible = false;
       } else {
-        areAdsVisible = _isQualifiedForAds();
+        areAdsVisible = isQualifiedForAds();
       }
       notifyListeners();
     });
@@ -113,6 +125,7 @@ class AdsController extends ChangeNotifier {
       // form.
       tagForUnderAgeOfConsent: 1,
     ));
+    debugPrint("Google Mobile Ads SDK initialized.");
   }
 
   AdRequest createAdRequest() {
@@ -133,7 +146,7 @@ class AdsController extends ChangeNotifier {
     }
 
     if (areAdsVisible && _shouldShowFullscreenAd()) {
-      await _showFullscreenAd(adUnitId: getAdUnitId(AdFormat.interstitial));
+      await _showFullscreenAd();
     }
   }
 
@@ -152,9 +165,20 @@ class AdsController extends ChangeNotifier {
     return checkedHwCounter % 5 == 0;
   }
 
-  Future<void> _showFullscreenAd({
-    required String adUnitId,
-  }) async {
+  Future<void> _showFullscreenAd() async {
+    String adUnitId;
+
+    if (kDebugMode) {
+      adUnitId = getTestAdUnitId(AdFormat.interstitial);
+    } else {
+      adUnitId = switch (PlatformCheck.currentPlatform) {
+        // Copied from the AdMob Console
+        Platform.android => 'ca-app-pub-7730914075870960/5232564896',
+        Platform.iOS => 'ca-app-pub-7730914075870960/4462307071',
+        _ => 'N/A',
+      };
+    }
+
     InterstitialAd.load(
       adUnitId: adUnitId,
       request: createAdRequest(),
