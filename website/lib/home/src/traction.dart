@@ -124,6 +124,8 @@ class __UserCounterState extends State<_UserCounter> {
         children: [
           Theme(
             data: Theme.of(context).copyWith(
+                // The NumberSlideAnimation shows unintended scrollbars, see
+                // https://github.com/SharezoneApp/sharezone-app/pull/1768.
                 scrollbarTheme:
                     ScrollbarThemeData(thickness: WidgetStateProperty.all(0))),
             child: AnimatedSwitcher(
