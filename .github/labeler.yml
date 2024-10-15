@@ -139,6 +139,11 @@
       - "bin/sz"
       - "bin/sharezone"
 
+"admin console":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "console/**"
+
 "ui / ux":
   - changed-files:
     - any-glob-to-any-file:
@@ -318,6 +323,12 @@
     - any-glob-to-any-file:
       - "**/qr_code_scanner/**"
       - "**/**qr_code_scanner**"
+
+"feature: grades":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/grades/**"
+      - "**/**grade**"
 
 "user: parent":
   - changed-files:

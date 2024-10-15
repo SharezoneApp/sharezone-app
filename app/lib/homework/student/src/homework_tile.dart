@@ -8,18 +8,15 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/dashboard/models/homework_view.dart';
 import 'package:sharezone/homework/homework_details/homework_details.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
+import 'package:sharezone/homework/shared/homework_tile_template.dart';
+import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/submissions/homework_create_submission_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone/homework/shared/homework_card.dart';
-import 'package:sharezone/homework/shared/homework_tile_template.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 enum HomeworkStatus { open, completed }
@@ -79,7 +76,11 @@ class _HomeworkTileState extends State<HomeworkTile> {
           ? Colors.redAccent
           : Theme.of(context).textTheme.bodyMedium!.color,
       onTap: () => _showHomeworkDetails(context),
-      onLongPress: () => _showLongPressDialog(context),
+      onLongPress: () => handleHomeworkTileLongPress(
+        context,
+        homeworkId: HomeworkId(widget.homework.id),
+        setHomeworkStatus: _changeCompletionState,
+      ),
       key: Key(widget.homework.id),
     );
   }
@@ -139,31 +140,6 @@ class _HomeworkTileState extends State<HomeworkTile> {
       defaultValue: false,
       name: HomeworkDetails.tag,
     );
-  }
-
-  Future<void> _showLongPressDialog(BuildContext context) async {
-    final dbModel = await getHomeworkDbModel(widget.homework);
-    if (!context.mounted) return;
-    final courseGateway = BlocProvider.of<SharezoneContext>(context).api.course;
-    await showLongPressIfUserHasPermissions(
-      context,
-      (newStatus) => widget.onChanged(
-          newStatus ? HomeworkStatus.completed : HomeworkStatus.open),
-      HomeworkView.fromHomework(dbModel, courseGateway),
-    );
-  }
-
-  /// Lädt das HomeworkDbModel, weil ein paar Funktionen noch dieses verlangen.
-  Future<HomeworkDto> getHomeworkDbModel(
-      StudentHomeworkView homeworkView) async {
-    final CollectionReference<Map<String, dynamic>> homeworkCollection =
-        FirebaseFirestore.instance.collection("Homework");
-
-    final homeworkId = homeworkView.id;
-    final homeworkDocument = await homeworkCollection.doc(homeworkId).get();
-    final homework =
-        HomeworkDto.fromData(homeworkDocument.data()!, id: homeworkDocument.id);
-    return homework;
   }
 }
 

@@ -10,6 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date/date.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
+import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:sharezone_common/references.dart';
 
 class TimetableGateway {
@@ -22,6 +24,7 @@ class TimetableGateway {
     String lessonID = references.lessons.doc().id;
     Map<String, dynamic> data = lesson.copyWith(lessonID: lessonID).toJson();
     data['users'] = [memberID];
+    data['createdOn'] = FieldValue.serverTimestamp();
     return references.lessons
         .doc(lessonID)
         .set(data, SetOptions(merge: true))
@@ -44,6 +47,7 @@ class TimetableGateway {
     Map<String, dynamic> data =
         event.copyWith(eventID: eventID, authorID: memberID).toJson();
     data['users'] = [memberID];
+    data['createdOn'] = FieldValue.serverTimestamp();
     return references.events
         .doc(eventID)
         .set(data, SetOptions(merge: true))
@@ -59,6 +63,51 @@ class TimetableGateway {
 
   Future<bool> deleteEvent(CalendricalEvent event) {
     return references.events.doc(event.eventID).delete().then((_) => true);
+  }
+
+  void addSubstitutionToLesson({
+    required String lessonId,
+    required Substitution substitution,
+    required bool notifyGroupMembers,
+  }) {
+    references.lessons.doc(lessonId).update({
+      'substitutions.${substitution.id}':
+          substitution.toCreateJson(notifyGroupMembers: notifyGroupMembers),
+    });
+  }
+
+  void removeSubstitutionFromLesson({
+    required String lessonId,
+    required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
+  }) {
+    references.lessons.doc(lessonId).update({
+      'substitutions.$substitutionId.deleted': {
+        'by': memberID,
+        'on': FieldValue.serverTimestamp(),
+        'notifyGroupMembers': notifyGroupMembers,
+      }
+    });
+  }
+
+  void updateSubstitutionInLesson({
+    required String lessonId,
+    required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
+    String? newLocation,
+    String? newTeacher,
+  }) {
+    references.lessons.doc(lessonId).update({
+      if (newLocation != null)
+        'substitutions.$substitutionId.newPlace': newLocation,
+      if (newTeacher != null)
+        'substitutions.$substitutionId.newTeacher': newTeacher,
+      'substitutions.$substitutionId.updated': {
+        'by': memberID,
+        'on': FieldValue.serverTimestamp(),
+        'notifyGroupMembers': notifyGroupMembers,
+      }
+    });
   }
 
   Stream<List<Lesson>> streamLessons() {

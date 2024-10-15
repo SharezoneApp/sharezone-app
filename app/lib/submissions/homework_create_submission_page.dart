@@ -44,9 +44,9 @@ class _HomeworkUserCreateSubmissionPageState
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
 
         final abgegeben =

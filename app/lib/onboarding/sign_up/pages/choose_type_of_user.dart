@@ -39,12 +39,14 @@ class ChooseTypeOfUser extends StatelessWidget {
                               style: Theme.of(context).textTheme.headlineSmall),
                           const SizedBox(height: 12),
                           typeOfUserButtons(context),
+                          const SizedBox(height: 12),
+                          const _LegalText(),
                           if (withLogin) ...[
                             const Divider(height: 46),
                             const _LoginButton(
                               key: K.goToLoginButton,
                             ),
-                          ]
+                          ],
                         ],
                       ),
                     ),
@@ -102,6 +104,35 @@ class ChooseTypeOfUser extends StatelessWidget {
                 ),
               ],
             ),
+    );
+  }
+}
+
+class _LegalText extends StatelessWidget {
+  const _LegalText();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 500,
+      child: MarkdownBody(
+        data:
+            'Mit Nutzung unserer Plattform stimmst du den [ANBs](https://sharezone.net/terms-of-service) zu. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy).',
+        onTapLink: (text, href, title) {
+          if (href == "https://sharezone.net/terms-of-service") {
+            Navigator.pushNamed(context, TermsOfServicePage.tag);
+          } else if (href == "https://sharezone.net/privacy-policy") {
+            Navigator.pushNamed(context, PrivacyPolicyPage.tag);
+          }
+        },
+        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+          a: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            decoration: TextDecoration.underline,
+          ),
+          textAlign: WrapAlignment.center,
+        ),
+      ),
     );
   }
 }

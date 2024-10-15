@@ -11,7 +11,7 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'auto_id_generator.dart';
 
 class AbgabeEventId extends Id {
-  AbgabeEventId(String id) : super(id, 'AbgabeEventId');
+  const AbgabeEventId(super.value);
 }
 
 abstract class AbgabeCommand {
@@ -31,7 +31,7 @@ abstract class AbgabeCommand {
       : id = AbgabeEventId(AutoIdGenerator.autoId());
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         other is AbgabeCommand && other.id == id && other.abgabeId == abgabeId;
   }

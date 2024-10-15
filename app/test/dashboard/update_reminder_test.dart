@@ -10,14 +10,19 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
+import 'package:remote_configuration/remote_configuration.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/dashboard_page.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
 import 'update_reminder_test.mocks.dart';
 
@@ -26,6 +31,7 @@ import 'update_reminder_test.mocks.dart';
   MockSpec<HolidayBloc>(),
   MockSpec<DashboardTipSystem>(),
   MockSpec<DashboardBloc>(),
+  MockSpec<SubscriptionService>(),
 ])
 void main() {
   group('Update-Reminder Card', () {
@@ -99,13 +105,20 @@ extension on WidgetTester {
 }
 
 Widget _buildDashboardPage(UpdateReminderBloc updateReminderBloc) {
-  return MultiBlocProvider(
-    blocProviders: [
-      BlocProvider<DashboardBloc>(bloc: MockDashboardBloc()),
-      BlocProvider<UpdateReminderBloc>(bloc: updateReminderBloc),
-      BlocProvider<DashboardTipSystem>(bloc: MockDashboardTipSystem()),
-      BlocProvider<HolidayBloc>(bloc: MockHolidayBloc()),
-    ],
-    child: (c) => const MaterialApp(home: DashboardPageBody()),
+  return ChangeNotifierProvider(
+    create: (context) => AdsController(
+      subscriptionService: MockSubscriptionService(),
+      remoteConfiguration: getStubRemoteConfiguration(),
+      keyValueStore: InMemoryKeyValueStore(),
+    ),
+    child: MultiBlocProvider(
+      blocProviders: [
+        BlocProvider<DashboardBloc>(bloc: MockDashboardBloc()),
+        BlocProvider<UpdateReminderBloc>(bloc: updateReminderBloc),
+        BlocProvider<DashboardTipSystem>(bloc: MockDashboardTipSystem()),
+        BlocProvider<HolidayBloc>(bloc: MockHolidayBloc()),
+      ],
+      child: (c) => const MaterialApp(home: DashboardPageBody()),
+    ),
   );
 }

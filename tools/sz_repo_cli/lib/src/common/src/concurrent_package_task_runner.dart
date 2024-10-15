@@ -10,6 +10,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 
+import 'package:clock/clock.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
@@ -20,7 +21,7 @@ class ConcurrentPackageTaskRunner {
   ConcurrentPackageTaskRunner({
     DateTime Function()? getCurrentDateTime,
   }) {
-    _getCurrentDateTime = getCurrentDateTime ?? () => DateTime.now();
+    _getCurrentDateTime = getCurrentDateTime ?? () => clock.now();
   }
 
   /// Run [runTask] for every [Package] emitted by the [packageStream].

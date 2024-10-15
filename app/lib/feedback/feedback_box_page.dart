@@ -11,15 +11,20 @@ import 'dart:developer';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:platform_check/platform_check.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/feedback/history/feedback_history_page.dart';
+import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/feedback/src/cache/cooldown_exception.dart';
 import 'package:sharezone/feedback/src/widgets/thank_you_bottom_sheet.dart';
+import 'package:sharezone/feedback/unread_messages/has_unread_feedback_messages_provider.dart';
+import 'package:sharezone/keys.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const double _padding = 12.0;
@@ -31,16 +36,105 @@ class FeedbackPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
         popToOverview(context);
       },
       child: const SharezoneMainScaffold(
-        appBarConfiguration: AppBarConfiguration(title: "Feedback-Box"),
+        appBarConfiguration: AppBarConfiguration(
+          title: "Feedback-Box",
+          actions: [_HistoryButton()],
+        ),
         navigationItem: NavigationItem.feedbackBox,
         body: FeedbackPageBody(),
+      ),
+    );
+  }
+}
+
+class _HistoryButton extends StatelessWidget {
+  const _HistoryButton();
+
+  void _logAnalytics(BuildContext context) {
+    final controller = context.read<FeedbackHistoryPageController>();
+    controller.logOpenedPage();
+  }
+
+  void _openHistoryPage(BuildContext context) {
+    Navigator.pushNamed(context, FeedbackHistoryPage.tag);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        IconButton(
+          key: K.openFeedbackHistory,
+          tooltip: "Meine Feedbacks",
+          icon: const Icon(Icons.history),
+          onPressed: () {
+            _logAnalytics(context);
+            _openHistoryPage(context);
+          },
+        ),
+        const _UnreadMessagesIndicator(),
+      ],
+    );
+  }
+}
+
+class _UnreadMessagesIndicator extends StatefulWidget {
+  const _UnreadMessagesIndicator();
+
+  @override
+  State<_UnreadMessagesIndicator> createState() =>
+      _UnreadMessagesIndicatorState();
+}
+
+class _UnreadMessagesIndicatorState extends State<_UnreadMessagesIndicator> {
+  bool _hasUnreadFeedbackMessages = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // We use a listener instead of context.watch to force an animation of the
+      // unread messages indicator. This should bring more attention to the user
+      // that there are unread messages.
+      context
+          .read<HasUnreadFeedbackMessagesProvider>()
+          .addListener(() => updateUnreadStatus());
+      updateUnreadStatus();
+    });
+  }
+
+  void updateUnreadStatus() {
+    if (mounted) {
+      final value = context
+          .read<HasUnreadFeedbackMessagesProvider>()
+          .hasUnreadFeedbackMessages;
+      setState(() {
+        _hasUnreadFeedbackMessages = value;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 5,
+      left: 7,
+      child: IgnorePointer(
+        child: AnimatedSwap(
+          duration: const Duration(milliseconds: 350),
+          child: _hasUnreadFeedbackMessages
+              ? Icon(Icons.brightness_1,
+                  color: Theme.of(context).primaryColor, size: 13)
+              : const SizedBox.shrink(),
+        ),
       ),
     );
   }
@@ -67,86 +161,12 @@ class FeedbackPageBody extends StatelessWidget {
               const _DislikeField(),
               const _MissingField(),
               const _HeardFromField(),
-              const _AnonymousCheckbox(),
               const FeedbackPageSubmitButton(key: Key("submitButton")),
               const SizedBox(height: _padding)
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-// class _FeedbackBoxWallpaper extends StatelessWidget {
-//   const _FeedbackBoxWallpaper({Key key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ConstrainedBox(
-//       constraints: BoxConstraints(maxHeight: 400),
-//       child: Image.asset(
-//         "assets/wallpaper/feedback-box.png",
-//         width: MediaQuery.of(context).size.width,
-//         fit: BoxFit.fitWidth,
-//       ),
-//     );
-//   }
-// }
-
-class _AnonymousCheckbox extends StatelessWidget {
-  const _AnonymousCheckbox();
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<FeedbackBloc>(context);
-    return StreamBuilder<bool>(
-      stream: bloc.isAnonymous,
-      builder: (context, isAnonymousSnapshot) {
-        final isAnonymous = isAnonymousSnapshot.data ?? false;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Divider(),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              child: CheckboxListTile(
-                value: isAnonymous,
-                onChanged: (v) {
-                  if (v == null) return;
-                  bloc.changeIsAnonymous(v);
-                },
-                secondary: const Icon(Icons.security),
-                title: const Text(
-                  "Ich möchte mein Feedback anonym abschicken",
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
-                child: isAnonymous
-                    ? const Text(
-                        "Bitte beachte, dass wenn du einen Fehler bei dir melden möchtest, wir dir nicht weiterhelfen können, wenn du das Feedback anonym abschickst.",
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: _FeedbackTextField(
-                          labelText: "Kontaktdaten für Rückfragen",
-                          icon: const Icon(Icons.question_answer),
-                          onChanged: bloc.changeContactOptions,
-                          stream: bloc.contactOptions,
-                        ),
-                      ),
-              ),
-            ),
-            SizedBox(height: isAnonymous ? 8 : 16),
-          ],
-        );
-      },
     );
   }
 }

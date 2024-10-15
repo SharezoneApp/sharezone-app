@@ -10,6 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
 import 'package:sharezone/filesharing/logic/select_cloud_file_action.dart';
@@ -71,6 +72,7 @@ Future<void> showCloudFileSheet({
       creatorName: cloudFile.creatorName,
       sizeBytes: cloudFile.sizeBytes,
       isPrivate: cloudFile.isPrivate,
+      createdOn: cloudFile.createdOn,
       items: CloudFileActionsColumn(
         hasPermissionToEdit: hasPermissionToEdit,
         onSelectCloudFileAction: (context, sheetOption) =>
@@ -93,19 +95,19 @@ class FileSheet extends StatelessWidget {
     this.items,
     required this.name,
     required this.creatorName,
-    this.fileType,
     this.icon,
     this.sizeBytes,
     this.isPrivate,
+    this.createdOn,
   });
 
   final String? name;
   final String? creatorName;
   final Widget? items;
-  final FileFormat? fileType;
   final Widget? icon;
   final int? sizeBytes;
   final bool? isPrivate;
+  final DateTime? createdOn;
 
   @override
   Widget build(BuildContext context) {
@@ -150,6 +152,11 @@ class FileSheet extends StatelessWidget {
                             "Ersteller: $creatorName",
                             style: greyTextStyle,
                           ),
+                          if (createdOn != null)
+                            Text(
+                              "Hochgeladen am: ${DateFormat('dd.MM.yyyy HH:mm').format(createdOn!)}",
+                              style: greyTextStyle,
+                            ),
                           if (isPrivate == true)
                             Text('Privat (nur für dich sichtbar)',
                                 style: greyTextStyle),

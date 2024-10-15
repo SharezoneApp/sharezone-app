@@ -19,15 +19,14 @@ import 'package:abgabe_client_lib/src/erstellung/use_cases/datei_loescher.dart';
 import 'package:abgabe_client_lib/src/erstellung/use_cases/datei_umbenenner.dart';
 import 'package:abgabe_client_lib/src/erstellung/views.dart';
 import 'package:abgabe_client_lib/src/models/models.dart';
-
 import 'package:async/async.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
-
-import 'package:random_string/random_string.dart';
-import 'package:rxdart/subjects.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rxdart/subjects.dart';
+import 'package:test_randomness/test_randomness.dart';
 
 void main() {
   group(
@@ -44,8 +43,8 @@ void main() {
           useCases = MockAbgabendateiUseCases();
           abgabedateiIdGenerator = MockAbgabedateiIdGenerator();
           abgabeId = AbgabeId(
-              AbgabezielId.homework(HomeworkId('ValidHomeworkId')),
-              UserId('ValidUserId'));
+              AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
+              const UserId('ValidUserId'));
           fileSaver = SingletonLocalFileSaver();
           bloc = HomeworkUserCreateSubmissionsBloc(
             abgabeId,
@@ -69,7 +68,7 @@ void main() {
           required String neuerBasename,
           required String nachher,
         }) async {
-          var abgabedateiId = AbgabedateiId('abgabedateiId');
+          var abgabedateiId = const AbgabedateiId('abgabedateiId');
           useCases.abgabe.add(
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
             hochgeladeneAbgabedatei(
@@ -166,7 +165,7 @@ void main() {
               abgegeben: false, abgabedateien: []));
 
           var dateiname = 'gustav.pdf';
-          var abgabedateiId = AbgabedateiId('id1');
+          var abgabedateiId = const AbgabedateiId('id1');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
               Stream.value(
                   DateiUploadProzessFortschritt.erfolgreich(abgabedateiId)),
@@ -197,13 +196,13 @@ void main() {
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
             hochgeladeneAbgabedatei(
               name: 'gustav.pdf',
-              id: AbgabedateiId('idH'),
+              id: const AbgabedateiId('idH'),
             ),
           ]);
           useCases.abgabe.add(abgabe);
 
           var dateiname = 'bernd.pdf';
-          var abgabedateiId = AbgabedateiId('id');
+          var abgabedateiId = const AbgabedateiId('id');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
               Stream.value(
                   DateiUploadProzessFortschritt.imGange(abgabedateiId, 0.22)),
@@ -247,8 +246,8 @@ void main() {
             () async {
           var dateiname1 = 'gustav.pdf';
           var dateiname2 = 'meier.mp3';
-          var abgabedateiId1 = AbgabedateiId('id1');
-          var abgabedateiId2 = AbgabedateiId('id2');
+          var abgabedateiId1 = const AbgabedateiId('id1');
+          var abgabedateiId2 = const AbgabedateiId('id2');
 
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId1, name: dateiname1);
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId2, name: dateiname2);
@@ -287,8 +286,8 @@ void main() {
           useCases = MockAbgabendateiUseCases();
           abgabedateiIdGenerator = MockAbgabedateiIdGenerator();
           final abgabeId = AbgabeId(
-              AbgabezielId.homework(HomeworkId('ValidHomeworkId')),
-              UserId('ValidUserId'));
+              AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
+              const UserId('ValidUserId'));
           fileSaver = SingletonLocalFileSaver();
           bloc = HomeworkUserCreateSubmissionsBloc(
             abgabeId,
@@ -331,7 +330,7 @@ void main() {
               path: '/eine/datei.pdf',
               sizeInBytes: 1234,
               mimeType: MimeType.any);
-          var abgabedateiId = AbgabedateiId('testId');
+          var abgabedateiId = const AbgabedateiId('testId');
           abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
               abgabedateiId, 'datei.pdf');
 
@@ -354,7 +353,7 @@ void main() {
           useCases.abgabe.add(
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
             HochgeladeneAbgabedatei(
-              id: AbgabedateiId('abgabedateiId'),
+              id: const AbgabedateiId('abgabedateiId'),
               name: Dateiname('file.pdf'),
               groesse: Dateigroesse(12345),
               downloadUrl: DateiDownloadUrl('https://some-url.com'),
@@ -428,21 +427,22 @@ void main() {
           expect(fileView.status, FileViewStatus.unitiated);
 
           uploadProzess.add(
-            DateiUploadProzessFortschritt.imGange(AbgabedateiId('dad'), 0.2),
+            DateiUploadProzessFortschritt.imGange(
+                const AbgabedateiId('dad'), 0.2),
           );
 
           fileView = (await queue.next)!;
           expect(fileView.status, FileViewStatus.uploading);
           expect(fileView.uploadProgress, 0.2);
 
-          uploadProzess.add(
-              DateiUploadProzessFortschritt.erfolgreich(AbgabedateiId('dad')));
+          uploadProzess.add(DateiUploadProzessFortschritt.erfolgreich(
+              const AbgabedateiId('dad')));
           fileView = (await queue.next)!;
           expect(fileView.status, FileViewStatus.successfullyUploaded);
           expect(fileView.uploadProgress, null);
 
           uploadProzess.add(DateiUploadProzessFortschritt.fehlgeschlagen(
-              AbgabedateiId('dad')));
+              const AbgabedateiId('dad')));
           fileView = (await queue.next)!;
           expect(fileView.uploadProgress, null);
         });
@@ -450,8 +450,8 @@ void main() {
         test(
             'Gibt die LocalFiles unter der jeweiligen Id an den Speicher weiter',
             () async {
-          var abgabedateiId1 = AbgabedateiId('id1');
-          var abgabedateiId2 = AbgabedateiId('id2');
+          var abgabedateiId1 = const AbgabedateiId('id1');
+          var abgabedateiId2 = const AbgabedateiId('id2');
           var name1 = 'Datei1.pdf';
           var name2 = 'Datei2.pdf';
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId1, name: name1);
@@ -475,7 +475,7 @@ void main() {
           );
 
           var hochladeneDateiName = 'abc.mp3';
-          var abgabedateiId = AbgabedateiId('id2');
+          var abgabedateiId = const AbgabedateiId('id2');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(
                 DateiUploadProzessFortschritt.imGange(abgabedateiId, 0.2)),
@@ -499,7 +499,7 @@ void main() {
         test(
             'Schreibt hinter den Dateinamen einer Datei "(1)", "(2)" etc, wenn bereits eine lokale oder hochgeladene Datei mit dem selben Namen hinzugefügt wurde',
             () async {
-          var abgabedateiId = AbgabedateiId('id');
+          var abgabedateiId = const AbgabedateiId('id');
           var name = 'hallo.pdf';
           useCases.abgabe.add(
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
@@ -569,7 +569,7 @@ void main() {
             'Wenn eine lokale Datei hochgeladen wurde und diese nun auch im Abgabe-Stream vorkommt, dann werden die Informationen aus Firestore den lokalen vorgezogen.',
             () async {
           var dateiname = 'gustav.pdf';
-          final id = AbgabedateiId('gustav.pdf');
+          const id = AbgabedateiId('gustav.pdf');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(DateiUploadProzessFortschritt.erfolgreich(id)),
             dateiname,
@@ -619,7 +619,7 @@ void main() {
         test(
             'Wenn eine Datei gelöscht werden soll, die nicht erfolgreich hochgeladen werden konnte, dann wird das nur lokal gemacht',
             () async {
-          var abgabedateiId = AbgabedateiId('id');
+          var abgabedateiId = const AbgabedateiId('id');
           var name = 'file.pdf';
           useCases.abgabeprozessFortschrittFuerDateiMitName(
               Stream.value(
@@ -640,7 +640,7 @@ void main() {
         });
 
         test('Löschen hochgeladene Datei', () async {
-          var abgabedateiId = AbgabedateiId('fileId');
+          var abgabedateiId = const AbgabedateiId('fileId');
           useCases.abgabe.add(
             erstelleAbgabenModelSnapshot(
               abgegeben: false,
@@ -684,7 +684,7 @@ void main() {
         test(
             'Löschen lokale Datei die hochgeladen wurde lokal und auf dem Server',
             () async {
-          var abgabedateiId = AbgabedateiId('id');
+          var abgabedateiId = const AbgabedateiId('id');
           var name = 'file.pdf';
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(
@@ -725,8 +725,8 @@ void main() {
           abgabezeitpunktStream = BehaviorSubject<DateTime>();
           useCases = MockAbgabendateiUseCases();
           abgabeId = AbgabeId(
-            AbgabezielId.homework(HomeworkId('ValidHomeworkId')),
-            UserId('ValidUserId'),
+            AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
+            const UserId('ValidUserId'),
           );
           final localFileSaver = SingletonLocalFileSaver();
           bloc = HomeworkUserCreateSubmissionsBloc(
@@ -753,9 +753,9 @@ void main() {
         });
 
         test('Die Dateien werden nach hinzufuegedatum sortiert.', () async {
-          final now = DateTime.now();
+          final now = clock.now();
           abgabezeitpunktStream.add(now.add(const Duration(days: 20)));
-          kriegeAktuelleZeit = () => DateTime.now();
+          kriegeAktuelleZeit = () => clock.now();
 
           useCases.abgabe.add(
               erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
@@ -853,7 +853,7 @@ HochgeladeneAbgabedatei hochgeladeneAbgabedatei({
     groesse: Dateigroesse(12345),
     downloadUrl: DateiDownloadUrl('https://some-url.com'),
     // Sollte letzte sein (auch wenn es eigentlich nicht sein)
-    erstellungsdatum: erstellungsdatum ?? DateTime.now(),
+    erstellungsdatum: erstellungsdatum ?? clock.now(),
   );
 }
 
@@ -862,9 +862,9 @@ ErstellerAbgabeModelSnapshot erstelleAbgabenModelSnapshot(
     required List<HochgeladeneAbgabedatei> abgabedateien}) {
   return ErstellerAbgabeModel(
           abgabeId: AbgabeId(
-              AbgabezielId.homework(HomeworkId('ValidHomeworkId')),
-              UserId('ValidUserId')),
-          abgegebenUm: abgegeben ? DateTime.now() : null,
+              AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
+              const UserId('ValidUserId')),
+          abgegebenUm: abgegeben ? clock.now() : null,
           abgabedateien: abgabedateien)
       .toSnapshot();
 }

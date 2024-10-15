@@ -10,7 +10,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:notifications/notifications.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 
 ActionRegistration<OpenLinkRequest> openLinkRegistrationWith(
         ActionRequestExecutorFunc<OpenLinkRequest> executorFunc) =>

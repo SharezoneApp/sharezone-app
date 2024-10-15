@@ -37,7 +37,6 @@ void main() {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(
             child: SharezonePlusAdvantages(
-              isHomeworkDoneListsFeatureVisible: true,
               isHomeworkReminderFeatureVisible: true,
             ),
           ),

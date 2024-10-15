@@ -147,6 +147,11 @@ class _SelectedDrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iconTheme = context.theme.iconTheme.copyWith(
+      color: Theme.of(context).isDarkTheme
+          ? Theme.of(context).primaryColor
+          : darkBlueColor,
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       child: Material(
@@ -154,18 +159,19 @@ class _SelectedDrawerTile extends StatelessWidget {
         color: Theme.of(context).primaryColor.withOpacity(0.15),
         child: ListTile(
           leading: IconTheme(
-            data: context.theme.iconTheme.copyWith(
-              color: Theme.of(context).isDarkTheme
-                  ? Theme.of(context).primaryColor
-                  : darkBlueColor,
-            ),
+            data: iconTheme,
             child: icon,
           ),
           title: Text(title, style: getTextStyle(context, true)),
           subtitle: isNotEmptyOrNull(subtitle) ? Text(subtitle!) : null,
           enabled: false,
           onTap: onTap,
-          trailing: trailing,
+          trailing: trailing != null
+              ? IconTheme(
+                  data: iconTheme,
+                  child: trailing!,
+                )
+              : null,
         ),
       ),
     );

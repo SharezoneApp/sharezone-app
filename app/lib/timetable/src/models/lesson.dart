@@ -6,14 +6,24 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
+import 'package:sharezone/timetable/src/models/substitution_id.dart';
 import 'package:time/time.dart';
 
 class Lesson {
+  /// The date and time when the event was created.
+  ///
+  /// Clients with a lower version than 1.7.9 will not have this field.
+  /// Therefore, we will always have events without a [createdOn] field in the
+  /// database.
+  final DateTime? createdOn;
+
   final String? lessonID;
   final String groupID;
   final GroupType groupType;
@@ -23,9 +33,11 @@ class Lesson {
   final WeekDay weekday;
   final WeekType weektype;
   final String? teacher, place;
+  final Map<SubstitutionId, Substitution> substitutions;
   LessonLength get length => calculateLessonLength(startTime, endTime);
 
   Lesson({
+    required this.createdOn,
     required this.lessonID,
     required this.groupID,
     required this.groupType,
@@ -38,10 +50,12 @@ class Lesson {
     required this.weektype,
     required this.teacher,
     required this.place,
+    this.substitutions = const {},
   });
 
   factory Lesson.fromData(Map<String, dynamic> data, {required String id}) {
     return Lesson(
+      createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       lessonID: id,
       groupID: data['groupID'] as String,
       groupType: GroupType.values.byName(data['groupType'] as String),
@@ -54,6 +68,15 @@ class Lesson {
       weektype: WeekType.values.byName(data['weektype'] as String),
       teacher: data['teacher'] as String?,
       place: data['place'] as String?,
+      substitutions: data['substitutions'] == null
+          ? const {}
+          : decodeMapAdvanced(
+              data['substitutions'],
+              (key, value) {
+                final id = SubstitutionId(key);
+                return MapEntry(id, Substitution.fromData(value, id: id));
+              },
+            ),
     );
   }
 
@@ -74,6 +97,7 @@ class Lesson {
   }
 
   Lesson copyWith({
+    DateTime? createdOn,
     String? lessonID,
     String? groupID,
     GroupType? groupType,
@@ -84,10 +108,12 @@ class Lesson {
     int? periodNumber,
     WeekDay? weekday,
     WeekType? weektype,
-    String? teacher,
+    String? Function()? teacher,
     String? place,
+    Map<SubstitutionId, Substitution>? substitutions,
   }) {
     return Lesson(
+      createdOn: createdOn ?? this.createdOn,
       groupType: groupType ?? this.groupType,
       lessonID: lessonID ?? this.lessonID,
       groupID: groupID ?? this.groupID,
@@ -98,9 +124,21 @@ class Lesson {
       periodNumber: periodNumber ?? this.periodNumber,
       weekday: weekday ?? this.weekday,
       weektype: weektype ?? this.weektype,
-      teacher: teacher ?? this.teacher,
+      // A function because otherwise one can't set the teacher null
+      teacher: teacher != null ? teacher() : this.teacher,
       place: place ?? this.place,
+      substitutions: substitutions ?? this.substitutions,
     );
+  }
+
+  /// Returns the substitutions for the given [date].
+  ///
+  /// If there is no substitution for the given [date], the list will be empty.
+  List<Substitution?> getSubstitutionFor(Date date) {
+    return substitutions.values
+        .where((substitution) =>
+            substitution.date == date && substitution.isDeleted == false)
+        .toList();
   }
 
   @override

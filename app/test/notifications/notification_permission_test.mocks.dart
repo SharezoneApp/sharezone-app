@@ -61,6 +61,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
           Invocation.getter(#app),
         ),
       ) as _i2.FirebaseApp);
+
   @override
   set app(_i2.FirebaseApp? _app) => super.noSuchMethod(
         Invocation.setter(
@@ -69,24 +70,28 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         ),
         returnValueForMissingStub: null,
       );
+
   @override
   bool get isAutoInitEnabled => (super.noSuchMethod(
         Invocation.getter(#isAutoInitEnabled),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
   _i5.Stream<String> get onTokenRefresh => (super.noSuchMethod(
         Invocation.getter(#onTokenRefresh),
         returnValue: _i5.Stream<String>.empty(),
         returnValueForMissingStub: _i5.Stream<String>.empty(),
       ) as _i5.Stream<String>);
+
   @override
   Map<dynamic, dynamic> get pluginConstants => (super.noSuchMethod(
         Invocation.getter(#pluginConstants),
         returnValue: <dynamic, dynamic>{},
         returnValueForMissingStub: <dynamic, dynamic>{},
       ) as Map<dynamic, dynamic>);
+
   @override
   _i5.Future<_i3.RemoteMessage?> getInitialMessage() => (super.noSuchMethod(
         Invocation.method(
@@ -96,6 +101,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<_i3.RemoteMessage?>.value(),
         returnValueForMissingStub: _i5.Future<_i3.RemoteMessage?>.value(),
       ) as _i5.Future<_i3.RemoteMessage?>);
+
   @override
   _i5.Future<void> deleteToken() => (super.noSuchMethod(
         Invocation.method(
@@ -105,6 +111,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
   @override
   _i5.Future<String?> getAPNSToken() => (super.noSuchMethod(
         Invocation.method(
@@ -114,6 +121,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<String?>.value(),
         returnValueForMissingStub: _i5.Future<String?>.value(),
       ) as _i5.Future<String?>);
+
   @override
   _i5.Future<String?> getToken({String? vapidKey}) => (super.noSuchMethod(
         Invocation.method(
@@ -124,6 +132,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<String?>.value(),
         returnValueForMissingStub: _i5.Future<String?>.value(),
       ) as _i5.Future<String?>);
+
   @override
   _i5.Future<bool> isSupported() => (super.noSuchMethod(
         Invocation.method(
@@ -133,6 +142,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<bool>.value(false),
         returnValueForMissingStub: _i5.Future<bool>.value(false),
       ) as _i5.Future<bool>);
+
   @override
   _i5.Future<_i3.NotificationSettings> getNotificationSettings() =>
       (super.noSuchMethod(
@@ -157,6 +167,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
           ),
         )),
       ) as _i5.Future<_i3.NotificationSettings>);
+
   @override
   _i5.Future<_i3.NotificationSettings> requestPermission({
     bool? alert = true,
@@ -216,6 +227,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
           ),
         )),
       ) as _i5.Future<_i3.NotificationSettings>);
+
   @override
   _i5.Future<void> sendMessage({
     String? to,
@@ -241,6 +253,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
   @override
   _i5.Future<void> setAutoInitEnabled(bool? enabled) => (super.noSuchMethod(
         Invocation.method(
@@ -250,6 +263,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
   @override
   _i5.Future<void> setDeliveryMetricsExportToBigQuery(bool? enabled) =>
       (super.noSuchMethod(
@@ -260,6 +274,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
   @override
   _i5.Future<void> setForegroundNotificationPresentationOptions({
     bool? alert = false,
@@ -279,6 +294,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
   @override
   _i5.Future<void> subscribeToTopic(String? topic) => (super.noSuchMethod(
         Invocation.method(
@@ -288,6 +304,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
   @override
   _i5.Future<void> unsubscribeFromTopic(String? topic) => (super.noSuchMethod(
         Invocation.method(

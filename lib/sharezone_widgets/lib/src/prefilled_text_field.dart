@@ -12,6 +12,7 @@ class PrefilledTextField extends StatefulWidget {
   const PrefilledTextField({
     super.key,
     required this.prefilledText,
+    this.controller,
     this.autofocus = false,
     this.onEditingComplete,
     this.onChanged,
@@ -28,6 +29,14 @@ class PrefilledTextField extends StatefulWidget {
     this.autoSelectAllCharactersOnFirstBuild = false,
     this.textCapitalization = TextCapitalization.none,
   });
+
+  /// The controller to control the text field.
+  ///
+  /// Sets the [prefilledText] as the initial text of the [controller] if
+  /// [prefilledText] is not null.
+  ///
+  /// If null, a new [TextEditingController] will be created.
+  final TextEditingController? controller;
 
   /// The text that will be already filled into the underlying [TextField] on
   /// the first build.
@@ -432,7 +441,15 @@ class _PrefilledTextFieldState extends State<PrefilledTextField> {
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController(text: widget.prefilledText);
+
+    if (widget.controller != null) {
+      controller = widget.controller;
+      if (widget.prefilledText != null) {
+        controller!.text = widget.prefilledText!;
+      }
+    } else {
+      controller = TextEditingController(text: widget.prefilledText);
+    }
     if (widget.autoSelectAllCharactersOnFirstBuild) {
       controller!.selection =
           TextSelection(baseOffset: 0, extentOffset: controller!.text.length);

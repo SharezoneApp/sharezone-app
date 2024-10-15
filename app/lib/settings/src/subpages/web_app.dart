@@ -15,7 +15,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -81,7 +81,7 @@ class _Header extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: MarkdownBody(
             data:
-                "Besuche für weitere Informationen einfach https://www.sharezone.net.",
+                "Besuche für weitere Informationen einfach https://web.sharezone.net.",
             selectable: true,
             styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
                 .copyWith(

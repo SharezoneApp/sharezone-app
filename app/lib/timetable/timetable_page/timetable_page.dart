@@ -6,13 +6,20 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/main/application_bloc.dart';
+import 'package:platform_check/platform_check.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/ads/ad_banner.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
@@ -27,11 +34,11 @@ import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/timetable_week_view.dart';
 import 'package:sharezone/timetable/timetable_add/timetable_add_page.dart';
-import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_event_details.dart';
-import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
+import 'package:sharezone/widgets/tutorial_video_player.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+import '../timetable_add_event/timetable_add_event_dialog.dart';
 import 'lesson/timetable_lesson_tile.dart';
 import 'school_class_filter/school_class_filter.dart';
 
@@ -47,15 +54,28 @@ class TimetablePage extends StatelessWidget {
 
   TimetablePage({super.key});
 
+  String getAdUnitId(BuildContext context) {
+    if (kDebugMode) {
+      return context.read<AdsController>().getTestAdUnitId(AdFormat.banner);
+    }
+
+    return switch (PlatformCheck.currentPlatform) {
+      // Copied from the AdMob Console
+      Platform.android => 'ca-app-pub-7730914075870960/7645268953',
+      Platform.iOS => 'ca-app-pub-7730914075870960/6326053086',
+      _ => 'N/A',
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final bottomBarBackgroundColor =
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final bloc = BlocProvider.of<TimetableBloc>(context);
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
         popToOverview(context);
       },
@@ -92,8 +112,14 @@ class TimetablePage extends StatelessWidget {
           navigationItem: NavigationItem.timetable,
           floatingActionButton: _TimetablePageFAB(),
           bottomBarConfiguration: BottomBarConfiguration(
-            bottomBar: SchoolClassFilterBottomBar(
-              backgroundColor: bottomBarBackgroundColor,
+            bottomBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AdBanner(adUnitId: getAdUnitId(context)),
+                SchoolClassFilterBottomBar(
+                  backgroundColor: bottomBarBackgroundColor,
+                ),
+              ],
             ),
           ),
         ),

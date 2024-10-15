@@ -3,19 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i4;
 
-import 'package:clock/clock.dart' as _i2;
+import 'package:cloud_functions/cloud_functions.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/blackboard_item_read_by_users_list_bloc.dart'
-    as _i4;
-import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/user_view.dart'
-    as _i6;
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart'
     as _i3;
+import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/user_view.dart'
+    as _i5;
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart'
-    as _i7;
-import 'package:user/user.dart' as _i8;
+    as _i6;
+import 'package:user/user.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -30,19 +28,9 @@ import 'package:user/user.dart' as _i8;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeClock_0 extends _i1.SmartFake implements _i2.Clock {
-  _FakeClock_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeSubscriptionEnabledFlag_1 extends _i1.SmartFake
-    implements _i3.SubscriptionEnabledFlag {
-  _FakeSubscriptionEnabledFlag_1(
+class _FakeFirebaseFunctions_0 extends _i1.SmartFake
+    implements _i2.FirebaseFunctions {
+  _FakeFirebaseFunctions_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -55,13 +43,14 @@ class _FakeSubscriptionEnabledFlag_1 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockBlackboardItemReadByUsersListBloc extends _i1.Mock
-    implements _i4.BlackboardItemReadByUsersListBloc {
+    implements _i3.BlackboardItemReadByUsersListBloc {
   @override
-  _i5.Stream<List<_i6.UserView>> get userViews => (super.noSuchMethod(
+  _i4.Stream<List<_i5.UserView>> get userViews => (super.noSuchMethod(
         Invocation.getter(#userViews),
-        returnValue: _i5.Stream<List<_i6.UserView>>.empty(),
-        returnValueForMissingStub: _i5.Stream<List<_i6.UserView>>.empty(),
-      ) as _i5.Stream<List<_i6.UserView>>);
+        returnValue: _i4.Stream<List<_i5.UserView>>.empty(),
+        returnValueForMissingStub: _i4.Stream<List<_i5.UserView>>.empty(),
+      ) as _i4.Stream<List<_i5.UserView>>);
+
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -76,40 +65,48 @@ class MockBlackboardItemReadByUsersListBloc extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSubscriptionService extends _i1.Mock
-    implements _i7.SubscriptionService {
+    implements _i6.SubscriptionService {
   @override
-  _i5.Stream<_i8.AppUser?> get user => (super.noSuchMethod(
+  _i4.Stream<_i7.AppUser?> get user => (super.noSuchMethod(
         Invocation.getter(#user),
-        returnValue: _i5.Stream<_i8.AppUser?>.empty(),
-        returnValueForMissingStub: _i5.Stream<_i8.AppUser?>.empty(),
-      ) as _i5.Stream<_i8.AppUser?>);
+        returnValue: _i4.Stream<_i7.AppUser?>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i7.AppUser?>.empty(),
+      ) as _i4.Stream<_i7.AppUser?>);
+
   @override
-  _i2.Clock get clock => (super.noSuchMethod(
-        Invocation.getter(#clock),
-        returnValue: _FakeClock_0(
+  _i2.FirebaseFunctions get functions => (super.noSuchMethod(
+        Invocation.getter(#functions),
+        returnValue: _FakeFirebaseFunctions_0(
           this,
-          Invocation.getter(#clock),
+          Invocation.getter(#functions),
         ),
-        returnValueForMissingStub: _FakeClock_0(
+        returnValueForMissingStub: _FakeFirebaseFunctions_0(
           this,
-          Invocation.getter(#clock),
+          Invocation.getter(#functions),
         ),
-      ) as _i2.Clock);
+      ) as _i2.FirebaseFunctions);
+
   @override
-  _i3.SubscriptionEnabledFlag get isSubscriptionEnabledFlag =>
+  _i4.Stream<_i7.SharezonePlusStatus?> get sharezonePlusStatusStream =>
       (super.noSuchMethod(
-        Invocation.getter(#isSubscriptionEnabledFlag),
-        returnValue: _FakeSubscriptionEnabledFlag_1(
-          this,
-          Invocation.getter(#isSubscriptionEnabledFlag),
-        ),
-        returnValueForMissingStub: _FakeSubscriptionEnabledFlag_1(
-          this,
-          Invocation.getter(#isSubscriptionEnabledFlag),
-        ),
-      ) as _i3.SubscriptionEnabledFlag);
+        Invocation.getter(#sharezonePlusStatusStream),
+        returnValue: _i4.Stream<_i7.SharezonePlusStatus?>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i7.SharezonePlusStatus?>.empty(),
+      ) as _i4.Stream<_i7.SharezonePlusStatus?>);
+
   @override
-  bool isSubscriptionActive([_i8.AppUser? appUser]) => (super.noSuchMethod(
+  set sharezonePlusStatusStream(
+          _i4.Stream<_i7.SharezonePlusStatus?>? _sharezonePlusStatusStream) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #sharezonePlusStatusStream,
+          _sharezonePlusStatusStream,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool isSubscriptionActive([_i7.AppUser? appUser]) => (super.noSuchMethod(
         Invocation.method(
           #isSubscriptionActive,
           [appUser],
@@ -117,17 +114,19 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
-  _i5.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
+  _i4.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
         Invocation.method(
           #isSubscriptionActiveStream,
           [],
         ),
-        returnValue: _i5.Stream<bool>.empty(),
-        returnValueForMissingStub: _i5.Stream<bool>.empty(),
-      ) as _i5.Stream<bool>);
+        returnValue: _i4.Stream<bool>.empty(),
+        returnValueForMissingStub: _i4.Stream<bool>.empty(),
+      ) as _i4.Stream<bool>);
+
   @override
-  bool hasFeatureUnlocked(_i7.SharezonePlusFeature? feature) =>
+  bool hasFeatureUnlocked(_i6.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
         Invocation.method(
           #hasFeatureUnlocked,
@@ -136,15 +135,55 @@ class MockSubscriptionService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
   @override
-  _i5.Stream<bool> hasFeatureUnlockedStream(
-          _i7.SharezonePlusFeature? feature) =>
+  _i4.Stream<bool> hasFeatureUnlockedStream(
+          _i6.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
         Invocation.method(
           #hasFeatureUnlockedStream,
           [feature],
         ),
-        returnValue: _i5.Stream<bool>.empty(),
-        returnValueForMissingStub: _i5.Stream<bool>.empty(),
-      ) as _i5.Stream<bool>);
+        returnValue: _i4.Stream<bool>.empty(),
+        returnValueForMissingStub: _i4.Stream<bool>.empty(),
+      ) as _i4.Stream<bool>);
+
+  @override
+  _i4.Future<void> cancelStripeSubscription() => (super.noSuchMethod(
+        Invocation.method(
+          #cancelStripeSubscription,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<bool> showLetParentsBuyButton() => (super.noSuchMethod(
+        Invocation.method(
+          #showLetParentsBuyButton,
+          [],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+        returnValueForMissingStub: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+
+  @override
+  _i4.Future<String?> getPlusWebsiteBuyToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getPlusWebsiteBuyToken,
+          [],
+        ),
+        returnValue: _i4.Future<String?>.value(),
+        returnValueForMissingStub: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

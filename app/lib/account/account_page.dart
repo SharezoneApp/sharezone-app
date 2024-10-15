@@ -8,9 +8,8 @@
 
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/account/account_page_bloc.dart';
 import 'package:sharezone/account/register_account_section.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -22,7 +21,6 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'account_page_bloc_factory.dart';
@@ -49,9 +47,9 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
         popToOverview(context);
       },
@@ -166,7 +164,6 @@ class _MainAccountInformationCard extends StatelessWidget {
               if (user.provider?.hasEmailAddress == true) _EmailText(user),
               _TypeOfUserText(userType: user.userType, uid: user.id),
               if (isAnonymous) const RegisterAccountSection(),
-              if (kDebugMode) _UserId(user: user),
             ],
           ),
           const _EditProfilButton(),
@@ -197,37 +194,6 @@ class _EditProfilButton extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _UserId extends StatelessWidget {
-  const _UserId({required this.user});
-
-  final UserView user;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 25.0),
-      child: InkWell(
-        onTap: () => _copyUidAndShowConfirmationSnackBar(context),
-        onLongPress: () => _copyUidAndShowConfirmationSnackBar(context),
-        child: Text(user.id),
-      ),
-    );
-  }
-
-  void _copyUidAndShowConfirmationSnackBar(BuildContext context) {
-    _copyUidToClipboard();
-    _showConfirmationSnackBar(context);
-  }
-
-  void _copyUidToClipboard() {
-    Clipboard.setData(ClipboardData(text: user.id));
-  }
-
-  void _showConfirmationSnackBar(BuildContext context) {
-    showSnack(context: context, text: 'UID wurde kopiert');
   }
 }
 

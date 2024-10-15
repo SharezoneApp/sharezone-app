@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:date/date.dart';
 import 'package:date/weekday.dart';
 import 'package:date/weektype.dart';
 import 'package:design/design.dart';
@@ -25,6 +26,7 @@ void main() {
       abbreviation: "D",
       design: Design.standard(),
       lesson: Lesson(
+        createdOn: DateTime(2024, 1, 1),
         lessonID: "1",
         groupID: "1",
         groupType: GroupType.course,
@@ -41,6 +43,7 @@ void main() {
       timeStatus: timeline,
       percentTimePassed: 0,
       periodNumber: null,
+      date: Date("2024-03-12"),
     );
   }
 

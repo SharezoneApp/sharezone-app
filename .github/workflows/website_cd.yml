@@ -17,12 +17,47 @@ on:
   push:
     branches:
       - main
+    paths:
+      # We only build and deploy a new version, when a user relevant files
+      # changed.
+      - "website/**"
+      # We trigger also this workflow, if this workflow is changed, so that new
+      # changes will be applied.
+      - ".github/workflows/website_cd.yml"
+      # The following paths are excluded from the above paths. It's important to
+      # list the paths at the end of the file, so that the exclude paths are
+      # applied.
+      #
+      # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-paths.
+      - "!**/*.md"
+      - "!**/*.mdx"
+      - "!**/*.gitignore"
+      # The macOS version is only used for debugging.
+      - "!website/macos/**"
+      # Test files are not relevant for the website deployment.
+      - "!**/test/**"
+      - "!**/test_driver/**"
+      - "!**/integration_test/**"
+      - "!**/analysis_options.yaml"
+      - "!**/dart_test.yaml"
+
+  # Allows you to run this workflow manually from the Actions tab.
+  #
+  # Since the website depends on the /lib folder, it could be that the website
+  # requires a new deployment. In this case, the developer needs to trigger the
+  # deployment manually or wait until the next change "website/**" is pushed. We
+  # do this to avoid unnecessary deployments since a new deployment invalidates
+  # the cache.
+  workflow_dispatch:
 
 # Set permissions to none.
 #
 # Using the broad default permissions is considered a bad security practice
 # and would cause alerts from our scanning tools.
 permissions: {}
+
+env:
+  CI_CD_DART_SCRIPTS_PACKAGE_PATH: "tools/sz_repo_cli/"
 
 jobs:
   deploy:
@@ -40,30 +75,31 @@ jobs:
             projectId: sharezone-c2bd8
             serviceAccountSecret: FIREBASE_HOSTING_PROD_KEY
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      - name: Build
-        working-directory: website
+      - name: Install Sharezone CLI
         run: |
-          # We use the canvaskit renderer because the html renderer is a bit
-          # buggy.
-          flutter build web \
-            --web-renderer canvaskit \
-            --dart-define=FLAVOR=${{ matrix.environment.flavor }}
+          flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+          echo $(pwd)/bin >> $GITHUB_PATH
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets[matrix.environment.serviceAccountSecret] }}"
-          channelId: live
-          entryPoint: "./website"
-          projectId: ${{ matrix.environment.projectId }}
+      - name: Install Firebase CLI
+        run: npm i -g firebase-tools@11.24.1
+
+      - name: Build and deploy website
+        env:
+          FIREBASE_HOSTING_KEY: ${{ secrets[matrix.environment.serviceAccountSecret] }}
+        run: |
+          echo $FIREBASE_HOSTING_KEY > firebase-hosting-key.json
+          export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/firebase-hosting-key.json
+          sz deploy website \
+            --message "Workflow $GITHUB_JOB, commit $GITHUB_SHA" \
+            --flavor ${{ matrix.environment.flavor }}

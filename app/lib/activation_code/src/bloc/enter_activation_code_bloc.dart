@@ -14,7 +14,6 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:helper_functions/helper_functions.dart';
 
 import '../models/enter_activation_code_result.dart';
@@ -26,7 +25,6 @@ class EnterActivationCodeBloc extends BlocBase {
   final SharezoneAppFunctions appFunctions;
   final _enterActivationCodeSubject =
       BehaviorSubject<EnterActivationCodeResult>();
-  final SubscriptionEnabledFlag subscriptionEnabledFlag;
   final KeyValueStore keyValueStore;
 
   String? _lastEnteredValue;
@@ -35,7 +33,6 @@ class EnterActivationCodeBloc extends BlocBase {
     this.analytics,
     this.crashAnalytics,
     this.appFunctions,
-    this.subscriptionEnabledFlag,
     this.keyValueStore,
   ) {
     _changeEnterActivationCodeResult(NoDataEnterActivationCodeResult());
@@ -78,19 +75,17 @@ class EnterActivationCodeBloc extends BlocBase {
     if (isEmptyOrNull(enteredValue)) return;
     _lastEnteredValue = enteredValue;
 
-    if (_lastEnteredValue?.trim() == 'SharezonePlus') {
-      subscriptionEnabledFlag.toggle();
-      _changeEnterActivationCodeResult(
-        SuccessfulEnterActivationCodeResult(
-          'SharezonePlus',
-          '"Sharezone Plus"-Prototyp ${subscriptionEnabledFlag.isEnabled ? 'aktiviert' : 'deaktiviert'}.',
-        ),
-      );
+    if (_lastEnteredValue?.trim().toLowerCase() == 'clearcache') {
+      await _clearCache(context);
       return;
     }
 
-    if (_lastEnteredValue?.trim().toLowerCase() == 'clearcache') {
-      await _clearCache(context);
+    // Required for testing as long we run the A/B test.
+    //
+    // In case you are in A/B test group, you can't deactivate the ads by
+    // entering 'ads' in the activation code field.
+    if (_lastEnteredValue?.trim().toLowerCase() == 'ads') {
+      _toggleAds();
       return;
     }
 
@@ -98,6 +93,18 @@ class EnterActivationCodeBloc extends BlocBase {
 
     final enterActivationCodeResult = await _runAppFunction(enteredValue);
     _changeEnterActivationCodeResult(enterActivationCodeResult);
+  }
+
+  void _toggleAds() {
+    final currentValue = keyValueStore.getBool('show-ads') ?? false;
+    keyValueStore.setBool('show-ads', !currentValue);
+
+    _changeEnterActivationCodeResult(
+      SuccessfulEnterActivationCodeResult(
+        'ads',
+        'Ads wurden ${!currentValue ? 'aktiviert' : 'deaktiviert'}. Starte die App neu, um die Änderungen zu sehen.',
+      ),
+    );
   }
 
   Future<void> _clearCache(BuildContext context) async {

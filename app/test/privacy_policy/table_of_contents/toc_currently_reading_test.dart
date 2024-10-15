@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart';
+import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart';
 
 import '../helper.dart';
 import 'toc_currently_reading_test.mocks.dart';
@@ -800,7 +800,7 @@ class TestCurrentlyReadingController {
     final config = PrivacyPolicyPageConfig(
       threshold: threshold,
       endSection: PrivacyPolicyEndSection(
-        sectionName: endSection?.id ?? 'metadaten',
+        sectionName: endSection?.value ?? 'metadaten',
         generateMarkdown: (pp) => _generateEndSectionMarkdown(endSection),
       ),
     );

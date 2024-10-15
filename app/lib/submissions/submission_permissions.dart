@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:user/user.dart';

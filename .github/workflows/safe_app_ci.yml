@@ -64,8 +64,8 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: AurorNZ/paths-filter@7c547bdd24124b0d69e07c96b62fd7fec5ced19a
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
           filters: |
@@ -98,13 +98,13 @@ jobs:
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -116,7 +116,12 @@ jobs:
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Run code analysis via "sz analyze" (formatting, issues, spacing ...)
-        run: sz analyze --max-concurrent-packages 3 --package-timeout-minutes 15
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
+        run: |
+          sz analyze \
+            --max-concurrent-packages 1 \
+            --package-timeout-minutes 15
 
   # We split the tests into two jobs, because we want to run the golden tests on
   # a macOS runner, because the golden tests were generated on macOS. To reduce
@@ -127,13 +132,13 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -145,25 +150,32 @@ jobs:
       - run: echo $(pwd)/bin >> $GITHUB_PATH
 
       - name: Run tests via "sz test"
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
         run: |
           sz test \
-            -c 4 \
+            -c 1 \
             --package-timeout-minutes 15 \
             --exclude-goldens
 
-  # Checks if the generated files are up to date.
-  check-code-generation:
+  # We split the tests into two jobs, because we want to run the golden tests on
+  # a macOS runner, because the golden tests were generated on macOS. To reduce
+  # the time that macOS runner are used, we run the other tests on a Linux
+  # runner.
+  test-with-goldens:
     needs: changes
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
-    runs-on: ubuntu-22.04
+    # Due to https://github.com/flutter/flutter/issues/111739 our golden tests
+    # require macOS arm64. Therefore, we need to use macos-14.
+    runs-on: macos-14
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -173,16 +185,25 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
-      - name: Run code generation via "sz build_runner build"
+      - name: Run tests via "sz test"
+        # We don't run the analysis in parallel to prevent
+        # https://github.com/SharezoneApp/sharezone-app/issues/1658.
         run: |
-          sz build_runner build \
-            -c 4 \
-            --package-timeout-minutes 15
+          sz test \
+            -c 1 \
+            --package-timeout-minutes 15 \
+            --only-goldens
 
-      - name: Fail if generated files have changed
-        run: |
-          git diff --exit-code -- '**/*.mocks.dart' '**/*.g.dart'
-
-          # Print the Git diff with the file names and their status as a
-          # summary. 
-          git diff --name-status -- '**/*.mocks.dart' '**/*.g.dart'
+      # Uploads the results of failed tests as .zip to GitHub.
+      #
+      # You can find the file under the "Summary" Tab on GitHub when all jobs of
+      # this workflows finished.
+      - name: Upload failed golden tests
+        if: failure()
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874
+        with:
+          name: failed-golden-tests
+          # When golden test fail then the results are stored in "failures"
+          # folders. Since golden tests run in several different places (e.g. /app,
+          # or packages in /lib) the failures folder will be spread in different places.
+          path: "**/failures/*.png"

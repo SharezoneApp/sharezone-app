@@ -10,12 +10,12 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/group_join/group_join_page.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
 import 'package:sharezone/groups/src/pages/course/course_details.dart';
-import 'package:sharezone/groups/src/pages/course/create/course_template_page.dart';
 import 'package:sharezone/groups/src/pages/school_class/card/school_class_card.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/groups/src/pages/school_class/school_class_create.dart';
@@ -44,7 +44,10 @@ Future<dynamic> handleCourseDialogOption(
             context, MySchoolClassBloc(gateway: gateway, analytics: analytics));
         break;
       case CourseDialogOption.courseCreate:
-        return Navigator.pushNamed(context, CourseTemplatePage.tag);
+        return Navigator.pushNamed(
+          context,
+          CourseTemplatePage.tag,
+        );
       case CourseDialogOption.groupJoin:
         return await openGroupJoinPage(context);
     }
@@ -96,9 +99,9 @@ class GroupPageState extends State<GroupPage> {
   Widget build(BuildContext context) {
     final gateway =
         BlocProvider.of<SharezoneContext>(context).api.connectionsGateway;
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
         popToOverview(context);
       },

@@ -12,6 +12,7 @@ import 'dart:math';
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification_analytics.dart';
 import 'package:bloc_base/bloc_base.dart';
+import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:user/user.dart';
@@ -42,7 +43,10 @@ class RegistrationGateway extends BlocBase {
   RegistrationGateway(this.userCollection, this._auth);
 
   void _addUserToFirestore(AppUser user) {
-    userCollection.doc(user.id).set(user.toEditJson(), SetOptions(merge: true));
+    final data = user.toEditJson();
+    data['legal'] = user.legalData;
+
+    userCollection.doc(user.id).set(data, SetOptions(merge: true));
   }
 
   Future<AppUser> registerUser(TypeOfUser typeOfUser) async {
@@ -61,6 +65,13 @@ class RegistrationGateway extends BlocBase {
       typeOfUser: typeOfUser,
       state: StateEnum.notSelected,
       referralScore: 0,
+      legalData: {
+        'v2_0-legal-accepted': {
+          "source": "registration",
+          'deviceTime': clock.now(),
+          'serverTime': FieldValue.serverTimestamp(),
+        },
+      },
     );
 
     _addUserToFirestore(user);

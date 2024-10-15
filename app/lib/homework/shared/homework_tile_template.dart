@@ -90,27 +90,24 @@ class _Subtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _StrikeThrough(
-            isStrikeThrough: isCompleted,
-            delay: const Duration(milliseconds: 100),
-            child: Text(
-              courseName,
-              style: TextStyle(color: Colors.grey[600]),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _StrikeThrough(
+          isStrikeThrough: isCompleted,
+          delay: const Duration(milliseconds: 100),
+          child: Text(
+            courseName,
+            style: TextStyle(color: Colors.grey[600]),
           ),
-          const SizedBox(height: 4),
-          _StrikeThrough(
-            isStrikeThrough: isCompleted,
-            delay: const Duration(milliseconds: 200),
-            child: Text(todoDate, style: TextStyle(color: todoDateColor)),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 4),
+        _StrikeThrough(
+          isStrikeThrough: isCompleted,
+          delay: const Duration(milliseconds: 200),
+          child: Text(todoDate, style: TextStyle(color: todoDateColor)),
+        ),
+      ],
     );
   }
 }

@@ -15,13 +15,15 @@ environment:
   sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
+  common_domain_models:
+    path: ../common_domain_models
   group_domain_models:
     path: ../group_domain_models
   sharezone_common:
     path: ../sharezone_common
   user:
     path: ../user
-  cloud_firestore: ^4.8.5
+  cloud_firestore: ^4.17.2
   flutter:
     sdk: flutter
 

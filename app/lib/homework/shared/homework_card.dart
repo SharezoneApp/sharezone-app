@@ -8,27 +8,29 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:intl/intl.dart';
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/homework/parent/src/homework_card_bloc.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
 import 'package:sharezone/groups/src/pages/course/course_card.dart';
-import 'package:sharezone/homework/teacher/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/homework/homework_details/homework_details.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
+import 'package:sharezone/homework/homework_page.dart';
+import 'package:sharezone/homework/shared/homework_card_bloc.dart';
+import 'package:sharezone/homework/shared/delete_homework.dart';
 import 'package:sharezone/homework/shared/homework_permissions.dart';
-import 'package:sharezone/homework/parent/homework_page.dart';
+import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_page.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/navigation_service.dart';
-import 'package:sharezone/homework/shared/delete_homework.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -52,8 +54,8 @@ class HomeworkCard extends StatelessWidget {
     final bloc = HomeworkCardBloc(api, homework!);
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
 
-    DateTime tomorrowWithoutTime = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 1);
+    DateTime tomorrowWithoutTime =
+        DateTime(clock.now().year, clock.now().month, clock.now().day + 1);
     DateTime todoUntilWithoutTime = DateTime(homework!.todoUntil.year,
         homework!.todoUntil.month, homework!.todoUntil.day);
 
@@ -73,6 +75,7 @@ class HomeworkCard extends StatelessWidget {
             defaultValue: false,
             name: HomeworkDetails.tag,
           ).then((value) {
+            if (!context.mounted) return;
             if (value) showDataArrivalConfirmedSnackbar(context: context);
           });
         },
@@ -153,7 +156,6 @@ class HomeworkCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
           ),
-          isThreeLine: true,
           subtitle: Text.rich(
             TextSpan(children: <TextSpan>[
               TextSpan(text: "${homework!.courseName}\n"),
@@ -175,6 +177,7 @@ class HomeworkCard extends StatelessWidget {
             abbreviation: homework!.subjectAbbreviation,
           ),
           trailing: _getTrailingWidget(context),
+          mouseCursor: SystemMouseCursors.click,
         ),
       ),
     );
@@ -218,9 +221,14 @@ class HomeworkCard extends StatelessWidget {
       );
     } else {
       return IconButton(
+        tooltip: homework!.withSubmissions
+            ? 'Abgaben anzeigen'
+            : '"Erledigt von" anzeigen',
         iconSize: 50,
-        icon: Chip(
-          label: Text(
+        icon: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: DefaultTextStyle.of(context).style.color,
+          child: Text(
             '${homework!.withSubmissions ? homework?.submitters.length ?? 0 : homework!.assignedUserArrays.completedStudentUids.length}',
           ),
         ),
@@ -334,6 +342,7 @@ class HomeworkCardRedesigned extends StatelessWidget {
                   defaultValue: false,
                   name: HomeworkDetails.tag,
                 ).then((value) {
+                  if (!context.mounted) return;
                   if (value) showDataArrivalConfirmedSnackbar(context: context);
                 });
               },
@@ -369,7 +378,7 @@ void _logHomeworkReportViaCardLongPress(Analytics analytics) {
 
 Future showLongPressIfUserHasPermissions(
     BuildContext context,
-    void Function(bool newHomeworkStatus) setHomeworkStatus,
+    void Function(bool newHomeworkStatus)? setHomeworkStatus,
     HomeworkView homeworkView) async {
   final sharezoneContext = BlocProvider.of<SharezoneContext>(context);
   final api = sharezoneContext.api;
@@ -424,7 +433,7 @@ Future showLongPressIfUserHasPermissions(
       _logHomeworkDoneViaCardLongPress(analytics);
       final result =
           (await confirmToMarkHomeworkAsDoneWithoutSubmission(context))!;
-      if (result) setHomeworkStatus(true);
+      if (result) setHomeworkStatus?.call(true);
       break;
     case _HomeworkTileLongPressModelSheetOption.edit:
       _logHomeworkEditViaCardLongPress(analytics);

@@ -9,9 +9,11 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:build_context/build_context.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:intl/intl.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 export 'prefilled_text_field.dart';
@@ -66,7 +68,7 @@ class DatePicker extends StatelessWidget {
   Future<void> _selectDate(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
     final DateTime tomorrow =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+        DateTime(clock.now().year, clock.now().month, clock.now().day)
             .add(const Duration(days: 1));
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -86,7 +88,7 @@ class DatePicker extends StatelessWidget {
       iconData: Icons.today,
       labelText: labelText,
       valueText: selectedDate != null
-          ? DateFormat.yMMMd().format(selectedDate!)
+          ? DateFormat('E, MMM d, yy').format(selectedDate!)
           : "Datum auswählen",
       padding: padding,
       onPressed: () async {
@@ -233,7 +235,9 @@ class DialogTile extends StatelessWidget {
                       style: const TextStyle(color: Colors.white)),
                 )
               : CircleAvatar(
-                  backgroundColor: Colors.grey.shade200,
+                  backgroundColor: context.isDarkThemeEnabled
+                      ? Colors.white
+                      : Colors.grey.shade200,
                   child: Icon(symbolIconData,
                       color: Theme.of(context).primaryColor),
                 ),
@@ -393,6 +397,7 @@ class CustomCard extends StatelessWidget {
     this.onLongPress,
     this.withBorder = true,
     this.borderWidth = 1.5,
+    this.borderColor,
     super.key,
   });
 
@@ -412,6 +417,7 @@ class CustomCard extends StatelessWidget {
     this.onLongPress,
     this.withBorder = false,
     this.borderWidth = 1,
+    this.borderColor,
     super.key,
   });
 
@@ -429,6 +435,7 @@ class CustomCard extends StatelessWidget {
   final Offset offset;
   final Color? color;
   final bool withBorder;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -452,9 +459,10 @@ class CustomCard extends StatelessWidget {
                 borderRadius: borderRadius,
                 border: withBorder
                     ? Border.all(
-                        color: Theme.of(context).isDarkTheme
-                            ? Colors.grey[800]!
-                            : Colors.grey[300]!,
+                        color: borderColor ??
+                            (Theme.of(context).isDarkTheme
+                                ? Colors.grey[800]!
+                                : Colors.grey[300]!),
                         width: borderWidth)
                     : null,
               ),
@@ -486,64 +494,69 @@ class CardListTile extends StatelessWidget {
     this.subtitle,
     this.onTap,
     this.centerTitle = false,
+    this.maxWidth = 550,
   });
 
   final Widget? leading, title, subtitle;
   final VoidCallback? onTap;
   final bool centerTitle;
+  final double maxWidth;
 
   @override
   Widget build(BuildContext context) {
     final hasLeading = leading != null;
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: CustomCard(
-        onTap: onTap,
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: <Widget>[
-            if (hasLeading) ...[
-              IconTheme(
-                data: Theme.of(context)
-                    .iconTheme
-                    .copyWith(color: Colors.grey[600]),
-                child: leading!,
-              ),
-              const SizedBox(width: 16)
-            ],
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  DefaultTextStyle(
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: rubik,
-                        color: Theme.of(context).isDarkTheme
-                            ? Colors.white
-                            : Colors.black),
-                    child: centerTitle
-                        ? Padding(
-                            padding:
-                                EdgeInsets.only(right: hasLeading ? 30 : 0),
-                            child: Center(child: title),
-                          )
-                        : title!,
-                  ),
-                  if (subtitle != null)
+    return MaxWidthConstraintBox(
+      maxWidth: maxWidth,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: CustomCard(
+          onTap: onTap,
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: <Widget>[
+              if (hasLeading) ...[
+                IconTheme(
+                  data: Theme.of(context)
+                      .iconTheme
+                      .copyWith(color: Colors.grey[600]),
+                  child: leading!,
+                ),
+                const SizedBox(width: 16)
+              ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
                     DefaultTextStyle(
                       style: TextStyle(
-                        color: Colors.grey.withOpacity(0.95),
-                        fontSize: 12,
-                        fontFamily: rubik,
-                      ),
-                      child: subtitle!,
-                    )
-                ],
-              ),
-            )
-          ],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: rubik,
+                          color: Theme.of(context).isDarkTheme
+                              ? Colors.white
+                              : Colors.black),
+                      child: centerTitle
+                          ? Padding(
+                              padding:
+                                  EdgeInsets.only(right: hasLeading ? 30 : 0),
+                              child: Center(child: title),
+                            )
+                          : title!,
+                    ),
+                    if (subtitle != null)
+                      DefaultTextStyle(
+                        style: TextStyle(
+                          color: Colors.grey.withOpacity(0.95),
+                          fontSize: 12,
+                          fontFamily: rubik,
+                        ),
+                        child: subtitle!,
+                      )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -723,6 +736,8 @@ class TextFieldWithDescription extends StatelessWidget {
 
 Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
   await closeKeyboardAndWait(context);
+  if (!context.mounted) return false;
+
   // ignore: use_build_context_synchronously
   return await showLeftRightAdaptiveDialog<bool>(
         context: context,
@@ -742,6 +757,8 @@ Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
 Future<bool> warnUserAboutLeavingOrSavingForm(
     BuildContext context, VoidCallback onSave) async {
   await closeKeyboardAndWait(context);
+  if (!context.mounted) return false;
+
   // ignore: use_build_context_synchronously
   final result = await showLeftRightAdaptiveDialog<bool>(
     title: 'Verlassen oder Speichern?',

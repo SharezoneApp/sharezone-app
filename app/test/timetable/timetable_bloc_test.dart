@@ -6,8 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:math';
-
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/src/date.dart';
 import 'package:date/weekday.dart';
@@ -15,10 +14,10 @@ import 'package:date/weektype.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
-import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_view.dart';
+import 'package:test_randomness/test_randomness.dart';
 import 'package:time/time.dart';
 
 import 'mock/mock_course_gateway.dart';
@@ -45,22 +44,24 @@ void main() {
 
     Lesson createLesson(String groupId) {
       return Lesson(
+        createdOn: DateTime(2024, 1, 1),
         startTime: Time(hour: 9, minute: 0),
         endTime: Time(hour: 10, minute: 0),
         groupID: groupId,
         groupType: GroupType.course,
-        lessonID: Random().nextInt(200).toString(),
+        lessonID: szTestRandom.nextInt(200).toString(),
         place: "",
         teacher: "",
         weekday: WeekDay.monday,
         weektype: WeekType.always,
-        startDate: Date.fromDateTime(DateTime.now()),
-        endDate: Date.fromDateTime(DateTime.now()),
+        startDate: Date.fromDateTime(clock.now()),
+        endDate: Date.fromDateTime(clock.now()),
       );
     }
 
     CalendricalEvent createEvent(String groupId) {
       return CalendricalEvent(
+        createdOn: DateTime(2021, 1, 1),
         startTime: Time(hour: 9, minute: 0),
         endTime: Time(hour: 10, minute: 0),
         groupID: groupId,
@@ -70,7 +71,7 @@ void main() {
         date: Date.today(),
         detail: '',
         eventID: 'eventId',
-        eventType: Meeting(),
+        eventType: EventType.event,
         latestEditor: '',
         sendNotification: false,
         title: 'title',
@@ -80,19 +81,19 @@ void main() {
     final klasse10a = createSchoolClass('10a');
     final klasse5b = createSchoolClass('5b');
 
-    final mathe10aId = GroupId('mathe10a');
-    final deutsch5bId = GroupId('deutsch5bId');
+    const mathe10aId = GroupId('mathe10a');
+    const deutsch5bId = GroupId('deutsch5bId');
 
     // Die Informatik AG ist mit keiner Schulklasse verknüpft.
-    final informatikAgId = GroupId('informatikAg');
+    const informatikAgId = GroupId('informatikAg');
 
-    final lesson10a = createLesson(mathe10aId.id);
-    final lesson5b = createLesson(deutsch5bId.id);
-    final lessonAg = createLesson(informatikAgId.id);
+    final lesson10a = createLesson(mathe10aId.value);
+    final lesson5b = createLesson(deutsch5bId.value);
+    final lessonAg = createLesson(informatikAgId.value);
 
-    final event10a = createEvent(mathe10aId.id);
-    final event5b = createEvent(deutsch5bId.id);
-    final eventAg = createEvent(informatikAgId.id);
+    final event10a = createEvent(mathe10aId.value);
+    final event5b = createEvent(deutsch5bId.value);
+    final eventAg = createEvent(informatikAgId.value);
 
     group('SchoolClassSelection', () {
       late TimetableBloc bloc;
@@ -115,8 +116,8 @@ void main() {
 
         schoolClassGateway.addSchoolClasses([klasse10a, klasse5b]);
 
-        schoolClassGateway.addCourse(klasse10a.id, mathe10aId.id);
-        schoolClassGateway.addCourse(klasse5b.id, deutsch5bId.id);
+        schoolClassGateway.addCourse(klasse10a.id, mathe10aId.value);
+        schoolClassGateway.addCourse(klasse5b.id, deutsch5bId.value);
 
         timetableGateway.addLessons([lesson10a, lesson5b, lessonAg]);
         timetableGateway.addEvents([event10a, event5b, eventAg]);

@@ -7,8 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+
 import 'package:flutter/material.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone/util/api.dart';

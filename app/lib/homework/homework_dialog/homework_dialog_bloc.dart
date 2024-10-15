@@ -13,18 +13,18 @@ import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
-import 'package:date/weekday.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:meta/meta.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
+import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculator.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -455,7 +455,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   final Analytics analytics;
   final MarkdownAnalytics markdownAnalytics;
   final NextLessonCalculator nextLessonCalculator;
-  final Clock _clock;
+  final NextSchooldayCalculator nextSchooldayCalculator;
   HomeworkDto? _initialHomework;
   late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
@@ -496,10 +496,10 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required this.nextLessonCalculator,
     required this.analytics,
     required this.markdownAnalytics,
+    required this.nextSchooldayCalculator,
     Clock? clockOverride,
     HomeworkId? homeworkId,
-  })  : _clock = clockOverride ?? clock,
-        super(homeworkId != null
+  }) : super(homeworkId != null
             ? LoadingHomework(homeworkId, isEditing: true)
             : emptyCreateHomeworkDialogState) {
     isEditing = homeworkId != null;
@@ -647,7 +647,9 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       (event, emit) async {
         switch (event.newDueDate) {
           case DateDueDateSelection s:
-            if (s.date == _getNextSchoolday()) {
+            final nextSchoolDay =
+                await nextSchooldayCalculator.tryCalculateNextSchoolday();
+            if (s.date == nextSchoolDay) {
               _dateSelection = _dateSelection.copyWith(
                 dueDate: s.date,
                 dueDateSelection: const NextSchooldayDueDateSelection(),
@@ -658,8 +660,10 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
                 _dateSelection.copyWith(dueDate: s.date, dueDateSelection: s);
             break;
           case NextSchooldayDueDateSelection s:
+            final nextSchoolDay =
+                await nextSchooldayCalculator.tryCalculateNextSchoolday();
             _dateSelection = _dateSelection.copyWith(
-              dueDate: _getNextSchoolday(),
+              dueDate: nextSchoolDay,
               dueDateSelection: s,
             );
             break;
@@ -703,6 +707,9 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             .tryCalculateXNextLesson(course.id, inLessons: inXLessons);
         _hasLessons[course.id] = newLessonDate != null;
 
+        final nextSchoolDay =
+            await nextSchooldayCalculator.tryCalculateNextSchoolday();
+
         // Manual date was already set, we don't want to overwrite it.
         if (_dateSelection.dueDateSelection != null &&
             _dateSelection.dueDateSelection is! InXLessonsDueDateSelection) {
@@ -730,7 +737,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             }
 
             _dateSelection = _dateSelection.copyWith(
-              dueDate: _getNextSchoolday(),
+              dueDate: nextSchoolDay,
               dueDateSelection: const NextSchooldayDueDateSelection(),
             );
             emit(_getNewState());
@@ -748,9 +755,12 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
               submissionTime: event.newSubmissionsOptions.submissionTime ??
                   Time(hour: 23, minute: 59));
         } else {
-          _dateSelection = _dateSelection.copyWith(submissionTime: null);
+          _dateSelection = _DateSelection(
+            dueDate: _dateSelection.dueDate,
+            dueDateSelection: _dateSelection.dueDateSelection,
+            submissionTime: null,
+          );
         }
-
         emit(_getNewState());
       },
     );
@@ -789,16 +799,6 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         emit(_getNewState());
       },
     );
-  }
-
-  Date _getNextSchoolday() {
-    final today = _clock.now().toDate();
-    final daysUntilNextSchoolday = switch (today.weekDayEnum) {
-      WeekDay.friday => 3, // Monday
-      WeekDay.saturday => 2, // Monday
-      _ => 1 // Tomorrow
-    };
-    return today.addDays(daysUntilNextSchoolday);
   }
 
   Ready _getNewState() {
@@ -930,9 +930,11 @@ class HomeworkDialogApi {
 
   Future<HomeworkDto> loadHomework(HomeworkId homeworkId) async {
     try {
-      return _api.homework.singleHomework(homeworkId.id, source: Source.cache);
+      return _api.homework
+          .singleHomework(homeworkId.value, source: Source.cache);
     } catch (e) {
-      return _api.homework.singleHomework(homeworkId.id, source: Source.server);
+      return _api.homework
+          .singleHomework(homeworkId.value, source: Source.server);
     }
   }
 
@@ -944,13 +946,13 @@ class HomeworkDialogApi {
   }
 
   Future<Course> loadCourse(CourseId courseId) async {
-    return (await _api.course.streamCourse(courseId.id).first)!;
+    return (await _api.course.streamCourse(courseId.value).first)!;
   }
 
   Future<HomeworkDto> createHomework(
       CourseId courseId, UserInput userInput) async {
     final localFiles = userInput.localFiles;
-    final course = (await _api.course.streamCourse(courseId.id).first)!;
+    final course = (await _api.course.streamCourse(courseId.value).first)!;
     final authorID = _api.user.authUser!.uid;
     final authorReference = _api.references.users.doc(authorID);
     final user = (await _api.user.userStream.first)!;
@@ -958,7 +960,7 @@ class HomeworkDialogApi {
     final typeOfUser = user.typeOfUser;
 
     final attachments = await _api.fileSharing.uploadAttachments(
-        localFiles, courseId.id, authorReference.id, authorName,
+        localFiles, courseId.value, authorReference.id, authorName,
         isPrivate: userInput.private);
 
     final homework = HomeworkDto.create(
@@ -1002,7 +1004,7 @@ class HomeworkDialogApi {
   Future<HomeworkDto> editHomework(HomeworkId homeworkId, UserInput userInput,
       {List<CloudFile> removedCloudFiles = const []}) async {
     final oldHomework =
-        await _api.homework.singleHomeworkStream(homeworkId.id).first;
+        await _api.homework.singleHomeworkStream(homeworkId.value).first;
     List<String> attachments = oldHomework.attachments.toList();
     final editorName = (await _api.user.userStream.first)!.name;
     final editorID = _api.user.authUser!.uid;

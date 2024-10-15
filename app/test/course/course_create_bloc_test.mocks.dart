@@ -5,13 +5,15 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i9;
 
-import 'package:app_functions/app_functions.dart' as _i6;
-import 'package:group_domain_models/group_domain_models.dart' as _i5;
+import 'package:common_domain_models/common_domain_models.dart' as _i6;
+import 'package:group_domain_models/group_domain_models.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:sharezone/groups/src/pages/course/create/src/bloc/user_input.dart'
-    as _i8;
-import 'package:sharezone/groups/src/pages/course/create/src/gateway/course_create_gateway.dart'
+import 'package:mockito/src/dummies.dart' as _i11;
+import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_gateway.dart'
     as _i7;
+import 'package:sharezone/groups/src/pages/course/create/models/user_input.dart'
+    as _i10;
+import 'package:sharezone/util/api/connections_gateway.dart' as _i5;
 import 'package:sharezone/util/api/course_gateway.dart' as _i2;
 import 'package:sharezone/util/api/school_class_gateway.dart' as _i3;
 import 'package:sharezone/util/api/user_api.dart' as _i4;
@@ -60,8 +62,9 @@ class _FakeUserGateway_2 extends _i1.SmartFake implements _i4.UserGateway {
         );
 }
 
-class _FakeCourse_3 extends _i1.SmartFake implements _i5.Course {
-  _FakeCourse_3(
+class _FakeConnectionsGateway_3 extends _i1.SmartFake
+    implements _i5.ConnectionsGateway {
+  _FakeConnectionsGateway_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -70,9 +73,8 @@ class _FakeCourse_3 extends _i1.SmartFake implements _i5.Course {
         );
 }
 
-class _FakeAppFunctionsResult_4<T> extends _i1.SmartFake
-    implements _i6.AppFunctionsResult<T> {
-  _FakeAppFunctionsResult_4(
+class _FakeCourseId_4 extends _i1.SmartFake implements _i6.CourseId {
+  _FakeCourseId_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -98,6 +100,7 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#courseGateway),
         ),
       ) as _i2.CourseGateway);
+
   @override
   _i3.SchoolClassGateway get schoolClassGateway => (super.noSuchMethod(
         Invocation.getter(#schoolClassGateway),
@@ -110,6 +113,7 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#schoolClassGateway),
         ),
       ) as _i3.SchoolClassGateway);
+
   @override
   _i4.UserGateway get userGateway => (super.noSuchMethod(
         Invocation.getter(#userGateway),
@@ -122,37 +126,83 @@ class MockCourseCreateGateway extends _i1.Mock
           Invocation.getter(#userGateway),
         ),
       ) as _i4.UserGateway);
+
   @override
-  List<_i5.Course> get currentCourses => (super.noSuchMethod(
+  _i5.ConnectionsGateway get connectionsGateway => (super.noSuchMethod(
+        Invocation.getter(#connectionsGateway),
+        returnValue: _FakeConnectionsGateway_3(
+          this,
+          Invocation.getter(#connectionsGateway),
+        ),
+        returnValueForMissingStub: _FakeConnectionsGateway_3(
+          this,
+          Invocation.getter(#connectionsGateway),
+        ),
+      ) as _i5.ConnectionsGateway);
+
+  @override
+  List<_i8.Course> get currentCourses => (super.noSuchMethod(
         Invocation.getter(#currentCourses),
-        returnValue: <_i5.Course>[],
-        returnValueForMissingStub: <_i5.Course>[],
-      ) as List<_i5.Course>);
+        returnValue: <_i8.Course>[],
+        returnValueForMissingStub: <_i8.Course>[],
+      ) as List<_i8.Course>);
+
   @override
-  _i5.Course createCourse(_i8.UserInput? userInput) => (super.noSuchMethod(
+  _i9.Stream<List<_i8.SchoolClass>?> streamSchoolClasses() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #streamSchoolClasses,
+          [],
+        ),
+        returnValue: _i9.Stream<List<_i8.SchoolClass>?>.empty(),
+        returnValueForMissingStub: _i9.Stream<List<_i8.SchoolClass>?>.empty(),
+      ) as _i9.Stream<List<_i8.SchoolClass>?>);
+
+  @override
+  (_i6.CourseId, String) createCourse(_i10.UserInput? userInput) =>
+      (super.noSuchMethod(
         Invocation.method(
           #createCourse,
           [userInput],
         ),
-        returnValue: _FakeCourse_3(
-          this,
-          Invocation.method(
-            #createCourse,
-            [userInput],
+        returnValue: (
+          _FakeCourseId_4(
+            this,
+            Invocation.method(
+              #createCourse,
+              [userInput],
+            ),
           ),
+          _i11.dummyValue<String>(
+            this,
+            Invocation.method(
+              #createCourse,
+              [userInput],
+            ),
+          )
         ),
-        returnValueForMissingStub: _FakeCourse_3(
-          this,
-          Invocation.method(
-            #createCourse,
-            [userInput],
+        returnValueForMissingStub: (
+          _FakeCourseId_4(
+            this,
+            Invocation.method(
+              #createCourse,
+              [userInput],
+            ),
           ),
+          _i11.dummyValue<String>(
+            this,
+            Invocation.method(
+              #createCourse,
+              [userInput],
+            ),
+          )
         ),
-      ) as _i5.Course);
+      ) as (_i6.CourseId, String));
+
   @override
-  _i9.Future<_i6.AppFunctionsResult<bool>> createSchoolClassCourse(
-    _i8.UserInput? userInput,
-    String? schoolClassId,
+  _i9.Future<(_i6.CourseId, String)> createSchoolClassCourse(
+    _i10.UserInput? userInput,
+    _i6.SchoolClassId? schoolClassId,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -162,28 +212,59 @@ class MockCourseCreateGateway extends _i1.Mock
             schoolClassId,
           ],
         ),
-        returnValue: _i9.Future<_i6.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_4<bool>(
-          this,
-          Invocation.method(
-            #createSchoolClassCourse,
-            [
-              userInput,
-              schoolClassId,
-            ],
+        returnValue: _i9.Future<(_i6.CourseId, String)>.value((
+          _FakeCourseId_4(
+            this,
+            Invocation.method(
+              #createSchoolClassCourse,
+              [
+                userInput,
+                schoolClassId,
+              ],
+            ),
           ),
+          _i11.dummyValue<String>(
+            this,
+            Invocation.method(
+              #createSchoolClassCourse,
+              [
+                userInput,
+                schoolClassId,
+              ],
+            ),
+          )
         )),
-        returnValueForMissingStub:
-            _i9.Future<_i6.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_4<bool>(
-          this,
-          Invocation.method(
-            #createSchoolClassCourse,
-            [
-              userInput,
-              schoolClassId,
-            ],
+        returnValueForMissingStub: _i9.Future<(_i6.CourseId, String)>.value((
+          _FakeCourseId_4(
+            this,
+            Invocation.method(
+              #createSchoolClassCourse,
+              [
+                userInput,
+                schoolClassId,
+              ],
+            ),
           ),
+          _i11.dummyValue<String>(
+            this,
+            Invocation.method(
+              #createSchoolClassCourse,
+              [
+                userInput,
+                schoolClassId,
+              ],
+            ),
+          )
         )),
-      ) as _i9.Future<_i6.AppFunctionsResult<bool>>);
+      ) as _i9.Future<(_i6.CourseId, String)>);
+
+  @override
+  _i9.Future<void> deleteCourse(_i6.CourseId? courseId) => (super.noSuchMethod(
+        Invocation.method(
+          #deleteCourse,
+          [courseId],
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
 }

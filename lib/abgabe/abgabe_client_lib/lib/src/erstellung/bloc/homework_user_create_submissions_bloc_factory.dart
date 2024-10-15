@@ -16,6 +16,7 @@ import 'package:abgabe_client_lib/src/erstellung/use_cases/datei_loescher.dart';
 import 'package:abgabe_client_lib/src/erstellung/use_cases/datei_umbenenner.dart';
 import 'package:abgabe_http_api/api.dart';
 import 'package:bloc_base/bloc_base.dart';
+import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 
 class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
@@ -59,7 +60,7 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
       umbenenner,
       veroeffentlicher,
       gateway.streamAbgabezeitpunktFuerHausaufgabe(id),
-      () => DateTime.now(),
+      () => clock.now(),
     );
   }
 

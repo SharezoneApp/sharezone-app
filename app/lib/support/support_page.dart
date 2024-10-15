@@ -13,9 +13,8 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_flag.dart';
 import 'package:sharezone/support/support_page_controller.dart';
-import 'package:sharezone/util/launch_link.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,7 +26,6 @@ class SupportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPlusEnabled = context.watch<SubscriptionEnabledFlag>().isEnabled;
     final controller = context.watch<SupportPageController>();
     return Scaffold(
       appBar: AppBar(
@@ -44,32 +42,29 @@ class SupportPage extends StatelessWidget {
               children: [
                 const _Header(),
                 const SizedBox(height: 12),
-                if (isPlusEnabled) ...[
-                  if (controller.hasPlusSupportUnlocked)
-                    const _PlusSupport()
-                  else ...[
-                    const _FreeSupport(),
-                    // We only show the advertising if the user is signed in
-                    // because a logged out user can't buy Sharezone Plus.
-                    //
-                    // Also we don't show the advertising if the user is in the
-                    // group onboarding because for two reasons:
-                    //
-                    // 1. The user opened the app for the first time a few
-                    //    minutes ago and we don't want to overwhelm them with
-                    //    buying Sharezone Plus.
-                    // 2. With the current onboarding navigation system,
-                    //    navigating to the Sharezone Plus page would require
-                    //    the user to leave the onboarding and we don't want
-                    //    that.
-                    if (controller.isUserSignedIn &&
-                        !controller.isUserInGroupOnboarding) ...const [
-                      SizedBox(height: 16),
-                      _SharezonePlusAdvertising(),
-                    ]
-                  ]
-                ] else
+                if (controller.hasPlusSupportUnlocked)
+                  const _PlusSupport()
+                else ...[
                   const _FreeSupport(),
+                  // We only show the advertising if the user is signed in
+                  // because a logged out user can't buy Sharezone Plus.
+                  //
+                  // Also we don't show the advertising if the user is in the
+                  // group onboarding because for two reasons:
+                  //
+                  // 1. The user opened the app for the first time a few
+                  //    minutes ago and we don't want to overwhelm them with
+                  //    buying Sharezone Plus.
+                  // 2. With the current onboarding navigation system,
+                  //    navigating to the Sharezone Plus page would require
+                  //    the user to leave the onboarding and we don't want
+                  //    that.
+                  if (controller.isUserSignedIn &&
+                      !controller.isUserInGroupOnboarding) ...const [
+                    SizedBox(height: 16),
+                    _SharezonePlusAdvertising(),
+                  ]
+                ]
               ],
             ),
           ),
@@ -104,7 +99,7 @@ class _Header extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12),
           child: Text(
-            'Du einen Fehler gefunden, hast Feedback oder einfach eine Frage über Sharezone? Kontaktiere uns und wir helfen dir weiter!',
+            'Du hast einen Fehler gefunden, hast Feedback oder einfach eine Frage über Sharezone? Kontaktiere uns und wir helfen dir weiter!',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: Colors.grey),
           ),

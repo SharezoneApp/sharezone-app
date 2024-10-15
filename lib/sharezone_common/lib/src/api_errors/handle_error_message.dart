@@ -83,11 +83,15 @@ String? handleErrorMessage(String? error, StackTrace s) {
     } else if (error.contains("too-many-requests")) {
       return "Wir haben alle Anfragen von diesem Gerät aufgrund ungewöhnlicher Aktivitäten blockiert. Versuchen Sie es später noch einmal.";
     } else if (error.contains("user-not-found")) {
-      return "Es wurde kein Nutzer mit dieser E-Mail Adresse gefunden...";
+      return "Es wurde kein Nutzer mit dieser E-Mail Adresse gefunden... Inaktive Nutzer werden nach 2 Jahren gelöscht.";
     } else if (error.contains("network-request-failed")) {
       return "Es gab einen Netzwerkfehler, weil keine stabile Internetverbindung besteht.";
     } else if (error.contains("weak-password")) {
       return "Dieses Passwort ist zu schwach. Bitte wähle eine stärkeres Passwort.";
+    } else if (error
+        .contains("sign_in_failed, com.google.GlDSignIn, keychain error")) {
+      // See https://github.com/SharezoneApp/sharezone-app/issues/1724
+      return "Es gab einen Fehler beim Anmelden. Um diesen zu beheben, wähle die Option 'Immer erlauben' bei der Passworteingabe bei dem Dialog für den macOS-Schlüsselbund (Keychain) aus.";
     }
 
     recordError(error, s);

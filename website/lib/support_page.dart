@@ -15,8 +15,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'widgets/section.dart';
 
-const phoneNumber = '+49 1516 7754541';
-
 class SupportPage extends StatelessWidget {
   const SupportPage({super.key});
 

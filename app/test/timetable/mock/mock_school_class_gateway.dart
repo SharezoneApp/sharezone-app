@@ -10,7 +10,6 @@ import 'package:app_functions/app_functions.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:group_domain_models/group_domain_accessors.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dart';
 import 'package:sharezone/util/api/school_class_gateway.dart';
@@ -33,7 +32,7 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   @override
   Future<AppFunctionsResult<bool>> createCourse(
-      String schoolClassID, CourseData courseData) {
+      String schoolClassID, CourseData courseData, courseID) {
     throw UnimplementedError();
   }
 
@@ -100,8 +99,8 @@ class MockSchoolClassGateway implements SchoolClassGateway {
   @override
   Stream<List<String>> streamCoursesID(String schoolClassID) {
     return Stream.value(_courses.valueOrNull!
-        .where((course) => course.schoolClassId!.id == schoolClassID)
-        .map((course) => course.courseId.id)
+        .where((course) => course.schoolClassId!.value == schoolClassID)
+        .map((course) => course.courseId.value)
         .toList());
   }
 

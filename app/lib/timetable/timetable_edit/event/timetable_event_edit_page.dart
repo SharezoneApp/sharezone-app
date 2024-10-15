@@ -12,14 +12,12 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
-import 'package:sharezone/calendrical_events/models/calendrical_event_types.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone/markdown/markdown_support.dart';
 import 'package:sharezone/timetable/src/edit_date.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
-import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
+import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_details.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
@@ -90,10 +88,10 @@ class _TimetableEditEventPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isExam = initialEvent.eventType == Exam();
-    return PopScope(
+    final isExam = initialEvent.eventType == EventType.exam;
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, _) async {
         if (didPop) return;
 
         final shouldPop = await warnUserAboutLeavingOrSavingForm(
@@ -110,27 +108,29 @@ class _TimetableEditEventPage extends StatelessWidget {
         appBar:
             AppBar(title: Text("${isExam ? "Prüfung" : "Termin"} bearbeiten")),
         body: SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                const SizedBox(height: 6),
-                _CourseField(initialEvent),
-                const Divider(),
-                _TitleField(initialEvent),
-                const Divider(),
-                _DateField(),
-                const Divider(),
-                _StartTimeField(),
-                const Divider(),
-                _EndTimeField(),
-                const Divider(),
-                _SendNotificationField(),
-                const Divider(),
-                _DetailField(initialEvent),
-                const Divider(height: 32),
-                _RoomField(initialEvent),
-                const Divider(),
-              ],
+          child: MaxWidthConstraintBox(
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(height: 6),
+                  _CourseField(initialEvent),
+                  const Divider(),
+                  _TitleField(initialEvent),
+                  const Divider(),
+                  _DateField(),
+                  const Divider(),
+                  _StartTimeField(),
+                  const Divider(),
+                  _EndTimeField(),
+                  const Divider(),
+                  _SendNotificationField(),
+                  const Divider(),
+                  _DetailField(initialEvent),
+                  const Divider(height: 32),
+                  _RoomField(initialEvent),
+                  const Divider(),
+                ],
+              ),
             ),
           ),
         ),
@@ -354,32 +354,23 @@ class _DetailField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isExam = initialEvent.eventType == Exam();
+    final isExam = initialEvent.eventType == EventType.exam;
     final bloc = BlocProvider.of<TimetableEditEventBloc>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            PrefilledTextField(
-              prefilledText: initialEvent.detail,
-              decoration: InputDecoration(
-                icon: const Padding(
-                  padding: EdgeInsets.only(left: 6),
-                  child: Icon(Icons.details),
-                ),
-                border: const OutlineInputBorder(),
-                labelText: isExam ? "Themen der Prüfung" : "Details",
-              ),
-              onChanged: bloc.changeDetail,
-              textInputAction: TextInputAction.newline,
-              maxLines: null,
+        child: MarkdownField(
+          prefilledText: initialEvent.detail,
+          inputDecoration: InputDecoration(
+            icon: const Padding(
+              padding: EdgeInsets.only(left: 6),
+              child: Icon(Icons.details),
             ),
-            const SizedBox(height: 8),
-            const MarkdownSupport(),
-          ],
+            border: const OutlineInputBorder(),
+            labelText: isExam ? "Themen der Prüfung" : "Details",
+          ),
+          onChanged: bloc.changeDetail,
         ),
       ),
     );

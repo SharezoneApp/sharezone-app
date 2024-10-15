@@ -9,10 +9,11 @@
 import 'dart:async';
 
 import 'package:bloc_base/bloc_base.dart';
+import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:design/design.dart';
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
@@ -22,6 +23,7 @@ import 'package:sharezone/dashboard/timetable/lesson_view.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/lesson_data_snapshot.dart';
+import 'package:sharezone/timetable/src/models/substitution.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/util/api/blackboard_api.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
@@ -52,7 +54,7 @@ extension RepeatEveryExtension<T> on Stream<T> {
 class DashboardBloc extends BlocBase {
   final String _uid;
   final todayDateTimeWithoutTime =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      DateTime(clock.now().year, clock.now().month, clock.now().day);
 
   final _unreadBlackboardViewsSubject = BehaviorSubject<List<BlackboardView>>();
   final _unreadBlackboardItemsEmptySubject = BehaviorSubject<bool>();
@@ -102,7 +104,7 @@ class DashboardBloc extends BlocBase {
         // Die Views werden jede Sekunde neu gebaut, damit der "Ablauf" der
         // Stunde in Echtzeit angezeigt wird (ausfaden der Stunden).
         .repeatEvery(const Duration(seconds: 1))
-        .map(_buildSortedViews);
+        .map((v) => _buildSortedViews(v, Date.fromDateTime(clock.now())));
 
     final subscription = viewsStream.listen(_lessonViewsSubject.add);
 
@@ -152,7 +154,7 @@ class DashboardBloc extends BlocBase {
 
   List<HomeworkDto> _filterUrgentHomeworks(
       List<HomeworkDto> allHomeworks, TypeOfUser typeOfUser) {
-    final now = DateTime.now();
+    final now = clock.now();
     final dayAfterTomorrow = DateTime(now.year, now.month, now.day + 2);
     // Was passiert, wenn der 30. Oktober ist und 2 Tage dazu gezählt werden? Springt es dann auf den 1. November um?
     // Antwort: Springt um auf den 1.November, gechekt, auf wenn der Code unschön ist, besser wäre dayAfterTomorrow = now.add(Duration(days:2))
@@ -174,7 +176,7 @@ class DashboardBloc extends BlocBase {
 
   void _initializeUnreadBlackboardViews(
       BlackboardGateway gateway, CourseGateway courseGateway) {
-    gateway.blackboardItemStream.listen((blackboardItems) {
+    _subscriptions.add(gateway.blackboardItemStream.listen((blackboardItems) {
       final unreadBlackboardItems = blackboardItems
           .where(
               (item) => item.forUsers[_uid] == false && item.authorID != _uid)
@@ -189,7 +191,7 @@ class DashboardBloc extends BlocBase {
       _numberOfUnreadBlackboardViewsSubject.sink
           .add(unreadBlackboardViews.length);
       _unreadBlackboardViewsSubject.sink.add(unreadBlackboardViews);
-    });
+    }));
   }
 
   List<BlackboardView> _mapBlackboardItemsIntoBlackboardView(
@@ -286,7 +288,7 @@ extension on DateTime {
   bool get isDayAfterTomorrow => dayAfterTomorrow == withoutTime;
 
   static DateTime get today =>
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      DateTime(clock.now().year, clock.now().month, clock.now().day);
   static DateTime get tomorrow =>
       DateTime(today.year, today.month, today.day + 1);
   static DateTime get dayAfterTomorrow =>

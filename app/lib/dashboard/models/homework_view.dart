@@ -6,9 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:firebase_hausaufgabenheft_logik/firebase_hausaufgabenheft_logik.dart';
+import 'package:clock/clock.dart';
+
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 
@@ -39,7 +41,7 @@ class HomeworkView {
     }
 
     final todayDateTimeWithoutTime =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+        DateTime(clock.now().year, clock.now().month, clock.now().day);
     if (dateTime.isBefore(todayDateTimeWithoutTime)) {
       return "Überfällig!";
     } else if (dateTime.isAtSameMomentAs(todayDateTimeWithoutTime)) {
@@ -62,8 +64,8 @@ class HomeworkView {
     final defaultColor = Colors.grey[400]!;
     if (!withUrgentColor) return defaultColor;
 
-    final dayAfterTomorrow = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day + 2);
+    final dayAfterTomorrow =
+        DateTime(clock.now().year, clock.now().month, clock.now().day + 2);
     return dateTime.isBefore(dayAfterTomorrow)
         ? Colors.redAccent
         : defaultColor;

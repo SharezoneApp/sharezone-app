@@ -9,6 +9,8 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/student/src/completed_homework_list.dart';
 
@@ -22,7 +24,7 @@ import 'util.dart';
 /// Instead of [CompletedHomeworkList] this list is not intended for lazy
 /// loading.
 class OpenHomeworkList extends StatelessWidget {
-  final OpenHomeworkListView homeworkListView;
+  final StudentOpenHomeworkListView homeworkListView;
   final Color? overscrollColor;
 
   /// Whether to show the [MarkOverdueHomeworkPrompt] to the user.
@@ -42,9 +44,9 @@ class OpenHomeworkList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HomeworkPageBloc>(context);
+    final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
 
-    if (_nullOrEmpty(homeworkListView.sections)) return Container();
+    if (homeworkListView.sections.isEmpty) return Container();
     return GlowingOverscrollColorChanger(
       color: overscrollColor,
       child: AnimatedStaggeredScrollView(
@@ -64,6 +66,9 @@ class OpenHomeworkList extends StatelessWidget {
                       if (newStatus == HomeworkStatus.completed) {
                         dispatchCompletionStatusChange(newStatus, hw.id, bloc);
                       }
+
+                      final adsController = context.read<AdsController>();
+                      adsController.maybeShowFullscreenAd();
                     },
                   ),
               ],
@@ -72,7 +77,4 @@ class OpenHomeworkList extends StatelessWidget {
       ),
     );
   }
-
-  bool _nullOrEmpty(List<HomeworkSectionView> homeworkSections) =>
-      homeworkSections.isEmpty;
 }

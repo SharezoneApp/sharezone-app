@@ -49,7 +49,7 @@ Future<bool?> showDeleteCourseDialog(
     defaultValue: false,
     title: "Kurs löschen?",
     content: Text(
-        'Möchtest du den Kurs "$courseName" wirklich endgültig löschen?\n\nEs werden alle Stunden & Termine aus dem Stundenplan, Hausaufgaben und Einträge aus dem Schwarzen Brett und gelöscht.\n\nAuf den Kurs kann von niemanden mehr zugegriffen werden!'),
+        'Möchtest du den Kurs "$courseName" wirklich endgültig löschen?\n\nEs werden alle Stunden & Termine aus dem Stundenplan, Hausaufgaben und Infozettel gelöscht.\n\nAuf den Kurs kann von niemanden mehr zugegriffen werden!'),
   );
 }
 
@@ -250,7 +250,7 @@ class SchoolClassVariantCourseTile extends StatelessWidget {
             title: "Bearbeiten",
             icon: Icon(Icons.edit),
           ),
-        if (isMember)
+        if (!isMember)
           const LongPress(
             popResult: _CourseCardLongPressResult.join,
             title: "Beitreten",

@@ -10,47 +10,53 @@ import 'dart:developer';
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-
+import 'package:clock/clock.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:holidays/holidays.dart' hide State;
+import 'package:platform_check/platform_check.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharezone/ads/ad_info_dialog.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
-import 'package:sharezone/keys.dart';
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/dashboard/analytics/dashboard_analytics.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
+import 'package:sharezone/dashboard/sections/ad_section.dart';
 import 'package:sharezone/dashboard/timetable/lesson_view.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
 import 'package:sharezone/dashboard/widgets/blackboard_card_dashboard.dart';
 import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
+import 'package:sharezone/holidays/holiday_bloc.dart';
+import 'package:sharezone/homework/homework_page.dart';
+import 'package:sharezone/homework/shared/homework_card.dart';
+import 'package:sharezone/keys.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_custom_scaffold.dart';
 import 'package:sharezone/overview/cache/profile_page_hint_cache.dart';
-import 'package:sharezone/homework/parent/homework_page.dart';
 import 'package:sharezone/settings/src/subpages/changelog_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
+import 'package:sharezone/sharezone_v2/sz_v2_announcement_dialog.dart';
 import 'package:sharezone/timetable/src/widgets/events/calender_event_card.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
-import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_sheet.dart';
+import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
+import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_details.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone/widgets/animated_stream_list.dart';
-import 'package:sharezone/homework/shared/homework_card.dart';
 import 'package:sharezone/widgets/matching_type_of_user_builder.dart';
 import 'package:sharezone/widgets/material/modal_bottom_sheet_big_icon_button.dart';
-import 'package:helper_functions/helper_functions.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -82,6 +88,17 @@ class _DashboardPageState extends State<DashboardPage> {
   void initState() {
     super.initState();
     showTipCardIfIsAvailable(context);
+    maybeShowAdInfoDialog();
+  }
+
+  void maybeShowAdInfoDialog() {
+    final controller = context.read<AdsController>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final shouldShowDialog = controller.shouldShowInfoDialog();
+      if (shouldShowDialog) {
+        showAdInfoDialog(context);
+      }
+    });
   }
 
   @override
@@ -133,9 +150,17 @@ class DashboardPageBody extends StatelessWidget {
               if (!PlatformCheck.isWeb) _UpdateReminder(),
               _DashboardTipSection(),
               const _HomeworkSection(),
+              const DashboardAds(),
               _EventsSection(),
               _BlackboardSection(),
               const HolidayCountdownSection(),
+              if (kDebugMode)
+                TextButton(
+                  child: const Text('V2 Dialog öffnen'),
+                  onPressed: () {
+                    openSzV2AnnoucementDialog(context);
+                  },
+                ),
               const SizedBox(height: 32)
             ],
           ),

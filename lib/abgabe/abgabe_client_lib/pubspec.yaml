@@ -28,10 +28,10 @@ dependencies:
     path: ../../filesharing/files_basics
   filesharing_logic:
     path: ../../filesharing/filesharing_logic
-  firebase_hausaufgabenheft_logik:
-    path: ../../firebase_hausaufgabenheft_logik
+  hausaufgabenheft_logik:
+    path: ../../hausaufgabenheft_logik
   built_collection: ^5.1.0
-  cloud_firestore: ^4.8.5
+  cloud_firestore: ^4.17.2
   gcloud: any
   googleapis: any
   googleapis_auth: any
@@ -39,12 +39,18 @@ dependencies:
   meta: ^1.1.8
   rxdart: ^0.27.1
   collection: ^1.17.2
+  clock: ^1.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   async: ^2.4.1
   mockito: ^5.4.4
-  random_string: ^2.0.1
+  test_randomness:
+    path: ../../test_randomness
   sharezone_lints:
     path: ../../sharezone_lints
+
+dependency_overrides:
+  # Can be removed once pdfx uses device_info_plus >= 10.0.0.
+  device_info_plus: ^10.1.0

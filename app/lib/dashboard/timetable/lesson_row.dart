@@ -44,21 +44,18 @@ class _LessonRow extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 14),
-                  child: AnimationLimiter(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        views.length,
-                        (index) => AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: const Duration(milliseconds: 250),
-                          child: SlideAnimation(
-                            verticalOffset: 10,
-                            child: FadeInAnimation(
-                              child: _LessonCard(views[index]),
-                            ),
+                AnimationLimiter(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      views.length,
+                      (index) => AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 250),
+                        child: SlideAnimation(
+                          verticalOffset: 10,
+                          child: FadeInAnimation(
+                            child: _LessonCard(views[index]),
                           ),
                         ),
                       ),

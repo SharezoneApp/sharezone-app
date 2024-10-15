@@ -54,7 +54,7 @@ class _SchoolClassFilterBottomBarState
         // Funktion keinen Mehrwert und ist somit unnötig, wenn es angezeigt
         // wird.
         if (view == null || !view.hasMoreThanOneSchoolClass) {
-          return const Text("");
+          return const SizedBox();
         }
 
         return Material(

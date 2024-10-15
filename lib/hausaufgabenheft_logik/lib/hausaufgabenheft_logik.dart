@@ -39,18 +39,18 @@
 ///
 library hausaufgabenheft_logik;
 
-export 'src/student_homework_page_bloc/events.dart';
-export 'src/student_homework_page_bloc/student_homework_page_bloc.dart';
-export 'src/student_homework_page_bloc/states.dart';
-export 'src/models/homework/homework.dart';
-export 'src/models/homework/models_used_by_homework.dart';
-export 'src/open_homeworks/sort_and_subcategorization/sort/smallest_date_subject_and_title_sort.dart';
-export 'src/open_homeworks/sort_and_subcategorization/sort/src/sort.dart';
-export 'src/open_homeworks/sort_and_subcategorization/sort/subject_smallest_date_and_title_sort.dart';
-export 'src/completed_homeworks/views/completed_homwork_list_view.dart';
-export 'src/open_homeworks/views/open_homework_list_view.dart';
-export 'src/open_homeworks/sort_and_subcategorization/sort_and_subcategorizer.dart';
-export 'src/views/homework_view.dart';
-export 'src/open_homeworks/views/homework_section_view.dart';
-export 'src/data_source/homework_data_source.dart';
-export 'src/homework_completion/homework_completion_dispatcher.dart';
+export 'src/firebase/firebase_hausaufgabenheft_logik.dart';
+export 'src/shared/homework_list_extensions.dart';
+export 'src/shared/homework_page_api.dart';
+export 'src/shared/models/homework.dart';
+export 'src/shared/models/models.dart';
+export 'src/shared/homework_section_view.dart';
+export 'src/student/views/student_homework_section_view.dart';
+export 'src/student/views/student_open_homework_list_view.dart';
+export 'src/shared/lazy_loading_homework_list_view.dart';
+export 'src/shared/sort/sorts.dart';
+export 'src/student/student_homework_list_extensions.dart';
+export 'src/student/bloc/events.dart';
+export 'src/student/bloc/states.dart';
+export 'src/student/bloc/student_homework_page_bloc.dart';
+export 'src/student/views/student_homework_view.dart';

@@ -60,8 +60,8 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: AurorNZ/paths-filter@7c547bdd24124b0d69e07c96b62fd7fec5ced19a
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
           filters: |
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Install Prettier
         run: npm install --global prettier@3.0.1

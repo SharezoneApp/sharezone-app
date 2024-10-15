@@ -7,9 +7,14 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:sharezone/ads/ad_banner.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/student/src/homework_bottom_action_bar.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -27,15 +32,30 @@ import 'src/open_homework_list.dart';
 class StudentHomeworkPage extends StatelessWidget {
   const StudentHomeworkPage({super.key});
 
+  String getAdUnitId(BuildContext context) {
+    if (kDebugMode) {
+      return context.read<AdsController>().getTestAdUnitId(AdFormat.banner);
+    }
+
+    return switch (PlatformCheck.currentPlatform) {
+      // Copied from the AdMob Console
+      Platform.android => 'ca-app-pub-7730914075870960/6002721082',
+      Platform.iOS => 'ca-app-pub-7730914075870960/5068913364',
+      _ => 'N/A',
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
+
     final bottomBarBackgroundColor =
         Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100];
     return ChangeNotifierProvider<BottomOfScrollViewInvisibilityController>(
       create: (_) => BottomOfScrollViewInvisibilityController(),
-      child: PopScope(
+      child: PopScope<Object?>(
         canPop: false,
-        onPopInvoked: (didPop) {
+        onPopInvokedWithResult: (didPop, _) {
           if (didPop) return;
           popToOverview(context);
         },
@@ -52,15 +72,29 @@ class StudentHomeworkPage extends StatelessWidget {
             body: const StudentHomeworkBody(),
             navigationItem: NavigationItem.homework,
             bottomBarConfiguration: BottomBarConfiguration(
-              bottomBar: AnimatedTabVisibility(
-                visibleInTabIndicies: const [0],
-                // Else the Sort shown in the button and the current sort
-                // could get out of order
-                maintainState: true,
-                curve: Curves.easeInOut,
-                child: HomeworkBottomActionBar(
-                  backgroundColor: bottomBarBackgroundColor,
-                ),
+              bottomBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AdBanner(adUnitId: getAdUnitId(context)),
+                  AnimatedTabVisibility(
+                    visibleInTabIndicies: const [0],
+                    // Else the Sort shown in the button and the current sort
+                    // could get out of order
+                    maintainState: true,
+                    curve: Curves.easeInOut,
+                    child: HomeworkBottomActionBar(
+                      backgroundColor: bottomBarBackgroundColor,
+                      currentHomeworkSortStream: bloc.stream
+                          .whereType<Success>()
+                          .map((s) => s.open.sorting),
+                      showOverflowMenu: true,
+                      onCompletedAllOverdue: () =>
+                          bloc.add(CompletedAllOverdue()),
+                      onSortingChanged: (sort) =>
+                          bloc.add(OpenHwSortingChanged(sort)),
+                    ),
+                  ),
+                ],
               ),
             ),
             floatingActionButton:
@@ -89,9 +123,9 @@ class StudentHomeworkBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore:close_sinks
-    final bloc = BlocProvider.of<HomeworkPageBloc>(context);
+    final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
     bloc.add(LoadHomeworks());
-    return StreamBuilder<HomeworkPageState>(
+    return StreamBuilder<StudentHomeworkPageState>(
       stream: bloc.stream,
       initialData: bloc.state,
       builder: (context, snapshot) {

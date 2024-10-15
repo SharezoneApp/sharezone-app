@@ -16,11 +16,12 @@ import 'package:authentification_base/authentification.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
+import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/ist_schon_gruppe_beigetreten.dart';
 import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/main/sharezone.dart';
@@ -67,6 +68,29 @@ Future<void> runFlutterApp({required Flavor flavor}) async {
     dynamicLinkBloc: dependencies.dynamicLinkBloc,
     flavor: flavor,
   ));
+
+  if (PlatformCheck.isDesktopOrWeb) {
+    // Required on web/desktop to automatically enable accessibility features,
+    // see:
+    // * https://github.com/flutter/flutter/issues/115158#issuecomment-1319080131
+    // * https://github.com/gskinnerTeam/flutter-wonderous-app/issues/146
+    //
+    // Currently disabled because of:
+    // https://github.com/flutter/flutter/issues/150020
+    //
+    // WidgetsFlutterBinding.ensureInitialized().ensureSemantics();
+  }
+
+  if (PlatformCheck.isWeb) {
+    // This is intentionally not a debugPrint, as it's a message for users who
+    // open the console on web.
+    //
+    // ignore: avoid_print
+    print(
+      '''Thanks for checking out Sharezone!
+If you encounter any issues please report them at https://github.com/SharezoneApp/sharezone-app/issues.''',
+    );
+  }
 }
 
 Future<AppDependencies> initializeDependencies({
@@ -132,10 +156,15 @@ Future<AppDependencies> initializeDependencies({
   UserGateway? userGateway;
   SharezoneGateway? sharezoneGateway;
 
-  listenToAuthStateChanged().listen((currentUser) async {
+  authUserStream.listen((currentUser) async {
     final isAuthenticated = currentUser?.uid != null;
     if (isAuthenticated) {
-      sharezoneGateway = SharezoneGateway(
+      // It's important to only create the gateway if it's null. If we would
+      // create a new gateway every time the user signs in, we would create
+      // multiple listeners for the same user. This would result in multiple
+      // calls to the Firestore and would cause a memory leak (e.g. permission
+      // denied error on sign out).
+      sharezoneGateway ??= SharezoneGateway(
           authUser: currentUser!,
           memberID: currentUser.uid,
           references: references);
@@ -155,7 +184,7 @@ Future<AppDependencies> initializeDependencies({
         cancelOnError: false,
       );
 
-      userGateway = UserGateway(references, currentUser);
+      userGateway ??= UserGateway(references, currentUser!);
       userGateway!.userStream.listen((user) {
         if (user?.typeOfUser != null) {
           analytics.setUserProperty(
@@ -172,6 +201,9 @@ Future<AppDependencies> initializeDependencies({
       // This would result an instant fail of the integration tests.
       await userGateway?.dispose();
       await sharezoneGateway?.dispose();
+
+      userGateway = null;
+      sharezoneGateway = null;
     }
   });
 

@@ -9,6 +9,7 @@
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/support/support_page_controller.dart';
+import 'package:user/user.dart';
 
 void main() {
   group(SupportPageController, () {
@@ -21,6 +22,7 @@ void main() {
           userEmailStream: Stream.value(null),
           hasPlusSupportUnlockedStream: Stream.value(false),
           isUserInGroupOnboardingStream: Stream.value(false),
+          typeOfUserStream: Stream.value(null),
         );
 
         // Workaround to wait for stream subscription in constructor.
@@ -34,11 +36,12 @@ void main() {
 
       test('returns url with user data', () async {
         final controller = SupportPageController(
-          userIdStream: Stream.value(UserId('userId123')),
+          userIdStream: Stream.value(const UserId('userId123')),
           userNameStream: Stream.value('My Cool Name'),
           userEmailStream: Stream.value('my@email.com'),
           hasPlusSupportUnlockedStream: Stream.value(false),
           isUserInGroupOnboardingStream: Stream.value(false),
+          typeOfUserStream: Stream.value(null),
         );
 
         // Workaround to wait for stream subscription in constructor.
@@ -47,6 +50,84 @@ void main() {
         expect(
           controller.getVideoCallAppointmentsUnencodedUrlWithPrefills(),
           'https://sharezone.net/sharezone-plus-video-call-support?userId=userId123&name=My Cool Name&email=my@email.com',
+        );
+      });
+    });
+
+    group('hasPlusSupportUnlocked', () {
+      test('show free support for parents', () async {
+        final controller = SupportPageController(
+          userIdStream: Stream.value(const UserId('userId123')),
+          userNameStream: Stream.value('My Cool Name'),
+          userEmailStream: Stream.value('my@email.com'),
+          hasPlusSupportUnlockedStream: Stream.value(true),
+          isUserInGroupOnboardingStream: Stream.value(false),
+          typeOfUserStream: Stream.value(TypeOfUser.parent),
+        );
+
+        // Workaround to wait for stream subscription in constructor.
+        await Future.delayed(Duration.zero);
+
+        expect(
+          controller.hasPlusSupportUnlocked,
+          false,
+        );
+      });
+
+      test('show free support for teachers', () async {
+        final controller = SupportPageController(
+          userIdStream: Stream.value(const UserId('userId123')),
+          userNameStream: Stream.value('My Cool Name'),
+          userEmailStream: Stream.value('my@email.com'),
+          hasPlusSupportUnlockedStream: Stream.value(true),
+          isUserInGroupOnboardingStream: Stream.value(false),
+          typeOfUserStream: Stream.value(TypeOfUser.teacher),
+        );
+
+        // Workaround to wait for stream subscription in constructor.
+        await Future.delayed(Duration.zero);
+
+        expect(
+          controller.hasPlusSupportUnlocked,
+          false,
+        );
+      });
+
+      test('show free support for students without Sharezone Plus', () async {
+        final controller = SupportPageController(
+          userIdStream: Stream.value(const UserId('userId123')),
+          userNameStream: Stream.value('My Cool Name'),
+          userEmailStream: Stream.value('my@email.com'),
+          hasPlusSupportUnlockedStream: Stream.value(false),
+          isUserInGroupOnboardingStream: Stream.value(false),
+          typeOfUserStream: Stream.value(TypeOfUser.teacher),
+        );
+
+        // Workaround to wait for stream subscription in constructor.
+        await Future.delayed(Duration.zero);
+
+        expect(
+          controller.hasPlusSupportUnlocked,
+          false,
+        );
+      });
+
+      test('show plus support for students with Sharezone Plus', () async {
+        final controller = SupportPageController(
+          userIdStream: Stream.value(const UserId('userId123')),
+          userNameStream: Stream.value('My Cool Name'),
+          userEmailStream: Stream.value('my@email.com'),
+          hasPlusSupportUnlockedStream: Stream.value(true),
+          isUserInGroupOnboardingStream: Stream.value(false),
+          typeOfUserStream: Stream.value(TypeOfUser.student),
+        );
+
+        // Workaround to wait for stream subscription in constructor.
+        await Future.delayed(Duration.zero);
+
+        expect(
+          controller.hasPlusSupportUnlocked,
+          true,
         );
       });
     });

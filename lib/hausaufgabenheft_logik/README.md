@@ -2,26 +2,26 @@
 
 Die Logik für das Hausaufgabenheft ohne Abhängigkeit von Flutter und Firestore.
 Firestore wird mit firebase_hausaufgabenheft_logik-Package mit Flutter in main.dart eingebunden.
-Die genauen Schnittstellen mit  der Außenwelt werden nachher beschrieben.  
+Die genauen Schnittstellen mit der Außenwelt werden nachher beschrieben.
 
- Hausaufgaben sind in dem Package von dem Rest der Infrastruktur getrennt,
- wie z.B. Speicherort und -Art der letztendlichen Hausaufgabe.
+Hausaufgaben sind in dem Package von dem Rest der Infrastruktur getrennt,
+wie z.B. Speicherort und -Art der letztendlichen Hausaufgabe.
 
- Hier ist alles nur auf den Benutzer und auf die persönliche Informationen
- der zugehörigen Hausaufgaben zugeschnitten. Das heißt, dass hier eine
- Hausaufgabe nur einen simplen "gemacht" Status hat, der nur auf den einzelnen
- Nutzer zugeschnitten ist, unabhängig von der letztendlichen
- Speichertart/-struktur in der Datenbank.
+Hier ist alles nur auf den Benutzer und auf die persönliche Informationen
+der zugehörigen Hausaufgaben zugeschnitten. Das heißt, dass hier eine
+Hausaufgabe nur einen simplen "gemacht" Status hat, der nur auf den einzelnen
+Nutzer zugeschnitten ist, unabhängig von der letztendlichen
+Speichertart/-struktur in der Datenbank.
 
 ## Libraries (`.dart`-Dateien, die von außerhalb des Packages benutzt werden können)
 
 `hausaufgabenheft_logik.dart`  
-Alle Klassen, die bei der normalen Benutzung des Blocs von außen benötigt werden. 
+Alle Klassen, die bei der normalen Benutzung des Blocs von außen benötigt werden.
 Dazu zählen z.B. die Views, das Interface vom `HomeworkPageBloc` + die zugehörigen `Events` und `States` (mehr dazu später) und die Klassen `HomeworkDataSource`/`HomeworkCompletionDispatcher`, die den Bloc an die "Außenwelt" (Datenbank, also bei uns Firestore) anschließbar machen.
 
-`hausaufgabenheft_logik_setup.dart`    
+`hausaufgabenheft_logik_setup.dart`  
 Die Klassen, die nötig sind um den Bloc aufzusetzen, bei uns in `main.dart`  
-Beispielcode:   
+Beispielcode:
 
 ```dart
     final config = HausaufgabenheftConfig(
@@ -40,7 +40,7 @@ Beispielcode:
 Um die Blocs zu implementieren wurde das [`Bloc`-Package](https://pub.dev/packages/bloc) benutzt.  
 Das `Bloc`-Package ermöglicht es sehr einfach Logging einzuführen, was in Zukunft sehr hilfreich ist.  
 Der `Bloc` funktioniert generell nur über `Event` und `State`-Klassen.  
-Ein `Event` für den `HomeworkPageBloc` ist beispielsweise `CompletedAllOverdue`, welches dem Bloc sagt alle überfälligen Hausaufgaben abzuhaken. Die States sind bei dem Bloc `Loading` und `Success`, wobei bei `Success` die Views für die Seite übergeben werden.  	
+Ein `Event` für den `HomeworkPageBloc` ist beispielsweise `CompletedAllOverdue`, welches dem Bloc sagt alle überfälligen Hausaufgaben abzuhaken. Die States sind bei dem Bloc `Loading` und `Success`, wobei bei `Success` die Views für die Seite übergeben werden.
 Mit einem einfachen Interface kann dann für alle `Blocs` aus dem `Bloc`-Package direkt Logging für alle einkommenden Events und ausgehenden States eingeführt werden, was ganz cool ist.
 
 ```mermaid
@@ -52,11 +52,10 @@ B -- Events --> A
 
 ## Anbindung an die Außenwelt
 
-Da die Hausaufgaben-Details momentan noch nicht über das Package bearbeitet werden, ist die einzige Aktion an Firebase das Abhaken einer Hausaufgabe. 
+Da die Hausaufgaben-Details momentan noch nicht über das Package bearbeitet werden, ist die einzige Aktion an Firebase das Abhaken einer Hausaufgabe.
 Eine Hausaufgabe wird über den `HomeworkCompletionDispatcher` abgehakt,
 welcher eine abstrakte Klasse ist, die dadurch an jeden beliebigen Service
 delegieren kann. Dieser ist Beispielsweise in `firebase_hausaufgaben_logik`für Firestore implementiert.
-
 
 Andererseits müssen natürlich noch die Hausaufgaben gelesen werden. Dafür wird ist dann die abstrakte Klasse `HomeworkDataSource`zuständig. Dieser ist auch in `firebase_hausaufgaben_logik` implementiert.
 
@@ -69,9 +68,10 @@ C -- HomeworkDataSource--> A
 ```
 
 ## Weiteres
+
 ### Warum gibt wird das HomeworkReadModell nur zum Lesen benutzt? Warum gibt es nicht eine Hausaufgabenklasse, wo man den "gemacht" Status ändern kann und diese dann in eine Repository tun kann?
 
-TL;DR unnötige Momentane Komplexität, außerdem wird in Zukunft wahrscheinlich eh  ein Schreibmodell einer Hausaufgabe nötig sein.
+TL;DR unnötige Momentane Komplexität, außerdem wird in Zukunft wahrscheinlich eh ein Schreibmodell einer Hausaufgabe nötig sein.
 
 Momentan ist HomeworkReadModel nur eine Version zum lesen, da bisher nur
 das Abhaken ansonsten unterstützt ist und ich jetzt noch nicht die nötige

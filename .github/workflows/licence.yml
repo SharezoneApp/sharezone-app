@@ -29,8 +29,8 @@ jobs:
   check-files-licence-headers:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+      - uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32
         with:
           go-version: "^1.13.1"
       - run: go install github.com/google/addlicense@v1.1.1
@@ -39,13 +39,13 @@ jobs:
   check-dependency-licenses:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@6ffa30473b346f7d7c63cf9e03e6a886f940a72b
+        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
 
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -64,3 +64,9 @@ jobs:
           cd tools/sz_repo_cli
           dart pub get
           lic_ck check-licenses --config ../../licenses_config.yaml --problematic
+
+      - name: Check licenses in website
+        run: |
+          cd website
+          flutter pub get
+          lic_ck check-licenses --config ../licenses_config.yaml --problematic

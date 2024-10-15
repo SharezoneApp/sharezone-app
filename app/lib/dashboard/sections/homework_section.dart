@@ -19,7 +19,7 @@ class _HomeworkSection extends StatelessWidget {
       child: SharezoneAnimatedStreamList<HomeworkView>(
         listStream: bloc.urgentHomeworks,
         isListEmptyStream: bloc.urgentHomeworksEmpty,
-        height: 115,
+        height: 120,
         padding: const EdgeInsets.only(right: 12),
         emptyListWidget: _NoUrgentHomeworks(),
         scrollDirection: Axis.horizontal,

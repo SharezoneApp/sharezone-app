@@ -29,7 +29,7 @@ class GroupOnboardingIsItFirstPersonUsingSharezone extends StatelessWidget {
       title: _getString(context),
       bottomNavigationBar: const SafeArea(
         child: GroupOnboardingHintText(
-          "Wenn ein Mitschüler schon Sharezone verwendet, kann dir dieser einen Sharecode geben, du damit seiner Klasse beitreten kannst.",
+          "Wenn ein Mitschüler schon Sharezone verwendet, kann dir dieser einen Sharecode geben, damit du seiner Klasse beitreten kannst.",
         ),
       ),
       children: const [

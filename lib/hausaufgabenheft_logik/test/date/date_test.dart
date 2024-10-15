@@ -6,7 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/models/date.dart';
+import 'package:clock/clock.dart';
+import 'package:hausaufgabenheft_logik/src/shared/models/date.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -21,19 +22,6 @@ void main() {
       const date = Date(year: 2019, month: 1, day: 1);
       final dateAsDateTime = date.asDateTime();
       expect(dateAsDateTime, DateTime(2019, 1, 1, 0, 0, 0, 0, 0));
-    });
-
-    test(
-        '.addDaysWithNoChecking adds appropiate amount of days, while not checking if the month has been exceeded',
-        () {
-      expect(const Date(year: 2019, month: 1, day: 1).addDaysWithNoChecking(1),
-          const Date(year: 2019, month: 1, day: 2));
-      expect(
-          const Date(year: 2019, month: 1, day: 10).addDaysWithNoChecking(-5),
-          const Date(year: 2019, month: 1, day: 5));
-      // Explicit: DANGER, STUPID ALGORITHM
-      expect(const Date(year: 2019, month: 1, day: 30).addDaysWithNoChecking(5),
-          const Date(year: 2019, month: 1, day: 35));
     });
     test('.addDays adds day regarding the month length', () {
       expect(const Date(year: 2019, month: 11, day: 30).addDays(1),
@@ -50,7 +38,7 @@ void main() {
 
     test('Date.now', () {
       final now = Date.now();
-      var nowDateTime = DateTime.now();
+      var nowDateTime = clock.now();
       expect(now.year, nowDateTime.year);
       expect(now.month, nowDateTime.month);
       expect(now.day, nowDateTime.day);

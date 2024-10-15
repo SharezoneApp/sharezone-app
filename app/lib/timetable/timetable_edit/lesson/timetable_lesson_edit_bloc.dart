@@ -30,6 +30,7 @@ class TimetableEditBloc extends BlocBase {
   final _weekDaySubject = BehaviorSubject<WeekDay>();
   final _weekTypeSubject = BehaviorSubject<WeekType>();
   final _periodSubject = BehaviorSubject<Period>();
+  final _teacherSubject = BehaviorSubject<String>();
 
   final Lesson initialLesson;
   final TimetableGateway gateway;
@@ -60,6 +61,9 @@ class TimetableEditBloc extends BlocBase {
         _periodSubject.sink.add(period);
       }
     }
+    if (initialLesson.teacher != null) {
+      _teacherSubject.sink.add(initialLesson.teacher!);
+    }
   }
 
   Stream<Course> get course => _courseSegmentSubject;
@@ -69,6 +73,7 @@ class TimetableEditBloc extends BlocBase {
   Stream<WeekDay> get weekDay => _weekDaySubject;
   Stream<WeekType> get weekType => _weekTypeSubject;
   Stream<Period> get period => _periodSubject;
+  Stream<String> get teacher => _teacherSubject;
 
   Function(Course) get _changeCourse => _courseSegmentSubject.sink.add;
   Function(Time) get changeStartTime => _startTimeSubject.sink.add;
@@ -76,6 +81,7 @@ class TimetableEditBloc extends BlocBase {
   Function(String) get changeRoom => _roomSubject.sink.add;
   Function(WeekDay) get changeWeekDay => _weekDaySubject.sink.add;
   Function(WeekType) get changeWeekType => _weekTypeSubject.sink.add;
+  Function(String) get changeTeacher => _teacherSubject.sink.add;
 
   void changePeriod(Period period) {
     _periodSubject.sink.add(period);
@@ -104,12 +110,16 @@ class TimetableEditBloc extends BlocBase {
       final weekDay = _weekDaySubject.valueOrNull;
       final weekType = _weekTypeSubject.valueOrNull;
       final period = _periodSubject.valueOrNull;
+      String? teacher = _teacherSubject.valueOrNull;
+      if (teacher?.isEmpty == true) {
+        teacher = null;
+      }
 
       log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay");
 
       final lesson = initialLesson.copyWith(
         groupID: course?.id,
-        teacher: null,
+        teacher: () => teacher,
         place: room,
         weekday: weekDay,
         weektype: weekType,

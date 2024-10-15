@@ -51,6 +51,7 @@ ThemeData getDarkTheme({
     bottomSheetTheme: _bottomSheetTheme,
     dialogTheme: _dialogTheme,
     listTileTheme: ListTileThemeData(
+      iconColor: const Color(0xFFC1C7CE),
       shape: listTileShape,
     ),
     colorScheme: ColorScheme.fromSeed(
@@ -67,24 +68,24 @@ ThemeData getDarkTheme({
     ),
     tabBarTheme: const TabBarTheme(labelColor: Colors.white),
     checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      fillColor:
+          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return null;
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return _accentColor;
         }
         return null;
       }),
     ),
     radioTheme: RadioThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      fillColor:
+          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return null;
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return _accentColor;
         }
         return null;

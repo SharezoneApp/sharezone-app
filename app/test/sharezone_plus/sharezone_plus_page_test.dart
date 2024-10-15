@@ -8,10 +8,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:mockito/annotations.dart';
 import 'package:provider/provider.dart';
+import 'package:remote_configuration/remote_configuration.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:user/user.dart';
+
+import 'sharezone_plus_page_test.mocks.dart';
 
 class MockSharezonePlusPageController extends ChangeNotifier
     implements SharezonePlusPageController {
@@ -19,11 +28,11 @@ class MockSharezonePlusPageController extends ChangeNotifier
   bool? hasPlus;
 
   @override
-  String? price;
+  String? monthlySubscriptionPrice;
 
   bool buySubscriptionCalled = false;
   @override
-  Future<void> buySubscription() async {
+  Future<void> buy() async {
     buySubscriptionCalled = true;
   }
 
@@ -32,8 +41,66 @@ class MockSharezonePlusPageController extends ChangeNotifier
   Future<void> cancelSubscription() async {
     cancelSubscriptionCalled = true;
   }
+
+  @override
+  bool canCancelSubscription(SubscriptionSource source) {
+    return true;
+  }
+
+  @override
+  Future<bool> isBuyingEnabled() async {
+    return true;
+  }
+
+  @override
+  bool isPurchaseButtonLoading = false;
+
+  @override
+  String? lifetimePrice;
+
+  @override
+  void setPeriodOption(PurchasePeriod period) {}
+
+  @override
+  PurchasePeriod selectedPurchasePeriod = PurchasePeriod.monthly;
+
+  bool _isCancelled = false;
+  @override
+  bool get isCancelled => _isCancelled;
+
+  void setIsCancelled(bool isCancelled) {
+    _isCancelled = isCancelled;
+    notifyListeners();
+  }
+
+  @override
+  void listenToStatus() {}
+
+  @override
+  bool get hasLifetime => false;
+
+  @override
+  void logOpenGitHub() {}
+
+  @override
+  void logOpenedAdvantage(String advantage) {}
+
+  @override
+  void logOpenedFaq(String question) {}
+
+  @override
+  bool showLetParentsBuyButton = false;
+
+  @override
+  bool isLetParentsBuyButtonLoading = false;
+
+  @override
+  Future<String?> getBuyWebsiteToken() {
+    throw UnimplementedError();
+  }
 }
 
+@GenerateNiceMocks([MockSpec<SubscriptionService>()])
 void main() {
   group(SharezonePlusPage, () {
     late MockSharezonePlusPageController controller;
@@ -44,42 +111,43 @@ void main() {
 
     Future<void> pumpPlusPage(WidgetTester tester) async {
       await tester.pumpWidget(
-        ChangeNotifierProvider<SharezonePlusPageController>(
-          create: (context) => controller,
-          child:
-              const MaterialApp(home: Scaffold(body: SharezonePlusPageMain())),
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<SharezonePlusPageController>(
+              create: (context) => controller,
+            ),
+            ChangeNotifierProvider<AdsController>(
+              create: (context) => AdsController(
+                subscriptionService: MockSubscriptionService(),
+                remoteConfiguration: getStubRemoteConfiguration(),
+                keyValueStore: InMemoryKeyValueStore(),
+              ),
+            ),
+          ],
+          child: const MaterialApp(
+            home: Scaffold(body: SharezonePlusPageMain()),
+          ),
         ),
       );
     }
 
-    testWidgets(
-        'shows $SharezonePlusPriceLoadingIndicator if plus status has loaded but the price hasnt',
-        (tester) async {
-      controller.hasPlus = true;
-      controller.price = null;
-
-      await pumpPlusPage(tester);
-      await tester.ensureVisible(find.byType(CallToActionButton));
-
-      expect(find.byType(SharezonePlusPriceLoadingIndicator), findsOneWidget);
-    });
-
-    testWidgets(
-        'if loading then the $SharezonePlusPriceLoadingIndicator is shown',
-        (tester) async {
+    testWidgets('if loading then $GrayShimmer is shown', (tester) async {
       controller.hasPlus = null;
-      controller.price = null;
+      controller.monthlySubscriptionPrice = null;
+      controller.lifetimePrice = null;
 
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
 
-      expect(find.byType(SharezonePlusPriceLoadingIndicator), findsOneWidget);
+      expect(find.byType(GrayShimmer), findsWidgets);
     });
 
     testWidgets('if loading then the "subscribe" button is disabled',
         (tester) async {
       controller.hasPlus = null;
-      controller.price = null;
+      controller.monthlySubscriptionPrice = null;
+      controller.lifetimePrice = null;
+      controller.isPurchaseButtonLoading = true;
 
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
@@ -89,19 +157,22 @@ void main() {
       expect(controller.cancelSubscriptionCalled, false);
       expect(
           tester
-              .widget<CallToActionButton>(find.byType(CallToActionButton))
-              .onPressed,
-          null);
+              .widget<BuySection>(find.byType(BuySection))
+              .isPurchaseButtonLoading,
+          true);
     });
 
     testWidgets('calls cancelSubscription() when "cancel" is pressed',
         (tester) async {
       controller.hasPlus = true;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
+      controller.lifetimePrice = '19,99 €';
 
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
       await tester.tap(find.widgetWithText(CallToActionButton, 'Kündigen'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(FilledButton, 'Kündigen'));
 
       expect(controller.cancelSubscriptionCalled, true);
     });
@@ -109,7 +180,8 @@ void main() {
     testWidgets('calls buySubscription() when "subscribe" is pressed',
         (tester) async {
       controller.hasPlus = false;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
+      controller.lifetimePrice = '19,99 €';
 
       await pumpPlusPage(tester);
       await tester.ensureVisible(find.byType(CallToActionButton));
@@ -120,35 +192,18 @@ void main() {
 
     testWidgets('shows price to pay if not subscribed', (tester) async {
       controller.hasPlus = false;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
+      controller.lifetimePrice = '19,99 €';
 
       await pumpPlusPage(tester);
 
       expect(find.text('4,99 €'), findsOneWidget);
-    });
-
-    testWidgets('shows currently paid price if subscribed', (tester) async {
-      controller.hasPlus = true;
-      controller.price = '4,99 €';
-
-      await pumpPlusPage(tester);
-
-      expect(find.text('4,99 €'), findsOneWidget);
-    });
-
-    testWidgets('shows "subscribe" button if not subscribed', (tester) async {
-      controller.hasPlus = false;
-      controller.price = '4,99 €';
-
-      await pumpPlusPage(tester);
-
-      expect(find.widgetWithText(CallToActionButton, 'Abonnieren'),
-          findsOneWidget);
     });
 
     testWidgets('shows "cancel" button if subscribed', (tester) async {
       controller.hasPlus = true;
-      controller.price = '4,99 €';
+      controller.monthlySubscriptionPrice = '4,99 €';
+      controller.lifetimePrice = '19,99 €';
 
       await pumpPlusPage(tester);
 

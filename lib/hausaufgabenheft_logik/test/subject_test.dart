@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:hausaufgabenheft_logik/src/models/subject.dart';
-import 'package:hausaufgabenheft_logik/src/views/color.dart';
+import 'package:hausaufgabenheft_logik/src/shared/models/subject.dart';
+import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 import 'package:test/test.dart';
 
 void main() {

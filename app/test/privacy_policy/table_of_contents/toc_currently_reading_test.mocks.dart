@@ -10,7 +10,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart'
 import 'package:flutter/foundation.dart' as _i4;
 import 'package:flutter_markdown/flutter_markdown.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:sharezone/privacy_policy/src/privacy_policy_src.dart' as _i3;
+import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart'
+    as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -75,6 +76,7 @@ class MockDocumentController extends _i1.Mock
           Invocation.getter(#anchorController),
         ),
       ) as _i2.AnchorController);
+
   @override
   _i3.CurrentlyReadThreshold get threshold => (super.noSuchMethod(
         Invocation.getter(#threshold),
@@ -87,6 +89,7 @@ class MockDocumentController extends _i1.Mock
           Invocation.getter(#threshold),
         ),
       ) as _i3.CurrentlyReadThreshold);
+
   @override
   _i4.ValueListenable<_i5.IList<_i3.DocumentSectionHeadingPosition>>
       get sortedSectionHeadings => (super.noSuchMethod(
@@ -103,6 +106,7 @@ class MockDocumentController extends _i1.Mock
             ),
           ) as _i4
               .ValueListenable<_i5.IList<_i3.DocumentSectionHeadingPosition>>);
+
   @override
   _i6.Future<void> scrollToDocumentSection(
           _i3.DocumentSectionId? documentSectionId) =>
