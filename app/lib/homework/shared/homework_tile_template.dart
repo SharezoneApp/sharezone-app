@@ -123,22 +123,24 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Even though the row only contains one child, we use a row to make the
+    // title text ellipsis and not using the full width of the screen.
+    // Otherwise, the strike through would be drawn over the whole screen.
     return Row(
       children: [
-        _StrikeThrough(
-          isStrikeThrough: isCompleted,
-          child: Text(
-            title,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            style: Theme.of(context).textTheme.bodyLarge!,
+        Flexible(
+          child: _StrikeThrough(
+            isStrikeThrough: isCompleted,
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              // We can only show one line of text in the title. Showing more
+              // lines would make the strike through look weird.
+              maxLines: 1,
+              style: Theme.of(context).textTheme.bodyLarge!,
+            ),
           ),
         ),
-        // A ListTile widget expands the title to the full width of the screen.
-        // This would cause the strike through to be drawn over the whole
-        // screen. To prevent this, we add a spacer that takes up the remaining
-        // space.
-        const Spacer(),
       ],
     );
   }
@@ -172,11 +174,8 @@ class _StrikeThroughState extends State<_StrikeThrough>
       vsync: this,
     );
 
-    final begin = widget.isStrikeThrough ? 1.0 : 0.0;
-    final end = widget.isStrikeThrough ? 0.0 : 1.0;
-
-    animation = Tween<double>(begin: begin, end: end).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInQuart),
+    animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.ease),
     )..addListener(() {
         setState(() {});
       });
@@ -186,7 +185,9 @@ class _StrikeThroughState extends State<_StrikeThrough>
   void didUpdateWidget(_StrikeThrough oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.isStrikeThrough != widget.isStrikeThrough) {
-      Future.delayed(widget.delay, () => _controller.forward());
+      if (widget.isStrikeThrough) {
+        Future.delayed(widget.delay, () => _controller.forward());
+      }
     }
   }
 

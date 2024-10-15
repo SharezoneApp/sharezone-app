@@ -112,7 +112,7 @@ class _HomeworkTileState extends State<HomeworkTile> {
   }
 
   Future<void> _delayOnChangeToDisplayAnimations() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(Duration(milliseconds: isCompleted ? 700 : 200));
   }
 
   Future<void> _navigateToSubmissionPage(BuildContext context) {
