@@ -23,11 +23,9 @@ import 'package:sharezone/settings/src/subpages/timetable/periods/periods_edit_p
 import 'package:sharezone/settings/src/subpages/timetable/weekdays/weekdays_edit_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
-import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:time/time.dart';
 import 'package:user/user.dart';
 
 class TimetableSettingsPage extends StatelessWidget {
@@ -48,19 +46,11 @@ class TimetableSettingsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  LessonsLengthField(
-                    streamLessonLength: bloc.lessonLengthStream,
-                    onChanged: (lessonLength) =>
-                        bloc.saveLessonLengthInCache(lessonLength.minutes),
-                  ),
+                  _TimetablePeriodsField(),
                   const Divider(),
                   _ABWeekField(),
                   const Divider(),
-                  _TimetablePreferencesField(),
-                  const Divider(),
                   _TimetableEnabledWeekDaysField(),
-                  const Divider(),
-                  _TimetablePeriodsField(),
                   const Divider(),
                   const _ICalLinks(),
                   // We only show the time picker settings on iOS because on
@@ -158,6 +148,7 @@ class _TimetablePeriodsField extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: const Text("Stundenzeiten"),
+      subtitle: const Text("Stundenplanbeginn, Stundenlänge, etc."),
       onTap: () => openPeriodsEditPage(context),
     );
   }
@@ -200,45 +191,6 @@ class _TimetableEnabledWeekDaysField extends StatelessWidget {
     return ListTile(
       title: const Text("Aktivierte Wochentage"),
       onTap: () => openWeekDaysEditPage(context),
-    );
-  }
-}
-
-class _TimetablePreferencesField extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<UserSettingsBloc>(context);
-    return StreamBuilder<UserSettings>(
-      stream: bloc.streamUserSettings(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return Container();
-        final userSettings = snapshot.data;
-        final tbStart = userSettings!.timetableStartTime;
-        return Column(
-          children: <Widget>[
-            ListTile(
-              title: const Text("Stundenplanbeginn"),
-              subtitle: Text(tbStart.time),
-              onTap: () async {
-                final newTime = await selectTime(context,
-                    initialTime: Time(hour: 8, minute: 0));
-                if (newTime != null) {
-                  bloc.updateTimetableStartTime(newTime);
-                }
-              },
-            ),
-            const Divider(),
-            SwitchListTile.adaptive(
-              title: const Text("Kürzel im Stundenplan anzeigen"),
-              value: userSettings.showAbbreviation,
-              onChanged: (newValue) {
-                bloc.updateSettings(
-                    userSettings.copyWith(showAbbreviation: newValue));
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
