@@ -50,6 +50,8 @@ class TimetableSettingsPage extends StatelessWidget {
                   const Divider(),
                   _ABWeekField(),
                   const Divider(),
+                  _AbbreviationInTimetable(),
+                  const Divider(),
                   _TimetableEnabledWeekDaysField(),
                   const Divider(),
                   const _ICalLinks(),
@@ -140,6 +142,28 @@ class _ABWeekField extends StatelessWidget {
     } else {
       return isAWeekEvenWeek ? WeekType.b : WeekType.a;
     }
+  }
+}
+
+class _AbbreviationInTimetable extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<UserSettingsBloc>(context);
+    return StreamBuilder<UserSettings>(
+      stream: bloc.streamUserSettings(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Container();
+        final userSettings = snapshot.data!;
+        return SwitchListTile.adaptive(
+          title: const Text("Kürzel im Stundenplan anzeigen"),
+          value: userSettings.showAbbreviation,
+          onChanged: (newValue) {
+            bloc.updateSettings(
+                userSettings.copyWith(showAbbreviation: newValue));
+          },
+        );
+      },
+    );
   }
 }
 
