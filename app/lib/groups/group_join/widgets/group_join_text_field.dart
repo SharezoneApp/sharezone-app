@@ -78,7 +78,19 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
                   labelText: 'Sharecode',
+                  labelStyle: const TextStyle(color: Colors.white),
+                  focusedBorder: Theme.of(context)
+                      .inputDecorationTheme
+                      .focusedBorder
+                      ?.copyWith(
+                        borderSide: const BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
                   hintText: "z.B. Qb32vF",
+                  hintStyle: Theme.of(context).isDarkTheme
+                      ? null
+                      : const TextStyle(color: Colors.black54),
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(right: 6),
                     child: IconButton(
