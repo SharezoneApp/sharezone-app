@@ -28,6 +28,7 @@ class AdsController extends ChangeNotifier {
 
   /// Defines if ads are visible for the current user.
   bool areAdsVisible = false;
+  bool shouldShowInfoDialog = false;
   StreamSubscription<bool>? _subscription;
 
   AdsController({
@@ -56,19 +57,19 @@ class AdsController extends ChangeNotifier {
   /// Determines if the user should be shown an info dialog about ads.
   ///
   /// We show an info dialog about our ads experiment after the first app open.
-  bool shouldShowInfoDialog() {
+  bool _shouldShowInfoDialog() {
     if (!isQualifiedForAds()) {
       return false;
     }
 
     final hasShownDialog =
-        keyValueStore.getBool('ads-info-dialog-shown') ?? false;
-    if (!hasShownDialog) {
-      keyValueStore.setBool('ads-info-dialog-shown', true);
-      return true;
+        keyValueStore.getBool('ads-info-dialog-shown22') ?? false;
+    if (hasShownDialog) {
+      return false;
     }
 
-    return false;
+    keyValueStore.setBool('ads-info-dialog-shown', true);
+    return true;
   }
 
   // Returns the test ad unit ID for the given [format].
@@ -112,6 +113,7 @@ class AdsController extends ChangeNotifier {
       if (hasUnlocked) {
         areAdsVisible = false;
       } else {
+        shouldShowInfoDialog = _shouldShowInfoDialog();
         areAdsVisible = isQualifiedForAds();
       }
       notifyListeners();
