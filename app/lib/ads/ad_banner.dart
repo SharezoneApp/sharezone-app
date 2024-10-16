@@ -6,10 +6,11 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ads/ads_controller.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AdBanner extends StatefulWidget {
   const AdBanner({
@@ -27,6 +28,10 @@ class _AdBannerState extends State<AdBanner> {
   BannerAd? ad;
   bool _isLoaded = false;
 
+  // The ad height depends on the device height. It will be updated after the ad
+  // is loaded.
+  double adHeight = 61;
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +40,12 @@ class _AdBannerState extends State<AdBanner> {
         final size =
             await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
                 MediaQuery.sizeOf(context).width.truncate());
+
+        if (size != null) {
+          setState(() {
+            adHeight = size.height.toDouble();
+          });
+        }
 
         if (size == null) {
           // Unable to get width of anchored banner.
@@ -54,6 +65,9 @@ class _AdBannerState extends State<AdBanner> {
               debugPrint('$ad loaded.');
               setState(() {
                 _isLoaded = true;
+                if (this.ad?.size != null) {
+                  adHeight = this.ad!.size.height.toDouble();
+                }
               });
             },
             onAdFailedToLoad: (ad, err) {
@@ -75,11 +89,37 @@ class _AdBannerState extends State<AdBanner> {
   @override
   Widget build(BuildContext context) {
     final areAdsVisible = context.watch<AdsController>().areAdsVisible;
-    if (!areAdsVisible || _isLoaded == false) return Container();
+    if (!areAdsVisible) return Container();
     return SizedBox(
-      height: ad!.size.height.toDouble(),
-      width: ad!.size.width.toDouble(),
-      child: AdWidget(ad: ad!),
+      height: adHeight,
+      width: ad?.size.width.toDouble(),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: _isLoaded ? AdWidget(ad: ad!) : const _Placeholder(),
+      ),
+    );
+  }
+}
+
+class _Placeholder extends StatelessWidget {
+  const _Placeholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color:
+          Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100],
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Center(
+              child: Text('Anzeige lädt...'),
+            ),
+          ),
+          Divider(height: 0)
+        ],
+      ),
     );
   }
 }

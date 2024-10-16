@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -13,6 +15,7 @@ import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DashboardAds extends StatefulWidget {
   const DashboardAds({super.key});
@@ -93,7 +96,7 @@ class _DashboardAdsState extends State<DashboardAds> {
   @override
   Widget build(BuildContext context) {
     final areAdsVisible = context.watch<AdsController>().areAdsVisible;
-    if (!areAdsVisible || !_nativeAdIsLoaded) {
+    if (!areAdsVisible) {
       return Container();
     }
 
@@ -134,9 +137,34 @@ class _DashboardAdsState extends State<DashboardAds> {
               maxWidth: 500,
               maxHeight: 100,
             ),
-            child: AdWidget(ad: nativeAd!),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: _nativeAdIsLoaded
+                  ? AdWidget(ad: nativeAd!)
+                  : const _Placeholder(),
+            ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _Placeholder extends StatelessWidget {
+  const _Placeholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 100,
+      width: min(500, MediaQuery.of(context).size.width - 24),
+      child: Material(
+        borderRadius: BorderRadius.circular(10),
+        color:
+            Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100],
+        child: const Center(
+          child: Text('Anzeige lädt...'),
+        ),
       ),
     );
   }
