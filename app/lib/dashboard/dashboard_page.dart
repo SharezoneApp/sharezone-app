@@ -123,6 +123,8 @@ class _AdsInfoDialogListener extends StatefulWidget {
 }
 
 class _AdsInfoDialogListenerState extends State<_AdsInfoDialogListener> {
+  // The AdsController already has a flag for this, but just to be safe for race
+  // conditions, we also keep track of it here.
   bool hasShownDialog = false;
 
   @override
@@ -130,6 +132,8 @@ class _AdsInfoDialogListenerState extends State<_AdsInfoDialogListener> {
     final showDialog = context.watch<AdsController>().shouldShowInfoDialog;
     if (showDialog && !hasShownDialog) {
       hasShownDialog = true;
+      context.read<AdsController>().shouldShowInfoDialog = false;
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showAdInfoDialog(context);
       });
