@@ -88,37 +88,57 @@ class _DashboardPageState extends State<DashboardPage> {
   void initState() {
     super.initState();
     showTipCardIfIsAvailable(context);
-    maybeShowAdInfoDialog();
-  }
-
-  void maybeShowAdInfoDialog() {
-    final controller = context.read<AdsController>();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final shouldShowDialog = controller.shouldShowInfoDialog();
-      if (shouldShowDialog) {
-        showAdInfoDialog(context);
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SharezoneCustomScaffold(
-      appBarConfiguration: SliverAppBarConfiguration(
-        title: const _AppBarTitle(),
-        backgroundColor:
-            Theme.of(context).isDarkTheme ? ElevationColors.dp8 : blueColor,
-        expandedHeight: 210,
-        elevation: 1,
-        pinned: true,
-        actions: const <Widget>[_ProfileAvatar()],
-        flexibleSpace: _AppBarBottom(),
-        drawerIconColor: Colors.white,
+    return _AdsInfoDialogListener(
+      child: SharezoneCustomScaffold(
+        appBarConfiguration: SliverAppBarConfiguration(
+          title: const _AppBarTitle(),
+          backgroundColor:
+              Theme.of(context).isDarkTheme ? ElevationColors.dp8 : blueColor,
+          expandedHeight: 210,
+          elevation: 1,
+          pinned: true,
+          actions: const <Widget>[_ProfileAvatar()],
+          flexibleSpace: _AppBarBottom(),
+          drawerIconColor: Colors.white,
+        ),
+        navigationItem: NavigationItem.overview,
+        body: const DashboardPageBody(),
+        floatingActionButton: const _DashboardPageFAB(),
       ),
-      navigationItem: NavigationItem.overview,
-      body: const DashboardPageBody(),
-      floatingActionButton: const _DashboardPageFAB(),
     );
+  }
+}
+
+class _AdsInfoDialogListener extends StatefulWidget {
+  const _AdsInfoDialogListener({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_AdsInfoDialogListener> createState() => _AdsInfoDialogListenerState();
+}
+
+class _AdsInfoDialogListenerState extends State<_AdsInfoDialogListener> {
+  // The AdsController already has a flag for this, but just to be safe for race
+  // conditions, we also keep track of it here.
+  bool hasShownDialog = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final showDialog = context.watch<AdsController>().shouldShowInfoDialog;
+    if (showDialog && !hasShownDialog) {
+      hasShownDialog = true;
+      context.read<AdsController>().shouldShowInfoDialog = false;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showAdInfoDialog(context);
+      });
+    }
+    return widget.child;
   }
 }
 
