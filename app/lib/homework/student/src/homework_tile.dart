@@ -23,6 +23,12 @@ enum HomeworkStatus { open, completed }
 
 typedef StatusChangeCallback = void Function(HomeworkStatus newStatus);
 
+Future<void> delayOnChangeToDisplayAnimations({
+  required bool changedToCompleted,
+}) async {
+  await Future.delayed(Duration(milliseconds: changedToCompleted ? 650 : 300));
+}
+
 class HomeworkTile extends StatefulWidget {
   final StudentHomeworkView homework;
   final StatusChangeCallback onChanged;
@@ -47,15 +53,25 @@ class _HomeworkTileState extends State<HomeworkTile> {
   }
 
   @override
+  void didUpdateWidget(HomeworkTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    /// If the homework changed, then we need to update the [isCompleted]
+    /// variable. Otherwise, the checkbox will not be updated.
+    isCompleted = widget.homework.isCompleted;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return HomeworkTileTemplate(
+      isCompleted: isCompleted,
       title: widget.homework.title,
       trailing: widget.homework.withSubmissions
           ? _SubmissionUploadButton(
               onPressed: () => _navigateToSubmissionPage(context),
             )
           : _Checkbox(
-              isHomeworkCompleted: widget.homework.isCompleted,
+              isHomeworkCompleted: isCompleted,
               onCompletionChange: _changeCompletionState,
             ),
       courseName: widget.homework.subject,
@@ -75,8 +91,14 @@ class _HomeworkTileState extends State<HomeworkTile> {
     );
   }
 
-  void _changeCompletionState(bool? newCompletionState) {
+  Future<void> _changeCompletionState(bool? newCompletionState) async {
     if (newCompletionState == null) return;
+
+    if (newCompletionState == widget.homework.isCompleted) {
+      // Do not update the state if the completion state did not change. This
+      // prevents spamming the checkbox.
+      return;
+    }
 
     /// [mounted] prüft, dass das Widget noch im Widget-Tree ist. Es ist ein Fehler
     /// [setState] aufzurufen, falls [mounted] `false` ist.

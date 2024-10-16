@@ -32,6 +32,7 @@ class TeacherAndParentHomeworkTile extends StatelessWidget {
     final isTeacher = Provider.of<TypeOfUser>(context).isTeacher;
 
     return HomeworkTileTemplate(
+      isCompleted: false,
       title: homework.title,
       courseName: homework.subject,
       courseAbbreviation: homework.abbreviation,

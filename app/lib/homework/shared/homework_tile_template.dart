@@ -20,6 +20,7 @@ class HomeworkTileTemplate extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onLongPress;
   final String? heroTag;
+  final bool isCompleted;
 
   const HomeworkTileTemplate({
     super.key,
@@ -32,6 +33,7 @@ class HomeworkTileTemplate extends StatelessWidget {
     required this.trailing,
     required this.onTap,
     required this.onLongPress,
+    required this.isCompleted,
     this.heroTag,
   });
 
@@ -43,23 +45,25 @@ class HomeworkTileTemplate extends StatelessWidget {
         child: ListTile(
           minVerticalPadding: 4,
           dense: true,
-          title: Text(
-            title,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            style: Theme.of(context).textTheme.bodyLarge!,
+          title: _Title(
+            title: title,
+            isCompleted: isCompleted,
           ),
-          subtitle: Text.rich(
-            TextSpan(children: <TextSpan>[
-              TextSpan(text: "$courseName\n"),
-              TextSpan(text: todoDate, style: TextStyle(color: todoDateColor)),
-            ], style: TextStyle(color: Colors.grey[600])),
+          subtitle: _Subtitle(
+            courseName: courseName,
+            todoDate: todoDate,
+            todoDateColor: todoDateColor,
+            isCompleted: isCompleted,
           ),
           leading: CircleAvatar(
             backgroundColor: courseColor.withOpacity(0.2),
-            child: Text(
-              courseAbbreviation,
-              style: TextStyle(color: courseColor),
+            child: _StrikeThrough(
+              isStrikeThrough: isCompleted,
+              delay: const Duration(milliseconds: 50),
+              child: Text(
+                courseAbbreviation,
+                style: TextStyle(color: courseColor),
+              ),
             ),
           ),
           trailing: trailing,
@@ -68,5 +72,168 @@ class HomeworkTileTemplate extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _Subtitle extends StatelessWidget {
+  const _Subtitle({
+    required this.courseName,
+    required this.todoDate,
+    required this.todoDateColor,
+    required this.isCompleted,
+  });
+
+  final String courseName;
+  final String todoDate;
+  final Color? todoDateColor;
+  final bool isCompleted;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _StrikeThrough(
+          isStrikeThrough: isCompleted,
+          delay: const Duration(milliseconds: 100),
+          child: Text(
+            courseName,
+            style: TextStyle(color: Colors.grey[600]),
+          ),
+        ),
+        const SizedBox(height: 4),
+        _StrikeThrough(
+          isStrikeThrough: isCompleted,
+          delay: const Duration(milliseconds: 200),
+          child: Text(todoDate, style: TextStyle(color: todoDateColor)),
+        ),
+      ],
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title({
+    required this.title,
+    required this.isCompleted,
+  });
+
+  final String title;
+  final bool isCompleted;
+
+  @override
+  Widget build(BuildContext context) {
+    // Even though the row only contains one child, we use a row to make the
+    // title text ellipsis and not using the full width of the screen.
+    // Otherwise, the strike through would be drawn over the whole screen.
+    return Row(
+      children: [
+        Flexible(
+          child: _StrikeThrough(
+            isStrikeThrough: isCompleted,
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              // We can only show one line of text in the title. Showing more
+              // lines would make the strike through look weird.
+              maxLines: 1,
+              style: Theme.of(context).textTheme.bodyLarge!,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _StrikeThrough extends StatefulWidget {
+  const _StrikeThrough({
+    required this.isStrikeThrough,
+    required this.child,
+    this.delay = Duration.zero,
+  });
+
+  final bool isStrikeThrough;
+  final Duration delay;
+  final Widget child;
+
+  @override
+  State<_StrikeThrough> createState() => _StrikeThroughState();
+}
+
+class _StrikeThroughState extends State<_StrikeThrough>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.ease),
+    )..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void didUpdateWidget(_StrikeThrough oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isStrikeThrough != widget.isStrikeThrough) {
+      // We decided to only show the strike through if the task is completed and
+      // also when the task is marked as uncompleted.
+      if (widget.isStrikeThrough) {
+        Future.delayed(widget.delay, () => _controller.forward());
+      } else {
+        _controller.reset();
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        widget.child,
+        Positioned.fill(
+          child: CustomPaint(
+            painter: _StrikeThroughPainter(
+              progress: animation.value,
+              color:
+                  Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _StrikeThroughPainter extends CustomPainter {
+  final double progress;
+  final Color color;
+
+  _StrikeThroughPainter({
+    required this.progress,
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 2;
+    canvas.drawLine(Offset(0, size.height / 2),
+        Offset(size.width * progress, size.height / 2), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }
