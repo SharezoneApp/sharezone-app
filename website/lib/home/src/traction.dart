@@ -122,17 +122,24 @@ class __UserCounterState extends State<_UserCounter> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            key: ValueKey(userCounter),
-            child: NumberSlideAnimation(
-              number: userCounter!,
-              duration: const Duration(seconds: 4),
-              curve: Curves.easeOut,
-              textStyle: const TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontWeight: FontWeight.w600,
+          Theme(
+            data: Theme.of(context).copyWith(
+                // The NumberSlideAnimation shows unintended scrollbars, see
+                // https://github.com/SharezoneApp/sharezone-app/pull/1768.
+                scrollbarTheme:
+                    ScrollbarThemeData(thickness: WidgetStateProperty.all(0))),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              key: ValueKey(userCounter),
+              child: NumberSlideAnimation(
+                number: userCounter!,
+                duration: const Duration(seconds: 4),
+                curve: Curves.easeOut,
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),

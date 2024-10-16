@@ -250,6 +250,10 @@ class DeleteConfirmationCheckbox extends StatelessWidget {
               child: Checkbox(
                 value: confirm,
                 onChanged: onChanged,
+                side: BorderSide(
+                  color: Colors.grey[700]!,
+                  width: 2,
+                ),
               ),
             ),
           )
