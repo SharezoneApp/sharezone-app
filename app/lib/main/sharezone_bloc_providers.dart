@@ -31,12 +31,14 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
 import 'package:http/http.dart' as http;
 import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/type_of_user_bloc.dart';
 import 'package:sharezone/activation_code/src/bloc/enter_activation_code_bloc_factory.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/blackboard/analytics/blackboard_analytics.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_page_bloc.dart';
 import 'package:sharezone/calendrical_events/analytics/calendrical_events_page_analytics.dart';
@@ -103,8 +105,6 @@ import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
 import 'package:sharezone/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
-import 'package:sharezone/settings/src/subpages/imprint/bloc/imprint_bloc_factory.dart';
-import 'package:sharezone/settings/src/subpages/imprint/gateway/imprint_gateway.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_analytics.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_controller.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_service.dart';
@@ -335,6 +335,10 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       firestore: widget.blocDependencies.firestore,
       functions: widget.blocDependencies.functions,
     );
+
+    final keyValueStore =
+        FlutterKeyValueStore(widget.blocDependencies.sharedPreferences);
+
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
     // Provider allows us to skip using these wrapper classes.
@@ -373,6 +377,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           hasPlusSupportUnlockedStream: subscriptionService
               .hasFeatureUnlockedStream(SharezonePlusFeature.plusSupport),
           isUserInGroupOnboardingStream: signUpBloc.signedUp,
+          typeOfUserStream: typeOfUserStream,
         ),
       ),
       StreamProvider<TypeOfUser?>.value(
@@ -481,7 +486,16 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           courseMemberAccessor:
               FirestoreCourseMemberAccessor(api.references.firestore),
         ),
-      )
+      ),
+      ChangeNotifierProvider(
+        create: (context) => AdsController(
+          subscriptionService: subscriptionService,
+          remoteConfiguration: widget.blocDependencies.remoteConfiguration,
+          keyValueStore: keyValueStore,
+        ),
+        lazy: false,
+      ),
+      Provider<KeyValueStore>.value(value: keyValueStore)
     ];
 
     mainBlocProviders = <BlocProvider>[
@@ -604,11 +618,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<UserSettingsBloc>(bloc: UserSettingsBloc(api.user)),
-      BlocProvider<ImprintBlocFactory>(
-        bloc: ImprintBlocFactory(
-          ImprintGateway(widget.blocDependencies.firestore),
-        ),
-      ),
       BlocProvider<ImprintAnalytics>(bloc: ImprintAnalytics(analytics)),
       BlocProvider<OnboardingNavigator>(bloc: onboardingNavigator),
       BlocProvider<GroupOnboardingBloc>(

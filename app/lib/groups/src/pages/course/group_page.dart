@@ -99,9 +99,9 @@ class GroupPageState extends State<GroupPage> {
   Widget build(BuildContext context) {
     final gateway =
         BlocProvider.of<SharezoneContext>(context).api.connectionsGateway;
-    return PopScope(
+    return PopScope<Object?>(
       canPop: false,
-      onPopInvoked: (didPop) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
         popToOverview(context);
       },

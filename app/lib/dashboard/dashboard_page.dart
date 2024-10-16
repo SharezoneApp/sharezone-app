@@ -18,12 +18,16 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:holidays/holidays.dart' hide State;
 import 'package:platform_check/platform_check.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharezone/ads/ad_info_dialog.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
 import 'package:sharezone/dashboard/analytics/dashboard_analytics.dart';
 import 'package:sharezone/dashboard/bloc/dashboard_bloc.dart';
 import 'package:sharezone/dashboard/models/homework_view.dart';
+import 'package:sharezone/dashboard/sections/ad_section.dart';
 import 'package:sharezone/dashboard/timetable/lesson_view.dart';
 import 'package:sharezone/dashboard/tips/dashboard_tip_system.dart';
 import 'package:sharezone/dashboard/update_reminder/update_reminder_bloc.dart';
@@ -84,6 +88,17 @@ class _DashboardPageState extends State<DashboardPage> {
   void initState() {
     super.initState();
     showTipCardIfIsAvailable(context);
+    maybeShowAdInfoDialog();
+  }
+
+  void maybeShowAdInfoDialog() {
+    final controller = context.read<AdsController>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final shouldShowDialog = controller.shouldShowInfoDialog();
+      if (shouldShowDialog) {
+        showAdInfoDialog(context);
+      }
+    });
   }
 
   @override
@@ -135,6 +150,7 @@ class DashboardPageBody extends StatelessWidget {
               if (!PlatformCheck.isWeb) _UpdateReminder(),
               _DashboardTipSection(),
               const _HomeworkSection(),
+              const DashboardAds(),
               _EventsSection(),
               _BlackboardSection(),
               const HolidayCountdownSection(),

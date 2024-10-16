@@ -48,8 +48,10 @@ ThemeData getLightTheme({
       ),
     ),
     chipTheme: ChipThemeData(
+      backgroundColor: Colors.grey[100],
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(512),
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(color: Colors.grey[300]!),
       ),
     ),
     listTileTheme: ListTileThemeData(

@@ -55,6 +55,10 @@ class GradesTestController {
       gradingSystem: testTerm.gradingSystem,
     );
 
+    if (testTerm.weightDisplayType != null) {
+      service.term(termId).changeWeightDisplayType(testTerm.weightDisplayType!);
+    }
+
     if (testTerm.gradeTypeWeights != null) {
       for (var e in testTerm.gradeTypeWeights!.entries) {
         service.term(termId).changeGradeTypeWeight(e.key, e.value);
@@ -189,6 +193,14 @@ class GradesTestController {
     }
   }
 
+  void changeGradeTypeWeightForTerm(
+      {required TermId termId,
+      required Map<GradeTypeId, Weight> gradeTypeWeights}) {
+    for (var e in gradeTypeWeights.entries) {
+      service.term(termId).changeGradeTypeWeight(e.key, e.value);
+    }
+  }
+
   void changeFinalGradeTypeForSubject(
       {required TermId termId,
       required SubjectId subjectId,
@@ -310,6 +322,25 @@ class GradesTestController {
   void editCustomGradeType(GradeTypeId id, {required String displayName}) {
     service.editCustomGradeType(id: id, displayName: displayName);
   }
+
+  void createTerms(List<TestTerm> list, {bool createMissingGradeTypes = true}) {
+    for (var term in list) {
+      createTerm(term, createMissingGradeTypes: createMissingGradeTypes);
+    }
+  }
+
+  void changeWeightDisplayTypeForTerm(
+      {required TermId termId, required WeightDisplayType weightDisplayType}) {
+    service.term(termId).changeWeightDisplayType(weightDisplayType);
+  }
+
+  void changeTermSubjectWeights(
+      {required TermId termId,
+      required Map<SubjectId, Weight> subjectWeights}) {
+    for (var e in subjectWeights.entries) {
+      service.term(termId).subject(e.key).changeWeightForTermGrade(e.value);
+    }
+  }
 }
 
 TestTerm termWith({
@@ -320,6 +351,7 @@ TestTerm termWith({
   GradeTypeId finalGradeType = const GradeTypeId('Endnote'),
   bool isActiveTerm = true,
   GradingSystem? gradingSystem,
+  WeightDisplayType? weightDisplayType,
 }) {
   final rdm = randomAlpha(5);
   final idd = id ?? TermId(rdm);
@@ -328,6 +360,7 @@ TestTerm termWith({
     name: name ?? '$idd',
     subjects: IMap.fromEntries(subjects.map((s) => MapEntry(s.id, s))),
     gradingSystem: gradingSystem ?? GradingSystem.zeroToFifteenPoints,
+    weightDisplayType: weightDisplayType,
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     isActiveTerm: isActiveTerm,
@@ -339,6 +372,7 @@ class TestTerm {
   final String name;
   final IMap<SubjectId, TestSubject> subjects;
   final GradingSystem gradingSystem;
+  final WeightDisplayType? weightDisplayType;
   final Map<GradeTypeId, Weight>? gradeTypeWeights;
   final GradeTypeId finalGradeType;
   final bool isActiveTerm;
@@ -351,6 +385,7 @@ class TestTerm {
     this.gradeTypeWeights,
     required this.isActiveTerm,
     required this.gradingSystem,
+    required this.weightDisplayType,
   });
 }
 

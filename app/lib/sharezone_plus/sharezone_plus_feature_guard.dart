@@ -66,6 +66,7 @@ class SharezonePlusFeatureGuard extends StatelessWidget {
       //  SharezonePlusFeatureGuard
       // ```
       Future.delayed(Duration.zero).then((_) {
+        if (!context.mounted) return;
         onFeatureNotUnlocked != null
             ? onFeatureNotUnlocked!()
             : popAndNavigateToSubscriptionPage(context);

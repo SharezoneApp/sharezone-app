@@ -43,7 +43,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
@@ -82,17 +82,17 @@ jobs:
         working-directory: app
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       # Our Android configurations require Java 17.
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
+      - uses: actions/setup-java@b36c23c0d998641eff861008f374ee103c25ac73
         with:
           distribution: "oracle"
           java-version: "17"
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
 
       - uses: subosito/flutter-action@main
         with:
@@ -100,7 +100,7 @@ jobs:
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Install patrol cli
-        run: flutter pub global activate patrol_cli 2.5.0
+        run: flutter pub global activate patrol_cli 3.2.0
 
       - name: Run Flutter build
         run: |
@@ -169,36 +169,33 @@ jobs:
 
   ios-integration-test:
     needs: changes
-    # We are using macos-12 instead macos-13 because with macos-13 we have job
-    # times of 40 - 120 minutes.
-    #
-    # Before switching back to macos-13, we should check if the job times are
-    # still that long by running the job with a matrix (3 runs).
-    runs-on: macos-12
+    runs-on: macos-15
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
 
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      # Because macos-12 doesn't have Metal support, we need to disable Impeller
-      # https://github.com/flutter/flutter/issues/126768
-      - name: Disable Impeller
-        working-directory: app/ios/Runner
-        run: /usr/libexec/PlistBuddy -c "Add :FLTEnableImpeller bool false" Info.plist
-
       - uses: futureware-tech/simulator-action@48e51da14445b3eedca643bba4b78d9d8332ff31
         id: simulator
         with:
-          model: "iPhone 13"
+          model: "iPhone 16"
+
+      - name: Build app
+        working-directory: app
+        run: |
+          flutter build ipa \
+            --flavor dev \
+            -t lib/main_dev.dart \
+            --no-codesign
 
       - name: Run integration tests
         working-directory: app
@@ -216,9 +213,7 @@ jobs:
           # using not the default flavor will cause an exception when
           # uninstalling the app, see:
           # https://github.com/flutter/flutter/issues/88690
-          flutter drive \
-            --driver=test_driver/integration_test.dart \
-            --target=integration_test/integration_test_old.dart \
+          flutter test integration_test/integration_test_old.dart \
             --flavor prod \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
@@ -230,11 +225,11 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
 
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
@@ -268,14 +263,18 @@ jobs:
   # macOS app.
   macos-build-test:
     needs: changes
-    runs-on: macos-13
+    runs-on: macos-14
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     defaults:
       run:
         working-directory: app
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
+
+      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3
+        with:
+          python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
         run: pip3 install codemagic-cli-tools==0.50.7
@@ -309,7 +308,7 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@34c3905bc939a4ff9d9cb07d5a977493fa73b2aa
+        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
 
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:

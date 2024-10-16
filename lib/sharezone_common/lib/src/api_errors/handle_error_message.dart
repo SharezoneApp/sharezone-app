@@ -88,6 +88,10 @@ String? handleErrorMessage(String? error, StackTrace s) {
       return "Es gab einen Netzwerkfehler, weil keine stabile Internetverbindung besteht.";
     } else if (error.contains("weak-password")) {
       return "Dieses Passwort ist zu schwach. Bitte wähle eine stärkeres Passwort.";
+    } else if (error
+        .contains("sign_in_failed, com.google.GlDSignIn, keychain error")) {
+      // See https://github.com/SharezoneApp/sharezone-app/issues/1724
+      return "Es gab einen Fehler beim Anmelden. Um diesen zu beheben, wähle die Option 'Immer erlauben' bei der Passworteingabe bei dem Dialog für den macOS-Schlüsselbund (Keychain) aus.";
     }
 
     recordError(error, s);

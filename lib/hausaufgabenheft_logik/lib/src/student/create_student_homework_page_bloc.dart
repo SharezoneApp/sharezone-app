@@ -38,6 +38,7 @@ StudentHomeworkPageBloc createStudentHomeworkPageBloc(
     numberOfInitialCompletedHomeworksToLoad:
         config.nrOfInitialCompletedHomeworksToLoad,
     homeworkSortingCache: HomeworkSortingCache(dependencies.keyValueStore),
+    keyValueStore: dependencies.keyValueStore,
     getCurrentDateTime: dependencies.getCurrentDateTime ?? () => clock.now(),
   );
 }

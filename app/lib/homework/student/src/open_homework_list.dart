@@ -9,6 +9,8 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/homework/student/src/completed_homework_list.dart';
 
@@ -64,6 +66,9 @@ class OpenHomeworkList extends StatelessWidget {
                       if (newStatus == HomeworkStatus.completed) {
                         dispatchCompletionStatusChange(newStatus, hw.id, bloc);
                       }
+
+                      final adsController = context.read<AdsController>();
+                      adsController.maybeShowFullscreenAd();
                     },
                   ),
               ],

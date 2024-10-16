@@ -25,31 +25,33 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:holidays/holidays.dart';
+import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+import 'package:remote_configuration/remote_configuration.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
-import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
-import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculator.dart';
-import 'package:test_randomness/test_randomness.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/homework_api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/next_lesson_calculator/next_lesson_calculator.dart';
+import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculator.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:test_randomness/test_randomness.dart';
 import 'package:user/user.dart';
 
 import '../analytics/analytics_test.dart';
-import '../dashboard/update_reminder_test.mocks.dart';
-import '../pages/settings/notification_page_test.mocks.dart';
 import 'homework_dialog_bloc_test.dart';
 @GenerateNiceMocks([
   MockSpec<DocumentReference>(),
@@ -58,6 +60,8 @@ import 'homework_dialog_bloc_test.dart';
   MockSpec<UserGateway>(),
   MockSpec<HomeworkGateway>(),
   MockSpec<CourseGateway>(),
+  MockSpec<SubscriptionService>(),
+  MockSpec<HolidayBloc>(),
 ])
 import 'homework_dialog_test.mocks.dart';
 
@@ -329,8 +333,22 @@ void main() {
 
       await withClock(clockOverride ?? clock, () async {
         await tester.pumpWidget(
-          Provider<SubscriptionService>(
-            create: (context) => subscriptionService,
+          MultiProvider(
+            providers: [
+              Provider<SubscriptionService>(
+                create: (context) => subscriptionService,
+              ),
+              ChangeNotifierProvider<AdsController>(
+                create: (context) => AdsController(
+                  subscriptionService: subscriptionService,
+                  remoteConfiguration: getStubRemoteConfiguration(),
+                  keyValueStore: InMemoryKeyValueStore(),
+                ),
+              ),
+              Provider<KeyValueStore>(
+                create: (context) => InMemoryKeyValueStore(),
+              ),
+            ],
             child: MultiBlocProvider(
               blocProviders: [
                 BlocProvider<TimePickerSettingsCache>(

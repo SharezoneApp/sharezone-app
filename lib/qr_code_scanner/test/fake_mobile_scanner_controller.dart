@@ -46,6 +46,12 @@ class FakeMobileScannerController extends Fake
   @override
   void removeListener(VoidCallback listener) {}
 
+  @override
+  bool autoStart = true;
+
+  @override
+  Future<void> stop() async {}
+
   void handleEvent(Map map) {
     barcodesController.add(
       BarcodeCapture(

@@ -3,6 +3,8 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:ui' as _i5;
+
 import 'package:common_domain_models/common_domain_models.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i4;
@@ -26,23 +28,6 @@ import 'package:sharezone/support/support_page_controller.dart' as _i2;
 /// See the documentation for Mockito's code generation for more information.
 class MockSupportPageController extends _i1.Mock
     implements _i2.SupportPageController {
-  @override
-  bool get hasPlusSupportUnlocked => (super.noSuchMethod(
-        Invocation.getter(#hasPlusSupportUnlocked),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-
-  @override
-  set hasPlusSupportUnlocked(bool? _hasPlusSupportUnlocked) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #hasPlusSupportUnlocked,
-          _hasPlusSupportUnlocked,
-        ),
-        returnValueForMissingStub: null,
-      );
-
   @override
   bool get isUserInGroupOnboarding => (super.noSuchMethod(
         Invocation.getter(#isUserInGroupOnboarding),
@@ -86,6 +71,13 @@ class MockSupportPageController extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  bool get hasPlusSupportUnlocked => (super.noSuchMethod(
+        Invocation.getter(#hasPlusSupportUnlocked),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
 
   @override
   bool get isUserSignedIn => (super.noSuchMethod(
@@ -134,7 +126,7 @@ class MockSupportPageController extends _i1.Mock
       );
 
   @override
-  void addListener(dynamic listener) => super.noSuchMethod(
+  void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -143,7 +135,7 @@ class MockSupportPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(dynamic listener) => super.noSuchMethod(
+  void removeListener(_i5.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

@@ -15,13 +15,13 @@ class SharezonePlusAdvantages extends StatelessWidget {
   const SharezonePlusAdvantages({
     super.key,
     required this.isHomeworkReminderFeatureVisible,
-    required this.isHomeworkDoneListsFeatureVisible,
+    this.isRemoveAdsFeatureVisible = false,
     this.onOpenedAdvantage,
     this.onGitHubOpen,
   });
 
   final bool isHomeworkReminderFeatureVisible;
-  final bool isHomeworkDoneListsFeatureVisible;
+  final bool isRemoveAdsFeatureVisible;
   final ValueChanged<String>? onOpenedAdvantage;
   final VoidCallback? onGitHubOpen;
 
@@ -29,6 +29,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (isRemoveAdsFeatureVisible) _RemoveAds(onOpen: onOpenedAdvantage),
         _Grades(onOpen: onOpenedAdvantage),
         _MoreColors(onOpen: onOpenedAdvantage),
         _QuickHomeworkDueDate(onOpen: onOpenedAdvantage),
@@ -39,8 +40,6 @@ class SharezonePlusAdvantages extends StatelessWidget {
         _PastEvents(onOpen: onOpenedAdvantage),
         _AddEventsToLocalCalendar(onOpen: onOpenedAdvantage),
         _IcalFeature(onOpen: onOpenedAdvantage),
-        if (isHomeworkDoneListsFeatureVisible)
-          _HomeworkDoneLists(onOpen: onOpenedAdvantage),
         _ReadByInformationSheets(onOpen: onOpenedAdvantage),
         _SelectTimetableBySchoolClass(onOpen: onOpenedAdvantage),
         _MoreStorage(onOpen: onOpenedAdvantage),
@@ -51,6 +50,27 @@ class SharezonePlusAdvantages extends StatelessWidget {
           onGitHubOpen: onGitHubOpen,
         ),
       ],
+    );
+  }
+}
+
+class _RemoveAds extends StatelessWidget {
+  const _RemoveAds({
+    required this.onOpen,
+  });
+
+  final ValueChanged<String>? onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    return _AdvantageTile(
+      onOpen: () {
+        if (onOpen != null) onOpen!('remove_ads');
+      },
+      icon: const Icon(Icons.block),
+      title: const Text('Werbung entfernen'),
+      description: const Text(
+          'Genieße Sharezone komplett werbefrei.\n\nHinweis: Wir testen derzeit die Anzeige von Werbung. Es ist möglich, dass wir in Zukunft die Werbung wieder für alle Nutzer entfernen.'),
     );
   }
 }
@@ -294,27 +314,6 @@ class _HomeworkReminder extends StatelessWidget {
       title: const Text('Individuelle Uhrzeit für Hausaufgaben-Erinnerungen'),
       description: const Text(
           'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr. Dieses Feature ist nur für Schüler*innen verfügbar.'),
-    );
-  }
-}
-
-class _HomeworkDoneLists extends StatelessWidget {
-  const _HomeworkDoneLists({
-    required this.onOpen,
-  });
-
-  final ValueChanged<String>? onOpen;
-
-  @override
-  Widget build(BuildContext context) {
-    return _AdvantageTile(
-      onOpen: () {
-        if (onOpen != null) onOpen!('homework_done_lists');
-      },
-      icon: const Icon(Icons.checklist),
-      title: const Text('Erledigt-Status bei Hausaufgaben'),
-      description: const Text(
-          'Erhalte eine Liste mit allen Schüler*innen samt Erledigt-Status für jede Hausaufgabe. Dieses Feature ist nur für Lehrkräfte verfügbar.'),
     );
   }
 }

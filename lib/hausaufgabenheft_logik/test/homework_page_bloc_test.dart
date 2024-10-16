@@ -69,6 +69,22 @@ void main() {
     });
 
     test(
+        'Counter in key value store is incremented when homework is marked as completed',
+        () async {
+      await addToRepository([createHomework(id: 'hw')]);
+
+      bloc = createBloc(repository, keyValueStore: kvs);
+      bloc.add(LoadHomeworks());
+      await pumpEventQueue();
+
+      bloc.add(CompletionStatusChanged('hw', true));
+      await pumpEventQueue();
+
+      final updatedCounter = kvs.getInt('checked-homework-counter') ?? 0;
+      expect(updatedCounter, 1);
+    });
+
+    test(
         'Regressions Test für #954 "Wenn man Hausaufgaben nach Fach sortiert und dann eine Aufgabe abhakt wechselt die App automatisch wieder in die Ansicht nach Datum."',
         () async {
       await addToRepository([createHomework(id: 'hw')]);

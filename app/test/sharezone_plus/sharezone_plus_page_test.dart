@@ -8,12 +8,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:mockito/annotations.dart';
 import 'package:provider/provider.dart';
+import 'package:remote_configuration/remote_configuration.dart';
+import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
+import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
+
+import 'sharezone_plus_page_test.mocks.dart';
 
 class MockSharezonePlusPageController extends ChangeNotifier
     implements SharezonePlusPageController {
@@ -93,6 +100,7 @@ class MockSharezonePlusPageController extends ChangeNotifier
   }
 }
 
+@GenerateNiceMocks([MockSpec<SubscriptionService>()])
 void main() {
   group(SharezonePlusPage, () {
     late MockSharezonePlusPageController controller;
@@ -103,10 +111,22 @@ void main() {
 
     Future<void> pumpPlusPage(WidgetTester tester) async {
       await tester.pumpWidget(
-        ChangeNotifierProvider<SharezonePlusPageController>(
-          create: (context) => controller,
-          child:
-              const MaterialApp(home: Scaffold(body: SharezonePlusPageMain())),
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<SharezonePlusPageController>(
+              create: (context) => controller,
+            ),
+            ChangeNotifierProvider<AdsController>(
+              create: (context) => AdsController(
+                subscriptionService: MockSubscriptionService(),
+                remoteConfiguration: getStubRemoteConfiguration(),
+                keyValueStore: InMemoryKeyValueStore(),
+              ),
+            ),
+          ],
+          child: const MaterialApp(
+            home: Scaffold(body: SharezonePlusPageMain()),
+          ),
         ),
       );
     }

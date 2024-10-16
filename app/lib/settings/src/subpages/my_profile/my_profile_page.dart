@@ -15,12 +15,14 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
+import 'package:sharezone/groups/src/widgets/danger_section.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
@@ -66,11 +68,11 @@ class MyProfilePage extends StatelessWidget {
                       _PasswordTile(provider: user.provider),
                       _StateTile(state: user.state),
                       _ProviderTile(provider: user.provider),
+                      _UserId(user.id),
                       _EnterActivationTile(),
                       _PrivacyOptOut(),
-                      const Divider(),
+                      const Divider(height: 32),
                       SignOutButton(isAnonymous: user.isAnonymous),
-                      const SizedBox(height: 8),
                       _DeleteAccountButton(),
                     ],
                   );
@@ -282,7 +284,7 @@ class _PrivacyOptOut extends StatelessWidget {
             onChanged: (isEnabled) => setCollectionEnabled(isEnabled),
           ),
           description: const Padding(
-            padding: EdgeInsets.only(left: 56, right: 20),
+            padding: EdgeInsets.only(left: 41, right: 20),
             child: Text(
               "Durch das Teilen von anonymen Nutzerdaten hilfst du uns, die App noch einfacher und benutzerfreundlicher zu machen.",
               style: TextStyle(fontSize: 11, color: Colors.grey),
@@ -290,6 +292,27 @@ class _PrivacyOptOut extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _UserId extends StatelessWidget {
+  const _UserId(this.userID);
+
+  final String userID;
+
+  void copyUserId(BuildContext context) {
+    Clipboard.setData(ClipboardData(text: userID));
+    showSnack(context: context, text: 'User ID wurde kopiert');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.tag),
+      title: const Text("User ID"),
+      subtitle: Text(userID),
+      onTap: () => copyUserId(context),
     );
   }
 }
@@ -302,14 +325,9 @@ class SignOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ElevatedButton.icon(
+      child: DangerButtonOutlined(
         key: const ValueKey('sign-out-button-E2E'),
         icon: const Icon(Icons.exit_to_app),
-        style: ElevatedButton.styleFrom(
-          shadowColor: Colors.transparent,
-          backgroundColor: Colors.red.withOpacity(0.2),
-          foregroundColor: Colors.red,
-        ),
         onPressed: () => signOut(context, isAnonymous),
         label: Text("Abmelden".toUpperCase()),
       ),
@@ -322,39 +340,12 @@ class _DeleteAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: _DangerButton(
+      child: DangerButtonFilled(
         icon: const Icon(Icons.delete),
-        title: "Konto löschen",
-        onTap: () => showDialog(
+        label: Text("Konto löschen".toUpperCase()),
+        onPressed: () => showDialog(
           context: context,
           builder: (context) => _DeleteAccountDialogContent(),
-        ),
-      ),
-    );
-  }
-}
-
-class _DangerButton extends StatelessWidget {
-  const _DangerButton({this.onTap, this.title, this.icon});
-
-  final VoidCallback? onTap;
-  final String? title;
-  final Icon? icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-      child: ButtonTheme(
-        minWidth: getScreenSize(context).width,
-        child: ElevatedButton.icon(
-          icon: icon!,
-          label: Text(title!.toUpperCase()),
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.redAccent,
-          ),
-          onPressed: onTap,
         ),
       ),
     );
@@ -413,7 +404,7 @@ class _DeleteAccountDialogContentState
     final authUser = api.user.authUser!;
     final fbUser = authUser.firebaseUser;
     final provider = authUser.provider;
-    if (provider != Provider.anonymous) {
+    if (provider == Provider.email) {
       if (isEmptyOrNull(password)) {
         return;
       }
@@ -512,7 +503,7 @@ class _DeleteAccountDialogContentState
           ),
         ),
         actions: <Widget>[
-          CupertinoActionSheetAction(
+          CupertinoDialogAction(
             child: const Text("Abbrechen"),
             onPressed: () => Navigator.pop(context),
           ),
@@ -529,7 +520,7 @@ class _DeleteAccountDialogContentState
                   ? isNotEmptyOrNull(password)
                   : signOut!) &&
               !isLoading)
-            CupertinoActionSheetAction(
+            CupertinoDialogAction(
               isDefaultAction: true,
               isDestructiveAction: true,
               onPressed: () => tryToDeleteUser(context),
@@ -539,62 +530,69 @@ class _DeleteAccountDialogContentState
       );
     }
 
-    return AlertDialog(
-      title: const _DeleteAccountDialogTitle(),
-      contentPadding: const EdgeInsets.only(top: 24),
-      content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: _DeleteAccountDialogText(),
-            ),
-            provider == Provider.email
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const SizedBox(height: 16),
-                        const Text(
-                            "Bitte gib dein Passwort ein, um deinen Account zu löschen."),
-                        TextField(
-                          onChanged: (s) => setState(() => password = s),
-                          onEditingComplete: () async =>
-                              tryToDeleteUser(context),
-                          autofocus: false,
-                          decoration: InputDecoration(
-                            labelText: 'Passwort',
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _obscureText = !_obscureText;
-                                });
-                              },
-                              child: Icon(_obscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
+    return MaxWidthConstraintBox(
+      maxWidth: 400,
+      child: AlertDialog(
+        title: const _DeleteAccountDialogTitle(),
+        contentPadding: const EdgeInsets.only(top: 24),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: _DeleteAccountDialogText(),
+              ),
+              provider == Provider.email
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          const SizedBox(height: 16),
+                          const Text(
+                              "Bitte gib dein Passwort ein, um deinen Account zu löschen."),
+                          TextField(
+                            onChanged: (s) => setState(() => password = s),
+                            onEditingComplete: () async =>
+                                tryToDeleteUser(context),
+                            autofocus: false,
+                            decoration: InputDecoration(
+                              labelText: 'Passwort',
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                                child: Icon(_obscureText
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                              ),
                             ),
+                            obscureText: _obscureText,
                           ),
-                          obscureText: _obscureText,
-                        ),
-                      ],
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 4),
+                      child: DeleteConfirmationCheckbox(
+                        confirm: signOut!,
+                        onChanged: (value) => setState(() => signOut = value),
+                        text: text,
+                      ),
                     ),
-                  )
-                : DeleteConfirmationCheckbox(
-                    confirm: signOut!,
-                    onChanged: (value) => setState(() => signOut = value),
-                    text: text,
-                  ),
-            if (isNotEmptyOrNull(error))
-              DeleteAccountDialogErrorText(text: error!)
-          ],
+              if (isNotEmptyOrNull(error))
+                DeleteAccountDialogErrorText(text: error!)
+            ],
+          ),
         ),
+        actions: isLoading ? loadingCircle : actions(context),
       ),
-      actions: isLoading ? loadingCircle : actions(context),
     );
   }
 }

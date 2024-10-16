@@ -98,7 +98,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
           ),
         ),
         actions: <Widget>[
-          CupertinoActionSheetAction(
+          CupertinoDialogAction(
             child: const Text("Abbrechen"),
             onPressed: () => Navigator.pop(context, false),
           ),
@@ -112,7 +112,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
               ],
             ),
           if (confirmedToDeleteAccount && !isLoading)
-            CupertinoActionSheetAction(
+            CupertinoDialogAction(
                 isDefaultAction: true,
                 isDestructiveAction: true,
                 onPressed: () => tryToSignOutAndDeleteUser(context),
@@ -250,6 +250,10 @@ class DeleteConfirmationCheckbox extends StatelessWidget {
               child: Checkbox(
                 value: confirm,
                 onChanged: onChanged,
+                side: BorderSide(
+                  color: Colors.grey[700]!,
+                  width: 2,
+                ),
               ),
             ),
           )
