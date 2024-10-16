@@ -23,6 +23,12 @@ enum HomeworkStatus { open, completed }
 
 typedef StatusChangeCallback = void Function(HomeworkStatus newStatus);
 
+Future<void> delayOnChangeToDisplayAnimations({
+  required bool changedToCompleted,
+}) async {
+  await Future.delayed(Duration(milliseconds: changedToCompleted ? 650 : 300));
+}
+
 class HomeworkTile extends StatefulWidget {
   final StudentHomeworkView homework;
   final StatusChangeCallback onChanged;
@@ -88,6 +94,12 @@ class _HomeworkTileState extends State<HomeworkTile> {
   Future<void> _changeCompletionState(bool? newCompletionState) async {
     if (newCompletionState == null) return;
 
+    if (newCompletionState == widget.homework.isCompleted) {
+      // Do not update the state if the completion state did not change. This
+      // prevents spamming the checkbox.
+      return;
+    }
+
     /// [mounted] prüft, dass das Widget noch im Widget-Tree ist. Es ist ein Fehler
     /// [setState] aufzurufen, falls [mounted] `false` ist.
     ///
@@ -105,14 +117,8 @@ class _HomeworkTileState extends State<HomeworkTile> {
       });
     }
 
-    await _delayOnChangeToDisplayAnimations();
-
     widget.onChanged(
         isCompleted ? HomeworkStatus.completed : HomeworkStatus.open);
-  }
-
-  Future<void> _delayOnChangeToDisplayAnimations() async {
-    await Future.delayed(Duration(milliseconds: isCompleted ? 700 : 200));
   }
 
   Future<void> _navigateToSubmissionPage(BuildContext context) {

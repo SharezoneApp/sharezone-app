@@ -185,8 +185,12 @@ class _StrikeThroughState extends State<_StrikeThrough>
   void didUpdateWidget(_StrikeThrough oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.isStrikeThrough != widget.isStrikeThrough) {
+      // We decided to only show the strike through if the task is completed and
+      // also when the task is marked as uncompleted.
       if (widget.isStrikeThrough) {
         Future.delayed(widget.delay, () => _controller.forward());
+      } else {
+        _controller.reset();
       }
     }
   }
@@ -198,8 +202,11 @@ class _StrikeThroughState extends State<_StrikeThrough>
         widget.child,
         Positioned.fill(
           child: CustomPaint(
-            painter:
-                _StrikeThroughPainter(animation.value, widget.isStrikeThrough),
+            painter: _StrikeThroughPainter(
+              progress: animation.value,
+              color:
+                  Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+            ),
           ),
         ),
       ],
@@ -209,14 +216,17 @@ class _StrikeThroughState extends State<_StrikeThrough>
 
 class _StrikeThroughPainter extends CustomPainter {
   final double progress;
-  final bool isDone;
+  final Color color;
 
-  _StrikeThroughPainter(this.progress, this.isDone);
+  _StrikeThroughPainter({
+    required this.progress,
+    required this.color,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black
+      ..color = color
       ..strokeWidth = 2;
     canvas.drawLine(Offset(0, size.height / 2),
         Offset(size.width * progress, size.height / 2), paint);

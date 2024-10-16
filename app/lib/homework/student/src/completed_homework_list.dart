@@ -33,10 +33,12 @@ class CompletedHomeworkList extends StatelessWidget {
         for (final hw in view.orderedHomeworks)
           HomeworkTile(
             homework: hw,
-            onChanged: (newStatus) {
+            onChanged: (newStatus) async {
               // Spamming the checkbox causes the homework to sometimes
               // get unchecked and checked again, which we do not want.
               if (newStatus == HomeworkStatus.open) {
+                await delayOnChangeToDisplayAnimations(
+                    changedToCompleted: false);
                 final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
                 dispatchCompletionStatusChange(newStatus, hw.id, bloc);
               }
