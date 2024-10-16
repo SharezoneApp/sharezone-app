@@ -66,6 +66,8 @@ class _AdBannerState extends State<AdBanner> {
               setState(() {
                 _isLoaded = true;
                 if (this.ad?.size != null) {
+                  // Updating the height again in case the ad size changed
+                  // (shouldn't be the case).
                   adHeight = this.ad!.size.height.toDouble();
                 }
               });
