@@ -14,8 +14,22 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 void showAdInfoDialog(BuildContext context) async {
   final navigateToPlusPage = await showDialog<bool>(
     context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
+    builder: (BuildContext context) => const _Dialog(),
+  );
+
+  if (navigateToPlusPage == true && context.mounted) {
+    navigateToSharezonePlusPage(context);
+  }
+}
+
+class _Dialog extends StatelessWidget {
+  const _Dialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidthConstraintBox(
+      maxWidth: 500,
+      child: AlertDialog(
         title: const Text('Werbung in Sharezone'),
         content: Text.rich(
           TextSpan(
@@ -46,11 +60,7 @@ void showAdInfoDialog(BuildContext context) async {
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
-      );
-    },
-  );
-
-  if (navigateToPlusPage == true && context.mounted) {
-    navigateToSharezonePlusPage(context);
+      ),
+    );
   }
 }
