@@ -174,7 +174,7 @@ class _ICalLinks extends StatelessWidget {
     return ListTile(
       title: const Text("Termine, Prüfungen, Stundenplan exportieren (iCal)"),
       subtitle: const Text(
-        "Stundenplan oder Termine/Prüfungen in Google Kalender, Apple Kalender, etc. einbinden",
+        "Synchronisierung mit Google Kalender, Apple Kalender usw.",
       ),
       onTap: () {
         if (isUnlocked) {
