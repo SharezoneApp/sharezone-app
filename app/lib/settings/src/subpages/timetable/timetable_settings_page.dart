@@ -187,9 +187,9 @@ class _ICalLinks extends StatelessWidget {
         .read<SubscriptionService>()
         .hasFeatureUnlocked(SharezonePlusFeature.iCalLinks);
     return ListTile(
-      title: const Text("Stundenplan exportieren (iCal)"),
+      title: const Text("Termine, Prüfungen, Stundenplan exportieren (iCal)"),
       subtitle: const Text(
-        "Stundenplan in Google Kalender, Apple Kalender, etc. einbinden",
+        "Synchronisierung mit Google Kalender, Apple Kalender usw.",
       ),
       onTap: () {
         if (isUnlocked) {
