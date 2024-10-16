@@ -69,8 +69,10 @@ class OpenHomeworkList extends StatelessWidget {
                         dispatchCompletionStatusChange(newStatus, hw.id, bloc);
                       }
 
-                      final adsController = context.read<AdsController>();
-                      adsController.maybeShowFullscreenAd();
+                      if (context.mounted) {
+                        final adsController = context.read<AdsController>();
+                        adsController.maybeShowFullscreenAd();
+                      }
                     },
                   ),
               ],

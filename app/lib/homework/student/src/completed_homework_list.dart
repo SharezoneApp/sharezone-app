@@ -39,6 +39,7 @@ class CompletedHomeworkList extends StatelessWidget {
               if (newStatus == HomeworkStatus.open) {
                 await delayOnChangeToDisplayAnimations(
                     changedToCompleted: false);
+                // ignore: use_build_context_synchronously
                 final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
                 dispatchCompletionStatusChange(newStatus, hw.id, bloc);
               }
