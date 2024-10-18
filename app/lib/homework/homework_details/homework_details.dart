@@ -335,7 +335,7 @@ class _UserSubmissionsParentsTile extends StatelessWidget {
           defaultValue: false,
           title: 'Account-Typ ändern?',
           content: const Text(
-              "Wenn du eine Hausaufgabe abgeben möchtest, musst dein Account als Schüler registiert sein. Der Support kann deinen Account in einen Schüler-Account umwandeln, damit du Hausaufgaben abgeben darfst."),
+              "Wenn du eine Hausaufgabe abgeben möchtest, musst dein Account als Schüler registriert sein. Der Support kann deinen Account in einen Schüler-Account umwandeln, damit du Hausaufgaben abgeben darfst."),
           right: const AdaptiveDialogAction(
             isDefaultAction: true,
             popResult: true,
