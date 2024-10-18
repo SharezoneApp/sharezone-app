@@ -14,10 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/support/support_page_controller.dart';
-import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SupportPage extends StatelessWidget {
   static const String tag = 'support-page';
@@ -232,17 +231,16 @@ class _FreeEmailTile extends StatelessWidget {
         semanticsLabel: 'E-Mail Icon',
       ),
       title: 'E-Mail',
-      subtitle: 'support@sharezone.net',
+      subtitle: freeSupportEmail,
       onPressed: () async {
-        final url = Uri.parse(Uri.encodeFull(
-            'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭'));
         try {
-          await launchUrl(url);
+          final controller = context.read<SupportPageController>();
+          await controller.sendEmailToFreeSupport();
         } on Exception catch (_) {
           if (!context.mounted) return;
           showSnackSec(
             context: context,
-            text: 'E-Mail: support@sharezone.net',
+            text: 'E-Mail: $freeSupportEmail',
           );
         }
       },
@@ -256,7 +254,6 @@ class _PlusEmailTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const emailAddress = 'plus-support@sharezone.net';
     return _SupportCard(
       icon: PlatformSvg.asset(
         'assets/icons/email.svg',
@@ -266,15 +263,14 @@ class _PlusEmailTile extends StatelessWidget {
       title: 'E-Mail',
       subtitle: 'Erhalte eine Rückmeldung innerhalb von wenigen Stunden.',
       onPressed: () async {
-        final url = Uri.parse(Uri.encodeFull(
-            'mailto:$emailAddress?subject=[💎 Sharezone Plus Support] Meine Anfrage'));
         try {
-          await launchUrl(url);
+          final controller = context.read<SupportPageController>();
+          await controller.sendEmailToPlusSupport();
         } on Exception catch (_) {
           if (!context.mounted) return;
           showSnackSec(
             context: context,
-            text: 'E-Mail: $emailAddress',
+            text: 'E-Mail: $plusSupportEmail',
           );
         }
       },

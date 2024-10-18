@@ -10,7 +10,11 @@ import 'dart:async';
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher_extended/url_launcher_extended.dart';
 import 'package:user/user.dart';
+
+const freeSupportEmail = 'support@sharezone.net';
+const plusSupportEmail = 'plus-support@sharezone.net';
 
 class SupportPageController extends ChangeNotifier {
   bool get hasPlusSupportUnlocked =>
@@ -30,6 +34,7 @@ class SupportPageController extends ChangeNotifier {
   late StreamSubscription<bool> _hasPlusSupportUnlockedSubscription;
   late StreamSubscription<bool> _isUserInGroupOnboardingSubscription;
   late StreamSubscription<TypeOfUser?> _typeOfUserSubscription;
+  final UrlLauncherExtended _urlLauncher;
 
   SupportPageController({
     required Stream<UserId?> userIdStream,
@@ -38,7 +43,8 @@ class SupportPageController extends ChangeNotifier {
     required Stream<bool> hasPlusSupportUnlockedStream,
     required Stream<bool> isUserInGroupOnboardingStream,
     required Stream<TypeOfUser?> typeOfUserStream,
-  }) {
+    required UrlLauncherExtended urlLauncher,
+  }) : _urlLauncher = urlLauncher {
     _userIdSubscription = userIdStream.listen((userId) {
       this.userId = userId;
       notifyListeners();
@@ -117,6 +123,34 @@ class SupportPageController extends ChangeNotifier {
     }
 
     return url;
+  }
+
+  Future<void> sendEmailToFreeSupport() async {
+    await _openEmailApp(
+      email: freeSupportEmail,
+      subject: 'Meine Anfrage',
+    );
+  }
+
+  Future<void> sendEmailToPlusSupport() async {
+    await _openEmailApp(
+      email: plusSupportEmail,
+      subject: '[💎 Plus Support] Meine Anfrage',
+    );
+  }
+
+  Future<void> _openEmailApp({
+    required String email,
+
+    /// The subject of the email.
+    ///
+    /// The user ID is appended to the subject if it's not `null`.
+    required String subject,
+  }) async {
+    if (userId != null) {
+      subject += ' [User-ID: $userId]';
+    }
+    await _urlLauncher.tryLaunchMailOrThrow(email, subject: subject);
   }
 
   bool _isPrivateAppleEmail(String email) {

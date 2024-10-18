@@ -29,6 +29,7 @@ import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 import 'package:sharezone/support/support_page_controller.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
+import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 class AuthApp extends StatefulWidget {
   final Analytics analytics;
@@ -69,6 +70,7 @@ class _AuthAppState extends State<AuthApp> {
             hasPlusSupportUnlockedStream: Stream.value(false),
             isUserInGroupOnboardingStream: Stream.value(false),
             typeOfUserStream: Stream.value(null),
+            urlLauncher: UrlLauncherExtended(),
           ),
         ),
       ],

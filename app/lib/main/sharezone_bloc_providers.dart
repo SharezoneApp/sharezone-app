@@ -133,6 +133,7 @@ import 'package:sharezone/util/platform_information_manager/flutter_platform_inf
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:stripe_checkout_session/stripe_checkout_session.dart';
+import 'package:url_launcher_extended/url_launcher_extended.dart';
 import 'package:user/user.dart';
 
 import '../holidays/holiday_bloc.dart';
@@ -378,6 +379,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
               .hasFeatureUnlockedStream(SharezonePlusFeature.plusSupport),
           isUserInGroupOnboardingStream: signUpBloc.signedUp,
           typeOfUserStream: typeOfUserStream,
+          urlLauncher: UrlLauncherExtended(),
         ),
       ),
       StreamProvider<TypeOfUser?>.value(
