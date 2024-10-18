@@ -3,7 +3,8 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:ui' as _i5;
+import 'dart:async' as _i5;
+import 'dart:ui' as _i6;
 
 import 'package:common_domain_models/common_domain_models.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -117,6 +118,26 @@ class MockSupportPageController extends _i1.Mock
       ) as String);
 
   @override
+  _i5.Future<void> sendEmailToFreeSupport() => (super.noSuchMethod(
+        Invocation.method(
+          #sendEmailToFreeSupport,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> sendEmailToPlusSupport() => (super.noSuchMethod(
+        Invocation.method(
+          #sendEmailToPlusSupport,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
           #dispose,
@@ -126,7 +147,7 @@ class MockSupportPageController extends _i1.Mock
       );
 
   @override
-  void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -135,7 +156,7 @@ class MockSupportPageController extends _i1.Mock
       );
 
   @override
-  void removeListener(_i5.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
