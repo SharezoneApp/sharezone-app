@@ -8,11 +8,23 @@
 
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:sharezone/support/support_page_controller.dart';
+import 'package:url_launcher_extended/url_launcher_extended.dart';
 import 'package:user/user.dart';
 
+import 'support_page_controller_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<UrlLauncherExtended>()])
 void main() {
   group(SupportPageController, () {
+    late MockUrlLauncherExtended urlLauncher;
+
+    setUp(() {
+      urlLauncher = MockUrlLauncherExtended();
+    });
+
     group('getVideoCallAppointmentsUnencodedUrlWithPrefills()', () {
       test('throws $UserNotAuthenticatedException when user Id is null',
           () async {
@@ -23,6 +35,7 @@ void main() {
           hasPlusSupportUnlockedStream: Stream.value(false),
           isUserInGroupOnboardingStream: Stream.value(false),
           typeOfUserStream: Stream.value(null),
+          urlLauncher: urlLauncher,
         );
 
         // Workaround to wait for stream subscription in constructor.
@@ -42,6 +55,7 @@ void main() {
           hasPlusSupportUnlockedStream: Stream.value(false),
           isUserInGroupOnboardingStream: Stream.value(false),
           typeOfUserStream: Stream.value(null),
+          urlLauncher: urlLauncher,
         );
 
         // Workaround to wait for stream subscription in constructor.
@@ -63,6 +77,7 @@ void main() {
           hasPlusSupportUnlockedStream: Stream.value(true),
           isUserInGroupOnboardingStream: Stream.value(false),
           typeOfUserStream: Stream.value(TypeOfUser.parent),
+          urlLauncher: urlLauncher,
         );
 
         // Workaround to wait for stream subscription in constructor.
@@ -82,6 +97,7 @@ void main() {
           hasPlusSupportUnlockedStream: Stream.value(true),
           isUserInGroupOnboardingStream: Stream.value(false),
           typeOfUserStream: Stream.value(TypeOfUser.teacher),
+          urlLauncher: urlLauncher,
         );
 
         // Workaround to wait for stream subscription in constructor.
@@ -101,6 +117,7 @@ void main() {
           hasPlusSupportUnlockedStream: Stream.value(false),
           isUserInGroupOnboardingStream: Stream.value(false),
           typeOfUserStream: Stream.value(TypeOfUser.teacher),
+          urlLauncher: urlLauncher,
         );
 
         // Workaround to wait for stream subscription in constructor.
@@ -120,6 +137,7 @@ void main() {
           hasPlusSupportUnlockedStream: Stream.value(true),
           isUserInGroupOnboardingStream: Stream.value(false),
           typeOfUserStream: Stream.value(TypeOfUser.student),
+          urlLauncher: urlLauncher,
         );
 
         // Workaround to wait for stream subscription in constructor.
@@ -128,6 +146,56 @@ void main() {
         expect(
           controller.hasPlusSupportUnlocked,
           true,
+        );
+      });
+    });
+
+    group('open email app', () {
+      test('free user', () async {
+        final controller = SupportPageController(
+          userIdStream: Stream.value(const UserId('userId123')),
+          userNameStream: Stream.value('My Cool Name'),
+          userEmailStream: Stream.value('my@email.com'),
+          hasPlusSupportUnlockedStream: Stream.value(false),
+          isUserInGroupOnboardingStream: Stream.value(false),
+          typeOfUserStream: Stream.value(TypeOfUser.student),
+          urlLauncher: urlLauncher,
+        );
+
+        // Workaround to wait for stream subscription in constructor.
+        await Future.delayed(Duration.zero);
+
+        await controller.sendEmailToFreeSupport();
+
+        verify(
+          urlLauncher.tryLaunchMailOrThrow(
+            freeSupportEmail,
+            subject: "Meine Anfrage [User-ID: userId123]",
+          ),
+        );
+      });
+
+      test('plus user', () async {
+        final controller = SupportPageController(
+          userIdStream: Stream.value(const UserId('userId123')),
+          userNameStream: Stream.value('My Cool Name'),
+          userEmailStream: Stream.value('my@email.com'),
+          hasPlusSupportUnlockedStream: Stream.value(true),
+          isUserInGroupOnboardingStream: Stream.value(false),
+          typeOfUserStream: Stream.value(TypeOfUser.student),
+          urlLauncher: urlLauncher,
+        );
+
+        // Workaround to wait for stream subscription in constructor.
+        await Future.delayed(Duration.zero);
+
+        await controller.sendEmailToPlusSupport();
+
+        verify(
+          urlLauncher.tryLaunchMailOrThrow(
+            plusSupportEmail,
+            subject: "[💎 Plus Support] Meine Anfrage [User-ID: userId123]",
+          ),
         );
       });
     });
