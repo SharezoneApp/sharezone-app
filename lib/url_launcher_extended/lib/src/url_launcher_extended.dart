@@ -107,21 +107,22 @@ class UrlLauncherExtended {
     String? subject,
     String? body,
   }) async {
-    final emailLaunchString = Uri(
-      scheme: 'mailto',
-      path: address,
-      queryParameters: {
-        if (subject != null) 'subject': subject,
-        if (body != null) 'body': body,
-      },
-    );
+    String url = 'mailto:$address';
+    if (subject != null) {
+      url += '?subject=$subject';
+    }
+    if (body != null) {
+      url += subject == null ? '?' : '&';
+      url += 'body=$body';
+    }
 
-    final canLaunch = await canLaunchUrl(emailLaunchString);
+    final uri = Uri.parse(url);
+    final canLaunch = await canLaunchUrl(uri);
     if (!canLaunch) {
       throw CouldNotLaunchMailException(address, subject: subject, body: body);
     }
 
-    return launchUrl(emailLaunchString);
+    return launchUrl(uri);
   }
 }
 
