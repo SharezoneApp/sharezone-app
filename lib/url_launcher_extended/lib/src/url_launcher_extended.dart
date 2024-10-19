@@ -111,8 +111,8 @@ class UrlLauncherExtended {
       scheme: 'mailto',
       path: address,
       queryParameters: {
-        if (subject != null) 'subject': Uri.encodeQueryComponent(subject),
-        if (body != null) 'body': Uri.encodeQueryComponent(body),
+        if (subject != null) 'subject': subject,
+        if (body != null) 'body': body,
       },
     );
 
