@@ -1,6 +1,6 @@
-{
+export default {
     "index": "Startseite",
     "account": "Konto",
-    "app-settings":  "App-Einstellungen",
+    "app-settings": "App-Einstellungen",
     "more": "Weiteres"
 }

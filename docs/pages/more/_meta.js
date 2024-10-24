@@ -1,4 +1,4 @@
-{
+export default {
     "alpha-program": "Alpha-Program",
     "beta-program": "Beta-Program",
     "github_link": {

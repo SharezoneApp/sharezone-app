@@ -1,4 +1,4 @@
-{
+export default {
     "setup-email": "E-Mail verknüpfen",
     "change-email": "E-Mail ändern",
     "change-name": "Namen ändern",
