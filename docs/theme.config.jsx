@@ -32,15 +32,15 @@ export default {
     toggleButton: true,
   },
   editLink: {
-    text: "Edit this page on GitHub",
+    content: "Edit this page on GitHub",
   },
   toc: {
-    backToTop: true,
+    backToTop: <span>Back to top</span>,
   },
   docsRepositoryBase:
     "https://github.com/SharezoneApp/sharezone-app/tree/main/docs",
   footer: {
-    text: (
+    content: (
       <div>
         {footerLegalNav.map((nav) => (
           <Link
