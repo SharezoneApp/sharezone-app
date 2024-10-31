@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -21,30 +22,44 @@ import 'widgets/group_join_text_field.dart';
 /// Auf dieser Seite kann der Nutzer einen Sharecode eingeben oder QrCode scannen und
 /// dadurch einer Gruppe beitreten.
 Future<dynamic> openGroupJoinPage(BuildContext context) {
-  final api = BlocProvider.of<SharezoneContext>(context).api;
   return Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => BlocProvider(
-        bloc: GroupJoinBloc(api.connectionsGateway, getCrashAnalytics()),
-        child: const _GroupJoinPage(),
-      ),
+      builder: (context) => const _GroupJoinPage(),
       settings: const RouteSettings(name: _GroupJoinPage.tag),
     ),
   );
 }
 
-class _GroupJoinPage extends StatelessWidget {
+class _GroupJoinPage extends StatefulWidget {
   const _GroupJoinPage();
 
   static const tag = "group-join-page";
 
   @override
+  State<_GroupJoinPage> createState() => _GroupJoinPageState();
+}
+
+class _GroupJoinPageState extends State<_GroupJoinPage> {
+  late GroupJoinBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    final api = BlocProvider.of<SharezoneContext>(context).api;
+    final analytics = context.read<CrashAnalytics>();
+    bloc = GroupJoinBloc(api.connectionsGateway, analytics);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: GroupJoinAppBar(),
-      body: SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),
-      bottomNavigationBar: ContactSupport(),
+    return BlocProvider(
+      bloc: bloc,
+      child: const Scaffold(
+        appBar: GroupJoinAppBar(),
+        body: SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),
+        bottomNavigationBar: ContactSupport(),
+      ),
     );
   }
 }
