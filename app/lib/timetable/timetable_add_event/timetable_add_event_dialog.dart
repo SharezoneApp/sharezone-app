@@ -60,7 +60,7 @@ Future<void> _showUserConfirmationOfEventArrival({
 /// Not using final will cause the linter to complain about the lint below, so
 /// we have to ignore it.
 // ignore: must_be_immutable
-class TimetableAddEventDialog extends StatelessWidget {
+class TimetableAddEventDialog extends StatefulWidget {
   TimetableAddEventDialog({
     super.key,
     required this.isExam,
@@ -75,27 +75,39 @@ class TimetableAddEventDialog extends StatelessWidget {
   final bool isExam;
   late AddEventDialogController? controller;
   late final FocusNode titleFocusNode;
-  bool _hasRequestedTitleFocus = false;
-
   static const tag = "timetable-event-dialog";
 
+  @override
+  State<TimetableAddEventDialog> createState() =>
+      _TimetableAddEventDialogState();
+}
+
+class _TimetableAddEventDialogState extends State<TimetableAddEventDialog> {
+  late AddEventDialogController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = widget.controller ??
+        AddEventDialogController(
+          isExam: widget.isExam,
+          api: EventDialogApi(BlocProvider.of<SharezoneContext>(context).api),
+          markdownAnalytics: BlocProvider.of<MarkdownAnalytics>(context),
+        );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      delayKeyboard(context: context, focusNode: widget.titleFocusNode);
+    });
+  }
+
   bool hasModifiedData() {
-    return controller!.title.isNotEmpty || controller!.description.isNotEmpty;
+    return controller.title.isNotEmpty || controller.description.isNotEmpty;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_hasRequestedTitleFocus) {
-      _hasRequestedTitleFocus = true;
-      delayKeyboard(context: context, focusNode: titleFocusNode);
-    }
-    controller ??= AddEventDialogController(
-      isExam: isExam,
-      api: EventDialogApi(BlocProvider.of<SharezoneContext>(context).api),
-      markdownAnalytics: BlocProvider.of<MarkdownAnalytics>(context),
-    );
-    return ChangeNotifierProvider(
-      create: (context) => controller,
+    return ChangeNotifierProvider.value(
+      value: controller,
       builder: (context, __) => PopScope<Object?>(
           canPop: false,
           onPopInvokedWithResult: (didPop, _) async {
@@ -118,11 +130,11 @@ class TimetableAddEventDialog extends StatelessWidget {
               children: <Widget>[
                 _AppBar(
                     editMode: false,
-                    isExam: isExam,
+                    isExam: widget.isExam,
                     titleField: _TitleField(
                       key: EventDialogKeys.titleTextField,
-                      focusNode: titleFocusNode,
-                      isExam: isExam,
+                      focusNode: widget.titleFocusNode,
+                      isExam: widget.isExam,
                     )),
                 Expanded(
                   child: SingleChildScrollView(
@@ -134,11 +146,11 @@ class TimetableAddEventDialog extends StatelessWidget {
                         const _MobileDivider(),
                         const _DateAndTimePicker(),
                         const _MobileDivider(),
-                        _DescriptionField(isExam: isExam),
+                        _DescriptionField(isExam: widget.isExam),
                         const _MobileDivider(),
                         const _Location(),
                         const _MobileDivider(),
-                        _SendNotification(isExam: isExam),
+                        _SendNotification(isExam: widget.isExam),
                       ],
                     ),
                   ),
