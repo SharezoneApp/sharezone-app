@@ -45,6 +45,7 @@ class LocationBase extends StatelessWidget {
                   focusedBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
                   fillColor: Colors.transparent,
+                  contentPadding: EdgeInsets.zero,
                 ),
                 onChanged: onChanged,
                 textCapitalization: TextCapitalization.sentences,
