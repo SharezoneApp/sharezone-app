@@ -66,15 +66,14 @@ class TimetableAddEventDialog extends StatefulWidget {
     required this.isExam,
     @visibleForTesting this.controller,
     @visibleForTesting TimeOfDay Function()? showTimePickerTestOverride,
-    @visibleForTesting FocusNode? titleFocusNode,
+    @visibleForTesting this.titleFocusNode,
   }) {
-    this.titleFocusNode = titleFocusNode ?? FocusNode();
     _timePickerOverride = showTimePickerTestOverride;
   }
 
   final bool isExam;
   late AddEventDialogController? controller;
-  late final FocusNode titleFocusNode;
+  late final FocusNode? titleFocusNode;
   static const tag = "timetable-event-dialog";
 
   @override
@@ -84,10 +83,12 @@ class TimetableAddEventDialog extends StatefulWidget {
 
 class _TimetableAddEventDialogState extends State<TimetableAddEventDialog> {
   late AddEventDialogController controller;
+  late FocusNode titleFocusNode;
 
   @override
   void initState() {
     super.initState();
+    titleFocusNode = widget.titleFocusNode ?? FocusNode();
     controller = widget.controller ??
         AddEventDialogController(
           isExam: widget.isExam,
@@ -96,7 +97,7 @@ class _TimetableAddEventDialogState extends State<TimetableAddEventDialog> {
         );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      delayKeyboard(context: context, focusNode: widget.titleFocusNode);
+      delayKeyboard(context: context, focusNode: titleFocusNode);
     });
   }
 
@@ -133,7 +134,7 @@ class _TimetableAddEventDialogState extends State<TimetableAddEventDialog> {
                     isExam: widget.isExam,
                     titleField: _TitleField(
                       key: EventDialogKeys.titleTextField,
-                      focusNode: widget.titleFocusNode,
+                      focusNode: titleFocusNode,
                       isExam: widget.isExam,
                     )),
                 Expanded(
