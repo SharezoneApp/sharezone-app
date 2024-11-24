@@ -33,12 +33,17 @@
 </head>
 
 <body>
+    <noscript>
+        We're sorry but the Sharezone console doesn't work properly without JavaScript enabled. Please enable it to
+        continue.
+    </noscript>
+
     <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 navigator.serviceWorker.register('flutter_service_worker.js');
             });
         }
