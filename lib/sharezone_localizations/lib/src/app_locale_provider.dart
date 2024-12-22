@@ -7,14 +7,15 @@ import 'package:sharezone_localizations/sharezone_localizations.dart';
 class AppLocaleProvider with ChangeNotifier {
   AppLocaleProvider({
     AppLocales initialLocale = AppLocales.system,
-    required AppLocaleProviderGateway gateway,
+    required this.gateway,
   }) : _locale = initialLocale {
     _subscription = gateway.getLocale().listen((event) {
-      locale = event;
+      _locale = event;
       notifyListeners();
     });
   }
 
+  AppLocaleProviderGateway gateway;
   late StreamSubscription<AppLocales> _subscription;
   AppLocales _locale;
 
@@ -23,6 +24,7 @@ class AppLocaleProvider with ChangeNotifier {
   set locale(AppLocales newLocale) {
     if (_locale != newLocale) {
       _locale = newLocale;
+      gateway.setLocale(newLocale);
       notifyListeners();
     }
   }
