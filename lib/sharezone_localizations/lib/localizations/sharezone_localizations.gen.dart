@@ -5,8 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'sharezone_localizations_de.dart';
-import 'sharezone_localizations_en.dart';
+import 'sharezone_localizations_de.gen.dart';
+import 'sharezone_localizations_en.gen.dart';
 
 // ignore_for_file: type=lint
 
@@ -18,7 +18,7 @@ import 'sharezone_localizations_en.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'localizations/sharezone_localizations.dart';
+/// import 'localizations/sharezone_localizations.gen.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: SharezoneLocalizations.localizationsDelegates,

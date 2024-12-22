@@ -1,4 +1,4 @@
-import 'sharezone_localizations.dart';
+import 'sharezone_localizations.gen.dart';
 
 // ignore_for_file: type=lint
 
