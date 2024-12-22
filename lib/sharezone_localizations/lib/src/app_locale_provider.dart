@@ -1,12 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'app_locales.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 /// Allows to change the locale of the app using the provider package.
 class AppLocaleProvider with ChangeNotifier {
   AppLocaleProvider({
     AppLocales initialLocale = AppLocales.system,
-  }) : _locale = initialLocale;
+    required AppLocaleProviderGateway gateway,
+  }) : _locale = initialLocale {
+    _subscription = gateway.getLocale().listen((event) {
+      locale = event;
+      notifyListeners();
+    });
+  }
 
+  late StreamSubscription<AppLocales> _subscription;
   AppLocales _locale;
 
   AppLocales get locale => _locale;
@@ -16,5 +25,11 @@ class AppLocaleProvider with ChangeNotifier {
       _locale = newLocale;
       notifyListeners();
     }
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }
