@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/dynamic_links.dart';
+import 'package:sharezone/l10n/feature_flag_l10n.dart';
 import 'package:sharezone/l10n/flutter_app_local_gateway.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
@@ -75,6 +76,8 @@ class Sharezone extends StatefulWidget {
 class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   late SignUpBloc signUpBloc;
   late StreamSubscription<AuthUser?> authSubscription;
+  late StreamingKeyValueStore streamingKeyValueStore;
+  late FeatureFlagl10n featureFlagl10n;
 
   @override
   void initState() {
@@ -96,6 +99,11 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
     authSubscription = listenToAuthStateChanged().listen((user) {
       authUserSubject.sink.add(user);
     });
+
+    streamingKeyValueStore = FlutterStreamingKeyValueStore(
+      widget.blocDependencies.streamingSharedPreferences,
+    );
+    featureFlagl10n = FeatureFlagl10n(streamingKeyValueStore);
   }
 
   void logAppOpen() {
@@ -132,13 +140,12 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                                 MobileDeviceInformationRetriever(),
                           ),
                         ),
+                        ChangeNotifierProvider.value(value: featureFlagl10n),
                         ChangeNotifierProvider(
                           create: (context) => AppLocaleProvider(
                             gateway: FlutterAppLocaleProviderGateway(
-                              keyValueStore: FlutterStreamingKeyValueStore(
-                                widget.blocDependencies
-                                    .streamingSharedPreferences,
-                              ),
+                              keyValueStore: streamingKeyValueStore,
+                              featureFlagl10n: featureFlagl10n,
                             ),
                           ),
                         ),

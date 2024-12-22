@@ -10,6 +10,8 @@ import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/l10n/feature_flag_l10n.dart';
 import 'package:sharezone/legal/terms_of_service/terms_of_service_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -146,34 +148,36 @@ class _LegalSection extends StatelessWidget {
 class _AppSettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const _SettingsSection(
+    final featureFlagl10n = context.watch<FeatureFlagl10n>();
+    return _SettingsSection(
       title: 'App-Einstellungen',
       children: <Widget>[
-        _SettingsOption(
+        const _SettingsOption(
           title: "Mein Konto",
           icon: Icon(Icons.account_circle),
           tag: MyProfilePage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Benachrichtigungen",
           icon: Icon(Icons.notifications_active),
           tag: NotificationPage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Erscheinungsbild",
           icon: Icon(Icons.color_lens),
           tag: ThemePage.tag,
         ),
-        _SettingsOption(
+        const _SettingsOption(
           title: "Stundenplan",
           icon: Icon(Icons.access_time),
           tag: TimetableSettingsPage.tag,
         ),
-        _SettingsOption(
-          title: "Sprache",
-          icon: Icon(Icons.language),
-          tag: LanguagePage.tag,
-        ),
+        if (featureFlagl10n.isl10nEnabled)
+          const _SettingsOption(
+            title: "Sprache",
+            icon: Icon(Icons.language),
+            tag: LanguagePage.tag,
+          ),
       ],
     );
   }
