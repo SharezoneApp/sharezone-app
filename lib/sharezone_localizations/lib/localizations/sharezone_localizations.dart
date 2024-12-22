@@ -62,15 +62,18 @@ import 'sharezone_localizations_en.dart';
 /// be consistent with the languages listed in the SharezoneLocalizations.supportedLocales
 /// property.
 abstract class SharezoneLocalizations {
-  SharezoneLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  SharezoneLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static SharezoneLocalizations? of(BuildContext context) {
-    return Localizations.of<SharezoneLocalizations>(context, SharezoneLocalizations);
+    return Localizations.of<SharezoneLocalizations>(
+        context, SharezoneLocalizations);
   }
 
-  static const LocalizationsDelegate<SharezoneLocalizations> delegate = _SharezoneLocalizationsDelegate();
+  static const LocalizationsDelegate<SharezoneLocalizations> delegate =
+      _SharezoneLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +85,8 @@ abstract class SharezoneLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -120,34 +124,36 @@ abstract class SharezoneLocalizations {
   String get common_actions_confirm;
 }
 
-class _SharezoneLocalizationsDelegate extends LocalizationsDelegate<SharezoneLocalizations> {
+class _SharezoneLocalizationsDelegate
+    extends LocalizationsDelegate<SharezoneLocalizations> {
   const _SharezoneLocalizationsDelegate();
 
   @override
   Future<SharezoneLocalizations> load(Locale locale) {
-    return SynchronousFuture<SharezoneLocalizations>(lookupSharezoneLocalizations(locale));
+    return SynchronousFuture<SharezoneLocalizations>(
+        lookupSharezoneLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['de', 'en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['de', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SharezoneLocalizationsDelegate old) => false;
 }
 
 SharezoneLocalizations lookupSharezoneLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'de': return SharezoneLocalizationsDe();
-    case 'en': return SharezoneLocalizationsEn();
+    case 'de':
+      return SharezoneLocalizationsDe();
+    case 'en':
+      return SharezoneLocalizationsEn();
   }
 
   throw FlutterError(
-    'SharezoneLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'SharezoneLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

@@ -3,26 +3,31 @@
 **Sharezone Localizations** generates easily accessible translatable strings for the Sharezone-App. This package leverages Flutter's [Internationalization (i18n)](https://docs.flutter.dev/development/accessibility-and-localization/internationalization) features, providing an easy interface for adding, generating, and accessing localized strings in your application.
 
 Additionally:
+
 - AppLocaleProviderBloc: Allows you to manage and switch the current locale at runtime.
 - AppLocaleBuilder: Enables direct access to the current AppLocales enum value in your UI, making it straightforward to conditionally render widgets or styles based on the current locale.
 
 ## Table of Contents
-1. [Features](#features)  
-2. [Usage](#usage)  
-   1. [Accessing Localized Strings](#accessing-localized-strings)  
-   2. [How to Add/Update Strings](#how-to-addupdate-strings)  
-3. [Generating Localizations](#generating-localizations)  
-   1. [Flutter Gen-L10n Command](#flutter-gen-l10n-command)  
-   2. [Using VS Code Task](#using-vs-code-task)
+
+- [sharezone\_localizations](#sharezone_localizations)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Usage](#usage)
+    - [Accessing Localized Strings](#accessing-localized-strings)
+    - [How to Add/Update Strings](#how-to-addupdate-strings)
+  - [Generating Localizations](#generating-localizations)
+    - [Flutter Gen-L10n Command](#flutter-gen-l10n-command)
+    - [Using VS Code Task](#using-vs-code-task)
 
 ---
 
 ## Features
+
 - Easy String Access: Access your translations using a simple extension (context.sl).
 - Multiple Locales: Support multiple languages via .arb files.
 - Automatic Code Generation: Easily generate localization delegates and associated code using the flutter gen-l10n tool (or a dedicated VS Code Task).
-- Locale Management:  
-  - AppLocaleProviderBloc helps you access and manage the current locale in real time, allowing dynamic locale switching.  
+- Locale Management:
+  - AppLocaleProviderBloc helps you access and manage the current locale in real time, allowing dynamic locale switching.
   - AppLocaleBuilder makes it simple to retrieve the current AppLocales enum value for conditional rendering.
 
 ---
@@ -50,11 +55,13 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-````
+```
+
 Where `common_actions_cancel` is the key from your .arb file (e.g., `app_en.arb`).  
 Use it as `context.sl.common_actions_cancel`.
 
 To manage or observe locale changes:
+
 - AppLocaleProviderBloc can be injected in your widget tree to handle locale switching logic.
 - AppLocaleBuilder can be used to rebuild widgets whenever the locale changes and provides the current AppLocales enum value.
 
@@ -68,20 +75,23 @@ To manage or observe locale changes:
    {
      "common_actions_cancel": "Cancel"
    }
-3.	(Optional) Add placeholders if needed:
-```json
-{
-  "welcome_message": "Hello, {userName}!",
-  "@welcome_message": {
-    "description": "A welcome message for the user",
-    "placeholders": {
-      "userName": {}
-    }
-  }
-}
-````
+   ```
+3. (Optional) Add placeholders if needed:
+   ```json
+   {
+     "welcome_message": "Hello, {userName}!",
+     "@welcome_message": {
+       "description": "A welcome message for the user",
+       "placeholders": {
+         "userName": {}
+       }
+     }
+   }
+   ```
+
 This allows you to dynamically inject parameters (for example userName) into the string.
-4.	Repeat the above steps in each relevant .arb file (e.g., app_de.arb, app_es.arb, etc.) to keep translations up to date across your app. (Optionally you can use packages like arb_translate for auto translations)
+
+4. Repeat the above steps in each relevant .arb file (e.g., app_de.arb, app_es.arb, etc.) to keep translations up to date across your app. (Optionally you can use packages like arb_translate for auto translations)
 
 ## Generating Localizations
 
@@ -90,6 +100,7 @@ After updating or creating .arb files, regenerate the localizations so Flutter c
 ### Flutter Gen-L10n Command
 
 Run inside this package:
+
 ```bash
 flutter gen-l10n
 ```
@@ -97,8 +108,9 @@ flutter gen-l10n
 ### Using VS Code Task
 
 If you have a VS Code task called "Generate l10n for sharezone_localizations", you can:
-1. Open the Command Palette (⇧⌘P on macOS / Ctrl+Shift+P on Windows).  
-2. Select "Tasks: Run Task".  
-3. Choose "Generate l10n for sharezone_localizations".  
+
+1. Open the Command Palette (⇧⌘P on macOS / Ctrl+Shift+P on Windows).
+2. Select "Tasks: Run Task".
+3. Choose "Generate l10n for sharezone_localizations".
 
 This task runs `flutter gen-l10n` with your chosen configuration.
