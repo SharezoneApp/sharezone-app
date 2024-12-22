@@ -90,6 +90,14 @@ To manage or observe locale changes:
 This allows you to dynamically inject parameters (for example userName) into the string.
 
 4. Repeat the above steps in each relevant .arb file (e.g., app_de.arb, app_es.arb, etc.) to keep translations up to date across your app. (Optionally you can use packages like arb_translate for auto translations)
+5. We use `"@_COMMENT:" {}` as comments in the .arb files. This is a workaround because the .arb format does not support comments:
+    ```json
+    {
+      "@_HOMEWORK": {},
+      "homework_page_title": "Homework",
+      "..."
+    }
+    ```
 
 ## Generating Localizations
 
