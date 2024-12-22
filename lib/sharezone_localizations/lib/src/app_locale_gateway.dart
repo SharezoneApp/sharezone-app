@@ -6,26 +6,26 @@ import 'package:sharezone_localizations/sharezone_localizations.dart';
 /// Firestore. The [AppLocaleProvider] listens to changes in the locale and
 /// updates the UI accordingly.
 abstract class AppLocaleProviderGateway {
-  Stream<AppLocales> getLocale();
+  Stream<AppLocale> getLocale();
 
-  Future<void> setLocale(AppLocales locale);
+  Future<void> setLocale(AppLocale locale);
 }
 
 /// A mock implementation of the [AppLocaleProviderGateway].
 class MockAppLocaleProviderGateway implements AppLocaleProviderGateway {
   MockAppLocaleProviderGateway({
-    AppLocales initialLocale = AppLocales.system,
+    AppLocale initialLocale = AppLocale.system,
   }) : _locale = initialLocale;
 
-  AppLocales _locale;
+  AppLocale _locale;
 
   @override
-  Stream<AppLocales> getLocale() {
+  Stream<AppLocale> getLocale() {
     return Stream.value(_locale);
   }
 
   @override
-  Future<void> setLocale(AppLocales locale) async {
+  Future<void> setLocale(AppLocale locale) async {
     _locale = locale;
   }
 }

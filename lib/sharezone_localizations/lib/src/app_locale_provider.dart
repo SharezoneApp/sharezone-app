@@ -6,7 +6,7 @@ import 'package:sharezone_localizations/sharezone_localizations.dart';
 /// Allows to change the locale of the app using the provider package.
 class AppLocaleProvider with ChangeNotifier {
   AppLocaleProvider({
-    AppLocales initialLocale = AppLocales.system,
+    AppLocale initialLocale = AppLocale.system,
     required this.gateway,
   }) : _locale = initialLocale {
     _subscription = gateway.getLocale().listen((event) {
@@ -16,12 +16,12 @@ class AppLocaleProvider with ChangeNotifier {
   }
 
   AppLocaleProviderGateway gateway;
-  late StreamSubscription<AppLocales> _subscription;
-  AppLocales _locale;
+  late StreamSubscription<AppLocale> _subscription;
+  AppLocale _locale;
 
-  AppLocales get locale => _locale;
+  AppLocale get locale => _locale;
 
-  set locale(AppLocales newLocale) {
+  set locale(AppLocale newLocale) {
     if (_locale != newLocale) {
       _locale = newLocale;
       gateway.setLocale(newLocale);

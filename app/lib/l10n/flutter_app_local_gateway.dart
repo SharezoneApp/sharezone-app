@@ -14,17 +14,17 @@ class FlutterAppLocaleProviderGateway extends AppLocaleProviderGateway {
   final StreamingKeyValueStore keyValueStore;
 
   @override
-  Stream<AppLocales> getLocale() {
+  Stream<AppLocale> getLocale() {
     final defaultValue = jsonEncode(featureFlagl10n.isl10nEnabled
-        ? AppLocales.system.toMap()
-        : AppLocales.en.toMap());
+        ? AppLocale.system.toMap()
+        : AppLocale.en.toMap());
     return keyValueStore
         .getString('locale', defaultValue: defaultValue)
-        .map((event) => AppLocales.fromMap(jsonDecode(event)));
+        .map((event) => AppLocale.fromMap(jsonDecode(event)));
   }
 
   @override
-  Future<void> setLocale(AppLocales locale) async {
+  Future<void> setLocale(AppLocale locale) async {
     final value = jsonEncode(locale.toMap());
     keyValueStore.setString(
       'locale',

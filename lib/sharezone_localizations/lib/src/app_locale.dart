@@ -4,7 +4,7 @@ import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 /// A wrapper around [Locale] to provide differentiation between the system
 /// locale and the user selected locale.
-enum AppLocales {
+enum AppLocale {
   system,
   en,
   de;
@@ -19,7 +19,7 @@ enum AppLocales {
   }
 
   /// Returns the name of the locale in the native language, e.g. "Deutsch" for
-  /// the [AppLocales.de] enum value.
+  /// the [AppLocale.de] enum value.
   String getNativeName(BuildContext context) {
     return switch (this) {
       system => context.sl.language_system_name,
@@ -29,7 +29,7 @@ enum AppLocales {
   }
 
   /// Returns the name of the locale in the currently selected language, e.g.
-  /// "German" for the [AppLocales.de] enum value when the app is in English.
+  /// "German" for the [AppLocale.de] enum value when the app is in English.
   String getTranslatedName(BuildContext context) {
     return switch (this) {
       system => context.sl.language_system_name,
@@ -43,7 +43,7 @@ enum AppLocales {
     return PlatformDispatcher.instance.locale;
   }
 
-  static AppLocales fromMap(Map<String, dynamic>? map) {
+  static AppLocale fromMap(Map<String, dynamic>? map) {
     if (map == null || map['isSystem'] as bool) {
       return system;
     }
@@ -73,9 +73,9 @@ enum AppLocales {
   /// Returns the enum value for the given language tag.
   ///
   /// If the language tag is not supported, the system locale is returned.
-  static AppLocales fromLanguageTag(String languageTag) {
+  static AppLocale fromLanguageTag(String languageTag) {
     final languageCode = languageTag.split('-').first;
-    return AppLocales.values.firstWhere(
+    return AppLocale.values.firstWhere(
       (element) => element.name == languageCode,
       orElse: () => system,
     );

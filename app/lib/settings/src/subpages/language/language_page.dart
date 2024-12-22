@@ -15,7 +15,7 @@ class LanguagePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(12),
         children:
-            AppLocales.values.map((locale) => _LanguageTile(locale)).toList(),
+            AppLocale.values.map((locale) => _LanguageTile(locale)).toList(),
       ),
     );
   }
@@ -24,14 +24,14 @@ class LanguagePage extends StatelessWidget {
 class _LanguageTile extends StatelessWidget {
   const _LanguageTile(this.locale);
 
-  final AppLocales locale;
+  final AppLocale locale;
 
   @override
   Widget build(BuildContext context) {
     final localeProvider = context.watch<AppLocaleProvider>();
     return MaxWidthConstraintBox(
       child: SafeArea(
-        child: RadioListTile<AppLocales>(
+        child: RadioListTile<AppLocale>(
           title: Text(locale.getNativeName(context)),
           subtitle: locale.isSystem()
               ? null
