@@ -5,7 +5,7 @@ import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class FlutterAppLocaleProviderGateway extends AppLocaleProviderGateway {
-  FlutterAppLocaleProviderGateway({
+  const FlutterAppLocaleProviderGateway({
     required this.keyValueStore,
     required this.featureFlagl10n,
   });
