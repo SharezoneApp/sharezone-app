@@ -27,8 +27,7 @@ Additionally:
 - Multiple Locales: Support multiple languages via .arb files.
 - Automatic Code Generation: Easily generate localization delegates and associated code using the flutter gen-l10n tool (or a dedicated VS Code Task).
 - Locale Management:
-  - AppLocaleProviderBloc helps you access and manage the current locale in real time, allowing dynamic locale switching.
-  - AppLocaleBuilder makes it simple to retrieve the current AppLocales enum value for conditional rendering.
+  - `AppLocaleProvider` helps you access and manage the current locale in real time, allowing dynamic locale switching.
 
 ---
 
@@ -62,8 +61,7 @@ Use it as `context.sl.common_actions_cancel`.
 
 To manage or observe locale changes:
 
-- AppLocaleProviderBloc can be injected in your widget tree to handle locale switching logic.
-- AppLocaleBuilder can be used to rebuild widgets whenever the locale changes and provides the current AppLocales enum value.
+- `AppLocaleProvider` can be injected in your widget tree to handle locale switching logic.
 
 ---
 
