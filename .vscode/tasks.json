@@ -1,0 +1,23 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // This task generates the l10n files for the
+            // sharezone_localizations.
+            //
+            // FVM is required to run this task.
+            "label": "Generate l10n for sharezone_localizations",
+            "type": "shell",
+            // We also format the files after generating the l10n files because
+            // the generated files use a different formatting style than the
+            // rest of the project.
+            "command": "fvm flutter gen-l10n && fvm dart format .",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/sharezone_localizations"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
