@@ -7,9 +7,6 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   SharezoneLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get language_name => 'English';
-
-  @override
   String get app_name => 'Sharezone';
 
   @override
@@ -17,4 +14,16 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get common_actions_confirm => 'Confirm';
+
+  @override
+  String get language_page_title => 'Langauge';
+
+  @override
+  String get language_system_name => 'System';
+
+  @override
+  String get language_de_name => 'German';
+
+  @override
+  String get language_en_name => 'English';
 }

@@ -99,12 +99,6 @@ abstract class SharezoneLocalizations {
     Locale('en')
   ];
 
-  /// No description provided for @language_name.
-  ///
-  /// In en, this message translates to:
-  /// **'English'**
-  String get language_name;
-
   /// No description provided for @app_name.
   ///
   /// In en, this message translates to:
@@ -122,6 +116,30 @@ abstract class SharezoneLocalizations {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get common_actions_confirm;
+
+  /// No description provided for @language_page_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Langauge'**
+  String get language_page_title;
+
+  /// No description provided for @language_system_name.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get language_system_name;
+
+  /// No description provided for @language_de_name.
+  ///
+  /// In en, this message translates to:
+  /// **'German'**
+  String get language_de_name;
+
+  /// No description provided for @language_en_name.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get language_en_name;
 }
 
 class _SharezoneLocalizationsDelegate
