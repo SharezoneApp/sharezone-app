@@ -81,7 +81,7 @@ dependencies:
   firebase_messaging: ^14.9.1
   firebase_performance: ^0.9.4+4
   firebase_storage: ^11.7.4
-  flare_flutter: ^3.0.2
+  rive: ^0.13.20
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3

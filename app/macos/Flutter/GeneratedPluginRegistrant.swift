@@ -27,6 +27,7 @@ import path_provider_foundation
 import patrol
 import pdfx
 import purchases_flutter
+import rive_common
 import share_plus
 import shared_preferences_foundation
 import sqflite
@@ -58,6 +59,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   PatrolPlugin.register(with: registry.registrar(forPlugin: "PatrolPlugin"))
   PdfxPlugin.register(with: registry.registrar(forPlugin: "PdfxPlugin"))
   PurchasesFlutterPlugin.register(with: registry.registrar(forPlugin: "PurchasesFlutterPlugin"))
+  RivePlugin.register(with: registry.registrar(forPlugin: "RivePlugin"))
   SharePlusMacosPlugin.register(with: registry.registrar(forPlugin: "SharePlusMacosPlugin"))
   SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
   SqflitePlugin.register(with: registry.registrar(forPlugin: "SqflitePlugin"))

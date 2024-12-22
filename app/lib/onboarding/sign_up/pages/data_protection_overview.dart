@@ -66,9 +66,9 @@ class _DataProtectionLockAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SizedBox(
       height: 150,
-      child: FlareActor(
+      child: RiveAnimation.asset(
         "assets/flare/privacy.flr",
-        animation: "Lock",
+        animations: ["Lock"],
         fit: BoxFit.fitHeight,
       ),
     );

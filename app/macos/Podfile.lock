@@ -303,6 +303,8 @@ PODS:
   - PurchasesHybridCommon (11.1.0):
     - RevenueCat (= 4.43.2)
   - RevenueCat (4.43.2)
+  - rive_common (0.0.1):
+    - FlutterMacOS
   - share_plus (0.0.1):
     - FlutterMacOS
   - shared_preferences_foundation (0.0.1):
@@ -347,6 +349,7 @@ DEPENDENCIES:
   - patrol (from `Flutter/ephemeral/.symlinks/plugins/patrol/darwin`)
   - pdfx (from `Flutter/ephemeral/.symlinks/plugins/pdfx/macos`)
   - purchases_flutter (from `Flutter/ephemeral/.symlinks/plugins/purchases_flutter/macos`)
+  - rive_common (from `Flutter/ephemeral/.symlinks/plugins/rive_common/macos`)
   - share_plus (from `Flutter/ephemeral/.symlinks/plugins/share_plus/macos`)
   - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/darwin`)
@@ -447,6 +450,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/pdfx/macos
   purchases_flutter:
     :path: Flutter/ephemeral/.symlinks/plugins/purchases_flutter/macos
+  rive_common:
+    :path: Flutter/ephemeral/.symlinks/plugins/rive_common/macos
   share_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/share_plus/macos
   shared_preferences_foundation:
@@ -531,6 +536,7 @@ SPEC CHECKSUMS:
   purchases_flutter: 3407100959d2aeb636507b2c98970d850dae57ae
   PurchasesHybridCommon: 4022d5944cb30ec44ba5159e42aa161fe0e30175
   RevenueCat: 3d934653b7e8b09af88fd47e9e84cfaf5d0a89ba
+  rive_common: 9580b9f1f08a8c85006083078e80479edf3db26a
   share_plus: 36537c04ce0c3e3f5bd297ce4318b6d5ee5fd6cf
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:flare_flutter/flare_actor.dart';
+import 'package:rive/rive.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';
@@ -76,9 +76,9 @@ class _ClockAnimation extends StatelessWidget {
     return const SizedBox(
       height: 175,
       width: 175,
-      child: FlareActor(
+      child: RiveAnimation.asset(
         "assets/flare/notification-animation.flr",
-        animation: "Notification",
+        animations: ["Notification"],
         fit: BoxFit.fitHeight,
       ),
     );

@@ -107,9 +107,9 @@ class _AdvantageNotifications extends StatelessWidget {
       leading: SizedBox(
         height: 45,
         width: 45,
-        child: FlareActor(
+        child: RiveAnimation.asset(
           "assets/flare/notification-animation.flr",
-          animation: "Notification",
+          animations: ["Notification"],
           fit: BoxFit.fitHeight,
         ),
       ),

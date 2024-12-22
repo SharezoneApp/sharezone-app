@@ -6,10 +6,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:rive/rive.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// This is the Model of the EmptyList
@@ -184,8 +184,8 @@ class _RotateAnimation extends StatelessWidget {
             child: isNotEmptyOrNull(rivePath)
                 ? _Rive(
                     size: size,
-                    path: rivePath,
-                    animationName: riveAnimationName,
+                    path: rivePath!,
+                    animationName: riveAnimationName!,
                   )
                 : SVGIcon(
                     path: path,
@@ -206,17 +206,17 @@ class _Rive extends StatelessWidget {
   });
 
   final Size? size;
-  final String? path;
-  final String? animationName;
+  final String path;
+  final String animationName;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: size!.height,
       width: size!.width,
-      child: FlareActor(
+      child: RiveAnimation.asset(
         path,
-        animation: animationName,
+        animations: [animationName],
         fit: BoxFit.fitHeight,
       ),
     );
