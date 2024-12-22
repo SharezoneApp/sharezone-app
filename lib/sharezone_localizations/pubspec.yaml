@@ -20,7 +20,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
-  rxdart: any
   sharezone_lints:
     path: ../sharezone_lints
   provider: ^6.0.3
