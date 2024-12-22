@@ -22,11 +22,7 @@ dependencies:
   intl: any
   rxdart: any
   flutter_lints: ^5.0.0
-  # local packages
-  bloc_base:
-    path: ../bloc_base
-  bloc_provider:
-    path: ../bloc_provider
+  provider: ^6.0.3
 
 flutter:
   generate: true
