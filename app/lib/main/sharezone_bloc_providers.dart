@@ -497,7 +497,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
         lazy: false,
       ),
-      Provider<KeyValueStore>.value(value: keyValueStore)
+      Provider<KeyValueStore>.value(value: keyValueStore),
     ];
 
     mainBlocProviders = <BlocProvider>[

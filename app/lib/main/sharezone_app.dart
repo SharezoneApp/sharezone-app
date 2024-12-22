@@ -46,6 +46,7 @@ import 'package:sharezone/settings/settings_page.dart';
 import 'package:sharezone/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/settings/src/subpages/changelog_page.dart';
 import 'package:sharezone/settings/src/subpages/imprint/page/imprint_page.dart';
+import 'package:sharezone/settings/src/subpages/language/language_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
@@ -204,6 +205,7 @@ class _SharezoneAppState extends State<SharezoneApp>
                 ICalLinksDialog.tag: (context) => const ICalLinksDialog(),
                 CreateTermPage.tag: (context) => const CreateTermPage(),
                 GradesDialog.tag: (context) => const GradesDialog(),
+                LanguagePage.tag: (context) => const LanguagePage(),
               },
               navigatorKey: navigationService.navigatorKey,
             ),

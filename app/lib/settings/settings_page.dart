@@ -16,6 +16,7 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/settings/src/subpages/changelog_page.dart';
+import 'package:sharezone/settings/src/subpages/language/language_page.dart';
 import 'package:sharezone/settings/src/subpages/notification.dart';
 import 'package:sharezone/settings/src/subpages/about/about_page.dart';
 import 'package:sharezone/settings/src/subpages/theme/theme_page.dart';
@@ -167,7 +168,12 @@ class _AppSettingsSection extends StatelessWidget {
           title: "Stundenplan",
           icon: Icon(Icons.access_time),
           tag: TimetableSettingsPage.tag,
-        )
+        ),
+        _SettingsOption(
+          title: "Sprache",
+          icon: Icon(Icons.language),
+          tag: LanguagePage.tag,
+        ),
       ],
     );
   }

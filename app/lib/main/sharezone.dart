@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/dynamic_links.dart';
+import 'package:sharezone/l10n/flutter_app_local_gateway.dart';
 import 'package:sharezone/main/auth_app.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/sharezone_app.dart';
@@ -28,9 +29,11 @@ import 'package:sharezone/main/sharezone_bloc_providers.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/notifications/notifications_permission.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
+import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone/widgets/development_stage_banner.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -127,6 +130,16 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                             firebaseMessaging: FirebaseMessaging.instance,
                             mobileDeviceInformationRetriever:
                                 MobileDeviceInformationRetriever(),
+                          ),
+                        ),
+                        ChangeNotifierProvider(
+                          create: (context) => AppLocaleProvider(
+                            gateway: FlutterAppLocaleProviderGateway(
+                              keyValueStore: FlutterStreamingKeyValueStore(
+                                widget.blocDependencies
+                                    .streamingSharedPreferences,
+                              ),
+                            ),
                           ),
                         ),
                       ],

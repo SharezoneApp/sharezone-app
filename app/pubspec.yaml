@@ -162,6 +162,8 @@ dependencies:
   shared_preferences: ^2.2.3
   sharezone_common:
     path: ../lib/sharezone_common
+  sharezone_localizations:
+    path: ../lib/sharezone_localizations
   sharezone_utils:
     path: ../lib/sharezone_utils
   sharezone_plus_page_ui:
