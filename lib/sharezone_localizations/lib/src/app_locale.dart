@@ -13,8 +13,8 @@ enum AppLocale {
   Locale toLocale() {
     return switch (this) {
       system => getSystemLocale(),
-      en => SharezoneAppLocales.en,
-      de => SharezoneAppLocales.de,
+      en => const Locale('en'),
+      de => const Locale('de'),
     };
   }
 
@@ -80,16 +80,4 @@ enum AppLocale {
       orElse: () => system,
     );
   }
-}
-
-class SharezoneAppLocales {
-  const SharezoneAppLocales._();
-
-  static const List<Locale> supportedLocales = [
-    de,
-    en,
-  ];
-
-  static const Locale de = Locale('de');
-  static const Locale en = Locale('en');
 }
