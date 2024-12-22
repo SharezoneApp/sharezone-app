@@ -8,10 +8,16 @@ import 'app_locales.dart';
 /// Allows to change the locale of the app.
 class AppLocaleProviderBloc extends BlocBase {
   AppLocaleProviderBloc({
+    required this.gateway,
     AppLocales initialLocale = AppLocales.system,
   }) {
     localeSubject.add(initialLocale);
+    gateway.localeStream.listen((locale) {
+      localeSubject.add(locale);
+    });
   }
+
+  final AppLocaleProviderGateway gateway;
 
   final localeSubject = BehaviorSubject<AppLocales>();
   @override
