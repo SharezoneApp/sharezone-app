@@ -30,7 +30,7 @@ enum AppLocale {
   /// the [AppLocale.de] enum value.
   String getNativeName(BuildContext context) {
     return switch (this) {
-      system => context.sl.language_system_name,
+      system => context.sl.languageSystemName,
       en => 'English',
       de => 'Deutsch',
     };
@@ -40,9 +40,9 @@ enum AppLocale {
   /// "German" for the [AppLocale.de] enum value when the app is in English.
   String getTranslatedName(BuildContext context) {
     return switch (this) {
-      system => context.sl.language_system_name,
-      en => context.sl.language_en_name,
-      de => context.sl.language_de_name,
+      system => context.sl.languageSystemName,
+      en => context.sl.languageEnName,
+      de => context.sl.languageDeName,
     };
   }
 

@@ -107,47 +107,47 @@ abstract class SharezoneLocalizations {
     Locale('en')
   ];
 
-  /// No description provided for @app_name.
+  /// No description provided for @appName.
   ///
   /// In en, this message translates to:
   /// **'Sharezone'**
-  String get app_name;
+  String get appName;
 
-  /// No description provided for @common_actions_cancel.
+  /// No description provided for @commonActionsCancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
-  String get common_actions_cancel;
+  String get commonActionsCancel;
 
-  /// No description provided for @common_actions_confirm.
+  /// No description provided for @commonActionsConfirm.
   ///
   /// In en, this message translates to:
   /// **'Confirm'**
-  String get common_actions_confirm;
+  String get commonActionsConfirm;
 
-  /// No description provided for @language_page_title.
+  /// No description provided for @languagePageTitle.
   ///
   /// In en, this message translates to:
   /// **'Langauge'**
-  String get language_page_title;
+  String get languagePageTitle;
 
-  /// No description provided for @language_system_name.
+  /// No description provided for @languageSystemName.
   ///
   /// In en, this message translates to:
   /// **'System'**
-  String get language_system_name;
+  String get languageSystemName;
 
-  /// No description provided for @language_de_name.
+  /// No description provided for @languageDeName.
   ///
   /// In en, this message translates to:
   /// **'German'**
-  String get language_de_name;
+  String get languageDeName;
 
-  /// No description provided for @language_en_name.
+  /// No description provided for @languageEnName.
   ///
   /// In en, this message translates to:
   /// **'English'**
-  String get language_en_name;
+  String get languageEnName;
 }
 
 class _SharezoneLocalizationsDelegate
