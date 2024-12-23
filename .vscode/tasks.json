@@ -10,13 +10,9 @@
             // FVM is required to run this task.
             "label": "Generate l10n for sharezone_localizations",
             "type": "shell",
-            // We also format the files after generating the l10n files because
-            // the generated files use a different formatting style than the
-            // rest of the project.
-            //
             // Additionally, we add the license header again (the "flutter
             // gen-l10n" always removes the license header).
-            "command": "fvm flutter gen-l10n && fvm dart format . && addlicense -c \"Sharezone UG (haftungsbeschränkt)\" -f ../../header_template.txt .",
+            "command": "fvm flutter gen-l10n && addlicense -c \"Sharezone UG (haftungsbeschränkt)\" -f ../../header_template.txt .",
             "options": {
                 "cwd": "${workspaceFolder}/lib/sharezone_localizations"
             },

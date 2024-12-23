@@ -12,3 +12,4 @@ output-dir: lib/localizations
 output-localization-file: sharezone_localizations.gen.dart
 output-class: SharezoneLocalizations
 synthetic-package: false
+format: true
