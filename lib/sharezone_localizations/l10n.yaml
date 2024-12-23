@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: EUPL-1.2
 
 arb-dir: l10n
-template-arb-file: app_en.arb
+template-arb-file: app_de.arb
 output-dir: lib/localizations
 output-localization-file: sharezone_localizations.gen.dart
 output-class: SharezoneLocalizations
