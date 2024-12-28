@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/l10n/feature_flag_l10n.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/settings/settings_page.dart';
-import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'settings_page_test.mocks.dart';
@@ -30,10 +29,9 @@ void main() {
       await tester.pumpWidgetBuilder(
         BlocProvider<SharezoneContext>(
           bloc: MockSharezoneContext(),
-          child: Provider(
-            create: (context) => FeatureFlagl10n(
-              InMemoryStreamingKeyValueStore(),
-            ),
+          child: ChangeNotifierProvider<FeatureFlagl10n>(
+            create: (context) => MockFeatureFlagl10n(),
+            child: const SettingsPageBody(),
           ),
         ),
         wrapper: materialAppWrapper(theme: theme),
