@@ -23,7 +23,7 @@ Additionally:
 
 ## Features
 
-- Easy String Access: Access your translations using a simple extension (context.sl).
+- Easy String Access: Access your translations using a simple extension (context.l10n).
 - Multiple Locales: Support multiple languages via .arb files.
 - Automatic Code Generation: Easily generate localization delegates and associated code using the flutter gen-l10n tool (or a dedicated VS Code Task).
 - Locale Management:
@@ -46,10 +46,10 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.sl.common_actions_cancel),
+        title: Text(context.l10n.common_actions_cancel),
       ),
       body: Center(
-        child: Text(context.sl.common_actions_cancel),
+        child: Text(context.l10n.common_actions_cancel),
       ),
     );
   }
@@ -57,7 +57,7 @@ class MyHomePage extends StatelessWidget {
 ```
 
 Where `common_actions_cancel` is the key from your .arb file (e.g., `app_en.arb`).  
-Use it as `context.sl.common_actions_cancel`.
+Use it as `context.l10n.common_actions_cancel`.
 
 To manage or observe locale changes:
 

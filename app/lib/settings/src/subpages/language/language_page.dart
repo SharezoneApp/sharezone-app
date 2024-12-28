@@ -19,7 +19,7 @@ class LanguagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.sl.languagePageTitle)),
+      appBar: AppBar(title: Text(context.l10n.languagePageTitle)),
       body: ListView(
         padding: const EdgeInsets.all(12),
         children:

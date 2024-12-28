@@ -16,5 +16,5 @@ extension SharezoneLocalizationsContextExtension on BuildContext {
   /// otherwise it will throw an exception. Add
   /// [SharezoneLocalizations.delegate] to the underlying App
   /// localizationsDelegates, for access in the context of the app.
-  SharezoneLocalizations get sl => SharezoneLocalizations.of(this)!;
+  SharezoneLocalizations get l10n => SharezoneLocalizations.of(this)!;
 }
