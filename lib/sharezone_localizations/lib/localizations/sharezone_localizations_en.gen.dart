@@ -24,7 +24,7 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get commonActionsConfirm => 'Confirm';
 
   @override
-  String get languagePageTitle => 'Langauge';
+  String get languagePageTitle => 'Language';
 
   @override
   String get languageSystemName => 'System';
