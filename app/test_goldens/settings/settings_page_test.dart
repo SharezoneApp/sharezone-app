@@ -11,20 +11,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
+import 'package:provider/provider.dart';
+import 'package:sharezone/l10n/feature_flag_l10n.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/settings/settings_page.dart';
+import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'settings_page_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<SharezoneContext>()])
+@GenerateNiceMocks([
+  MockSpec<SharezoneContext>(),
+  MockSpec<FeatureFlagl10n>(),
+])
 void main() {
   group(SettingsPageBody, () {
     Future<void> pushSettingsPage(WidgetTester tester, ThemeData theme) async {
       await tester.pumpWidgetBuilder(
         BlocProvider<SharezoneContext>(
           bloc: MockSharezoneContext(),
-          child: const SettingsPageBody(),
+          child: Provider(
+            create: (context) => FeatureFlagl10n(
+              InMemoryStreamingKeyValueStore(),
+            ),
+          ),
         ),
         wrapper: materialAppWrapper(theme: theme),
       );

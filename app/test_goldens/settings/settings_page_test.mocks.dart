@@ -3,11 +3,15 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:ui' as _i10;
+
 import 'package:analytics/analytics.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:shared_preferences/shared_preferences.dart' as _i5;
-import 'package:sharezone/main/application_bloc.dart' as _i7;
+import 'package:sharezone/l10n/feature_flag_l10n.dart' as _i9;
+import 'package:sharezone/main/application_bloc.dart' as _i8;
 import 'package:sharezone/util/api.dart' as _i2;
+import 'package:sharezone/util/cache/streaming_key_value_store.dart' as _i7;
 import 'package:sharezone/util/navigation_service.dart' as _i6;
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart'
     as _i4;
@@ -79,10 +83,21 @@ class _FakeNavigationService_4 extends _i1.SmartFake
         );
 }
 
+class _FakeStreamingKeyValueStore_5 extends _i1.SmartFake
+    implements _i7.StreamingKeyValueStore {
+  _FakeStreamingKeyValueStore_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [SharezoneContext].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSharezoneContext extends _i1.Mock implements _i7.SharezoneContext {
+class MockSharezoneContext extends _i1.Mock implements _i8.SharezoneContext {
   @override
   _i2.SharezoneGateway get api => (super.noSuchMethod(
         Invocation.getter(#api),
@@ -153,6 +168,92 @@ class MockSharezoneContext extends _i1.Mock implements _i7.SharezoneContext {
   void dispose() => super.noSuchMethod(
         Invocation.method(
           #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [FeatureFlagl10n].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFeatureFlagl10n extends _i1.Mock implements _i9.FeatureFlagl10n {
+  @override
+  _i7.StreamingKeyValueStore get keyValueStore => (super.noSuchMethod(
+        Invocation.getter(#keyValueStore),
+        returnValue: _FakeStreamingKeyValueStore_5(
+          this,
+          Invocation.getter(#keyValueStore),
+        ),
+        returnValueForMissingStub: _FakeStreamingKeyValueStore_5(
+          this,
+          Invocation.getter(#keyValueStore),
+        ),
+      ) as _i7.StreamingKeyValueStore);
+
+  @override
+  bool get isl10nEnabled => (super.noSuchMethod(
+        Invocation.getter(#isl10nEnabled),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  set isl10nEnabled(bool? _isl10nEnabled) => super.noSuchMethod(
+        Invocation.setter(
+          #isl10nEnabled,
+          _isl10nEnabled,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  void toggle() => super.noSuchMethod(
+        Invocation.method(
+          #toggle,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(_i10.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i10.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
           [],
         ),
         returnValueForMissingStub: null,
