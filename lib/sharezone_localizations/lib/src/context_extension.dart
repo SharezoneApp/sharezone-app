@@ -16,5 +16,13 @@ extension SharezoneLocalizationsContextExtension on BuildContext {
   /// otherwise it will throw an exception. Add
   /// [SharezoneLocalizations.delegate] to the underlying App
   /// localizationsDelegates, for access in the context of the app.
-  SharezoneLocalizations get l10n => SharezoneLocalizations.of(this)!;
+  SharezoneLocalizations get l10n {
+    final localizations = SharezoneLocalizations.of(this);
+    if (localizations == null) {
+      throw FlutterError('SharezoneLocalizations not found.\n'
+          'Did you forget to add SharezoneLocalizations.delegate to your '
+          'MaterialApp/CupertinoApp localizationsDelegates?');
+    }
+    return localizations;
+  }
 }
