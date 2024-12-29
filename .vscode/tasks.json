@@ -1,0 +1,22 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // This task generates the l10n files for the
+            // sharezone_localizations.
+            //
+            // FVM is required to run this task.
+            "label": "Generate l10n for sharezone_localizations",
+            "type": "shell",
+            // Additionally, we add the license header again (the "flutter
+            // gen-l10n" always removes the license header).
+            "command": "fvm flutter gen-l10n && addlicense -c \"Sharezone UG (haftungsbeschränkt)\" -f ../../header_template.txt .",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/sharezone_localizations"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:sharezone/l10n/feature_flag_l10n.dart';
 
 import '../models/enter_activation_code_result.dart';
 import 'enter_activation_code_activator.dart';
@@ -26,6 +27,7 @@ class EnterActivationCodeBloc extends BlocBase {
   final _enterActivationCodeSubject =
       BehaviorSubject<EnterActivationCodeResult>();
   final KeyValueStore keyValueStore;
+  final FeatureFlagl10n featureFlagl10n;
 
   String? _lastEnteredValue;
 
@@ -34,6 +36,7 @@ class EnterActivationCodeBloc extends BlocBase {
     this.crashAnalytics,
     this.appFunctions,
     this.keyValueStore,
+    this.featureFlagl10n,
   ) {
     _changeEnterActivationCodeResult(NoDataEnterActivationCodeResult());
   }
@@ -89,6 +92,11 @@ class EnterActivationCodeBloc extends BlocBase {
       return;
     }
 
+    if (_lastEnteredValue?.trim().toLowerCase() == 'l10n') {
+      _togglel10nFeatureFlag();
+      return;
+    }
+
     _changeEnterActivationCodeResult(LoadingEnterActivationCodeResult());
 
     final enterActivationCodeResult = await _runAppFunction(enteredValue);
@@ -103,6 +111,18 @@ class EnterActivationCodeBloc extends BlocBase {
       SuccessfulEnterActivationCodeResult(
         'ads',
         'Ads wurden ${!currentValue ? 'aktiviert' : 'deaktiviert'}. Starte die App neu, um die Änderungen zu sehen.',
+      ),
+    );
+  }
+
+  void _togglel10nFeatureFlag() {
+    final currentValue = featureFlagl10n.isl10nEnabled;
+    featureFlagl10n.toggle();
+
+    _changeEnterActivationCodeResult(
+      SuccessfulEnterActivationCodeResult(
+        'l10n',
+        'l10n wurde ${!currentValue ? 'aktiviert' : 'deaktiviert'}. Starte die App neu, um die Änderungen zu sehen.',
       ),
     );
   }

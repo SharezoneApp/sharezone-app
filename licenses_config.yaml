@@ -86,3 +86,4 @@ packageLicenseOverride:
   util: EUPL-1.2-or-later
   test_randomness: EUPL-1.2-or-later
   feedback_shared_implementation: EUPL-1.2-or-later
+  sharezone_localizations: EUPL-1.2-or-later

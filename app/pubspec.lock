@@ -1995,6 +1995,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  sharezone_localizations:
+    dependency: "direct main"
+    description:
+      path: "../lib/sharezone_localizations"
+      relative: true
+    source: path
+    version: "1.0.0"
   sharezone_plus_page_ui:
     dependency: "direct main"
     description:
