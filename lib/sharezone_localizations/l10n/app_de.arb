@@ -1,0 +1,13 @@
+{
+    "@@locale": "de",
+    "@_APP": {},
+    "appName": "Sharezone",
+    "@_COMMON": {},
+    "commonActionsCancel": "Abbrechen",
+    "commonActionsConfirm": "Bestätigen",
+    "@_LANGUAGES": {},
+    "languagePageTitle": "Sprache",
+    "languageSystemName": "System",
+    "languageDeName": "Deutsch",
+    "languageEnName": "Englisch"
+}

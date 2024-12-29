@@ -84,6 +84,7 @@ import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller_factory
 import 'package:sharezone/ical_links/list/ical_links_page_controller.dart';
 import 'package:sharezone/ical_links/shared/ical_link_analytics.dart';
 import 'package:sharezone/ical_links/shared/ical_links_gateway.dart';
+import 'package:sharezone/l10n/feature_flag_l10n.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone/main/onboarding/onboarding_navigator.dart';
@@ -497,7 +498,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
         lazy: false,
       ),
-      Provider<KeyValueStore>.value(value: keyValueStore)
+      Provider<KeyValueStore>.value(value: keyValueStore),
     ];
 
     mainBlocProviders = <BlocProvider>[
@@ -593,6 +594,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           analytics: analytics,
           appFunctions: api.references.functions,
           keyValueStore: widget.blocDependencies.keyValueStore,
+          featureFlagl10n: context.read<FeatureFlagl10n>(),
         ),
       ),
       BlocProvider<NotificationsBlocFactory>(

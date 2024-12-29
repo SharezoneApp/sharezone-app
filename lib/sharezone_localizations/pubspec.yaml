@@ -1,0 +1,28 @@
+# Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+name: sharezone_localizations
+version: 1.0.0
+description: Translations for the Sharezone app
+publish_to: "none"
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  sharezone_lints:
+    path: ../sharezone_lints
+  provider: ^6.0.3
+
+flutter:
+  generate: true

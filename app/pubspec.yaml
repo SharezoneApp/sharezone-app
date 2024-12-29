@@ -11,7 +11,7 @@ description: A collaborative school planner for students, teachers and parents.
 # Note that we do not store the current build number in the pubspec.yaml. The
 # build number is automatically increased by the CD pipeline (using `sz deploy`
 # command).
-version: 2.2.2+0
+version: 2.2.3+0
 publish_to: none
 
 environment:
@@ -162,6 +162,8 @@ dependencies:
   shared_preferences: ^2.2.3
   sharezone_common:
     path: ../lib/sharezone_common
+  sharezone_localizations:
+    path: ../lib/sharezone_localizations
   sharezone_utils:
     path: ../lib/sharezone_utils
   sharezone_plus_page_ui:

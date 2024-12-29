@@ -17,7 +17,7 @@ const defaultIsAWeekEvenWeek = true;
 final defaultTimetableStartTime = Time(hour: 7, minute: 30);
 const defaultPeriods = standardPeriods;
 const defaultEnabledWeekDays = EnabledWeekDays.standard;
-const defaultShowAbbreviation = false;
+const defaultShowAbbreviation = true;
 
 class UserSettings {
   final Time timetableStartTime;
