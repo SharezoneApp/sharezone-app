@@ -85,7 +85,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       # Our Android configurations require Java 17.
-      - uses: actions/setup-java@b36c23c0d998641eff861008f374ee103c25ac73
+      - uses: actions/setup-java@8df1039502a15bceb9433410b1a100fbe190c53b
         with:
           distribution: "oracle"
           java-version: "17"
@@ -184,7 +184,7 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      - uses: futureware-tech/simulator-action@48e51da14445b3eedca643bba4b78d9d8332ff31
+      - uses: futureware-tech/simulator-action@bde6805eedaeaba7775a9959970edc7d8bf10c4d
         id: simulator
         with:
           model: "iPhone 16"
