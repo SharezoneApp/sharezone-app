@@ -27,6 +27,8 @@ dependencies:
   collection: ^1.15.0-nullsafety.4
   helper_functions:
     path: ../helper_functions
+  sharezone_localizations:
+    path: ../sharezone_localizations
 
 dev_dependencies:
   flutter_test:
