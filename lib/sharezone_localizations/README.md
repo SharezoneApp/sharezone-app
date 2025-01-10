@@ -13,7 +13,7 @@
   - [Generating Localizations](#generating-localizations)
     - [Flutter Gen-L10n Command](#flutter-gen-l10n-command)
     - [Using VS Code Task](#using-vs-code-task)
-    - [Translating with arb\_translate](#translating-with-arb_translate)
+  - [Translating with arb\_translate](#translating-with-arb_translate)
 
 ---
 
@@ -118,7 +118,7 @@ If you have a VS Code task called "Generate l10n for sharezone_localizations", y
 
 This task runs `flutter gen-l10n` with your chosen configuration.
 
-### Translating with arb_translate
+## Translating with arb_translate
 
 With the [arb_translate](https://pub.dev/packages/arb_translate) package, you can auto-translate your .arb files using
 Large Language Models (LLMs). We're going to use [Gemini](https://deepmind.google/technologies/gemini/). An LLM has the advantage that we can provide the model with context (what our application does, what the string is for, etc.), which can lead to better translations.
@@ -152,3 +152,5 @@ Large Language Models (LLMs). We're going to use [Gemini](https://deepmind.googl
 - Look for context-specific terms that might need manual adjustment
 - Consider having native speakers review critical sections
 - Override auto-translations as needed by updating the .arb files manually
+
+6. Re-generate the localizations, see [Generating Localizations](#generating-localizations)
