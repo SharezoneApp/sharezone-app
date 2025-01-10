@@ -13,3 +13,5 @@ output-localization-file: sharezone_localizations.gen.dart
 output-class: SharezoneLocalizations
 synthetic-package: false
 format: true
+arb-translate-model: gemini-1.5-pro
+arb-translate-context: A collaborative school planner for students, teachers and parents. Use informal language.
