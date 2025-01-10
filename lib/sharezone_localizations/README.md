@@ -120,7 +120,7 @@ This task runs `flutter gen-l10n` with your chosen configuration.
 
 ### Translating with arb_translate
 
-With the arb_translate package, you can auto-translate your .arb files using
+With the [arb_translate](https://pub.dev/packages/arb_translate) package, you can auto-translate your .arb files using
 Large Language Models (LLMs). We're going to use [Gemini](https://deepmind.google/technologies/gemini/). An LLM has the advantage that we can provide the model with context (what our application does, what the string is for, etc.), which can lead to better translations.
 
 1. Install the arb_translate package:
