@@ -8,7 +8,7 @@
     "commonActionsSave": "Speichern",
     "commonActionsClose": "Schließen",
     "commonActionsOk": "Ok",
-    "commonActionsYes": "Ok",
+    "commonActionsYes": "Ja",
     "commonActionsAlright": "Alles klar",
     "commonActionsDelete": "Löschen",
     "commonActionsContactSupport": "Support kontaktieren",
@@ -148,7 +148,7 @@
     "stateMecklenburgVorpommern": "Mecklenburg-Vorpommern",
     "stateNiedersachsen": "Niedersachsen",
     "stateNordrheinWestfalen": "Nordrhein-Westfalen",
-    "stateRheinlandPfalz": "Rheinland Pfalz",
+    "stateRheinlandPfalz": "Rheinland-Pfalz",
     "stateSaarland": "Saarland",
     "stateSachsen": "Sachsen",
     "stateSachsenAnhalt": "Sachsen-Anhalt",
@@ -236,5 +236,22 @@
     "timetableSettingsPageShowLessonsAbbreviation": "Kürzel im Stundenplan anzeigen",
     "timetableSettingsPageABWeekTileTitle": "A/B Wochen",
     "timetableSettingsPageAWeeksAreEvenSwitch": "A-Wochen sind gerade Kalenderwochen",
-    "timetableSettingsPageThisWeekIs": "Diese Woche ist Kalenderwoche {calendar_week}. A-Wochen sind {is_a_week_even} Kalenderwochen und somit ist aktuell eine {even_or_odd_week}"
+    "timetableSettingsPageThisWeekIs": "Diese Woche ist Kalenderwoche {calendar_week}. A-Wochen sind {is_a_week_even} Kalenderwochen und somit ist aktuell eine {even_or_odd_week}",
+    "@timetableSettingsPageThisWeekIs": {
+        "description": "A text that is displayed below the set if the current week is a or b week",
+        "placeholders": {
+            "calendar_week": {
+                "type": "int",
+                "example": "12"
+            },
+            "is_a_week_even": {
+                "type": "String",
+                "example": "gerade"
+            },
+            "even_or_odd_week": {
+                "type": "String",
+                "example": "A-Woche"
+            }
+        }
+    }
 }

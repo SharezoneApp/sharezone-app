@@ -35,7 +35,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get commonActionsOk => 'Ok';
 
   @override
-  String get commonActionsYes => 'Ok';
+  String get commonActionsYes => 'Ja';
 
   @override
   String get commonActionsAlright => 'Alles klar';
@@ -276,7 +276,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get stateNordrheinWestfalen => 'Nordrhein-Westfalen';
 
   @override
-  String get stateRheinlandPfalz => 'Rheinland Pfalz';
+  String get stateRheinlandPfalz => 'Rheinland-Pfalz';
 
   @override
   String get stateSaarland => 'Saarland';
@@ -497,7 +497,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String timetableSettingsPageThisWeekIs(
-      Object calendar_week, Object even_or_odd_week, Object is_a_week_even) {
+      int calendar_week, String is_a_week_even, String even_or_odd_week) {
     return 'Diese Woche ist Kalenderwoche $calendar_week. A-Wochen sind $is_a_week_even Kalenderwochen und somit ist aktuell eine $even_or_odd_week';
   }
 }

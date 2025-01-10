@@ -116,7 +116,12 @@ class _ABWeekField extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                       child: Text(
-                        "Diese Woche ist Kalenderwoche ${getWeekNumber(clock.now()).toString()}. A-Wochen sind ${_getAWeekIsEvenOrOddName(userSettings.isAWeekEvenWeek)} Kalenderwochen und somit ist aktuell eine ${_getCurrentWeekTypeName(userSettings.isAWeekEvenWeek)}.",
+                        context.l10n.timetableSettingsPageThisWeekIs(
+                          getWeekNumber(clock.now()),
+                          _getAWeekIsEvenOrOddName(
+                              userSettings.isAWeekEvenWeek),
+                          _getCurrentWeekTypeName(userSettings.isAWeekEvenWeek),
+                        ),
                         textAlign: TextAlign.left,
                         style:
                             const TextStyle(fontSize: 12, color: Colors.grey),

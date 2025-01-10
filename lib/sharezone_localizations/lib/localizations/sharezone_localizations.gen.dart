@@ -146,7 +146,7 @@ abstract class SharezoneLocalizations {
   /// No description provided for @commonActionsYes.
   ///
   /// In de, this message translates to:
-  /// **'Ok'**
+  /// **'Ja'**
   String get commonActionsYes;
 
   /// No description provided for @commonActionsAlright.
@@ -555,7 +555,7 @@ abstract class SharezoneLocalizations {
   /// No description provided for @stateRheinlandPfalz.
   ///
   /// In de, this message translates to:
-  /// **'Rheinland Pfalz'**
+  /// **'Rheinland-Pfalz'**
   String get stateRheinlandPfalz;
 
   /// No description provided for @stateSaarland.
@@ -930,12 +930,12 @@ abstract class SharezoneLocalizations {
   /// **'A-Wochen sind gerade Kalenderwochen'**
   String get timetableSettingsPageAWeeksAreEvenSwitch;
 
-  /// No description provided for @timetableSettingsPageThisWeekIs.
+  /// A text that is displayed below the set if the current week is a or b week
   ///
   /// In de, this message translates to:
   /// **'Diese Woche ist Kalenderwoche {calendar_week}. A-Wochen sind {is_a_week_even} Kalenderwochen und somit ist aktuell eine {even_or_odd_week}'**
   String timetableSettingsPageThisWeekIs(
-      Object calendar_week, Object even_or_odd_week, Object is_a_week_even);
+      int calendar_week, String is_a_week_even, String even_or_odd_week);
 }
 
 class _SharezoneLocalizationsDelegate
