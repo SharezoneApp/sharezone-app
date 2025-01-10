@@ -10,6 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -20,9 +21,12 @@ class ChangeStatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-            AppBar(title: const Text("Bundesland ändern"), centerTitle: true),
-        body: const _ChangeStatePageBody());
+      appBar: AppBar(
+        title: Text(context.l10n.changeStatePageTitle),
+        centerTitle: true,
+      ),
+      body: const _ChangeStatePageBody(),
+    );
   }
 }
 
@@ -40,8 +44,7 @@ class _ChangeStatePageBody extends StatelessWidget {
           return const Center(child: AccentColorCircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return const Text(
-              "Error beim Anzeigen der Bundesländer. Falls der Fehler besteht kontaktiere uns bitte.");
+          return Text(context.l10n.changeStatePageErrorLoadingState);
         }
         final currentState = snapshot.data;
         return SingleChildScrollView(
@@ -66,20 +69,18 @@ class _ChangeStatePageBody extends StatelessWidget {
 
   void showExceptionSnackbar(BuildContext context) => showSnackSec(
       context: context,
-      text: "Fehler beim Ändern deines Bundeslandes!:(",
+      text: context.l10n.changeStatePageErrorChangingState,
       seconds: 3);
 }
 
 class _WhyWeNeedTheState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       child: InfoMessage(
-        title: "Wozu brauchen wir dein Bundesland?",
-        message:
-            "Mithilfe des Bundeslandes können wir die restlichen Tage bis zu den nächsten Ferien berechnen. Wenn du diese "
-            "Angabe nicht machen möchtest, dann wähle beim Bundesland bitte einfach den Eintrag \"Anonym bleiben.\" aus.",
+        title: context.l10n.changeStatePageWhyWeNeedTheStateInfoTitle,
+        message: context.l10n.changeStatePageWhyWeNeedTheStateInfoContent,
       ),
     );
   }
@@ -129,7 +130,7 @@ class _StateListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HolidayBloc>(context);
     return RadioListTile(
-      title: Text(stateEnumToString[state]!),
+      title: Text(state.getDisplayName(context)),
       value: state,
       groupValue: initialState,
       onChanged: (StateEnum? newState) {

@@ -71,8 +71,8 @@ class ChangeDataPasswordField extends StatefulWidget {
   const ChangeDataPasswordField({
     super.key,
     required this.onEditComplete,
+    required this.labelText,
     this.focusNode,
-    this.labelText = "Passwort",
     this.autofocus = false,
   });
 
