@@ -131,6 +131,15 @@ Large Language Models (LLMs). We're going to use [Gemini](https://deepmind.googl
 
 2. Generate your API key. You can create your Gemini key [here](https://makersuite.google.com/app/apikey).
 3. Save your API token in the environment variable `ARB_TRANSLATE_API_KEY`
+  
+   ```bash
+   # Linux/macOS
+   export ARB_TRANSLATE_API_KEY='your-api-key'
+   
+   # Windows (PowerShell)
+   $env:ARB_TRANSLATE_API_KEY='your-api-key'
+   ```
+
 4. Run the following command to translate your .arb files (from the `lib/sharezone_localizations` directory):
 
    ```bash
