@@ -48,12 +48,14 @@ class _MemberCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (isNotEmptyOrNull(socialMediaLinks?.instagram))
-                    SocialButton.instagram(socialMediaLinks!.instagram!),
+                    SocialButton.instagram(
+                        context, socialMediaLinks!.instagram!),
                   if (isNotEmptyOrNull(socialMediaLinks?.twitter))
-                    SocialButton.twitter(socialMediaLinks!.twitter!),
+                    SocialButton.twitter(context, socialMediaLinks!.twitter!),
                   if (isNotEmptyOrNull(socialMediaLinks?.linkedIn))
-                    SocialButton.linkedIn(socialMediaLinks!.linkedIn!),
-                  if (isNotEmptyOrNull(email)) SocialButton.email(email!),
+                    SocialButton.linkedIn(context, socialMediaLinks!.linkedIn!),
+                  if (isNotEmptyOrNull(email))
+                    SocialButton.email(context, email!),
                 ],
               ),
             ],

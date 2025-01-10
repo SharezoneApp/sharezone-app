@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/util/platform_information_manager/get_platform_information_retreiver.dart';
 import 'package:sharezone/util/platform_information_manager/platform_information_retreiver.dart';
@@ -35,7 +36,8 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Über uns"), centerTitle: true),
+      appBar:
+          AppBar(title: Text(context.l10n.aboutPageTitle), centerTitle: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: SafeArea(
@@ -68,7 +70,7 @@ class _AboutHeader extends StatelessWidget {
       avatarBackgroundColor: Colors.white,
       children: <Widget>[
         Text(
-          "Sharezone",
+          context.l10n.aboutPageHeaderTitle,
           style: TextStyle(
             color:
                 Theme.of(context).isDarkTheme ? Colors.white : Colors.black54,
@@ -76,9 +78,9 @@ class _AboutHeader extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const Text(
-          "Der vernetzte Schulplaner",
-          style: TextStyle(
+        Text(
+          context.l10n.aboutPageHeaderSubtitle,
+          style: const TextStyle(
             color: Colors.grey,
             fontSize: 15,
           ),
@@ -86,12 +88,16 @@ class _AboutHeader extends StatelessWidget {
         FutureBuilder<PlatformInformationRetriever>(
           future: getPlatformInformationRetrieverWithInit(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Text("Version wird geladen...");
-            if (snapshot.hasError) {
-              return Text("Fehler: ${snapshot.error.toString()}");
+            if (!snapshot.hasData) {
+              return Text(context.l10n.aboutPageLoadingVersion);
             }
+            if (snapshot.hasError) {
+              return Text(context.l10n.commonDisplayError('${snapshot.error}'));
+            }
+            final buildNumber = snapshot.data?.versionNumber;
+            final version = snapshot.data?.version;
             return Text(
-              "Version: ${snapshot.data?.version} (${snapshot.data?.versionNumber})",
+              context.l10n.aboutPageVersion(version, buildNumber),
               style: TextStyle(
                   color: Colors.grey[400],
                   fontSize: 14,
@@ -108,23 +114,24 @@ class _FollowUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AboutSection(
-      title: 'Folge uns',
+      title: context.l10n.aboutPageFollowUsTitle,
       child: CustomCard(
         padding: const EdgeInsets.all(12),
         child: Column(
           children: <Widget>[
             Text(
-              "Folge uns auf unseren Kanälen, um immer auf dem neusten Stand zu bleiben.",
+              context.l10n.aboutPageFollowUsSubtitle,
               style: _greyTextStyle(context),
             ),
             const SizedBox(height: 8),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                SocialButton.instagram("https://sharezone.net/instagram"),
-                SocialButton.twitter("https://sharezone.net/twitter"),
-                SocialButton.discord("https://sharezone.net/discord"),
-                SocialButton.github("https://sharezone.net/github"),
+                SocialButton.instagram(
+                    context, "https://sharezone.net/instagram"),
+                SocialButton.twitter(context, "https://sharezone.net/twitter"),
+                SocialButton.discord(context, "https://sharezone.net/discord"),
+                SocialButton.github(context, "https://sharezone.net/github"),
               ],
             )
           ],
@@ -138,7 +145,7 @@ class _AboutSharezone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AboutSection(
-      title: 'Was ist Sharezone?',
+      title: context.l10n.aboutPageAboutSectionTitle,
       child: CustomCard(
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -146,17 +153,12 @@ class _AboutSharezone extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SelectableText(
-                "Sharezone ist ein vernetzter Schulplaner, welcher die Organisation von Schülern, Lehrkräften und Eltern aus der"
-                " Steinzeit in das digitale Zeitalter katapultiert. Das Hausaufgabenheft, der Terminplaner, die Dateiablage "
-                "und vieles weitere wird direkt mit der kompletten Klasse geteilt. Dabei ist keine Registrierung der Schule und "
-                "die Leitung einer Lehrkraft notwendig, so dass du direkt durchstarten und deinen Schulalltag bequem und "
-                "einfach gestalten kannst.",
+                context.l10n.aboutPageAboutSectionDescription,
                 style: _greyTextStyle(context),
               ),
               const SizedBox(height: 8),
               MarkdownBody(
-                data:
-                    "Besuche für weitere Informationen einfach https://www.sharezone.net.",
+                data: context.l10n.aboutPageAboutSectionVisitWebsite,
                 selectable: true,
                 styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
                     .copyWith(
