@@ -202,6 +202,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'We\'ve sent you an email to reset your password.';
 
   @override
+  String get changePasswordPageLoadingSnackbarText =>
+      'New password is sent to the head office...';
+
+  @override
   String get changeEmailAddressPageTitle => 'Change Email';
 
   @override

@@ -114,6 +114,10 @@
     "@changePasswordPageResetCurrentPasswordEmailSentConfirmation": {
         "description": "The confirmation text that an email for resetting the password has been sent"
     },
+    "changePasswordPageLoadingSnackbarText": "Neues Password wird an die Zentrale geschickt...",
+    "@changePasswordPageLoadingSnackbarText": {
+        "description": "A text for the SnackBar widget when the user presses the change password button"
+    },
     "@_CHANGE_EMAIL_ADDRESS_PAGE": {},
     "changeEmailAddressPageTitle": "E-Mail ändern",
     "changeEmailAddressPageCurrentEmailTextfieldLabel": "Aktuell",

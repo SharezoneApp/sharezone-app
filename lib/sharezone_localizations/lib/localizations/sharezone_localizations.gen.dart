@@ -420,6 +420,12 @@ abstract class SharezoneLocalizations {
   /// **'Wir haben eine E-Mail zum Zurücksetzen deines Passworts verschickt.'**
   String get changePasswordPageResetCurrentPasswordEmailSentConfirmation;
 
+  /// A text for the SnackBar widget when the user presses the change password button
+  ///
+  /// In de, this message translates to:
+  /// **'Neues Password wird an die Zentrale geschickt...'**
+  String get changePasswordPageLoadingSnackbarText;
+
   /// No description provided for @changeEmailAddressPageTitle.
   ///
   /// In de, this message translates to:

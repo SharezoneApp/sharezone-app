@@ -52,6 +52,7 @@
   "changePasswordPageResetCurrentPasswordDialogContent": "Should we send you an email to reset your password?",
   "changePasswordPageResetCurrentPasswordLoading": "Preparing to send email...",
   "changePasswordPageResetCurrentPasswordEmailSentConfirmation": "We've sent you an email to reset your password.",
+  "changePasswordPageLoadingSnackbarText": "New password is sent to the head office...",
   "changeEmailAddressPageTitle": "Change Email",
   "changeEmailAddressPageCurrentEmailTextfieldLabel": "Current",
   "changeEmailAddressPageNewEmailTextfieldLabel": "New",

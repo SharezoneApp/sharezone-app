@@ -15,7 +15,6 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-const snackBarText = "Neues Password wird an die Zentrale geschickt...";
 const changeType = ChangeType.password;
 
 class ChangePasswordPage extends StatelessWidget {
@@ -61,7 +60,11 @@ class _ChangePasswordFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: FloatingActionButton(
-        onPressed: () async => submit(context, snackBarText, changeType),
+        onPressed: () async => submit(
+          context,
+          context.l10n.changePasswordPageLoadingSnackbarText,
+          changeType,
+        ),
         tooltip: context.l10n.commonActionsSave,
         child: const Icon(Icons.check),
       ),

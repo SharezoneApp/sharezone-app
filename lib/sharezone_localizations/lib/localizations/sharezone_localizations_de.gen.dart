@@ -203,6 +203,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Wir haben eine E-Mail zum Zurücksetzen deines Passworts verschickt.';
 
   @override
+  String get changePasswordPageLoadingSnackbarText =>
+      'Neues Password wird an die Zentrale geschickt...';
+
+  @override
   String get changeEmailAddressPageTitle => 'E-Mail ändern';
 
   @override
