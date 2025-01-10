@@ -5,9 +5,38 @@
     "@_COMMON": {},
     "commonActionsCancel": "Cancel",
     "commonActionsConfirm": "Confirm",
+        "commonActionsSave": "Speichern",
+    "commonActionsClose": "Schließen",
+    "commonActionsContactSupport": "Support kontaktieren",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "linkedIn": "LinkedIn",
+    "discord": "Discord",
+    "email": "Email",
+    "gitHub": "GitHub",
     "@_LANGUAGES": {},
-    "languagePageTitle": "Language",
+    "languagePageTitle": "Langauge",
     "languageSystemName": "System",
     "languageDeName": "German",
-    "languageEnName": "English"
+    "languageEnName": "English",
+    "@_IMPRINT_PAGE": {},
+    "imprintPageTitle": "Imprint",
+    "@_ABOUT_PAGE": {},
+    "aboutPageTitle": "About us",
+    "aboutPageHeaderTitle": "Sharezone",
+    "aboutPageHeaderSubtitle": "The connected school planner",
+    "aboutPageVersion": "Version: {version} ({buildNumber})",
+    "@aboutPageVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String?",
+                "example": "1.5.2"
+            },
+            "buildNumber": {
+                "type": "String?",
+                "example": "234"
+            }
+        }
+    },
+    "aboutPageFollowUsTitle": "Follow us"
 }
