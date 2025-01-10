@@ -145,3 +145,10 @@ Large Language Models (LLMs). We're going to use [Gemini](https://deepmind.googl
    ```bash
    arb_translate
    ```
+
+5. Review and validate translations:
+
+- Check the generated translations for accuracy
+- Look for context-specific terms that might need manual adjustment
+- Consider having native speakers review critical sections
+- Override auto-translations as needed by updating the .arb files manually
