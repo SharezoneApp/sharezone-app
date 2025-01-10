@@ -2,11 +2,6 @@
 
 **Sharezone Localizations** generates easily accessible translatable strings for the Sharezone-App. This package leverages Flutter's [Internationalization (i18n)](https://docs.flutter.dev/development/accessibility-and-localization/internationalization) features, providing an easy interface for adding, generating, and accessing localized strings in your application.
 
-Additionally:
-
-- AppLocaleProviderBloc: Allows you to manage and switch the current locale at runtime.
-- AppLocaleBuilder: Enables direct access to the current AppLocales enum value in your UI, making it straightforward to conditionally render widgets or styles based on the current locale.
-
 ## Table of Contents
 
 - [sharezone\_localizations](#sharezone_localizations)
@@ -18,6 +13,7 @@ Additionally:
   - [Generating Localizations](#generating-localizations)
     - [Flutter Gen-L10n Command](#flutter-gen-l10n-command)
     - [Using VS Code Task](#using-vs-code-task)
+    - [Translating with arb\_translate](#translating-with-arb_translate)
 
 ---
 
@@ -28,6 +24,7 @@ Additionally:
 - Automatic Code Generation: Easily generate localization delegates and associated code using the flutter gen-l10n tool (or a dedicated VS Code Task).
 - Locale Management:
   - `AppLocaleProvider` helps you access and manage the current locale in real time, allowing dynamic locale switching.
+- Auto-translate with [arb_translate](https://pub.dev/packages/arb_translate): Use the arb_translate package to auto-translate your .arb files.
 
 ---
 
@@ -120,3 +117,22 @@ If you have a VS Code task called "Generate l10n for sharezone_localizations", y
 3. Choose "Generate l10n for sharezone_localizations".
 
 This task runs `flutter gen-l10n` with your chosen configuration.
+
+### Translating with arb_translate
+
+With the arb_translate package, you can auto-translate your .arb files using
+Large Language Models (LLMs). We're going to use [Gemini](https://deepmind.google/technologies/gemini/). An LLM has the advantage that we can provide the model with context (what our application does, what the string is for, etc.), which can lead to better translations.
+
+1. Install the arb_translate package:
+
+   ```bash
+   dart pub global activate arb_translate
+   ```
+
+2. Generate your API key. You can create your Gemini key [here](https://makersuite.google.com/app/apikey).
+3. Save your API token in the environment variable `ARB_TRANSLATE_API_KEY`
+4. Run the following command to translate your .arb files (from the `lib/sharezone_localizations` directory):
+
+   ```bash
+   arb_translate
+   ```
