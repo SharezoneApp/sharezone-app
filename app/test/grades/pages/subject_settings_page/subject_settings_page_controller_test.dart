@@ -24,6 +24,37 @@ void main() {
       );
     }
 
+    test('Correctly adds weights', () async {
+      testController.createTerm(termWith(
+        id: termId,
+        finalGradeType: GradeType.schoolReportGrade.id,
+        gradeTypeWeights: {
+          GradeType.writtenExam.id: const Weight.factor(1.5),
+        },
+        subjects: [
+          subjectWith(
+            id: subjectId,
+            weightType: WeightType.inheritFromTerm,
+            // Subjects need a grade to be really created/assigned to the term.
+            grades: [gradeWith()],
+          ),
+        ],
+      ));
+
+      var pageController = createPageController();
+      await pageController.setGradeWeight(
+          gradeTypeId: GradeType.presentation.id,
+          weight: const Weight.factor(0.5));
+
+      // This works:
+      expect(pageController.view.weights.unlockView, {
+        GradeType.presentation.id: const Weight.factor(0.5),
+        GradeType.writtenExam.id: const Weight.factor(1.5),
+      });
+      expect(pageController.view.finalGradeTypeDisplayName,
+          GradeType.schoolReportGrade.predefinedType!.toUiString());
+    });
+
     test(
         'returns final grade type from term if it is not overridden by subject',
         () {
