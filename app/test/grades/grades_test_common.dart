@@ -34,7 +34,21 @@ class GradesTestController {
     service = gradesService ?? GradesService();
   }
 
-  void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = true}) {
+  void createTerm(
+    TestTerm testTerm, {
+    bool createMissingGradeTypes = true,
+
+    /// If true, throws error if a subject of the term has no grades.
+    ///
+    /// Is true by default to prevent developers from being confused when they
+    /// create a term with a subject that has no grades and then try to access
+    /// the subject of the term. This would throw an error as the term won't
+    /// have the subject added, as it has no grades for it (yet).
+    ///
+    /// If you acknowledge this behavior and want to manually add grades to the
+    /// subject later, set this to false.
+    bool throwErrorForSubjectsWithNoGrades = true,
+  }) {
     final termId = testTerm.id;
     final termRef = service.term(termId);
 
@@ -67,6 +81,24 @@ class GradesTestController {
 
     for (var subject in testTerm.subjects.values) {
       final subRef = termRef.subject(subject.id);
+
+      if (subject.grades.isEmpty && throwErrorForSubjectsWithNoGrades) {
+        throw ArgumentError("""
+The subject "${subject.name}" was added to the term "${testTerm.name}", but it has no grades.
+Inside the $GradesService a subject is only really added to a term when a grade is added for this subject.
+Either add a grade to the subject when creating it or set `throwErrorForSubjectsWithNoGrades` to false if you acknowledge this behavior and want to manually add grades later to the subject.
+This error is created so that developers are not confused in this case:
+```
+testController.createTerm(termWith(id: TermId('foo'), subjects: [
+  subjectWith(id: SubjectId('maths')),
+]));
+// Throws error as the term does not have the 'maths' subject, because 
+// it was not added to the term because there is no grade for 'maths' fo
+// this term.
+testController.term(TermId('foo')).subject(SubjectId('maths')).name;
+```
+""");
+      }
 
       service.addSubject(
         id: subject.id,

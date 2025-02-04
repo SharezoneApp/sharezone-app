@@ -432,12 +432,15 @@ void main() {
         final controller = GradesTestController();
         final service = controller.service;
 
-        controller.createTerm(termWith(
-            id: const TermId('1'),
-            gradingSystem: gradingSystem,
-            subjects: [
-              subjectWith(id: const SubjectId('math')),
-            ]));
+        controller.createTerm(
+          termWith(
+              id: const TermId('1'),
+              gradingSystem: gradingSystem,
+              subjects: [
+                subjectWith(id: const SubjectId('math')),
+              ]),
+          throwErrorForSubjectsWithNoGrades: false,
+        );
 
         final pg = service.getPossibleGrades(gradingSystem);
         expect(pg, isA<ContinuousNumericalPossibleGradesResult>());
@@ -488,12 +491,15 @@ void main() {
         final controller = GradesTestController();
         final service = controller.service;
 
-        controller.createTerm(termWith(
-            id: const TermId('1'),
-            gradingSystem: gradingSystem,
-            subjects: [
-              subjectWith(id: const SubjectId('math')),
-            ]));
+        controller.createTerm(
+          termWith(
+              id: const TermId('1'),
+              gradingSystem: gradingSystem,
+              subjects: [
+                subjectWith(id: const SubjectId('math')),
+              ]),
+          throwErrorForSubjectsWithNoGrades: false,
+        );
 
         final pg = service.getPossibleGrades(gradingSystem);
         expect(pg, isA<ContinuousNumericalPossibleGradesResult>());
@@ -554,13 +560,16 @@ void main() {
         final controller = GradesTestController();
         final service = controller.service;
 
-        controller.createTerm(termWith(
-            id: const TermId('1'),
-            gradingSystem: gradingSystem,
-            subjects: [
-              subjectWith(id: const SubjectId('math')),
-              subjectWith(id: const SubjectId('english')),
-            ]));
+        controller.createTerm(
+          termWith(
+              id: const TermId('1'),
+              gradingSystem: gradingSystem,
+              subjects: [
+                subjectWith(id: const SubjectId('math')),
+                subjectWith(id: const SubjectId('english')),
+              ]),
+          throwErrorForSubjectsWithNoGrades: false,
+        );
 
         final pg = service.getPossibleGrades(gradingSystem);
         expect(pg, isA<ContinuousNumericalPossibleGradesResult>());
@@ -740,9 +749,15 @@ void main() {
     test('A suffix is only returned by percentage grade system', () {
       final controller = GradesTestController();
 
-      controller.createTerm(termWith(id: const TermId('1'), subjects: [
-        subjectWith(id: const SubjectId('math')),
-      ]));
+      controller.createTerm(
+        termWith(
+          id: const TermId('1'),
+          subjects: [
+            subjectWith(id: const SubjectId('math')),
+          ],
+        ),
+        throwErrorForSubjectsWithNoGrades: false,
+      );
 
       for (final gradingSystem in GradingSystem.values) {
         final gradeId = GradeId(randomAlpha(5));
