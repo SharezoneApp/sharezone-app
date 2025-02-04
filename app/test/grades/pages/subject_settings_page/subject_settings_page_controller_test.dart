@@ -42,7 +42,7 @@ void main() {
       expect(pageController.view.weights, isEmpty);
     });
     test(
-        'returns term weights if term has default weights and subject has no weights and inherits them from term',
+        'returns term weights if subjects $WeightType is ${WeightType.inheritFromTerm}',
         () async {
       testController.createTerm(
         termWith(
@@ -54,8 +54,13 @@ void main() {
           subjects: [
             subjectWith(
               id: subjectId,
-              gradeTypeWeights: {},
               weightType: WeightType.inheritFromTerm,
+              // Should be ignored because weights are inherited from term.
+              gradeTypeWeights: {
+                GradeType.presentation.id: const Weight.factor(1.5),
+              },
+              // Ignore developer warning related to weight settings.
+              ignoreWeightTypeAssertion: true,
               // Subjects need a grade to be really created/assigned to the term.
               grades: [gradeWith()],
             ),
