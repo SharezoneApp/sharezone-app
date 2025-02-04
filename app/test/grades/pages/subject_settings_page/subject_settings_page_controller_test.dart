@@ -24,6 +24,44 @@ void main() {
       );
     }
 
+    test(
+        'regression test: https://github.com/SharezoneApp/sharezone-app/issues/1803\n'
+        'Correctly adds weights / overrides weights from term', () async {
+      testController.createTerm(termWith(
+        id: termId,
+        finalGradeType: GradeType.schoolReportGrade.id,
+        gradeTypeWeights: {
+          GradeType.writtenExam.id: const Weight.factor(1.5),
+        },
+        subjects: [
+          subjectWith(
+            id: subjectId,
+            weightType: WeightType.inheritFromTerm,
+            // Subjects need a grade to be really created/assigned to the term.
+            grades: [gradeWith()],
+          ),
+        ],
+      ));
+
+      var pageController = createPageController();
+      await pageController.setGradeWeight(
+          gradeTypeId: GradeType.presentation.id,
+          weight: const Weight.factor(0.5));
+
+      // This controller needs to be recreated, otherwise the bug won't show:
+      pageController = createPageController();
+      // This also can't be used instead of recreating the controller to show \
+      // the bug:
+      // await pumpEventQueue();
+
+      expect(pageController.view.weights.unlockView, {
+        GradeType.presentation.id: const Weight.factor(0.5),
+        GradeType.writtenExam.id: const Weight.factor(1.5),
+      });
+      expect(pageController.view.finalGradeTypeDisplayName,
+          GradeType.schoolReportGrade.predefinedType!.toUiString());
+    });
+
     test('Correctly adds weights', () async {
       testController.createTerm(termWith(
         id: termId,
