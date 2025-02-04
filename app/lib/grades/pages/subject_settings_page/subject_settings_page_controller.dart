@@ -43,12 +43,15 @@ class SubjectSettingsPageController extends ChangeNotifier {
     _finalGradeTypeIcon = _getFinalGradeTypeIcon(finalGradeType);
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
 
+    // Todo: Explain this workaround
+    _weights = IMap();
+
     if (subject.weightType == WeightType.inheritFromTerm) {
       // We show the weights from the term, but we need to copy them into the
       // subject if the user changes them.
-      _weights = _getTerm()!.gradeTypeWeightings;
+      _weights = _weights.addAll(_getTerm()!.gradeTypeWeightings);
     } else {
-      _weights = subject.gradeTypeWeights;
+      _weights = _weights.addAll(subject.gradeTypeWeights);
     }
 
     state = SubjectSettingsLoaded(view);
