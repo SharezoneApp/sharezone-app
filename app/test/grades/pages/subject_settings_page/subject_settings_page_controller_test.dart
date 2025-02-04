@@ -6,35 +6,44 @@ import '../../grades_test_common.dart';
 
 void main() {
   group('$SubjectSettingsPageController', () {
+    const termId = TermId('my-term');
+    const subjectId = SubjectId('maths');
+
+    late GradesTestController testController;
+    late TermSubjectRef subRef;
+
+    setUp(() {
+      testController = GradesTestController();
+      subRef = testController.service.term(termId).subject(subjectId);
+    });
+
+    SubjectSettingsPageController createPageController() {
+      return SubjectSettingsPageController(
+        subRef: subRef,
+        gradesService: testController.service,
+      );
+    }
+
     test(
         'returns no weights if term has no default weights and subject has no weights',
         () async {
-      final testController = GradesTestController();
-      const termId = TermId('1');
       testController
           .createTerm(termWith(id: termId, gradeTypeWeights: {}, subjects: [
         subjectWith(
-          id: const SubjectId('maths'),
+          id: subjectId,
           gradeTypeWeights: {},
           // Subjects need a grade to be really created/assigned to the term.
           grades: [gradeWith()],
         ),
       ]));
 
-      final controller = SubjectSettingsPageController(
-        subRef: testController.service
-            .term(termId)
-            .subject(const SubjectId('maths')),
-        gradesService: testController.service,
-      );
+      final pageController = createPageController();
 
-      expect(controller.view.weights, isEmpty);
+      expect(pageController.view.weights, isEmpty);
     });
     test(
         'returns term weights if term has default weights and subject has no weights and inherits them from term',
         () async {
-      final testController = GradesTestController();
-      const termId = TermId('1');
       testController.createTerm(
         termWith(
           id: termId,
@@ -43,7 +52,7 @@ void main() {
           },
           subjects: [
             subjectWith(
-              id: const SubjectId('maths'),
+              id: subjectId,
               gradeTypeWeights: {},
               weightType: WeightType.inheritFromTerm,
               // Subjects need a grade to be really created/assigned to the term.
@@ -53,14 +62,9 @@ void main() {
         ),
       );
 
-      final controller = SubjectSettingsPageController(
-        subRef: testController.service
-            .term(termId)
-            .subject(const SubjectId('maths')),
-        gradesService: testController.service,
-      );
+      final pageController = createPageController();
 
-      expect(controller.view.weights.unlockView, {
+      expect(pageController.view.weights.unlockView, {
         GradeType.presentation.id: const Weight.factor(0.5),
       });
     });
