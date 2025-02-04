@@ -31,6 +31,12 @@ class SubjectSettingsPageController extends ChangeNotifier {
       return;
     }
 
+    if (subject.weightType == WeightType.perGrade) {
+      state = SubjectSettingsError(
+          'Subject "${subject.name}" (id: $subjectId) has its weightType set to ${WeightType.perGrade}. This is not supported (yet).');
+      return;
+    }
+
     _subjectName = subject.name;
     final finalGradeType = _getFinalGradeType(subject.finalGradeTypeId);
     _finalGradeTypeDisplayName = _getFinalGradeTypeDisplayName(finalGradeType);

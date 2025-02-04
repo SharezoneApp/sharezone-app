@@ -106,5 +106,40 @@ void main() {
         GradeType.presentation.id: const Weight.factor(1.5),
       });
     });
+    test(
+        'throws if subjects $WeightType is ${WeightType.perGrade} as we dont support it yet',
+        () async {
+      testController.createTerm(
+        termWith(
+          id: termId,
+          gradeTypeWeights: {
+            GradeType.presentation.id: const Weight.factor(0.5),
+            GradeType.oralParticipation.id: const Weight.percent(200),
+          },
+          subjects: [
+            subjectWith(
+              id: subjectId,
+              weightType: WeightType.perGrade,
+              // Subjects need a grade to be really created/assigned to the term.
+              grades: [
+                gradeWith(
+                  value: 10,
+                  gradingSystem: GradingSystem.zeroToFifteenPoints,
+                ),
+                gradeWith(
+                  value: 12,
+                  gradingSystem: GradingSystem.zeroToFifteenPoints,
+                  weight: const Weight.factor(1.5),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
+      final pageController = createPageController();
+
+      expect(pageController.state, isA<SubjectSettingsError>());
+    });
   });
 }
