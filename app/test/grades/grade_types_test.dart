@@ -329,6 +329,7 @@ void main() {
           id: const TermId('foo'),
           subjects: [subjectWith(id: const SubjectId('bar'))],
         ),
+        throwErrorForSubjectsWithNoGrades: false,
       );
 
       addGrade() => controller.addGrade(
@@ -350,6 +351,7 @@ void main() {
           id: const TermId('foo'),
           subjects: [subjectWith(id: const SubjectId('bar'))],
         ),
+        throwErrorForSubjectsWithNoGrades: false,
       );
 
       addGrades() {
