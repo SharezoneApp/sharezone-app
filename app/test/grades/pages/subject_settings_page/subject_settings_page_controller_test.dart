@@ -93,8 +93,6 @@ void main() {
               gradeTypeWeights: {
                 GradeType.presentation.id: const Weight.factor(1.5),
               },
-              // Ignore developer warning related to weight settings.
-              ignoreWeightTypeAssertion: true,
               // Subjects need a grade to be really created/assigned to the term.
               grades: [gradeWith()],
             ),
