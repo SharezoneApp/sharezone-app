@@ -48,7 +48,8 @@ void main() {
         termWith(
           id: termId,
           gradeTypeWeights: {
-            GradeType.presentation.id: const Weight.factor(0.5)
+            GradeType.presentation.id: const Weight.factor(0.5),
+            GradeType.oralParticipation.id: const Weight.percent(200),
           },
           subjects: [
             subjectWith(
@@ -66,6 +67,7 @@ void main() {
 
       expect(pageController.view.weights.unlockView, {
         GradeType.presentation.id: const Weight.factor(0.5),
+        GradeType.oralParticipation.id: const Weight.percent(200),
       });
     });
   });
