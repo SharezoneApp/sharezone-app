@@ -25,6 +25,30 @@ void main() {
     }
 
     test(
+        'returns final grade type from term if it is not overridden by subject',
+        () {
+      testController.createTerm(
+        termWith(
+          id: termId,
+          finalGradeType: GradeType.presentation.id,
+          subjects: [
+            subjectWith(
+              id: subjectId,
+              finalGradeType: null,
+              // Subjects need a grade to be really created/assigned to the term.
+              grades: [gradeWith()],
+            ),
+          ],
+        ),
+      );
+
+      final pageController = createPageController();
+
+      expect(pageController.view.finalGradeTypeDisplayName,
+          GradeType.presentation.predefinedType!.toUiString());
+    });
+
+    test(
         'returns no weights if term has no default weights and subject has no weights',
         () async {
       testController
