@@ -75,5 +75,38 @@ void main() {
         GradeType.oralParticipation.id: const Weight.percent(200),
       });
     });
+    test(
+        'returns subject weights if subjects $WeightType is ${WeightType.perGradeType}',
+        () async {
+      testController.createTerm(
+        termWith(
+          id: termId,
+          gradeTypeWeights: {
+            GradeType.presentation.id: const Weight.factor(0.5),
+            GradeType.oralParticipation.id: const Weight.percent(200),
+          },
+          subjects: [
+            subjectWith(
+              id: subjectId,
+              weightType: WeightType.perGradeType,
+              // Should be ignored because weights are inherited from term.
+              gradeTypeWeights: {
+                GradeType.presentation.id: const Weight.factor(1.5),
+              },
+              // Ignore developer warning related to weight settings.
+              ignoreWeightTypeAssertion: true,
+              // Subjects need a grade to be really created/assigned to the term.
+              grades: [gradeWith()],
+            ),
+          ],
+        ),
+      );
+
+      final pageController = createPageController();
+
+      expect(pageController.view.weights.unlockView, {
+        GradeType.presentation.id: const Weight.factor(1.5),
+      });
+    });
   });
 }
