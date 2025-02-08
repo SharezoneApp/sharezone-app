@@ -364,7 +364,7 @@ class _ColorCircleSelectDesign extends StatelessWidget {
       color: design.color,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(size)),
       child: InkWell(
-        key: Key('color-circle-${design.color.value}'),
+        key: Key('color-circle-${design.color.hashCode}'),
         borderRadius: BorderRadius.circular(size),
         onTap: onTap,
         child: SizedBox(
