@@ -31,8 +31,6 @@ String getWeekTypeTextShort(WeekType weekDay) {
       return "A";
     case WeekType.b:
       return "B";
-    default:
-      return "?";
   }
 }
 
