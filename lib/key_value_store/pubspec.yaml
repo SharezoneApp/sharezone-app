@@ -11,8 +11,9 @@ description: A key-value-store.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: ">=2.14.0 <3.0.0"
+  sdk: ^3.6.2
 
 dev_dependencies:
   test: ^1.23.1

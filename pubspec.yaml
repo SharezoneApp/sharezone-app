@@ -1,0 +1,54 @@
+name: _
+publish_to: none
+environment:
+  sdk: ^3.6.2
+workspace:
+  - app
+  - console
+  - tools/sz_repo_cli
+  - website
+  - lib/abgabe/abgabe_client_lib
+  - lib/abgabe/abgabe_http_api
+  - lib/analytics
+  - lib/app_functions
+  - lib/authentification/authentification_base
+  - lib/authentification/authentification_qrcode
+  - lib/bloc_base
+  - lib/bloc_provider
+  - lib/build_context
+  - lib/cloud_firestore_helper
+  - lib/cloud_firestore_helper/example
+  - lib/common_domain_models
+  - lib/crash_analytics
+  - lib/date
+  - lib/design
+  - lib/dynamic_links
+  - lib/feedback_shared_implementation
+  - lib/filesharing/files_basics
+  - lib/filesharing/files_usecases
+  - lib/filesharing/filesharing_logic
+  - lib/group_domain_implementation
+  - lib/group_domain_models
+  - lib/hausaufgabenheft_logik
+  - lib/helper_functions
+  - lib/holidays
+  - lib/key_value_store
+  - lib/last_online_reporting
+  - lib/legal
+  - lib/notifications
+  - lib/platform_check
+  - lib/qr_code_scanner
+  - lib/qr_code_scanner/example
+  - lib/remote_configuration
+  - lib/sharezone_common
+  - lib/sharezone_lints
+  - lib/sharezone_localizations
+  - lib/sharezone_plus/sharezone_plus_page_ui
+  - lib/sharezone_plus/stripe_checkout_session
+  - lib/sharezone_utils
+  - lib/sharezone_widgets
+  - lib/test_randomness
+  - lib/time
+  - lib/url_launcher_extended
+  - lib/user
+  - lib/util

@@ -14,8 +14,9 @@ description: A collaborative school planner for students, teachers and parents.
 version: 2.2.3+0
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: ">=3.1.0 <4.0.0"
+  sdk: ^3.6.2
 
 dependencies:
   abgabe_client_lib:
