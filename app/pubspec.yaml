@@ -90,7 +90,7 @@ dependencies:
     sdk: flutter
   # We use a custom version to be able to scroll to a
   # specific heading inside the text and to be able
-  # to know which section is currently read by the user 
+  # to know which section is currently read by the user
   # (used e.g. by the privacy policy).
   flutter_markdown:
     git:
@@ -205,6 +205,12 @@ dependency_overrides:
   device_info_plus: ^10.1.0
   # Can be removed once flutter_localizations uses intl >= 0.19.0
   intl: ^0.19.0
+  # Can be removed once this issue is fixed: https://github.com/2d-inc/Flare-Flutter/issues/325
+  flare_flutter:
+    git:
+      url: https://github.com/mbfakourii/Flare-Flutter.git
+      path: flare_flutter
+      ref: remove_hashValues
 
 dev_dependencies:
   async: ^2.4.1
