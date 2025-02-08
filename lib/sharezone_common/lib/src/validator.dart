@@ -18,7 +18,7 @@ class NotEmptyOrNullValidator implements Validator {
 
   @override
   bool isValid() {
-    if (_string != null && _string!.isNotEmpty) return true;
+    if (_string != null && _string.isNotEmpty) return true;
     return false;
   }
 }
