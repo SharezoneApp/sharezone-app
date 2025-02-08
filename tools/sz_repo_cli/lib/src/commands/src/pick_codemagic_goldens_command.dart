@@ -27,7 +27,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 /// * foo_isolatedDiff.png
 /// * foo_maskedDiff.png
 ///
-/// This command will replace all local goldens with the ones from GitHub 
+/// This command will replace all local goldens with the ones from GitHub
 /// Actions by taking the `_testImage.png` files, removing the `_testImage` part
 /// and replacing the old golden files with the same name.
 class ReplaceGoldens extends CommandBase {
