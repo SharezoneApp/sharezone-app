@@ -43,7 +43,8 @@ class SubjectSettingsPageController extends ChangeNotifier {
     _finalGradeTypeIcon = _getFinalGradeTypeIcon(finalGradeType);
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
 
-    // Todo: Explain this workaround
+    // We shouldn't use the weights from the term/subject directly, because of
+    // https://github.com/SharezoneApp/sharezone-app/issues/1814
     _weights = IMap();
 
     if (subject.weightType == WeightType.inheritFromTerm) {
