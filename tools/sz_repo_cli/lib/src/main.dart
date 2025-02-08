@@ -63,7 +63,7 @@ Future<void> main(List<String> args) async {
         ..addCommand(ExecCommand(context))
         ..addCommand(DoStuffCommand(context))
         ..addCommand(FixCommentSpacingCommand(context))
-        ..addCommand(PickCodemagicGoldens(context))
+        ..addCommand(ReplaceGoldens(context))
         ..addCommand(PubCommand()..addSubcommand(PubGetCommand(context)))
         ..addCommand(LicenseHeadersCommand()
           ..addSubcommand(CheckLicenseHeadersCommand(context))
