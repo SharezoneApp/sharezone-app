@@ -546,7 +546,7 @@ class CardListTile extends StatelessWidget {
                     if (subtitle != null)
                       DefaultTextStyle(
                         style: TextStyle(
-                          color: Colors.grey.withOpacity(0.95),
+                          color: Colors.grey.withValues(alpha: 0.95),
                           fontSize: 12,
                           fontFamily: rubik,
                         ),
@@ -706,7 +706,7 @@ class BottomSheetSlider extends StatelessWidget {
           width: width,
           height: 5,
           decoration: BoxDecoration(
-            color: Colors.grey[400]!.withOpacity(0.7),
+            color: Colors.grey[400]!.withValues(alpha: 0.7),
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
         ),
@@ -817,7 +817,7 @@ class CircleCheckbox extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(
                 width: 2.225,
-                color: const Color(0xFF757575).withOpacity(1),
+                color: const Color(0xFF757575).withValues(alpha: 1),
               ),
               borderRadius: BorderRadius.circular(100),
             ),

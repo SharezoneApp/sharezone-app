@@ -19,7 +19,7 @@ class WhyPlusSharezoneCard extends StatelessWidget {
       child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(17.5),
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
           ),
           child: const Column(
             children: [

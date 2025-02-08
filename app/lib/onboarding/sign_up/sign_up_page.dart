@@ -211,7 +211,7 @@ class _SignUpButtonState extends State<_SignUpButton> {
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).primaryColor,
         disabledForegroundColor:
-            Theme.of(context).primaryColor.withOpacity(0.38),
+            Theme.of(context).primaryColor.withValues(alpha: 0.38),
       ),
       onPressed: isLoading
           ? null

@@ -480,7 +480,8 @@ class _CanceledSubscriptionNote extends StatelessWidget {
         'Du hast dein Sharezone-Plus Abo gekündigt. Du kannst deine Vorteile noch bis zum Ende des aktuellen Abrechnungszeitraums nutzen. Solltest du es dir anders überlegen, kannst du es jederzeit wieder erneut Sharezone-Plus abonnieren.',
         textAlign: TextAlign.center,
         style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+            color:
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)),
       ),
     );
   }

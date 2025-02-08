@@ -45,7 +45,7 @@ class _LessonCard extends StatelessWidget {
                     width: double.infinity,
                     height: double.infinity,
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.2),
+                      color: color.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
@@ -61,7 +61,7 @@ class _LessonCard extends StatelessWidget {
                           ? Theme.of(context).isDarkTheme
                               ? Theme.of(context).cardColor
                               : Colors.white
-                          : color.withOpacity(0.2),
+                          : color.withValues(alpha: 0.2),
                       foregroundColor: color,
                       child: Text(
                         view.abbreviation,

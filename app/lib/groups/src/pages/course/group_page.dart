@@ -369,8 +369,8 @@ class _JoinGroupTile extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(62, 0, 12, 12),
             child: Text(
               description,
-              style:
-                  TextStyle(color: Colors.grey.withOpacity(0.85), fontSize: 12),
+              style: TextStyle(
+                  color: Colors.grey.withValues(alpha: 0.85), fontSize: 12),
             ),
           ),
         ],

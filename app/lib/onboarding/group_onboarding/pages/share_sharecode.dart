@@ -157,7 +157,7 @@ class _SharecodeBox extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 12),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             borderRadius: const BorderRadius.all(Radius.circular(15)),
           ),
           child: Column(

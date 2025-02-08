@@ -172,7 +172,7 @@ class CourseCardRedesign extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: courseColor.withOpacity(0.2),
+                        color: courseColor.withValues(alpha: 0.2),
                         borderRadius: const BorderRadius.horizontal(
                             left: Radius.circular(500),
                             right: Radius.circular(500))),
@@ -407,7 +407,7 @@ class CourseCircleAvatar extends StatelessWidget {
     return Hero(
       tag: heroTag ?? courseId,
       child: CircleAvatar(
-        backgroundColor: color.withOpacity(0.20),
+        backgroundColor: color.withValues(alpha: 0.20),
         child: Text(
           abbreviation ?? "-",
           style: TextStyle(color: color),

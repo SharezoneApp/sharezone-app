@@ -249,7 +249,8 @@ class _MyChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     return _ChatBubble(
       text: view.message,
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
       alignment: Alignment.centerRight,
       sentAt: view.sentAt,
     );
@@ -459,7 +460,7 @@ class _NewLineHint extends StatelessWidget {
         'Shift + Enter für neue Zeile',
         style: TextStyle(
           fontSize: 11,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
         ),
       ),
     );
@@ -520,7 +521,7 @@ class _ChatBubble extends StatelessWidget {
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
-                        .withOpacity(0.5),
+                        .withValues(alpha: 0.5),
                   ),
                 ),
               ],

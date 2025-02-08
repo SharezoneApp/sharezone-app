@@ -156,7 +156,7 @@ class _SelectedDrawerTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       child: Material(
         borderRadius: BorderRadius.circular(5),
-        color: Theme.of(context).primaryColor.withOpacity(0.15),
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.15),
         child: ListTile(
           leading: IconTheme(
             data: iconTheme,

@@ -56,7 +56,7 @@ class HomeworkTileTemplate extends StatelessWidget {
             isCompleted: isCompleted,
           ),
           leading: CircleAvatar(
-            backgroundColor: courseColor.withOpacity(0.2),
+            backgroundColor: courseColor.withValues(alpha: 0.2),
             child: _StrikeThrough(
               isStrikeThrough: isCompleted,
               delay: const Duration(milliseconds: 50),

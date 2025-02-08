@@ -126,7 +126,10 @@ class _Fields extends StatelessWidget {
     return ListTileTheme(
       data: Theme.of(context).listTileTheme.copyWith(
             subtitleTextStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.5),
             ),
           ),
       child: const Column(

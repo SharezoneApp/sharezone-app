@@ -235,7 +235,7 @@ class PrivacyPolicyText extends StatelessWidget {
                   .copyWith(fontWeight: FontWeight.w500),
               blockquoteDecoration: BoxDecoration(
                 color: Theme.of(context).isDarkTheme
-                    ? Colors.blue.shade800.withOpacity(.6)
+                    ? Colors.blue.shade800.withValues(alpha: .6)
                     : Colors.blue.shade100,
                 borderRadius: BorderRadius.circular(2.0),
               )),

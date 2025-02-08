@@ -215,8 +215,10 @@ class _NameDialogState extends State<_NameDialog> {
               Text(
                 "Der Name beschreibt das Halbjahr, z.B. '10/2' für das zweite Halbjahr der 10. Klasse.",
                 style: TextStyle(
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.6),
                 ),
               ),
               const SizedBox(height: 20),
@@ -313,14 +315,20 @@ class _SubjectWeights extends StatelessWidget {
         Text(
           'Solltest du Kurse haben, die doppelt gewichtet werden, kannst du bei diesen eine 2.0 eintragen.',
           style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.5)),
         ),
         const SizedBox(height: 8),
         if (subjects.isEmpty)
           Text(
             'Du hast bisher noch keine Fächer erstellt.',
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.5),
             ),
           ),
         for (final subject in subjects)
@@ -486,8 +494,10 @@ class _FactorDialogState extends State<_FactorDialog> {
               Text(
                 'Die Gewichtung beschreibt, wie stark die Note des Kurses in den Halbjahresschnitt einfließt.',
                 style: TextStyle(
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.6),
                 ),
               ),
               const SizedBox(height: 20),

@@ -104,7 +104,7 @@ class _TermGrade extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: grade.$2.toColor().withOpacity(0.1),
+        color: grade.$2.toColor().withValues(alpha: 0.1),
       ),
       child: Text(
         '⌀ ${grade.$1}',
