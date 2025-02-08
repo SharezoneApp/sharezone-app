@@ -122,11 +122,10 @@ class SubjectSettingsPageController extends ChangeNotifier {
       return;
     }
 
-    // In the constructor, we already copied the weights from the term. But they
-    // were only copied into the state. Now we need to copy them into the
-    // database.
-    // Todo: Use weights from term for clarity?
-    for (final entry in _weights.entries) {
+    // When switching from inheritFromTerm to perGradeType, we need to copy the
+    // existing weights from the term to the subject.
+    final termWeights = _getTerm()!.gradeTypeWeightings.entries;
+    for (final entry in termWeights) {
       subRef.changeGradeTypeWeight(entry.key, entry.value);
       await waitForFirestoreWriteLimit();
     }
