@@ -8,7 +8,6 @@
 
 import 'dart:developer';
 
-import 'package:collection/collection.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:retry/retry.dart';
 import 'package:sharezone/main/sharezone.dart';
@@ -92,6 +91,6 @@ class NotificationTokenAdderApi {
 
   Future<List<String>> getUserTokensFromDatabase() async {
     final user = await _userApi.userStream.first;
-    return user?.notificationTokens.whereNotNull().toList() ?? [];
+    return user?.notificationTokens.nonNulls.toList() ?? [];
   }
 }
