@@ -11,7 +11,7 @@ description: A collaborative school planner for students, teachers and parents.
 # Note that we do not store the current build number in the pubspec.yaml. The
 # build number is automatically increased by the CD pipeline (using `sz deploy`
 # command).
-version: 2.2.3+0
+version: 2.2.4+0
 publish_to: none
 
 environment:
@@ -90,7 +90,7 @@ dependencies:
     sdk: flutter
   # We use a custom version to be able to scroll to a
   # specific heading inside the text and to be able
-  # to know which section is currently read by the user 
+  # to know which section is currently read by the user
   # (used e.g. by the privacy policy).
   flutter_markdown:
     git:
