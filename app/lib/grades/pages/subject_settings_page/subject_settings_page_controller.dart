@@ -31,18 +31,28 @@ class SubjectSettingsPageController extends ChangeNotifier {
       return;
     }
 
+    if (subject.weightType == WeightType.perGrade) {
+      state = SubjectSettingsError(
+          'Subject "${subject.name}" (id: $subjectId) has its weightType set to ${WeightType.perGrade}. This is not supported (yet).');
+      return;
+    }
+
     _subjectName = subject.name;
     final finalGradeType = _getFinalGradeType(subject.finalGradeTypeId);
     _finalGradeTypeDisplayName = _getFinalGradeTypeDisplayName(finalGradeType);
     _finalGradeTypeIcon = _getFinalGradeTypeIcon(finalGradeType);
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
 
+    // We shouldn't use the weights from the term/subject directly, because of
+    // https://github.com/SharezoneApp/sharezone-app/issues/1814
+    _weights = IMap();
+
     if (subject.weightType == WeightType.inheritFromTerm) {
       // We show the weights from the term, but we need to copy them into the
       // subject if the user changes them.
-      _weights = _getTerm()!.gradeTypeWeightings;
+      _weights = _weights.addAll(_getTerm()!.gradeTypeWeightings);
     } else {
-      _weights = subject.gradeTypeWeights;
+      _weights = _weights.addAll(subject.gradeTypeWeights);
     }
 
     state = SubjectSettingsLoaded(view);
@@ -113,11 +123,11 @@ class SubjectSettingsPageController extends ChangeNotifier {
       return;
     }
 
-    // In the constructor, we already copied the weights from the term. But they
-    // were only copied into the state. Now we need to copy them into the
-    // database.
-    for (final gradeType in _weights.keys) {
-      subRef.changeFinalGradeType(gradeType);
+    // When switching from inheritFromTerm to perGradeType, we need to copy the
+    // existing weights from the term to the subject.
+    final termWeights = _getTerm()!.gradeTypeWeightings.entries;
+    for (final entry in termWeights) {
+      subRef.changeGradeTypeWeight(entry.key, entry.value);
       await waitForFirestoreWriteLimit();
     }
 
