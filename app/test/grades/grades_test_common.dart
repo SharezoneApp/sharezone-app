@@ -433,6 +433,7 @@ TestSubject subjectWith({
   GradeTypeId? finalGradeType,
   Design? design,
   List<ConnectedCourse> connectedCourses = const [],
+  bool ignoreWeightTypeAssertion = false,
 }) {
   final idRes = id ?? SubjectId(randomAlpha(5));
   final nameRes = name ?? idRes.value;
@@ -448,6 +449,7 @@ TestSubject subjectWith({
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     design: design ?? Design.random(szTestRandom),
+    ignoreWeightTypeAssertion: ignoreWeightTypeAssertion,
   );
 }
 
@@ -474,7 +476,9 @@ class TestSubject {
     this.weightType,
     this.weight,
     this.finalGradeType,
+    bool ignoreWeightTypeAssertion = false,
   }) : assert(() {
+          if (ignoreWeightTypeAssertion) return true;
           // Help developers to not forget to set the weightType if
           // gradeTypeWeights or grade weights are set. This is not a hard
           // requirement by the logic, so if you need to do it anyways then you
