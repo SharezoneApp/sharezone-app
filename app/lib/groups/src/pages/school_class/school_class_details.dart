@@ -214,7 +214,8 @@ class _SchoolClassAvatarCard extends StatelessWidget {
         AvatarCard(
           crossAxisAlignment: CrossAxisAlignment.center,
           kuerzel: _getSchoolClassAbbreviation(),
-          avatarBackgroundColor: schoolClass.getDesign().color.withOpacity(0.2),
+          avatarBackgroundColor:
+              schoolClass.getDesign().color.withValues(alpha: 0.2),
           fontColor: schoolClass.getDesign().color,
           withShadow: false,
           paddingBottom: 0,

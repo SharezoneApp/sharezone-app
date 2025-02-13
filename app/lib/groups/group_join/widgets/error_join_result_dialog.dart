@@ -31,7 +31,9 @@ class ErrorJoinResultDialog extends StatelessWidget {
       return _NotPublic();
     }
     if (errorJoinResult.groupJoinException
-        is SharecodeNotFoundGroupJoinException) return _NotFound();
+        is SharecodeNotFoundGroupJoinException) {
+      return _NotFound();
+    }
 
     return _UnknownError();
   }

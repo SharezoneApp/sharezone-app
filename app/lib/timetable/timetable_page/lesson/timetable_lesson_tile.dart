@@ -41,7 +41,7 @@ class TimetableEntryLesson extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Material(
-        color: design?.color.withOpacity(0.2),
+        color: design?.color.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(4),
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(4)),

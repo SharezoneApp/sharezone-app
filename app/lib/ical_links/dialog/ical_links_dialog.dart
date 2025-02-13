@@ -315,7 +315,8 @@ class _PrivateNote extends StatelessWidget {
         child: Text(
           "iCal Exporte sind privat und nur für dich sichtbar.",
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            color:
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
           ),
           textAlign: TextAlign.center,
         ),

@@ -161,7 +161,7 @@ class _PeriodTile extends StatelessWidget {
         child: Material(
           clipBehavior: Clip.antiAlias,
           color: (isSelected ? Colors.lightGreen : Colors.lightBlue)
-              .withOpacity(0.20),
+              .withValues(alpha: 0.20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

@@ -327,8 +327,8 @@ class _Card extends StatelessWidget {
       header: header,
       body: body,
       backgroundColor: context.isDarkThemeEnabled
-          ? Theme.of(context).colorScheme.primary.withOpacity(0.2)
-          : primaryColor.withOpacity(.3),
+          ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)
+          : primaryColor.withValues(alpha: .3),
     );
   }
 }

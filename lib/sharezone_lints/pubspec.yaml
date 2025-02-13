@@ -11,8 +11,9 @@ version: 1.0.0
 description: Set of lint rules for Sharezone Dart and Flutter projects
 publish_to: "none"
 
+resolution: workspace
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ^3.6.2
 
 dependencies:
   # We can not add the flutter_lints package to our dev dependencies, because

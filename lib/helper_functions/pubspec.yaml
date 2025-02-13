@@ -11,8 +11,9 @@ description: A package containing helper functions.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ^3.6.2
 
 dev_dependencies:
   sharezone_lints:

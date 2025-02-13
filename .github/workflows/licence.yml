@@ -53,20 +53,7 @@ jobs:
       - name: Activate license_checker
         run: dart pub global activate license_checker 1.6.0
 
-      - name: Check licenses in app
+      - name: Check licenses
         run: |
-          cd app
           flutter pub get
-          lic_ck check-licenses --config ../licenses_config.yaml --problematic
-
-      - name: Check licenses in sz cli
-        run: |
-          cd tools/sz_repo_cli
-          dart pub get
-          lic_ck check-licenses --config ../../licenses_config.yaml --problematic
-
-      - name: Check licenses in website
-        run: |
-          cd website
-          flutter pub get
-          lic_ck check-licenses --config ../licenses_config.yaml --problematic
+          lic_ck check-licenses --config licenses_config.yaml --problematic

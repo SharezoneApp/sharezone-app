@@ -241,7 +241,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
           }
           return (subject: subject, termSubjectObj: termSub);
         })
-        .whereNotNull()
+        .nonNulls
         .toIList();
 
     final termSubjects = combinedTermSubjects.map((s) {

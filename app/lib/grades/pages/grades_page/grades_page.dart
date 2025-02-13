@@ -155,7 +155,7 @@ class _Empty extends StatelessWidget {
                                 backgroundColor: Theme.of(context)
                                     .colorScheme
                                     .primary
-                                    .withOpacity(0.2),
+                                    .withValues(alpha: 0.2),
                                 radius: 150,
                               ),
                             ),

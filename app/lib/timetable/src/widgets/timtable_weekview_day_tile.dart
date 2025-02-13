@@ -83,6 +83,6 @@ class TimetableWeekViewDayTile extends StatelessWidget {
 
   Color _getTextColorMonth(BuildContext context) =>
       Theme.of(context).isDarkTheme
-          ? Colors.white.withOpacity(0.7)
-          : darkBlueColor.withOpacity(0.7);
+          ? Colors.white.withValues(alpha: 0.7)
+          : darkBlueColor.withValues(alpha: 0.7);
 }

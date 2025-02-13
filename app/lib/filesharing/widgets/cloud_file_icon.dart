@@ -36,7 +36,6 @@ class FileIcon extends StatelessWidget {
       case FileFormat.zip:
         return const Icon(FontAwesomeIcons.box);
       case FileFormat.unknown:
-      default:
         return Icon(Icons.insert_drive_file, color: Colors.grey[600]);
     }
   }

@@ -84,8 +84,10 @@ void main() {
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: getLightTheme());
 
-        await tester
-            .tap(find.byKey(Key('color-circle-${Colors.blue.value}')).last);
+        await tester.tap(find
+            .byKey(Key(
+                'color-circle-${Colors.blue.r}-${Colors.blue.g}-${Colors.blue.b}'))
+            .last);
         await tester.pumpAndSettle();
 
         await multiScreenGolden(tester, 'select_accurate_color_dialog_light');
@@ -96,8 +98,10 @@ void main() {
           (tester) async {
         await pumpSelectDesignDialog(tester, theme: getDarkTheme());
 
-        await tester
-            .tap(find.byKey(Key('color-circle-${Colors.blue.value}')).last);
+        await tester.tap(find
+            .byKey(Key(
+                'color-circle-${Colors.blue.r}-${Colors.blue.g}-${Colors.blue.b}'))
+            .last);
         await tester.pumpAndSettle();
 
         await multiScreenGolden(tester, 'select_accurate_color_dialog_dark');

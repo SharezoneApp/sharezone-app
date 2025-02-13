@@ -68,7 +68,7 @@ class _BnbTutorialState extends State<_BnbTutorial> {
                         Container(
                           height: backgroundHeight,
                           width: context.mediaQuerySize.width,
-                          color: Colors.black.withOpacity(0.65),
+                          color: Colors.black.withValues(alpha: 0.65),
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: SingleChildScrollView(

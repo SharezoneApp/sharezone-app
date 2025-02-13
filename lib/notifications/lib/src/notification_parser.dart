@@ -11,6 +11,8 @@ import 'instrumentation.dart';
 
 class PushNotificationParser {
   final Map<String?, PushNotificationParsingFunc> _parsingMap;
+  // This lint is wrongly triggered (if I'm not mistaken)
+  // ignore: invalid_use_of_internal_member
   final PushNotificationParserInstrumentationFactory _instrumentationFactory;
 
   const PushNotificationParser._(

@@ -296,7 +296,7 @@ List<Widget> _buildSubheadings(
       // there is no header below.
       widgets.add(ColoredBox(
         color: subheadings.first.shouldHighlight
-            ? Colors.black.withOpacity(.3)
+            ? Colors.black.withValues(alpha: .3)
             : Colors.transparent,
         child: const SizedBox(height: .5),
       ));

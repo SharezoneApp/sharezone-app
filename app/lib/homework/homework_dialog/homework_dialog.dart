@@ -483,8 +483,8 @@ class _DueDateChipsLockedPlus extends StatelessWidget {
                 end: Alignment.centerRight,
                 colors: [
                   context.isDarkThemeEnabled
-                      ? Colors.grey.withOpacity(.9)
-                      : primaryColor.withOpacity(.5),
+                      ? Colors.grey.withValues(alpha: .9)
+                      : primaryColor.withValues(alpha: .5),
                   Colors.transparent,
                 ],
               ),
@@ -493,7 +493,7 @@ class _DueDateChipsLockedPlus extends StatelessWidget {
                   : null,
             ),
             child: ColoredBox(
-              color: Colors.black.withOpacity(0),
+              color: Colors.black.withValues(alpha: 0),
               child: const SizedBox(
                 width: 400,
                 height: 50,

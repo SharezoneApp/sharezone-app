@@ -11,8 +11,9 @@ description: A helper package for Cloud Firestore.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ^3.6.2
 
 # This package shouldn't have a dependency on cloud_firestore, because it's used
 # on our website, which slows down the loading time.
@@ -20,6 +21,6 @@ environment:
 dev_dependencies:
   sharezone_lints:
     path: ../sharezone_lints
-    
+
 dependencies:
   clock: ^1.1.1

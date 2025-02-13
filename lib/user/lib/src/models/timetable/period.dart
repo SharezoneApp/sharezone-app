@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:collection/collection.dart' show IterableNullableExtension;
 import 'package:cloud_firestore_helper/cloud_firestore_helper.dart';
 import 'package:time/time.dart';
 
@@ -146,7 +145,7 @@ class Periods {
   }
 
   List<Period> getPeriods() {
-    return _data.values.whereNotNull().toList()
+    return _data.values.nonNulls.toList()
       ..sort((p1, p2) => p1.number.compareTo(p2.number));
   }
 

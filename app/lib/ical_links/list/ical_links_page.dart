@@ -157,7 +157,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary.withOpacity(0.1);
+    final color = Theme.of(context).colorScheme.primary.withValues(alpha: 0.1);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -328,7 +328,10 @@ class _Subtitle extends StatelessWidget {
             style: TextStyle(
               color: hasError
                   ? Theme.of(context).colorScheme.error
-                  : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                  : Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.6),
             ),
           ),
         ),

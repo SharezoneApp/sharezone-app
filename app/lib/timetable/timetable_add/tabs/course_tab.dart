@@ -103,8 +103,8 @@ class _CourseTile extends StatelessWidget {
           title: course.name,
           leading: hasPermissions ? courseAvatar() : lockAvatar(),
           backgroundColor: hasPermissions
-              ? color.withOpacity(0.14)
-              : Colors.grey.withOpacity(0.14),
+              ? color.withValues(alpha: 0.14)
+              : Colors.grey.withValues(alpha: 0.14),
           onTap: hasPermissions
               ? () async {
                   bloc.changeCourse(course);
@@ -209,7 +209,7 @@ class CourseManagementButton extends StatelessWidget {
         backgroundColor: Colors.white,
         child: Icon(iconData, color: Theme.of(context).primaryColor),
       ),
-      backgroundColor: Colors.grey.withOpacity(0.2),
+      backgroundColor: Colors.grey.withValues(alpha: 0.2),
       title: title,
       onTap: onTap,
     );

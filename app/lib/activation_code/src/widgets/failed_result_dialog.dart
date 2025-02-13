@@ -20,11 +20,17 @@ class FailedEnterActivationCodeResultDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (failedEnterActivationCodeResult.enterActivationCodeException
-        is NoInternetEnterActivationCodeException) return _NoInternet();
+        is NoInternetEnterActivationCodeException) {
+      return _NoInternet();
+    }
     if (failedEnterActivationCodeResult.enterActivationCodeException
-        is NotAvailableEnterActivationCodeException) return _NotAvailable();
+        is NotAvailableEnterActivationCodeException) {
+      return _NotAvailable();
+    }
     if (failedEnterActivationCodeResult.enterActivationCodeException
-        is NotFoundEnterActivationCodeException) return _NotFound();
+        is NotFoundEnterActivationCodeException) {
+      return _NotFound();
+    }
 
     return _UnknownError();
   }

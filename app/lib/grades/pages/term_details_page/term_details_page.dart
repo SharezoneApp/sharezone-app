@@ -316,7 +316,7 @@ class _SavedGradeTile extends StatelessWidget {
       subtitle: Text(
         savedGrade.date,
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
         ),
       ),
       leading: savedGrade.gradeTypeIcon,

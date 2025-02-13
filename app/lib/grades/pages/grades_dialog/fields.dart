@@ -110,7 +110,8 @@ class _SelectGradeSystemDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final greyColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.5);
+    final greyColor =
+        Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5);
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: SimpleDialog(
@@ -288,7 +289,7 @@ class _SubjectTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: design.color.withOpacity(0.2),
+        backgroundColor: design.color.withValues(alpha: 0.2),
         child: Text(
           abbreviation,
           style: TextStyle(color: design.color),
@@ -483,7 +484,10 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
             child: Text(
               'Das Notensystem, welches du ausgewählt hast, ist nicht dasselbe wie das Notensystem deines Halbjahres. Du kannst die Note weiterhin eintragen, aber sie wird nicht in den Schnitt deines Halbjahres einfließen.',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.5),
               ),
             ),
           ),
@@ -493,7 +497,10 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
             child: Text(
               'Der ausgewählte Notentyp hat aktuell eine Gewichtung von 0. Du kannst die Note weiterhin eintragen, aber sie wird den Schnitt der Fachnote nicht beeinflussen. Du kannst die Gewichtung nach Speichern der Note im Fach oder im Halbjahr anpassen, damit die Note in den Schnitt einfließt.',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.5),
               ),
             ),
           ),

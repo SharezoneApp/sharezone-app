@@ -30,7 +30,7 @@ class QuickCreateCourseView {
   ) {
     return QuickCreateCourseView(
       name: course.name,
-      abbreviationColor: course.getDesign().color.withOpacity(0.2),
+      abbreviationColor: course.getDesign().color.withValues(alpha: 0.2),
     );
   }
 }

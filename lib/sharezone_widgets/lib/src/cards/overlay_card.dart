@@ -40,7 +40,7 @@ class OverlayCard extends StatelessWidget {
             color: Theme.of(context).isDarkTheme
                 ? ElevationColors.dp4
                 : Colors.white,
-            shadowColor: Colors.black.withOpacity(0.6),
+            shadowColor: Colors.black.withValues(alpha: 0.6),
             borderRadius: BorderRadius.circular(10),
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -94,7 +94,8 @@ class _Action extends StatelessWidget {
         onPressed: onAction,
         style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).primaryColor,
-          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.15),
+          backgroundColor:
+              Theme.of(context).primaryColor.withValues(alpha: 0.15),
         ),
         child: Text(actionText!),
       ),

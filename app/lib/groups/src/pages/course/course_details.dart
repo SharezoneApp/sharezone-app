@@ -324,7 +324,8 @@ class _CourseAvatarCard extends StatelessWidget {
       children: <Widget>[
         AvatarCard(
           crossAxisAlignment: CrossAxisAlignment.center,
-          avatarBackgroundColor: course.getDesign().color.withOpacity(0.2),
+          avatarBackgroundColor:
+              course.getDesign().color.withValues(alpha: 0.2),
           fontColor: course.getDesign().color,
           withShadow: false,
           kuerzel: course.abbreviation,

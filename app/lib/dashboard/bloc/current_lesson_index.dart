@@ -43,7 +43,9 @@ int getCurrentLessonIndex(List<LessonView> lessons) {
   if (lessons.length >= 2) {
     for (int i = 1; i < lessons.length; i++) {
       if (lessons[i - 1].timeStatus == LessonTimeStatus.hasAlreadyTakenPlace &&
-          lessons[i].timeStatus == LessonTimeStatus.isYetToCome) return i;
+          lessons[i].timeStatus == LessonTimeStatus.isYetToCome) {
+        return i;
+      }
     }
   }
 

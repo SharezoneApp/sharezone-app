@@ -43,7 +43,6 @@ class SpecifiableOverscrollColorScrollBehavior extends ScrollBehavior {
       case TargetPlatform.linux:
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
-      default:
         return GlowingOverscrollIndicator(
           axisDirection: details.direction,
           color: _overscrollColor!,

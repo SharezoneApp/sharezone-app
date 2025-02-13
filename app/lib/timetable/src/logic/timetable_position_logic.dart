@@ -144,7 +144,9 @@ class TimetablePositionBuilder {
           itTime!.start,
           itTime.end,
         );
-      }).isNotEmpty) return null;
+      }).isNotEmpty) {
+        return null;
+      }
       newMap[otherElementID] = const TimetableElementProperties(2, 1);
     }
     return newMap;

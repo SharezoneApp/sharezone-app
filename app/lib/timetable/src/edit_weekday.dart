@@ -28,8 +28,6 @@ String getWeekDayText(WeekDay weekDay) {
       return "Samstag";
     case WeekDay.sunday:
       return "Sonntag";
-    default:
-      return "???";
   }
 }
 

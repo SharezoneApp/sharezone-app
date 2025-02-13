@@ -175,7 +175,7 @@ class _ExtendableBottomNavigationBarContentState
                 : Border.all(
                     width: 0.8 *
                         (1 - widget.controller.animationController!.value),
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                   ),
             borderRadius: _borderRadiusPanel,
           ),
@@ -275,7 +275,7 @@ class _SwipeUpLine extends StatelessWidget {
               width: 30,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(30)),
-                color: Colors.grey[400]!.withOpacity(0.7),
+                color: Colors.grey[400]!.withValues(alpha: 0.7),
               ),
             ),
           ),
@@ -401,7 +401,7 @@ class _Chip extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context)
               .primaryColor
-              .withOpacity(Theme.of(context).isDarkTheme ? 0.15 : 0.2),
+              .withValues(alpha: Theme.of(context).isDarkTheme ? 0.15 : 0.2),
           borderRadius: borderRadius,
         ),
         child: Padding(

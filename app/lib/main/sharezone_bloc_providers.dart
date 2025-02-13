@@ -235,6 +235,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
 
     final config = HausaufgabenheftConfig(
+      // ignore: deprecated_member_use
       defaultCourseColorValue: Colors.lightBlue.value,
       nrOfInitialCompletedHomeworksToLoad:
           // Falls zu wenig Hausaufgaben am Anfang geladen werden, sodass die
@@ -738,6 +739,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final course = api.course.getCourse(courseId)!;
     final role = _getMemberRole(api.connectionsGateway, courseId);
     final isAdmin = role == MemberRole.admin || role == MemberRole.owner;
+    // ignore: deprecated_member_use
     return (colorHexValue: course.getDesign().color.value, isAdmin: isAdmin);
   }
 

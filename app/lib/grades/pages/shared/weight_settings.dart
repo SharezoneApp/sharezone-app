@@ -40,8 +40,10 @@ class WeightSettings extends StatelessWidget {
           subtitle: Text(
             'Lege die Gewichtung der Notentypen für die Berechnung der Fachnote fest.',
             style: TextStyle(
-                color:
-                    Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.5)),
           ),
           trailing: IconButton(
             tooltip: 'Wie wird die Note berechnet?',

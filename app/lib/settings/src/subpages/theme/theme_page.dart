@@ -136,7 +136,7 @@ class _RateOurApp extends StatelessWidget {
         title: "Gefällt dir Sharezone?",
         color: Theme.of(context).isDarkTheme
             ? ElevationColors.dp12
-            : context.primaryColor.withOpacity(0.15),
+            : context.primaryColor.withValues(alpha: 0.15),
         content: const Text(
           "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
         ),

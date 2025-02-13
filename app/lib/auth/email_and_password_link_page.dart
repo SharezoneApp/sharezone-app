@@ -38,7 +38,7 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
 TextStyle _hintTextStyle(BuildContext context) => TextStyle(
     color: Theme.of(context).isDarkTheme
         ? Colors.grey
-        : Colors.grey[600]!.withOpacity(0.75),
+        : Colors.grey[600]!.withValues(alpha: 0.75),
     fontSize: 11.5);
 
 class EmailAndPasswordLinkPage extends StatefulWidget {
@@ -169,7 +169,7 @@ class BackIcon extends StatelessWidget {
         child: IconButton(
           color: Theme.of(context).isDarkTheme
               ? Colors.grey
-              : darkBlueColor.withOpacity(0.4),
+              : darkBlueColor.withValues(alpha: 0.4),
           icon: Icon(themeIconData(Icons.arrow_back,
               cupertinoIcon: Icons.arrow_back_ios)),
           tooltip: 'Zurück',

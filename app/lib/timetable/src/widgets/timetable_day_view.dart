@@ -190,7 +190,7 @@ class _PositionedPeriodElementTile extends StatelessWidget {
   Widget _getWidgetSelected(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.3),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
           borderRadius: borderRadius),
       child: const Center(child: Icon(Icons.add, color: Colors.white)),
     );

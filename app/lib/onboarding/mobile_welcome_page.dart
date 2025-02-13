@@ -65,7 +65,7 @@ class _BackgroundImage extends StatelessWidget {
                     Colors.white,
                     // We shouldn't use `Colors.transparent` here, because it
                     // will destroy the gradient effect.
-                    Colors.white.withOpacity(0.0),
+                    Colors.white.withValues(alpha: 0.0),
                   ],
                   stops: [
                     if (isTablet) isPortrait ? 0.15 : 0.22 else 0.3,

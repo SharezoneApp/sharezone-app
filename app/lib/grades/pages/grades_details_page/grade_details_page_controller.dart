@@ -68,7 +68,7 @@ class GradeDetailsPageController extends ChangeNotifier {
       for (final term in terms) {
         final grade = term.subjects
             .map((s) => s.grades.firstWhereOrNull((grade) => grade.id == id))
-            .whereNotNull()
+            .nonNulls
             .firstOrNull;
         if (grade != null) {
           return grade;
