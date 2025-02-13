@@ -12,9 +12,9 @@ import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/submit_method.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
 import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-const snackBarText = "Neues Password wird an die Zentrale geschickt...";
 const changeType = ChangeType.password;
 
 class ChangePasswordPage extends StatelessWidget {
@@ -26,7 +26,10 @@ class ChangePasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final newPasswordNode = FocusNode();
     return Scaffold(
-      appBar: AppBar(title: const Text("Passwort ändern"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.changePasswordPageTitle),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: SafeArea(
@@ -34,7 +37,8 @@ class ChangePasswordPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ChangeDataPasswordField(
-                  labelText: "Aktuelles Passwort",
+                  labelText: context
+                      .l10n.changePasswordPageCurrentPasswordTextfieldLabel,
                   autofocus: true,
                   onEditComplete: () =>
                       FocusManager.instance.primaryFocus?.unfocus()),
@@ -56,8 +60,12 @@ class _ChangePasswordFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: FloatingActionButton(
-        onPressed: () async => submit(context, snackBarText, changeType),
-        tooltip: "Speichern",
+        onPressed: () async => submit(
+          context,
+          context.l10n.changePasswordPageLoadingSnackbarText,
+          changeType,
+        ),
+        tooltip: context.l10n.commonActionsSave,
         child: const Icon(Icons.check),
       ),
     );
@@ -90,7 +98,7 @@ class _NewPasswordFieldState extends State<_NewPasswordField> {
           autofocus: false,
           autofillHints: const [AutofillHints.newPassword],
           decoration: InputDecoration(
-            labelText: 'Neues Passwort',
+            labelText: context.l10n.changePasswordPageNewPasswordTextfieldLabel,
 //            icon: new Icon(Icons.vpn_key),
             errorText: snapshot.error?.toString(),
             suffixIcon: GestureDetector(
@@ -125,22 +133,24 @@ class _ResetPassword extends StatelessWidget {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: const Text("Passwort zurücksetzen"),
-                  content: const Text(
-                      "Sollen wir dir eine E-Mail schicken, mit der du dein Passwort zurücksetzen kannst?"),
+                  title: Text(context
+                      .l10n.changePasswordPageResetCurrentPasswordDialogTitle),
+                  content: Text(context.l10n
+                      .changePasswordPageResetCurrentPasswordDialogContent),
                   actions: <Widget>[
                     TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).primaryColor,
                       ),
-                      child: const Text("ABBRECHEN"),
+                      child:
+                          Text(context.l10n.commonActionsCancel.toUpperCase()),
                       onPressed: () => Navigator.pop(context, false),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).primaryColor,
                       ),
-                      child: const Text("JA"),
+                      child: Text(context.l10n.commonActionsYes.toUpperCase()),
                       onPressed: () => Navigator.pop(context, true),
                     ),
                   ],
@@ -151,7 +161,7 @@ class _ResetPassword extends StatelessWidget {
           if (reset != null && reset) {
             showSnack(
               context: context,
-              text: "Verschicken der E-Mail wird vorbereitet...",
+              text: context.l10n.changePasswordPageResetCurrentPasswordLoading,
               withLoadingCircle: true,
               duration: const Duration(minutes: 5),
             );
@@ -159,8 +169,8 @@ class _ResetPassword extends StatelessWidget {
             String? message;
             try {
               bloc.sendResetPasswordMail();
-              message =
-                  "Wir haben eine E-Mail zum Zurücksetzen deines Passworts verschickt.";
+              message = context.l10n
+                  .changePasswordPageResetCurrentPasswordEmailSentConfirmation;
             } on Exception catch (e, s) {
               message = handleErrorMessage(e.toString(), s);
             } finally {
@@ -171,7 +181,7 @@ class _ResetPassword extends StatelessWidget {
             }
           }
         },
-        child: const Text("Aktuelles Passwort vergessen?"),
+        child: Text(context.l10n.changePasswordPageResetCurrentPasswordButton),
       ),
     );
   }

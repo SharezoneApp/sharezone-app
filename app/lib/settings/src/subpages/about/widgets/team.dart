@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'about_section.dart';
 import 'social_media_button.dart';
@@ -27,7 +28,7 @@ class TeamList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AboutSection(
-      title: 'Über uns',
+      title: context.l10n.aboutPageTeamSectionTitle,
       child: Column(
         children: <Widget>[
           const SizedBox(height: 2),

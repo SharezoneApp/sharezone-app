@@ -12,6 +12,7 @@ import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/submit_method.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const snackBarText = 'Neue E-Mail Adresse wird an die Zentrale geschickt...';
@@ -32,7 +33,10 @@ class ChangeEmailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("E-Mail ändern"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.changeEmailAddressPageTitle),
+        centerTitle: true,
+      ),
       body: ChangeEmailPageBody(),
       floatingActionButton: const ChangeEmailFab(),
     );
@@ -46,7 +50,7 @@ class ChangeEmailFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => submit(context, snackBarText, changeType),
-      tooltip: "Speichern",
+      tooltip: context.l10n.commonActionsSave,
       child: const Icon(Icons.check),
     );
   }
@@ -74,13 +78,15 @@ class ChangeEmailPageBody extends StatelessWidget {
                   currentEmail: currentEmail, passwordNode: passwordNode),
               const SizedBox(height: 8),
               ChangeDataPasswordField(
+                  labelText:
+                      context.l10n.changeEmailAddressPageNewEmailTextfieldLabel,
                   focusNode: passwordNode,
                   onEditComplete: () async =>
                       await submit(context, snackBarText, changeType)),
               const SizedBox(height: 16),
-              const Text(
-                "Hinweis: Wenn deine E-Mail geändert wurde, wirst du automatisch kurz ab- und sofort wieder angemeldet - also nicht wundern 😉",
-                style: TextStyle(color: Colors.grey, fontSize: 11),
+              Text(
+                context.l10n.changeEmailAddressPageNoteOnAutomaticSignOutSignIn,
+                style: const TextStyle(color: Colors.grey, fontSize: 11),
               ),
               const Divider(height: 42),
               const _WhyWeNeedTheEmail(),
@@ -97,12 +103,9 @@ class _WhyWeNeedTheEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const InfoMessage(
-      title: "Wozu brauchen wir deine E-Mail?",
-      message:
-          "Die E-Mail benötigst du um dich anzumelden. Solltest du zufällig mal dein Passwort vergessen haben, "
-          "können wir dir an diese E-Mail-Adresse einen Link zum Zurücksetzen des Passworts schicken. Deine E-Mail Adresse "
-          "ist nur für dich sichtbar, und sonst niemanden.",
+    return InfoMessage(
+      title: context.l10n.changeEmailAddressPageWhyWeNeedTheEmailInfoTitle,
+      message: context.l10n.changeEmailAddressPageWhyWeNeedTheEmailInfoContent,
       withPrivacyStatement: true,
     );
   }
@@ -117,7 +120,9 @@ class _CurrentEmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: TextEditingController(text: currentEmail),
-      decoration: const InputDecoration(labelText: "Aktuell"),
+      decoration: InputDecoration(
+          labelText:
+              context.l10n.changeEmailAddressPageCurrentEmailTextfieldLabel),
       enabled: false,
       style: const TextStyle(color: Colors.grey, fontSize: 16),
     );
@@ -160,7 +165,8 @@ class __NewEmailFieldState extends State<_NewEmailField> {
               FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
-            labelText: "Neu",
+            labelText:
+                context.l10n.changeEmailAddressPageNewEmailTextfieldLabel,
             errorText: snapshot.error?.toString(),
           ),
           onChanged: (newEmail) => bloc.changeEmail(newEmail.trim()),

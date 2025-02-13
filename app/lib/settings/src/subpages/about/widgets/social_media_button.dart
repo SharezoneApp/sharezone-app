@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,33 +29,33 @@ class SocialButton extends StatelessWidget {
     required this.socialButtonTypes,
   });
 
-  const SocialButton.instagram(this.link, {super.key})
-      : tooltip = 'Instagram',
+  SocialButton.instagram(BuildContext context, this.link, {super.key})
+      : tooltip = context.l10n.instagram,
         svgPath = 'assets/icons/instagram.svg',
         socialButtonTypes = SocialButtonTypes.instagram;
 
-  const SocialButton.twitter(this.link, {super.key})
-      : tooltip = 'Twitter',
+  SocialButton.twitter(BuildContext context, this.link, {super.key})
+      : tooltip = context.l10n.twitter,
         svgPath = 'assets/icons/twitter.svg',
         socialButtonTypes = SocialButtonTypes.twitter;
 
-  const SocialButton.linkedIn(this.link, {super.key})
-      : tooltip = 'LinkedIn',
+  SocialButton.linkedIn(BuildContext context, this.link, {super.key})
+      : tooltip = context.l10n.linkedIn,
         svgPath = 'assets/icons/linkedin.svg',
         socialButtonTypes = SocialButtonTypes.linkedIn;
 
-  const SocialButton.discord(this.link, {super.key})
-      : tooltip = 'Discord',
+  SocialButton.discord(BuildContext context, this.link, {super.key})
+      : tooltip = context.l10n.discord,
         svgPath = 'assets/icons/discord.svg',
         socialButtonTypes = SocialButtonTypes.linkedIn;
 
-  const SocialButton.email(this.link, {super.key})
-      : tooltip = 'E-Mail',
+  SocialButton.email(BuildContext context, this.link, {super.key})
+      : tooltip = context.l10n.email,
         svgPath = 'assets/icons/email.svg',
         socialButtonTypes = SocialButtonTypes.email;
 
-  const SocialButton.github(this.link, {super.key})
-      : tooltip = 'GitHub',
+  SocialButton.github(BuildContext context, this.link, {super.key})
+      : tooltip = context.l10n.gitHub,
         svgPath = 'assets/icons/github.svg',
         socialButtonTypes = SocialButtonTypes.linkedIn;
 
@@ -72,7 +73,7 @@ class SocialButton extends StatelessWidget {
       } on Exception catch (_) {
         if (!context.mounted) return;
         showSnackSec(
-          text: "E-Mail: $link",
+          text: context.l10n.aboutPageEmailCopiedConfirmation(link),
           context: context,
         );
       }
