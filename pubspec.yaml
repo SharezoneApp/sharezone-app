@@ -9,7 +9,7 @@
 name: _
 publish_to: none
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.0
 workspace:
   - app
   - console
