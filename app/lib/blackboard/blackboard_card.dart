@@ -251,7 +251,7 @@ class _Text extends StatelessWidget {
       child: MarkdownBody(
         data: text,
         softLineBreak: true,
-        onTapLink: (url, _, __) => launchURL(url),
+        onTapLink: (url, _, _) => launchURL(url),
         styleSheet: MarkdownStyleSheet.fromTheme(
           theme.copyWith(
             textTheme: theme.textTheme.copyWith(

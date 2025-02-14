@@ -438,7 +438,7 @@ class _Text extends StatelessWidget {
       //       color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black),
       //   a: linkStyle(context, 15),
       // ),
-      onTapLink: (url, _, __) => launchURL(url, context: context),
+      onTapLink: (url, _, _) => launchURL(url, context: context),
     );
   }
 }

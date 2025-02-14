@@ -210,7 +210,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                           "${isExam ? "Themen der Prüfung" : "Details"}:\n${event.detail}",
                       selectable: true,
                       onTapLink:
-                          (url, _, __) => launchURL(url, context: context),
+                          (url, _, _) => launchURL(url, context: context),
                       softLineBreak: true,
                       styleSheet: MarkdownStyleSheet.fromTheme(
                         theme.copyWith(

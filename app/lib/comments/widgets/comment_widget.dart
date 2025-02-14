@@ -87,7 +87,7 @@ class Comment extends StatelessWidget {
                     styleSheet: MarkdownStyleSheet.fromTheme(
                       Theme.of(context),
                     ).copyWith(a: linkStyle(context, 14)),
-                    onTapLink: (url, _, __) => launchURL(url, context: context),
+                    onTapLink: (url, _, _) => launchURL(url, context: context),
                   ),
                   const SizedBox(height: 4),
                   Row(

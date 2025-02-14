@@ -112,7 +112,7 @@ class _TimetableAddEventDialogState extends State<TimetableAddEventDialog> {
     return ChangeNotifierProvider.value(
       value: controller,
       builder:
-          (context, __) => PopScope<Object?>(
+          (context, _) => PopScope<Object?>(
             canPop: false,
             onPopInvokedWithResult: (didPop, _) async {
               if (didPop) return;

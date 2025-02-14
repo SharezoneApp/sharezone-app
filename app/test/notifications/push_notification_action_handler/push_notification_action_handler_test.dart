@@ -513,7 +513,7 @@ void main() {
               ActionRegistration(
                 registerForActionTypeStrings: {'faulty-test'},
                 parseActionRequestFromNotification:
-                    (_, __) =>
+                    (_, _) =>
                         throw Exception(
                           'this represents a fatal parsing error',
                         ),
@@ -571,7 +571,7 @@ void main() {
       () {
         final testActionRegistration = ActionRegistration<TestActionRequest>(
           registerForActionTypeStrings: {'abc'},
-          parseActionRequestFromNotification: (_, __) => TestActionRequest(),
+          parseActionRequestFromNotification: (_, _) => TestActionRequest(),
           executeActionRequest: (_) {},
         );
 
@@ -602,25 +602,25 @@ void main() {
       () {
         final foo = ActionRegistration<TestActionRequest>(
           registerForActionTypeStrings: {'foo'},
-          parseActionRequestFromNotification: (_, __) => TestActionRequest(),
+          parseActionRequestFromNotification: (_, _) => TestActionRequest(),
           executeActionRequest: (_) {},
         );
 
         final barAndFoo = ActionRegistration<TestActionRequest2>(
           registerForActionTypeStrings: {'bar', 'foo'},
-          parseActionRequestFromNotification: (_, __) => TestActionRequest2(),
+          parseActionRequestFromNotification: (_, _) => TestActionRequest2(),
           executeActionRequest: (_) {},
         );
 
         final bar = ActionRegistration<TestActionRequest>(
           registerForActionTypeStrings: {'bar'},
-          parseActionRequestFromNotification: (_, __) => TestActionRequest(),
+          parseActionRequestFromNotification: (_, _) => TestActionRequest(),
           executeActionRequest: (_) {},
         );
 
         final baz = ActionRegistration<TestActionRequest>(
           registerForActionTypeStrings: {'baz'},
-          parseActionRequestFromNotification: (_, __) => TestActionRequest(),
+          parseActionRequestFromNotification: (_, _) => TestActionRequest(),
           executeActionRequest: (_) {},
         );
 
@@ -628,7 +628,7 @@ void main() {
           instrumentation: TestInstrumentation(),
           actionRegistrations: [foo, barAndFoo, bar, baz],
           onUnhandledActionType: (_) {},
-          onFatalParsingError: (_, __) {},
+          onFatalParsingError: (_, _) {},
         );
 
         try {

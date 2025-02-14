@@ -159,7 +159,7 @@ class _AboutSharezone extends StatelessWidget {
                 styleSheet: MarkdownStyleSheet.fromTheme(
                   Theme.of(context),
                 ).copyWith(a: linkStyle(context), p: _greyTextStyle(context)),
-                onTapLink: (url, _, __) => launchURL(url, context: context),
+                onTapLink: (url, _, _) => launchURL(url, context: context),
               ),
             ],
           ),
