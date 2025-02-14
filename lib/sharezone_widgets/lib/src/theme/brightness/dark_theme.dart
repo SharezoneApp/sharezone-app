@@ -27,7 +27,6 @@ ThemeData getDarkTheme({
     unselectedWidgetColor: _accentColor,
     cardColor: ElevationColors.dp0,
     indicatorColor: Colors.amberAccent,
-    dialogBackgroundColor: ElevationColors.dp12,
     canvasColor: ElevationColors.dp2,
     highlightColor: PlatformCheck.isIOS ? Colors.grey[800] : null,
     splashColor: PlatformCheck.isIOS ? Colors.transparent : null,
@@ -49,7 +48,7 @@ ThemeData getDarkTheme({
     pageTransitionsTheme: _pageTransitionsTheme,
     snackBarTheme: _snackBarTheme,
     bottomSheetTheme: _bottomSheetTheme,
-    dialogTheme: _dialogTheme,
+    dialogTheme: _dialogTheme.copyWith(backgroundColor: ElevationColors.dp12),
     listTileTheme: ListTileThemeData(
       iconColor: const Color(0xFFC1C7CE),
       shape: listTileShape,

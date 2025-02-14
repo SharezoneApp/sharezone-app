@@ -195,7 +195,7 @@ class _CupertinoTimerPickerWithTimeOfDayState
             onTimerDurationChanged: (dur) =>
                 timeOfDay = timeOfDayFromDuration(dur),
             mode: CupertinoTimerPickerMode.hm,
-            backgroundColor: Theme.of(context).dialogBackgroundColor,
+            backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
           ),
         ),
       ),

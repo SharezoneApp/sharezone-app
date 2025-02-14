@@ -437,7 +437,7 @@ class _AdvantageTile extends StatelessWidget {
     required this.title,
     // Can be removed when the subtitle is used.
     //
-    // ignore: unused_element
+    // ignore: unused_element_parameter
     this.subtitle,
     required this.description,
     required this.onOpen,

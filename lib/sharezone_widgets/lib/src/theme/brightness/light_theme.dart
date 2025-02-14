@@ -78,7 +78,6 @@ ThemeData getLightTheme({
         backgroundColor: primaryColor,
       ),
     ),
-    dialogBackgroundColor: Colors.white,
     dividerTheme: const DividerThemeData(
       color: Color(0xFFE5E5E5),
     ),
@@ -90,7 +89,7 @@ ThemeData getLightTheme({
     ),
     inputDecorationTheme: inputDecorationTheme,
     bottomSheetTheme: _bottomSheetTheme,
-    dialogTheme: _dialogTheme,
+    dialogTheme: _dialogTheme.copyWith(backgroundColor: Colors.white),
     switchTheme: SwitchThemeData(
       trackColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
