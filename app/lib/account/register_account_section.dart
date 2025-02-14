@@ -33,7 +33,7 @@ class RegisterAccountSection extends StatelessWidget {
           Container(
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
             decoration: BoxDecoration(
-              color: Colors.orange.withOpacity(0.15),
+              color: Colors.orange.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(20),
             ),
             child: const Text("Du bist nur anonym angemeldet!",
@@ -224,7 +224,7 @@ class _SignUpButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         decoration: BoxDecoration(
-          color: color!.withOpacity(0.10),
+          color: color!.withValues(alpha: 0.10),
           borderRadius: _borderRadius,
         ),
         child: Row(

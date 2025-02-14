@@ -84,7 +84,7 @@ class AnalyticsNavigationObserver extends RouteObserver<PageRoute<dynamic>> {
           if (_onError == null) {
             debugPrint('$AnalyticsNavigationObserver: $error');
           } else {
-            _onError!(error as PlatformException);
+            _onError(error as PlatformException);
           }
         },
         test: (Object error) => error is PlatformException,

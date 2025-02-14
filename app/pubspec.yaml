@@ -14,8 +14,9 @@ description: A collaborative school planner for students, teachers and parents.
 version: 2.2.4+0
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: ">=3.1.0 <4.0.0"
+  sdk: ^3.6.2
 
 dependencies:
   abgabe_client_lib:
@@ -205,6 +206,12 @@ dependency_overrides:
   device_info_plus: ^10.1.0
   # Can be removed once flutter_localizations uses intl >= 0.19.0
   intl: ^0.19.0
+  # Can be removed once this issue is fixed: https://github.com/2d-inc/Flare-Flutter/issues/325
+  flare_flutter:
+    git:
+      url: https://github.com/mbfakourii/Flare-Flutter.git
+      path: flare_flutter
+      ref: remove_hashValues
 
 dev_dependencies:
   async: ^2.4.1

@@ -58,8 +58,8 @@ class SharezonePlusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color:
-            backgroundColor ?? Theme.of(context).primaryColor.withOpacity(0.2),
+        color: backgroundColor ??
+            Theme.of(context).primaryColor.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(7.5),
       ),
       child: Padding(
@@ -145,7 +145,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.2),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
             borderRadius: borderRadius,
           ),
           child: Theme(

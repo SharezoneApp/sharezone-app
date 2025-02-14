@@ -124,7 +124,7 @@ class _MoreIdeas extends StatelessWidget {
     return ListTile(
       leading: Icon(
         Icons.feedback,
-        color: Theme.of(context).iconTheme.color!.withOpacity(opacity),
+        color: Theme.of(context).iconTheme.color!.withValues(alpha: opacity),
       ),
       title: Text(
         "Noch Ideen?",
@@ -133,7 +133,7 @@ class _MoreIdeas extends StatelessWidget {
                 .textTheme
                 .bodyMedium!
                 .color!
-                .withOpacity(opacity)),
+                .withValues(alpha: opacity)),
       ),
       onTap: () {
         Navigator.pop(context);

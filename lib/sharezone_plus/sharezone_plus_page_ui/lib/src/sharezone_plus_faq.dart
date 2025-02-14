@@ -61,7 +61,8 @@ class _WhoIsBehindSharezone extends StatelessWidget {
         'unsere Vision, den Schulalltag für alle einfacher und übersichtlicher '
         'zu gestalten.',
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -98,7 +99,8 @@ class _IsSharezoneOpenSource extends StatelessWidget {
           )
         ],
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -119,7 +121,8 @@ class _DoAlsoGroupMemberGetPlus extends StatelessWidget {
         'Sharezone Plus verfügbar ist, so wird diese Farbe auch für deine '
         'Gruppenmitglieder verwendet.',
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -139,7 +142,8 @@ class _DoesTheFileStorageLimitAlsoForGroups extends StatelessWidget {
         'Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen '
         'Speicherplatz.',
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -174,7 +178,8 @@ class _SchoolClassLicense extends StatelessWidget {
           }
         },
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -208,7 +213,8 @@ class _FamilyLicense extends StatelessWidget {
           }
         },
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -249,7 +255,8 @@ Deiner Kreativität sind keine Grenzen gesetzt. Bitte beachte unsere Bedingungen
           }
         },
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor:
+          Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }

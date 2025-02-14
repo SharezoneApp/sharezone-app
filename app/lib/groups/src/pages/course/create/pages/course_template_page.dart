@@ -438,7 +438,8 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
         ListTile(
           onTap: () => createCourse(),
           leading: CircleAvatar(
-            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.20),
+            backgroundColor:
+                Theme.of(context).primaryColor.withValues(alpha: 0.20),
             foregroundColor: Colors.lightBlue,
             child: Text(courseTemplate.abbreviation),
           ),

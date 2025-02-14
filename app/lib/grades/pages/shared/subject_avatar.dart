@@ -22,7 +22,7 @@ class SubjectAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: design.color.withOpacity(0.2),
+      backgroundColor: design.color.withValues(alpha: 0.2),
       child: Text(
         abbreviation,
         style: TextStyle(color: design.color),

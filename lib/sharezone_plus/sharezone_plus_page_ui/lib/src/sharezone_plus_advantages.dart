@@ -458,7 +458,7 @@ class _AdvantageTile extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: green.withOpacity(0.2),
+              color: green.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Padding(

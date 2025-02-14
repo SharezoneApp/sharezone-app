@@ -34,8 +34,8 @@ class ErrorCard extends StatelessWidget {
     final color = Theme.of(context).colorScheme.error;
     return CustomCard(
       padding: const EdgeInsets.all(12),
-      color: color.withOpacity(0.1),
-      borderColor: color.withOpacity(0.2),
+      color: color.withValues(alpha: 0.1),
+      borderColor: color.withValues(alpha: 0.2),
       child: Row(
         children: [
           Icon(

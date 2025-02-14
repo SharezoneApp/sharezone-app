@@ -34,7 +34,7 @@ ThemeData getLightTheme({
     // Theme
     tabBarTheme: TabBarTheme(
       labelColor: darkBlueColor,
-      unselectedLabelColor: darkBlueColor.withOpacity(0.45),
+      unselectedLabelColor: darkBlueColor.withValues(alpha: 0.45),
     ),
     appBarTheme: AppBarTheme(
       color: Colors.white,
@@ -106,7 +106,7 @@ ThemeData getLightTheme({
       }),
       thumbColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.hovered)) {
-          return primaryColor.withOpacity(0.2);
+          return primaryColor.withValues(alpha: 0.2);
         }
         if (states.contains(WidgetState.selected)) {
           return Colors.white;

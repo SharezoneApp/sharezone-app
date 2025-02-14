@@ -11,8 +11,9 @@ version: 1.0.0
 description: Translations for the Sharezone app
 publish_to: "none"
 
+resolution: workspace
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ^3.6.2
 
 dependencies:
   flutter:
@@ -23,6 +24,3 @@ dependencies:
   sharezone_lints:
     path: ../sharezone_lints
   provider: ^6.0.3
-
-flutter:
-  generate: true

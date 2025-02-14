@@ -11,8 +11,9 @@ description: A new Flutter package project.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ^3.6.2
 
 dependencies:
   flutter:
@@ -40,7 +41,3 @@ dev_dependencies:
     sdk: flutter
   sharezone_lints:
     path: ../../sharezone_lints
-
-dependency_overrides:
-  # Can be removed once pdfx uses device_info_plus >= 10.0.0.
-  device_info_plus: ^10.1.0

@@ -63,7 +63,7 @@ final _textFieldBorderRadius = BorderRadius.circular(10);
 
 final inputDecorationTheme = InputDecorationTheme(
   filled: true,
-  fillColor: Colors.grey.withOpacity(0.1),
+  fillColor: Colors.grey.withValues(alpha: 0.1),
   border: OutlineInputBorder(
     borderRadius: _textFieldBorderRadius,
   ),

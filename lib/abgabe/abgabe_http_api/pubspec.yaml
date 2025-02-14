@@ -11,8 +11,9 @@ version: 1.0.0
 description: OpenAPI API client
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ^3.6.2
 
 dependencies:
   built_collection: ^5.1.0

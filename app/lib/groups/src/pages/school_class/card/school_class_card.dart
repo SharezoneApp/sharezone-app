@@ -119,7 +119,7 @@ class SchoolClassAbbreviationAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: Design.standard().color.withOpacity(0.2),
+      backgroundColor: Design.standard().color.withValues(alpha: 0.2),
       child: Text(
         _getAbbreviation(name),
         style: TextStyle(color: Design.standard().color),

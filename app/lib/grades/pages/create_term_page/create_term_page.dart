@@ -131,7 +131,10 @@ class _NameField extends StatelessWidget {
           child: Text(
             "Der Name beschreibt das Halbjahr, z.B. '10/2' für das zweite Halbjahr der 10. Klasse.",
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.6),
             ),
           ),
         ),
@@ -207,7 +210,10 @@ class GradingSystemBase extends StatelessWidget {
             child: Text(
               'Nur Noten von dem Notensystem, welches für das Halbjahr festlegt wurde, können für den Schnitt des Halbjahres berücksichtigt werden. Solltest du beispielsweise für das Halbjahr das Notensystem "1 - 6" festlegen und eine Note mit dem Notensystem "15 - 0" eintragen, kann diese Note für den Halbjahresschnitt nicht berücksichtigt werden.',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.5),
                 fontSize: 12,
               ),
             ),

@@ -23,7 +23,7 @@ class TimetableEntryEvent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Material(
-        color: groupInfo?.design.color.withOpacity(0.2),
+        color: groupInfo?.design.color.withValues(alpha: 0.2),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
           side: BorderSide(

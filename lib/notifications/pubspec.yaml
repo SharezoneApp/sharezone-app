@@ -9,10 +9,11 @@
 name: notifications
 description: A new Flutter package project.
 version: 0.0.1
-publish_to: 'none'
+publish_to: "none"
 
+resolution: workspace
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ^3.6.2
   flutter: ">=1.17.0 <2.0.0"
 
 dependencies:

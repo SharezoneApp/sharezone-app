@@ -50,7 +50,7 @@ class ShowFeedbackExecutor extends ActionRequestExecutor<ShowFeedbackRequest> {
       FeedbackDetailsPage(
         feedbackId: actionRequest.feedbackId,
         onContactSupportPressed: () =>
-            _navigationService!.pushNamed(SupportPage.tag),
+            _navigationService.pushNamed(SupportPage.tag),
       ),
       name: FeedbackDetailsPage.tag,
     );

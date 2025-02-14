@@ -15,7 +15,7 @@ void main() {
 
 @visibleForTesting
 class ExampleApp extends StatelessWidget {
-  const ExampleApp({Key? key}) : super(key: key);
+  const ExampleApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class ExampleApp extends StatelessWidget {
 }
 
 class _Home extends StatefulWidget {
-  const _Home({Key? key}) : super(key: key);
+  const _Home();
 
   @override
   State<_Home> createState() => _HomeState();

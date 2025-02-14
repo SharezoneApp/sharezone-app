@@ -18,8 +18,6 @@ String abgabenzielTypToDtoString(AbgabenzielTyp typ) {
   switch (typ) {
     case AbgabenzielTyp.hausaufgabe:
       return _homework;
-    default:
-      throw UnimplementedError();
   }
 }
 
@@ -70,8 +68,6 @@ class AbgabezielId extends Id {
       case AbgabenzielTyp.hausaufgabe:
         _id = HomeworkId(contentIdString);
         break;
-      default:
-        throw Exception('Unknown AbgabenzielTyp: $type');
     }
 
     return AbgabezielId._(type, _id);

@@ -8,7 +8,6 @@
 
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:collection/collection.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_picker.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -233,8 +232,8 @@ class _PickPictureTile extends StatelessWidget {
         final pickedFiles = PlatformCheck.isIOS
             ? [await FilePicker().pickFileImage()]
             : await FilePicker().pickMultiFileImage();
-        if (pickedFiles != null && pickedFiles.whereNotNull().isNotEmpty) {
-          final localFiles = pickedFiles.whereNotNull().toList();
+        if (pickedFiles != null && pickedFiles.nonNulls.isNotEmpty) {
+          final localFiles = pickedFiles.nonNulls.toList();
           addLocalFileToBlocMethod(localFiles);
           _logAttachmentViaPicture(analytics);
           _logAttachmentAdd(analytics);
@@ -266,8 +265,8 @@ class _PickVideoTile extends StatelessWidget {
         final pickedFiles = PlatformCheck.isIOS
             ? [await FilePicker().pickFileVideo()]
             : await FilePicker().pickMultiFileVideo();
-        if (pickedFiles != null && pickedFiles.whereNotNull().isNotEmpty) {
-          final localFiles = pickedFiles.whereNotNull().toList();
+        if (pickedFiles != null && pickedFiles.nonNulls.isNotEmpty) {
+          final localFiles = pickedFiles.nonNulls.toList();
           addLocalFileToBlocMethod(localFiles);
           _logAttachmentViaVideo(analytics);
           _logAttachmentAdd(analytics);

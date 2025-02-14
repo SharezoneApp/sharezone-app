@@ -51,8 +51,6 @@ class CommentViewFactory {
         return CommentStatus.disliked;
       case CommentStatus.notRated:
         return CommentStatus.notRated;
-      default:
-        return CommentStatus.notRated;
     }
   }
 

@@ -71,7 +71,7 @@ class _ScanAreaPainter extends CustomPainter {
         Radius.circular(width / 10),
       ),
     );
-    canvas.drawPath(path, Paint()..color = Colors.black.withOpacity(0.4));
+    canvas.drawPath(path, Paint()..color = Colors.black.withValues(alpha: 0.4));
   }
 
   @override

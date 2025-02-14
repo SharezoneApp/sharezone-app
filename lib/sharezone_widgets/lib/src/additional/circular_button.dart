@@ -36,7 +36,7 @@ class CircularButton extends StatelessWidget {
                 width: 45,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: color!.withOpacity(0.1),
+                  color: color!.withValues(alpha: 0.1),
                 ),
               ),
               Positioned(left: 11, top: 11, child: icon!)

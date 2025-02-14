@@ -108,7 +108,8 @@ enum _FABAddTimetableOption { lesson, event, exam, substitution }
 class _TimetableAddSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final titleColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.5);
+    final titleColor =
+        Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5);
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
       child: SafeArea(

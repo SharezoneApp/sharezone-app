@@ -89,7 +89,7 @@ class DangerButtonOutlined extends StatelessWidget {
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             side: BorderSide(
-              color: Colors.red.withOpacity(0.5),
+              color: Colors.red.withValues(alpha: 0.5),
               width: 2,
             ),
             borderRadius: BorderRadius.circular(512),

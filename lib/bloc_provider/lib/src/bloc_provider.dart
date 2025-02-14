@@ -13,10 +13,10 @@ import 'package:flutter/material.dart';
 // Generic BLoC provider
 class BlocProvider<T extends BlocBase> extends StatefulWidget {
   const BlocProvider({
-    Key? key,
+    super.key,
     this.child,
     required this.bloc,
-  }) : super(key: key);
+  });
 
   final T bloc;
   final Widget? child;

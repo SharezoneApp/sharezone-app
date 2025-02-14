@@ -40,7 +40,10 @@ class _SubstitutionSection extends StatelessWidget {
             'Für ${DateFormat('dd.MM.yyyy').format(date.toDateTime)}',
             style: TextStyle(
               fontSize: 12,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.6),
             ),
           ),
           trailing: hasUnlocked ? null : const SharezonePlusChip(),
@@ -130,7 +133,7 @@ class _LessonCanceledCard extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
       child: Material(
         borderRadius: BorderRadius.circular(12),
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         child: ListTile(
           iconColor: color,
           textColor: color,
@@ -149,7 +152,7 @@ class _LessonCanceledCard extends StatelessWidget {
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
-                        .withOpacity(0.6),
+                        .withValues(alpha: 0.6),
                   ),
                   onPressed: () => Navigator.pop(
                       context, _LessonDialogAction.removeCancelLesson),
@@ -196,7 +199,7 @@ class _RoomChanged extends StatelessWidget {
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
-                        .withOpacity(0.6),
+                        .withValues(alpha: 0.6),
                   ),
                   onPressed: () => Navigator.pop(
                       context, _LessonDialogAction.updateRoomSubstitution),
@@ -209,7 +212,7 @@ class _RoomChanged extends StatelessWidget {
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
-                        .withOpacity(0.6),
+                        .withValues(alpha: 0.6),
                   ),
                   onPressed: () => Navigator.pop(
                       context, _LessonDialogAction.removePlaceChange),
@@ -256,7 +259,7 @@ class _TeacherChanged extends StatelessWidget {
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
-                        .withOpacity(0.6),
+                        .withValues(alpha: 0.6),
                   ),
                   onPressed: () => Navigator.pop(
                       context, _LessonDialogAction.updateTeacherSubstitution),
@@ -269,7 +272,7 @@ class _TeacherChanged extends StatelessWidget {
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
-                        .withOpacity(0.6),
+                        .withValues(alpha: 0.6),
                   ),
                   onPressed: () => Navigator.pop(
                       context, _LessonDialogAction.removeTeacherSubstitution),
@@ -301,7 +304,7 @@ class _OrangeCard extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
       child: Material(
         borderRadius: BorderRadius.circular(12),
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         child: ListTile(
           iconColor: color,
           textColor: color,
@@ -343,7 +346,7 @@ class _EnteredBy extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               "Eingetragen von: $name",
-              style: TextStyle(color: color.withOpacity(0.8)),
+              style: TextStyle(color: color.withValues(alpha: 0.8)),
             ),
           ),
         );
