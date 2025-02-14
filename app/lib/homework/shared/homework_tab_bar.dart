@@ -12,10 +12,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class HomeworkTabBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Tab> tabs;
 
-  const HomeworkTabBar({
-    super.key,
-    required this.tabs,
-  });
+  const HomeworkTabBar({super.key, required this.tabs});
 
   TabBar getTabBar([BuildContext? context]) {
     Color indicatorColor;

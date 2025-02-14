@@ -23,8 +23,14 @@ abstract class BaseHomeworkReadModel extends Equatable {
   final bool withSubmissions;
 
   @override
-  List<Object?> get props =>
-      [id, todoDate, subject, courseId, title, withSubmissions];
+  List<Object?> get props => [
+    id,
+    todoDate,
+    subject,
+    courseId,
+    title,
+    withSubmissions,
+  ];
 
   const BaseHomeworkReadModel({
     required this.id,
@@ -44,8 +50,15 @@ class StudentHomeworkReadModel extends BaseHomeworkReadModel {
   final CompletionStatus status;
 
   @override
-  List<Object?> get props =>
-      [id, todoDate, subject, courseId, title, withSubmissions, status];
+  List<Object?> get props => [
+    id,
+    todoDate,
+    subject,
+    courseId,
+    title,
+    withSubmissions,
+    status,
+  ];
 
   const StudentHomeworkReadModel({
     required super.id,
@@ -74,19 +87,19 @@ class TeacherHomeworkReadModel extends BaseHomeworkReadModel {
 
   @override
   List<Object?> get props => [
-        id,
-        todoDate,
-        subject,
-        courseId,
-        title,
-        withSubmissions,
-        status,
-        nrOfStudentsCompleted,
-        canViewCompletions,
-        canViewSubmissions,
-        canDeleteForEveryone,
-        canEditForEveryone,
-      ];
+    id,
+    todoDate,
+    subject,
+    courseId,
+    title,
+    withSubmissions,
+    status,
+    nrOfStudentsCompleted,
+    canViewCompletions,
+    canViewSubmissions,
+    canDeleteForEveryone,
+    canEditForEveryone,
+  ];
 
   const TeacherHomeworkReadModel({
     required this.nrOfStudentsCompleted,

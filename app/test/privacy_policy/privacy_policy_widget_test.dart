@@ -56,13 +56,12 @@ void testWidgetsWithDimensions(
 }
 
 void main() {
-  group(
-    'privacy policy page',
-    () {
-      group('table of contents', () {
-        _testWidgets('highlights no section if we havent crossed any yet',
-            (tester) async {
-          final text = '''
+  group('privacy policy page', () {
+    group('table of contents', () {
+      _testWidgets('highlights no section if we havent crossed any yet', (
+        tester,
+      ) async {
+        final text = '''
 ${generateText(10)}
 # Inhaltsverzeichnis
 ${generateText(10)}
@@ -70,27 +69,28 @@ ${generateText(10)}
 ${generateText(10)}
 ''';
 
-          await tester.pumpWidget(
-            wrapWithScaffold(
-              PrivacyPolicyPage(
-                privacyPolicy: privacyPolicyWith(
-                  tableOfContentSections: [
-                    section('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
-                  ],
-                  markdown: text,
-                ),
+        await tester.pumpWidget(
+          wrapWithScaffold(
+            PrivacyPolicyPage(
+              privacyPolicy: privacyPolicyWith(
+                tableOfContentSections: [
+                  section('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
+                ],
+                markdown: text,
               ),
             ),
-          );
+          ),
+        );
 
-          expect(
-            find.sectionHighlightWidget('Inhaltsverzeichnis').shouldHighlight,
-            false,
-          );
-        });
-        _testWidgets('highlights section if we have scrolled past it',
-            (tester) async {
-          final text = '''
+        expect(
+          find.sectionHighlightWidget('Inhaltsverzeichnis').shouldHighlight,
+          false,
+        );
+      });
+      _testWidgets('highlights section if we have scrolled past it', (
+        tester,
+      ) async {
+        final text = '''
 Test test test
 
 test 
@@ -108,41 +108,47 @@ ${generateText(10)}
 ${generateText(10)}
 ''';
 
-          await tester.pumpWidget(
-            wrapWithScaffold(PrivacyPolicyPage(
+        await tester.pumpWidget(
+          wrapWithScaffold(
+            PrivacyPolicyPage(
               privacyPolicy: privacyPolicyWith(
                 tableOfContentSections: [
                   section('inhaltsverzeichnis', 'Inhaltsverzeichnis'),
                 ],
                 markdown: text,
               ),
-            )),
-          );
+            ),
+          ),
+        );
 
-          await tester.fling(
-              find.byType(PrivacyPolicyText), const Offset(0, -400), 10000);
+        await tester.fling(
+          find.byType(PrivacyPolicyText),
+          const Offset(0, -400),
+          10000,
+        );
 
-          expect(
-            find.sectionHighlightWidget('Inhaltsverzeichnis').shouldHighlight,
-            true,
-          );
-        });
+        expect(
+          find.sectionHighlightWidget('Inhaltsverzeichnis').shouldHighlight,
+          true,
+        );
+      });
 
-        /// While developing I used a threshold that was near the top of the
-        /// page but not at the very top `threshold: 0.1`. Automatic
-        /// scrolling (i.e. tapping on a section heading in the table of
-        /// contents) would scroll the heading to the very top though back
-        /// then.
-        ///
-        /// This lead to the case that automatically scrolling to a section
-        /// heading of a very small heading might skip this section as the
-        /// heading of the next section was already in the threshold.
-        ///
-        /// With this test we ensure that we scroll the heading always right
-        /// up to the threshold.
-        _testWidgets('scrolls a section heading always into the threshold',
-            (tester) async {
-          final text = '''
+      /// While developing I used a threshold that was near the top of the
+      /// page but not at the very top `threshold: 0.1`. Automatic
+      /// scrolling (i.e. tapping on a section heading in the table of
+      /// contents) would scroll the heading to the very top though back
+      /// then.
+      ///
+      /// This lead to the case that automatically scrolling to a section
+      /// heading of a very small heading might skip this section as the
+      /// heading of the next section was already in the threshold.
+      ///
+      /// With this test we ensure that we scroll the heading always right
+      /// up to the threshold.
+      _testWidgets('scrolls a section heading always into the threshold', (
+        tester,
+      ) async {
+        final text = '''
 ${generateText(10)}
 # Small section
 very smoll
@@ -157,8 +163,9 @@ ${generateText(10)}
 ${generateText(10)}
 ''';
 
-          await tester.pumpWidget(
-            wrapWithScaffold(PrivacyPolicyPage(
+        await tester.pumpWidget(
+          wrapWithScaffold(
+            PrivacyPolicyPage(
               privacyPolicy: privacyPolicyWith(
                 tableOfContentSections: [
                   section('small-section', 'Small section'),
@@ -173,23 +180,25 @@ ${generateText(10)}
                 threshold: const CurrentlyReadThreshold(0.5),
                 showDebugThresholdMarker: true,
               ),
-            )),
-          );
+            ),
+          ),
+        );
 
-          // tap on section in table of contents
-          await tester
-              .tap(find.widgetWithText(TocSectionHighlight, 'Small section'));
+        // tap on section in table of contents
+        await tester.tap(
+          find.widgetWithText(TocSectionHighlight, 'Small section'),
+        );
 
-          await tester.pumpAndSettle();
+        await tester.pumpAndSettle();
 
-          expect(
-            find.sectionHighlightWidget('Small section').shouldHighlight,
-            true,
-          );
-        });
-        _testWidgets(
-            'regression test: changing the layout from desktop to tablet will change the expansion behavior',
-            (tester) async {
+        expect(
+          find.sectionHighlightWidget('Small section').shouldHighlight,
+          true,
+        );
+      });
+      _testWidgets(
+        'regression test: changing the layout from desktop to tablet will change the expansion behavior',
+        (tester) async {
           // We change the surface size below (change from desktop to tablet
           // layout) so we need to call addTearDown so the other tests are not
           // affected.
@@ -205,20 +214,18 @@ ${generateText(10)}
 ''';
 
           await tester.pumpWidget(
-            wrapWithScaffold(PrivacyPolicyPage(
-              privacyPolicy: privacyPolicyWith(
-                tableOfContentSections: [
-                  section('foo', 'Foo'),
-                  section('bar', 'Bar', [
-                    section('baz', 'Baz'),
-                  ]),
-                ],
-                markdown: text,
+            wrapWithScaffold(
+              PrivacyPolicyPage(
+                privacyPolicy: privacyPolicyWith(
+                  tableOfContentSections: [
+                    section('foo', 'Foo'),
+                    section('bar', 'Bar', [section('baz', 'Baz')]),
+                  ],
+                  markdown: text,
+                ),
+                config: PrivacyPolicyPageConfig(showDebugThresholdMarker: true),
               ),
-              config: PrivacyPolicyPageConfig(
-                showDebugThresholdMarker: true,
-              ),
-            )),
+            ),
           );
 
           expect(find.byType(TocSectionHighlight), findsWidgets);
@@ -245,7 +252,10 @@ ${generateText(10)}
 
           // Scroll back to top of the privacy policy
           await tester.fling(
-              find.byType(PrivacyPolicyText), const Offset(0, 400), 10000);
+            find.byType(PrivacyPolicyText),
+            const Offset(0, 400),
+            10000,
+          );
 
           // Open bottom sheet
           await tester.tap(find.byType(OpenTocBottomSheetButton));
@@ -264,36 +274,38 @@ ${generateText(10)}
           // are not currently read) then in this case the "Bar" section should
           // not be expanded now since we're in the tablet layout.
           expect(find.text('Baz'), findsNothing);
-        });
+        },
+      );
 
-        /// The heading of the very last section might not scroll high enough on
-        /// the privacy policy page to pass the "currently reading" threshold as
-        /// the section might have not enough text and one can't scroll further
-        /// than the end of the text.
-        /// In this case the last section would never be highlighted even if the
-        /// user scrolls to the very end of the privacy policy.
-        ///
-        /// With this test we want to ensure that if we scroll to the very
-        /// bottom of the page we highlight the last section in the table of
-        /// contents, regardless of the last section heading not having passed
-        /// the threshold yet.
-        ///
-        /// This is done for a nicer user experience.
-        /// There will still be edge-cases though: If chapters right before
-        /// the last section are also too short to be scrolled past the
-        /// "currently reading" threshold they will never get highlighted.
-        /// In this case we would skip highlighting these chapters in the table
-        /// of contents when scrolling to the very end of the document.
-        ///
-        /// Regarding the implementation of this behavior we use a workaround
-        /// described further in documentation of [PrivacyPolicyEndSection].
-        _testWidgets(
-            'highlights the last section in the table of contents if we scroll to the very end of the document',
-            (tester) async {
+      /// The heading of the very last section might not scroll high enough on
+      /// the privacy policy page to pass the "currently reading" threshold as
+      /// the section might have not enough text and one can't scroll further
+      /// than the end of the text.
+      /// In this case the last section would never be highlighted even if the
+      /// user scrolls to the very end of the privacy policy.
+      ///
+      /// With this test we want to ensure that if we scroll to the very
+      /// bottom of the page we highlight the last section in the table of
+      /// contents, regardless of the last section heading not having passed
+      /// the threshold yet.
+      ///
+      /// This is done for a nicer user experience.
+      /// There will still be edge-cases though: If chapters right before
+      /// the last section are also too short to be scrolled past the
+      /// "currently reading" threshold they will never get highlighted.
+      /// In this case we would skip highlighting these chapters in the table
+      /// of contents when scrolling to the very end of the document.
+      ///
+      /// Regarding the implementation of this behavior we use a workaround
+      /// described further in documentation of [PrivacyPolicyEndSection].
+      _testWidgets(
+        'highlights the last section in the table of contents if we scroll to the very end of the document',
+        (tester) async {
           const endSectionName = 'end section W!ith some_ special Chars.';
           final endSection = PrivacyPolicyEndSection(
             sectionName: endSectionName,
-            generateMarkdown: (privacyPolicy) => '''
+            generateMarkdown:
+                (privacyPolicy) => '''
 
 #### $endSectionName
 This is not enough text to scroll the heading past the currently read threshold.
@@ -306,20 +318,28 @@ ${generateText(20)}
 ''';
 
           await tester.pumpWidget(
-            wrapWithScaffold(PrivacyPolicyPage(
-              privacyPolicy: privacyPolicyWith(
-                tableOfContentSections: [
-                  section('foo', 'Foo'),
-                  DocumentSection(endSection.sectionId, endSection.sectionName),
-                ],
-                markdown: text,
+            wrapWithScaffold(
+              PrivacyPolicyPage(
+                privacyPolicy: privacyPolicyWith(
+                  tableOfContentSections: [
+                    section('foo', 'Foo'),
+                    DocumentSection(
+                      endSection.sectionId,
+                      endSection.sectionName,
+                    ),
+                  ],
+                  markdown: text,
+                ),
+                config: PrivacyPolicyPageConfig(endSection: endSection),
               ),
-              config: PrivacyPolicyPageConfig(endSection: endSection),
-            )),
+            ),
           );
 
           await tester.fling(
-              find.byType(PrivacyPolicyText), const Offset(0, -40000), 100000);
+            find.byType(PrivacyPolicyText),
+            const Offset(0, -40000),
+            100000,
+          );
 
           await tester.pumpAndSettle();
 
@@ -327,10 +347,10 @@ ${generateText(20)}
             find.sectionHighlightWidget(endSectionName).shouldHighlight,
             true,
           );
-        });
-      });
-    },
-  );
+        },
+      );
+    });
+  });
 }
 
 extension on CommonFinders {
@@ -340,9 +360,11 @@ extension on CommonFinders {
 
   // ignore: unused_element
   Finder sectionHighlightPredicate(
-      bool Function(TocSectionHighlight widget) predicate) {
+    bool Function(TocSectionHighlight widget) predicate,
+  ) {
     return find.byWidgetPredicate(
-        (widget) => predicate(widget as TocSectionHighlight));
+      (widget) => predicate(widget as TocSectionHighlight),
+    );
   }
 
   TocSectionHighlight sectionHighlightWidget(String name) {
@@ -357,7 +379,9 @@ extension on CommonFinders {
 // --update-goldens
 Future<void> generateGolden(String name) async {
   await expectLater(
-      find.byType(MaterialApp), matchesGoldenFile('goldens/golden_$name.png'));
+    find.byType(MaterialApp),
+    matchesGoldenFile('goldens/golden_$name.png'),
+  );
 }
 
 String generateText(int times) {
@@ -373,22 +397,24 @@ Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit ame
 
 Widget wrapWithScaffold(Widget privacyPolicyPage) {
   return MaterialApp(
-      home: AnalyticsProvider(
-    analytics: Analytics(NullAnalyticsBackend()),
-    child: MultiProvider(
-      providers: [
-        ChangeNotifierProvider<ThemeSettings>(
-          create: (context) => ThemeSettings(
-            analytics: Analytics(NullAnalyticsBackend()),
-            defaultTextScalingFactor: 1.0,
-            defaultThemeBrightness: ThemeBrightness.light,
-            defaultVisualDensity:
-                VisualDensitySetting.adaptivePlatformDensity(),
-            keyValueStore: InMemoryKeyValueStore(),
+    home: AnalyticsProvider(
+      analytics: Analytics(NullAnalyticsBackend()),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<ThemeSettings>(
+            create:
+                (context) => ThemeSettings(
+                  analytics: Analytics(NullAnalyticsBackend()),
+                  defaultTextScalingFactor: 1.0,
+                  defaultThemeBrightness: ThemeBrightness.light,
+                  defaultVisualDensity:
+                      VisualDensitySetting.adaptivePlatformDensity(),
+                  keyValueStore: InMemoryKeyValueStore(),
+                ),
           ),
-        ),
-      ],
-      child: privacyPolicyPage,
+        ],
+        child: privacyPolicyPage,
+      ),
     ),
-  ));
+  );
 }

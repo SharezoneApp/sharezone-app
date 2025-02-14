@@ -15,7 +15,8 @@ class _ProfileAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final streamingCache = FlutterStreamingKeyValueStore(
-        BlocProvider.of<SharezoneContext>(context).streamingSharedPreferences);
+      BlocProvider.of<SharezoneContext>(context).streamingSharedPreferences,
+    );
     final cache = ProfilePageHintCache(api.user.isAnonymous(), streamingCache);
     return Padding(
       padding: const EdgeInsets.only(right: 8),

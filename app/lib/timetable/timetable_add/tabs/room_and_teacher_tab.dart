@@ -9,9 +9,7 @@
 part of '../timetable_add_page.dart';
 
 class _RoomAndTeachersTab extends StatelessWidget {
-  const _RoomAndTeachersTab({
-    required this.index,
-  });
+  const _RoomAndTeachersTab({required this.index});
 
   final int index;
 
@@ -25,9 +23,7 @@ class _RoomAndTeachersTab extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(
           children: [
-            RoomField(
-              onChanged: bloc.changeRoom,
-            ),
+            RoomField(onChanged: bloc.changeRoom),
             const SizedBox(height: 16),
             TeacherField(
               teachers: BlocProvider.of<TimetableBloc>(context).currentTeachers,

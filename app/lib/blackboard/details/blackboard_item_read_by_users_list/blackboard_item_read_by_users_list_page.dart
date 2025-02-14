@@ -60,10 +60,7 @@ class _BlackboardItemReadByUsersListPageState
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Gelesen von"),
-          centerTitle: true,
-        ),
+        appBar: AppBar(title: const Text("Gelesen von"), centerTitle: true),
         body: const BlackboardItemReadByUsersListPageBody(),
       ),
     );
@@ -81,9 +78,9 @@ class BlackboardItemReadByUsersListPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUnlocked = context
-        .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.infoSheetReadByUsersList);
+    final isUnlocked = context.read<SubscriptionService>().hasFeatureUnlocked(
+      SharezonePlusFeature.infoSheetReadByUsersList,
+    );
     if (!isUnlocked) {
       return const _FreeUsersLockScreen();
     }
@@ -159,7 +156,8 @@ class _FreeUsersLockScreen extends StatelessWidget {
                 onLearnMorePressed: () => navigateToSharezonePlusPage(context),
                 underlayColor: Theme.of(context).scaffoldBackgroundColor,
                 child: const Text(
-                    'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
+                  'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.',
+                ),
               ),
             ),
           ),
@@ -232,8 +230,10 @@ class _UserTile extends StatelessWidget {
         subtitle: Text(view.typeOfUser),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
-          child: Text(view.abbreviation,
-              style: const TextStyle(color: Colors.white)),
+          child: Text(
+            view.abbreviation,
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
         trailing: hasReadIcon(),
       ),

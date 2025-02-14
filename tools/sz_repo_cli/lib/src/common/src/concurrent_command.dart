@@ -21,12 +21,15 @@ abstract class ConcurrentCommand extends CommandBase {
         help:
             'Only run the task for the given package(s). Package names can be separated by comma. E.g. `--only package1` or `--only=package1,package2`.',
       )
-      ..addOption('exclude',
-          help:
-              'Exclude the given package(s) from the task. Package names can be separated by comma. E.g. `--exclude package1` or `--exclude=package1,package2`.')
+      ..addOption(
+        'exclude',
+        help:
+            'Exclude the given package(s) from the task. Package names can be separated by comma. E.g. `--exclude package1` or `--exclude=package1,package2`.',
+      )
       ..addConcurrencyOption(defaultMaxConcurrency: defaultMaxConcurrency)
       ..addPackageTimeoutOption(
-          defaultInMinutes: defaultPackageTimeout.inMinutes);
+        defaultInMinutes: defaultPackageTimeout.inMinutes,
+      );
   }
 
   /// How long the task can run per package before being considered as failed.
@@ -68,14 +71,16 @@ abstract class ConcurrentCommand extends CommandBase {
 
     final onlyPackageNames = _parseCommaSeparatedList('only');
     if (onlyPackageNames.isNotEmpty) {
-      stream =
-          stream.where((package) => onlyPackageNames.contains(package.name));
+      stream = stream.where(
+        (package) => onlyPackageNames.contains(package.name),
+      );
     }
 
     final excludePackageNames = _parseCommaSeparatedList('exclude');
     if (excludePackageNames.isNotEmpty) {
-      stream = stream
-          .where((package) => !excludePackageNames.contains(package.name));
+      stream = stream.where(
+        (package) => !excludePackageNames.contains(package.name),
+      );
     }
 
     return stream;
@@ -95,24 +100,26 @@ abstract class ConcurrentCommand extends CommandBase {
     await runSetup();
 
     final max = argResults![maxConcurrentPackagesOptionName];
-    final maxNumberOfPackagesBeingProcessedConcurrently = max != null
-        ? int.tryParse(argResults![maxConcurrentPackagesOptionName])
-        // null as interpreted as "no concurrency limit" (everything at once).
-        : null;
+    final maxNumberOfPackagesBeingProcessedConcurrently =
+        max != null
+            ? int.tryParse(argResults![maxConcurrentPackagesOptionName])
+            // null as interpreted as "no concurrency limit" (everything at once).
+            : null;
 
     final taskRunner = ConcurrentPackageTaskRunner(
       getCurrentDateTime: () => clock.now(),
     );
 
-    final res = taskRunner
-        .runTaskForPackages(
-          packageStream: packagesToProcess,
-          runTask: (runTaskForPackage),
-          maxNumberOfPackagesBeingProcessedConcurrently:
-              maxNumberOfPackagesBeingProcessedConcurrently,
-          perPackageTaskTimeout: argResults!.packageTimeoutDuration,
-        )
-        .asBroadcastStream();
+    final res =
+        taskRunner
+            .runTaskForPackages(
+              packageStream: packagesToProcess,
+              runTask: (runTaskForPackage),
+              maxNumberOfPackagesBeingProcessedConcurrently:
+                  maxNumberOfPackagesBeingProcessedConcurrently,
+              perPackageTaskTimeout: argResults!.packageTimeoutDuration,
+            )
+            .asBroadcastStream();
 
     final presenter = PackageTasksStatusPresenter();
     presenter.continuouslyPrintTaskStatusUpdatesToConsole(res);

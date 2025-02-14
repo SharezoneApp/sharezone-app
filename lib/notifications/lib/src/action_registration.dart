@@ -21,8 +21,8 @@ import 'package:notifications/src/action_executor.dart';
 /// `ShowDialog.title` and `ShowDialog.body`).
 ///
 /// Is usually implemented by a subclass of [ActionExecutor].
-typedef ActionRequestExecutorFunc<T extends ActionRequest> = FutureOr<void>
-    Function(T actionRequest);
+typedef ActionRequestExecutorFunc<T extends ActionRequest> =
+    FutureOr<void> Function(T actionRequest);
 
 /// Parse the [ActionRequest] of type [T] from the [notification] and
 /// report non-fatal errors via the [instrumentation].
@@ -31,10 +31,11 @@ typedef ActionRequestExecutorFunc<T extends ActionRequest> = FutureOr<void>
 /// function should throw an [Exception].
 ///
 /// For an example see documentation of [ActionRegistration].
-typedef PushNotificationParsingFunc<T extends ActionRequest> = T Function(
-  PushNotification notification,
-  PushNotificationParserInstrumentation instrumentation,
-);
+typedef PushNotificationParsingFunc<T extends ActionRequest> =
+    T Function(
+      PushNotification notification,
+      PushNotificationParserInstrumentation instrumentation,
+    );
 
 /// Register a thing to happen (action) for a [PushNotification] with a specific
 /// [PushNotification.actionType] (including none, see
@@ -119,15 +120,18 @@ class ActionRegistration<T extends ActionRequest> {
     required this.parseActionRequestFromNotification,
     required this.executeActionRequest,
   }) {
-    assert(T is! ActionRequest,
-        '$ActionRegistration requires T to be a subclass of $ActionRequest');
+    assert(
+      T is! ActionRequest,
+      '$ActionRegistration requires T to be a subclass of $ActionRequest',
+    );
 
     if (registerForActionTypeStrings.isEmpty) {
       throw ArgumentError("The registered actionType Strings can't be empty.");
     }
     if (registerForActionTypeStrings.contains(null)) {
       throw ArgumentError(
-          "'null' can't be registered as an action type string. If the action should be invoked on a notification without an action type string (null or '') then register this action for an empty action type string instead ('').");
+        "'null' can't be registered as an action type string. If the action should be invoked on a notification without an action type string (null or '') then register this action for an empty action type string instead ('').",
+      );
     }
   }
 

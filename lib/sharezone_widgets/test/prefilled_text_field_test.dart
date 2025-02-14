@@ -11,65 +11,67 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone_widgets/src/widgets.dart';
 
 void main() {
-  Future<void> pumpTextField(
-      {required WidgetTester tester, required Widget textField}) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Material(
-          child: textField,
-        ),
-      ),
-    );
+  Future<void> pumpTextField({
+    required WidgetTester tester,
+    required Widget textField,
+  }) async {
+    await tester.pumpWidget(MaterialApp(home: Material(child: textField)));
   }
 
   group('PrefilledTextField', () {
     const sharezone = 'sharezone';
 
-    testWidgets('prefills the TextField with the string passed via label',
-        (tester) async {
+    testWidgets('prefills the TextField with the string passed via label', (
+      tester,
+    ) async {
       await pumpTextField(
-          tester: tester,
-          textField: const PrefilledTextField(prefilledText: sharezone));
+        tester: tester,
+        textField: const PrefilledTextField(prefilledText: sharezone),
+      );
       final TextField textField = tester.firstWidget(find.byType(TextField));
       expect(textField.controller!.text, sharezone);
     });
 
     testWidgets(
-        'auto select the prefilled text, if autoSelectAllCharactersAtBeginning is true',
-        (tester) async {
-      await pumpTextField(
-        tester: tester,
-        textField: const PrefilledTextField(
+      'auto select the prefilled text, if autoSelectAllCharactersAtBeginning is true',
+      (tester) async {
+        await pumpTextField(
+          tester: tester,
+          textField: const PrefilledTextField(
             prefilledText: sharezone,
-            autoSelectAllCharactersOnFirstBuild: true),
-      );
+            autoSelectAllCharactersOnFirstBuild: true,
+          ),
+        );
 
-      final TextField tf1 = tester.firstWidget(find.byType(TextField));
+        final TextField tf1 = tester.firstWidget(find.byType(TextField));
 
-      // Checks if 'sharezone' is selected in 'tf1'
-      expect(
-        tf1.controller!.selection,
-        const TextSelection(baseOffset: 0, extentOffset: sharezone.length),
-      );
-    });
+        // Checks if 'sharezone' is selected in 'tf1'
+        expect(
+          tf1.controller!.selection,
+          const TextSelection(baseOffset: 0, extentOffset: sharezone.length),
+        );
+      },
+    );
 
     testWidgets(
-        'doesn\'t auto selected prefilled text, if autoSelectAllCharactersAtBeginning is false',
-        (tester) async {
-      await pumpTextField(
-        tester: tester,
-        textField: const PrefilledTextField(
+      'doesn\'t auto selected prefilled text, if autoSelectAllCharactersAtBeginning is false',
+      (tester) async {
+        await pumpTextField(
+          tester: tester,
+          textField: const PrefilledTextField(
             prefilledText: sharezone,
-            autoSelectAllCharactersOnFirstBuild: false),
-      );
+            autoSelectAllCharactersOnFirstBuild: false,
+          ),
+        );
 
-      final TextField tf1 = tester.firstWidget(find.byType(TextField));
+        final TextField tf1 = tester.firstWidget(find.byType(TextField));
 
-      // Checks if 'sharezone' is not selected in 'tf1'
-      expect(
-        tf1.controller!.selection,
-        const TextSelection(baseOffset: -1, extentOffset: -1),
-      );
-    });
+        // Checks if 'sharezone' is not selected in 'tf1'
+        expect(
+          tf1.controller!.selection,
+          const TextSelection(baseOffset: -1, extentOffset: -1),
+        );
+      },
+    );
   });
 }

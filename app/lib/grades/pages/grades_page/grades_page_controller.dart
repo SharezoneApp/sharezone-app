@@ -20,67 +20,71 @@ class GradesPageController extends ChangeNotifier {
 
   final GradesService gradesService;
 
-  GradesPageController({
-    required this.gradesService,
-  }) {
-    _subscription = gradesService.terms.listen((event) {
-      try {
-        final activeTerm = event.firstWhereOrNull((term) => term.isActiveTerm);
-        CurrentTermView? currentTerm;
-
-        if (activeTerm != null) {
-          final subjects = activeTerm.subjects
-              .map((s) => (
-                    id: s.id,
-                    abbreviation: s.abbreviation,
-                    displayName: s.name,
-                    grade: displayGrade(s.calculatedGrade),
-                    design: s.design
-                  ))
-              .toIList();
-
-          currentTerm = (
-            id: activeTerm.id,
-            avgGrade: (
-              displayGrade(activeTerm.calculatedGrade),
-              GradePerformance.good,
-            ),
-            subjects: subjects.toList(),
-            displayName: activeTerm.name,
+  GradesPageController({required this.gradesService}) {
+    _subscription = gradesService.terms.listen(
+      (event) {
+        try {
+          final activeTerm = event.firstWhereOrNull(
+            (term) => term.isActiveTerm,
           );
-        }
+          CurrentTermView? currentTerm;
 
-        final pastTerm = event.where((term) => !term.isActiveTerm).toList();
-        final pastTermViews = <PastTermView>[];
-        for (final term in pastTerm) {
-          pastTermViews.add(
-            (
+          if (activeTerm != null) {
+            final subjects =
+                activeTerm.subjects
+                    .map(
+                      (s) => (
+                        id: s.id,
+                        abbreviation: s.abbreviation,
+                        displayName: s.name,
+                        grade: displayGrade(s.calculatedGrade),
+                        design: s.design,
+                      ),
+                    )
+                    .toIList();
+
+            currentTerm = (
+              id: activeTerm.id,
+              avgGrade: (
+                displayGrade(activeTerm.calculatedGrade),
+                GradePerformance.good,
+              ),
+              subjects: subjects.toList(),
+              displayName: activeTerm.name,
+            );
+          }
+
+          final pastTerm = event.where((term) => !term.isActiveTerm).toList();
+          final pastTermViews = <PastTermView>[];
+          for (final term in pastTerm) {
+            pastTermViews.add((
               id: term.id,
               avgGrade: (
                 displayGrade(term.calculatedGrade),
-                GradePerformance.good
+                GradePerformance.good,
               ),
               displayName: term.name,
-            ),
+            ));
+          }
+          pastTermViews.sortByTermName();
+
+          currentTerm?.subjects.sortByDisplayName();
+
+          state = GradesPageLoaded(
+            currentTerm: currentTerm,
+            pastTerms: pastTermViews,
           );
+          notifyListeners();
+        } catch (e) {
+          state = GradesPageError('$e');
+          notifyListeners();
         }
-        pastTermViews.sortByTermName();
-
-        currentTerm?.subjects.sortByDisplayName();
-
-        state = GradesPageLoaded(
-          currentTerm: currentTerm,
-          pastTerms: pastTermViews,
-        );
-        notifyListeners();
-      } catch (e) {
+      },
+      onError: (e) {
         state = GradesPageError('$e');
         notifyListeners();
-      }
-    }, onError: (e) {
-      state = GradesPageError('$e');
-      notifyListeners();
-    });
+      },
+    );
   }
 
   @override
@@ -154,10 +158,7 @@ class GradesPageLoaded extends GradesPageState {
   /// If the user has no past terms, this will be an empty list.
   final List<PastTermView> pastTerms;
 
-  const GradesPageLoaded({
-    required this.currentTerm,
-    required this.pastTerms,
-  });
+  const GradesPageLoaded({required this.currentTerm, required this.pastTerms});
 
   /// Returns `true` if the user has any grades in any term.
   bool hasGrades() {

@@ -32,13 +32,13 @@ class TocDocumentSectionView {
     required this.shouldHighlight,
     required this.isExpanded,
   }) : assert(() {
-          // If there are no subsections there cant be a way
-          // for the section to be expanded.
-          if (subsections.isEmpty) {
-            return isExpanded == false;
-          }
-          return true;
-        }());
+         // If there are no subsections there cant be a way
+         // for the section to be expanded.
+         if (subsections.isEmpty) {
+           return isExpanded == false;
+         }
+         return true;
+       }());
 
   @override
   bool operator ==(Object other) {

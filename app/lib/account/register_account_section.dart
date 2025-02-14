@@ -36,8 +36,10 @@ class RegisterAccountSection extends StatelessWidget {
               color: Colors.orange.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Text("Du bist nur anonym angemeldet!",
-                style: TextStyle(color: Colors.orange, fontSize: 18)),
+            child: const Text(
+              "Du bist nur anonym angemeldet!",
+              style: TextStyle(color: Colors.orange, fontSize: 18),
+            ),
           ),
           const SizedBox(height: 12),
           const Text(
@@ -51,15 +53,17 @@ class RegisterAccountSection extends StatelessWidget {
             leading: Icon(Icons.check, color: Color(0xFF41d876)),
             title: Text("Automatisches Backup"),
             subtitle: Text(
-                "Weiterhin Zugriff auf die Daten bei Verlust des Smartphones"),
+              "Weiterhin Zugriff auf die Daten bei Verlust des Smartphones",
+            ),
           ),
           const SizedBox(height: 6),
           const ListTile(
             contentPadding: EdgeInsets.only(left: 12),
             leading: Icon(Icons.check, color: Color(0xFF41d876)),
             title: Text("Nutzung auf mehreren Geräten"),
-            subtitle:
-                Text("Daten werden zwischen mehreren Geräten synchronisiert"),
+            subtitle: Text(
+              "Daten werden zwischen mehreren Geräten synchronisiert",
+            ),
           ),
           const SizedBox(height: 16),
           _SignInMethods(),
@@ -67,10 +71,12 @@ class RegisterAccountSection extends StatelessWidget {
           Text(
             "Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.",
             style: TextStyle(
-                color: Theme.of(context).isDarkTheme
-                    ? Colors.grey
-                    : Colors.grey[600],
-                fontSize: 10),
+              color:
+                  Theme.of(context).isDarkTheme
+                      ? Colors.grey
+                      : Colors.grey[600],
+              fontSize: 10,
+            ),
             textAlign: TextAlign.center,
           ),
         ],
@@ -232,10 +238,7 @@ class _SignUpButton extends StatelessWidget {
           children: <Widget>[
             icon,
             const SizedBox(width: 8),
-            Text(
-              name,
-              style: TextStyle(fontSize: 16, color: color),
-            ),
+            Text(name, style: TextStyle(fontSize: 16, color: color)),
             const SizedBox(width: 8),
           ],
         ),
@@ -246,22 +249,25 @@ class _SignUpButton extends StatelessWidget {
 
 Future<void> showCredentialAlreadyInUseDialog(BuildContext context) async {
   final showInstruction = await showLeftRightAdaptiveDialog<bool>(
-      context: context,
-      left: const AdaptiveDialogAction<bool>(
-        popResult: false,
-        title: "Schließen",
-      ),
-      right: const AdaptiveDialogAction<bool>(
-        popResult: true,
-        title: "Anleitung zeigen",
-      ),
-      title: "Diese E-Mail wird schon verwendet!",
-      content: const Text(
-          "So wie es aussieht, hast du versehentlich einen zweiten Sharezone-Account erstellt. Lösche einfach diesen Account und melde dich mit deinem richtigen Account an.\n\nFür den Fall, dass du nicht genau weißt, wie das funktioniert, haben wir für dich eine Anleitung vorbereitet :)"));
+    context: context,
+    left: const AdaptiveDialogAction<bool>(
+      popResult: false,
+      title: "Schließen",
+    ),
+    right: const AdaptiveDialogAction<bool>(
+      popResult: true,
+      title: "Anleitung zeigen",
+    ),
+    title: "Diese E-Mail wird schon verwendet!",
+    content: const Text(
+      "So wie es aussieht, hast du versehentlich einen zweiten Sharezone-Account erstellt. Lösche einfach diesen Account und melde dich mit deinem richtigen Account an.\n\nFür den Fall, dass du nicht genau weißt, wie das funktioniert, haben wir für dich eine Anleitung vorbereitet :)",
+    ),
+  );
 
   if (showInstruction != null && showInstruction && context.mounted) {
-    final LinkProviderAnalytics analytics =
-        LinkProviderAnalytics(Analytics(getBackend()));
+    final LinkProviderAnalytics analytics = LinkProviderAnalytics(
+      Analytics(getBackend()),
+    );
     analytics.logShowedUseMultipleDevicesInstruction();
     Navigator.pushNamed(context, UseAccountOnMultipleDevicesInstructions.tag);
   }

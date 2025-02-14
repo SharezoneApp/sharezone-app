@@ -37,25 +37,37 @@ final termsOfServicePolicy = PrivacyPolicy(
 
 final tocDocumentSections = [
   _section(
-      'vorbemerkungen--geltungsbereich', 'Vorbemerkungen / Geltungsbereich'),
+    'vorbemerkungen--geltungsbereich',
+    'Vorbemerkungen / Geltungsbereich',
+  ),
   _section('nutzungsvoraussetzungen', 'Nutzungsvoraussetzungen', [
     _section('angebotene-funktionen', 'Angebotene Funktionen'),
-    _section('registrierung--zustandekommen-des-nutzungsvertrags',
-        'Registrierung / Zustandekommen des Nutzungsvertrags'),
+    _section(
+      'registrierung--zustandekommen-des-nutzungsvertrags',
+      'Registrierung / Zustandekommen des Nutzungsvertrags',
+    ),
     _section('sharezone-plus', 'Sharezone Plus'),
     _section('nutzungsrechte', 'Nutzungsrechte'),
     _section('veroeffentlichen-von-inhalten', 'Veröffentlichen von Inhalten'),
     _section('verfuegbarkeit-der-plattform', 'Verfügbarkeit der Plattform'),
   ]),
-  _section('pflichten-der-nutzer--nutzerverhalten',
-      'Pflichten der Nutzer / Nutzerverhalten'),
-  _section('verantwortlichkeit-fuer-inhalte-der-nutzer',
-      'Verantwortlichkeit für Inhalte der Nutzer'),
+  _section(
+    'pflichten-der-nutzer--nutzerverhalten',
+    'Pflichten der Nutzer / Nutzerverhalten',
+  ),
+  _section(
+    'verantwortlichkeit-fuer-inhalte-der-nutzer',
+    'Verantwortlichkeit für Inhalte der Nutzer',
+  ),
   _section('haftung--freistellungsanspruch', 'Haftung / Freistellungsanspruch'),
-  _section('beendigung-des-nutzungsvertrags--kuendigung',
-      'Beendigung des Nutzungsvertrags / Kündigung'),
-  _section('aenderungen-der-allgemeinen-nutzungsbedingungen',
-      'Änderungen der Allgemeinen Nutzungsbedingungen'),
+  _section(
+    'beendigung-des-nutzungsvertrags--kuendigung',
+    'Beendigung des Nutzungsvertrags / Kündigung',
+  ),
+  _section(
+    'aenderungen-der-allgemeinen-nutzungsbedingungen',
+    'Änderungen der Allgemeinen Nutzungsbedingungen',
+  ),
   _section('datenschutz', 'Datenschutz'),
   _section('schlussbestimmungen', 'Schlussbestimmungen'),
 ];
@@ -64,8 +76,7 @@ DocumentSection _section(
   String id,
   String name, [
   List<DocumentSection> subsections = const [],
-]) =>
-    DocumentSection(DocumentSectionId(id), name, subsections.toIList());
+]) => DocumentSection(DocumentSectionId(id), name, subsections.toIList());
 
 const tocMarkdown = '''
 # Allgemeine Nutzungsbedingungen Sharezone

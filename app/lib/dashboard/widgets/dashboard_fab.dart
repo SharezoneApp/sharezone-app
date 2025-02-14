@@ -77,12 +77,16 @@ class _DashboardFabSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const SizedBox(height: 20),
-            Text("Neu erstellen",
-                style: TextStyle(
-                    color: Theme.of(context).isDarkTheme
+            Text(
+              "Neu erstellen",
+              style: TextStyle(
+                color:
+                    Theme.of(context).isDarkTheme
                         ? Colors.grey[100]
                         : Colors.grey[800],
-                    fontSize: 18)),
+                fontSize: 18,
+              ),
+            ),
             SizedBox(
               height: 275,
               child: Stack(
@@ -91,8 +95,10 @@ class _DashboardFabSheet extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 195, bottom: 120),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
                       title: "Termin",
-                      iconData: themeIconData(Icons.event,
-                          cupertinoIcon: CupertinoIcons.clock),
+                      iconData: themeIconData(
+                        Icons.event,
+                        cupertinoIcon: CupertinoIcons.clock,
+                      ),
                       popValue: _DashboardFabResult.event,
                       tooltip: "Neuen Termin erstellen",
                     ),
@@ -101,8 +107,10 @@ class _DashboardFabSheet extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 120),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
                       title: "Prüfung",
-                      iconData: themeIconData(Icons.school,
-                          cupertinoIcon: CupertinoIcons.bookmark),
+                      iconData: themeIconData(
+                        Icons.school,
+                        cupertinoIcon: CupertinoIcons.bookmark,
+                      ),
                       popValue: _DashboardFabResult.exam,
                       tooltip: "Neue Prüfung erstellen",
                     ),
@@ -111,8 +119,10 @@ class _DashboardFabSheet extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 195, bottom: 120),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
                       title: "Schulstunde",
-                      iconData: themeIconData(Icons.access_time,
-                          cupertinoIcon: CupertinoIcons.time),
+                      iconData: themeIconData(
+                        Icons.access_time,
+                        cupertinoIcon: CupertinoIcons.time,
+                      ),
                       popValue: _DashboardFabResult.lesson,
                       tooltip: "Neue Schulstunde erstellen",
                     ),
@@ -121,8 +131,10 @@ class _DashboardFabSheet extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 110, top: 100),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
                       title: "Hausaufgabe",
-                      iconData: themeIconData(Icons.book,
-                          cupertinoIcon: CupertinoIcons.book),
+                      iconData: themeIconData(
+                        Icons.book,
+                        cupertinoIcon: CupertinoIcons.book,
+                      ),
                       popValue: _DashboardFabResult.homework,
                       tooltip: "Neue Hausaufgabe erstellen",
                     ),
@@ -131,8 +143,10 @@ class _DashboardFabSheet extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 110, top: 100),
                     child: ModalBottomSheetBigIconButton<_DashboardFabResult>(
                       title: "Infozettel",
-                      iconData: themeIconData(Icons.new_releases,
-                          cupertinoIcon: CupertinoIcons.info),
+                      iconData: themeIconData(
+                        Icons.new_releases,
+                        cupertinoIcon: CupertinoIcons.info,
+                      ),
                       popValue: _DashboardFabResult.blackboard,
                       tooltip: "Neuen Infozettel erstellen",
                     ),
@@ -142,23 +156,24 @@ class _DashboardFabSheet extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 250),
                       child: Center(
                         child: TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .error, // foreground
-                            ),
-                            child: const Text("[DEBUG] Cache löschen"),
-                            onPressed: () async {
-                              final prefs =
-                                  await SharedPreferences.getInstance();
-                              final cache = FlutterKeyValueStore(prefs);
-                              cache.clear();
-                            }),
+                          style: TextButton.styleFrom(
+                            foregroundColor:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.error, // foreground
+                          ),
+                          child: const Text("[DEBUG] Cache löschen"),
+                          onPressed: () async {
+                            final prefs = await SharedPreferences.getInstance();
+                            final cache = FlutterKeyValueStore(prefs);
+                            cache.clear();
+                          },
+                        ),
                       ),
-                    )
+                    ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

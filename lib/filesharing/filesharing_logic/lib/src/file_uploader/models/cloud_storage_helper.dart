@@ -23,7 +23,10 @@ class CloudStorageBucket {
   CloudStoragePfad lokalerPfad(String pfad) {
     if (pfad.startsWith('/')) {
       throw ArgumentError.value(
-          pfad, 'storagePfad', 'darf nicht mit "/" beginnen.');
+        pfad,
+        'storagePfad',
+        'darf nicht mit "/" beginnen.',
+      );
     }
     return CloudStoragePfad(uri.replace(path: pfad));
   }
@@ -40,12 +43,18 @@ class CloudStoragePfad {
   CloudStoragePfad(Uri cloudStorageUri) : uri = cloudStorageUri {
     ArgumentError.checkNotNull(uri, 'cloudStorageUri');
     if (uri.scheme != 'gs') {
-      ArgumentError.value(uri, 'cloudStorageUri',
-          'Muss dem "gs"-Schema, z.B. gs://[Bucket-Name] entsprechen.');
+      ArgumentError.value(
+        uri,
+        'cloudStorageUri',
+        'Muss dem "gs"-Schema, z.B. gs://[Bucket-Name] entsprechen.',
+      );
     }
     if (!uri.isAbsolute) {
       ArgumentError.value(
-          uri, 'cloudStorageUri', 'Muss eine absolute Uri sein.');
+        uri,
+        'cloudStorageUri',
+        'Muss eine absolute Uri sein.',
+      );
     }
   }
 

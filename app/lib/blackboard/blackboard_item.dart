@@ -115,7 +115,7 @@ class BlackboardItem {
       'createdOn': Timestamp.fromDate(createdOn),
       'attachments': attachments,
       'sendNotification': sendNotification,
-      'forUsers': forUsers
+      'forUsers': forUsers,
     };
   }
 

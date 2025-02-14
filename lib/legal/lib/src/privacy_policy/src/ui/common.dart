@@ -30,21 +30,19 @@ class PrivacyPolicyHeading extends StatelessWidget {
     return Text(
       headingText,
       style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-            fontSize: 24,
-            color: Theme.of(context).isDarkTheme
+        fontSize: 24,
+        color:
+            Theme.of(context).isDarkTheme
                 ? primaryColor
                 : const Color(0xFF254D71),
-            fontWeight: FontWeight.bold,
-          ),
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 }
 
 class PrivacyPolicySubheading extends StatelessWidget {
-  const PrivacyPolicySubheading({
-    super.key,
-    required this.entersIntoForceOn,
-  });
+  const PrivacyPolicySubheading({super.key, required this.entersIntoForceOn});
 
   final DateTime? entersIntoForceOn;
 
@@ -58,9 +56,7 @@ class PrivacyPolicySubheading extends StatelessWidget {
             text: ' ${DateFormat('dd.MM.yyyy').format(entersIntoForceOn!)} ',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          const TextSpan(
-            text: 'in Kraft.',
-          )
+          const TextSpan(text: 'in Kraft.'),
         ],
       ),
       textAlign: TextAlign.center,
@@ -69,9 +65,7 @@ class PrivacyPolicySubheading extends StatelessWidget {
 }
 
 class ChangeAppearanceButton extends StatelessWidget {
-  const ChangeAppearanceButton({
-    super.key,
-  });
+  const ChangeAppearanceButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -86,26 +80,22 @@ class ChangeAppearanceButton extends StatelessWidget {
 }
 
 void showDisplaySettingsDialog(BuildContext context) {
-  final themeSettings =
-      Provider.of<PrivacyPolicyThemeSettings>(context, listen: false);
+  final themeSettings = Provider.of<PrivacyPolicyThemeSettings>(
+    context,
+    listen: false,
+  );
   showDialog(
     context: context,
-    builder: (context) => DisplaySettingsDialog(
-      themeSettings: themeSettings,
-    ),
+    builder: (context) => DisplaySettingsDialog(themeSettings: themeSettings),
   );
 }
 
 class DownloadAsPDFButton extends StatelessWidget {
-  const DownloadAsPDFButton({
-    super.key,
-    this.enabled = true,
-  }) : _isIconButton = false;
+  const DownloadAsPDFButton({super.key, this.enabled = true})
+    : _isIconButton = false;
 
-  const DownloadAsPDFButton.icon({
-    super.key,
-    this.enabled = true,
-  }) : _isIconButton = true;
+  const DownloadAsPDFButton.icon({super.key, this.enabled = true})
+    : _isIconButton = true;
 
   final bool enabled;
   final bool _isIconButton;
@@ -121,14 +111,14 @@ class DownloadAsPDFButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return _isIconButton
         ? IconButton(
-            onPressed: enabled ? () => downloadPdf(context) : null,
-            icon: const Icon(Icons.download),
-          )
+          onPressed: enabled ? () => downloadPdf(context) : null,
+          icon: const Icon(Icons.download),
+        )
         : TextButton.icon(
-            onPressed: enabled ? () => downloadPdf(context) : null,
-            icon: const Icon(Icons.download),
-            label: const Text('Als PDF herunterladen'),
-          );
+          onPressed: enabled ? () => downloadPdf(context) : null,
+          icon: const Icon(Icons.download),
+          label: const Text('Als PDF herunterladen'),
+        );
   }
 }
 
@@ -182,20 +172,18 @@ class TocSectionHighlight extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       decoration: ShapeDecoration(
-        color: shouldHighlight
-            ? (Theme.of(context).isDarkTheme
-                ? Colors.blue.shade800
-                : Colors.lightBlue.shade100)
-            : backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+        color:
+            shouldHighlight
+                ? (Theme.of(context).isDarkTheme
+                    ? Colors.blue.shade800
+                    : Colors.lightBlue.shade100)
+                : backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         shape: shape,
       ),
       duration: const Duration(milliseconds: 100),
       child: Material(
         color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          child: child,
-        ),
+        child: InkWell(onTap: onTap, child: child),
       ),
     );
   }
@@ -204,44 +192,51 @@ class TocSectionHighlight extends StatelessWidget {
 class PrivacyPolicyText extends StatelessWidget {
   final PrivacyPolicy privacyPolicy;
 
-  const PrivacyPolicyText({
-    required this.privacyPolicy,
-    super.key,
-  });
+  const PrivacyPolicyText({required this.privacyPolicy, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final anchorController =
-        Provider.of<AnchorController>(context, listen: false);
+    final anchorController = Provider.of<AnchorController>(
+      context,
+      listen: false,
+    );
     final config = Provider.of<PrivacyPolicyPageConfig>(context, listen: false);
-    final theme =
-        Provider.of<PrivacyPolicyThemeSettings>(context, listen: false);
-    final documentController =
-        Provider.of<DocumentController>(context, listen: false);
+    final theme = Provider.of<PrivacyPolicyThemeSettings>(
+      context,
+      listen: false,
+    );
+    final documentController = Provider.of<DocumentController>(
+      context,
+      listen: false,
+    );
 
     return Stack(
       children: [
         RelativeAnchorsMarkdown(
           selectable: true,
           styleSheet: MarkdownStyleSheet(
-              // hyperlinks
-              a: TextStyle(
-                  color: Theme.of(context).isDarkTheme
+            // hyperlinks
+            a: TextStyle(
+              color:
+                  Theme.of(context).isDarkTheme
                       ? Colors.blue.shade400
-                      : Colors.blue.shade600),
-              h3: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontWeight: FontWeight.w500),
-              blockquoteDecoration: BoxDecoration(
-                color: Theme.of(context).isDarkTheme
-                    ? Colors.blue.shade800.withValues(alpha: .6)
-                    : Colors.blue.shade100,
-                borderRadius: BorderRadius.circular(2.0),
-              )),
+                      : Colors.blue.shade600,
+            ),
+            h3: Theme.of(
+              context,
+            ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+            blockquoteDecoration: BoxDecoration(
+              color:
+                  Theme.of(context).isDarkTheme
+                      ? Colors.blue.shade800.withValues(alpha: .6)
+                      : Colors.blue.shade100,
+              borderRadius: BorderRadius.circular(2.0),
+            ),
+          ),
           extensionSet: sharezoneMarkdownExtensionSet,
           anchorController: anchorController,
-          data: privacyPolicy.markdownText +
+          data:
+              privacyPolicy.markdownText +
               config.endSection.generateMarkdown(privacyPolicy),
           onTapLink: (text, href, title) {
             if (href == null) return;
@@ -262,11 +257,11 @@ class PrivacyPolicyText extends StatelessWidget {
             child: IgnorePointer(
               child: Align(
                 alignment: Alignment.topCenter
-                    // We have to multiply the [config.threshold] position with
-                    // two so that it lines up with the real threshold on
-                    // screen. I have absolutely no clue why though. If you dear
-                    // reader know why then please replace this comment.
-                    .add(Alignment(0, config.threshold.position * 2)),
+                // We have to multiply the [config.threshold] position with
+                // two so that it lines up with the real threshold on
+                // screen. I have absolutely no clue why though. If you dear
+                // reader know why then please replace this comment.
+                .add(Alignment(0, config.threshold.position * 2)),
                 child: const Divider(
                   color: Colors.red,
                   thickness: 2,
@@ -274,16 +269,15 @@ class PrivacyPolicyText extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
       ],
     );
   }
 }
 
 class OpenTocBottomSheetButton extends StatelessWidget {
-  const OpenTocBottomSheetButton({
-    this.enabled = true,
-  }) : super(key: const ValueKey('open-toc-bottom-sheet-button-E2E'));
+  const OpenTocBottomSheetButton({this.enabled = true})
+    : super(key: const ValueKey('open-toc-bottom-sheet-button-E2E'));
 
   final bool enabled;
 
@@ -291,18 +285,16 @@ class OpenTocBottomSheetButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: TextButton(
-        onPressed: enabled
-            ? () {
-                showTableOfContentsBottomSheet(context);
-              }
-            : null,
+        onPressed:
+            enabled
+                ? () {
+                  showTableOfContentsBottomSheet(context);
+                }
+                : null,
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Inhaltsverzeichnis'),
-            Icon(Icons.expand_less),
-          ],
+          children: [Text('Inhaltsverzeichnis'), Icon(Icons.expand_less)],
         ),
       ),
     );

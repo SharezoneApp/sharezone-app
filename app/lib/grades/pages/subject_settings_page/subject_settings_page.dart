@@ -42,12 +42,10 @@ class SubjectSettingsPage extends StatelessWidget {
         final state = context.watch<SubjectSettingsPageController>().state;
         final subjectDisplayName = switch (state) {
           SubjectSettingsLoaded() => state.view.subjectName,
-          _ => '?'
+          _ => '?',
         };
         return Scaffold(
-          appBar: AppBar(
-            title: Text('Einstellungen: $subjectDisplayName'),
-          ),
+          appBar: AppBar(title: Text('Einstellungen: $subjectDisplayName')),
           body: AnimatedSwitcher(
             duration: const Duration(milliseconds: 350),
             child: switch (state) {
@@ -67,16 +65,12 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
+    return const Center(child: CircularProgressIndicator());
   }
 }
 
 class _Error extends StatelessWidget {
-  const _Error({
-    required this.message,
-  });
+  const _Error({required this.message});
 
   final String message;
 
@@ -84,16 +78,14 @@ class _Error extends StatelessWidget {
   Widget build(BuildContext context) {
     return ErrorCard(
       message: Text(message),
-      onContactSupportPressed: () =>
-          Navigator.pushNamed(context, SupportPage.tag),
+      onContactSupportPressed:
+          () => Navigator.pushNamed(context, SupportPage.tag),
     );
   }
 }
 
 class _Loaded extends StatelessWidget {
-  const _Loaded({
-    required this.view,
-  });
+  const _Loaded({required this.view});
 
   final SubjectSettingsPageView view;
 
@@ -133,9 +125,7 @@ class _Loaded extends StatelessWidget {
 }
 
 class _FinalGradeType extends StatelessWidget {
-  const _FinalGradeType({
-    required this.view,
-  });
+  const _FinalGradeType({required this.view});
 
   final SubjectSettingsPageView view;
 

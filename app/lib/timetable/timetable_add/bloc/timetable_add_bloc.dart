@@ -41,8 +41,8 @@ class TimetableAddBloc extends BlocBase {
   TimetableAddBloc(this.gateway, this.cache);
 
   TimetableAddBloc.fromDependencies(TimetableAddBlocDependencies dependencies)
-      : gateway = dependencies.gateway,
-        cache = dependencies.lessonLengthCache;
+    : gateway = dependencies.gateway,
+      cache = dependencies.lessonLengthCache;
 
   Stream<Course> get course => _courseSegmentSubject;
   Stream<Time> get startTime => _startTimeSubject;
@@ -130,7 +130,9 @@ class TimetableAddBloc extends BlocBase {
       if (teacher?.isEmpty == true) {
         teacher = null;
       }
-      log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay $period");
+      log(
+        "isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay $period",
+      );
 
       final lesson = Lesson(
         // The 'createdOn' field will be added in the gateway because we use

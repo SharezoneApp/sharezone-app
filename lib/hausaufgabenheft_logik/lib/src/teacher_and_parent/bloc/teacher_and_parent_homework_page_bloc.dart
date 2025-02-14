@@ -20,16 +20,20 @@ import 'package:rxdart/rxdart.dart';
 export 'events.dart';
 export 'states.dart';
 
-class TeacherAndParentHomeworkPageBloc extends Bloc<
-    TeacherAndParentHomeworkPageEvent,
-    TeacherAndParentHomeworkPageState> implements bloc_base.BlocBase {
+class TeacherAndParentHomeworkPageBloc
+    extends
+        Bloc<
+          TeacherAndParentHomeworkPageEvent,
+          TeacherAndParentHomeworkPageState
+        >
+    implements bloc_base.BlocBase {
   final TeacherAndParentHomeworkPageApi _homeworkApi;
   final HomeworkSortingCache _homeworkSortingCache;
   final DateTime Function() _getCurrentDateTime;
   final int numberOfInitialCompletedHomeworksToLoad;
   final TeacherAndParentHomeworkViewFactory _viewFactory;
   final TeacherAndParentOpenHomeworkListViewFactory
-      _openHomeworkListViewFactory;
+  _openHomeworkListViewFactory;
   final _currentSortStream = BehaviorSubject<Sort<BaseHomeworkReadModel>>();
   LazyLoadingController<TeacherHomeworkReadModel>? _lazyLoadingController;
 
@@ -41,15 +45,15 @@ class TeacherAndParentHomeworkPageBloc extends Bloc<
     required TeacherAndParentHomeworkPageApi homeworkApi,
     required TeacherAndParentHomeworkViewFactory viewFactory,
     required TeacherAndParentOpenHomeworkListViewFactory
-        openHomeworkListViewFactory,
+    openHomeworkListViewFactory,
     required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
-  })  : _homeworkApi = homeworkApi,
-        _openHomeworkListViewFactory = openHomeworkListViewFactory,
-        _homeworkSortingCache = homeworkSortingCache,
-        _viewFactory = viewFactory,
-        _getCurrentDateTime = getCurrentDateTime,
-        super(Uninitialized()) {
+  }) : _homeworkApi = homeworkApi,
+       _openHomeworkListViewFactory = openHomeworkListViewFactory,
+       _homeworkSortingCache = homeworkSortingCache,
+       _viewFactory = viewFactory,
+       _getCurrentDateTime = getCurrentDateTime,
+       super(Uninitialized()) {
     on<LoadHomeworks>((event, emit) {
       _mapLoadHomeworksToState();
     });
@@ -70,29 +74,38 @@ class TeacherAndParentHomeworkPageBloc extends Bloc<
 
   StreamSubscription? _combineLatestSubscription;
   Future<void> _mapLoadHomeworksToState() async {
-    final sortEnum = await _homeworkSortingCache.getLastSorting() ??
+    final sortEnum =
+        await _homeworkSortingCache.getLastSorting() ??
         HomeworkSort.smallestDateSubjectAndTitle;
-    _currentSortStream
-        .add(sortEnum.toSortObject(getCurrentDate: _getCurrentDate));
+    _currentSortStream.add(
+      sortEnum.toSortObject(getCurrentDate: _getCurrentDate),
+    );
 
-    _lazyLoadingController =
-        _homeworkApi.getLazyLoadingArchivedHomeworksController(
-            numberOfInitialCompletedHomeworksToLoad);
+    _lazyLoadingController = _homeworkApi
+        .getLazyLoadingArchivedHomeworksController(
+          numberOfInitialCompletedHomeworksToLoad,
+        );
 
     _combineLatestSubscription = Rx.combineLatest3<
-            IList<TeacherHomeworkReadModel>,
-            Sort<BaseHomeworkReadModel>,
-            LazyLoadingResult<TeacherHomeworkReadModel>,
-            Success>(_homeworkApi.openHomeworks, _currentSortStream,
-        _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
-      final open = _openHomeworkListViewFactory.create(openHws, sort);
+      IList<TeacherHomeworkReadModel>,
+      Sort<BaseHomeworkReadModel>,
+      LazyLoadingResult<TeacherHomeworkReadModel>,
+      Success
+    >(
+      _homeworkApi.openHomeworks,
+      _currentSortStream,
+      _lazyLoadingController!.results,
+      (openHws, sort, lazyCompletedHwsRes) {
+        final open = _openHomeworkListViewFactory.create(openHws, sort);
 
-      final archived = LazyLoadingHomeworkListView(
+        final archived = LazyLoadingHomeworkListView(
           lazyCompletedHwsRes.homeworks.map(_viewFactory.createFrom).toIList(),
-          loadedAllHomeworks: !lazyCompletedHwsRes.moreHomeworkAvailable);
+          loadedAllHomeworks: !lazyCompletedHwsRes.moreHomeworkAvailable,
+        );
 
-      return Success(open, archived);
-    }).listen((s) {
+        return Success(open, archived);
+      },
+    ).listen((s) {
       if (!_isClosed) {
         add(_Yield(s));
       }
@@ -105,8 +118,9 @@ class TeacherAndParentHomeworkPageBloc extends Bloc<
 
   Future<void> _mapFilterChangedToState(OpenHwSortingChanged event) async {
     await _homeworkSortingCache.setLastSorting(event.sort);
-    _currentSortStream
-        .add(event.sort.toSortObject(getCurrentDate: _getCurrentDate));
+    _currentSortStream.add(
+      event.sort.toSortObject(getCurrentDate: _getCurrentDate),
+    );
   }
 
   @override

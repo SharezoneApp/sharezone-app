@@ -28,9 +28,7 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
   }
 
   @override
-  Future<void> logSignUp({
-    required String signUpMethod,
-  }) async {
+  Future<void> logSignUp({required String signUpMethod}) async {
     await _firebaseAnalytics.logSignUp(signUpMethod: signUpMethod);
     crashAnalytics.log('signUp: $signUpMethod');
   }
@@ -57,5 +55,7 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
 
 AnalyticsBackend getBackend() {
   return FirebaseAnalyticsBackend(
-      FirebaseAnalytics.instance, getCrashAnalytics());
+    FirebaseAnalytics.instance,
+    getCrashAnalytics(),
+  );
 }

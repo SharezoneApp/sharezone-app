@@ -27,16 +27,18 @@ class FileSharingGateway {
 
   final FirebaseFileUploader fileUploader;
 
-  FileSharingGateway({
-    required this.user,
-    required References references,
-  })  : uID = user.uid,
-        _fStore = references.firestore,
-        fileUploader = FirebaseFileUploader(firestore: references.firestore),
-        cloudFilesGateway = FilesharingCloudFilesGateway(
-            user: user, firestore: references.firestore),
-        folderGateway = FilesharingFolderGateway(
-            user: user, firestore: references.firestore);
+  FileSharingGateway({required this.user, required References references})
+    : uID = user.uid,
+      _fStore = references.firestore,
+      fileUploader = FirebaseFileUploader(firestore: references.firestore),
+      cloudFilesGateway = FilesharingCloudFilesGateway(
+        user: user,
+        firestore: references.firestore,
+      ),
+      folderGateway = FilesharingFolderGateway(
+        user: user,
+        firestore: references.firestore,
+      );
 
   final FilesharingCloudFilesGateway cloudFilesGateway;
   final FilesharingFolderGateway folderGateway;
@@ -45,10 +47,17 @@ class FileSharingGateway {
     return fileSharingCollection
         .where("users", arrayContains: uID)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((docSnap) =>
-                FileSharingData.fromData(id: docSnap.id, data: docSnap.data()))
-            .toList());
+        .map(
+          (snapshot) =>
+              snapshot.docs
+                  .map(
+                    (docSnap) => FileSharingData.fromData(
+                      id: docSnap.id,
+                      data: docSnap.data(),
+                    ),
+                  )
+                  .toList(),
+        );
   }
 
   Future<List<String>> uploadAttachments(

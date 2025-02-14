@@ -30,24 +30,30 @@ class DynamicLinkBloc extends BlocBase {
     final initData = await dynamicLinks.getInitialLink();
     _konvertiereZuEingehendemLink(initData, isInitialLink: true);
     dynamicLinks.onLink(
-      onSuccess: (incommingLink) async =>
-          _konvertiereZuEingehendemLink(incommingLink),
+      onSuccess:
+          (incommingLink) async => _konvertiereZuEingehendemLink(incommingLink),
       onError: (e) async {
-        log("DynamicLink Error - Details: ${e.details}, Code: ${e.code}, Message: ${e.message}",
-            error: e);
+        log(
+          "DynamicLink Error - Details: ${e.details}, Code: ${e.code}, Message: ${e.message}",
+          error: e,
+        );
       },
     );
   }
 
-  void _konvertiereZuEingehendemLink(DynamicLinkData? einkommenderLink,
-      {bool isInitialLink = false}) {
+  void _konvertiereZuEingehendemLink(
+    DynamicLinkData? einkommenderLink, {
+    bool isInitialLink = false,
+  }) {
     if (einkommenderLink != null) {
-      _einkommendeLinksSubject.add(EinkommenderLink.fromDynamicLink(
-        einkommenderLink,
-        isInitialLink
-            ? EinkommensZeitpunkt.appstart
-            : EinkommensZeitpunkt.laufzeit,
-      ));
+      _einkommendeLinksSubject.add(
+        EinkommenderLink.fromDynamicLink(
+          einkommenderLink,
+          isInitialLink
+              ? EinkommensZeitpunkt.appstart
+              : EinkommensZeitpunkt.laufzeit,
+        ),
+      );
     }
   }
 

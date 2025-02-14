@@ -30,8 +30,13 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
   final CloudStorageBucket bucket;
   final AbgabedateiHinzufueger abgabedateiHinzufueger;
 
-  CloudStorageAbgabedateiUploader(this.fileUploader, this.abgabedateiApi,
-      this.crashAnalytics, this.bucket, this.abgabedateiHinzufueger);
+  CloudStorageAbgabedateiUploader(
+    this.fileUploader,
+    this.abgabedateiApi,
+    this.crashAnalytics,
+    this.bucket,
+    this.abgabedateiHinzufueger,
+  );
 
   /// Lädt den Dateiinhalt der hinzuzufügenden Datei in Cloud Storage hoch und
   /// fügt nach erfolgreichem Upload die Datei-Referenz zu der Abgabe hinzu.
@@ -44,7 +49,8 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
   /// der Referenz noch nicht fertig ist.
   @override
   Stream<DateiUploadProzessFortschritt> ladeAbgabedateiHoch(
-      DateiHinzufuegenCommand befehl) async* {
+    DateiHinzufuegenCommand befehl,
+  ) async* {
     await for (final upload in _ladeDateiZuCloudStorageHoch(befehl)) {
       if (upload.status == UploadStatusEnum.erfolgreich) {
         /// Der "Datei hinzufügen"-Prozess ist erst wirklich fertig, wenn wir
@@ -84,23 +90,28 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
   }
 
   Future _fuegeAbgabedateireferenzZuAbgabeHinzu(
-      DateiHinzufuegenCommand befehl) async {
+    DateiHinzufuegenCommand befehl,
+  ) async {
     await abgabedateiHinzufueger.fuegeAbgabedateiHinzu(befehl);
   }
 
   Stream<DateiUploadProzessFortschritt> _ladeDateiZuCloudStorageHoch(
-      DateiHinzufuegenCommand befehl) async* {
+    DateiHinzufuegenCommand befehl,
+  ) async* {
     final dateiId = befehl.dateiId;
     final localFile = localFileSaver.getFile(dateiId.toString())!;
     // Der Name wird bei den Abgaben z.B. bei einer bereits vorhandenen Datei
     // mit dem selben Namen ungeändert.
-    final nameCorrectedLocalFile =
-        NameChangingLocalFileWrapper(localFile, '${befehl.dateiname}');
+    final nameCorrectedLocalFile = NameChangingLocalFileWrapper(
+      localFile,
+      '${befehl.dateiname}',
+    );
     // Sollte das hier gemacht werden?
     final abgabenzielId = befehl.abgabeId.abgabenzielId;
     final nutzerId = befehl.abgabeId.nutzerId;
-    final pfad =
-        bucket.lokalerPfad('submissions/$abgabenzielId/$nutzerId/$dateiId');
+    final pfad = bucket.lokalerPfad(
+      'submissions/$abgabenzielId/$nutzerId/$dateiId',
+    );
     log('cloudStoragePath: $pfad');
 
     final task = await fileUploader.uploadFileToStorage(
@@ -141,7 +152,8 @@ class CloudStorageAbgabedateiUploader extends AbgabedateiUploader {
           continue;
         case UploadTaskEventType.canceled:
           throw UnimplementedError(
-              'Cancel an upload has not been implemented yet.');
+            'Cancel an upload has not been implemented yet.',
+          );
       }
     }
   }

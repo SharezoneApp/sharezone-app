@@ -32,7 +32,7 @@ import 'package:user/user.dart';
 class SchoolClassFilter {
   SchoolClassFilter.showAllGroups() : classIdToFilterBy = null;
   SchoolClassFilter.showSchoolClass(GroupId classId)
-      : classIdToFilterBy = classId;
+    : classIdToFilterBy = classId;
 
   final GroupId? classIdToFilterBy;
 
@@ -65,31 +65,40 @@ class TimetableBloc extends BlocBase {
   void _initialiseSchoolClassFilterView() {
     final schoolClassStream = schoolClassGateway.stream();
 
-    final Stream<SchoolClassFilterView> viewStream = Rx.combineLatest2<
-            List<SchoolClass>, SchoolClassFilter, SchoolClassFilterView>(
-        schoolClassStream, _selectedSchoolOptionSubject,
-        (schoolClasses, schoolClassFilter) {
-      if (!_hasSchoolClasses(schoolClasses)) {
-        return SchoolClassFilterView(schoolClassList: []);
-      }
+    final Stream<SchoolClassFilterView> viewStream =
+        Rx.combineLatest2<
+          List<SchoolClass>,
+          SchoolClassFilter,
+          SchoolClassFilterView
+        >(schoolClassStream, _selectedSchoolOptionSubject, (
+          schoolClasses,
+          schoolClassFilter,
+        ) {
+          if (!_hasSchoolClasses(schoolClasses)) {
+            return SchoolClassFilterView(schoolClassList: []);
+          }
 
-      final views = schoolClasses.map((schoolClass) {
-        return SchoolClassView(
-          id: schoolClass.groupId,
-          name: schoolClass.name,
-          isSelected: (schoolClassFilter.shouldFilterForClass &&
-                  schoolClass.groupId == schoolClassFilter.classIdToFilterBy) ||
-              false,
-        );
-      }).toList();
+          final views =
+              schoolClasses.map((schoolClass) {
+                return SchoolClassView(
+                  id: schoolClass.groupId,
+                  name: schoolClass.name,
+                  isSelected:
+                      (schoolClassFilter.shouldFilterForClass &&
+                          schoolClass.groupId ==
+                              schoolClassFilter.classIdToFilterBy) ||
+                      false,
+                );
+              }).toList();
 
-      views.sortAlphabetically();
+          views.sortAlphabetically();
 
-      return SchoolClassFilterView(schoolClassList: views);
-    }).distinct();
+          return SchoolClassFilterView(schoolClassList: views);
+        }).distinct();
 
-    _subscriptions
-        .add(viewStream.listen(_schoolClassFilterViewSubject.sink.add));
+    _subscriptions.add(
+      viewStream.listen(_schoolClassFilterViewSubject.sink.add),
+    );
   }
 
   bool _hasSchoolClasses(List<SchoolClass>? schoolClasses) {
@@ -104,9 +113,15 @@ class TimetableBloc extends BlocBase {
     final coursesOfSchoolClass = _getCourseIdOfSelectedSchoolClass();
 
     final Stream<List<Lesson>> filteredLessonsStream = Rx.combineLatest3<
-            List<Lesson>, List<String>, SchoolClassFilter, List<Lesson>>(
-        lessonsStream, coursesOfSchoolClass, _selectedSchoolOptionSubject,
-        (lessons, coursesOfSchoolClass, schoolClassFilter) {
+      List<Lesson>,
+      List<String>,
+      SchoolClassFilter,
+      List<Lesson>
+    >(lessonsStream, coursesOfSchoolClass, _selectedSchoolOptionSubject, (
+      lessons,
+      coursesOfSchoolClass,
+      schoolClassFilter,
+    ) {
       _setCurrentTeachers(lessons);
       if (schoolClassFilter.shouldFilterForClass) {
         lessons = _getLessonsOfASchoolClass(coursesOfSchoolClass, lessons);
@@ -123,13 +138,14 @@ class TimetableBloc extends BlocBase {
 
   final _lessonsSubject = BehaviorSubject<List<Lesson>>();
 
-  final _selectedSchoolOptionSubject =
-      BehaviorSubject.seeded(SchoolClassFilter.showAllGroups());
+  final _selectedSchoolOptionSubject = BehaviorSubject.seeded(
+    SchoolClassFilter.showAllGroups(),
+  );
 
   Function(SchoolClassFilter) get changeSchoolClassFilter => (option) {
-        logSchoolClassFilter(option);
-        return _selectedSchoolOptionSubject.add(option);
-      };
+    logSchoolClassFilter(option);
+    return _selectedSchoolOptionSubject.add(option);
+  };
 
   void logSchoolClassFilter(SchoolClassFilter schoolClassFilter) {
     if (schoolClassFilter.shouldFilterForClass) {
@@ -162,14 +178,21 @@ class TimetableBloc extends BlocBase {
     // Ist leer, wenn keine Klasse ausgewählt wurde
     final coursesOfSchoolClass = _getCourseIdOfSelectedSchoolClass();
 
-    return Rx.combineLatest3<List<CalendricalEvent>, List<String>,
-            SchoolClassFilter, List<CalendricalEvent>>(
-        eventsStream, coursesOfSchoolClass, _selectedSchoolOptionSubject,
-        (events, coursesOfSchoolClass, selectedSchoolClass) {
+    return Rx.combineLatest3<
+      List<CalendricalEvent>,
+      List<String>,
+      SchoolClassFilter,
+      List<CalendricalEvent>
+    >(eventsStream, coursesOfSchoolClass, _selectedSchoolOptionSubject, (
+      events,
+      coursesOfSchoolClass,
+      selectedSchoolClass,
+    ) {
       if (selectedSchoolClass.shouldFilterForClass) {
-        events = events
-            .where((event) => coursesOfSchoolClass.contains(event.groupID))
-            .toList();
+        events =
+            events
+                .where((event) => coursesOfSchoolClass.contains(event.groupID))
+                .toList();
       }
 
       return events;
@@ -179,14 +202,20 @@ class TimetableBloc extends BlocBase {
   // Falls keine Schulklasse ausgewählt wurde, wird eine leere Liste
   // zurückgegeben.
   Stream<List<String>> _getCourseIdOfSelectedSchoolClass() {
-    return _selectedSchoolOptionSubject.flatMap((option) =>
-        option.shouldFilterForClass
-            ? schoolClassGateway.streamCoursesID('${option.classIdToFilterBy}')
-            : Stream.value(<String>[]));
+    return _selectedSchoolOptionSubject.flatMap(
+      (option) =>
+          option.shouldFilterForClass
+              ? schoolClassGateway.streamCoursesID(
+                '${option.classIdToFilterBy}',
+              )
+              : Stream.value(<String>[]),
+    );
   }
 
   List<Lesson> _getLessonsOfASchoolClass(
-      List<String> courseIdsOfSchoolClass, List<Lesson> allLessons) {
+    List<String> courseIdsOfSchoolClass,
+    List<Lesson> allLessons,
+  ) {
     return allLessons
         .where((lesson) => courseIdsOfSchoolClass.contains(lesson.groupID))
         .toList();
@@ -194,23 +223,26 @@ class TimetableBloc extends BlocBase {
 
   /// Diese Methode wird für die Dashboard-Page verwendet, um die Stunden von dem heutigen Tag zu laden.
   Stream<LessonDataSnapshot> streamLessonsForDate(Date date) {
-    final unFilteredLessonsStream =
-        timetableGateway.streamLessonsUnfilteredForDate(date);
-    final groupInfoStream =
-        courseGateway.getGroupInfoStream(schoolClassGateway);
+    final unFilteredLessonsStream = timetableGateway
+        .streamLessonsUnfilteredForDate(date);
+    final groupInfoStream = courseGateway.getGroupInfoStream(
+      schoolClassGateway,
+    );
 
     final streamGroup = CombineLatestStream(
-        [stream, unFilteredLessonsStream, groupInfoStream], (streamValues) {
-      TimetableConfig config = streamValues[0] as TimetableConfig? ?? current;
-      List<Lesson> lessons = streamValues[1] as List<Lesson>? ?? [];
-      Map<String, GroupInfo> groupInfos =
-          streamValues[2] as Map<String, GroupInfo>? ?? {};
-      final weekType = config.getWeekType(date);
-      return LessonDataSnapshot(
-        lessons: getFilteredLessonList(lessons, weekType),
-        groupInfos: groupInfos,
-      );
-    });
+      [stream, unFilteredLessonsStream, groupInfoStream],
+      (streamValues) {
+        TimetableConfig config = streamValues[0] as TimetableConfig? ?? current;
+        List<Lesson> lessons = streamValues[1] as List<Lesson>? ?? [];
+        Map<String, GroupInfo> groupInfos =
+            streamValues[2] as Map<String, GroupInfo>? ?? {};
+        final weekType = config.getWeekType(date);
+        return LessonDataSnapshot(
+          lessons: getFilteredLessonList(lessons, weekType),
+          groupInfos: groupInfos,
+        );
+      },
+    );
     return streamGroup;
   }
 
@@ -304,10 +336,7 @@ class TimetableConfigBloc extends BlocBase {
 class TimetableConfigBuilder extends StatelessWidget {
   final Widget Function(BuildContext context, TimetableConfig config) builder;
 
-  const TimetableConfigBuilder({
-    super.key,
-    required this.builder,
-  });
+  const TimetableConfigBuilder({super.key, required this.builder});
 
   @override
   Widget build(BuildContext context) {

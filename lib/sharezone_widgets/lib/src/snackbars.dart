@@ -27,10 +27,11 @@ void snackbarSoon({
 /// ob aufgerufen wird, wenn es einen FAB gib. Gibt einen FAB, sehen die floating
 /// Snackbars absolut kacke aus ._. Deswegen wird dann für diesen Fall das
 /// [behavior] auf fixed gewechselt.
-void showDataArrivalConfirmedSnackbar(
-    {GlobalKey<ScaffoldMessengerState>? key,
-    BuildContext? context,
-    SnackBarBehavior behavior = SnackBarBehavior.fixed}) {
+void showDataArrivalConfirmedSnackbar({
+  GlobalKey<ScaffoldMessengerState>? key,
+  BuildContext? context,
+  SnackBarBehavior behavior = SnackBarBehavior.fixed,
+}) {
   showSnack(
     context: context,
     key: key,
@@ -62,8 +63,10 @@ void sendLoginDataEncryptedSnackBar(BuildContext context) {
   );
 }
 
-void savedChangesSnackBar(BuildContext context,
-    {Duration duration = const Duration(milliseconds: 1750)}) {
+void savedChangesSnackBar(
+  BuildContext context, {
+  Duration duration = const Duration(milliseconds: 1750),
+}) {
   showSnack(
     context: context,
     text: 'Änderung wurde erfolgreich gespeichert',
@@ -112,7 +115,9 @@ void showSnack({
   SnackBarBehavior? behavior = SnackBarBehavior.floating,
 }) {
   assert(
-      context != null || key != null, 'A snackbar needs a context or a key!');
+    context != null || key != null,
+    'A snackbar needs a context or a key!',
+  );
 
   final snackBar = SnackBar(
     content: Row(
@@ -141,8 +146,10 @@ void showSnack({
       if (hideCurrentSnackBar) key.currentState!.removeCurrentSnackBar();
       key.currentState!.showSnackBar(snackBar);
     } catch (e) {
-      log("Fehler beim anzeigen der SnackBar über den Key: ${e.toString()}",
-          error: e);
+      log(
+        "Fehler beim anzeigen der SnackBar über den Key: ${e.toString()}",
+        error: e,
+      );
     }
   } else if (context != null) {
     try {
@@ -151,8 +158,10 @@ void showSnack({
       }
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
-      log("Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}",
-          error: e);
+      log(
+        "Fehler beim anzeigen der SnackBar über den Kontext: ${e.toString()}",
+        error: e,
+      );
     }
   } else {
     debugPrint("Fehler! Die SnackBar hat keinen Key und keinen Context!");

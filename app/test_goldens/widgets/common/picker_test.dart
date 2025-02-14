@@ -18,21 +18,23 @@ void main() {
       await tester.pumpWidgetBuilder(
         Scaffold(
           body: Builder(
-            builder: (context) => ElevatedButton(
-              onPressed: () async {
-                await selectItem<String>(
-                  context: context,
-                  items: ['a', 'b', 'c'],
-                  builder: (context, item) => ListTile(
-                    title: Text(item),
-                    onTap: () {
-                      Navigator.pop(context, item);
-                    },
-                  ),
-                );
-              },
-              child: const Text('Open Picker'),
-            ),
+            builder:
+                (context) => ElevatedButton(
+                  onPressed: () async {
+                    await selectItem<String>(
+                      context: context,
+                      items: ['a', 'b', 'c'],
+                      builder:
+                          (context, item) => ListTile(
+                            title: Text(item),
+                            onTap: () {
+                              Navigator.pop(context, item);
+                            },
+                          ),
+                    );
+                  },
+                  child: const Text('Open Picker'),
+                ),
           ),
         ),
         wrapper: materialAppWrapper(theme: theme),

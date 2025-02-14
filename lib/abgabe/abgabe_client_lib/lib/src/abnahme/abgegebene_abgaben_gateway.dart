@@ -14,6 +14,7 @@ import 'view_submissions_page_bloc.dart';
 
 abstract class AbgabenAbnahmeGateway implements AbgabefristStreamer {
   Stream<List<AbgegebeneAbgabe>> streamAbgabenFuerHausaufgabe(
-      final HomeworkId homeworkId);
+    final HomeworkId homeworkId,
+  );
   Stream<List<Nutzer>> vonAbgabeBetroffendeNutzer(AbgabeId abgabeId);
 }

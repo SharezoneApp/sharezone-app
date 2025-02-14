@@ -35,7 +35,7 @@ class LineStringList with IterableMixin<String> {
   final List<String> _list;
 
   LineStringList(List<String> items)
-      : _list = items.map(_addIndentationMark).toList();
+    : _list = items.map(_addIndentationMark).toList();
 
   static String _addIndentationMark(String s) {
     return '- $s';
@@ -66,12 +66,7 @@ class Version implements Comparable<Version> {
     final minor = int.parse(match.group(2)!.replaceAll(".", ""));
     final patch = int.parse(match.group(3)!.replaceAll(".", ""));
 
-    return Version._(
-      name: name,
-      major: major,
-      minor: minor,
-      patch: patch,
-    );
+    return Version._(name: name, major: major, minor: minor, patch: patch);
   }
 
   Version._({

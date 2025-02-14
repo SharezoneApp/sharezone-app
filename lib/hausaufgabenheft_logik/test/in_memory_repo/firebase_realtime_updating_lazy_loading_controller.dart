@@ -29,8 +29,10 @@ class RealtimeUpdatingLazyLoadingController<T extends BaseHomeworkReadModel>
   /// [RealtimeUpdatingLazyLoadingController] from before.
   StreamSubscription? _currentLazyLoadingStreamSubscription;
 
-  RealtimeUpdatingLazyLoadingController(this._homeworkLoader,
-      {required this.initialNumberOfHomeworksToLoad}) {
+  RealtimeUpdatingLazyLoadingController(
+    this._homeworkLoader, {
+    required this.initialNumberOfHomeworksToLoad,
+  }) {
     _validateArguments();
 
     if (initialNumberOfHomeworksToLoad > 0) {
@@ -56,16 +58,19 @@ class RealtimeUpdatingLazyLoadingController<T extends BaseHomeworkReadModel>
 
   void _emitResultsAndCancelLastSubscription(int numberOfHomeworksToLoad) {
     _currentLazyLoadingStreamSubscription?.cancel();
-    _currentLazyLoadingStreamSubscription =
-        _getLazyLoadingResultStream(numberOfHomeworksToLoad).listen((data) {
+    _currentLazyLoadingStreamSubscription = _getLazyLoadingResultStream(
+      numberOfHomeworksToLoad,
+    ).listen((data) {
       _controller.add(data);
     });
   }
 
   Stream<LazyLoadingResult<T>> _getLazyLoadingResultStream(
-      int nrOfHomeworksToLoad) {
-    final homeworksStream =
-        _homeworkLoader.loadMostRecentHomeworks(nrOfHomeworksToLoad);
+    int nrOfHomeworksToLoad,
+  ) {
+    final homeworksStream = _homeworkLoader.loadMostRecentHomeworks(
+      nrOfHomeworksToLoad,
+    );
 
     final results = homeworksStream.map((homeworks) {
       final loadedAll = homeworks.length < nrOfHomeworksToLoad;
@@ -82,10 +87,15 @@ class RealtimeUpdatingLazyLoadingController<T extends BaseHomeworkReadModel>
 
   void _validateInitialNumberOfHomeworksToLoad() {
     ArgumentError.checkNotNull(
-        initialNumberOfHomeworksToLoad, 'initialNumberOfHomeworksToLoad');
+      initialNumberOfHomeworksToLoad,
+      'initialNumberOfHomeworksToLoad',
+    );
     if (initialNumberOfHomeworksToLoad.isNegative) {
-      throw ArgumentError.value(initialNumberOfHomeworksToLoad,
-          'initialNumberOfHomeworksToLoad', "can't be negative");
+      throw ArgumentError.value(
+        initialNumberOfHomeworksToLoad,
+        'initialNumberOfHomeworksToLoad',
+        "can't be negative",
+      );
     }
   }
 }

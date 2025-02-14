@@ -42,21 +42,27 @@ void main() {
       platformInformationRetriever = MockPlatformInformationRetriever();
       analytics = MockFeedbackAnalytics();
       bloc = FeedbackBloc(
-          api, cache, platformInformationRetriever, uid, analytics);
+        api,
+        cache,
+        platformInformationRetriever,
+        uid,
+        analytics,
+      );
       platformInformationRetriever.appName = "appName";
       platformInformationRetriever.packageName = "packageName";
 
       expectedResponseWithIdentifiableInfo = UserFeedback.create().copyWith(
-          rating: rating,
-          likes: likes,
-          dislikes: dislikes,
-          missing: missing,
-          heardFrom: heardFrom,
-          uid: uid,
-          deviceInformation: FeedbackDeviceInformation.create().copyWith(
-            appName: "appName",
-            packageName: "packageName",
-          ));
+        rating: rating,
+        likes: likes,
+        dislikes: dislikes,
+        missing: missing,
+        heardFrom: heardFrom,
+        uid: uid,
+        deviceInformation: FeedbackDeviceInformation.create().copyWith(
+          appName: "appName",
+          packageName: "packageName",
+        ),
+      );
     });
 
     test("Feedback is send with uid and device information", () async {
@@ -66,7 +72,9 @@ void main() {
       await bloc.submit();
 
       expect(
-          api.wasOnlyInvokedWith(expectedResponseWithIdentifiableInfo), true);
+        api.wasOnlyInvokedWith(expectedResponseWithIdentifiableInfo),
+        true,
+      );
     });
 
     test("submit does not call API if user is on cooldown", () async {
@@ -86,87 +94,98 @@ void main() {
       expect(api.wasInvoked, true);
     });
 
-    test('"feedback send" analytics is logged when sending a valid feedback',
-        () async {
-      fillInAllFields(bloc);
+    test(
+      '"feedback send" analytics is logged when sending a valid feedback',
+      () async {
+        fillInAllFields(bloc);
 
-      await bloc.submit();
+        await bloc.submit();
 
-      expect(analytics.feedbackSentLogged, true);
-    });
+        expect(analytics.feedbackSentLogged, true);
+      },
+    );
 
-    test('submits Feedback if at least one of the text fields was filled out',
-        () async {
-      final fillOutTextFieldActions = [
-        [() => bloc.changeLike('Sehr toller Hecht hier'), 'Mag ich'],
-        [() => bloc.changeDislike('Nisch so legga'), 'Mag ich nicht'],
-        [
-          () => bloc.changeHeardFrom(
-              'Von dem einem sein Freund dessen Oma dessen Schwester dessen Tochter'),
-          'Von wo von Sharezone erfahren?'
-        ],
-        [
-          () => bloc.changeMissing('Automatischer Ausredengenerator'),
-          'Was fehlt?'
-        ],
-      ];
+    test(
+      'submits Feedback if at least one of the text fields was filled out',
+      () async {
+        final fillOutTextFieldActions = [
+          [() => bloc.changeLike('Sehr toller Hecht hier'), 'Mag ich'],
+          [() => bloc.changeDislike('Nisch so legga'), 'Mag ich nicht'],
+          [
+            () => bloc.changeHeardFrom(
+              'Von dem einem sein Freund dessen Oma dessen Schwester dessen Tochter',
+            ),
+            'Von wo von Sharezone erfahren?',
+          ],
+          [
+            () => bloc.changeMissing('Automatischer Ausredengenerator'),
+            'Was fehlt?',
+          ],
+        ];
 
-      // Hier wird jedes Textfeld einmal einzelnt ausgefüllt und geguckt, ob
-      // dann ein Feedback an uns geschickt wird.
-      // Nach jedem Ausfüllen und Abschicken eines einzelnen Textfeldes werden
-      // diese gecleared und das nächste Textfeld ist dann an der Reihe.
-      int nrOfInvocations = 0;
-      for (final action in fillOutTextFieldActions) {
-        final fillTextField = action[0] as Function;
-        final textFieldName = action[1] as String;
+        // Hier wird jedes Textfeld einmal einzelnt ausgefüllt und geguckt, ob
+        // dann ein Feedback an uns geschickt wird.
+        // Nach jedem Ausfüllen und Abschicken eines einzelnen Textfeldes werden
+        // diese gecleared und das nächste Textfeld ist dann an der Reihe.
+        int nrOfInvocations = 0;
+        for (final action in fillOutTextFieldActions) {
+          final fillTextField = action[0] as Function;
+          final textFieldName = action[1] as String;
 
-        await fillTextField();
-        try {
-          await bloc.submit();
-        } catch (e) {
-          fail(
-              'Error: Feedback should be submittable/sent if only the text field "$textFieldName" was filled out, but an error was thrown instead: $e');
-        }
+          await fillTextField();
+          try {
+            await bloc.submit();
+          } catch (e) {
+            fail(
+              'Error: Feedback should be submittable/sent if only the text field "$textFieldName" was filled out, but an error was thrown instead: $e',
+            );
+          }
 
-        final wasFeedbackSent = nrOfInvocations + 1 == api.invocations.length;
-        expect(wasFeedbackSent, true,
+          final wasFeedbackSent = nrOfInvocations + 1 == api.invocations.length;
+          expect(
+            wasFeedbackSent,
+            true,
             reason:
-                'Feedback should be submittable/sent if only the text field "$textFieldName" was filled out.');
+                'Feedback should be submittable/sent if only the text field "$textFieldName" was filled out.',
+          );
 
-        bloc.clearFeedbackBox();
-        await cache.clearCache();
-        nrOfInvocations++;
-      }
-    });
-
-    test(
-        'throws EmptyFeedbackException if all fields are empty (only spaces/newlines)',
-        () async {
-      // Arrange
-      bloc.changeLike('   ');
-      bloc.changeDislike(' \n  \n\n ');
-
-      // Act
-      void exec() => bloc.submit();
-
-      // Assert
-      expect(exec, throwsA(isA<EmptyFeedbackException>()));
-      expect(api.wasInvoked, false);
-    });
+          bloc.clearFeedbackBox();
+          await cache.clearCache();
+          nrOfInvocations++;
+        }
+      },
+    );
 
     test(
-        'throws EmptyFeedback if only a rating is given but no text was filled in',
-        () {
-      // Arrange
-      bloc.changeRating(3);
+      'throws EmptyFeedbackException if all fields are empty (only spaces/newlines)',
+      () async {
+        // Arrange
+        bloc.changeLike('   ');
+        bloc.changeDislike(' \n  \n\n ');
 
-      // Act
-      void exec() => bloc.submit();
+        // Act
+        void exec() => bloc.submit();
 
-      // Assert
-      expect(exec, throwsA(isA<EmptyFeedbackException>()));
-      expect(api.wasInvoked, false);
-    });
+        // Assert
+        expect(exec, throwsA(isA<EmptyFeedbackException>()));
+        expect(api.wasInvoked, false);
+      },
+    );
+
+    test(
+      'throws EmptyFeedback if only a rating is given but no text was filled in',
+      () {
+        // Arrange
+        bloc.changeRating(3);
+
+        // Act
+        void exec() => bloc.submit();
+
+        // Assert
+        expect(exec, throwsA(isA<EmptyFeedbackException>()));
+        expect(api.wasInvoked, false);
+      },
+    );
   });
 }
 

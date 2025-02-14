@@ -21,17 +21,19 @@ Future<T?> showLongPressAdaptiveDialog<T>({
   if (PlatformCheck.isIOS) {
     return showCupertinoModalPopup<T>(
       context: context,
-      builder: (context) => _LongPressDialogCupertino<T>(
-        longPressList: longPressList,
-        title: title,
-        subtitle: subtile,
-      ),
+      builder:
+          (context) => _LongPressDialogCupertino<T>(
+            longPressList: longPressList,
+            title: title,
+            subtitle: subtile,
+          ),
     );
   } else {
     return showDialog<T>(
       context: context,
-      builder: (context) =>
-          _LongPressDialogMaterial<T>(longPressList: longPressList),
+      builder:
+          (context) =>
+              _LongPressDialogMaterial<T>(longPressList: longPressList),
     );
   }
 }
@@ -48,8 +50,10 @@ class _LongPressDialogMaterial<T> extends StatelessWidget {
       children: [
         for (final longPress in longPressList)
           ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 2,
+            ),
             leading: longPress.icon,
             title: Text(longPress.title),
             onTap: () => Navigator.pop(context, longPress.popResult),
@@ -60,8 +64,12 @@ class _LongPressDialogMaterial<T> extends StatelessWidget {
 }
 
 class _LongPressDialogCupertino<T> extends StatelessWidget {
-  const _LongPressDialogCupertino(
-      {super.key, this.title, this.subtitle, required this.longPressList});
+  const _LongPressDialogCupertino({
+    super.key,
+    this.title,
+    this.subtitle,
+    required this.longPressList,
+  });
 
   final String? title, subtitle;
   final List<LongPress<T>> longPressList;
@@ -71,11 +79,15 @@ class _LongPressDialogCupertino<T> extends StatelessWidget {
     return CupertinoActionSheet(
       title: isNotEmptyOrNull(title) ? Text(title!) : null,
       message: isNotEmptyOrNull(subtitle) ? Text(subtitle!) : null,
-      actions: longPressList
-          .map((longPress) => CupertinoActionSheetAction(
-              child: Text(longPress.title),
-              onPressed: () => Navigator.pop(context, longPress.popResult)))
-          .toList(),
+      actions:
+          longPressList
+              .map(
+                (longPress) => CupertinoActionSheetAction(
+                  child: Text(longPress.title),
+                  onPressed: () => Navigator.pop(context, longPress.popResult),
+                ),
+              )
+              .toList(),
       cancelButton: CupertinoActionSheetAction(
         child: const Text("Abbrechen"),
         onPressed: () => Navigator.pop(context),

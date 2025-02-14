@@ -19,16 +19,13 @@ import '../drawer_controller.dart';
 TextStyle getTextStyle(BuildContext context, bool isSelected) {
   Color color = Theme.of(context).isDarkTheme ? Colors.white : Colors.black;
   if (isSelected) {
-    color = Theme.of(context).isDarkTheme
-        ? Theme.of(context).primaryColor
-        : darkBlueColor;
+    color =
+        Theme.of(context).isDarkTheme
+            ? Theme.of(context).primaryColor
+            : darkBlueColor;
   }
 
-  return TextStyle(
-    fontWeight: FontWeight.w500,
-    color: color,
-    fontSize: 14,
-  );
+  return TextStyle(fontWeight: FontWeight.w500, color: color, fontSize: 14);
 }
 
 class DrawerTile extends StatelessWidget {
@@ -65,55 +62,56 @@ class DrawerTile extends StatelessWidget {
     final icon = this.icon ?? navigationItem!.getIcon();
 
     return StreamBuilder<NavigationItem>(
-        key: ValueKey('nav-item-${navigationItem?.name}-E2E'),
-        stream: navigationBloc.currentItemStream,
-        builder: (context, snapshot) {
-          final currentNavigationItem = snapshot.data;
+      key: ValueKey('nav-item-${navigationItem?.name}-E2E'),
+      stream: navigationBloc.currentItemStream,
+      builder: (context, snapshot) {
+        final currentNavigationItem = snapshot.data;
 
-          bool isSelected = false;
-          if (currentNavigationItem != null) {
-            isSelected = currentNavigationItem == navigationItem;
-          }
+        bool isSelected = false;
+        if (currentNavigationItem != null) {
+          isSelected = currentNavigationItem == navigationItem;
+        }
 
-          Widget child;
+        Widget child;
 
-          if (isSelected) {
-            child = _SelectedDrawerTile(
-              title: title,
-              subtitle: subtitle,
-              icon: icon,
-              trailing: trailing,
-              onTap: () => _onTap(context),
-            );
-          } else {
-            child = _DefaultDrawerTile(
-              title: title,
-              subtitle: subtitle,
-              icon: icon,
-              trailing: trailing,
-              onTap: () => _onTap(context),
-            );
-          }
+        if (isSelected) {
+          child = _SelectedDrawerTile(
+            title: title,
+            subtitle: subtitle,
+            icon: icon,
+            trailing: trailing,
+            onTap: () => _onTap(context),
+          );
+        } else {
+          child = _DefaultDrawerTile(
+            title: title,
+            subtitle: subtitle,
+            icon: icon,
+            trailing: trailing,
+            onTap: () => _onTap(context),
+          );
+        }
 
-          return child;
+        return child;
 
-          // A Flutter regression results in the `AnimatedSwitcher` causing
-          // errors in the Flutter rendering code when changing pages in desktop
-          // mode via the permanent drawer.
-          //
-          // The code below can be reintroduced when the following bug is fixed:
-          // https://github.com/flutter/flutter/issues/120874
+        // A Flutter regression results in the `AnimatedSwitcher` causing
+        // errors in the Flutter rendering code when changing pages in desktop
+        // mode via the permanent drawer.
+        //
+        // The code below can be reintroduced when the following bug is fixed:
+        // https://github.com/flutter/flutter/issues/120874
 
-          // final dimensions = Dimensions.fromMediaQuery(context);
-          // if (!dimensions.isDesktopModus) return child;
-          //
-          //
-          // return AnimatedSwitcher(
-          //   duration: const Duration(milliseconds: 300),
-          //   key: ValueKey(tag),
-          //   child: child,
-          // );
-        });
+        // final dimensions = Dimensions.fromMediaQuery(context);
+        // if (!dimensions.isDesktopModus) return child;
+        //
+        //
+        // return AnimatedSwitcher(
+        //   duration: const Duration(milliseconds: 300),
+        //   key: ValueKey(tag),
+        //   child: child,
+        // );
+      },
+    );
   }
 
   void _onTap(BuildContext context) {
@@ -122,8 +120,9 @@ class DrawerTile extends StatelessWidget {
       navigationController.navigateTo(navigationItem!);
     } else {
       final tag = this.tag ?? navigationItem!.getPageTag();
-      final drawerController =
-          BlocProvider.of<SharezoneDrawerController>(context);
+      final drawerController = BlocProvider.of<SharezoneDrawerController>(
+        context,
+      );
       if (!drawerController.isDesktopModus) Navigator.pop(context);
       Navigator.pushNamed(context, tag);
     }
@@ -148,9 +147,10 @@ class _SelectedDrawerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconTheme = context.theme.iconTheme.copyWith(
-      color: Theme.of(context).isDarkTheme
-          ? Theme.of(context).primaryColor
-          : darkBlueColor,
+      color:
+          Theme.of(context).isDarkTheme
+              ? Theme.of(context).primaryColor
+              : darkBlueColor,
     );
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
@@ -158,20 +158,15 @@ class _SelectedDrawerTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         color: Theme.of(context).primaryColor.withValues(alpha: 0.15),
         child: ListTile(
-          leading: IconTheme(
-            data: iconTheme,
-            child: icon,
-          ),
+          leading: IconTheme(data: iconTheme, child: icon),
           title: Text(title, style: getTextStyle(context, true)),
           subtitle: isNotEmptyOrNull(subtitle) ? Text(subtitle!) : null,
           enabled: false,
           onTap: onTap,
-          trailing: trailing != null
-              ? IconTheme(
-                  data: iconTheme,
-                  child: trailing!,
-                )
-              : null,
+          trailing:
+              trailing != null
+                  ? IconTheme(data: iconTheme, child: trailing!)
+                  : null,
         ),
       ),
     );

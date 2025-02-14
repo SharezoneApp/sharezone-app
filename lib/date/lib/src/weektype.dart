@@ -6,11 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum WeekType {
-  always,
-  a,
-  b,
-}
+enum WeekType { always, a, b }
 
 String weekTypeEnumToGermanString(WeekType weekType) {
   switch (weekType) {

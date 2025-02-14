@@ -21,8 +21,9 @@ class HomeworkFab extends StatelessWidget {
       icon: const Icon(Icons.add),
       tooltip: "Neue Hausaufgabe",
       onPressed: () async {
-        AnalyticsProvider.ofOrNullObject(context)
-            .log(const AnalyticsEvent("homework_add_via_fab"));
+        AnalyticsProvider.ofOrNullObject(
+          context,
+        ).log(const AnalyticsEvent("homework_add_via_fab"));
         await openHomeworkDialogAndShowConfirmationIfSuccessful(context);
       },
       // When there are multiple FABs one has to have a different tag

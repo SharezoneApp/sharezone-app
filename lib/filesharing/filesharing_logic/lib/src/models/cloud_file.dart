@@ -97,8 +97,10 @@ class CloudFile {
       id: data['id'],
       changes: decodeList(data['changes'], (it) => ChangeActivity.fromData(it)),
       references: decodeList(data['references'], (it) => it),
-      referenceData: decodeMap(data['referenceData'],
-          (key, value) => ReferenceData.fromMapData(id: key, data: value)),
+      referenceData: decodeMap(
+        data['referenceData'],
+        (key, value) => ReferenceData.fromMapData(id: key, data: value),
+      ),
       creatorID: data['creatorID'],
       creatorName: data['creatorName'],
       courseID: data['courseID'],
@@ -192,11 +194,12 @@ class CloudFile {
 class CloudFileMetaData {
   String? fileID, fileName, path, creatorID;
 
-  CloudFileMetaData(
-      {required this.fileID,
-      required this.fileName,
-      required this.path,
-      required this.creatorID});
+  CloudFileMetaData({
+    required this.fileID,
+    required this.fileName,
+    required this.path,
+    required this.creatorID,
+  });
 
   Map<String, String?> toJson() {
     return {
@@ -209,7 +212,9 @@ class CloudFileMetaData {
 }
 
 List<CloudFile> matchRemovedCloudFilesFromTwoList(
-    List<CloudFile> biggerList, List<CloudFile> smallerList) {
+  List<CloudFile> biggerList,
+  List<CloudFile> smallerList,
+) {
   List<CloudFile> removedCloudFiles = [];
   for (var biggerListFile in biggerList) {
     if (!smallerList.contains(biggerListFile)) {

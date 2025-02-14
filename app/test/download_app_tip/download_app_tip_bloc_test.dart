@@ -39,31 +39,39 @@ void main() {
         });
 
         test(
-            'bloc returns null, if defaultTargetPlatform is macOS and already showed macos tip',
-            () {
-          cache.markTipAsShown(TargetPlatform.macOS);
-          expect(bloc.getDownloadTipIfShouldShowTip(), emits(null));
-        });
+          'bloc returns null, if defaultTargetPlatform is macOS and already showed macos tip',
+          () {
+            cache.markTipAsShown(TargetPlatform.macOS);
+            expect(bloc.getDownloadTipIfShouldShowTip(), emits(null));
+          },
+        );
       });
 
-      group('TargetPlatform.android', () {
-        setUp(
-            () => debugDefaultTargetPlatformOverride = TargetPlatform.android);
+      group(
+        'TargetPlatform.android',
+        () {
+          setUp(
+            () => debugDefaultTargetPlatformOverride = TargetPlatform.android,
+          );
 
-        test('bloc returns AndroidTip, if defaultTargetPlatform is android',
+          test(
+            'bloc returns AndroidTip, if defaultTargetPlatform is android',
             () {
-          expect(bloc.getDownloadTipIfShouldShowTip(), emits(AndroidTip()));
-        });
+              expect(bloc.getDownloadTipIfShouldShowTip(), emits(AndroidTip()));
+            },
+          );
 
-        test(
+          test(
             'bloc returns null, if defaultTargetPlatform is android and already showed macos tip',
             () {
-          cache.markTipAsShown(TargetPlatform.android);
-          expect(bloc.getDownloadTipIfShouldShowTip(), emits(null));
-        });
-      },
-          skip:
-              'Aktuell erkennt [TargetPlatform] das Betriebssystem über Flutter Web nur von macOS, iPhone und iPad korrekt. Bei Windows & Linux wird immer [TargetPlatform.android] als Fallback zurückgegeben. Sobald Flutter die Erkennung für Windows & Linux eingebaut hat, kann der Code wieder auskommentiert werden. Ticket: https://github.com/flutter/flutter/issues/60271');
+              cache.markTipAsShown(TargetPlatform.android);
+              expect(bloc.getDownloadTipIfShouldShowTip(), emits(null));
+            },
+          );
+        },
+        skip:
+            'Aktuell erkennt [TargetPlatform] das Betriebssystem über Flutter Web nur von macOS, iPhone und iPad korrekt. Bei Windows & Linux wird immer [TargetPlatform.android] als Fallback zurückgegeben. Sobald Flutter die Erkennung für Windows & Linux eingebaut hat, kann der Code wieder auskommentiert werden. Ticket: https://github.com/flutter/flutter/issues/60271',
+      );
 
       group('TargetPlatform.iOS', () {
         setUp(() => debugDefaultTargetPlatformOverride = TargetPlatform.iOS);
@@ -73,11 +81,12 @@ void main() {
         });
 
         test(
-            'bloc returns null, if defaultTargetPlatform is iOS and already showed macos tip',
-            () {
-          cache.markTipAsShown(TargetPlatform.iOS);
-          expect(bloc.getDownloadTipIfShouldShowTip(), emits(null));
-        });
+          'bloc returns null, if defaultTargetPlatform is iOS and already showed macos tip',
+          () {
+            cache.markTipAsShown(TargetPlatform.iOS);
+            expect(bloc.getDownloadTipIfShouldShowTip(), emits(null));
+          },
+        );
       });
     });
 

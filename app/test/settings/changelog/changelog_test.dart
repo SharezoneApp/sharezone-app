@@ -21,8 +21,9 @@ void main() {
     final gateway = LocalChangeGateway();
     final platformInformationManager = MockInformationManager();
     final bloc = ChangelogBloc(gateway, platformInformationManager, 3);
-    StreamQueue<ChangelogPageView> queue =
-        StreamQueue<ChangelogPageView>(bloc.changes);
+    StreamQueue<ChangelogPageView> queue = StreamQueue<ChangelogPageView>(
+      bloc.changes,
+    );
     final firstLoad = await queue.next;
     expect(firstLoad.userHasNewestVersion, false);
     expect(firstLoad.changes.length, 3);
@@ -92,11 +93,4 @@ final fourth = ChangeDatabaseModel.create().copyWith(version: "3.0.0");
 final fifth = ChangeDatabaseModel.create().copyWith(version: "2.0.0");
 final sixth = ChangeDatabaseModel.create().copyWith(version: "1.0.0");
 
-final mockData = [
-  first,
-  second,
-  third,
-  fourth,
-  fifth,
-  sixth,
-];
+final mockData = [first, second, third, fourth, fifth, sixth];

@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-- [sharezone\_localizations](#sharezone_localizations)
+- [sharezone_localizations](#sharezone_localizations)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Usage](#usage)
@@ -13,7 +13,7 @@
   - [Generating Localizations](#generating-localizations)
     - [Flutter Gen-L10n Command](#flutter-gen-l10n-command)
     - [Using VS Code Task](#using-vs-code-task)
-  - [Translating with arb\_translate](#translating-with-arb_translate)
+  - [Translating with arb_translate](#translating-with-arb_translate)
 
 ---
 
@@ -88,13 +88,13 @@ This allows you to dynamically inject parameters (for example userName) into the
 
 4. Repeat the above steps in each relevant .arb file (e.g., app_de.arb, app_es.arb, etc.) to keep translations up to date across your app. (Optionally you can use packages like arb_translate for auto translations)
 5. We use `"@_COMMENT:" {}` as comments in the .arb files. This is a workaround because the .arb format does not support comments:
-    ```json
-    {
-      "@_HOMEWORK": {},
-      "homework_page_title": "Homework",
-      "..."
-    }
-    ```
+   ```json
+   {
+     "@_HOMEWORK": {},
+     "homework_page_title": "Homework",
+     "..."
+   }
+   ```
 
 ## Generating Localizations
 
@@ -131,11 +131,11 @@ Large Language Models (LLMs). We're going to use [Gemini](https://deepmind.googl
 
 2. Generate your API key. You can create your Gemini key [here](https://makersuite.google.com/app/apikey).
 3. Save your API token in the environment variable `ARB_TRANSLATE_API_KEY`
-  
+
    ```bash
    # Linux/macOS
    export ARB_TRANSLATE_API_KEY='your-api-key'
-   
+
    # Windows (PowerShell)
    $env:ARB_TRANSLATE_API_KEY='your-api-key'
    ```

@@ -18,13 +18,13 @@ class ReportFactory extends BlocBase {
   final String uid;
   final FirebaseFirestore firestore;
 
-  ReportFactory({
-    required this.uid,
-    required this.firestore,
-  });
+  ReportFactory({required this.uid, required this.firestore});
 
   Report create(
-      String description, ReportReason reason, ui.ReportItemReference item) {
+    String description,
+    ReportReason reason,
+    ui.ReportItemReference item,
+  ) {
     validatePath(item.path);
     return Report(
       createdOn: clock.now(),

@@ -55,7 +55,7 @@ void main() {
     late MockUserGateway userGateway;
     late MockSharezoneGateway sharezoneGateway;
     late MockHasUnreadFeedbackMessagesProvider
-        hasUnreadFeedbackMessagesProvider;
+    hasUnreadFeedbackMessagesProvider;
 
     setUp(() {
       controller = MockSharezonePlusPageController();
@@ -70,29 +70,34 @@ void main() {
       when(sharezoneContext.api).thenAnswer((_) => sharezoneGateway);
       when(sharezoneGateway.user).thenAnswer((_) => userGateway);
 
-      when(navigationExperimentCache.currentNavigation).thenAnswer((_) =>
-          BehaviorSubject<NavigationExperimentOption>.seeded(
-              NavigationExperimentOption.drawerAndBnb));
+      when(navigationExperimentCache.currentNavigation).thenAnswer(
+        (_) => BehaviorSubject<NavigationExperimentOption>.seeded(
+          NavigationExperimentOption.drawerAndBnb,
+        ),
+      );
 
-      when(navigationBloc.currentItemStream)
-          .thenAnswer((_) => Stream.value(NavigationItem.sharezonePlus));
-      when(navigationBloc.currentItem)
-          .thenAnswer((_) => NavigationItem.sharezonePlus);
-      when(navigationBloc.scaffoldKey)
-          .thenAnswer((_) => GlobalKey<State<StatefulWidget>>());
-      when(hasUnreadFeedbackMessagesProvider.hasUnreadFeedbackMessages)
-          .thenAnswer((_) => false);
+      when(
+        navigationBloc.currentItemStream,
+      ).thenAnswer((_) => Stream.value(NavigationItem.sharezonePlus));
+      when(
+        navigationBloc.currentItem,
+      ).thenAnswer((_) => NavigationItem.sharezonePlus);
+      when(
+        navigationBloc.scaffoldKey,
+      ).thenAnswer((_) => GlobalKey<State<StatefulWidget>>());
+      when(
+        hasUnreadFeedbackMessagesProvider.hasUnreadFeedbackMessages,
+      ).thenAnswer((_) => false);
 
-      when(controller.monthlySubscriptionPrice)
-          .thenAnswer((_) => fallbackPlusMonthlyPrice);
-      when(controller.lifetimePrice)
-          .thenAnswer((_) => fallbackPlusLifetimePrice);
+      when(
+        controller.monthlySubscriptionPrice,
+      ).thenAnswer((_) => fallbackPlusMonthlyPrice);
+      when(
+        controller.lifetimePrice,
+      ).thenAnswer((_) => fallbackPlusLifetimePrice);
     });
 
-    Future<void> pumpPlusPage(
-      WidgetTester tester, {
-      ThemeData? theme,
-    }) async {
+    Future<void> pumpPlusPage(WidgetTester tester, {ThemeData? theme}) async {
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [
@@ -101,23 +106,27 @@ void main() {
             ),
             Provider<TypeOfUser?>.value(value: TypeOfUser.student),
             ChangeNotifierProvider<HasUnreadFeedbackMessagesProvider>.value(
-                value: hasUnreadFeedbackMessagesProvider),
+              value: hasUnreadFeedbackMessagesProvider,
+            ),
             ChangeNotifierProvider<AdsController>(
-              create: (context) => AdsController(
-                subscriptionService: MockSubscriptionService(),
-                // ignore: invalid_use_of_visible_for_testing_member
-                remoteConfiguration: getStubRemoteConfiguration(),
-                keyValueStore: InMemoryKeyValueStore(),
-              ),
-            )
+              create:
+                  (context) => AdsController(
+                    subscriptionService: MockSubscriptionService(),
+                    // ignore: invalid_use_of_visible_for_testing_member
+                    remoteConfiguration: getStubRemoteConfiguration(),
+                    keyValueStore: InMemoryKeyValueStore(),
+                  ),
+            ),
           ],
           child: MultiBlocProvider(
             blocProviders: [
               BlocProvider<NavigationBloc>(bloc: navigationBloc),
               BlocProvider<NavigationExperimentCache>(
-                  bloc: navigationExperimentCache),
+                bloc: navigationExperimentCache,
+              ),
               BlocProvider<NavigationAnalytics>(
-                  bloc: MockNavigationAnalytics()),
+                bloc: MockNavigationAnalytics(),
+              ),
               BlocProvider<SharezoneContext>(bloc: sharezoneContext),
             ],
             child: (context) => const SharezonePlusPage(),
@@ -139,8 +148,9 @@ void main() {
       await multiScreenGolden(tester, 'sharezone_plus_page_dark_theme');
     });
 
-    testGoldens('shows unsubscribe section if user has subscribed',
-        (tester) async {
+    testGoldens('shows unsubscribe section if user has subscribed', (
+      tester,
+    ) async {
       when(controller.hasPlus).thenAnswer((_) => true);
 
       await pumpPlusPage(tester, theme: getLightTheme());

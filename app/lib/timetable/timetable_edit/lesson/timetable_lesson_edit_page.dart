@@ -176,7 +176,8 @@ class _CourseField extends StatelessWidget {
         BlocProvider.of<SharezoneContext>(context).api.timetable;
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final hasPermissionsToManageLessons = hasPermissionToManageLessons(
-        api.course.getRoleFromCourseNoSync(initialLesson.groupID)!);
+      api.course.getRoleFromCourseNoSync(initialLesson.groupID)!,
+    );
     return StreamBuilder<Course>(
       stream: bloc.course,
       builder: (context, snapshot) {
@@ -193,20 +194,21 @@ class _CourseField extends StatelessWidget {
               context: context,
               text: "Der Kurs kann nicht mehr nachträglich geändert werden.",
               seconds: 4,
-              action: hasPermissionsToManageLessons
-                  ? SnackBarAction(
-                      label: 'Stunde löschen'.toUpperCase(),
-                      textColor: Colors.lightBlueAccent,
-                      onPressed: () async {
-                        final confirmed =
-                            await showDeleteLessonConfirmationDialog(context);
-                        if (confirmed == true && context.mounted) {
-                          timetableGateway.deleteLesson(initialLesson);
-                          Navigator.pop(context);
-                        }
-                      },
-                    )
-                  : null,
+              action:
+                  hasPermissionsToManageLessons
+                      ? SnackBarAction(
+                        label: 'Stunde löschen'.toUpperCase(),
+                        textColor: Colors.lightBlueAccent,
+                        onPressed: () async {
+                          final confirmed =
+                              await showDeleteLessonConfirmationDialog(context);
+                          if (confirmed == true && context.mounted) {
+                            timetableGateway.deleteLesson(initialLesson);
+                            Navigator.pop(context);
+                          }
+                        },
+                      )
+                      : null,
             );
           },
         );
@@ -254,9 +256,11 @@ class _PeriodField extends StatelessWidget {
             padding: EdgeInsets.only(left: 6),
             child: Icon(Icons.timeline),
           ),
-          title: Text(period != null
-              ? "${period.number}. Stunde"
-              : "Keine Stunde ausgewählt"),
+          title: Text(
+            period != null
+                ? "${period.number}. Stunde"
+                : "Keine Stunde ausgewählt",
+          ),
           onTap: () async {
             final newPeriod = await selectPeriod(context, selected: period);
             if (newPeriod != null) {
@@ -284,8 +288,10 @@ class _WeekTypeField extends StatelessWidget {
           ),
           title: weekType == null ? null : Text(getWeekTypeText(weekType)),
           onTap: () async {
-            final newWeekType =
-                await selectWeekType(context, selected: weekType);
+            final newWeekType = await selectWeekType(
+              context,
+              selected: weekType,
+            );
             if (newWeekType != null) {
               log("WeekType beim Change: ${getWeekTypeText(weekType!)}");
               bloc.changeWeekType(newWeekType);
@@ -340,11 +346,7 @@ class _EndTimeField extends StatelessWidget {
 }
 
 class RoomField extends StatelessWidget {
-  const RoomField({
-    super.key,
-    required this.onChanged,
-    this.initialPlace,
-  });
+  const RoomField({super.key, required this.onChanged, this.initialPlace});
 
   final String? initialPlace;
   final ValueChanged<String> onChanged;
@@ -387,8 +389,9 @@ class TeacherField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUnlocked = Provider.of<SubscriptionService>(context)
-        .hasFeatureUnlocked(SharezonePlusFeature.addTeachersToTimetable);
+    final isUnlocked = Provider.of<SubscriptionService>(
+      context,
+    ).hasFeatureUnlocked(SharezonePlusFeature.addTeachersToTimetable);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: ListTile(
@@ -396,9 +399,10 @@ class TeacherField extends StatelessWidget {
           padding: EdgeInsets.only(left: 6),
           child: Icon(Icons.person),
         ),
-        onTap: isUnlocked
-            ? null
-            : () => showTeachersInTimetablePlusDialog(context),
+        onTap:
+            isUnlocked
+                ? null
+                : () => showTeachersInTimetablePlusDialog(context),
         title: IgnorePointer(
           key: const Key('teacher-ignore-pointer-widget'),
           ignoring: !isUnlocked,
@@ -406,13 +410,19 @@ class TeacherField extends StatelessWidget {
             initialValue: TextEditingValue(text: initialTeacher ?? ''),
             optionsBuilder: (textEditingValue) {
               return teachers
-                  .where((teacher) => teacher
-                      .toLowerCase()
-                      .contains(textEditingValue.text.toLowerCase().trim()))
+                  .where(
+                    (teacher) => teacher.toLowerCase().contains(
+                      textEditingValue.text.toLowerCase().trim(),
+                    ),
+                  )
                   .toList();
             },
-            fieldViewBuilder:
-                (context, textEditingController, focusNode, onFieldSubmitted) {
+            fieldViewBuilder: (
+              context,
+              textEditingController,
+              focusNode,
+              onFieldSubmitted,
+            ) {
               return TextField(
                 controller: textEditingController,
                 focusNode: focusNode,
@@ -420,12 +430,13 @@ class TeacherField extends StatelessWidget {
                   border: const OutlineInputBorder(),
                   labelText: "Lehrkraft",
                   hintText: "z.B. Frau Stark",
-                  suffixIcon: isUnlocked
-                      ? null
-                      : const Padding(
-                          padding: EdgeInsets.fromLTRB(4, 4, 12, 4),
-                          child: SharezonePlusChip(),
-                        ),
+                  suffixIcon:
+                      isUnlocked
+                          ? null
+                          : const Padding(
+                            padding: EdgeInsets.fromLTRB(4, 4, 12, 4),
+                            child: SharezonePlusChip(),
+                          ),
                 ),
                 textCapitalization: TextCapitalization.sentences,
                 onChanged: onTeacherChanged,

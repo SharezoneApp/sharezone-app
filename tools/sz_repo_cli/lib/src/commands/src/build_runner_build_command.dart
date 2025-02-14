@@ -28,31 +28,28 @@ class BuildRunnerBuild extends ConcurrentCommand {
 
   @override
   Stream<Package> get packagesToProcess {
-    return super
-        .packagesToProcess
-        .where((package) => package.hasBuildRunnerDependency);
+    return super.packagesToProcess.where(
+      (package) => package.hasBuildRunnerDependency,
+    );
   }
 
   @override
   Future<void> runTaskForPackage(Package package) async {
-    await processRunner.runCommand(
-      [
-        'dart',
-        'run',
-        'build_runner',
-        'build',
-        // We use the "--delete-conflicting-outputs" flag, because we want to
-        // delete the conflicting outputs.
-        //
-        // Normally, the Dart CLI shows three options when there is a conflict:
-        // delete (1), cancel build (2) or list conflicts (3). But since we
-        // don't show the output of the `dart run build_runner` command, the
-        // user has no way to choose between these options.
-        //
-        // Therefore, we hard code it to delete the conflicting outputs.
-        '--delete-conflicting-outputs',
-      ],
-      workingDirectory: package.location,
-    );
+    await processRunner.runCommand([
+      'dart',
+      'run',
+      'build_runner',
+      'build',
+      // We use the "--delete-conflicting-outputs" flag, because we want to
+      // delete the conflicting outputs.
+      //
+      // Normally, the Dart CLI shows three options when there is a conflict:
+      // delete (1), cancel build (2) or list conflicts (3). But since we
+      // don't show the output of the `dart run build_runner` command, the
+      // user has no way to choose between these options.
+      //
+      // Therefore, we hard code it to delete the conflicting outputs.
+      '--delete-conflicting-outputs',
+    ], workingDirectory: package.location);
   }
 }

@@ -25,15 +25,23 @@ class FileSharingPageBloc extends BlocBase {
   }
 
   Stream<List<CloudFile>> fileQueryMySubmission(
-      String courseID, FolderPath folderPath) {
-    return _gateway.cloudFilesGateway
-        .filesStreamFolder(courseID, folderPath.getChildPath(_gateway.uID));
+    String courseID,
+    FolderPath folderPath,
+  ) {
+    return _gateway.cloudFilesGateway.filesStreamFolder(
+      courseID,
+      folderPath.getChildPath(_gateway.uID),
+    );
   }
 
   Stream<List<CloudFile>> fileQueryWithSubPaths(
-      String courseID, FolderPath folderPath) {
-    return _gateway.cloudFilesGateway
-        .filesStreamFolderAndSubFolders(courseID, folderPath);
+    String courseID,
+    FolderPath folderPath,
+  ) {
+    return _gateway.cloudFilesGateway.filesStreamFolderAndSubFolders(
+      courseID,
+      folderPath,
+    );
   }
 
   FileSharingPageBloc(this._gateway);

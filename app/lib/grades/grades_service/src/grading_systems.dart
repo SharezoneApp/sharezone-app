@@ -38,22 +38,30 @@ extension _ToGradingSystems on GradingSystemModel {
 }
 
 class GradingSystemModel extends Equatable {
-  static final oneToSixWithPlusAndMinus =
-      GradingSystemModel(spec: oneToSixWithPlusAndMinusSpec);
-  static const oneToSixWithDecimals =
-      GradingSystemModel(spec: oneToSixWithDecimalsSpec);
-  static const zeroToFifteenPoints =
-      GradingSystemModel(spec: zeroToFifteenPointsSpec);
-  static const zeroToFifteenPointsWithDecimals =
-      GradingSystemModel(spec: zeroToFifteenPointsWithDecimalsSpec);
-  static const zeroToHundredPercentWithDecimals =
-      GradingSystemModel(spec: zeroToHundredPercentWithDecimalsSpec);
-  static final austrianBehaviouralGrades =
-      GradingSystemModel(spec: austrianBehaviouralGradesSpec);
-  static const oneToFiveWithDecimals =
-      GradingSystemModel(spec: oneToFiveWithDecimalsSpec);
-  static const sixToOneWithDecimals =
-      GradingSystemModel(spec: sixToOneWithDecimalsSpec);
+  static final oneToSixWithPlusAndMinus = GradingSystemModel(
+    spec: oneToSixWithPlusAndMinusSpec,
+  );
+  static const oneToSixWithDecimals = GradingSystemModel(
+    spec: oneToSixWithDecimalsSpec,
+  );
+  static const zeroToFifteenPoints = GradingSystemModel(
+    spec: zeroToFifteenPointsSpec,
+  );
+  static const zeroToFifteenPointsWithDecimals = GradingSystemModel(
+    spec: zeroToFifteenPointsWithDecimalsSpec,
+  );
+  static const zeroToHundredPercentWithDecimals = GradingSystemModel(
+    spec: zeroToHundredPercentWithDecimalsSpec,
+  );
+  static final austrianBehaviouralGrades = GradingSystemModel(
+    spec: austrianBehaviouralGradesSpec,
+  );
+  static const oneToFiveWithDecimals = GradingSystemModel(
+    spec: oneToFiveWithDecimalsSpec,
+  );
+  static const sixToOneWithDecimals = GradingSystemModel(
+    spec: sixToOneWithDecimalsSpec,
+  );
 
   final GradingSystemSpec spec;
 
@@ -122,7 +130,8 @@ class GradingSystemModel extends Equatable {
       }
     }
     throw ArgumentError(
-        "Couldn't convert grade ($grade) to num: grade must be a num or string, but was ${grade.runtimeType}.");
+      "Couldn't convert grade ($grade) to num: grade must be a num or string, but was ${grade.runtimeType}.",
+    );
   }
 }
 
@@ -137,10 +146,7 @@ class GradingSystemSpec extends Equatable {
   final String? Function(num grade)? getSpecialDisplayableGradeOrNull;
 
   @override
-  List<Object?> get props => [
-        gradingSystem,
-        possibleGrades,
-      ];
+  List<Object?> get props => [gradingSystem, possibleGrades];
 
   const GradingSystemSpec({
     required this.gradingSystem,
@@ -160,8 +166,9 @@ class GradingSystemSpec extends Equatable {
   ) {
     return GradingSystemSpec(
       gradingSystem: gradingSystem,
-      possibleGrades:
-          NonNumericalPossibleGradesResult(specialGrades.keys.toIList()),
+      possibleGrades: NonNumericalPossibleGradesResult(
+        specialGrades.keys.toIList(),
+      ),
       specialDisplayableGradeToNumOrNull: (grade) {
         return specialGrades[grade];
       },
@@ -180,48 +187,47 @@ class GradingSystemSpec extends Equatable {
     return GradingSystemSpec(
       gradingSystem: gradingSystem,
       possibleGrades: possibleGrades,
-      getSpecialDisplayableGradeOrNull: (grade) => possibleGrades
-          .specialGrades.entries
-          .firstWhereOrNull((entry) => entry.value == grade)
-          ?.key,
-      specialDisplayableGradeToNumOrNull: (grade) =>
-          possibleGrades.specialGrades[grade],
+      getSpecialDisplayableGradeOrNull:
+          (grade) =>
+              possibleGrades.specialGrades.entries
+                  .firstWhereOrNull((entry) => entry.value == grade)
+                  ?.key,
+      specialDisplayableGradeToNumOrNull:
+          (grade) => possibleGrades.specialGrades[grade],
     );
   }
 }
 
 final oneToSixWithPlusAndMinusSpec =
     GradingSystemSpec.continuousFromPossibleGradesResult(
-  gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-  possibleGrades: const ContinuousNumericalPossibleGradesResult(
-    // Instead of 0.66 like in other grade specs, we use 0.75
-    // here since its cleaner and we don't think that anybody knows
-    // exactly if 0.66 or 0.75 is the lowest grade possible.
-    min: 0.75,
-    max: 6,
-    decimalsAllowed: true,
-    specialGrades: IMapConst(
-      {
-        '1+': 0.75,
-        '1': 1.0,
-        '1-': 1.25,
-        '2+': 1.75,
-        '2': 2.0,
-        '2-': 2.25,
-        '3+': 2.75,
-        '3': 3.0,
-        '3-': 3.25,
-        '4+': 3.75,
-        '4': 4.0,
-        '4-': 4.25,
-        '5+': 4.75,
-        '5': 5.0,
-        '5-': 5.25,
-        '6': 6.0,
-      },
-    ),
-  ),
-);
+      gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+      possibleGrades: const ContinuousNumericalPossibleGradesResult(
+        // Instead of 0.66 like in other grade specs, we use 0.75
+        // here since its cleaner and we don't think that anybody knows
+        // exactly if 0.66 or 0.75 is the lowest grade possible.
+        min: 0.75,
+        max: 6,
+        decimalsAllowed: true,
+        specialGrades: IMapConst({
+          '1+': 0.75,
+          '1': 1.0,
+          '1-': 1.25,
+          '2+': 1.75,
+          '2': 2.0,
+          '2-': 2.25,
+          '3+': 2.75,
+          '3': 3.0,
+          '3-': 3.25,
+          '4+': 3.75,
+          '4': 4.0,
+          '4-': 4.25,
+          '5+': 4.75,
+          '5': 5.0,
+          '5-': 5.25,
+          '6': 6.0,
+        }),
+      ),
+    );
 
 const oneToSixWithDecimalsSpec = GradingSystemSpec(
   gradingSystem: GradingSystem.oneToSixWithDecimals,
@@ -304,6 +310,6 @@ String getAustrianBehaviouralGradeDbKeyFromNum(num grade) {
     2 => 'satisfactory',
     3 => 'lessSatisfactory',
     4 => 'notSatisfactory',
-    _ => throw ArgumentError('Cant get db key for austrian behavioural grade')
+    _ => throw ArgumentError('Cant get db key for austrian behavioural grade'),
   };
 }

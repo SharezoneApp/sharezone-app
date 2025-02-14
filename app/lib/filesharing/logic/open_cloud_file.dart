@@ -23,11 +23,15 @@ import 'package:platform_check/platform_check.dart';
 import '../file_page.dart';
 
 void openCloudFilePage(
-    BuildContext context, CloudFile cloudFile, String courseID) {
+  BuildContext context,
+  CloudFile cloudFile,
+  String courseID,
+) {
   final api = BlocProvider.of<SharezoneContext>(context).api;
 
-  final hasPermissionToEdit = FileSharingPermissionsNoSync(api)
-      .canManageCloudFile(cloudFile: cloudFile);
+  final hasPermissionToEdit = FileSharingPermissionsNoSync(
+    api,
+  ).canManageCloudFile(cloudFile: cloudFile);
   final actions = [
     PopupMenuButton<SheetOption>(
       itemBuilder: (context) {
@@ -78,12 +82,13 @@ void openFirestoreFilePage({
           (PlatformCheck.isIOS && fileFormat == FileFormat.pdf))) {
     showDialog(
       context: context,
-      builder: (context) => DownloadUnknownFileTypeDialogContent(
-        downloadURL: downloadURL,
-        name: name,
-        id: id,
-        nameStream: nameStream,
-      ),
+      builder:
+          (context) => DownloadUnknownFileTypeDialogContent(
+            downloadURL: downloadURL,
+            name: name,
+            id: id,
+            nameStream: nameStream,
+          ),
     );
   }
   // Die Datei wird im Web gedownloadet, sollten wir keine passende Anzeige (Video/PDF/Bild) haben
@@ -97,14 +102,15 @@ void openFirestoreFilePage({
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FirestoreFilePage(
-          id: id,
-          downloadURL: downloadURL,
-          name: name,
-          nameStream: nameStream,
-          actions: actions,
-          fileFormat: fileFormat,
-        ),
+        builder:
+            (context) => FirestoreFilePage(
+              id: id,
+              downloadURL: downloadURL,
+              name: name,
+              nameStream: nameStream,
+              actions: actions,
+              fileFormat: fileFormat,
+            ),
         settings: const RouteSettings(name: FirestoreFilePage.tag),
       ),
     );

@@ -20,7 +20,10 @@ import 'package:platform_check/platform_check.dart';
 class MobileFileDownloader extends FileDownloader {
   @override
   Future<LocalFile> downloadFileFromURL(
-      String url, String filename, String id) async {
+    String url,
+    String filename,
+    String id,
+  ) async {
     File fileWithID = await DefaultCacheManager().getSingleFile(url);
     final filePath =
         '${path.dirname(fileWithID.path)}/$id.${FileUtils.getExtension(filename)}';
@@ -33,9 +36,10 @@ class MobileFileDownloader extends FileDownloader {
     // befindet sich bei dem Path, welchen der [DefaultCacheManger] zurückgegeben hat,
     // keine Datei. Das liegt daran, weil wir vorher die Datei mit dem richtigen Namen
     // benannt haben. Wir müssen dann auch an diesem Ort suchen, also nach dem [filePath].
-    fileWithID = await fileWithID.exists()
-        ? await fileWithID.rename(filePath)
-        : File(filePath);
+    fileWithID =
+        await fileWithID.exists()
+            ? await fileWithID.rename(filePath)
+            : File(filePath);
 
     if (PlatformCheck.isMacOS) {
       filename = filename.replaceAll(RegExp(r"""[();:"` <>&']"""), '');

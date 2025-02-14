@@ -20,62 +20,70 @@ class _GradeValue extends StatelessWidget {
     final hasDistinctValues = selectableGrades.distinctGrades != null;
     return ListTile(
       leading: SavedGradeIcons.value,
-      title: hasDistinctValues
-          ? Text(
-              view.selectedGrade ?? 'Keine Note ausgewählt',
-              style: TextStyle(
-                color: view.isGradeMissing
-                    ? Theme.of(context).colorScheme.error
-                    : null,
-              ),
-            )
-          : TextField(
-              controller: view.gradeFieldController,
-              decoration: InputDecoration(
-                label: const Text('Note'),
-                hintText: switch (gradingSystem) {
-                  GradingSystem.oneToFiveWithDecimals => 'z.B. 1.3',
-                  GradingSystem.oneToSixWithDecimals => 'z.B. 1.3',
-                  GradingSystem.oneToSixWithPlusAndMinus => 'z.B. 1+',
-                  GradingSystem.sixToOneWithDecimals => 'z.B. 6.0',
-                  GradingSystem.zeroToFifteenPointsWithDecimals => 'z.B. 15.0',
-                  GradingSystem.zeroToHundredPercentWithDecimals => 'z.B. 78.8',
-                  _ => null,
-                },
-                errorText: view.selectedGradeErrorText,
-              ),
-              onChanged: controller.setGrade,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp('[0-9.,]'))
-              ],
-            ),
-      onTap: hasDistinctValues
-          ? () async {
-              final res = await showDialog<String?>(
-                context: context,
-                builder: (context) => SimpleDialog(
-                  title: const Text("Note auswählen"),
-                  contentPadding: const EdgeInsets.all(12),
-                  children: [
-                    if (selectableGrades.distinctGrades != null)
-                      for (final grade in selectableGrades.distinctGrades!)
-                        ListTile(
-                          title: Text(grade),
-                          onTap: () {
-                            Navigator.of(context).pop<String?>(grade);
-                          },
-                        ),
-                  ],
+      title:
+          hasDistinctValues
+              ? Text(
+                view.selectedGrade ?? 'Keine Note ausgewählt',
+                style: TextStyle(
+                  color:
+                      view.isGradeMissing
+                          ? Theme.of(context).colorScheme.error
+                          : null,
                 ),
-              );
+              )
+              : TextField(
+                controller: view.gradeFieldController,
+                decoration: InputDecoration(
+                  label: const Text('Note'),
+                  hintText: switch (gradingSystem) {
+                    GradingSystem.oneToFiveWithDecimals => 'z.B. 1.3',
+                    GradingSystem.oneToSixWithDecimals => 'z.B. 1.3',
+                    GradingSystem.oneToSixWithPlusAndMinus => 'z.B. 1+',
+                    GradingSystem.sixToOneWithDecimals => 'z.B. 6.0',
+                    GradingSystem.zeroToFifteenPointsWithDecimals =>
+                      'z.B. 15.0',
+                    GradingSystem.zeroToHundredPercentWithDecimals =>
+                      'z.B. 78.8',
+                    _ => null,
+                  },
+                  errorText: view.selectedGradeErrorText,
+                ),
+                onChanged: controller.setGrade,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
+                ],
+              ),
+      onTap:
+          hasDistinctValues
+              ? () async {
+                final res = await showDialog<String?>(
+                  context: context,
+                  builder:
+                      (context) => SimpleDialog(
+                        title: const Text("Note auswählen"),
+                        contentPadding: const EdgeInsets.all(12),
+                        children: [
+                          if (selectableGrades.distinctGrades != null)
+                            for (final grade
+                                in selectableGrades.distinctGrades!)
+                              ListTile(
+                                title: Text(grade),
+                                onTap: () {
+                                  Navigator.of(context).pop<String?>(grade);
+                                },
+                              ),
+                        ],
+                      ),
+                );
 
-              if (res != null) {
-                controller.setGrade(res);
+                if (res != null) {
+                  controller.setGrade(res);
+                }
               }
-            }
-          : null,
+              : null,
     );
   }
 }
@@ -110,8 +118,9 @@ class _SelectGradeSystemDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final greyColor =
-        Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5);
+    final greyColor = Theme.of(
+      context,
+    ).colorScheme.onSurface.withValues(alpha: 0.5);
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: SimpleDialog(
@@ -122,10 +131,7 @@ class _SelectGradeSystemDialog extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
             child: Text(
               'Der erste Wert entspricht der besten Noten, z.B. bei dem Notensystem "1 - 6" ist "1" die beste Note.',
-              style: TextStyle(
-                fontSize: 12,
-                color: greyColor,
-              ),
+              style: TextStyle(fontSize: 12, color: greyColor),
             ),
           ),
           for (final gradingSystem in GradingSystem.values)
@@ -165,18 +171,20 @@ class _Subject extends StatelessWidget {
             ? 'Kein Fach ausgewählt'
             : view.selectedSubject!.name,
         style: TextStyle(
-          color: view.isSubjectMissing
-              ? Theme.of(context).colorScheme.error
-              : null,
+          color:
+              view.isSubjectMissing
+                  ? Theme.of(context).colorScheme.error
+                  : null,
         ),
       ),
       onTap: () async {
         final res = await showDialog<SubjectId?>(
           context: context,
-          builder: (context) => ChangeNotifierProvider.value(
-            value: controller,
-            child: const _SelectSubjectDialog(),
-          ),
+          builder:
+              (context) => ChangeNotifierProvider.value(
+                value: controller,
+                child: const _SelectSubjectDialog(),
+              ),
         );
 
         if (res != null && context.mounted) {
@@ -194,7 +202,8 @@ class _SelectSubjectDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var subjects = context.select<GradesDialogController, IList<SubjectView>>(
-        (c) => c.view.selectableSubjects);
+      (c) => c.view.selectableSubjects,
+    );
     final hasPlus =
         Provider.of<SubscriptionService>(context).isSubscriptionActive();
     if (!hasPlus) {
@@ -208,7 +217,7 @@ class _SelectSubjectDialog extends StatelessWidget {
         children: [
           if (!hasPlus) ...[
             const _CanOnlyUseThreeSubjectsWarning(),
-            const Divider()
+            const Divider(),
           ],
           for (final subject in subjects)
             _SubjectTile(
@@ -234,9 +243,7 @@ class _CanOnlyUseThreeSubjectsWarning extends StatelessWidget {
     return Material(
       color: color,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -255,8 +262,8 @@ class _CanOnlyUseThreeSubjectsWarning extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               FilledButton(
-                onPressed: () =>
-                    openSharezonePlusPageAsFullscreenDialog(context),
+                onPressed:
+                    () => openSharezonePlusPageAsFullscreenDialog(context),
                 style: FilledButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: color,
@@ -290,10 +297,7 @@ class _SubjectTile extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: design.color.withValues(alpha: 0.2),
-        child: Text(
-          abbreviation,
-          style: TextStyle(color: design.color),
-        ),
+        child: Text(abbreviation, style: TextStyle(color: design.color)),
       ),
       title: Text(name),
       onTap: onTap,
@@ -391,10 +395,11 @@ class _Term extends StatelessWidget {
       onTap: () async {
         final res = await showDialog<TermId?>(
           context: context,
-          builder: (context) => ChangeNotifierProvider.value(
-            value: controller,
-            child: const _SelectTermDialog(),
-          ),
+          builder:
+              (context) => ChangeNotifierProvider.value(
+                value: controller,
+                child: const _SelectTermDialog(),
+              ),
         );
 
         if (res != null) {
@@ -410,8 +415,10 @@ class _SelectTermDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final terms = context.select<GradesDialogController,
-        IList<({TermId id, String name})>>((c) => c.view.selectableTerms);
+    final terms = context
+        .select<GradesDialogController, IList<({TermId id, String name})>>(
+          (c) => c.view.selectableTerms,
+        );
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: SimpleDialog(
@@ -422,7 +429,8 @@ class _SelectTermDialog extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(left: 12, right: 12, bottom: 12),
               child: Text(
-                  "Bisher hast du keine Halbjahre erstellt. Bitte erstelle ein Halbjahr, um eine Note einzutragen."),
+                "Bisher hast du keine Halbjahre erstellt. Bitte erstelle ein Halbjahr, um eine Note einzutragen.",
+              ),
             ),
           for (final term in terms)
             ListTile(
@@ -472,10 +480,11 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
           },
           trailing: Switch(
             value: isEnabled ? view.takeIntoAccount : false,
-            onChanged: isEnabled
-                ? (newVal) =>
-                    controller.setIntegrateGradeIntoSubjectGrade(newVal)
-                : null,
+            onChanged:
+                isEnabled
+                    ? (newVal) =>
+                        controller.setIntegrateGradeIntoSubjectGrade(newVal)
+                    : null,
           ),
         ),
         if (state == TakeIntoAccountState.disabledWrongGradingSystem)
@@ -484,10 +493,9 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
             child: Text(
               'Das Notensystem, welches du ausgewählt hast, ist nicht dasselbe wie das Notensystem deines Halbjahres. Du kannst die Note weiterhin eintragen, aber sie wird nicht in den Schnitt deines Halbjahres einfließen.',
               style: TextStyle(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.5),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.5),
               ),
             ),
           ),
@@ -497,10 +505,9 @@ class _TakeIntoAccountSwitch extends StatelessWidget {
             child: Text(
               'Der ausgewählte Notentyp hat aktuell eine Gewichtung von 0. Du kannst die Note weiterhin eintragen, aber sie wird den Schnitt der Fachnote nicht beeinflussen. Du kannst die Gewichtung nach Speichern der Note im Fach oder im Halbjahr anpassen, damit die Note in den Schnitt einfließt.',
               style: TextStyle(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.5),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.5),
               ),
             ),
           ),
@@ -525,7 +532,8 @@ class _Title extends StatelessWidget {
           hintText: "z.B. Lineare Funktionen",
           suffixIcon: const _TitleHelpButton(),
           errorText: context.select<GradesDialogController, String?>(
-              (controller) => controller.view.titleErrorText),
+            (controller) => controller.view.titleErrorText,
+          ),
         ),
       ),
     );
@@ -546,10 +554,7 @@ class _TitleHelpButton extends StatelessWidget {
 }
 
 class _HelpDialogButton extends StatelessWidget {
-  const _HelpDialogButton({
-    required this.title,
-    required this.text,
-  });
+  const _HelpDialogButton({required this.title, required this.text});
 
   final String title;
   final String text;
@@ -588,16 +593,15 @@ class _Details extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final detailsController =
-        context.select<GradesDialogController, TextEditingController>(
-            (c) => c.view.detailsController);
+    final detailsController = context
+        .select<GradesDialogController, TextEditingController>(
+          (c) => c.view.detailsController,
+        );
     return MarkdownField(
       controller: detailsController,
       icon: SavedGradeIcons.details,
       onChanged: (value) {},
-      inputDecoration: const InputDecoration(
-        labelText: "Notizen",
-      ),
+      inputDecoration: const InputDecoration(labelText: "Notizen"),
     );
   }
 }

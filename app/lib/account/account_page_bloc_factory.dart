@@ -18,7 +18,8 @@ class AccountPageBlocFactory extends BlocBase {
   AccountPageBlocFactory(this._userGateway);
 
   AccountPageBloc create(
-      GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey) {
+    GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey,
+  ) {
     return AccountPageBloc(
       globalKey: scaffoldMessengerKey,
       linkProviderGateway: LinkProviderGateway(_userGateway),

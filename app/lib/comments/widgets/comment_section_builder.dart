@@ -88,15 +88,15 @@ class _CommentSectionStreamBuilder extends StatelessWidget {
               final name = userSnap.data?.name ?? "";
               return commentsSnap.hasData
                   ? CommentSection(
-                      comments: commentsSnap.data,
-                      userAbbreviation: abbr,
-                      userName: name,
-                      courseID: courseID,
-                    )
+                    comments: commentsSnap.data,
+                    userAbbreviation: abbr,
+                    userName: name,
+                    courseID: courseID,
+                  )
                   : CommentSection.loading(
-                      userAbbreviation: abbr,
-                      userName: name,
-                    );
+                    userAbbreviation: abbr,
+                    userName: name,
+                  );
             },
           );
         },

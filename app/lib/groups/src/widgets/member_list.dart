@@ -33,11 +33,13 @@ class AddMember extends StatelessWidget {
           backgroundColor: Colors.grey.shade200,
           child: Icon(Icons.person_add, color: Theme.of(context).primaryColor),
         ),
-        onTap: () => showDialog(
-          context: context,
-          builder: (context) =>
-              ShareThisGroupDialogContent(groupInfo: groupInfo),
-        ),
+        onTap:
+            () => showDialog(
+              context: context,
+              builder:
+                  (context) =>
+                      ShareThisGroupDialogContent(groupInfo: groupInfo),
+            ),
       ),
     );
   }
@@ -64,13 +66,17 @@ class MemberList extends StatelessWidget {
       children: <Widget>[
         _DividerWithText(text: "$title (${members.length})"),
         Column(
-            children: members
-                .map((MemberData member) => MemberTile(
+          children:
+              members
+                  .map(
+                    (MemberData member) => MemberTile(
                       memberData: member,
                       onTap: () => onTap(member),
                       onLongPress: () => onTap(member),
-                    ))
-                .toList()),
+                    ),
+                  )
+                  .toList(),
+        ),
       ],
     );
   }
@@ -83,26 +89,31 @@ class LoadingMemberList extends StatelessWidget {
   Widget build(BuildContext context) {
     final placeholderUser = [
       MemberData.create(
-          id: "bernd77",
-          user: AppUser.create(id: "bernd77").copyWith(name: "Bernd das Brot"),
-          role: MemberRole.admin),
+        id: "bernd77",
+        user: AppUser.create(id: "bernd77").copyWith(name: "Bernd das Brot"),
+        role: MemberRole.admin,
+      ),
       MemberData.create(
-          id: "doduck11",
-          user: AppUser.create(id: "doduck11").copyWith(name: "Donald Duck"),
-          role: MemberRole.creator),
+        id: "doduck11",
+        user: AppUser.create(id: "doduck11").copyWith(name: "Donald Duck"),
+        role: MemberRole.creator,
+      ),
       MemberData.create(
-          id: "mario11",
-          user: AppUser.create(id: "mario11").copyWith(name: "Mario"),
-          role: MemberRole.standard),
+        id: "mario11",
+        user: AppUser.create(id: "mario11").copyWith(name: "Mario"),
+        role: MemberRole.standard,
+      ),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const _DividerWithText(text: "Legenden"),
         Column(
-            children: placeholderUser
-                .map((u) => GrayShimmer(child: MemberTile(memberData: u)))
-                .toList()),
+          children:
+              placeholderUser
+                  .map((u) => GrayShimmer(child: MemberTile(memberData: u)))
+                  .toList(),
+        ),
       ],
     );
   }
@@ -130,19 +141,23 @@ class MemberTile extends StatelessWidget {
       subtitle: Text(memberData.typeOfUser.toReadableString()),
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,
-        child: Text(generateAbbreviation(memberData.name),
-            style: const TextStyle(color: Colors.white)),
+        child: Text(
+          generateAbbreviation(memberData.name),
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
       onTap: onTap,
-      trailing: memberData.id.toString() == api.uID
-          ? const Chip(label: Text("Du"))
-          : withReportOption
+      trailing:
+          memberData.id.toString() == api.uID
+              ? const Chip(label: Text("Du"))
+              : withReportOption
               ? ReportIcon(
-                  item: ReportItemReference.user(memberData.id.toString()),
-                  color: Theme.of(context).isDarkTheme
-                      ? Colors.grey
-                      : Colors.grey[600],
-                )
+                item: ReportItemReference.user(memberData.id.toString()),
+                color:
+                    Theme.of(context).isDarkTheme
+                        ? Colors.grey
+                        : Colors.grey[600],
+              )
               : null,
     );
   }
@@ -155,22 +170,24 @@ class _DividerWithText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      Container(width: 200),
-      const Padding(
-        padding: EdgeInsets.only(top: 8),
-        child: Divider(height: 0),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 12),
-        child: Container(
-          color: Theme.of(context).cardColor,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(text, style: TextStyle(color: Colors.grey[600])),
+    return Stack(
+      children: <Widget>[
+        Container(width: 200),
+        const Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: Divider(height: 0),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Container(
+            color: Theme.of(context).cardColor,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(text, style: TextStyle(color: Colors.grey[600])),
+            ),
           ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }

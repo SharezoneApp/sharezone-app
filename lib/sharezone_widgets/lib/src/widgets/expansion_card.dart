@@ -37,10 +37,7 @@ class ExpansionCard extends StatefulWidget {
     super.key,
     required this.header,
     required this.body,
-    this.padding = const EdgeInsets.symmetric(
-      horizontal: 20,
-      vertical: 18,
-    ),
+    this.padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
     this.backgroundColor,
     this.openTooltip = 'Aufklappen',
     this.closeTooltip = 'Zuklappen',
@@ -113,7 +110,8 @@ class ExpansionCardState extends State<ExpansionCard> {
           cursor: SystemMouseCursors.click,
           child: Container(
             decoration: BoxDecoration(
-              color: widget.backgroundColor ??
+              color:
+                  widget.backgroundColor ??
                   Theme.of(context).colorScheme.surface,
               borderRadius: borderRadius,
             ),
@@ -124,9 +122,9 @@ class ExpansionCardState extends State<ExpansionCard> {
               child: Padding(
                 padding: widget.padding,
                 child: DefaultTextStyle(
-                  style: DefaultTextStyle.of(context).style.copyWith(
-                        fontSize: 18,
-                      ),
+                  style: DefaultTextStyle.of(
+                    context,
+                  ).style.copyWith(fontSize: 18),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -141,10 +139,7 @@ class ExpansionCardState extends State<ExpansionCard> {
                           ),
                         ],
                       ),
-                      _AnimatedBody(
-                        isExpanded: isExpanded,
-                        body: widget.body,
-                      )
+                      _AnimatedBody(isExpanded: isExpanded, body: widget.body),
                     ],
                   ),
                 ),
@@ -171,28 +166,20 @@ class _CloseOpenBodyIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconTheme(
-      data: Theme.of(context).iconTheme.copyWith(
-            color: Colors.grey[600],
-          ),
+      data: Theme.of(context).iconTheme.copyWith(color: Colors.grey[600]),
       child: AnimatedSwap(
         duration: const Duration(milliseconds: 275),
-        child: isExpanded
-            ? _HideBodyIcon(
-                tooltip: closeTooltip,
-              )
-            : _ShowBodyIcon(
-                tooltip: openTooltip,
-              ),
+        child:
+            isExpanded
+                ? _HideBodyIcon(tooltip: closeTooltip)
+                : _ShowBodyIcon(tooltip: openTooltip),
       ),
     );
   }
 }
 
 class _AnimatedBody extends StatelessWidget {
-  const _AnimatedBody({
-    required this.isExpanded,
-    required this.body,
-  });
+  const _AnimatedBody({required this.isExpanded, required this.body});
 
   final bool isExpanded;
   final Widget body;
@@ -204,37 +191,34 @@ class _AnimatedBody extends StatelessWidget {
       // https://github.com/flutter/flutter/issues/121336. The bug can occur
       // when clicking the card very quickly.
       transitionBuilder: (Widget child, Animation<double> animation) {
-        return FadeTransition(
-          opacity: animation,
-          child: child,
-        );
+        return FadeTransition(opacity: animation, child: child);
       },
       duration: Duration(milliseconds: isExpanded ? 100 : 500),
       child: Column(
         key: ValueKey(isExpanded),
-        children: isExpanded
-            ? [
-                const SizedBox(height: 18),
-                DefaultTextStyle(
-                  style: DefaultTextStyle.of(context).style.copyWith(
-                        fontSize: 16,
-                        color: Theme.of(context).isDarkTheme
-                            ? Colors.grey[400]
-                            : Colors.grey[700],
-                      ),
-                  child: body,
-                ),
-              ]
-            : [],
+        children:
+            isExpanded
+                ? [
+                  const SizedBox(height: 18),
+                  DefaultTextStyle(
+                    style: DefaultTextStyle.of(context).style.copyWith(
+                      fontSize: 16,
+                      color:
+                          Theme.of(context).isDarkTheme
+                              ? Colors.grey[400]
+                              : Colors.grey[700],
+                    ),
+                    child: body,
+                  ),
+                ]
+                : [],
       ),
     );
   }
 }
 
 class _ShowBodyIcon extends StatelessWidget {
-  const _ShowBodyIcon({
-    required this.tooltip,
-  });
+  const _ShowBodyIcon({required this.tooltip});
 
   final String tooltip;
 
@@ -249,9 +233,7 @@ class _ShowBodyIcon extends StatelessWidget {
 }
 
 class _HideBodyIcon extends StatelessWidget {
-  const _HideBodyIcon({
-    required this.tooltip,
-  });
+  const _HideBodyIcon({required this.tooltip});
 
   final String tooltip;
 

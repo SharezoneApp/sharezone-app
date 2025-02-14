@@ -9,9 +9,7 @@
 import '../../analytics.dart';
 
 class NamedAnalyticsEvent extends AnalyticsEvent {
-  NamedAnalyticsEvent({
-    required String name,
-    Map<String, dynamic>? data,
-  })  : assert(name.isNotEmpty),
-        super(name, data: data);
+  NamedAnalyticsEvent({required String name, Map<String, dynamic>? data})
+    : assert(name.isNotEmpty),
+      super(name, data: data);
 }

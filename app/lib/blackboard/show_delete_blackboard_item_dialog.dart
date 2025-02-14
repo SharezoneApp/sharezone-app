@@ -16,8 +16,10 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'details/blackboard_details.dart';
 
 Future<void> showDeleteBlackboardItemDialog(
-    BuildContext context, BlackboardView? view,
-    {bool popTwice = true}) async {
+  BuildContext context,
+  BlackboardView? view, {
+  bool popTwice = true,
+}) async {
   final confirmed = (await _showConfirmDeletingDialog(context))!;
   if (confirmed && context.mounted) {
     if (view!.hasAttachments) {
@@ -37,19 +39,23 @@ Future<bool?> _showConfirmDeletingDialog(BuildContext context) async {
     title: "Eintrag löschen?",
     defaultValue: false,
     content: const Text(
-        "Möchtest du wirklich diesen Eintrag für den kompletten Kurs löschen?"),
+      "Möchtest du wirklich diesen Eintrag für den kompletten Kurs löschen?",
+    ),
     left: AdaptiveDialogAction.cancel,
     right: AdaptiveDialogAction.delete,
   );
 }
 
 Future<void> _showAttachmentsDeleteOrRemainDialog(
-    BuildContext context, BlackboardView? view,
-    {bool popTwice = true}) async {
+  BuildContext context,
+  BlackboardView? view, {
+  bool popTwice = true,
+}) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
 
-  final attachmentsRemainOrDelete =
-      await showColumnActionsAdaptiveDialog<AttachmentOperation>(
+  final attachmentsRemainOrDelete = await showColumnActionsAdaptiveDialog<
+    AttachmentOperation
+  >(
     context: context,
     title: "Anhänge ebenfalls löschen?",
     messsage:

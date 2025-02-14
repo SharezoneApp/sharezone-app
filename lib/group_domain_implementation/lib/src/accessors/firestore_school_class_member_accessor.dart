@@ -25,7 +25,8 @@ class FirestoreSchoolClassMemberAccessor extends SchoolClassMemberAccessor {
   @override
   Stream<List<MemberData>> streamAllMembers(String schoolClassID) {
     return _memberReference(schoolClassID).snapshots().map(
-          (snapshot) => snapshot.docs
+      (snapshot) =>
+          snapshot.docs
               .map(
                 (docSnap) => MemberData.fromData(
                   docSnap.data() as Map<String, dynamic>,
@@ -33,12 +34,15 @@ class FirestoreSchoolClassMemberAccessor extends SchoolClassMemberAccessor {
                 ),
               )
               .toList(),
-        );
+    );
   }
 
   @override
   Stream<MemberData> streamSingleMember(String schoolClassID, String memberID) {
-    return _memberReference(schoolClassID).doc(memberID).snapshots().map(
+    return _memberReference(schoolClassID)
+        .doc(memberID)
+        .snapshots()
+        .map(
           (snapshot) => MemberData.fromData(
             snapshot.data() as Map<String, dynamic>,
             id: snapshot.id,

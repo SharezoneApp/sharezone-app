@@ -21,12 +21,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Material(
-            child: Scaffold(
-              body: SharecodeText(
-                sharecode,
-                onCopied: onCopied,
-              ),
-            ),
+            child: Scaffold(body: SharecodeText(sharecode, onCopied: onCopied)),
           ),
         ),
       );
@@ -35,26 +30,34 @@ void main() {
     final sharecode = Sharecode('123456');
 
     testWidgets(
-        'shows copy confirmation SnackBar, if user taps on SharecodeText',
-        (tester) async {
-      await pumpSharecodeText(tester: tester, sharecode: sharecode.toString());
+      'shows copy confirmation SnackBar, if user taps on SharecodeText',
+      (tester) async {
+        await pumpSharecodeText(
+          tester: tester,
+          sharecode: sharecode.toString(),
+        );
 
-      await tester.tap(find.byType(SharecodeText));
-      await tester.pump();
+        await tester.tap(find.byType(SharecodeText));
+        await tester.pump();
 
-      expect(find.byType(SnackBar), findsOneWidget);
-    });
+        expect(find.byType(SnackBar), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'shows copy confirmation SnackBar, if user presses long on SharecodeText',
-        (tester) async {
-      await pumpSharecodeText(tester: tester, sharecode: sharecode.toString());
+      'shows copy confirmation SnackBar, if user presses long on SharecodeText',
+      (tester) async {
+        await pumpSharecodeText(
+          tester: tester,
+          sharecode: sharecode.toString(),
+        );
 
-      await tester.longPress(find.byType(SharecodeText));
-      await tester.pump();
+        await tester.longPress(find.byType(SharecodeText));
+        await tester.pump();
 
-      expect(find.byType(SnackBar), findsOneWidget);
-    });
+        expect(find.byType(SnackBar), findsOneWidget);
+      },
+    );
 
     testWidgets('runs onCopied, if user taps on SharecodeText', (tester) async {
       bool logTapped = false;
@@ -71,8 +74,9 @@ void main() {
       expect(logTapped, true);
     });
 
-    testWidgets('runs onCopied, if user presses long on SharecodeText',
-        (tester) async {
+    testWidgets('runs onCopied, if user presses long on SharecodeText', (
+      tester,
+    ) async {
       bool logPressedLong = false;
 
       await pumpSharecodeText(
@@ -99,14 +103,16 @@ void main() {
       }) async {
         await pumpSharecodeText(tester: tester, sharecode: sharecode);
 
-        final finder =
-            findSemanticsWidgetWith(spelledOutSharecode: isSpelledOutAs);
+        final finder = findSemanticsWidgetWith(
+          spelledOutSharecode: isSpelledOutAs,
+        );
 
         expect(finder, findsOneWidget);
       }
 
-      testWidgets('Sharecode 00000 (numbers are not written out)',
-          (tester) async {
+      testWidgets('Sharecode 00000 (numbers are not written out)', (
+        tester,
+      ) async {
         await testThat(
           sharecode: '00000',
           isSpelledOutAs: '0, 0, 0, 0, 0',

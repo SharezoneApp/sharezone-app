@@ -33,19 +33,22 @@ void main() {
       isGroupOnboardingFinished.close();
     });
 
-    test("don't show tutorial if user doesn't completed the group onboarding",
-        () {
-      isGroupOnboardingFinished.sink.add(false);
-      expect(bloc.shouldShowBnbTutorial(), emits(false));
-    });
+    test(
+      "don't show tutorial if user doesn't completed the group onboarding",
+      () {
+        isGroupOnboardingFinished.sink.add(false);
+        expect(bloc.shouldShowBnbTutorial(), emits(false));
+      },
+    );
 
     test(
-        "don't show tutorial if already showed in runtime and already completed",
-        () {
-      bloc.markTutorialAsCompleted();
-      bloc.setTutorialAsShown();
-      expect(bloc.shouldShowBnbTutorial(), emits(false));
-    });
+      "don't show tutorial if already showed in runtime and already completed",
+      () {
+        bloc.markTutorialAsCompleted();
+        bloc.setTutorialAsShown();
+        expect(bloc.shouldShowBnbTutorial(), emits(false));
+      },
+    );
 
     test('don\'t show tutorial if never showed in runtime, but completed', () {
       bloc.markTutorialAsCompleted();
@@ -53,11 +56,12 @@ void main() {
     });
 
     test(
-        'don\'t show tutorial if showed already in runtime, but never completed',
-        () {
-      bloc.setTutorialAsShown();
-      expect(bloc.shouldShowBnbTutorial(), emits(false));
-    });
+      'don\'t show tutorial if showed already in runtime, but never completed',
+      () {
+        bloc.setTutorialAsShown();
+        expect(bloc.shouldShowBnbTutorial(), emits(false));
+      },
+    );
 
     test('show tutorial if never showed in runtime and never completed', () {
       expect(bloc.shouldShowBnbTutorial(), emits(true));

@@ -41,9 +41,7 @@ void main() {
       when(
         client.post(
           Uri.parse(functionsUrl),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'userId': userId,
             'successUrl': successUrl,
@@ -69,9 +67,7 @@ void main() {
       when(
         client.post(
           Uri.parse(functionsUrl),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'buysFor': buysFor,
             'successUrl': successUrl,

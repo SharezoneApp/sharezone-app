@@ -21,10 +21,7 @@ import 'email_and_password_link_page.dart';
 import 'login_button.dart';
 
 class ResetPasswordPage extends StatelessWidget {
-  const ResetPasswordPage({
-    super.key,
-    required this.loginMail,
-  });
+  const ResetPasswordPage({super.key, required this.loginMail});
 
   static const String tag = "reset-password-page";
   final String? loginMail;
@@ -43,9 +40,7 @@ class ResetPasswordPage extends StatelessWidget {
 }
 
 class _ResetPasswordPage extends StatefulWidget {
-  const _ResetPasswordPage({
-    required this.loginMail,
-  });
+  const _ResetPasswordPage({required this.loginMail});
 
   static const String erfolg =
       "E-Mail zum Passwort zurücksetzen wurde gesendet. Wehe du vergisst dein Passwort nochmal ;)";
@@ -155,21 +150,25 @@ class _EmailField extends StatelessWidget {
             onEditingComplete: () async {
               final isValid = await bloc.submitValid.first;
               if (isValid) {
-                bloc.submit().then((_) {
-                  if (!context.mounted) return;
-                  showSnack(
-                      text: _ResetPasswordPage.erfolg,
-                      duration: const Duration(seconds: 5),
-                      context: context);
-                }).catchError((e, s) {
-                  log('$e', error: e, stackTrace: s);
-                  if (!context.mounted) return;
-                  showSnack(
-                    text: _ResetPasswordPage.error,
-                    duration: const Duration(seconds: 5),
-                    context: context,
-                  );
-                });
+                bloc
+                    .submit()
+                    .then((_) {
+                      if (!context.mounted) return;
+                      showSnack(
+                        text: _ResetPasswordPage.erfolg,
+                        duration: const Duration(seconds: 5),
+                        context: context,
+                      );
+                    })
+                    .catchError((e, s) {
+                      log('$e', error: e, stackTrace: s);
+                      if (!context.mounted) return;
+                      showSnack(
+                        text: _ResetPasswordPage.error,
+                        duration: const Duration(seconds: 5),
+                        context: context,
+                      );
+                    });
               }
             },
           ),
@@ -180,9 +179,7 @@ class _EmailField extends StatelessWidget {
 }
 
 class _SubmitButton extends StatelessWidget {
-  const _SubmitButton({
-    required this.bloc,
-  });
+  const _SubmitButton({required this.bloc});
 
   final _ResetPasswordBloc bloc;
 
@@ -190,29 +187,34 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
       stream: bloc.submitValid,
-      builder: (context, snapshot) => Align(
-        alignment: Alignment.centerRight,
-        child: ContinueRoundButton(
-          tooltip: 'Passwort zurücksetzen',
-          onTap: () {
-            FocusManager.instance.primaryFocus?.unfocus();
-            sendDataToFrankfurtSnackBar(context);
-            snapshot.hasData && snapshot.data == true
-                ? bloc.submit().then((_) {
-                    if (!context.mounted) return;
-                    showConfirmationDialog(context);
-                  }).catchError((e, StackTrace s) {
-                    log('$e', error: e, stackTrace: s);
-                    if (!context.mounted) return;
-                    showSnack(
-                        text: _ResetPasswordPage.error,
-                        duration: const Duration(seconds: 5),
-                        context: context);
-                  })
-                : log("Can't submit.");
-          },
-        ),
-      ),
+      builder:
+          (context, snapshot) => Align(
+            alignment: Alignment.centerRight,
+            child: ContinueRoundButton(
+              tooltip: 'Passwort zurücksetzen',
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+                sendDataToFrankfurtSnackBar(context);
+                snapshot.hasData && snapshot.data == true
+                    ? bloc
+                        .submit()
+                        .then((_) {
+                          if (!context.mounted) return;
+                          showConfirmationDialog(context);
+                        })
+                        .catchError((e, StackTrace s) {
+                          log('$e', error: e, stackTrace: s);
+                          if (!context.mounted) return;
+                          showSnack(
+                            text: _ResetPasswordPage.error,
+                            duration: const Duration(seconds: 5),
+                            context: context,
+                          );
+                        })
+                    : log("Can't submit.");
+              },
+            ),
+          ),
     );
   }
 
@@ -222,10 +224,7 @@ class _SubmitButton extends StatelessWidget {
       context: context,
       title: "E-Mail wurde verschickt",
       content: const Text(_ResetPasswordPage.erfolg),
-      left: const AdaptiveDialogAction(
-        isDefaultAction: true,
-        title: 'Ok',
-      ),
+      left: const AdaptiveDialogAction(isDefaultAction: true, title: 'Ok'),
     );
   }
 }
@@ -235,15 +234,17 @@ class _ResetPasswordBloc with AuthentificationValidators {
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);
 
-  Stream<bool> get submitValid => _emailSubject.valueOrNull != ""
-      ? Stream.value(true)
-      : Stream.value(false);
+  Stream<bool> get submitValid =>
+      _emailSubject.valueOrNull != ""
+          ? Stream.value(true)
+          : Stream.value(false);
 
   Function(String) get changeEmail => _emailSubject.sink.add;
 
   Future<void> submit() async {
-    await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: _emailSubject.valueOrNull!);
+    await FirebaseAuth.instance.sendPasswordResetEmail(
+      email: _emailSubject.valueOrNull!,
+    );
     return;
   }
 

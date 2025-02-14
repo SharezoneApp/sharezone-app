@@ -10,26 +10,21 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharezonePlusBadge extends StatelessWidget {
-  const SharezonePlusBadge({
-    super.key,
-    this.color,
-  });
+  const SharezonePlusBadge({super.key, this.color});
 
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    final color = this.color ??
+    final color =
+        this.color ??
         (Theme.of(context).isDarkTheme
             ? Theme.of(context).primaryColor
             : darkBlueColor);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          Icons.star_rounded,
-          color: color,
-        ),
+        Icon(Icons.star_rounded, color: color),
         const SizedBox(width: 6),
         Text(
           'PLUS',
@@ -38,7 +33,7 @@ class SharezonePlusBadge extends StatelessWidget {
             color: color,
             letterSpacing: 0.5,
           ),
-        )
+        ),
       ],
     );
   }
@@ -58,15 +53,14 @@ class SharezonePlusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: backgroundColor ??
+        color:
+            backgroundColor ??
             Theme.of(context).primaryColor.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(7.5),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
-        child: SharezonePlusBadge(
-          color: foregroundColor,
-        ),
+        child: SharezonePlusBadge(color: foregroundColor),
       ),
     );
   }
@@ -127,15 +121,14 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fontColor = Theme.of(context).isDarkTheme
-        ? Theme.of(context).primaryColor
-        : darkPrimaryColor;
+    final fontColor =
+        Theme.of(context).isDarkTheme
+            ? Theme.of(context).primaryColor
+            : darkPrimaryColor;
     final baseTheme = Theme.of(context);
     final borderRadius = BorderRadius.circular(12.5);
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: maxWidth,
-      ),
+      constraints: BoxConstraints(maxWidth: maxWidth),
       child: Container(
         // Adding a base color to avoid that the card is a bit transparent
         // because the card color has a low opacity.
@@ -160,9 +153,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
               ),
             ),
             child: DefaultTextStyle.merge(
-              style: TextStyle(
-                color: fontColor,
-              ),
+              style: TextStyle(color: fontColor),
               textAlign: TextAlign.center,
               child: Padding(
                 padding: const EdgeInsets.all(8),
@@ -193,9 +184,7 @@ class SharezonePlusFeatureInfoCard extends StatelessWidget {
                           ),
                           child: const Text(
                             'MEHR ERFAHREN',
-                            style: TextStyle(
-                              letterSpacing: 0.5,
-                            ),
+                            style: TextStyle(letterSpacing: 0.5),
                           ),
                         ),
                       ),

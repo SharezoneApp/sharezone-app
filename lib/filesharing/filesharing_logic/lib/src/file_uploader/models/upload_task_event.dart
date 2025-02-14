@@ -13,8 +13,5 @@ class UploadTaskEvent {
   final UploadTaskSnapshot snapshot;
   final UploadTaskEventType type;
 
-  const UploadTaskEvent({
-    required this.snapshot,
-    required this.type,
-  });
+  const UploadTaskEvent({required this.snapshot, required this.type});
 }

@@ -44,7 +44,7 @@ class DownloadAppTipBloc extends BlocBase {
     // https://github.com/flutter/flutter/issues/60271
     //
     // TargetPlatform.android,
-    TargetPlatform.iOS
+    TargetPlatform.iOS,
   ];
 
   /// Diese Methode gibt einen [DownloadAppTip] zurück, falls einer für diese
@@ -63,8 +63,11 @@ class DownloadAppTipBloc extends BlocBase {
   Stream<DownloadAppTip?> getDownloadTipIfShouldShowTip() {
     if (PlatformCheck.isWeb &&
         _platformsWithTips.contains(defaultTargetPlatform)) {
-      return _cache.alreadyShowedTip(defaultTargetPlatform).map(
-          (showedAlready) => showedAlready ? null : _getPlatformDownloadTip());
+      return _cache
+          .alreadyShowedTip(defaultTargetPlatform)
+          .map(
+            (showedAlready) => showedAlready ? null : _getPlatformDownloadTip(),
+          );
     }
 
     return Stream.value(null);

@@ -67,13 +67,13 @@ void main() {
     }
 
     Future<void> pushTermSettingsPage(
-        WidgetTester tester, ThemeData theme) async {
+      WidgetTester tester,
+      ThemeData theme,
+    ) async {
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [
-            Provider<GradesService>(
-              create: (_) => GradesService(),
-            ),
+            Provider<GradesService>(create: (_) => GradesService()),
             Provider<TermSettingsPageControllerFactory>.value(
               value: controllerFactory,
             ),
@@ -106,7 +106,9 @@ void main() {
         setLoaded2();
         await pushTermSettingsPage(tester, getLightTheme());
         await multiScreenGolden(
-            tester, 'terms_settings_page_with_data_2_light');
+          tester,
+          'terms_settings_page_with_data_2_light',
+        );
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
@@ -134,17 +136,23 @@ void main() {
       testGoldens('renders as expected (light mode)', (tester) async {
         setLoading();
         await pushTermSettingsPage(tester, getLightTheme());
-        await multiScreenGolden(tester, 'terms_settings_page_loading_light',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'terms_settings_page_loading_light',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
         setLoading();
         await pushTermSettingsPage(tester, getDarkTheme());
-        await multiScreenGolden(tester, 'terms_settings_page_loading_dark',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'terms_settings_page_loading_dark',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
     });
   });

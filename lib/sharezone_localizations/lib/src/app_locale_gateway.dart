@@ -23,9 +23,8 @@ abstract class AppLocaleProviderGateway {
 
 /// A mock implementation of the [AppLocaleProviderGateway].
 class MockAppLocaleProviderGateway implements AppLocaleProviderGateway {
-  MockAppLocaleProviderGateway({
-    AppLocale initialLocale = AppLocale.system,
-  }) : _locale = initialLocale;
+  MockAppLocaleProviderGateway({AppLocale initialLocale = AppLocale.system})
+    : _locale = initialLocale;
 
   AppLocale _locale;
 

@@ -80,8 +80,10 @@ class UserFeedback {
       'uid': uid,
       'createdOn': FieldValue.serverTimestamp(),
       'deviceInformation': deviceInformation?.toJson(),
-    }..removeWhere((string, object) =>
-        object == null || (object is String && object.isEmpty));
+    }..removeWhere(
+      (string, object) =>
+          object == null || (object is String && object.isEmpty),
+    );
   }
 
   factory UserFeedback.fromJson(String feedbackId, Map<String, dynamic> map) {
@@ -94,18 +96,26 @@ class UserFeedback {
       missing: map['missing'] ?? '',
       heardFrom: map['heardFrom'] ?? '',
       uid: map['uid'] ?? '',
-      deviceInformation: map['deviceInformation'] != null
-          ? FeedbackDeviceInformation.fromJson(map['deviceInformation'])
-          : null,
-      unreadMessagesStatus: map['unreadMessagesStatus'] == null
-          ? null
-          : (map['unreadMessagesStatus'] as Map<String, dynamic>).map((key,
-                  value) =>
-              MapEntry(UserId(key), UnreadMessageStatus.fromJson(key, value))),
-      lastMessage: map['lastMessage'] != null
-          ? FeedbackChatMessage.fromJson(
-              map['lastMessage']['id'], map['lastMessage'])
-          : null,
+      deviceInformation:
+          map['deviceInformation'] != null
+              ? FeedbackDeviceInformation.fromJson(map['deviceInformation'])
+              : null,
+      unreadMessagesStatus:
+          map['unreadMessagesStatus'] == null
+              ? null
+              : (map['unreadMessagesStatus'] as Map<String, dynamic>).map(
+                (key, value) => MapEntry(
+                  UserId(key),
+                  UnreadMessageStatus.fromJson(key, value),
+                ),
+              ),
+      lastMessage:
+          map['lastMessage'] != null
+              ? FeedbackChatMessage.fromJson(
+                map['lastMessage']['id'],
+                map['lastMessage'],
+              )
+              : null,
     );
   }
 
@@ -190,13 +200,13 @@ class UnreadMessageStatus extends Equatable {
   });
 
   Map<String, dynamic> toJson() {
-    return {
-      'hasUnreadMessages': hasUnreadMessages,
-    };
+    return {'hasUnreadMessages': hasUnreadMessages};
   }
 
   factory UnreadMessageStatus.fromJson(
-      String userId, Map<String, dynamic> map) {
+    String userId,
+    Map<String, dynamic> map,
+  ) {
     return UnreadMessageStatus(
       userId: UserId(userId),
       hasUnreadMessages: map['hasUnreadMessages'] ?? false,

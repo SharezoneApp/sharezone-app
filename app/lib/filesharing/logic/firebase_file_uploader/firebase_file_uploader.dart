@@ -15,9 +15,8 @@ import 'implementation/firebase_file_uploader_impl.dart';
 class FirebaseFileUploader {
   final FirebaseFirestore _firestore;
 
-  FirebaseFileUploader({
-    required FirebaseFirestore firestore,
-  }) : _firestore = firestore;
+  FirebaseFileUploader({required FirebaseFirestore firestore})
+    : _firestore = firestore;
 
   FirebaseFileUploaderImplementation get implementation =>
       FirebaseFileUploaderImplementation(firestore: _firestore);

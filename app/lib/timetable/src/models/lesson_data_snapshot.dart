@@ -14,8 +14,5 @@ class LessonDataSnapshot {
   final List<Lesson> lessons;
   final Map<String, GroupInfo> groupInfos;
 
-  const LessonDataSnapshot({
-    required this.lessons,
-    required this.groupInfos,
-  });
+  const LessonDataSnapshot({required this.lessons, required this.groupInfos});
 }

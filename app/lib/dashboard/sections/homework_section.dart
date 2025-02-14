@@ -23,25 +23,27 @@ class _HomeworkSection extends StatelessWidget {
         padding: const EdgeInsets.only(right: 12),
         emptyListWidget: _NoUrgentHomeworks(),
         scrollDirection: Axis.horizontal,
-        itemBuilder: (view, index, context, animation) => FadeTransition(
-          key: Key(view.homework.id),
-          opacity: animation,
-          child: HomeworkCardRedesigned(
-            width: 170,
-            homeworkView: view,
-            padding: const EdgeInsets.only(left: 12),
-          ),
-        ),
-        itemRemovedBuilder: (view, index, context, animation) => FadeTransition(
-          key: Key(view.homework.id),
-          opacity: animation,
-          child: HomeworkCardRedesigned(
-            homeworkView: view,
-            width: 170,
-            padding: const EdgeInsets.only(left: 12),
-            forceIsDone: true,
-          ),
-        ),
+        itemBuilder:
+            (view, index, context, animation) => FadeTransition(
+              key: Key(view.homework.id),
+              opacity: animation,
+              child: HomeworkCardRedesigned(
+                width: 170,
+                homeworkView: view,
+                padding: const EdgeInsets.only(left: 12),
+              ),
+            ),
+        itemRemovedBuilder:
+            (view, index, context, animation) => FadeTransition(
+              key: Key(view.homework.id),
+              opacity: animation,
+              child: HomeworkCardRedesigned(
+                homeworkView: view,
+                width: 170,
+                padding: const EdgeInsets.only(left: 12),
+                forceIsDone: true,
+              ),
+            ),
       ),
     );
   }
@@ -58,7 +60,8 @@ class _HomeworkSectionTitle extends StatelessWidget {
       builder: (context, snapshot) {
         final numberOfUrgentHomeworks = snapshot.data ?? 0;
         return Text(
-            "Dringende Hausaufgaben ${numberOfUrgentHomeworks != 0 ? "($numberOfUrgentHomeworks)" : ""}");
+          "Dringende Hausaufgaben ${numberOfUrgentHomeworks != 0 ? "($numberOfUrgentHomeworks)" : ""}",
+        );
       },
     );
   }

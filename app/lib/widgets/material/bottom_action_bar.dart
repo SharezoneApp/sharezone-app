@@ -13,11 +13,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// scaffold. Is used for homework-details, to show a FlatButton
 /// at the bottom to mark the homework as done.
 class BottomActionBar extends StatelessWidget {
-  const BottomActionBar({
-    super.key,
-    required this.title,
-    required this.onTap,
-  });
+  const BottomActionBar({super.key, required this.title, required this.onTap});
 
   final String title;
   final VoidCallback onTap;

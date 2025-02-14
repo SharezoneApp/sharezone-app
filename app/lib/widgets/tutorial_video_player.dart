@@ -87,11 +87,12 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
           children: [
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: _chewieController == null
-                  ? const SizedBox.shrink()
-                  : Chewie(controller: _chewieController!),
+              child:
+                  _chewieController == null
+                      ? const SizedBox.shrink()
+                      : Chewie(controller: _chewieController!),
             ),
-            if (error != null) _ErrorText(error: error!)
+            if (error != null) _ErrorText(error: error!),
           ],
         ),
       ),
@@ -100,20 +101,12 @@ class _TutorialVideoPlayerState extends State<TutorialVideoPlayer> {
 }
 
 class _ErrorText extends StatelessWidget {
-  const _ErrorText({
-    required this.error,
-  });
+  const _ErrorText({required this.error});
 
   final String error;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      error,
-      style: const TextStyle(
-        color: Colors.red,
-        fontSize: 20,
-      ),
-    );
+    return Text(error, style: const TextStyle(color: Colors.red, fontSize: 20));
   }
 }

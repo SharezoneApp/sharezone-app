@@ -24,13 +24,8 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeAppFunctionsResult_0<T> extends _i1.SmartFake
     implements _i2.AppFunctionsResult<T> {
-  _FakeAppFunctionsResult_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAppFunctionsResult_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [SharezoneAppFunctions].
@@ -46,76 +41,65 @@ class MockSharezoneAppFunctions extends _i1.Mock
     int? version = 2,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #joinGroupByValue,
-          [],
-          {
-            #enteredValue: enteredValue,
-            #memberID: memberID,
-            #coursesForSchoolClass: coursesForSchoolClass,
-            #version: version,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<dynamic>>.value(
-            _FakeAppFunctionsResult_0<dynamic>(
-          this,
-          Invocation.method(
-            #joinGroupByValue,
-            [],
-            {
+            Invocation.method(#joinGroupByValue, [], {
               #enteredValue: enteredValue,
               #memberID: memberID,
               #coursesForSchoolClass: coursesForSchoolClass,
               #version: version,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<dynamic>>.value(
-                _FakeAppFunctionsResult_0<dynamic>(
-          this,
-          Invocation.method(
-            #joinGroupByValue,
-            [],
-            {
-              #enteredValue: enteredValue,
-              #memberID: memberID,
-              #coursesForSchoolClass: coursesForSchoolClass,
-              #version: version,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<dynamic>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<dynamic>>.value(
+              _FakeAppFunctionsResult_0<dynamic>(
+                this,
+                Invocation.method(#joinGroupByValue, [], {
+                  #enteredValue: enteredValue,
+                  #memberID: memberID,
+                  #coursesForSchoolClass: coursesForSchoolClass,
+                  #version: version,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<dynamic>>.value(
+                  _FakeAppFunctionsResult_0<dynamic>(
+                    this,
+                    Invocation.method(#joinGroupByValue, [], {
+                      #enteredValue: enteredValue,
+                      #memberID: memberID,
+                      #coursesForSchoolClass: coursesForSchoolClass,
+                      #version: version,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<dynamic>>);
 
   @override
-  _i4.Future<_i2.AppFunctionsResult<dynamic>> enterActivationCode(
-          {required String? enteredActivationCode}) =>
+  _i4.Future<_i2.AppFunctionsResult<dynamic>> enterActivationCode({
+    required String? enteredActivationCode,
+  }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #enterActivationCode,
-          [],
-          {#enteredActivationCode: enteredActivationCode},
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<dynamic>>.value(
-            _FakeAppFunctionsResult_0<dynamic>(
-          this,
-          Invocation.method(
-            #enterActivationCode,
-            [],
-            {#enteredActivationCode: enteredActivationCode},
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<dynamic>>.value(
-                _FakeAppFunctionsResult_0<dynamic>(
-          this,
-          Invocation.method(
-            #enterActivationCode,
-            [],
-            {#enteredActivationCode: enteredActivationCode},
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<dynamic>>);
+            Invocation.method(#enterActivationCode, [], {
+              #enteredActivationCode: enteredActivationCode,
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<dynamic>>.value(
+              _FakeAppFunctionsResult_0<dynamic>(
+                this,
+                Invocation.method(#enterActivationCode, [], {
+                  #enteredActivationCode: enteredActivationCode,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<dynamic>>.value(
+                  _FakeAppFunctionsResult_0<dynamic>(
+                    this,
+                    Invocation.method(#enterActivationCode, [], {
+                      #enteredActivationCode: enteredActivationCode,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<dynamic>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> joinWithGroupId({
@@ -124,43 +108,34 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required String? uId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #joinWithGroupId,
-          [],
-          {
-            #id: id,
-            #type: type,
-            #uId: uId,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #joinWithGroupId,
-            [],
-            {
+            Invocation.method(#joinWithGroupId, [], {
               #id: id,
               #type: type,
               #uId: uId,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #joinWithGroupId,
-            [],
-            {
-              #id: id,
-              #type: type,
-              #uId: uId,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#joinWithGroupId, [], {
+                  #id: id,
+                  #type: type,
+                  #uId: uId,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#joinWithGroupId, [], {
+                      #id: id,
+                      #type: type,
+                      #uId: uId,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> leave({
@@ -169,43 +144,34 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required String? memberID,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #leave,
-          [],
-          {
-            #id: id,
-            #type: type,
-            #memberID: memberID,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #leave,
-            [],
-            {
+            Invocation.method(#leave, [], {
               #id: id,
               #type: type,
               #memberID: memberID,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #leave,
-            [],
-            {
-              #id: id,
-              #type: type,
-              #memberID: memberID,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#leave, [], {
+                  #id: id,
+                  #type: type,
+                  #memberID: memberID,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#leave, [], {
+                      #id: id,
+                      #type: type,
+                      #memberID: memberID,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> groupEdit({
@@ -214,43 +180,34 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required Map<String, dynamic>? data,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #groupEdit,
-          [],
-          {
-            #id: id,
-            #type: type,
-            #data: data,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #groupEdit,
-            [],
-            {
+            Invocation.method(#groupEdit, [], {
               #id: id,
               #type: type,
               #data: data,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #groupEdit,
-            [],
-            {
-              #id: id,
-              #type: type,
-              #data: data,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#groupEdit, [], {
+                  #id: id,
+                  #type: type,
+                  #data: data,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#groupEdit, [], {
+                      #id: id,
+                      #type: type,
+                      #data: data,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> groupEditSettings({
@@ -259,43 +216,34 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required Map<String, dynamic>? settings,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #groupEditSettings,
-          [],
-          {
-            #id: id,
-            #type: type,
-            #settings: settings,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #groupEditSettings,
-            [],
-            {
+            Invocation.method(#groupEditSettings, [], {
               #id: id,
               #type: type,
               #settings: settings,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #groupEditSettings,
-            [],
-            {
-              #id: id,
-              #type: type,
-              #settings: settings,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#groupEditSettings, [], {
+                  #id: id,
+                  #type: type,
+                  #settings: settings,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#groupEditSettings, [], {
+                      #id: id,
+                      #type: type,
+                      #settings: settings,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> groupDelete({
@@ -304,43 +252,34 @@ class MockSharezoneAppFunctions extends _i1.Mock
     String? schoolClassDeleteType,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #groupDelete,
-          [],
-          {
-            #groupID: groupID,
-            #type: type,
-            #schoolClassDeleteType: schoolClassDeleteType,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #groupDelete,
-            [],
-            {
+            Invocation.method(#groupDelete, [], {
               #groupID: groupID,
               #type: type,
               #schoolClassDeleteType: schoolClassDeleteType,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #groupDelete,
-            [],
-            {
-              #groupID: groupID,
-              #type: type,
-              #schoolClassDeleteType: schoolClassDeleteType,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#groupDelete, [], {
+                  #groupID: groupID,
+                  #type: type,
+                  #schoolClassDeleteType: schoolClassDeleteType,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#groupDelete, [], {
+                      #groupID: groupID,
+                      #type: type,
+                      #schoolClassDeleteType: schoolClassDeleteType,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> groupCreate({
@@ -350,46 +289,37 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required Map<String, dynamic>? data,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #groupCreate,
-          [],
-          {
-            #id: id,
-            #memberID: memberID,
-            #type: type,
-            #data: data,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #groupCreate,
-            [],
-            {
+            Invocation.method(#groupCreate, [], {
               #id: id,
               #memberID: memberID,
               #type: type,
               #data: data,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #groupCreate,
-            [],
-            {
-              #id: id,
-              #memberID: memberID,
-              #type: type,
-              #data: data,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#groupCreate, [], {
+                  #id: id,
+                  #memberID: memberID,
+                  #type: type,
+                  #data: data,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#groupCreate, [], {
+                      #id: id,
+                      #memberID: memberID,
+                      #type: type,
+                      #data: data,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> userUpdate({
@@ -397,40 +327,31 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required Map<String, dynamic>? userData,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #userUpdate,
-          [],
-          {
-            #userID: userID,
-            #userData: userData,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #userUpdate,
-            [],
-            {
+            Invocation.method(#userUpdate, [], {
               #userID: userID,
               #userData: userData,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #userUpdate,
-            [],
-            {
-              #userID: userID,
-              #userData: userData,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#userUpdate, [], {
+                  #userID: userID,
+                  #userData: userData,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#userUpdate, [], {
+                      #userID: userID,
+                      #userData: userData,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> memberUpdateRole({
@@ -440,76 +361,59 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required String? type,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #memberUpdateRole,
-          [],
-          {
-            #memberID: memberID,
-            #id: id,
-            #role: role,
-            #type: type,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #memberUpdateRole,
-            [],
-            {
+            Invocation.method(#memberUpdateRole, [], {
               #memberID: memberID,
               #id: id,
               #role: role,
               #type: type,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #memberUpdateRole,
-            [],
-            {
-              #memberID: memberID,
-              #id: id,
-              #role: role,
-              #type: type,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#memberUpdateRole, [], {
+                  #memberID: memberID,
+                  #id: id,
+                  #role: role,
+                  #type: type,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#memberUpdateRole, [], {
+                      #memberID: memberID,
+                      #id: id,
+                      #role: role,
+                      #type: type,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
-  _i4.Future<_i2.AppFunctionsResult<bool>> userDelete(
-          {required String? userID}) =>
+  _i4.Future<_i2.AppFunctionsResult<bool>> userDelete({
+    required String? userID,
+  }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #userDelete,
-          [],
-          {#userID: userID},
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #userDelete,
-            [],
-            {#userID: userID},
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #userDelete,
-            [],
-            {#userID: userID},
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            Invocation.method(#userDelete, [], {#userID: userID}),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#userDelete, [], {#userID: userID}),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#userDelete, [], {#userID: userID}),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> schoolClassAddCourse({
@@ -517,40 +421,31 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required String? courseID,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #schoolClassAddCourse,
-          [],
-          {
-            #schoolClassID: schoolClassID,
-            #courseID: courseID,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #schoolClassAddCourse,
-            [],
-            {
+            Invocation.method(#schoolClassAddCourse, [], {
               #schoolClassID: schoolClassID,
               #courseID: courseID,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #schoolClassAddCourse,
-            [],
-            {
-              #schoolClassID: schoolClassID,
-              #courseID: courseID,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#schoolClassAddCourse, [], {
+                  #schoolClassID: schoolClassID,
+                  #courseID: courseID,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#schoolClassAddCourse, [], {
+                      #schoolClassID: schoolClassID,
+                      #courseID: courseID,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> schoolClassRemoveCourse({
@@ -558,40 +453,31 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required String? courseID,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #schoolClassRemoveCourse,
-          [],
-          {
-            #schoolClassID: schoolClassID,
-            #courseID: courseID,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #schoolClassRemoveCourse,
-            [],
-            {
+            Invocation.method(#schoolClassRemoveCourse, [], {
               #schoolClassID: schoolClassID,
               #courseID: courseID,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #schoolClassRemoveCourse,
-            [],
-            {
-              #schoolClassID: schoolClassID,
-              #courseID: courseID,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#schoolClassRemoveCourse, [], {
+                  #schoolClassID: schoolClassID,
+                  #courseID: courseID,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#schoolClassRemoveCourse, [], {
+                      #schoolClassID: schoolClassID,
+                      #courseID: courseID,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<bool>> authenticateUserViaQrCodeId({
@@ -599,40 +485,31 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required String? qrId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #authenticateUserViaQrCodeId,
-          [],
-          {
-            #uid: uid,
-            #qrId: qrId,
-          },
-        ),
-        returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-            _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #authenticateUserViaQrCodeId,
-            [],
-            {
+            Invocation.method(#authenticateUserViaQrCodeId, [], {
               #uid: uid,
               #qrId: qrId,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<bool>>.value(
-                _FakeAppFunctionsResult_0<bool>(
-          this,
-          Invocation.method(
-            #authenticateUserViaQrCodeId,
-            [],
-            {
-              #uid: uid,
-              #qrId: qrId,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<bool>>);
+            }),
+            returnValue: _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+              _FakeAppFunctionsResult_0<bool>(
+                this,
+                Invocation.method(#authenticateUserViaQrCodeId, [], {
+                  #uid: uid,
+                  #qrId: qrId,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<bool>>.value(
+                  _FakeAppFunctionsResult_0<bool>(
+                    this,
+                    Invocation.method(#authenticateUserViaQrCodeId, [], {
+                      #uid: uid,
+                      #qrId: qrId,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<bool>>);
 
   @override
   _i4.Future<_i2.AppFunctionsResult<Map<String, dynamic>>> loadHolidays({
@@ -640,39 +517,30 @@ class MockSharezoneAppFunctions extends _i1.Mock
     required String? year,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #loadHolidays,
-          [],
-          {
-            #stateCode: stateCode,
-            #year: year,
-          },
-        ),
-        returnValue:
-            _i4.Future<_i2.AppFunctionsResult<Map<String, dynamic>>>.value(
-                _FakeAppFunctionsResult_0<Map<String, dynamic>>(
-          this,
-          Invocation.method(
-            #loadHolidays,
-            [],
-            {
+            Invocation.method(#loadHolidays, [], {
               #stateCode: stateCode,
               #year: year,
-            },
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.AppFunctionsResult<Map<String, dynamic>>>.value(
-                _FakeAppFunctionsResult_0<Map<String, dynamic>>(
-          this,
-          Invocation.method(
-            #loadHolidays,
-            [],
-            {
-              #stateCode: stateCode,
-              #year: year,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.AppFunctionsResult<Map<String, dynamic>>>);
+            }),
+            returnValue:
+                _i4.Future<_i2.AppFunctionsResult<Map<String, dynamic>>>.value(
+                  _FakeAppFunctionsResult_0<Map<String, dynamic>>(
+                    this,
+                    Invocation.method(#loadHolidays, [], {
+                      #stateCode: stateCode,
+                      #year: year,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.AppFunctionsResult<Map<String, dynamic>>>.value(
+                  _FakeAppFunctionsResult_0<Map<String, dynamic>>(
+                    this,
+                    Invocation.method(#loadHolidays, [], {
+                      #stateCode: stateCode,
+                      #year: year,
+                    }),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.AppFunctionsResult<Map<String, dynamic>>>);
 }

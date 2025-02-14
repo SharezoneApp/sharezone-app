@@ -40,24 +40,25 @@ class AttachFile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<LocalFile>>(
-        stream: localFilesStream,
-        builder: (context, localFilesSnapshot) {
-          return StreamBuilder<List<CloudFile>>(
-              stream: cloudFilesStream,
-              builder: (context, cloudFilesSnapshot) {
-                if (!localFilesSnapshot.hasData ||
-                    !cloudFilesSnapshot.hasData) {
-                  return Container();
-                }
-                return AttachFileBase(
-                  onLocalFilesAdded: addLocalFileToBlocMethod,
-                  onLocalFileRemoved: removeLocalFileFromBlocMethod,
-                  onCloudFileRemoved: removeCloudFileFromBlocMethod,
-                  cloudFiles: cloudFilesSnapshot.data!,
-                  localFiles: localFilesSnapshot.data!,
-                );
-              });
-        });
+      stream: localFilesStream,
+      builder: (context, localFilesSnapshot) {
+        return StreamBuilder<List<CloudFile>>(
+          stream: cloudFilesStream,
+          builder: (context, cloudFilesSnapshot) {
+            if (!localFilesSnapshot.hasData || !cloudFilesSnapshot.hasData) {
+              return Container();
+            }
+            return AttachFileBase(
+              onLocalFilesAdded: addLocalFileToBlocMethod,
+              onLocalFileRemoved: removeLocalFileFromBlocMethod,
+              onCloudFileRemoved: removeCloudFileFromBlocMethod,
+              cloudFiles: cloudFilesSnapshot.data!,
+              localFiles: localFilesSnapshot.data!,
+            );
+          },
+        );
+      },
+    );
   }
 }
 
@@ -84,36 +85,45 @@ class AttachFileBase extends StatelessWidget {
       children: <Widget>[
         _AddLocalFile(addLocalFileToBlocMethod: onLocalFilesAdded),
         Column(
-          children: cloudFiles
-              .map((cloudFile) => FileCard(
-                  cloudFile: cloudFile,
-                  onTap: () => showRemoveFileFromBlocDialog(
-                        context: context,
-                        removeFileFromBlocMethod: () =>
-                            onCloudFileRemoved(cloudFile),
+          children:
+              cloudFiles
+                  .map(
+                    (cloudFile) => FileCard(
+                      cloudFile: cloudFile,
+                      onTap:
+                          () => showRemoveFileFromBlocDialog(
+                            context: context,
+                            removeFileFromBlocMethod:
+                                () => onCloudFileRemoved(cloudFile),
+                          ),
+                      trailing: FileMoreOptionsWithOnlyRemoveFileFromBloc(
+                        key: HwDialogKeys.attachmentOverflowMenuIcon,
+                        removeFileFromBlocMethod:
+                            () => onCloudFileRemoved(cloudFile),
                       ),
-                  trailing: FileMoreOptionsWithOnlyRemoveFileFromBloc(
-                      key: HwDialogKeys.attachmentOverflowMenuIcon,
-                      removeFileFromBlocMethod: () =>
-                          onCloudFileRemoved(cloudFile))))
-              .toList(),
+                    ),
+                  )
+                  .toList(),
         ),
         Column(
-          children: localFiles
-              .map(
-                (localFile) => FileCard(
-                  localFile: localFile,
-                  onTap: () => showRemoveFileFromBlocDialog(
-                    context: context,
-                    removeFileFromBlocMethod: () =>
-                        onLocalFileRemoved(localFile),
-                  ),
-                  trailing: FileMoreOptionsWithOnlyRemoveFileFromBloc(
-                      removeFileFromBlocMethod: () =>
-                          onLocalFileRemoved(localFile)),
-                ),
-              )
-              .toList(),
+          children:
+              localFiles
+                  .map(
+                    (localFile) => FileCard(
+                      localFile: localFile,
+                      onTap:
+                          () => showRemoveFileFromBlocDialog(
+                            context: context,
+                            removeFileFromBlocMethod:
+                                () => onLocalFileRemoved(localFile),
+                          ),
+                      trailing: FileMoreOptionsWithOnlyRemoveFileFromBloc(
+                        removeFileFromBlocMethod:
+                            () => onLocalFileRemoved(localFile),
+                      ),
+                    ),
+                  )
+                  .toList(),
         ),
       ],
     );
@@ -121,9 +131,7 @@ class AttachFileBase extends StatelessWidget {
 }
 
 class _AddLocalFile extends StatelessWidget {
-  const _AddLocalFile({
-    required this.addLocalFileToBlocMethod,
-  });
+  const _AddLocalFile({required this.addLocalFileToBlocMethod});
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -148,16 +156,15 @@ class _AddLocalFile extends StatelessWidget {
 
           final error = await showDialog<String>(
             context: context,
-            builder: (context) => AddLocalFileDialog(
-                addLocalFileToBlocMethod: addLocalFileToBlocMethod),
+            builder:
+                (context) => AddLocalFileDialog(
+                  addLocalFileToBlocMethod: addLocalFileToBlocMethod,
+                ),
           );
           if (!context.mounted) return;
 
           if (error != null) {
-            showSnackSec(
-              text: error,
-              context: context,
-            );
+            showSnackSec(text: error, context: context);
           }
         }
       },
@@ -166,10 +173,7 @@ class _AddLocalFile extends StatelessWidget {
 }
 
 class AddLocalFileDialog extends StatelessWidget {
-  const AddLocalFileDialog({
-    super.key,
-    required this.addLocalFileToBlocMethod,
-  });
+  const AddLocalFileDialog({super.key, required this.addLocalFileToBlocMethod});
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -188,9 +192,7 @@ class AddLocalFileDialog extends StatelessWidget {
 }
 
 class _PickDocumentTile extends StatelessWidget {
-  const _PickDocumentTile({
-    required this.addLocalFileToBlocMethod,
-  });
+  const _PickDocumentTile({required this.addLocalFileToBlocMethod});
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -215,9 +217,7 @@ class _PickDocumentTile extends StatelessWidget {
 }
 
 class _PickPictureTile extends StatelessWidget {
-  const _PickPictureTile({
-    required this.addLocalFileToBlocMethod,
-  });
+  const _PickPictureTile({required this.addLocalFileToBlocMethod});
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -229,9 +229,10 @@ class _PickPictureTile extends StatelessWidget {
       iconData: Icons.photo,
       onTap: () async {
         Navigator.pop(context);
-        final pickedFiles = PlatformCheck.isIOS
-            ? [await FilePicker().pickFileImage()]
-            : await FilePicker().pickMultiFileImage();
+        final pickedFiles =
+            PlatformCheck.isIOS
+                ? [await FilePicker().pickFileImage()]
+                : await FilePicker().pickMultiFileImage();
         if (pickedFiles != null && pickedFiles.nonNulls.isNotEmpty) {
           final localFiles = pickedFiles.nonNulls.toList();
           addLocalFileToBlocMethod(localFiles);
@@ -248,9 +249,7 @@ class _PickPictureTile extends StatelessWidget {
 }
 
 class _PickVideoTile extends StatelessWidget {
-  const _PickVideoTile({
-    required this.addLocalFileToBlocMethod,
-  });
+  const _PickVideoTile({required this.addLocalFileToBlocMethod});
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -262,9 +261,10 @@ class _PickVideoTile extends StatelessWidget {
       iconData: Icons.videocam,
       onTap: () async {
         Navigator.pop(context);
-        final pickedFiles = PlatformCheck.isIOS
-            ? [await FilePicker().pickFileVideo()]
-            : await FilePicker().pickMultiFileVideo();
+        final pickedFiles =
+            PlatformCheck.isIOS
+                ? [await FilePicker().pickFileVideo()]
+                : await FilePicker().pickMultiFileVideo();
         if (pickedFiles != null && pickedFiles.nonNulls.isNotEmpty) {
           final localFiles = pickedFiles.nonNulls.toList();
           addLocalFileToBlocMethod(localFiles);
@@ -281,9 +281,7 @@ class _PickVideoTile extends StatelessWidget {
 }
 
 class _OpenCameraTile extends StatelessWidget {
-  const _OpenCameraTile({
-    required this.addLocalFileToBlocMethod,
-  });
+  const _OpenCameraTile({required this.addLocalFileToBlocMethod});
 
   final ValueChanged<List<LocalFile>> addLocalFileToBlocMethod;
 
@@ -320,7 +318,9 @@ class _OpenCameraTile extends StatelessWidget {
         } else {
           if (context.mounted) {
             Navigator.pop(
-                context, "Die App hat leider keinen Zugang zur Kamera...");
+              context,
+              "Die App hat leider keinen Zugang zur Kamera...",
+            );
           }
         }
       },

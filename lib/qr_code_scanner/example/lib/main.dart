@@ -19,10 +19,7 @@ class ExampleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'QR code Example',
-      home: _Home(),
-    );
+    return const MaterialApp(title: 'QR code Example', home: _Home());
   }
 }
 
@@ -39,9 +36,7 @@ class _HomeState extends State<_Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('QR code Example'),
-      ),
+      appBar: AppBar(title: const Text('QR code Example')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Center(
@@ -53,8 +48,9 @@ class _HomeState extends State<_Home> {
                 onPressed: () async {
                   final qrCode = await showQrCodeScanner(
                     context,
-                    description:
-                        const Text('Go to web.sharezone.net to get a QR Code'),
+                    description: const Text(
+                      'Go to web.sharezone.net to get a QR Code',
+                    ),
                   );
 
                   setState(() {

@@ -21,9 +21,10 @@ class ChangeActivity {
 
   factory ChangeActivity.fromData(Map<String, dynamic> data) {
     return ChangeActivity(
-        authorID: data['authorID'],
-        authorName: data['authorName'],
-        changedOn: dateTimeFromTimestamp(data['changedOn']));
+      authorID: data['authorID'],
+      authorName: data['authorName'],
+      changedOn: dateTimeFromTimestamp(data['changedOn']),
+    );
   }
 
   Map<String, dynamic> toJson() {

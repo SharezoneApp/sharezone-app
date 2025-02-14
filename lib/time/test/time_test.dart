@@ -111,14 +111,22 @@ void main() {
   });
 
   test('.isNextDayWith()', () {
-    expect(Time(hour: 0, minute: 0).isNextDayWith(const Duration(hours: 1)),
-        false);
-    expect(Time(hour: 0, minute: 0).isNextDayWith(const Duration(hours: 10)),
-        false);
-    expect(Time(hour: 23, minute: 0).isNextDayWith(const Duration(hours: 1)),
-        true);
-    expect(Time(hour: 23, minute: 0).isNextDayWith(const Duration(hours: 2)),
-        true);
+    expect(
+      Time(hour: 0, minute: 0).isNextDayWith(const Duration(hours: 1)),
+      false,
+    );
+    expect(
+      Time(hour: 0, minute: 0).isNextDayWith(const Duration(hours: 10)),
+      false,
+    );
+    expect(
+      Time(hour: 23, minute: 0).isNextDayWith(const Duration(hours: 1)),
+      true,
+    );
+    expect(
+      Time(hour: 23, minute: 0).isNextDayWith(const Duration(hours: 2)),
+      true,
+    );
   });
 
   test('.fromTimeOfDay()', () {
@@ -160,7 +168,9 @@ void main() {
     expect(am8.add(const Duration(minutes: 70)), Time(hour: 9, minute: 10));
     expect(am8.add(const Duration(minutes: 120)), Time(hour: 10, minute: 0));
     expect(am8.add(const Duration(minutes: 130)), Time(hour: 10, minute: 10));
-    expect(Time(hour: 23, minute: 59).add(const Duration(minutes: 2)),
-        Time(hour: 0, minute: 1));
+    expect(
+      Time(hour: 23, minute: 59).add(const Duration(minutes: 2)),
+      Time(hour: 0, minute: 1),
+    );
   });
 }

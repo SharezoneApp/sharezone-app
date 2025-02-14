@@ -25,24 +25,14 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeFirebaseApp_0 extends _i1.SmartFake implements _i2.FirebaseApp {
-  _FakeFirebaseApp_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeFirebaseApp_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeNotificationSettings_1 extends _i1.SmartFake
     implements _i3.NotificationSettings {
-  _FakeNotificationSettings_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeNotificationSettings_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [FirebaseMessaging].
@@ -50,123 +40,114 @@ class _FakeNotificationSettings_1 extends _i1.SmartFake
 /// See the documentation for Mockito's code generation for more information.
 class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
   @override
-  _i2.FirebaseApp get app => (super.noSuchMethod(
-        Invocation.getter(#app),
-        returnValue: _FakeFirebaseApp_0(
-          this,
-          Invocation.getter(#app),
-        ),
-        returnValueForMissingStub: _FakeFirebaseApp_0(
-          this,
-          Invocation.getter(#app),
-        ),
-      ) as _i2.FirebaseApp);
+  _i2.FirebaseApp get app =>
+      (super.noSuchMethod(
+            Invocation.getter(#app),
+            returnValue: _FakeFirebaseApp_0(this, Invocation.getter(#app)),
+            returnValueForMissingStub: _FakeFirebaseApp_0(
+              this,
+              Invocation.getter(#app),
+            ),
+          )
+          as _i2.FirebaseApp);
 
   @override
   set app(_i2.FirebaseApp? _app) => super.noSuchMethod(
-        Invocation.setter(
-          #app,
-          _app,
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#app, _app),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  bool get isAutoInitEnabled => (super.noSuchMethod(
-        Invocation.getter(#isAutoInitEnabled),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get isAutoInitEnabled =>
+      (super.noSuchMethod(
+            Invocation.getter(#isAutoInitEnabled),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i5.Stream<String> get onTokenRefresh => (super.noSuchMethod(
-        Invocation.getter(#onTokenRefresh),
-        returnValue: _i5.Stream<String>.empty(),
-        returnValueForMissingStub: _i5.Stream<String>.empty(),
-      ) as _i5.Stream<String>);
+  _i5.Stream<String> get onTokenRefresh =>
+      (super.noSuchMethod(
+            Invocation.getter(#onTokenRefresh),
+            returnValue: _i5.Stream<String>.empty(),
+            returnValueForMissingStub: _i5.Stream<String>.empty(),
+          )
+          as _i5.Stream<String>);
 
   @override
-  Map<dynamic, dynamic> get pluginConstants => (super.noSuchMethod(
-        Invocation.getter(#pluginConstants),
-        returnValue: <dynamic, dynamic>{},
-        returnValueForMissingStub: <dynamic, dynamic>{},
-      ) as Map<dynamic, dynamic>);
+  Map<dynamic, dynamic> get pluginConstants =>
+      (super.noSuchMethod(
+            Invocation.getter(#pluginConstants),
+            returnValue: <dynamic, dynamic>{},
+            returnValueForMissingStub: <dynamic, dynamic>{},
+          )
+          as Map<dynamic, dynamic>);
 
   @override
-  _i5.Future<_i3.RemoteMessage?> getInitialMessage() => (super.noSuchMethod(
-        Invocation.method(
-          #getInitialMessage,
-          [],
-        ),
-        returnValue: _i5.Future<_i3.RemoteMessage?>.value(),
-        returnValueForMissingStub: _i5.Future<_i3.RemoteMessage?>.value(),
-      ) as _i5.Future<_i3.RemoteMessage?>);
+  _i5.Future<_i3.RemoteMessage?> getInitialMessage() =>
+      (super.noSuchMethod(
+            Invocation.method(#getInitialMessage, []),
+            returnValue: _i5.Future<_i3.RemoteMessage?>.value(),
+            returnValueForMissingStub: _i5.Future<_i3.RemoteMessage?>.value(),
+          )
+          as _i5.Future<_i3.RemoteMessage?>);
 
   @override
-  _i5.Future<void> deleteToken() => (super.noSuchMethod(
-        Invocation.method(
-          #deleteToken,
-          [],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+  _i5.Future<void> deleteToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteToken, []),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
 
   @override
-  _i5.Future<String?> getAPNSToken() => (super.noSuchMethod(
-        Invocation.method(
-          #getAPNSToken,
-          [],
-        ),
-        returnValue: _i5.Future<String?>.value(),
-        returnValueForMissingStub: _i5.Future<String?>.value(),
-      ) as _i5.Future<String?>);
+  _i5.Future<String?> getAPNSToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#getAPNSToken, []),
+            returnValue: _i5.Future<String?>.value(),
+            returnValueForMissingStub: _i5.Future<String?>.value(),
+          )
+          as _i5.Future<String?>);
 
   @override
-  _i5.Future<String?> getToken({String? vapidKey}) => (super.noSuchMethod(
-        Invocation.method(
-          #getToken,
-          [],
-          {#vapidKey: vapidKey},
-        ),
-        returnValue: _i5.Future<String?>.value(),
-        returnValueForMissingStub: _i5.Future<String?>.value(),
-      ) as _i5.Future<String?>);
+  _i5.Future<String?> getToken({String? vapidKey}) =>
+      (super.noSuchMethod(
+            Invocation.method(#getToken, [], {#vapidKey: vapidKey}),
+            returnValue: _i5.Future<String?>.value(),
+            returnValueForMissingStub: _i5.Future<String?>.value(),
+          )
+          as _i5.Future<String?>);
 
   @override
-  _i5.Future<bool> isSupported() => (super.noSuchMethod(
-        Invocation.method(
-          #isSupported,
-          [],
-        ),
-        returnValue: _i5.Future<bool>.value(false),
-        returnValueForMissingStub: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+  _i5.Future<bool> isSupported() =>
+      (super.noSuchMethod(
+            Invocation.method(#isSupported, []),
+            returnValue: _i5.Future<bool>.value(false),
+            returnValueForMissingStub: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
 
   @override
   _i5.Future<_i3.NotificationSettings> getNotificationSettings() =>
       (super.noSuchMethod(
-        Invocation.method(
-          #getNotificationSettings,
-          [],
-        ),
-        returnValue: _i5.Future<_i3.NotificationSettings>.value(
-            _FakeNotificationSettings_1(
-          this,
-          Invocation.method(
-            #getNotificationSettings,
-            [],
-          ),
-        )),
-        returnValueForMissingStub: _i5.Future<_i3.NotificationSettings>.value(
-            _FakeNotificationSettings_1(
-          this,
-          Invocation.method(
-            #getNotificationSettings,
-            [],
-          ),
-        )),
-      ) as _i5.Future<_i3.NotificationSettings>);
+            Invocation.method(#getNotificationSettings, []),
+            returnValue: _i5.Future<_i3.NotificationSettings>.value(
+              _FakeNotificationSettings_1(
+                this,
+                Invocation.method(#getNotificationSettings, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i5.Future<_i3.NotificationSettings>.value(
+                  _FakeNotificationSettings_1(
+                    this,
+                    Invocation.method(#getNotificationSettings, []),
+                  ),
+                ),
+          )
+          as _i5.Future<_i3.NotificationSettings>);
 
   @override
   _i5.Future<_i3.NotificationSettings> requestPermission({
@@ -179,26 +160,7 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
     bool? sound = true,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #requestPermission,
-          [],
-          {
-            #alert: alert,
-            #announcement: announcement,
-            #badge: badge,
-            #carPlay: carPlay,
-            #criticalAlert: criticalAlert,
-            #provisional: provisional,
-            #sound: sound,
-          },
-        ),
-        returnValue: _i5.Future<_i3.NotificationSettings>.value(
-            _FakeNotificationSettings_1(
-          this,
-          Invocation.method(
-            #requestPermission,
-            [],
-            {
+            Invocation.method(#requestPermission, [], {
               #alert: alert,
               #announcement: announcement,
               #badge: badge,
@@ -206,27 +168,38 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
               #criticalAlert: criticalAlert,
               #provisional: provisional,
               #sound: sound,
-            },
-          ),
-        )),
-        returnValueForMissingStub: _i5.Future<_i3.NotificationSettings>.value(
-            _FakeNotificationSettings_1(
-          this,
-          Invocation.method(
-            #requestPermission,
-            [],
-            {
-              #alert: alert,
-              #announcement: announcement,
-              #badge: badge,
-              #carPlay: carPlay,
-              #criticalAlert: criticalAlert,
-              #provisional: provisional,
-              #sound: sound,
-            },
-          ),
-        )),
-      ) as _i5.Future<_i3.NotificationSettings>);
+            }),
+            returnValue: _i5.Future<_i3.NotificationSettings>.value(
+              _FakeNotificationSettings_1(
+                this,
+                Invocation.method(#requestPermission, [], {
+                  #alert: alert,
+                  #announcement: announcement,
+                  #badge: badge,
+                  #carPlay: carPlay,
+                  #criticalAlert: criticalAlert,
+                  #provisional: provisional,
+                  #sound: sound,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i5.Future<_i3.NotificationSettings>.value(
+                  _FakeNotificationSettings_1(
+                    this,
+                    Invocation.method(#requestPermission, [], {
+                      #alert: alert,
+                      #announcement: announcement,
+                      #badge: badge,
+                      #carPlay: carPlay,
+                      #criticalAlert: criticalAlert,
+                      #provisional: provisional,
+                      #sound: sound,
+                    }),
+                  ),
+                ),
+          )
+          as _i5.Future<_i3.NotificationSettings>);
 
   @override
   _i5.Future<void> sendMessage({
@@ -238,42 +211,36 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
     int? ttl,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #sendMessage,
-          [],
-          {
-            #to: to,
-            #data: data,
-            #collapseKey: collapseKey,
-            #messageId: messageId,
-            #messageType: messageType,
-            #ttl: ttl,
-          },
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+            Invocation.method(#sendMessage, [], {
+              #to: to,
+              #data: data,
+              #collapseKey: collapseKey,
+              #messageId: messageId,
+              #messageType: messageType,
+              #ttl: ttl,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
 
   @override
-  _i5.Future<void> setAutoInitEnabled(bool? enabled) => (super.noSuchMethod(
-        Invocation.method(
-          #setAutoInitEnabled,
-          [enabled],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+  _i5.Future<void> setAutoInitEnabled(bool? enabled) =>
+      (super.noSuchMethod(
+            Invocation.method(#setAutoInitEnabled, [enabled]),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
 
   @override
   _i5.Future<void> setDeliveryMetricsExportToBigQuery(bool? enabled) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #setDeliveryMetricsExportToBigQuery,
-          [enabled],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+            Invocation.method(#setDeliveryMetricsExportToBigQuery, [enabled]),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
 
   @override
   _i5.Future<void> setForegroundNotificationPresentationOptions({
@@ -282,36 +249,31 @@ class MockFirebaseMessaging extends _i1.Mock implements _i4.FirebaseMessaging {
     bool? sound = false,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #setForegroundNotificationPresentationOptions,
-          [],
-          {
-            #alert: alert,
-            #badge: badge,
-            #sound: sound,
-          },
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+            Invocation.method(
+              #setForegroundNotificationPresentationOptions,
+              [],
+              {#alert: alert, #badge: badge, #sound: sound},
+            ),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
 
   @override
-  _i5.Future<void> subscribeToTopic(String? topic) => (super.noSuchMethod(
-        Invocation.method(
-          #subscribeToTopic,
-          [topic],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+  _i5.Future<void> subscribeToTopic(String? topic) =>
+      (super.noSuchMethod(
+            Invocation.method(#subscribeToTopic, [topic]),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
 
   @override
-  _i5.Future<void> unsubscribeFromTopic(String? topic) => (super.noSuchMethod(
-        Invocation.method(
-          #unsubscribeFromTopic,
-          [topic],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+  _i5.Future<void> unsubscribeFromTopic(String? topic) =>
+      (super.noSuchMethod(
+            Invocation.method(#unsubscribeFromTopic, [topic]),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
 }

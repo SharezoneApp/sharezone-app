@@ -19,10 +19,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'settings_page_test.mocks.dart';
 
-@GenerateNiceMocks([
-  MockSpec<SharezoneContext>(),
-  MockSpec<FeatureFlagl10n>(),
-])
+@GenerateNiceMocks([MockSpec<SharezoneContext>(), MockSpec<FeatureFlagl10n>()])
 void main() {
   group(SettingsPageBody, () {
     Future<void> pushSettingsPage(WidgetTester tester, ThemeData theme) async {

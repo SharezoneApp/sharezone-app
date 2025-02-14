@@ -45,8 +45,10 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     });
     if (validateAndSave()) {
       try {
-        final res = await widget.auth
-            .signInWithEmailAndPassword(email: _email, password: _password);
+        final res = await widget.auth.signInWithEmailAndPassword(
+          email: _email,
+          password: _password,
+        );
         print('Signed in: ${res.user?.uid}');
 
         setState(() {
@@ -66,15 +68,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Sharezone Admin Login'),
-        ),
-        body: Stack(
-          children: <Widget>[
-            _showForm(),
-            _showCircularProgress(),
-          ],
-        ));
+      appBar: new AppBar(title: new Text('Sharezone Admin Login')),
+      body: Stack(children: <Widget>[_showForm(), _showCircularProgress()]),
+    );
   }
 
   Widget _showCircularProgress() {
@@ -86,22 +82,23 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   Widget _showForm() {
     return new Container(
-        padding: EdgeInsets.all(16.0),
-        child: new Form(
-          key: _formKey,
-          child: AutofillGroup(
-            child: new ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                showLogo(),
-                showEmailInput(),
-                showPasswordInput(),
-                showPrimaryButton(),
-                showErrorMessage(),
-              ],
-            ),
+      padding: EdgeInsets.all(16.0),
+      child: new Form(
+        key: _formKey,
+        child: AutofillGroup(
+          child: new ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              showLogo(),
+              showEmailInput(),
+              showPasswordInput(),
+              showPrimaryButton(),
+              showErrorMessage(),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget showErrorMessage() {
@@ -109,10 +106,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       return new Text(
         _errorMessage!,
         style: TextStyle(
-            fontSize: 13.0,
-            color: Colors.red,
-            height: 1.0,
-            fontWeight: FontWeight.w300),
+          fontSize: 13.0,
+          color: Colors.red,
+          height: 1.0,
+          fontWeight: FontWeight.w300,
+        ),
       );
     } else {
       return new Container();
@@ -146,11 +144,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         autofillHints: [AutofillHints.email],
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'E-Mail',
-            icon: new Icon(
-              Icons.mail,
-              color: Colors.grey,
-            )),
+          hintText: 'E-Mail',
+          icon: new Icon(Icons.mail, color: Colors.grey),
+        ),
         validator: (value) => value!.isEmpty ? 'Email can\'t be empty' : null,
         onSaved: (value) => _email = value!.trim(),
       ),
@@ -166,13 +162,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         autofocus: false,
         autofillHints: [AutofillHints.password],
         decoration: new InputDecoration(
-            hintText: 'Passwort',
-            icon: new Icon(
-              Icons.lock,
-              color: Colors.grey,
-            )),
-        validator: (value) =>
-            value!.isEmpty ? 'Password can\'t be empty' : null,
+          hintText: 'Passwort',
+          icon: new Icon(Icons.lock, color: Colors.grey),
+        ),
+        validator:
+            (value) => value!.isEmpty ? 'Password can\'t be empty' : null,
         onSaved: (value) => _password = value!.trim(),
       ),
     );
@@ -180,16 +174,14 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   Widget showPrimaryButton() {
     return new Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
-        child: SizedBox(
-          height: 40.0,
-          child: new ElevatedButton(
-            child: new Text(
-              'Einloggen',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: validateAndSubmit,
-          ),
-        ));
+      padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
+      child: SizedBox(
+        height: 40.0,
+        child: new ElevatedButton(
+          child: new Text('Einloggen', style: TextStyle(color: Colors.white)),
+          onPressed: validateAndSubmit,
+        ),
+      ),
+    );
   }
 }

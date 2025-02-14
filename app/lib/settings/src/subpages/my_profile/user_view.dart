@@ -33,13 +33,13 @@ class UserView {
   });
 
   UserView.fromUserAndFirebaseUser(this.user, AuthUser authUser)
-      : id = user.id,
-        name = user.name,
-        email = authUser.email,
-        state = stateEnumToString[user.state],
-        typeOfUser = user.typeOfUser.toReadableString(),
-        isAnonymous = authUser.isAnonymous,
-        provider = authUser.provider;
+    : id = user.id,
+      name = user.name,
+      email = authUser.email,
+      state = stateEnumToString[user.state],
+      typeOfUser = user.typeOfUser.toReadableString(),
+      isAnonymous = authUser.isAnonymous,
+      provider = authUser.provider;
 
   factory UserView.empty() {
     return UserView(

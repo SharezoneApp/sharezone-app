@@ -28,19 +28,22 @@ class GruppenBeitrittsversuchFilterBloc implements BlocBase {
       _gefilterteBeitrittsversucheSubject;
 
   late StreamSubscription _subscription;
-  GruppenBeitrittsversuchFilterBloc(
-      {required this.einkommendeLinks,
-      required this.istGruppeBereitsBeigetreten}) {
-    _subscription =
-        einkommendeLinks.asyncMap(_toBeitrittsversuchIfValid).listen(
-              _gefilterteBeitrittsversucheSubject.add,
-              onError: _gefilterteBeitrittsversucheSubject.addError,
-              cancelOnError: false,
-            );
+  GruppenBeitrittsversuchFilterBloc({
+    required this.einkommendeLinks,
+    required this.istGruppeBereitsBeigetreten,
+  }) {
+    _subscription = einkommendeLinks
+        .asyncMap(_toBeitrittsversuchIfValid)
+        .listen(
+          _gefilterteBeitrittsversucheSubject.add,
+          onError: _gefilterteBeitrittsversucheSubject.addError,
+          cancelOnError: false,
+        );
   }
 
   Future<Beitrittsversuch?> _toBeitrittsversuchIfValid(
-      EinkommenderLink link) async {
+    EinkommenderLink link,
+  ) async {
     {
       if (link.typ == matchingLinkType) {
         final sharecode = Sharecode(link.zusatzinformationen[sharecodeKey]!);

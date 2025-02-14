@@ -33,14 +33,14 @@ class GradeDetailsView extends Equatable {
 
   @override
   List<Object?> get props => [
-        gradeValue,
-        gradingSystem,
-        subjectDisplayName,
-        date,
-        gradeType,
-        termDisplayName,
-        integrateGradeIntoSubjectGrade,
-        title,
-        details,
-      ];
+    gradeValue,
+    gradingSystem,
+    subjectDisplayName,
+    date,
+    gradeType,
+    termDisplayName,
+    integrateGradeIntoSubjectGrade,
+    title,
+    details,
+  ];
 }

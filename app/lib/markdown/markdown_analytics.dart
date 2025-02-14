@@ -42,8 +42,8 @@ class MarkdownAnalytics extends BlocBase {
 
 class MarkdownUsedEvent extends AnalyticsEvent {
   MarkdownUsedEvent({required this.feature})
-      : assert(isNotEmptyOrNull(feature)),
-        super('markdown_used');
+    : assert(isNotEmptyOrNull(feature)),
+      super('markdown_used');
 
   final String feature;
 

@@ -53,12 +53,15 @@ class BlackboardCardDashboard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _Header(
-                    width: width,
-                    view: view,
-                    hasText: isNotEmptyOrNull(view!.text)),
+                  width: width,
+                  view: view,
+                  hasText: isNotEmptyOrNull(view!.text),
+                ),
                 _Text(text: view!.text, maxLines: maxLines),
                 BottomActionBar(
-                    view: view!, withDetailsButton: withDetailsButton!)
+                  view: view!,
+                  withDetailsButton: withDetailsButton!,
+                ),
               ],
             ),
           ),
@@ -90,7 +93,9 @@ class _Header extends StatelessWidget {
               children: <Widget>[
                 _Title(view!.title, hasText: hasText),
                 _CourseName(
-                    name: view!.courseName, color: view!.courseNameColor),
+                  name: view!.courseName,
+                  color: view!.courseNameColor,
+                ),
               ],
             ),
           ),
@@ -130,11 +135,13 @@ class _Title extends StatelessWidget {
     return Text(
       title,
       style: TextStyle(
-          color: Theme.of(context).isDarkTheme
-              ? Colors.lightBlue[100]
-              : darkBlueColor,
-          fontWeight: FontWeight.w500,
-          fontSize: 16),
+        color:
+            Theme.of(context).isDarkTheme
+                ? Colors.lightBlue[100]
+                : darkBlueColor,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+      ),
       maxLines: hasText! ? 1 : 3,
       overflow: TextOverflow.ellipsis,
     );

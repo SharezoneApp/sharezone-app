@@ -16,16 +16,17 @@ import 'package:retry/retry.dart';
 class BuyingEnabledApi {
   final http.Client _client;
 
-  const BuyingEnabledApi({
-    required http.Client client,
-  }) : _client = client;
+  const BuyingEnabledApi({required http.Client client}) : _client = client;
 
   Future<BuyingFlag> isBuyingEnabled() async {
     final projectId = Firebase.app().options.projectId;
 
     return retry(() async {
-      final response = await _client.get(Uri.parse(
-          'https://europe-west1-$projectId.cloudfunctions.net/isBuyingEnabled'));
+      final response = await _client.get(
+        Uri.parse(
+          'https://europe-west1-$projectId.cloudfunctions.net/isBuyingEnabled',
+        ),
+      );
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);

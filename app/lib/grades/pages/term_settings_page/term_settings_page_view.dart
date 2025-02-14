@@ -34,21 +34,22 @@ class TermSettingsPageView extends Equatable {
 
   @override
   List<Object?> get props => [
-        name,
-        isActiveTerm,
-        gradingSystem,
-        finalGradeType,
-        selectableGradingTypes,
-        weights,
-        subjects,
-        weightDisplayType,
-      ];
+    name,
+    isActiveTerm,
+    gradingSystem,
+    finalGradeType,
+    selectableGradingTypes,
+    weights,
+    subjects,
+    weightDisplayType,
+  ];
 }
 
-typedef SubjectView = ({
-  SubjectId id,
-  Design design,
-  String abbreviation,
-  String displayName,
-  Weight weight,
-});
+typedef SubjectView =
+    ({
+      SubjectId id,
+      Design design,
+      String abbreviation,
+      String displayName,
+      Weight weight,
+    });

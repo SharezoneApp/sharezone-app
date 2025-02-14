@@ -36,23 +36,23 @@ class UserView {
   });
 
   UserView.fromUserAndFirebaseUser(this.user, AuthUser? authUser)
-      : id = user.id,
-        name = user.name,
-        abbreviation = user.abbreviation,
-        email = authUser?.email,
-        userType = user.typeOfUser.toReadableString(),
-        isAnonymous = authUser?.isAnonymous ?? false,
-        state = stateEnumToString[user.state],
-        provider = authUser?.provider;
+    : id = user.id,
+      name = user.name,
+      abbreviation = user.abbreviation,
+      email = authUser?.email,
+      userType = user.typeOfUser.toReadableString(),
+      isAnonymous = authUser?.isAnonymous ?? false,
+      state = stateEnumToString[user.state],
+      provider = authUser?.provider;
 
   UserView.empty()
-      : id = "",
-        name = "",
-        abbreviation = "",
-        email = "",
-        userType = "",
-        state = "",
-        isAnonymous = false,
-        provider = null,
-        user = AppUser.create(id: "");
+    : id = "",
+      name = "",
+      abbreviation = "",
+      email = "",
+      userType = "",
+      state = "",
+      isAnonymous = false,
+      provider = null,
+      user = AppUser.create(id: "");
 }

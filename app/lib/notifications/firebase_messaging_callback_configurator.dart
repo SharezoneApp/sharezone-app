@@ -58,7 +58,8 @@ class FirebaseMessagingCallbackConfigurator {
     final logger = szLogger.makeChild('FirebaseMessagingCallbackConfigurator');
 
     logger.fine(
-        'Got Firebase Messaging token: ${await FirebaseMessaging.instance.getToken(vapidKey: vapidKey)}');
+      'Got Firebase Messaging token: ${await FirebaseMessaging.instance.getToken(vapidKey: vapidKey)}',
+    );
     if (!context.mounted) return;
 
     final handler = _createNotificiationHandler(context);
@@ -70,12 +71,13 @@ class FirebaseMessagingCallbackConfigurator {
       final pushNotification = PushNotification.fromFirebase(message);
       if (showInAppNotification) {
         showOverlayNotification(
-            (context) => InAppNotification(
-                  title: pushNotification.title,
-                  body: pushNotification.body,
-                  onTap: () => handler.handlePushNotification(pushNotification),
-                ),
-            duration: const Duration(milliseconds: 6500));
+          (context) => InAppNotification(
+            title: pushNotification.title,
+            body: pushNotification.body,
+            onTap: () => handler.handlePushNotification(pushNotification),
+          ),
+          duration: const Duration(milliseconds: 6500),
+        );
       } else {
         handler.handlePushNotification(pushNotification);
       }
@@ -111,15 +113,17 @@ class FirebaseMessagingCallbackConfigurator {
   }
 
   PushNotificationActionHandler _createNotificiationHandler(
-      BuildContext context) {
+    BuildContext context,
+  ) {
     BuildContext getContext() =>
         navigationService!.navigatorKey.currentContext!;
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final timetableGateway = api.timetable;
     final courseGateway = api.course;
 
-    final notificationHandlerLogger =
-        szLogger.makeChild('PushNotificationActionHandler');
+    final notificationHandlerLogger = szLogger.makeChild(
+      'PushNotificationActionHandler',
+    );
     final handler = setupPushNotificationActionHandler(
       navigateToLocation:
           NavigateToLocationExecutor(navigationBloc, navigationService).execute,
@@ -129,15 +133,22 @@ class FirebaseMessagingCallbackConfigurator {
       showFeedback: ShowFeedbackExecutor(navigationService).execute,
       showNotificationDialog:
           ShowNotificationDialogExecutor(getContext).execute,
-      showTimetableEvent: ShowTimetableEventExecutor(
-              getContext, timetableGateway, courseGateway)
-          .execute,
+      showTimetableEvent:
+          ShowTimetableEventExecutor(
+            getContext,
+            timetableGateway,
+            courseGateway,
+          ).execute,
       showErrorNotificationDialog: (notification, errorReason, error) {
-        showNotificationHandlingErrorDialog(notification, errorReason,
-            context: getContext());
+        showNotificationHandlingErrorDialog(
+          notification,
+          errorReason,
+          context: getContext(),
+        );
       },
       instrumentation: PushNotificationActionHandlerInstrumentationImpl(
-          notificationHandlerLogger),
+        notificationHandlerLogger,
+      ),
     );
 
     return handler;

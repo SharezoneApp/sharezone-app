@@ -39,11 +39,8 @@ class AccountPageBloc extends BlocBase {
     final authUserStream = userGateway.authUserStream;
 
     userViewStream = TwoStreams(userStream, authUserStream).stream.map(
-          (result) => UserView.fromUserAndFirebaseUser(
-            result.data0!,
-            result.data1,
-          ),
-        );
+      (result) => UserView.fromUserAndFirebaseUser(result.data0!, result.data1),
+    );
   }
 
   Future<LinkAction?> linkWithGoogleAndHandleExceptions() async {

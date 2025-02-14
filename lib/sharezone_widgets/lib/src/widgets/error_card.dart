@@ -81,7 +81,7 @@ class ErrorCard extends StatelessWidget {
                           _ContactSupport(onPressed: onContactSupportPressed!),
                       ],
                     ),
-                  ]
+                  ],
                 ],
               ),
             ),
@@ -93,9 +93,7 @@ class ErrorCard extends StatelessWidget {
 }
 
 class _RetryButton extends StatelessWidget {
-  const _RetryButton({
-    required this.onPressed,
-  });
+  const _RetryButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -110,9 +108,7 @@ class _RetryButton extends StatelessWidget {
 }
 
 class _ContactSupport extends StatelessWidget {
-  const _ContactSupport({
-    required this.onPressed,
-  });
+  const _ContactSupport({required this.onPressed});
 
   final VoidCallback onPressed;
 

@@ -41,11 +41,7 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
 
   Course? initialCourse;
 
-  CourseCreateBloc(
-    this._gateway,
-    this._analytics, {
-    this.schoolClassId,
-  });
+  CourseCreateBloc(this._gateway, this._analytics, {this.schoolClassId});
 
   void loadAdminSchoolClasses() {
     final initialData = _gateway.getCurrentSchoolClasses();
@@ -62,11 +58,15 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
       return;
     }
 
-    final adminList = allSchoolClasses
-        .where((schoolClass) =>
-            schoolClass.myRole.hasPermission(GroupPermission.administration))
-        .map((s) => (SchoolClassId(s.id), s.name))
-        .toList();
+    final adminList =
+        allSchoolClasses
+            .where(
+              (schoolClass) => schoolClass.myRole.hasPermission(
+                GroupPermission.administration,
+              ),
+            )
+            .map((s) => (SchoolClassId(s.id), s.name))
+            .toList();
     _myAdminSchoolClassesSubject.sink.add(adminList);
   }
 
@@ -110,14 +110,17 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
     final validator = NotEmptyOrNullValidator(_subjectSubject.valueOrNull);
     if (!validator.isValid()) {
       _subjectSubject.addError(
-          TextValidationException(CourseValidators.emptySubjectUserMessage));
+        TextValidationException(CourseValidators.emptySubjectUserMessage),
+      );
       throw InvalidInputException();
     }
 
     final subject = _subjectSubject.valueOrNull!;
     final name = _ifNotGivenGenerateName(_nameSubject.valueOrNull, subject);
     final abbreviation = _ifNotGivenGenerateAbbreviation(
-        _abbreviationSubject.valueOrNull, subject);
+      _abbreviationSubject.valueOrNull,
+      subject,
+    );
 
     _analytics.logCourseCreateFromOwn(subject, groupPage);
 
@@ -130,12 +133,16 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
   }
 
   Future<(CourseId, CourseName)> submitWithCourseTemplate(
-      CourseTemplate courseTemplate) async {
+    CourseTemplate courseTemplate,
+  ) async {
     _analytics.logCourseCreateFromTemplate(courseTemplate, groupPage);
 
     // With the course template the course name is equal to the course subject
-    final userInput = UserInput(courseTemplate.subject, courseTemplate.subject,
-        courseTemplate.abbreviation);
+    final userInput = UserInput(
+      courseTemplate.subject,
+      courseTemplate.subject,
+      courseTemplate.abbreviation,
+    );
 
     if (hasSchoolClassId) {
       return _gateway.createSchoolClassCourse(userInput, schoolClassId!);
@@ -163,8 +170,9 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
   bool isCourseTemplateAlreadyAdded(CourseTemplate courseTemplate) {
     final courses = _gateway.currentCourses;
     final highest = StringUtils.getHighestSimilarity(
-        courses.map((course) => course.subject.toLowerCase()).toList(),
-        courseTemplate.subject.toLowerCase());
+      courses.map((course) => course.subject.toLowerCase()).toList(),
+      courseTemplate.subject.toLowerCase(),
+    );
     return highest >= 0.7;
   }
 

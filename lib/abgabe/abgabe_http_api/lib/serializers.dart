@@ -28,26 +28,34 @@ part 'serializers.g.dart';
   InlineResponse403,
   SubmissionDto,
 ])
-
 // allow all models to be serialized within a list
-Serializers serializers = (_$serializers.toBuilder()
-      ..addBuilderFactory(
-          const FullType(BuiltList, [FullType(DateiHinzufuegenCommandDto)]),
-          () => ListBuilder<DateiHinzufuegenCommandDto>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, [FullType(DateienHinzufuegenCommandDto)]),
-          () => ListBuilder<DateienHinzufuegenCommandDto>())
-      ..addBuilderFactory(const FullType(BuiltList, [FullType(DateinameDto)]),
-          () => ListBuilder<DateinameDto>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, [FullType(InlineResponse400)]),
-          () => ListBuilder<InlineResponse400>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, [FullType(InlineResponse403)]),
-          () => ListBuilder<InlineResponse403>())
-      ..addBuilderFactory(const FullType(BuiltList, [FullType(SubmissionDto)]),
-          () => ListBuilder<SubmissionDto>()))
-    .build();
+Serializers serializers =
+    (_$serializers.toBuilder()
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(DateiHinzufuegenCommandDto)]),
+            () => ListBuilder<DateiHinzufuegenCommandDto>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(DateienHinzufuegenCommandDto)]),
+            () => ListBuilder<DateienHinzufuegenCommandDto>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(DateinameDto)]),
+            () => ListBuilder<DateinameDto>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(InlineResponse400)]),
+            () => ListBuilder<InlineResponse400>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(InlineResponse403)]),
+            () => ListBuilder<InlineResponse403>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(SubmissionDto)]),
+            () => ListBuilder<SubmissionDto>(),
+          ))
+        .build();
 
 Serializers standardSerializers =
     (serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

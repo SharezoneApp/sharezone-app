@@ -21,8 +21,11 @@ class SchoolClassGateway {
   final ConnectionsGateway _connectionsGateway;
   final SchoolClassMemberAccessor memberAccessor;
 
-  factory SchoolClassGateway(References references, String memberID,
-      ConnectionsGateway connectionsGateway) {
+  factory SchoolClassGateway(
+    References references,
+    String memberID,
+    ConnectionsGateway connectionsGateway,
+  ) {
     return SchoolClassGateway._(
       references,
       memberID,
@@ -31,8 +34,12 @@ class SchoolClassGateway {
     );
   }
 
-  const SchoolClassGateway._(this.references, this.memberID,
-      this._connectionsGateway, this.memberAccessor);
+  const SchoolClassGateway._(
+    this.references,
+    this.memberID,
+    this._connectionsGateway,
+    this.memberAccessor,
+  );
 
   Future<AppFunctionsResult<bool>> leaveSchoolClass(String schoolClassID) {
     return _connectionsGateway.leave(
@@ -42,7 +49,9 @@ class SchoolClassGateway {
   }
 
   Future<AppFunctionsResult<bool>> deleteSchoolClass(
-      String schoolClassID, SchoolClassDeleteType schoolClassDeleteType) {
+    String schoolClassID,
+    SchoolClassDeleteType schoolClassDeleteType,
+  ) {
     return _connectionsGateway.delete(
       id: schoolClassID,
       type: GroupType.schoolclass,
@@ -51,7 +60,10 @@ class SchoolClassGateway {
   }
 
   Future<AppFunctionsResult<bool>> updateMemberRole(
-      String schoolClassID, String memberID, MemberRole newRole) {
+    String schoolClassID,
+    String memberID,
+    MemberRole newRole,
+  ) {
     return references.functions.memberUpdateRole(
       id: schoolClassID,
       memberID: memberID,
@@ -61,7 +73,8 @@ class SchoolClassGateway {
   }
 
   Future<AppFunctionsResult<bool>> createSchoolClass(
-      SchoolClassData schoolClass) {
+    SchoolClassData schoolClass,
+  ) {
     return references.functions.groupCreate(
       memberID: memberID,
       id: schoolClass.id,
@@ -78,9 +91,9 @@ class SchoolClassGateway {
     return references.functions.groupCreate(
       memberID: memberID,
       id: courseID,
-      data: courseData.copyWith(
-          id: courseID,
-          referenceSchoolClassIDs: [schoolClassID]).toCreateJson(memberID),
+      data: courseData
+          .copyWith(id: courseID, referenceSchoolClassIDs: [schoolClassID])
+          .toCreateJson(memberID),
       type: GroupType.course.name,
     );
   }
@@ -94,7 +107,9 @@ class SchoolClassGateway {
   }
 
   Future<AppFunctionsResult<bool>> addCourse(
-      String schoolClassID, String courseID) {
+    String schoolClassID,
+    String courseID,
+  ) {
     return references.functions.schoolClassAddCourse(
       schoolClassID: schoolClassID,
       courseID: courseID,
@@ -102,7 +117,9 @@ class SchoolClassGateway {
   }
 
   Future<AppFunctionsResult<bool>> removeCourse(
-      String schoolClassID, String courseID) {
+    String schoolClassID,
+    String courseID,
+  ) {
     return references.functions.schoolClassRemoveCourse(
       schoolClassID: schoolClassID,
       courseID: courseID,
@@ -110,7 +127,9 @@ class SchoolClassGateway {
   }
 
   Future<AppFunctionsResult<bool>> editSchoolClassSettings(
-      String schoolClassID, CourseSettings schoolClassSettings) async {
+    String schoolClassID,
+    CourseSettings schoolClassSettings,
+  ) async {
     return references.functions.groupEditSettings(
       id: schoolClassID,
       settings: schoolClassSettings.toJson(),
@@ -119,7 +138,9 @@ class SchoolClassGateway {
   }
 
   Future<AppFunctionsResult<bool>> kickMember(
-      String schoolClassID, String kickedMemberID) async {
+    String schoolClassID,
+    String kickedMemberID,
+  ) async {
     return references.functions.leave(
       id: schoolClassID,
       type: GroupType.schoolclass.name,
@@ -132,9 +153,15 @@ class SchoolClassGateway {
         .doc(schoolClassID)
         .collection(CollectionNames.courses)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((docSnap) => Course.fromData(docSnap.data(), id: docSnap.id))
-            .toList());
+        .map(
+          (snapshot) =>
+              snapshot.docs
+                  .map(
+                    (docSnap) =>
+                        Course.fromData(docSnap.data(), id: docSnap.id),
+                  )
+                  .toList(),
+        );
   }
 
   Stream<List<String>> streamCoursesID(String schoolClassID) {
@@ -146,14 +173,16 @@ class SchoolClassGateway {
   }
 
   Stream<List<SchoolClass>> stream() {
-    return _connectionsGateway
-        .streamConnectionsData()
-        .map((connections) => connections?.schoolClass?.values.toList() ?? []);
+    return _connectionsGateway.streamConnectionsData().map(
+      (connections) => connections?.schoolClass?.values.toList() ?? [],
+    );
   }
 
   Stream<SchoolClass?> streamSingleSchoolClass(String id) {
-    return _connectionsGateway.streamConnectionsData().map((connections) =>
-        connections?.schoolClass?.values
-            .firstWhereOrNull((schoolClass) => schoolClass.id == id));
+    return _connectionsGateway.streamConnectionsData().map(
+      (connections) => connections?.schoolClass?.values.firstWhereOrNull(
+        (schoolClass) => schoolClass.id == id,
+      ),
+    );
   }
 }

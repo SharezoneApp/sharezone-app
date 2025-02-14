@@ -53,12 +53,16 @@ class Folder {
     );
   }
 
-  factory Folder.fromData(
-      {required String id, required Map<String, dynamic> data}) {
+  factory Folder.fromData({
+    required String id,
+    required Map<String, dynamic> data,
+  }) {
     Map<String, Folder>? mFolders;
     try {
-      mFolders = decodeMap(data['folders'],
-          (key, value) => Folder.fromData(id: key, data: value));
+      mFolders = decodeMap(
+        data['folders'],
+        (key, value) => Folder.fromData(id: key, data: value),
+      );
     } catch (e, s) {
       log("folders error: $id", error: e, stackTrace: s);
     }
@@ -68,9 +72,10 @@ class Folder {
       createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       folders: mFolders ?? {},
       creatorID: data['creatorID'],
-      creatorName: data['creatorName'] == ""
-          ? 'Automatisch erstellt'
-          : data['creatorName'],
+      creatorName:
+          data['creatorName'] == ""
+              ? 'Automatisch erstellt'
+              : data['creatorName'],
       folderType: FolderType.values.tryByName(
         data['folderType'],
         defaultValue: FolderType.normal,
@@ -89,7 +94,7 @@ class Folder {
       if (createdOn == null)
         'createdOn': FieldValue.serverTimestamp()
       else
-        'createdOn': Timestamp.fromDate(createdOn!)
+        'createdOn': Timestamp.fromDate(createdOn!),
     };
   }
 
@@ -120,26 +125,29 @@ class Folder {
     }
   }
 
-  static String generateFolderID(
-      {FolderPath? folderPath,
-      required String folderName,
-      required FileSharingData fileSharingData,
-      int attempt = 0}) {
+  static String generateFolderID({
+    FolderPath? folderPath,
+    required String folderName,
+    required FileSharingData fileSharingData,
+    int attempt = 0,
+  }) {
     if (attempt >= 10 || attempt < 0) {
       throw Exception('Too Many Attempts to generate random ID!');
     }
     List<Folder> folders =
         fileSharingData.getFolders(folderPath)!.values.toList();
-    String nameID = folderName.toLowerCase() +
+    String nameID =
+        folderName.toLowerCase() +
         (attempt == 0 ? "" : ("(${attempt.toString()})"));
     nameID = nameID.replaceAll(RegExp("[^A-Za-z0-9-_()]"), "");
     if (nameID == "") nameID = randomIDString(6).toLowerCase();
     if (folders.where((it) => it.id == nameID).isNotEmpty) {
       return generateFolderID(
-          fileSharingData: fileSharingData,
-          folderName: folderName,
-          folderPath: folderPath,
-          attempt: attempt + 1);
+        fileSharingData: fileSharingData,
+        folderName: folderName,
+        folderPath: folderPath,
+        attempt: attempt + 1,
+      );
     } else {
       return nameID;
     }

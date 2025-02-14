@@ -50,15 +50,13 @@ class _Header extends StatelessWidget {
       icon: Padding(
         padding: const EdgeInsets.only(left: 6),
         child: SizedBox(
-            width: 70,
-            height: 70,
-            child: SvgPicture.asset('assets/icons/confused.svg')),
+          width: 70,
+          height: 70,
+          child: SvgPicture.asset('assets/icons/confused.svg'),
+        ),
       ),
       children: const <Widget>[
-        Text(
-          'Du brauchst Hilfe?',
-          style: TextStyle(fontSize: 26),
-        ),
+        Text('Du brauchst Hilfe?', style: TextStyle(fontSize: 26)),
         SizedBox(height: 4),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12),
@@ -86,11 +84,7 @@ class _SupportCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8),
       child: CustomCard(
         child: ListTile(
-          leading: SizedBox(
-            width: 30,
-            height: 30,
-            child: icon,
-          ),
+          leading: SizedBox(width: 30, height: 30, child: icon),
           title: Text(title!),
           subtitle: subtitle != null ? Text(subtitle!) : null,
           onTap: onPressed,
@@ -112,15 +106,13 @@ class _EmailTile extends StatelessWidget {
       subtitle: 'E-Mail',
       onPressed: () async {
         final uri = Uri.parse(
-            'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭');
+          'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭',
+        );
         try {
           await launchUrl(uri);
         } catch (e) {
           if (!context.mounted) return;
-          showSnackSec(
-            context: context,
-            text: 'E-Mail: support@sharezone.net',
-          );
+          showSnackSec(context: context, text: 'E-Mail: support@sharezone.net');
         }
       },
     );

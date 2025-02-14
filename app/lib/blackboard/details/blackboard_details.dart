@@ -35,28 +35,28 @@ void onEdit(BuildContext context, BlackboardItem blackboardItem) {
   Navigator.push<bool>(
     context,
     MaterialPageRoute(
-        builder: (context) => BlackboardDialog(
-              blackboardItem: blackboardItem,
-              popTwice: true,
-            ),
-        settings: const RouteSettings(name: BlackboardDialog.tag)),
+      builder:
+          (context) =>
+              BlackboardDialog(blackboardItem: blackboardItem, popTwice: true),
+      settings: const RouteSettings(name: BlackboardDialog.tag),
+    ),
   );
 }
 
 List<Widget> _actions(BlackboardView view) => [
-      ReportIcon(item: ReportItemReference.blackboard(view.id)),
-      if (view.hasPermissionToEdit) ...[
-        _EditIcon(view: view),
-        _DeleteIcon(view: view),
-      ]
-    ];
+  ReportIcon(item: ReportItemReference.blackboard(view.id)),
+  if (view.hasPermissionToEdit) ...[
+    _EditIcon(view: view),
+    _DeleteIcon(view: view),
+  ],
+];
 
 const _kFabHalfSize = 28.0;
 
 class BlackboardDetails extends StatefulWidget {
   BlackboardDetails({super.key, required this.view}) : id = view.id;
   BlackboardDetails.loadId(this.id, {super.key})
-      : view = BlackboardView.empty(id: id);
+    : view = BlackboardView.empty(id: id);
 
   static const tag = "blackboard-details-page";
   final BlackboardView view;
@@ -74,8 +74,12 @@ class _BlackboardDetailsState extends State<BlackboardDetails> {
     super.initState();
 
     final api = BlocProvider.of<SharezoneContext>(context).api;
-    bloc =
-        BlackboardDetailsBloc(api.blackboard, widget.id, api.uID, api.course);
+    bloc = BlackboardDetailsBloc(
+      api.blackboard,
+      widget.id,
+      api.uID,
+      api.course,
+    );
 
     if (!widget.view.isAuthor && !widget.view.isRead) markItemAsRead();
   }
@@ -93,8 +97,9 @@ class _BlackboardDetailsState extends State<BlackboardDetails> {
           if (!snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(
-                  title: const Text("Details"),
-                  leading: const CloseIconButton()),
+                title: const Text("Details"),
+                leading: const CloseIconButton(),
+              ),
               body: const Center(child: AccentColorCircularProgressIndicator()),
             );
           }
@@ -102,22 +107,27 @@ class _BlackboardDetailsState extends State<BlackboardDetails> {
           final dimensions = Dimensions.fromMediaQuery(context);
           final view = snapshot.data ?? widget.view;
           return Scaffold(
-            appBar: !view.hasPhoto
-                ? AppBar(
-                    title: const Text("Details"),
-                    centerTitle: dimensions.isDesktopModus,
-                    leading: CloseIconButton(
-                        color: getAppBarIconColor(view.hasPhoto)),
-                    actions: _actions(view),
-                  )
-                : null,
-            body: view.hasPhoto
-                ? _PageWithPicture(view)
-                : SingleChildScrollView(child: _Body(view)),
-            bottomNavigationBar: view.isAuthor
-                ? null
-                : _BottomBlackboardDetailsIsReadActionButton(
-                    hasUserReadItem: view.isRead),
+            appBar:
+                !view.hasPhoto
+                    ? AppBar(
+                      title: const Text("Details"),
+                      centerTitle: dimensions.isDesktopModus,
+                      leading: CloseIconButton(
+                        color: getAppBarIconColor(view.hasPhoto),
+                      ),
+                      actions: _actions(view),
+                    )
+                    : null,
+            body:
+                view.hasPhoto
+                    ? _PageWithPicture(view)
+                    : SingleChildScrollView(child: _Body(view)),
+            bottomNavigationBar:
+                view.isAuthor
+                    ? null
+                    : _BottomBlackboardDetailsIsReadActionButton(
+                      hasUserReadItem: view.isRead,
+                    ),
           );
         },
       ),
@@ -126,8 +136,9 @@ class _BlackboardDetailsState extends State<BlackboardDetails> {
 }
 
 class _BottomBlackboardDetailsIsReadActionButton extends StatelessWidget {
-  const _BottomBlackboardDetailsIsReadActionButton(
-      {required this.hasUserReadItem});
+  const _BottomBlackboardDetailsIsReadActionButton({
+    required this.hasUserReadItem,
+  });
 
   final bool hasUserReadItem;
 
@@ -190,8 +201,8 @@ class _DeleteIcon extends StatelessWidget {
     return IconButton(
       tooltip: 'Eintrag löschen',
       icon: Icon(Icons.delete, color: getAppBarIconColor(view!.hasPhoto)),
-      onPressed: () =>
-          showDeleteBlackboardItemDialog(context, view, popTwice: true),
+      onPressed:
+          () => showDeleteBlackboardItemDialog(context, view, popTwice: true),
     );
   }
 }
@@ -228,8 +239,9 @@ class _Body extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(12)
-                  .add(const EdgeInsets.symmetric(horizontal: 8)),
+              padding: const EdgeInsets.all(
+                12,
+              ).add(const EdgeInsets.symmetric(horizontal: 8)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -277,7 +289,8 @@ class _Title extends StatelessWidget {
       child: SelectableText(
         title!,
         style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-            color: Theme.of(context).isDarkTheme ? null : Colors.black),
+          color: Theme.of(context).isDarkTheme ? null : Colors.black,
+        ),
       ),
     );
   }
@@ -290,8 +303,9 @@ class _InformationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final greyTextStyle =
-        Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14);
+    final greyTextStyle = Theme.of(
+      context,
+    ).textTheme.bodySmall!.copyWith(fontSize: 14);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -301,7 +315,7 @@ class _InformationHeader extends StatelessWidget {
             "${view.createdOnText}   -   ${view.authorName}",
             style: greyTextStyle,
           ),
-          view.hasPermissionToEdit ? _UserReadTile(view: view) : Container()
+          view.hasPermissionToEdit ? _UserReadTile(view: view) : Container(),
         ],
       ),
     );
@@ -336,8 +350,10 @@ class __UserReadTileState extends State<_UserReadTile> {
                     children: <Widget>[
                       Text(
                         "Diese Information ist für dich als ${widget.view.isAuthor ? "Autor" : "Admin"} sichtbar.",
-                        style:
-                            const TextStyle(color: Colors.grey, fontSize: 10),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 10,
+                        ),
                       ),
                       Text(
                         "Gelesen von: ${widget.view.readPercent}%",
@@ -362,16 +378,14 @@ class __UserReadTileState extends State<_UserReadTile> {
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Theme.of(context).isDarkTheme
-              ? Colors.grey[400]
-              : Colors.grey[300],
+          color:
+              Theme.of(context).isDarkTheme
+                  ? Colors.grey[400]
+                  : Colors.grey[300],
         ),
         width: 30,
         height: 30,
-        child: Icon(
-          Icons.keyboard_arrow_right,
-          color: Colors.grey[700],
-        ),
+        child: Icon(Icons.keyboard_arrow_right, color: Colors.grey[700]),
       ),
     );
   }
@@ -380,12 +394,14 @@ class __UserReadTileState extends State<_UserReadTile> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BlackboardItemReadByUsersListPage(
-          itemId: widget.view.id,
-          courseId: CourseId(widget.view.courseID),
+        builder:
+            (context) => BlackboardItemReadByUsersListPage(
+              itemId: widget.view.id,
+              courseId: CourseId(widget.view.courseID),
+            ),
+        settings: const RouteSettings(
+          name: BlackboardItemReadByUsersListPage.tag,
         ),
-        settings:
-            const RouteSettings(name: BlackboardItemReadByUsersListPage.tag),
       ),
     );
   }
@@ -407,10 +423,11 @@ class _Text extends StatelessWidget {
       styleSheet: MarkdownStyleSheet.fromTheme(
         theme.copyWith(
           textTheme: theme.textTheme.copyWith(
-              bodyMedium: flowingText.copyWith(
-                  color: Theme.of(context).isDarkTheme
-                      ? Colors.white
-                      : Colors.black)),
+            bodyMedium: flowingText.copyWith(
+              color:
+                  Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+            ),
+          ),
         ),
       ).copyWith(a: linkStyle(context, 15)),
       // styleSheet: MarkdownStyleSheet(
@@ -421,7 +438,7 @@ class _Text extends StatelessWidget {
       //       color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black),
       //   a: linkStyle(context, 15),
       // ),
-      onTapLink: (url, _, __) => launchURL(url, context: context),
+      onTapLink: (url, _, _) => launchURL(url, context: context),
     );
   }
 }

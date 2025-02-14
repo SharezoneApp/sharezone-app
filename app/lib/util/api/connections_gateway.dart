@@ -24,36 +24,44 @@ class ConnectionsGateway implements MyConnectionsAccesor {
 
   ConnectionsGateway(this.references, this.memberID) {
     _connectionDataPackage = DataDocumentPackage(
-        reference: references.getConnectionsReference(memberID),
-        objectBuilder: (data) => ConnectionsData.fromData(data: data)!,
-        directlyLoad: true,
-        loadNullData: true);
+      reference: references.getConnectionsReference(memberID),
+      objectBuilder: (data) => ConnectionsData.fromData(data: data)!,
+      directlyLoad: true,
+      loadNullData: true,
+    );
     joinedCoursesPackage = DataCollectionPackage(
-        reference: references.users
-            .doc(MemberIDUtils.getUIDFromMemberID(memberID))
-            .collection("joinedCourses"),
-        objectBuilder: (id, data) => Course.fromData(data, id: id).copyWith(
-              sharecode: data['sharingLink'] as String,
-              version2: false,
-              myRole: MemberRole.creator,
-            ));
-    _joinedCoursesSubscription =
-        joinedCoursesPackage.stream.listen((joinedCourses) async {
+      reference: references.users
+          .doc(MemberIDUtils.getUIDFromMemberID(memberID))
+          .collection("joinedCourses"),
+      objectBuilder:
+          (id, data) => Course.fromData(data, id: id).copyWith(
+            sharecode: data['sharingLink'] as String,
+            version2: false,
+            myRole: MemberRole.creator,
+          ),
+    );
+    _joinedCoursesSubscription = joinedCoursesPackage.stream.listen((
+      joinedCourses,
+    ) async {
       newJoinedCourses =
-          (await Future.wait(joinedCourses.map((joinedCourse) async {
-        final joinedUserData = (await references.courses
-                    .doc(joinedCourse.id)
-                    .collection("joinedUsers")
-                    .doc(MemberIDUtils.getUIDFromMemberID(memberID))
-                    .get())
-                .data() ??
-            {};
-        return joinedCourse.copyWith(
-            myRole: joinedUserData['powerLevel'] == 'owner'
-                ? MemberRole.owner
-                : MemberRole.creator);
-      })))
-              .toList();
+          (await Future.wait(
+            joinedCourses.map((joinedCourse) async {
+              final joinedUserData =
+                  (await references.courses
+                          .doc(joinedCourse.id)
+                          .collection("joinedUsers")
+                          .doc(MemberIDUtils.getUIDFromMemberID(memberID))
+                          .get())
+                      .data() ??
+                  {};
+              return joinedCourse.copyWith(
+                myRole:
+                    joinedUserData['powerLevel'] == 'owner'
+                        ? MemberRole.owner
+                        : MemberRole.creator,
+              );
+            }),
+          )).toList();
       _connectionDataPackage.forceUpdate();
     });
   }
@@ -152,16 +160,17 @@ class ConnectionsGateway implements MyConnectionsAccesor {
     if (course.version2) {
       return references.getConnectionsReference(memberID).set({
         CollectionNames.courses: {
-          courseID: {'personalDesign': FieldValue.delete()}
-        }
+          courseID: {'personalDesign': FieldValue.delete()},
+        },
       }, SetOptions(merge: true));
     } else {
       return references.users
           .doc(MemberIDUtils.getUIDFromMemberID(memberID))
           .collection("joinedCourses")
           .doc(courseID)
-          .set(
-              {'personalDesign': FieldValue.delete()}, SetOptions(merge: true));
+          .set({
+            'personalDesign': FieldValue.delete(),
+          }, SetOptions(merge: true));
     }
   }
 

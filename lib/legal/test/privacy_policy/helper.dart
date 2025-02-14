@@ -15,7 +15,8 @@ PrivacyPolicy privacyPolicyWith({
 }) {
   return PrivacyPolicy(
     lastChanged: DateTime(2022, 03, 04),
-    tableOfContentSections: tableOfContentSections?.toIList() ??
+    tableOfContentSections:
+        tableOfContentSections?.toIList() ??
         v2PrivacyPolicy.tableOfContentSections,
     version: '2.0.0',
     downloadUrl: Uri.parse('https://sharezone.net/dse-v2-0-0-pdf'),

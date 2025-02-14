@@ -83,6 +83,7 @@ class ReportItemReference {
 
   factory ReportItemReference.comment(CommentLocation location) {
     return ReportItemReference._(
-        '${location.baseCollection}/${location.parentDocumentId}/${CollectionNames.comments}/${location.commentId}');
+      '${location.baseCollection}/${location.parentDocumentId}/${CollectionNames.comments}/${location.commentId}',
+    );
   }
 }

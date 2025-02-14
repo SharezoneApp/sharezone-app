@@ -47,13 +47,14 @@ class _ImageFilePageState extends State<ImageFilePage> {
     return Theme(
       data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: Scaffold(
-        appBar: showAppBar
-            ? FilePageAppBar(
-                name: widget.name,
-                actions: widget.actions,
-                nameStream: widget.nameStream,
-              )
-            : null,
+        appBar:
+            showAppBar
+                ? FilePageAppBar(
+                  name: widget.name,
+                  actions: widget.actions,
+                  nameStream: widget.nameStream,
+                )
+                : null,
         backgroundColor: Colors.black,
         body: GestureDetector(
           onTap: () => setState(() => showAppBar = !showAppBar),
@@ -66,9 +67,10 @@ class _ImageFilePageState extends State<ImageFilePage> {
                 height:
                     MediaQuery.of(context).size.height - (showAppBar ? 80 : 0),
                 child: Center(
-                  child: PlatformCheck.isWeb
-                      ? _buildPhotoViewWeb()
-                      : _buildPhotoView(),
+                  child:
+                      PlatformCheck.isWeb
+                          ? _buildPhotoViewWeb()
+                          : _buildPhotoView(),
                 ),
               ),
             ),
@@ -80,8 +82,11 @@ class _ImageFilePageState extends State<ImageFilePage> {
 
   Widget _buildPhotoView() {
     return FutureBuilder<LocalFile>(
-      future: getFileDownloader()!
-          .downloadFileFromURL(widget.downloadURL, widget.name, widget.id),
+      future: getFileDownloader()!.downloadFileFromURL(
+        widget.downloadURL,
+        widget.name,
+        widget.id,
+      ),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const AccentColorCircularProgressIndicator();
@@ -89,8 +94,8 @@ class _ImageFilePageState extends State<ImageFilePage> {
         return PhotoView(
           minScale: PhotoViewComputedScale.contained,
           maxScale: 10.0,
-          loadingBuilder: (context, event) =>
-              const AccentColorCircularProgressIndicator(),
+          loadingBuilder:
+              (context, event) => const AccentColorCircularProgressIndicator(),
           imageProvider: FileImage(snapshot.data!.getFile()),
         );
       },
@@ -99,30 +104,26 @@ class _ImageFilePageState extends State<ImageFilePage> {
 
   Widget _buildPhotoViewWeb() {
     return FutureBuilder<Uint8List>(
-        future: getFileSaver()!.downloadAndReturnBytes(widget.downloadURL),
-        builder: (context, resultSnapshot) {
-          if (resultSnapshot.hasError) {
-            return const Center(
-              child: Icon(
-                Icons.error_outline,
-                color: Colors.red,
-              ),
-            );
-          }
-          if (!resultSnapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          final result = resultSnapshot.data!;
-
-          return PhotoView(
-            minScale: PhotoViewComputedScale.contained,
-            maxScale: 10.0,
-            loadingBuilder: (context, event) =>
-                const AccentColorCircularProgressIndicator(),
-            imageProvider: MemoryImage(result),
+      future: getFileSaver()!.downloadAndReturnBytes(widget.downloadURL),
+      builder: (context, resultSnapshot) {
+        if (resultSnapshot.hasError) {
+          return const Center(
+            child: Icon(Icons.error_outline, color: Colors.red),
           );
-        });
+        }
+        if (!resultSnapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        final result = resultSnapshot.data!;
+
+        return PhotoView(
+          minScale: PhotoViewComputedScale.contained,
+          maxScale: 10.0,
+          loadingBuilder:
+              (context, event) => const AccentColorCircularProgressIndicator(),
+          imageProvider: MemoryImage(result),
+        );
+      },
+    );
   }
 }

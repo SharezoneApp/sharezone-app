@@ -23,9 +23,9 @@ abstract class DateiHinzufuegenCommandDto
   // Boilerplate code needed to wire-up generated code
   DateiHinzufuegenCommandDto._();
 
-  factory DateiHinzufuegenCommandDto(
-          [Function(DateiHinzufuegenCommandDtoBuilder b) updates]) =
-      _$DateiHinzufuegenCommandDto;
+  factory DateiHinzufuegenCommandDto([
+    Function(DateiHinzufuegenCommandDtoBuilder b) updates,
+  ]) = _$DateiHinzufuegenCommandDto;
   static Serializer<DateiHinzufuegenCommandDto> get serializer =>
       _$dateiHinzufuegenCommandDtoSerializer;
 }

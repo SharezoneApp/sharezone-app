@@ -69,10 +69,7 @@ class NotSubmittedView {
   final String abbreviation;
   final String username;
 
-  const NotSubmittedView({
-    required this.abbreviation,
-    required this.username,
-  });
+  const NotSubmittedView({required this.abbreviation, required this.username});
 }
 
 class CreatedFileView {

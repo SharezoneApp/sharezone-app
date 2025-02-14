@@ -11,10 +11,7 @@ import 'package:sharezone/groups/group_join/models/group_join_result.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SuccessfulJoinResultDialog extends StatelessWidget {
-  const SuccessfulJoinResultDialog({
-    super.key,
-    required this.result,
-  });
+  const SuccessfulJoinResultDialog({super.key, required this.result});
 
   final SuccessfulJoinResult result;
 

@@ -117,7 +117,9 @@ class GroupJoinResultDialog {
   var _hasOpenedCourseSelectionPage = false;
 
   void openGroupJoinCoursePageIfNotYetOpen(
-      BuildContext context, RequireCourseSelectionsJoinResult joinResult) {
+    BuildContext context,
+    RequireCourseSelectionsJoinResult joinResult,
+  ) {
     if (!_hasOpenedCourseSelectionPage) {
       _hasOpenedCourseSelectionPage = true;
       openGroupJoinCourseSelectionPage(context, joinResult);

@@ -15,8 +15,11 @@ class AnimatedStaggeredScrollView extends StatelessWidget {
   final List<Widget> children;
   final CrossAxisAlignment? crossAxisAlignment;
 
-  const AnimatedStaggeredScrollView(
-      {super.key, required this.children, this.crossAxisAlignment});
+  const AnimatedStaggeredScrollView({
+    super.key,
+    required this.children,
+    this.crossAxisAlignment,
+  });
   @override
   Widget build(BuildContext context) {
     final scrollController = ScrollController();
@@ -30,10 +33,11 @@ class AnimatedStaggeredScrollView extends StatelessWidget {
         crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
         children: AnimationConfiguration.toStaggeredList(
           duration: const Duration(milliseconds: 350),
-          childAnimationBuilder: (widget) => SlideAnimation(
-            verticalOffset: 25,
-            child: FadeInAnimation(child: widget),
-          ),
+          childAnimationBuilder:
+              (widget) => SlideAnimation(
+                verticalOffset: 25,
+                child: FadeInAnimation(child: widget),
+              ),
           children: children,
         ),
       ),

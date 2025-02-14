@@ -10,8 +10,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test(
-      'used for temporary local tests so u dont have to create a test manually first',
-      () {
-    // PLACEHOLDER
-  });
+    'used for temporary local tests so u dont have to create a test manually first',
+    () {
+      // PLACEHOLDER
+    },
+  );
 }

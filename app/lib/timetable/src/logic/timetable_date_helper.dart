@@ -26,14 +26,17 @@ class TimetableDateHelper {
 
   // THERE ARE MORE OPTIMAL CALCULATION METHODES, BUT I LIKE THIS DESIGN :)
   static List<Date> generateDaysList(
-      Date startDate, Date endDate, EnabledWeekDays enabledWeekDays) {
+    Date startDate,
+    Date endDate,
+    EnabledWeekDays enabledWeekDays,
+  ) {
     DateTime startDateTime = startDate.toDateTime;
     DateTime endDateTime = endDate.toDateTime;
     int days = endDateTime.difference(startDateTime).inDays.abs() + 1;
-    return List.generate(days,
-            (it) => Date.fromDateTime(startDateTime.add(Duration(days: it))))
-        .where((it) => enabledWeekDays.getValue(it.weekDayEnum)!)
-        .toList();
+    return List.generate(
+      days,
+      (it) => Date.fromDateTime(startDateTime.add(Duration(days: it))),
+    ).where((it) => enabledWeekDays.getValue(it.weekDayEnum)!).toList();
   }
 
   static String getDayOfWeek(int day) {

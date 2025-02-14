@@ -24,11 +24,12 @@ class FilePageBloc extends BlocBase {
     getFileDownloader()!
         .downloadFileFromURL(downloadURL, name, id)
         .then((localFile) {
-      _localFileSubject.add(localFile);
-    }).catchError((Object e, StackTrace s) {
-      log('$e', error: e, stackTrace: s);
-      _localFileSubject.addError(e);
-    });
+          _localFileSubject.add(localFile);
+        })
+        .catchError((Object e, StackTrace s) {
+          log('$e', error: e, stackTrace: s);
+          _localFileSubject.addError(e);
+        });
   }
 
   Stream<LocalFile> get localFile => _localFileSubject;

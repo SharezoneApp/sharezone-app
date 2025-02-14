@@ -28,12 +28,13 @@ class _LessonCard extends StatelessWidget {
         hasAlreadyTakenPlace:
             view.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace,
         child: CustomCard.roundVertical(
-          onTap: () => showLessonModelSheet(
-            context,
-            view.lesson,
-            view.date,
-            view.design,
-          ),
+          onTap:
+              () => showLessonModelSheet(
+                context,
+                view.lesson,
+                view.date,
+                view.design,
+              ),
           onLongPress: () => onLessonLongPress(context, view.lesson),
           size: isNow ? const Size(150, 65) : const Size(135, 60),
           child: Stack(
@@ -57,11 +58,12 @@ class _LessonCard extends StatelessWidget {
                     SizedBox(height: isNow ? 8 : 3),
                     CircleAvatar(
                       radius: 17.5,
-                      backgroundColor: isNow
-                          ? Theme.of(context).isDarkTheme
-                              ? Theme.of(context).cardColor
-                              : Colors.white
-                          : color.withValues(alpha: 0.2),
+                      backgroundColor:
+                          isNow
+                              ? Theme.of(context).isDarkTheme
+                                  ? Theme.of(context).cardColor
+                                  : Colors.white
+                              : color.withValues(alpha: 0.2),
                       foregroundColor: color,
                       child: Text(
                         view.abbreviation,
@@ -130,10 +132,7 @@ class _LessonNumber extends StatelessWidget {
     }
     return Text(
       periodNumber!,
-      style: TextStyle(
-        fontSize: 12,
-        color: _getLessonCardTextColor(context),
-      ),
+      style: TextStyle(fontSize: 12, color: _getLessonCardTextColor(context)),
     );
   }
 }
@@ -151,11 +150,7 @@ class _Time extends StatelessWidget {
       children: <Widget>[
         Text(start ?? "10:00", style: textStyle),
         const SizedBox(height: 2.5),
-        Container(
-          width: 8.5,
-          height: 1.25,
-          color: Colors.grey[300],
-        ),
+        Container(width: 8.5, height: 1.25, color: Colors.grey[300]),
         const SizedBox(height: 2.5),
         Text(end ?? "-", style: textStyle),
       ],

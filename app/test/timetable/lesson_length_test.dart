@@ -13,20 +13,41 @@ import 'package:time/time.dart';
 void main() {
   test('calculate lesson length', () {
     expectLessonLength(
-        const Time.parse("15:30"), const Time.parse("16:30"), 60);
+      const Time.parse("15:30"),
+      const Time.parse("16:30"),
+      60,
+    );
     expectLessonLength(
-        const Time.parse("15:30"), const Time.parse("17:30"), 120);
+      const Time.parse("15:30"),
+      const Time.parse("17:30"),
+      120,
+    );
     expectLessonLength(const Time.parse("15:30"), const Time.parse("15:30"), 0);
     expectLessonLength(
-        const Time.parse("15:30"), const Time.parse("14:30"), -60);
+      const Time.parse("15:30"),
+      const Time.parse("14:30"),
+      -60,
+    );
     expectLessonLength(
-        const Time.parse("00:00"), const Time.parse("23:00"), 23 * 60);
+      const Time.parse("00:00"),
+      const Time.parse("23:00"),
+      23 * 60,
+    );
     expectLessonLength(
-        const Time.parse("23:00"), const Time.parse("24:00"), 60);
+      const Time.parse("23:00"),
+      const Time.parse("24:00"),
+      60,
+    );
     expectLessonLength(
-        const Time.parse("00:00"), const Time.parse("24:00"), 24 * 60);
+      const Time.parse("00:00"),
+      const Time.parse("24:00"),
+      24 * 60,
+    );
     expectLessonLength(
-        const Time.parse("16:15"), const Time.parse("14:40"), -95);
+      const Time.parse("16:15"),
+      const Time.parse("14:40"),
+      -95,
+    );
   });
 }
 

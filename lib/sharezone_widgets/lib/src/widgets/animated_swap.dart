@@ -43,10 +43,7 @@ class AnimatedSwap extends StatelessWidget {
       transitionBuilder: (widget, animation) {
         return ScaleTransition(
           scale: animation,
-          child: FadeTransition(
-            opacity: animation,
-            child: widget,
-          ),
+          child: FadeTransition(opacity: animation, child: widget),
         );
       },
       child: child,

@@ -107,10 +107,7 @@ class _TimetableAddPage extends StatelessWidget {
     );
   }
 
-  const _TimetableAddPage._({
-    required this.tabs,
-    required this.abWeekEnabled,
-  });
+  const _TimetableAddPage._({required this.tabs, required this.abWeekEnabled});
 
   @override
   Widget build(BuildContext context) {
@@ -140,20 +137,24 @@ class _TimetableAddPage extends StatelessWidget {
 }
 
 class TimetableAddAppBarLeading extends StatelessWidget {
-  const TimetableAddAppBarLeading({
-    super.key,
-  });
+  const TimetableAddAppBarLeading({super.key});
 
   @override
   Widget build(BuildContext context) {
     return FadeSwitchBetweenIndexWithTabController(
       startWidget: const CloseIconButton(),
       endWidget: Builder(
-          builder: (context) => IconButton(
-                icon: Icon(themeIconData(Icons.arrow_back,
-                    cupertinoIcon: Icons.arrow_back_ios)),
-                onPressed: () => navigateToBackTab(context),
-              )),
+        builder:
+            (context) => IconButton(
+              icon: Icon(
+                themeIconData(
+                  Icons.arrow_back,
+                  cupertinoIcon: Icons.arrow_back_ios,
+                ),
+              ),
+              onPressed: () => navigateToBackTab(context),
+            ),
+      ),
       transitionPoint: const BetweenIndex(0, 1),
     );
   }
@@ -172,19 +173,24 @@ class _TimetableAddInfoMsg extends StatelessWidget {
         TextSpan(
           children: <TextSpan>[
             const TextSpan(
-                text:
-                    "Schulstunden werden automatisch auch für die nächsten Wochen eingetragen."),
+              text:
+                  "Schulstunden werden automatisch auch für die nächsten Wochen eingetragen.",
+            ),
             if (!abWeekEnabled) ...[
               const TextSpan(text: " A/B Wochen kannst du in den "),
               TextSpan(
                 text: "Einstellungen",
                 style: linkStyle(context, 12),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () =>
-                      Navigator.pushNamed(context, TimetableSettingsPage.tag),
+                recognizer:
+                    TapGestureRecognizer()
+                      ..onTap =
+                          () => Navigator.pushNamed(
+                            context,
+                            TimetableSettingsPage.tag,
+                          ),
               ),
               const TextSpan(text: " aktivieren."),
-            ]
+            ],
           ],
           style: const TextStyle(fontSize: 12, color: Colors.grey),
         ),
@@ -337,7 +343,7 @@ class _RectangleButton extends StatelessWidget {
             children: <Widget>[
               leading,
               const SizedBox(width: 10),
-              Flexible(child: SingleChildScrollView(child: Text(title)))
+              Flexible(child: SingleChildScrollView(child: Text(title))),
             ],
           ),
         ),
@@ -355,10 +361,7 @@ class _EmptyCourseList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         children: <Widget>[
-          _LineWithTwoWidgets(
-            first: _JoinCourse(),
-            second: _CreateCourse(),
-          ),
+          _LineWithTwoWidgets(first: _JoinCourse(), second: _CreateCourse()),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
@@ -394,21 +397,22 @@ class _TimetableAddSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Text('$index. Schritt',
-                  style: const TextStyle(color: Colors.grey)),
+              Text(
+                '$index. Schritt',
+                style: const TextStyle(color: Colors.grey),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
                   title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(fontSize: 20),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineSmall?.copyWith(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
               ),
               const SizedBox(height: 20),
-              child
+              child,
             ],
           ),
         ),

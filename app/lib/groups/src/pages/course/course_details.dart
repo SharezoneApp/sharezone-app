@@ -46,7 +46,9 @@ class DeleteCourseDetailsPopOption implements CourseDetailsPopOption {
 }
 
 Future<void> openCourseDetailsPageAndShowConfirmationIfSuccessful(
-    BuildContext context, Course course) async {
+  BuildContext context,
+  Course course,
+) async {
   final popOption = await Navigator.push<CourseDetailsPopOption>(
     context,
     MaterialPageRoute(
@@ -72,16 +74,18 @@ Future<void> openCourseDetailsPageAndShowConfirmationIfSuccessful(
 
 void _showCourseDeleteConfirmationSnackbar(BuildContext context) {
   showSnackSec(
-      text: "Du hast erfolgreich den Kurs gelöscht.",
-      context: context,
-      seconds: 2);
+    text: "Du hast erfolgreich den Kurs gelöscht.",
+    context: context,
+    seconds: 2,
+  );
 }
 
 void _showCourseLeaveConformationSnackbar(BuildContext context) {
   showSnackSec(
-      text: "Du hast erfolgreich den Kurs verlassen.",
-      context: context,
-      seconds: 2);
+    text: "Du hast erfolgreich den Kurs verlassen.",
+    context: context,
+    seconds: 2,
+  );
 }
 
 class CourseDetailsPage extends StatelessWidget {
@@ -96,8 +100,9 @@ class CourseDetailsPage extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return BlocProvider<CourseDetailsBloc>(
       bloc: CourseDetailsBloc(
-          CourseDetailsBlocGateway(api.course, course, groupAnalytics),
-          api.userId),
+        CourseDetailsBlocGateway(api.course, course, groupAnalytics),
+        api.userId,
+      ),
       child: const _CourseDetailsPage(),
     );
   }
@@ -122,11 +127,7 @@ class _CourseDetailsPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.warning,
-                      color: Colors.deepOrange,
-                      size: 84,
-                    ),
+                    Icon(Icons.warning, color: Colors.deepOrange, size: 84),
                     SizedBox(height: 16),
                     Text(
                       "Es gab einen Fehler beim Laden des Kurses.\n\nMöglicherweise bist du nicht mehr ein Teilnehmer dieses Kurses.",
@@ -142,8 +143,9 @@ class _CourseDetailsPage extends StatelessWidget {
             ),
           );
         }
-        final course = snapshot
-            .data!; // So that attributes are null, but the courseDetailsView is not. null attributes are handeld individually in the widgets.
+        final course =
+            snapshot
+                .data!; // So that attributes are null, but the courseDetailsView is not. null attributes are handeld individually in the widgets.
         final isAdmin = bloc.isAdmin(course.myRole);
         return Scaffold(
           appBar: AppBar(
@@ -164,7 +166,9 @@ class _CourseDetailsPage extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       _CourseAvatarCard(
-                          course: course, memberCount: members.length),
+                        course: course,
+                        memberCount: members.length,
+                      ),
                       _SettingsCard(course: course),
                       MemberSection(
                         splittedMemberList: createSplittedMemberList(members),
@@ -180,14 +184,16 @@ class _CourseDetailsPage extends StatelessWidget {
                         },
                       ),
                       _DangerSection(
-                        onDeleteDialogClose: (appFunction) => Navigator.pop(
-                          context,
-                          DeleteCourseDetailsPopOption(appFunction),
-                        ),
-                        onLeaveDialogClose: (appFunction) => Navigator.pop(
-                          context,
-                          LeaveCourseDetailsPopOption(appFunction),
-                        ),
+                        onDeleteDialogClose:
+                            (appFunction) => Navigator.pop(
+                              context,
+                              DeleteCourseDetailsPopOption(appFunction),
+                            ),
+                        onLeaveDialogClose:
+                            (appFunction) => Navigator.pop(
+                              context,
+                              LeaveCourseDetailsPopOption(appFunction),
+                            ),
                         isAdmin: isAdmin,
                         courseName: course.name,
                       ),
@@ -217,13 +223,15 @@ class _DangerSection extends StatelessWidget {
   final String courseName;
 
   void _logCourseLeaveButtonViaCourseDetailsPage(Analytics analytics) {
-    analytics.log(NamedAnalyticsEvent(
-        name: "course_leave_button_via_course_details_page"));
+    analytics.log(
+      NamedAnalyticsEvent(name: "course_leave_button_via_course_details_page"),
+    );
   }
 
   void _logCourseDeleteButtonViaCourseDetailsPage(Analytics analytics) {
-    analytics.log(NamedAnalyticsEvent(
-        name: "course_delete_button_via_course_details_page"));
+    analytics.log(
+      NamedAnalyticsEvent(name: "course_delete_button_via_course_details_page"),
+    );
   }
 
   @override
@@ -324,8 +332,9 @@ class _CourseAvatarCard extends StatelessWidget {
       children: <Widget>[
         AvatarCard(
           crossAxisAlignment: CrossAxisAlignment.center,
-          avatarBackgroundColor:
-              course.getDesign().color.withValues(alpha: 0.2),
+          avatarBackgroundColor: course.getDesign().color.withValues(
+            alpha: 0.2,
+          ),
           fontColor: course.getDesign().color,
           withShadow: false,
           kuerzel: course.abbreviation,

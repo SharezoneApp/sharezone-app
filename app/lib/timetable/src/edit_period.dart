@@ -25,17 +25,11 @@ Future<Period?> selectPeriod(BuildContext context, {Period? selected}) {
         leading: Text(
           item.number.toString(),
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 18,
-          ),
+          style: const TextStyle(fontSize: 18),
         ),
         title: Text("${item.startTime} - ${item.endTime}"),
-        trailing: isSelected
-            ? const Icon(
-                Icons.done,
-                color: Colors.green,
-              )
-            : null,
+        trailing:
+            isSelected ? const Icon(Icons.done, color: Colors.green) : null,
         onTap: () {
           Navigator.pop(context, item);
         },

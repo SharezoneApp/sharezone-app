@@ -17,9 +17,7 @@ class SharezonePlusPageAnalytics {
     analytics.log(
       NamedAnalyticsEvent(
         name: 'sz_plus_page_opened_advantage',
-        data: {
-          'advantage': advantage,
-        },
+        data: {'advantage': advantage},
       ),
     );
   }
@@ -28,9 +26,7 @@ class SharezonePlusPageAnalytics {
     analytics.log(
       NamedAnalyticsEvent(
         name: 'sz_plus_page_opened_faq',
-        data: {
-          'question': question,
-        },
+        data: {'question': question},
       ),
     );
   }
@@ -39,10 +35,7 @@ class SharezonePlusPageAnalytics {
     analytics.log(
       NamedAnalyticsEvent(
         name: 'sz_plus_subscribed',
-        data: {
-          'period': period,
-          'platform': platform,
-        },
+        data: {'period': period, 'platform': platform},
       ),
     );
   }

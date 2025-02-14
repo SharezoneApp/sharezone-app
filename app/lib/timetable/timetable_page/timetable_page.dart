@@ -134,8 +134,9 @@ class _SettingsIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(themeIconData(Icons.settings,
-          cupertinoIcon: CupertinoIcons.settings)),
+      icon: Icon(
+        themeIconData(Icons.settings, cupertinoIcon: CupertinoIcons.settings),
+      ),
       tooltip: 'Stundenplan-Einstellungen',
       onPressed: () => Navigator.pushNamed(context, TimetableSettingsPage.tag),
     );
@@ -172,15 +173,17 @@ class TimeTableUnit extends StatelessWidget {
       // In the future we might add explicit buttons to go forward or backwards
       // a week in the timetable - in this case desktop might remove this
       // behavior.
-      scrollBehavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-      }),
+      scrollBehavior: ScrollConfiguration.of(context).copyWith(
+        dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+      ),
       itemBuilder: (context, index) {
         final startOfWeek = TimetableDateHelper.dateAddWeeks(today, index);
         final endDate = TimetableDateHelper.dateAddDays(startOfWeek, 6);
         final daysList = TimetableDateHelper.generateDaysList(
-            startOfWeek, endDate, timetableConfig.getEnabledWeekDays());
+          startOfWeek,
+          endDate,
+          timetableConfig.getEnabledWeekDays(),
+        );
 
         final filteredLessonsList = getFilteredLessonList(
           lessons,
@@ -198,9 +201,7 @@ class TimeTableUnit extends StatelessWidget {
             );
             return TimetableWeekView(
               dates: daysList,
-              elements: [
-                ...builder.buildElements(),
-              ],
+              elements: [...builder.buildElements()],
               config: timetableConfig,
               periods: timetableConfig.getPeriods(),
             );

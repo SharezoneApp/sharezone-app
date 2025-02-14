@@ -62,10 +62,7 @@ class _FilePageState extends State<FilePage> {
       stream: filePageBloc.localFile,
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data == null) {
-          return _LoadingPage(
-            name: name,
-            nameStream: widget.nameStream,
-          );
+          return _LoadingPage(name: name, nameStream: widget.nameStream);
         }
         if (snapshot.hasError) {
           return _EmptyPage(
@@ -92,20 +89,14 @@ class _FilePageState extends State<FilePage> {
             nameStream: widget.nameStream,
           );
         }
-        return _EmptyPage(
-          name: name,
-          nameStream: widget.nameStream,
-        );
+        return _EmptyPage(name: name, nameStream: widget.nameStream);
       },
     );
   }
 }
 
 class _LoadingPage extends StatefulWidget {
-  const _LoadingPage({
-    required this.name,
-    required this.nameStream,
-  });
+  const _LoadingPage({required this.name, required this.nameStream});
 
   final String name;
   final Stream<String>? nameStream;
@@ -120,8 +111,10 @@ class _LoadingPageState extends State<_LoadingPage> {
     return Theme(
       data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: Scaffold(
-        appBar:
-            FilePageAppBar(name: widget.name, nameStream: widget.nameStream),
+        appBar: FilePageAppBar(
+          name: widget.name,
+          nameStream: widget.nameStream,
+        ),
         body: const Center(child: AccentColorCircularProgressIndicator()),
       ),
     );
@@ -129,11 +122,7 @@ class _LoadingPageState extends State<_LoadingPage> {
 }
 
 class _EmptyPage extends StatelessWidget {
-  const _EmptyPage({
-    required this.name,
-    required this.nameStream,
-    this.error,
-  });
+  const _EmptyPage({required this.name, required this.nameStream, this.error});
 
   final String name;
   final Stream<String>? nameStream;

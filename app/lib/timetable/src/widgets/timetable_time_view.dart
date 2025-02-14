@@ -67,8 +67,11 @@ class _PositionedPeriodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dimensions =
-        TimetablePeriodDimensions(period, hourHeight, timetableBegin);
+    final dimensions = TimetablePeriodDimensions(
+      period,
+      hourHeight,
+      timetableBegin,
+    );
     return Positioned(
       left: 0.0,
       top: dimensions.topPosition,
@@ -92,8 +95,11 @@ class _PositionedHourTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dimensions =
-        TimetableTimeDimensions(hour, hourHeight, timetableBegin);
+    final dimensions = TimetableTimeDimensions(
+      hour,
+      hourHeight,
+      timetableBegin,
+    );
     return Positioned(
       left: 0.0,
       top: dimensions.topPosition,
@@ -106,14 +112,13 @@ class _PositionedHourTile extends StatelessWidget {
 class _PeriodTile extends StatelessWidget {
   final Period period;
 
-  const _PeriodTile({
-    required this.period,
-  });
+  const _PeriodTile({required this.period});
 
   @override
   Widget build(BuildContext context) {
-    final lengthInMinutes =
-        period.endTime.differenceInMinutes(period.startTime);
+    final lengthInMinutes = period.endTime.differenceInMinutes(
+      period.startTime,
+    );
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -128,10 +133,7 @@ class _PeriodTile extends StatelessWidget {
             Text(
               period.startTime.toString(),
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 11,
-                color: Colors.grey,
-              ),
+              style: const TextStyle(fontSize: 11, color: Colors.grey),
             ),
             Text(
               period.number.toString(),
@@ -145,11 +147,8 @@ class _PeriodTile extends StatelessWidget {
             Text(
               period.endTime.toString(),
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 11,
-                color: Colors.grey,
-              ),
-            )
+              style: const TextStyle(fontSize: 11, color: Colors.grey),
+            ),
           ],
         ),
       ),
@@ -160,9 +159,7 @@ class _PeriodTile extends StatelessWidget {
 class _HourTile extends StatelessWidget {
   final Time hour;
 
-  const _HourTile({
-    required this.hour,
-  });
+  const _HourTile({required this.hour});
 
   @override
   Widget build(BuildContext context) {
@@ -170,9 +167,10 @@ class _HourTile extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-              color:
-                  Theme.of(context).isDarkTheme ? Colors.white30 : Colors.black,
-              width: 0.1),
+            color:
+                Theme.of(context).isDarkTheme ? Colors.white30 : Colors.black,
+            width: 0.1,
+          ),
         ),
       ),
       child: Text(

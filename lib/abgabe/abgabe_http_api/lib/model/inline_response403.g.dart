@@ -17,15 +17,22 @@ class _$InlineResponse403Serializer
   final String wireName = 'InlineResponse403';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, InlineResponse403 object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    InlineResponse403 object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'error',
-      serializers.serialize(object.error,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.error,
+        specifiedType: const FullType(String),
+      ),
       'scope',
-      serializers.serialize(object.scope,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.scope,
+        specifiedType: const FullType(String),
+      ),
     ];
 
     return result;
@@ -33,8 +40,10 @@ class _$InlineResponse403Serializer
 
   @override
   InlineResponse403 deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = new InlineResponse403Builder();
 
     final iterator = serialized.iterator;
@@ -44,12 +53,20 @@ class _$InlineResponse403Serializer
       final Object? value = iterator.current;
       switch (key) {
         case 'error':
-          result.error = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.error =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'scope':
-          result.scope = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.scope =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -64,12 +81,12 @@ class _$InlineResponse403 extends InlineResponse403 {
   @override
   final String scope;
 
-  factory _$InlineResponse403(
-          [void Function(InlineResponse403Builder)? updates]) =>
-      (new InlineResponse403Builder()..update(updates))._build();
+  factory _$InlineResponse403([
+    void Function(InlineResponse403Builder)? updates,
+  ]) => (new InlineResponse403Builder()..update(updates))._build();
 
   _$InlineResponse403._({required this.error, required this.scope})
-      : super._() {
+    : super._() {
     BuiltValueNullFieldError.checkNotNull(error, r'InlineResponse403', 'error');
     BuiltValueNullFieldError.checkNotNull(scope, r'InlineResponse403', 'scope');
   }
@@ -147,12 +164,20 @@ class InlineResponse403Builder
   InlineResponse403 build() => _build();
 
   _$InlineResponse403 _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         new _$InlineResponse403._(
-            error: BuiltValueNullFieldError.checkNotNull(
-                error, r'InlineResponse403', 'error'),
-            scope: BuiltValueNullFieldError.checkNotNull(
-                scope, r'InlineResponse403', 'scope'));
+          error: BuiltValueNullFieldError.checkNotNull(
+            error,
+            r'InlineResponse403',
+            'error',
+          ),
+          scope: BuiltValueNullFieldError.checkNotNull(
+            scope,
+            r'InlineResponse403',
+            'scope',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

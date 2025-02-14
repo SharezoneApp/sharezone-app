@@ -83,20 +83,28 @@ class MockTimetableGateway implements TimetableGateway {
   @override
   Stream<List<CalendricalEvent>> streamEvents(Date startDate, [Date? endDate]) {
     if (endDate == null) {
-      return Stream.value(_eventsSubject.valueOrNull!
-          .where((event) =>
-              event.date.toDateTime.millisecond >=
-              startDate.toDateTime.millisecond)
-          .toList());
+      return Stream.value(
+        _eventsSubject.valueOrNull!
+            .where(
+              (event) =>
+                  event.date.toDateTime.millisecond >=
+                  startDate.toDateTime.millisecond,
+            )
+            .toList(),
+      );
     }
 
-    return Stream.value(_eventsSubject.valueOrNull!
-        .where((event) =>
-            (event.date.toDateTime.millisecond >=
-                startDate.toDateTime.millisecond) &&
-            event.date.toDateTime.millisecond <=
-                startDate.toDateTime.millisecond)
-        .toList());
+    return Stream.value(
+      _eventsSubject.valueOrNull!
+          .where(
+            (event) =>
+                (event.date.toDateTime.millisecond >=
+                    startDate.toDateTime.millisecond) &&
+                event.date.toDateTime.millisecond <=
+                    startDate.toDateTime.millisecond,
+          )
+          .toList(),
+    );
   }
 
   @override
@@ -131,18 +139,20 @@ class MockTimetableGateway implements TimetableGateway {
   }
 
   @override
-  void addSubstitutionToLesson(
-      {required String lessonId,
-      required Substitution substitution,
-      required bool notifyGroupMembers}) {
+  void addSubstitutionToLesson({
+    required String lessonId,
+    required Substitution substitution,
+    required bool notifyGroupMembers,
+  }) {
     throw UnimplementedError();
   }
 
   @override
-  void removeSubstitutionFromLesson(
-      {required String lessonId,
-      required SubstitutionId substitutionId,
-      required bool notifyGroupMembers}) {
+  void removeSubstitutionFromLesson({
+    required String lessonId,
+    required SubstitutionId substitutionId,
+    required bool notifyGroupMembers,
+  }) {
     throw UnimplementedError();
   }
 

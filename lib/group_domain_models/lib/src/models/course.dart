@@ -77,9 +77,10 @@ class Course {
       myRole: MemberRole.values.byName(data['myRole'] ?? 'standard'),
       settings: CourseSettings.fromData(data['settings']),
       design: Design.fromData(data['design']),
-      personalDesign: data['personalDesign'] != null
-          ? Design.fromData(data['personalDesign'])
-          : null,
+      personalDesign:
+          data['personalDesign'] != null
+              ? Design.fromData(data['personalDesign'])
+              : null,
     );
   }
 
@@ -243,8 +244,10 @@ class CourseData {
       sharecode: data['publicKey'],
       joinLink: data['joinLink'],
       referenceSchoolID: data['referenceSchoolID'],
-      referenceSchoolClassIDs:
-          decodeList(data['referenceSchoolClassIDs'], (it) => it),
+      referenceSchoolClassIDs: decodeList(
+        data['referenceSchoolClassIDs'],
+        (it) => it,
+      ),
       settings: CourseSettings.fromData(data['settings']),
       design: Design.random(),
     );
@@ -341,22 +344,17 @@ class CourseSettings {
     if (data == null) return standard;
     return CourseSettings._(
       isPublic: data['isPublic'] ?? true,
-      writePermission:
-          WritePermission.values.byName(data['writePermission'] ?? 'everyone'),
+      writePermission: WritePermission.values.byName(
+        data['writePermission'] ?? 'everyone',
+      ),
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'isPublic': isPublic,
-      'writePermission': writePermission.name,
-    };
+    return {'isPublic': isPublic, 'writePermission': writePermission.name};
   }
 
-  CourseSettings copyWith({
-    bool? isPublic,
-    WritePermission? writePermission,
-  }) {
+  CourseSettings copyWith({bool? isPublic, WritePermission? writePermission}) {
     return CourseSettings._(
       isPublic: isPublic ?? this.isPublic,
       writePermission: writePermission ?? this.writePermission,

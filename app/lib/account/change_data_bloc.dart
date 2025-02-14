@@ -70,8 +70,9 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
 
   Future<void> sendResetPasswordMail() async {
     if (await hasInternetAccess()) {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: userAPI.authUser!.email!);
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: userAPI.authUser!.email!,
+      );
     } else {
       throw NoInternetAccess();
     }
@@ -84,8 +85,9 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
 
     if (newEmail == currentEmail) {
       throw IdenticalEmailException(
-          "Die eingegebene E-Mail ist doch identisch mit der alten?! 🙈",
-          currentEmail);
+        "Die eingegebene E-Mail ist doch identisch mit der alten?! 🙈",
+        currentEmail,
+      );
     } else {
       if (!isEmptyOrNull(newEmail) &&
           AuthentificationValidators.isEmailValid(newEmail!)) {
@@ -93,14 +95,19 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
             AuthentificationValidators.isPasswordValid(password!)) {
           if (await hasInternetAccess()) {
             final credential = EmailAuthProvider.credential(
-                email: currentEmail, password: password);
-            await userAPI.authUser!.firebaseUser
-                .reauthenticateWithCredential(credential);
+              email: currentEmail,
+              password: password,
+            );
+            await userAPI.authUser!.firebaseUser.reauthenticateWithCredential(
+              credential,
+            );
             await userAPI.changeEmail(newEmail);
 
             firebaseAuth.signOut();
             firebaseAuth.signInWithEmailAndPassword(
-                email: newEmail, password: password);
+              email: newEmail,
+              password: password,
+            );
           } else {
             throw NoInternetAccess();
           }
@@ -127,10 +134,13 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
       if (!isEmptyOrNull(newPassword) &&
           AuthentificationValidators.isPasswordValid(newPassword!)) {
         if (await hasInternetAccess()) {
-          final AuthCredential credential =
-              EmailAuthProvider.credential(email: email, password: password);
-          await userAPI.authUser!.firebaseUser
-              .reauthenticateWithCredential(credential);
+          final AuthCredential credential = EmailAuthProvider.credential(
+            email: email,
+            password: password,
+          );
+          await userAPI.authUser!.firebaseUser.reauthenticateWithCredential(
+            credential,
+          );
           userAPI.authUser!.firebaseUser.updatePassword(newPassword);
         } else {
           throw NoInternetAccess();

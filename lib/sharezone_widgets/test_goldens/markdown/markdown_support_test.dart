@@ -20,9 +20,7 @@ void main() {
     testGoldens('renders as expected (dark mode)', (tester) async {
       await tester.pumpWidgetBuilder(
         const Center(child: MarkdownSupport()),
-        wrapper: materialAppWrapper(
-          theme: getDarkTheme(fontFamily: roboto),
-        ),
+        wrapper: materialAppWrapper(theme: getDarkTheme(fontFamily: roboto)),
       );
 
       await screenMatchesGolden(tester, 'markdown_support_dark');
@@ -31,9 +29,7 @@ void main() {
     testGoldens('renders as expected (light mode)', (tester) async {
       await tester.pumpWidgetBuilder(
         const Center(child: MarkdownSupport()),
-        wrapper: materialAppWrapper(
-          theme: getLightTheme(fontFamily: roboto),
-        ),
+        wrapper: materialAppWrapper(theme: getLightTheme(fontFamily: roboto)),
       );
 
       await screenMatchesGolden(tester, 'markdown_support_light');
@@ -41,15 +37,8 @@ void main() {
 
     testGoldens('should break lines as expected', (tester) async {
       await tester.pumpWidgetBuilder(
-        const Center(
-          child: SizedBox(
-            width: 100,
-            child: MarkdownSupport(),
-          ),
-        ),
-        wrapper: materialAppWrapper(
-          theme: getLightTheme(fontFamily: roboto),
-        ),
+        const Center(child: SizedBox(width: 100, child: MarkdownSupport())),
+        wrapper: materialAppWrapper(theme: getLightTheme(fontFamily: roboto)),
       );
 
       await screenMatchesGolden(tester, 'markdown_support_lines');

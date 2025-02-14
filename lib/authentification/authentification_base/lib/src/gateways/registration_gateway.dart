@@ -33,7 +33,8 @@ class RegistrationGateway extends BlocBase {
   final FirebaseAuth _auth;
   final RegistrationAnalytics _analytics =
       RegistrationAnalyticsAnalyticsWithInternalFirebaseEvents(
-          Analytics(getBackend()));
+        Analytics(getBackend()),
+      );
 
   final _registrationEventController =
       StreamController<RegistrationEvent>.broadcast();
@@ -134,5 +135,5 @@ const randomNames = <String>[
   "Fuchs",
   "Alligator",
   "Leopard",
-  "Hamster"
+  "Hamster",
 ];

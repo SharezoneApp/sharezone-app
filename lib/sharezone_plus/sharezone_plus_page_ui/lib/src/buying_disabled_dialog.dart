@@ -13,9 +13,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 /// A dialog that is shown when the user tries to buy Sharezone Plus but the
 /// buying process is disabled (e.g. during maintenance).
 class BuyingDisabledDialog extends StatelessWidget {
-  const BuyingDisabledDialog({
-    super.key,
-  });
+  const BuyingDisabledDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class BuyingDisabledDialog extends StatelessWidget {
             ),
             onPressed: () => Navigator.pop(context),
             child: const Text("OK"),
-          )
+          ),
         ],
       ),
     );

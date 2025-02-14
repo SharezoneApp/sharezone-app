@@ -25,25 +25,31 @@ class TableOfContents {
   ExpansionBehavior expansionBehavior;
 
   TableOfContents(this.sections, this.expansionBehavior)
-      : assert(() {
-          final sectionsHaveCorrectExpansionBehavior = sections.every(
-              (element) =>
-                  element.expansionStateOrNull == null ||
-                  element.expansionStateOrNull!.expansionBehavior ==
-                      expansionBehavior);
+    : assert(() {
+        final sectionsHaveCorrectExpansionBehavior = sections.every(
+          (element) =>
+              element.expansionStateOrNull == null ||
+              element.expansionStateOrNull!.expansionBehavior ==
+                  expansionBehavior,
+        );
 
-          return sectionsHaveCorrectExpansionBehavior;
-        }());
+        return sectionsHaveCorrectExpansionBehavior;
+      }());
 
   /// Update the [TableOfContents] with the new [currentlyReadSection].
   /// This might update the [TocSectionExpansionState] of the [sections].
   TableOfContents changeCurrentlyReadSectionTo(
-      DocumentSectionId? currentlyReadSection) {
+    DocumentSectionId? currentlyReadSection,
+  ) {
     return _copyWith(
-        sections: sections
-            .map((section) =>
-                section.notifyOfNewCurrentlyRead(currentlyReadSection))
-            .toIList());
+      sections:
+          sections
+              .map(
+                (section) =>
+                    section.notifyOfNewCurrentlyRead(currentlyReadSection),
+              )
+              .toIList(),
+    );
   }
 
   /// Manually toggle the expansion state of [sectionId].
@@ -51,12 +57,13 @@ class TableOfContents {
   /// section.
   TableOfContents forceToggleExpansionOf(DocumentSectionId sectionId) {
     return _copyWith(
-      sections: sections
-          .replaceWhere(
-            where: (section) => section.id == sectionId,
-            replace: (section) => section.forceToggleExpansion(),
-          )
-          .toIList(),
+      sections:
+          sections
+              .replaceWhere(
+                where: (section) => section.id == sectionId,
+                replace: (section) => section.forceToggleExpansion(),
+              )
+              .toIList(),
     );
   }
 
@@ -66,7 +73,8 @@ class TableOfContents {
   /// desktop layout might have different [expansionBehavior] than the mobile
   /// layout.
   TableOfContents changeExpansionBehaviorTo(
-      ExpansionBehavior newExpansionBehavior) {
+    ExpansionBehavior newExpansionBehavior,
+  ) {
     // This check is important for performance reasons - when resizing the
     // window / redrawing often this method gets called very often without
     // a different [expansionBehavior] we should change to.
@@ -78,10 +86,13 @@ class TableOfContents {
     }
 
     return _copyWith(
-      sections: sections
-          .map((section) =>
-              section.changeExpansionBehaviorTo(newExpansionBehavior))
-          .toIList(),
+      sections:
+          sections
+              .map(
+                (section) =>
+                    section.changeExpansionBehaviorTo(newExpansionBehavior),
+              )
+              .toIList(),
       expansionBehavior: newExpansionBehavior,
     );
   }
@@ -120,13 +131,16 @@ class TocSection {
     required this.subsections,
     required this.isThisCurrentlyRead,
     this.expansionStateOrNull,
-  }) : assert(subsections
-                .where((element) => element.isThisOrASubsectionCurrentlyRead)
-                .length <=
-            1) {
+  }) : assert(
+         subsections
+                 .where((element) => element.isThisOrASubsectionCurrentlyRead)
+                 .length <=
+             1,
+       ) {
     if (subsections.isEmpty && isExpanded) {
       throw ArgumentError(
-          '$TocSection cant be expanded if it has no subsections');
+        '$TocSection cant be expanded if it has no subsections',
+      );
     }
   }
 
@@ -148,8 +162,9 @@ class TocSection {
     }
 
     return _copyWith(
-      expansionStateOrNull:
-          expansionStateOrNull!.copyWith(expansionBehavior: expansionBehavior),
+      expansionStateOrNull: expansionStateOrNull!.copyWith(
+        expansionBehavior: expansionBehavior,
+      ),
     );
   }
 
@@ -161,11 +176,15 @@ class TocSection {
   /// [notifyOfNewCurrentlyRead] would return an updated version of `this` with
   /// [isThisCurrentlyRead] == `true` and [isExpanded] == `true`.
   TocSection notifyOfNewCurrentlyRead(
-      DocumentSectionId? newCurrentlyReadSection) {
-    final IList<TocSection> newSubsections = subsections
-        .map((subsection) =>
-            subsection.notifyOfNewCurrentlyRead(newCurrentlyReadSection))
-        .toIList();
+    DocumentSectionId? newCurrentlyReadSection,
+  ) {
+    final IList<TocSection> newSubsections =
+        subsections
+            .map(
+              (subsection) =>
+                  subsection.notifyOfNewCurrentlyRead(newCurrentlyReadSection),
+            )
+            .toIList();
 
     TocSection updated = _copyWith(
       isThisCurrentlyRead: id == newCurrentlyReadSection,
@@ -174,8 +193,10 @@ class TocSection {
 
     if (isExpandable) {
       updated = updated._copyWith(
-        expansionStateOrNull: expansionStateOrNull!
-            .computeNewExpansionState(before: this, after: updated),
+        expansionStateOrNull: expansionStateOrNull!.computeNewExpansionState(
+          before: this,
+          after: updated,
+        ),
       );
     }
 
@@ -241,10 +262,14 @@ class TocSectionExpansionState {
     required this.expansionBehavior,
   });
 
-  TocSectionExpansionState computeNewExpansionState(
-      {required TocSection before, required TocSection after}) {
+  TocSectionExpansionState computeNewExpansionState({
+    required TocSection before,
+    required TocSection after,
+  }) {
     return expansionBehavior.computeExpansionState(
-        before: before, after: after);
+      before: before,
+      after: after,
+    );
   }
 
   TocSectionExpansionState copyWith({

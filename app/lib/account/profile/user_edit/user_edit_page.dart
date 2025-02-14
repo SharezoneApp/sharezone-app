@@ -17,7 +17,9 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 Future<void> openUserEditPageIfUserIsLoaded(
-    BuildContext context, AppUser? user) async {
+  BuildContext context,
+  AppUser? user,
+) async {
   if (user != null) {
     final confirmed = await pushWithDefault<bool>(
       context,
@@ -49,9 +51,11 @@ void _showConfirmationSnackbar(BuildContext context) {
   );
 }
 
-Future<void> _submit(BuildContext context,
-    {UserEditPageBloc? bloc,
-    GlobalKey<ScaffoldMessengerState>? scaffoldKey}) async {
+Future<void> _submit(
+  BuildContext context, {
+  UserEditPageBloc? bloc,
+  GlobalKey<ScaffoldMessengerState>? scaffoldKey,
+}) async {
   bloc ??= BlocProvider.of<UserEditPageBloc>(context);
   showSnackSec(
     context: context,
@@ -138,8 +142,10 @@ class _UserEditPageState extends State<UserEditPage> {
         },
         child: Scaffold(
           key: scaffoldKey,
-          appBar:
-              AppBar(title: const Text("Name bearbeiten"), centerTitle: true),
+          appBar: AppBar(
+            title: const Text("Name bearbeiten"),
+            centerTitle: true,
+          ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
             child: MaxWidthConstraintBox(
@@ -151,8 +157,12 @@ class _UserEditPageState extends State<UserEditPage> {
                       initialName: widget.user!.name,
                       onChanged: bloc.changeName,
                       nameStream: bloc.name,
-                      onEditingComplete: () => _submit(context,
-                          bloc: bloc, scaffoldKey: scaffoldKey),
+                      onEditingComplete:
+                          () => _submit(
+                            context,
+                            bloc: bloc,
+                            scaffoldKey: scaffoldKey,
+                          ),
                       withIcon: false,
                       autofocus: true,
                       textInputAction: TextInputAction.done,

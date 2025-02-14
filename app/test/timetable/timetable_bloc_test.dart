@@ -36,7 +36,7 @@ void main() {
         'joinLink': 'https://sharez.one/RpvEuUZMLEjb522N8',
         'personalSharecode': '654321',
         'personalJoinLink': 'https://sharez.one/RpvEuUZMLEjb522N7',
-        'settings': null
+        'settings': null,
       };
 
       return SchoolClass.fromData(data, id: id);
@@ -124,40 +124,44 @@ void main() {
       });
 
       test(
-          'If the user has not selected a specific school class, the lessons of all groups should be shown',
-          () async {
-        expect(
-          bloc.lessons,
-          emits([lesson10a, lesson5b, lessonAg]),
-          reason:
-              'the user has not specified a school class, so all lessons should be shown',
-        );
-      });
+        'If the user has not selected a specific school class, the lessons of all groups should be shown',
+        () async {
+          expect(
+            bloc.lessons,
+            emits([lesson10a, lesson5b, lessonAg]),
+            reason:
+                'the user has not specified a school class, so all lessons should be shown',
+          );
+        },
+      );
 
       test(
-          'If the user has selected a specific school class, only the lessons of this group should be shown',
-          () async {
-        bloc.changeSchoolClassFilter(
-            SchoolClassFilter.showSchoolClass(klasse10a.groupId));
+        'If the user has selected a specific school class, only the lessons of this group should be shown',
+        () async {
+          bloc.changeSchoolClassFilter(
+            SchoolClassFilter.showSchoolClass(klasse10a.groupId),
+          );
 
-        // Wird benötigt, damit der Test funktioniert.
-        await Future.delayed(const Duration(milliseconds: 1));
+          // Wird benötigt, damit der Test funktioniert.
+          await Future.delayed(const Duration(milliseconds: 1));
 
-        expect(
-          bloc.lessons,
-          emits([lesson10a]),
-          reason:
-              'the user has specified the school class "10a", so only lessons of the 10a should be shown',
-        );
-      });
+          expect(
+            bloc.lessons,
+            emits([lesson10a]),
+            reason:
+                'the user has specified the school class "10a", so only lessons of the 10a should be shown',
+          );
+        },
+      );
 
       test(
-          'If the user has selected a specific school class, the school class view should be selected',
-          () {
-        bloc.changeSchoolClassFilter(
-            SchoolClassFilter.showSchoolClass(klasse10a.groupId));
+        'If the user has selected a specific school class, the school class view should be selected',
+        () {
+          bloc.changeSchoolClassFilter(
+            SchoolClassFilter.showSchoolClass(klasse10a.groupId),
+          );
 
-        expect(
+          expect(
             bloc.schoolClassFilterView.map((view) => view.schoolClassList),
             emitsInOrder([
               // Es werden alle Gruppen angezeigt (da keine spezifische Klasse
@@ -170,102 +174,122 @@ void main() {
                 klasse10a.toView(isSelected: true),
                 klasse5b.toView(isSelected: false),
               ],
-            ]));
-      });
+            ]),
+          );
+        },
+      );
 
       test('As a default value all groups should be shown', () {
         expect(
-            bloc.schoolClassFilterView.valueOrNull!.shouldShowAllGroups, true);
-      });
-
-      test(
-          'If "show all groups" is selected then no specific class should be selected',
-          () async {
-        // Da der default-Wert ist, dass alle Gruppen gezeigt werden, müssen wir
-        // als Setup erst eine spezifische Klasse auswählen.
-        bloc.changeSchoolClassFilter(
-            SchoolClassFilter.showSchoolClass(klasse5b.groupId));
-        bloc.changeSchoolClassFilter(SchoolClassFilter.showAllGroups());
-
-        await pumpEventQueue();
-
-        final view = bloc.schoolClassFilterView.valueOrNull!;
-
-        /// Da keine Klasse selektiert wurde, heißt das, dass die Stunden aller
-        /// Gruppen dem Nutzer angezeigt werden sollen.
-        expect(view.shouldShowAllGroups, true);
-        expect(view.schoolClassList, [
-          klasse10a.toView(isSelected: false),
-          klasse5b.toView(isSelected: false),
-        ]);
-      });
-
-      test(
-          'If the user has not selected a specific school class, the events of all groups should be shown',
-          () async {
-        expect(
-          bloc.events(Date.today(), endDate: Date.today()),
-          emits([event10a, event5b, eventAg]),
-          reason:
-              'the user has not specified a school class, so all events should be shown',
+          bloc.schoolClassFilterView.valueOrNull!.shouldShowAllGroups,
+          true,
         );
       });
 
       test(
-          'If the user has not selected a specific school class, the events of all groups should be shown',
-          () async {
-        bloc.changeSchoolClassFilter(
-            SchoolClassFilter.showSchoolClass(klasse5b.groupId));
+        'If "show all groups" is selected then no specific class should be selected',
+        () async {
+          // Da der default-Wert ist, dass alle Gruppen gezeigt werden, müssen wir
+          // als Setup erst eine spezifische Klasse auswählen.
+          bloc.changeSchoolClassFilter(
+            SchoolClassFilter.showSchoolClass(klasse5b.groupId),
+          );
+          bloc.changeSchoolClassFilter(SchoolClassFilter.showAllGroups());
 
-        expect(
-          bloc.events(Date.today(), endDate: Date.today()),
-          emits([event5b]),
-          reason:
-              'the user has specified a school class, so only events of 5a should be shown',
-        );
-      });
+          await pumpEventQueue();
 
-      test('The school classes in the view should be sorted alphabetically',
-          () async {
-        final a = createSchoolClass('a');
-        final b = createSchoolClass('b');
-        final c = createSchoolClass('c');
+          final view = bloc.schoolClassFilterView.valueOrNull!;
 
-        schoolClassGateway.addSchoolClasses([c, a, b]);
+          /// Da keine Klasse selektiert wurde, heißt das, dass die Stunden aller
+          /// Gruppen dem Nutzer angezeigt werden sollen.
+          expect(view.shouldShowAllGroups, true);
+          expect(view.schoolClassList, [
+            klasse10a.toView(isSelected: false),
+            klasse5b.toView(isSelected: false),
+          ]);
+        },
+      );
 
-        // Wird benötigt, damit der Test funktioniert.
-        await pumpEventQueue();
+      test(
+        'If the user has not selected a specific school class, the events of all groups should be shown',
+        () async {
+          expect(
+            bloc.events(Date.today(), endDate: Date.today()),
+            emits([event10a, event5b, eventAg]),
+            reason:
+                'the user has not specified a school class, so all events should be shown',
+          );
+        },
+      );
 
-        final expectedView = SchoolClassFilterView(schoolClassList: [
-          klasse10a.toView(),
-          klasse5b.toView(),
-          a.toView(),
-          b.toView(),
-          c.toView(),
-        ]);
-        expect(bloc.schoolClassFilterView, emits(expectedView));
-      });
+      test(
+        'If the user has not selected a specific school class, the events of all groups should be shown',
+        () async {
+          bloc.changeSchoolClassFilter(
+            SchoolClassFilter.showSchoolClass(klasse5b.groupId),
+          );
+
+          expect(
+            bloc.events(Date.today(), endDate: Date.today()),
+            emits([event5b]),
+            reason:
+                'the user has specified a school class, so only events of 5a should be shown',
+          );
+        },
+      );
+
+      test(
+        'The school classes in the view should be sorted alphabetically',
+        () async {
+          final a = createSchoolClass('a');
+          final b = createSchoolClass('b');
+          final c = createSchoolClass('c');
+
+          schoolClassGateway.addSchoolClasses([c, a, b]);
+
+          // Wird benötigt, damit der Test funktioniert.
+          await pumpEventQueue();
+
+          final expectedView = SchoolClassFilterView(
+            schoolClassList: [
+              klasse10a.toView(),
+              klasse5b.toView(),
+              a.toView(),
+              b.toView(),
+              c.toView(),
+            ],
+          );
+          expect(bloc.schoolClassFilterView, emits(expectedView));
+        },
+      );
 
       group('analytics', () {
         test('Log analyitcs, if the user selects a specific school class.', () {
           bloc.changeSchoolClassFilter(
-              SchoolClassFilter.showSchoolClass(klasse10a.groupId));
+            SchoolClassFilter.showSchoolClass(klasse10a.groupId),
+          );
 
           expect(
-              schoolClassSelectionAnalytics.loggedSelectedASpecificSchoolClass,
-              true);
-          expect(schoolClassSelectionAnalytics.loggedSelectedToShowAllGroups,
-              false);
+            schoolClassSelectionAnalytics.loggedSelectedASpecificSchoolClass,
+            true,
+          );
+          expect(
+            schoolClassSelectionAnalytics.loggedSelectedToShowAllGroups,
+            false,
+          );
         });
 
         test('Log analyitcs, if the user selects a specific school class.', () {
           bloc.changeSchoolClassFilter(SchoolClassFilter.showAllGroups());
 
-          expect(schoolClassSelectionAnalytics.loggedSelectedToShowAllGroups,
-              true);
           expect(
-              schoolClassSelectionAnalytics.loggedSelectedASpecificSchoolClass,
-              false);
+            schoolClassSelectionAnalytics.loggedSelectedToShowAllGroups,
+            true,
+          );
+          expect(
+            schoolClassSelectionAnalytics.loggedSelectedASpecificSchoolClass,
+            false,
+          );
         });
       });
     });
@@ -274,10 +298,6 @@ void main() {
 
 extension on SchoolClass {
   SchoolClassView toView({bool isSelected = false}) {
-    return SchoolClassView(
-      id: GroupId(id),
-      name: name,
-      isSelected: isSelected,
-    );
+    return SchoolClassView(id: GroupId(id), name: name, isSelected: isSelected);
   }
 }

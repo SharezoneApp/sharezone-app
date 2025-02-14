@@ -49,7 +49,8 @@ class _BlackboardSectionTitle extends StatelessWidget {
       builder: (context, snapshot) {
         final numberOfUnreadsBlackboardViews = snapshot.data ?? 0;
         return Text(
-            "Ungelesene Infozettel ${numberOfUnreadsBlackboardViews != 0 ? "($numberOfUnreadsBlackboardViews)" : ""}");
+          "Ungelesene Infozettel ${numberOfUnreadsBlackboardViews != 0 ? "($numberOfUnreadsBlackboardViews)" : ""}",
+        );
       },
     );
   }

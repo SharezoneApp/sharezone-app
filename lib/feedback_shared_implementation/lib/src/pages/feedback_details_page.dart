@@ -44,9 +44,9 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
   void initState() {
     super.initState();
 
-    controller = context
-        .read<FeedbackDetailsPageControllerFactory>()
-        .create(widget.feedbackId);
+    controller = context.read<FeedbackDetailsPageControllerFactory>().create(
+      widget.feedbackId,
+    );
     scrollController = ScrollController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -111,15 +111,15 @@ class _FeedbackTiles extends StatelessWidget {
       duration: const Duration(milliseconds: 250),
       child: switch (state) {
         FeedbackDetailsPageError() => _Error(
-            state: state,
-            onContactSupportPressed: onContactSupportPressed,
-          ),
+          state: state,
+          onContactSupportPressed: onContactSupportPressed,
+        ),
         FeedbackDetailsPageLoading() => const _Loading(),
         FeedbackDetailsPageLoaded() => _Items(
-            feedback: state.feedback,
-            messages: state.chatMessages,
-            showDeviceInformation: showDeviceInformation,
-          ),
+          feedback: state.feedback,
+          messages: state.chatMessages,
+          showDeviceInformation: showDeviceInformation,
+        ),
       },
     );
   }
@@ -149,10 +149,7 @@ class _Loading extends StatelessWidget {
 }
 
 class _Error extends StatelessWidget {
-  const _Error({
-    required this.state,
-    required this.onContactSupportPressed,
-  });
+  const _Error({required this.state, required this.onContactSupportPressed});
 
   final FeedbackDetailsPageError state;
   final VoidCallback? onContactSupportPressed;
@@ -231,7 +228,7 @@ class _Messages extends StatelessWidget {
                 if (message.isMyMessage)
                   _MyChatBubble(message)
                 else
-                  _SupportTeamChatBubble(message)
+                  _SupportTeamChatBubble(message),
             ],
           ),
         ),
@@ -249,8 +246,9 @@ class _MyChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     return _ChatBubble(
       text: view.message,
-      backgroundColor:
-          Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.2),
       alignment: Alignment.centerRight,
       sentAt: view.sentAt,
     );
@@ -276,9 +274,7 @@ class _SupportTeamChatBubble extends StatelessWidget {
 }
 
 class _WriteResponseField extends StatefulWidget {
-  const _WriteResponseField({
-    required this.scrollToBottom,
-  });
+  const _WriteResponseField({required this.scrollToBottom});
 
   final VoidCallback scrollToBottom;
 
@@ -299,11 +295,14 @@ class _WriteResponseFieldState extends State<_WriteResponseField> {
     focusNode = FocusNode(
       onKeyEvent: (node, event) {
         final pressedKeys = HardwareKeyboard.instance.physicalKeysPressed;
-        final isShiftLeftPressed =
-            pressedKeys.contains(PhysicalKeyboardKey.shiftLeft);
-        final isShiftRightPressed =
-            pressedKeys.contains(PhysicalKeyboardKey.shiftRight);
-        final enterPressedWithoutShift = event is KeyDownEvent &&
+        final isShiftLeftPressed = pressedKeys.contains(
+          PhysicalKeyboardKey.shiftLeft,
+        );
+        final isShiftRightPressed = pressedKeys.contains(
+          PhysicalKeyboardKey.shiftRight,
+        );
+        final enterPressedWithoutShift =
+            event is KeyDownEvent &&
             event.physicalKey == PhysicalKeyboardKey.enter &&
             !isShiftLeftPressed &&
             !isShiftRightPressed;
@@ -411,9 +410,7 @@ class _WriteResponseFieldState extends State<_WriteResponseField> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).viewInsets.bottom,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                 ],
               ),
             ),
@@ -425,9 +422,7 @@ class _WriteResponseFieldState extends State<_WriteResponseField> {
 }
 
 class _SendMessageButton extends StatelessWidget {
-  const _SendMessageButton({
-    required this.onPressed,
-  });
+  const _SendMessageButton({required this.onPressed});
 
   final VoidCallback? onPressed;
 
@@ -494,34 +489,32 @@ class _ChatBubble extends StatelessWidget {
               borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(12),
                 topRight: const Radius.circular(12),
-                bottomLeft: alignment == Alignment.centerRight
-                    ? const Radius.circular(12)
-                    : const Radius.circular(0),
-                bottomRight: alignment == Alignment.centerLeft
-                    ? const Radius.circular(12)
-                    : const Radius.circular(0),
+                bottomLeft:
+                    alignment == Alignment.centerRight
+                        ? const Radius.circular(12)
+                        : const Radius.circular(0),
+                bottomRight:
+                    alignment == Alignment.centerLeft
+                        ? const Radius.circular(12)
+                        : const Radius.circular(0),
               ),
             ),
             padding: const EdgeInsets.all(12),
             child: Column(
-              crossAxisAlignment: alignment == Alignment.centerRight
-                  ? CrossAxisAlignment.end
-                  : CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  alignment == Alignment.centerRight
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start,
               children: [
-                MarkdownBody(
-                  data: text,
-                  selectable: true,
-                  softLineBreak: true,
-                ),
+                MarkdownBody(data: text, selectable: true, softLineBreak: true),
                 const SizedBox(height: 4),
                 Text(
                   sentAt,
                   style: TextStyle(
                     fontSize: 10,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.5),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.5),
                   ),
                 ),
               ],
@@ -534,9 +527,7 @@ class _ChatBubble extends StatelessWidget {
 }
 
 class _DeviceInformation extends StatelessWidget {
-  const _DeviceInformation({
-    required this.deviceInformation,
-  });
+  const _DeviceInformation({required this.deviceInformation});
 
   final String deviceInformation;
 
@@ -550,9 +541,7 @@ class _DeviceInformation extends StatelessWidget {
 }
 
 class _CreatedOn extends StatelessWidget {
-  const _CreatedOn({
-    required this.createdOn,
-  });
+  const _CreatedOn({required this.createdOn});
 
   final String createdOn;
 
@@ -636,10 +625,7 @@ class _HeardFrom extends StatelessWidget {
 }
 
 class _FeedbackTile extends StatelessWidget {
-  const _FeedbackTile({
-    required this.title,
-    this.leading,
-  });
+  const _FeedbackTile({required this.title, this.leading});
 
   final Widget? leading;
   final Widget title;
@@ -653,16 +639,17 @@ class _FeedbackTile extends StatelessWidget {
       enabled: isLoading,
       child: ListTile(
         leading: leading,
-        title: isLoading
-            ? Container(
-                height: 20,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              )
-            : title,
+        title:
+            isLoading
+                ? Container(
+                  height: 20,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                )
+                : title,
       ),
     );
   }

@@ -20,8 +20,11 @@ class ChangelogBloc extends BlocBase {
   final _changesSubject = BehaviorSubject<ChangelogPageView>();
   final int numberOfInitialChanges;
 
-  ChangelogBloc(this._gateway, this._platformInformationManager,
-      [this.numberOfInitialChanges = 4]) {
+  ChangelogBloc(
+    this._gateway,
+    this._platformInformationManager, [
+    this.numberOfInitialChanges = 4,
+  ]) {
     elementsToLoad += numberOfInitialChanges;
     _start();
   }
@@ -43,11 +46,14 @@ class ChangelogBloc extends BlocBase {
     _changesSubject.add(changelogPageView);
   }
 
-  Future<ChangelogPageView> _loadChangelogData(
-      {int from = 0, required int to}) async {
+  Future<ChangelogPageView> _loadChangelogData({
+    int from = 0,
+    required int to,
+  }) async {
     assert(from <= to);
-    final currentVersion =
-        Version.parse(name: _platformInformationManager.version);
+    final currentVersion = Version.parse(
+      name: _platformInformationManager.version,
+    );
 
     final dbModels = await _gateway.loadChange(from: from, to: to);
     final changes = dbModels.map((model) => model.toChange()).toList();
@@ -60,9 +66,10 @@ class ChangelogBloc extends BlocBase {
     final userHasNewestVersion =
         changes.where((change) => change.version > currentVersion).isEmpty;
 
-    final changeViews = changes
-        .map((model) => ChangeView.fromModel(model, currentVersion))
-        .toList();
+    final changeViews =
+        changes
+            .map((model) => ChangeView.fromModel(model, currentVersion))
+            .toList();
 
     return ChangelogPageView(
       changes: changeViews,

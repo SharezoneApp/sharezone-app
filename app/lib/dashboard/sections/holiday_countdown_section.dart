@@ -61,10 +61,7 @@ class _HolidayCounter extends StatelessWidget {
           return DefaultTextStyle(
             style: DefaultTextStyle.of(context).style,
             textAlign: TextAlign.center,
-            child: _HolidayText(
-              maxItems: 2,
-              holidayList: snapshot.data!,
-            ),
+            child: _HolidayText(maxItems: 2, holidayList: snapshot.data!),
           );
         },
       ),
@@ -81,10 +78,11 @@ class _HolidayCounter extends StatelessWidget {
       );
     }
     return const Center(
-        child: Text(
-      "💣 Boooomm.... Etwas ist kaputt gegangen. Starte am besten die App einmal neu 👍",
-      textAlign: TextAlign.center,
-    ));
+      child: Text(
+        "💣 Boooomm.... Etwas ist kaputt gegangen. Starte am besten die App einmal neu 👍",
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 }
 
@@ -92,28 +90,31 @@ class _HolidayText extends StatelessWidget {
   final int maxItems;
   final List<Holiday?> holidayList;
 
-  const _HolidayText({
-    required this.maxItems,
-    required this.holidayList,
-  }) : assert(maxItems > 0);
+  const _HolidayText({required this.maxItems, required this.holidayList})
+    : assert(maxItems > 0);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _buildHolidayWidgets(holidayList, maxItems),
-    );
+    return Column(children: _buildHolidayWidgets(holidayList, maxItems));
   }
 
   Text handleError(
-      AsyncSnapshot<List<Holiday>> snapshot, BuildContext context) {
-    log("Error when displaying Holidays: ${snapshot.error}",
-        error: snapshot.error, stackTrace: snapshot.stackTrace);
+    AsyncSnapshot<List<Holiday>> snapshot,
+    BuildContext context,
+  ) {
+    log(
+      "Error when displaying Holidays: ${snapshot.error}",
+      error: snapshot.error,
+      stackTrace: snapshot.stackTrace,
+    );
     if (snapshot.error is UnsupportedStateException) {
       return const Text(
-          "Ferien konnten für dein Bundesland nicht angezeigt werden");
+        "Ferien konnten für dein Bundesland nicht angezeigt werden",
+      );
     }
     return const Text(
-        "Es gab einen Fehler beim Anzeigen von den Ferien.\nFalls dieser Fehler öfters auftaucht kontaktiere uns bitte.");
+      "Es gab einen Fehler beim Anzeigen von den Ferien.\nFalls dieser Fehler öfters auftaucht kontaktiere uns bitte.",
+    );
   }
 
   List<Widget> _buildHolidayWidgets(List<Holiday?> holidayList, int maxItems) {
@@ -130,9 +131,10 @@ class _HolidayText extends StatelessWidget {
       Text textWidget;
       if (daysTillHolidayBeginn > 0) {
         emoji = daysTillHolidayBeginn > 24 ? "😴" : "😍";
-        String text = daysTillHolidayBeginn > 1
-            ? "In $daysTillHolidayBeginn Tagen $emoji"
-            : "Morgen 😱🎉";
+        String text =
+            daysTillHolidayBeginn > 1
+                ? "In $daysTillHolidayBeginn Tagen $emoji"
+                : "Morgen 😱🎉";
         textWidget = Text("$holidayTitle: $text");
       } else if (daysTillHolidayBeginn == 0) {
         emoji = "🎉🎉🙌";
@@ -144,7 +146,8 @@ class _HolidayText extends StatelessWidget {
         } else {
           emoji = daysTillHolidayEnd > 4 ? "☺🎈" : "😔";
           textWidget = Text(
-              "$holidayTitle: Noch $daysTillHolidayEnd ${daysTillHolidayEnd > 1 ? "Tage" : "Tag"} $emoji");
+            "$holidayTitle: Noch $daysTillHolidayEnd ${daysTillHolidayEnd > 1 ? "Tage" : "Tag"} $emoji",
+          );
         }
       }
 
@@ -175,15 +178,16 @@ class _SelectStateDropdown extends StatelessWidget {
             hint: const Text("Bundesland auswählen"),
             isDense: true,
             isExpanded: true,
-            items: StateEnum.values
-                .sublist(0, StateEnum.values.length - 1)
-                .map(
-                  (state) => DropdownMenuItem(
-                    value: state,
-                    child: Text(stateEnumToString[state]!),
-                  ),
-                )
-                .toList(),
+            items:
+                StateEnum.values
+                    .sublist(0, StateEnum.values.length - 1)
+                    .map(
+                      (state) => DropdownMenuItem(
+                        value: state,
+                        child: Text(stateEnumToString[state]!),
+                      ),
+                    )
+                    .toList(),
             onChanged: (state) {
               showSelectedStateSnackBar(context, state);
               bloc.changeState(state);
@@ -193,7 +197,7 @@ class _SelectStateDropdown extends StatelessWidget {
           const Text(
             "Durch das Auswählen eines Bundeslandes können wir berechnen, wie lange du dich noch in der Schule quälen musst, bis endlich die Ferien sind 😉",
             style: TextStyle(color: Colors.grey, fontSize: 12),
-          )
+          ),
         ],
       ),
     );
@@ -213,8 +217,11 @@ class _SelectStateDropdown extends StatelessWidget {
       text: "Bundesland ${stateEnumToString[state]} ausgewählt",
       action: SnackBarAction(
         label: "Ändern".toUpperCase(),
-        onPressed: () => navigationService.pushWidget(const ChangeStatePage(),
-            name: ChangeStatePage.tag),
+        onPressed:
+            () => navigationService.pushWidget(
+              const ChangeStatePage(),
+              name: ChangeStatePage.tag,
+            ),
       ),
     );
   }

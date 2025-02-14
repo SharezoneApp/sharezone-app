@@ -45,7 +45,7 @@ void main() {
             uid: "user$i",
             hasDone: random.nextBool(),
             name: 'User $i',
-          )
+          ),
       ];
       when(bloc.userViews).thenAnswer((_) => Stream.value(dummyUsers));
     }
@@ -66,9 +66,7 @@ void main() {
           child: BlocProvider<HomeworkCompletionUserListBlocFactory>(
             bloc: factory,
             child: const Scaffold(
-              body: HomeworkCompletionUserListPage(
-                homeworkId: homeworkId,
-              ),
+              body: HomeworkCompletionUserListPage(homeworkId: homeworkId),
             ),
           ),
         ),
@@ -78,9 +76,11 @@ void main() {
 
     group('renders sharezone plus ad as expected', () {
       setUp(() {
-        when(subscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.homeworkDoneByUsersList))
-            .thenAnswer((_) => false);
+        when(
+          subscriptionService.hasFeatureUnlocked(
+            SharezonePlusFeature.homeworkDoneByUsersList,
+          ),
+        ).thenAnswer((_) => false);
       });
 
       testGoldens('(light mode)', (tester) async {
@@ -104,27 +104,23 @@ void main() {
 
     group('renders list as expected', () {
       setUp(() {
-        when(subscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.homeworkDoneByUsersList))
-            .thenAnswer((_) => true);
+        when(
+          subscriptionService.hasFeatureUnlocked(
+            SharezonePlusFeature.homeworkDoneByUsersList,
+          ),
+        ).thenAnswer((_) => true);
       });
 
       testGoldens('(light mode)', (tester) async {
         await pumpPage(tester, theme: getLightTheme());
 
-        await multiScreenGolden(
-          tester,
-          'homework_completion_list_page_light',
-        );
+        await multiScreenGolden(tester, 'homework_completion_list_page_light');
       });
 
       testGoldens('(dark mode)', (tester) async {
         await pumpPage(tester, theme: getDarkTheme());
 
-        await multiScreenGolden(
-          tester,
-          'homework_completion_list_page_dark',
-        );
+        await multiScreenGolden(tester, 'homework_completion_list_page_dark');
       });
     });
   });

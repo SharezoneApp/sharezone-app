@@ -15,7 +15,7 @@ class AbgabeId extends Id {
   final UserId nutzerId;
 
   AbgabeId(this.abgabenzielId, this.nutzerId)
-      : super('$nutzerId$_seperator$abgabenzielId') {
+    : super('$nutzerId$_seperator$abgabenzielId') {
     ArgumentError.checkNotNull(abgabenzielId, 'abgabenzielId');
     ArgumentError.checkNotNull(nutzerId, 'nutzerId');
   }
@@ -24,11 +24,15 @@ class AbgabeId extends Id {
     final semikolonIndex = id.indexOf(_seperator);
     if (semikolonIndex == -1) {
       ArgumentError.value(
-          id, 'AbgabenId', 'muss mindestens ein "$_seperator" enthalten');
+        id,
+        'AbgabenId',
+        'muss mindestens ein "$_seperator" enthalten',
+      );
     }
     final nutzerId = UserId(id.substring(0, semikolonIndex));
-    final abgabenzielId =
-        AbgabezielId.fromOrThrow(id.substring(semikolonIndex + 1));
+    final abgabenzielId = AbgabezielId.fromOrThrow(
+      id.substring(semikolonIndex + 1),
+    );
     return AbgabeId(abgabenzielId, nutzerId);
   }
 }

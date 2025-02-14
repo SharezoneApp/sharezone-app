@@ -14,23 +14,16 @@ class ChangeTypeOfUserAnalytics {
 
   const ChangeTypeOfUserAnalytics(this.analytics);
 
-  void logChangedOrder({
-    required TypeOfUser? from,
-    required TypeOfUser to,
-  }) {
+  void logChangedOrder({required TypeOfUser? from, required TypeOfUser to}) {
     analytics.log(
       ChangeOfTypeOfUserAnalyticsEvent(
-        data: {
-          'from': from?.name,
-          'to': to.name,
-        },
+        data: {'from': from?.name, 'to': to.name},
       ),
     );
   }
 }
 
 class ChangeOfTypeOfUserAnalyticsEvent extends AnalyticsEvent {
-  const ChangeOfTypeOfUserAnalyticsEvent({
-    Map<String, dynamic>? data,
-  }) : super('changed_type_of_user', data: data);
+  const ChangeOfTypeOfUserAnalyticsEvent({Map<String, dynamic>? data})
+    : super('changed_type_of_user', data: data);
 }

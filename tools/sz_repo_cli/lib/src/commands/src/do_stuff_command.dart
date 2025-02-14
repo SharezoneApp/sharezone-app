@@ -31,9 +31,11 @@ class DoStuffCommand extends CommandBase {
   Future<void> run() async {
     stdout.writeln('');
     stdout.writeln(
-        'This is used for local development/scripting and does not do anything.');
+      'This is used for local development/scripting and does not do anything.',
+    );
     stdout.writeln(
-        'To find this file look for "do_stuff_command.dart" near ${Platform.script.path}');
+      'To find this file look for "do_stuff_command.dart" near ${Platform.script.path}',
+    );
     stdout.writeln('<3');
     stdout.writeln('');
     // Example usage:

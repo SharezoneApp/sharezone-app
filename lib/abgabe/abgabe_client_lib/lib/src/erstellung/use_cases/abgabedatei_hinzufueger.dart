@@ -16,10 +16,7 @@ abstract class AbgabedateiHinzufueger {
 }
 
 class HttpAbgabedateiHinzufueger extends AbgabedateiHinzufueger {
-  HttpAbgabedateiHinzufueger(
-    this.api,
-    this._authHeaderRetriever,
-  );
+  HttpAbgabedateiHinzufueger(this.api, this._authHeaderRetriever);
 
   final AbgabedateiApi api;
   final FirebaseAuthHeaderRetriever _authHeaderRetriever;

@@ -12,8 +12,5 @@ class Action {
   final String title;
   final void Function(BuildContext context) onTap;
 
-  const Action({
-    required this.title,
-    required this.onTap,
-  });
+  const Action({required this.title, required this.onTap});
 }

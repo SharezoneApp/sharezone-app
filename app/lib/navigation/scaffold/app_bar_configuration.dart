@@ -57,8 +57,9 @@ class _AppBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       NavigationItem.overview.getName(),
-      style:
-          Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge?.copyWith(color: Colors.white),
       key: K.dashboardAppBarTitle,
     );
   }

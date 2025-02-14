@@ -33,8 +33,9 @@ class SchoolClassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isAdmin =
-        schoolClass.myRole.hasPermission(GroupPermission.administration);
+    final isAdmin = schoolClass.myRole.hasPermission(
+      GroupPermission.administration,
+    );
     final gateway = BlocProvider.of<SharezoneContext>(context).api;
     final analytics = BlocProvider.of<GroupAnalytics>(context);
     final bloc = MySchoolClassBloc(
@@ -54,27 +55,28 @@ class SchoolClassCard extends StatelessWidget {
         onLongPress: () async {
           final result =
               await showLongPressAdaptiveDialog<_SchoolClassLongPressResult>(
-            title: "Klasse: ${schoolClass.name}",
-            context: context,
-            longPressList: [
-              if (isAdmin)
-                const LongPress(
-                    title: "Bearbeiten",
-                    popResult: _SchoolClassLongPressResult.edit,
-                    icon: Icon(Icons.edit)),
-              const LongPress(
-                title: "Verlassen",
-                popResult: _SchoolClassLongPressResult.leave,
-                icon: Icon(Icons.cancel),
-              ),
-              if (isAdmin)
-                const LongPress(
-                  title: "Löschen",
-                  popResult: _SchoolClassLongPressResult.delete,
-                  icon: Icon(Icons.delete),
-                ),
-            ],
-          );
+                title: "Klasse: ${schoolClass.name}",
+                context: context,
+                longPressList: [
+                  if (isAdmin)
+                    const LongPress(
+                      title: "Bearbeiten",
+                      popResult: _SchoolClassLongPressResult.edit,
+                      icon: Icon(Icons.edit),
+                    ),
+                  const LongPress(
+                    title: "Verlassen",
+                    popResult: _SchoolClassLongPressResult.leave,
+                    icon: Icon(Icons.cancel),
+                  ),
+                  if (isAdmin)
+                    const LongPress(
+                      title: "Löschen",
+                      popResult: _SchoolClassLongPressResult.delete,
+                      icon: Icon(Icons.delete),
+                    ),
+                ],
+              );
           if (!context.mounted) return;
 
           switch (result) {
@@ -86,17 +88,22 @@ class SchoolClassCard extends StatelessWidget {
               if (!context.mounted) return;
               if (result == true) {
                 await showAppFunctionStateDialog(
-                    context, bloc.leaveSchoolClass());
+                  context,
+                  bloc.leaveSchoolClass(),
+                );
               }
               break;
             case _SchoolClassLongPressResult.delete:
               if (!context.mounted) return;
-              final schoolClassDeleteType =
-                  await showDeleteSchoolClassDialog(context);
+              final schoolClassDeleteType = await showDeleteSchoolClassDialog(
+                context,
+              );
               if (!context.mounted) return;
               if (schoolClassDeleteType != null) {
                 await showAppFunctionStateDialog(
-                    context, bloc.deleteSchoolClass(schoolClassDeleteType));
+                  context,
+                  bloc.deleteSchoolClass(schoolClassDeleteType),
+                );
               }
               break;
             default:
@@ -109,10 +116,7 @@ class SchoolClassCard extends StatelessWidget {
 }
 
 class SchoolClassAbbreviationAvatar extends StatelessWidget {
-  const SchoolClassAbbreviationAvatar({
-    super.key,
-    required this.name,
-  });
+  const SchoolClassAbbreviationAvatar({super.key, required this.name});
 
   final String name;
 
@@ -134,10 +138,7 @@ class SchoolClassAbbreviationAvatar extends StatelessWidget {
 }
 
 class ShareIconButton extends StatelessWidget {
-  const ShareIconButton({
-    super.key,
-    required this.schoolClass,
-  });
+  const ShareIconButton({super.key, required this.schoolClass});
 
   final SchoolClass schoolClass;
 
@@ -145,15 +146,19 @@ class ShareIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
     return IconButton(
-      icon: Icon(Theme.of(context).platform == TargetPlatform.iOS
-          ? CupertinoIcons.share
-          : Icons.share),
+      icon: Icon(
+        Theme.of(context).platform == TargetPlatform.iOS
+            ? CupertinoIcons.share
+            : Icons.share,
+      ),
       onPressed: () {
         analytics.log(NamedAnalyticsEvent(name: "school_class_share_dialog"));
         showDialog(
           context: context,
-          builder: (context) =>
-              ShareThisGroupDialogContent(groupInfo: schoolClass.toGroupInfo()),
+          builder:
+              (context) => ShareThisGroupDialogContent(
+                groupInfo: schoolClass.toGroupInfo(),
+              ),
         );
       },
     );

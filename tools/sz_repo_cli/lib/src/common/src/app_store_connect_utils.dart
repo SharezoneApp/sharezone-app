@@ -55,39 +55,35 @@ Future<void> _fetchSigningFiles(
   required AppleSigningConfig config,
 }) async {
   const bundleId = 'de.codingbrain.sharezone.app';
-  await processRunner.run(
-    [
-      'app-store-connect',
-      'fetch-signing-files',
-      bundleId,
-      '--platform',
-      config.platform.toUppercaseSnakeCase(),
-      '--type',
-      config.type.toUppercaseSnakeCase(),
-      '--issuer-id',
-      config.appStoreConnectConfig.issuerId,
-      '--key-id',
-      config.appStoreConnectConfig.keyId,
-      '--private-key',
-      config.appStoreConnectConfig.privateKey,
-      '--certificate-key',
-      config.certificatePrivateKey,
-      '--create',
-    ],
-  );
+  await processRunner.run([
+    'app-store-connect',
+    'fetch-signing-files',
+    bundleId,
+    '--platform',
+    config.platform.toUppercaseSnakeCase(),
+    '--type',
+    config.type.toUppercaseSnakeCase(),
+    '--issuer-id',
+    config.appStoreConnectConfig.issuerId,
+    '--key-id',
+    config.appStoreConnectConfig.keyId,
+    '--private-key',
+    config.appStoreConnectConfig.privateKey,
+    '--certificate-key',
+    config.certificatePrivateKey,
+    '--create',
+  ]);
 }
 
 Future<void> _listMacCertificates(ProcessRunner processRunner) async {
-  await processRunner.run(
-    [
-      'app-store-connect',
-      'certificates',
-      'list',
-      '--type',
-      'MAC_INSTALLER_DISTRIBUTION',
-      '--save',
-    ],
-  );
+  await processRunner.run([
+    'app-store-connect',
+    'certificates',
+    'list',
+    '--type',
+    'MAC_INSTALLER_DISTRIBUTION',
+    '--save',
+  ]);
 }
 
 /// Adds the certificates to the keychain.
@@ -141,26 +137,24 @@ Future<int> _getLatestBuildNumberFromAppStoreConnect(
     // From https://appstoreconnect.apple.com/apps/1434868489/
     const appId = 1434868489;
 
-    final result = await processRunner.run(
-      [
-        'app-store-connect',
-        'get-latest-build-number',
-        '$appId',
-        '--platform',
-        platform.toUppercaseSnakeCase(),
-        '--issuer-id',
-        appStoreConnectConfig.issuerId,
-        '--key-id',
-        appStoreConnectConfig.keyId,
-        '--private-key',
-        appStoreConnectConfig.privateKey,
-      ],
-      workingDirectory: fileSystem.directory(workingDirectory),
-    );
+    final result = await processRunner.run([
+      'app-store-connect',
+      'get-latest-build-number',
+      '$appId',
+      '--platform',
+      platform.toUppercaseSnakeCase(),
+      '--issuer-id',
+      appStoreConnectConfig.issuerId,
+      '--key-id',
+      appStoreConnectConfig.keyId,
+      '--private-key',
+      appStoreConnectConfig.privateKey,
+    ], workingDirectory: fileSystem.directory(workingDirectory));
     return int.parse(result.stdout);
   } catch (e) {
     throw Exception(
-        'Failed to get latest build number from App Store Connect: $e');
+      'Failed to get latest build number from App Store Connect: $e',
+    );
   }
 }
 
@@ -173,60 +167,49 @@ Future<void> publishToAppStoreConnect(
   required AppStoreConnectConfig appStoreConnectConfig,
   String? whatsNew,
 }) async {
-  final track = _getAppleTrack(
-    stage: stage,
-    stageToTracks: stageToTracks,
-  );
+  final track = _getAppleTrack(stage: stage, stageToTracks: stageToTracks);
 
-  await processRunner.run(
-    [
-      'app-store-connect',
-      'publish',
-      '--path',
-      path,
-      '--release-type',
-      // The app version will be automatically released right after it has
-      // been approved by App Review.
-      'AFTER_APPROVAL',
-      if (whatsNew != null) ...[
-        '--whats-new',
-        whatsNew,
-      ],
-      if (track is AppStoreTrack) ...[
-        '--app-store',
-      ],
-      if (track is TestFlightTrack) ...[
-        '--beta-group',
-        track.groupName,
-        '--testflight',
-      ],
-      '--issuer-id',
-      appStoreConnectConfig.issuerId,
-      '--key-id',
-      appStoreConnectConfig.keyId,
-      '--private-key',
-      appStoreConnectConfig.privateKey,
-      // We set the maximum amount of minutes to wait for the freshly uploaded
-      // build to be processed by Apple and retry submitting the build for
-      // (beta) review to 60 minutes. This is necessary because the build
-      // processing can take a while and the default timeout of 20 minutes is
-      // not enough.
-      //
-      // See: https://github.com/codemagic-ci-cd/cli-tools/blob/master/docs/app-store-connect/publish.md#--max-build-processing-wait--wmax_build_processing_wait
-      '--max-build-processing-wait',
-      '60',
-      '--max-find-build-wait',
-      '60',
-      // Cancels previous submissions for the application in App Store Connect
-      // before creating a new submission if the submissions are in a state
-      // where it is possible.
-      //
-      // We use this option because otherwise the deployment will fail if the
-      // previous submission is not approved yet.
-      '--cancel-previous-submissions'
+  await processRunner.run([
+    'app-store-connect',
+    'publish',
+    '--path',
+    path,
+    '--release-type',
+    // The app version will be automatically released right after it has
+    // been approved by App Review.
+    'AFTER_APPROVAL',
+    if (whatsNew != null) ...['--whats-new', whatsNew],
+    if (track is AppStoreTrack) ...['--app-store'],
+    if (track is TestFlightTrack) ...[
+      '--beta-group',
+      track.groupName,
+      '--testflight',
     ],
-    workingDirectory: repo.sharezoneFlutterApp.location,
-  );
+    '--issuer-id',
+    appStoreConnectConfig.issuerId,
+    '--key-id',
+    appStoreConnectConfig.keyId,
+    '--private-key',
+    appStoreConnectConfig.privateKey,
+    // We set the maximum amount of minutes to wait for the freshly uploaded
+    // build to be processed by Apple and retry submitting the build for
+    // (beta) review to 60 minutes. This is necessary because the build
+    // processing can take a while and the default timeout of 20 minutes is
+    // not enough.
+    //
+    // See: https://github.com/codemagic-ci-cd/cli-tools/blob/master/docs/app-store-connect/publish.md#--max-build-processing-wait--wmax_build_processing_wait
+    '--max-build-processing-wait',
+    '60',
+    '--max-find-build-wait',
+    '60',
+    // Cancels previous submissions for the application in App Store Connect
+    // before creating a new submission if the submissions are in a state
+    // where it is possible.
+    //
+    // We use this option because otherwise the deployment will fail if the
+    // previous submission is not approved yet.
+    '--cancel-previous-submissions',
+  ], workingDirectory: repo.sharezoneFlutterApp.location);
 }
 
 AppleTrack _getAppleTrack({
@@ -241,7 +224,8 @@ AppleTrack _getAppleTrack({
 }
 
 Future<void> throwIfCodemagicCliToolsAreNotInstalled(
-    ProcessRunner processRunner) async {
+  ProcessRunner processRunner,
+) async {
   await throwIfCommandIsNotInstalled(
     processRunner,
     command: 'app-store-connect',
@@ -317,11 +301,12 @@ class AppleSigningConfig {
 
     final certificatePrivateKey =
         argResults[certificateKeyOptionName] as String? ??
-            Platform.environment['CERTIFICATE_PRIVATE_KEY'];
+        Platform.environment['CERTIFICATE_PRIVATE_KEY'];
 
     if (certificatePrivateKey == null) {
       throw Exception(
-          'No certificate private key provided. Either provide it via the command line or set the CERTIFICATE_PRIVATE_KEY environment variable.');
+        'No certificate private key provided. Either provide it via the command line or set the CERTIFICATE_PRIVATE_KEY environment variable.',
+      );
     }
 
     return AppleSigningConfig(
@@ -348,26 +333,32 @@ class AppStoreConnectConfig {
     ArgResults argResults,
     Map<String, String> environment,
   ) {
-    final issuerId = argResults[issuerIdOptionName] as String? ??
+    final issuerId =
+        argResults[issuerIdOptionName] as String? ??
         Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
-    final keyIdentifier = argResults[keyIdOptionName] as String? ??
+    final keyIdentifier =
+        argResults[keyIdOptionName] as String? ??
         Platform.environment['APP_STORE_CONNECT_KEY_IDENTIFIER'];
-    final privateKey = argResults[privateKeyOptionName] as String? ??
+    final privateKey =
+        argResults[privateKeyOptionName] as String? ??
         Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
 
     if (issuerId == null) {
       throw Exception(
-          'No issuer ID provided. Either provide it via the command line or set the APP_STORE_CONNECT_ISSUER_ID environment variable.');
+        'No issuer ID provided. Either provide it via the command line or set the APP_STORE_CONNECT_ISSUER_ID environment variable.',
+      );
     }
 
     if (keyIdentifier == null) {
       throw Exception(
-          'No key ID provided. Either provide it via the command line or set the APP_STORE_CONNECT_KEY_IDENTIFIER environment variable.');
+        'No key ID provided. Either provide it via the command line or set the APP_STORE_CONNECT_KEY_IDENTIFIER environment variable.',
+      );
     }
 
     if (privateKey == null) {
       throw Exception(
-          'No private key provided. Either provide it via the command line or set the APP_STORE_CONNECT_PRIVATE_KEY environment variable.');
+        'No private key provided. Either provide it via the command line or set the APP_STORE_CONNECT_PRIVATE_KEY environment variable.',
+      );
     }
 
     return AppStoreConnectConfig(

@@ -15,7 +15,7 @@ publish_to: none
 
 resolution: workspace
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.0
 
 dependencies:
   http: ^1.1.2

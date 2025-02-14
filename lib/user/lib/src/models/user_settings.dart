@@ -52,14 +52,16 @@ class UserSettings {
       return UserSettings.defaultSettings();
     } else {
       return UserSettings._(
-          isABWeekEnabled: data['isABWeekEnabled'] ?? defaultIsABWeekEnabled,
-          isAWeekEvenWeek: data['isAWeekEvenWeek'] ?? defaultIsAWeekEvenWeek,
-          timetableStartTime: data['timetableStartTime'] != null
-              ? Time.parse(data['timetableStartTime'])
-              : defaultTimetableStartTime,
-          periods: Periods.fromData(data['periods']),
-          showAbbreviation: data['showAbbreviation'] ?? defaultShowAbbreviation,
-          enabledWeekDays: EnabledWeekDays.fromData(data['enabledWeekDays']));
+        isABWeekEnabled: data['isABWeekEnabled'] ?? defaultIsABWeekEnabled,
+        isAWeekEvenWeek: data['isAWeekEvenWeek'] ?? defaultIsAWeekEvenWeek,
+        timetableStartTime:
+            data['timetableStartTime'] != null
+                ? Time.parse(data['timetableStartTime'])
+                : defaultTimetableStartTime,
+        periods: Periods.fromData(data['periods']),
+        showAbbreviation: data['showAbbreviation'] ?? defaultShowAbbreviation,
+        enabledWeekDays: EnabledWeekDays.fromData(data['enabledWeekDays']),
+      );
     }
   }
 

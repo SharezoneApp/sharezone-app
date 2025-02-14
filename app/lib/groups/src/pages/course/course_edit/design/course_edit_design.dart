@@ -22,23 +22,25 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 part 'src/dialog/select_design_dialog.dart';
 part 'src/dialog/select_type_dialog.dart';
 
-enum EditDesignType {
-  course,
-  personal,
-}
+enum EditDesignType { course, personal }
 
 Future<void> editCourseDesign(BuildContext context, String courseId) async {
   final courseGateway = BlocProvider.of<SharezoneContext>(context).api.course;
   final bloc = CourseEditDesignBloc(courseId, courseGateway);
 
   final selectTypePopResult = await showDialog<_SelectTypePopResult>(
-      context: context, builder: (context) => _SelectTypeDialog(bloc: bloc));
+    context: context,
+    builder: (context) => _SelectTypeDialog(bloc: bloc),
+  );
 
   if (selectTypePopResult != null && context.mounted) {
     final initialDesign = selectTypePopResult.initialDesign;
 
-    final selectDesignPopResult = await selectDesign(context, initialDesign,
-        type: selectTypePopResult.editDesignType);
+    final selectDesignPopResult = await selectDesign(
+      context,
+      initialDesign,
+      type: selectTypePopResult.editDesignType,
+    );
     if (!context.mounted) return;
 
     if (selectDesignPopResult != null) {
@@ -83,10 +85,7 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
               text: "Farbe konnte nicht geändert werden.",
             );
           } catch (e, s) {
-            showSnackSec(
-              context: context,
-              text: handleErrorMessage('$e', s),
-            );
+            showSnackSec(context: context, text: handleErrorMessage('$e', s));
           }
         }
       }

@@ -6,15 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum WeekDay {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday,
-}
+enum WeekDay { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
 
 String weekDayEnumToGermanString(WeekDay weekDay) {
   switch (weekDay) {

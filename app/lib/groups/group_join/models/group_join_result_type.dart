@@ -21,7 +21,7 @@ enum GroupJoinResultType {
   notFound,
   alreadyMember,
   requireCourseSelections,
-  unknown
+  unknown,
 }
 
 extension GroupJoinResultTypeConverter on GroupJoinResultType {

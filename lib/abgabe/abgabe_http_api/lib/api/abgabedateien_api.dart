@@ -28,8 +28,12 @@ class AbgabedateienApi {
     CancelToken? cancelToken,
     Map<String, String>? headers,
   }) async {
-    String path = "/v1/submissions/{submissionId}/files/addList"
-        .replaceAll("{" r'submissionId' "}", submissionId.toString());
+    String path = "/v1/submissions/{submissionId}/files/addList".replaceAll(
+      "{"
+      r'submissionId'
+      "}",
+      submissionId.toString(),
+    );
 
     Map<String, dynamic> queryParams = {};
     dynamic bodyData;

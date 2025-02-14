@@ -56,12 +56,15 @@ class AvatarCard extends StatelessWidget {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Padding(
-                padding:
-                    EdgeInsets.only(top: 87.0, bottom: paddingBottom ?? 22),
+                padding: EdgeInsets.only(
+                  top: 87.0,
+                  bottom: paddingBottom ?? 22,
+                ),
                 child: Column(
-                  crossAxisAlignment: crossAxisAlignment == null
-                      ? CrossAxisAlignment.start
-                      : crossAxisAlignment!,
+                  crossAxisAlignment:
+                      crossAxisAlignment == null
+                          ? CrossAxisAlignment.start
+                          : crossAxisAlignment!,
                   children: children!,
                 ),
               ),
@@ -93,18 +96,20 @@ class AvatarCard extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: radius ?? 55.0,
-                        backgroundColor: avatarBackgroundColor ??
+                        backgroundColor:
+                            avatarBackgroundColor ??
                             Theme.of(context).primaryColor,
-                        child: icon ??
+                        child:
+                            icon ??
                             (svgPath == null
                                 ? imagePath == null
                                     ? Text(
-                                        kuerzel ?? "",
-                                        style: TextStyle(
-                                          fontSize: 26,
-                                          color: fontColor ?? Colors.white,
-                                        ),
-                                      )
+                                      kuerzel ?? "",
+                                      style: TextStyle(
+                                        fontSize: 26,
+                                        color: fontColor ?? Colors.white,
+                                      ),
+                                    )
                                     : image()
                                 : svg()),
                       ),

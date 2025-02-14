@@ -15,7 +15,8 @@ Future<String> getCurrentCommitHash(ProcessRunner processRunner) async {
   final res = await processRunner.run(['git', 'rev-parse', 'HEAD']);
   if (res.stdout.isEmpty) {
     stderr.writeln(
-        'Could not receive the current commit hash: (${res.exitCode}) ${res.stderr}.');
+      'Could not receive the current commit hash: (${res.exitCode}) ${res.stderr}.',
+    );
     throw ToolExit(15);
   }
   final currentCommit = res.stdout;

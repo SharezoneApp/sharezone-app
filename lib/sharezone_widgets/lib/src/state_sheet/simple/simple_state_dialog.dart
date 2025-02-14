@@ -11,7 +11,9 @@ import 'package:rxdart/subjects.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<bool> showSimpleStateDialog(
-    BuildContext context, Future<bool> future) async {
+  BuildContext context,
+  Future<bool> future,
+) async {
   final stateContentStream = _mapFutureToStateContent(future);
   final stateDialog = StateDialog(stateContentStream);
   stateDialog.showDialogAutoPop(
@@ -26,8 +28,9 @@ Future<bool> showSimpleStateDialog(
 }
 
 Stream<StateDialogContent> _mapFutureToStateContent(Future<bool> future) {
-  final stateContent =
-      BehaviorSubject<StateDialogContent>.seeded(stateDialogContentLoading);
+  final stateContent = BehaviorSubject<StateDialogContent>.seeded(
+    stateDialogContentLoading,
+  );
   future.then((result) {
     if (result == true) {
       stateContent.add(stateDialogContentSuccessfull);

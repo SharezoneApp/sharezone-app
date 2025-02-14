@@ -23,6 +23,9 @@ abstract class FileUploader {
   /// Lädt [localFile] zu Cloud Storage unter [cloudStoragePfad] hoch.
   /// Die [creatorId] wird mit dem Dateinamen als Metadaten gespeichert.
   Future<UploadTask> uploadFileToStorage(
-      CloudStoragePfad cloudStoragePfad, String creatorId, LocalFile localFile,
-      {String? cacheControl});
+    CloudStoragePfad cloudStoragePfad,
+    String creatorId,
+    LocalFile localFile, {
+    String? cacheControl,
+  });
 }

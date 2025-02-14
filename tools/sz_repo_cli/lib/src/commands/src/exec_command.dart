@@ -13,10 +13,16 @@ import 'package:sz_repo_cli/src/common/common.dart';
 class ExecCommand extends ConcurrentCommand {
   ExecCommand(super.context) {
     argParser
-      ..addFlag('onlyFlutter',
-          help: 'Only run the command for Flutter packages.', defaultsTo: false)
-      ..addFlag('onlyDart',
-          help: 'Only run the command for Dart packages.', defaultsTo: false);
+      ..addFlag(
+        'onlyFlutter',
+        help: 'Only run the command for Flutter packages.',
+        defaultsTo: false,
+      )
+      ..addFlag(
+        'onlyDart',
+        help: 'Only run the command for Dart packages.',
+        defaultsTo: false,
+      );
   }
 
   @override
@@ -53,8 +59,9 @@ class ExecCommand extends ConcurrentCommand {
   Future<void> runSetup() async {
     if (argResults!.rest.isEmpty) {
       throw ArgumentError(
-          'No command given. Please provide a command like this:\n'
-          'sz_repo_cli exec --onlyFlutter -- dart fix --apply');
+        'No command given. Please provide a command like this:\n'
+        'sz_repo_cli exec --onlyFlutter -- dart fix --apply',
+      );
     }
   }
 

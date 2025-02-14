@@ -12,15 +12,10 @@ import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:path/path.dart' as path;
 
-final _androidStages = [
-  'stable',
-  'beta',
-];
+final _androidStages = ['stable', 'beta'];
 
 /// The different flavors of the Android app that support deployment.
-final _androidFlavors = [
-  'prod',
-];
+final _androidFlavors = ['prod'];
 
 class DeployAndroidCommand extends CommandBase {
   DeployAndroidCommand(super.context) {
@@ -102,17 +97,20 @@ class DeployAndroidCommand extends CommandBase {
   ///
   /// See https://docs.fastlane.tools/actions/validate_play_store_json_key
   Future<void> _checkIfGooglePlayCredentialsAreValid(
-      ProcessRunner processRunner) async {
+    ProcessRunner processRunner,
+  ) async {
     await processRunner.run(
       ['fastlane', 'run', 'validate_play_store_json_key'],
       workingDirectory: fileSystem.directory(
-          path.join(repo.sharezoneFlutterApp.location.path, 'android')),
+        path.join(repo.sharezoneFlutterApp.location.path, 'android'),
+      ),
     );
   }
 
   Future<int> _getNextBuildNumber(ProcessRunner processRunner) async {
-    final latestBuildNumber =
-        await _getLatestBuildNumberFromGooglePlay(processRunner);
+    final latestBuildNumber = await _getLatestBuildNumberFromGooglePlay(
+      processRunner,
+    );
     final nextBuildNumber = latestBuildNumber + 1;
     stdout.writeln('Next build number: $nextBuildNumber');
     return nextBuildNumber;
@@ -120,17 +118,16 @@ class DeployAndroidCommand extends CommandBase {
 
   /// Returns the latest build number from Google Play across all tracks.
   Future<int> _getLatestBuildNumberFromGooglePlay(
-      ProcessRunner processRunner) async {
+    ProcessRunner processRunner,
+  ) async {
     try {
       const packageName = 'de.codingbrain.sharezone';
-      final result = await processRunner.run(
-        [
-          'google-play',
-          'get-latest-build-number',
-          '--package-name',
-          packageName,
-        ],
-      );
+      final result = await processRunner.run([
+        'google-play',
+        'get-latest-build-number',
+        '--package-name',
+        packageName,
+      ]);
       return int.parse(result.stdout);
     } catch (e) {
       throw Exception('Failed to get latest build number from Google Play: $e');
@@ -141,23 +138,20 @@ class DeployAndroidCommand extends CommandBase {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      await processRunner.runCommand(
-        [
-          'dart',
-          'run',
-          'sz_repo_cli',
-          'build',
-          'app',
-          'android',
-          '--flavor',
-          flavor,
-          '--stage',
-          stage,
-          '--build-number',
-          '$buildNumber',
-        ],
-        workingDirectory: repo.sharezoneCiCdTool.location,
-      );
+      await processRunner.runCommand([
+        'dart',
+        'run',
+        'sz_repo_cli',
+        'build',
+        'app',
+        'android',
+        '--flavor',
+        flavor,
+        '--stage',
+        stage,
+        '--build-number',
+        '$buildNumber',
+      ], workingDirectory: repo.sharezoneCiCdTool.location);
     } catch (e) {
       throw Exception('Failed to build Android app: $e');
     }
@@ -184,9 +178,11 @@ class DeployAndroidCommand extends CommandBase {
   void _printRolloutPercentage(String rolloutPercentage) {
     final rolloutPercentageDouble = double.parse(rolloutPercentage);
     stdout.writeln(
-        'This release will be rolled out to: ${rolloutPercentageDouble * 100}% of users.}');
+      'This release will be rolled out to: ${rolloutPercentageDouble * 100}% of users.}',
+    );
     stdout.writeln(
-        'You can later change the rollout percentage in the Play Store Console: Go to "Production" (or Open testing or Closed Testing) -> "Releases"');
+      'You can later change the rollout percentage in the Play Store Console: Go to "Production" (or Open testing or Closed Testing) -> "Releases"',
+    );
   }
 
   Future<void> _setChangelog() async {
@@ -195,8 +191,9 @@ class DeployAndroidCommand extends CommandBase {
       stdout.writeln('No changelog given. Skipping.');
       return;
     }
-    final changelogFile =
-        repo.sharezoneFlutterApp.location.childFile(_changelogFilePath);
+    final changelogFile = repo.sharezoneFlutterApp.location.childFile(
+      _changelogFilePath,
+    );
 
     // Create folder, if it doesn't exist.
     await changelogFile.parent.create(recursive: true);
@@ -226,8 +223,9 @@ class DeployAndroidCommand extends CommandBase {
   }) async {
     await processRunner.run(
       ['fastlane', 'deploy'],
-      workingDirectory:
-          repo.sharezoneFlutterApp.location.childDirectory('android'),
+      workingDirectory: repo.sharezoneFlutterApp.location.childDirectory(
+        'android',
+      ),
       addedEnvironment: {
         // Sets the number of retries for uploading the app bundle to Google
         // Play. This is needed because sometimes the upload fails for unknown
@@ -242,8 +240,9 @@ class DeployAndroidCommand extends CommandBase {
   }
 
   Future<void> _removeChangelogFile() async {
-    final changelogFile =
-        repo.sharezoneFlutterApp.location.childFile(_changelogFilePath);
+    final changelogFile = repo.sharezoneFlutterApp.location.childFile(
+      _changelogFilePath,
+    );
     if (await changelogFile.exists()) {
       await changelogFile.delete();
     }

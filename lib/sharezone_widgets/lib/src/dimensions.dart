@@ -41,10 +41,7 @@ class Dimensions {
 
     return EdgeInsets.symmetric(
       horizontal: 32,
-      vertical: _sizeByPixels(
-        height,
-        max: 64,
-      ),
+      vertical: _sizeByPixels(height, max: 64),
     );
   }
 
@@ -57,11 +54,7 @@ class Dimensions {
   }
 }
 
-double _sizeByPixels(
-  double pixels, {
-  required double max,
-  double min = 0,
-}) {
+double _sizeByPixels(double pixels, {required double max, double min = 0}) {
   final value = pow(100 * e, (pixels / 300) - 1);
   if (value < min) {
     return min;

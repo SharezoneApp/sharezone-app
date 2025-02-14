@@ -16,12 +16,12 @@ class FeatureFlagl10n extends ChangeNotifier {
     _subscription = keyValueStore
         .getBool('l10n_enabled', defaultValue: false)
         .listen((event) {
-      final newValue = event == true;
-      if (isl10nEnabled != newValue) {
-        isl10nEnabled = newValue;
-        notifyListeners();
-      }
-    });
+          final newValue = event == true;
+          if (isl10nEnabled != newValue) {
+            isl10nEnabled = newValue;
+            notifyListeners();
+          }
+        });
   }
 
   final StreamingKeyValueStore keyValueStore;

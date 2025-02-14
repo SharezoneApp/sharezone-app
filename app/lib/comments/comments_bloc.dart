@@ -37,8 +37,14 @@ class CommentsBloc extends BlocBase {
 
   StreamSubscription? _subscription;
 
-  CommentsBloc(this._gateway, this._commentsLocation, this._userStream,
-      this._commentViewFactory, this.courseID, this._analytics) {
+  CommentsBloc(
+    this._gateway,
+    this._commentsLocation,
+    this._userStream,
+    this._commentViewFactory,
+    this.courseID,
+    this._analytics,
+  ) {
     _userStream.listen((user) {
       if (user == null) return;
       _currentAuthorInformation = CommentAuthor(
@@ -52,13 +58,16 @@ class CommentsBloc extends BlocBase {
     _rateSubject.listen(_changeRating, cancelOnError: false);
     _deletionSubject.listen(_deleteComment, cancelOnError: false);
 
-    final Stream<List<CommentDataModel>> dbStream =
-        _gateway.comments(_commentsLocation);
+    final Stream<List<CommentDataModel>> dbStream = _gateway.comments(
+      _commentsLocation,
+    );
     final Stream<List<Comment>> commentStream = _toComments(dbStream);
     final Stream<List<CommentView>> commentViewStream = _toViews(commentStream);
 
-    _subscription =
-        commentViewStream.listen(_commentsSubject.add, cancelOnError: false);
+    _subscription = commentViewStream.listen(
+      _commentsSubject.add,
+      cancelOnError: false,
+    );
   }
 
   Function(String) get addComment => _commentAddSubject.sink.add;
@@ -85,7 +94,9 @@ class CommentsBloc extends BlocBase {
 
     final uid = _currentAuthorInformation.uid;
     final commentLocation = CommentLocation.fromCommentsLocation(
-        commentsLocation: _commentsLocation, commentId: event.commentId);
+      commentsLocation: _commentsLocation,
+      commentId: event.commentId,
+    );
     final oldStatus = oldViewStatus;
 
     await _gateway.changeRating(uid, commentLocation, oldStatus, newStatus);
@@ -94,18 +105,24 @@ class CommentsBloc extends BlocBase {
   // Damit es von außen für Reportsystem zugreifbar ist.
   CommentLocation getCommentLocation(String commentId) {
     return CommentLocation.fromCommentsLocation(
-        commentsLocation: _commentsLocation, commentId: commentId);
+      commentsLocation: _commentsLocation,
+      commentId: commentId,
+    );
   }
 
   Future<void> _deleteComment(String commentId) async {
     final loc = CommentLocation.fromCommentsLocation(
-        commentId: commentId, commentsLocation: _commentsLocation);
+      commentId: commentId,
+      commentsLocation: _commentsLocation,
+    );
     _gateway.delete(loc);
     _analytics.logCommentDeleted(loc);
   }
 
   CommentStatus _getNewStatus(
-      CommentEvent userAction, CommentStatus oldStatus) {
+    CommentEvent userAction,
+    CommentStatus oldStatus,
+  ) {
     late CommentStatus newStatus;
     if (userAction == CommentEvent.liked) {
       if (oldStatus == CommentStatus.liked) {
@@ -134,14 +151,21 @@ class CommentsBloc extends BlocBase {
   }
 
   Stream<List<Comment>> _toComments(Stream<List<CommentDataModel>> dbStream) =>
-      dbStream.map((dbComments) => dbComments.map((c) => c.toModel()).toList()
-        ..sort((a, b) =>
-            b.age.writtenOnDateTime.compareTo(a.age.writtenOnDateTime)));
+      dbStream.map(
+        (dbComments) =>
+            dbComments.map((c) => c.toModel()).toList()..sort(
+              (a, b) =>
+                  b.age.writtenOnDateTime.compareTo(a.age.writtenOnDateTime),
+            ),
+      );
 
   Stream<List<CommentView>> _toViews(Stream<List<Comment>> commentStream) =>
-      commentStream.map((comments) => comments
-          .map((c) => _commentViewFactory.fromModel(c, courseID))
-          .toList());
+      commentStream.map(
+        (comments) =>
+            comments
+                .map((c) => _commentViewFactory.fromModel(c, courseID))
+                .toList(),
+      );
 
   @override
   void dispose() {

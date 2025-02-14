@@ -61,7 +61,7 @@ class TimetableSettingsPage extends StatelessWidget {
                   if (PlatformCheck.isIOS) ...[
                     const Divider(),
                     _IsTimePickerFifeMinutesIntervalActive(),
-                  ]
+                  ],
                 ],
               ),
             ),
@@ -90,13 +90,18 @@ class _ABWeekField extends StatelessWidget {
               value: userSettings!.isABWeekEnabled,
               onChanged: (newValue) {
                 bloc.updateSettings(
-                    userSettings.copyWith(isABWeekEnabled: newValue));
+                  userSettings.copyWith(isABWeekEnabled: newValue),
+                );
               },
             ),
             if (userSettings.isABWeekEnabled) ...[
               InkWell(
-                onTap: () => bloc.updateSettings(userSettings.copyWith(
-                    isAWeekEvenWeek: !userSettings.isAWeekEvenWeek)),
+                onTap:
+                    () => bloc.updateSettings(
+                      userSettings.copyWith(
+                        isAWeekEvenWeek: !userSettings.isAWeekEvenWeek,
+                      ),
+                    ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -104,8 +109,10 @@ class _ABWeekField extends StatelessWidget {
                       title: const Text("A-Wochen sind gerade Kalenderwochen"),
                       trailing: Switch.adaptive(
                         value: userSettings.isAWeekEvenWeek,
-                        onChanged: (newValue) => bloc.updateSettings(
-                            userSettings.copyWith(isAWeekEvenWeek: newValue)),
+                        onChanged:
+                            (newValue) => bloc.updateSettings(
+                              userSettings.copyWith(isAWeekEvenWeek: newValue),
+                            ),
                       ),
                     ),
                     Padding(
@@ -113,8 +120,10 @@ class _ABWeekField extends StatelessWidget {
                       child: Text(
                         "Diese Woche ist Kalenderwoche ${getWeekNumber(clock.now()).toString()}. A-Wochen sind ${_getAWeekIsEvenOrOddName(userSettings.isAWeekEvenWeek)} Kalenderwochen und somit ist aktuell eine ${_getCurrentWeekTypeName(userSettings.isAWeekEvenWeek)}.",
                         textAlign: TextAlign.left,
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ],
@@ -159,7 +168,8 @@ class _AbbreviationInTimetable extends StatelessWidget {
           value: userSettings.showAbbreviation,
           onChanged: (newValue) {
             bloc.updateSettings(
-                userSettings.copyWith(showAbbreviation: newValue));
+              userSettings.copyWith(showAbbreviation: newValue),
+            );
           },
         );
       },
@@ -183,9 +193,9 @@ class _ICalLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUnlocked = context
-        .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.iCalLinks);
+    final isUnlocked = context.read<SubscriptionService>().hasFeatureUnlocked(
+      SharezonePlusFeature.iCalLinks,
+    );
     return ListTile(
       title: const Text("Termine, Prüfungen, Stundenplan exportieren (iCal)"),
       subtitle: const Text(
@@ -197,10 +207,11 @@ class _ICalLinks extends StatelessWidget {
         } else {
           showSharezonePlusFeatureInfoDialog(
             context: context,
-            navigateToPlusPage: () =>
-                openSharezonePlusPageAsFullscreenDialog(context),
+            navigateToPlusPage:
+                () => openSharezonePlusPageAsFullscreenDialog(context),
             description: const Text(
-                'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.'),
+              'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.',
+            ),
           );
         }
       },
@@ -238,8 +249,10 @@ class LessonsLengthField extends StatelessWidget {
         return InkWell(
           borderRadius: splashBorderRadius,
           onTap: () async {
-            final selectedLessonLength =
-                await showNumberPickerDialog(context, lessonLength.minutes);
+            final selectedLessonLength = await showNumberPickerDialog(
+              context,
+              lessonLength.minutes,
+            );
             if (selectedLessonLength.isValid &&
                 selectedLessonLength != lessonLength &&
                 context.mounted) {
@@ -254,9 +267,9 @@ class LessonsLengthField extends StatelessWidget {
                 leading: const Icon(Icons.timelapse),
                 title: const Text("Länge einer Stunde"),
                 mouseCursor: SystemMouseCursors.click,
-                trailing: Text(lessonLength.isValid
-                    ? "${lessonLength.minutes} Min."
-                    : "-"),
+                trailing: Text(
+                  lessonLength.isValid ? "${lessonLength.minutes} Min." : "-",
+                ),
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
@@ -273,12 +286,13 @@ class LessonsLengthField extends StatelessWidget {
   }
 
   Future<LessonLength> showNumberPickerDialog(
-      BuildContext context, int initialLengthInMinutes) async {
+    BuildContext context,
+    int initialLengthInMinutes,
+  ) async {
     final selectedLengthInMinutes = await showDialog<int>(
       context: context,
-      builder: (context) => _NumberPicker(
-        initialLength: initialLengthInMinutes,
-      ),
+      builder:
+          (context) => _NumberPicker(initialLength: initialLengthInMinutes),
     );
 
     return LessonLength(selectedLengthInMinutes ?? initialLengthInMinutes);
@@ -294,9 +308,7 @@ class LessonsLengthField extends StatelessWidget {
 }
 
 class _NumberPicker extends StatefulWidget {
-  const _NumberPicker({
-    required this.initialLength,
-  });
+  const _NumberPicker({required this.initialLength});
 
   final int initialLength;
 
@@ -334,10 +346,9 @@ class __NumberPickerState extends State<_NumberPicker> {
       // Needed to work on the web.
       // See: https://github.com/MarcinusX/NumberPicker/issues/118
       content: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
-          PointerDeviceKind.touch,
-          PointerDeviceKind.mouse,
-        }),
+        behavior: ScrollConfiguration.of(context).copyWith(
+          dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+        ),
         child: NumberPicker(
           minValue: 1,
           maxValue: 300,

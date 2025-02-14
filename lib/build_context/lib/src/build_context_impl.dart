@@ -39,7 +39,7 @@ extension ThemeExt on BuildContext {
 }
 
 extension ScaffoldExt on BuildContext {
-  void hideCurrentSnackBar(
-          {SnackBarClosedReason reason = SnackBarClosedReason.hide}) =>
-      ScaffoldMessenger.of(this).hideCurrentSnackBar(reason: reason);
+  void hideCurrentSnackBar({
+    SnackBarClosedReason reason = SnackBarClosedReason.hide,
+  }) => ScaffoldMessenger.of(this).hideCurrentSnackBar(reason: reason);
 }

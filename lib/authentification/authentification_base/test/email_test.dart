@@ -16,10 +16,14 @@ main() {
   group('german umlauts should not be allowed', () {
     void testGermanUmlaut(String umlaut) {
       test(': $umlaut', () {
-        expect(AuthentificationValidators.isEmailValid('$umlaut@gmail.com'),
-            false);
         expect(
-            AuthentificationValidators.isEmailValid('test@$umlaut.com'), false);
+          AuthentificationValidators.isEmailValid('$umlaut@gmail.com'),
+          false,
+        );
+        expect(
+          AuthentificationValidators.isEmailValid('test@$umlaut.com'),
+          false,
+        );
       });
     }
 

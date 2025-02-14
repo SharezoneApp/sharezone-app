@@ -19,16 +19,13 @@ abstract class AbgabeCommand {
   final AbgabeId abgabeId;
   UserId get abgeberId => abgabeId.nutzerId;
 
-  AbgabeCommand(
-    this.id,
-    this.abgabeId,
-  ) {
+  AbgabeCommand(this.id, this.abgabeId) {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(abgabeId, 'abgabeId');
   }
 
   AbgabeCommand.randomId(this.abgabeId)
-      : id = AbgabeEventId(AutoIdGenerator.autoId());
+    : id = AbgabeEventId(AutoIdGenerator.autoId());
 
   @override
   bool operator ==(Object other) {

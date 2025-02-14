@@ -26,5 +26,5 @@ class SchoolClassFilterAnalytics {
 
 class SchoolClassFilterEvent extends AnalyticsEvent {
   const SchoolClassFilterEvent(String name)
-      : super('school_class_filter_$name');
+    : super('school_class_filter_$name');
 }

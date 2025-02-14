@@ -41,15 +41,18 @@ class RateOurAppTip implements DashboardTip {
 
   @override
   Stream<bool> shouldShown() {
-    return CombineLatestStream([
-      cache.showedTip(_showedDashboardRatingCardKey),
-      cache.getDashboardCounter()
-    ], (streamValues) {
-      final showedDashboardCounterCard = streamValues[0] as bool? ?? false;
-      final dashboardCounter = streamValues[1] as int? ?? 0;
+    return CombineLatestStream(
+      [
+        cache.showedTip(_showedDashboardRatingCardKey),
+        cache.getDashboardCounter(),
+      ],
+      (streamValues) {
+        final showedDashboardCounterCard = streamValues[0] as bool? ?? false;
+        final dashboardCounter = streamValues[1] as int? ?? 0;
 
-      return !showedDashboardCounterCard && dashboardCounter >= 65;
-    });
+        return !showedDashboardCounterCard && dashboardCounter >= 65;
+      },
+    );
   }
 
   @override

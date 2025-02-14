@@ -29,23 +29,30 @@ class BlackboardGateway {
   BlackboardGateway({
     required AuthUser authUser,
     required FirebaseFirestore firestore,
-  })  : uID = authUser.uid,
-        blackboardItemCollection = firestore.collection("Blackboard") {
+  }) : uID = authUser.uid,
+       blackboardItemCollection = firestore.collection("Blackboard") {
     _subscription = firestore
         .collection("Blackboard")
         .where("forUsers.${authUser.uid}", isLessThanOrEqualTo: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => BlackboardItem.fromData(doc.data(), id: doc.id))
-            .toList())
+        .map(
+          (snapshot) =>
+              snapshot.docs
+                  .map((doc) => BlackboardItem.fromData(doc.data(), id: doc.id))
+                  .toList(),
+        )
         .listen((event) {
-      _blackboardItemsSubject.add(event);
-    });
+          _blackboardItemsSubject.add(event);
+        });
   }
 
   Stream<BlackboardItem> singleBlackboardItem(String itemID) {
-    return blackboardItemCollection.doc(itemID).snapshots().map(
-        (docSnap) => BlackboardItem.fromData(docSnap.data()!, id: docSnap.id));
+    return blackboardItemCollection
+        .doc(itemID)
+        .snapshots()
+        .map(
+          (docSnap) => BlackboardItem.fromData(docSnap.data()!, id: docSnap.id),
+        );
   }
 
   /// Sollte es keine Attachments geben, sollte an [attachmentsRemainOrDelete]
@@ -72,8 +79,11 @@ class BlackboardGateway {
     _deleteBlackboardItemDocument(id);
   }
 
-  void _unlinkAllFiles(FileSharingGateway fileSharingGateway, String id,
-      List<String> attachmentIDs) {
+  void _unlinkAllFiles(
+    FileSharingGateway fileSharingGateway,
+    String id,
+    List<String> attachmentIDs,
+  ) {
     for (final attachmentID in attachmentIDs) {
       fileSharingGateway.removeReferenceData(
         attachmentID,
@@ -82,8 +92,11 @@ class BlackboardGateway {
     }
   }
 
-  void _deleteAllFiles(FileSharingGateway fileSharingGateway, String courseID,
-      List<String> attachmentIDs) {
+  void _deleteAllFiles(
+    FileSharingGateway fileSharingGateway,
+    String courseID,
+    List<String> attachmentIDs,
+  ) {
     for (final attachmentID in attachmentIDs) {
       fileSharingGateway.cloudFilesGateway.deleteFile(courseID, attachmentID);
     }
@@ -103,8 +116,10 @@ class BlackboardGateway {
     final hasAttachments = attachments != null && attachments.isNotEmpty;
     if (hasAttachments) {
       for (int i = 0; i < attachments.length; i++) {
-        await fileSharingGateway.addReferenceData(attachments[i],
-            ReferenceData(type: ReferenceType.blackboard, id: reference.id));
+        await fileSharingGateway.addReferenceData(
+          attachments[i],
+          ReferenceData(type: ReferenceType.blackboard, id: reference.id),
+        );
       }
     }
 
@@ -132,9 +147,9 @@ class BlackboardGateway {
     if (attachments != null && attachments.isNotEmpty) {
       for (int i = 0; i < attachments.length; i++) {
         await fileSharingGateway.addReferenceData(
-            attachments[i],
-            ReferenceData(
-                type: ReferenceType.blackboard, id: blackboardItem.id));
+          attachments[i],
+          ReferenceData(type: ReferenceType.blackboard, id: blackboardItem.id),
+        );
       }
     }
 
@@ -143,8 +158,10 @@ class BlackboardGateway {
 
   static String parentOfPath(String documentRefPath) {
     int lastIndex = documentRefPath.lastIndexOf("/");
-    assert(lastIndex != -1,
-        "documentReferencePath of DocumentReference should have a '/' in it. - documentReferencePath: $documentRefPath");
+    assert(
+      lastIndex != -1,
+      "documentReferencePath of DocumentReference should have a '/' in it. - documentReferencePath: $documentRefPath",
+    );
     String collectionRefPath = documentRefPath.substring(0, lastIndex);
     return collectionRefPath;
   }
@@ -152,9 +169,12 @@ class BlackboardGateway {
   /// Changes the isDone Value of the [BlackboardItem] to [newDoneValue] for the user
   /// with [uID].
   void changeIsBlackboardDoneTo(
-      String blackboardDocumentID, bool newDoneValue) {
-    final documentReference =
-        blackboardItemCollection.doc(blackboardDocumentID);
+    String blackboardDocumentID,
+    bool newDoneValue,
+  ) {
+    final documentReference = blackboardItemCollection.doc(
+      blackboardDocumentID,
+    );
     documentReference.update({"forUsers.$uID": newDoneValue});
   }
 

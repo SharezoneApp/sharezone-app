@@ -21,7 +21,10 @@ class FadeRoute<T> extends MaterialPageRoute<T> {
   Duration get transitionDuration => duration;
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation, Widget child) =>
-      FadeTransition(opacity: animation, child: child);
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) => FadeTransition(opacity: animation, child: child);
 }

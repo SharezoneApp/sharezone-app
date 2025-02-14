@@ -22,9 +22,7 @@ class _FixICalCalendarsState extends State<FixICalCalendars> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Fix iCal Calendars"),
-      ),
+      appBar: AppBar(title: const Text("Fix iCal Calendars")),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -37,13 +35,11 @@ class _FixICalCalendarsState extends State<FixICalCalendars> {
               ),
             ),
             const SizedBox(height: 12),
-            _Button(
-              (int amount) {
-                setState(() {
-                  amountOfFixedCalendars = amount;
-                });
-              },
-            ),
+            _Button((int amount) {
+              setState(() {
+                amountOfFixedCalendars = amount;
+              });
+            }),
             if (amountOfFixedCalendars != null)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
@@ -71,33 +67,34 @@ class _ButtonState extends State<_Button> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: isLoading
-          ? null
-          : () async {
-              setState(() {
-                isLoading = true;
-              });
-
-              try {
-                final cfs =
-                    FirebaseFunctions.instanceFor(region: 'europe-west1');
-                final function = cfs.httpsCallable('fixICalCalendars');
-
-                final result = await function.call<Map<String, dynamic>>();
-                widget.amountOfFixedCalendars(
-                    result.data['amountOfFixedCalendars']);
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Error: $e'),
-                  ),
-                );
-              } finally {
+      onPressed:
+          isLoading
+              ? null
+              : () async {
                 setState(() {
-                  isLoading = false;
+                  isLoading = true;
                 });
-              }
-            },
+
+                try {
+                  final cfs = FirebaseFunctions.instanceFor(
+                    region: 'europe-west1',
+                  );
+                  final function = cfs.httpsCallable('fixICalCalendars');
+
+                  final result = await function.call<Map<String, dynamic>>();
+                  widget.amountOfFixedCalendars(
+                    result.data['amountOfFixedCalendars'],
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Error: $e')));
+                } finally {
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
+              },
       child: Text(
         isLoading ? "Loading..." : "Fix",
         style: TextStyle(color: Colors.white),

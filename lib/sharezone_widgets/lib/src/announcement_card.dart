@@ -94,7 +94,8 @@ class _Title extends StatelessWidget {
       child: Text(
         "» $title",
         style: TextStyle(
-          color: color ??
+          color:
+              color ??
               (context.isDarkThemeEnabled ? Colors.white : Colors.black),
           fontSize: 18,
           fontWeight: FontWeight.w700,
@@ -106,9 +107,7 @@ class _Title extends StatelessWidget {
 }
 
 class _ActionsAligment extends StatelessWidget {
-  const _ActionsAligment({
-    required this.actions,
-  });
+  const _ActionsAligment({required this.actions});
 
   final List<Widget> actions;
 
@@ -118,10 +117,7 @@ class _ActionsAligment extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: Padding(
         padding: const EdgeInsets.only(right: 4),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: actions,
-        ),
+        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: actions),
       ),
     );
   }

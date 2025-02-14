@@ -82,21 +82,24 @@ void main() {
     }) {
       return GroupJoinSelectCoursesBloc(
         joinResult: RequireCourseSelectionsJoinResult(
-            groupInfo: _mockSchoolClass(),
-            courses: courses,
-            enteredValue: 'ABCDEF'),
+          groupInfo: _mockSchoolClass(),
+          courses: courses,
+          enteredValue: 'ABCDEF',
+        ),
         groupJoinBloc: mockGroupJoinBloc,
       );
     }
 
     test('sorts courselist alphabetically', () async {
       // Arrange
-      final bloc = blocWith(courses: [
-        _courseWith(name: 'Englisch'),
-        _courseWith(name: 'Deutsch'),
-        _courseWith(name: 'Spanisch'),
-        _courseWith(name: 'Französisch'),
-      ]);
+      final bloc = blocWith(
+        courses: [
+          _courseWith(name: 'Englisch'),
+          _courseWith(name: 'Deutsch'),
+          _courseWith(name: 'Spanisch'),
+          _courseWith(name: 'Französisch'),
+        ],
+      );
       // Act
       final coursesList = await bloc.coursesList.first;
       // Assert
@@ -108,15 +111,17 @@ void main() {
       ]);
     });
 
-// Hierbei wird überprüft, dass beim submit dies auch an den GroupJoinBloc übergeben wird.
+    // Hierbei wird überprüft, dass beim submit dies auch an den GroupJoinBloc übergeben wird.
     test('sends new Join Request to GroupJoinBloc', () async {
       // Arrange
-      final bloc = blocWith(courses: [
-        _courseWith(name: 'Englisch'),
-        _courseWith(name: 'Deutsch'),
-        _courseWith(name: 'Spanisch'),
-        _courseWith(name: 'Französisch'),
-      ]);
+      final bloc = blocWith(
+        courses: [
+          _courseWith(name: 'Englisch'),
+          _courseWith(name: 'Deutsch'),
+          _courseWith(name: 'Spanisch'),
+          _courseWith(name: 'Französisch'),
+        ],
+      );
       // Act
       await bloc.submit();
       // Assert
@@ -125,9 +130,9 @@ void main() {
 
     test('updates isSelected, when the selectionState was updated', () async {
       // Arrange
-      final bloc = blocWith(courses: [
-        _courseWith(id: 'deutsch', isSelected: false),
-      ]);
+      final bloc = blocWith(
+        courses: [_courseWith(id: 'deutsch', isSelected: false)],
+      );
       // Act
       final courseBefore = await bloc.coursesList.withCourse(id: 'deutsch');
       bloc.setSelectionState(_groupKeyOfCourse('deutsch'), true);
@@ -140,12 +145,14 @@ void main() {
 
     test('only sends new request with selected courses', () async {
       // Arrange
-      final bloc = blocWith(courses: [
-        _courseWith(id: 'englisch', name: 'Englisch', isSelected: false),
-        _courseWith(id: 'deutsch', name: 'Deutsch', isSelected: false),
-        _courseWith(id: 'franzosisch', name: 'Französisch', isSelected: true),
-        _courseWith(id: 'spanisch', name: 'Spanisch', isSelected: true),
-      ]);
+      final bloc = blocWith(
+        courses: [
+          _courseWith(id: 'englisch', name: 'Englisch', isSelected: false),
+          _courseWith(id: 'deutsch', name: 'Deutsch', isSelected: false),
+          _courseWith(id: 'franzosisch', name: 'Französisch', isSelected: true),
+          _courseWith(id: 'spanisch', name: 'Spanisch', isSelected: true),
+        ],
+      );
       // Act
       bloc.setSelectionState(_groupKeyOfCourse('englisch'), true);
       bloc.setSelectionState(_groupKeyOfCourse('franzosisch'), false);
@@ -158,30 +165,41 @@ void main() {
       // Somit wird der Nutzern nur den Kursen englisch und spanisch beitreten.
 
       // da hier keine genaue Sportierung erforderlich ist, wird unorderedEquals verwendet.
-      expect(mockGroupJoinBloc.sentCourseIds,
-          unorderedEquals(['englisch', 'spanisch']));
+      expect(
+        mockGroupJoinBloc.sentCourseIds,
+        unorderedEquals(['englisch', 'spanisch']),
+      );
     });
 
     test(
-        'sends new request with all preselected courses, if users skips the selection',
-        () async {
-      // Arrange
-      final bloc = blocWith(courses: [
-        _courseWith(id: 'englisch', name: 'Englisch', isSelected: true),
-        _courseWith(id: 'deutsch', name: 'Deutsch', isSelected: false),
-        _courseWith(id: 'franzosisch', name: 'Französisch', isSelected: true),
-      ]);
+      'sends new request with all preselected courses, if users skips the selection',
+      () async {
+        // Arrange
+        final bloc = blocWith(
+          courses: [
+            _courseWith(id: 'englisch', name: 'Englisch', isSelected: true),
+            _courseWith(id: 'deutsch', name: 'Deutsch', isSelected: false),
+            _courseWith(
+              id: 'franzosisch',
+              name: 'Französisch',
+              isSelected: true,
+            ),
+          ],
+        );
 
-      bloc.setSelectionState(_groupKeyOfCourse('englisch'), false);
+        bloc.setSelectionState(_groupKeyOfCourse('englisch'), false);
 
-      // Act
-      bloc.skip();
+        // Act
+        bloc.skip();
 
-      // Assert
-      // da hier keine genaue Sportierung erforderlich ist, wird unorderedEquals verwendet.
-      expect(mockGroupJoinBloc.sentCourseIds,
-          unorderedEquals(['englisch', 'franzosisch']));
-    });
+        // Assert
+        // da hier keine genaue Sportierung erforderlich ist, wird unorderedEquals verwendet.
+        expect(
+          mockGroupJoinBloc.sentCourseIds,
+          unorderedEquals(['englisch', 'franzosisch']),
+        );
+      },
+    );
   });
 }
 

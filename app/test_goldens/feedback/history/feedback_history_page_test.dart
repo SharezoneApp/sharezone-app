@@ -69,7 +69,9 @@ void main() {
     }
 
     Future<void> pushFeedbackHistoryPage(
-        WidgetTester tester, ThemeData theme) async {
+      WidgetTester tester,
+      ThemeData theme,
+    ) async {
       await tester.pumpWidgetBuilder(
         ChangeNotifierProvider<FeedbackHistoryPageController>.value(
           value: controller,
@@ -93,8 +95,9 @@ void main() {
       await multiScreenGolden(tester, 'feedback_history_page_dark');
     });
 
-    testGoldens('renders loading state as expected (light mode)',
-        (tester) async {
+    testGoldens('renders loading state as expected (light mode)', (
+      tester,
+    ) async {
       setLoadingState();
 
       await pushFeedbackHistoryPage(tester, getLightTheme());
@@ -103,13 +106,15 @@ void main() {
         tester,
         'feedback_history_page_loading_light',
         // Custom pump to avoid timeout because of the loading spinner
-        customPump: (tester) async =>
-            await tester.pump(const Duration(milliseconds: 150)),
+        customPump:
+            (tester) async =>
+                await tester.pump(const Duration(milliseconds: 150)),
       );
     });
 
-    testGoldens('renders loading state as expected (dark mode)',
-        (tester) async {
+    testGoldens('renders loading state as expected (dark mode)', (
+      tester,
+    ) async {
       setLoadingState();
 
       await pushFeedbackHistoryPage(tester, getDarkTheme());
@@ -118,8 +123,9 @@ void main() {
         tester,
         'feedback_history_page_loading_dark',
         // Custom pump to avoid timeout because of the loading spinner
-        customPump: (tester) async =>
-            await tester.pump(const Duration(milliseconds: 150)),
+        customPump:
+            (tester) async =>
+                await tester.pump(const Duration(milliseconds: 150)),
       );
     });
 
@@ -128,10 +134,7 @@ void main() {
 
       await pushFeedbackHistoryPage(tester, getLightTheme());
 
-      await multiScreenGolden(
-        tester,
-        'feedback_history_page_error_light',
-      );
+      await multiScreenGolden(tester, 'feedback_history_page_error_light');
     });
 
     testGoldens('renders error state as expected (dark mode)', (tester) async {
@@ -139,10 +142,7 @@ void main() {
 
       await pushFeedbackHistoryPage(tester, getDarkTheme());
 
-      await multiScreenGolden(
-        tester,
-        'feedback_history_page_error_dark',
-      );
+      await multiScreenGolden(tester, 'feedback_history_page_error_dark');
     });
 
     testGoldens('renders empty state as expected (light mode)', (tester) async {
@@ -150,10 +150,7 @@ void main() {
 
       await pushFeedbackHistoryPage(tester, getLightTheme());
 
-      await multiScreenGolden(
-        tester,
-        'feedback_history_page_empty_light',
-      );
+      await multiScreenGolden(tester, 'feedback_history_page_empty_light');
     });
 
     testGoldens('renders empty state as expected (dark mode)', (tester) async {
@@ -161,10 +158,7 @@ void main() {
 
       await pushFeedbackHistoryPage(tester, getDarkTheme());
 
-      await multiScreenGolden(
-        tester,
-        'feedback_history_page_empty_dark',
-      );
+      await multiScreenGolden(tester, 'feedback_history_page_empty_dark');
     });
   });
 }

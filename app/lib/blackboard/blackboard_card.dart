@@ -21,40 +21,49 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'blackboard_view.dart';
 
 Future<void> showUserConfirmationOfBlackboardArrival(
-    BuildContext context) async {
+  BuildContext context,
+) async {
   await Future.delayed(
-      const Duration(milliseconds: 320)); // Waiting for pop animation
+    const Duration(milliseconds: 320),
+  ); // Waiting for pop animation
   if (context.mounted) {
     showDataArrivalConfirmedSnackbar(context: context);
   }
 }
 
 Future<void> showUserConfirmationOfBlackboardDeleted(
-    BuildContext context) async {
+  BuildContext context,
+) async {
   await Future.delayed(
-      const Duration(milliseconds: 320)); // Waiting for pop animation
+    const Duration(milliseconds: 320),
+  ); // Waiting for pop animation
   if (context.mounted) {
     showSnackSec(context: context, text: "Eintrag wurde gelöscht.");
   }
 }
 
 void openDetails(
-    BuildContext context, BlackboardView view, BlackboardCardBloc bloc) {
+  BuildContext context,
+  BlackboardView view,
+  BlackboardCardBloc bloc,
+) {
   Navigator.of(context)
-      .push<BlackboardPopOption>(MaterialPageRoute(
-    builder: (BuildContext context) => BlackboardDetails(view: view),
-  ))
+      .push<BlackboardPopOption>(
+        MaterialPageRoute(
+          builder: (BuildContext context) => BlackboardDetails(view: view),
+        ),
+      )
       .then((BlackboardPopOption? popOption) {
-    if (popOption != null && context.mounted) {
-      if (popOption == BlackboardPopOption.deleted) {
-        logBlackboardDeleteEvent(context);
-        showUserConfirmationOfBlackboardDeleted(context);
-      } else {
-        logBlackboardEditEvent(context);
-        showUserConfirmationOfBlackboardArrival(context);
-      }
-    }
-  });
+        if (popOption != null && context.mounted) {
+          if (popOption == BlackboardPopOption.deleted) {
+            logBlackboardDeleteEvent(context);
+            showUserConfirmationOfBlackboardDeleted(context);
+          } else {
+            logBlackboardEditEvent(context);
+            showUserConfirmationOfBlackboardArrival(context);
+          }
+        }
+      });
 }
 
 void logBlackboardDeleteEvent(BuildContext context) {
@@ -90,22 +99,30 @@ class BlackboardCard extends StatelessWidget {
               if (view.hasPhoto) _Picture(view: view),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 16, top: 16, right: 16, bottom: 8),
+                  left: 16,
+                  top: 16,
+                  right: 16,
+                  bottom: 8,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    LayoutBuilder(builder: (context, constraints) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          _HeadlineAndCourseName(
-                              maxWidth: constraints.maxWidth, view: view),
-                          if (view.hasAttachments) _AttachmentIcon(),
-                          if (view.isAuthor) _IsAuthorIcon(),
-                        ],
-                      );
-                    }),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            _HeadlineAndCourseName(
+                              maxWidth: constraints.maxWidth,
+                              view: view,
+                            ),
+                            if (view.hasAttachments) _AttachmentIcon(),
+                            if (view.isAuthor) _IsAuthorIcon(),
+                          ],
+                        );
+                      },
+                    ),
                     if (view.hasPermissionToEdit)
                       _ReadPercent(
                         value: view.readPercent,
@@ -126,10 +143,7 @@ class BlackboardCard extends StatelessWidget {
 }
 
 class _HeadlineAndCourseName extends StatelessWidget {
-  const _HeadlineAndCourseName({
-    required this.maxWidth,
-    required this.view,
-  });
+  const _HeadlineAndCourseName({required this.maxWidth, required this.view});
 
   final double maxWidth;
   final BlackboardView view;
@@ -142,14 +156,20 @@ class _HeadlineAndCourseName extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(view.title,
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: view.isAuthor || view.isRead
+          Text(
+            view.title,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight:
+                  view.isAuthor || view.isRead
                       ? FontWeight.w400
-                      : FontWeight.w800)),
-          Text('${view.courseName} - ${view.createdOnText}',
-              style: subtitleStyle),
+                      : FontWeight.w800,
+            ),
+          ),
+          Text(
+            '${view.courseName} - ${view.createdOnText}',
+            style: subtitleStyle,
+          ),
         ],
       ),
     );
@@ -167,10 +187,7 @@ class _HeadlineAndCourseName extends StatelessWidget {
 class _AttachmentIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const _TipIcon(
-      tooltip: 'Enthält Anhänge',
-      icon: Icons.attach_file,
-    );
+    return const _TipIcon(tooltip: 'Enthält Anhänge', icon: Icons.attach_file);
   }
 }
 
@@ -185,10 +202,7 @@ class _IsAuthorIcon extends StatelessWidget {
 }
 
 class _TipIcon extends StatelessWidget {
-  const _TipIcon({
-    this.tooltip,
-    this.icon,
-  });
+  const _TipIcon({this.tooltip, this.icon});
 
   final String? tooltip;
   final IconData? icon;
@@ -199,20 +213,18 @@ class _TipIcon extends StatelessWidget {
       padding: const EdgeInsets.only(top: 4),
       child: Tooltip(
         message: tooltip,
-        child: Icon(icon,
-            color:
-                Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[700],
-            size: 20),
+        child: Icon(
+          icon,
+          color: Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[700],
+          size: 20,
+        ),
       ),
     );
   }
 }
 
 class _ReadPercent extends StatelessWidget {
-  const _ReadPercent({
-    required this.value,
-    this.color,
-  });
+  const _ReadPercent({required this.value, this.color});
 
   final int value;
   final Color? color;
@@ -221,10 +233,7 @@ class _ReadPercent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
-      child: Text(
-        "$value%",
-        style: TextStyle(color: color),
-      ),
+      child: Text("$value%", style: TextStyle(color: color)),
     );
   }
 }
@@ -242,7 +251,7 @@ class _Text extends StatelessWidget {
       child: MarkdownBody(
         data: text,
         softLineBreak: true,
-        onTapLink: (url, _, __) => launchURL(url),
+        onTapLink: (url, _, _) => launchURL(url),
         styleSheet: MarkdownStyleSheet.fromTheme(
           theme.copyWith(
             textTheme: theme.textTheme.copyWith(
@@ -260,9 +269,7 @@ class _Text extends StatelessWidget {
 }
 
 class _Picture extends StatelessWidget {
-  const _Picture({
-    required this.view,
-  });
+  const _Picture({required this.view});
 
   final BlackboardView view;
 

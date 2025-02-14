@@ -28,8 +28,9 @@ class LinkProviderAnalytics {
   }
 
   void logEmailAndPasswordLink() {
-    _analytics
-        .log(AuthentifactionEvent(provider: emailAndPassword, name: name));
+    _analytics.log(
+      AuthentifactionEvent(provider: emailAndPassword, name: name),
+    );
   }
 
   /// Wird ausgeführt, wenn der Nutzer versehentlicht einen
@@ -46,7 +47,8 @@ class LinkProviderAnalytics {
   /// wie viel Energie und Zeit in Zukunft in diese und ähnliche Anleitungen gesteckt
   /// werden soll.
   void logShowedUseMultipleDevicesInstruction() {
-    _analytics
-        .log(const AnalyticsEvent("showed_use_multiple_devices_instruction"));
+    _analytics.log(
+      const AnalyticsEvent("showed_use_multiple_devices_instruction"),
+    );
   }
 }

@@ -11,7 +11,7 @@ import 'package:analytics/analytics.dart';
 class EnterActivationCodeEvent extends AnalyticsEvent {
   static const _eventName = 'entered_activation_code';
   EnterActivationCodeEvent(String activationCode)
-      : super(_eventName, data: {'activationCode': activationCode});
+    : super(_eventName, data: {'activationCode': activationCode});
 }
 
 class SuccessfulEnterActivationCodeEvent extends AnalyticsEvent {
@@ -19,11 +19,11 @@ class SuccessfulEnterActivationCodeEvent extends AnalyticsEvent {
   // and we can't change it.
   static const _eventName = 'entered_activation_code_successfull';
   SuccessfulEnterActivationCodeEvent(String activationCode)
-      : super(_eventName, data: {'activationCode': activationCode});
+    : super(_eventName, data: {'activationCode': activationCode});
 }
 
 class FailedEnterActivationCodeEvent extends AnalyticsEvent {
   static const _eventName = 'entered_activation_code_failed';
   FailedEnterActivationCodeEvent(String activationCode)
-      : super(_eventName, data: {'activationCode': activationCode});
+    : super(_eventName, data: {'activationCode': activationCode});
 }

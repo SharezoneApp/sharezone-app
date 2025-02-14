@@ -68,24 +68,27 @@ class ThankYouBottomSheetChild extends StatelessWidget {
                 TextSpan(
                   children: <TextSpan>[
                     const TextSpan(
-                        text:
-                            "Dir gefällt unsere App? Dann würden wir uns über eine Bewertung im "),
+                      text:
+                          "Dir gefällt unsere App? Dann würden wir uns über eine Bewertung im ",
+                    ),
                     TextSpan(
-                        text: (PlatformCheck.isIOS || PlatformCheck.isMacOS)
-                            ? "AppStore"
-                            : "PlayStore",
-                        style: linkStyle(context, 16),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            logOpenRating(context);
-                            launchURL(
+                      text:
+                          (PlatformCheck.isIOS || PlatformCheck.isMacOS)
+                              ? "AppStore"
+                              : "PlayStore",
+                      style: linkStyle(context, 16),
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              logOpenRating(context);
+                              launchURL(
                                 (PlatformCheck.isIOS || PlatformCheck.isMacOS)
                                     ? "https://sharezone.net/ios"
-                                    : "https://sharezone.net/android");
-                          }),
-                    const TextSpan(
-                      text: " riesig freuen! 😄",
+                                    : "https://sharezone.net/android",
+                              );
+                            },
                     ),
+                    const TextSpan(text: " riesig freuen! 😄"),
                   ],
                   style: const TextStyle(color: Colors.grey, fontSize: 16),
                 ),

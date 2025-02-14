@@ -86,41 +86,39 @@ sealed class Substitution {
     final isDeleted = data['deleted'] != null;
     return switch (type) {
       SubstitutionType.lessonCanceled => LessonCanceledSubstitution(
-          id: id,
-          date: Date.parse(data['date'] as String),
-          createdBy: createdBy,
-          isDeleted: isDeleted,
-          updatedBy: updatedBy,
-        ),
+        id: id,
+        date: Date.parse(data['date'] as String),
+        createdBy: createdBy,
+        isDeleted: isDeleted,
+        updatedBy: updatedBy,
+      ),
       SubstitutionType.locationChanged => LocationChangedSubstitution(
-          id: id,
-          date: Date.parse(data['date'] as String),
-          createdBy: createdBy,
-          newLocation: data['newPlace'] as String,
-          isDeleted: isDeleted,
-          updatedBy: updatedBy,
-        ),
+        id: id,
+        date: Date.parse(data['date'] as String),
+        createdBy: createdBy,
+        newLocation: data['newPlace'] as String,
+        isDeleted: isDeleted,
+        updatedBy: updatedBy,
+      ),
       SubstitutionType.teacherChanged => TeacherChangedSubstitution(
-          id: id,
-          date: Date.parse(data['date'] as String),
-          createdBy: createdBy,
-          newTeacher: data['newTeacher'] as String,
-          isDeleted: isDeleted,
-          updatedBy: updatedBy,
-        ),
+        id: id,
+        date: Date.parse(data['date'] as String),
+        createdBy: createdBy,
+        newTeacher: data['newTeacher'] as String,
+        isDeleted: isDeleted,
+        updatedBy: updatedBy,
+      ),
       SubstitutionType.unknown => UnknownSubstitution(
-          id: id,
-          date: Date.parse(data['date'] as String),
-          createdBy: createdBy,
-          isDeleted: isDeleted,
-          updatedBy: updatedBy,
-        )
+        id: id,
+        date: Date.parse(data['date'] as String),
+        createdBy: createdBy,
+        isDeleted: isDeleted,
+        updatedBy: updatedBy,
+      ),
     };
   }
 
-  Map<String, dynamic> toCreateJson({
-    required bool notifyGroupMembers,
-  }) {
+  Map<String, dynamic> toCreateJson({required bool notifyGroupMembers}) {
     return {
       'type': type.toDatabaseString(),
       'date': date.toDateString,
@@ -156,9 +154,7 @@ class LocationChangedSubstitution extends Substitution {
   }) : super(type: SubstitutionType.locationChanged);
 
   @override
-  Map<String, dynamic> toCreateJson({
-    required bool notifyGroupMembers,
-  }) {
+  Map<String, dynamic> toCreateJson({required bool notifyGroupMembers}) {
     return {
       ...super.toCreateJson(notifyGroupMembers: notifyGroupMembers),
       // We use a database field `newPlace` because `place` is already used for
@@ -181,9 +177,7 @@ class TeacherChangedSubstitution extends Substitution {
   }) : super(type: SubstitutionType.teacherChanged);
 
   @override
-  Map<String, dynamic> toCreateJson({
-    required bool notifyGroupMembers,
-  }) {
+  Map<String, dynamic> toCreateJson({required bool notifyGroupMembers}) {
     return {
       ...super.toCreateJson(notifyGroupMembers: notifyGroupMembers),
       'newTeacher': newTeacher,
@@ -204,19 +198,22 @@ class UnknownSubstitution extends Substitution {
 extension SubstitutionList on List<Substitution?> {
   LocationChangedSubstitution? getLocationChangedSubstitution() {
     return firstWhereOrNull(
-            (substitution) => substitution is LocationChangedSubstitution)
+          (substitution) => substitution is LocationChangedSubstitution,
+        )
         as LocationChangedSubstitution?;
   }
 
   TeacherChangedSubstitution? getTeacherChangedSubstitution() {
     return firstWhereOrNull(
-            (substitution) => substitution is TeacherChangedSubstitution)
+          (substitution) => substitution is TeacherChangedSubstitution,
+        )
         as TeacherChangedSubstitution?;
   }
 
   LessonCanceledSubstitution? getLessonCanceledSubstitution() {
     return firstWhereOrNull(
-            (substitution) => substitution is LessonCanceledSubstitution)
+          (substitution) => substitution is LessonCanceledSubstitution,
+        )
         as LessonCanceledSubstitution?;
   }
 }

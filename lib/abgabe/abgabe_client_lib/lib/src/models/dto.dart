@@ -15,10 +15,7 @@ import 'models.dart';
 
 extension ToAuthorModel on AuthorDto {
   Author toAuthor() {
-    return Author(
-      UserId(uid),
-      Nutzername(name, abbreviation),
-    );
+    return Author(UserId(uid), Nutzername(name, abbreviation));
   }
 }
 
@@ -69,7 +66,8 @@ class HochgeladeneAbgabedateiDto {
   }
 
   factory HochgeladeneAbgabedateiDto.fromHochgeladeneAbgabedatei(
-      HochgeladeneAbgabedatei datei) {
+    HochgeladeneAbgabedatei datei,
+  ) {
     return HochgeladeneAbgabedateiDto(
       id: '${datei.id}',
       fileNameWithExtension: datei.name.mitExtension,
@@ -121,33 +119,18 @@ class AbgabezielReferenz {
   String id;
   String type;
 
-  AbgabezielReferenz({
-    required this.id,
-    required this.type,
-  });
+  AbgabezielReferenz({required this.id, required this.type});
 
-  AbgabezielReferenz copyWith({
-    String? id,
-    String? type,
-  }) {
-    return AbgabezielReferenz(
-      id: id ?? this.id,
-      type: type ?? this.type,
-    );
+  AbgabezielReferenz copyWith({String? id, String? type}) {
+    return AbgabezielReferenz(id: id ?? this.id, type: type ?? this.type);
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'type': type,
-    };
+    return {'id': id, 'type': type};
   }
 
   factory AbgabezielReferenz.fromMap(Map<String, dynamic> map) {
-    return AbgabezielReferenz(
-      id: map['id'],
-      type: map['type'],
-    );
+    return AbgabezielReferenz(id: map['id'], type: map['type']);
   }
 
   String toJson() => json.encode(toMap());

@@ -12,29 +12,35 @@ import 'package:hausaufgabenheft_logik/src/shared/sort_and_subcategorizer.dart';
 
 class TeacherAndParentOpenHomeworkListViewFactory {
   final HomeworkSortAndSubcategorizer<TeacherHomeworkReadModel>
-      _sortAndSubcategorizer;
+  _sortAndSubcategorizer;
   final TeacherAndParentHomeworkViewFactory _viewFactory;
 
   TeacherAndParentOpenHomeworkListViewFactory(
-      this._sortAndSubcategorizer, this._viewFactory);
+    this._sortAndSubcategorizer,
+    this._viewFactory,
+  );
 
   TeacherAndParentOpenHomeworkListView create(
-      IList<TeacherHomeworkReadModel> openHomeworks,
-      Sort<BaseHomeworkReadModel> sort) {
-    final sortedAndSubcategorized =
-        _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
-
-    final views = sortedAndSubcategorized
-        .map((section) => HomeworkSectionView(
-            section.title,
-            section.homeworks
-                .map((hw) => _viewFactory.createFrom(hw))
-                .toIList()))
-        .toIList();
-
-    return TeacherAndParentOpenHomeworkListView(
-      views,
-      sorting: sort.toEnum(),
+    IList<TeacherHomeworkReadModel> openHomeworks,
+    Sort<BaseHomeworkReadModel> sort,
+  ) {
+    final sortedAndSubcategorized = _sortAndSubcategorizer.sortAndSubcategorize(
+      openHomeworks,
+      sort,
     );
+
+    final views =
+        sortedAndSubcategorized
+            .map(
+              (section) => HomeworkSectionView(
+                section.title,
+                section.homeworks
+                    .map((hw) => _viewFactory.createFrom(hw))
+                    .toIList(),
+              ),
+            )
+            .toIList();
+
+    return TeacherAndParentOpenHomeworkListView(views, sorting: sort.toEnum());
   }
 }

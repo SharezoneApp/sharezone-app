@@ -26,18 +26,22 @@ Future<void> selectFolderAction({
     case SheetOption.rename:
       showDialog(
         context: context,
-        builder: (context) => OneTextFieldDialog(
-          actionName: "Umbenennen".toUpperCase(),
-          hint: "Neuer Name",
-          title: "Ordner umbenennen",
-          text: folder.name,
-          onTap: (name) {
-            final renamedFolder = folder.copyWith(name: name);
-            api.fileSharing.folderGateway
-                .renameFolder(courseID!, path!, renamedFolder);
-            Navigator.pop(context);
-          },
-        ),
+        builder:
+            (context) => OneTextFieldDialog(
+              actionName: "Umbenennen".toUpperCase(),
+              hint: "Neuer Name",
+              title: "Ordner umbenennen",
+              text: folder.name,
+              onTap: (name) {
+                final renamedFolder = folder.copyWith(name: name);
+                api.fileSharing.folderGateway.renameFolder(
+                  courseID!,
+                  path!,
+                  renamedFolder,
+                );
+                Navigator.pop(context);
+              },
+            ),
       );
       break;
     case SheetOption.delete:
@@ -45,10 +49,15 @@ Future<void> selectFolderAction({
         context: context,
         popTwice: false,
         description: Text(
-            "Möchtest du wirklich den Ordner mit dem Namen \"${folder.name}\" löschen?"),
+          "Möchtest du wirklich den Ordner mit dem Namen \"${folder.name}\" löschen?",
+        ),
         title: "Ordner löschen?",
-        onDelete: () => api.fileSharing.folderGateway
-            .deleteFolder(courseID!, path!, folder),
+        onDelete:
+            () => api.fileSharing.folderGateway.deleteFolder(
+              courseID!,
+              path!,
+              folder,
+            ),
       );
       break;
     default:

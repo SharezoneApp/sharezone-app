@@ -16,9 +16,12 @@ class PushNotificationParserInstrumentationFactory {
   PushNotificationParserInstrumentationFactory(this._instrumentation);
 
   PushNotificationParserInstrumentation forNotification(
-      PushNotification notification) {
+    PushNotification notification,
+  ) {
     return PushNotificationParserInstrumentation(
-        _instrumentation, notification);
+      _instrumentation,
+      notification,
+    );
   }
 }
 
@@ -51,7 +54,9 @@ class PushNotificationParserInstrumentation {
   final PushNotification _currentNotification;
 
   PushNotificationParserInstrumentation(
-      this._instrumentation, this._currentNotification);
+    this._instrumentation,
+    this._currentNotification,
+  );
 
   /// A method to parse a value called [attributeName] of type [T] which will
   /// automatically call [parsingFailedNonFatalyOnAttribute] if [parse] throws
@@ -80,8 +85,11 @@ class PushNotificationParserInstrumentation {
       }
       return result;
     } catch (e) {
-      parsingFailedNonFatalyOnAttribute(attributeName,
-          error: e, fallbackValueChosenInstead: fallbackValue);
+      parsingFailedNonFatalyOnAttribute(
+        attributeName,
+        error: e,
+        fallbackValueChosenInstead: fallbackValue,
+      );
       return fallbackValue;
     }
   }
@@ -170,11 +178,16 @@ abstract class PushNotificationActionHandlerInstrumentation {
 
   /// Successfully parsed the [actionRequest] from the [pushNotification].
   void parsingSucceeded(
-      PushNotification pushNotification, ActionRequest actionRequest);
+    PushNotification pushNotification,
+    ActionRequest actionRequest,
+  );
 
   /// Failed to execute the [actionRequest].
   void actionExecutionFailed(
-      ActionRequest actionRequest, dynamic exception, StackTrace stacktrace);
+    ActionRequest actionRequest,
+    dynamic exception,
+    StackTrace stacktrace,
+  );
 
   /// Successfully executed the [actionRequest].
   void actionExecutedSuccessfully(ActionRequest actionRequest);

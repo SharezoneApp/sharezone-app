@@ -26,7 +26,7 @@ class ImprintPage extends StatelessWidget {
         child: SafeArea(
           child: MarkdownBody(
             data: markdownImprint,
-            onTapLink: (text, href, __) => launchURL(href!),
+            onTapLink: (text, href, _) => launchURL(href!),
             selectable: true,
           ),
         ),

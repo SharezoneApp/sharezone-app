@@ -33,11 +33,15 @@ class SignInWithQrCodePage extends StatelessWidget {
         builder: (context) {
           return BlocProvider(
             bloc: QrSignInWebBloc(
-                firestore: FirebaseFirestore.instance,
-                appFunctions: SharezoneAppFunctions(AppFunctions(
-                    FirebaseFunctions.instanceFor(region: 'europe-west1'))),
-                loginAnalytics: LoginAnalytics(Analytics(getBackend())),
-                crashAnalytics: getCrashAnalytics()),
+              firestore: FirebaseFirestore.instance,
+              appFunctions: SharezoneAppFunctions(
+                AppFunctions(
+                  FirebaseFunctions.instanceFor(region: 'europe-west1'),
+                ),
+              ),
+              loginAnalytics: LoginAnalytics(Analytics(getBackend())),
+              crashAnalytics: getCrashAnalytics(),
+            ),
             child: _InnerSignInWithQrCodePage(),
           );
         },
@@ -135,8 +139,9 @@ class _LoadingCircular extends StatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 175),
             child: const Text(
-                "Die Erstellung des QR-Codes kann einige Sekunden dauern..."),
-          )
+              "Die Erstellung des QR-Codes kann einige Sekunden dauern...",
+            ),
+          ),
         ],
       ),
     );
@@ -158,18 +163,12 @@ class _QrCodeSteps extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _Step(
-                step: 1,
-                text: 'Öffne Sharezone auf deinem Handy / Tablet',
-              ),
+              _Step(step: 1, text: 'Öffne Sharezone auf deinem Handy / Tablet'),
               _Step(
                 step: 2,
                 text: 'Öffne die Einstellungen über die seitliche Navigation',
               ),
-              _Step(
-                step: 3,
-                text: 'Tippe auf "Web-App"',
-              ),
+              _Step(step: 3, text: 'Tippe auf "Web-App"'),
               _Step(
                 step: 4,
                 text:
@@ -182,17 +181,14 @@ class _QrCodeSteps extends StatelessWidget {
         Text(
           "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
           style: TextStyle(color: Colors.grey),
-        )
+        ),
       ],
     );
   }
 }
 
 class _Step extends StatelessWidget {
-  const _Step({
-    required this.step,
-    required this.text,
-  });
+  const _Step({required this.step, required this.text});
 
   final int step;
   final String text;

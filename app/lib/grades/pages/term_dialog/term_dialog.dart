@@ -34,8 +34,9 @@ class TermDialog extends StatelessWidget {
               children: [
                 PrefilledTextField(
                   key: const ValueKey('term-name-field'),
-                  decoration:
-                      const InputDecoration(labelText: 'Name des Halbjahres'),
+                  decoration: const InputDecoration(
+                    labelText: 'Name des Halbjahres',
+                  ),
                   prefilledText: controller.termName,
                   onChanged: (value) {
                     controller.setTermName(value);
@@ -49,19 +50,21 @@ class TermDialog extends StatelessWidget {
                   onTap: () async {
                     final res = await showDialog<GradingSystem?>(
                       context: context,
-                      builder: (context) => SimpleDialog(
-                        title: const Text("Note auswählen"),
-                        children: [
-                          for (final gradingSystem in GradingSystem.values)
-                            ListTile(
-                              title: Text(gradingSystem.displayName),
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pop<GradingSystem?>(gradingSystem);
-                              },
-                            ),
-                        ],
-                      ),
+                      builder:
+                          (context) => SimpleDialog(
+                            title: const Text("Note auswählen"),
+                            children: [
+                              for (final gradingSystem in GradingSystem.values)
+                                ListTile(
+                                  title: Text(gradingSystem.displayName),
+                                  onTap: () {
+                                    Navigator.of(
+                                      context,
+                                    ).pop<GradingSystem?>(gradingSystem);
+                                  },
+                                ),
+                            ],
+                          ),
                     );
 
                     if (res != null) {

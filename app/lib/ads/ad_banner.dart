@@ -13,10 +13,7 @@ import 'package:sharezone/ads/ads_controller.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AdBanner extends StatefulWidget {
-  const AdBanner({
-    super.key,
-    required this.adUnitId,
-  });
+  const AdBanner({super.key, required this.adUnitId});
 
   final String adUnitId;
 
@@ -39,7 +36,8 @@ class _AdBannerState extends State<AdBanner> {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         final size =
             await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                MediaQuery.sizeOf(context).width.truncate());
+              MediaQuery.sizeOf(context).width.truncate(),
+            );
 
         if (size != null) {
           setState(() {
@@ -114,12 +112,8 @@ class _Placeholder extends StatelessWidget {
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Center(
-              child: Text('Anzeige lädt...'),
-            ),
-          ),
-          Divider(height: 0)
+          Expanded(child: Center(child: Text('Anzeige lädt...'))),
+          Divider(height: 0),
         ],
       ),
     );

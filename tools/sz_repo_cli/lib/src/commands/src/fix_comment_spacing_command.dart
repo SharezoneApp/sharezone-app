@@ -44,9 +44,11 @@ class FixCommentSpacingCommand extends CommandBase {
     await _fixCommentSpacing(rootPath: repo.location.path);
     stdout.writeln('Warning: Some results may be false-positives');
     stdout.writeln(
-        'If this happens you can include "// ignore_for_file: no_spaces_after_comment_slashes" in your file');
+      'If this happens you can include "// ignore_for_file: no_spaces_after_comment_slashes" in your file',
+    );
     stdout.writeln(
-        '(This warning will be printed regardless if anything was found)');
+      '(This warning will be printed regardless if anything was found)',
+    );
   }
 }
 
@@ -63,8 +65,10 @@ Future<void> _fixCommentSpacing({required String rootPath}) async {
   final dartFiles = _getFilesToCheck(rootPath);
   for (final dartFile in dartFiles) {
     final content = dartFile.readAsStringSync();
-    final newContent =
-        fixCodeWithCommentsWithBadSpacing(content, dartFile.path);
+    final newContent = fixCodeWithCommentsWithBadSpacing(
+      content,
+      dartFile.path,
+    );
     dartFile.writeAsStringSync(newContent);
   }
 }
@@ -78,7 +82,8 @@ bool doesPackageIncludeFilesWithBadCommentSpacing(String packageRootPath) {
       stdout.writeln('Found comment with bad spacing in ${dartFile.path}.');
       stdout.writeln('This *may* be a false-positive.');
       stdout.writeln(
-          'If this happens you can include "// ignore_for_file: no_spaces_after_comment_slashes" in your file.');
+        'If this happens you can include "// ignore_for_file: no_spaces_after_comment_slashes" in your file.',
+      );
       return true;
     }
   }
@@ -91,8 +96,10 @@ bool containsCommentsWithBadComments(String dartFileContent) {
 }
 
 /// See [findCommentsWithBadSpacingInCode]
-String fixCodeWithCommentsWithBadSpacing(String sourceCode,
-    [String? filePath]) {
+String fixCodeWithCommentsWithBadSpacing(
+  String sourceCode, [
+  String? filePath,
+]) {
   final badComments = findCommentsWithBadSpacingInCode(sourceCode);
   for (var i = 0; i < badComments.length; i++) {
     final badComment = badComments[i];
@@ -170,10 +177,12 @@ final _commentSlashesRegex = RegExp(r'\/{2,3}');
 /// ```
 /// inside the file with a false-positive.
 List<CommentWithBadSpacingMatch> findCommentsWithBadSpacingInCode(
-    String sourceCode) {
+  String sourceCode,
+) {
   // As we sometimes still have false positives we want this "safety hatch".
-  if (sourceCode
-      .contains('// ignore_for_file: no_spaces_after_comment_slashes')) {
+  if (sourceCode.contains(
+    '// ignore_for_file: no_spaces_after_comment_slashes',
+  )) {
     return [];
   }
 
@@ -198,17 +207,18 @@ List<CommentWithBadSpacingMatch> findCommentsWithBadSpacingInCode(
     final isEmptyCommentWithNoSpacesAfter =
         // Linux / macOS line ending: LF (\n)
         sourceCode[match.end] == '\n' ||
-            // Windows line ending: CRLF (\r\n). We just assume the \n after \r.
-            sourceCode[match.end] == '\r';
+        // Windows line ending: CRLF (\r\n). We just assume the \n after \r.
+        sourceCode[match.end] == '\r';
 
     // We assume if comment has format "://" that it is propably a Url.
     // For example https://example.com
     final isPropablyUrl =
         match.start != 0 && sourceCode[match.start - 1] == ':';
 
-    final isProbablyBadComment = !(hasSpaceAfterCommentSlashes ||
-        isEmptyCommentWithNoSpacesAfter ||
-        isPropablyUrl);
+    final isProbablyBadComment =
+        !(hasSpaceAfterCommentSlashes ||
+            isEmptyCommentWithNoSpacesAfter ||
+            isPropablyUrl);
     if (isProbablyBadComment) {
       badCommentPositions.add(CommentWithBadSpacingMatch(match.end - 1));
     }

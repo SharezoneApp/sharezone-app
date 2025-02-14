@@ -26,14 +26,14 @@ class StudentHomeworkSectionView extends Equatable {
   List<Object> get props => [title, homeworks];
 
   factory StudentHomeworkSectionView.fromModels(
-      String title,
-      IList<StudentHomeworkReadModel> homeworks,
-      StudentHomeworkViewFactory viewFactory) {
+    String title,
+    IList<StudentHomeworkReadModel> homeworks,
+    StudentHomeworkViewFactory viewFactory,
+  ) {
     return StudentHomeworkSectionView(
-        title,
-        IList([
-          for (final h in homeworks) viewFactory.createFrom(h),
-        ]));
+      title,
+      IList([for (final h in homeworks) viewFactory.createFrom(h)]),
+    );
   }
 
   @override

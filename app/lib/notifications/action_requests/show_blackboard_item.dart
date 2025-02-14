@@ -13,20 +13,21 @@ import 'package:notifications/notifications.dart';
 import 'package:sharezone/blackboard/details/blackboard_details.dart';
 import 'package:sharezone/util/navigation_service.dart';
 
-ActionRegistration<
-    ShowBlackboardItemRequest> showBlackboardItemRegistrationWith(
-        ActionRequestExecutorFunc<ShowBlackboardItemRequest> executorFunc) =>
-    ActionRegistration<ShowBlackboardItemRequest>(
-      registerForActionTypeStrings: ShowBlackboardItemRequest.actionTypes,
-      parseActionRequestFromNotification: _toShowBlackboardItemActionRequest,
-      executeActionRequest: executorFunc,
-    );
+ActionRegistration<ShowBlackboardItemRequest>
+showBlackboardItemRegistrationWith(
+  ActionRequestExecutorFunc<ShowBlackboardItemRequest> executorFunc,
+) => ActionRegistration<ShowBlackboardItemRequest>(
+  registerForActionTypeStrings: ShowBlackboardItemRequest.actionTypes,
+  parseActionRequestFromNotification: _toShowBlackboardItemActionRequest,
+  executeActionRequest: executorFunc,
+);
 
 ShowBlackboardItemRequest _toShowBlackboardItemActionRequest(
-        PushNotification notification,
-        PushNotificationParserInstrumentation instrumentation) =>
-    ShowBlackboardItemRequest(
-        BlackboardItemId(notification.actionData['id'] as String));
+  PushNotification notification,
+  PushNotificationParserInstrumentation instrumentation,
+) => ShowBlackboardItemRequest(
+  BlackboardItemId(notification.actionData['id'] as String),
+);
 
 /// Show the detailed view of a single blackboard item with the given
 /// [blackboardItemId].
@@ -52,7 +53,8 @@ class ShowBlackboardItemExecutor
   @override
   FutureOr<void> execute(ShowBlackboardItemRequest actionRequest) {
     return _navigationService!.pushWidget(
-        BlackboardDetails.loadId('${actionRequest.blackboardItemId}'),
-        name: BlackboardDetails.tag);
+      BlackboardDetails.loadId('${actionRequest.blackboardItemId}'),
+      name: BlackboardDetails.tag,
+    );
   }
 }

@@ -30,7 +30,9 @@ class NotificationsPermission {
           await mobileDeviceInformationRetriever.androidSdkInt();
 
       if (currentAndroidSdk == null) {
-        log('Could not retrieve Android SDK version. Skipping to request Firebase Messaging access.');
+        log(
+          'Could not retrieve Android SDK version. Skipping to request Firebase Messaging access.',
+        );
         return false;
       }
 
@@ -52,7 +54,9 @@ class NotificationsPermission {
   Future<void> requestPermission() async {
     if (isIntegrationTest) {
       // Firebase Messaging is not available in integration tests.
-      log('Skipping to request Firebase Messaging access because integration test is running.');
+      log(
+        'Skipping to request Firebase Messaging access because integration test is running.',
+      );
       return;
     }
 

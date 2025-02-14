@@ -28,10 +28,7 @@ final _flavorToProjectId = {
 };
 
 /// The different flavors of the web app that support deployment.
-final _webFlavors = [
-  'prod',
-  'dev',
-];
+final _webFlavors = ['prod', 'dev'];
 
 /// Deploy the Sharezone web app to one of the several deploy sites (e.g. alpha
 /// or production).
@@ -41,11 +38,7 @@ final _webFlavors = [
 class DeployAppWebCommand extends CommandBase {
   DeployAppWebCommand(super.context) {
     argParser
-      ..addOption(
-        releaseStageOptionName,
-        abbr: 's',
-        allowed: _webAppStages,
-      )
+      ..addOption(releaseStageOptionName, abbr: 's', allowed: _webAppStages)
       ..addOption(
         firebaseDeployMessageOptionName,
         help:
@@ -94,7 +87,7 @@ class DeployAppWebCommand extends CommandBase {
       '--flavor',
       flavor,
       '--stage',
-      releaseStage
+      releaseStage,
     ], workingDirectory: repo.sharezoneCiCdTool.location);
 
     String? deployMessage;
@@ -105,26 +98,24 @@ class DeployAppWebCommand extends CommandBase {
 
     final firebaseHostingTarget = _stageToTarget[releaseStage]!;
     final firebaseProjectId = _flavorToProjectId[flavor]!;
-    await processRunner.run(
-      [
-        'firebase',
-        'deploy',
-        '--only',
-        'hosting:$firebaseHostingTarget',
-        '--project',
-        firebaseProjectId,
-        '--message',
-        deployMessage ?? overriddenDeployMessage!,
-      ],
-      workingDirectory: repo.sharezoneFlutterApp.location,
-    );
+    await processRunner.run([
+      'firebase',
+      'deploy',
+      '--only',
+      'hosting:$firebaseHostingTarget',
+      '--project',
+      firebaseProjectId,
+      '--message',
+      deployMessage ?? overriddenDeployMessage!,
+    ], workingDirectory: repo.sharezoneFlutterApp.location);
   }
 
   String _parseReleaseStage(ArgResults argResults) {
     final releaseStage = argResults[releaseStageOptionName] as String?;
     if (releaseStage == null) {
       stderr.writeln(
-          'Expected --$releaseStageOptionName option. Possible values: $_webAppStages');
+        'Expected --$releaseStageOptionName option. Possible values: $_webAppStages',
+      );
       throw ToolExit(1);
     }
     return releaseStage;

@@ -37,7 +37,8 @@ class FailedEnterActivationCodeResult implements EnterActivationCodeResult {
   factory FailedEnterActivationCodeResult.fromData(Map<String, dynamic> data) {
     final resultType = data['resultType'] as String;
     return FailedEnterActivationCodeResult(
-        EnterActivationCodeException.fromData(resultType));
+      EnterActivationCodeException.fromData(resultType),
+    );
   }
 }
 

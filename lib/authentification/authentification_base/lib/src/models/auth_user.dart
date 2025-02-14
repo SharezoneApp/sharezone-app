@@ -21,17 +21,11 @@ class AuthUser {
   final String uid;
   final User firebaseUser;
 
-  const AuthUser({
-    required this.uid,
-    required this.firebaseUser,
-  });
+  const AuthUser({required this.uid, required this.firebaseUser});
 
   static AuthUser? fromFirebaseUser(User? firebaseUser) {
     if (firebaseUser == null) return null;
-    return AuthUser(
-      uid: firebaseUser.uid,
-      firebaseUser: firebaseUser,
-    );
+    return AuthUser(uid: firebaseUser.uid, firebaseUser: firebaseUser);
   }
 
   String? get email {

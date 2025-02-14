@@ -100,13 +100,14 @@ class MarkdownFieldState extends State<MarkdownField> {
                   ),
                 );
               },
-              child: isFocused
-                  ? Padding(
-                      key: ValueKey(isFocused),
-                      padding: const EdgeInsets.fromLTRB(67, 0, 16, 12),
-                      child: const MarkdownSupport(),
-                    )
-                  : SizedBox(key: ValueKey(isFocused)),
+              child:
+                  isFocused
+                      ? Padding(
+                        key: ValueKey(isFocused),
+                        padding: const EdgeInsets.fromLTRB(67, 0, 16, 12),
+                        child: const MarkdownSupport(),
+                      )
+                      : SizedBox(key: ValueKey(isFocused)),
             ),
           ],
         ),

@@ -30,28 +30,23 @@ class ImageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Section(
-      child: isTablet(context)
-          ? Column(
-              children: [
-                image!,
-                const SizedBox(height: 32),
-                body!,
-              ],
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                if (imagePosition == ImagePosition.left) ...[
-                  image!,
-                  SizedBox(width: desktopSpacing),
-                  Expanded(child: body!)
-                ] else ...[
-                  Expanded(child: body!),
-                  SizedBox(width: desktopSpacing),
-                  image!
-                ]
-              ],
-            ),
+      child:
+          isTablet(context)
+              ? Column(children: [image!, const SizedBox(height: 32), body!])
+              : Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  if (imagePosition == ImagePosition.left) ...[
+                    image!,
+                    SizedBox(width: desktopSpacing),
+                    Expanded(child: body!),
+                  ] else ...[
+                    Expanded(child: body!),
+                    SizedBox(width: desktopSpacing),
+                    image!,
+                  ],
+                ],
+              ),
     );
   }
 }

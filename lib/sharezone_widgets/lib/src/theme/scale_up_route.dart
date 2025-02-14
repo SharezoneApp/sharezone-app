@@ -19,18 +19,26 @@ import 'package:flutter/material.dart';
 class ScaleUpRoute<T> extends MaterialPageRoute<T> {
   final double begin;
 
-  ScaleUpRoute(
-      {required Widget child, required this.begin, required String tag})
-      : super(builder: (context) => child, settings: RouteSettings(name: tag));
+  ScaleUpRoute({
+    required Widget child,
+    required this.begin,
+    required String tag,
+  }) : super(builder: (context) => child, settings: RouteSettings(name: tag));
 
   @override
   Duration get transitionDuration => const Duration(milliseconds: 250);
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    final tween = Tween<double>(begin: begin, end: 1)
-        .chain(CurveTween(curve: Curves.easeInOut));
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    final tween = Tween<double>(
+      begin: begin,
+      end: 1,
+    ).chain(CurveTween(curve: Curves.easeInOut));
     final scaleAnimation = animation.drive(tween);
     return ScaleTransition(
       scale: scaleAnimation,

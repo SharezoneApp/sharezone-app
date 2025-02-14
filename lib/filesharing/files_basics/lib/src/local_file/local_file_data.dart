@@ -27,7 +27,11 @@ class LocalFileData extends LocalFile {
   });
 
   factory LocalFileData.fromData(
-      Uint8List data, String? path, String name, String? type) {
+    Uint8List data,
+    String? path,
+    String name,
+    String? type,
+  ) {
     return LocalFileData._(
       fileData: data,
       sizeBytes: data.lengthInBytes,

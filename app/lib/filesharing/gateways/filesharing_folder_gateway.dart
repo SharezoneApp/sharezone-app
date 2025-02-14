@@ -23,14 +23,19 @@ class FilesharingFolderGateway implements FolderAccessor, FolderOperator {
   FilesharingFolderGateway({
     required this.user,
     required FirebaseFirestore firestore,
-  })  : uID = user.uid,
-        _fStore = firestore,
-        fileUploader = FirebaseFileUploader(firestore: firestore);
+  }) : uID = user.uid,
+       _fStore = firestore,
+       fileUploader = FirebaseFileUploader(firestore: firestore);
 
   @override
   Future<void> createFolder(
-      String courseID, FolderPath folderPath, Folder folder) {
-    return fileSharingCollection.doc(courseID).set(
+    String courseID,
+    FolderPath folderPath,
+    Folder folder,
+  ) {
+    return fileSharingCollection
+        .doc(courseID)
+        .set(
           folderPath.getFolderDocumentMap(folder.id, folder.toJson())!,
           SetOptions(merge: true),
         );
@@ -38,40 +43,68 @@ class FilesharingFolderGateway implements FolderAccessor, FolderOperator {
 
   @override
   Future<void> deleteFolder(
-      String courseID, FolderPath folderPath, Folder folder) async {
+    String courseID,
+    FolderPath folderPath,
+    Folder folder,
+  ) async {
     if (folderPath == FolderPath.root && folder.id == 'attachment') {
       return;
     }
-    return fileSharingCollection.doc(courseID).set(
-        folderPath.getFolderDocumentMap(folder.id, FieldValue.delete())!,
-        SetOptions(merge: true));
+    return fileSharingCollection
+        .doc(courseID)
+        .set(
+          folderPath.getFolderDocumentMap(folder.id, FieldValue.delete())!,
+          SetOptions(merge: true),
+        );
   }
 
   @override
   Future<void> editFolder(
-      String courseID, FolderPath folderPath, Folder folder) {
-    return fileSharingCollection.doc(courseID).set(
-        folderPath.getFolderDocumentMap(folder.id, folder.toJson())!,
-        SetOptions(merge: true));
+    String courseID,
+    FolderPath folderPath,
+    Folder folder,
+  ) {
+    return fileSharingCollection
+        .doc(courseID)
+        .set(
+          folderPath.getFolderDocumentMap(folder.id, folder.toJson())!,
+          SetOptions(merge: true),
+        );
   }
 
   @override
   Stream<FileSharingData> folderStream(String courseID) {
-    return fileSharingCollection.doc(courseID).snapshots().map((snapshot) =>
-        FileSharingData.fromData(id: snapshot.id, data: snapshot.data()!));
+    return fileSharingCollection
+        .doc(courseID)
+        .snapshots()
+        .map(
+          (snapshot) =>
+              FileSharingData.fromData(id: snapshot.id, data: snapshot.data()!),
+        );
   }
 
   @override
   Future<FileSharingData> getFilesharingData(String courseID) {
-    return fileSharingCollection.doc(courseID).get().then((snapshot) =>
-        FileSharingData.fromData(id: snapshot.id, data: snapshot.data()!));
+    return fileSharingCollection
+        .doc(courseID)
+        .get()
+        .then(
+          (snapshot) =>
+              FileSharingData.fromData(id: snapshot.id, data: snapshot.data()!),
+        );
   }
 
   @override
   Future<void> renameFolder(
-      String courseID, FolderPath folderPath, Folder folder) {
-    return fileSharingCollection.doc(courseID).set(
-        folderPath.getFolderDocumentMap(folder.id, {'name': folder.name})!,
-        SetOptions(merge: true));
+    String courseID,
+    FolderPath folderPath,
+    Folder folder,
+  ) {
+    return fileSharingCollection
+        .doc(courseID)
+        .set(
+          folderPath.getFolderDocumentMap(folder.id, {'name': folder.name})!,
+          SetOptions(merge: true),
+        );
   }
 }

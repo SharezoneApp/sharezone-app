@@ -27,7 +27,8 @@ class Time {
       "de_DE",
     );
     return Time._(
-        "${numberFormat.format(hour)}:${numberFormat.format(minute)}");
+      "${numberFormat.format(hour)}:${numberFormat.format(minute)}",
+    );
   }
 
   const Time._(this._time);
@@ -41,7 +42,8 @@ class Time {
   factory Time.fromTimeOfDay(TimeOfDay timeOfDay) {
     final numberFormat = NumberFormat("00");
     return Time._(
-        "${numberFormat.format(timeOfDay.hour)}:${numberFormat.format(timeOfDay.minute)}");
+      "${numberFormat.format(timeOfDay.hour)}:${numberFormat.format(timeOfDay.minute)}",
+    );
   }
 
   factory Time.fromDateTime(DateTime dateTime) {

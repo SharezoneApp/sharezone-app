@@ -15,10 +15,8 @@ class TeacherAndParentOpenHomeworkListView {
   final IList<HomeworkSectionView<TeacherAndParentHomeworkView>> sections;
   final HomeworkSort sorting;
 
-  TeacherAndParentOpenHomeworkListView(
-    this.sections, {
-    required this.sorting,
-  }) : super();
+  TeacherAndParentOpenHomeworkListView(this.sections, {required this.sorting})
+    : super();
 
   int get numberOfHomeworks {
     final listLengths = sections.map((s) => s.homeworks.length).toList();

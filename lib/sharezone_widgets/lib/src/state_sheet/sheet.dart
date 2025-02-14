@@ -70,8 +70,10 @@ class _DraggableStateSheetInner extends StatelessWidget {
   final Stream<StateSheetContent>? stateSheetContent;
   final ScrollController? scrollController;
 
-  const _DraggableStateSheetInner(
-      {this.stateSheetContent, this.scrollController});
+  const _DraggableStateSheetInner({
+    this.stateSheetContent,
+    this.scrollController,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -79,39 +81,40 @@ class _DraggableStateSheetInner extends StatelessWidget {
       child: Align(
         alignment: Alignment.topCenter,
         child: StreamBuilder<StateSheetContent>(
-            stream: stateSheetContent,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return Container();
-              final content = snapshot.data!;
-              return AnimatedSwitcher(
-                duration: const Duration(milliseconds: 275),
-                child: MaxWidthConstraintBox(
-                  key: ValueKey(content),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Expanded(
-                        child: Center(
-                          child: SingleChildScrollView(
-                            controller: scrollController,
-                            child: content.body,
-                          ),
+          stream: stateSheetContent,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return Container();
+            final content = snapshot.data!;
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 275),
+              child: MaxWidthConstraintBox(
+                key: ValueKey(content),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Expanded(
+                      child: Center(
+                        child: SingleChildScrollView(
+                          controller: scrollController,
+                          child: content.body,
                         ),
                       ),
-                      if (content.actions.isNotEmpty)
-                        SafeArea(
-                          child: OverflowBar(
-                            children: <Widget>[
-                              for (final action in content.actions)
-                                ActionItemButton(item: action),
-                            ],
-                          ),
+                    ),
+                    if (content.actions.isNotEmpty)
+                      SafeArea(
+                        child: OverflowBar(
+                          children: <Widget>[
+                            for (final action in content.actions)
+                              ActionItemButton(item: action),
+                          ],
                         ),
-                    ],
-                  ),
+                      ),
+                  ],
                 ),
-              );
-            }),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

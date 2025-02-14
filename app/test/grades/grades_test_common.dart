@@ -54,10 +54,7 @@ class GradesTestController {
 
     if (createMissingGradeTypes) {
       for (var id in _getAllGradeTypeIds(testTerm)) {
-        service.addCustomGradeType(
-          id: id,
-          displayName: randomAlpha(5),
-        );
+        service.addCustomGradeType(id: id, displayName: randomAlpha(5));
       }
     }
 
@@ -143,13 +140,11 @@ testController.term(TermId('foo')).subject(SubjectId('maths')).name;
   IList<GradeTypeId> _getAllGradeTypeIds(TestTerm testTerm) {
     final ids = IList<GradeTypeId>()
         .add(testTerm.finalGradeType)
-        .addAll(
-          testTerm.gradeTypeWeights?.keys ?? [],
-        )
+        .addAll(testTerm.gradeTypeWeights?.keys ?? [])
         .addAll([
-      for (var subject in testTerm.subjects.values)
-        ..._getAllGradeTypeIdsForSubject(subject),
-    ]);
+          for (var subject in testTerm.subjects.values)
+            ..._getAllGradeTypeIdsForSubject(subject),
+        ]);
 
     return ids;
   }
@@ -157,9 +152,11 @@ testController.term(TermId('foo')).subject(SubjectId('maths')).name;
   IList<GradeTypeId> _getAllGradeTypeIdsForSubject(TestSubject testSubject) {
     return testSubject.gradeTypeWeights.keys
         .toIList()
-        .addAll(testSubject.finalGradeType != null
-            ? [testSubject.finalGradeType!]
-            : [])
+        .addAll(
+          testSubject.finalGradeType != null
+              ? [testSubject.finalGradeType!]
+              : [],
+        )
         .addAll(testSubject.grades.map((g) => g.type));
   }
 
@@ -183,10 +180,11 @@ testController.term(TermId('foo')).subject(SubjectId('maths')).name;
     return term;
   }
 
-  void changeWeightTypeForSubject(
-      {required TermId termId,
-      required SubjectId subjectId,
-      required WeightType weightType}) {
+  void changeWeightTypeForSubject({
+    required TermId termId,
+    required SubjectId subjectId,
+    required WeightType weightType,
+  }) {
     service.term(termId).subject(subjectId).changeWeightType(weightType);
   }
 
@@ -205,10 +203,11 @@ testController.term(TermId('foo')).subject(SubjectId('maths')).name;
     service.term(termId).removeGradeTypeWeight(gradeTypeId);
   }
 
-  void changeGradeWeightsForSubject(
-      {required TermId termId,
-      required SubjectId subjectId,
-      required Map<GradeId, Weight> weights}) {
+  void changeGradeWeightsForSubject({
+    required TermId termId,
+    required SubjectId subjectId,
+    required Map<GradeId, Weight> weights,
+  }) {
     final subRef = service.term(termId).subject(subjectId);
     for (var e in weights.entries) {
       final gradeRef = subRef.grade(e.key);
@@ -216,28 +215,31 @@ testController.term(TermId('foo')).subject(SubjectId('maths')).name;
     }
   }
 
-  void changeTermWeightsForSubject(
-      {required TermId termId,
-      required SubjectId subjectId,
-      required Map<GradeTypeId, Weight> gradeTypeWeights}) {
+  void changeTermWeightsForSubject({
+    required TermId termId,
+    required SubjectId subjectId,
+    required Map<GradeTypeId, Weight> gradeTypeWeights,
+  }) {
     final subRef = service.term(termId).subject(subjectId);
     for (var e in gradeTypeWeights.entries) {
       subRef.changeGradeTypeWeight(e.key, e.value);
     }
   }
 
-  void changeGradeTypeWeightForTerm(
-      {required TermId termId,
-      required Map<GradeTypeId, Weight> gradeTypeWeights}) {
+  void changeGradeTypeWeightForTerm({
+    required TermId termId,
+    required Map<GradeTypeId, Weight> gradeTypeWeights,
+  }) {
     for (var e in gradeTypeWeights.entries) {
       service.term(termId).changeGradeTypeWeight(e.key, e.value);
     }
   }
 
-  void changeFinalGradeTypeForSubject(
-      {required TermId termId,
-      required SubjectId subjectId,
-      required GradeTypeId? gradeType}) {
+  void changeFinalGradeTypeForSubject({
+    required TermId termId,
+    required SubjectId subjectId,
+    required GradeTypeId? gradeType,
+  }) {
     service.term(termId).subject(subjectId).changeFinalGradeType(gradeType);
   }
 
@@ -347,8 +349,10 @@ testController.term(TermId('foo')).subject(SubjectId('maths')).name;
     service.deleteCustomGradeType(gradeTypeId);
   }
 
-  void changeFinalGradeTypeForTerm(
-      {required TermId termId, required GradeTypeId gradeTypeId}) {
+  void changeFinalGradeTypeForTerm({
+    required TermId termId,
+    required GradeTypeId gradeTypeId,
+  }) {
     service.term(termId).changeFinalGradeType(gradeTypeId);
   }
 
@@ -362,14 +366,17 @@ testController.term(TermId('foo')).subject(SubjectId('maths')).name;
     }
   }
 
-  void changeWeightDisplayTypeForTerm(
-      {required TermId termId, required WeightDisplayType weightDisplayType}) {
+  void changeWeightDisplayTypeForTerm({
+    required TermId termId,
+    required WeightDisplayType weightDisplayType,
+  }) {
     service.term(termId).changeWeightDisplayType(weightDisplayType);
   }
 
-  void changeTermSubjectWeights(
-      {required TermId termId,
-      required Map<SubjectId, Weight> subjectWeights}) {
+  void changeTermSubjectWeights({
+    required TermId termId,
+    required Map<SubjectId, Weight> subjectWeights,
+  }) {
     for (var e in subjectWeights.entries) {
       service.term(termId).subject(e.key).changeWeightForTermGrade(e.value);
     }
@@ -478,20 +485,20 @@ class TestSubject {
     this.finalGradeType,
     bool ignoreWeightTypeAssertion = false,
   }) : assert(() {
-          if (ignoreWeightTypeAssertion) return true;
-          // Help developers to not forget to set the weightType if
-          // gradeTypeWeights or grade weights are set. This is not a hard
-          // requirement by the logic, so if you need to do it anyways then you
-          // might edit this assert.
-          if (gradeTypeWeights.isNotEmpty) {
-            return weightType == WeightType.perGradeType;
-          }
-          if (grades.any((g) => g.weight != null)) {
-            return weightType == WeightType.perGrade;
-          }
+         if (ignoreWeightTypeAssertion) return true;
+         // Help developers to not forget to set the weightType if
+         // gradeTypeWeights or grade weights are set. This is not a hard
+         // requirement by the logic, so if you need to do it anyways then you
+         // might edit this assert.
+         if (gradeTypeWeights.isNotEmpty) {
+           return weightType == WeightType.perGradeType;
+         }
+         if (grades.any((g) => g.weight != null)) {
+           return weightType == WeightType.perGrade;
+         }
 
-          return true;
-        }());
+         return true;
+       }());
 }
 
 TestGrade gradeWith({

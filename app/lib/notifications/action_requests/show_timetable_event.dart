@@ -15,20 +15,21 @@ import 'package:sharezone/timetable/timetable_page/timetable_event_details.dart'
 import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
 
-ActionRegistration<
-    ShowTimetableEventRequest> showTimetableEventRegistrationWith(
-        ActionRequestExecutorFunc<ShowTimetableEventRequest> executorFunc) =>
-    ActionRegistration<ShowTimetableEventRequest>(
-      registerForActionTypeStrings: ShowTimetableEventRequest.actionTypes,
-      parseActionRequestFromNotification: _toShowTimetableEventActionRequest,
-      executeActionRequest: executorFunc,
-    );
+ActionRegistration<ShowTimetableEventRequest>
+showTimetableEventRegistrationWith(
+  ActionRequestExecutorFunc<ShowTimetableEventRequest> executorFunc,
+) => ActionRegistration<ShowTimetableEventRequest>(
+  registerForActionTypeStrings: ShowTimetableEventRequest.actionTypes,
+  parseActionRequestFromNotification: _toShowTimetableEventActionRequest,
+  executeActionRequest: executorFunc,
+);
 
 ShowTimetableEventRequest _toShowTimetableEventActionRequest(
-        PushNotification notification,
-        PushNotificationParserInstrumentation instrumentation) =>
-    ShowTimetableEventRequest(
-        TimetableEventId(notification.actionData['id'] as String));
+  PushNotification notification,
+  PushNotificationParserInstrumentation instrumentation,
+) => ShowTimetableEventRequest(
+  TimetableEventId(notification.actionData['id'] as String),
+);
 
 /// Show the detailed view of a single timetable event with the given
 /// [timetableEventId].
@@ -52,12 +53,16 @@ class ShowTimetableEventExecutor
   final CourseGateway _courseGateway;
 
   ShowTimetableEventExecutor(
-      this._getCurrentContext, this._timetableGateway, this._courseGateway);
+    this._getCurrentContext,
+    this._timetableGateway,
+    this._courseGateway,
+  );
 
   @override
   FutureOr<void> execute(ShowTimetableEventRequest actionRequest) async {
-    final event =
-        await _timetableGateway.getEvent('${actionRequest.timetableEventId}');
+    final event = await _timetableGateway.getEvent(
+      '${actionRequest.timetableEventId}',
+    );
     final design = _courseGateway.getCourse(event.groupID)?.getDesign();
     return showTimetableEventDetails(_getCurrentContext()!, event, design);
   }

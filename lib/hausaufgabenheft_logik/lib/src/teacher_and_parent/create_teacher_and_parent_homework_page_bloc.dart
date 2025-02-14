@@ -16,19 +16,25 @@ import '../../hausaufgabenheft_logik_lehrer.dart';
 import '../shared/models/date.dart';
 
 TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
-    HausaufgabenheftDependencies dependencies, HausaufgabenheftConfig config) {
+  HausaufgabenheftDependencies dependencies,
+  HausaufgabenheftConfig config,
+) {
   final getCurrentDateTime =
       dependencies.getCurrentDateTime ?? () => clock.now();
   getCurrentDate() => Date.fromDateTime(getCurrentDateTime());
 
   final viewFactory = TeacherAndParentHomeworkViewFactory(
-      defaultColorValue: config.defaultCourseColorValue);
+    defaultColorValue: config.defaultCourseColorValue,
+  );
   final sortAndSubcategorizer =
       HomeworkSortAndSubcategorizer<TeacherHomeworkReadModel>(
-          getCurrentDate: getCurrentDate);
+        getCurrentDate: getCurrentDate,
+      );
   final openHomeworkListViewFactory =
       TeacherAndParentOpenHomeworkListViewFactory(
-          sortAndSubcategorizer, viewFactory);
+        sortAndSubcategorizer,
+        viewFactory,
+      );
 
   return TeacherAndParentHomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,

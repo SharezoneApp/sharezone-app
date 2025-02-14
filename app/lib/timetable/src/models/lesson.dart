@@ -68,15 +68,13 @@ class Lesson {
       weektype: WeekType.values.byName(data['weektype'] as String),
       teacher: data['teacher'] as String?,
       place: data['place'] as String?,
-      substitutions: data['substitutions'] == null
-          ? const {}
-          : decodeMapAdvanced(
-              data['substitutions'],
-              (key, value) {
+      substitutions:
+          data['substitutions'] == null
+              ? const {}
+              : decodeMapAdvanced(data['substitutions'], (key, value) {
                 final id = SubstitutionId(key);
                 return MapEntry(id, Substitution.fromData(value, id: id));
-              },
-            ),
+              }),
     );
   }
 
@@ -136,8 +134,10 @@ class Lesson {
   /// If there is no substitution for the given [date], the list will be empty.
   List<Substitution?> getSubstitutionFor(Date date) {
     return substitutions.values
-        .where((substitution) =>
-            substitution.date == date && substitution.isDeleted == false)
+        .where(
+          (substitution) =>
+              substitution.date == date && substitution.isDeleted == false,
+        )
         .toList();
   }
 
@@ -157,5 +157,10 @@ LessonLength calculateLessonLength(Time start, Time end) {
 
 DateTime _parseTimeString(String time) {
   return DateTime(
-      2019, 1, 1, int.parse(time.split(":")[0]), int.parse(time.split(":")[1]));
+    2019,
+    1,
+    1,
+    int.parse(time.split(":")[0]),
+    int.parse(time.split(":")[1]),
+  );
 }

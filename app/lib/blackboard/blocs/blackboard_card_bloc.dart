@@ -13,10 +13,7 @@ class BlackboardCardBloc extends BlocBase {
   final BlackboardGateway gateway;
   final String itemID;
 
-  BlackboardCardBloc({
-    required this.gateway,
-    required this.itemID,
-  });
+  BlackboardCardBloc({required this.gateway, required this.itemID});
 
   void changeReadState(bool newState) =>
       gateway.changeIsBlackboardDoneTo(itemID, newState);

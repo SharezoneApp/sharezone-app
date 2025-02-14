@@ -35,16 +35,17 @@ class RsaKeyHelper {
   }
 
   String encrypt(String plaintext, RSAPublicKey publicKey) {
-    var cipher = RSAEngine()
-      ..init(true, PublicKeyParameter<RSAPublicKey>(publicKey));
+    var cipher =
+        RSAEngine()..init(true, PublicKeyParameter<RSAPublicKey>(publicKey));
     var cipherText = cipher.process(Uint8List.fromList(plaintext.codeUnits));
 
     return String.fromCharCodes(cipherText);
   }
 
   String decrypt(String ciphertext, RSAPrivateKey privateKey) {
-    var cipher = RSAEngine()
-      ..init(false, PrivateKeyParameter<RSAPrivateKey>(privateKey));
+    var cipher =
+        RSAEngine()
+          ..init(false, PrivateKeyParameter<RSAPrivateKey>(privateKey));
     var decrypted = cipher.process(Uint8List.fromList(ciphertext.codeUnits));
 
     return String.fromCharCodes(decrypted);
@@ -66,13 +67,28 @@ class RsaKeyHelper {
       BigInt.from(private.publicExponent),
     );
     return rsa_encryptable.RSAEncryptable.fromPointCastleObjects(
-        privateKeyObject, publicKeyObject);
+      privateKeyObject,
+      publicKeyObject,
+    );
   }
 
   encodePublicKeyToPem(RSAPublicKey publicKey) {
     var algorithmSeq = ASN1Sequence();
-    var algorithmAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList(
-        [0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1]));
+    var algorithmAsn1Obj = ASN1Object.fromBytes(
+      Uint8List.fromList([
+        0x6,
+        0x9,
+        0x2a,
+        0x86,
+        0x48,
+        0x86,
+        0xf7,
+        0xd,
+        0x1,
+        0x1,
+        0x1,
+      ]),
+    );
     var paramsAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList([0x5, 0x0]));
     algorithmSeq.add(algorithmAsn1Obj);
     algorithmSeq.add(paramsAsn1Obj);
@@ -80,8 +96,9 @@ class RsaKeyHelper {
     var publicKeySeq = ASN1Sequence();
     publicKeySeq.add(ASN1Integer(publicKey.modulus!));
     publicKeySeq.add(ASN1Integer(publicKey.exponent!));
-    var publicKeySeqBitString =
-        ASN1BitString(Uint8List.fromList(publicKeySeq.encodedBytes));
+    var publicKeySeqBitString = ASN1BitString(
+      Uint8List.fromList(publicKeySeq.encodedBytes),
+    );
 
     var topLevelSeq = ASN1Sequence();
     topLevelSeq.add(algorithmSeq);
@@ -95,8 +112,21 @@ class RsaKeyHelper {
     var version = ASN1Integer(BigInt.from(0));
 
     var algorithmSeq = ASN1Sequence();
-    var algorithmAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList(
-        [0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1]));
+    var algorithmAsn1Obj = ASN1Object.fromBytes(
+      Uint8List.fromList([
+        0x6,
+        0x9,
+        0x2a,
+        0x86,
+        0x48,
+        0x86,
+        0xf7,
+        0xd,
+        0x1,
+        0x1,
+        0x1,
+      ]),
+    );
     var paramsAsn1Obj = ASN1Object.fromBytes(Uint8List.fromList([0x5, 0x0]));
     algorithmSeq.add(algorithmAsn1Obj);
     algorithmSeq.add(paramsAsn1Obj);
@@ -123,8 +153,9 @@ class RsaKeyHelper {
     privateKeySeq.add(exp1);
     privateKeySeq.add(exp2);
     privateKeySeq.add(co);
-    var publicKeySeqOctetString =
-        ASN1OctetString(Uint8List.fromList(privateKeySeq.encodedBytes));
+    var publicKeySeqOctetString = ASN1OctetString(
+      Uint8List.fromList(privateKeySeq.encodedBytes),
+    );
 
     var topLevelSeq = ASN1Sequence();
     topLevelSeq.add(version);

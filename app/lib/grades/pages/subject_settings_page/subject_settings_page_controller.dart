@@ -27,13 +27,15 @@ class SubjectSettingsPageController extends ChangeNotifier {
     final subject = _getSubject();
     if (subject == null) {
       state = const SubjectSettingsError(
-          'We could not find the subject. Please try again.');
+        'We could not find the subject. Please try again.',
+      );
       return;
     }
 
     if (subject.weightType == WeightType.perGrade) {
       state = SubjectSettingsError(
-          'Subject "${subject.name}" (id: $subjectId) has its weightType set to ${WeightType.perGrade}. This is not supported (yet).');
+        'Subject "${subject.name}" (id: $subjectId) has its weightType set to ${WeightType.perGrade}. This is not supported (yet).',
+      );
       return;
     }
 
@@ -59,8 +61,9 @@ class SubjectSettingsPageController extends ChangeNotifier {
   }
 
   TermResult? _getTerm() {
-    return gradesService.terms.value
-        .firstWhereOrNull((term) => term.id == termId);
+    return gradesService.terms.value.firstWhereOrNull(
+      (term) => term.id == termId,
+    );
   }
 
   SubjectResult? _getSubject() {
@@ -106,9 +109,10 @@ class SubjectSettingsPageController extends ChangeNotifier {
       subjectName: _subjectName,
       finalGradeTypeDisplayName: _finalGradeTypeDisplayName,
       finalGradeTypeIcon: _finalGradeTypeIcon,
-      selectableGradingTypes: _selectableGradeTypes.where((gradeType) {
-        return !_weights.containsKey(gradeType.id);
-      }).toIList(),
+      selectableGradingTypes:
+          _selectableGradeTypes.where((gradeType) {
+            return !_weights.containsKey(gradeType.id);
+          }).toIList(),
       weights: _weights,
     );
   }

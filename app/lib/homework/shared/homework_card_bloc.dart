@@ -24,8 +24,9 @@ class HomeworkCardBloc extends BlocBase {
     final bool? isDoneForUser = homework.forUsers[api.userId.toString()];
     _isDoneSubject.add(isDoneForUser);
 
-    _toggleIsDoneController.stream
-        .listen((homeworkDone) => _changeValue(homeworkDone!));
+    _toggleIsDoneController.stream.listen(
+      (homeworkDone) => _changeValue(homeworkDone!),
+    );
   }
 
   void _changeValue(bool newValue) {

@@ -36,11 +36,14 @@ class UpdateReminderBloc extends BlocBase {
     required Duration updateGracePeriod,
   }) {
     return UpdateReminderBloc.internal(
-      getLatestRelease: () => changelogGateway
-          .loadChange(to: 1)
-          .then((change) => change.first.toChange()),
-      getCurrentVersion: () => platformInformationRetriever.init().then(
-          (_) => Version.parse(name: platformInformationRetriever.version)),
+      getLatestRelease:
+          () => changelogGateway
+              .loadChange(to: 1)
+              .then((change) => change.first.toChange()),
+      getCurrentVersion:
+          () => platformInformationRetriever.init().then(
+            (_) => Version.parse(name: platformInformationRetriever.version),
+          ),
       updateGracePeriod: updateGracePeriod,
       getCurrentDateTime: () => clock.now(),
       crashAnalytics: crashAnalytics,

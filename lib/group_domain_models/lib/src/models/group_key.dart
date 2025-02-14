@@ -12,10 +12,7 @@ class GroupKey {
   final String id;
   final GroupType groupType;
 
-  const GroupKey({
-    required this.id,
-    required this.groupType,
-  });
+  const GroupKey({required this.id, required this.groupType});
 
   @override
   operator ==(other) {

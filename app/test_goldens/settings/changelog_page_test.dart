@@ -18,10 +18,11 @@ void main() {
       Platform.android,
       Platform.iOS,
       Platform.web,
-      Platform.macOS
+      Platform.macOS,
     ]) {
-      testGoldens('display card for ${platform.name} as expected',
-          (tester) async {
+      testGoldens('display card for ${platform.name} as expected', (
+        tester,
+      ) async {
         // ignore: invalid_use_of_visible_for_testing_member
         PlatformCheck.setCurrentPlatformForTesting(platform);
 
@@ -30,11 +31,7 @@ void main() {
             home: Scaffold(
               body: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    UpdatePromptCard(),
-                  ],
-                ),
+                child: Column(children: [UpdatePromptCard()]),
               ),
             ),
           ),

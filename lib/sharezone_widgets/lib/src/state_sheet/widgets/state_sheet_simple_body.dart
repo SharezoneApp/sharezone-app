@@ -26,10 +26,10 @@ class StateSheetSimpleBody extends StatelessWidget {
   StateSheetSimpleBody.fromSimpleData({
     super.key,
     required SimpleData simpleData,
-  })  : title = simpleData.title,
-        iconData = simpleData.iconData,
-        iconColor = simpleData.iconColor,
-        description = simpleData.description;
+  }) : title = simpleData.title,
+       iconData = simpleData.iconData,
+       iconColor = simpleData.iconColor,
+       description = simpleData.description;
   @override
   Widget build(BuildContext context) {
     return Column(

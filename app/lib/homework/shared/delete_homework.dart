@@ -20,8 +20,10 @@ enum _DeleteDialogOptions { all, onlyUser }
 enum AttachmentOperation { delete, unlink }
 
 Future<void> deleteHomeworkDialogsEntry(
-    BuildContext context, HomeworkDto homework,
-    {bool popTwice = true}) async {
+  BuildContext context,
+  HomeworkDto homework, {
+  bool popTwice = true,
+}) async {
   final option = await showColumnActionsAdaptiveDialog<_DeleteDialogOptions>(
     context: context,
     title: "Für alle löschen?",
@@ -42,8 +44,11 @@ Future<void> deleteHomeworkDialogsEntry(
 
   switch (option) {
     case _DeleteDialogOptions.all:
-      _deleteHomeworkForAllAndShowDialogIfAttachmentsExist(context, homework,
-          popTwice: popTwice);
+      _deleteHomeworkForAllAndShowDialogIfAttachmentsExist(
+        context,
+        homework,
+        popTwice: popTwice,
+      );
       break;
     case _DeleteDialogOptions.onlyUser:
       _deleteOnlyForCurrentUser(context, homework);
@@ -59,8 +64,10 @@ void _deleteOnlyForCurrentUser(BuildContext context, HomeworkDto homework) {
 }
 
 void _deleteHomeworkForAllAndShowDialogIfAttachmentsExist(
-    BuildContext context, HomeworkDto homework,
-    {bool popTwice = true}) {
+  BuildContext context,
+  HomeworkDto homework, {
+  bool popTwice = true,
+}) {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   if (homework.hasAttachments) {
     _showAttachmentsDeleteOrRemainDialog(context, homework, popTwice);
@@ -77,33 +84,42 @@ void _deleteHomeworkAndAttachments(SharezoneGateway api, HomeworkDto homework) {
   }
 }
 
-void _deletingFile(FileSharingGateway fileSharingGateway, HomeworkDto homework,
-    String attachmentID) {
-  fileSharingGateway.cloudFilesGateway
-      .deleteFile(homework.courseID, attachmentID);
+void _deletingFile(
+  FileSharingGateway fileSharingGateway,
+  HomeworkDto homework,
+  String attachmentID,
+) {
+  fileSharingGateway.cloudFilesGateway.deleteFile(
+    homework.courseID,
+    attachmentID,
+  );
 }
 
 Future<void> _showAttachmentsDeleteOrRemainDialog(
-    BuildContext context, HomeworkDto homework, bool popTwice) async {
+  BuildContext context,
+  HomeworkDto homework,
+  bool popTwice,
+) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final option = await showColumnActionsAdaptiveDialog<AttachmentOperation>(
-      context: context,
-      title: "Anhänge ebenfalls löschen?",
-      messsage:
-          "Sollen die Anhänge der Hausaufgabe aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?",
-      actions: [
-        const AdaptiveDialogAction(
-          title: "Entknüpfen",
-          popResult: AttachmentOperation.unlink,
-        ),
-        AdaptiveDialogAction(
-          title: "Löschen",
-          popResult: AttachmentOperation.delete,
-          isDefaultAction: true,
-          isDestructiveAction: true,
-          textColor: Theme.of(context).colorScheme.error,
-        ),
-      ]);
+    context: context,
+    title: "Anhänge ebenfalls löschen?",
+    messsage:
+        "Sollen die Anhänge der Hausaufgabe aus der Dateiablage gelöscht oder die Verknüpfung zwischen beiden aufgehoben werden?",
+    actions: [
+      const AdaptiveDialogAction(
+        title: "Entknüpfen",
+        popResult: AttachmentOperation.unlink,
+      ),
+      AdaptiveDialogAction(
+        title: "Löschen",
+        popResult: AttachmentOperation.delete,
+        isDefaultAction: true,
+        isDestructiveAction: true,
+        textColor: Theme.of(context).colorScheme.error,
+      ),
+    ],
+  );
 
   if (option == AttachmentOperation.delete) {
     _deleteHomeworkAndAttachments(api, homework);

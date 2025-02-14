@@ -37,9 +37,7 @@ class PdfFilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(
-        brightness: Brightness.dark,
-      ),
+      data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: Scaffold(
         appBar: FilePageAppBar(
           name: name,
@@ -56,50 +54,53 @@ class PdfFilePage extends StatelessWidget {
         body: switch (PlatformCheck.currentPlatform) {
           Platform.web => _WebViewer(bytes: localFile.getData()),
           _ => FutureBuilder<bool>(
-              future: isDeviceSupportedByPdfPlguin(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data!) {
-                    return PdfView(
-                      pageSnapping: false,
-                      controller:
-                          PdfController(document: getPdfDocument(localFile)),
-                      scrollDirection: Axis.vertical,
-                      builders: PdfViewBuilders<DefaultBuilderOptions>(
-                        options: const DefaultBuilderOptions(),
-                        errorBuilder: (context, exception) {
-                          return const Center(
-                            child: Text(
-                              'PDF Rendering does not '
-                              'support on the system of this version',
-                            ),
-                          );
-                        },
-                        documentLoaderBuilder: (context) => const Center(
-                          child: AccentColorCircularProgressIndicator(),
-                        ),
-                      ),
-                    );
-                  } else {
-                    OpenFile.open(localFile.getPath());
-                    return Container();
-                  }
-                }
-
-                if (snapshot.hasError) {
-                  // Catch
-                  return const Center(
-                    child: Text(
-                      'PDF Rendering is not '
-                      'supported on this device',
+            future: isDeviceSupportedByPdfPlguin(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!) {
+                  return PdfView(
+                    pageSnapping: false,
+                    controller: PdfController(
+                      document: getPdfDocument(localFile),
+                    ),
+                    scrollDirection: Axis.vertical,
+                    builders: PdfViewBuilders<DefaultBuilderOptions>(
+                      options: const DefaultBuilderOptions(),
+                      errorBuilder: (context, exception) {
+                        return const Center(
+                          child: Text(
+                            'PDF Rendering does not '
+                            'support on the system of this version',
+                          ),
+                        );
+                      },
+                      documentLoaderBuilder:
+                          (context) => const Center(
+                            child: AccentColorCircularProgressIndicator(),
+                          ),
                     ),
                   );
+                } else {
+                  OpenFile.open(localFile.getPath());
+                  return Container();
                 }
+              }
 
+              if (snapshot.hasError) {
+                // Catch
                 return const Center(
-                    child: AccentColorCircularProgressIndicator());
-              },
-            ),
+                  child: Text(
+                    'PDF Rendering is not '
+                    'supported on this device',
+                  ),
+                );
+              }
+
+              return const Center(
+                child: AccentColorCircularProgressIndicator(),
+              );
+            },
+          ),
         },
       ),
     );
@@ -129,9 +130,7 @@ Future<PdfDocument> getPdfDocument(LocalFile localFile) {
 }
 
 class _WebViewer extends StatefulWidget {
-  const _WebViewer({
-    required this.bytes,
-  });
+  const _WebViewer({required this.bytes});
 
   final Uint8List bytes;
 

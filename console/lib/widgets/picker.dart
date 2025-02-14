@@ -8,21 +8,24 @@
 
 import 'package:flutter/material.dart';
 
-Future<T?> selectItem<T>(
-    {required BuildContext context,
-    required List<T> items,
-    required Widget Function(BuildContext context, T item) builder,
-    List<Widget> Function(BuildContext context)? actions}) async {
+Future<T?> selectItem<T>({
+  required BuildContext context,
+  required List<T> items,
+  required Widget Function(BuildContext context, T item) builder,
+  List<Widget> Function(BuildContext context)? actions,
+}) async {
   return await showSheetBuilder<T>(
     context: context,
-    child: (context) => Flexible(
-      child: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) =>
-            builder(context, items[index]),
-        shrinkWrap: true,
-      ),
-    ),
+    child:
+        (context) => Flexible(
+          child: ListView.builder(
+            itemCount: items.length,
+            itemBuilder:
+                (BuildContext context, int index) =>
+                    builder(context, items[index]),
+            shrinkWrap: true,
+          ),
+        ),
     title: null,
     actions: actions,
   );
@@ -50,8 +53,9 @@ Future<T?> showSheetBuilder<T>({
                 height: 4,
                 width: MediaQuery.of(context).size.width / 6,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                    color: Colors.grey[400]),
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  color: Colors.grey[400],
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -61,9 +65,10 @@ Future<T?> showSheetBuilder<T>({
                 child: Text(
                   title,
                   style: TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.grey[500]),
+                    fontSize: 19,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey[500],
+                  ),
                 ),
               ),
             if (title != null) const SizedBox(height: 12),
@@ -71,9 +76,9 @@ Future<T?> showSheetBuilder<T>({
             const SizedBox(height: 6),
             actions != null
                 ? Row(
-                    children: actions(context),
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  )
+                  children: actions(context),
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                )
                 : const SizedBox(height: 0),
             const SizedBox(height: 6),
           ],

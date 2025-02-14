@@ -13,16 +13,17 @@ import 'package:notifications/notifications.dart';
 import 'package:sharezone_utils/launch_link.dart';
 
 ActionRegistration<OpenLinkRequest> openLinkRegistrationWith(
-        ActionRequestExecutorFunc<OpenLinkRequest> executorFunc) =>
-    ActionRegistration<OpenLinkRequest>(
-      registerForActionTypeStrings: OpenLinkRequest.actionTypes,
-      parseActionRequestFromNotification: _toOpenLinkActionRequest,
-      executeActionRequest: executorFunc,
-    );
+  ActionRequestExecutorFunc<OpenLinkRequest> executorFunc,
+) => ActionRegistration<OpenLinkRequest>(
+  registerForActionTypeStrings: OpenLinkRequest.actionTypes,
+  parseActionRequestFromNotification: _toOpenLinkActionRequest,
+  executeActionRequest: executorFunc,
+);
 
-OpenLinkRequest _toOpenLinkActionRequest(PushNotification notification,
-        PushNotificationParserInstrumentation instrumentation) =>
-    OpenLinkRequest(notification.actionData['link'] as String);
+OpenLinkRequest _toOpenLinkActionRequest(
+  PushNotification notification,
+  PushNotificationParserInstrumentation instrumentation,
+) => OpenLinkRequest(notification.actionData['link'] as String);
 
 /// Open a given link/url inside a browser (may be outside the app or in a
 /// WebView inside the app).

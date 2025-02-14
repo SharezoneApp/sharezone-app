@@ -44,11 +44,17 @@ class FadeSwitchBetweenIndexWithTabController extends StatelessWidget {
           if (currentIndex == transitionPoint.start &&
               isSwipingRight(controller)) {
             return _FadeBetween(
-                value: offset, from: startWidget, to: endWidget);
+              value: offset,
+              from: startWidget,
+              to: endWidget,
+            );
           } else if (controller.index == transitionPoint.end &&
               isSwipingLeft(controller)) {
             return _FadeBetween(
-                value: offset, from: endWidget, to: startWidget);
+              value: offset,
+              from: endWidget,
+              to: startWidget,
+            );
           }
         }
         return controller.index <= transitionPoint.start
@@ -75,9 +81,10 @@ class _FadeBetween extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final value = this.value < 0.0
-        ? 0.0
-        : this.value > 1.0
+    final value =
+        this.value < 0.0
+            ? 0.0
+            : this.value > 1.0
             ? 1.0
             : this.value;
     return Stack(
@@ -95,6 +102,8 @@ class BetweenIndex {
   final int end;
 
   const BetweenIndex(this.start, this.end)
-      : assert(end - start == 1,
-            "The indexies have to be next to another, while the first Index lies before second Index");
+    : assert(
+        end - start == 1,
+        "The indexies have to be next to another, while the first Index lies before second Index",
+      );
 }

@@ -72,13 +72,17 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget child = FutureBuilder<LocalFile>(
-      future:
-          getFileDownloader()!.downloadFileFromURL(downloadURL!, name!, id!),
+      future: getFileDownloader()!.downloadFileFromURL(
+        downloadURL!,
+        name!,
+        id!,
+      ),
       builder: (context, future) {
         // Finished Downloading
         if (future.hasData) {
-          OpenFile.open(future.data!.getPath())
-              .then((value) => log(value.message));
+          OpenFile.open(
+            future.data!.getPath(),
+          ).then((value) => log(value.message));
 
           _closeDialogAfter1500Milliseconds(context);
           return _FinishDialog();
@@ -178,11 +182,7 @@ class _Dialog extends StatelessWidget {
               Padding(padding: const EdgeInsets.all(16), child: leading),
               const SizedBox(width: 6),
             ],
-            Flexible(
-                child: Text(
-              text!,
-              style: const TextStyle(fontSize: 16),
-            )),
+            Flexible(child: Text(text!, style: const TextStyle(fontSize: 16))),
             const SizedBox(width: 12),
           ],
         ),

@@ -153,17 +153,19 @@ class DashboardPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+      ),
       child: AnimationLimiter(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: AnimationConfiguration.toStaggeredList(
             duration: const Duration(milliseconds: 250),
-            childAnimationBuilder: (widget) => SlideAnimation(
-              verticalOffset: 20,
-              child: FadeInAnimation(child: widget),
-            ),
+            childAnimationBuilder:
+                (widget) => SlideAnimation(
+                  verticalOffset: 20,
+                  child: FadeInAnimation(child: widget),
+                ),
             children: [
               // Does not make sense on web because a user cant update on web
               // and will just have to wait till we push out the new version
@@ -181,7 +183,7 @@ class DashboardPageBody extends StatelessWidget {
                     openSzV2AnnoucementDialog(context);
                   },
                 ),
-              const SizedBox(height: 32)
+              const SizedBox(height: 32),
             ],
           ),
         ),
@@ -210,8 +212,9 @@ class _AppBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       NavigationItem.overview.getName(),
-      style:
-          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge!.copyWith(color: Colors.white),
       key: K.dashboardAppBarTitle,
     );
   }

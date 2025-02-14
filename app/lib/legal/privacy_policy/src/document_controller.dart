@@ -39,12 +39,14 @@ class DocumentController {
       // We pre-sort the headings so that the  top-most heading is the first and
       // bottom-most heading is the last in the list.
       _sortedSectionHeadings.value = sectionPositions.sort(
-          (pos1, pos2) => pos1.itemLeadingEdge.compareTo(pos2.itemLeadingEdge));
+        (pos1, pos2) => pos1.itemLeadingEdge.compareTo(pos2.itemLeadingEdge),
+      );
     });
   }
 
   DocumentSectionHeadingPosition _toDocumentSectionPosition(
-      AnchorPosition anchorPosition) {
+    AnchorPosition anchorPosition,
+  ) {
     return DocumentSectionHeadingPosition(
       DocumentSectionId(anchorPosition.anchor.id),
       itemLeadingEdge: anchorPosition.itemLeadingEdge,
@@ -58,7 +60,7 @@ class DocumentController {
   // Sorted so that always the top-most heading is the first and bottom-most
   // heading is the last in the list.
   ValueListenable<IList<DocumentSectionHeadingPosition>>
-      get sortedSectionHeadings => _sortedSectionHeadings;
+  get sortedSectionHeadings => _sortedSectionHeadings;
 
   Future<void> scrollToDocumentSection(DocumentSectionId documentSectionId) {
     return anchorController.scrollToAnchor(

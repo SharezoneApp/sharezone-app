@@ -114,8 +114,10 @@ class __PeriodsEditPageState extends State<_PeriodsEditPage> {
                     children: <Widget>[
                       LessonsLengthField(
                         streamLessonLength: bloc.lessonLengthStream,
-                        onChanged: (lessonLength) =>
-                            bloc.saveLessonLengthInCache(lessonLength.minutes),
+                        onChanged:
+                            (lessonLength) => bloc.saveLessonLengthInCache(
+                              lessonLength.minutes,
+                            ),
                       ),
                       const Divider(),
                       _TimetableStart(),
@@ -164,10 +166,7 @@ class _AddTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
           children: <Widget>[
-            Icon(
-              Icons.add,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.add, color: Theme.of(context).primaryColor),
             Expanded(
               child: Center(
                 child: Padding(
@@ -175,11 +174,13 @@ class _AddTile extends StatelessWidget {
                   child: Text(
                     "Stunde hinzufügen",
                     style: TextStyle(
-                        fontSize: 16, color: Theme.of(context).primaryColor),
+                      fontSize: 16,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -199,8 +200,10 @@ class _TimetableStart extends StatelessWidget {
           title: const Text("Stundenplanbeginn"),
           subtitle: Text(time.toString()),
           onTap: () async {
-            final newTime = await selectTime(context,
-                initialTime: Time(hour: 8, minute: 0));
+            final newTime = await selectTime(
+              context,
+              initialTime: Time(hour: 8, minute: 0),
+            );
             if (newTime != null) {
               bloc.changeTimetableStart(newTime);
             }
@@ -212,10 +215,7 @@ class _TimetableStart extends StatelessWidget {
 }
 
 class _PeriodTile extends StatelessWidget {
-  const _PeriodTile({
-    required this.period,
-    required this.isLastPeriod,
-  });
+  const _PeriodTile({required this.period, required this.isLastPeriod});
 
   final bool isLastPeriod;
   final Period period;
@@ -242,45 +242,49 @@ class _PeriodTile extends StatelessWidget {
               StreamBuilder<Set<int>>(
                 stream: bloc.errorPeriod,
                 builder: (context, snapshot) {
-                  var style = Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(fontSize: 18);
+                  var style = Theme.of(
+                    context,
+                  ).textTheme.headlineSmall!.copyWith(fontSize: 18);
                   if (snapshot.hasData &&
                       snapshot.data!.contains(period.number)) {
                     style = style.copyWith(
-                        color: Theme.of(context).colorScheme.error);
+                      color: Theme.of(context).colorScheme.error,
+                    );
                   }
                   return Padding(
                     padding: const EdgeInsets.only(left: 26),
                     child: Row(
                       children: <Widget>[
                         TextButton(
-                            onPressed: () async {
-                              final newTime = await selectTime(
-                                context,
-                                initialTime: period.startTime,
-                                title:
-                                    "Wähle eine Uhrzeit (${period.number}. Stunde)",
-                              );
-                              if (newTime != null) {
-                                bloc.editPeriodStartTime(
-                                    period.number, newTime);
-                              }
-                            },
-                            child: Text(period.startTime.toString(),
-                                style: style)),
+                          onPressed: () async {
+                            final newTime = await selectTime(
+                              context,
+                              initialTime: period.startTime,
+                              title:
+                                  "Wähle eine Uhrzeit (${period.number}. Stunde)",
+                            );
+                            if (newTime != null) {
+                              bloc.editPeriodStartTime(period.number, newTime);
+                            }
+                          },
+                          child: Text(
+                            period.startTime.toString(),
+                            style: style,
+                          ),
+                        ),
                         Text("-", style: style),
                         TextButton(
-                            onPressed: () async {
-                              final newTime = await selectTime(context,
-                                  initialTime: period.endTime);
-                              if (newTime != null) {
-                                bloc.editPeriodEndTime(period.number, newTime);
-                              }
-                            },
-                            child:
-                                Text(period.endTime.toString(), style: style)),
+                          onPressed: () async {
+                            final newTime = await selectTime(
+                              context,
+                              initialTime: period.endTime,
+                            );
+                            if (newTime != null) {
+                              bloc.editPeriodEndTime(period.number, newTime);
+                            }
+                          },
+                          child: Text(period.endTime.toString(), style: style),
+                        ),
                       ],
                     ),
                   );
@@ -293,7 +297,7 @@ class _PeriodTile extends StatelessWidget {
                   onPressed: () => bloc.removePeriod(period),
                 )
               else
-                Container(width: 48)
+                Container(width: 48),
             ],
           ),
         ),

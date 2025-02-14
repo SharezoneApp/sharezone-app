@@ -24,16 +24,16 @@ class TermModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        createdOn,
-        subjects,
-        gradeTypeWeightings,
-        weightDisplayType,
-        gradingSystem,
-        finalGradeType,
-        isActiveTerm,
-        name,
-      ];
+    id,
+    createdOn,
+    subjects,
+    gradeTypeWeightings,
+    weightDisplayType,
+    gradingSystem,
+    finalGradeType,
+    isActiveTerm,
+    name,
+  ];
 
   const TermModel({
     required this.id,
@@ -68,18 +68,20 @@ class TermModel extends Equatable {
       throw SubjectAlreadyExistsException(subject.id);
     }
     return _copyWith(
-      subjects: subjects.add(SubjectModel(
-        termId: id,
-        id: subject.id,
-        name: subject.name,
-        abbreviation: subject.abbreviation,
-        design: subject.design,
-        gradingSystem: gradingSystem,
-        finalGradeType: finalGradeType,
-        connectedCourses: subject.connectedCourses,
-        weightType: WeightType.inheritFromTerm,
-        gradeTypeWeightingsFromTerm: gradeTypeWeightings,
-      )),
+      subjects: subjects.add(
+        SubjectModel(
+          termId: id,
+          id: subject.id,
+          name: subject.name,
+          abbreviation: subject.abbreviation,
+          design: subject.design,
+          gradingSystem: gradingSystem,
+          finalGradeType: finalGradeType,
+          connectedCourses: subject.connectedCourses,
+          weightType: WeightType.inheritFromTerm,
+          gradeTypeWeightingsFromTerm: gradeTypeWeightings,
+        ),
+      ),
     );
   }
 
@@ -126,14 +128,15 @@ class TermModel extends Equatable {
   }
 
   num getTermGrade() {
-    final gradedSubjects =
-        subjects.where((element) => element.gradeVal != null);
+    final gradedSubjects = subjects.where(
+      (element) => element.gradeVal != null,
+    );
     return gradedSubjects
-            .map((subject) =>
-                subject.gradeVal! * subject.weightingForTermGrade.asFactor)
-            .reduce(
-              (a, b) => a + b,
-            ) /
+            .map(
+              (subject) =>
+                  subject.gradeVal! * subject.weightingForTermGrade.asFactor,
+            )
+            .reduce((a, b) => a + b) /
         gradedSubjects
             .map((e) => e.weightingForTermGrade.asFactor)
             .reduce((a, b) => a + b);
@@ -141,43 +144,50 @@ class TermModel extends Equatable {
 
   TermModel changeWeightTypeForSubject(SubjectId id, WeightType weightType) {
     final subject = subjects.firstWhere((s) => s.id == id);
-    final newSubject = subject.copyWith(
-      weightType: weightType,
-    );
+    final newSubject = subject.copyWith(weightType: weightType);
 
     return _copyWith(
       subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
     );
   }
 
-  TermModel changeWeightingOfGradeType(GradeTypeId type,
-      {required NonNegativeWeight weight}) {
+  TermModel changeWeightingOfGradeType(
+    GradeTypeId type, {
+    required NonNegativeWeight weight,
+  }) {
     final newWeights = gradeTypeWeightings.add(type, weight);
-    final newSubjects = subjects.map((s) {
-      final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
-      return newSubject;
-    }).toIList();
+    final newSubjects =
+        subjects.map((s) {
+          final newSubject = s.copyWith(
+            gradeTypeWeightingsFromTerm: newWeights,
+          );
+          return newSubject;
+        }).toIList();
 
     return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
   }
 
   TermModel removeWeightingOfGradeType(GradeTypeId type) {
     final newWeights = gradeTypeWeightings.remove(type);
-    final newSubjects = subjects.map((s) {
-      final newSubject = s.copyWith(gradeTypeWeightingsFromTerm: newWeights);
-      return newSubject;
-    }).toIList();
+    final newSubjects =
+        subjects.map((s) {
+          final newSubject = s.copyWith(
+            gradeTypeWeightingsFromTerm: newWeights,
+          );
+          return newSubject;
+        }).toIList();
 
     return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
   }
 
   TermModel setFinalGradeType(GradeTypeId gradeType) {
-    final newSubjects = subjects.map((s) {
-      if (s.isFinalGradeTypeOverridden) return s;
+    final newSubjects =
+        subjects.map((s) {
+          if (s.isFinalGradeTypeOverridden) return s;
 
-      final newSubject = s.copyWith(finalGradeType: gradeType);
-      return newSubject;
-    }).toIList();
+          final newSubject = s.copyWith(finalGradeType: gradeType);
+          return newSubject;
+        }).toIList();
 
     return _copyWith(finalGradeType: gradeType, subjects: newSubjects);
   }
@@ -192,8 +202,11 @@ class TermModel extends Equatable {
 
     return subjects.where((element) => element.id == toSubject).isNotEmpty
         ? _copyWith(
-            subjects: subjects.replaceAllWhere(
-                (element) => element.id == toSubject, subject))
+          subjects: subjects.replaceAllWhere(
+            (element) => element.id == toSubject,
+            subject,
+          ),
+        )
         : _copyWith(subjects: subjects.add(subject));
   }
 
@@ -203,8 +216,10 @@ class TermModel extends Equatable {
 
     final newSubject = subject.replaceGrade(gradeModel);
 
-    final newSubjects =
-        subjects.replaceAllWhere((s) => s.id == subject.id, newSubject);
+    final newSubjects = subjects.replaceAllWhere(
+      (s) => s.id == subject.id,
+      newSubject,
+    );
     return _copyWith(subjects: newSubjects);
   }
 
@@ -248,9 +263,7 @@ class TermModel extends Equatable {
 
   TermModel changeWeighting(SubjectId id, NonNegativeWeight newWeight) {
     final subject = subjects.firstWhere((s) => s.id == id);
-    final newSubject = subject.copyWith(
-      weightingForTermGrade: newWeight,
-    );
+    final newSubject = subject.copyWith(weightingForTermGrade: newWeight);
 
     return _copyWith(
       subjects: subjects.replaceAllWhere((s) => s.id == id, newSubject),
@@ -258,7 +271,10 @@ class TermModel extends Equatable {
   }
 
   TermModel changeWeightingOfGradeTypeInSubject(
-      SubjectId id, GradeTypeId gradeType, NonNegativeWeight weight) {
+    SubjectId id,
+    GradeTypeId gradeType,
+    NonNegativeWeight weight,
+  ) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.changeGradeTypeWeight(gradeType, weight: weight);
 
@@ -268,7 +284,9 @@ class TermModel extends Equatable {
   }
 
   TermModel removeWeightingOfGradeTypeInSubject(
-      SubjectId id, GradeTypeId gradeType) {
+    SubjectId id,
+    GradeTypeId gradeType,
+  ) {
     final subject = subjects.firstWhere((s) => s.id == id);
     final newSubject = subject.removeGradeTypeWeight(gradeType);
 
@@ -278,7 +296,10 @@ class TermModel extends Equatable {
   }
 
   TermModel changeWeightOfGrade(
-      GradeId id, SubjectId subjectId, NonNegativeWeight weight) {
+    GradeId id,
+    SubjectId subjectId,
+    NonNegativeWeight weight,
+  ) {
     final subject = subjects.firstWhere((s) => s.id == subjectId);
     final newSubject = subject.copyWith(
       grades: subject.grades.replaceFirstWhere(
@@ -355,22 +376,22 @@ class SubjectModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        termId,
-        gradingSystem,
-        grades,
-        finalGradeType,
-        isFinalGradeTypeOverridden,
-        weightingForTermGrade,
-        gradeTypeWeightings,
-        gradeTypeWeightingsFromTerm,
-        weightType,
-        abbreviation,
-        design,
-        connectedCourses,
-        createdOn,
-      ];
+    id,
+    name,
+    termId,
+    gradingSystem,
+    grades,
+    finalGradeType,
+    isFinalGradeTypeOverridden,
+    weightingForTermGrade,
+    gradeTypeWeightings,
+    gradeTypeWeightingsFromTerm,
+    weightType,
+    abbreviation,
+    design,
+    connectedCourses,
+    createdOn,
+  ];
 
   SubjectModel({
     required this.id,
@@ -389,13 +410,14 @@ class SubjectModel extends Equatable {
     this.gradeTypeWeightings = const IMapConst({}),
     this.gradeTypeWeightingsFromTerm = const IMapConst({}),
   }) : weightingForTermGrade =
-            weightingForTermGrade ?? NonNegativeWeight.factor(1) {
+           weightingForTermGrade ?? NonNegativeWeight.factor(1) {
     gradeVal = _getGradeVal();
   }
 
   num? _getGradeVal() {
-    final grds = grades.where((grade) =>
-        grade.takenIntoAccount && grade.gradingSystem == gradingSystem);
+    final grds = grades.where(
+      (grade) => grade.takenIntoAccount && grade.gradingSystem == gradingSystem,
+    );
     if (grds.isEmpty) return null;
 
     final finalGrade =
@@ -433,10 +455,13 @@ class SubjectModel extends Equatable {
     return grades.any((g) => g.id == gradeId);
   }
 
-  SubjectModel changeGradeTypeWeight(GradeTypeId gradeType,
-      {required NonNegativeWeight weight}) {
+  SubjectModel changeGradeTypeWeight(
+    GradeTypeId gradeType, {
+    required NonNegativeWeight weight,
+  }) {
     return copyWith(
-        gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight));
+      gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight),
+    );
   }
 
   SubjectModel removeGradeTypeWeight(GradeTypeId gradeType) {
@@ -445,7 +470,9 @@ class SubjectModel extends Equatable {
 
   SubjectModel overrideFinalGradeType(GradeTypeId gradeType) {
     return copyWith(
-        finalGradeType: gradeType, isFinalGradeTypeOverridden: true);
+      finalGradeType: gradeType,
+      isFinalGradeTypeOverridden: true,
+    );
   }
 
   GradeModel grade(GradeId id) {
@@ -453,9 +480,10 @@ class SubjectModel extends Equatable {
   }
 
   SubjectModel replaceGrade(GradeModel grade) {
-    final newGrades = grades
-        .replaceAllWhere((subjGrade) => subjGrade.id == grade.id, grade)
-        .toIList();
+    final newGrades =
+        grades
+            .replaceAllWhere((subjGrade) => subjGrade.id == grade.id, grade)
+            .toIList();
     return copyWith(grades: newGrades);
   }
 
@@ -516,22 +544,22 @@ class GradeModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        subjectId,
-        termId,
-        value,
-        // This will cause tests to fail (== operator not working correctly) and
-        // I don't know how to fix it. For now we'll just ignore it.
-        // originalInput,
-        gradingSystem,
-        gradeType,
-        takenIntoAccount,
-        weight,
-        date,
-        title,
-        details,
-        createdOn,
-      ];
+    id,
+    subjectId,
+    termId,
+    value,
+    // This will cause tests to fail (== operator not working correctly) and
+    // I don't know how to fix it. For now we'll just ignore it.
+    // originalInput,
+    gradingSystem,
+    gradeType,
+    takenIntoAccount,
+    weight,
+    date,
+    title,
+    details,
+    createdOn,
+  ];
 
   const GradeModel({
     required this.id,

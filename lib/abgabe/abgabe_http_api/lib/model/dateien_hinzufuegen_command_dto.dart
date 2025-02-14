@@ -15,17 +15,19 @@ part 'dateien_hinzufuegen_command_dto.g.dart';
 
 abstract class DateienHinzufuegenCommandDto
     implements
-        Built<DateienHinzufuegenCommandDto,
-            DateienHinzufuegenCommandDtoBuilder> {
+        Built<
+          DateienHinzufuegenCommandDto,
+          DateienHinzufuegenCommandDtoBuilder
+        > {
   @BuiltValueField(wireName: r'hinzufuegenCommands')
   BuiltList<DateiHinzufuegenCommandDto> get hinzufuegenCommands;
 
   // Boilerplate code needed to wire-up generated code
   DateienHinzufuegenCommandDto._();
 
-  factory DateienHinzufuegenCommandDto(
-          [Function(DateienHinzufuegenCommandDtoBuilder b) updates]) =
-      _$DateienHinzufuegenCommandDto;
+  factory DateienHinzufuegenCommandDto([
+    Function(DateienHinzufuegenCommandDtoBuilder b) updates,
+  ]) = _$DateienHinzufuegenCommandDto;
   static Serializer<DateienHinzufuegenCommandDto> get serializer =>
       _$dateienHinzufuegenCommandDtoSerializer;
 }

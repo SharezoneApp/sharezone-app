@@ -57,15 +57,19 @@ class FeedbackView extends Equatable {
       dislikes: feedback.dislikes,
       heardFrom: feedback.heardFrom,
       missing: feedback.missing,
-      createdOn: feedback.createdOn == null
-          ? null
-          : DateFormat.yMd().format(feedback.createdOn!),
-      lastMessage: lastMessage == null
-          ? null
-          : _addAuthorToMessage(lastMessage.text, isMyMessage),
-      hasUnreadMessages: feedback.unreadMessagesStatus?[userId] == null
-          ? false
-          : feedback.unreadMessagesStatus?[userId]?.hasUnreadMessages == true,
+      createdOn:
+          feedback.createdOn == null
+              ? null
+              : DateFormat.yMd().format(feedback.createdOn!),
+      lastMessage:
+          lastMessage == null
+              ? null
+              : _addAuthorToMessage(lastMessage.text, isMyMessage),
+      hasUnreadMessages:
+          feedback.unreadMessagesStatus?[userId] == null
+              ? false
+              : feedback.unreadMessagesStatus?[userId]?.hasUnreadMessages ==
+                  true,
       deviceInformation: feedback.deviceInformation.toString(),
     );
   }
@@ -76,20 +80,21 @@ class FeedbackView extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        createdOn,
-        rating,
-        likes,
-        dislikes,
-        heardFrom,
-        missing,
-      ];
+    id,
+    createdOn,
+    rating,
+    likes,
+    dislikes,
+    heardFrom,
+    missing,
+  ];
 }
 
 extension UserFeedbacksToViews on List<UserFeedback> {
   List<FeedbackView> toFeedbackViews(UserId userId) {
-    return map((feedback) => FeedbackView.fromUserFeedback(feedback, userId))
-        .toList();
+    return map(
+      (feedback) => FeedbackView.fromUserFeedback(feedback, userId),
+    ).toList();
   }
 }
 

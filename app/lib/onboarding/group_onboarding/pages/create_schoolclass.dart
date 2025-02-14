@@ -64,11 +64,12 @@ class _GroupOnboardingCreateSchoolClassState
         BlocProvider<MySchoolClassBloc>(bloc: schoolClassBloc),
         BlocProvider<SchoolClassCreateBloc>(bloc: schoolClassCreateBloc),
       ],
-      child: (context) => GroupOnboardingPageTemplate(
-        title: _getTitle(context),
-        bottomNavigationBar: const OnboardingNavigationBar(),
-        children: const [_TextFieldSubmitButton()],
-      ),
+      child:
+          (context) => GroupOnboardingPageTemplate(
+            title: _getTitle(context),
+            bottomNavigationBar: const OnboardingNavigationBar(),
+            children: const [_TextFieldSubmitButton()],
+          ),
     );
   }
 
@@ -133,16 +134,19 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
                     padding: const EdgeInsets.only(bottom: 12),
                     child: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
-                      child: isLoading
-                          ? const LoadingCircle()
-                          : Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: ContinueRoundButton(
+                      child:
+                          isLoading
+                              ? const LoadingCircle()
+                              : Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: ContinueRoundButton(
                                   tooltip: 'Weiter',
-                                  onTap: isValid
-                                      ? () => onSubmit(context, name)
-                                      : null),
-                            ),
+                                  onTap:
+                                      isValid
+                                          ? () => onSubmit(context, name)
+                                          : null,
+                                ),
+                              ),
                     ),
                   ),
                 ],
@@ -159,26 +163,31 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
   void onSubmit(BuildContext context, String name) {
     final schoolClassBloc = BlocProvider.of<MySchoolClassBloc>(context);
     setState(() => isLoading = true);
-    schoolClassBloc.createSchoolClass(name).then((result) async {
-      if (!context.mounted) return;
-      if (result.hasData && result.data == true) {
-        isLoading = false;
-        final schoolClassID = schoolClassBloc.schoolClassId;
-        Navigator.push(
-          context,
-          FadeRoute(
-            child: GroupOnboardingCreateCourse(schoolClassId: schoolClassID),
-            tag: GroupOnboardingCreateCourse.tag,
-          ),
-        );
-      }
-    }).catchError((e, StackTrace s) {
-      setState(() {
-        isLoading = false;
-        getCrashAnalytics().recordError(e, s);
-        errorTextForUser = "$e";
-      });
-    });
+    schoolClassBloc
+        .createSchoolClass(name)
+        .then((result) async {
+          if (!context.mounted) return;
+          if (result.hasData && result.data == true) {
+            isLoading = false;
+            final schoolClassID = schoolClassBloc.schoolClassId;
+            Navigator.push(
+              context,
+              FadeRoute(
+                child: GroupOnboardingCreateCourse(
+                  schoolClassId: schoolClassID,
+                ),
+                tag: GroupOnboardingCreateCourse.tag,
+              ),
+            );
+          }
+        })
+        .catchError((e, StackTrace s) {
+          setState(() {
+            isLoading = false;
+            getCrashAnalytics().recordError(e, s);
+            errorTextForUser = "$e";
+          });
+        });
   }
 }
 
@@ -189,8 +198,12 @@ class _ErrorText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(errorTextForUser!,
-        style: TextStyle(
-            color: Theme.of(context).colorScheme.error, fontSize: 14));
+    return Text(
+      errorTextForUser!,
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.error,
+        fontSize: 14,
+      ),
+    );
   }
 }

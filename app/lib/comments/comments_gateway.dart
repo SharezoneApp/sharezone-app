@@ -19,7 +19,7 @@ const _disliked = "dislikedBy";
 class CommentsGateway extends BlocBase {
   final FirebaseFirestore _firestore;
   final Map<CommentsLocation, StreamController<List<CommentDataModel>>>
-      _commentsControllers = {};
+  _commentsControllers = {};
 
   CommentsGateway(this._firestore);
 
@@ -29,31 +29,39 @@ class CommentsGateway extends BlocBase {
     var commentsController = _commentsControllers[commentLocation];
 
     late StreamSubscription firestoreSubscription;
-    commentsController ??= StreamController.broadcast(onListen: () {
-      final snapshotStream = _getCommentCollection(commentLocation).snapshots();
+    commentsController ??= StreamController.broadcast(
+      onListen: () {
+        final snapshotStream =
+            _getCommentCollection(commentLocation).snapshots();
 
-      final commentModelDataStream = snapshotStream.map((snap) => snap.docs
-          .map((doc) => _commentToDataModel(doc.data(), id: doc.id))
-          .toList());
+        final commentModelDataStream = snapshotStream.map(
+          (snap) =>
+              snap.docs
+                  .map((doc) => _commentToDataModel(doc.data(), id: doc.id))
+                  .toList(),
+        );
 
-      firestoreSubscription = commentModelDataStream.listen(
+        firestoreSubscription = commentModelDataStream.listen(
           commentsController!.add,
           onError: commentsController.addError,
-          cancelOnError: false);
-    }, onCancel: () {
-      firestoreSubscription.cancel();
-    });
+          cancelOnError: false,
+        );
+      },
+      onCancel: () {
+        firestoreSubscription.cancel();
+      },
+    );
     return commentsController.stream;
   }
 
   CommentDataModel _commentToDataModel(
     Map<String, dynamic> firestoreComment, {
     required String id,
-  }) =>
-      CommentDataModel.fromFirestore(firestoreComment, id: id);
+  }) => CommentDataModel.fromFirestore(firestoreComment, id: id);
 
   CollectionReference<Map<String, dynamic>> _getCommentCollection(
-      CommentsLocation commentLocation) {
+    CommentsLocation commentLocation,
+  ) {
     return _firestore
         .collection(commentLocation.baseCollection)
         .doc(commentLocation.parentDocumentId)
@@ -64,8 +72,12 @@ class CommentsGateway extends BlocBase {
     _getCommentCollection(commentLocation).add(comment.toFirestore());
   }
 
-  Future<void> changeRating(String uid, CommentLocation commentLocation,
-      CommentStatus oldStatus, CommentStatus newStatus) async {
+  Future<void> changeRating(
+    String uid,
+    CommentLocation commentLocation,
+    CommentStatus oldStatus,
+    CommentStatus newStatus,
+  ) async {
     final action = StatusChanger(oldStatus, newStatus).getAction();
     final docRef = _firestore.doc(commentLocation.path);
     await action.execute(docRef, uid);
@@ -126,9 +138,9 @@ class CommentLocation extends CommentsLocation {
     required CommentsLocation commentsLocation,
     required this.commentId,
   }) : super(
-          commentOnType: commentsLocation.commentOnType,
-          parentDocumentId: commentsLocation.parentDocumentId,
-        );
+         commentOnType: commentsLocation.commentOnType,
+         parentDocumentId: commentsLocation.parentDocumentId,
+       );
 }
 
 enum CommentOnType { homework, blackboard }
@@ -151,13 +163,13 @@ class StatusChanger {
     if (_newStatus == CommentStatus.liked) {
       return MultiRatingActions([
         SingularRatingAction.delete(RatingField.dislike),
-        SingularRatingAction.add(RatingField.like)
+        SingularRatingAction.add(RatingField.like),
       ]);
     }
     if (_newStatus == CommentStatus.disliked) {
       return MultiRatingActions([
         SingularRatingAction.delete(RatingField.like),
-        SingularRatingAction.add(RatingField.dislike)
+        SingularRatingAction.add(RatingField.dislike),
       ]);
     }
     // If any1 sees this: I fucked up.
@@ -205,15 +217,17 @@ class SingularRatingAction extends RatingAction {
   final RatingOperation _operation;
 
   @override
-  Future<void> execute(DocumentReference commentLocation, String uid,
-      [Transaction? transaction]) async {
+  Future<void> execute(
+    DocumentReference commentLocation,
+    String uid, [
+    Transaction? transaction,
+  ]) async {
     final arrayField = _getCorrespondingArrayName(_field);
-    final arrayOperation = _operation == RatingOperation.add
-        ? FieldValue.arrayUnion([uid])
-        : FieldValue.arrayRemove([uid]);
-    final data = {
-      arrayField: arrayOperation,
-    };
+    final arrayOperation =
+        _operation == RatingOperation.add
+            ? FieldValue.arrayUnion([uid])
+            : FieldValue.arrayRemove([uid]);
+    final data = {arrayField: arrayOperation};
     if (transaction != null) {
       transaction.update(commentLocation, data);
     } else {
@@ -223,7 +237,7 @@ class SingularRatingAction extends RatingAction {
 
   SingularRatingAction(this._field, this._operation);
   SingularRatingAction.delete(this._field)
-      : _operation = RatingOperation.delete;
+    : _operation = RatingOperation.delete;
   SingularRatingAction.add(this._field) : _operation = RatingOperation.add;
 }
 

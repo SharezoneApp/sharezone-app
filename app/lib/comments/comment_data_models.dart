@@ -51,7 +51,8 @@ class CommentDataModel {
     return CommentDataModel(
       id: id,
       author: CommentAuthorDataModel.fromFirestore(
-          data["author"] as Map<String, dynamic>),
+        data["author"] as Map<String, dynamic>,
+      ),
       comment: data["comment"] as String,
       dislikedBy: decodeList<String>(data["dislikedBy"], (kp) => kp as String),
       likedBy: decodeList<String>(data["likedBy"], (kp) => kp as String),
@@ -100,11 +101,7 @@ class CommentAuthorDataModel {
   });
 
   Map<String, dynamic> toFirestore() {
-    return {
-      "abbreviation": abbreviation,
-      "name": name,
-      "uid": uid,
-    };
+    return {"abbreviation": abbreviation, "name": name, "uid": uid};
   }
 
   factory CommentAuthorDataModel.fromFirestore(Map<String, dynamic> data) {

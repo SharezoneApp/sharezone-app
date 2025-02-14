@@ -13,7 +13,7 @@ import 'package:sharezone/changelog/change_database_model.dart';
 
 class ChangelogGateway {
   ChangelogGateway({required FirebaseFirestore firestore})
-      : changelogCollection = firestore.collection('Changelog');
+    : changelogCollection = firestore.collection('Changelog');
 
   final CollectionReference<Map<String, dynamic>> changelogCollection;
 
@@ -21,14 +21,20 @@ class ChangelogGateway {
     int from = 0,
     required int to,
   }) async {
-    final querySnapshot = await changelogCollection
-        .orderBy("version", descending: true)
-        .limit(to)
-        .get();
-    final models = querySnapshot.docs
-        .map((changelogDoc) => ChangeDatabaseModel.fromData(changelogDoc.data(),
-            id: changelogDoc.id))
-        .toList();
+    final querySnapshot =
+        await changelogCollection
+            .orderBy("version", descending: true)
+            .limit(to)
+            .get();
+    final models =
+        querySnapshot.docs
+            .map(
+              (changelogDoc) => ChangeDatabaseModel.fromData(
+                changelogDoc.data(),
+                id: changelogDoc.id,
+              ),
+            )
+            .toList();
     return models;
   }
 }

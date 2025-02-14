@@ -33,8 +33,9 @@ class CheckLicenseHeadersCommand extends CommandBase {
     );
 
     if (results.exitCode != 0) {
-      stdout
-          .writeln("The following files don't have a correct license header:");
+      stdout.writeln(
+        "The following files don't have a correct license header:",
+      );
       stdout.writeln(results.stdout);
       return;
     }

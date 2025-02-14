@@ -35,9 +35,9 @@ class CommentSection extends StatelessWidget {
     super.key,
     required this.userAbbreviation,
     required this.userName,
-  })  : comments = const [],
-        _loading = true,
-        courseID = '';
+  }) : comments = const [],
+       _loading = true,
+       courseID = '';
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +67,16 @@ class CommentSection extends StatelessWidget {
     final bloc = BlocProvider.of<CommentsBloc>(context);
     return Comment.fromView(
       comment,
-      onRated: (commentStatus) => bloc.rateComment(
-        RateCommentEvent(commentId: comment.id, status: commentStatus),
-      ),
+      onRated:
+          (commentStatus) => bloc.rateComment(
+            RateCommentEvent(commentId: comment.id, status: commentStatus),
+          ),
       onDelete: () => bloc.deleteComment(comment.id),
-      onReport: () => openReportPage(context,
-          ReportItemReference.comment(bloc.getCommentLocation(comment.id))),
+      onReport:
+          () => openReportPage(
+            context,
+            ReportItemReference.comment(bloc.getCommentLocation(comment.id)),
+          ),
     );
   }
 }
@@ -80,15 +84,10 @@ class CommentSection extends StatelessWidget {
 class _CommentSectionTitle extends StatelessWidget {
   final int numberOfComments;
 
-  const _CommentSectionTitle({
-    this.numberOfComments = 0,
-  });
+  const _CommentSectionTitle({this.numberOfComments = 0});
 
   @override
   Widget build(BuildContext context) {
-    return DividerWithText(
-      text: 'Kommentare: $numberOfComments',
-      fontSize: 16,
-    );
+    return DividerWithText(text: 'Kommentare: $numberOfComments', fontSize: 16);
   }
 }

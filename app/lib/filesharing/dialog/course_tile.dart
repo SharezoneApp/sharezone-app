@@ -43,18 +43,23 @@ class CourseTile extends StatelessWidget {
     if (!context.mounted) return;
 
     _showCourseListDialog(
-        context,
-        api,
-        (newCourse) => onChangedId != null
-            ? onChangedId(CourseId(newCourse.id))
-            : onChanged!(newCourse));
+      context,
+      api,
+      (newCourse) =>
+          onChangedId != null
+              ? onChangedId(CourseId(newCourse.id))
+              : onChanged!(newCourse),
+    );
   }
 
-  static void _showCourseListDialog(BuildContext context, SharezoneGateway api,
-          void Function(Course) onChanged) =>
-      showDialog(
-        context: context,
-        builder: (context) => StreamBuilder<List<Course>>(
+  static void _showCourseListDialog(
+    BuildContext context,
+    SharezoneGateway api,
+    void Function(Course) onChanged,
+  ) => showDialog(
+    context: context,
+    builder:
+        (context) => StreamBuilder<List<Course>>(
           stream: api.course.streamCourses(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return Container();
@@ -70,7 +75,7 @@ class CourseTile extends StatelessWidget {
             );
           },
         ),
-      );
+  );
 
   static void _sortCourseListByAlphabet(List<Course> courseList) =>
       courseList.sort((a, b) => a.name.compareTo(b.name));
@@ -78,22 +83,20 @@ class CourseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Course>(
-        stream: courseStream,
-        builder: (context, snapshot) {
-          return CourseTileBase(
-            courseName: snapshot.data?.name,
-            errorText: snapshot.hasError ? snapshot.error.toString() : null,
-            onTap: editMode ? null : () => onTap(context, onChanged: onChanged),
-          );
-        });
+      stream: courseStream,
+      builder: (context, snapshot) {
+        return CourseTileBase(
+          courseName: snapshot.data?.name,
+          errorText: snapshot.hasError ? snapshot.error.toString() : null,
+          onTap: editMode ? null : () => onTap(context, onChanged: onChanged),
+        );
+      },
+    );
   }
 }
 
 class _CourseList extends StatelessWidget {
-  const _CourseList({
-    required this.courseList,
-    required this.onChanged,
-  });
+  const _CourseList({required this.courseList, required this.onChanged});
 
   final List<Course> courseList;
   final ValueChanged<Course> onChanged;
@@ -103,26 +106,30 @@ class _CourseList extends StatelessWidget {
     if (courseList.isEmpty) return _EmptyCourseList();
     _sortCourseListByAlphabet(courseList);
     return Column(
-      children: courseList.map((course) {
-        final enabled =
-            course.myRole.hasPermission(GroupPermission.contentCreation);
-        return Theme(
-          data: Theme.of(context)
-              .copyWith(primaryColor: course.getDesign().color),
-          child: DialogTile(
-            symbolText: course.abbreviation,
-            text: course.name,
-            trailing: !enabled
-                ? const Icon(Icons.lock, color: Colors.grey, size: 20)
-                : null,
-            enabled: enabled,
-            onPressed: () {
-              onChanged(course);
-              Navigator.pop(context);
-            },
-          ),
-        );
-      }).toList(),
+      children:
+          courseList.map((course) {
+            final enabled = course.myRole.hasPermission(
+              GroupPermission.contentCreation,
+            );
+            return Theme(
+              data: Theme.of(
+                context,
+              ).copyWith(primaryColor: course.getDesign().color),
+              child: DialogTile(
+                symbolText: course.abbreviation,
+                text: course.name,
+                trailing:
+                    !enabled
+                        ? const Icon(Icons.lock, color: Colors.grey, size: 20)
+                        : null,
+                enabled: enabled,
+                onPressed: () {
+                  onChanged(course);
+                  Navigator.pop(context);
+                },
+              ),
+            );
+          }).toList(),
     );
   }
 
@@ -166,7 +173,7 @@ class JoinCreateCourseFooter extends StatelessWidget {
           symbolIconData: Icons.add,
           text: "Kurs erstellen",
           onPressed: () => Navigator.pushNamed(context, CourseTemplatePage.tag),
-        )
+        ),
       ],
     );
   }

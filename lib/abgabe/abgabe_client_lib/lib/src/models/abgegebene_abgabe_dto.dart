@@ -31,10 +31,13 @@ class AbgegebeneAbgabeDto {
       author: AuthorDto.fromData(data['author']),
       submittedOnIsoString: data['submittedOn'],
       lastEditedIsoString: data['lastEdited'],
-      submittedForShortReference:
-          AbgabezielReferenz.fromMap(data['submittedForReference']),
-      submittedFiles: decodeList(data['submittedFiles'],
-          (it) => HochgeladeneAbgabedateiDto.fromData(it)),
+      submittedForShortReference: AbgabezielReferenz.fromMap(
+        data['submittedForReference'],
+      ),
+      submittedFiles: decodeList(
+        data['submittedFiles'],
+        (it) => HochgeladeneAbgabedateiDto.fromData(it),
+      ),
     );
   }
 }

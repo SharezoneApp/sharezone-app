@@ -17,8 +17,9 @@ class NavigationBloc extends BlocBase {
   final drawerKey = GlobalKey();
   final controllerKey = GlobalKey();
 
-  final _navigationItemsSubject =
-      BehaviorSubject<NavigationItem>.seeded(NavigationItem.overview);
+  final _navigationItemsSubject = BehaviorSubject<NavigationItem>.seeded(
+    NavigationItem.overview,
+  );
 
   Stream<NavigationItem> get currentItemStream => _navigationItemsSubject;
   NavigationItem get currentItem => _navigationItemsSubject.valueOrNull!;

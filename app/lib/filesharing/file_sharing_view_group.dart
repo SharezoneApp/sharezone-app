@@ -23,10 +23,7 @@ import 'widgets/filesharing_headline.dart';
 import 'widgets/sheet.dart';
 
 class FileSharingViewGroup extends StatelessWidget {
-  const FileSharingViewGroup({
-    super.key,
-    required this.groupState,
-  });
+  const FileSharingViewGroup({super.key, required this.groupState});
 
   final FileSharingPageStateGroup? groupState;
 
@@ -152,10 +149,7 @@ class _FileGrid extends StatelessWidget {
                 maxElementsPerSection: 3,
                 children: <Widget>[
                   for (final file in files)
-                    _FileCard(
-                      cloudFile: file,
-                      courseId: courseID,
-                    ),
+                    _FileCard(cloudFile: file, courseId: courseID),
                 ],
               ),
             ],
@@ -192,31 +186,31 @@ class _FolderCard extends StatelessWidget {
       },
       icon: Icon(Icons.folder, color: Colors.grey[600]),
       text: folder.name ?? "?",
-      trailing: folder.id != "attachment"
-          ? IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () => showFolderSheet(
-                courseID: fileSharingData!.courseID,
-                path: path,
-                folder: folder,
-                context: context,
-                hasPermissions:
-                    FileSharingPermissionsNoSync.fromContext(context)
-                        .canManageFolder(
-                            courseID: fileSharingData!.courseID,
-                            folder: folder),
-              ),
-            )
-          : null,
+      trailing:
+          folder.id != "attachment"
+              ? IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed:
+                    () => showFolderSheet(
+                      courseID: fileSharingData!.courseID,
+                      path: path,
+                      folder: folder,
+                      context: context,
+                      hasPermissions: FileSharingPermissionsNoSync.fromContext(
+                        context,
+                      ).canManageFolder(
+                        courseID: fileSharingData!.courseID,
+                        folder: folder,
+                      ),
+                    ),
+              )
+              : null,
     );
   }
 }
 
 class _FileCard extends StatelessWidget {
-  const _FileCard({
-    required this.cloudFile,
-    required this.courseId,
-  });
+  const _FileCard({required this.cloudFile, required this.courseId});
 
   final CloudFile cloudFile;
   final String courseId;
@@ -230,11 +224,12 @@ class _FileCard extends StatelessWidget {
       onTap: () => openCloudFilePage(context, cloudFile, courseId),
       trailing: IconButton(
         icon: const Icon(Icons.more_vert),
-        onPressed: () => showCloudFileSheet(
-          cloudFile: cloudFile,
-          context: context,
-          bloc: bloc,
-        ),
+        onPressed:
+            () => showCloudFileSheet(
+              cloudFile: cloudFile,
+              context: context,
+              bloc: bloc,
+            ),
       ),
     );
   }
@@ -245,7 +240,8 @@ class _NoFilesFound extends StatelessWidget {
   Widget build(BuildContext context) {
     final dimensions = Dimensions.fromMediaQuery(context);
     return SizedBox(
-      height: MediaQuery.of(context).size.height -
+      height:
+          MediaQuery.of(context).size.height -
           (dimensions.isDesktopModus ? 100 : 200),
       child: const Padding(
         padding: EdgeInsets.only(bottom: 48),
@@ -254,7 +250,8 @@ class _NoFilesFound extends StatelessWidget {
           animateSVG: true,
           title: "Keine Dateien gefunden 😶",
           description: Text(
-              "Lade jetzt einfach eine Datei hoch, um diese mit deinem Kurs zu teilen 👍"),
+            "Lade jetzt einfach eine Datei hoch, um diese mit deinem Kurs zu teilen 👍",
+          ),
         ),
       ),
     );

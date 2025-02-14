@@ -72,15 +72,16 @@ void main() {};
 ''');
       });
       test(
-          'anything if input includes "// ignore_for_file: no_spaces_after_comment_slashes"',
-          () {
-        expectNoBadCommentsFound('''
+        'anything if input includes "// ignore_for_file: no_spaces_after_comment_slashes"',
+        () {
+          expectNoBadCommentsFound('''
 // ignore_for_file: no_spaces_after_comment_slashes
 //Some bad Comment
 final x = 3;
 ///Here aswell
         ''');
-      });
+        },
+      );
       test('links inside comments', () {
         expectNoBadCommentsFound('''
 /// Defaults to https://some-url.com
@@ -95,13 +96,16 @@ final Uri url2;
 final foo = "bar";
 //''');
       });
-      test('comment inside string', () {
-        expectNoBadCommentsFound('''
+      test(
+        'comment inside string',
+        () {
+          expectNoBadCommentsFound('''
 print('//abc');
 //''');
-      },
-          skip:
-              "We can't really solve this without using the dart analyzer (which is complicated). This should be solved in the future by maybe using a analyzer plugin alltogether instead of regex-ing the source code. See https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1455.");
+        },
+        skip:
+            "We can't really solve this without using the dart analyzer (which is complicated). This should be solved in the future by maybe using a analyzer plugin alltogether instead of regex-ing the source code. See https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1455.",
+      );
     });
 
     test('is found for multiple bad normal, bad doc comments', () {

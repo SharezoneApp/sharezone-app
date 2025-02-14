@@ -12,10 +12,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
-typedef SelectableGrades = ({
-  IList<String>? distinctGrades,
-  NonDistinctGrades? nonDistinctGrades
-});
+typedef SelectableGrades =
+    ({IList<String>? distinctGrades, NonDistinctGrades? nonDistinctGrades});
 typedef NonDistinctGrades = ({num min, num max, bool decimalsAllowed});
 
 class GradesDialogView {
@@ -113,15 +111,11 @@ class GradesDialogView {
 enum TakeIntoAccountState {
   enabled,
   disabledWrongGradingSystem,
-  disabledGradeTypeWithNoWeight
+  disabledGradeTypeWithNoWeight,
 }
 
-typedef SubjectView = ({
-  String abbreviation,
-  Design design,
-  SubjectId id,
-  String name
-});
+typedef SubjectView =
+    ({String abbreviation, Design design, SubjectId id, String name});
 
 extension GradeSystemToName on GradingSystem {
   String get displayName {

@@ -12,15 +12,16 @@ import 'package:hausaufgabenheft_logik/src/shared/models/models.dart';
 import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 import 'package:test_randomness/test_randomness.dart';
 
-StudentHomeworkReadModel createHomework(
-    {Date todoDate = const Date(day: 1, month: 1, year: 2019),
-    String subject = 'Subject',
-    String title = 'Title',
-    String id = 'willBeRandom',
-    bool done = false,
-    bool withSubmissions = false,
-    Color? subjectColor,
-    String abbreviation = 'Abb'}) {
+StudentHomeworkReadModel createHomework({
+  Date todoDate = const Date(day: 1, month: 1, year: 2019),
+  String subject = 'Subject',
+  String title = 'Title',
+  String id = 'willBeRandom',
+  bool done = false,
+  bool withSubmissions = false,
+  Color? subjectColor,
+  String abbreviation = 'Abb',
+}) {
   id = id == 'willBeRandom' ? randomAlphaNumeric(5) : id;
   return StudentHomeworkReadModel(
     id: HomeworkId(id),

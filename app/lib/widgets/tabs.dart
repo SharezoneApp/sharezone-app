@@ -108,10 +108,14 @@ class SharezoneTabPageSelector extends StatelessWidget {
     final Color fixColor = color ?? Colors.transparent;
     final Color fixSelectedColor =
         selectedColor ?? Theme.of(context).colorScheme.secondary;
-    final ColorTween selectedColorTween =
-        ColorTween(begin: fixColor, end: fixSelectedColor);
-    final ColorTween previousColorTween =
-        ColorTween(begin: fixSelectedColor, end: fixColor);
+    final ColorTween selectedColorTween = ColorTween(
+      begin: fixColor,
+      end: fixSelectedColor,
+    );
+    final ColorTween previousColorTween = ColorTween(
+      begin: fixSelectedColor,
+      end: fixColor,
+    );
     final TabController tabController =
         controller ?? DefaultTabController.of(context);
     final Animation<double> animation = CurvedAnimation(
@@ -119,20 +123,25 @@ class SharezoneTabPageSelector extends StatelessWidget {
       curve: Curves.fastOutSlowIn,
     );
     return AnimatedBuilder(
-        animation: animation,
-        builder: (BuildContext context, Widget? child) {
-          return Semantics(
-            label: 'Page ${tabController.index + 1} of ${tabController.length}',
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children:
-                  List<Widget>.generate(tabController.length, (int tabIndex) {
-                return _buildTabIndicator(tabIndex, tabController,
-                    selectedColorTween, previousColorTween);
-              }).toList(),
-            ),
-          );
-        });
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        return Semantics(
+          label: 'Page ${tabController.index + 1} of ${tabController.length}',
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children:
+                List<Widget>.generate(tabController.length, (int tabIndex) {
+                  return _buildTabIndicator(
+                    tabIndex,
+                    tabController,
+                    selectedColorTween,
+                    previousColorTween,
+                  );
+                }).toList(),
+          ),
+        );
+      },
+    );
   }
 }
 

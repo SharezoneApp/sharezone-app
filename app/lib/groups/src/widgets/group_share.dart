@@ -104,8 +104,10 @@ class LinkSharingButton extends StatelessWidget {
   void _openShareOptions(BuildContext context, GroupInfo groupInfo) {
     final box = context.findRenderObject() as RenderBox;
     final sharecode = groupInfo.joinLink ?? groupInfo.sharecode!;
-    Share.share(sharecode,
-        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    Share.share(
+      sharecode,
+      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+    );
   }
 
   void _copyLink(BuildContext context, String link) {
@@ -131,13 +133,15 @@ class LinkSharingButton extends StatelessWidget {
   /// Links nicht im Web funktionieren:
   /// https://www.gutefrage.net/frage/warum-funktioniert-der-sharezone-link-bei-mir-nicht
   Future<void> _showJoinLinksNotAvailableOnWebWarning(
-      BuildContext context) async {
+    BuildContext context,
+  ) async {
     return showLeftRightAdaptiveDialog(
       context: context,
       left: AdaptiveDialogAction.ok,
       title: 'Links funktionieren nur für Android & iOS',
       content: const Text(
-          'Wird ein Link über den PC aufgerufen, funktioniert dieser momentan noch nicht. Achte darauf, wenn du den Link mit deinen Freunden teilst.'),
+        'Wird ein Link über den PC aufgerufen, funktioniert dieser momentan noch nicht. Achte darauf, wenn du den Link mit deinen Freunden teilst.',
+      ),
     );
   }
 
@@ -148,10 +152,7 @@ class LinkSharingButton extends StatelessWidget {
 }
 
 class ShareThisGroupDialogContent extends StatelessWidget {
-  const ShareThisGroupDialogContent({
-    super.key,
-    required this.groupInfo,
-  });
+  const ShareThisGroupDialogContent({super.key, required this.groupInfo});
 
   final GroupInfo groupInfo;
 
@@ -162,10 +163,7 @@ class ShareThisGroupDialogContent extends StatelessWidget {
       children: <Widget>[
         DialogWrapper(
           child: SingleChildScrollView(
-            child: ShareGroupSection(
-              groupInfo: groupInfo,
-              closeDialog: true,
-            ),
+            child: ShareGroupSection(groupInfo: groupInfo, closeDialog: true),
           ),
         ),
       ],
@@ -201,10 +199,12 @@ class ShareGroupSection extends StatelessWidget {
           child: Text(
             "Verschicke einfach den Link zum Beitreten über eine beliebige App oder zeige den QR-Code an, damit deine Mitschüler & Lehrer diesen abscannen können 👍🚀",
             style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).isDarkTheme
-                    ? Colors.grey[400]
-                    : Colors.grey[600]),
+              fontSize: 16,
+              color:
+                  Theme.of(context).isDarkTheme
+                      ? Colors.grey[400]
+                      : Colors.grey[600],
+            ),
             textAlign: TextAlign.center,
           ),
         ),

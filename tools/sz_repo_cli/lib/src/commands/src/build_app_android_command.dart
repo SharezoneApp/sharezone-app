@@ -11,23 +11,13 @@ import 'dart:io';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
-final _androidStages = [
-  'stable',
-  'beta',
-  'alpha',
-];
+final _androidStages = ['stable', 'beta', 'alpha'];
 
 /// The different flavors of the Android app.
-final _androidFlavors = [
-  'prod',
-  'dev',
-];
+final _androidFlavors = ['prod', 'dev'];
 
 /// The different output types of the Android app.
-final _androidOutputType = [
-  'appbundle',
-  'apk',
-];
+final _androidOutputType = ['appbundle', 'apk'];
 
 class BuildAppAndroidCommand extends CommandBase {
   BuildAppAndroidCommand(super.context) {
@@ -89,25 +79,24 @@ When none is specified, the value from pubspec.yaml is used.''',
       final stage = argResults![releaseStageOptionName] as String;
       final outputType = argResults![outputTypeName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
-      final buildNameWithStage =
-          getBuildNameWithStage(repo.sharezoneFlutterApp, stage);
-      await processRunner.runCommand(
-        [
-          'flutter',
-          'build',
-          outputType,
-          '--target',
-          'lib/main_$flavor.dart',
-          '--flavor',
-          flavor,
-          '--release',
-          '--dart-define',
-          'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
-          if (buildNumber != null) ...['--build-number', buildNumber],
-          if (stage != 'stable') ...['--build-name', buildNameWithStage]
-        ],
-        workingDirectory: repo.sharezoneFlutterApp.location,
+      final buildNameWithStage = getBuildNameWithStage(
+        repo.sharezoneFlutterApp,
+        stage,
       );
+      await processRunner.runCommand([
+        'flutter',
+        'build',
+        outputType,
+        '--target',
+        'lib/main_$flavor.dart',
+        '--flavor',
+        flavor,
+        '--release',
+        '--dart-define',
+        'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
+        if (buildNumber != null) ...['--build-number', buildNumber],
+        if (stage != 'stable') ...['--build-name', buildNameWithStage],
+      ], workingDirectory: repo.sharezoneFlutterApp.location);
     } catch (e) {
       throw Exception('Failed to build Android app: $e');
     }

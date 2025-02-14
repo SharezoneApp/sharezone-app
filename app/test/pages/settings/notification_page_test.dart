@@ -38,8 +38,9 @@ void main() {
       mockNotificationsBlocFactory = MockNotificationsBlocFactory();
       mockSubscriptionService = MockSubscriptionService();
 
-      when(mockNotificationsBlocFactory.create())
-          .thenReturn(mockNotificationsBloc);
+      when(
+        mockNotificationsBlocFactory.create(),
+      ).thenReturn(mockNotificationsBloc);
     });
 
     Future<void> pumpNotificationPage(
@@ -49,18 +50,14 @@ void main() {
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [
-            Provider<TypeOfUser?>(
-              create: (_) => typeOfUser,
-            ),
+            Provider<TypeOfUser?>(create: (_) => typeOfUser),
             Provider<SubscriptionService>(
               create: (_) => mockSubscriptionService,
             ),
           ],
           child: BlocProvider<NotificationsBlocFactory>(
             bloc: mockNotificationsBlocFactory,
-            child: const MaterialApp(
-              home: NotificationPage(),
-            ),
+            child: const MaterialApp(home: NotificationPage()),
           ),
         ),
       );
@@ -68,90 +65,83 @@ void main() {
 
     group('homeworks', () {
       testWidgets(
-          'does not display the homework notification section for non-student accounts',
-          (tester) async {
-        for (final typeOfUser
-            in TypeOfUser.values.where((e) => e != TypeOfUser.student)) {
-          await pumpNotificationPage(
-            tester,
-            typeOfUser: typeOfUser,
-          );
+        'does not display the homework notification section for non-student accounts',
+        (tester) async {
+          for (final typeOfUser in TypeOfUser.values.where(
+            (e) => e != TypeOfUser.student,
+          )) {
+            await pumpNotificationPage(tester, typeOfUser: typeOfUser);
+
+            expect(
+              find.byKey(const ValueKey('homework-notifications-card')),
+              findsNothing,
+            );
+          }
+        },
+      );
+
+      testWidgets(
+        'displays homework notification section for student accounts',
+        (tester) async {
+          await pumpNotificationPage(tester, typeOfUser: TypeOfUser.student);
 
           expect(
             find.byKey(const ValueKey('homework-notifications-card')),
-            findsNothing,
+            findsOneWidget,
           );
-        }
+        },
+      );
+
+      testWidgets('displays Sharezone Plus chip for non-plus accounts', (
+        tester,
+      ) async {
+        when(
+          mockSubscriptionService.hasFeatureUnlocked(
+            SharezonePlusFeature.changeHomeworkReminderTime,
+          ),
+        ).thenReturn(false);
+
+        await pumpNotificationPage(tester, typeOfUser: TypeOfUser.student);
+
+        expect(find.byType(SharezonePlusChip), findsOneWidget);
       });
 
-      testWidgets('displays homework notification section for student accounts',
-          (tester) async {
-        await pumpNotificationPage(
-          tester,
-          typeOfUser: TypeOfUser.student,
-        );
+      testWidgets('does not display Sharezone Plus chip for plus accounts', (
+        tester,
+      ) async {
+        when(
+          mockSubscriptionService.hasFeatureUnlocked(
+            SharezonePlusFeature.changeHomeworkReminderTime,
+          ),
+        ).thenReturn(true);
 
-        expect(
-          find.byKey(const ValueKey('homework-notifications-card')),
-          findsOneWidget,
-        );
-      });
+        await pumpNotificationPage(tester, typeOfUser: TypeOfUser.student);
 
-      testWidgets('displays Sharezone Plus chip for non-plus accounts',
-          (tester) async {
-        when(mockSubscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.changeHomeworkReminderTime))
-            .thenReturn(false);
-
-        await pumpNotificationPage(
-          tester,
-          typeOfUser: TypeOfUser.student,
-        );
-
-        expect(
-          find.byType(SharezonePlusChip),
-          findsOneWidget,
-        );
-      });
-
-      testWidgets('does not display Sharezone Plus chip for plus accounts',
-          (tester) async {
-        when(mockSubscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.changeHomeworkReminderTime))
-            .thenReturn(true);
-
-        await pumpNotificationPage(
-          tester,
-          typeOfUser: TypeOfUser.student,
-        );
-
-        expect(
-          find.byType(SharezonePlusChip),
-          findsNothing,
-        );
+        expect(find.byType(SharezonePlusChip), findsNothing);
       });
 
       testWidgets(
-          'shows sharezone plus ad when tapping on homework reminder time tile',
-          (tester) async {
-        when(mockSubscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.changeHomeworkReminderTime))
-            .thenReturn(false);
+        'shows sharezone plus ad when tapping on homework reminder time tile',
+        (tester) async {
+          when(
+            mockSubscriptionService.hasFeatureUnlocked(
+              SharezonePlusFeature.changeHomeworkReminderTime,
+            ),
+          ).thenReturn(false);
 
-        await pumpNotificationPage(
-          tester,
-          typeOfUser: TypeOfUser.student,
-        );
+          await pumpNotificationPage(tester, typeOfUser: TypeOfUser.student);
 
-        await tester.tap(
-            find.byKey(const ValueKey('homework-notifications-time-tile')));
-        await tester.pumpAndSettle();
+          await tester.tap(
+            find.byKey(const ValueKey('homework-notifications-time-tile')),
+          );
+          await tester.pumpAndSettle();
 
-        expect(
-          find.byKey(const Key('sharezone-plus-feature-info-dialog')),
-          findsOneWidget,
-        );
-      });
+          expect(
+            find.byKey(const Key('sharezone-plus-feature-info-dialog')),
+            findsOneWidget,
+          );
+        },
+      );
     });
   });
 }

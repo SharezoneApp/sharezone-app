@@ -13,10 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// A dialog that is shown when buying Sharezone Plus failed.
 class BuyingFailedDialog extends StatelessWidget {
-  const BuyingFailedDialog({
-    super.key,
-    required this.error,
-  });
+  const BuyingFailedDialog({super.key, required this.error});
 
   final String error;
 

@@ -21,8 +21,9 @@ import 'privacy_policy_src.dart';
 /// `## Foo Heading`) are/were inside the viewport and working out where the
 /// user is currently inside the text.
 class CurrentlyReadingController {
-  final _currentlyReadingHeadingNotifier =
-      ValueNotifier<DocumentSectionId?>(null);
+  final _currentlyReadingHeadingNotifier = ValueNotifier<DocumentSectionId?>(
+    null,
+  );
   ValueListenable<DocumentSectionId?> get currentlyReadDocumentSectionOrNull =>
       _currentlyReadingHeadingNotifier;
 
@@ -37,11 +38,11 @@ class CurrentlyReadingController {
     final endSectionId = config.endSection.sectionId;
     final sortedSectionHeadings = documentController.sortedSectionHeadings;
 
-    final IList<DocumentSectionId> sectionAndSubsectionIds = privacyPolicy
-        .tableOfContentSections
-        .expand((element) => [element, ...element.subsections])
-        .map((e) => e.id)
-        .toIList();
+    final IList<DocumentSectionId> sectionAndSubsectionIds =
+        privacyPolicy.tableOfContentSections
+            .expand((element) => [element, ...element.subsections])
+            .map((e) => e.id)
+            .toIList();
 
     _currentState = _CurrentlyReadingState(
       tocSections: sectionAndSubsectionIds,
@@ -53,10 +54,12 @@ class CurrentlyReadingController {
     );
 
     sortedSectionHeadings.addListener(() {
-      _currentState = _currentState.updateViewport(_Viewport(
-        sortedHeadingPositions: sortedSectionHeadings.value,
-        threshold: threshold,
-      ));
+      _currentState = _currentState.updateViewport(
+        _Viewport(
+          sortedHeadingPositions: sortedSectionHeadings.value,
+          threshold: threshold,
+        ),
+      );
 
       _currentlyReadingHeadingNotifier.value =
           _currentState.currentlyReadSectionOrNull;
@@ -112,7 +115,8 @@ class _CurrentlyReadingState {
     // See documentation of [filteredViewport] on why we remove unknown
     // headings.
     final noUnknwonHeadings = viewport.removeUnknownHeadings(
-        knownHeadings: IList([...tocSections, endOfDocumentSectionId]));
+      knownHeadings: IList([...tocSections, endOfDocumentSectionId]),
+    );
 
     return _CurrentlyReadingState._(
       tocSections: tocSections,
@@ -128,16 +132,19 @@ class _CurrentlyReadingState {
     required this.endOfDocumentSectionId,
     required this.lastSeenHeadingState,
   }) : assert(() {
-          // We assume that we already filtered out all headings that are
-          // unknown to us.
-          // See documentation of [viewport] property.
-          final viewportContainsOnlyKnownHeadings =
-              filteredViewport.sortedHeadingPositions.every((element) =>
-                  tocSections.contains(element.documentSectionId) ||
-                  element.documentSectionId == endOfDocumentSectionId);
+         // We assume that we already filtered out all headings that are
+         // unknown to us.
+         // See documentation of [viewport] property.
+         final viewportContainsOnlyKnownHeadings = filteredViewport
+             .sortedHeadingPositions
+             .every(
+               (element) =>
+                   tocSections.contains(element.documentSectionId) ||
+                   element.documentSectionId == endOfDocumentSectionId,
+             );
 
-          return viewportContainsOnlyKnownHeadings;
-        }());
+         return viewportContainsOnlyKnownHeadings;
+       }());
 
   DocumentSectionId? _currentlyReadSectionOrNull;
   bool _isCached = false;
@@ -158,12 +165,14 @@ class _CurrentlyReadingState {
       if (lastSeenHeadingState != null) {
         // ... we find the index of the last heading on screen...
         final sectionHeadingIds = [...tocSections, endOfDocumentSectionId];
-        final index = sectionHeadingIds
-            .indexWhere((section) => section == lastSeenHeadingState!.id);
+        final index = sectionHeadingIds.indexWhere(
+          (section) => section == lastSeenHeadingState!.id,
+        );
 
         if (index == -1) {
           throw StateError(
-              "Can't find section with id ${lastSeenHeadingState!.id} inside TOC sections + end section ($sectionHeadingIds). This is an developer error and needs to be fixed. Viewport: $viewport, endOfDocumentSectionId: $endOfDocumentSectionId, lastSeenHeadingState: $lastSeenHeadingState.");
+            "Can't find section with id ${lastSeenHeadingState!.id} inside TOC sections + end section ($sectionHeadingIds). This is an developer error and needs to be fixed. Viewport: $viewport, endOfDocumentSectionId: $endOfDocumentSectionId, lastSeenHeadingState: $lastSeenHeadingState.",
+          );
         }
 
         // ... and compute what section we're currently in:
@@ -230,7 +239,8 @@ class _CurrentlyReadingState {
 
       if (index == -1) {
         throw StateError(
-            'Index of viewport.sortedHeadingPositions.first was -1. This is unexpected, a developer error and should be fixed. Viewport: $viewport, endOfDocumentSectionId: $endOfDocumentSectionId, lastSeenHeadingState: $lastSeenHeadingState');
+          'Index of viewport.sortedHeadingPositions.first was -1. This is unexpected, a developer error and should be fixed. Viewport: $viewport, endOfDocumentSectionId: $endOfDocumentSectionId, lastSeenHeadingState: $lastSeenHeadingState',
+        );
       }
 
       // If it's the first toc section then we mark no section as currently read
@@ -258,14 +268,16 @@ class _CurrentlyReadingState {
   }
 
   int _indexOf(DocumentSectionHeadingPosition headerPosition) {
-    return tocSections
-        .indexWhere((pos) => pos == headerPosition.documentSectionId);
+    return tocSections.indexWhere(
+      (pos) => pos == headerPosition.documentSectionId,
+    );
   }
 
   /// Update Viewport to compute new [_CurrentlyReadingState].
   _CurrentlyReadingState updateViewport(_Viewport updatedViewport) {
     final filteredUpdatedViewport = updatedViewport.removeUnknownHeadings(
-        knownHeadings: IList([...tocSections, endOfDocumentSectionId]));
+      knownHeadings: IList([...tocSections, endOfDocumentSectionId]),
+    );
 
     // If we see no section headings on screen we save what heading was last
     // seen. Later we can use that so we know what section we're currently in.
@@ -282,28 +294,27 @@ class _CurrentlyReadingState {
       // Simple heuristic: If the last heading we've seen was in the upper half
       // of the viewport before calling updateViewport then it was scrolled out
       // at the top otherwise at the bottom.
-      final newLastSeenHeadingState = sortedHeadings.first.itemLeadingEdge < .5
-          ? _HeadingState(
-              // If we scroll out multiple headings out the top then we use the
-              // lower one as "last seen".
-              id: sortedHeadings.last.documentSectionId,
-              scrolledOutAt: _ScrolledOut.atTheTop,
-            )
-          : _HeadingState(
-              // If we scroll out multiple headings out the bottom then we use
-              // the upper one as "last seen".
-              id: sortedHeadings.first.documentSectionId,
-              scrolledOutAt: _ScrolledOut.atTheBottom,
-            );
+      final newLastSeenHeadingState =
+          sortedHeadings.first.itemLeadingEdge < .5
+              ? _HeadingState(
+                // If we scroll out multiple headings out the top then we use the
+                // lower one as "last seen".
+                id: sortedHeadings.last.documentSectionId,
+                scrolledOutAt: _ScrolledOut.atTheTop,
+              )
+              : _HeadingState(
+                // If we scroll out multiple headings out the bottom then we use
+                // the upper one as "last seen".
+                id: sortedHeadings.first.documentSectionId,
+                scrolledOutAt: _ScrolledOut.atTheBottom,
+              );
 
       return _copyWith(
         filteredViewport: filteredUpdatedViewport,
         lastSeenHeadingState: newLastSeenHeadingState,
       );
     }
-    return _copyWith(
-      filteredViewport: filteredUpdatedViewport,
-    );
+    return _copyWith(filteredViewport: filteredUpdatedViewport);
   }
 
   _CurrentlyReadingState _copyWith({
@@ -333,12 +344,16 @@ class _Viewport {
 
   /// Remove all headings which are not inside [knownHeadings].
   /// More details inside [_CurrentlyReadingState.viewport].
-  _Viewport removeUnknownHeadings(
-      {required IList<DocumentSectionId> knownHeadings}) {
+  _Viewport removeUnknownHeadings({
+    required IList<DocumentSectionId> knownHeadings,
+  }) {
     return _Viewport(
-      sortedHeadingPositions: sortedHeadingPositions
-          .where((element) => knownHeadings.contains(element.documentSectionId))
-          .toIList(),
+      sortedHeadingPositions:
+          sortedHeadingPositions
+              .where(
+                (element) => knownHeadings.contains(element.documentSectionId),
+              )
+              .toIList(),
       threshold: threshold,
     );
   }
@@ -360,9 +375,11 @@ class _Viewport {
   }
 
   DocumentSectionHeadingPosition? getPositionOfOrNull(
-      DocumentSectionId documentSectionId) {
+    DocumentSectionId documentSectionId,
+  ) {
     return sortedHeadingPositions.firstWhereOrNull(
-        (element) => element.documentSectionId == documentSectionId);
+      (element) => element.documentSectionId == documentSectionId,
+    );
   }
 
   @override
@@ -374,10 +391,7 @@ class _HeadingState {
   final DocumentSectionId id;
   final _ScrolledOut scrolledOutAt;
 
-  _HeadingState({
-    required this.id,
-    required this.scrolledOutAt,
-  });
+  _HeadingState({required this.id, required this.scrolledOutAt});
 
   @override
   String toString() => '_HeadingState(id: $id, scrolledOutAt: $scrolledOutAt)';

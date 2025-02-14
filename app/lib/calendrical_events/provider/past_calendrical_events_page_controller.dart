@@ -48,8 +48,9 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
     state = const PastCalendricalEventsPageLoadingState(
       sortingOrder: EventsSortingOrder.descending,
     );
-    final hasUnlocked = subscriptionService
-        .hasFeatureUnlocked(SharezonePlusFeature.viewPastEvents);
+    final hasUnlocked = subscriptionService.hasFeatureUnlocked(
+      SharezonePlusFeature.viewPastEvents,
+    );
     if (hasUnlocked) {
       _listenToPastEvents();
     } else {
@@ -62,41 +63,51 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
 
   void _listenToPastEvents() {
     try {
-      _eventsSubscription = CombineLatestStream([
-        timetableGateway.streamEventsBeforeOrOn(
-          Date.fromDateTime(_getEventsUntilDateTime),
-          descending: state.sortingOrder == EventsSortingOrder.descending,
-        ),
-        courseGateway.getGroupInfoStream(schoolClassGateway)
-      ], (streamValues) {
-        final events = streamValues[0] as List<CalendricalEvent>? ?? [];
+      _eventsSubscription = CombineLatestStream(
+        [
+          timetableGateway.streamEventsBeforeOrOn(
+            Date.fromDateTime(_getEventsUntilDateTime),
+            descending: state.sortingOrder == EventsSortingOrder.descending,
+          ),
+          courseGateway.getGroupInfoStream(schoolClassGateway),
+        ],
+        (streamValues) {
+          final events = streamValues[0] as List<CalendricalEvent>? ?? [];
 
-        // Because we can only query by the date and not by the date and time, we
-        // need to filter out events that are not past events, i.e. events that
-        // are on the same day as the current date.
-        final pastEvents = events
-            .where(
-                (event) => event.endDateTime.isBefore(_getEventsUntilDateTime))
-            .toList();
+          // Because we can only query by the date and not by the date and time, we
+          // need to filter out events that are not past events, i.e. events that
+          // are on the same day as the current date.
+          final pastEvents =
+              events
+                  .where(
+                    (event) =>
+                        event.endDateTime.isBefore(_getEventsUntilDateTime),
+                  )
+                  .toList();
 
-        final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
+          final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
 
-        final eventViews = pastEvents
-            .map((event) => EventView.fromEventAndGroupInfo(
-                event, groupInfos[event.groupID]))
-            .toList();
+          final eventViews =
+              pastEvents
+                  .map(
+                    (event) => EventView.fromEventAndGroupInfo(
+                      event,
+                      groupInfos[event.groupID],
+                    ),
+                  )
+                  .toList();
 
-        return eventViews;
-      }).listen((events) {
+          return eventViews;
+        },
+      ).listen((events) {
         state = PastCalendricalEventsPageLoadedState(
           events,
           sortingOrder: state.sortingOrder,
         );
         notifyListeners();
-      })
-        ..onError((e) {
-          _setError('$e');
-        });
+      })..onError((e) {
+        _setError('$e');
+      });
     } catch (e) {
       _setError('$e');
     }
@@ -135,21 +146,14 @@ class PastCalendricalEventsPageController extends ChangeNotifier {
   }
 }
 
-enum EventsSortingOrder {
-  ascending,
-  descending;
-}
+enum EventsSortingOrder { ascending, descending }
 
 sealed class PastCalendricalEventsPageState {
   final EventsSortingOrder sortingOrder;
 
-  const PastCalendricalEventsPageState({
-    required this.sortingOrder,
-  });
+  const PastCalendricalEventsPageState({required this.sortingOrder});
 
-  PastCalendricalEventsPageState copyWith({
-    EventsSortingOrder? sortingOrder,
-  });
+  PastCalendricalEventsPageState copyWith({EventsSortingOrder? sortingOrder});
 }
 
 class PastCalendricalEventsPageNotUnlockedState
@@ -170,9 +174,7 @@ class PastCalendricalEventsPageNotUnlockedState
 
 class PastCalendricalEventsPageLoadingState
     extends PastCalendricalEventsPageState {
-  const PastCalendricalEventsPageLoadingState({
-    required super.sortingOrder,
-  });
+  const PastCalendricalEventsPageLoadingState({required super.sortingOrder});
 
   @override
   PastCalendricalEventsPageLoadingState copyWith({

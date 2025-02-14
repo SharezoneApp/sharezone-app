@@ -22,7 +22,8 @@ void main() {
       assert(color != null);
 
       final row = tester.firstWidget<Material>(
-          find.byKey(ValueKey('AlternatingColoredList;Item:$index')));
+        find.byKey(ValueKey('AlternatingColoredList;Item:$index')),
+      );
       expect(row.color, color);
     }
 
@@ -32,14 +33,16 @@ void main() {
         notHighlightedColor: Colors.amberAccent,
       );
 
-      await tester.pumpWidget(MaterialApp(
-        home: AlternatingColoredList(
-          itemCount: list.length,
-          theme: theme,
-          alternatingInterval: 3,
-          itemBuilder: (context, i) => Text('$i'),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: AlternatingColoredList(
+            itemCount: list.length,
+            theme: theme,
+            alternatingInterval: 3,
+            itemBuilder: (context, i) => Text('$i'),
+          ),
         ),
-      ));
+      );
 
       testRowWith(color: theme.notHighlightedColor, tester: tester, index: 0);
       testRowWith(color: theme.notHighlightedColor, tester: tester, index: 1);
@@ -55,13 +58,15 @@ void main() {
         notHighlightedColor: Colors.amberAccent,
       );
 
-      await tester.pumpWidget(MaterialApp(
-        home: AlternatingColoredList(
-          itemCount: list.length,
-          theme: theme,
-          itemBuilder: (context, i) => Text('$i'),
+      await tester.pumpWidget(
+        MaterialApp(
+          home: AlternatingColoredList(
+            itemCount: list.length,
+            theme: theme,
+            itemBuilder: (context, i) => Text('$i'),
+          ),
         ),
-      ));
+      );
 
       testRowWith(color: theme.notHighlightedColor, tester: tester, index: 0);
       testRowWith(color: theme.highlightedColor, tester: tester, index: 1);

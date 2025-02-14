@@ -14,8 +14,9 @@ import '../shared/models/homework.dart';
 
 extension StudentHomeworkListExtension on IList<StudentHomeworkReadModel> {
   IList<StudentHomeworkReadModel> get completed =>
-      where((homework) => homework.status == CompletionStatus.completed)
-          .toIList();
+      where(
+        (homework) => homework.status == CompletionStatus.completed,
+      ).toIList();
   IList<StudentHomeworkReadModel> get open =>
       where((homework) => homework.status == CompletionStatus.open).toIList();
 

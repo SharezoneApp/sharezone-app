@@ -24,20 +24,26 @@ class MoveFileBloc extends BlocBase {
   Stream<FolderPath> get newPath => _newPathSubject;
 
   TwoStreams<FileSharingData, FolderPath> get moveFileState => TwoStreams(
-        fileSharingGateway!.folderGateway.folderStream(cloudFile.courseID!),
-        newPath,
-      );
+    fileSharingGateway!.folderGateway.folderStream(cloudFile.courseID!),
+    newPath,
+  );
 
   Function(FolderPath) get changeNewPath => _newPathSubject.sink.add;
 
-  Stream<bool> get isMoveFileAllowed => moveFileState.stream
-      .map((streamSnapshot) => canMoveFile(streamSnapshot.data0));
+  Stream<bool> get isMoveFileAllowed => moveFileState.stream.map(
+    (streamSnapshot) => canMoveFile(streamSnapshot.data0),
+  );
 
   Future<void> moveFileToNewPath() async {
-    if (canMoveFile(await fileSharingGateway!.folderGateway
-        .getFilesharingData(cloudFile.courseID!))) {
-      fileSharingGateway!.cloudFilesGateway
-          .moveFile(cloudFile, _newPathSubject.valueOrNull!);
+    if (canMoveFile(
+      await fileSharingGateway!.folderGateway.getFilesharingData(
+        cloudFile.courseID!,
+      ),
+    )) {
+      fileSharingGateway!.cloudFilesGateway.moveFile(
+        cloudFile,
+        _newPathSubject.valueOrNull!,
+      );
     }
   }
 

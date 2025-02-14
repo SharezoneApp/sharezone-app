@@ -79,10 +79,7 @@ class _AccountPageState extends State<AccountPage> {
 
 @visibleForTesting
 class AccountPageBody extends StatelessWidget {
-  const AccountPageBody({
-    super.key,
-    required this.user,
-  });
+  const AccountPageBody({super.key, required this.user});
 
   final UserView user;
 
@@ -96,7 +93,7 @@ class AccountPageBody extends StatelessWidget {
             children: <Widget>[
               _MainAccountInformationCard(user: user),
               _SecondaryInformationCard(user: user),
-              SignOutButton(isAnonymous: user.isAnonymous)
+              SignOutButton(isAnonymous: user.isAnonymous),
             ],
           ),
         ),
@@ -117,9 +114,7 @@ class _WebIcon extends StatelessWidget {
 }
 
 class _SecondaryInformationCard extends StatelessWidget {
-  const _SecondaryInformationCard({
-    required this.user,
-  });
+  const _SecondaryInformationCard({required this.user});
 
   final UserView user;
 
@@ -143,9 +138,7 @@ class _SecondaryInformationCard extends StatelessWidget {
 }
 
 class _MainAccountInformationCard extends StatelessWidget {
-  const _MainAccountInformationCard({
-    required this.user,
-  });
+  const _MainAccountInformationCard({required this.user});
 
   final UserView user;
 
@@ -235,10 +228,7 @@ class _EmailText extends StatelessWidget {
 }
 
 class _TypeOfUserText extends StatelessWidget {
-  const _TypeOfUserText({
-    required this.uid,
-    required this.userType,
-  });
+  const _TypeOfUserText({required this.uid, required this.userType});
 
   final String userType;
   final String uid;

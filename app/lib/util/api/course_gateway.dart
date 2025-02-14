@@ -27,8 +27,11 @@ class CourseGateway {
 
   final CourseMemberAccessor memberAccessor;
 
-  factory CourseGateway(References references, String memberID,
-      ConnectionsGateway connectionsGateway) {
+  factory CourseGateway(
+    References references,
+    String memberID,
+    ConnectionsGateway connectionsGateway,
+  ) {
     return CourseGateway._(
       references,
       memberID,
@@ -37,14 +40,16 @@ class CourseGateway {
     );
   }
 
-  const CourseGateway._(this.references, this.memberID,
-      this._connectionsGateway, this.memberAccessor);
+  const CourseGateway._(
+    this.references,
+    this.memberID,
+    this._connectionsGateway,
+    this.memberAccessor,
+  );
 
   Course createCourse(CourseData courseData, UserGateway userGateway) {
     final user = userGateway.data;
-    CourseData course = courseData.copyWith(
-      id: references.courses.doc().id,
-    );
+    CourseData course = courseData.copyWith(id: references.courses.doc().id);
 
     references.courses.doc(course.id).set(course.toCreateJson(memberID));
 
@@ -72,8 +77,11 @@ class CourseGateway {
           .collection(CollectionNames.members)
           .doc(memberID)
           .set(
-            MemberData.create(id: memberID, role: MemberRole.owner, user: user!)
-                .toJson(),
+            MemberData.create(
+              id: memberID,
+              role: MemberRole.owner,
+              user: user!,
+            ).toJson(),
           );
     });
 
@@ -85,24 +93,18 @@ class CourseGateway {
     return course.toUserCourse(MemberRole.owner);
   }
 
-  Future<AppFunctionsResult<bool>> joinCourse(
-    String courseID,
-  ) async {
-    return _connectionsGateway.joinWithId(
-      id: courseID,
-      type: GroupType.course,
-    );
+  Future<AppFunctionsResult<bool>> joinCourse(String courseID) async {
+    return _connectionsGateway.joinWithId(id: courseID, type: GroupType.course);
   }
 
   Future<AppFunctionsResult<bool>> leaveCourse(String courseID) async {
-    return _connectionsGateway.leave(
-      id: courseID,
-      type: GroupType.course,
-    );
+    return _connectionsGateway.leave(id: courseID, type: GroupType.course);
   }
 
   Future<AppFunctionsResult<bool>> kickMember(
-      String courseID, String kickedMemberID) async {
+    String courseID,
+    String kickedMemberID,
+  ) async {
     return references.functions.leave(
       id: courseID,
       type: GroupType.course.name,
@@ -128,7 +130,9 @@ class CourseGateway {
   }
 
   Future<AppFunctionsResult<bool>> editCourseSettings(
-      String courseID, CourseSettings courseSettings) async {
+    String courseID,
+    CourseSettings courseSettings,
+  ) async {
     return references.functions.groupEditSettings(
       id: courseID,
       settings: courseSettings.toJson(),
@@ -206,8 +210,9 @@ class CourseGateway {
     if (courses.containsKey(courseID)) {
       return courses[courseID]?.myRole;
     } else {
-      Iterable<Course> filteredJoinedCourses =
-          _connectionsGateway.newJoinedCourses.where((it) => it.id == courseID);
+      Iterable<Course> filteredJoinedCourses = _connectionsGateway
+          .newJoinedCourses
+          .where((it) => it.id == courseID);
       if (filteredJoinedCourses.isNotEmpty) {
         return filteredJoinedCourses.first.myRole;
       } else {
@@ -217,22 +222,26 @@ class CourseGateway {
   }
 
   Stream<Course?> streamCourse(String courseID) {
-    return _connectionsGateway
-        .streamConnectionsData()
-        .map((connections) => connections?.courses[courseID]);
+    return _connectionsGateway.streamConnectionsData().map(
+      (connections) => connections?.courses[courseID],
+    );
   }
 
   Stream<List<Course>> streamCourses() {
-    return _connectionsGateway.streamConnectionsData().map((connections) =>
-        (connections?.courses.values.toList() ?? [])..sortAlphabetically());
+    return _connectionsGateway.streamConnectionsData().map(
+      (connections) =>
+          (connections?.courses.values.toList() ?? [])..sortAlphabetically(),
+    );
   }
 
   Stream<Map<String, GroupInfo>> getGroupInfoStream(
-      SchoolClassGateway schoolClassGateway) {
+    SchoolClassGateway schoolClassGateway,
+  ) {
     final courseStream = streamCourses();
     final schoolClassStream = schoolClassGateway.stream();
-    final streamGroup =
-        CombineLatestStream([courseStream, schoolClassStream], (streamValues) {
+    final streamGroup = CombineLatestStream([courseStream, schoolClassStream], (
+      streamValues,
+    ) {
       List<Course> courses = streamValues[0] as List<Course>? ?? [];
       List<SchoolClass> schoolClasses =
           streamValues[1] as List<SchoolClass>? ?? [];
@@ -240,9 +249,9 @@ class CourseGateway {
         for (final course in courses) course.toGroupInfo(),
         for (final schoolClass in schoolClasses) schoolClass.toGroupInfo(),
       ];
-      return groupInfos
-          .asMap()
-          .map((_, groupInfo) => MapEntry(groupInfo.id, groupInfo));
+      return groupInfos.asMap().map(
+        (_, groupInfo) => MapEntry(groupInfo.id, groupInfo),
+      );
     });
     return streamGroup;
   }

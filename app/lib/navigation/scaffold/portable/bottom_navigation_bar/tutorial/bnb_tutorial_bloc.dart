@@ -24,8 +24,10 @@ class BnbTutorialBloc extends BlocBase {
   BnbTutorialBloc(this._cache, this._analytics, this.isGroupOnboardingFinsihed);
 
   Stream<bool> shouldShowBnbTutorial() {
-    return isGroupOnboardingFinsihed.map((event) =>
-        event && !_cache.wasTutorialCompleted() && !_alreadyShowedInRuntime);
+    return isGroupOnboardingFinsihed.map(
+      (event) =>
+          event && !_cache.wasTutorialCompleted() && !_alreadyShowedInRuntime,
+    );
   }
 
   /// Saves in runtime that BnbTutorial already showed. If a user would rotate

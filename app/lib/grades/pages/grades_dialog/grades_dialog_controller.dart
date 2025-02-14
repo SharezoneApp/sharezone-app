@@ -29,16 +29,19 @@ class GradesDialogController extends ChangeNotifier {
   final Analytics analytics;
 
   GradesDialogView get view {
-    final subject = _selectSubjectId != null
-        ? _subjects.singleWhere((s) => s.id == _selectSubjectId)
-        : null;
+    final subject =
+        _selectSubjectId != null
+            ? _subjects.singleWhere((s) => s.id == _selectSubjectId)
+            : null;
     final terms = gradesService.terms.value;
-    final term = _selectedTermId != null
-        ? terms.firstWhere((t) => t.id == _selectedTermId)
-        : null;
+    final term =
+        _selectedTermId != null
+            ? terms.firstWhere((t) => t.id == _selectedTermId)
+            : null;
 
-    final termSub =
-        term?.subjects.firstWhereOrNull((s) => s.id == _selectSubjectId);
+    final termSub = term?.subjects.firstWhereOrNull(
+      (s) => s.id == _selectSubjectId,
+    );
 
     Weight? getWeightFor(GradeTypeId gradeTypeId) {
       if (term == null) return null;
@@ -53,12 +56,14 @@ class GradesDialogController extends ChangeNotifier {
       }
 
       return switch (termSub.weightType) {
-        WeightType.inheritFromTerm => term.gradeTypeWeightings.isNotEmpty
-            ? term.gradeTypeWeightings[gradeTypeId] ?? Weight.zero
-            : null,
-        WeightType.perGradeType => termSub.gradeTypeWeights.isNotEmpty
-            ? termSub.gradeTypeWeights[gradeTypeId] ?? Weight.zero
-            : null,
+        WeightType.inheritFromTerm =>
+          term.gradeTypeWeightings.isNotEmpty
+              ? term.gradeTypeWeightings[gradeTypeId] ?? Weight.zero
+              : null,
+        WeightType.perGradeType =>
+          termSub.gradeTypeWeights.isNotEmpty
+              ? termSub.gradeTypeWeights[gradeTypeId] ?? Weight.zero
+              : null,
         WeightType.perGrade => throw UnimplementedError(),
       };
     }
@@ -75,13 +80,14 @@ class GradesDialogController extends ChangeNotifier {
     final posGradesRes = gradesService.getPossibleGrades(_gradingSystem);
     SelectableGrades selectableGrades = (
       distinctGrades: _getPossibleDistinctGrades(posGradesRes),
-      nonDistinctGrades: posGradesRes is ContinuousNumericalPossibleGradesResult
-          ? (
-              min: posGradesRes.min,
-              max: posGradesRes.max,
-              decimalsAllowed: posGradesRes.decimalsAllowed
-            )
-          : null
+      nonDistinctGrades:
+          posGradesRes is ContinuousNumericalPossibleGradesResult
+              ? (
+                min: posGradesRes.min,
+                max: posGradesRes.max,
+                decimalsAllowed: posGradesRes.decimalsAllowed,
+              )
+              : null,
     );
 
     return GradesDialogView(
@@ -90,22 +96,26 @@ class GradesDialogController extends ChangeNotifier {
       selectedGradingSystem: _gradingSystem,
       selectedSubject:
           subject != null ? (id: subject.id, name: subject.name) : null,
-      selectableSubjects: _subjects
-          .map((s) => (
-                id: s.id,
-                name: s.name,
-                abbreviation: s.abbreviation,
-                design: s.design,
-              ))
-          .toIList(),
+      selectableSubjects:
+          _subjects
+              .map(
+                (s) => (
+                  id: s.id,
+                  name: s.name,
+                  abbreviation: s.abbreviation,
+                  design: s.design,
+                ),
+              )
+              .toIList(),
       selectedDate: _date,
       selectedGradingType: _gradeType,
       selectableGradingTypes: gradesService.getPossibleGradeTypes(),
-      selectedTerm: _selectedTermId != null
-          // The term name can be null if the term is selected and deleted from
-          // a different device while the dialog is open.
-          ? (id: _selectedTermId!, name: term?.name ?? '?')
-          : null,
+      selectedTerm:
+          _selectedTermId != null
+              // The term name can be null if the term is selected and deleted from
+              // a different device while the dialog is open.
+              ? (id: _selectedTermId!, name: term?.name ?? '?')
+              : null,
       selectableTerms:
           _selectableTerms.map((t) => (id: t.id, name: t.name)).toIList(),
       detailsController: _detailsController,
@@ -179,8 +189,9 @@ class GradesDialogController extends ChangeNotifier {
       return null;
     }
 
-    final term =
-        gradesService.terms.value.firstWhere((term) => term.id == termId);
+    final term = gradesService.terms.value.firstWhere(
+      (term) => term.id == termId,
+    );
     return term.gradingSystem;
   }
 
@@ -189,8 +200,9 @@ class GradesDialogController extends ChangeNotifier {
   IList<Subject> _mergeCoursesAndSubjects(List<Course> courses) {
     final subjects = <Subject>[...gradesService.getSubjects()];
     for (final course in courses) {
-      final matchingSubject = subjects
-          .firstWhereOrNull((subject) => subject.name == course.subject);
+      final matchingSubject = subjects.firstWhereOrNull(
+        (subject) => subject.name == course.subject,
+      );
       final hasSubjectForThisCourse = matchingSubject != null;
       if (!hasSubjectForThisCourse) {
         final subjectId = SubjectId(Id.generate().value);
@@ -340,7 +352,8 @@ class GradesDialogController extends ChangeNotifier {
 
   void _maybeSetTitleWithGradeType(GradeType newType, GradeType? previousType) {
     final isTitleEmpty = _title == null || _title!.isEmpty;
-    final isTitleAsPreviousType = previousType != null &&
+    final isTitleAsPreviousType =
+        previousType != null &&
         _title == previousType.predefinedType?.toUiString();
 
     if (isTitleEmpty || isTitleAsPreviousType) {
@@ -380,10 +393,11 @@ class GradesDialogController extends ChangeNotifier {
       return;
     }
 
-    final isNewSubject = gradesService
-        .getSubjects()
-        .where((s) => s.id == _selectSubjectId)
-        .isEmpty;
+    final isNewSubject =
+        gradesService
+            .getSubjects()
+            .where((s) => s.id == _selectSubjectId)
+            .isEmpty;
     if (isNewSubject) {
       _createSubject();
 
@@ -430,8 +444,10 @@ class GradesDialogController extends ChangeNotifier {
       details = _detailsController.text;
     }
 
-    final takeIntoAccount =
-        switch ((_takeIntoAccount, view.takeIntoAccountState)) {
+    final takeIntoAccount = switch ((
+      _takeIntoAccount,
+      view.takeIntoAccountState,
+    )) {
       // If the grade type has no weight, it will not be taken into account
       // anyways. Thus we can takeIntoAccount true here, so its easier for the
       // user when changing the weight of the grade type afterwards, so that he
@@ -447,7 +463,10 @@ class GradesDialogController extends ChangeNotifier {
     };
 
     try {
-      gradesService.term(_selectedTermId!).subject(_selectSubjectId!).addGrade(
+      gradesService
+          .term(_selectedTermId!)
+          .subject(_selectSubjectId!)
+          .addGrade(
             GradeInput(
               type: _gradeType.id,
               value: _grade!,
@@ -463,7 +482,8 @@ class GradesDialogController extends ChangeNotifier {
         _gradeErrorText = 'Die Note ist ungültig.';
         notifyListeners();
         throw const SingleInvalidFieldSaveGradeException(
-            GradingDialogFields.gradeValue);
+          GradingDialogFields.gradeValue,
+        );
       }
 
       crashAnalytics.recordError('Error saving grade: $e', s);
@@ -531,9 +551,11 @@ class GradesDialogController extends ChangeNotifier {
     if (posGradesRes is ContinuousNumericalPossibleGradesResult) {
       if (!posGradesRes.decimalsAllowed) {
         final grades = <String>[];
-        for (int i = posGradesRes.min.toInt();
-            i <= posGradesRes.max.toInt();
-            i++) {
+        for (
+          int i = posGradesRes.min.toInt();
+          i <= posGradesRes.max.toInt();
+          i++
+        ) {
           grades.add(i.toString());
         }
         return grades.toIList();
@@ -570,7 +592,7 @@ extension on Course {
           name: name,
           abbreviation: abbreviation,
           subjectName: subject,
-        )
+        ),
       ]),
     );
   }

@@ -22,8 +22,10 @@ class RSAEncryptable {
     return RSAEncryptable._(null, parsedPublicKey as pointycastle.RSAPublicKey);
   }
 
-  factory RSAEncryptable(
-      {required String publicKey, required String privateKey}) {
+  factory RSAEncryptable({
+    required String publicKey,
+    required String privateKey,
+  }) {
     final parsedPublicKey = RSAKeyParser().parse(publicKey);
     final parsedPrivateKey = RSAKeyParser().parse(privateKey);
     return RSAEncryptable._(

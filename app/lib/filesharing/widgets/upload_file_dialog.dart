@@ -20,8 +20,9 @@ Future<void> showUploadFileDialog({
 }) async {
   final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
   showDialog(
-      context: context,
-      builder: (context) => _UploadFileDialogContent(task: task));
+    context: context,
+    builder: (context) => _UploadFileDialogContent(task: task),
+  );
   final uploadTask = await task;
   await uploadTask.onComplete.then((result) {
     if (result.bytesTransferred == result.totalByteCount) {
@@ -48,7 +49,9 @@ class __UploadFileDialogContentState extends State<_UploadFileDialogContent> {
     if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
         content: FutureBuilder<UploadTask>(
-            future: widget.task, builder: buildDialog),
+          future: widget.task,
+          builder: buildDialog,
+        ),
       );
     }
     return SimpleDialog(
@@ -72,7 +75,8 @@ class __UploadFileDialogContentState extends State<_UploadFileDialogContent> {
             }
             if (event == null) return const _UploadingDialog(percent: 0);
 
-            final percent = event.snapshot.bytesTransferred /
+            final percent =
+                event.snapshot.bytesTransferred /
                 event.snapshot.totalByteCount *
                 100;
             if (event.type == UploadTaskEventType.error) {
@@ -100,14 +104,16 @@ class _UploadingDialog extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16),
           child: AccentColorCircularProgressIndicator(
-              value: percent == 0 ? null : percent / 100),
+            value: percent == 0 ? null : percent / 100,
+          ),
         ),
         const SizedBox(width: 6),
         Flexible(
-            child: Text(
-          "Die Datei wird auf den Server gebeamt: ${percent.toStringAsFixed(0)}/100",
-          style: const TextStyle(fontSize: 16),
-        )),
+          child: Text(
+            "Die Datei wird auf den Server gebeamt: ${percent.toStringAsFixed(0)}/100",
+            style: const TextStyle(fontSize: 16),
+          ),
+        ),
         const SizedBox(width: 12),
       ],
     );
@@ -131,10 +137,11 @@ class _UploadingDialogFailure extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         Flexible(
-            child: Text(
-          "Es gab einen Fehler: $error",
-          style: const TextStyle(fontSize: 16),
-        )),
+          child: Text(
+            "Es gab einen Fehler: $error",
+            style: const TextStyle(fontSize: 16),
+          ),
+        ),
         const SizedBox(width: 12),
       ],
     );

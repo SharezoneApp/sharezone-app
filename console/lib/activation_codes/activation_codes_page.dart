@@ -11,22 +11,15 @@ import 'package:sharezone_console/activation_codes/pages/new_activation_code_pag
 import 'package:sharezone_console/home_page.dart';
 
 Future<void> openActivationCodesPage(BuildContext context) {
-  return openPage(
-    context,
-    _ActivationCodesPage(),
-  );
+  return openPage(context, _ActivationCodesPage());
 }
 
 class _ActivationCodesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Aktivierungscodes"),
-      ),
-      body: Center(
-        child: Text("Diese Seite befindet sich noch im Aufbau!"),
-      ),
+      appBar: AppBar(title: Text("Aktivierungscodes")),
+      body: Center(child: Text("Diese Seite befindet sich noch im Aufbau!")),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {

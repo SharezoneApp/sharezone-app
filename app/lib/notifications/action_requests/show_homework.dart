@@ -14,16 +14,17 @@ import 'package:sharezone/homework/homework_details/homework_details.dart';
 import 'package:sharezone/util/navigation_service.dart';
 
 ActionRegistration<ShowHomeworkRequest> showHomeworkRegistrationWith(
-        ActionRequestExecutorFunc<ShowHomeworkRequest> executorFunc) =>
-    ActionRegistration<ShowHomeworkRequest>(
-      registerForActionTypeStrings: ShowHomeworkRequest.actionTypes,
-      parseActionRequestFromNotification: _toShowHomeworkActionRequest,
-      executeActionRequest: executorFunc,
-    );
+  ActionRequestExecutorFunc<ShowHomeworkRequest> executorFunc,
+) => ActionRegistration<ShowHomeworkRequest>(
+  registerForActionTypeStrings: ShowHomeworkRequest.actionTypes,
+  parseActionRequestFromNotification: _toShowHomeworkActionRequest,
+  executeActionRequest: executorFunc,
+);
 
-ShowHomeworkRequest _toShowHomeworkActionRequest(PushNotification notification,
-        PushNotificationParserInstrumentation instrumentation) =>
-    ShowHomeworkRequest(HomeworkId(notification.actionData['id'] as String));
+ShowHomeworkRequest _toShowHomeworkActionRequest(
+  PushNotification notification,
+  PushNotificationParserInstrumentation instrumentation,
+) => ShowHomeworkRequest(HomeworkId(notification.actionData['id'] as String));
 
 /// Show the detailed view of a single homework with the given [homeworkId].
 ///
@@ -47,7 +48,8 @@ class ShowHomeworkExecutor extends ActionRequestExecutor<ShowHomeworkRequest> {
   @override
   FutureOr<void> execute(ShowHomeworkRequest actionRequest) {
     return _navigationService!.pushWidget(
-        HomeworkDetails.loadId('${actionRequest.homeworkId}'),
-        name: HomeworkDetails.tag);
+      HomeworkDetails.loadId('${actionRequest.homeworkId}'),
+      name: HomeworkDetails.tag,
+    );
   }
 }

@@ -9,11 +9,7 @@
 import 'package:flutter/material.dart';
 
 class BottomBarButton extends StatelessWidget {
-  const BottomBarButton({
-    super.key,
-    required this.text,
-    this.onTap,
-  });
+  const BottomBarButton({super.key, required this.text, this.onTap});
 
   final VoidCallback? onTap;
   final String text;
@@ -26,8 +22,9 @@ class BottomBarButton extends StatelessWidget {
       ),
       child: TextButton(
         style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Theme.of(context).primaryColor),
+          foregroundColor: Colors.white,
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
         onPressed: onTap,
         child: Text(text.toUpperCase(), style: const TextStyle(fontSize: 20)),
       ),

@@ -69,7 +69,8 @@ Future<bool?> showDeleteLessonConfirmationDialog(BuildContext context) async {
 Future<void> onLessonLongPress(BuildContext context, Lesson lesson) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final hasPermissionsToManageLessons = hasPermissionToManageLessons(
-      api.course.getRoleFromCourseNoSync(lesson.groupID)!);
+    api.course.getRoleFromCourseNoSync(lesson.groupID)!,
+  );
   final result = await showLongPressAdaptiveDialog<_LessonLongPressResult>(
     context: context,
     longPressList: [
@@ -93,8 +94,8 @@ Future<void> onLessonLongPress(BuildContext context, Lesson lesson) async {
           title: "Löschen",
           popResult: _LessonLongPressResult.delete,
           icon: Icon(Icons.delete),
-        )
-      ]
+        ),
+      ],
     ],
   );
   if (!context.mounted) return;
@@ -170,7 +171,8 @@ class __DeleteLessonDialogState extends State<_DeleteLessonDialog> {
         const Padding(
           padding: EdgeInsets.fromLTRB(24, 8, 24, 0),
           child: Text(
-              "Möchtest du wirklich die Schulstunde für den gesamten Kurs löschen?"),
+            "Möchtest du wirklich die Schulstunde für den gesamten Kurs löschen?",
+          ),
         ),
         DeleteConfirmationCheckbox(
           text:
@@ -194,11 +196,12 @@ Future<void> showLessonModelSheet(
 ) async {
   final popOption = await showDialog<_LessonDialogAction>(
     context: context,
-    builder: (context) => _TimetableLessonBottomModelSheet(
-      lesson: lesson,
-      design: design,
-      date: date,
-    ),
+    builder:
+        (context) => _TimetableLessonBottomModelSheet(
+          lesson: lesson,
+          design: design,
+          date: date,
+        ),
   );
   if (!context.mounted || popOption == null) return;
 
@@ -250,7 +253,8 @@ void _showPlusDialog(BuildContext context) {
     context: context,
     navigateToPlusPage: () => navigateToSharezonePlusPage(context),
     description: const Text(
-        'Schalte mit Sharezone Plus den Vertretungsplan frei, um z.B. den Entfall einer Schulstunden zu markieren.\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern).'),
+      'Schalte mit Sharezone Plus den Vertretungsplan frei, um z.B. den Entfall einer Schulstunden zu markieren.\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern).',
+    ),
   );
 }
 
@@ -265,7 +269,9 @@ Future _deleteLesson(BuildContext context, Lesson lesson) async {
 }
 
 Future<void> _deleteLessonAndShowConfirmationSnackbar(
-    BuildContext context, Lesson lesson) async {
+  BuildContext context,
+  Lesson lesson,
+) async {
   final timetableGateway =
       BlocProvider.of<SharezoneContext>(context).api.timetable;
   timetableGateway.deleteLesson(lesson);
@@ -285,15 +291,18 @@ Future<void> _openTimetableEditPage(BuildContext context, Lesson lesson) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final timetableBloc = BlocProvider.of<TimetableBloc>(context);
   final confirmed = await Navigator.push<bool>(
-      context,
-      MaterialPageRoute(
-          builder: (context) => TimetableEditLessonPage(
-                lesson,
-                api.timetable,
-                api.connectionsGateway,
-                timetableBloc,
-              ),
-          settings: const RouteSettings(name: TimetableEditLessonPage.tag)));
+    context,
+    MaterialPageRoute(
+      builder:
+          (context) => TimetableEditLessonPage(
+            lesson,
+            api.timetable,
+            api.connectionsGateway,
+            timetableBloc,
+          ),
+      settings: const RouteSettings(name: TimetableEditLessonPage.tag),
+    ),
+  );
   if (confirmed != null && confirmed) {
     await waitingForPopAnimation();
     if (!context.mounted) return;
@@ -325,7 +334,8 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final hasPermissionsToManageLessons = hasPermissionToManageLessons(
-        api.course.getRoleFromCourseNoSync(lesson.groupID)!);
+      api.course.getRoleFromCourseNoSync(lesson.groupID)!,
+    );
     return SimpleDialog(
       children: <Widget>[
         const SizedBox(height: 8),
@@ -336,8 +346,9 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
             children: <Widget>[
               const _ChangeColorIcon(),
               ReportIcon(
-                  item: ReportItemReference.lesson(lesson.lessonID!),
-                  color: getIconGrey(context)),
+                item: ReportItemReference.lesson(lesson.lessonID!),
+                color: getIconGrey(context),
+              ),
               if (hasPermissionsToManageLessons) ...const [
                 _EditIcon(),
                 DeleteIcon(),
@@ -383,11 +394,10 @@ class _LessonBasicSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final courseName = BlocProvider.of<SharezoneContext>(context)
-            .api
-            .course
-            .getCourse(lesson.groupID)
-            ?.name ??
+    final courseName =
+        BlocProvider.of<SharezoneContext>(
+          context,
+        ).api.course.getCourse(lesson.groupID)?.name ??
         "-";
     final timetableBloc = BlocProvider.of<TimetableBloc>(context);
     final isABWeekEnabled = timetableBloc.current.isABWeekEnabled();
@@ -398,14 +408,18 @@ class _LessonBasicSection extends StatelessWidget {
           title: Text.rich(
             TextSpan(
               style: TextStyle(
-                  color: Theme.of(context).isDarkTheme
-                      ? Colors.white
-                      : Colors.grey[800],
-                  fontSize: 16),
+                color:
+                    Theme.of(context).isDarkTheme
+                        ? Colors.white
+                        : Colors.grey[800],
+                fontSize: 16,
+              ),
               children: <TextSpan>[
                 const TextSpan(text: "Kursname: "),
                 TextSpan(
-                    text: courseName, style: TextStyle(color: design?.color))
+                  text: courseName,
+                  style: TextStyle(color: design?.color),
+                ),
               ],
             ),
           ),
@@ -416,32 +430,24 @@ class _LessonBasicSection extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.event),
-          title:
-              Text("Wochentag: ${weekDayEnumToGermanString(lesson.weekday)}"),
+          title: Text(
+            "Wochentag: ${weekDayEnumToGermanString(lesson.weekday)}",
+          ),
         ),
         if (isABWeekEnabled)
           ListTile(
             leading: const Icon(Icons.swap_horiz),
             title: Text("Wochentyp: ${getWeekTypeText(lesson.weektype)}"),
           ),
-        _Location(
-          lesson: lesson,
-          date: date,
-        ),
-        _Teacher(
-          lesson: lesson,
-          date: date,
-        ),
+        _Location(lesson: lesson, date: date),
+        _Teacher(lesson: lesson, date: date),
       ],
     );
   }
 }
 
 class _Teacher extends StatelessWidget {
-  const _Teacher({
-    required this.lesson,
-    required this.date,
-  });
+  const _Teacher({required this.lesson, required this.date});
 
   final Lesson lesson;
   final Date date;
@@ -482,15 +488,13 @@ Future<void> showTeachersInTimetablePlusDialog(BuildContext context) {
     navigateToPlusPage: () => navigateToSharezonePlusPage(context),
     title: const Text("Lehrkraft im Stundenplan"),
     description: const Text(
-        "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt."),
+      "Mit Sharezone Plus kannst du die Lehrkraft zur jeweiligen Schulstunde im Stundenplan eintragen. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt.",
+    ),
   );
 }
 
 class _Location extends StatelessWidget {
-  const _Location({
-    required this.date,
-    required this.lesson,
-  });
+  const _Location({required this.date, required this.lesson});
 
   final Date date;
   final Lesson lesson;
@@ -515,7 +519,7 @@ class _Location extends StatelessWidget {
           if (newLocation != null) ...[
             const SizedBox(width: 4),
             Text('-> $newLocation'),
-          ]
+          ],
         ],
       ),
     );

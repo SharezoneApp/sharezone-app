@@ -27,7 +27,9 @@ import 'create_term_page_test.mocks.dart';
 void main() {
   group(CreateTermPage, () {
     Future<void> pushCreateTermPage(
-        WidgetTester tester, ThemeData theme) async {
+      WidgetTester tester,
+      ThemeData theme,
+    ) async {
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [

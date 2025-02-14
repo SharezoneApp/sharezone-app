@@ -65,13 +65,14 @@ class TeacherAndParentHomeworkPage extends StatelessWidget {
                   showOverflowMenu: false,
                   // Not visible since we don't show the overflow menu
                   onCompletedAllOverdue: () => throw UnimplementedError(),
-                  onSortingChanged: (newSort) =>
-                      bloc.add(OpenHwSortingChanged(newSort)),
+                  onSortingChanged:
+                      (newSort) => bloc.add(OpenHwSortingChanged(newSort)),
                 ),
               ),
             ),
-            floatingActionButton:
-                const BottomOfScrollViewInvisibility(child: HomeworkFab()),
+            floatingActionButton: const BottomOfScrollViewInvisibility(
+              child: HomeworkFab(),
+            ),
           ),
         ),
       ),
@@ -103,19 +104,20 @@ class TeacherHomeworkBody extends StatelessWidget {
           final hasOpenHomeworks = state.open.numberOfHomeworks > 0;
           final hasArchivedHomeworks = state.archived.numberOfHomeworks > 0;
 
-          final openHomeworkWidget = hasOpenHomeworks
-              ? TeacherAndParentOpenHomeworkList(
-                  homeworkListView: state.open,
-                  overscrollColor: overscrollColor,
-                )
-              : _NoOpenHomeworkPlaceholder();
+          final openHomeworkWidget =
+              hasOpenHomeworks
+                  ? TeacherAndParentOpenHomeworkList(
+                    homeworkListView: state.open,
+                    overscrollColor: overscrollColor,
+                  )
+                  : _NoOpenHomeworkPlaceholder();
 
           final completedHomeworkWidget =
               hasArchivedHomeworks || !state.archived.loadedAllHomeworks
                   ? TeacherAndParentArchivedHomeworkList(
-                      view: state.archived,
-                      bloc: bloc,
-                    )
+                    view: state.archived,
+                    bloc: bloc,
+                  )
                   : _NoArchivedHomeworkPlaceholder();
 
           return TabBarView(

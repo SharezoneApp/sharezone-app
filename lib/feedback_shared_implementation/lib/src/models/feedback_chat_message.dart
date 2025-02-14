@@ -37,9 +37,7 @@ class FeedbackChatMessage extends Equatable {
   Map<String, dynamic> toCreateJson() {
     return {
       'sentAt': FieldValue.serverTimestamp(),
-      'body': {
-        'plain': text,
-      },
+      'body': {'plain': text},
       'senderId': '$senderId',
     };
   }

@@ -32,7 +32,8 @@ Future<void> openCourseEditPage(BuildContext context, Course course) async {
 }
 
 Future _showCourseEditConformationSnackbarWithDelay(
-    BuildContext context) async {
+  BuildContext context,
+) async {
   await waitingForPopAnimation();
   if (!context.mounted) return;
   showSnackSec(
@@ -60,18 +61,12 @@ Future<void> submit(BuildContext context) async {
   } on Exception catch (e, s) {
     log('$e', error: e, stackTrace: s);
     if (!context.mounted) return;
-    showSnackSec(
-      text: handleErrorMessage(e.toString(), s),
-      context: context,
-    );
+    showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
   }
 }
 
 class CourseEditPage extends StatefulWidget {
-  const CourseEditPage({
-    super.key,
-    required this.course,
-  });
+  const CourseEditPage({super.key, required this.course});
 
   static const String tag = "course-edit-page";
   final Course course;
@@ -87,11 +82,12 @@ class _CourseEditPageState extends State<CourseEditPage> {
   void initState() {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     bloc = CourseEditPageBloc(
-        subject: widget.course.subject,
-        abbreviation: widget.course.abbreviation,
-        courseName: widget.course.name,
-        design: widget.course.design!,
-        gateway: CourseEditBlocGateway(api.course, widget.course));
+      subject: widget.course.subject,
+      abbreviation: widget.course.abbreviation,
+      courseName: widget.course.name,
+      design: widget.course.design!,
+      gateway: CourseEditBlocGateway(api.course, widget.course),
+    );
     super.initState();
   }
 
@@ -105,9 +101,7 @@ class _CourseEditPageState extends State<CourseEditPage> {
 }
 
 class _CourseEditPage extends StatelessWidget {
-  const _CourseEditPage({
-    required this.course,
-  });
+  const _CourseEditPage({required this.course});
 
   final Course course;
 
@@ -119,18 +113,22 @@ class _CourseEditPage extends StatelessWidget {
       appBar: AppBar(title: const Text("Kurs bearbeiten")),
       backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(8)
-            .add(const EdgeInsets.symmetric(horizontal: 4)),
+        padding: const EdgeInsets.all(
+          8,
+        ).add(const EdgeInsets.symmetric(horizontal: 4)),
         child: MaxWidthConstraintBox(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _SubjectField(
-                  initialSubject: course.subject, nextNode: abbreviationNode),
+                initialSubject: course.subject,
+                nextNode: abbreviationNode,
+              ),
               const SizedBox(height: 28),
               _AbbreviationField(
-                  initialAbbreviation: course.abbreviation,
-                  nextNode: courseNameNode),
+                initialAbbreviation: course.abbreviation,
+                nextNode: courseNameNode,
+              ),
               const SizedBox(height: 12),
               _CourseNameField(initialCourseName: course.name),
             ],
@@ -143,10 +141,7 @@ class _CourseEditPage extends StatelessWidget {
 }
 
 class _SubjectField extends StatelessWidget {
-  const _SubjectField({
-    required this.nextNode,
-    required this.initialSubject,
-  });
+  const _SubjectField({required this.nextNode, required this.initialSubject});
 
   final FocusNode nextNode;
   final String initialSubject;
@@ -159,8 +154,8 @@ class _SubjectField extends StatelessWidget {
       builder: (context, snapshot) {
         return PrefilledTextField(
           autofocus: true,
-          onEditingComplete: () =>
-              FocusManager.instance.primaryFocus?.unfocus(),
+          onEditingComplete:
+              () => FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: "Fach",

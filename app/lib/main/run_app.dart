@@ -50,24 +50,28 @@ BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
 }
 
 DynamicLinkBloc runDynamicLinkBloc(
-    PluginInitializations pluginInitializations) {
+  PluginInitializations pluginInitializations,
+) {
   final dynamicLinkBloc = DynamicLinkBloc(pluginInitializations.dynamicLinks);
   dynamicLinkBloc.initialisere();
 
   dynamicLinkBloc.einkommendeLinks.listen(
-      (einkommenderLink) => log("Neuer einkommender Link: $einkommenderLink"));
+    (einkommenderLink) => log("Neuer einkommender Link: $einkommenderLink"),
+  );
 
   return dynamicLinkBloc;
 }
 
 Future<void> runFlutterApp({required Flavor flavor}) async {
   final dependencies = await initializeDependencies(flavor: flavor);
-  runApp(Sharezone(
-    beitrittsversuche: dependencies.beitrittsversuche,
-    blocDependencies: dependencies.blocDependencies,
-    dynamicLinkBloc: dependencies.dynamicLinkBloc,
-    flavor: flavor,
-  ));
+  runApp(
+    Sharezone(
+      beitrittsversuche: dependencies.beitrittsversuche,
+      blocDependencies: dependencies.blocDependencies,
+      dynamicLinkBloc: dependencies.dynamicLinkBloc,
+      flavor: flavor,
+    ),
+  );
 
   if (PlatformCheck.isDesktopOrWeb) {
     // Required on web/desktop to automatically enable accessibility features,
@@ -93,9 +97,7 @@ If you encounter any issues please report them at https://github.com/SharezoneAp
   }
 }
 
-Future<AppDependencies> initializeDependencies({
-  required Flavor flavor,
-}) async {
+Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
   // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
   // sein können
   timeago.setLocaleMessages('de', timeago.DeMessages());
@@ -106,18 +108,22 @@ Future<AppDependencies> initializeDependencies({
   final pluginInitializations = await runPluginInitializations(flavor: flavor);
 
   final firebaseDependencies = FirebaseDependencies.get();
-  final firebaseFunctions =
-      FirebaseFunctions.instanceFor(region: 'europe-west1');
+  final firebaseFunctions = FirebaseFunctions.instanceFor(
+    region: 'europe-west1',
+  );
   final appFunction = AppFunctions(firebaseFunctions);
 
   final references = References.init(
     firebaseDependencies: firebaseDependencies,
     appFunctions: appFunction,
   );
-  final keyValueStore =
-      FlutterKeyValueStore(pluginInitializations.sharedPreferences);
-  final registrationGateway =
-      RegistrationGateway(references.users, firebaseDependencies.auth!);
+  final keyValueStore = FlutterKeyValueStore(
+    pluginInitializations.sharedPreferences,
+  );
+  final registrationGateway = RegistrationGateway(
+    references.users,
+    firebaseDependencies.auth!,
+  );
   final blocDependencies = BlocDependencies(
     analytics: Analytics(getBackend()),
     firestore: firebaseDependencies.firestore!,
@@ -165,17 +171,18 @@ Future<AppDependencies> initializeDependencies({
       // calls to the Firestore and would cause a memory leak (e.g. permission
       // denied error on sign out).
       sharezoneGateway ??= SharezoneGateway(
-          authUser: currentUser!,
-          memberID: currentUser.uid,
-          references: references);
+        authUser: currentUser!,
+        memberID: currentUser.uid,
+        references: references,
+      );
 
       final gruppenBeitrittsTransformer = GruppenBeitrittsversuchFilterBloc(
         einkommendeLinks: dynamicLinkBloc.einkommendeLinks,
-        istGruppeBereitsBeigetreten: (publicKey) async =>
-            await istSchonGruppeMitSharecodeBeigetreten(
-          sharezoneGateway!,
-          publicKey,
-        ),
+        istGruppeBereitsBeigetreten:
+            (publicKey) async => await istSchonGruppeMitSharecodeBeigetreten(
+              sharezoneGateway!,
+              publicKey,
+            ),
       );
 
       gruppenBeitrittsTransformer.gefilterteBeitrittsversuche.listen(

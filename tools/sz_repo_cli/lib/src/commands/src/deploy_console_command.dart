@@ -19,10 +19,7 @@ final _flavorToProjectId = {
 };
 
 /// The different flavors of the console that support deployment.
-final _consoleFlavors = [
-  'prod',
-  'dev',
-];
+final _consoleFlavors = ['prod', 'dev'];
 
 /// Deploy the Sharezone admin console to one of the several deploy sites (e.g.
 /// alpha or production).
@@ -86,17 +83,14 @@ class DeployConsoleCommand extends CommandBase {
 
     final deployMessage = await _getDeployMessage();
 
-    await processRunner.run(
-      [
-        'firebase',
-        'deploy',
-        '--project',
-        firebaseProjectId,
-        '--message',
-        deployMessage,
-      ],
-      workingDirectory: repo.sharezoneAdminConsole.location,
-    );
+    await processRunner.run([
+      'firebase',
+      'deploy',
+      '--project',
+      firebaseProjectId,
+      '--message',
+      deployMessage,
+    ], workingDirectory: repo.sharezoneAdminConsole.location);
   }
 
   Future<String> _getDeployMessage() async {

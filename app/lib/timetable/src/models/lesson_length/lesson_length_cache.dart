@@ -20,16 +20,21 @@ class LessonLengthCache extends BlocBase {
   void setLessonLength(LessonLength lessonLength) {
     if (lessonLength.isValid) {
       streamingCache.setInt(
-          lessonLengthSharedPreferenceKey, lessonLength.minutes);
+        lessonLengthSharedPreferenceKey,
+        lessonLength.minutes,
+      );
     }
   }
 
   Stream<LessonLength> streamLessonLength() {
     return streamingCache
         .getInt(lessonLengthSharedPreferenceKey, defaultValue: -1)
-        .map((lengthInMinutes) => lengthInMinutes != -1
-            ? LessonLength(lengthInMinutes)
-            : LessonLength.standard());
+        .map(
+          (lengthInMinutes) =>
+              lengthInMinutes != -1
+                  ? LessonLength(lengthInMinutes)
+                  : LessonLength.standard(),
+        );
   }
 
   Future<bool> hasUserSavedLessonLengthInCache() async {

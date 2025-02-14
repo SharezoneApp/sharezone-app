@@ -36,11 +36,7 @@ class QrSignInDocument {
   }
 
   Map<String, dynamic> toData() {
-    return {
-      'qrId': qrId,
-      'publicKey': publicKey,
-      'created': created,
-    };
+    return {'qrId': qrId, 'publicKey': publicKey, 'created': created};
   }
 
   QrSignInState toSignInState() {

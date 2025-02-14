@@ -20,9 +20,11 @@ class HolidayCache {
   final Duration maxValidDurationTillLastSaved;
   SavingDateTimeFunction? getCurrentTime;
 
-  HolidayCache(this.cache,
-      {this.maxValidDurationTillLastSaved = const Duration(days: 30),
-      this.getCurrentTime}) {
+  HolidayCache(
+    this.cache, {
+    this.maxValidDurationTillLastSaved = const Duration(days: 30),
+    this.getCurrentTime,
+  }) {
     getCurrentTime ??= () => clock.now();
   }
 
@@ -44,9 +46,12 @@ class HolidayCache {
   }
 
   Future<void> save(List<Holiday?> holidays, State state) {
-    HolidayCacheData cacheData = HolidayCacheData((b) => b
-      ..holidays = ListBuilder(holidays)
-      ..saved = getCurrentTime!());
+    HolidayCacheData cacheData = HolidayCacheData(
+      (b) =>
+          b
+            ..holidays = ListBuilder(holidays)
+            ..saved = getCurrentTime!(),
+    );
 
     cache.setString(getKeyString(state), cacheData.toJson());
 
@@ -54,7 +59,9 @@ class HolidayCache {
   }
 
   bool isCacheDataValid(
-      HolidayCacheData cacheData, Duration maxDurationTillLastSaved) {
+    HolidayCacheData cacheData,
+    Duration maxDurationTillLastSaved,
+  ) {
     return getCurrentTime!()
             .difference(cacheData.saved)
             .compareTo(maxDurationTillLastSaved) <

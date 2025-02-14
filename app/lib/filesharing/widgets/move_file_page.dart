@@ -18,19 +18,22 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'card_with_icon_and_text.dart';
 import 'filesharing_headline.dart';
 
-Future<void> openMoveFilePage(
-    {required BuildContext context, required CloudFile cloudFile}) async {
+Future<void> openMoveFilePage({
+  required BuildContext context,
+  required CloudFile cloudFile,
+}) async {
   await Navigator.push(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
-      builder: (context) => BlocProvider(
-        bloc: MoveFileBloc(
-          cloudFile: cloudFile,
-          fileSharingGateway:
-              BlocProvider.of<SharezoneContext>(context).api.fileSharing,
-        ),
-        child: const _MoveFilePage(),
-      ),
+      builder:
+          (context) => BlocProvider(
+            bloc: MoveFileBloc(
+              cloudFile: cloudFile,
+              fileSharingGateway:
+                  BlocProvider.of<SharezoneContext>(context).api.fileSharing,
+            ),
+            child: const _MoveFilePage(),
+          ),
     ),
   );
 }
@@ -74,10 +77,10 @@ class _MoveFileCurrentPath extends StatelessWidget {
               fileSharingData: fileSharingData,
               folders:
                   fileSharingData.getFolders(currentPath)?.values.toList() ??
-                      [],
+                  [],
               courseID: fileSharingData.courseID,
               path: currentPath,
-            )
+            ),
           ],
         );
       },
@@ -86,11 +89,12 @@ class _MoveFileCurrentPath extends StatelessWidget {
 }
 
 class _FolderList extends StatelessWidget {
-  const _FolderList(
-      {required this.folders,
-      required this.fileSharingData,
-      required this.courseID,
-      required this.path});
+  const _FolderList({
+    required this.folders,
+    required this.fileSharingData,
+    required this.courseID,
+    required this.path,
+  });
 
   final List<Folder> folders;
   final FileSharingData fileSharingData;
@@ -134,7 +138,8 @@ class _EmptyFoldersList extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(16, 4, 16, 16),
       child: Center(
         child: Text(
-            "Es befinden sich an diesem Ort keine weiteren Ordner... Navigiere zwischen den Ordnern über die Leiste oben."),
+          "Es befinden sich an diesem Ort keine weiteren Ordner... Navigiere zwischen den Ordnern über die Leiste oben.",
+        ),
       ),
     );
   }
@@ -189,12 +194,13 @@ class _MoveFileBottomBar extends StatelessWidget {
                 style: TextButton.styleFrom(
                   foregroundColor: Theme.of(context).primaryColor,
                 ),
-                onPressed: isMoveFileAllowed
-                    ? () {
-                        bloc.moveFileToNewPath();
-                        Navigator.pop(context);
-                      }
-                    : null,
+                onPressed:
+                    isMoveFileAllowed
+                        ? () {
+                          bloc.moveFileToNewPath();
+                          Navigator.pop(context);
+                        }
+                        : null,
                 child: Text("Verschieben".toUpperCase()),
               ),
               const SizedBox(width: 8),

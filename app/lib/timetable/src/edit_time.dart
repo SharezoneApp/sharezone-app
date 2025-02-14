@@ -34,20 +34,16 @@ class EditTimeField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 6,
-        right: 6,
-        top: 6,
-        bottom: 6,
-      ),
+      padding: const EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 6),
       child: Theme(
         data: Theme.of(context).copyWith(
           colorScheme: ColorScheme.fromSeed(
             primary: Theme.of(context).primaryColor,
             seedColor: Theme.of(context).primaryColor,
-            brightness: Theme.of(context).isDarkTheme
-                ? Brightness.dark
-                : Brightness.light,
+            brightness:
+                Theme.of(context).isDarkTheme
+                    ? Brightness.dark
+                    : Brightness.light,
           ),
         ),
         child: ValueListenableBuilder<bool>(
@@ -66,10 +62,13 @@ class EditTimeField extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
                     height: 18,
-                    child: time == null
-                        ? Container()
-                        : Text(time!.toTimeOfDay().format(context),
-                            style: const TextStyle(fontSize: 16.0)),
+                    child:
+                        time == null
+                            ? Container()
+                            : Text(
+                              time!.toTimeOfDay().format(context),
+                              style: const TextStyle(fontSize: 16.0),
+                            ),
                   ),
                 ),
               ),
@@ -109,11 +108,12 @@ Future<Time?> selectTime(
   if (PlatformCheck.isIOS) {
     return showDialog<TimeOfDay>(
       context: context,
-      builder: (context) => CupertinoTimerPickerWithTimeOfDay(
-        initialTime: initialTime?.toTimeOfDay(),
-        minutesInterval: minutesInterval!,
-        title: title,
-      ),
+      builder:
+          (context) => CupertinoTimerPickerWithTimeOfDay(
+            initialTime: initialTime?.toTimeOfDay(),
+            minutesInterval: minutesInterval!,
+            title: title,
+          ),
     ).then((timeOfDay) {
       if (timeOfDay == null) return null;
       return Time.fromTimeOfDay(timeOfDay);
@@ -132,9 +132,10 @@ Future<Time?> selectTime(
         child: child!,
       );
     },
-    initialEntryMode: PlatformCheck.isDesktopOrWeb
-        ? TimePickerEntryMode.input
-        : TimePickerEntryMode.dial,
+    initialEntryMode:
+        PlatformCheck.isDesktopOrWeb
+            ? TimePickerEntryMode.input
+            : TimePickerEntryMode.dial,
   ).then((timeOfDay) {
     if (timeOfDay == null) return null;
     return Time.fromTimeOfDay(timeOfDay);
@@ -192,10 +193,10 @@ class _CupertinoTimerPickerWithTimeOfDayState
               minutes: initialTime.minute,
             ),
             minuteInterval: widget.minutesInterval,
-            onTimerDurationChanged: (dur) =>
-                timeOfDay = timeOfDayFromDuration(dur),
+            onTimerDurationChanged:
+                (dur) => timeOfDay = timeOfDayFromDuration(dur),
             mode: CupertinoTimerPickerMode.hm,
-            backgroundColor: Theme.of(context).dialogBackgroundColor,
+            backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
           ),
         ),
       ),
@@ -207,7 +208,7 @@ class _CupertinoTimerPickerWithTimeOfDayState
           ),
           child: const Text("OK"),
           onPressed: () => Navigator.pop(context, timeOfDay),
-        )
+        ),
       ],
     );
   }

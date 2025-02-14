@@ -165,7 +165,8 @@ class SharezonePlusPageController extends ChangeNotifier {
   }
 
   bool _isTestFlightUser() {
-    final isAlphaOrBeta = kDevelopmentStageOrNull?.toLowerCase() == 'alpha' ||
+    final isAlphaOrBeta =
+        kDevelopmentStageOrNull?.toLowerCase() == 'alpha' ||
         kDevelopmentStageOrNull?.toLowerCase() == 'beta';
     return isAlphaOrBeta && PlatformCheck.isMacOsOrIOS;
   }
@@ -174,20 +175,20 @@ class SharezonePlusPageController extends ChangeNotifier {
     final platform = PlatformCheck.currentPlatform;
     return switch (selectedPurchasePeriod) {
       PurchasePeriod.lifetime => switch (platform) {
-          Platform.android => const ProductId('sz_plus_lifetime_play_store'),
-          Platform.iOS ||
-          Platform.macOS =>
-            const ProductId('sz_plus_lifetime_app_store'),
-          _ => throw UnsupportedError('Platform $platform is not supported.'),
-        },
+        Platform.android => const ProductId('sz_plus_lifetime_play_store'),
+        Platform.iOS ||
+        Platform.macOS => const ProductId('sz_plus_lifetime_app_store'),
+        _ => throw UnsupportedError('Platform $platform is not supported.'),
+      },
       PurchasePeriod.monthly => switch (platform) {
-          Platform.android =>
-            const ProductId('sz_plus_subscription_play_store:monthly'),
-          Platform.iOS ||
-          Platform.macOS =>
-            const ProductId('sz_plus_subscription_monthly_app_store'),
-          _ => throw UnsupportedError('Platform $platform is not supported.'),
-        },
+        Platform.android => const ProductId(
+          'sz_plus_subscription_play_store:monthly',
+        ),
+        Platform.iOS || Platform.macOS => const ProductId(
+          'sz_plus_subscription_monthly_app_store',
+        ),
+        _ => throw UnsupportedError('Platform $platform is not supported.'),
+      },
     };
   }
 
@@ -241,7 +242,8 @@ class SharezonePlusPageController extends ChangeNotifier {
       final source = _subscriptionService.getSource();
       if (source == null) {
         throw StateError(
-            '$SubscriptionSource was null, can not cancel subscription.');
+          '$SubscriptionSource was null, can not cancel subscription.',
+        );
       }
 
       if (!canCancelSubscription(source)) {

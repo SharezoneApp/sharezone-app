@@ -10,8 +10,5 @@ class UserTipKey {
   final bool defaultValue;
   final String key;
 
-  const UserTipKey({
-    required this.defaultValue,
-    required this.key,
-  });
+  const UserTipKey({required this.defaultValue, required this.key});
 }

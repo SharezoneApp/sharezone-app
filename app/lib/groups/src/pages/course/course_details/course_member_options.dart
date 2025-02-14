@@ -28,14 +28,15 @@ Future<void> showCourseMemberOptionsSheet({
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    builder: (context) => BlocProvider<CourseDetailsBloc>(
-      bloc: bloc,
-      child: _CourseMemberOptionsSheet(
-        initialData: memberData,
-        courseID: courseID,
-        membersDataList: membersDataList,
-      ),
-    ),
+    builder:
+        (context) => BlocProvider<CourseDetailsBloc>(
+          bloc: bloc,
+          child: _CourseMemberOptionsSheet(
+            initialData: memberData,
+            courseID: courseID,
+            membersDataList: membersDataList,
+          ),
+        ),
   );
 }
 
@@ -81,7 +82,9 @@ class _CourseMemberOptionsSheet extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       MemberTile(
-                          memberData: memberData, withReportOption: true),
+                        memberData: memberData,
+                        withReportOption: true,
+                      ),
                       const Divider(height: 0),
                       if (!isAdmin) _NoPermissions(),
                       if (isOnlyAdmin) _OnlyAdminHint(),
@@ -107,13 +110,14 @@ class _CourseMemberOptionsSheet extends StatelessWidget {
                       const Divider(height: 0),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: memberData.id.toString() == api.uID
-                            ? _LeaveCourse()
-                            : _KickUser(
-                                memberID: memberData.id.toString(),
-                                isAdmin: isAdmin,
-                              ),
-                      )
+                        child:
+                            memberData.id.toString() == api.uID
+                                ? _LeaveCourse()
+                                : _KickUser(
+                                  memberID: memberData.id.toString(),
+                                  isAdmin: isAdmin,
+                                ),
+                      ),
                     ],
                   ),
                 ),
@@ -130,8 +134,9 @@ class _AloneInCourse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24)
-          .add(const EdgeInsets.only(top: 12)),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24,
+      ).add(const EdgeInsets.only(top: 12)),
       child: const Text(
         "Da du der einzige im Kurs bist, kannst du deine Rolle nicht bearbeiten.",
         style: TextStyle(color: Colors.grey, fontSize: 11),
@@ -145,8 +150,9 @@ class _NoPermissions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24)
-          .add(const EdgeInsets.only(top: 12)),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24,
+      ).add(const EdgeInsets.only(top: 12)),
       child: const Text(
         "Da du kein Admin bist, hast du keine Rechte, um andere Mitglieder zu verwalten.",
         style: TextStyle(color: Colors.grey, fontSize: 11),
@@ -160,8 +166,9 @@ class _OnlyAdminHint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24)
-          .add(const EdgeInsets.only(top: 12)),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24,
+      ).add(const EdgeInsets.only(top: 12)),
       child: const Text(
         "Du bist der einzige Admin in diesem Kurs. Daher kannst du dir keine Rechte entziehen.",
         style: TextStyle(color: Colors.grey, fontSize: 11),
@@ -176,9 +183,7 @@ class _LeaveCourse extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
     return TextButton(
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.red,
-      ),
+      style: TextButton.styleFrom(foregroundColor: Colors.red),
       onPressed: () {
         Navigator.pop(context);
         Navigator.pop(context);
@@ -191,10 +196,7 @@ class _LeaveCourse extends StatelessWidget {
 }
 
 class _KickUser extends StatelessWidget {
-  const _KickUser({
-    required this.memberID,
-    required this.isAdmin,
-  });
+  const _KickUser({required this.memberID, required this.isAdmin});
 
   final String memberID;
   final bool isAdmin;
@@ -203,17 +205,17 @@ class _KickUser extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
     return TextButton(
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.red,
-      ),
-      onPressed: isAdmin
-          ? () {
-              Navigator.pop(context);
-              Future<AppFunctionsResult<bool>> kickUser =
-                  bloc.kickMember(memberID);
-              showAppFunctionStateDialog(context, kickUser);
-            }
-          : null,
+      style: TextButton.styleFrom(foregroundColor: Colors.red),
+      onPressed:
+          isAdmin
+              ? () {
+                Navigator.pop(context);
+                Future<AppFunctionsResult<bool>> kickUser = bloc.kickMember(
+                  memberID,
+                );
+                showAppFunctionStateDialog(context, kickUser);
+              }
+              : null,
       child: const Text("AUS DEM KURS KICKEN"),
     );
   }
@@ -236,20 +238,23 @@ class _RoleTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
     return RadioListTile<MemberRole>(
-        title: Text(memberRoleAsString[role]!),
-        subtitle: !isEmptyOrNull(description) ? Text(description!) : null,
-        groupValue: memberData.role == MemberRole.owner
-            ? MemberRole.admin
-            : memberData.role,
-        value: role,
-        onChanged: enabled
-            ? (newRole) {
+      title: Text(memberRoleAsString[role]!),
+      subtitle: !isEmptyOrNull(description) ? Text(description!) : null,
+      groupValue:
+          memberData.role == MemberRole.owner
+              ? MemberRole.admin
+              : memberData.role,
+      value: role,
+      onChanged:
+          enabled
+              ? (newRole) {
                 if (newRole == null) return;
                 log("PERMISSION ACCEPTED");
-                Future<AppFunctionsResult<bool>> updateFuture =
-                    bloc.updateMemberRole(memberData.id, newRole);
+                Future<AppFunctionsResult<bool>> updateFuture = bloc
+                    .updateMemberRole(memberData.id, newRole);
                 showAppFunctionStateDialog(context, updateFuture);
               }
-            : null);
+              : null,
+    );
   }
 }

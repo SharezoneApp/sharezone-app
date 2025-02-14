@@ -40,10 +40,10 @@ class WeightSettings extends StatelessWidget {
           subtitle: Text(
             'Lege die Gewichtung der Notentypen für die Berechnung der Fachnote fest.',
             style: TextStyle(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.5)),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.5),
+            ),
           ),
           trailing: IconButton(
             tooltip: 'Wie wird die Note berechnet?',
@@ -62,7 +62,7 @@ class WeightSettings extends StatelessWidget {
         _AddSubjectWeight(
           selectableGradingTypes: selectableGradingTypes,
           onSetGradeWeight: onSetGradeWeight,
-        )
+        ),
       ],
     );
   }
@@ -84,8 +84,9 @@ class _GradeTypeWeight extends StatelessWidget {
   GradeType? getGradeType(BuildContext context) {
     final getPossibleGrades =
         context.read<GradesService>().getPossibleGradeTypes();
-    return getPossibleGrades
-        .firstWhereOrNull((element) => element.id == gradeTypeId);
+    return getPossibleGrades.firstWhereOrNull(
+      (element) => element.id == gradeTypeId,
+    );
   }
 
   @override
@@ -97,9 +98,8 @@ class _GradeTypeWeight extends StatelessWidget {
       onTap: () async {
         final newValue = await showDialog<double>(
           context: context,
-          builder: (context) => _WeightTextField(
-            initialValue: weight.asPercentage,
-          ),
+          builder:
+              (context) => _WeightTextField(initialValue: weight.asPercentage),
         );
 
         if (newValue != null && context.mounted) {
@@ -108,27 +108,19 @@ class _GradeTypeWeight extends StatelessWidget {
       },
       leading: IconButton(
         tooltip: 'Entfernen',
-        icon: const Icon(
-          Icons.remove_circle_outline,
-          color: Colors.red,
-        ),
+        icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
         onPressed: () => onRemoveGradeType(gradeTypeId),
       ),
       trailing: Text(
         '${weight.asPercentage}%',
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-        ),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
       ),
     );
   }
 }
 
 class _WeightTextField extends StatefulWidget {
-  const _WeightTextField({
-    required this.initialValue,
-  });
+  const _WeightTextField({required this.initialValue});
 
   final num initialValue;
 
@@ -166,10 +158,7 @@ class _WeightTextFieldState extends State<_WeightTextField> {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
       content: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 400,
-          minWidth: 250,
-        ),
+        constraints: const BoxConstraints(maxWidth: 400, minWidth: 250),
         child: PrefilledTextField(
           autofocus: true,
           prefilledText: '${widget.initialValue}',

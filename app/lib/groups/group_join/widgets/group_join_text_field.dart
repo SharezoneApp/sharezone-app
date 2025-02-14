@@ -57,10 +57,12 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
             child: Theme(
               data: Theme.of(context).copyWith(
                 primaryColor: Colors.white,
-                colorScheme: Theme.of(context).isDarkTheme
-                    ? null
-                    : ColorScheme.fromSwatch()
-                        .copyWith(secondary: Colors.white),
+                colorScheme:
+                    Theme.of(context).isDarkTheme
+                        ? null
+                        : ColorScheme.fromSwatch().copyWith(
+                          secondary: Colors.white,
+                        ),
               ),
               child: TextField(
                 maxLength: 6,
@@ -79,18 +81,16 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                 decoration: InputDecoration(
                   labelText: 'Sharecode',
                   labelStyle: const TextStyle(color: Colors.white),
-                  focusedBorder: Theme.of(context)
-                      .inputDecorationTheme
-                      .focusedBorder
-                      ?.copyWith(
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
+                  focusedBorder: Theme.of(
+                    context,
+                  ).inputDecorationTheme.focusedBorder?.copyWith(
+                    borderSide: const BorderSide(color: Colors.white),
+                  ),
                   hintText: "z.B. Qb32vF",
-                  hintStyle: Theme.of(context).isDarkTheme
-                      ? null
-                      : const TextStyle(color: Colors.black54),
+                  hintStyle:
+                      Theme.of(context).isDarkTheme
+                          ? null
+                          : const TextStyle(color: Colors.black54),
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(right: 6),
                     child: IconButton(
@@ -101,8 +101,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                         final qrCode = await _scanQRCode();
                         if (_isValidQrCode(qrCode)) {
                           bloc.enterValue(qrCode);
-                          final groupJoinResultDialog =
-                              GroupJoinResultDialog(bloc);
+                          final groupJoinResultDialog = GroupJoinResultDialog(
+                            bloc,
+                          );
                           if (context.mounted) {
                             groupJoinResultDialog.show(context);
                           }
@@ -135,8 +136,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
     return showQrCodeScanner(
       context,
       title: const Text('QR-Code scannen'),
-      description:
-          const Text('Scanne einen QR-Code, um einer Gruppe beizutreten.'),
+      description: const Text(
+        'Scanne einen QR-Code, um einer Gruppe beizutreten.',
+      ),
       settings: const RouteSettings(name: 'scan-sharecode-qr-code-page'),
     );
   }
@@ -157,7 +159,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
   }
 
   Future<void> showCopySharecodeFromClipboardDialog(
-      Sharecode sharecode, FocusNode focusNode) async {
+    Sharecode sharecode,
+    FocusNode focusNode,
+  ) async {
     final bloc = BlocProvider.of<GroupJoinBloc>(context);
 
     final result = await showLeftRightAdaptiveDialog<bool>(
@@ -165,11 +169,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
       defaultValue: false,
       title: "Sharecode einfügen",
       content: Text(
-          'Möchtest du den Sharecode "${sharecode.value}" aus deiner Zwischenablage übernehmen?'),
-      left: const AdaptiveDialogAction(
-        title: 'Nein',
-        popResult: false,
+        'Möchtest du den Sharecode "${sharecode.value}" aus deiner Zwischenablage übernehmen?',
       ),
+      left: const AdaptiveDialogAction(title: 'Nein', popResult: false),
       right: const AdaptiveDialogAction(
         title: 'Ja',
         popResult: true,

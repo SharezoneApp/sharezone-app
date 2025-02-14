@@ -33,21 +33,22 @@ class ModalFloatingActionButton extends StatelessWidget {
     return Semantics(
       label: tooltip,
       button: true,
-      child: dimensions.isDesktopModus
-          ? FloatingActionButton.extended(
-              backgroundColor: backgroundColor,
-              label: Text(label ?? tooltip),
-              icon: icon,
-              onPressed: onPressed,
-              heroTag: heroTag,
-            )
-          : FloatingActionButton(
-              onPressed: onPressed,
-              backgroundColor: backgroundColor,
-              heroTag: heroTag,
-              tooltip: tooltip,
-              child: icon,
-            ),
+      child:
+          dimensions.isDesktopModus
+              ? FloatingActionButton.extended(
+                backgroundColor: backgroundColor,
+                label: Text(label ?? tooltip),
+                icon: icon,
+                onPressed: onPressed,
+                heroTag: heroTag,
+              )
+              : FloatingActionButton(
+                onPressed: onPressed,
+                backgroundColor: backgroundColor,
+                heroTag: heroTag,
+                tooltip: tooltip,
+                child: icon,
+              ),
     );
   }
 }

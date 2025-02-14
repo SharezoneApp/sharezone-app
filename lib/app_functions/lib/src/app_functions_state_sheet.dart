@@ -12,14 +12,17 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-Future<AppFunctionsResult<bool>> showAppFunctionStateSheet(BuildContext context,
-    Future<AppFunctionsResult<bool>> appFunctionsResult) async {
+Future<AppFunctionsResult<bool>> showAppFunctionStateSheet(
+  BuildContext context,
+  Future<AppFunctionsResult<bool>> appFunctionsResult,
+) async {
   final stateContentStream = _mapAppFunctionToStateContent(appFunctionsResult);
   final stateSheet = StateSheet(stateContentStream);
   stateSheet.showSheetAutoPop(
     context,
-    future: appFunctionsResult
-        .then((result) => result.hasData && result.data == true),
+    future: appFunctionsResult.then(
+      (result) => result.hasData && result.data == true,
+    ),
     delay: const Duration(milliseconds: 350),
   );
 
@@ -29,9 +32,11 @@ Future<AppFunctionsResult<bool>> showAppFunctionStateSheet(BuildContext context,
 }
 
 Stream<StateSheetContent> _mapAppFunctionToStateContent(
-    Future<AppFunctionsResult<bool>> appFunctionsResult) {
-  final stateContent =
-      BehaviorSubject<StateSheetContent>.seeded(stateSheetContentLoading);
+  Future<AppFunctionsResult<bool>> appFunctionsResult,
+) {
+  final stateContent = BehaviorSubject<StateSheetContent>.seeded(
+    stateSheetContentLoading,
+  );
   appFunctionsResult.then((result) {
     if (result.hasData) {
       final boolean = result.data;

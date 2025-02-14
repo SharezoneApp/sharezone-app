@@ -21,29 +21,34 @@ void main() {
     });
 
     // Ich weiß nicht wie ich dynamicLinks.onLink stubben kann, daher gehen wir einfach davon aus, dass bei beiden Methoden das selbe gemacht wird.
-    test('gibt keinen EinkommendenLink aus, wenn initialLink null emittiert.',
-        () async {
-      dynamicLinks.getInitialDataReturn = null;
-      expect(bloc.einkommendeLinks, neverEmits(anything));
-      bloc.dispose();
-    });
-
-    test('gibt keinen EinkommendenLink aus, wenn onLink null emittiert.',
-        () async {
-      dynamicLinks.onLinkSuccessReturn = null;
-      expect(bloc.einkommendeLinks, neverEmits(anything));
-      bloc.dispose();
-    });
+    test(
+      'gibt keinen EinkommendenLink aus, wenn initialLink null emittiert.',
+      () async {
+        dynamicLinks.getInitialDataReturn = null;
+        expect(bloc.einkommendeLinks, neverEmits(anything));
+        bloc.dispose();
+      },
+    );
 
     test(
-        'gibt einen EinkommendenLink mit typ = "" und keinen Zusatzattributen aus, linkData.link null ist.',
-        () async {
-      final android = DynamicLinkDataAndroid(null, null);
-      final ios = DynamicLinkDataIOS(null);
-      dynamicLinks.getInitialDataReturn = DynamicLinkData(null, android, ios);
+      'gibt keinen EinkommendenLink aus, wenn onLink null emittiert.',
+      () async {
+        dynamicLinks.onLinkSuccessReturn = null;
+        expect(bloc.einkommendeLinks, neverEmits(anything));
+        bloc.dispose();
+      },
+    );
 
-      await expectBlocEmitsEmptyLink(bloc);
-    });
+    test(
+      'gibt einen EinkommendenLink mit typ = "" und keinen Zusatzattributen aus, linkData.link null ist.',
+      () async {
+        final android = DynamicLinkDataAndroid(null, null);
+        final ios = DynamicLinkDataIOS(null);
+        dynamicLinks.getInitialDataReturn = DynamicLinkData(null, android, ios);
+
+        await expectBlocEmitsEmptyLink(bloc);
+      },
+    );
   });
 }
 

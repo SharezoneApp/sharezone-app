@@ -29,71 +29,82 @@ final v2TocDocumentSections = [
   section('1-wichtige-begriffe', '1. Wichtige Begriffe'),
   section('2-geltungsbereich', '2. Geltungsbereich'),
   section(
-      '3-verantwortlichkeit-und-kontakt', '3. Verantwortlichkeit und Kontakt'),
-  section('4-hosting-backend-infrastruktur-und-speicherort-fuer-eure-daten',
-      '4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten'),
-  section(
-    '5-deine-rechte',
-    '5. Deine Rechte',
-    [
-      section('a-recht-auf-auskunft', 'a. Recht auf Auskunft'),
-      section('b-recht-auf-berichtigung', 'b. Recht auf Berichtigung'),
-      section('c-recht-auf-loeschung', 'c. Recht auf Löschung'),
-      section('d-recht-auf-einschraenkung-der-verarbeitung',
-          'd. Recht auf Einschränkung der Verarbeitung'),
-      section('e-recht-auf-widerspruch', 'e. Recht auf Widerspruch'),
-      section('f-recht-auf-widerruf', 'f. Recht auf Widerruf'),
-      section('g-recht-auf-datenuebertragbarkeit',
-          'g. Recht auf Datenübertragbarkeit'),
-      section('h-recht-auf-beschwerde', 'h. Recht auf Beschwerde'),
-    ],
+    '3-verantwortlichkeit-und-kontakt',
+    '3. Verantwortlichkeit und Kontakt',
   ),
+  section(
+    '4-hosting-backend-infrastruktur-und-speicherort-fuer-eure-daten',
+    '4. Hosting, Backend-Infrastruktur und Speicherort für eure Daten',
+  ),
+  section('5-deine-rechte', '5. Deine Rechte', [
+    section('a-recht-auf-auskunft', 'a. Recht auf Auskunft'),
+    section('b-recht-auf-berichtigung', 'b. Recht auf Berichtigung'),
+    section('c-recht-auf-loeschung', 'c. Recht auf Löschung'),
+    section(
+      'd-recht-auf-einschraenkung-der-verarbeitung',
+      'd. Recht auf Einschränkung der Verarbeitung',
+    ),
+    section('e-recht-auf-widerspruch', 'e. Recht auf Widerspruch'),
+    section('f-recht-auf-widerruf', 'f. Recht auf Widerruf'),
+    section(
+      'g-recht-auf-datenuebertragbarkeit',
+      'g. Recht auf Datenübertragbarkeit',
+    ),
+    section('h-recht-auf-beschwerde', 'h. Recht auf Beschwerde'),
+  ]),
   section('6-eure-kontaktaufnahme', '6. Eure Kontaktaufnahme'),
   section('7-unser-umgang-mit-euren-daten', '7. Unser Umgang mit euren Daten'),
-  section(
-    '8-account-nickname-und-passwort',
-    '8. Account, Nickname und Passwort',
-    [
-      section('a-registrierung-mittels-anonymen-accounts',
-          'a. Registrierung mittels anonymen Accounts'),
-      section(
-          'b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-aelter',
-          'b. Registrierung mit E-Mail-Adresse & Passwort oder Google/Apple Sign In ab einem Alter von 16 Jahren und älter'),
-    ],
-  ),
+  section('8-account-nickname-und-passwort', '8. Account, Nickname und Passwort', [
+    section(
+      'a-registrierung-mittels-anonymen-accounts',
+      'a. Registrierung mittels anonymen Accounts',
+    ),
+    section(
+      'b-registrierung-mit-e-mail-adresse--passwort-oder-googleapple-sign-in-ab-einem-alter-von-16-jahren-und-aelter',
+      'b. Registrierung mit E-Mail-Adresse & Passwort oder Google/Apple Sign In ab einem Alter von 16 Jahren und älter',
+    ),
+  ]),
   section('9-verarbeitung-der-ip-adresse', '9. Verarbeitung der IP-Adresse'),
-  section('10-speicherdauer-und-speicherfristen',
-      '10. Speicherdauer und Speicherfristen'),
-  section('11-verarbeitung-des-gewaehlten-account-typs-und-des-bundeslandes',
-      '11. Verarbeitung des gewählten Account-Typs und des Bundeslandes'),
-  section('12-anonyme-statistische-auswertung-der-app-nutzung',
-      '12. Anonyme statistische Auswertung der App-Nutzung'),
-  section('13-push-nachrichten', '13. Push-Nachrichten'),
   section(
-    '14-instance-id',
-    '14. Instance ID',
-    [
-      section('firebase-cloud-messaging', 'Firebase Cloud Messaging'),
-      section('firebase-crashlytics', 'Firebase Crashlytics'),
-      section(
-          'firebase-performance-monitoring', 'Firebase Performance Monitoring'),
-      section('firebase-predictions', 'Firebase Predictions'),
-      section('firebase-remote-config', 'Firebase Remote Config'),
-      section('googlefirebase-analytics', 'Google/Firebase Analytics'),
-    ],
+    '10-speicherdauer-und-speicherfristen',
+    '10. Speicherdauer und Speicherfristen',
   ),
+  section(
+    '11-verarbeitung-des-gewaehlten-account-typs-und-des-bundeslandes',
+    '11. Verarbeitung des gewählten Account-Typs und des Bundeslandes',
+  ),
+  section(
+    '12-anonyme-statistische-auswertung-der-app-nutzung',
+    '12. Anonyme statistische Auswertung der App-Nutzung',
+  ),
+  section('13-push-nachrichten', '13. Push-Nachrichten'),
+  section('14-instance-id', '14. Instance ID', [
+    section('firebase-cloud-messaging', 'Firebase Cloud Messaging'),
+    section('firebase-crashlytics', 'Firebase Crashlytics'),
+    section(
+      'firebase-performance-monitoring',
+      'Firebase Performance Monitoring',
+    ),
+    section('firebase-predictions', 'Firebase Predictions'),
+    section('firebase-remote-config', 'Firebase Remote Config'),
+    section('googlefirebase-analytics', 'Google/Firebase Analytics'),
+  ]),
   section('15-zahlungsdienstleister', '15. Zahlungsdienstleister', [
     section('a-google-play-store-android', 'a. Google Play Store (Android)'),
     section('b-apple-app-store-ios--macos', 'b. Apple App Store (iOS & macOS)'),
     section('c-stripe-web', 'c. Stripe (Web)'),
-    section('d-revenuecat-ios-android-macos',
-        'd. RevenueCat (iOS, Android, macOS)'),
+    section(
+      'd-revenuecat-ios-android-macos',
+      'd. RevenueCat (iOS, Android, macOS)',
+    ),
   ]),
   section('16-kommunikationsdienstleister', '16. Kommunikationsdienstleister', [
     section('a-scaleway', 'a. Scaleway'),
   ]),
-  section('17-empfaenger-oder-kategorien-von-empfaengern',
-      '17. Empfänger oder Kategorien von Empfängern'),
+  section(
+    '17-empfaenger-oder-kategorien-von-empfaengern',
+    '17. Empfänger oder Kategorien von Empfängern',
+  ),
   section('18-ssltls-verschluesselung', '18. SSL/TLS-Verschlüsselung'),
   section(
     '19-datenuebertragung-in-drittlaender-ausserhalb-der-eu',
@@ -104,16 +115,17 @@ final v2TocDocumentSections = [
     ],
   ),
   section('20-datenschutzbeauftragter', '20. Datenschutzbeauftragter'),
-  section('21-vorbehalt-der-aenderung-dieser-informationen',
-      '21. Vorbehalt der Änderung dieser Informationen'),
+  section(
+    '21-vorbehalt-der-aenderung-dieser-informationen',
+    '21. Vorbehalt der Änderung dieser Informationen',
+  ),
 ];
 
 DocumentSection section(
   String id,
   String name, [
   List<DocumentSection> subsections = const [],
-]) =>
-    DocumentSection(DocumentSectionId(id), name, subsections.toIList());
+]) => DocumentSection(DocumentSectionId(id), name, subsections.toIList());
 
 const v2MarkdownPrivacyPolicy = """
 # Informationen über die Verarbeitung personenbezogener Daten

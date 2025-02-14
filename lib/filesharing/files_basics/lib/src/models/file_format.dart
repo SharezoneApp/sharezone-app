@@ -8,26 +8,19 @@
 
 import 'package:files_basics/local_file.dart';
 
-enum FileFormat {
-  unknown,
-  pdf,
-  text,
-  image,
-  video,
-  zip,
-  excel,
-  audio,
-}
+enum FileFormat { unknown, pdf, text, image, video, zip, excel, audio }
 
 FileFormat fileFormatEnumFromFilenameWithExtension(
-    String filenameWithExtension) {
+  String filenameWithExtension,
+) {
   final ff = FileUtils.getExtension(filenameWithExtension);
   return FileUtils.getFileFormatFromExtension(ff);
 }
 
 FileFormat fileTypeEnumFromString(String data) {
-  return FileFormat.values
-      .firstWhere((e) => e.toString() == 'FileFormat.$data');
+  return FileFormat.values.firstWhere(
+    (e) => e.toString() == 'FileFormat.$data',
+  );
 }
 
 String fileTypeEnumToString(FileFormat fileType) {
@@ -90,7 +83,9 @@ class FileUtils {
       return FileFormat.pdf;
       // FILEFORMAT.TEXT
     } else if (_mimeTypeContainsAnyOfTheseExtensions(
-        mimeType, extensionsTEXT)) {
+      mimeType,
+      extensionsTEXT,
+    )) {
       return FileFormat.text;
     } else if (mimeTypesIMAGE.contains(mimeTypeAsString) ||
         _mimeTypeContainsAnyOfTheseExtensions(mimeType, extensionsIMAGE) ||
@@ -116,7 +111,9 @@ class FileUtils {
   }
 
   static bool _mimeTypeContainsAnyOfTheseExtensions(
-      MimeType mimeType, List<String> extensions) {
+    MimeType mimeType,
+    List<String> extensions,
+  ) {
     final mimeTypeString = mimeType.toData();
     for (final extensionString in extensions) {
       if (mimeTypeString.contains(extensionString)) {

@@ -20,11 +20,9 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
   final UserEditBlocGateway _gateway;
   final String initialName;
 
-  UserEditPageBloc({
-    required UserEditBlocGateway gateway,
-    required String name,
-  })  : _gateway = gateway,
-        initialName = name {
+  UserEditPageBloc({required UserEditBlocGateway gateway, required String name})
+    : _gateway = gateway,
+      initialName = name {
     _nameSubject.sink.add(name);
   }
 
@@ -66,9 +64,7 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
 class UserInput {
   final String name;
 
-  const UserInput({
-    required this.name,
-  });
+  const UserInput({required this.name});
 }
 
 class UserEditBlocGateway {
@@ -78,10 +74,12 @@ class UserEditBlocGateway {
   UserEditBlocGateway(this._gateway, this._user);
 
   Future<AppFunctionsResult<bool>> edit(UserInput userInput) {
-    return _gateway.updateUser(_user.copyWith(
-      name: userInput.name,
-      abbreviation: _generateAbbreviation(userInput.name),
-    ));
+    return _gateway.updateUser(
+      _user.copyWith(
+        name: userInput.name,
+        abbreviation: _generateAbbreviation(userInput.name),
+      ),
+    );
   }
 }
 

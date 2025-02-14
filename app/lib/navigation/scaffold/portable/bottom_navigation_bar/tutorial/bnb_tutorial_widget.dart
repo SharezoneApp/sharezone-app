@@ -12,9 +12,7 @@ part of '../extendable_bottom_navigation_bar.dart';
 /// the BNB it uses the real BNB widget. So if the design / order of times
 /// changes, it will also directly changed in the tutorial.
 class _BnbTutorial extends StatefulWidget {
-  const _BnbTutorial({
-    required this.animationController,
-  });
+  const _BnbTutorial({required this.animationController});
 
   final AnimationController animationController;
 
@@ -52,59 +50,62 @@ class _BnbTutorialState extends State<_BnbTutorial> {
       top: 0,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 400),
-        child: isTutorialVisible
-            ? AnimatedBuilder(
-                animation: widget.animationController,
-                builder: (context, child) {
-                  final backgroundHeight = context.mediaQuerySize.height -
-                      (80 +
-                          (widget.animationController.value * 140) +
-                          context.mediaQueryViewPadding.bottom);
-                  return Semantics(
-                    label:
-                        'Schaubild: Wie die Navigationsleiste nach oben gezogen wird, um weitere Navigationselemente zu zeigen.',
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: backgroundHeight,
-                          width: context.mediaQuerySize.width,
-                          color: Colors.black.withValues(alpha: 0.65),
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  const _BnBTutorialDescription(),
-                                  const SizedBox(height: 68),
-                                  _DemoBnb(
-                                    onTriedToSwipeUp: () => setState(
-                                      () => triedToSwipedUpDemoBnb = true,
+        child:
+            isTutorialVisible
+                ? AnimatedBuilder(
+                  animation: widget.animationController,
+                  builder: (context, child) {
+                    final backgroundHeight =
+                        context.mediaQuerySize.height -
+                        (80 +
+                            (widget.animationController.value * 140) +
+                            context.mediaQueryViewPadding.bottom);
+                    return Semantics(
+                      label:
+                          'Schaubild: Wie die Navigationsleiste nach oben gezogen wird, um weitere Navigationselemente zu zeigen.',
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: backgroundHeight,
+                            width: context.mediaQuerySize.width,
+                            color: Colors.black.withValues(alpha: 0.65),
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const _BnBTutorialDescription(),
+                                    const SizedBox(height: 68),
+                                    _DemoBnb(
+                                      onTriedToSwipeUp:
+                                          () => setState(
+                                            () => triedToSwipedUpDemoBnb = true,
+                                          ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 48),
-                                  _IconDownArrow(
-                                    number: triedToSwipedUpDemoBnb ? 3 : 1,
-                                  ),
-                                  const SizedBox(height: 32),
-                                ],
+                                    const SizedBox(height: 48),
+                                    _IconDownArrow(
+                                      number: triedToSwipedUpDemoBnb ? 3 : 1,
+                                    ),
+                                    const SizedBox(height: 32),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        _MovingFinger(height: backgroundHeight),
-                        _SkipTutorialButton(
-                          onTap: () {
-                            bloc.markTutorialAsSkipped();
-                            hideBnbTutorial();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              )
-            : Container(),
+                          _MovingFinger(height: backgroundHeight),
+                          _SkipTutorialButton(
+                            onTap: () {
+                              bloc.markTutorialAsSkipped();
+                              hideBnbTutorial();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                )
+                : Container(),
       ),
     );
   }
@@ -130,11 +131,7 @@ class _IconDownArrow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           for (var i = 0; i < number; i++)
-            const Icon(
-              Icons.arrow_downward,
-              color: Colors.white,
-              size: 40,
-            ),
+            const Icon(Icons.arrow_downward, color: Colors.white, size: 40),
         ],
       ),
     );
@@ -142,9 +139,7 @@ class _IconDownArrow extends StatelessWidget {
 }
 
 class _SkipTutorialButton extends StatelessWidget {
-  const _SkipTutorialButton({
-    required this.onTap,
-  });
+  const _SkipTutorialButton({required this.onTap});
 
   final VoidCallback onTap;
 
@@ -180,10 +175,7 @@ class _BnBTutorialDescription extends StatelessWidget {
           padding: EdgeInsets.all(12),
           child: Text(
             "Ziehe die untere Navigationsleiste nach oben, um auf weitere Funktionen zuzugreifen.",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-            ),
+            style: TextStyle(color: Colors.black, fontSize: 16),
             textAlign: TextAlign.center,
           ),
         ),
@@ -193,9 +185,7 @@ class _BnBTutorialDescription extends StatelessWidget {
 }
 
 class _DemoBnb extends StatelessWidget {
-  const _DemoBnb({
-    required this.onTriedToSwipeUp,
-  });
+  const _DemoBnb({required this.onTriedToSwipeUp});
 
   /// It can happens that a user tries to swipe up in the [_DemoBnb]. If this
   /// happens, [onTriedToSwipeUp] will be called to display further hints for
@@ -218,12 +208,7 @@ class _DemoBnb extends StatelessWidget {
             child: const Padding(
               padding: EdgeInsets.fromLTRB(12, 6, 12, 12),
               child: IgnorePointer(
-                child: Column(
-                  children: [
-                    _SwipeUpLine(),
-                    FirstNavigationRow(),
-                  ],
-                ),
+                child: Column(children: [_SwipeUpLine(), FirstNavigationRow()]),
               ),
             ),
           ),
@@ -238,9 +223,7 @@ class _DemoBnb extends StatelessWidget {
 }
 
 class _MovingFinger extends StatelessWidget {
-  const _MovingFinger({
-    required this.height,
-  });
+  const _MovingFinger({required this.height});
 
   final double height;
 
@@ -258,15 +241,16 @@ class _MovingFinger extends StatelessWidget {
             tween: Tween<double>(begin: 0, end: -50),
             duration: const Duration(seconds: 2),
             curve: Curves.ease,
-            builder: (context, anim, child) => Transform.translate(
-              offset: Offset(0, anim.value),
-              child: ExcludeSemantics(
-                child: PlatformSvg.asset(
-                  'assets/icons/finger.svg',
-                  height: 50,
+            builder:
+                (context, anim, child) => Transform.translate(
+                  offset: Offset(0, anim.value),
+                  child: ExcludeSemantics(
+                    child: PlatformSvg.asset(
+                      'assets/icons/finger.svg',
+                      height: 50,
+                    ),
+                  ),
                 ),
-              ),
-            ),
             repeats: 999999,
           ),
         ),

@@ -73,9 +73,7 @@ class _OnboardingChangeNameState extends State<_OnboardingChangeNameLoaded> {
         top: Container(),
         title:
             'Welcher Name soll anderen Schülern, Lehrkräften und Eltern angezeigt werden?',
-        children: [
-          _TextFieldSubmitButton(initialName: widget.user!.name),
-        ],
+        children: [_TextFieldSubmitButton(initialName: widget.user!.name)],
       ),
     );
   }
@@ -122,19 +120,21 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
               padding: const EdgeInsets.only(bottom: 40),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: isLoading
-                    ? const Padding(
-                        padding: EdgeInsets.only(left: 8),
-                        child: LoadingCircle(),
-                      )
-                    : Padding(
-                        padding: EdgeInsets.only(
-                            bottom: PlatformCheck.isDesktopOrWeb ? 0 : 12),
-                        child: ContinueRoundButton(
-                          tooltip: 'Weiter',
-                          onTap: () => _submit(context),
+                child:
+                    isLoading
+                        ? const Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: LoadingCircle(),
+                        )
+                        : Padding(
+                          padding: EdgeInsets.only(
+                            bottom: PlatformCheck.isDesktopOrWeb ? 0 : 12,
+                          ),
+                          child: ContinueRoundButton(
+                            tooltip: 'Weiter',
+                            onTap: () => _submit(context),
+                          ),
                         ),
-                      ),
               ),
             ),
           ],
@@ -185,7 +185,9 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
   /// Falls Nutzer noch die Push-Nachrichten aktivieren muss, wird die [TurnOnNotifications]
   /// angezeigt. Falls nicht, wird das normale GroupOnboarding aufgerufen.
   Future<void> _navigateToNextPage(
-      BuildContext context, GroupOnboardingStatus status) async {
+    BuildContext context,
+    GroupOnboardingStatus status,
+  ) async {
     final notificationsPermission = context.read<NotificationsPermission>();
     final isNeededToRequestNotificationsPermission =
         await notificationsPermission.isRequiredToRequestPermission();
@@ -196,7 +198,8 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
     // package. In the future, we need to show a tutorial how the user can
     // enable the notifications. See:
     // https://github.com/SharezoneApp/sharezone-app/issues/807
-    final showNotificationsRequestPage = !PlatformCheck.isMacOS &&
+    final showNotificationsRequestPage =
+        !PlatformCheck.isMacOS &&
         isNeededToRequestNotificationsPermission &&
         isFirebaseMessagingSupported();
 

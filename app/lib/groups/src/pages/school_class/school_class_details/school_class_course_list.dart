@@ -18,10 +18,7 @@ import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dar
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SchoolClassCoursesList extends StatelessWidget {
-  const SchoolClassCoursesList({
-    super.key,
-    required this.schoolClassID,
-  });
+  const SchoolClassCoursesList({super.key, required this.schoolClassID});
 
   final String schoolClassID;
 
@@ -81,7 +78,8 @@ class _List extends StatelessWidget {
         if (courses.isEmpty)
           const ListTile(
             title: Text(
-                "Es wurden noch keine Kurse zu dieser Klasse hinzugefügt.\n\nErstelle jetzt einen Kurs, der mit der Klasse verknüpft ist."),
+              "Es wurden noch keine Kurse zu dieser Klasse hinzugefügt.\n\nErstelle jetzt einen Kurs, der mit der Klasse verknüpft ist.",
+            ),
           ),
         if (isAdmin) _AddExistingCourse(schoolClassId),
         if (isAdmin) _AddNewCourse(schoolClassId),
@@ -91,11 +89,7 @@ class _List extends StatelessWidget {
 }
 
 class _SchoolCoursesActions extends StatelessWidget {
-  const _SchoolCoursesActions({
-    required this.title,
-    this.onTap,
-    this.iconData,
-  });
+  const _SchoolCoursesActions({required this.title, this.onTap, this.iconData});
 
   final String title;
   final VoidCallback? onTap;
@@ -133,8 +127,10 @@ class _AddExistingCourse extends StatelessWidget {
           onTap: () async {
             if (snapshot.hasData) {
               final courseList = snapshot.data!;
-              final futureResult =
-                  await _showCourseListDialog(context, courseList);
+              final futureResult = await _showCourseListDialog(
+                context,
+                courseList,
+              );
               if (futureResult != null && context.mounted) {
                 showSimpleStateDialog(context, futureResult);
               }
@@ -156,27 +152,34 @@ class _AddExistingCourse extends StatelessWidget {
     List<Course> courseList,
   ) async {
     return showDialog<Future<bool>>(
-        context: context,
-        builder: (context) {
-          _sortCourseListByAlphabet(courseList);
-          return SimpleDialog(
-            title: const Text("Wähle einen Kurs aus"),
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.fromLTRB(24, 0, 24, 6),
-                child: Text(
-                    "Du kannst nur Kurse hinzufügen, in denen du auch Administrator bist.",
-                    style: TextStyle(color: Colors.grey, fontSize: 12)),
+      context: context,
+      builder: (context) {
+        _sortCourseListByAlphabet(courseList);
+        return SimpleDialog(
+          title: const Text("Wähle einen Kurs aus"),
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.fromLTRB(24, 0, 24, 6),
+              child: Text(
+                "Du kannst nur Kurse hinzufügen, in denen du auch Administrator bist.",
+                style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
-              Column(
-                children: courseList
-                    .map((course) => _CourseTile(
-                        course: course, schoolClassID: schoolClassID))
-                    .toList(),
-              ),
-            ],
-          );
-        });
+            ),
+            Column(
+              children:
+                  courseList
+                      .map(
+                        (course) => _CourseTile(
+                          course: course,
+                          schoolClassID: schoolClassID,
+                        ),
+                      )
+                      .toList(),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _sortCourseListByAlphabet(List<Course> courseList) {
@@ -185,10 +188,7 @@ class _AddExistingCourse extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({
-    required this.course,
-    required this.schoolClassID,
-  });
+  const _CourseTile({required this.course, required this.schoolClassID});
 
   final Course course;
   final String schoolClassID;
@@ -202,9 +202,10 @@ class _CourseTile extends StatelessWidget {
       symbolText: course.abbreviation.toUpperCase(),
       enabled: enabled,
       text: course.name,
-      trailing: !enabled
-          ? const Icon(Icons.lock, color: Colors.grey, size: 20)
-          : null,
+      trailing:
+          !enabled
+              ? const Icon(Icons.lock, color: Colors.grey, size: 20)
+              : null,
       onPressed: () {
         final futureResult = schoolClassGateway
             .addCourse(schoolClassID, course.id)
@@ -225,14 +226,17 @@ class _AddNewCourse extends StatelessWidget {
     return _SchoolCoursesActions(
       iconData: Icons.add,
       title: "Neuen Kurs hinzufügen",
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              CourseTemplatePage(schoolClassId: SchoolClassId(schoolClassID)),
-          settings: const RouteSettings(name: CourseTemplatePage.tag),
-        ),
-      ),
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder:
+                  (context) => CourseTemplatePage(
+                    schoolClassId: SchoolClassId(schoolClassID),
+                  ),
+              settings: const RouteSettings(name: CourseTemplatePage.tag),
+            ),
+          ),
     );
   }
 }

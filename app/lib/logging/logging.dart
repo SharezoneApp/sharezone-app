@@ -16,8 +16,9 @@ void startLoggingRecording(CrashAnalytics crashAnalytics) {
   Logger.root.level = Level.ALL;
 
   Logger.root.onRecord.listen((record) {
-    crashAnalytics
-        .log('${record.level.name}: ${record.time}: ${record.message}');
+    crashAnalytics.log(
+      '${record.level.name}: ${record.time}: ${record.message}',
+    );
     if (record.error != null) {
       crashAnalytics.recordError(record.error, record.stackTrace!);
     }

@@ -29,8 +29,12 @@ class AbgabedateiApi {
     CancelToken? cancelToken,
     Map<String, String?>? headers,
   }) async {
-    String path = "/v1/submissions/{submissionId}/files"
-        .replaceAll("{" r'submissionId' "}", submissionId.toString());
+    String path = "/v1/submissions/{submissionId}/files".replaceAll(
+      "{"
+      r'submissionId'
+      "}",
+      submissionId.toString(),
+    );
 
     Map<String, dynamic> queryParams = {};
     dynamic bodyData;
@@ -67,8 +71,18 @@ class AbgabedateiApi {
     Map<String, String>? headers,
   }) async {
     String path = "/v1/submissions/{submissionId}/files/{fileId}"
-        .replaceAll("{" r'submissionId' "}", submissionId.toString())
-        .replaceAll("{" r'fileId' "}", fileId.toString());
+        .replaceAll(
+          "{"
+          r'submissionId'
+          "}",
+          submissionId.toString(),
+        )
+        .replaceAll(
+          "{"
+          r'fileId'
+          "}",
+          fileId.toString(),
+        );
 
     Map<String, dynamic> queryParams = {};
     dynamic bodyData;
@@ -102,8 +116,18 @@ class AbgabedateiApi {
     Map<String, String>? headers,
   }) async {
     String path = "/v1/submissions/{submissionId}/files/{fileId}"
-        .replaceAll("{" r'submissionId' "}", submissionId.toString())
-        .replaceAll("{" r'fileId' "}", fileId.toString());
+        .replaceAll(
+          "{"
+          r'submissionId'
+          "}",
+          submissionId.toString(),
+        )
+        .replaceAll(
+          "{"
+          r'fileId'
+          "}",
+          fileId.toString(),
+        );
 
     Map<String, dynamic> queryParams = {};
     dynamic bodyData;

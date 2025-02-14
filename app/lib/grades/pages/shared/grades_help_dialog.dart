@@ -11,20 +11,13 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// A dialog for the grades feature
 class GradesHelpDialog extends StatelessWidget {
-  const GradesHelpDialog({
-    super.key,
-    required this.title,
-    required this.text,
-  });
+  const GradesHelpDialog({super.key, required this.title, required this.text});
 
   final Widget title;
   final Widget text;
 
   static void show(BuildContext context, Widget widget) {
-    showDialog(
-      context: context,
-      builder: (context) => widget,
-    );
+    showDialog(context: context, builder: (context) => widget);
   }
 
   @override

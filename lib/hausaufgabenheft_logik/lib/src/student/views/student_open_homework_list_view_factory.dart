@@ -13,26 +13,36 @@ import 'package:hausaufgabenheft_logik/src/student/views/student_homework_view_f
 
 class StudentOpenHomeworkListViewFactory {
   final HomeworkSortAndSubcategorizer<StudentHomeworkReadModel>
-      _sortAndSubcategorizer;
+  _sortAndSubcategorizer;
   final StudentHomeworkViewFactory _viewFactory;
   final Date Function() _getCurrentDate;
 
   StudentOpenHomeworkListViewFactory(
-      this._sortAndSubcategorizer, this._viewFactory, this._getCurrentDate);
+    this._sortAndSubcategorizer,
+    this._viewFactory,
+    this._getCurrentDate,
+  );
 
   StudentOpenHomeworkListView create(
-      IList<StudentHomeworkReadModel> openHomeworks,
-      Sort<BaseHomeworkReadModel> sort) {
-    final sortedAndSubcategorized =
-        _sortAndSubcategorizer.sortAndSubcategorize(openHomeworks, sort);
+    IList<StudentHomeworkReadModel> openHomeworks,
+    Sort<BaseHomeworkReadModel> sort,
+  ) {
+    final sortedAndSubcategorized = _sortAndSubcategorizer.sortAndSubcategorize(
+      openHomeworks,
+      sort,
+    );
 
-    final views = sortedAndSubcategorized
-        .map((section) => HomeworkSectionView(
-            section.title,
-            section.homeworks
-                .map((hw) => _viewFactory.createFrom(hw))
-                .toIList()))
-        .toIList();
+    final views =
+        sortedAndSubcategorized
+            .map(
+              (section) => HomeworkSectionView(
+                section.title,
+                section.homeworks
+                    .map((hw) => _viewFactory.createFrom(hw))
+                    .toIList(),
+              ),
+            )
+            .toIList();
 
     final showCompleteOverdueHomeworkPrompt =
         _shouldShowCompleteOverdueHomeworkPrompt(openHomeworks);
@@ -45,7 +55,8 @@ class StudentOpenHomeworkListViewFactory {
   }
 
   bool _shouldShowCompleteOverdueHomeworkPrompt(
-      IList<StudentHomeworkReadModel> openHomeworks) {
+    IList<StudentHomeworkReadModel> openHomeworks,
+  ) {
     var now = _getCurrentDate();
     var overdueOpenHomeworks = openHomeworks.getOverdue(now);
     return overdueOpenHomeworks.length > 2;

@@ -52,7 +52,8 @@ class References {
       lessons: firestore.collection(CollectionNames.lessons),
       events: firestore.collection(CollectionNames.events),
       members: firestore.collection(
-          CollectionNames.members), // NEEDS TO BE CHANGED TO COLLECTIONGROUP!
+        CollectionNames.members,
+      ), // NEEDS TO BE CHANGED TO COLLECTIONGROUP!
     );
   }
 

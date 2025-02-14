@@ -20,16 +20,15 @@ class Id {
 
   /// Generates a new random [Id] with the given [length] using characters
   /// from a-z, A-Z and 0-9.
-  static Id generate({
-    int length = 20,
-    Random? random,
-  }) {
+  static Id generate({int length = 20, Random? random}) {
     random ??= Random();
     const chars =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final id =
-        List.generate(length, (index) => chars[random!.nextInt(chars.length)])
-            .join();
+        List.generate(
+          length,
+          (index) => chars[random!.nextInt(chars.length)],
+        ).join();
     return Id(id);
   }
 

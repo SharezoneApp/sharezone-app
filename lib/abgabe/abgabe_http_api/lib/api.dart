@@ -21,7 +21,8 @@ class AbgabeHttpApi {
   String basePath = "https://api.sharezone.net";
 
   AbgabeHttpApi({Dio? dio, Serializers? serializers}) {
-    this.dio = dio ??
+    this.dio =
+        dio ??
         Dio(
           BaseOptions(
             baseUrl: basePath,

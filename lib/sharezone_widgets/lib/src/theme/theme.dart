@@ -26,24 +26,27 @@ Size getScreenSize(BuildContext context) {
   return MediaQuery.of(context).size;
 }
 
-Future<void> delayKeyboard(
-    {required BuildContext context,
-    required FocusNode focusNode,
-    Duration duration = const Duration(milliseconds: 250)}) async {
+Future<void> delayKeyboard({
+  required BuildContext context,
+  required FocusNode focusNode,
+  Duration duration = const Duration(milliseconds: 250),
+}) async {
   await Future.delayed(duration);
   focusNode.requestFocus();
 }
 
-Future<void> hideKeyboardWithDelay(
-    {required BuildContext context,
-    Duration duration = const Duration(milliseconds: 250)}) async {
+Future<void> hideKeyboardWithDelay({
+  required BuildContext context,
+  Duration duration = const Duration(milliseconds: 250),
+}) async {
   await Future.delayed(duration);
   FocusManager.instance.primaryFocus?.unfocus();
 }
 
-void hideKeyboard(
-    {required BuildContext context,
-    Duration duration = const Duration(milliseconds: 250)}) {
+void hideKeyboard({
+  required BuildContext context,
+  Duration duration = const Duration(milliseconds: 250),
+}) {
   FocusManager.instance.primaryFocus?.unfocus();
 }
 
@@ -57,13 +60,13 @@ TextStyle flowingText = const TextStyle(
 );
 
 TextStyle linkStyle(BuildContext context, [double? fontSize]) => TextStyle(
-      color: Theme.of(context).primaryColor,
-      fontWeight: FontWeight.normal,
-      decoration: TextDecoration.underline,
-      fontFamily: rubik,
-      height: 1.05,
-      fontSize: fontSize ?? 16.0,
-    );
+  color: Theme.of(context).primaryColor,
+  fontWeight: FontWeight.normal,
+  decoration: TextDecoration.underline,
+  fontFamily: rubik,
+  height: 1.05,
+  fontSize: fontSize ?? 16.0,
+);
 
 class Headline extends StatelessWidget {
   const Headline(this.title, {super.key, this.textAlign});
@@ -78,9 +81,10 @@ class Headline extends StatelessWidget {
       child: Text(
         title.toUpperCase(),
         style: TextStyle(
-          color: Theme.of(context).isDarkTheme
-              ? Colors.grey[400]
-              : Colors.grey[700],
+          color:
+              Theme.of(context).isDarkTheme
+                  ? Colors.grey[400]
+                  : Colors.grey[700],
           fontWeight: FontWeight.w600,
         ),
         textAlign: textAlign,

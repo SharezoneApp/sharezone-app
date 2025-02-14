@@ -38,8 +38,9 @@ void main() {
       mockNotificationsBlocFactory = MockNotificationsBlocFactory();
       mockSubscriptionService = MockSubscriptionService();
 
-      when(mockNotificationsBlocFactory.create())
-          .thenReturn(mockNotificationsBloc);
+      when(
+        mockNotificationsBlocFactory.create(),
+      ).thenReturn(mockNotificationsBloc);
     });
 
     Future<void> pumpNotificationPage(
@@ -49,9 +50,7 @@ void main() {
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [
-            Provider<TypeOfUser?>(
-              create: (_) => TypeOfUser.student,
-            ),
+            Provider<TypeOfUser?>(create: (_) => TypeOfUser.student),
             Provider<SubscriptionService>(
               create: (_) => mockSubscriptionService,
             ),
@@ -78,14 +77,17 @@ void main() {
     });
 
     testGoldens('renders plus dialog as expected', (tester) async {
-      when(mockSubscriptionService.hasFeatureUnlocked(
-              SharezonePlusFeature.changeHomeworkReminderTime))
-          .thenReturn(false);
+      when(
+        mockSubscriptionService.hasFeatureUnlocked(
+          SharezonePlusFeature.changeHomeworkReminderTime,
+        ),
+      ).thenReturn(false);
 
       await pumpNotificationPage(tester, themeData: getLightTheme());
 
-      await tester
-          .tap(find.byKey(const Key('homework-notifications-time-tile')));
+      await tester.tap(
+        find.byKey(const Key('homework-notifications-time-tile')),
+      );
       await tester.pumpAndSettle();
 
       await screenMatchesGolden(

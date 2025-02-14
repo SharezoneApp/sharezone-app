@@ -32,10 +32,7 @@ void openTermDetailsPage(BuildContext context, TermId id) {
 }
 
 class TermDetailsPage extends StatelessWidget {
-  const TermDetailsPage({
-    super.key,
-    required this.id,
-  });
+  const TermDetailsPage({super.key, required this.id});
 
   final TermId id;
   static const tag = 'terms-details-page';
@@ -52,9 +49,7 @@ class TermDetailsPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Halbjahresdetails'),
-            actions: const [
-              _DeleteIconButton(),
-            ],
+            actions: const [_DeleteIconButton()],
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -113,7 +108,8 @@ class _ConfirmDeleteDialog extends StatelessWidget {
       child: AlertDialog(
         title: const Text('Halbjahr löschen'),
         content: const Text(
-            'Möchtest du das Halbjahr inkl. aller Noten wirklich löschen?\n\nDiese Aktion kann nicht rückgängig gemacht werden.'),
+          'Möchtest du das Halbjahr inkl. aller Noten wirklich löschen?\n\nDiese Aktion kann nicht rückgängig gemacht werden.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -166,10 +162,7 @@ class _Loaded extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         for (final s in state.subjectsWithGrades)
-          _SubjectCard(
-            subject: s.subject,
-            savedGrades: s.grades,
-          )
+          _SubjectCard(subject: s.subject, savedGrades: s.grades),
       ],
     );
   }
@@ -184,10 +177,8 @@ class _Error extends StatelessWidget {
   Widget build(BuildContext context) {
     return ErrorCard(
       message: Text(state.error),
-      onContactSupportPressed: () => Navigator.pushNamed(
-        context,
-        SupportPage.tag,
-      ),
+      onContactSupportPressed:
+          () => Navigator.pushNamed(context, SupportPage.tag),
     );
   }
 }
@@ -222,10 +213,7 @@ class _TermInformationCard extends StatelessWidget {
 }
 
 class _SubjectCard extends StatelessWidget {
-  const _SubjectCard({
-    required this.subject,
-    required this.savedGrades,
-  });
+  const _SubjectCard({required this.subject, required this.savedGrades});
 
   final SubjectView subject;
   final List<SavedGradeView> savedGrades;
@@ -249,10 +237,7 @@ class _SubjectCard extends StatelessWidget {
                 children: [
                   _EditSubjectIconButton(subjectId: subject.id),
                   const SizedBox(width: 16),
-                  Text(
-                    subject.grade,
-                    style: const TextStyle(fontSize: 18),
-                  ),
+                  Text(subject.grade, style: const TextStyle(fontSize: 18)),
                 ],
               ),
             ),
@@ -268,9 +253,7 @@ class _SubjectCard extends StatelessWidget {
 }
 
 class _EditSubjectIconButton extends StatelessWidget {
-  const _EditSubjectIconButton({
-    required this.subjectId,
-  });
+  const _EditSubjectIconButton({required this.subjectId});
 
   final SubjectId subjectId;
 
@@ -283,10 +266,9 @@ class _EditSubjectIconButton extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SubjectSettingsPage(
-              subjectId: subjectId,
-              termId: termId,
-            ),
+            builder:
+                (context) =>
+                    SubjectSettingsPage(subjectId: subjectId, termId: termId),
             settings: const RouteSettings(name: SubjectSettingsPage.tag),
           ),
         );
@@ -297,9 +279,7 @@ class _EditSubjectIconButton extends StatelessWidget {
 }
 
 class _SavedGradeTile extends StatelessWidget {
-  const _SavedGradeTile({
-    required this.savedGrade,
-  });
+  const _SavedGradeTile({required this.savedGrade});
 
   final SavedGradeView savedGrade;
 
@@ -307,12 +287,13 @@ class _SavedGradeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(savedGrade.title),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GradeDetailsPage(id: savedGrade.id),
-        ),
-      ),
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GradeDetailsPage(id: savedGrade.id),
+            ),
+          ),
       subtitle: Text(
         savedGrade.date,
         style: TextStyle(
@@ -322,10 +303,7 @@ class _SavedGradeTile extends StatelessWidget {
       leading: savedGrade.gradeTypeIcon,
       trailing: Text(
         savedGrade.grade,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-        ),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
       ),
     );
   }

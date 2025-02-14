@@ -25,9 +25,7 @@ class DataProtection extends StatelessWidget {
         body: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Headline(
-              "Sicher & DSGVO-konform",
-            ),
+            Headline("Sicher & DSGVO-konform"),
             SizedBox(height: 24),
             ColumnSpacing(
               spacing: 12,
@@ -37,28 +35,19 @@ class DataProtection extends StatelessWidget {
                   subtitle:
                       "Mit Ausnahme des Authentifizierungsserver\n(EU-Standardvertragsklauseln)",
                 ),
-                CheckTile(
-                  title: "TLS-Verschlüsselung bei der Übertragung",
-                ),
-                CheckTile(
-                  title: "AES 256-Bit serverseitige Verschlüsselung",
-                ),
-                CheckTile(
-                  title: "ISO27001, ISO27012 & ISO27018 zertifiziert*",
-                ),
+                CheckTile(title: "TLS-Verschlüsselung bei der Übertragung"),
+                CheckTile(title: "AES 256-Bit serverseitige Verschlüsselung"),
+                CheckTile(title: "ISO27001, ISO27012 & ISO27018 zertifiziert*"),
                 CheckTile(
                   title: "SOC1, SOC2, & SOC3 zertifiziert*",
                   subtitle: "* Zertifizierung von unserem Hosting-Anbieter",
                 ),
               ],
-            )
+            ),
           ],
         ),
         image: Align(
-          child: SvgPicture.asset(
-            "assets/illustrations/gdpr.svg",
-            height: 420,
-          ),
+          child: SvgPicture.asset("assets/illustrations/gdpr.svg", height: 420),
         ),
         imagePosition: ImagePosition.right,
       ),

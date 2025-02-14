@@ -37,8 +37,9 @@ class _HomeworkUserCreateSubmissionPageState
 
   @override
   void initState() {
-    bloc = BlocProvider.of<HomeworkUserCreateSubmissionsBlocFactory>(context)
-        .create(widget.homeworkId);
+    bloc = BlocProvider.of<HomeworkUserCreateSubmissionsBlocFactory>(
+      context,
+    ).create(widget.homeworkId);
     super.initState();
   }
 
@@ -51,14 +52,21 @@ class _HomeworkUserCreateSubmissionPageState
 
         final abgegeben =
             await bloc.pageView.map((pageView) => pageView.submitted).first;
-        final dateienVorhanden = await bloc.pageView
-            .map((pageView) => pageView.files.isNotEmpty)
-            .first;
-        final dateienAmHochladen = await bloc.pageView
-            .map((pageView) => pageView.files
-                .where((file) => file.status == FileViewStatus.uploading)
-                .isNotEmpty)
-            .first;
+        final dateienVorhanden =
+            await bloc.pageView
+                .map((pageView) => pageView.files.isNotEmpty)
+                .first;
+        final dateienAmHochladen =
+            await bloc.pageView
+                .map(
+                  (pageView) =>
+                      pageView.files
+                          .where(
+                            (file) => file.status == FileViewStatus.uploading,
+                          )
+                          .isNotEmpty,
+                )
+                .first;
 
         if (!context.mounted) return;
 
@@ -80,28 +88,31 @@ class _HomeworkUserCreateSubmissionPageState
       child: BlocProvider(
         bloc: bloc,
         child: StreamBuilder<SubmissionPageView>(
-            stream: bloc.pageView,
-            builder: (context, snapshot) {
-              final view = snapshot.data;
-              final showSubmitButton =
-                  (view?.submittable ?? false) && !view!.submitted;
-              final afterDeadline = view?.deadlineState != null &&
-                  view!.deadlineState == SubmissionDeadlineState.afterDeadline;
-              final hasSubmitted = snapshot.data?.submitted ?? false;
+          stream: bloc.pageView,
+          builder: (context, snapshot) {
+            final view = snapshot.data;
+            final showSubmitButton =
+                (view?.submittable ?? false) && !view!.submitted;
+            final afterDeadline =
+                view?.deadlineState != null &&
+                view!.deadlineState == SubmissionDeadlineState.afterDeadline;
+            final hasSubmitted = snapshot.data?.submitted ?? false;
 
-              return Scaffold(
-                appBar: AppBar(
-                  leading: const CloseIconButton(),
-                  actions: <Widget>[
-                    /// Im Web wird der Button nicht immer ausgefaded, auch wenn
-                    /// [showSubmitButton] false ist und onPressed null sein müsste.
-                    /// Deswegen der Workaround für Web.
-                    if (!kIsWeb || kIsWeb && showSubmitButton)
-                      TextButton(
-                        onPressed: showSubmitButton
-                            ? () async {
+            return Scaffold(
+              appBar: AppBar(
+                leading: const CloseIconButton(),
+                actions: <Widget>[
+                  /// Im Web wird der Button nicht immer ausgefaded, auch wenn
+                  /// [showSubmitButton] false ist und onPressed null sein müsste.
+                  /// Deswegen der Workaround für Web.
+                  if (!kIsWeb || kIsWeb && showSubmitButton)
+                    TextButton(
+                      onPressed:
+                          showSubmitButton
+                              ? () async {
                                 final res = await showLeftRightAdaptiveDialog<
-                                    SubmitDialogOption>(
+                                  SubmitDialogOption
+                                >(
                                   context: context,
                                   title: 'Wirklich Abgeben?',
                                   content: const Text(
@@ -126,37 +137,39 @@ class _HomeworkUserCreateSubmissionPageState
                                     break;
                                 }
                               }
-                            : null,
-                        child: Text('Abgeben'.toUpperCase()),
-                      ),
-                  ],
-                  centerTitle: true,
-                ),
-                body: SingleChildScrollView(
-                  padding: const EdgeInsets.all(12),
-                  child: MaxWidthConstraintBox(
-                    child: SafeArea(
-                        child: view == null
+                              : null,
+                      child: Text('Abgeben'.toUpperCase()),
+                    ),
+                ],
+                centerTitle: true,
+              ),
+              body: SingleChildScrollView(
+                padding: const EdgeInsets.all(12),
+                child: MaxWidthConstraintBox(
+                  child: SafeArea(
+                    child:
+                        view == null
                             ? Container()
                             : Column(
-                                children: <Widget>[
-                                  /// Falls submitted & editierbar
-                                  if (view.submitted)
-                                    const _SubmissionReceivedInfo(),
-                                  if (afterDeadline && !hasSubmitted)
-                                    const _AfterDeadlineCanStillBeSubmitted(),
-                                  const _FileList(),
-                                ],
-                              )),
+                              children: <Widget>[
+                                /// Falls submitted & editierbar
+                                if (view.submitted)
+                                  const _SubmissionReceivedInfo(),
+                                if (afterDeadline && !hasSubmitted)
+                                  const _AfterDeadlineCanStillBeSubmitted(),
+                                const _FileList(),
+                              ],
+                            ),
                   ),
                 ),
-                floatingActionButton: view != null && !view.submitted
-                    ? const _AddFileFab()
-                    : null,
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerFloat,
-              );
-            }),
+              ),
+              floatingActionButton:
+                  view != null && !view.submitted ? const _AddFileFab() : null,
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+            );
+          },
+        ),
       ),
     );
   }
@@ -170,7 +183,9 @@ class _SubmissionReceivedInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const AnnouncementCard(
-        color: Colors.lightGreen, title: 'Abgabe erfolgreich abgegeben!');
+      color: Colors.lightGreen,
+      title: 'Abgabe erfolgreich abgegeben!',
+    );
   }
 }
 
@@ -194,10 +209,11 @@ class _FileList extends StatelessWidget {
           child: Column(
             children: AnimationConfiguration.toStaggeredList(
               duration: const Duration(milliseconds: 350),
-              childAnimationBuilder: (widget) => SlideAnimation(
-                verticalOffset: 25,
-                child: FadeInAnimation(child: widget),
-              ),
+              childAnimationBuilder:
+                  (widget) => SlideAnimation(
+                    verticalOffset: 25,
+                    child: FadeInAnimation(child: widget),
+                  ),
               children: <Widget>[
                 for (final file in files)
                   _FileCard(
@@ -221,7 +237,8 @@ class _AfterDeadlineCanStillBeSubmitted extends StatelessWidget {
     return const AnnouncementCard(
       title: 'Abgabefrist verpasst? Du kannst trotzdem abgeben!',
       content: Text(
-          'Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)'),
+        'Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)',
+      ),
     );
   }
 }
@@ -250,49 +267,47 @@ class _AddFileFab extends StatelessWidget {
     } else {
       final error = await showDialog<String>(
         context: context,
-        builder: (_) =>
-            AddLocalFileDialog(addLocalFileToBlocMethod: (localFiles) {
-          try {
-            bloc.addSubmissionFiles(localFiles);
-          } on FileConversionException catch (e) {
-            String msg;
-            if (e.files.length == 1) {
-              msg =
-                  'Die gewählte Datei "${e.files.first.getName()}" scheint invalide zu sein.';
-            } else {
-              final names = e.files.map((e) => e.getName()).join(', ');
-              msg = 'Die gewählte Dateien "$names" scheinen invalide zu sein.';
-            }
-            showLeftRightAdaptiveDialog(
-              context: context,
-              title: 'Fehler',
-              content: Text(
-                  '$msg.\nBitte kontaktiere den Support unter support@sharezone.net!'),
-              left: AdaptiveDialogAction(
-                isDefaultAction: true,
-                onPressed: () => Navigator.pop(context),
-                title: 'Ok',
-              ),
-            );
-          }
-        }),
+        builder:
+            (_) => AddLocalFileDialog(
+              addLocalFileToBlocMethod: (localFiles) {
+                try {
+                  bloc.addSubmissionFiles(localFiles);
+                } on FileConversionException catch (e) {
+                  String msg;
+                  if (e.files.length == 1) {
+                    msg =
+                        'Die gewählte Datei "${e.files.first.getName()}" scheint invalide zu sein.';
+                  } else {
+                    final names = e.files.map((e) => e.getName()).join(', ');
+                    msg =
+                        'Die gewählte Dateien "$names" scheinen invalide zu sein.';
+                  }
+                  showLeftRightAdaptiveDialog(
+                    context: context,
+                    title: 'Fehler',
+                    content: Text(
+                      '$msg.\nBitte kontaktiere den Support unter support@sharezone.net!',
+                    ),
+                    left: AdaptiveDialogAction(
+                      isDefaultAction: true,
+                      onPressed: () => Navigator.pop(context),
+                      title: 'Ok',
+                    ),
+                  );
+                }
+              },
+            ),
       );
 
       if (error != null && context.mounted) {
-        showSnackSec(
-          text: error,
-          context: context,
-        );
+        showSnackSec(text: error, context: context);
       }
     }
   }
 }
 
 class _FileCard extends StatelessWidget {
-  const _FileCard({
-    required this.view,
-    required this.submitted,
-  });
+  const _FileCard({required this.view, required this.submitted});
 
   final FileView view;
   final bool submitted;
@@ -305,17 +320,19 @@ class _FileCard extends StatelessWidget {
         key: ValueKey(view.id),
         padding: const EdgeInsets.only(bottom: 10),
         child: CustomCard(
-          onTap: view.downloadUrl != null
-              ? () => openCreateSubmissionFile(context, view)
-              : null,
+          onTap:
+              view.downloadUrl != null
+                  ? () => openCreateSubmissionFile(context, view)
+                  : null,
           child: Column(
             children: <Widget>[
               Opacity(
                 opacity: view.status == FileViewStatus.uploading ? 0.6 : 1.0,
                 child: ListTile(
-                  leading: view.status == FileViewStatus.failed
-                      ? const Icon(Icons.close)
-                      : FileIcon(fileFormat: view.fileFormat),
+                  leading:
+                      view.status == FileViewStatus.failed
+                          ? const Icon(Icons.close)
+                          : FileIcon(fileFormat: view.fileFormat),
                   title: Text(view.name),
                   mouseCursor: SystemMouseCursors.click,
                   trailing: Row(
@@ -330,10 +347,11 @@ class _FileCard extends StatelessWidget {
                       ),
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 250),
-                        child: view.status != FileViewStatus.uploading &&
-                                !submitted
-                            ? _DeleteIcon(view: view)
-                            : Container(),
+                        child:
+                            view.status != FileViewStatus.uploading &&
+                                    !submitted
+                                ? _DeleteIcon(view: view)
+                                : Container(),
                       ),
                     ],
                   ),
@@ -364,9 +382,7 @@ class _FileCard extends StatelessWidget {
 }
 
 class _RenameFile extends StatelessWidget {
-  const _RenameFile({
-    required this.view,
-  });
+  const _RenameFile({required this.view});
 
   final FileView view;
 
@@ -375,18 +391,20 @@ class _RenameFile extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.edit),
       onPressed: () async {
-        final bloc =
-            BlocProvider.of<HomeworkUserCreateSubmissionsBloc>(context);
+        final bloc = BlocProvider.of<HomeworkUserCreateSubmissionsBloc>(
+          context,
+        );
         final invalidNames = await bloc.submissionFileBasenames.first;
         if (!context.mounted) return;
 
         showDialog(
           context: context,
-          builder: (context) => _RenameDialog(
-            view: view,
-            invalidNames: invalidNames,
-            bloc: bloc,
-          ),
+          builder:
+              (context) => _RenameDialog(
+                view: view,
+                invalidNames: invalidNames,
+                bloc: bloc,
+              ),
         );
       },
       tooltip: 'Umbenennen',
@@ -445,17 +463,18 @@ class __RenameDialogState extends State<_RenameDialog> {
       actions: <Widget>[
         const CancelButton(),
         TextButton(
-          onPressed: error == null
-              ? () {
-                  widget.bloc.renameFile(widget.view.id, newName);
-                  Navigator.pop(context);
-                }
-              : null,
+          onPressed:
+              error == null
+                  ? () {
+                    widget.bloc.renameFile(widget.view.id, newName);
+                    Navigator.pop(context);
+                  }
+                  : null,
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).primaryColor,
           ),
           child: const Text("UMBENENNEN"),
-        )
+        ),
       ],
     );
   }
@@ -502,18 +521,21 @@ class _DeleteIcon extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.delete),
       onPressed: () async {
-        final confirmed = (await showLeftRightAdaptiveDialog<bool>(
-          context: context,
-          title: 'Datei entfernen',
-          content:
-              Text('Möchtest du die Datei "${view.name}" wirklich entfernen?'),
-          right: AdaptiveDialogAction.delete,
-          defaultValue: false,
-        ))!;
+        final confirmed =
+            (await showLeftRightAdaptiveDialog<bool>(
+              context: context,
+              title: 'Datei entfernen',
+              content: Text(
+                'Möchtest du die Datei "${view.name}" wirklich entfernen?',
+              ),
+              right: AdaptiveDialogAction.delete,
+              defaultValue: false,
+            ))!;
 
         if (confirmed && context.mounted) {
-          final bloc =
-              BlocProvider.of<HomeworkUserCreateSubmissionsBloc>(context);
+          final bloc = BlocProvider.of<HomeworkUserCreateSubmissionsBloc>(
+            context,
+          );
           bloc.removeSubmissionFile(view.id);
         }
       },
@@ -525,9 +547,7 @@ class _DeleteIcon extends StatelessWidget {
 class _EmptyState extends StatelessWidget {
   final SubmissionDeadlineState? submissionDeadlineState;
 
-  const _EmptyState({
-    required this.submissionDeadlineState,
-  });
+  const _EmptyState({required this.submissionDeadlineState});
 
   @override
   Widget build(BuildContext context) {

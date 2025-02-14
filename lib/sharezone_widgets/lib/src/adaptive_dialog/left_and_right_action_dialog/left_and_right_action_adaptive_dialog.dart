@@ -26,25 +26,27 @@ Future<T?> showLeftRightAdaptiveDialog<T>({
   if (PlatformCheck.isIOS) {
     result = await showCupertinoDialog<T>(
       context: context,
-      builder: (context) => _ActionAndCancelDialogCupertino(
-        key: key,
-        title: title,
-        content: content,
-        left: left,
-        right: right,
-        withCancelButtonOnIOS: withCancelButtonOnIOS,
-      ),
+      builder:
+          (context) => _ActionAndCancelDialogCupertino(
+            key: key,
+            title: title,
+            content: content,
+            left: left,
+            right: right,
+            withCancelButtonOnIOS: withCancelButtonOnIOS,
+          ),
     );
   } else {
     result = await showDialog<T>(
       context: context,
-      builder: (context) => _ActionAndCancelDialogMaterial(
-        key: key,
-        title: title,
-        content: content,
-        left: left,
-        right: right,
-      ),
+      builder:
+          (context) => _ActionAndCancelDialogMaterial(
+            key: key,
+            title: title,
+            content: content,
+            left: left,
+            right: right,
+          ),
     );
   }
   return result ?? defaultValue;
@@ -113,7 +115,8 @@ class _ActionAndCancelDialogMaterial<T> extends StatelessWidget {
               foregroundColor:
                   left!.textColor ?? Theme.of(context).primaryColor,
             ),
-            onPressed: left!.onPressed ??
+            onPressed:
+                left!.onPressed ??
                 (() => Navigator.pop(context, left!.popResult ?? false)),
             child: Text(left!.title!.toUpperCase()),
           ),
@@ -124,10 +127,11 @@ class _ActionAndCancelDialogMaterial<T> extends StatelessWidget {
               foregroundColor:
                   right!.textColor ?? Theme.of(context).primaryColor,
             ),
-            onPressed: right!.onPressed ??
+            onPressed:
+                right!.onPressed ??
                 (() => Navigator.pop(context, right!.popResult ?? true)),
             child: Text(right!.title!.toUpperCase()),
-          )
+          ),
       ],
     );
   }
@@ -160,7 +164,8 @@ class _ActionAndCancelDialogCupertino extends StatelessWidget {
             key: left!.key,
             isDefaultAction: left!.isDefaultAction,
             isDestructiveAction: left!.isDestructiveAction,
-            onPressed: left!.onPressed ??
+            onPressed:
+                left!.onPressed ??
                 (() => Navigator.pop(context, left!.popResult)),
             child: Text(left!.title!),
           ),
@@ -169,7 +174,8 @@ class _ActionAndCancelDialogCupertino extends StatelessWidget {
             key: right!.key,
             isDefaultAction: right!.isDefaultAction,
             isDestructiveAction: right!.isDestructiveAction,
-            onPressed: right!.onPressed ??
+            onPressed:
+                right!.onPressed ??
                 (() => Navigator.pop(context, right!.popResult)),
             child: Text(right!.title!),
           ),
@@ -178,7 +184,7 @@ class _ActionAndCancelDialogCupertino extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
             isDestructiveAction: true,
             child: const Text("Abbrechen"),
-          )
+          ),
       ],
     );
   }

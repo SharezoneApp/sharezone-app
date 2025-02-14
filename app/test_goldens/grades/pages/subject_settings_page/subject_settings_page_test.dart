@@ -21,9 +21,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'subject_settings_page_test.mocks.dart';
 
-@GenerateNiceMocks([
-  MockSpec<SubjectSettingsPageController>(),
-])
+@GenerateNiceMocks([MockSpec<SubjectSettingsPageController>()])
 void main() {
   group(SubjectSettingsPage, () {
     const termId = TermId('term-1');
@@ -44,18 +42,20 @@ void main() {
     }
 
     void setLoaded() {
-      setState(SubjectSettingsLoaded(
-        SubjectSettingsPageView(
-          subjectName: 'Mathe',
-          finalGradeTypeDisplayName: 'Zeugnisnote',
-          finalGradeTypeIcon: const Icon(Icons.edit_document),
-          selectableGradingTypes: const IListConst([]),
-          weights: IMapConst({
-            GradeType.oralParticipation.id: const Weight.factor(0.5),
-            GradeType.writtenExam.id: const Weight.factor(1),
-          }),
+      setState(
+        SubjectSettingsLoaded(
+          SubjectSettingsPageView(
+            subjectName: 'Mathe',
+            finalGradeTypeDisplayName: 'Zeugnisnote',
+            finalGradeTypeIcon: const Icon(Icons.edit_document),
+            selectableGradingTypes: const IListConst([]),
+            weights: IMapConst({
+              GradeType.oralParticipation.id: const Weight.factor(0.5),
+              GradeType.writtenExam.id: const Weight.factor(1),
+            }),
+          ),
         ),
-      ));
+      );
     }
 
     void setError() {
@@ -67,13 +67,13 @@ void main() {
     }
 
     Future<void> pushSubjectSettingsPage(
-        WidgetTester tester, ThemeData theme) async {
+      WidgetTester tester,
+      ThemeData theme,
+    ) async {
       await tester.pumpWidgetBuilder(
         MultiProvider(
           providers: [
-            Provider<GradesService>(
-              create: (_) => GradesService(),
-            ),
+            Provider<GradesService>(create: (_) => GradesService()),
             ChangeNotifierProvider<SubjectSettingsPageController>.value(
               value: controller,
             ),
@@ -92,7 +92,9 @@ void main() {
         setLoaded();
         await pushSubjectSettingsPage(tester, getLightTheme());
         await multiScreenGolden(
-            tester, 'subject_settings_page_with_data_light');
+          tester,
+          'subject_settings_page_with_data_light',
+        );
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
@@ -120,17 +122,23 @@ void main() {
       testGoldens('renders as expected (light mode)', (tester) async {
         setLoading();
         await pushSubjectSettingsPage(tester, getLightTheme());
-        await multiScreenGolden(tester, 'subject_settings_page_loading_light',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'subject_settings_page_loading_light',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
         setLoading();
         await pushSubjectSettingsPage(tester, getDarkTheme());
-        await multiScreenGolden(tester, 'subject_settings_page_loading_dark',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'subject_settings_page_loading_dark',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
     });
   });

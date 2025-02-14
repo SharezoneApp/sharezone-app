@@ -28,9 +28,9 @@ class SubjectSettingsPageView extends Equatable {
 
   @override
   List<Object?> get props => [
-        subjectName,
-        finalGradeTypeDisplayName,
-        finalGradeTypeIcon,
-        selectableGradingTypes,
-      ];
+    subjectName,
+    finalGradeTypeDisplayName,
+    finalGradeTypeIcon,
+    selectableGradingTypes,
+  ];
 }

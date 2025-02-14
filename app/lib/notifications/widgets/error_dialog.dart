@@ -53,7 +53,8 @@ class _ErrorBanner extends StatefulWidget {
 
 class __ErrorBannerState extends State<_ErrorBanner> {
   static String getLongErrorDescription(
-      NotificationHandlerErrorReason errorReason) {
+    NotificationHandlerErrorReason errorReason,
+  ) {
     String? errorReason0;
 
     switch (errorReason) {
@@ -74,29 +75,32 @@ Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstan
   }
 
   Widget getLongDescription() => Text(
-        getLongErrorDescription(widget.errorReason),
-        style: const TextStyle(fontSize: 13),
-      );
+    getLongErrorDescription(widget.errorReason),
+    style: const TextStyle(fontSize: 13),
+  );
 
   Widget getShortDescription(BuildContext context) {
     return const Text.rich(
-      TextSpan(children: [
-        TextSpan(
+      TextSpan(
+        children: [
+          TextSpan(
             text:
                 'Beim tippen auf die Benachrichtigung hätte jetzt etwas anderes passieren sollen.',
-            style: TextStyle(fontSize: 13)),
-        TextSpan(text: ' '),
-        TextSpan(
-          text: 'Mehr Infos.',
-          style: TextStyle(
-            color: Colors.blue,
-            // When the text is underlined it looks bigger than the rest so we
-            // choose a font sizer smaller than the other text.
-            fontSize: 12,
-            decoration: TextDecoration.underline,
+            style: TextStyle(fontSize: 13),
           ),
-        ),
-      ]),
+          TextSpan(text: ' '),
+          TextSpan(
+            text: 'Mehr Infos.',
+            style: TextStyle(
+              color: Colors.blue,
+              // When the text is underlined it looks bigger than the rest so we
+              // choose a font sizer smaller than the other text.
+              fontSize: 12,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -105,14 +109,13 @@ Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstan
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).brightness == Brightness.dark
-          // Has a better contrast in darkmode
-          ? Colors.orangeAccent
-          : Colors.orange,
+      color:
+          Theme.of(context).brightness == Brightness.dark
+              // Has a better contrast in darkmode
+              ? Colors.orangeAccent
+              : Colors.orange,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
       ),
       child: InkWell(
         onTap: () {
@@ -137,15 +140,19 @@ Möglicherweise ist der Fehler durch eine veraltete Version von Sharezone enstan
               Expanded(
                 flex: 5,
                 child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                    child: DefaultTextStyle(
-                      style: const TextStyle(color: Colors.black),
-                      child: showLongErrorDescription
-                          ? getLongDescription()
-                          : getShortDescription(context),
-                    )),
-              )
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 5,
+                  ),
+                  child: DefaultTextStyle(
+                    style: const TextStyle(color: Colors.black),
+                    child:
+                        showLongErrorDescription
+                            ? getLongDescription()
+                            : getShortDescription(context),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

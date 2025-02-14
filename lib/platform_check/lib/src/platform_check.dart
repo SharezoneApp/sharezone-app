@@ -15,7 +15,8 @@ import 'platform_check_stub.dart'
     // ignore: uri_does_not_exist
     if (dart.library.io) 'mobile_platform_check.dart'
     // ignore: uri_does_not_exist
-    if (dart.library.js) 'web_platform_check.dart' as implementation;
+    if (dart.library.js) 'web_platform_check.dart'
+    as implementation;
 
 Platform getPlatform() {
   return implementation.getPlatform();
@@ -82,21 +83,17 @@ class PlatformCheckVariant extends TestVariant<Platform> {
   /// Creates a [PlatformCheckVariant] that includes platforms that are
   /// considered desktop platforms.
   PlatformCheckVariant.desktop()
-      : values = <Platform>{
-          Platform.linux,
-          Platform.macOS,
-          Platform.windows,
-        };
+    : values = <Platform>{Platform.linux, Platform.macOS, Platform.windows};
 
   /// Creates a [PlatformCheckVariant] that includes platforms that are
   /// considered desktop & web platforms.
   PlatformCheckVariant.desktopAndWeb()
-      : values = <Platform>{
-          Platform.linux,
-          Platform.macOS,
-          Platform.windows,
-          Platform.web,
-        };
+    : values = <Platform>{
+        Platform.linux,
+        Platform.macOS,
+        Platform.windows,
+        Platform.web,
+      };
 
   /// Creates a [PlatformCheckVariant] that includes platforms that are
   /// considered web platforms.
@@ -105,10 +102,7 @@ class PlatformCheckVariant extends TestVariant<Platform> {
   /// Creates a [PlatformCheckVariant] that includes platforms that are
   /// considered mobile platforms.
   PlatformCheckVariant.mobile()
-      : values = <Platform>{
-          Platform.android,
-          Platform.iOS,
-        };
+    : values = <Platform>{Platform.android, Platform.iOS};
 
   /// Creates a [PlatformCheckVariant] that tests only the given value of
   /// [Platform].

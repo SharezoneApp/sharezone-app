@@ -36,32 +36,35 @@ class Traction extends StatelessWidget {
             child: MaxWidthConstraintBox(
               maxWidth: 700,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
-                child: isPhone(context)
-                    ? ColumnSpacing(
-                        spacing: 24,
-                        children: [
-                          _UserCounter(),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _AppStoreRating(),
-                              SizedBox(width: 48),
-                              _PlayStoreRating(),
-                            ],
-                          ),
-                        ],
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const _AppStoreRating(),
-                          _UserCounter(),
-                          const _PlayStoreRating(),
-                        ],
-                      ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 26,
+                ),
+                child:
+                    isPhone(context)
+                        ? ColumnSpacing(
+                          spacing: 24,
+                          children: [
+                            _UserCounter(),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _AppStoreRating(),
+                                SizedBox(width: 48),
+                                _PlayStoreRating(),
+                              ],
+                            ),
+                          ],
+                        )
+                        : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const _AppStoreRating(),
+                            _UserCounter(),
+                            const _PlayStoreRating(),
+                          ],
+                        ),
               ),
             ),
           ),
@@ -124,10 +127,12 @@ class __UserCounterState extends State<_UserCounter> {
         children: [
           Theme(
             data: Theme.of(context).copyWith(
-                // The NumberSlideAnimation shows unintended scrollbars, see
-                // https://github.com/SharezoneApp/sharezone-app/pull/1768.
-                scrollbarTheme:
-                    ScrollbarThemeData(thickness: WidgetStateProperty.all(0))),
+              // The NumberSlideAnimation shows unintended scrollbars, see
+              // https://github.com/SharezoneApp/sharezone-app/pull/1768.
+              scrollbarTheme: ScrollbarThemeData(
+                thickness: WidgetStateProperty.all(0),
+              ),
+            ),
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               key: ValueKey(userCounter),
@@ -146,10 +151,7 @@ class __UserCounterState extends State<_UserCounter> {
           const SizedBox(height: 3),
           const Text(
             "registrierte Nutzer",
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 18,
-            ),
+            style: TextStyle(color: Colors.white70, fontSize: 18),
           ),
         ],
       ),
@@ -170,11 +172,7 @@ class __UserCounterState extends State<_UserCounter> {
 }
 
 class _StoreReview extends StatelessWidget {
-  const _StoreReview({
-    this.storeName,
-    this.rating,
-    this.storeLink,
-  });
+  const _StoreReview({this.storeName, this.rating, this.storeLink});
 
   final String? storeName;
   final double? rating;
@@ -201,19 +199,13 @@ class _StoreReview extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               for (int i = 0; i < 5; i++)
-                const Icon(
-                  Icons.star,
-                  color: Colors.yellow,
-                )
+                const Icon(Icons.star, color: Colors.yellow),
             ],
           ),
           const SizedBox(height: 4),
           Text(
             storeName!,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
+            style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         ],
       ),

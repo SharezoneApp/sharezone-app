@@ -33,20 +33,26 @@ class ContactSupport extends StatelessWidget {
                   style: const TextStyle(color: Colors.grey, fontSize: 16),
                   children: <TextSpan>[
                     const TextSpan(
-                        text:
-                            "Du brauchst Hilfe? Dann kontaktiere einfach unseren "),
+                      text:
+                          "Du brauchst Hilfe? Dann kontaktiere einfach unseren ",
+                    ),
                     TextSpan(
-                        text: "Support",
-                        style: linkStyle(context),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () =>
-                              Navigator.pushNamed(context, SupportPage.tag)),
+                      text: "Support",
+                      style: linkStyle(context),
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap =
+                                () => Navigator.pushNamed(
+                                  context,
+                                  SupportPage.tag,
+                                ),
+                    ),
                     const TextSpan(text: " 😉"),
                   ],
                 ),
                 textAlign: TextAlign.center,
               ),
-            )
+            ),
           ],
         ),
       ),

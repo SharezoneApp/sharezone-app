@@ -12,9 +12,9 @@ import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 TextStyle _descriptionStyle(BuildContext context) => TextStyle(
-      color: context.isDarkThemeEnabled ? Colors.grey[300] : Colors.grey[700],
-      fontSize: 16,
-    );
+  color: context.isDarkThemeEnabled ? Colors.grey[300] : Colors.grey[700],
+  fontSize: 16,
+);
 
 class CourseHelpPage extends StatelessWidget {
   static const String tag = "course-help-page";
@@ -92,107 +92,112 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-        header: const Text("Wie trete ich einer Gruppe bei?"),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Um einer Gruppe von deinen Mitschüler oder Lehrern beizutreten, gibt es zwei "
-              "Möglichkeiten:"
-              ""
-              "\n\n1. Sharecode über einen QR-Code scannen"
-              "\n2. Händisch den Sharecode eingeben",
-              style: _descriptionStyle(context),
-            ),
-            const SizedBox(height: 8),
-            ExpansionTile(
-              title: ExpansionTileTitle(
-                title: "Sharecode mit einem QR-Code scannen",
-                icon: Padding(
-                  padding: const EdgeInsets.only(left: 2),
-                  child: PlatformSvg.asset(
-                    "assets/icons/qr-code.svg",
-                    color: _svgColor,
-                    width: 20,
-                    height: 20,
-                  ),
+      header: const Text("Wie trete ich einer Gruppe bei?"),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Um einer Gruppe von deinen Mitschüler oder Lehrern beizutreten, gibt es zwei "
+            "Möglichkeiten:"
+            ""
+            "\n\n1. Sharecode über einen QR-Code scannen"
+            "\n2. Händisch den Sharecode eingeben",
+            style: _descriptionStyle(context),
+          ),
+          const SizedBox(height: 8),
+          ExpansionTile(
+            title: ExpansionTileTitle(
+              title: "Sharecode mit einem QR-Code scannen",
+              icon: Padding(
+                padding: const EdgeInsets.only(left: 2),
+                child: PlatformSvg.asset(
+                  "assets/icons/qr-code.svg",
+                  color: _svgColor,
+                  width: 20,
+                  height: 20,
                 ),
               ),
-              onExpansionChanged: (value) {
-                if (value) {
-                  setState(() {
-                    // Expansion is open: so let's make the svg black
-                    _svgColor = Theme.of(context).isDarkTheme
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.secondary;
-                  });
-                } else {
-                  // Expansion is closed: so let's make the svg grey
-                  setState(() {
-                    _svgColor = Colors.grey[600];
-                  });
-                }
-              },
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16)
-                      .add(const EdgeInsets.only(bottom: 16)),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der "
-                        "Seite \"Gruppe\" auf den gewünschten Kurs.\n"
-                        "2. Diese Person klickt nun auf den Button \"QR-Code anzeigen\".\n"
-                        "3. Nun öffnet sich unten eine neue Anzeige mit einem QR-Code.\n"
-                        "4. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n"
-                        "5. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n"
-                        "6. Jetzt öffnet sich ein Fenster - dort klickt der Nutzer auf die blaue Grafik, um den QR-Code zu scannen.\n"
-                        "7. Abschließend nur noch die Kamera auf den QR-Code der anderen Person halten.",
-                        style: _descriptionStyle(context),
-                      ),
-                    ],
-                  ),
-                )
-              ],
             ),
-            ExpansionTile(
-              title: ExpansionTileTitle(
-                title: "Händisch den Sharecode eingeben",
-                icon: Icon(Icons.keyboard, color: _typeInPublicKeyIconColor),
+            onExpansionChanged: (value) {
+              if (value) {
+                setState(() {
+                  // Expansion is open: so let's make the svg black
+                  _svgColor =
+                      Theme.of(context).isDarkTheme
+                          ? Colors.white
+                          : Theme.of(context).colorScheme.secondary;
+                });
+              } else {
+                // Expansion is closed: so let's make the svg grey
+                setState(() {
+                  _svgColor = Colors.grey[600];
+                });
+              }
+            },
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                ).add(const EdgeInsets.only(bottom: 16)),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      "1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der "
+                      "Seite \"Gruppe\" auf den gewünschten Kurs.\n"
+                      "2. Diese Person klickt nun auf den Button \"QR-Code anzeigen\".\n"
+                      "3. Nun öffnet sich unten eine neue Anzeige mit einem QR-Code.\n"
+                      "4. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n"
+                      "5. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n"
+                      "6. Jetzt öffnet sich ein Fenster - dort klickt der Nutzer auf die blaue Grafik, um den QR-Code zu scannen.\n"
+                      "7. Abschließend nur noch die Kamera auf den QR-Code der anderen Person halten.",
+                      style: _descriptionStyle(context),
+                    ),
+                  ],
+                ),
               ),
-              onExpansionChanged: (value) {
-                if (value) {
-                  setState(() {
-                    // Expansion is open: so let's make the svg black
-                    _typeInPublicKeyIconColor = Theme.of(context).isDarkTheme
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.secondary;
-                  });
-                } else {
-                  // Expansion is closed: so let's make the svg grey
-                  setState(() {
-                    _typeInPublicKeyIconColor = Colors.grey[600];
-                  });
-                }
-              },
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16)
-                      .add(const EdgeInsets.only(bottom: 16)),
-                  child: Text(
-                    "1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der "
-                    "Seite \"Gruppen\" auf den gewünschten Kurs.\n"
-                    "2. Auf dieser Seite wird nun direkt unter dem Kursnamen der Sharecode angezeigt.\n"
-                    "3. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n"
-                    "4. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n"
-                    "5. Jetzt öffnet sich ein Fenster - dort muss dann nur noch der Sharecode von der anderen Person in das Textfeld unten eingeben werden.\n",
-                    style: _descriptionStyle(context),
-                  ),
-                )
-              ],
+            ],
+          ),
+          ExpansionTile(
+            title: ExpansionTileTitle(
+              title: "Händisch den Sharecode eingeben",
+              icon: Icon(Icons.keyboard, color: _typeInPublicKeyIconColor),
             ),
-          ],
-        ));
+            onExpansionChanged: (value) {
+              if (value) {
+                setState(() {
+                  // Expansion is open: so let's make the svg black
+                  _typeInPublicKeyIconColor =
+                      Theme.of(context).isDarkTheme
+                          ? Colors.white
+                          : Theme.of(context).colorScheme.secondary;
+                });
+              } else {
+                // Expansion is closed: so let's make the svg grey
+                setState(() {
+                  _typeInPublicKeyIconColor = Colors.grey[600];
+                });
+              }
+            },
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                ).add(const EdgeInsets.only(bottom: 16)),
+                child: Text(
+                  "1. Eine Person, die sich schon in diesem Kurs befindet, klickt unter der "
+                  "Seite \"Gruppen\" auf den gewünschten Kurs.\n"
+                  "2. Auf dieser Seite wird nun direkt unter dem Kursnamen der Sharecode angezeigt.\n"
+                  "3. Die Person, die dem Kurs beitreten möchte, klickt unten auf der Seite \"Gruppen\" auf den roten Button.\n"
+                  "4. Als nächstes wählt die Person \"Kurs/Klasse beitreten\".\n"
+                  "5. Jetzt öffnet sich ein Fenster - dort muss dann nur noch der Sharecode von der anderen Person in das Textfeld unten eingeben werden.\n",
+                  style: _descriptionStyle(context),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -203,7 +208,8 @@ class _WhyHasEveryMemberOfAGroupADifferentSharecode extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionCard(
       header: const Text(
-          'Warum hat jeder Teilnehmer aus einer Gruppe einen anderen Sharecode?'),
+        'Warum hat jeder Teilnehmer aus einer Gruppe einen anderen Sharecode?',
+      ),
       body: Text(
         "Jeder Teilnehmer aus einem Kurs hat einen individuellen Sharecode.\n\n"
         "Das hat den Grund, dass getrackt werden kann, welcher Nutzer wen eingeladen hat.\n\n"
@@ -223,7 +229,8 @@ class _WhatIsTheDifferenceBetweenAGroupACourseAndASchoolClass
   Widget build(BuildContext context) {
     return ExpansionCard(
       header: const Text(
-          'Was ist der Unterschied zwischen einer Gruppe, einem Kurs und einer Schulklasse?'),
+        'Was ist der Unterschied zwischen einer Gruppe, einem Kurs und einer Schulklasse?',
+      ),
       body: Text(
         "Kurs: Spiegelt ein Schulfach wieder.\n\n"
         "Schulklasse: Besteht aus mehreren Kursen und ermöglicht das Beitreten all dieser Kurse mit nur einem Sharecode.\n\n"
@@ -241,7 +248,8 @@ class _GroupRolesExplained extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionCard(
       header: const Text(
-          'Gruppenrollen erklärt: Was ist ein passives Mitglied, aktives Mitglied, Administrator?'),
+        'Gruppenrollen erklärt: Was ist ein passives Mitglied, aktives Mitglied, Administrator?',
+      ),
       body: Text(
         "Administrator:\n"
         "Ein Admin verwaltet eine Gruppe. Das bedeutet, dass er diese bearbeiten, löschen und Teilnehmer rauswerfen kann. "

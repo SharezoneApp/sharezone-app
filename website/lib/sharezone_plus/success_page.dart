@@ -26,19 +26,14 @@ class PlusSuccessPage extends StatelessWidget {
               const SizedBox(height: 12),
               const Text(
                 'Du hast Sharezone Plus erfolgreich für dein Kind erworben.\nVielen Dank für deine Unterstützung!',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                ),
+                style: TextStyle(color: Colors.black, fontSize: 20),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
               MarkdownBody(
                 data:
                     'Solltest du Fragen haben, kannst du dich jederzeit an unseren [Support](/support) wenden.',
-                styleSheet: MarkdownStyleSheet(
-                  textAlign: WrapAlignment.center,
-                ),
+                styleSheet: MarkdownStyleSheet(textAlign: WrapAlignment.center),
                 onTapLink: (text, href, title) {
                   Navigator.pushNamed(context, SupportPage.tag);
                 },

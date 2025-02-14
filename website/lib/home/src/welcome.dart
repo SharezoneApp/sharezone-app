@@ -30,12 +30,11 @@ class Welcome extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: AnimationConfiguration.toStaggeredList(
                   duration: const Duration(milliseconds: 375),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: FadeInAnimation(
-                      child: widget,
-                    ),
-                  ),
+                  childAnimationBuilder:
+                      (widget) => SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(child: widget),
+                      ),
                   children: <Widget>[
                     Semantics(
                       header: true,
@@ -67,7 +66,7 @@ class Welcome extends StatelessWidget {
                     SvgPicture.asset(
                       'assets/illustrations/releax.svg',
                       height: 250,
-                    )
+                    ),
                   ],
                 ),
               ),

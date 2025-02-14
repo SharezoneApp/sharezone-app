@@ -44,7 +44,10 @@ class _MemePlaceholderState extends State<MemePlaceholder> {
     );
     return Padding(
       padding: EdgeInsets.only(
-          left: 24, right: 24, top: MediaQuery.of(context).size.height * 0.175),
+        left: 24,
+        right: 24,
+        top: MediaQuery.of(context).size.height * 0.175,
+      ),
       child: Center(
         child: Column(
           children: <Widget>[
@@ -52,25 +55,28 @@ class _MemePlaceholderState extends State<MemePlaceholder> {
               height: MediaQuery.of(context).size.height * 0.3,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: _controller.value.isInitialized
-                    ? Center(
-                        key: const ValueKey('loaded'),
-                        // Wegen einem Bug von Flutter funktioniert ClipRRect + VideoPlayer mit
-                        // dem Skia-Render nicht (Web-App crasht). Deswegen muss im Web der
-                        // VideoPlayer ohne ClipRRect aufgerufen werden.
-                        // Ticket: https://github.com/flutter/flutter/issues/56785
-                        child: PlatformCheck.isWeb
-                            ? videoPlayer
-                            : ClipRRect(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                child: videoPlayer,
-                              ),
-                      )
-                    : const Center(
-                        key: ValueKey('loading'),
-                        child: AccentColorCircularProgressIndicator(),
-                      ),
+                child:
+                    _controller.value.isInitialized
+                        ? Center(
+                          key: const ValueKey('loaded'),
+                          // Wegen einem Bug von Flutter funktioniert ClipRRect + VideoPlayer mit
+                          // dem Skia-Render nicht (Web-App crasht). Deswegen muss im Web der
+                          // VideoPlayer ohne ClipRRect aufgerufen werden.
+                          // Ticket: https://github.com/flutter/flutter/issues/56785
+                          child:
+                              PlatformCheck.isWeb
+                                  ? videoPlayer
+                                  : ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                    child: videoPlayer,
+                                  ),
+                        )
+                        : const Center(
+                          key: ValueKey('loading'),
+                          child: AccentColorCircularProgressIndicator(),
+                        ),
               ),
             ),
             if (widget.text != null)
@@ -80,7 +86,9 @@ class _MemePlaceholderState extends State<MemePlaceholder> {
                   widget.text!,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 22),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 22,
+                  ),
                 ),
               ),
           ],

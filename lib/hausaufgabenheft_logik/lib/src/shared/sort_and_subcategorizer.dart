@@ -12,12 +12,12 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
   final Date Function() getCurrentDate;
 
-  HomeworkSortAndSubcategorizer({
-    required this.getCurrentDate,
-  });
+  HomeworkSortAndSubcategorizer({required this.getCurrentDate});
 
   IList<HomeworkSectionView<T>> sortAndSubcategorize(
-      IList<T> homeworks, Sort<BaseHomeworkReadModel> sort) {
+    IList<T> homeworks,
+    Sort<BaseHomeworkReadModel> sort,
+  ) {
     final sorted = homeworks.sortWith(sort);
 
     return switch (sort) {
@@ -35,15 +35,18 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
         homeworks.where((h) => Date.fromDateTime(h.todoDate) < now).toIList();
     final IList<T> todayHomework =
         homeworks.where((h) => Date.fromDateTime(h.todoDate) == now).toIList();
-    final IList<T> tomorrowHomework = homeworks
-        .where((h) => Date.fromDateTime(h.todoDate) == tomorrow)
-        .toIList();
-    final IList<T> in2DaysHomework = homeworks
-        .where((h) => Date.fromDateTime(h.todoDate) == in2Days)
-        .toIList();
-    final IList<T> futureHomework = homeworks
-        .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
-        .toIList();
+    final IList<T> tomorrowHomework =
+        homeworks
+            .where((h) => Date.fromDateTime(h.todoDate) == tomorrow)
+            .toIList();
+    final IList<T> in2DaysHomework =
+        homeworks
+            .where((h) => Date.fromDateTime(h.todoDate) == in2Days)
+            .toIList();
+    final IList<T> futureHomework =
+        homeworks
+            .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
+            .toIList();
 
     final overdueSec = HomeworkSectionView('Überfällig', overdueHomework);
     final todaySec = HomeworkSectionView('Heute', todayHomework);
@@ -56,7 +59,7 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
       todaySec,
       tomorrowSec,
       inTwoDaysSec,
-      afterTwoDaysSec
+      afterTwoDaysSec,
     ];
 
     return sections.where((section) => section.isNotEmpty).toIList();
@@ -69,8 +72,9 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
       final IList<T> homeworksWithSubject =
           homeworks.where((h) => h.subject == subject).toIList();
 
-      homeworkSections = homeworkSections
-          .add(HomeworkSectionView(subject.name, homeworksWithSubject));
+      homeworkSections = homeworkSections.add(
+        HomeworkSectionView(subject.name, homeworksWithSubject),
+      );
     }
     return homeworkSections;
   }

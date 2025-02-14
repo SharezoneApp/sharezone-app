@@ -35,10 +35,10 @@ class TimetableQuickCreateDialog extends StatelessWidget {
     return SizedBox(
       height: height - (height / 5),
       child: StreamBuilder<List<Course>>(
-        stream: BlocProvider.of<SharezoneContext>(context)
-            .api
-            .course
-            .streamCourses(),
+        stream:
+            BlocProvider.of<SharezoneContext>(
+              context,
+            ).api.course.streamCourses(),
         builder: (context, snapshot) {
           final courses = snapshot.data ?? [];
           final isCourseListEmpty = courses.isEmpty;
@@ -48,20 +48,24 @@ class TimetableQuickCreateDialog extends StatelessWidget {
               _AppBar(),
               SliverToBoxAdapter(
                 child: SafeArea(
-                  child: isCourseListEmpty
-                      ? _EmptyCourseList()
-                      : Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: courses
-                              .map((course) => _QuickCreateCourseTile(
-                                    course: course,
-                                    selectionBloc: selectionBloc,
-                                    periodSelection: periodSelection,
-                                  ))
-                              .toList(),
-                        ),
+                  child:
+                      isCourseListEmpty
+                          ? _EmptyCourseList()
+                          : Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children:
+                                courses
+                                    .map(
+                                      (course) => _QuickCreateCourseTile(
+                                        course: course,
+                                        selectionBloc: selectionBloc,
+                                        periodSelection: periodSelection,
+                                      ),
+                                    )
+                                    .toList(),
+                          ),
                 ),
-              )
+              ),
             ],
           );
         },
@@ -89,8 +93,10 @@ class _AppBar extends StatelessWidget {
         const _JoinGroupIconButton(),
         CloseIconButton(color: _getIconColor(context)),
       ],
-      title: Text("Stunde hinzufügen",
-          style: Theme.of(context).textTheme.titleLarge),
+      title: Text(
+        "Stunde hinzufügen",
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
     );
   }
 }
@@ -130,9 +136,10 @@ class _EmptyCourseList extends StatelessWidget {
     final modalSheetHeight = height - (height / 5);
     const appBarHeight = 56.0;
     return Material(
-      color: Theme.of(context).isDarkTheme
-          ? Theme.of(context).scaffoldBackgroundColor
-          : Colors.white,
+      color:
+          Theme.of(context).isDarkTheme
+              ? Theme.of(context).scaffoldBackgroundColor
+              : Colors.white,
       child: SizedBox(
         height: modalSheetHeight - appBarHeight,
         child: Center(
@@ -149,8 +156,11 @@ class _EmptyCourseList extends StatelessWidget {
                     child: CourseManagementButton(
                       iconData: Icons.add,
                       title: "Kurs erstellen",
-                      onTap: () =>
-                          Navigator.pushNamed(context, CourseTemplatePage.tag),
+                      onTap:
+                          () => Navigator.pushNamed(
+                            context,
+                            CourseTemplatePage.tag,
+                          ),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -184,8 +194,9 @@ class _QuickCreateCourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasCreatorPermissions =
-        course.myRole.hasPermission(GroupPermission.contentCreation);
+    final hasCreatorPermissions = course.myRole.hasPermission(
+      GroupPermission.contentCreation,
+    );
     return ListTile(
       enabled: hasCreatorPermissions,
       title: Text(course.name),

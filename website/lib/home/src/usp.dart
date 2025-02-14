@@ -30,10 +30,7 @@ class USP extends StatelessWidget {
 class _UspImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      "assets/illustrations/usp.svg",
-      width: 400,
-    );
+    return SvgPicture.asset("assets/illustrations/usp.svg", width: 400);
   }
 }
 

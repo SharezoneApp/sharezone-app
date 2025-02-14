@@ -23,16 +23,18 @@ class HttpAbgabendateiUmbenenner extends AbgabendateiUmbenenner {
   final FirebaseAuthHeaderRetriever _authHeaderRetriever;
 
   HttpAbgabendateiUmbenenner(
-      this.api, this.abgabeId, this._authHeaderRetriever);
+    this.api,
+    this.abgabeId,
+    this._authHeaderRetriever,
+  );
 
   @override
   Future<void> nenneDateiUm(AbgabedateiId dateiId, Dateiname neuerName) async {
     await api.renameFile(
-        '$abgabeId',
-        '$dateiId',
-        DateinameDto(
-          (dto) => dto.name = neuerName.mitExtension,
-        ),
-        headers: await _authHeaderRetriever.getAuthHeader());
+      '$abgabeId',
+      '$dateiId',
+      DateinameDto((dto) => dto.name = neuerName.mitExtension),
+      headers: await _authHeaderRetriever.getAuthHeader(),
+    );
   }
 }

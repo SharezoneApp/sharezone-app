@@ -91,12 +91,14 @@ class _LastMessage extends StatelessWidget {
           title: Text(
             'Letzte Nachricht ${hasUnreadMessages ? '(ungelesen)' : ''}',
             style: TextStyle(
-                fontWeight: hasUnreadMessages ? FontWeight.w500 : null),
+              fontWeight: hasUnreadMessages ? FontWeight.w500 : null,
+            ),
           ),
           subtitle: Text(
             view.lastMessage!,
             style: TextStyle(
-                fontWeight: hasUnreadMessages ? FontWeight.w500 : null),
+              fontWeight: hasUnreadMessages ? FontWeight.w500 : null,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -194,10 +196,7 @@ class _HeardFrom extends StatelessWidget {
 }
 
 class _FeedbackCardTile extends StatelessWidget {
-  const _FeedbackCardTile({
-    required this.title,
-    this.leading,
-  });
+  const _FeedbackCardTile({required this.title, this.leading});
 
   final Widget? leading;
   final Widget title;
@@ -210,20 +209,21 @@ class _FeedbackCardTile extends StatelessWidget {
       child: ListTile(
         leading: leading,
         mouseCursor: SystemMouseCursors.click,
-        title: isLoading
-            ? Container(
-                height: 20,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(5),
+        title:
+            isLoading
+                ? Container(
+                  height: 20,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                )
+                : DefaultTextStyle.merge(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  child: title,
                 ),
-              )
-            : DefaultTextStyle.merge(
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                child: title,
-              ),
       ),
     );
   }

@@ -12,14 +12,18 @@ const stateSheetContentLoading = StateSheetContent(
   body: StateSheetLoadingBody(),
 );
 
-final stateSheetContentSuccessfull =
-    StateSheetContent.fromSimpleData(SimpleData.successful());
+final stateSheetContentSuccessfull = StateSheetContent.fromSimpleData(
+  SimpleData.successful(),
+);
 
-final stateSheetContentFailed =
-    StateSheetContent.fromSimpleData(SimpleData.failed());
+final stateSheetContentFailed = StateSheetContent.fromSimpleData(
+  SimpleData.failed(),
+);
 
-final stateSheetContentUnknownException =
-    StateSheetContent.fromSimpleData(SimpleData.unkonwnException());
+final stateSheetContentUnknownException = StateSheetContent.fromSimpleData(
+  SimpleData.unkonwnException(),
+);
 
-final stateSheetContentNoInternetException =
-    StateSheetContent.fromSimpleData(SimpleData.noInternet());
+final stateSheetContentNoInternetException = StateSheetContent.fromSimpleData(
+  SimpleData.noInternet(),
+);

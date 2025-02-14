@@ -66,27 +66,30 @@ class _HomeworkTileState extends State<HomeworkTile> {
     return HomeworkTileTemplate(
       isCompleted: isCompleted,
       title: widget.homework.title,
-      trailing: widget.homework.withSubmissions
-          ? _SubmissionUploadButton(
-              onPressed: () => _navigateToSubmissionPage(context),
-            )
-          : _Checkbox(
-              isHomeworkCompleted: isCompleted,
-              onCompletionChange: _changeCompletionState,
-            ),
+      trailing:
+          widget.homework.withSubmissions
+              ? _SubmissionUploadButton(
+                onPressed: () => _navigateToSubmissionPage(context),
+              )
+              : _Checkbox(
+                isHomeworkCompleted: isCompleted,
+                onCompletionChange: _changeCompletionState,
+              ),
       courseName: widget.homework.subject,
       courseAbbreviation: widget.homework.abbreviation,
       courseColor: Color(widget.homework.subjectColor.value),
       todoDate: widget.homework.todoDate,
-      todoDateColor: widget.homework.colorDate
-          ? Colors.redAccent
-          : Theme.of(context).textTheme.bodyMedium!.color,
+      todoDateColor:
+          widget.homework.colorDate
+              ? Colors.redAccent
+              : Theme.of(context).textTheme.bodyMedium!.color,
       onTap: () => _showHomeworkDetails(context),
-      onLongPress: () => handleHomeworkTileLongPress(
-        context,
-        homeworkId: HomeworkId(widget.homework.id),
-        setHomeworkStatus: _changeCompletionState,
-      ),
+      onLongPress:
+          () => handleHomeworkTileLongPress(
+            context,
+            homeworkId: HomeworkId(widget.homework.id),
+            setHomeworkStatus: _changeCompletionState,
+          ),
       key: Key(widget.homework.id),
     );
   }
@@ -118,26 +121,29 @@ class _HomeworkTileState extends State<HomeworkTile> {
     }
 
     widget.onChanged(
-        isCompleted ? HomeworkStatus.completed : HomeworkStatus.open);
+      isCompleted ? HomeworkStatus.completed : HomeworkStatus.open,
+    );
   }
 
   Future<void> _navigateToSubmissionPage(BuildContext context) {
     return Navigator.push(
       context,
       IgnoreWillPopScopeWhenIosSwipeBackRoute(
-        builder: (_) => HomeworkUserCreateSubmissionPage(
-          homeworkId: widget.homework.id,
-        ),
+        builder:
+            (_) => HomeworkUserCreateSubmissionPage(
+              homeworkId: widget.homework.id,
+            ),
         fullscreenDialog: true,
       ),
     );
   }
 
   Future<bool> _showHomeworkDetails(BuildContext context) async {
-    final detailsViewFactory =
-        BlocProvider.of<HomeworkDetailsViewFactory>(context);
-    final homeworkDetailsView =
-        await detailsViewFactory.fromStudentHomeworkView(widget.homework);
+    final detailsViewFactory = BlocProvider.of<HomeworkDetailsViewFactory>(
+      context,
+    );
+    final homeworkDetailsView = await detailsViewFactory
+        .fromStudentHomeworkView(widget.homework);
     if (!context.mounted) return false;
 
     return pushWithDefault<bool>(
@@ -152,9 +158,7 @@ class _HomeworkTileState extends State<HomeworkTile> {
 class _SubmissionUploadButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const _SubmissionUploadButton({
-    required this.onPressed,
-  });
+  const _SubmissionUploadButton({required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

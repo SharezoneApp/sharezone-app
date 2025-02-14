@@ -35,8 +35,8 @@ class GroupOnboardingBloc extends BlocBase {
     this._signedUpBloc,
     this._analytics,
     this.beitrittsversucheStream,
-  )   : typeOfUser = _signedUpBloc.typeOfUser,
-        signedUp = _signedUpBloc.signedUp;
+  ) : typeOfUser = _signedUpBloc.typeOfUser,
+      signedUp = _signedUpBloc.signedUp;
 
   /// Nutzer überspringt das Group-Onboarding
   void skipOnboarding() {

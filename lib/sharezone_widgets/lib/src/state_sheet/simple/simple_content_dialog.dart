@@ -13,14 +13,18 @@ const stateDialogContentLoading = StateDialogContent(
   body: StateDialogLoadingBody(),
 );
 
-final stateDialogContentSuccessfull =
-    StateDialogContent.fromSimpleData(SimpleData.successful());
+final stateDialogContentSuccessfull = StateDialogContent.fromSimpleData(
+  SimpleData.successful(),
+);
 
-final stateDialogContentFailed =
-    StateDialogContent.fromSimpleData(SimpleData.failed());
+final stateDialogContentFailed = StateDialogContent.fromSimpleData(
+  SimpleData.failed(),
+);
 
-final stateDialogContentUnknownException =
-    StateDialogContent.fromSimpleData(SimpleData.unkonwnException());
+final stateDialogContentUnknownException = StateDialogContent.fromSimpleData(
+  SimpleData.unkonwnException(),
+);
 
-final stateDialogContentNoInternetException =
-    StateDialogContent.fromSimpleData(SimpleData.noInternet());
+final stateDialogContentNoInternetException = StateDialogContent.fromSimpleData(
+  SimpleData.noInternet(),
+);

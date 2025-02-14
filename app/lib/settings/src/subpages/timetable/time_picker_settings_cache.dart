@@ -24,8 +24,10 @@ class TimePickerSettingsCache extends BlocBase {
   }
 
   Stream<bool> isTimePickerWithFifeMinutesIntervalActiveStream() {
-    return streamingCache.getBool(_timePickerWithFifeMinutesIntervalKey,
-        defaultValue: true);
+    return streamingCache.getBool(
+      _timePickerWithFifeMinutesIntervalKey,
+      defaultValue: true,
+    );
   }
 
   @override

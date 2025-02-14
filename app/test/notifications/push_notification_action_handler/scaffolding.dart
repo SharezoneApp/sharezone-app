@@ -80,11 +80,12 @@ List<PushNotification> generateNotificationMutations({
     actionTypeMutations,
     actionDataMutations,
     titleMutations,
-    bodyMutations
+    bodyMutations,
   ];
 
-  final lengthOfLongestMutationList =
-      allMutations.map((list) => list.length).reduce((a, b) => max(a, b));
+  final lengthOfLongestMutationList = allMutations
+      .map((list) => list.length)
+      .reduce((a, b) => max(a, b));
 
   final notifications = <PushNotification>[];
 
@@ -100,12 +101,14 @@ List<PushNotification> generateNotificationMutations({
     final title0 = getElement(titleMutations);
     final body0 = getElement(bodyMutations);
 
-    notifications.add(PushNotification(
-      actionType: actionType0 as String?,
-      title: title0 as String?,
-      body: body0 as String?,
-      actionData: actionData0 as Map<String, dynamic>?,
-    ));
+    notifications.add(
+      PushNotification(
+        actionType: actionType0 as String?,
+        title: title0 as String?,
+        body: body0 as String?,
+        actionData: actionData0 as Map<String, dynamic>?,
+      ),
+    );
   }
 
   return notifications;
@@ -125,8 +128,9 @@ class TestHandlerFor {
   static void nonFatalParsingExceptions<T extends ActionRequest>({
     required List<PushNotification> Function() generateNotifications,
     required void Function(
-            List<NonFatalParsingException> parsingExceptionsPerNotification)
-        expectParsingErrors,
+      List<NonFatalParsingException> parsingExceptionsPerNotification,
+    )
+    expectParsingErrors,
   }) {
     assert(T != dynamic, "ActionRequest type must be specified");
 
@@ -135,17 +139,22 @@ class TestHandlerFor {
       final actionRequest = result.actionRequestOrNull;
       if (actionRequest == null) {
         throw StateError(
-            "The actionRequest was null. This shouldn't happen as we expect a successful execution here. The handler result was: $result.");
+          "The actionRequest was null. This shouldn't happen as we expect a successful execution here. The handler result was: $result.",
+        );
       }
 
-      expect(actionRequest, isA<T>(),
-          reason: '$notification should get matched to a $T.');
+      expect(
+        actionRequest,
+        isA<T>(),
+        reason: '$notification should get matched to a $T.',
+      );
 
       final parsingExceptions = result.nonFatalParsingExceptions!;
 
       if (parsingExceptions.isEmpty) {
         throw StateError(
-            "The parsingExceptions are empty. This shouldn't happen as we expect parsingExceptions here. The handler result was: $result.");
+          "The parsingExceptions are empty. This shouldn't happen as we expect parsingExceptions here. The handler result was: $result.",
+        );
       }
 
       expectParsingErrors(parsingExceptions);
@@ -161,23 +170,30 @@ class TestHandlerFor {
     assert(T != dynamic, "ActionRequest type must be specified");
 
     for (final notification in generateNotifications()) {
-      final result = handlePushNotification(notification,
-          testRegistrations: addRegistrations);
+      final result = handlePushNotification(
+        notification,
+        testRegistrations: addRegistrations,
+      );
 
       if (failOnNonFatalParsingErrors &&
           result.nonFatalParsingExceptions!.isNotEmpty) {
         throw StateError(
-            "Result had non-fatal parsing errors (`failOnNonFatalParsingErrors` options was true). The handler result was: $result.");
+          "Result had non-fatal parsing errors (`failOnNonFatalParsingErrors` options was true). The handler result was: $result.",
+        );
       }
 
       final actionRequest = result.actionRequestOrNull;
       if (actionRequest == null) {
         throw StateError(
-            "The actionRequest was null. This shouldn't happen as we expect a successful execution here. The handler result was: $result.");
+          "The actionRequest was null. This shouldn't happen as we expect a successful execution here. The handler result was: $result.",
+        );
       }
 
-      expect(actionRequest, isA<T>(),
-          reason: '$notification should get matched to a $T.');
+      expect(
+        actionRequest,
+        isA<T>(),
+        reason: '$notification should get matched to a $T.',
+      );
 
       expectActionToExecute(actionRequest as T);
     }
@@ -189,12 +205,15 @@ class TestHandlerFor {
     List<ActionRegistration> addRegistrations = const [],
   }) {
     for (final notification in generateNotifications()) {
-      final result = handlePushNotification(notification,
-          testRegistrations: addRegistrations);
+      final result = handlePushNotification(
+        notification,
+        testRegistrations: addRegistrations,
+      );
 
       if (result.fatalParsingExceptionOrNull == null) {
         throw StateError(
-            "The fatal parsing exception was null. This shouldn't happen as we expect a fatal error here. The handler result was: $result.");
+          "The fatal parsing exception was null. This shouldn't happen as we expect a fatal error here. The handler result was: $result.",
+        );
       }
 
       resultsInFatalParsingError(result.fatalParsingExceptionOrNull);
@@ -204,16 +223,19 @@ class TestHandlerFor {
   static void errorDialog({
     required List<PushNotification> Function() generateNotifications,
     required void Function(ShowErrorDialogInvocation? showErrorDialogException)
-        shouldShowErrorDialog,
+    shouldShowErrorDialog,
     List<ActionRegistration> addRegistrations = const [],
   }) {
     for (final notification in generateNotifications()) {
-      final result = handlePushNotification(notification,
-          testRegistrations: addRegistrations);
+      final result = handlePushNotification(
+        notification,
+        testRegistrations: addRegistrations,
+      );
 
       if (result.showErrorDialogExceptionOrNull == null) {
         throw StateError(
-            "The fatal parsing exception was null. This shouldn't happen as we expect a fatal error here. The handler result was: $result.");
+          "The fatal parsing exception was null. This shouldn't happen as we expect a fatal error here. The handler result was: $result.",
+        );
       }
 
       shouldShowErrorDialog(result.showErrorDialogExceptionOrNull);
@@ -277,9 +299,13 @@ PushHandlerInvocationResult handlePushNotification(
     showNotificationDialog: handle,
     showFeedback: handle,
     showTimetableEvent: handle,
-    showErrorNotificationDialog: (notification, errorReason, error) =>
-        showErrorDialogException =
-            ShowErrorDialogInvocation(notification, errorReason, error),
+    showErrorNotificationDialog:
+        (notification, errorReason, error) =>
+            showErrorDialogException = ShowErrorDialogInvocation(
+              notification,
+              errorReason,
+              error,
+            ),
     testRegistrations: testRegistrations,
     instrumentation: instrumentation,
   );
@@ -302,7 +328,10 @@ class ShowErrorDialogInvocation implements Exception {
   final dynamic errorOrNull;
 
   ShowErrorDialogInvocation(
-      this.notification, this.errorReason, this.errorOrNull);
+    this.notification,
+    this.errorReason,
+    this.errorOrNull,
+  );
 }
 
 class FatalParsingError {
@@ -349,7 +378,10 @@ class TestInstrumentation
 
   @override
   void parsingFailedFataly(
-      PushNotification pushNotification, exception, StackTrace stacktrace) {
+    PushNotification pushNotification,
+    exception,
+    StackTrace stacktrace,
+  ) {
     fatalConversionException = exception;
     fatalParsingError = FatalParsingError(
       error: exception,
@@ -367,14 +399,19 @@ class TestInstrumentation
   bool calledActionExecutionFailed = false;
   @override
   void actionExecutionFailed(
-      ActionRequest actionRequest, exception, StackTrace stacktrace) {
+    ActionRequest actionRequest,
+    exception,
+    StackTrace stacktrace,
+  ) {
     calledActionExecutionFailed = true;
   }
 
   bool calledParsingSucceeded = false;
   @override
   void parsingSucceeded(
-      PushNotification pushNotification, ActionRequest actionRequest) {
+    PushNotification pushNotification,
+    ActionRequest actionRequest,
+  ) {
     calledParsingSucceeded = true;
   }
 
@@ -391,16 +428,19 @@ class TestInstrumentation
   }
 
   @override
-  void parsingFailedNonFatalyOnAttribute(String attributeName,
-      {dynamic fallbackValueChosenInstead,
-      PushNotification? notification,
-      dynamic error}) {
+  void parsingFailedNonFatalyOnAttribute(
+    String attributeName, {
+    dynamic fallbackValueChosenInstead,
+    PushNotification? notification,
+    dynamic error,
+  }) {
     nonFatalParsingExceptions.add(
       NonFatalParsingException(
-          attributeName: attributeName,
-          fallbackValueChosen: fallbackValueChosenInstead,
-          notification: notification,
-          error: error),
+        attributeName: attributeName,
+        fallbackValueChosen: fallbackValueChosenInstead,
+        notification: notification,
+        error: error,
+      ),
     );
   }
 }

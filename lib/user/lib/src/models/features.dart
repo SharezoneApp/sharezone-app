@@ -9,20 +9,14 @@
 class Features {
   final bool allColors;
 
-  Features({
-    required this.allColors,
-  });
+  Features({required this.allColors});
 
   Map<String, dynamic> toJson() {
-    return {
-      'allColors': allColors,
-    };
+    return {'allColors': allColors};
   }
 
   factory Features.fromJson(Map<String, dynamic>? map) {
-    return Features(
-      allColors: map == null ? true : map['allColors'] ?? true,
-    );
+    return Features(allColors: map == null ? true : map['allColors'] ?? true);
   }
 
   @override

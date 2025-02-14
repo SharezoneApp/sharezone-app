@@ -57,18 +57,19 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-            path: SharezonePlusPage.tag,
-            builder: (BuildContext context, GoRouterState state) {
-              return const SharezonePlusPage();
-            },
-            routes: [
-              GoRoute(
-                path: 'success',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const PlusSuccessPage();
-                },
-              ),
-            ]),
+          path: SharezonePlusPage.tag,
+          builder: (BuildContext context, GoRouterState state) {
+            return const SharezonePlusPage();
+          },
+          routes: [
+            GoRoute(
+              path: 'success',
+              builder: (BuildContext context, GoRouterState state) {
+                return const PlusSuccessPage();
+              },
+            ),
+          ],
+        ),
       ],
     ),
   ],
@@ -102,9 +103,6 @@ class FadeTransiationsBuilder extends PageTransitionsBuilder {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    return FadeTransition(
-      opacity: animation,
-      child: child,
-    );
+    return FadeTransition(opacity: animation, child: child);
   }
 }

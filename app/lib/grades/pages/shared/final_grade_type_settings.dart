@@ -37,10 +37,10 @@ class FinalGradeTypeSettings extends StatelessWidget {
           subtitle: Text(
             'Die berechnete Fachnote kann von einem Notentyp überschrieben werden.',
             style: TextStyle(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.5)),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.5),
+            ),
           ),
           trailing: IconButton(
             tooltip: 'Was ist die Endnote?',

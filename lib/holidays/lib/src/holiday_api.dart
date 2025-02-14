@@ -68,8 +68,10 @@ class CloudFunctionHolidayApiClient extends HolidayApiClient {
 
   @override
   Future<List> getHolidayAPIResponse(int year, String stateCode) async {
-    final result =
-        await functions.loadHolidays(stateCode: stateCode, year: '$year');
+    final result = await functions.loadHolidays(
+      stateCode: stateCode,
+      year: '$year',
+    );
     if (result.hasException) {
       throw ApiResponseException(
         "Got bad response: ${result.exception?.code} ${result.exception?.message}",
@@ -105,8 +107,11 @@ class HolidayApi {
   ///                        [yearsInAdvance] == 1 -> Gets Holiday for 2018 + 2019
   /// If [returnPassedHolidays] is false, then the Holidays which end have already passed,
   /// will not get returned.
-  Future<List<Holiday>> load(int yearsInAdvance, State state,
-      [bool returnPassedHolidays = false]) async {
+  Future<List<Holiday>> load(
+    int yearsInAdvance,
+    State state, [
+    bool returnPassedHolidays = false,
+  ]) async {
     assert(yearsInAdvance >= 0);
 
     List<Holiday> holidays = [];
@@ -114,8 +119,10 @@ class HolidayApi {
     for (int i = 0; i <= yearsInAdvance; i++) {
       int yearToLoad = getCurrentTime().year + i;
       try {
-        List<Holiday> holidayList =
-            await _loadHolidaysForYear(yearToLoad, state);
+        List<Holiday> holidayList = await _loadHolidaysForYear(
+          yearToLoad,
+          state,
+        );
         holidays.addAll(holidayList);
       } on EmptyResponseException {
         log("Empty Response from API for year: $yearToLoad");
@@ -126,17 +133,24 @@ class HolidayApi {
   }
 
   List<Holiday> _deserializeHolidaysFromJSON(List jsonHolidayList) {
-    List<Holiday> holidayList = jsonHolidayList
-        .map((jsonHoliday) =>
-            jsonSerializer.deserializeWith(Holiday.serializer, jsonHoliday))
-        .whereType<Holiday>()
-        .toList();
+    List<Holiday> holidayList =
+        jsonHolidayList
+            .map(
+              (jsonHoliday) => jsonSerializer.deserializeWith(
+                Holiday.serializer,
+                jsonHoliday,
+              ),
+            )
+            .whereType<Holiday>()
+            .toList();
     return holidayList;
   }
 
   Future<List<Holiday>> _loadHolidaysForYear(int year, State state) async {
-    List jsonHolidayList =
-        await apiClient.getHolidayAPIResponse(year, state.code);
+    List jsonHolidayList = await apiClient.getHolidayAPIResponse(
+      year,
+      state.code,
+    );
     List<Holiday> holidayList = _deserializeHolidaysFromJSON(jsonHolidayList);
     removePassedHolidays(holidayList);
     return holidayList;
@@ -144,8 +158,9 @@ class HolidayApi {
 
   void removePassedHolidays(List<Holiday> holidayList) {
     if (!returnPassedHolidays) {
-      holidayList
-          .removeWhere((holiday) => getCurrentTime().isAfter(holiday.end));
+      holidayList.removeWhere(
+        (holiday) => getCurrentTime().isAfter(holiday.end),
+      );
     }
   }
 }

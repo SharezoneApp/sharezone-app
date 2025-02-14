@@ -44,13 +44,13 @@ class StudentHomeworkPageBloc
     required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
     required KeyValueStore keyValueStore,
-  })  : _homeworkApi = homeworkApi,
-        _openHomeworkListViewFactory = openHomeworkListViewFactory,
-        _homeworkSortingCache = homeworkSortingCache,
-        _viewFactory = viewFactory,
-        _getCurrentDateTime = getCurrentDateTime,
-        _keyValueStore = keyValueStore,
-        super(Uninitialized()) {
+  }) : _homeworkApi = homeworkApi,
+       _openHomeworkListViewFactory = openHomeworkListViewFactory,
+       _homeworkSortingCache = homeworkSortingCache,
+       _viewFactory = viewFactory,
+       _getCurrentDateTime = getCurrentDateTime,
+       _keyValueStore = keyValueStore,
+       super(Uninitialized()) {
     on<LoadHomeworks>((event, emit) {
       _mapLoadHomeworksToState();
     });
@@ -77,29 +77,38 @@ class StudentHomeworkPageBloc
 
   StreamSubscription? _combineLatestSubscription;
   Future<void> _mapLoadHomeworksToState() async {
-    final sortEnum = await _homeworkSortingCache.getLastSorting() ??
+    final sortEnum =
+        await _homeworkSortingCache.getLastSorting() ??
         HomeworkSort.smallestDateSubjectAndTitle;
-    _currentSortStream
-        .add(sortEnum.toSortObject(getCurrentDate: _getCurrentDate));
+    _currentSortStream.add(
+      sortEnum.toSortObject(getCurrentDate: _getCurrentDate),
+    );
 
-    _lazyLoadingController =
-        _homeworkApi.getLazyLoadingCompletedHomeworksController(
-            numberOfInitialCompletedHomeworksToLoad);
+    _lazyLoadingController = _homeworkApi
+        .getLazyLoadingCompletedHomeworksController(
+          numberOfInitialCompletedHomeworksToLoad,
+        );
 
     _combineLatestSubscription = Rx.combineLatest3<
-            IList<StudentHomeworkReadModel>,
-            Sort<BaseHomeworkReadModel>,
-            LazyLoadingResult<StudentHomeworkReadModel>,
-            Success>(_homeworkApi.openHomeworks, _currentSortStream,
-        _lazyLoadingController!.results, (openHws, sort, lazyCompletedHwsRes) {
-      final open = _openHomeworkListViewFactory.create(openHws, sort);
+      IList<StudentHomeworkReadModel>,
+      Sort<BaseHomeworkReadModel>,
+      LazyLoadingResult<StudentHomeworkReadModel>,
+      Success
+    >(
+      _homeworkApi.openHomeworks,
+      _currentSortStream,
+      _lazyLoadingController!.results,
+      (openHws, sort, lazyCompletedHwsRes) {
+        final open = _openHomeworkListViewFactory.create(openHws, sort);
 
-      final completed = LazyLoadingHomeworkListView(
+        final completed = LazyLoadingHomeworkListView(
           lazyCompletedHwsRes.homeworks.map(_viewFactory.createFrom).toIList(),
-          loadedAllHomeworks: !lazyCompletedHwsRes.moreHomeworkAvailable);
+          loadedAllHomeworks: !lazyCompletedHwsRes.moreHomeworkAvailable,
+        );
 
-      return Success(completed, open);
-    }).listen((s) {
+        return Success(completed, open);
+      },
+    ).listen((s) {
       if (!_isClosed) {
         add(_Yield(s));
       }
@@ -112,17 +121,20 @@ class StudentHomeworkPageBloc
 
   Future<void> _mapFilterChangedToState(OpenHwSortingChanged event) async {
     await _homeworkSortingCache.setLastSorting(event.sort);
-    _currentSortStream
-        .add(event.sort.toSortObject(getCurrentDate: _getCurrentDate));
+    _currentSortStream.add(
+      event.sort.toSortObject(getCurrentDate: _getCurrentDate),
+    );
   }
 
   Future<void> _mapHomeworkChangedCompletionStatus(
-      CompletionStatusChanged event) async {
+    CompletionStatusChanged event,
+  ) async {
     await _homeworkApi.completeHomework(
-        HomeworkId(event.homeworkId),
-        event.newValue == true
-            ? CompletionStatus.completed
-            : CompletionStatus.open);
+      HomeworkId(event.homeworkId),
+      event.newValue == true
+          ? CompletionStatus.completed
+          : CompletionStatus.open,
+    );
 
     if (event.newValue == true) {
       _incrementCheckedHomeworkCounter();

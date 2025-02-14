@@ -66,10 +66,11 @@ class IcalLinksPageController extends ChangeNotifier {
       return;
     }
 
-    final updatedList = state.views.map((e) {
-      if (e.id == id) return view.copyWith(url: url, error: error);
-      return e;
-    }).toList();
+    final updatedList =
+        state.views.map((e) {
+          if (e.id == id) return view.copyWith(url: url, error: error);
+          return e;
+        }).toList();
 
     _setViews(updatedList);
   }
@@ -114,28 +115,19 @@ extension on List<ICalLinkView> {
 sealed class ICalLinksPageState {
   final List<ICalLinkView> views;
 
-  const ICalLinksPageState({
-    required this.views,
-  });
+  const ICalLinksPageState({required this.views});
 }
 
 class ICalLinksPageStateLoading extends ICalLinksPageState {
-  const ICalLinksPageStateLoading({
-    required super.views,
-  });
+  const ICalLinksPageStateLoading({required super.views});
 }
 
 class ICalLinksPageStateLoaded extends ICalLinksPageState {
-  const ICalLinksPageStateLoaded({
-    required super.views,
-  });
+  const ICalLinksPageStateLoaded({required super.views});
 }
 
 class ICalLinksPageStateError extends ICalLinksPageState {
   final String message;
 
-  const ICalLinksPageStateError({
-    required this.message,
-    required super.views,
-  });
+  const ICalLinksPageStateError({required this.message, required super.views});
 }

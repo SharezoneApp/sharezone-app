@@ -16,8 +16,10 @@ class TimetableElementProperties {
 
   const TimetableElementProperties(this.totalsAtThisPosition, this.index);
 
-  static const TimetableElementProperties standard =
-      TimetableElementProperties(1, 0);
+  static const TimetableElementProperties standard = TimetableElementProperties(
+    1,
+    0,
+  );
 
   @override
   bool operator ==(other) {

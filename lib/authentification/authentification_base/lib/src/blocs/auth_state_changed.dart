@@ -25,7 +25,7 @@ final authUserSubject = BehaviorSubject<AuthUser?>.seeded(null);
 Stream<AuthUser?> get authUserStream => authUserSubject.stream;
 
 Stream<AuthUser?> listenToAuthStateChanged() {
-  return FirebaseAuth.instance
-      .authStateChanges()
-      .map((firebaseUser) => AuthUser.fromFirebaseUser(firebaseUser));
+  return FirebaseAuth.instance.authStateChanges().map(
+    (firebaseUser) => AuthUser.fromFirebaseUser(firebaseUser),
+  );
 }

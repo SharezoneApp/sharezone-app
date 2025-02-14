@@ -15,11 +15,7 @@ import 'package:platform_check/platform_check.dart';
 import 'package:remote_configuration/remote_configuration.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 
-enum AdFormat {
-  banner,
-  native,
-  interstitial,
-}
+enum AdFormat { banner, native, interstitial }
 
 class AdsController extends ChangeNotifier {
   final SubscriptionService subscriptionService;
@@ -48,8 +44,9 @@ class AdsController extends ChangeNotifier {
       return false;
     }
 
-    final isRemoteConfigFlagEnabled =
-        remoteConfiguration.getBool('ads_enabled');
+    final isRemoteConfigFlagEnabled = remoteConfiguration.getBool(
+      'ads_enabled',
+    );
     final isActivationFlagEnabled = keyValueStore.getBool('show-ads') ?? false;
     return isRemoteConfigFlagEnabled || isActivationFlagEnabled;
   }
@@ -93,15 +90,15 @@ class AdsController extends ChangeNotifier {
     return switch (PlatformCheck.currentPlatform) {
       // Test ad unit IDs from: https://developers.google.com/admob/flutter/
       Platform.android => switch (format) {
-          AdFormat.banner => testAdUnitIdBannerAndroid,
-          AdFormat.native => testAdUnitIdNativeAndroid,
-          AdFormat.interstitial => testAdUnitIdInterstitialAndroid,
-        },
+        AdFormat.banner => testAdUnitIdBannerAndroid,
+        AdFormat.native => testAdUnitIdNativeAndroid,
+        AdFormat.interstitial => testAdUnitIdInterstitialAndroid,
+      },
       Platform.iOS => switch (format) {
-          AdFormat.banner => testAdUnitIdBannerIOS,
-          AdFormat.native => testAdUnitIdNativeIOS,
-          AdFormat.interstitial => testAdUnitIdInterstitialIOS,
-        },
+        AdFormat.banner => testAdUnitIdBannerIOS,
+        AdFormat.native => testAdUnitIdNativeIOS,
+        AdFormat.interstitial => testAdUnitIdInterstitialIOS,
+      },
       _ => 'N/A',
     };
   }
@@ -110,23 +107,25 @@ class AdsController extends ChangeNotifier {
     _subscription = subscriptionService
         .hasFeatureUnlockedStream(SharezonePlusFeature.removeAds)
         .listen((hasUnlocked) {
-      if (hasUnlocked) {
-        areAdsVisible = false;
-      } else {
-        shouldShowInfoDialog = _shouldShowInfoDialog();
-        areAdsVisible = isQualifiedForAds();
-      }
-      notifyListeners();
-    });
+          if (hasUnlocked) {
+            areAdsVisible = false;
+          } else {
+            shouldShowInfoDialog = _shouldShowInfoDialog();
+            areAdsVisible = isQualifiedForAds();
+          }
+          notifyListeners();
+        });
   }
 
   Future<void> _initializeMobileAdsSDK() async {
     await MobileAds.instance.initialize();
-    await MobileAds.instance.updateRequestConfiguration(RequestConfiguration(
-      // Since we set this value to `true` there is no need to show the consent
-      // form.
-      tagForUnderAgeOfConsent: 1,
-    ));
+    await MobileAds.instance.updateRequestConfiguration(
+      RequestConfiguration(
+        // Since we set this value to `true` there is no need to show the consent
+        // form.
+        tagForUnderAgeOfConsent: 1,
+      ),
+    );
     debugPrint("Google Mobile Ads SDK initialized.");
   }
 
@@ -137,8 +136,9 @@ class AdsController extends ChangeNotifier {
       // show more relevant ads by providing more information about our app.
       keywords: remoteConfiguration.getStringList('ad_keywords'),
       contentUrl: remoteConfiguration.getString('ad_content_url'),
-      neighboringContentUrls:
-          remoteConfiguration.getStringList('ad_neighboring_urls'),
+      neighboringContentUrls: remoteConfiguration.getStringList(
+        'ad_neighboring_urls',
+      ),
     );
   }
 

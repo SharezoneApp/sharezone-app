@@ -34,34 +34,35 @@ class PageTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return SelectionArea(
       child: Scaffold(
-        drawer: isPhone(context)
-            ? Drawer(
-                child: ColumnSpacing(
-                  children: [
-                    ListTile(
-                      leading: const Icon(Icons.home),
-                      title: const Text("Hauptseite"),
-                      onTap: () => context.go('/'),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.home),
-                      title: const Text("Plus"),
-                      onTap: () => context.go('/plus'),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.question_answer),
-                      title: const Text("Docs"),
-                      onTap: () => launchUrl("https://docs.sharezone.net"),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.help),
-                      title: const Text("Support"),
-                      onTap: () => context.go('/$SupportPage.tag'),
-                    ),
-                  ],
-                ),
-              )
-            : null,
+        drawer:
+            isPhone(context)
+                ? Drawer(
+                  child: ColumnSpacing(
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.home),
+                        title: const Text("Hauptseite"),
+                        onTap: () => context.go('/'),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.home),
+                        title: const Text("Plus"),
+                        onTap: () => context.go('/plus'),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.question_answer),
+                        title: const Text("Docs"),
+                        onTap: () => launchUrl("https://docs.sharezone.net"),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.help),
+                        title: const Text("Support"),
+                        onTap: () => context.go('/$SupportPage.tag'),
+                      ),
+                    ],
+                  ),
+                )
+                : null,
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
@@ -76,7 +77,8 @@ class PageTemplate extends StatelessWidget {
                   children: [
                     ConstrainedBox(
                       constraints: BoxConstraints(
-                        minHeight: MediaQuery.of(context).size.height -
+                        minHeight:
+                            MediaQuery.of(context).size.height -
                             _kAppBarHeight -
                             5,
                       ),
@@ -138,8 +140,8 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                             padding: const EdgeInsets.only(right: 30),
                             child: TransparentButton(
                               child: const Text("Plus"),
-                              onTap: () =>
-                                  context.go('/${SharezonePlusPage.tag}'),
+                              onTap:
+                                  () => context.go('/${SharezonePlusPage.tag}'),
                             ),
                           ),
                           TransparentButton(
@@ -190,10 +192,7 @@ class _GoWebAppButton extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   "Web-App",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 22),
                 ),
               ),
             ),

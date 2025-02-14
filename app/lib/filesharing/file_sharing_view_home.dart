@@ -32,8 +32,9 @@ class FileSharingViewHome extends StatelessWidget {
         if (snapshot.data!.isEmpty) return _NoCourseFolderFound();
 
         final fileSharingDataList = snapshot.data!;
-        fileSharingDataList
-            .sort((a, b) => a.courseName!.compareTo(b.courseName!));
+        fileSharingDataList.sort(
+          (a, b) => a.courseName!.compareTo(b.courseName!),
+        );
 
         return SingleChildScrollView(
           padding: const EdgeInsets.only(left: 8, top: 8),
@@ -51,7 +52,7 @@ class FileSharingViewHome extends StatelessWidget {
                     maxElementsPerSection: 3,
                     children: <Widget>[
                       for (final fileSharingData in fileSharingDataList)
-                        _CourseFolderCard(fileSharingData)
+                        _CourseFolderCard(fileSharingData),
                     ],
                   ),
                 ],
@@ -95,7 +96,8 @@ class _NoCourseFolderFound extends StatelessWidget {
       animateSVG: true,
       title: "Keine Ordner gefunden! 😬",
       description: Text(
-          "Es wurden keine Ordner gefunden, da du noch keinen Kursen beigetreten bist. Trete einfach einem Kurs bei oder erstelle einen eigenen Kurs."),
+        "Es wurden keine Ordner gefunden, da du noch keinen Kursen beigetreten bist. Trete einfach einem Kurs bei oder erstelle einen eigenen Kurs.",
+      ),
     );
   }
 }

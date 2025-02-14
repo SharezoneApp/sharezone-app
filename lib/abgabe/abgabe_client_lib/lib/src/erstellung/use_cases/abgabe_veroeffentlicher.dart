@@ -25,9 +25,7 @@ class HttpAbgabeVeroeffentlicher implements AbgabeVeroeffentlicher {
   Future<void> veroeffentlicheAbgabe(AbgabeId abgabeId) async {
     await _api.publishSubmission(
       '$abgabeId',
-      SubmissionDto(
-        (dto) => dto.published = true,
-      ),
+      SubmissionDto((dto) => dto.published = true),
       headers: await _authHeaderRetriever.getAuthHeader(),
     );
   }

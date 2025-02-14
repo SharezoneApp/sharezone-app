@@ -46,8 +46,11 @@ class SharezoneGateway {
       memberID: memberID,
       references: references,
       course: CourseGateway(references, memberID, connectionsGateway),
-      schoolClassGateway:
-          SchoolClassGateway(references, memberID, connectionsGateway),
+      schoolClassGateway: SchoolClassGateway(
+        references,
+        memberID,
+        connectionsGateway,
+      ),
       authUser: authUser,
       timetable: TimetableGateway(references, memberID),
       user: UserGateway(references, authUser),
@@ -63,18 +66,19 @@ class SharezoneGateway {
     required this.schoolClassGateway,
     required this.timetable,
     required this.user,
-  })  : _authUser = authUser,
-        uID = authUser.uid,
-        userId = UserId(authUser.uid),
-        homework = HomeworkGateway(
-          userId: authUser.uid,
-          firestore: references.firestore,
-          typeOfUserStream: user.userStream.map((user) => user?.typeOfUser),
-        ),
-        blackboard = BlackboardGateway(
-            authUser: authUser, firestore: references.firestore),
-        fileSharing =
-            FileSharingGateway(user: authUser, references: references);
+  }) : _authUser = authUser,
+       uID = authUser.uid,
+       userId = UserId(authUser.uid),
+       homework = HomeworkGateway(
+         userId: authUser.uid,
+         firestore: references.firestore,
+         typeOfUserStream: user.userStream.map((user) => user?.typeOfUser),
+       ),
+       blackboard = BlackboardGateway(
+         authUser: authUser,
+         firestore: references.firestore,
+       ),
+       fileSharing = FileSharingGateway(user: authUser, references: references);
 
   Future<void> dispose() async {
     await Future.wait([

@@ -17,10 +17,7 @@ import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'share_sharecode.dart';
 
 class GroupOnboardingCreateCourse extends StatelessWidget {
-  const GroupOnboardingCreateCourse({
-    super.key,
-    required this.schoolClassId,
-  });
+  const GroupOnboardingCreateCourse({super.key, required this.schoolClassId});
 
   static const tag = 'onboarding-course-page';
   final String? schoolClassId;
@@ -34,8 +31,9 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
         children: <Widget>[
           OnboardingNavigationBar(
             action: OnboardingNavigationBarContinueButton(
-              nextPage:
-                  GroupOnboardingShareSharecode(schoolClassId: schoolClassId),
+              nextPage: GroupOnboardingShareSharecode(
+                schoolClassId: schoolClassId,
+              ),
               nextTag: GroupOnboardingShareSharecode.tag,
             ),
           ),
@@ -48,9 +46,7 @@ class GroupOnboardingCreateCourse extends StatelessWidget {
             withCreateCustomCourseSection: true,
           )
         else
-          const CourseTemplatePageBody(
-            withCreateCustomCourseSection: true,
-          )
+          const CourseTemplatePageBody(withCreateCustomCourseSection: true),
       ],
     );
   }

@@ -64,10 +64,7 @@ class FirebaseRemoteConfiguration extends RemoteConfiguration {
   /// Fetches and caches configuration from the Remote Config service.
   @override
   Future<void> fetch() async {
-    await retry(
-      () => _remoteConfig.fetch(),
-      maxAttempts: 3,
-    );
+    await retry(() => _remoteConfig.fetch(), maxAttempts: 3);
   }
 }
 

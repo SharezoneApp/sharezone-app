@@ -15,8 +15,9 @@ class MissingAccountInformationGuardBloc extends BlocBase {
   final Stream<bool> hasUserSharezoneAccount;
 
   MissingAccountInformationGuardBloc(this.userGateway)
-      : hasUserSharezoneAccount =
-            userGateway.userDocument.map((doc) => doc.exists);
+    : hasUserSharezoneAccount = userGateway.userDocument.map(
+        (doc) => doc.exists,
+      );
 
   Future<void> logOut() => userGateway.logOut();
 

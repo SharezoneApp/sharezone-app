@@ -38,8 +38,11 @@ bool _hasPermission(
     case GroupPermission.administration:
       return [MemberRole.owner, MemberRole.admin].contains(currentRole);
     case GroupPermission.contentCreation:
-      return [MemberRole.owner, MemberRole.admin, MemberRole.creator]
-          .contains(currentRole);
+      return [
+        MemberRole.owner,
+        MemberRole.admin,
+        MemberRole.creator,
+      ].contains(currentRole);
   }
 }
 

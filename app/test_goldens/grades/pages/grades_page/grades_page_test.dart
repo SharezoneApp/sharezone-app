@@ -88,7 +88,7 @@ void main() {
             design: Design.random(random),
             id: const SubjectId('5'),
           ),
-        ]
+        ],
       );
       final pastTerms = [
         (
@@ -123,10 +123,7 @@ void main() {
         ),
       ];
       setState(
-        GradesPageLoaded(
-          currentTerm: currentTerm,
-          pastTerms: pastTerms,
-        ),
+        GradesPageLoaded(currentTerm: currentTerm, pastTerms: pastTerms),
       );
     }
 
@@ -194,17 +191,23 @@ void main() {
       testGoldens('renders as expected (light mode)', (tester) async {
         setWithLoading();
         await pushGradesPage(tester, getLightTheme());
-        await multiScreenGolden(tester, 'grades_page_loading_light',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'grades_page_loading_light',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
         setWithLoading();
         await pushGradesPage(tester, getDarkTheme());
-        await multiScreenGolden(tester, 'grades_page_loading_dark',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'grades_page_loading_dark',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
     });
   });

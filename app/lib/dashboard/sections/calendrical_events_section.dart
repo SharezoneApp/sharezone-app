@@ -24,7 +24,7 @@ class _EventsSection extends StatelessWidget {
             child: Row(
               children: [
                 for (final view in eventViews)
-                  SizedBox(width: 150, child: CalenderEventCard(view))
+                  SizedBox(width: 150, child: CalenderEventCard(view)),
               ],
             ),
           );
@@ -45,7 +45,8 @@ class _EventsSectionTitle extends StatelessWidget {
       builder: (context, snapshot) {
         final numberOfUrgentHomeworks = snapshot.data ?? 0;
         return Text(
-            "Anstehende Termine ${numberOfUrgentHomeworks != 0 ? "($numberOfUrgentHomeworks)" : ""}");
+          "Anstehende Termine ${numberOfUrgentHomeworks != 0 ? "($numberOfUrgentHomeworks)" : ""}",
+        );
       },
     );
   }

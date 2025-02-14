@@ -31,9 +31,9 @@ class ReportItem {
   final String path;
 
   ReportItem(this.path)
-      : assert(
-          !path.endsWith('/'),
-          '''Der Pfad sollte nicht mit einem Slash ("/") enden.
+    : assert(
+        !path.endsWith('/'),
+        '''Der Pfad sollte nicht mit einem Slash ("/") enden.
         Falls es doch so ist, heißt dass, dass die ID bzw der Pfad des zu meldenden Items
         nicht richtig gebaut werden konnte.
         
@@ -43,7 +43,7 @@ class ReportItem {
         also beispielsweise einer leeren Id ("") zum Anfang benutzt wird.
         
         Ein Workaround ist, dass man die leere ID mit einer temporären "Fake"-ID ersetzt.''',
-        );
+      );
 
   ReportedItemType get type {
     final pathParts = path.split('/');

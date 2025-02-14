@@ -23,11 +23,14 @@ class SharezoneRepo {
   final Package sharezoneAdminConsole;
   final DartLibraries dartLibraries;
 
-  File get commandsSourceOfTruthYamlFile => fileSystem.file(path.join(
+  File get commandsSourceOfTruthYamlFile => fileSystem.file(
+    path.join(
       location.path,
       'bin',
       'source_of_truth',
-      'commands_source_of_truth.yaml'));
+      'commands_source_of_truth.yaml',
+    ),
+  );
 
   SharezoneRepo._({
     required this.fileSystem,
@@ -114,13 +117,12 @@ class SharezoneRepo {
 class DartLibraries {
   final Directory clientLibariesLocation;
 
-  DartLibraries({
-    required this.clientLibariesLocation,
-  });
+  DartLibraries({required this.clientLibariesLocation});
 
   Stream<Package> streamPackages() async* {
-    final clientLibsStream =
-        clientLibariesLocation.list(recursive: true).where(_isDartPackage);
+    final clientLibsStream = clientLibariesLocation
+        .list(recursive: true)
+        .where(_isDartPackage);
     await for (var entity in clientLibsStream) {
       if (entity is Directory) {
         try {

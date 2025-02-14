@@ -21,9 +21,7 @@ final _iosStageToTracks = {
 };
 
 /// The different flavors of the iOS app that support deployment.
-final _iosFlavors = [
-  'prod',
-];
+final _iosFlavors = ['prod'];
 
 /// [DeployAppIosCommand] provides functionality for deploying the Sharezone iOS
 /// app to the App Store or TestFlight.
@@ -159,33 +157,32 @@ class DeployAppIosCommand extends CommandBase {
     }
   }
 
-  Future<void> _buildApp(ProcessRunner processRunner,
-      {required int buildNumber}) async {
+  Future<void> _buildApp(
+    ProcessRunner processRunner, {
+    required int buildNumber,
+  }) async {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
       final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
-      await processRunner.runCommand(
-        [
-          'dart',
-          'run',
-          'sz_repo_cli',
-          'build',
-          'app',
-          'ios',
-          '--flavor',
-          flavor,
-          '--stage',
-          stage,
-          '--build-number',
-          '$buildNumber',
-          if (exportOptionsPlist != null) ...[
-            '--export-options-plist',
-            exportOptionsPlist,
-          ],
+      await processRunner.runCommand([
+        'dart',
+        'run',
+        'sz_repo_cli',
+        'build',
+        'app',
+        'ios',
+        '--flavor',
+        flavor,
+        '--stage',
+        stage,
+        '--build-number',
+        '$buildNumber',
+        if (exportOptionsPlist != null) ...[
+          '--export-options-plist',
+          exportOptionsPlist,
         ],
-        workingDirectory: repo.sharezoneCiCdTool.location,
-      );
+      ], workingDirectory: repo.sharezoneCiCdTool.location);
     } catch (e) {
       throw Exception('Failed to build iOS app: $e');
     }

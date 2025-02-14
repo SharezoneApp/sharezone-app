@@ -34,7 +34,8 @@ class LocalFileIo extends LocalFile {
       fileName: fileName,
       path: file.path,
       sizeBytes: file.lengthSync(),
-      mimeType: MimeType.fromPathOrNull(file.path) ??
+      mimeType:
+          MimeType.fromPathOrNull(file.path) ??
           MimeType.fromFileNameOrNull(fileName) ??
           MimeType.any,
     );

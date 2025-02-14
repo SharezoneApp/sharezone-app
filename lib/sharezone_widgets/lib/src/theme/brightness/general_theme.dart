@@ -22,8 +22,8 @@ const greenColor = Color(0xFF2EF0C2);
 const sharezoneBorderRadiusValue = 10.0;
 
 const _roundedShape = RoundedRectangleBorder(
-    borderRadius:
-        BorderRadius.all(Radius.circular(sharezoneBorderRadiusValue)));
+  borderRadius: BorderRadius.all(Radius.circular(sharezoneBorderRadiusValue)),
+);
 
 const _snackBarTheme = SnackBarThemeData(
   behavior: SnackBarBehavior.floating,
@@ -54,9 +54,7 @@ const _bottomSheetTheme = BottomSheetThemeData(
 final splashBorderRadius = BorderRadius.circular(10);
 final focusBorderRadius = BorderRadius.circular(10);
 
-final listTileShape = RoundedRectangleBorder(
-  borderRadius: focusBorderRadius,
-);
+final listTileShape = RoundedRectangleBorder(borderRadius: focusBorderRadius);
 
 const _textFieldFocusedBorderWidth = 2.5;
 final _textFieldBorderRadius = BorderRadius.circular(10);
@@ -64,9 +62,7 @@ final _textFieldBorderRadius = BorderRadius.circular(10);
 final inputDecorationTheme = InputDecorationTheme(
   filled: true,
   fillColor: Colors.grey.withValues(alpha: 0.1),
-  border: OutlineInputBorder(
-    borderRadius: _textFieldBorderRadius,
-  ),
+  border: OutlineInputBorder(borderRadius: _textFieldBorderRadius),
   enabledBorder: OutlineInputBorder(
     borderRadius: _textFieldBorderRadius,
     borderSide: BorderSide(color: Colors.grey[300]!, width: 1),

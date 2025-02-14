@@ -32,52 +32,62 @@ class TermDetailsPageController extends ChangeNotifier {
     required this.crashAnalytics,
     required this.analytics,
   }) {
-    _termStreamSubscription = _getTermStream(termRef.id).listen((term) {
-      if (term == null) {
-        state = const TermDetailsPageError('Term not found');
-      } else {
-        final List<({SubjectView subject, List<SavedGradeView> grades})>
-            subjects2 = term.subjects.map((subject) {
-          return (
-            subject: (
-              id: subject.id,
-              abbreviation: subject.abbreviation,
-              displayName: subject.name,
-              grade: displayGrade(subject.calculatedGrade),
-              design: subject.design,
-            ),
-            grades: subject.grades
-                .map((grade) => (
-                      id: grade.id,
-                      grade: displayGrade(grade.value),
-                      gradeTypeIcon: _getGradeTypeIcon(grade.gradeTypeId),
-                      title: grade.title,
-                      date:
-                          DateFormat('dd.MM.yyyy').format(grade.date.toDateTime)
-                    ))
-                .toList()
-              ..sortByDate(),
-          );
-        }).toList();
+    _termStreamSubscription = _getTermStream(termRef.id).listen(
+      (term) {
+        if (term == null) {
+          state = const TermDetailsPageError('Term not found');
+        } else {
+          final List<({SubjectView subject, List<SavedGradeView> grades})>
+          subjects2 =
+              term.subjects.map((subject) {
+                return (
+                  subject: (
+                    id: subject.id,
+                    abbreviation: subject.abbreviation,
+                    displayName: subject.name,
+                    grade: displayGrade(subject.calculatedGrade),
+                    design: subject.design,
+                  ),
+                  grades:
+                      subject.grades
+                          .map(
+                            (grade) => (
+                              id: grade.id,
+                              grade: displayGrade(grade.value),
+                              gradeTypeIcon: _getGradeTypeIcon(
+                                grade.gradeTypeId,
+                              ),
+                              title: grade.title,
+                              date: DateFormat(
+                                'dd.MM.yyyy',
+                              ).format(grade.date.toDateTime),
+                            ),
+                          )
+                          .toList()
+                        ..sortByDate(),
+                );
+              }).toList();
 
-        state = TermDetailsPageLoaded(
-          term: (
-            id: term.id,
-            displayName: term.name,
-            avgGrade: (
-              displayGrade(term.calculatedGrade),
-              GradePerformance.good,
+          state = TermDetailsPageLoaded(
+            term: (
+              id: term.id,
+              displayName: term.name,
+              avgGrade: (
+                displayGrade(term.calculatedGrade),
+                GradePerformance.good,
+              ),
             ),
-          ),
-          subjectsWithGrades: subjects2,
-        );
-      }
-      notifyListeners();
-    }, onError: (error, stack) {
-      state = TermDetailsPageError(error);
-      crashAnalytics.recordError('Could not stream term: $error', stack);
-      notifyListeners();
-    });
+            subjectsWithGrades: subjects2,
+          );
+        }
+        notifyListeners();
+      },
+      onError: (error, stack) {
+        state = TermDetailsPageError(error);
+        crashAnalytics.recordError('Could not stream term: $error', stack);
+        notifyListeners();
+      },
+    );
 
     _logOpenTermDetails();
   }
@@ -96,8 +106,9 @@ class TermDetailsPageController extends ChangeNotifier {
   }
 
   Stream<TermResult?> _getTermStream(TermId termId) {
-    return gradesService.terms
-        .map((terms) => terms.firstWhereOrNull((term) => term.id == termId));
+    return gradesService.terms.map(
+      (terms) => terms.firstWhereOrNull((term) => term.id == termId),
+    );
   }
 
   void deleteTerm() {
@@ -124,18 +135,19 @@ class TermDetailsPageLoading extends TermDetailsPageState {
   const TermDetailsPageLoading();
 }
 
-typedef SavedGradeView = ({
-  GradeId id,
-  GradeView grade,
-  Icon gradeTypeIcon,
-  String title,
-  String date,
-});
+typedef SavedGradeView =
+    ({
+      GradeId id,
+      GradeView grade,
+      Icon gradeTypeIcon,
+      String title,
+      String date,
+    });
 
 class TermDetailsPageLoaded extends TermDetailsPageState {
   final PastTermView term;
   final List<({SubjectView subject, List<SavedGradeView> grades})>
-      subjectsWithGrades;
+  subjectsWithGrades;
 
   const TermDetailsPageLoaded({
     required this.term,

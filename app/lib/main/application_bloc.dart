@@ -14,8 +14,13 @@ import 'package:sharezone/util/navigation_service.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class SharezoneContext extends BlocBase {
-  SharezoneContext(this.api, this.streamingSharedPreferences,
-      this.sharedPreferences, this.navigationService, this.analytics);
+  SharezoneContext(
+    this.api,
+    this.streamingSharedPreferences,
+    this.sharedPreferences,
+    this.navigationService,
+    this.analytics,
+  );
 
   final SharezoneGateway api;
 
