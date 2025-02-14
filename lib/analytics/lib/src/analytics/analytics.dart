@@ -40,12 +40,8 @@ abstract class AnalyticsBackend {
   void log(String name, [Map<String, dynamic>? data]);
 
   Future<void> setAnalyticsCollectionEnabled(bool value);
-  Future<void> logSignUp({
-    required String signUpMethod,
-  });
-  Future<void> setCurrentScreen({
-    required String screenName,
-  });
+  Future<void> logSignUp({required String signUpMethod});
+  Future<void> setCurrentScreen({required String screenName});
   Future<void> setUserProperty({required String name, required String value});
 }
 
@@ -64,15 +60,11 @@ class Analytics {
     _backend.setAnalyticsCollectionEnabled(value);
   }
 
-  Future<void> logSignUp({
-    required String signUpMethod,
-  }) {
+  Future<void> logSignUp({required String signUpMethod}) {
     return _backend.logSignUp(signUpMethod: signUpMethod);
   }
 
-  Future<void> setCurrentScreen({
-    required String screenName,
-  }) {
+  Future<void> setCurrentScreen({required String screenName}) {
     return _backend.setCurrentScreen(screenName: screenName);
   }
 

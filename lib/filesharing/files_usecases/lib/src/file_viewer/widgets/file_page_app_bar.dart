@@ -64,10 +64,7 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       name!,
-      style: const TextStyle(
-        color: Colors.white,
-        fontFamily: rubik,
-      ),
+      style: const TextStyle(color: Colors.white, fontFamily: rubik),
     );
   }
 }

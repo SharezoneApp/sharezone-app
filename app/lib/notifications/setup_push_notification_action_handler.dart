@@ -47,21 +47,24 @@ enum NotificationHandlerErrorReason {
 /// list of [ActionRegistration].
 PushNotificationActionHandler setupPushNotificationActionHandler({
   required ActionRequestExecutorFunc<NavigateToLocationRequest>
-      navigateToLocation,
+  navigateToLocation,
   required ActionRequestExecutorFunc<OpenLinkRequest> openLink,
   required ActionRequestExecutorFunc<ShowBlackboardItemRequest>
-      showBlackboardItem,
+  showBlackboardItem,
   required ActionRequestExecutorFunc<ShowHomeworkRequest> showHomework,
   required ActionRequestExecutorFunc<ShowFeedbackRequest> showFeedback,
   required ActionRequestExecutorFunc<ShowNotificationDialogRequest>
-      showNotificationDialog,
+  showNotificationDialog,
   required ActionRequestExecutorFunc<ShowTimetableEventRequest>
-      showTimetableEvent,
+  showTimetableEvent,
 
   /// [errorOrNull] is non-null if [NotificationHandlerErrorReason] == [NotificationHandlerErrorReason.fatalParsingError]
   required void Function(
-          PushNotification, NotificationHandlerErrorReason, dynamic errorOrNull)
-      showErrorNotificationDialog,
+    PushNotification,
+    NotificationHandlerErrorReason,
+    dynamic errorOrNull,
+  )
+  showErrorNotificationDialog,
   required PushNotificationActionHandlerInstrumentation instrumentation,
   @visibleForTesting List<ActionRegistration> testRegistrations = const [],
 }) {
@@ -71,8 +74,9 @@ PushNotificationActionHandler setupPushNotificationActionHandler({
   // as this registration will handle all notifications without any action type.
   // This is just a safeguard for a developer error.
   assert(
-    showNotificationDialogRegistration.registerForActionTypeStrings
-        .contains(''),
+    showNotificationDialogRegistration.registerForActionTypeStrings.contains(
+      '',
+    ),
   );
 
   return PushNotificationActionHandler(
@@ -101,10 +105,17 @@ PushNotificationActionHandler setupPushNotificationActionHandler({
       /// This might happen on an old client where a new action type isn't known
       /// yet.
       showErrorNotificationDialog(
-          notification, NotificationHandlerErrorReason.unknownActionType, null);
+        notification,
+        NotificationHandlerErrorReason.unknownActionType,
+        null,
+      );
     },
-    onFatalParsingError: (notification, error) => showErrorNotificationDialog(
-        notification, NotificationHandlerErrorReason.fatalParsingError, error),
+    onFatalParsingError:
+        (notification, error) => showErrorNotificationDialog(
+          notification,
+          NotificationHandlerErrorReason.fatalParsingError,
+          error,
+        ),
     instrumentation: instrumentation,
   );
 }

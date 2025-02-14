@@ -33,7 +33,8 @@ class AddLicenseHeadersCommand extends CommandBase {
 
     if (results.exitCode != 0) {
       throw Exception(
-          'The process exited with a non-zero code (${results.exitCode})\n${results.stdout}\n${results.stderr}');
+        'The process exited with a non-zero code (${results.exitCode})\n${results.stdout}\n${results.stderr}',
+      );
     }
 
     stdout.writeln('Added license headers!');

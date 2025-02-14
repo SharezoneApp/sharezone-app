@@ -21,10 +21,7 @@ class HochgeladeneAbgabedatei extends Abgabedatei {
     required this.downloadUrl,
     required DateTime erstellungsdatum,
     this.zuletztBearbeitet,
-  }) : super(
-          dateigroesse: groesse,
-          erstellungsdatum: erstellungsdatum,
-        ) {
+  }) : super(dateigroesse: groesse, erstellungsdatum: erstellungsdatum) {
     ArgumentError.checkNotNull(downloadUrl, 'downloadUrl');
     ArgumentError.checkNotNull(erstellungsdatum, 'erstellungsdatum');
   }

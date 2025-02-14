@@ -16,12 +16,17 @@ class _$SubmissionDtoSerializer implements StructuredSerializer<SubmissionDto> {
   final String wireName = 'SubmissionDto';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, SubmissionDto object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    SubmissionDto object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'published',
-      serializers.serialize(object.published,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.published,
+        specifiedType: const FullType(bool),
+      ),
     ];
 
     return result;
@@ -29,8 +34,10 @@ class _$SubmissionDtoSerializer implements StructuredSerializer<SubmissionDto> {
 
   @override
   SubmissionDto deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = new SubmissionDtoBuilder();
 
     final iterator = serialized.iterator;
@@ -40,8 +47,12 @@ class _$SubmissionDtoSerializer implements StructuredSerializer<SubmissionDto> {
       final Object? value = iterator.current;
       switch (key) {
         case 'published':
-          result.published = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.published =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -59,7 +70,10 @@ class _$SubmissionDto extends SubmissionDto {
 
   _$SubmissionDto._({required this.published}) : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        published, r'SubmissionDto', 'published');
+      published,
+      r'SubmissionDto',
+      'published',
+    );
   }
 
   @override
@@ -86,8 +100,7 @@ class _$SubmissionDto extends SubmissionDto {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'SubmissionDto')
-          ..add('published', published))
-        .toString();
+      ..add('published', published)).toString();
   }
 }
 
@@ -125,10 +138,15 @@ class SubmissionDtoBuilder
   SubmissionDto build() => _build();
 
   _$SubmissionDto _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         new _$SubmissionDto._(
-            published: BuiltValueNullFieldError.checkNotNull(
-                published, r'SubmissionDto', 'published'));
+          published: BuiltValueNullFieldError.checkNotNull(
+            published,
+            r'SubmissionDto',
+            'published',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

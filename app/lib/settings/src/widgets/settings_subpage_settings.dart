@@ -10,11 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SettingsSubpageSection extends StatelessWidget {
-  const SettingsSubpageSection({
-    super.key,
-    this.title,
-    this.children,
-  });
+  const SettingsSubpageSection({super.key, this.title, this.children});
 
   final String? title;
   final List<Widget>? children;
@@ -33,7 +29,7 @@ class SettingsSubpageSection extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: children!,
-          )
+          ),
         ],
       ),
     );

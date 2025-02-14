@@ -13,9 +13,10 @@ import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache
 
 class TimetableSettingsBloc extends BlocBase {
   TimetableSettingsBloc(this.lessonLengthCache, this._timePickerSettingsCache)
-      : lessonLengthStream = lessonLengthCache.streamLessonLength(),
-        isTimePickerFifeMinutesIntervalActive = _timePickerSettingsCache
-            .isTimePickerWithFifeMinutesIntervalActiveStream();
+    : lessonLengthStream = lessonLengthCache.streamLessonLength(),
+      isTimePickerFifeMinutesIntervalActive =
+          _timePickerSettingsCache
+              .isTimePickerWithFifeMinutesIntervalActiveStream();
 
   final LessonLengthCache lessonLengthCache;
   final TimePickerSettingsCache _timePickerSettingsCache;

@@ -15,25 +15,24 @@ class HomeworkPageApi {
   final StudentHomeworkPageApi students;
   final TeacherAndParentHomeworkPageApi teachersAndParents;
 
-  HomeworkPageApi({
-    required this.students,
-    required this.teachersAndParents,
-  });
+  HomeworkPageApi({required this.students, required this.teachersAndParents});
 }
 
 abstract class StudentHomeworkPageApi {
   Stream<IList<StudentHomeworkReadModel>> get openHomeworks;
   LazyLoadingController<StudentHomeworkReadModel>
-      getLazyLoadingCompletedHomeworksController(int nrOfInitialHomeworkToLoad);
+  getLazyLoadingCompletedHomeworksController(int nrOfInitialHomeworkToLoad);
   Future<void> completeHomework(
-      HomeworkId homeworkId, CompletionStatus newCompletionStatus);
+    HomeworkId homeworkId,
+    CompletionStatus newCompletionStatus,
+  );
   Future<IList<HomeworkId>> getOpenOverdueHomeworkIds();
 }
 
 abstract class TeacherAndParentHomeworkPageApi {
   Stream<IList<TeacherHomeworkReadModel>> get openHomeworks;
   LazyLoadingController<TeacherHomeworkReadModel>
-      getLazyLoadingArchivedHomeworksController(int nrOfInitialHomeworkToLoad);
+  getLazyLoadingArchivedHomeworksController(int nrOfInitialHomeworkToLoad);
 }
 
 abstract class LazyLoadingController<T> {
@@ -48,7 +47,7 @@ class LazyLoadingResult<T> {
   LazyLoadingResult(this.homeworks, {required this.moreHomeworkAvailable});
 
   LazyLoadingResult.empty({this.moreHomeworkAvailable = true})
-      : homeworks = const IListConst([]);
+    : homeworks = const IListConst([]);
 
   @override
   String toString() {

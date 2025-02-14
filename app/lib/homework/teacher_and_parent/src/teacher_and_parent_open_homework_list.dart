@@ -26,21 +26,22 @@ class TeacherAndParentOpenHomeworkList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (homeworkListView.sections.isEmpty) return Container();
     return GlowingOverscrollColorChanger(
-        color: overscrollColor,
-        child: AnimatedStaggeredScrollView(
-          children: [
-            for (final section in homeworkListView.sections)
-              HomeworkListSection(
-                title: section.title,
-                children: [
-                  for (final hw in section.homeworks)
-                    TeacherAndParentHomeworkTile(
-                      homework: hw,
-                      key: Key('${hw.id}'),
-                    )
-                ],
-              ),
-          ],
-        ));
+      color: overscrollColor,
+      child: AnimatedStaggeredScrollView(
+        children: [
+          for (final section in homeworkListView.sections)
+            HomeworkListSection(
+              title: section.title,
+              children: [
+                for (final hw in section.homeworks)
+                  TeacherAndParentHomeworkTile(
+                    homework: hw,
+                    key: Key('${hw.id}'),
+                  ),
+              ],
+            ),
+        ],
+      ),
+    );
   }
 }

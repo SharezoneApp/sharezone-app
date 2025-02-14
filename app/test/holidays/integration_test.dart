@@ -33,8 +33,9 @@ void main() {
 
     setMockAnswers(szAppFunctions);
 
-    StreamQueue<List<Holiday?>> queue =
-        StreamQueue<List<Holiday?>>(holidayBloc.holidays);
+    StreamQueue<List<Holiday?>> queue = StreamQueue<List<Holiday?>>(
+      holidayBloc.holidays,
+    );
     stateGateway.changeState(secondState);
 
     areCorrectHolidaysForState(await queue.next, firstState);
@@ -69,20 +70,26 @@ void setMockAnswers(MockSharezoneAppFunctions szAppFunctions) {
   setCfResponse(szAppFunctions, "HH", "2019", _jsonHamburg2019);
 }
 
-HolidayBloc setupBloc(MockSharezoneAppFunctions szAppFunctions,
-    HolidayStateGateway stateGateway, DateTime currentTime) {
+HolidayBloc setupBloc(
+  MockSharezoneAppFunctions szAppFunctions,
+  HolidayStateGateway stateGateway,
+  DateTime currentTime,
+) {
   HolidayApi api = HolidayApi(
     CloudFunctionHolidayApiClient(szAppFunctions),
     getCurrentTime: () => currentTime,
   ); // Return ended Holidays, as I can't manipulate clock.now(). This would lead to flaky tests.
   InMemoryKeyValueStore keyValueStore = InMemoryKeyValueStore();
-  HolidayCache cache =
-      HolidayCache(keyValueStore, getCurrentTime: () => currentTime);
+  HolidayCache cache = HolidayCache(
+    keyValueStore,
+    getCurrentTime: () => currentTime,
+  );
   HolidayService holidayManager = HolidayService(api, cache);
   HolidayBloc holidayBloc = HolidayBloc(
-      holidayManager: holidayManager,
-      stateGateway: stateGateway,
-      getCurrentTime: () => currentTime);
+    holidayManager: holidayManager,
+    stateGateway: stateGateway,
+    getCurrentTime: () => currentTime,
+  );
   return holidayBloc;
 }
 
@@ -108,14 +115,19 @@ bool areCorrectHolidaysForState(List<Holiday?> holidays, StateEnum stateEnum) {
   }
 }
 
-void setCfResponse(MockSharezoneAppFunctions szAppFunctions, String stateCode,
-    String year, String jsonResponse) {
-  when(szAppFunctions.loadHolidays(stateCode: stateCode, year: year))
-      .thenAnswer(
+void setCfResponse(
+  MockSharezoneAppFunctions szAppFunctions,
+  String stateCode,
+  String year,
+  String jsonResponse,
+) {
+  when(
+    szAppFunctions.loadHolidays(stateCode: stateCode, year: year),
+  ).thenAnswer(
     (_) => Future.value(
-      AppFunctionsResult<Map<String, dynamic>>.data(
-        {'rawResponseBody': jsonResponse},
-      ),
+      AppFunctionsResult<Map<String, dynamic>>.data({
+        'rawResponseBody': jsonResponse,
+      }),
     ),
   );
 }
@@ -123,70 +135,94 @@ void setCfResponse(MockSharezoneAppFunctions szAppFunctions, String stateCode,
 final now = DateTime(2018, 1, 1);
 
 // {"start":"2018-10-15T00:00","end":"2018-10-28T00:00","year":2018,"stateCode":"NW","name":"herbstferien","slug":"herbstferien-2018-NW"}
-final Holiday _nrw2018FirstHoliday = Holiday((b) => b
-  ..start = DateTime(2018, 10, 15)
-  ..end = DateTime(2018, 10, 28)
-  ..year = 2018
-  ..stateCode = "NW"
-  ..name = "herbstferien"
-  ..slug = "herbstferien-2018-NW");
+final Holiday _nrw2018FirstHoliday = Holiday(
+  (b) =>
+      b
+        ..start = DateTime(2018, 10, 15)
+        ..end = DateTime(2018, 10, 28)
+        ..year = 2018
+        ..stateCode = "NW"
+        ..name = "herbstferien"
+        ..slug = "herbstferien-2018-NW",
+);
 // {"start":"2018-05-22T00:00","end":"2018-05-26T00:00","year":2018,"stateCode":"NW","name":"pfingstferien","slug":"pfingstferien-2018-NW"}
-final Holiday _nrw2018LastHoliday = Holiday((b) => b
-  ..start = DateTime(2018, 05, 22)
-  ..end = DateTime(2018, 05, 26)
-  ..year = 2018
-  ..stateCode = "NW"
-  ..name = "pfingstferien"
-  ..slug = "pfingstferien-2018-NW");
+final Holiday _nrw2018LastHoliday = Holiday(
+  (b) =>
+      b
+        ..start = DateTime(2018, 05, 22)
+        ..end = DateTime(2018, 05, 26)
+        ..year = 2018
+        ..stateCode = "NW"
+        ..name = "pfingstferien"
+        ..slug = "pfingstferien-2018-NW",
+);
 // {"start":"2019-04-15T00:00","end":"2019-04-28T00:00","year":2019,"stateCode":"NW","name":"osterferien","slug":"osterferien-2019-NW"}
-final Holiday _nrw2019FirstHoliday = Holiday((b) => b
-  ..start = DateTime(2019, 04, 15)
-  ..end = DateTime(2019, 04, 28)
-  ..year = 2019
-  ..stateCode = "NW"
-  ..name = "osterferien"
-  ..slug = "osterferien-2019-NW");
+final Holiday _nrw2019FirstHoliday = Holiday(
+  (b) =>
+      b
+        ..start = DateTime(2019, 04, 15)
+        ..end = DateTime(2019, 04, 28)
+        ..year = 2019
+        ..stateCode = "NW"
+        ..name = "osterferien"
+        ..slug = "osterferien-2019-NW",
+);
 // {"start":"2019-12-23T00:00","end":"2020-01-07T00:00","year":2019,"stateCode":"NW","name":"weihnachtsferien","slug":"weihnachtsferien-2019-NW"}
-final Holiday _nrw2019LastHoliday = Holiday((b) => b
-  ..start = DateTime(2019, 12, 23)
-  ..end = DateTime(2020, 01, 07)
-  ..year = 2019
-  ..stateCode = "NW"
-  ..name = "weihnachtsferien"
-  ..slug = "weihnachtsferien-2019-NW");
+final Holiday _nrw2019LastHoliday = Holiday(
+  (b) =>
+      b
+        ..start = DateTime(2019, 12, 23)
+        ..end = DateTime(2020, 01, 07)
+        ..year = 2019
+        ..stateCode = "NW"
+        ..name = "weihnachtsferien"
+        ..slug = "weihnachtsferien-2019-NW",
+);
 
 // {"start":"2018-10-01T00:00","end":"2018-10-13T00:00","year":2018,"stateCode":"HH","name":"herbstferien","slug":"herbstferien-2018-HH"}
-final Holiday _hamburg2018FirstHoliday = Holiday((b) => b
-  ..start = DateTime(2018, 10, 01)
-  ..end = DateTime(2018, 10, 13)
-  ..year = 2018
-  ..stateCode = "HH"
-  ..name = "herbstferien"
-  ..slug = "herbstferien-2018-HH");
+final Holiday _hamburg2018FirstHoliday = Holiday(
+  (b) =>
+      b
+        ..start = DateTime(2018, 10, 01)
+        ..end = DateTime(2018, 10, 13)
+        ..year = 2018
+        ..stateCode = "HH"
+        ..name = "herbstferien"
+        ..slug = "herbstferien-2018-HH",
+);
 // {"start":"2018-05-07T00:00","end":"2018-05-12T00:00","year":2018,"stateCode":"HH","name":"pfingstferien","slug":"pfingstferien-2018-HH"}
-final Holiday _hamburg2018LastHoliday = Holiday((b) => b
-  ..start = DateTime(2018, 05, 07)
-  ..end = DateTime(2018, 05, 12)
-  ..year = 2018
-  ..stateCode = "HH"
-  ..name = "pfingstferien"
-  ..slug = "pfingstferien-2018-HH");
+final Holiday _hamburg2018LastHoliday = Holiday(
+  (b) =>
+      b
+        ..start = DateTime(2018, 05, 07)
+        ..end = DateTime(2018, 05, 12)
+        ..year = 2018
+        ..stateCode = "HH"
+        ..name = "pfingstferien"
+        ..slug = "pfingstferien-2018-HH",
+);
 // {"start":"2019-02-01T00:00","end":"2019-02-02T00:00","year":2019,"stateCode":"HH","name":"winterferien","slug":"winterferien-2019-HH"}
-final Holiday _hamburg2019FirstHoliday = Holiday((b) => b
-  ..start = DateTime(2019, 02, 01)
-  ..end = DateTime(2019, 02, 02)
-  ..year = 2019
-  ..stateCode = "HH"
-  ..name = "winterferien"
-  ..slug = "winterferien-2019-HH");
+final Holiday _hamburg2019FirstHoliday = Holiday(
+  (b) =>
+      b
+        ..start = DateTime(2019, 02, 01)
+        ..end = DateTime(2019, 02, 02)
+        ..year = 2019
+        ..stateCode = "HH"
+        ..name = "winterferien"
+        ..slug = "winterferien-2019-HH",
+);
 // {"start":"2019-12-23T00:00","end":"2020-01-04T00:00","year":2019,"stateCode":"HH","name":"weihnachtsferien","slug":"weihnachtsferien-2019-HH"}
-final Holiday _hamburg2019LastHoliday = Holiday((b) => b
-  ..start = DateTime(2019, 12, 23)
-  ..end = DateTime(2020, 01, 04)
-  ..year = 2019
-  ..stateCode = "HH"
-  ..name = "weihnachtsferien"
-  ..slug = "weihnachtsferien-2019-HH");
+final Holiday _hamburg2019LastHoliday = Holiday(
+  (b) =>
+      b
+        ..start = DateTime(2019, 12, 23)
+        ..end = DateTime(2020, 01, 04)
+        ..year = 2019
+        ..stateCode = "HH"
+        ..name = "weihnachtsferien"
+        ..slug = "weihnachtsferien-2019-HH",
+);
 
 int nrw2018itemCount = 5;
 int nrw2019itemCount = 5;

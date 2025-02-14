@@ -26,24 +26,20 @@ class _SubstitutionSection extends StatelessWidget {
     final locationSubstitution = substitutions.getLocationChangedSubstitution();
     final teacherSubstitution = substitutions.getTeacherChangedSubstitution();
     final hasUnlocked = context.watch<SubscriptionService>().hasFeatureUnlocked(
-          SharezonePlusFeature.substitutions,
-        );
+      SharezonePlusFeature.substitutions,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
-          title: const Text(
-            'Vertretungsplan',
-            style: TextStyle(fontSize: 16),
-          ),
+          title: const Text('Vertretungsplan', style: TextStyle(fontSize: 16)),
           subtitle: Text(
             'Für ${DateFormat('dd.MM.yyyy').format(date.toDateTime)}',
             style: TextStyle(
               fontSize: 12,
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.6),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
           trailing: hasUnlocked ? null : const SharezonePlusChip(),
@@ -58,7 +54,8 @@ class _SubstitutionSection extends StatelessWidget {
           _RoomChanged(
             newLocation: locationSubstitution.newLocation,
             courseId: lesson.groupID,
-            enteredBy: locationSubstitution.updatedBy ??
+            enteredBy:
+                locationSubstitution.updatedBy ??
                 locationSubstitution.createdBy,
             hasPermissionsToManageLessons: hasPermissionsToManageLessons,
           ),
@@ -67,37 +64,44 @@ class _SubstitutionSection extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.cancel),
               title: const Text("Stunde entfallen lassen"),
-              onTap: () => Navigator.pop(
-                  context,
-                  hasUnlocked
-                      ? _LessonDialogAction.cancelLesson
-                      : _LessonDialogAction.showSubstitutionPlusDialog),
+              onTap:
+                  () => Navigator.pop(
+                    context,
+                    hasUnlocked
+                        ? _LessonDialogAction.cancelLesson
+                        : _LessonDialogAction.showSubstitutionPlusDialog,
+                  ),
             ),
           if (canceledSubstitution == null && locationSubstitution == null)
             ListTile(
               leading: const Icon(Icons.place_outlined),
               title: const Text("Raumänderung"),
-              onTap: () => Navigator.pop(
-                  context,
-                  hasUnlocked
-                      ? _LessonDialogAction.addRoomSubstitution
-                      : _LessonDialogAction.showSubstitutionPlusDialog),
+              onTap:
+                  () => Navigator.pop(
+                    context,
+                    hasUnlocked
+                        ? _LessonDialogAction.addRoomSubstitution
+                        : _LessonDialogAction.showSubstitutionPlusDialog,
+                  ),
             ),
           if (canceledSubstitution == null)
             if (teacherSubstitution == null)
               ListTile(
                 leading: const Icon(Icons.person_outline),
                 title: const Text("Lehrkraft ändern"),
-                onTap: () => Navigator.pop(
-                    context,
-                    hasUnlocked
-                        ? _LessonDialogAction.addTeacherSubstitution
-                        : _LessonDialogAction.showSubstitutionPlusDialog),
+                onTap:
+                    () => Navigator.pop(
+                      context,
+                      hasUnlocked
+                          ? _LessonDialogAction.addTeacherSubstitution
+                          : _LessonDialogAction.showSubstitutionPlusDialog,
+                    ),
               )
             else
               _TeacherChanged(
                 newTeacher: teacherSubstitution.newTeacher,
-                enteredBy: teacherSubstitution.updatedBy ??
+                enteredBy:
+                    teacherSubstitution.updatedBy ??
                     teacherSubstitution.createdBy,
                 courseId: lesson.groupID,
                 hasPermissionsToManageLessons: hasPermissionsToManageLessons,
@@ -109,7 +113,7 @@ class _SubstitutionSection extends StatelessWidget {
               'Du hast keine Berechtigung, den Vertretungsplan zu ändern.',
             ),
             subtitle: Text('Bitte wende dich an deinen Kurs-Administrator.'),
-          )
+          ),
       ],
     );
   }
@@ -144,20 +148,23 @@ class _LessonCanceledCard extends StatelessWidget {
             enteredBy: createdBy,
             color: color,
           ),
-          trailing: hasPermissionsToManageLessons
-              ? IconButton(
-                  tooltip: 'Rückgängig machen',
-                  icon: Icon(
-                    Icons.delete,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.6),
-                  ),
-                  onPressed: () => Navigator.pop(
-                      context, _LessonDialogAction.removeCancelLesson),
-                )
-              : null,
+          trailing:
+              hasPermissionsToManageLessons
+                  ? IconButton(
+                    tooltip: 'Rückgängig machen',
+                    icon: Icon(
+                      Icons.delete,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                    onPressed:
+                        () => Navigator.pop(
+                          context,
+                          _LessonDialogAction.removeCancelLesson,
+                        ),
+                  )
+                  : null,
         ),
       ),
     );
@@ -188,38 +195,43 @@ class _RoomChanged extends StatelessWidget {
         enteredBy: enteredBy,
         color: color,
       ),
-      trailing: hasPermissionsToManageLessons
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  tooltip: 'Raum ändern',
-                  icon: Icon(
-                    Icons.edit,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.6),
+      trailing:
+          hasPermissionsToManageLessons
+              ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    tooltip: 'Raum ändern',
+                    icon: Icon(
+                      Icons.edit,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                    onPressed:
+                        () => Navigator.pop(
+                          context,
+                          _LessonDialogAction.updateRoomSubstitution,
+                        ),
                   ),
-                  onPressed: () => Navigator.pop(
-                      context, _LessonDialogAction.updateRoomSubstitution),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  tooltip: 'Rückgängig machen',
-                  icon: Icon(
-                    Icons.delete,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.6),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    tooltip: 'Rückgängig machen',
+                    icon: Icon(
+                      Icons.delete,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                    onPressed:
+                        () => Navigator.pop(
+                          context,
+                          _LessonDialogAction.removePlaceChange,
+                        ),
                   ),
-                  onPressed: () => Navigator.pop(
-                      context, _LessonDialogAction.removePlaceChange),
-                ),
-              ],
-            )
-          : null,
+                ],
+              )
+              : null,
     );
   }
 }
@@ -248,49 +260,49 @@ class _TeacherChanged extends StatelessWidget {
         enteredBy: enteredBy,
         color: color,
       ),
-      trailing: hasPermissionsToManageLessons
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  tooltip: 'Lehrkraft ändern',
-                  icon: Icon(
-                    Icons.edit,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.6),
+      trailing:
+          hasPermissionsToManageLessons
+              ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    tooltip: 'Lehrkraft ändern',
+                    icon: Icon(
+                      Icons.edit,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                    onPressed:
+                        () => Navigator.pop(
+                          context,
+                          _LessonDialogAction.updateTeacherSubstitution,
+                        ),
                   ),
-                  onPressed: () => Navigator.pop(
-                      context, _LessonDialogAction.updateTeacherSubstitution),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  tooltip: 'Rückgängig machen',
-                  icon: Icon(
-                    Icons.delete,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.6),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    tooltip: 'Rückgängig machen',
+                    icon: Icon(
+                      Icons.delete,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                    onPressed:
+                        () => Navigator.pop(
+                          context,
+                          _LessonDialogAction.removeTeacherSubstitution,
+                        ),
                   ),
-                  onPressed: () => Navigator.pop(
-                      context, _LessonDialogAction.removeTeacherSubstitution),
-                ),
-              ],
-            )
-          : null,
+                ],
+              )
+              : null,
     );
   }
 }
 
 class _OrangeCard extends StatelessWidget {
-  const _OrangeCard({
-    this.title,
-    this.subtitle,
-    this.leading,
-    this.trailing,
-  });
+  const _OrangeCard({this.title, this.subtitle, this.leading, this.trailing});
 
   final Widget? title;
   final Widget? subtitle;
@@ -333,9 +345,10 @@ class _EnteredBy extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<String?>(
       initialData: 'Lädt...',
-      future: context
-          .read<SubstitutionController>()
-          .getMemberName(courseId, enteredBy),
+      future: context.read<SubstitutionController>().getMemberName(
+        courseId,
+        enteredBy,
+      ),
       builder: (context, snapshot) {
         // Showing '?' if the name could not be loaded. Probably because the
         // user is not in the course anymore.
@@ -376,10 +389,7 @@ Future<void> _cancelLesson(
     date: date,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(
-    text: 'Stunde als "Entfällt" markiert',
-    context: context,
-  );
+  showSnackSec(text: 'Stunde als "Entfällt" markiert', context: context);
 }
 
 Future<void> _removeCancelSubstitution(
@@ -428,10 +438,7 @@ Future<void> _removeSubstitution({
     substitutionId: substitutionId,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(
-    text: snackBarText,
-    context: context,
-  );
+  showSnackSec(text: snackBarText, context: context);
 }
 
 Future<void> _removePlaceChangeSubstitution(
@@ -453,13 +460,15 @@ Future<void> _removePlaceChangeSubstitution(
 Future<bool?> _removePlaceSubstitutionDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
-    builder: (context) => const _SubstitutionDialog(
-      title: 'Raumänderung entfernen',
-      actionText: 'Entfernen',
-      description:
-          'Möchtest du wirklich die Raumänderung für die Stunde entfernen?',
-      notifyOptionText: 'Informiere deine Kursmitglieder über die Entfernung.',
-    ),
+    builder:
+        (context) => const _SubstitutionDialog(
+          title: 'Raumänderung entfernen',
+          actionText: 'Entfernen',
+          description:
+              'Möchtest du wirklich die Raumänderung für die Stunde entfernen?',
+          notifyOptionText:
+              'Informiere deine Kursmitglieder über die Entfernung.',
+        ),
   );
 }
 
@@ -486,10 +495,7 @@ Future<void> _addRoomSubstitution(
     newLocation: result.$2,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(
-    text: 'Raumänderung eingetragen',
-    context: context,
-  );
+  showSnackSec(text: 'Raumänderung eingetragen', context: context);
 }
 
 Future<void> _addTeacherSubstitution(
@@ -515,10 +521,7 @@ Future<void> _addTeacherSubstitution(
     newTeacher: result.$2,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(
-    text: 'Vertretungslehrkraft eingetragen',
-    context: context,
-  );
+  showSnackSec(text: 'Vertretungslehrkraft eingetragen', context: context);
 }
 
 Future<void> _updateTeacherSubstitution(
@@ -552,10 +555,7 @@ Future<void> _updateTeacherSubstitution(
     substitutionId: substitution.id,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(
-    text: 'Vertretungslehrkraft eingetragen',
-    context: context,
-  );
+  showSnackSec(text: 'Vertretungslehrkraft eingetragen', context: context);
 }
 
 Future<void> _removeTeacherSubstitution(
@@ -577,27 +577,30 @@ Future<void> _removeTeacherSubstitution(
 Future<bool?> _removeTeacherSubstitutionDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
-    builder: (context) => const _SubstitutionDialog(
-      title: 'Vertretungslehrkraft entfernen',
-      actionText: 'Entfernen',
-      description:
-          'Möchtest du wirklich die Vertretungslehrkraft für die Stunde entfernen?',
-      notifyOptionText: 'Informiere deine Kursmitglieder über die Entfernung.',
-    ),
+    builder:
+        (context) => const _SubstitutionDialog(
+          title: 'Vertretungslehrkraft entfernen',
+          actionText: 'Entfernen',
+          description:
+              'Möchtest du wirklich die Vertretungslehrkraft für die Stunde entfernen?',
+          notifyOptionText:
+              'Informiere deine Kursmitglieder über die Entfernung.',
+        ),
   );
 }
 
 Future<bool?> _showCancelLessonDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
-    builder: (context) => const _SubstitutionDialog(
-      title: 'Stunde entfallen lassen',
-      actionText: 'Entfallen lassen',
-      description:
-          'Möchtest du wirklich die Schulstunde für den gesamten Kurs entfallen lassen?',
-      notifyOptionText:
-          'Informiere deine Kursmitglieder, dass die Stunde entfällt.',
-    ),
+    builder:
+        (context) => const _SubstitutionDialog(
+          title: 'Stunde entfallen lassen',
+          actionText: 'Entfallen lassen',
+          description:
+              'Möchtest du wirklich die Schulstunde für den gesamten Kurs entfallen lassen?',
+          notifyOptionText:
+              'Informiere deine Kursmitglieder, dass die Stunde entfällt.',
+        ),
   );
 }
 
@@ -632,23 +635,21 @@ Future<void> _updateRoomSubstitution(
     substitutionId: substitution.id,
     notifyGroupMembers: shouldNotifyMembers,
   );
-  showSnackSec(
-    text: 'Raumänderung eingetragen',
-    context: context,
-  );
+  showSnackSec(text: 'Raumänderung eingetragen', context: context);
 }
 
 Future<bool?> _removeCancelSubstitutionDialog(BuildContext context) {
   return showDialog<bool>(
     context: context,
-    builder: (context) => const _SubstitutionDialog(
-      title: 'Entfallene Stunde wiederherstellen',
-      actionText: 'Wiederherstellen',
-      description:
-          'Möchtest du wirklich die Stunde wirklich wieder stattfinden lassen?',
-      notifyOptionText:
-          'Informiere deine Kursmitglieder, dass die Stunde stattfindet.',
-    ),
+    builder:
+        (context) => const _SubstitutionDialog(
+          title: 'Entfallene Stunde wiederherstellen',
+          actionText: 'Wiederherstellen',
+          description:
+              'Möchtest du wirklich die Stunde wirklich wieder stattfinden lassen?',
+          notifyOptionText:
+              'Informiere deine Kursmitglieder, dass die Stunde stattfindet.',
+        ),
   );
 }
 
@@ -656,14 +657,15 @@ Future<(bool?, String)> _showChangeRoomDialog(BuildContext context) async {
   final textController = TextEditingController();
   final shouldNotify = await showDialog<bool>(
     context: context,
-    builder: (context) => _SubstitutionDialog(
-      title: 'Raumänderung',
-      actionText: 'Raumänderung speichern',
-      description: 'Möchtest du wirklich den Raum für die Stunde ändern?',
-      notifyOptionText:
-          'Informiere deine Kursmitglieder über die Raumänderung.',
-      bottom: _ChangeRoomTextField(textController: textController),
-    ),
+    builder:
+        (context) => _SubstitutionDialog(
+          title: 'Raumänderung',
+          actionText: 'Raumänderung speichern',
+          description: 'Möchtest du wirklich den Raum für die Stunde ändern?',
+          notifyOptionText:
+              'Informiere deine Kursmitglieder über die Raumänderung.',
+          bottom: _ChangeRoomTextField(textController: textController),
+        ),
   );
   return (shouldNotify, textController.text);
 }
@@ -672,23 +674,23 @@ Future<(bool?, String)> _showChangeTeacherDialog(BuildContext context) async {
   String teacher = '';
   final shouldNotify = await showDialog<bool>(
     context: context,
-    builder: (context) => _SubstitutionDialog(
-      title: 'Vertretungslehrkraft ändern',
-      actionText: 'Lehrkraft speichern',
-      description: 'Möchtest du wirklich die Vertretungslehrkraft ändern?',
-      notifyOptionText:
-          'Informiere deine Kursmitglieder über die Lehrkraftänderung.',
-      bottom:
-          _ChangeTeacherTextField(onTeacherChanged: (value) => teacher = value),
-    ),
+    builder:
+        (context) => _SubstitutionDialog(
+          title: 'Vertretungslehrkraft ändern',
+          actionText: 'Lehrkraft speichern',
+          description: 'Möchtest du wirklich die Vertretungslehrkraft ändern?',
+          notifyOptionText:
+              'Informiere deine Kursmitglieder über die Lehrkraftänderung.',
+          bottom: _ChangeTeacherTextField(
+            onTeacherChanged: (value) => teacher = value,
+          ),
+        ),
   );
   return (shouldNotify, teacher);
 }
 
 class _ChangeRoomTextField extends StatelessWidget {
-  const _ChangeRoomTextField({
-    required this.textController,
-  });
+  const _ChangeRoomTextField({required this.textController});
 
   final TextEditingController textController;
 
@@ -713,9 +715,7 @@ class _ChangeRoomTextField extends StatelessWidget {
 }
 
 class _ChangeTeacherTextField extends StatelessWidget {
-  const _ChangeTeacherTextField({
-    required this.onTeacherChanged,
-  });
+  const _ChangeTeacherTextField({required this.onTeacherChanged});
 
   final ValueChanged<String> onTeacherChanged;
 

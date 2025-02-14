@@ -24,7 +24,7 @@ class CurrentlyReadThreshold {
   final double position;
 
   const CurrentlyReadThreshold(this.position)
-      : assert(position >= 0.0 && position <= 1.0);
+    : assert(position >= 0.0 && position <= 1.0);
 
   bool intersectsOrIsPast(DocumentSectionHeadingPosition headingPosition) {
     return headingPosition.itemLeadingEdge <= position;

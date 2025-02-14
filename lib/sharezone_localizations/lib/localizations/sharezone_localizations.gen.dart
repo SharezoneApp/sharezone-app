@@ -71,13 +71,15 @@ import 'sharezone_localizations_en.gen.dart';
 /// property.
 abstract class SharezoneLocalizations {
   SharezoneLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static SharezoneLocalizations? of(BuildContext context) {
     return Localizations.of<SharezoneLocalizations>(
-        context, SharezoneLocalizations);
+      context,
+      SharezoneLocalizations,
+    );
   }
 
   static const LocalizationsDelegate<SharezoneLocalizations> delegate =
@@ -95,16 +97,16 @@ abstract class SharezoneLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('de'),
-    Locale('en')
+    Locale('en'),
   ];
 
   /// No description provided for @appName.
@@ -157,7 +159,8 @@ class _SharezoneLocalizationsDelegate
   @override
   Future<SharezoneLocalizations> load(Locale locale) {
     return SynchronousFuture<SharezoneLocalizations>(
-        lookupSharezoneLocalizations(locale));
+      lookupSharezoneLocalizations(locale),
+    );
   }
 
   @override
@@ -178,8 +181,9 @@ SharezoneLocalizations lookupSharezoneLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-      'SharezoneLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'SharezoneLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }

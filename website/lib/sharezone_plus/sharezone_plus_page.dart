@@ -40,15 +40,20 @@ Future<UserData?> fetchUserData(String? token) async {
 }
 
 Future<Uri> getStripeCheckoutSessionUrl(
-    String userId, PurchasePeriod period) async {
+  String userId,
+  PurchasePeriod period,
+) async {
   final link =
       "https://europe-west1-${getFirebaseProjectId()}.cloudfunctions.net/createStripeCheckoutSession";
-  final response = await Dio().post(link, data: {
-    'buysFor': userId,
-    'successUrl': '${Uri.base.origin + Uri.base.path}/success',
-    'cancelUrl': Uri.base.toString(),
-    'period': period.name,
-  });
+  final response = await Dio().post(
+    link,
+    data: {
+      'buysFor': userId,
+      'successUrl': '${Uri.base.origin + Uri.base.path}/success',
+      'cancelUrl': Uri.base.toString(),
+      'period': period.name,
+    },
+  );
   final dataMap = response.data as Map;
   return Uri.parse(dataMap['url'] as String);
 }
@@ -112,49 +117,58 @@ class SharezonePlusPage extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 18),
-                            StatefulBuilder(builder: (context, setState) {
-                              return BuySection(
-                                monthlyPrice: '1,99€',
-                                lifetimePrice: '19,99€',
-                                onPressedPrivacyPolicy: () =>
-                                    context.push('/${PrivacyPolicyPage.tag}'),
-                                onPressedTermsOfService: () =>
-                                    context.push('/${TermsOfServicePage.tag}'),
-                                onPurchase: data?.userId != null
-                                    ? () async {
-                                        setState(() {
-                                          isPurchaseButtonLoading = true;
-                                        });
-                                        final url =
-                                            await getStripeCheckoutSessionUrl(
-                                                data!.userId, purchasePeriod);
-                                        await launchUrl(
-                                          url.toString(),
-                                          // Since the request for creating the checkout session is asynchronous, we
-                                          // can't open the checkout in a new tab due to the browser security
-                                          // policy.
-                                          //
-                                          // See https://github.com/flutter/flutter/issues/78524.
-                                          webOnlyWindowName: "_self",
-                                        );
-                                        if (context.mounted) {
-                                          setState(() {
-                                            isPurchaseButtonLoading = false;
-                                          });
-                                        }
-                                      }
-                                    : null,
-                                currentPeriod: purchasePeriod,
-                                isPurchaseButtonLoading:
-                                    isPurchaseButtonLoading,
-                                onPeriodChanged: (p) {
-                                  setState(() {
-                                    purchasePeriod = p;
-                                  });
-                                },
-                                bottom: const _ManageSubscriptionText(),
-                              );
-                            }),
+                            StatefulBuilder(
+                              builder: (context, setState) {
+                                return BuySection(
+                                  monthlyPrice: '1,99€',
+                                  lifetimePrice: '19,99€',
+                                  onPressedPrivacyPolicy:
+                                      () => context.push(
+                                        '/${PrivacyPolicyPage.tag}',
+                                      ),
+                                  onPressedTermsOfService:
+                                      () => context.push(
+                                        '/${TermsOfServicePage.tag}',
+                                      ),
+                                  onPurchase:
+                                      data?.userId != null
+                                          ? () async {
+                                            setState(() {
+                                              isPurchaseButtonLoading = true;
+                                            });
+                                            final url =
+                                                await getStripeCheckoutSessionUrl(
+                                                  data!.userId,
+                                                  purchasePeriod,
+                                                );
+                                            await launchUrl(
+                                              url.toString(),
+                                              // Since the request for creating the checkout session is asynchronous, we
+                                              // can't open the checkout in a new tab due to the browser security
+                                              // policy.
+                                              //
+                                              // See https://github.com/flutter/flutter/issues/78524.
+                                              webOnlyWindowName: "_self",
+                                            );
+                                            if (context.mounted) {
+                                              setState(() {
+                                                isPurchaseButtonLoading = false;
+                                              });
+                                            }
+                                          }
+                                          : null,
+                                  currentPeriod: purchasePeriod,
+                                  isPurchaseButtonLoading:
+                                      isPurchaseButtonLoading,
+                                  onPeriodChanged: (p) {
+                                    setState(() {
+                                      purchasePeriod = p;
+                                    });
+                                  },
+                                  bottom: const _ManageSubscriptionText(),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -169,29 +183,32 @@ class SharezonePlusPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 18),
                     if (!hasToken) ...[
-                      StatefulBuilder(builder: (context, setState) {
-                        return BuySection(
-                          monthlyPrice: '1,99€',
-                          lifetimePrice: '19,99€',
-                          onPurchase: () async {
-                            showDialog(
-                              context: context,
-                              builder: (context) => const _BuyDialog(),
-                            );
-                          },
-                          currentPeriod: purchasePeriod,
-                          onPeriodChanged: (p) {
-                            setState(() {
-                              purchasePeriod = p;
-                            });
-                          },
-                          bottom: const _ManageSubscriptionText(),
-                          onPressedPrivacyPolicy: () =>
-                              context.push('/${PrivacyPolicyPage.tag}'),
-                          onPressedTermsOfService: () =>
-                              context.push('/${TermsOfServicePage.tag}'),
-                        );
-                      }),
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return BuySection(
+                            monthlyPrice: '1,99€',
+                            lifetimePrice: '19,99€',
+                            onPurchase: () async {
+                              showDialog(
+                                context: context,
+                                builder: (context) => const _BuyDialog(),
+                              );
+                            },
+                            currentPeriod: purchasePeriod,
+                            onPeriodChanged: (p) {
+                              setState(() {
+                                purchasePeriod = p;
+                              });
+                            },
+                            bottom: const _ManageSubscriptionText(),
+                            onPressedPrivacyPolicy:
+                                () => context.push('/${PrivacyPolicyPage.tag}'),
+                            onPressedTermsOfService:
+                                () =>
+                                    context.push('/${TermsOfServicePage.tag}'),
+                          );
+                        },
+                      ),
                       const SizedBox(height: 32),
                     ],
                     const SharezonePlusFaq(),
@@ -271,9 +288,7 @@ class _ManageSubscriptionText extends StatelessWidget {
 }
 
 class _CustomerPortalDialog extends StatelessWidget {
-  const _CustomerPortalDialog({
-    required this.url,
-  });
+  const _CustomerPortalDialog({required this.url});
 
   final String url;
 

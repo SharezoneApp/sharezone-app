@@ -29,18 +29,21 @@ class _Advantages extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text("Vorteile von Sharezone",
-                  style: TextStyle(fontSize: 26)),
+              const Text(
+                "Vorteile von Sharezone",
+                style: TextStyle(fontSize: 26),
+              ),
               MaxWidthConstraintBox(
                 maxWidth: 650,
                 child: Column(
                   children: AnimationConfiguration.toStaggeredList(
                     delay: const Duration(milliseconds: 100),
                     duration: const Duration(milliseconds: 1000),
-                    childAnimationBuilder: (widget) => SlideAnimation(
-                      verticalOffset: 20,
-                      child: FadeInAnimation(child: widget),
-                    ),
+                    childAnimationBuilder:
+                        (widget) => SlideAnimation(
+                          verticalOffset: 20,
+                          child: FadeInAnimation(child: widget),
+                        ),
                     children: const [
                       _AdvantageAllInOne(),
                       _AdvantageCloud(),
@@ -49,7 +52,7 @@ class _Advantages extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

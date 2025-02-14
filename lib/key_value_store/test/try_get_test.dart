@@ -13,7 +13,9 @@ void main() {
   group('tryGet', () {
     test('Int works', () {
       expect(
-          InMemoryKeyValueStore({'foo': 'Not an int'}).tryGetInt('foo'), null);
+        InMemoryKeyValueStore({'foo': 'Not an int'}).tryGetInt('foo'),
+        null,
+      );
     });
   });
 }

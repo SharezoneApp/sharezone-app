@@ -44,12 +44,11 @@ class _Dialog extends StatelessWidget {
                   color: primaryColor,
                   decoration: TextDecoration.underline,
                 ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => Navigator.of(context).pop(true),
+                recognizer:
+                    TapGestureRecognizer()
+                      ..onTap = () => Navigator.of(context).pop(true),
               ),
-              const TextSpan(
-                text: ' erwerben.',
-              ),
+              const TextSpan(text: ' erwerben.'),
             ],
           ),
         ),

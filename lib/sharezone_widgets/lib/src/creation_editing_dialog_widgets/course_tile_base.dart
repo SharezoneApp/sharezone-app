@@ -37,18 +37,17 @@ class CourseTileBase extends StatelessWidget {
   void showDisabledNoteDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => DisabledNoteDialog(
-        text: onDisabledTapText!,
-      ),
+      builder: (context) => DisabledNoteDialog(text: onDisabledTapText!),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap != null || onDisabledTapText == null
-          ? null
-          : () => showDisabledNoteDialog(context),
+      onTap:
+          onTap != null || onDisabledTapText == null
+              ? null
+              : () => showDisabledNoteDialog(context),
       child: ListTile(
         leading: const Icon(Icons.book),
         title: const Text("Kurs"),
@@ -65,10 +64,7 @@ class CourseTileBase extends StatelessWidget {
 }
 
 class DisabledNoteDialog extends StatelessWidget {
-  const DisabledNoteDialog({
-    super.key,
-    required this.text,
-  });
+  const DisabledNoteDialog({super.key, required this.text});
 
   final String text;
 

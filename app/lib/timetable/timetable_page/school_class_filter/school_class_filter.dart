@@ -96,8 +96,11 @@ class _SchoolClassFilterBottomBarState
     _tapPosition = details.globalPosition;
   }
 
-  Future<void> _openAndHandleSelectionMenu(BuildContext context,
-      TimetableBloc bloc, SchoolClassFilterView view) async {
+  Future<void> _openAndHandleSelectionMenu(
+    BuildContext context,
+    TimetableBloc bloc,
+    SchoolClassFilterView view,
+  ) async {
     final selectedOption = await _openSelectionMenu(view);
     if (!context.mounted) {
       return;
@@ -115,10 +118,12 @@ class _SchoolClassFilterBottomBarState
   }
 
   bool _shouldOpenSharezonePlusPage(
-      BuildContext context, SchoolClassFilter selectedOption) {
-    final isUnlocked = context
-        .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.filterTimetableByClass);
+    BuildContext context,
+    SchoolClassFilter selectedOption,
+  ) {
+    final isUnlocked = context.read<SubscriptionService>().hasFeatureUnlocked(
+      SharezonePlusFeature.filterTimetableByClass,
+    );
     return selectedOption.shouldFilterForClass && !isUnlocked;
   }
 
@@ -131,7 +136,8 @@ class _SchoolClassFilterBottomBarState
   /// da dies für große Geräte unpraktisch ist. Stattdessen wird ein Popup-Menü
   /// verwendet.
   Future<SchoolClassFilter?> _openSelectionMenu(
-      SchoolClassFilterView view) async {
+    SchoolClassFilterView view,
+  ) async {
     if (context.isDesktopModus) {
       return _openDesktopMenu(view);
     }
@@ -146,7 +152,8 @@ class _SchoolClassFilterBottomBarState
   }
 
   PopupMenuItem<SchoolClassFilter> schoolClassToFilterItem(
-      SchoolClassView schoolClass) {
+    SchoolClassView schoolClass,
+  ) {
     final value = SchoolClassFilter.showSchoolClass(schoolClass.id);
     return PopupMenuItem(
       value: value,
@@ -159,15 +166,13 @@ class _SchoolClassFilterBottomBarState
   }
 
   Future<SchoolClassFilter?> _openDesktopMenu(
-      SchoolClassFilterView view) async {
+    SchoolClassFilterView view,
+  ) async {
     final showAllGroups = SchoolClassFilter.showAllGroups();
     return showMenu<SchoolClassFilter>(
       context: context,
       position: _getMousePosition(context),
-      constraints: const BoxConstraints(
-        minWidth: 200,
-        maxWidth: 360,
-      ),
+      constraints: const BoxConstraints(minWidth: 200, maxWidth: 360),
       items: [
         PopupMenuItem(
           value: showAllGroups,
@@ -179,7 +184,7 @@ class _SchoolClassFilterBottomBarState
         ),
         const PopupMenuDivider(),
         for (final schoolClass in view.schoolClassList)
-          schoolClassToFilterItem(schoolClass)
+          schoolClassToFilterItem(schoolClass),
       ],
     );
   }
@@ -194,9 +199,7 @@ class _SchoolClassFilterBottomBarState
 }
 
 class _Text extends StatelessWidget {
-  const _Text({
-    required this.view,
-  });
+  const _Text({required this.view});
 
   final SchoolClassFilterView view;
 
@@ -234,15 +237,12 @@ class _DesktopMenuTile extends StatelessWidget {
       child: Row(
         children: [
           isSelected ? icon : const SizedBox(width: 32),
-          SizedBox(
-            width: 200,
-            child: Text(title),
-          ),
+          SizedBox(width: 200, child: Text(title)),
           _SelectionSheetTileTrailing(
             isSelected: isSelected,
             activeIcon: Container(),
             filter: filter,
-          )
+          ),
         ],
       ),
     );
@@ -276,7 +276,7 @@ class _SelectionSheet extends StatelessWidget {
                   isSelected: schoolClass.isSelected,
                   filter: SchoolClassFilter.showSchoolClass(schoolClass.id),
                 ),
-            ]
+            ],
           ],
         ),
       ),
@@ -327,9 +327,9 @@ class _SelectionSheetTileTrailing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUnlocked = context
-        .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.filterTimetableByClass);
+    final isUnlocked = context.read<SubscriptionService>().hasFeatureUnlocked(
+      SharezonePlusFeature.filterTimetableByClass,
+    );
     if (filter.shouldFilterForClass && !isUnlocked) {
       return const SharezonePlusChip();
     }

@@ -13,8 +13,11 @@ sealed class Sort<F extends BaseHomeworkReadModel> {
   IList<T> sort<T extends BaseHomeworkReadModel>(IList<T> list);
 }
 
-extension SortWith<T extends BaseHomeworkReadModel,
-    S extends BaseHomeworkReadModel> on IList<T> {
+extension SortWith<
+  T extends BaseHomeworkReadModel,
+  S extends BaseHomeworkReadModel
+>
+    on IList<T> {
   IList<T> sortWith(Sort<S> sort) {
     return sort.sort<T>(this);
   }
@@ -33,9 +36,12 @@ class SmallestDateSubjectAndTitleSort extends Sort<BaseHomeworkReadModel> {
   @override
   IList<T> sort<T extends BaseHomeworkReadModel>(IList<T> list) {
     return sortWithOperations<T>(
-        list, IListConst<ComparisonResult Function(T, T)>(
-            // ignore: prefer_const_literals_to_create_immutables
-            [dateSort, subjectSort, titleSort]));
+      list,
+      IListConst<ComparisonResult Function(T, T)>(
+        // ignore: prefer_const_literals_to_create_immutables
+        [dateSort, subjectSort, titleSort],
+      ),
+    );
   }
 
   @override
@@ -56,9 +62,12 @@ class SubjectSmallestDateAndTitleSort extends Sort<BaseHomeworkReadModel> {
   @override
   IList<T> sort<T extends BaseHomeworkReadModel>(IList<T> list) {
     return sortWithOperations<T>(
-        list, IListConst<ComparisonResult Function(T, T)>(
-            // ignore: prefer_const_literals_to_create_immutables
-            [subjectSort, dateSort, titleSort]));
+      list,
+      IListConst<ComparisonResult Function(T, T)>(
+        // ignore: prefer_const_literals_to_create_immutables
+        [subjectSort, dateSort, titleSort],
+      ),
+    );
   }
 
   @override

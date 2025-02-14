@@ -14,9 +14,7 @@ const _errorCode = Colors.red;
 ///
 /// In golden tests outside of `/app`, it's recommended to override [fontFamily]
 /// to [roboto] to because `golden_toolkit` can't load fonts of other packages.
-ThemeData getLightTheme({
-  String? fontFamily = rubik,
-}) {
+ThemeData getLightTheme({String? fontFamily = rubik}) {
   return ThemeData(
     // Brightness
     brightness: Brightness.light,
@@ -60,9 +58,7 @@ ThemeData getLightTheme({
       mouseCursor: WidgetStateMouseCursor.clickable,
     ),
     textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        foregroundColor: primaryColor,
-      ),
+      style: TextButton.styleFrom(foregroundColor: primaryColor),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -78,11 +74,11 @@ ThemeData getLightTheme({
         backgroundColor: primaryColor,
       ),
     ),
-    dividerTheme: const DividerThemeData(
-      color: Color(0xFFE5E5E5),
-    ),
+    dividerTheme: const DividerThemeData(color: Color(0xFFE5E5E5)),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
+      backgroundColor: Colors.redAccent,
+      foregroundColor: Colors.white,
+    ),
     pageTransitionsTheme: _pageTransitionsTheme,
     snackBarTheme: _snackBarTheme.copyWith(
       backgroundColor: const Color(0xFF2B2525),

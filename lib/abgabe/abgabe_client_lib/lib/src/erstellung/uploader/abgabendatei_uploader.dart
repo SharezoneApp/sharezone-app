@@ -14,5 +14,6 @@ import 'package:abgabe_client_lib/src/models/models.dart';
 abstract class AbgabedateiUploader {
   /// Lädt eine Abgabedatei hoch und fügt diese zu einer Abgabe hinzu.
   Stream<DateiUploadProzessFortschritt> ladeAbgabedateiHoch(
-      DateiHinzufuegenCommand befehl);
+    DateiHinzufuegenCommand befehl,
+  );
 }

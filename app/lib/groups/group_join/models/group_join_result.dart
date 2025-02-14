@@ -25,14 +25,13 @@ class LoadingJoinResult implements GroupJoinResult {}
 class SuccessfulJoinResult implements GroupJoinResult {
   final GroupInfo groupInfo;
 
-  const SuccessfulJoinResult({
-    required this.groupInfo,
-  });
+  const SuccessfulJoinResult({required this.groupInfo});
 
   factory SuccessfulJoinResult.fromData(Map<String, dynamic> data) {
     return SuccessfulJoinResult(
       groupInfo: GroupInfo.fromData(
-          Map<String, dynamic>.from(data['groupData'] as Map)),
+        Map<String, dynamic>.from(data['groupData'] as Map),
+      ),
     );
   }
 }
@@ -52,14 +51,18 @@ class RequireCourseSelectionsJoinResult implements GroupJoinResult {
   });
 
   factory RequireCourseSelectionsJoinResult.fromData(
-      Map<String, dynamic> data) {
+    Map<String, dynamic> data,
+  ) {
     return RequireCourseSelectionsJoinResult(
       groupInfo: GroupInfo.fromData(
-          Map<String, dynamic>.from(data['groupData'] as Map)),
+        Map<String, dynamic>.from(data['groupData'] as Map),
+      ),
       courses: decodeList(
-          data['courses'],
-          (courseData) => GroupInfoWithSelectionState.fromData(
-              Map<String, dynamic>.from(courseData as Map))),
+        data['courses'],
+        (courseData) => GroupInfoWithSelectionState.fromData(
+          Map<String, dynamic>.from(courseData as Map),
+        ),
+      ),
       enteredValue: data['enteredValue'] as String,
     );
   }

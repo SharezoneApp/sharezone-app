@@ -21,10 +21,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import '../../../timetable_permissions.dart';
 
 class CalenderEventCard extends StatelessWidget {
-  const CalenderEventCard(
-    this.view, {
-    super.key,
-  });
+  const CalenderEventCard(this.view, {super.key});
 
   final EventView view;
 
@@ -36,8 +33,8 @@ class CalenderEventCard extends StatelessWidget {
         width: double.infinity,
         child: CustomCard(
           onLongPress: () => onEventLongPress(context, view.event),
-          onTap: () =>
-              showTimetableEventDetails(context, view.event, view.design),
+          onTap:
+              () => showTimetableEventDetails(context, view.event, view.design),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -50,10 +47,13 @@ class CalenderEventCard extends StatelessWidget {
                 const SizedBox(height: 6),
                 _Title(title: view.title),
                 const SizedBox(height: 6),
-                Text(view.dateText,
-                    style: view.upcomingSoon
-                        ? const TextStyle(color: Colors.red)
-                        : null),
+                Text(
+                  view.dateText,
+                  style:
+                      view.upcomingSoon
+                          ? const TextStyle(color: Colors.red)
+                          : null,
+                ),
               ],
             ),
           ),
@@ -64,10 +64,7 @@ class CalenderEventCard extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({
-    required this.courseName,
-    this.color,
-  });
+  const _CourseName({required this.courseName, this.color});
 
   final String courseName;
   final Color? color;
@@ -84,9 +81,7 @@ class _CourseName extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({
-    required this.title,
-  });
+  const _Title({required this.title});
 
   final String title;
 
@@ -95,11 +90,13 @@ class _Title extends StatelessWidget {
     return Text(
       title,
       style: TextStyle(
-          color: Theme.of(context).isDarkTheme
-              ? Colors.lightBlueAccent
-              : darkBlueColor,
-          fontSize: 16,
-          fontWeight: FontWeight.w500),
+        color:
+            Theme.of(context).isDarkTheme
+                ? Colors.lightBlueAccent
+                : darkBlueColor,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
       overflow: TextOverflow.ellipsis,
       maxLines: 1,
     );
@@ -107,11 +104,15 @@ class _Title extends StatelessWidget {
 }
 
 Future<void> onEventLongPress(
-    BuildContext context, CalendricalEvent event) async {
+  BuildContext context,
+  CalendricalEvent event,
+) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final isAuthor = api.uID == event.authorID;
   final hasPermissionsToManageEvents = hasPermissionToManageEvents(
-      api.course.getRoleFromCourseNoSync(event.groupID)!, isAuthor);
+    api.course.getRoleFromCourseNoSync(event.groupID)!,
+    isAuthor,
+  );
   final isExam = event.eventType == EventType.exam;
   final result = await showLongPressAdaptiveDialog<_EventLongPressResult>(
     context: context,
@@ -137,8 +138,8 @@ Future<void> onEventLongPress(
           title: "Löschen",
           popResult: _EventLongPressResult.delete,
           icon: Icon(Icons.delete),
-        )
-      ]
+        ),
+      ],
     ],
   );
   if (!context.mounted) return;

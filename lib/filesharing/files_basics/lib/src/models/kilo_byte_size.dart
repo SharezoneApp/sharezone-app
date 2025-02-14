@@ -30,12 +30,13 @@ class KiloByteSize implements Comparable<KiloByteSize> {
     int gigabytes = 0,
     int terabytes = 0,
     int petabytes = 0,
-  }) : inBytes = bytes +
-            kilobytes * _bytesInKilobyte +
-            megabytes * _bytesInMegabyte +
-            gigabytes * _bytesInGigabyte +
-            terabytes * _bytesInTerabyte +
-            petabytes * _bytesInPetabytes;
+  }) : inBytes =
+           bytes +
+           kilobytes * _bytesInKilobyte +
+           megabytes * _bytesInMegabyte +
+           gigabytes * _bytesInGigabyte +
+           terabytes * _bytesInTerabyte +
+           petabytes * _bytesInPetabytes;
 
   const KiloByteSize._bytes(this.inBytes);
 

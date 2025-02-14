@@ -25,9 +25,10 @@ class SharezonePlusPageHeader extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: Icon(
               Icons.star,
-              color: Theme.of(context).isDarkTheme
-                  ? Theme.of(context).primaryColor
-                  : darkBlueColor,
+              color:
+                  Theme.of(context).isDarkTheme
+                      ? Theme.of(context).primaryColor
+                      : darkBlueColor,
               size: 30,
             ),
           ),

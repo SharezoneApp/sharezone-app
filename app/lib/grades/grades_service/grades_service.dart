@@ -39,7 +39,7 @@ class GradesService {
   final _GradesServiceInternal _service;
 
   GradesService({GradesStateRepository? repository})
-      : _service = _GradesServiceInternal(repository: repository);
+    : _service = _GradesServiceInternal(repository: repository);
 
   TermRef addTerm({
     required String name,
@@ -68,8 +68,9 @@ class GradesService {
     if (term == null) {
       throw GradeNotFoundException(id);
     }
-    final subject =
-        term.subjects.firstWhereOrNull((subject) => subject.hasGrade(id));
+    final subject = term.subjects.firstWhereOrNull(
+      (subject) => subject.hasGrade(id),
+    );
 
     return this.term(term.id).subject(subject!.id).grade(id);
   }
@@ -107,8 +108,10 @@ class GradesService {
   ///
   /// Throws [ArgumentError] if the grade type with the given [id] is a
   /// predefined grade type.
-  void editCustomGradeType(
-      {required GradeTypeId id, required String displayName}) {
+  void editCustomGradeType({
+    required GradeTypeId id,
+    required String displayName,
+  }) {
     _service.editCustomGradeType(id: id, displayName: displayName);
   }
 
@@ -127,8 +130,10 @@ class GradesService {
     _service.deleteCustomGradeType(id);
   }
 
-  SubjectId addSubject(SubjectInput subjectInput,
-      {@visibleForTesting SubjectId? id}) {
+  SubjectId addSubject(
+    SubjectInput subjectInput, {
+    @visibleForTesting SubjectId? id,
+  }) {
     return _service.addSubject(subjectInput, id: id);
   }
 
@@ -174,7 +179,10 @@ class TermRef {
 
   void changeGradeTypeWeight(GradeTypeId gradeType, Weight weight) {
     _service.changeGradeTypeWeightForTerm(
-        termId: id, gradeType: gradeType, weight: weight);
+      termId: id,
+      gradeType: gradeType,
+      weight: weight,
+    );
   }
 
   void removeGradeTypeWeight(GradeTypeId gradeType) {
@@ -183,7 +191,9 @@ class TermRef {
 
   void changeWeightDisplayType(WeightDisplayType weightDisplayType) {
     _service.changeWeightDisplayTypeForTerm(
-        termId: id, weightDisplayType: weightDisplayType);
+      termId: id,
+      weightDisplayType: weightDisplayType,
+    );
   }
 }
 
@@ -207,27 +217,43 @@ class TermSubjectRef {
 
   void changeFinalGradeType(GradeTypeId? gradeType) {
     _service.changeSubjectFinalGradeType(
-        id: id, termId: termRef.id, gradeType: gradeType);
+      id: id,
+      termId: termRef.id,
+      gradeType: gradeType,
+    );
   }
 
   void changeWeightType(WeightType perGradeType) {
     _service.changeSubjectWeightTypeSettings(
-        id: id, termId: termRef.id, perGradeType: perGradeType);
+      id: id,
+      termId: termRef.id,
+      perGradeType: perGradeType,
+    );
   }
 
   void changeWeightForTermGrade(Weight weight) {
     _service.changeSubjectWeightForTermGrade(
-        id: id, termId: termRef.id, weight: weight);
+      id: id,
+      termId: termRef.id,
+      weight: weight,
+    );
   }
 
   void changeGradeTypeWeight(GradeTypeId gradeType, Weight weight) {
     _service.changeGradeTypeWeightForSubject(
-        id: id, termId: termRef.id, gradeType: gradeType, weight: weight);
+      id: id,
+      termId: termRef.id,
+      gradeType: gradeType,
+      weight: weight,
+    );
   }
 
   void removeGradeTypeWeight(GradeTypeId gradeType) {
     _service.removeGradeTypeWeightForSubject(
-        id: id, termId: termRef.id, gradeType: gradeType);
+      id: id,
+      termId: termRef.id,
+      gradeType: gradeType,
+    );
   }
 }
 
@@ -410,18 +436,30 @@ enum PredefinedGradeTypes {
 
   Icon getIcon() {
     return switch (this) {
-      PredefinedGradeTypes.schoolReportGrade =>
-        const Icon(Symbols.contract, fill: 1),
-      PredefinedGradeTypes.writtenExam =>
-        const Icon(Symbols.edit_document, fill: 1),
-      PredefinedGradeTypes.oralParticipation =>
-        const Icon(Symbols.record_voice_over, fill: 1),
-      PredefinedGradeTypes.vocabularyTest =>
-        const Icon(Symbols.text_rotation_none, fill: 1),
-      PredefinedGradeTypes.presentation =>
-        const Icon(Symbols.co_present, fill: 1),
-      PredefinedGradeTypes.other =>
-        const Icon(Symbols.other_admission, fill: 1),
+      PredefinedGradeTypes.schoolReportGrade => const Icon(
+        Symbols.contract,
+        fill: 1,
+      ),
+      PredefinedGradeTypes.writtenExam => const Icon(
+        Symbols.edit_document,
+        fill: 1,
+      ),
+      PredefinedGradeTypes.oralParticipation => const Icon(
+        Symbols.record_voice_over,
+        fill: 1,
+      ),
+      PredefinedGradeTypes.vocabularyTest => const Icon(
+        Symbols.text_rotation_none,
+        fill: 1,
+      ),
+      PredefinedGradeTypes.presentation => const Icon(
+        Symbols.co_present,
+        fill: 1,
+      ),
+      PredefinedGradeTypes.other => const Icon(
+        Symbols.other_admission,
+        fill: 1,
+      ),
     };
   }
 }
@@ -435,10 +473,11 @@ class GradeType extends Equatable {
   List<Object?> get props => [id, displayName, predefinedType];
 
   const GradeType({required this.id, required String this.displayName})
-      : predefinedType = null;
-  const GradeType._predefined(
-      {required this.id, required PredefinedGradeTypes this.predefinedType})
-      : displayName = null;
+    : predefinedType = null;
+  const GradeType._predefined({
+    required this.id,
+    required PredefinedGradeTypes this.predefinedType,
+  }) : displayName = null;
 
   static const predefinedGradeTypes = IListConst([
     GradeType.schoolReportGrade,
@@ -449,22 +488,29 @@ class GradeType extends Equatable {
     GradeType.other,
   ]);
   static const schoolReportGrade = GradeType._predefined(
-      id: GradeTypeId('school-report-grade'),
-      predefinedType: PredefinedGradeTypes.schoolReportGrade);
+    id: GradeTypeId('school-report-grade'),
+    predefinedType: PredefinedGradeTypes.schoolReportGrade,
+  );
   static const writtenExam = GradeType._predefined(
-      id: GradeTypeId('written-exam'),
-      predefinedType: PredefinedGradeTypes.writtenExam);
+    id: GradeTypeId('written-exam'),
+    predefinedType: PredefinedGradeTypes.writtenExam,
+  );
   static const oralParticipation = GradeType._predefined(
-      id: GradeTypeId('oral-participation'),
-      predefinedType: PredefinedGradeTypes.oralParticipation);
+    id: GradeTypeId('oral-participation'),
+    predefinedType: PredefinedGradeTypes.oralParticipation,
+  );
   static const vocabularyTest = GradeType._predefined(
-      id: GradeTypeId('vocabulary-test'),
-      predefinedType: PredefinedGradeTypes.vocabularyTest);
+    id: GradeTypeId('vocabulary-test'),
+    predefinedType: PredefinedGradeTypes.vocabularyTest,
+  );
   static const presentation = GradeType._predefined(
-      id: GradeTypeId('presentation'),
-      predefinedType: PredefinedGradeTypes.presentation);
+    id: GradeTypeId('presentation'),
+    predefinedType: PredefinedGradeTypes.presentation,
+  );
   static const other = GradeType._predefined(
-      id: GradeTypeId('other'), predefinedType: PredefinedGradeTypes.other);
+    id: GradeTypeId('other'),
+    predefinedType: PredefinedGradeTypes.other,
+  );
 }
 
 class GradeResult extends Equatable {
@@ -491,15 +537,15 @@ class GradeResult extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        originalInput,
-        value,
-        isTakenIntoAccount,
-        date,
-        title,
-        gradeTypeId,
-        details,
-      ];
+    id,
+    originalInput,
+    value,
+    isTakenIntoAccount,
+    date,
+    title,
+    gradeTypeId,
+    details,
+  ];
 }
 
 class SubjectResult extends Equatable {
@@ -535,17 +581,17 @@ class SubjectResult extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        calculatedGrade,
-        connectedCourses,
-        weightType,
-        gradeTypeWeights,
-        grades,
-        abbreviation,
-        design,
-        finalGradeTypeId,
-      ];
+    id,
+    name,
+    calculatedGrade,
+    connectedCourses,
+    weightType,
+    gradeTypeWeights,
+    grades,
+    abbreviation,
+    design,
+    finalGradeTypeId,
+  ];
 }
 
 class TermResult extends Equatable {
@@ -578,16 +624,16 @@ class TermResult extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        gradingSystem,
-        calculatedGrade,
-        subjects,
-        isActiveTerm,
-        name,
-        finalGradeType,
-        gradeTypeWeightings,
-        weightDisplayType,
-      ];
+    id,
+    gradingSystem,
+    calculatedGrade,
+    subjects,
+    isActiveTerm,
+    name,
+    finalGradeType,
+    gradeTypeWeightings,
+    weightDisplayType,
+  ];
 }
 
 class GradeValue extends Equatable {
@@ -673,11 +719,7 @@ extension on GradeInput {
 
 enum WeightDisplayType { percent, factor }
 
-enum WeightType {
-  perGrade,
-  perGradeType,
-  inheritFromTerm;
-}
+enum WeightType { perGrade, perGradeType, inheritFromTerm }
 
 class GradeTypeId extends Id {
   const GradeTypeId(super.value);
@@ -687,8 +729,14 @@ class Subject extends SubjectInput {
   final SubjectId id;
 
   @override
-  List<Object?> get props =>
-      [id, design, name, abbreviation, connectedCourses, createdOn];
+  List<Object?> get props => [
+    id,
+    design,
+    name,
+    abbreviation,
+    connectedCourses,
+    createdOn,
+  ];
 
   const Subject({
     required this.id,
@@ -708,8 +756,13 @@ class SubjectInput extends Equatable {
   final DateTime? createdOn;
 
   @override
-  List<Object?> get props =>
-      [design, name, abbreviation, connectedCourses, createdOn];
+  List<Object?> get props => [
+    design,
+    name,
+    abbreviation,
+    connectedCourses,
+    createdOn,
+  ];
 
   const SubjectInput({
     required this.design,

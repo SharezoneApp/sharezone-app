@@ -58,12 +58,13 @@ class _MyAppState extends State<MyApp> {
     providers = [
       Provider<FeedbackApi>.value(value: feedbackApi),
       Provider(
-        create: (context) => FeedbackDetailsPageControllerFactory(
-          feedbackApi: feedbackApi,
-          userId: supportTeamUserId,
-          crashAnalytics: null,
-        ),
-      )
+        create:
+            (context) => FeedbackDetailsPageControllerFactory(
+              feedbackApi: feedbackApi,
+              userId: supportTeamUserId,
+              crashAnalytics: null,
+            ),
+      ),
     ];
   }
 
@@ -82,9 +83,7 @@ class _MyAppState extends State<MyApp> {
             if (snapshot.hasData) {
               return HomePage();
             } else {
-              return LoginSignupPage(
-                auth: auth,
-              );
+              return LoginSignupPage(auth: auth);
             }
           },
         ),

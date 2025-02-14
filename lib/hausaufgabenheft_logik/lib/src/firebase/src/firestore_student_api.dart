@@ -28,25 +28,29 @@ class FirestoreStudentHomeworkApi extends StudentHomeworkPageApi
 
   @override
   Future<void> completeHomework(
-      HomeworkId homeworkId, CompletionStatus newCompletionStatus) async {
+    HomeworkId homeworkId,
+    CompletionStatus newCompletionStatus,
+  ) async {
     final documentReference = homeworkCollection.doc(homeworkId.toString());
     switch (newCompletionStatus) {
       case CompletionStatus.completed:
         documentReference.update({
-          'assignedUserArrays.completedStudentUids':
-              FieldValue.arrayUnion([uid])
+          'assignedUserArrays.completedStudentUids': FieldValue.arrayUnion([
+            uid,
+          ]),
         });
         documentReference.update({
-          'assignedUserArrays.openStudentUids': FieldValue.arrayRemove([uid])
+          'assignedUserArrays.openStudentUids': FieldValue.arrayRemove([uid]),
         });
         break;
       case CompletionStatus.open:
         documentReference.update({
-          'assignedUserArrays.completedStudentUids':
-              FieldValue.arrayRemove([uid])
+          'assignedUserArrays.completedStudentUids': FieldValue.arrayRemove([
+            uid,
+          ]),
         });
         documentReference.update({
-          'assignedUserArrays.openStudentUids': FieldValue.arrayUnion([uid])
+          'assignedUserArrays.openStudentUids': FieldValue.arrayUnion([uid]),
         });
         break;
     }
@@ -54,10 +58,11 @@ class FirestoreStudentHomeworkApi extends StudentHomeworkPageApi
 
   @override
   LazyLoadingController<StudentHomeworkReadModel>
-      getLazyLoadingCompletedHomeworksController(
-          int nrOfInitialHomeworkToLoad) {
-    return RealtimeUpdatingLazyLoadingController<StudentHomeworkReadModel>(this,
-        initialNumberOfHomeworksToLoad: nrOfInitialHomeworkToLoad);
+  getLazyLoadingCompletedHomeworksController(int nrOfInitialHomeworkToLoad) {
+    return RealtimeUpdatingLazyLoadingController<StudentHomeworkReadModel>(
+      this,
+      initialNumberOfHomeworksToLoad: nrOfInitialHomeworkToLoad,
+    );
   }
 
   @override
@@ -73,9 +78,10 @@ class FirestoreStudentHomeworkApi extends StudentHomeworkPageApi
   @override
   Future<IList<HomeworkId>> getOpenOverdueHomeworkIds() async {
     final open = await openHomeworks.first;
-    final overdue = open
-        .where((homeworks) => homeworks.isOverdueRelativeTo(Date.now()))
-        .toList();
+    final overdue =
+        open
+            .where((homeworks) => homeworks.isOverdueRelativeTo(Date.now()))
+            .toList();
     final overdueIds = overdue.map((hws) => hws.id).toIList();
     return overdueIds;
   }

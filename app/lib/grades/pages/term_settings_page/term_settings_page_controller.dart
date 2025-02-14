@@ -35,15 +35,15 @@ class TermSettingsPageController extends ChangeNotifier {
   TermSettingsState state = const TermSettingsLoading();
 
   TermSettingsPageView get view => TermSettingsPageView(
-        isActiveTerm: isActiveTerm,
-        name: name,
-        gradingSystem: gradingSystem,
-        finalGradeType: finalGradeType,
-        selectableGradingTypes: gradesService.getPossibleGradeTypes(),
-        weights: _weights,
-        subjects: _mergeCoursesAndSubjects(),
-        weightDisplayType: weightDisplayType,
-      );
+    isActiveTerm: isActiveTerm,
+    name: name,
+    gradingSystem: gradingSystem,
+    finalGradeType: finalGradeType,
+    selectableGradingTypes: gradesService.getPossibleGradeTypes(),
+    weights: _weights,
+    subjects: _mergeCoursesAndSubjects(),
+    weightDisplayType: weightDisplayType,
+  );
 
   TermSettingsPageController({
     required this.gradesService,
@@ -82,8 +82,9 @@ class TermSettingsPageController extends ChangeNotifier {
     final subjects = (_getTerm()?.subjects ?? IList());
     final subjectViews = <SubjectView>[...subjects.toView()];
     for (final course in courses) {
-      final matchingSubject = subjectViews
-          .firstWhereOrNull((subject) => subject.displayName == course.subject);
+      final matchingSubject = subjectViews.firstWhereOrNull(
+        (subject) => subject.displayName == course.subject,
+      );
       final hasSubjectForThisCourse = matchingSubject != null;
       if (!hasSubjectForThisCourse) {
         final subjectId = SubjectId(course.id);
@@ -216,7 +217,7 @@ extension on IList<SubjectResult> {
         design: s.design,
         displayName: s.name,
         abbreviation: s.abbreviation,
-        weight: s.weightingForTermGrade
+        weight: s.weightingForTermGrade,
       ),
     ).toIList();
   }

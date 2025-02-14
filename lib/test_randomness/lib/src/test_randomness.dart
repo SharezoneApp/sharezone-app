@@ -15,8 +15,10 @@ import 'package:random_string/random_string.dart' as lib;
 /// This is used to ensure that tests are deterministic.
 /// The `TEST_RANDOMNESS_SEED` environment variable will be provided when
 /// running `sz test`.
-const randomnessSeed =
-    int.fromEnvironment('TEST_RANDOMNESS_SEED', defaultValue: 0);
+const randomnessSeed = int.fromEnvironment(
+  'TEST_RANDOMNESS_SEED',
+  defaultValue: 0,
+);
 
 /// The [Random] that should be used for randomness in tests.
 ///
@@ -28,10 +30,7 @@ final _randomProvider = lib.CoreRandomProvider.from(szTestRandom);
 
 /// Generates a random integer where [from] <= [to] inclusive
 /// where 0 <= from <= to <= 999999999999999
-int randomBetween(
-  int from,
-  int to,
-) =>
+int randomBetween(int from, int to) =>
     lib.randomBetween(from, to, provider: _randomProvider);
 
 /// Generates a random string of [length] with characters
@@ -41,8 +40,7 @@ String randomString(
   int length, {
   int from = lib.asciiStart,
   int to = lib.asciiEnd,
-}) =>
-    lib.randomString(length, from: from, to: to, provider: _randomProvider);
+}) => lib.randomString(length, from: from, to: to, provider: _randomProvider);
 
 /// Generates a random string of [length] with only numeric characters.
 String randomNumeric(int length) =>

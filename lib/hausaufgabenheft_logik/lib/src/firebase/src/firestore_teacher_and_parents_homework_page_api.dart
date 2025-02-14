@@ -24,13 +24,18 @@ class FirestoreTeacherAndParentsHomeworkPageApi
   final TeacherHomeworkTransformer _homeworkTransformer;
 
   FirestoreTeacherAndParentsHomeworkPageApi(
-      this._homeworkCollection, this.uid, this._homeworkTransformer);
+    this._homeworkCollection,
+    this.uid,
+    this._homeworkTransformer,
+  );
 
   @override
   LazyLoadingController<TeacherHomeworkReadModel>
-      getLazyLoadingArchivedHomeworksController(int nrOfInitialHomeworkToLoad) {
-    return RealtimeUpdatingLazyLoadingController<TeacherHomeworkReadModel>(this,
-        initialNumberOfHomeworksToLoad: nrOfInitialHomeworkToLoad);
+  getLazyLoadingArchivedHomeworksController(int nrOfInitialHomeworkToLoad) {
+    return RealtimeUpdatingLazyLoadingController<TeacherHomeworkReadModel>(
+      this,
+      initialNumberOfHomeworksToLoad: nrOfInitialHomeworkToLoad,
+    );
   }
 
   @override
@@ -46,12 +51,12 @@ class FirestoreTeacherAndParentsHomeworkPageApi
   @override
   Stream<IList<TeacherHomeworkReadModel>> get openHomeworks {
     final startOfThisDay = clock.now().copyWith(
-          hour: 0,
-          minute: 0,
-          second: 0,
-          millisecond: 0,
-          microsecond: 0,
-        );
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+      microsecond: 0,
+    );
 
     return _homeworkCollection
         .where("assignedUserArrays.allAssignedUids", arrayContains: uid)

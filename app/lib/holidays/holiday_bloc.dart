@@ -31,10 +31,11 @@ class HolidayBloc extends BlocBase {
   Future<void> Function(StateEnum? state) get changeState =>
       stateGateway.changeState;
 
-  HolidayBloc(
-      {required this.holidayManager,
-      required this.stateGateway,
-      this.getCurrentTime}) {
+  HolidayBloc({
+    required this.holidayManager,
+    required this.stateGateway,
+    this.getCurrentTime,
+  }) {
     getCurrentTime ??= () => clock.now();
 
     final holidaysStream = userState
@@ -43,12 +44,15 @@ class HolidayBloc extends BlocBase {
         // (see https://github.com/SharezoneApp/sharezone-app/issues/566).
         .where((state) => state != StateEnum.notSelected)
         .asyncMap((stateEnum) async {
-      final state = toStateOrThrow(stateEnum);
-      return await holidayManager.load(state);
-    });
+          final state = toStateOrThrow(stateEnum);
+          return await holidayManager.load(state);
+        });
 
-    holidaysStream.listen(_holidays.add,
-        onError: _holidays.addError, cancelOnError: false);
+    holidaysStream.listen(
+      _holidays.add,
+      onError: _holidays.addError,
+      cancelOnError: false,
+    );
   }
 
   @override
@@ -151,10 +155,14 @@ State toStateOrThrow(StateEnum? stateEnum) {
       return const Thueringen();
     case StateEnum.notFromGermany:
       throw UnsupportedStateException(
-          "Holidays are not available for selected State", stateEnum);
+        "Holidays are not available for selected State",
+        stateEnum,
+      );
     case StateEnum.anonymous:
       throw UnsupportedStateException(
-          "Can't load Holidays for anonymous user.", stateEnum);
+        "Can't load Holidays for anonymous user.",
+        stateEnum,
+      );
     default:
       throw UnsupportedStateException("Unknown State Value.", stateEnum);
   }

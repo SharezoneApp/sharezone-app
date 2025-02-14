@@ -9,9 +9,7 @@
 part of 'drawer.dart';
 
 class _AccountSection extends StatelessWidget {
-  const _AccountSection({
-    required this.isDesktopModus,
-  });
+  const _AccountSection({required this.isDesktopModus});
 
   final bool isDesktopModus;
 
@@ -50,17 +48,15 @@ class _AccountSection extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: <Widget>[
-                                _ProfileAvatar(
-                                  abbreviation: user.abbreviation,
-                                ),
+                                _ProfileAvatar(abbreviation: user.abbreviation),
                                 const SizedBox(width: 16),
                                 _NameAndEMailColumn(name: user.name),
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
-                    )
+                    ),
                   ] else ...[
                     _ProfileAvatar(abbreviation: user.abbreviation),
                     const SizedBox(height: 10),
@@ -70,7 +66,7 @@ class _AccountSection extends StatelessWidget {
                         _NameAndEMailColumn(name: user.name),
                         const _ProfileArrow(),
                       ],
-                    )
+                    ),
                   ],
                 ],
               ),
@@ -90,18 +86,13 @@ class _AccountSection extends StatelessWidget {
 class _NameAndEMailColumn extends StatelessWidget {
   final String name;
 
-  const _NameAndEMailColumn({
-    required this.name,
-  });
+  const _NameAndEMailColumn({required this.name});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _Name(name: name),
-        const _Email(),
-      ],
+      children: <Widget>[_Name(name: name), const _Email()],
     );
   }
 }
@@ -146,8 +137,10 @@ class _ProfileArrow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(shape: BoxShape.circle, color: Colors.grey[300]),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.grey[300],
+      ),
       width: 35,
       height: 35,
       child: Icon(Icons.keyboard_arrow_right, color: Colors.grey[700]),
@@ -156,9 +149,7 @@ class _ProfileArrow extends StatelessWidget {
 }
 
 class _ProfileAvatar extends StatelessWidget {
-  const _ProfileAvatar({
-    required this.abbreviation,
-  });
+  const _ProfileAvatar({required this.abbreviation});
 
   final String abbreviation;
 

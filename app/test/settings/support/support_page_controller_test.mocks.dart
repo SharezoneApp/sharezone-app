@@ -36,18 +36,19 @@ class MockUrlLauncherExtended extends _i1.Mock
     String? webOnlyWindowName,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #launchUrl,
-          [url],
-          {
-            #mode: mode,
-            #webViewConfiguration: webViewConfiguration,
-            #webOnlyWindowName: webOnlyWindowName,
-          },
-        ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+            Invocation.method(
+              #launchUrl,
+              [url],
+              {
+                #mode: mode,
+                #webViewConfiguration: webViewConfiguration,
+                #webOnlyWindowName: webOnlyWindowName,
+              },
+            ),
+            returnValue: _i3.Future<bool>.value(false),
+            returnValueForMissingStub: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 
   @override
   _i3.Future<bool> tryLaunchOrThrow(
@@ -58,28 +59,28 @@ class MockUrlLauncherExtended extends _i1.Mock
     String? webOnlyWindowName,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #tryLaunchOrThrow,
-          [url],
-          {
-            #mode: mode,
-            #webViewConfiguration: webViewConfiguration,
-            #webOnlyWindowName: webOnlyWindowName,
-          },
-        ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+            Invocation.method(
+              #tryLaunchOrThrow,
+              [url],
+              {
+                #mode: mode,
+                #webViewConfiguration: webViewConfiguration,
+                #webOnlyWindowName: webOnlyWindowName,
+              },
+            ),
+            returnValue: _i3.Future<bool>.value(false),
+            returnValueForMissingStub: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> canLaunchUrl(Uri? url) => (super.noSuchMethod(
-        Invocation.method(
-          #canLaunchUrl,
-          [url],
-        ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+  _i3.Future<bool> canLaunchUrl(Uri? url) =>
+      (super.noSuchMethod(
+            Invocation.method(#canLaunchUrl, [url]),
+            returnValue: _i3.Future<bool>.value(false),
+            returnValueForMissingStub: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 
   @override
   _i3.Future<bool> tryLaunchMailOrThrow(
@@ -88,15 +89,13 @@ class MockUrlLauncherExtended extends _i1.Mock
     String? body,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #tryLaunchMailOrThrow,
-          [address],
-          {
-            #subject: subject,
-            #body: body,
-          },
-        ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+            Invocation.method(
+              #tryLaunchMailOrThrow,
+              [address],
+              {#subject: subject, #body: body},
+            ),
+            returnValue: _i3.Future<bool>.value(false),
+            returnValueForMissingStub: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 }

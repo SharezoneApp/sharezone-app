@@ -19,10 +19,7 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CourseTemplatePage extends StatefulWidget {
-  const CourseTemplatePage({
-    super.key,
-    this.schoolClassId,
-  });
+  const CourseTemplatePage({super.key, this.schoolClassId});
 
   static const tag = 'course-template-page';
 
@@ -38,8 +35,9 @@ class _CourseTemplatePageState extends State<CourseTemplatePage> {
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<CourseCreateBlocFactory>(context)
-        .create(schoolClassId: widget.schoolClassId);
+    bloc = BlocProvider.of<CourseCreateBlocFactory>(
+      context,
+    ).create(schoolClassId: widget.schoolClassId);
   }
 
   @override
@@ -85,9 +83,11 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
   @override
   void initState() {
     super.initState();
-    bloc = widget.bloc ??
-        BlocProvider.of<CourseCreateBlocFactory>(context)
-            .create(schoolClassId: widget.schoolClassId);
+    bloc =
+        widget.bloc ??
+        BlocProvider.of<CourseCreateBlocFactory>(
+          context,
+        ).create(schoolClassId: widget.schoolClassId);
   }
 
   @override
@@ -97,19 +97,21 @@ class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
       bloc: bloc,
       child: CourseTemplateList(
         header: hasSchoolClassId ? null : const _SelectSchoolClass(),
-        hasAlreadyCreated: (template) =>
-            bloc.isCourseTemplateAlreadyAdded(template),
+        hasAlreadyCreated:
+            (template) => bloc.isCourseTemplateAlreadyAdded(template),
         onDeletePressed: (courseId) => bloc.deleteCourse(courseId),
-        onEditCourseTemplatePressed: (template) => openCourseCreatePage(
-          context,
-          template: template,
-          schoolClassId: widget.schoolClassId,
-        ),
-        onCreateCoursePressed: (template) =>
-            bloc.submitWithCourseTemplate(template),
-        bottom: widget.withCreateCustomCourseSection
-            ? _CreateCustomCourseSection()
-            : null,
+        onEditCourseTemplatePressed:
+            (template) => openCourseCreatePage(
+              context,
+              template: template,
+              schoolClassId: widget.schoolClassId,
+            ),
+        onCreateCoursePressed:
+            (template) => bloc.submitWithCourseTemplate(template),
+        bottom:
+            widget.withCreateCustomCourseSection
+                ? _CreateCustomCourseSection()
+                : null,
       ),
     );
   }
@@ -131,9 +133,9 @@ class CourseTemplateList extends StatefulWidget {
   final bool Function(CourseTemplate) hasAlreadyCreated;
   final Future<void> Function(CourseId) onDeletePressed;
   final Future<(CourseId, CourseName)?> Function(CourseTemplate)
-      onCreateCoursePressed;
+  onCreateCoursePressed;
   final Future<(CourseId, CourseName)?> Function(CourseTemplate)
-      onEditCourseTemplatePressed;
+  onEditCourseTemplatePressed;
 
   @override
   State<CourseTemplateList> createState() => _CourseTemplateListState();
@@ -207,9 +209,7 @@ class _CourseTemplateListState extends State<CourseTemplateList> {
 }
 
 class CourseTemplatePageFinishButton extends StatelessWidget {
-  const CourseTemplatePageFinishButton({
-    super.key,
-  });
+  const CourseTemplatePageFinishButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +257,8 @@ class _CreateCustomCourseSection extends StatelessWidget {
                       backgroundColor: Colors.lightBlueAccent,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                     onPressed: () async {
                       final bloc = BlocProvider.of<CourseCreateBloc>(context);
@@ -309,19 +310,15 @@ class _CourseTemplateTile extends StatefulWidget {
   final bool Function(CourseTemplate) hasAlreadyCreated;
   final Future<void> Function(CourseId) onDeletePressed;
   final Future<(CourseId, CourseName)?> Function(CourseTemplate)
-      onCreateCoursePressed;
+  onCreateCoursePressed;
   final Future<(CourseId, CourseName)?> Function(CourseTemplate)
-      onEditCourseTemplatePressed;
+  onEditCourseTemplatePressed;
 
   @override
   State createState() => _CourseTemplateTileState();
 }
 
-enum _CourseTemplateTileStatus {
-  add,
-  added,
-  loading,
-}
+enum _CourseTemplateTileStatus { add, added, loading }
 
 class _CourseTemplateTileState extends State<_CourseTemplateTile> {
   late _CourseTemplateTileStatus status;
@@ -358,11 +355,7 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
   }
 
   void showDeletedCourseSnackBar() {
-    showSnackSec(
-      context: context,
-      text: "Kurs wurde gelöscht.",
-      seconds: 2,
-    );
+    showSnackSec(context: context, text: "Kurs wurde gelöscht.", seconds: 2);
   }
 
   Future<void> deleteCourse(CourseId courseId) async {
@@ -374,10 +367,7 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
       showDeletedCourseSnackBar();
     } catch (e, s) {
       if (!mounted) return;
-      showSnackSec(
-        context: context,
-        text: handleErrorMessage(e.toString(), s),
-      );
+      showSnackSec(context: context, text: handleErrorMessage(e.toString(), s));
       setCourseAsCreated();
     }
   }
@@ -398,9 +388,10 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
   Future<bool?> showCreateAnotherCourseDialog() {
     return showDialog<bool>(
       context: context,
-      builder: (context) => _YouAlreadyHaveThisCourseDialog(
-        subject: widget.courseTemplate.subject,
-      ),
+      builder:
+          (context) => _YouAlreadyHaveThisCourseDialog(
+            subject: widget.courseTemplate.subject,
+          ),
     );
   }
 
@@ -422,10 +413,7 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
       _showCourseCreatedSnackBar(course);
     } catch (e, s) {
       if (!mounted) return;
-      showSnackSec(
-        context: context,
-        text: handleErrorMessage(e.toString(), s),
-      );
+      showSnackSec(context: context, text: handleErrorMessage(e.toString(), s));
       setCourseAsNotCreated();
     }
   }
@@ -438,8 +426,9 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
         ListTile(
           onTap: () => createCourse(),
           leading: CircleAvatar(
-            backgroundColor:
-                Theme.of(context).primaryColor.withValues(alpha: 0.20),
+            backgroundColor: Theme.of(
+              context,
+            ).primaryColor.withValues(alpha: 0.20),
             foregroundColor: Colors.lightBlue,
             child: Text(courseTemplate.abbreviation),
           ),
@@ -449,12 +438,13 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
             children: <Widget>[
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 400),
-                transitionBuilder: (widget, animation) =>
-                    FadeTransition(opacity: animation, child: widget),
+                transitionBuilder:
+                    (widget, animation) =>
+                        FadeTransition(opacity: animation, child: widget),
                 child: switch (status) {
                   _CourseTemplateTileStatus.add => _CreateCourseButton(
-                      onPressed: () => createCourse(),
-                    ),
+                    onPressed: () => createCourse(),
+                  ),
                   _CourseTemplateTileStatus.added => _CourseIsCreatedIcon(),
                   _CourseTemplateTileStatus.loading => const _Loading(),
                 },
@@ -466,8 +456,9 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
                     if (result != true || !mounted) return;
                   }
 
-                  final course =
-                      await widget.onEditCourseTemplatePressed(courseTemplate);
+                  final course = await widget.onEditCourseTemplatePressed(
+                    courseTemplate,
+                  );
                   if (course != null && mounted) {
                     setCourseAsCreated();
                     _showCourseCreatedSnackBar(course);
@@ -477,7 +468,7 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
             ],
           ),
         ),
-        if (widget.showDivider) const Divider()
+        if (widget.showDivider) const Divider(),
       ],
     );
   }
@@ -488,10 +479,7 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const IconButton(
-      onPressed: null,
-      icon: LoadingCircle(size: 20),
-    );
+    return const IconButton(onPressed: null, icon: LoadingCircle(size: 20));
   }
 }
 
@@ -506,9 +494,7 @@ class _CourseIsCreatedIcon extends StatelessWidget {
 }
 
 class _CourseEditButton extends StatelessWidget {
-  const _CourseEditButton({
-    required this.onPressed,
-  });
+  const _CourseEditButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -523,9 +509,7 @@ class _CourseEditButton extends StatelessWidget {
 }
 
 class _CreateCourseButton extends StatelessWidget {
-  const _CreateCourseButton({
-    required this.onPressed,
-  });
+  const _CreateCourseButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -540,9 +524,7 @@ class _CreateCourseButton extends StatelessWidget {
 }
 
 class _YouAlreadyHaveThisCourseDialog extends StatelessWidget {
-  const _YouAlreadyHaveThisCourseDialog({
-    required this.subject,
-  });
+  const _YouAlreadyHaveThisCourseDialog({required this.subject});
 
   final String subject;
 
@@ -607,11 +589,7 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
           'Kurse, die ab jetzt erstellt werden, werden mit der Schulklasse "$name" verknüpft.';
     }
 
-    showSnackSec(
-      context: context,
-      text: text,
-      seconds: 5,
-    );
+    showSnackSec(context: context, text: text, seconds: 5);
   }
 
   @override
@@ -638,7 +616,8 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                    "Du bist in einer oder mehreren Schulklasse(n) Administrator. Wähle eine Schulklasse aus, um festzulegen, zu welcher Schulklasse die Kurse verknüpft werden sollen."),
+                  "Du bist in einer oder mehreren Schulklasse(n) Administrator. Wähle eine Schulklasse aus, um festzulegen, zu welcher Schulklasse die Kurse verknüpft werden sollen.",
+                ),
                 const SizedBox(height: 12),
                 for (final schoolClass in schoolClasses)
                   Padding(

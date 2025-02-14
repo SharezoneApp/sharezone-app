@@ -28,46 +28,50 @@ class _CreateActivationCodePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Neuer Aktivierungscode"),
-          actions: [
-            TextButton(
-              child: const Text(
-                "Erstellen",
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () async {
-                final bloc = BlocProvider.of<NewActivationCodeBloc>(context);
-                final result = await bloc.submit(context);
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text("Ergebnis"),
-                    content: Builder(builder: (context) {
-                      return Column(
-                        children: [
-                          Text(result.runtimeType.toString()),
-                          Text(result.data.toString()),
-                        ],
-                        mainAxisSize: MainAxisSize.min,
-                      );
-                    }),
-                    actions: [
-                      TextButton(
-                        child: const Text("Fertig"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
-                      )
-                    ],
-                  ),
-                );
-              },
+      appBar: AppBar(
+        title: const Text("Neuer Aktivierungscode"),
+        actions: [
+          TextButton(
+            child: const Text(
+              "Erstellen",
+              style: TextStyle(color: Colors.white),
             ),
-          ],
-        ),
-        body: _Body());
+            onPressed: () async {
+              final bloc = BlocProvider.of<NewActivationCodeBloc>(context);
+              final result = await bloc.submit(context);
+              showDialog(
+                context: context,
+                builder:
+                    (context) => AlertDialog(
+                      title: const Text("Ergebnis"),
+                      content: Builder(
+                        builder: (context) {
+                          return Column(
+                            children: [
+                              Text(result.runtimeType.toString()),
+                              Text(result.data.toString()),
+                            ],
+                            mainAxisSize: MainAxisSize.min,
+                          );
+                        },
+                      ),
+                      actions: [
+                        TextButton(
+                          child: const Text("Fertig"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+              );
+            },
+          ),
+        ],
+      ),
+      body: _Body(),
+    );
   }
 }
 
@@ -169,10 +173,7 @@ class _ActionsField extends StatelessWidget {
               children: [
                 Text("Aktionen:"),
                 for (final item in data)
-                  ListTile(
-                    leading: const Icon(Icons.star),
-                    title: Text(item),
-                  ),
+                  ListTile(leading: const Icon(Icons.star), title: Text(item)),
               ],
               mainAxisAlignment: MainAxisAlignment.start,
             ),
@@ -188,14 +189,15 @@ class _ActionsField extends StatelessWidget {
   void selectAction(BuildContext context) async {
     final bloc = BlocProvider.of<NewActivationCodeBloc>(context);
     final selected = await selectItem<String>(
-        context: context,
-        items: NewActivationCodeBloc.allPossibleActions,
-        builder: (context, value) {
-          return ListTile(
-            title: Text(value),
-            onTap: () => Navigator.pop(context, value),
-          );
-        });
+      context: context,
+      items: NewActivationCodeBloc.allPossibleActions,
+      builder: (context, value) {
+        return ListTile(
+          title: Text(value),
+          onTap: () => Navigator.pop(context, value),
+        );
+      },
+    );
     if (selected != null) {
       bloc.changeActions([selected]);
     }

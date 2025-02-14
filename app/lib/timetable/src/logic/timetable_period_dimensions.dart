@@ -16,7 +16,10 @@ class TimetablePeriodDimensions {
   final Time timetableBegin;
 
   const TimetablePeriodDimensions(
-      this.period, this.hourHeight, this.timetableBegin);
+    this.period,
+    this.hourHeight,
+    this.timetableBegin,
+  );
 
   double get height {
     final diffHours = period.endTime.hour - period.startTime.hour;
@@ -42,7 +45,10 @@ class TimetableTimeDimensions {
   final Time timetableBegin;
 
   const TimetableTimeDimensions(
-      this.time, this.hourHeight, this.timetableBegin);
+    this.time,
+    this.hourHeight,
+    this.timetableBegin,
+  );
 
   double get topPosition {
     int startHour = time.hour;

@@ -17,8 +17,12 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
 import 'teacher_homework_transformation.dart';
 
-class HomeworkTransformer extends StreamTransformerBase<
-    QuerySnapshot<Map<String, dynamic>>, IList<StudentHomeworkReadModel>> {
+class HomeworkTransformer
+    extends
+        StreamTransformerBase<
+          QuerySnapshot<Map<String, dynamic>>,
+          IList<StudentHomeworkReadModel>
+        > {
   final String userId;
   final CourseDataRetreiver getCourseData;
 
@@ -30,11 +34,15 @@ class HomeworkTransformer extends StreamTransformerBase<
   }
 
   Future<IList<StudentHomeworkReadModel>> querySnapshotToHomeworks(
-      QuerySnapshot querySnapshot) async {
+    QuerySnapshot querySnapshot,
+  ) async {
     IList<StudentHomeworkReadModel> homeworks = const IListConst([]);
     for (final document in querySnapshot.docs) {
-      final homework = await tryToConvertToHomework(document, userId,
-          getCourseData: getCourseData);
+      final homework = await tryToConvertToHomework(
+        document,
+        userId,
+        getCourseData: getCourseData,
+      );
       if (homework != null) {
         homeworks = homeworks.add(homework);
       }
@@ -44,13 +52,16 @@ class HomeworkTransformer extends StreamTransformerBase<
 }
 
 Future<StudentHomeworkReadModel?> tryToConvertToHomework(
-    DocumentSnapshot documentSnapshot, String uid,
-    {required CourseDataRetreiver getCourseData}) async {
+  DocumentSnapshot documentSnapshot,
+  String uid, {
+  required CourseDataRetreiver getCourseData,
+}) async {
   StudentHomeworkReadModel? converted;
   try {
     final homework = HomeworkDto.fromData(
-        documentSnapshot.data() as Map<String, dynamic>,
-        id: documentSnapshot.id);
+      documentSnapshot.data() as Map<String, dynamic>,
+      id: documentSnapshot.id,
+    );
 
     final courseId = CourseId(homework.courseID);
     final data = await getCourseData(CourseId(homework.courseID));
@@ -59,9 +70,10 @@ Future<StudentHomeworkReadModel?> tryToConvertToHomework(
       id: HomeworkId(homework.id),
       courseId: courseId,
       todoDate: homework.todoUntil,
-      status: homework.isDoneBy(uid)
-          ? CompletionStatus.completed
-          : CompletionStatus.open,
+      status:
+          homework.isDoneBy(uid)
+              ? CompletionStatus.completed
+              : CompletionStatus.open,
       subject: Subject(
         homework.subject,
         color: Color(data.colorHexValue),

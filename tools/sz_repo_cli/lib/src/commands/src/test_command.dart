@@ -52,7 +52,8 @@ If not passed, do not randomize test case execution order.''',
   final String name = 'test';
 
   @override
-  final String description = 'Runs the Dart tests for all packages.\n\n'
+  final String description =
+      'Runs the Dart tests for all packages.\n\n'
       'This command requires "flutter" to be in your path.';
 
   @override
@@ -65,9 +66,9 @@ If not passed, do not randomize test case execution order.''',
   Stream<Package> get packagesToProcess {
     if (argResults!['only-goldens'] as bool) {
       return super.packagesToProcess.where(
-            (package) =>
-                package.isFlutterPackage && package.hasGoldenTestsDirectory,
-          );
+        (package) =>
+            package.isFlutterPackage && package.hasGoldenTestsDirectory,
+      );
     }
 
     return super.packagesToProcess.where((package) => package.hasTestDirectory);
@@ -79,11 +80,13 @@ If not passed, do not randomize test case execution order.''',
   Future<void> runSetup() async {
     final seedArg = argResults!['test-randomize-ordering-seed'] as String;
     // Copied from https://github.com/dart-lang/test/blob/ba64bbbaa26f09e139c26f9ad6409995806aac6e/pkgs/test_core/lib/src/runner/configuration/args.dart#L277
-    _testRandomizeOrderingSeed = seedArg == 'random'
-        ? Random().nextInt(4294967295)
-        : int.parse(seedArg).toUnsigned(32);
+    _testRandomizeOrderingSeed =
+        seedArg == 'random'
+            ? Random().nextInt(4294967295)
+            : int.parse(seedArg).toUnsigned(32);
     stdout.writeln(
-        'Using seed for test randomization: $_testRandomizeOrderingSeed');
+      'Using seed for test randomization: $_testRandomizeOrderingSeed',
+    );
   }
 
   @override
@@ -143,19 +146,16 @@ Future<void> _runTestsDart(
 
   await getPackage(processRunner, package);
 
-  await processRunner.runCommand(
-    [
-      'dart',
-      '--define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
-      'test',
-      '--test-randomize-ordering-seed',
-      '$testRandomizeOrderingSeed',
-      // --define only works with this flag, seems to be a bug in Dart.
-      // See: https://github.com/dart-lang/test/issues/1794
-      '--use-data-isolate-strategy',
-    ],
-    workingDirectory: package.location,
-  );
+  await processRunner.runCommand([
+    'dart',
+    '--define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
+    'test',
+    '--test-randomize-ordering-seed',
+    '$testRandomizeOrderingSeed',
+    // --define only works with this flag, seems to be a bug in Dart.
+    // See: https://github.com/dart-lang/test/issues/1794
+    '--use-data-isolate-strategy',
+  ], workingDirectory: package.location);
 }
 
 Future<void> _runTestsFlutter(
@@ -171,17 +171,14 @@ Future<void> _runTestsFlutter(
       return;
     }
 
-    await processRunner.runCommand(
-      [
-        'flutter',
-        'test',
-        'test_goldens',
-        if (updateGoldens) '--update-goldens',
-        '--test-randomize-ordering-seed',
-        '$testRandomizeOrderingSeed',
-      ],
-      workingDirectory: package.location,
-    );
+    await processRunner.runCommand([
+      'flutter',
+      'test',
+      'test_goldens',
+      if (updateGoldens) '--update-goldens',
+      '--test-randomize-ordering-seed',
+      '$testRandomizeOrderingSeed',
+    ], workingDirectory: package.location);
     return;
   }
 
@@ -189,34 +186,28 @@ Future<void> _runTestsFlutter(
   // command. Otherwise the throws the Flutter tool throws an error that it
   // couldn't find the "test_goldens" directory.
   if (excludeGoldens || !package.hasGoldenTestsDirectory) {
-    await processRunner.runCommand(
-      [
-        'flutter',
-        'test',
-        '--test-randomize-ordering-seed',
-        '$testRandomizeOrderingSeed',
-        '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
-      ],
-      workingDirectory: package.location,
-    );
+    await processRunner.runCommand([
+      'flutter',
+      'test',
+      '--test-randomize-ordering-seed',
+      '$testRandomizeOrderingSeed',
+      '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
+    ], workingDirectory: package.location);
     return;
   }
 
   /// Flutter test lässt automatisch flutter pub get laufen.
   /// Deswegen muss nicht erst noch [getPackages] aufgerufen werden.
 
-  await processRunner.runCommand(
-    [
-      'flutter',
-      'test',
-      // Directory for golden tests.
-      'test_goldens',
-      // Directory for unit and widget tests.
-      'test',
-      '--test-randomize-ordering-seed',
-      '$testRandomizeOrderingSeed',
-      '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
-    ],
-    workingDirectory: package.location,
-  );
+  await processRunner.runCommand([
+    'flutter',
+    'test',
+    // Directory for golden tests.
+    'test_goldens',
+    // Directory for unit and widget tests.
+    'test',
+    '--test-randomize-ordering-seed',
+    '$testRandomizeOrderingSeed',
+    '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
+  ], workingDirectory: package.location);
 }

@@ -16,8 +16,10 @@ import 'package:platform_check/platform_check.dart';
 void main() {
   group('LinkSharingButton', () {
     GroupInfo createGroupInfoWith({String? joinLink, String? sharecode}) {
-      assert(joinLink != null || sharecode != null,
-          'group info needs a joinLink or a sharecode');
+      assert(
+        joinLink != null || sharecode != null,
+        'group info needs a joinLink or a sharecode',
+      );
 
       return GroupInfo(
         id: 'id',
@@ -37,9 +39,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Material(
-            child: Row(
-              children: [LinkSharingButton(groupInfo: groupInfo)],
-            ),
+            child: Row(children: [LinkSharingButton(groupInfo: groupInfo)]),
           ),
         ),
       );

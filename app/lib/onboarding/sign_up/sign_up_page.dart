@@ -51,15 +51,17 @@ class _SignUpPageState extends State<SignUpPage> {
     super.initState();
 
     // Animating to ChooseTypeOfUser-Page
-    Future.delayed(const Duration(milliseconds: 350))
-        .then((_) => isWidgetDisposed
-            ? null
-            : setState(() {
+    Future.delayed(const Duration(milliseconds: 350)).then(
+      (_) =>
+          isWidgetDisposed
+              ? null
+              : setState(() {
                 child = ChooseTypeOfUser(
                   withBackButton: widget.withBackButton,
                   withLogin: widget.withLogin,
                 );
-              }));
+              }),
+    );
   }
 
   @override
@@ -75,12 +77,13 @@ class _SignUpPageState extends State<SignUpPage> {
         duration: const Duration(milliseconds: 175),
         transitionBuilder: (widget, animation) {
           return ScaleTransition(
-            scale: animation.drive(Tween<double>(begin: 0.925, end: 1)
-                .chain(CurveTween(curve: Curves.easeOutQuint))),
-            child: FadeTransition(
-              opacity: animation,
-              child: widget,
+            scale: animation.drive(
+              Tween<double>(
+                begin: 0.925,
+                end: 1,
+              ).chain(CurveTween(curve: Curves.easeOutQuint)),
             ),
+            child: FadeTransition(opacity: animation, child: widget),
           );
         },
         child: Material(
@@ -94,11 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
 }
 
 class _AdvancedListTile extends StatelessWidget {
-  const _AdvancedListTile({
-    required this.title,
-    this.subtitle,
-    this.leading,
-  });
+  const _AdvancedListTile({required this.title, this.subtitle, this.leading});
 
   factory _AdvancedListTile.dataProtection({
     required String title,
@@ -129,10 +128,7 @@ class _AdvancedListTile extends StatelessWidget {
 }
 
 class OnboardingNavigationBar extends StatelessWidget {
-  const OnboardingNavigationBar({
-    super.key,
-    this.action,
-  });
+  const OnboardingNavigationBar({super.key, this.action});
 
   final Widget? action;
 
@@ -188,8 +184,9 @@ class OnboardingNavigationBarContinueButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomBarButton(
       text: "Weiter",
-      onTap: () =>
-          Navigator.push(context, FadeRoute(child: nextPage, tag: nextTag)),
+      onTap:
+          () =>
+              Navigator.push(context, FadeRoute(child: nextPage, tag: nextTag)),
     );
   }
 }
@@ -210,26 +207,28 @@ class _SignUpButtonState extends State<_SignUpButton> {
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).primaryColor,
-        disabledForegroundColor:
-            Theme.of(context).primaryColor.withValues(alpha: 0.38),
+        disabledForegroundColor: Theme.of(
+          context,
+        ).primaryColor.withValues(alpha: 0.38),
       ),
-      onPressed: isLoading
-          ? null
-          : () async {
-              final bloc = BlocProvider.of<RegistrationBloc>(context);
-              try {
-                setState(() => isLoading = true);
-                await bloc.signUp();
-                if (!context.mounted) return;
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-              } catch (e, s) {
-                setState(() => isLoading = false);
-                showSnackSec(
-                  text: handleErrorMessage(e.toString(), s),
-                  context: context,
-                );
-              }
-            },
+      onPressed:
+          isLoading
+              ? null
+              : () async {
+                final bloc = BlocProvider.of<RegistrationBloc>(context);
+                try {
+                  setState(() => isLoading = true);
+                  await bloc.signUp();
+                  if (!context.mounted) return;
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                } catch (e, s) {
+                  setState(() => isLoading = false);
+                  showSnackSec(
+                    text: handleErrorMessage(e.toString(), s),
+                    context: context,
+                  );
+                }
+              },
       child: Stack(
         key: const ValueKey('SubmitButton'),
         alignment: Alignment.center,
@@ -243,14 +242,15 @@ class _SignUpButtonState extends State<_SignUpButton> {
           ),
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 275),
-            child: isLoading
-                ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(color: Colors.white),
-                  )
-                : Container(),
-          )
+            child:
+                isLoading
+                    ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(color: Colors.white),
+                    )
+                    : Container(),
+          ),
         ],
       ),
     );

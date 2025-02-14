@@ -28,23 +28,22 @@ enum GradePerformance {
 typedef Abbreviation = String;
 typedef DisplayName = String;
 typedef GradeView = String;
-typedef SubjectView = ({
-  SubjectId id,
-  Abbreviation abbreviation,
-  DisplayName displayName,
-  Design design,
-  GradeView grade,
-});
+typedef SubjectView =
+    ({
+      SubjectId id,
+      Abbreviation abbreviation,
+      DisplayName displayName,
+      Design design,
+      GradeView grade,
+    });
 
 typedef AvgGradeView = (GradeView, GradePerformance);
-typedef CurrentTermView = ({
-  TermId id,
-  DisplayName displayName,
-  AvgGradeView avgGrade,
-  List<SubjectView> subjects
-});
-typedef PastTermView = ({
-  TermId id,
-  DisplayName displayName,
-  AvgGradeView avgGrade
-});
+typedef CurrentTermView =
+    ({
+      TermId id,
+      DisplayName displayName,
+      AvgGradeView avgGrade,
+      List<SubjectView> subjects,
+    });
+typedef PastTermView =
+    ({TermId id, DisplayName displayName, AvgGradeView avgGrade});

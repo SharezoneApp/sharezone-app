@@ -23,28 +23,33 @@ class AppFunctions {
     required Map<String, dynamic> parameters,
   }) async {
     try {
-      final httpsCallableResult =
-          await _firebaseFunctions.httpsCallable(functionName).call(parameters);
+      final httpsCallableResult = await _firebaseFunctions
+          .httpsCallable(functionName)
+          .call(parameters);
       return AppFunctionsResult<T>.data(httpsCallableResult.data);
     } catch (e, s) {
       log('Can not resolve callable cloud function', error: e, stackTrace: s);
       if (e is PlatformException) {
         final PlatformException platformException = e;
         return AppFunctionsResult.exception(
-            _mapPlatformExceptionToAppFunctionsException(platformException));
+          _mapPlatformExceptionToAppFunctionsException(platformException),
+        );
       }
       if (e is FirebaseFunctionsException) {
         final FirebaseFunctionsException cloudFunctionsException = e;
         return AppFunctionsResult.exception(
-            _mapFirebaseFunctionsExceptionToAppFunctionsException(
-                cloudFunctionsException));
+          _mapFirebaseFunctionsExceptionToAppFunctionsException(
+            cloudFunctionsException,
+          ),
+        );
       }
       return AppFunctionsResult.exception(UnknownAppFunctionsException(e));
     }
   }
 
   AppFunctionsException _mapFirebaseFunctionsExceptionToAppFunctionsException(
-      FirebaseFunctionsException cloudFunctionsException) {
+    FirebaseFunctionsException cloudFunctionsException,
+  ) {
     log("Code: ${cloudFunctionsException.code}");
     log("Details: ${cloudFunctionsException.details}");
     log("Message: ${cloudFunctionsException.message}");
@@ -56,7 +61,8 @@ class AppFunctions {
   }
 
   AppFunctionsException _mapPlatformExceptionToAppFunctionsException(
-      PlatformException platformException) {
+    PlatformException platformException,
+  ) {
     if (platformException.code == '-1009') {
       return NoInternetAppFunctionsException();
     }

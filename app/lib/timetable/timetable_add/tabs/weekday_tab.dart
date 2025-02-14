@@ -65,11 +65,7 @@ class _WeekDayList extends StatelessWidget {
 }
 
 class _WeekDayTile extends StatelessWidget {
-  const _WeekDayTile({
-    required this.weekDay,
-    this.onTap,
-    this.selectedWeekDay,
-  });
+  const _WeekDayTile({required this.weekDay, this.onTap, this.selectedWeekDay});
 
   final WeekDay weekDay;
   final VoidCallback? onTap;
@@ -82,11 +78,10 @@ class _WeekDayTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Material(
         clipBehavior: Clip.antiAlias,
-        color: (isSelected ? Colors.lightGreen : Colors.lightBlue)
-            .withValues(alpha: 0.20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+        color: (isSelected ? Colors.lightGreen : Colors.lightBlue).withValues(
+          alpha: 0.20,
         ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: ListTile(title: Text(getWeekDayText(weekDay)), onTap: onTap),
       ),
     );

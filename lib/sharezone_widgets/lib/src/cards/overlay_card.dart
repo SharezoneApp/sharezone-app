@@ -37,9 +37,10 @@ class OverlayCard extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 400),
           child: Material(
             elevation: 10,
-            color: Theme.of(context).isDarkTheme
-                ? ElevationColors.dp4
-                : Colors.white,
+            color:
+                Theme.of(context).isDarkTheme
+                    ? ElevationColors.dp4
+                    : Colors.white,
             shadowColor: Colors.black.withValues(alpha: 0.6),
             borderRadius: BorderRadius.circular(10),
             child: Padding(
@@ -63,7 +64,7 @@ class OverlayCard extends StatelessWidget {
                           _Action(onAction: onAction, actionText: actionText),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -75,10 +76,7 @@ class OverlayCard extends StatelessWidget {
 }
 
 class _Action extends StatelessWidget {
-  const _Action({
-    required this.onAction,
-    required this.actionText,
-  });
+  const _Action({required this.onAction, required this.actionText});
 
   final VoidCallback? onAction;
   final String? actionText;
@@ -94,8 +92,9 @@ class _Action extends StatelessWidget {
         onPressed: onAction,
         style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).primaryColor,
-          backgroundColor:
-              Theme.of(context).primaryColor.withValues(alpha: 0.15),
+          backgroundColor: Theme.of(
+            context,
+          ).primaryColor.withValues(alpha: 0.15),
         ),
         child: Text(actionText!),
       ),
@@ -117,9 +116,7 @@ class _Close extends StatelessWidget {
       onTap: onClose,
       child: TextButton(
         onPressed: onClose,
-        style: TextButton.styleFrom(
-          foregroundColor: Colors.grey,
-        ),
+        style: TextButton.styleFrom(foregroundColor: Colors.grey),
         child: const Text("SCHLIESSEN"),
       ),
     );
@@ -134,10 +131,7 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
-      style: const TextStyle(
-        color: Colors.grey,
-        fontFamily: rubik,
-      ),
+      style: const TextStyle(color: Colors.grey, fontFamily: rubik),
       child: content!,
     );
   }

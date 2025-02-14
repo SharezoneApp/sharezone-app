@@ -26,7 +26,7 @@ class CourseDetailsBloc extends BlocBase {
   final _memberSubject = BehaviorSubject<List<MemberData>>();
 
   CourseDetailsBloc(this._gateway, this.memberID)
-      : courseID = _gateway.courseID {
+    : courseID = _gateway.courseID {
     _memberSubject.addStream(_gateway.members, cancelOnError: false);
   }
 
@@ -47,9 +47,10 @@ class CourseDetailsBloc extends BlocBase {
     return _gateway.deleteCourse();
   }
 
-  Stream<WritePermission> get writePermissionStream => course
-      .map((course) => course!.settings.writePermission)
-      .asBroadcastStream();
+  Stream<WritePermission> get writePermissionStream =>
+      course
+          .map((course) => course!.settings.writePermission)
+          .asBroadcastStream();
 
   Future<AppFunctionsResult<bool>> leaveCourse() async {
     return _gateway.leaveCourse();
@@ -76,14 +77,17 @@ class CourseDetailsBloc extends BlocBase {
       initialData.myRole.hasPermission(GroupPermission.administration);
 
   Stream<bool> requestAdminPermissionStream() => course.map(
-      (course) => course!.myRole.hasPermission(GroupPermission.administration));
+    (course) => course!.myRole.hasPermission(GroupPermission.administration),
+  );
 
   bool isAdmin(MemberRole myRole) => _isAdmin(myRole);
 
   bool moreThanOneAdmin(List<MemberData> membersDataList) {
     if (membersDataList
-            .where((member) =>
-                member.role.hasPermission(GroupPermission.administration))
+            .where(
+              (member) =>
+                  member.role.hasPermission(GroupPermission.administration),
+            )
             .length >
         1) {
       return true;
@@ -93,9 +97,13 @@ class CourseDetailsBloc extends BlocBase {
   }
 
   Future<AppFunctionsResult<bool>> updateMemberRole(
-      UserId newMemberID, MemberRole newRole) {
+    UserId newMemberID,
+    MemberRole newRole,
+  ) {
     return _gateway.updateMemberRole(
-        newMemberID: newMemberID.toString(), newRole: newRole);
+      newMemberID: newMemberID.toString(),
+      newRole: newRole,
+    );
   }
 
   @override
@@ -112,11 +120,8 @@ class CourseDetailsBlocGateway {
 
   static const _groupType = GroupType.course;
 
-  CourseDetailsBlocGateway(
-    this._gateway,
-    this._course,
-    this._analytics,
-  ) : courseID = _course.id;
+  CourseDetailsBlocGateway(this._gateway, this._course, this._analytics)
+    : courseID = _course.id;
 
   Course get initialData => _course;
 
@@ -146,15 +151,22 @@ class CourseDetailsBlocGateway {
 
   Future<AppFunctionsResult<bool>> setIsPublic(bool isPublic) {
     _analytics.logChangeGroupVisibility(
-        isPublic: isPublic, groupType: _groupType);
+      isPublic: isPublic,
+      groupType: _groupType,
+    );
     return _gateway.editCourseSettings(
-        courseID, _course.settings.copyWith(isPublic: isPublic));
+      courseID,
+      _course.settings.copyWith(isPublic: isPublic),
+    );
   }
 
   Future<AppFunctionsResult<bool>> setWritePermission(
-      WritePermission writePermission) async {
-    _analytics.logChangedWritePermission(writePermission,
-        groupType: _groupType);
+    WritePermission writePermission,
+  ) async {
+    _analytics.logChangedWritePermission(
+      writePermission,
+      groupType: _groupType,
+    );
     return _gateway.editCourseSettings(
       courseID,
       _course.settings.copyWith(writePermission: writePermission),
@@ -183,11 +195,7 @@ SplittedMemberList createSplittedMemberList(List<MemberData> viewList) {
   creator.sort((userA, userB) => userA.name.compareTo(userB.name));
   reader.sort((userA, userB) => userA.name.compareTo(userB.name));
 
-  return SplittedMemberList(
-    admins: admins,
-    creator: creator,
-    reader: reader,
-  );
+  return SplittedMemberList(admins: admins, creator: creator, reader: reader);
 }
 
 bool _isAdmin(MemberRole role) {

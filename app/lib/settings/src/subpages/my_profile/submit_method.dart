@@ -12,13 +12,13 @@ import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-enum ChangeType {
-  email,
-  password,
-}
+enum ChangeType { email, password }
 
 Future<void> submit(
-    BuildContext context, String snackBarText, ChangeType changeType) async {
+  BuildContext context,
+  String snackBarText,
+  ChangeType changeType,
+) async {
   final bloc = BlocProvider.of<ChangeDataBloc>(context);
   showSnackSec(
     context: context,

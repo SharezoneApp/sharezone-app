@@ -38,11 +38,12 @@ void main() {
     return EventView(
       design: Design.random(random),
       // Generate random date
-      dateText: DateTime(
-        2021,
-        random.nextInt(12) + 1,
-        random.nextInt(28) + 1,
-      ).toIso8601String(),
+      dateText:
+          DateTime(
+            2021,
+            random.nextInt(12) + 1,
+            random.nextInt(28) + 1,
+          ).toIso8601String(),
       upcomingSoon: true,
       event: MockCalendricalEvent(),
       groupID: '${random.nextInt(1000)}',
@@ -72,10 +73,9 @@ void main() {
 
     group('with Sharezone Plus', () {
       setUp(() {
-        final state = PastCalendricalEventsPageLoadedState(
-          [for (var i = 0; i < 10; i++) randomEventView()],
-          sortingOrder: EventsSortingOrder.descending,
-        );
+        final state = PastCalendricalEventsPageLoadedState([
+          for (var i = 0; i < 10; i++) randomEventView(),
+        ], sortingOrder: EventsSortingOrder.descending);
         // Mockito does not support mocking sealed classes yet, so we have to
         // provide a dummy implementation of the state.
         //

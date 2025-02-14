@@ -14,9 +14,7 @@ const _accentColor = Colors.lightBlue;
 ///
 /// In golden tests outside of `/app`, it's recommended to override [fontFamily]
 /// to `Roboto` to because `golden_toolkit` can't load fonts of other packages.
-ThemeData getDarkTheme({
-  String? fontFamily = rubik,
-}) {
+ThemeData getDarkTheme({String? fontFamily = rubik}) {
   return ThemeData(
     // Brightness
     brightness: Brightness.dark,
@@ -43,8 +41,9 @@ ThemeData getDarkTheme({
       backgroundColor: _accentColor,
       foregroundColor: Colors.white,
     ),
-    textTheme: const TextTheme()
-        .copyWith(headlineMedium: const TextStyle(color: Colors.white)),
+    textTheme: const TextTheme().copyWith(
+      headlineMedium: const TextStyle(color: Colors.white),
+    ),
     pageTransitionsTheme: _pageTransitionsTheme,
     snackBarTheme: _snackBarTheme,
     bottomSheetTheme: _bottomSheetTheme,
@@ -67,8 +66,9 @@ ThemeData getDarkTheme({
     ),
     tabBarTheme: const TabBarTheme(labelColor: Colors.white),
     checkboxTheme: CheckboxThemeData(
-      fillColor:
-          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+      fillColor: WidgetStateProperty.resolveWith<Color?>((
+        Set<WidgetState> states,
+      ) {
         if (states.contains(WidgetState.disabled)) {
           return null;
         }
@@ -79,8 +79,9 @@ ThemeData getDarkTheme({
       }),
     ),
     radioTheme: RadioThemeData(
-      fillColor:
-          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+      fillColor: WidgetStateProperty.resolveWith<Color?>((
+        Set<WidgetState> states,
+      ) {
         if (states.contains(WidgetState.disabled)) {
           return null;
         }

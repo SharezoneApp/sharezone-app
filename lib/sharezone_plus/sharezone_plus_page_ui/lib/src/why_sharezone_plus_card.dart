@@ -17,25 +17,26 @@ class WhyPlusSharezoneCard extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 710,
       child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(17.5),
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
-          ),
-          child: const Column(
-            children: [
-              _WhyPlusSharezoneImage(),
-              Padding(
-                padding: EdgeInsets.all(12),
-                child: Column(
-                  children: [
-                    _WhyPlusSharezoneHeadline(),
-                    SizedBox(height: 8),
-                    _WhyPlusSharezoneText(),
-                  ],
-                ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(17.5),
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+        ),
+        child: const Column(
+          children: [
+            _WhyPlusSharezoneImage(),
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  _WhyPlusSharezoneHeadline(),
+                  SizedBox(height: 8),
+                  _WhyPlusSharezoneText(),
+                ],
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -46,9 +47,7 @@ class _WhyPlusSharezoneImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxHeight: 250,
-      ),
+      constraints: const BoxConstraints(maxHeight: 250),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(17.5),
         child: Image.asset(

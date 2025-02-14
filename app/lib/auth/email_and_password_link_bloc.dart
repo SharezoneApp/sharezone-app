@@ -30,8 +30,9 @@ class EmailAndPasswordLinkBloc extends BlocBase
   final UserEditBlocGateway userEditBlocGateway;
   final String initialName;
 
-  final LinkProviderAnalytics _analytics =
-      LinkProviderAnalytics(Analytics(getBackend()));
+  final LinkProviderAnalytics _analytics = LinkProviderAnalytics(
+    Analytics(getBackend()),
+  );
 
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String?>();
@@ -45,8 +46,12 @@ class EmailAndPasswordLinkBloc extends BlocBase
   Stream<String> get name => _nameController.stream.transform(validateName);
   Stream<bool> get obscureText => _obscureTextSubject;
 
-  EmailAndPasswordLinkBloc(this.linkProviderGateway, this.userEditBlocGateway,
-      this.initialName, this.scaffoldMessengerKey) {
+  EmailAndPasswordLinkBloc(
+    this.linkProviderGateway,
+    this.userEditBlocGateway,
+    this.initialName,
+    this.scaffoldMessengerKey,
+  ) {
     _nameController.sink.add(initialName);
   }
 
@@ -117,7 +122,9 @@ class EmailAndPasswordLinkBloc extends BlocBase
     String validPassword,
   ) async {
     await linkProviderGateway.linkUserWithEmailAndPassword(
-        email: validEmail, password: validPassword);
+      email: validEmail,
+      password: validPassword,
+    );
   }
 
   Future<void> _updateUserName(String validName) async {

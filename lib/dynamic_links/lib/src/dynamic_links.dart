@@ -8,10 +8,10 @@
 
 import 'models/dynamic_link_data.dart';
 
-typedef OnLinkSuccessCallback = Future<dynamic> Function(
-    DynamicLinkData linkData);
-typedef OnLinkErrorCallback = Future<dynamic> Function(
-    OnDynamicLinkErrorException error);
+typedef OnLinkSuccessCallback =
+    Future<dynamic> Function(DynamicLinkData linkData);
+typedef OnLinkErrorCallback =
+    Future<dynamic> Function(OnDynamicLinkErrorException error);
 
 class OnDynamicLinkErrorException implements Exception {
   final String? code, message;
@@ -34,10 +34,7 @@ abstract class DynamicLinks {
   Future<DynamicLinkData?>? getInitialLink();
 
   /// Configures onLink listeners: it has two methods for success and failure.
-  void onLink({
-    OnLinkSuccessCallback? onSuccess,
-    OnLinkErrorCallback? onError,
-  });
+  void onLink({OnLinkSuccessCallback? onSuccess, OnLinkErrorCallback? onError});
 
   Future<DynamicLinkData> getLinkData(String dynamicLink);
 }

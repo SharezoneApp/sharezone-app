@@ -41,14 +41,17 @@ void main() {
                   config: PrivacyPolicyPageConfig(),
                 );
               },
-              builder: (context, _) => Center(
-                child: Builder(builder: (context) {
-                  return ElevatedButton(
-                    onPressed: () => showDisplaySettingsDialog(context),
-                    child: const Text("Open Dialog"),
-                  );
-                }),
-              ),
+              builder:
+                  (context, _) => Center(
+                    child: Builder(
+                      builder: (context) {
+                        return ElevatedButton(
+                          onPressed: () => showDisplaySettingsDialog(context),
+                          child: const Text("Open Dialog"),
+                        );
+                      },
+                    ),
+                  ),
             ),
           ),
         ),

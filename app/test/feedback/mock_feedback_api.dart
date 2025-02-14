@@ -56,8 +56,10 @@ class MockFeedbackApi extends FeedbackApi {
   }
 
   @override
-  Future<List<UserFeedback>> getFeedbacksForSupportTeam(
-      {DateTime? startAfter, int limit = 0}) {
+  Future<List<UserFeedback>> getFeedbacksForSupportTeam({
+    DateTime? startAfter,
+    int limit = 0,
+  }) {
     throw UnimplementedError();
   }
 }

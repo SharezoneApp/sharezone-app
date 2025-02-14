@@ -117,11 +117,12 @@ void main() {
               create: (context) => controller,
             ),
             ChangeNotifierProvider<AdsController>(
-              create: (context) => AdsController(
-                subscriptionService: MockSubscriptionService(),
-                remoteConfiguration: getStubRemoteConfiguration(),
-                keyValueStore: InMemoryKeyValueStore(),
-              ),
+              create:
+                  (context) => AdsController(
+                    subscriptionService: MockSubscriptionService(),
+                    remoteConfiguration: getStubRemoteConfiguration(),
+                    keyValueStore: InMemoryKeyValueStore(),
+                  ),
             ),
           ],
           child: const MaterialApp(
@@ -142,8 +143,9 @@ void main() {
       expect(find.byType(GrayShimmer), findsWidgets);
     });
 
-    testWidgets('if loading then the "subscribe" button is disabled',
-        (tester) async {
+    testWidgets('if loading then the "subscribe" button is disabled', (
+      tester,
+    ) async {
       controller.hasPlus = null;
       controller.monthlySubscriptionPrice = null;
       controller.lifetimePrice = null;
@@ -156,14 +158,16 @@ void main() {
       expect(controller.buySubscriptionCalled, false);
       expect(controller.cancelSubscriptionCalled, false);
       expect(
-          tester
-              .widget<BuySection>(find.byType(BuySection))
-              .isPurchaseButtonLoading,
-          true);
+        tester
+            .widget<BuySection>(find.byType(BuySection))
+            .isPurchaseButtonLoading,
+        true,
+      );
     });
 
-    testWidgets('calls cancelSubscription() when "cancel" is pressed',
-        (tester) async {
+    testWidgets('calls cancelSubscription() when "cancel" is pressed', (
+      tester,
+    ) async {
       controller.hasPlus = true;
       controller.monthlySubscriptionPrice = '4,99 €';
       controller.lifetimePrice = '19,99 €';
@@ -177,8 +181,9 @@ void main() {
       expect(controller.cancelSubscriptionCalled, true);
     });
 
-    testWidgets('calls buySubscription() when "subscribe" is pressed',
-        (tester) async {
+    testWidgets('calls buySubscription() when "subscribe" is pressed', (
+      tester,
+    ) async {
       controller.hasPlus = false;
       controller.monthlySubscriptionPrice = '4,99 €';
       controller.lifetimePrice = '19,99 €';
@@ -208,7 +213,9 @@ void main() {
       await pumpPlusPage(tester);
 
       expect(
-          find.widgetWithText(CallToActionButton, 'Kündigen'), findsOneWidget);
+        find.widgetWithText(CallToActionButton, 'Kündigen'),
+        findsOneWidget,
+      );
     });
   });
 }

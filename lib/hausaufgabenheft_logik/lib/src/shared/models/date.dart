@@ -17,11 +17,7 @@ class Date extends Equatable implements Comparable<Date> {
   @override
   List<Object> get props => [day, month, year];
 
-  const Date({
-    required this.day,
-    required this.month,
-    required this.year,
-  });
+  const Date({required this.day, required this.month, required this.year});
 
   factory Date.now() {
     final now = clock.now();

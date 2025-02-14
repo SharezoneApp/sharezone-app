@@ -20,18 +20,21 @@ void main() {
       await tester.pumpWidgetBuilder(
         Scaffold(
           body: Builder(
-            builder: (context) => Center(
-              child: ElevatedButton(
-                onPressed: () => showSharezonePlusFeatureInfoDialog(
-                  context: context,
-                  navigateToPlusPage: () {},
-                  description: const Text(
-                      'With Sharezone Plus you receive this awesome feature that changes your life!'),
-                  title: const Text('Awesome feature'),
+            builder:
+                (context) => Center(
+                  child: ElevatedButton(
+                    onPressed:
+                        () => showSharezonePlusFeatureInfoDialog(
+                          context: context,
+                          navigateToPlusPage: () {},
+                          description: const Text(
+                            'With Sharezone Plus you receive this awesome feature that changes your life!',
+                          ),
+                          title: const Text('Awesome feature'),
+                        ),
+                    child: const Text('SHOW DIALOG'),
+                  ),
                 ),
-                child: const Text('SHOW DIALOG'),
-              ),
-            ),
           ),
         ),
         wrapper: materialAppWrapper(theme: theme),
@@ -52,7 +55,9 @@ void main() {
       await openDialog(tester);
 
       await screenMatchesGolden(
-          tester, 'sharezone_plus_feature_info_dialog_light');
+        tester,
+        'sharezone_plus_feature_info_dialog_light',
+      );
     });
 
     testGoldens('renders as expected (dark mode)', (tester) async {
@@ -64,7 +69,9 @@ void main() {
       await openDialog(tester);
 
       await screenMatchesGolden(
-          tester, 'sharezone_plus_feature_info_dialog_dark');
+        tester,
+        'sharezone_plus_feature_info_dialog_dark',
+      );
     });
   });
 }

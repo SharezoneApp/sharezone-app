@@ -451,8 +451,10 @@ class _PrefilledTextFieldState extends State<PrefilledTextField> {
       controller = TextEditingController(text: widget.prefilledText);
     }
     if (widget.autoSelectAllCharactersOnFirstBuild) {
-      controller!.selection =
-          TextSelection(baseOffset: 0, extentOffset: controller!.text.length);
+      controller!.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: controller!.text.length,
+      );
     }
   }
 

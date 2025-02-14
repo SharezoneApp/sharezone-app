@@ -101,16 +101,16 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
       homework = szContext.api.homework
           .singleHomework(widget.id!.value, source: Source.cache)
           .then((value) {
-        bloc = HomeworkDialogBloc(
-          homeworkId: widget.id,
-          api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
-          nextLessonCalculator: nextLessonCalculator,
-          nextSchooldayCalculator: nextSchooldayCalculator,
-          markdownAnalytics: markdownAnalytics,
-          analytics: analytics,
-        );
-        return value;
-      });
+            bloc = HomeworkDialogBloc(
+              homeworkId: widget.id,
+              api: widget.homeworkDialogApi ?? HomeworkDialogApi(szContext.api),
+              nextLessonCalculator: nextLessonCalculator,
+              nextSchooldayCalculator: nextSchooldayCalculator,
+              markdownAnalytics: markdownAnalytics,
+              analytics: analytics,
+            );
+            return value;
+          });
     } else {
       homework = Future.value(null);
       bloc = HomeworkDialogBloc(
@@ -151,10 +151,12 @@ class HwDialogKeys {
   static const Key titleTextField = Key("title-field");
   static const Key courseTile = Key("course-tile");
   static const Key todoUntilTile = Key("todo-until-tile");
-  static const Key customLessonChipDialogTextField =
-      Key("custom-lesson-chip-dialog-text-field");
-  static const Key customLessonChipDialogOkButton =
-      Key("custom-lesson-chip-dialog-ok-button");
+  static const Key customLessonChipDialogTextField = Key(
+    "custom-lesson-chip-dialog-text-field",
+  );
+  static const Key customLessonChipDialogOkButton = Key(
+    "custom-lesson-chip-dialog-ok-button",
+  );
   static const Key lessonChipDeleteIcon = Key("lesson-chip-delete-icon");
   static const Key submissionTile = Key("submission-tile");
   static const Key submissionTimeTile = Key("submission-time-tile");
@@ -208,8 +210,10 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocPresentationListener<HomeworkDialogBloc,
-        HomeworkDialogBlocPresentationEvent>(
+    return BlocPresentationListener<
+      HomeworkDialogBloc,
+      HomeworkDialogBlocPresentationEvent
+    >(
       bloc: widget.bloc,
       listener: (context, event) {
         switch (event) {
@@ -226,7 +230,8 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             showLeftRightAdaptiveDialog(
               content: Text(
-                  'Hausaufgabe konnte nicht gespeichert werden.\n\n$error\n\nFalls der Fehler weiterhin auftritt, kontaktiere bitte den Support.'),
+                'Hausaufgabe konnte nicht gespeichert werden.\n\n$error\n\nFalls der Fehler weiterhin auftritt, kontaktiere bitte den Support.',
+              ),
               left: null,
               right: AdaptiveDialogAction.ok,
               context: context,
@@ -245,72 +250,77 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
         },
         builder: (context, state) {
           return switch (state) {
-            LoadingHomework() =>
-              const Center(child: CircularProgressIndicator()),
-            SavedSuccessfully() => throw UnimplementedError(
-                'Placeholder, we pop the Navigator above so this should not be reached.'),
+            LoadingHomework() => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            SavedSuccessfully() =>
+              throw UnimplementedError(
+                'Placeholder, we pop the Navigator above so this should not be reached.',
+              ),
             Ready() => PopScope<Object?>(
-                canPop: false,
-                onPopInvokedWithResult: (didPop, _) async {
-                  if (didPop) return;
+              canPop: false,
+              onPopInvokedWithResult: (didPop, _) async {
+                if (didPop) return;
 
-                  final hasInputChanged = hasModifiedData();
-                  final navigator = Navigator.of(context);
-                  if (!hasInputChanged) {
-                    navigator.pop();
-                    return;
-                  }
+                final hasInputChanged = hasModifiedData();
+                final navigator = Navigator.of(context);
+                if (!hasInputChanged) {
+                  navigator.pop();
+                  return;
+                }
 
-                  final shouldPop = await warnUserAboutLeavingForm(context);
-                  if (shouldPop && context.mounted) {
-                    navigator.pop();
-                  }
-                },
-                child: Scaffold(
-                  body: Column(
-                    children: <Widget>[
-                      _AppBar(
-                          editMode: widget.isEditing,
-                          focusNodeTitle: titleNode,
-                          onCloseTap: () => leaveDialog(),
-                          titleField: _TitleField(
-                            focusNode: titleNode,
-                            state: state,
-                          )),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              const SizedBox(height: 8),
-                              _CourseTile(state: state),
-                              const _MobileDivider(),
-                              _TodoUntilPicker(
-                                state: state,
-                                showLessonChips: widget.isEditing
-                                    ? false
-                                    : widget.showDueDateSelectionChips,
-                              ),
-                              const _MobileDivider(),
-                              _SubmissionsSwitch(state: state),
-                              const _MobileDivider(),
-                              _DescriptionField(state: state),
-                              const _MobileDivider(),
-                              _AttachFile(state: state),
-                              const _MobileDivider(),
-                              _SendNotification(state: state),
-                              const _MobileDivider(),
-                              _PrivateHomeworkSwitch(state: state),
-                              const _MobileDivider(),
-                            ],
-                          ),
+                final shouldPop = await warnUserAboutLeavingForm(context);
+                if (shouldPop && context.mounted) {
+                  navigator.pop();
+                }
+              },
+              child: Scaffold(
+                body: Column(
+                  children: <Widget>[
+                    _AppBar(
+                      editMode: widget.isEditing,
+                      focusNodeTitle: titleNode,
+                      onCloseTap: () => leaveDialog(),
+                      titleField: _TitleField(
+                        focusNode: titleNode,
+                        state: state,
+                      ),
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const SizedBox(height: 8),
+                            _CourseTile(state: state),
+                            const _MobileDivider(),
+                            _TodoUntilPicker(
+                              state: state,
+                              showLessonChips:
+                                  widget.isEditing
+                                      ? false
+                                      : widget.showDueDateSelectionChips,
+                            ),
+                            const _MobileDivider(),
+                            _SubmissionsSwitch(state: state),
+                            const _MobileDivider(),
+                            _DescriptionField(state: state),
+                            const _MobileDivider(),
+                            _AttachFile(state: state),
+                            const _MobileDivider(),
+                            _SendNotification(state: state),
+                            const _MobileDivider(),
+                            _PrivateHomeworkSwitch(state: state),
+                            const _MobileDivider(),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )
+              ),
+            ),
           };
         },
       ),
@@ -365,19 +375,22 @@ class _SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isSaving = false;
-    return StatefulBuilder(builder: (context, setState) {
-      return SaveButton(
-        key: HwDialogKeys.saveButton,
-        tooltip: "Hausaufgabe speichern",
-        onPressed: isSaving
-            ? null
-            : () {
-                setState(() => isSaving = true);
-                onPressed(context);
-                setState(() => isSaving = false);
-              },
-      );
-    });
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return SaveButton(
+          key: HwDialogKeys.saveButton,
+          tooltip: "Hausaufgabe speichern",
+          onPressed:
+              isSaving
+                  ? null
+                  : () {
+                    setState(() => isSaving = true);
+                    onPressed(context);
+                    setState(() => isSaving = false);
+                  },
+        );
+      },
+    );
   }
 }
 
@@ -385,17 +398,15 @@ class _TodoUntilPicker extends StatelessWidget {
   final Ready state;
   final bool showLessonChips;
 
-  const _TodoUntilPicker({
-    required this.state,
-    required this.showLessonChips,
-  });
+  const _TodoUntilPicker({required this.state, required this.showLessonChips});
 
   @override
   Widget build(BuildContext context) {
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
     final subscriptionService = Provider.of<SubscriptionService>(context);
-    final dueDateChipsUnlocked = subscriptionService
-        .hasFeatureUnlocked(SharezonePlusFeature.homeworkDueDateChips);
+    final dueDateChipsUnlocked = subscriptionService.hasFeatureUnlocked(
+      SharezonePlusFeature.homeworkDueDateChips,
+    );
 
     return MaxWidthConstraintBox(
       child: SafeArea(
@@ -416,27 +427,31 @@ class _TodoUntilPicker extends StatelessWidget {
                 // selection (chip will be deselected).
                 ignoreSameDateSelection: false,
                 selectDate: (newDate) {
-                  bloc.add(DueDateChanged(
-                      DueDateSelection.date(Date.fromDateTime(newDate))));
+                  bloc.add(
+                    DueDateChanged(
+                      DueDateSelection.date(Date.fromDateTime(newDate)),
+                    ),
+                  );
                 },
                 key: HwDialogKeys.todoUntilTile,
-                padding: showLessonChips
-                    ? const EdgeInsets.fromLTRB(12, 12, 12, 5)
-                    : const EdgeInsets.all(12),
+                padding:
+                    showLessonChips
+                        ? const EdgeInsets.fromLTRB(12, 12, 12, 5)
+                        : const EdgeInsets.all(12),
               ),
             ),
             if (showLessonChips)
               dueDateChipsUnlocked
                   ? const Padding(
-                      padding: EdgeInsets.only(top: 4, left: 3.0),
-                      child: _DueDateChips(
-                        initialChips: IListConst([
-                          DueDateSelection.nextSchoolday,
-                          DueDateSelection.inXLessons(1),
-                          DueDateSelection.inXLessons(2),
-                        ]),
-                      ),
-                    )
+                    padding: EdgeInsets.only(top: 4, left: 3.0),
+                    child: _DueDateChips(
+                      initialChips: IListConst([
+                        DueDateSelection.nextSchoolday,
+                        DueDateSelection.inXLessons(1),
+                        DueDateSelection.inXLessons(2),
+                      ]),
+                    ),
+                  )
                   : const _DueDateChipsLockedPlus(),
           ],
         ),
@@ -454,15 +469,14 @@ class _DueDateChipsLockedPlus extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       onTap: () async {
         final analytics = AnalyticsProvider.ofOrNullObject(context);
-        analytics.log(NamedAnalyticsEvent(
-          name: 'plus_due_date_chips_tapped',
-        ));
+        analytics.log(NamedAnalyticsEvent(name: 'plus_due_date_chips_tapped'));
         showSharezonePlusFeatureInfoDialog(
           context: context,
-          navigateToPlusPage: () =>
-              openSharezonePlusPageAsFullscreenDialog(context),
+          navigateToPlusPage:
+              () => openSharezonePlusPageAsFullscreenDialog(context),
           description: const Text(
-              'Mit Sharezone Plus kannst du Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.'),
+            'Mit Sharezone Plus kannst du Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.',
+          ),
         );
       },
       child: Stack(
@@ -488,16 +502,14 @@ class _DueDateChipsLockedPlus extends StatelessWidget {
                   Colors.transparent,
                 ],
               ),
-              borderRadius: PlatformCheck.isDesktopOrWeb
-                  ? BorderRadius.circular(14.0)
-                  : null,
+              borderRadius:
+                  PlatformCheck.isDesktopOrWeb
+                      ? BorderRadius.circular(14.0)
+                      : null,
             ),
             child: ColoredBox(
               color: Colors.black.withValues(alpha: 0),
-              child: const SizedBox(
-                width: 400,
-                height: 50,
-              ),
+              child: const SizedBox(width: 400, height: 50),
             ),
           ),
           Align(
@@ -559,14 +571,17 @@ class _DueDateChipsController extends ChangeNotifier {
     required IList<DueDateSelection> initialChips,
     required this.onChanged,
   }) {
-    chips = initialChips
-        .map((config) => _DueDateChip(
-              label: _getName(config),
-              dueDate: config,
-              isSelected: false,
-              isDeletable: false,
-            ))
-        .toIList();
+    chips =
+        initialChips
+            .map(
+              (config) => _DueDateChip(
+                label: _getName(config),
+                dueDate: config,
+                isSelected: false,
+                isDeletable: false,
+              ),
+            )
+            .toIList();
     notifyListeners();
   }
 
@@ -601,13 +616,14 @@ class _DueDateChipsController extends ChangeNotifier {
 
   void selectChip(DueDateSelection dueDate) {
     final old = chips;
-    chips = chips.map((chip) {
-      if (chip.dueDate == dueDate) {
-        return chip.copyWith(isSelected: true);
-      } else {
-        return chip.copyWith(isSelected: false);
-      }
-    }).toIList();
+    chips =
+        chips.map((chip) {
+          if (chip.dueDate == dueDate) {
+            return chip.copyWith(isSelected: true);
+          } else {
+            return chip.copyWith(isSelected: false);
+          }
+        }).toIList();
     if (old != chips) {
       onChanged(dueDate);
     }
@@ -618,16 +634,16 @@ class _DueDateChipsController extends ChangeNotifier {
     if (inXLessons.inXLessons <= 0) {
       return;
     }
-    final alreadyExists = chips.firstWhereOrNull(
-          (chip) => chip.dueDate == inXLessons,
-        ) !=
-        null;
+    final alreadyExists =
+        chips.firstWhereOrNull((chip) => chip.dueDate == inXLessons) != null;
     if (!alreadyExists) {
-      chips = chips.add(_DueDateChip(
-        label: '${inXLessons.inXLessons}.-nächste Stunde',
-        dueDate: inXLessons,
-        isDeletable: true,
-      ));
+      chips = chips.add(
+        _DueDateChip(
+          label: '${inXLessons.inXLessons}.-nächste Stunde',
+          dueDate: inXLessons,
+          isDeletable: true,
+        ),
+      );
     }
     selectChip(inXLessons);
     notifyListeners();
@@ -647,18 +663,15 @@ Map<String, dynamic> _getAnalyticsData(DueDateSelection s) {
   return switch (s) {
     NextSchooldayDueDateSelection _ => {'type': 'in_x_school_days', 'value': 1},
     InXLessonsDueDateSelection _ => {
-        'type': 'in_x_lessons',
-        'value': s.inXLessons
-      },
-    DateDueDateSelection _ => {'type': 'date'}
+      'type': 'in_x_lessons',
+      'value': s.inXLessons,
+    },
+    DateDueDateSelection _ => {'type': 'date'},
   };
 }
 
 class _DueDateChips extends StatefulWidget {
-  const _DueDateChips({
-    required this.initialChips,
-    this.ignoreChanges = false,
-  });
+  const _DueDateChips({required this.initialChips, this.ignoreChanges = false});
 
   final IList<DueDateSelection> initialChips;
   final bool ignoreChanges;
@@ -673,8 +686,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
   @override
   void initState() {
     super.initState();
-    final bloc =
-        bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: false);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(
+      context,
+      listen: false,
+    );
     controller = _DueDateChipsController(
       initialChips: widget.initialChips,
       onChanged: (selection) {
@@ -696,8 +711,10 @@ class _DueDateChipsState extends State<_DueDateChips> {
   @override
   Widget build(BuildContext context) {
     final analytics = AnalyticsProvider.ofOrNullObject(context);
-    final bloc =
-        bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context, listen: true);
+    final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(
+      context,
+      listen: true,
+    );
     final state = bloc.state;
 
     final bool lessonChipsSelectable;
@@ -719,83 +736,93 @@ class _DueDateChipsState extends State<_DueDateChips> {
       ),
       child: ScrollConfiguration(
         // It's unintuitive if users can't drag the chips on desktop.
-        behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
-          PointerDeviceKind.touch,
-          PointerDeviceKind.mouse,
-        }),
+        behavior: ScrollConfiguration.of(context).copyWith(
+          dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+        ),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: ListenableBuilder(
-              listenable: controller,
-              builder: (context, _) {
-                return Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    for (final chip in controller.chips)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: InputChip(
-                          label: Text(chip.label),
-                          selected: chip.isSelected,
-                          // Copied from source code of InputChip, we need to add
-                          // our key here for tests.
-                          deleteIcon: const Icon(Icons.clear,
-                              key: HwDialogKeys.lessonChipDeleteIcon, size: 18),
-                          onSelected:
-                              chip.dueDate is! InXLessonsDueDateSelection ||
-                                      lessonChipsSelectable
-                                  ? (newState) {
-                                      controller.selectChip(chip.dueDate);
-
-                                      analytics.log(NamedAnalyticsEvent(
-                                        name: 'due_date_chip_ui_tapped',
-                                        data: _getAnalyticsData(chip.dueDate)
-                                          ..addAll({
-                                            'was_selected': chip.isSelected,
-                                          }),
-                                      ));
-                                    }
-                                  : null,
-                          // If onSelected is null but onDeleted is not null then
-                          // the chip will still look selectable, but only
-                          // tapping the delete icon will actually work. So if the
-                          // chip is not selectable, we set onDeleted to null.
-                          // Not being able to delete the chip if it is not
-                          // selectable shouldn't be a problem for users.
-                          onDeleted: chip.isDeletable && lessonChipsSelectable
-                              ? () {
-                                  controller.deleteInXLessonsChip(chip.dueDate
-                                      as InXLessonsDueDateSelection);
-
-                                  analytics.log(NamedAnalyticsEvent(
-                                    name: 'due_date_chip_ui_deleted',
-                                    data: _getAnalyticsData(chip.dueDate)
-                                      ..addAll({
-                                        'was_selected': chip.isSelected,
-                                      }),
-                                  ));
-                                }
-                              : null,
+            listenable: controller,
+            builder: (context, _) {
+              return Row(
+                children: [
+                  const SizedBox(width: 10),
+                  for (final chip in controller.chips)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: InputChip(
+                        label: Text(chip.label),
+                        selected: chip.isSelected,
+                        // Copied from source code of InputChip, we need to add
+                        // our key here for tests.
+                        deleteIcon: const Icon(
+                          Icons.clear,
+                          key: HwDialogKeys.lessonChipDeleteIcon,
+                          size: 18,
                         ),
+                        onSelected:
+                            chip.dueDate is! InXLessonsDueDateSelection ||
+                                    lessonChipsSelectable
+                                ? (newState) {
+                                  controller.selectChip(chip.dueDate);
+
+                                  analytics.log(
+                                    NamedAnalyticsEvent(
+                                      name: 'due_date_chip_ui_tapped',
+                                      data: _getAnalyticsData(chip.dueDate)
+                                        ..addAll({
+                                          'was_selected': chip.isSelected,
+                                        }),
+                                    ),
+                                  );
+                                }
+                                : null,
+                        // If onSelected is null but onDeleted is not null then
+                        // the chip will still look selectable, but only
+                        // tapping the delete icon will actually work. So if the
+                        // chip is not selectable, we set onDeleted to null.
+                        // Not being able to delete the chip if it is not
+                        // selectable shouldn't be a problem for users.
+                        onDeleted:
+                            chip.isDeletable && lessonChipsSelectable
+                                ? () {
+                                  controller.deleteInXLessonsChip(
+                                    chip.dueDate as InXLessonsDueDateSelection,
+                                  );
+
+                                  analytics.log(
+                                    NamedAnalyticsEvent(
+                                      name: 'due_date_chip_ui_deleted',
+                                      data: _getAnalyticsData(chip.dueDate)
+                                        ..addAll({
+                                          'was_selected': chip.isSelected,
+                                        }),
+                                    ),
+                                  );
+                                }
+                                : null,
                       ),
-                    InputChip(
-                      avatar: Icon(
-                        Icons.edit,
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                      label: const Text('In X Stunden'),
-                      onPressed: lessonChipsSelectable
-                          ? () async {
+                    ),
+                  InputChip(
+                    avatar: Icon(
+                      Icons.edit,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    label: const Text('In X Stunden'),
+                    onPressed:
+                        lessonChipsSelectable
+                            ? () async {
                               // The normal context would cause material3 to be
                               // applied the dialog which is not what we want.
                               await _onCustomChipTap(beforeThemeChangeContext);
                             }
-                          : null,
-                    ),
-                    const SizedBox(width: 10),
-                  ],
-                );
-              }),
+                            : null,
+                  ),
+                  const SizedBox(width: 10),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -838,9 +865,7 @@ class _DueDateChipsState extends State<_DueDateChips> {
                   autofocus: true,
                   maxLength: 2,
                   textAlign: TextAlign.end,
-                  style: const TextStyle(
-                    fontSize: 20,
-                  ),
+                  style: const TextStyle(fontSize: 20),
                   decoration: const InputDecoration(
                     hintText: '5',
                     border: OutlineInputBorder(),
@@ -866,10 +891,12 @@ class _DueDateChipsState extends State<_DueDateChips> {
 
     if (newInXHours != null && newInXHours is int) {
       controller.addInXLessonsChip(InXLessonsDueDateSelection(newInXHours));
-      analytics.log(NamedAnalyticsEvent(
-        name: 'due_date_chip_ui_added',
-        data: _getAnalyticsData(InXLessonsDueDateSelection(newInXHours)),
-      ));
+      analytics.log(
+        NamedAnalyticsEvent(
+          name: 'due_date_chip_ui_added',
+          data: _getAnalyticsData(InXLessonsDueDateSelection(newInXHours)),
+        ),
+      );
     }
   }
 }
@@ -891,9 +918,10 @@ class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).isDarkTheme
-          ? Theme.of(context).appBarTheme.backgroundColor
-          : Theme.of(context).primaryColor,
+      color:
+          Theme.of(context).isDarkTheme
+              ? Theme.of(context).appBarTheme.backgroundColor
+              : Theme.of(context).primaryColor,
       elevation: 1,
       child: SafeArea(
         top: true,
@@ -911,9 +939,7 @@ class _AppBar extends StatelessWidget {
                     onPressed: onCloseTap,
                     tooltip: "Schließen",
                   ),
-                  _SaveButton(
-                    editMode: editMode,
-                  ),
+                  _SaveButton(editMode: editMode),
                 ],
               ),
             ),
@@ -926,10 +952,7 @@ class _AppBar extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField({
-    required this.focusNode,
-    required this.state,
-  });
+  const _TitleField({required this.focusNode, required this.state});
 
   final Ready state;
   final FocusNode focusNode;
@@ -944,9 +967,10 @@ class _TitleField extends StatelessWidget {
         onChanged: (newTitle) {
           bloc.add(TitleChanged(newTitle));
         },
-        errorText: state.title.error is EmptyTitleException
-            ? HwDialogErrorStrings.emptyTitle
-            : state.title.error?.toString(),
+        errorText:
+            state.title.error is EmptyTitleException
+                ? HwDialogErrorStrings.emptyTitle
+                : state.title.error?.toString(),
       ),
     );
   }
@@ -973,17 +997,20 @@ class _TitleFieldBase extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20)
-              .add(const EdgeInsets.only(top: 8)),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ).add(const EdgeInsets.only(top: 8)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Theme(
                 data: Theme.of(context).copyWith(
-                  textSelectionTheme: !context.isDarkThemeEnabled
-                      ? const TextSelectionThemeData(
-                          selectionColor: Colors.white24)
-                      : null,
+                  textSelectionTheme:
+                      !context.isDarkThemeEnabled
+                          ? const TextSelectionThemeData(
+                            selectionColor: Colors.white24,
+                          )
+                          : null,
                 ),
                 child: PrefilledTextField(
                   key: HwDialogKeys.titleTextField,
@@ -1034,9 +1061,10 @@ class _CourseTile extends StatelessWidget {
     final isDisabled = courseState is CourseChosen && !courseState.isChangeable;
     String? errorText;
     if (courseState is NoCourseChosen && courseState.error != null) {
-      errorText = courseState.error is NoCourseChosenException
-          ? HwDialogErrorStrings.emptyCourse
-          : courseState.error.toString();
+      errorText =
+          courseState.error is NoCourseChosenException
+              ? HwDialogErrorStrings.emptyCourse
+              : courseState.error.toString();
     }
 
     return MaxWidthConstraintBox(
@@ -1050,11 +1078,15 @@ class _CourseTile extends StatelessWidget {
           errorText: errorText,
           onDisabledTapText:
               'Der Kurs kann nachträglich nicht mehr geändert werden. Bitte lösche die Hausaufgabe und erstelle eine neue, falls du den Kurs ändern möchtest.',
-          onTap: isDisabled
-              ? null
-              : () => CourseTile.onTap(context, onChangedId: (course) {
-                    bloc.add(CourseChanged(course));
-                  }),
+          onTap:
+              isDisabled
+                  ? null
+                  : () => CourseTile.onTap(
+                    context,
+                    onChangedId: (course) {
+                      bloc.add(CourseChanged(course));
+                    },
+                  ),
         ),
       ),
     );
@@ -1077,12 +1109,13 @@ class _SendNotification extends StatelessWidget {
           listTileKey: HwDialogKeys.notifyCourseMembersTile,
           title:
               "Kursmitglieder ${state.isEditing ? "über die Änderungen " : ""}benachrichtigen",
-          onChanged: (newValue) =>
-              bloc.add(NotifyCourseMembersChanged(newValue)),
+          onChanged:
+              (newValue) => bloc.add(NotifyCourseMembersChanged(newValue)),
           sendNotification: state.notifyCourseMembers,
-          description: state.isEditing
-              ? null
-              : "Kursmitglieder über neue Hausaufgabe benachrichtigen.",
+          description:
+              state.isEditing
+                  ? null
+                  : "Kursmitglieder über neue Hausaufgabe benachrichtigen.",
         ),
       ),
     );
@@ -1100,8 +1133,8 @@ class _DescriptionField extends StatelessWidget {
     return DescriptionFieldBase(
       textFieldKey: HwDialogKeys.descriptionField,
       hintText: 'Zusatzinformationen eingeben',
-      onChanged: (newDescription) =>
-          bloc.add(DescriptionChanged(newDescription)),
+      onChanged:
+          (newDescription) => bloc.add(DescriptionChanged(newDescription)),
       prefilledDescription: state.description,
     );
   }
@@ -1121,20 +1154,22 @@ class _AttachFile extends StatelessWidget {
         bottom: false,
         child: AttachFileBase(
           key: HwDialogKeys.addAttachmentTile,
-          onLocalFilesAdded: (localFiles) =>
-              bloc.add(AttachmentsAdded(localFiles.toIList())),
-          onLocalFileRemoved: (localFile) =>
-              bloc.add(AttachmentRemoved(localFile.fileId)),
-          onCloudFileRemoved: (cloudFile) =>
-              bloc.add(AttachmentRemoved(FileId(cloudFile.id!))),
-          cloudFiles: state.attachments
-              .where((file) => file.cloudFile != null)
-              .map((file) => file.cloudFile!)
-              .toList(),
-          localFiles: state.attachments
-              .where((file) => file.localFile != null)
-              .map((file) => file.localFile!)
-              .toList(),
+          onLocalFilesAdded:
+              (localFiles) => bloc.add(AttachmentsAdded(localFiles.toIList())),
+          onLocalFileRemoved:
+              (localFile) => bloc.add(AttachmentRemoved(localFile.fileId)),
+          onCloudFileRemoved:
+              (cloudFile) => bloc.add(AttachmentRemoved(FileId(cloudFile.id!))),
+          cloudFiles:
+              state.attachments
+                  .where((file) => file.cloudFile != null)
+                  .map((file) => file.cloudFile!)
+                  .toList(),
+          localFiles:
+              state.attachments
+                  .where((file) => file.localFile != null)
+                  .map((file) => file.localFile!)
+                  .toList(),
         ),
       ),
     );
@@ -1150,21 +1185,27 @@ class _SubmissionsSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     final submissionsState = state.submissions;
     final bloc = bloc_lib.BlocProvider.of<HomeworkDialogBloc>(context);
-    final submissionTime = submissionsState is SubmissionsEnabled
-        ? submissionsState.deadline
-        : null;
+    final submissionTime =
+        submissionsState is SubmissionsEnabled
+            ? submissionsState.deadline
+            : null;
 
     return MaxWidthConstraintBox(
       child: _SubmissionsSwitchBase(
         key: HwDialogKeys.submissionTile,
         isWidgetEnabled: state.submissions.isChangeable,
         submissionsEnabled: state.submissions.isEnabled,
-        onChanged: (newIsEnabled) => bloc.add(SubmissionsChanged((
-          enabled: newIsEnabled,
-          submissionTime: newIsEnabled ? submissionTime : null
-        ))),
-        onTimeChanged: (newTime) => bloc
-            .add(SubmissionsChanged((enabled: true, submissionTime: newTime))),
+        onChanged:
+            (newIsEnabled) => bloc.add(
+              SubmissionsChanged((
+                enabled: newIsEnabled,
+                submissionTime: newIsEnabled ? submissionTime : null,
+              )),
+            ),
+        onTimeChanged:
+            (newTime) => bloc.add(
+              SubmissionsChanged((enabled: true, submissionTime: newTime)),
+            ),
         time: submissionTime,
       ),
     );
@@ -1203,32 +1244,36 @@ class _SubmissionsSwitchBase extends StatelessWidget {
         ),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
-          child: submissionsEnabled
-              ? ListTile(
-                  key: HwDialogKeys.submissionTimeTile,
-                  title: const Text("Abgabe-Uhrzeit"),
-                  onTap: () async {
-                    await hideKeyboardWithDelay(context: context);
-                    if (!context.mounted) return;
+          child:
+              submissionsEnabled
+                  ? ListTile(
+                    key: HwDialogKeys.submissionTimeTile,
+                    title: const Text("Abgabe-Uhrzeit"),
+                    onTap: () async {
+                      await hideKeyboardWithDelay(context: context);
+                      if (!context.mounted) return;
 
-                    final initialTime = time == Time(hour: 23, minute: 59)
-                        ? Time(hour: 18, minute: 0)
-                        : time;
-                    final newTime =
-                        await selectTime(context, initialTime: initialTime);
-                    if (newTime != null) {
-                      onTimeChanged(newTime);
-                    }
-                  },
-                  trailing: Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(
-                      time.toString(),
-                      style: const TextStyle(fontSize: 14),
+                      final initialTime =
+                          time == Time(hour: 23, minute: 59)
+                              ? Time(hour: 18, minute: 0)
+                              : time;
+                      final newTime = await selectTime(
+                        context,
+                        initialTime: initialTime,
+                      );
+                      if (newTime != null) {
+                        onTimeChanged(newTime);
+                      }
+                    },
+                    trailing: Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text(
+                        time.toString(),
+                        style: const TextStyle(fontSize: 14),
+                      ),
                     ),
-                  ),
-                )
-              : Container(),
+                  )
+                  : Container(),
         ),
       ],
     );
@@ -1236,9 +1281,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
 }
 
 class _PrivateHomeworkSwitch extends StatelessWidget {
-  const _PrivateHomeworkSwitch({
-    required this.state,
-  });
+  const _PrivateHomeworkSwitch({required this.state});
 
   final Ready state;
 
@@ -1252,9 +1295,10 @@ class _PrivateHomeworkSwitch extends StatelessWidget {
         child: _PrivateHomeworkSwitchBase(
           key: HwDialogKeys.isPrivateTile,
           isPrivate: state.isPrivate.$1,
-          onChanged: state.isPrivate.isChangeable
-              ? (newVal) => bloc.add(IsPrivateChanged(newVal))
-              : null,
+          onChanged:
+              state.isPrivate.isChangeable
+                  ? (newVal) => bloc.add(IsPrivateChanged(newVal))
+                  : null,
         ),
       ),
     );

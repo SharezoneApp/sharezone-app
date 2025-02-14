@@ -55,9 +55,10 @@ class LazyLoadingHomeworkList extends StatelessWidget {
     return GlowingOverscrollColorChanger(
       color: overscrollColor,
       child: ListWithBottomThreshold(
-        loadingIndicator: loadedAllHomeworks
-            ? Container()
-            : const _LazyLoadingHomeworkListLoadingIndicator(),
+        loadingIndicator:
+            loadedAllHomeworks
+                ? Container()
+                : const _LazyLoadingHomeworkListLoadingIndicator(),
         onThresholdExceeded: loadMoreHomeworksCallback,
         thresholdHeight: threshold,
         children: children,

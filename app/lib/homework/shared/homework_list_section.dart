@@ -54,7 +54,7 @@ class HomeworkListSection extends StatelessWidget {
                 switchInCurve: curve,
                 switchOutCurve: curve,
                 child: child,
-              )
+              ),
           ],
         ),
         const SizedBox(height: 4),

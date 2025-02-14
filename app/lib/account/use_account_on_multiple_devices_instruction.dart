@@ -47,8 +47,8 @@ class UseAccountOnMultipleDevicesInstructions extends StatelessWidget {
                       const SizedBox(width: 24),
                       _ExplainingVideo(),
                     ],
-                  )
-                ]
+                  ),
+                ],
               ],
             ),
           ),
@@ -81,7 +81,8 @@ class _Steps extends StatelessWidget {
         const Text("2. Melde dich über das Sign-Out-Icon rechts oben ab."),
         const Text("3. Bestätige, dass dabei dein Konto gelöscht wird."),
         const Text(
-            "4. Klicke unten auf den Button \"Du hast schon ein Konto? Dann...\""),
+          "4. Klicke unten auf den Button \"Du hast schon ein Konto? Dann...\"",
+        ),
         const Text("5. Melde dich an."),
       ],
     );

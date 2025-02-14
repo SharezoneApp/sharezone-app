@@ -19,10 +19,7 @@ void main() {
   Future<void> pumpSnackBarSetup(WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: ScaffoldMessenger(
-          key: scaffoldKey,
-          child: const Scaffold(),
-        ),
+        home: ScaffoldMessenger(key: scaffoldKey, child: const Scaffold()),
       ),
     );
   }
@@ -50,8 +47,9 @@ void main() {
       expect(snackbar.duration, duration);
     });
 
-    testWidgets('shows a snackbar with a given SnackBarBehavior',
-        (tester) async {
+    testWidgets('shows a snackbar with a given SnackBarBehavior', (
+      tester,
+    ) async {
       const fixedBehavior = SnackBarBehavior.fixed;
       await pumpSnackBarSetup(tester);
 
@@ -62,8 +60,9 @@ void main() {
       expect(snackbar.behavior, fixedBehavior);
     });
 
-    testWidgets('shows a snackbar with a loading circle, if it is enabled',
-        (tester) async {
+    testWidgets('shows a snackbar with a loading circle, if it is enabled', (
+      tester,
+    ) async {
       await pumpSnackBarSetup(tester);
 
       showSnack(withLoadingCircle: true, key: scaffoldKey);
@@ -72,15 +71,17 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('shows a snackbar without a loading circle, if it is disabled',
-        (tester) async {
-      await pumpSnackBarSetup(tester);
+    testWidgets(
+      'shows a snackbar without a loading circle, if it is disabled',
+      (tester) async {
+        await pumpSnackBarSetup(tester);
 
-      showSnack(withLoadingCircle: false, key: scaffoldKey);
-      await tester.pump();
+        showSnack(withLoadingCircle: false, key: scaffoldKey);
+        await tester.pump();
 
-      expect(find.byType(CircularProgressIndicator), findsNothing);
-    });
+        expect(find.byType(CircularProgressIndicator), findsNothing);
+      },
+    );
 
     testWidgets('shows a snackbar with a given SnackBarAction', (tester) async {
       final action = SnackBarAction(label: sharezone, onPressed: () {});

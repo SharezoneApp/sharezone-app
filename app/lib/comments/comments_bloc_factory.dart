@@ -20,12 +20,22 @@ class CommentsBlocFactory extends BlocBase {
   final CommentViewFactory commentViewFactory;
   final CommentsAnalytics _analytics;
 
-  CommentsBlocFactory(this._gateway, this._userStream, this.commentViewFactory,
-      this._analytics);
+  CommentsBlocFactory(
+    this._gateway,
+    this._userStream,
+    this.commentViewFactory,
+    this._analytics,
+  );
 
   CommentsBloc fromCommentLocation(CommentsLocation location, String courseID) {
-    return CommentsBloc(_gateway, location, _userStream, commentViewFactory,
-        courseID, _analytics);
+    return CommentsBloc(
+      _gateway,
+      location,
+      _userStream,
+      commentViewFactory,
+      courseID,
+      _analytics,
+    );
   }
 
   @override

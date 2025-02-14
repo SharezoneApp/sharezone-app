@@ -24,10 +24,7 @@ import 'tiles/drawer_tiles.dart';
 part 'account_section.dart';
 
 class SharezoneDrawer extends StatelessWidget {
-  const SharezoneDrawer({
-    super.key,
-    this.isDesktopModus = false,
-  });
+  const SharezoneDrawer({super.key, this.isDesktopModus = false});
 
   final bool isDesktopModus;
 
@@ -61,9 +58,7 @@ class SharezoneDrawer extends StatelessWidget {
 class _DrawerItems extends StatelessWidget {
   final bool isDesktopModus;
 
-  const _DrawerItems({
-    required this.isDesktopModus,
-  });
+  const _DrawerItems({required this.isDesktopModus});
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +75,7 @@ class _DrawerItems extends StatelessWidget {
                 children: <Widget>[
                   _AccountSection(isDesktopModus: isDesktopModus),
                   const Divider(),
-                  if (isDesktopModus) ...[
-                    ...onlyDesktopTiles,
-                    const Divider(),
-                  ],
+                  if (isDesktopModus) ...[...onlyDesktopTiles, const Divider()],
                   if (typeOfUser.isStudent) gradesTile,
                   ...functionTiles,
                   const Divider(),
@@ -111,8 +103,9 @@ class _SharezoneLogo extends StatelessWidget {
       message: 'Über uns',
       child: InkWell(
         onTap: () {
-          final drawerController =
-              BlocProvider.of<SharezoneDrawerController>(context);
+          final drawerController = BlocProvider.of<SharezoneDrawerController>(
+            context,
+          );
           if (!drawerController.isDesktopModus) Navigator.pop(context);
           Navigator.pushNamed(context, AboutPage.tag);
           _logSharezoneLogoClick(context);
@@ -124,8 +117,9 @@ class _SharezoneLogo extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12)
-                      .add(const EdgeInsets.only(left: 10)),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                  ).add(const EdgeInsets.only(left: 10)),
                   child: const SharezoneLogo(
                     logoColor: LogoColor.blueLong,
                     height: 40,

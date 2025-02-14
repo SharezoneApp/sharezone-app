@@ -18,7 +18,10 @@ import '../file_downloader.dart';
 class WebFileDownloader extends FileDownloader {
   @override
   Future<LocalFile> downloadFileFromURL(
-      String url, String filename, String id) async {
+    String url,
+    String filename,
+    String id,
+  ) async {
     final request = await HttpRequest.request(url, responseType: 'arraybuffer');
     final ByteBuffer buffer = request.response;
     final data = buffer.asUint8List();

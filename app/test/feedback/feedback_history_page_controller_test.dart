@@ -21,7 +21,7 @@ import 'feedback_history_page_controller_test.mocks.dart';
 @GenerateNiceMocks([
   MockSpec<FeedbackApi>(),
   MockSpec<CrashAnalytics>(),
-  MockSpec<FeedbackHistoryPageAnalytics>()
+  MockSpec<FeedbackHistoryPageAnalytics>(),
 ])
 void main() {
   group(FeedbackHistoryPageController, () {
@@ -37,8 +37,9 @@ void main() {
       mockCrashAnalytics = MockCrashAnalytics();
       mockFeedbackHistoryPageAnalytics = MockFeedbackHistoryPageAnalytics();
       feedbackStreamController = StreamController<List<UserFeedback>>();
-      when(mockFeedbackApi.streamFeedbacks(any))
-          .thenAnswer((_) => feedbackStreamController.stream);
+      when(
+        mockFeedbackApi.streamFeedbacks(any),
+      ).thenAnswer((_) => feedbackStreamController.stream);
 
       controller = FeedbackHistoryPageController(
         api: mockFeedbackApi,

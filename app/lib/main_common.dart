@@ -11,8 +11,6 @@ import 'dart:async';
 import 'package:sharezone/main/run_app.dart';
 import 'package:sharezone/util/flavor.dart';
 
-Future<void> mainCommon({
-  required Flavor flavor,
-}) async {
+Future<void> mainCommon({required Flavor flavor}) async {
   return runFlutterApp(flavor: flavor);
 }

@@ -78,10 +78,7 @@ class _AboutHeader extends StatelessWidget {
         ),
         const Text(
           "Der vernetzte Schulplaner",
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 15,
-          ),
+          style: TextStyle(color: Colors.grey, fontSize: 15),
         ),
         FutureBuilder<PlatformInformationRetriever>(
           future: getPlatformInformationRetrieverWithInit(),
@@ -93,12 +90,13 @@ class _AboutHeader extends StatelessWidget {
             return Text(
               "Version: ${snapshot.data?.version} (${snapshot.data?.versionNumber})",
               style: TextStyle(
-                  color: Colors.grey[400],
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic),
+                color: Colors.grey[400],
+                fontSize: 14,
+                fontStyle: FontStyle.italic,
+              ),
             );
           },
-        )
+        ),
       ],
     );
   }
@@ -126,7 +124,7 @@ class _FollowUs extends StatelessWidget {
                 SocialButton.discord("https://sharezone.net/discord"),
                 SocialButton.github("https://sharezone.net/github"),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -158,9 +156,9 @@ class _AboutSharezone extends StatelessWidget {
                 data:
                     "Besuche für weitere Informationen einfach https://www.sharezone.net.",
                 selectable: true,
-                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-                    .copyWith(
-                        a: linkStyle(context), p: _greyTextStyle(context)),
+                styleSheet: MarkdownStyleSheet.fromTheme(
+                  Theme.of(context),
+                ).copyWith(a: linkStyle(context), p: _greyTextStyle(context)),
                 onTapLink: (url, _, __) => launchURL(url, context: context),
               ),
             ],

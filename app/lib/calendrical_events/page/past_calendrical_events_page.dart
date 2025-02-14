@@ -56,9 +56,7 @@ class _PastCalendricalEventsPageState extends State<PastCalendricalEventsPage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Vergangene Termine'),
-          actions: const [
-            _ToggleSortOrder(),
-          ],
+          actions: const [_ToggleSortOrder()],
         ),
         body: const _Body(),
       ),
@@ -79,31 +77,29 @@ class _ToggleSortOrder extends StatelessWidget {
         context.read<PastCalendricalEventsPageController>().setSortOrder(order);
       },
       icon: const Icon(Icons.sort),
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          value: EventsSortingOrder.descending,
-          child: _SortingTile(
-            value: EventsSortingOrder.descending,
-            selectedValue: sortingOrder,
-          ),
-        ),
-        PopupMenuItem(
-          value: EventsSortingOrder.ascending,
-          child: _SortingTile(
-            value: EventsSortingOrder.ascending,
-            selectedValue: sortingOrder,
-          ),
-        ),
-      ],
+      itemBuilder:
+          (context) => [
+            PopupMenuItem(
+              value: EventsSortingOrder.descending,
+              child: _SortingTile(
+                value: EventsSortingOrder.descending,
+                selectedValue: sortingOrder,
+              ),
+            ),
+            PopupMenuItem(
+              value: EventsSortingOrder.ascending,
+              child: _SortingTile(
+                value: EventsSortingOrder.ascending,
+                selectedValue: sortingOrder,
+              ),
+            ),
+          ],
     );
   }
 }
 
 class _SortingTile extends StatelessWidget {
-  const _SortingTile({
-    required this.value,
-    required this.selectedValue,
-  });
+  const _SortingTile({required this.value, required this.selectedValue});
 
   final EventsSortingOrder value;
   final EventsSortingOrder selectedValue;
@@ -112,12 +108,13 @@ class _SortingTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isSelected = value == selectedValue;
     return ListTile(
-      leading: isSelected
-          ? const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.check, color: Colors.green),
-            )
-          : const SizedBox(width: 24, height: 24),
+      leading:
+          isSelected
+              ? const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.check, color: Colors.green),
+              )
+              : const SizedBox(width: 24, height: 24),
       title: Text(switch (value) {
         EventsSortingOrder.ascending => 'Aufsteigend',
         EventsSortingOrder.descending => 'Absteigend',
@@ -143,8 +140,9 @@ class _Body extends StatelessWidget {
       child: switch (state) {
         PastCalendricalEventsPageLoadingState() => const _LoadingIndicator(),
         PastCalendricalEventsPageNotUnlockedState() => const _SharezonePlusAd(),
-        PastCalendricalEventsPageErrorState(error: final error) =>
-          _Error(error),
+        PastCalendricalEventsPageErrorState(error: final error) => _Error(
+          error,
+        ),
         PastCalendricalEventsPageLoadedState(events: final events) =>
           _PastEventsList(events),
       },
@@ -265,7 +263,8 @@ class _SharezonePlusAd extends StatelessWidget {
             onLearnMorePressed: () => navigateToSharezonePlusPage(context),
             underlayColor: Theme.of(context).scaffoldBackgroundColor,
             child: const Text(
-                'Erwerbe Sharezone Plus, um alle vergangenen Termine einzusehen.'),
+              'Erwerbe Sharezone Plus, um alle vergangenen Termine einzusehen.',
+            ),
           ),
         ),
       ],
@@ -302,11 +301,7 @@ class _EmptyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Keine vergangenen Termine',
-      ),
-    );
+    return const Center(child: Text('Keine vergangenen Termine'));
   }
 }
 

@@ -98,14 +98,16 @@ class _SharezoneAppState extends State<SharezoneApp>
       navigationBloc: navigationBloc,
       navigationService: navigationService,
       notificationsPermission: context.read<NotificationsPermission>(),
-      vapidKey: widget.blocDependencies.remoteConfiguration
-          .getString('firebase_messaging_vapid_key'),
+      vapidKey: widget.blocDependencies.remoteConfiguration.getString(
+        'firebase_messaging_vapid_key',
+      ),
     );
 
     _sharezoneGateway = SharezoneGateway(
       authUser: widget.blocDependencies.authUser!,
-      memberID:
-          MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
+      memberID: MemberIDUtils.getMemberID(
+        uid: widget.blocDependencies.authUser!.uid,
+      ),
       references: widget.blocDependencies.references,
     );
     disposeCallbacks.add(_sharezoneGateway.dispose);
@@ -147,7 +149,9 @@ class _SharezoneAppState extends State<SharezoneApp>
           return CourseJoinListener(
             beitrittsversuche: widget.beitrittsversuche,
             groupJoinFunction: GroupJoinFunction(
-                _sharezoneGateway.connectionsGateway, getCrashAnalytics()),
+              _sharezoneGateway.connectionsGateway,
+              getCrashAnalytics(),
+            ),
             child: SharezoneMaterialApp(
               blocDependencies: widget.blocDependencies,
               home: MissingAccountInformationGuard(
@@ -180,27 +184,28 @@ class _SharezoneAppState extends State<SharezoneApp>
                 ChangeStatePage.tag: (context) => const ChangeStatePage(),
                 FileSharingPage.tag: (context) => const FileSharingPage(),
                 ThemePage.tag: (context) => const ThemePage(),
-                TimetableSettingsPage.tag: (context) =>
-                    const TimetableSettingsPage(),
+                TimetableSettingsPage.tag:
+                    (context) => const TimetableSettingsPage(),
                 CourseTemplatePage.tag: (context) => const CourseTemplatePage(),
-                CalendricalEventsPage.tag: (context) =>
-                    const CalendricalEventsPage(),
+                CalendricalEventsPage.tag:
+                    (context) => const CalendricalEventsPage(),
                 PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
                 TermsOfServicePage.tag: (context) => const TermsOfServicePage(),
-                UseAccountOnMultipleDevicesInstructions.tag: (context) =>
-                    const UseAccountOnMultipleDevicesInstructions(),
+                UseAccountOnMultipleDevicesInstructions.tag:
+                    (context) =>
+                        const UseAccountOnMultipleDevicesInstructions(),
                 MyProfilePage.tag: (context) => const MyProfilePage(),
-                BlackboardDialogChoosePicture.tag: (context) =>
-                    const BlackboardDialogChoosePicture(),
+                BlackboardDialogChoosePicture.tag:
+                    (context) => const BlackboardDialogChoosePicture(),
                 TimetableAddPage.tag: (context) => const TimetableAddPage(),
                 WebAppSettingsPage.tag: (context) => const WebAppSettingsPage(),
                 ImprintPage.tag: (context) => const ImprintPage(),
-                PastCalendricalEventsPage.tag: (context) =>
-                    const PastCalendricalEventsPage(),
-                ChangeTypeOfUserPage.tag: (context) =>
-                    const ChangeTypeOfUserPage(),
-                FeedbackHistoryPage.tag: (context) =>
-                    const FeedbackHistoryPage(),
+                PastCalendricalEventsPage.tag:
+                    (context) => const PastCalendricalEventsPage(),
+                ChangeTypeOfUserPage.tag:
+                    (context) => const ChangeTypeOfUserPage(),
+                FeedbackHistoryPage.tag:
+                    (context) => const FeedbackHistoryPage(),
                 ICalLinksPage.tag: (context) => const ICalLinksPage(),
                 ICalLinksDialog.tag: (context) => const ICalLinksDialog(),
                 CreateTermPage.tag: (context) => const CreateTermPage(),

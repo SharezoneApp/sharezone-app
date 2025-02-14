@@ -10,11 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class AboutSection extends StatelessWidget {
-  const AboutSection({
-    super.key,
-    required this.title,
-    this.child,
-  });
+  const AboutSection({super.key, required this.title, this.child});
 
   final String title;
   final Widget? child;
@@ -23,10 +19,7 @@ class AboutSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Headline(title),
-        if (child != null) child!,
-      ],
+      children: <Widget>[Headline(title), if (child != null) child!],
     );
   }
 }

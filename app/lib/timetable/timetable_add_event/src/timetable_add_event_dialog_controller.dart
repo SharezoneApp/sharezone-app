@@ -112,17 +112,19 @@ class AddEventDialogController extends ChangeNotifier {
       return false;
     }
 
-    await api.createEvent(CreateEventCommand(
-      title: title,
-      description: description,
-      courseId: course!.id,
-      date: date,
-      startTime: startTime,
-      endTime: endTime,
-      location: location,
-      notifyCourseMembers: notifyCourseMembers,
-      eventType: isExam ? EventType.exam : EventType.event,
-    ));
+    await api.createEvent(
+      CreateEventCommand(
+        title: title,
+        description: description,
+        courseId: course!.id,
+        date: date,
+        startTime: startTime,
+        endTime: endTime,
+        location: location,
+        notifyCourseMembers: notifyCourseMembers,
+        eventType: isExam ? EventType.exam : EventType.event,
+      ),
+    );
 
     if (markdownAnalytics.containsMarkdown(description)) {
       markdownAnalytics.logMarkdownUsedEvent();

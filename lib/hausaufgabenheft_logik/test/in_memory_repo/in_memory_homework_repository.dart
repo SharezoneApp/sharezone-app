@@ -17,7 +17,8 @@ import 'realtime_completed_homework_loader.dart';
 
 class InMemoryHomeworkRepository<T extends BaseHomeworkReadModel> {
   IList<T> _homeworks = IList<T>(const []);
-  IList<T> get _openHomeworks => _homeworks.where((h) {
+  IList<T> get _openHomeworks =>
+      _homeworks.where((h) {
         if (h is TeacherHomeworkReadModel) {
           return h.status == ArchivalStatus.open;
         } else {
@@ -25,7 +26,8 @@ class InMemoryHomeworkRepository<T extends BaseHomeworkReadModel> {
           return hw.status == CompletionStatus.open;
         }
       }).toIList();
-  IList<T> get _completedHomeworks => _homeworks.where((h) {
+  IList<T> get _completedHomeworks =>
+      _homeworks.where((h) {
         if (h is TeacherHomeworkReadModel) {
           return h.status == ArchivalStatus.archived;
         } else {
@@ -79,10 +81,12 @@ class InMemoryHomeworkRepository<T extends BaseHomeworkReadModel> {
   }
 
   LazyLoadingController<T> getLazyLoadingCompletedHomeworksController(
-      int nrOfInitialHomeworkToLoad) {
+    int nrOfInitialHomeworkToLoad,
+  ) {
     return RealtimeUpdatingLazyLoadingController(
-        InMemoryHomeworkLoader<T>(_completedHomeworkStream),
-        initialNumberOfHomeworksToLoad: nrOfInitialHomeworkToLoad);
+      InMemoryHomeworkLoader<T>(_completedHomeworkStream),
+      initialNumberOfHomeworksToLoad: nrOfInitialHomeworkToLoad,
+    );
   }
 }
 

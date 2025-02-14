@@ -28,14 +28,21 @@ class ChangelogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return BlocProvider<ChangelogBloc>(
-      bloc: ChangelogBloc(ChangelogGateway(firestore: api.references.firestore),
-          getPlatformInformationRetriever()),
-      child: Builder(builder: (context) {
-        return Scaffold(
-          appBar: AppBar(title: const Text("Was ist neu?"), centerTitle: true),
-          body: const _ChangeList(),
-        );
-      }),
+      bloc: ChangelogBloc(
+        ChangelogGateway(firestore: api.references.firestore),
+        getPlatformInformationRetriever(),
+      ),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("Was ist neu?"),
+              centerTitle: true,
+            ),
+            body: const _ChangeList(),
+          );
+        },
+      ),
     );
   }
 }
@@ -56,16 +63,20 @@ class _ChangeList extends StatelessWidget {
 
         final changeData = snapshot.data!;
         final children = _convertViewsToVersionSectionsWithNoDeviderAtTheBottom(
-            changeData.changes);
+          changeData.changes,
+        );
 
         return ListWithBottomThreshold(
           padding: const EdgeInsets.all(12),
-          loadingIndicator: changeData.allChangesLoaded
-              ? Container()
-              : const Padding(
-                  padding: EdgeInsets.only(top: 12),
-                  child: Center(child: AccentColorCircularProgressIndicator()),
-                ),
+          loadingIndicator:
+              changeData.allChangesLoaded
+                  ? Container()
+                  : const Padding(
+                    padding: EdgeInsets.only(top: 12),
+                    child: Center(
+                      child: AccentColorCircularProgressIndicator(),
+                    ),
+                  ),
           thresholdHeight: 50,
           onThresholdExceeded: () => bloc.loadNext(),
           children: [
@@ -82,23 +93,29 @@ class _ChangeList extends StatelessWidget {
   }
 
   List<Widget> _convertViewsToVersionSectionsWithNoDeviderAtTheBottom(
-      List<ChangeView> changes) {
+    List<ChangeView> changes,
+  ) {
     final versionSections = <Widget>[];
     final lastChange = changes.last;
     for (final change in changes) {
-      versionSections.add(_VersionSection(
-        change: change,
-        showBottomDivider: change != lastChange,
-        key: Key(change.version!),
-      ));
+      versionSections.add(
+        _VersionSection(
+          change: change,
+          showBottomDivider: change != lastChange,
+          key: Key(change.version!),
+        ),
+      );
     }
     return versionSections;
   }
 }
 
 class _VersionSection extends StatelessWidget {
-  const _VersionSection(
-      {super.key, required this.change, this.showBottomDivider = true});
+  const _VersionSection({
+    super.key,
+    required this.change,
+    this.showBottomDivider = true,
+  });
 
   final bool showBottomDivider;
   final ChangeView change;
@@ -110,16 +127,22 @@ class _VersionSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(change.version!,
-              style: Theme.of(context).textTheme.headlineSmall),
+          Text(
+            change.version!,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 8),
               _ChangeParagraph(
-                  list: change.newFeatures, title: "Neue Funktionen:"),
+                list: change.newFeatures,
+                title: "Neue Funktionen:",
+              ),
               _ChangeParagraph(
-                  list: change.improvements, title: "Verbesserungen:"),
+                list: change.improvements,
+                title: "Verbesserungen:",
+              ),
               _ChangeParagraph(list: change.fixes, title: "Fehlerbehebungen:"),
             ],
           ),
@@ -144,24 +167,27 @@ class _ChangeParagraph extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title!,
-              style:
-                  const TextStyle(fontWeight: FontWeight.w700, fontSize: 14.5)),
+          Text(
+            title!,
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14.5),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: list!
-                .map(
-                  (text) => Padding(
-                    padding: const EdgeInsets.only(bottom: 2.5),
-                    child: Text(
-                      text,
-                      style: const TextStyle(
-                          textBaseline: TextBaseline.alphabetic,
-                          height: 16 / 15),
-                    ),
-                  ),
-                )
-                .toList(),
+            children:
+                list!
+                    .map(
+                      (text) => Padding(
+                        padding: const EdgeInsets.only(bottom: 2.5),
+                        child: Text(
+                          text,
+                          style: const TextStyle(
+                            textBaseline: TextBaseline.alphabetic,
+                            height: 16 / 15,
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
           ),
         ],
       ),
@@ -184,17 +210,15 @@ class UpdatePromptCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnnouncementCard(
       key: const ValueKey('UpdatePromptCard'),
-      onTap: PlatformCheck.isWeb
-          ? null
-          : () => launchURL(getStoreLink(), context: context),
+      onTap:
+          PlatformCheck.isWeb
+              ? null
+              : () => launchURL(getStoreLink(), context: context),
       title: "Neues Update verfügbar!",
       padding: const EdgeInsets.all(0),
       titleColor: Colors.white,
       color: Colors.orange,
-      content: Text(
-        _getText(),
-        style: const TextStyle(color: Colors.white),
-      ),
+      content: Text(_getText(), style: const TextStyle(color: Colors.white)),
     );
   }
 

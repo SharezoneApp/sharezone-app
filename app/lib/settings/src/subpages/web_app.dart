@@ -83,11 +83,13 @@ class _Header extends StatelessWidget {
             data:
                 "Besuche für weitere Informationen einfach https://web.sharezone.net.",
             selectable: true,
-            styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-                .copyWith(
-                    a: linkStyle(context, 14),
-                    p: const TextStyle(fontSize: 14, color: Colors.grey),
-                    textAlign: WrapAlignment.center),
+            styleSheet: MarkdownStyleSheet.fromTheme(
+              Theme.of(context),
+            ).copyWith(
+              a: linkStyle(context, 14),
+              p: const TextStyle(fontSize: 14, color: Colors.grey),
+              textAlign: WrapAlignment.center,
+            ),
             onTapLink: (url, _, __) => launchURL(url, context: context),
           ),
         ),
@@ -134,12 +136,9 @@ class _ScanQrCode extends StatelessWidget {
         const SizedBox(height: 6),
         const Text(
           "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 11.5,
-          ),
+          style: TextStyle(color: Colors.grey, fontSize: 11.5),
           textAlign: TextAlign.center,
-        )
+        ),
       ],
     );
   }

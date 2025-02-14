@@ -55,7 +55,8 @@ class HomeworkCompletionUserListBloc extends BlocBase {
   }
 
   Future<List<UserHasCompletedHomeworkView>> _mapToViews(
-      HomeworkDto item) async {
+    HomeworkDto item,
+  ) async {
     final views = <UserHasCompletedHomeworkView>[];
 
     // Undone Students
@@ -89,11 +90,12 @@ class HomeworkCompletionUserListBloc extends BlocBase {
     if (!_loadedCourseId) {
       await _loadCourseId();
     }
-    final doc = await _courseRef
-        .doc('$_courseId')
-        .collection(CollectionNames.members)
-        .doc(userId)
-        .get();
+    final doc =
+        await _courseRef
+            .doc('$_courseId')
+            .collection(CollectionNames.members)
+            .doc(userId)
+            .get();
     final data = doc.data();
     if (data == null) return null;
     return MemberData.fromData(data, id: userId);

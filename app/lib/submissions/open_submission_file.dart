@@ -23,14 +23,15 @@ void openCreateSubmissionFile(BuildContext context, FileView view) {
       actions: [
         IconButton(
           icon: const Icon(Icons.file_download),
-          onPressed: () => _downloadFile(
-            context: context,
-            downloadUrl: view.downloadUrl!,
-            fileId: view.id,
-            fileName: view.name,
-            format: view.fileFormat,
-          ),
-        )
+          onPressed:
+              () => _downloadFile(
+                context: context,
+                downloadUrl: view.downloadUrl!,
+                fileId: view.id,
+                fileName: view.name,
+                format: view.fileFormat,
+              ),
+        ),
       ],
       downloadURL: view.downloadUrl,
       id: view.id,
@@ -46,14 +47,15 @@ void openAbgegebeneAbgabedatei(BuildContext context, CreatedFileView view) {
     actions: [
       IconButton(
         icon: const Icon(Icons.file_download),
-        onPressed: () => _downloadFile(
-          context: context,
-          downloadUrl: view.downloadUrl,
-          fileId: view.id,
-          fileName: view.title,
-          format: view.format,
-        ),
-      )
+        onPressed:
+            () => _downloadFile(
+              context: context,
+              downloadUrl: view.downloadUrl,
+              fileId: view.id,
+              fileName: view.title,
+              format: view.format,
+            ),
+      ),
     ],
     downloadURL: view.downloadUrl,
     id: view.id,
@@ -77,12 +79,13 @@ void _downloadFile({
   } else {
     showDialog(
       context: context,
-      builder: (context) => DownloadUnknownFileTypeDialogContent(
-        downloadURL: downloadUrl,
-        name: fileName,
-        id: fileId,
-        nameStream: Stream.value(fileName),
-      ),
+      builder:
+          (context) => DownloadUnknownFileTypeDialogContent(
+            downloadURL: downloadUrl,
+            name: fileName,
+            id: fileId,
+            nameStream: Stream.value(fileName),
+          ),
     );
   }
 }

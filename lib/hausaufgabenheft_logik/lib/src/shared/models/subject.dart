@@ -20,7 +20,10 @@ class Subject extends Equatable {
   Subject(this.name, {this.color, required this.abbreviation}) {
     if (name.isEmpty) {
       throw ArgumentError.value(
-          name, 'name', "The subject name can't be empty");
+        name,
+        'name',
+        "The subject name can't be empty",
+      );
     }
   }
 }

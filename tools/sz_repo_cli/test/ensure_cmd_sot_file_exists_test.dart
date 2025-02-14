@@ -21,9 +21,12 @@ void main() {
     // If the file gets moved and the path for
     // [repo.commandsSourceOfTruthYamlFile] not updated this will cause the CI
     // pipeline to fail.
-    expect(repo.commandsSourceOfTruthYamlFile.existsSync(), true,
-        reason:
-            'Commands source of truth file should exist at ${repo.commandsSourceOfTruthYamlFile.path}.\n'
-            'If this file was moved on purpose then update the path in the Dart code.');
+    expect(
+      repo.commandsSourceOfTruthYamlFile.existsSync(),
+      true,
+      reason:
+          'Commands source of truth file should exist at ${repo.commandsSourceOfTruthYamlFile.path}.\n'
+          'If this file was moved on purpose then update the path in the Dart code.',
+    );
   });
 }

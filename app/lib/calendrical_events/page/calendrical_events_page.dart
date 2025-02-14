@@ -54,10 +54,7 @@ class _CalendricalEventsPageState extends State<CalendricalEventsPage> {
         bloc: bloc,
         child: SharezoneMainScaffold(
           appBarConfiguration: const AppBarConfiguration(
-            actions: [
-              _PastEventsIconButton(),
-              _LayoutIconButton(),
-            ],
+            actions: [_PastEventsIconButton(), _LayoutIconButton()],
           ),
           body: const _CalendricalEventsPageBody(),
           floatingActionButton: _EventListFAB(),
@@ -141,14 +138,12 @@ class _LayoutIconButtonState extends State<_LayoutIconButton>
             CalendricalEventsPageLayout.grid => 'Auf Liste umschalten',
           },
           onPressed: () {
-            bloc.setLayout(
-              switch (layout) {
-                CalendricalEventsPageLayout.list =>
-                  CalendricalEventsPageLayout.grid,
-                CalendricalEventsPageLayout.grid =>
-                  CalendricalEventsPageLayout.list,
-              },
-            );
+            bloc.setLayout(switch (layout) {
+              CalendricalEventsPageLayout.list =>
+                CalendricalEventsPageLayout.grid,
+              CalendricalEventsPageLayout.grid =>
+                CalendricalEventsPageLayout.list,
+            });
             controller.fling(
               velocity: switch (layout) {
                 CalendricalEventsPageLayout.list => 1.0,
@@ -204,7 +199,7 @@ class _Events extends StatelessWidget {
             child: switch (layout) {
               CalendricalEventsPageLayout.list => _EventList(events: events),
               CalendricalEventsPageLayout.grid => _EventGrid(events: events),
-              null => const SizedBox()
+              null => const SizedBox(),
             },
           );
         },
@@ -256,7 +251,7 @@ class _EventGrid extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: CalenderEventCard(event),
-              )
+              ),
           ],
         ),
       ),
@@ -282,11 +277,15 @@ class _EventListFAB extends StatelessWidget {
 
     if (result != null && context.mounted) {
       if (result == _FABEventListOption.event) {
-        await openEventDialogAndShowConfirmationIfSuccessful(context,
-            isExam: false);
+        await openEventDialogAndShowConfirmationIfSuccessful(
+          context,
+          isExam: false,
+        );
       } else if (result == _FABEventListOption.exam) {
-        await openEventDialogAndShowConfirmationIfSuccessful(context,
-            isExam: true);
+        await openEventDialogAndShowConfirmationIfSuccessful(
+          context,
+          isExam: true,
+        );
       }
     }
   }
@@ -301,12 +300,16 @@ class _EventListFABSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const SizedBox(height: 20),
-            Text("Neu erstellen",
-                style: TextStyle(
-                    color: Theme.of(context).isDarkTheme
+            Text(
+              "Neu erstellen",
+              style: TextStyle(
+                color:
+                    Theme.of(context).isDarkTheme
                         ? Colors.grey[100]
                         : Colors.grey[800],
-                    fontSize: 18)),
+                fontSize: 18,
+              ),
+            ),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
               child: SizedBox(
@@ -336,7 +339,7 @@ class _EventListFABSheet extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -350,21 +353,22 @@ class _EmptyEventList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SafeArea(
-        child: PlaceholderWidgetWithAnimation(
-      iconSize: Size(150, 150),
-      title: "Es stehen keine Termine und Prüfungen in der Zukunft an.",
-      svgPath: "assets/icons/calendar.svg",
-      description: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          children: <Widget>[
-            _AddExamTile(),
-            SizedBox(height: 12),
-            _AddEventTile(),
-          ],
+      child: PlaceholderWidgetWithAnimation(
+        iconSize: Size(150, 150),
+        title: "Es stehen keine Termine und Prüfungen in der Zukunft an.",
+        svgPath: "assets/icons/calendar.svg",
+        description: Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            children: <Widget>[
+              _AddExamTile(),
+              SizedBox(height: 12),
+              _AddEventTile(),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
 
@@ -376,8 +380,11 @@ class _AddEventTile extends StatelessWidget {
     return CardListTile(
       title: const Text("Termin eintragen"),
       centerTitle: true,
-      onTap: () => openEventDialogAndShowConfirmationIfSuccessful(context,
-          isExam: false),
+      onTap:
+          () => openEventDialogAndShowConfirmationIfSuccessful(
+            context,
+            isExam: false,
+          ),
     );
   }
 }
@@ -390,8 +397,11 @@ class _AddExamTile extends StatelessWidget {
     return CardListTile(
       title: const Text("Prüfung eintragen"),
       centerTitle: true,
-      onTap: () =>
-          openEventDialogAndShowConfirmationIfSuccessful(context, isExam: true),
+      onTap:
+          () => openEventDialogAndShowConfirmationIfSuccessful(
+            context,
+            isExam: true,
+          ),
     );
   }
 }

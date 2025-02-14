@@ -134,20 +134,22 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                     MultiProvider(
                       providers: [
                         Provider<NotificationsPermission>(
-                          create: (_) => NotificationsPermission(
-                            firebaseMessaging: FirebaseMessaging.instance,
-                            mobileDeviceInformationRetriever:
-                                MobileDeviceInformationRetriever(),
-                          ),
+                          create:
+                              (_) => NotificationsPermission(
+                                firebaseMessaging: FirebaseMessaging.instance,
+                                mobileDeviceInformationRetriever:
+                                    MobileDeviceInformationRetriever(),
+                              ),
                         ),
                         ChangeNotifierProvider.value(value: featureFlagl10n),
                         ChangeNotifierProvider(
-                          create: (context) => AppLocaleProvider(
-                            gateway: FlutterAppLocaleProviderGateway(
-                              keyValueStore: streamingKeyValueStore,
-                              featureFlagl10n: featureFlagl10n,
-                            ),
-                          ),
+                          create:
+                              (context) => AppLocaleProvider(
+                                gateway: FlutterAppLocaleProviderGateway(
+                                  keyValueStore: streamingKeyValueStore,
+                                  featureFlagl10n: featureFlagl10n,
+                                ),
+                              ),
                         ),
                       ],
                       child: MultiBlocProvider(
@@ -161,28 +163,32 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                           // https://github.com/SharezoneApp/sharezone-app/issues/117.
                           BlocProvider<NavigationBloc>(bloc: navigationBloc),
                         ],
-                        child: (context) => MultiProvider(
-                          providers: [
-                            Provider<Flavor>(create: (context) => widget.flavor)
-                          ],
-                          child: StreamBuilder<AuthUser?>(
-                            stream: authUserStream,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                widget.blocDependencies.authUser =
-                                    snapshot.data;
-                                return SharezoneApp(
-                                    widget.blocDependencies,
-                                    Sharezone.analytics,
-                                    widget.beitrittsversuche);
-                              }
-                              return AuthApp(
-                                blocDependencies: widget.blocDependencies,
-                                analytics: Sharezone.analytics,
-                              );
-                            },
-                          ),
-                        ),
+                        child:
+                            (context) => MultiProvider(
+                              providers: [
+                                Provider<Flavor>(
+                                  create: (context) => widget.flavor,
+                                ),
+                              ],
+                              child: StreamBuilder<AuthUser?>(
+                                stream: authUserStream,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    widget.blocDependencies.authUser =
+                                        snapshot.data;
+                                    return SharezoneApp(
+                                      widget.blocDependencies,
+                                      Sharezone.analytics,
+                                      widget.beitrittsversuche,
+                                    );
+                                  }
+                                  return AuthApp(
+                                    blocDependencies: widget.blocDependencies,
+                                    analytics: Sharezone.analytics,
+                                  );
+                                },
+                              ),
+                            ),
                       ),
                     ),
                   ],
@@ -205,38 +211,46 @@ class _ThemeSettingsProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ThemeSettings(
-        analytics: blocDependencies!.analytics,
-        defaultTextScalingFactor: 1.0,
-        defaultThemeBrightness: ThemeBrightness.system,
-        // We don't use VisualDensitySetting.adaptivePlatformDensity() because
-        // we don't like the button densities on the desktop.
-        defaultVisualDensity: VisualDensitySetting.standard(),
-        keyValueStore: blocDependencies!.keyValueStore,
+      create:
+          (context) => ThemeSettings(
+            analytics: blocDependencies!.analytics,
+            defaultTextScalingFactor: 1.0,
+            defaultThemeBrightness: ThemeBrightness.system,
+            // We don't use VisualDensitySetting.adaptivePlatformDensity() because
+            // we don't like the button densities on the desktop.
+            defaultVisualDensity: VisualDensitySetting.standard(),
+            keyValueStore: blocDependencies!.keyValueStore,
+          ),
+      child: Consumer<ThemeSettings>(
+        builder: (context, themeSettings, _) {
+          /// If we didn't use MediaQuery.fromWindow and just provide a new
+          /// MediaQuery with our custom textScalingFactor the UI breaks in
+          /// several different weird ways.
+          /// Thus we use MediaQuery.fromWindow which is the method that Flutter
+          /// uses internally inside MaterialApp etc to create a new MediaQuery.
+          return MediaQuery.fromView(
+            view: View.of(context),
+            child: Builder(
+              builder: (context) {
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaler: TextScaler.linear(
+                      themeSettings.textScalingFactor,
+                    ),
+                  ),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      visualDensity:
+                          themeSettings.visualDensitySetting.visualDensity,
+                    ),
+                    child: child!,
+                  ),
+                );
+              },
+            ),
+          );
+        },
       ),
-      child: Consumer<ThemeSettings>(builder: (context, themeSettings, _) {
-        /// If we didn't use MediaQuery.fromWindow and just provide a new
-        /// MediaQuery with our custom textScalingFactor the UI breaks in
-        /// several different weird ways.
-        /// Thus we use MediaQuery.fromWindow which is the method that Flutter
-        /// uses internally inside MaterialApp etc to create a new MediaQuery.
-        return MediaQuery.fromView(
-          view: View.of(context),
-          child: Builder(builder: (context) {
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaler: TextScaler.linear(themeSettings.textScalingFactor),
-              ),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                    visualDensity:
-                        themeSettings.visualDensitySetting.visualDensity),
-                child: child!,
-              ),
-            );
-          }),
-        );
-      }),
     );
   }
 }

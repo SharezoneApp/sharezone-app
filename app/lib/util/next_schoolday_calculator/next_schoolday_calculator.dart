@@ -21,8 +21,8 @@ class NextSchooldayCalculator {
   NextSchooldayCalculator({
     required UserGateway userGateway,
     required HolidayService holidayManager,
-  })  : _userGateway = userGateway,
-        _holidayManager = holidayManager;
+  }) : _userGateway = userGateway,
+       _holidayManager = holidayManager;
 
   Future<Date?> tryCalculateNextSchoolday() async {
     return tryCalculateXNextSchoolday(inSchooldays: 1);
@@ -34,13 +34,18 @@ class NextSchooldayCalculator {
       final user = await _userGateway.get();
       final enabledWeekdays = user.userSettings.enabledWeekDays;
       final holidays = await _tryLoadHolidays(user);
-      final results = _NextSchooldayCaluclation(enabledWeekdays, holidays)
-          .calculate(days: inSchooldays);
+      final results = _NextSchooldayCaluclation(
+        enabledWeekdays,
+        holidays,
+      ).calculate(days: inSchooldays);
       if (results.isEmpty) return Date.today().addDays(1);
       return results.elementAt(inSchooldays - 1);
     } catch (e, s) {
-      log('Could not calculate next schoolday: $e\n$s',
-          error: e, stackTrace: s);
+      log(
+        'Could not calculate next schoolday: $e\n$s',
+        error: e,
+        stackTrace: s,
+      );
       return null;
     }
   }
@@ -49,8 +54,11 @@ class NextSchooldayCalculator {
     try {
       return await _holidayManager.load(toStateOrThrow(user.state));
     } catch (e, s) {
-      log('Could not load holidays for calculating next schooldays: $e',
-          error: e, stackTrace: s);
+      log(
+        'Could not load holidays for calculating next schooldays: $e',
+        error: e,
+        stackTrace: s,
+      );
       return [];
     }
   }

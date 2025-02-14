@@ -55,8 +55,9 @@ class PrivacyPolicyEndSection {
 
   factory PrivacyPolicyEndSection.metadata() {
     return PrivacyPolicyEndSection(
-        sectionName: 'Metadaten',
-        generateMarkdown: (privacyPolicy) => '''
+      sectionName: 'Metadaten',
+      generateMarkdown:
+          (privacyPolicy) => '''
 
 
 ---
@@ -65,6 +66,7 @@ class PrivacyPolicyEndSection {
 Version: v${privacyPolicy.version}
 
 Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChanged)}
-''');
+''',
+    );
   }
 }

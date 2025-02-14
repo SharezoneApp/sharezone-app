@@ -56,36 +56,36 @@ class _SaveFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLoading = context.select<ChangeTypeOfUserController, bool>(
-        (controller) => controller.state is ChangeTypeOfUserLoading);
+      (controller) => controller.state is ChangeTypeOfUserLoading,
+    );
     return FloatingActionButton.extended(
       label: isLoading ? const _Loading() : const Text("Speichern"),
       mouseCursor:
           isLoading ? SystemMouseCursors.basic : SystemMouseCursors.click,
-      onPressed: !isLoading
-          ? () async {
-              final controller = context.read<ChangeTypeOfUserController>();
-              try {
-                await controller.changeTypeOfUser();
+      onPressed:
+          !isLoading
+              ? () async {
+                final controller = context.read<ChangeTypeOfUserController>();
+                try {
+                  await controller.changeTypeOfUser();
 
-                if (context.mounted) {
-                  _showRestartDialog(context);
-                }
-              } on ChangeTypeOfUserFailed catch (e) {
-                if (context.mounted) {
-                  _showErrorDialog(context: context, e: e);
+                  if (context.mounted) {
+                    _showRestartDialog(context);
+                  }
+                } on ChangeTypeOfUserFailed catch (e) {
+                  if (context.mounted) {
+                    _showErrorDialog(context: context, e: e);
+                  }
                 }
               }
-            }
-          : null,
+              : null,
       icon: isLoading ? null : const Icon(Icons.check),
     );
   }
 }
 
 class _ErrorDialog extends StatelessWidget {
-  const _ErrorDialog({
-    required this.failure,
-  });
+  const _ErrorDialog({required this.failure});
 
   final ChangeTypeOfUserFailed failure;
 
@@ -95,20 +95,18 @@ class _ErrorDialog extends StatelessWidget {
       maxWidth: 500,
       child: AlertDialog(
         title: const Text('Fehler'),
-        content: Text(
-          switch (failure) {
-            ChangeTypeOfUserUnknownException(error: final error) =>
-              'Fehler: $error. Bitte kontaktiere den Support.',
-            NoTypeOfUserSelectedException() =>
-              'Es wurde kein Account-Typ ausgewählt.',
-            TypeUserOfUserHasNotChangedException() =>
-              'Der Account-Typ hat sich nicht geändert.',
-            ChangedTypeOfUserTooOftenException(
-              blockedUntil: final blockedUntil
-            ) =>
-              'Du kannst nur alle 14 Tage 2x den Account-Typ ändern. Diese Limit wurde erreicht. Bitte warte bis ${DateFormat().format(blockedUntil)}.',
-          },
-        ),
+        content: Text(switch (failure) {
+          ChangeTypeOfUserUnknownException(error: final error) =>
+            'Fehler: $error. Bitte kontaktiere den Support.',
+          NoTypeOfUserSelectedException() =>
+            'Es wurde kein Account-Typ ausgewählt.',
+          TypeUserOfUserHasNotChangedException() =>
+            'Der Account-Typ hat sich nicht geändert.',
+          ChangedTypeOfUserTooOftenException(
+            blockedUntil: final blockedUntil,
+          ) =>
+            'Du kannst nur alle 14 Tage 2x den Account-Typ ändern. Diese Limit wurde erreicht. Bitte warte bis ${DateFormat().format(blockedUntil)}.',
+        }),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -116,8 +114,10 @@ class _ErrorDialog extends StatelessWidget {
           ),
           if (failure is ChangeTypeOfUserUnknownException)
             TextButton(
-              onPressed: () =>
-                  Navigator.of(context).pushReplacementNamed(SupportPage.tag),
+              onPressed:
+                  () => Navigator.of(
+                    context,
+                  ).pushReplacementNamed(SupportPage.tag),
               child: const Text('SUPPORT KONTAKTIEREN'),
             ),
         ],
@@ -134,9 +134,7 @@ class _Loading extends StatelessWidget {
     return const SizedBox(
       height: 25,
       width: 25,
-      child: CircularProgressIndicator(
-        color: Colors.white,
-      ),
+      child: CircularProgressIndicator(color: Colors.white),
     );
   }
 }
@@ -172,10 +170,7 @@ class _PermissionNote extends StatelessWidget {
       data: '''Beachte die folgende Hinweise:
 * Innerhalb von 14 Tagen kannst du nur 2x den Account-Typ ändern.
 * Durch das Ändern der Nutzer erhältst du keine weiteren Berechtigungen in den Gruppen. Ausschlaggebend sind die Gruppenberechtigungen ("Administrator", "Aktives Mitglied", "Passives Mitglied").''',
-      styleSheet: MarkdownStyleSheet(
-        p: textStyle,
-        listBullet: textStyle,
-      ),
+      styleSheet: MarkdownStyleSheet(p: textStyle, listBullet: textStyle),
     );
   }
 }
@@ -193,7 +188,7 @@ class _ChangeTypeOfUser extends StatelessWidget {
         for (final typeOfUser in [
           TypeOfUser.student,
           TypeOfUser.teacher,
-          TypeOfUser.parent
+          TypeOfUser.parent,
         ])
           RadioListTile<TypeOfUser>(
             value: typeOfUser,
@@ -202,7 +197,7 @@ class _ChangeTypeOfUser extends StatelessWidget {
             onChanged: (value) {
               controller.setSelectedTypeOfUser(typeOfUser);
             },
-          )
+          ),
       ],
     );
   }
@@ -218,7 +213,8 @@ class _RestartAppDialog extends StatelessWidget {
       child: AlertDialog(
         title: const Text('Neustart erforderlich'),
         content: const Text(
-            'Die Änderung deines Account-Typs war erfolgreich. Jedoch muss die App muss neu gestartet werden, damit die Änderung wirksam wird.'),
+          'Die Änderung deines Account-Typs war erfolgreich. Jedoch muss die App muss neu gestartet werden, damit die Änderung wirksam wird.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),

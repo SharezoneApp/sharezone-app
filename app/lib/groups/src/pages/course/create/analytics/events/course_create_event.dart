@@ -18,15 +18,15 @@ class CourseCreateEvent extends AnalyticsEvent {
     required String name,
     required this.type,
     required this.via,
-  })  : assert(isNotEmptyOrNull(subject) && isNotEmptyOrNull(type)),
-        super(name);
+  }) : assert(isNotEmptyOrNull(subject) && isNotEmptyOrNull(type)),
+       super(name);
 
   final String subject, type, via;
 
   @override
   Map<String, dynamic> get data => {
-        'subject': subject,
-        'type': type,
-        'via': via,
-      };
+    'subject': subject,
+    'type': type,
+    'via': via,
+  };
 }

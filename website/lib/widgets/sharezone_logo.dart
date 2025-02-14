@@ -9,11 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-enum LogoColor {
-  white,
-  blueLong,
-  blueShort,
-}
+enum LogoColor { white, blueLong, blueShort }
 
 class SharezoneLogo extends StatelessWidget {
   const SharezoneLogo({
@@ -47,11 +43,7 @@ class SharezoneLogo extends StatelessWidget {
       onTapHint: 'Return to home page',
       child: Hero(
         tag: 'sharezone-logo-$logoColor',
-        child: SvgPicture.asset(
-          getLogoPath(),
-          height: height,
-          width: width,
-        ),
+        child: SvgPicture.asset(getLogoPath(), height: height, width: width),
       ),
     );
   }

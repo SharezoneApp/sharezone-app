@@ -21,18 +21,21 @@ import 'package:user/user.dart';
 /// Kurse aus. Dies dient dazu, damit er zu Beginn auch nur wirlich den Kursen beitritt, welche für ihn
 /// relevant sind.
 Future<dynamic> openGroupJoinCourseSelectionPage(
-    BuildContext context, RequireCourseSelectionsJoinResult joinResult) {
+  BuildContext context,
+  RequireCourseSelectionsJoinResult joinResult,
+) {
   final groupJoinBloc = BlocProvider.of<GroupJoinBloc>(context);
   return Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => BlocProvider(
-        bloc: GroupJoinSelectCoursesBloc(
-          groupJoinBloc: groupJoinBloc,
-          joinResult: joinResult,
-        ),
-        child: _GroupJoinCourseSelectionPage(),
-      ),
+      builder:
+          (context) => BlocProvider(
+            bloc: GroupJoinSelectCoursesBloc(
+              groupJoinBloc: groupJoinBloc,
+              joinResult: joinResult,
+            ),
+            child: _GroupJoinCourseSelectionPage(),
+          ),
       settings: const RouteSettings(name: _GroupJoinCourseSelectionPage.tag),
     ),
   );
@@ -54,10 +57,7 @@ class _GroupJoinCourseSelectionPage extends StatelessWidget {
         bottomNavigationBar: const SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              Divider(),
-              _BottomSheet(),
-            ],
+            children: [Divider(), _BottomSheet()],
           ),
         ),
       ),
@@ -80,13 +80,9 @@ class _BottomSheet extends StatelessWidget {
             SafeArea(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  _SkipButton(),
-                  SizedBox(width: 12),
-                  _FinishButton(),
-                ],
+                children: [_SkipButton(), SizedBox(width: 12), _FinishButton()],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -157,9 +153,7 @@ class _SkipButton extends StatelessWidget {
         bloc.skip();
         Navigator.pop(context);
       },
-      style: TextButton.styleFrom(
-        foregroundColor: context.primaryColor,
-      ),
+      style: TextButton.styleFrom(foregroundColor: context.primaryColor),
       child: Text("Überspringen".toUpperCase()),
     );
   }
@@ -189,9 +183,7 @@ class _OptionalCoursesList extends StatelessWidget {
 
 /// Das Item, bei welcher der Nutzer dann die Auswahl macht, ob dieser Kurs hinzugefügt werden soll.
 class _CourseCheckboxTile extends StatelessWidget {
-  const _CourseCheckboxTile({
-    required this.groupInfo,
-  });
+  const _CourseCheckboxTile({required this.groupInfo});
 
   final GroupInfoWithSelectionState groupInfo;
 

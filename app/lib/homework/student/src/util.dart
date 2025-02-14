@@ -11,7 +11,10 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'homework_tile.dart';
 
 void dispatchCompletionStatusChange(
-    HomeworkStatus newStatus, String homeworkId, StudentHomeworkPageBloc bloc) {
+  HomeworkStatus newStatus,
+  String homeworkId,
+  StudentHomeworkPageBloc bloc,
+) {
   final bool newValue = newStatus == HomeworkStatus.completed;
   bloc.add(CompletionStatusChanged(homeworkId, newValue));
 }

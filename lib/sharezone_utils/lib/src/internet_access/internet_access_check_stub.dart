@@ -6,5 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-Future<bool> hasInternetAccess() => throw UnsupportedError(
-    'Cannot create a client without dart:html or dart:io.');
+Future<bool> hasInternetAccess() =>
+    throw UnsupportedError(
+      'Cannot create a client without dart:html or dart:io.',
+    );

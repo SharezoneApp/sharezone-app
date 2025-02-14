@@ -71,12 +71,15 @@ class ChangeEmailPageBody extends StatelessWidget {
               _CurrentEmailField(currentEmail: currentEmail),
               const SizedBox(height: 16),
               _NewEmailField(
-                  currentEmail: currentEmail, passwordNode: passwordNode),
+                currentEmail: currentEmail,
+                passwordNode: passwordNode,
+              ),
               const SizedBox(height: 8),
               ChangeDataPasswordField(
-                  focusNode: passwordNode,
-                  onEditComplete: () async =>
-                      await submit(context, snackBarText, changeType)),
+                focusNode: passwordNode,
+                onEditComplete:
+                    () async => await submit(context, snackBarText, changeType),
+              ),
               const SizedBox(height: 16),
               const Text(
                 "Hinweis: Wenn deine E-Mail geändert wurde, wirst du automatisch kurz ab- und sofort wieder angemeldet - also nicht wundern 😉",
@@ -156,8 +159,8 @@ class __NewEmailFieldState extends State<_NewEmailField> {
           controller: controller,
           autofocus: true,
           autofillHints: const [AutofillHints.email],
-          onEditingComplete: () =>
-              FocusManager.instance.primaryFocus?.unfocus(),
+          onEditingComplete:
+              () => FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: "Neu",

@@ -31,15 +31,16 @@ Set<String> _getAllDeepConflicts(
   restValues.remove(elementID);
   final element = elementTimeValues[elementID]!;
   final Set<String> results = {};
-  final conflictsWith = restValues.where((otherElementID) {
-    final otherLesson = elementTimeValues[otherElementID]!;
-    return _areTimesConflicting(
-      element.start,
-      element.end,
-      otherLesson.start,
-      otherLesson.end,
-    );
-  }).toList();
+  final conflictsWith =
+      restValues.where((otherElementID) {
+        final otherLesson = elementTimeValues[otherElementID]!;
+        return _areTimesConflicting(
+          element.start,
+          element.end,
+          otherLesson.start,
+          otherLesson.end,
+        );
+      }).toList();
   results.addAll(conflictsWith);
   restValues.removeAll(conflictsWith);
   for (final value in conflictsWith) {
@@ -58,27 +59,26 @@ class TimetablePositionLogic {
     final Map<String, TimetableElementProperties> newMap = {};
     while (restValues.isNotEmpty) {
       final lessonID = restValues.first;
-      final deepConflicts =
-          _getAllDeepConflicts(restValues, elementTimeProperties, lessonID);
-
-      final propertiesBuilder = TimetablePositionBuilder(
-        [
-          ...deepConflicts,
-          lessonID,
-        ],
+      final deepConflicts = _getAllDeepConflicts(
+        restValues,
         elementTimeProperties,
+        lessonID,
       );
+
+      final propertiesBuilder = TimetablePositionBuilder([
+        ...deepConflicts,
+        lessonID,
+      ], elementTimeProperties);
       newMap.addAll(propertiesBuilder.propertiesForConflictingElements);
     }
 
-    return Map.fromEntries(elementTimeProperties.values.map((timeElement) {
-      final properties =
-          newMap[timeElement.id] ?? TimetableElementProperties.standard;
-      return MapEntry(
-        timeElement.id,
-        properties,
-      );
-    }));
+    return Map.fromEntries(
+      elementTimeProperties.values.map((timeElement) {
+        final properties =
+            newMap[timeElement.id] ?? TimetableElementProperties.standard;
+        return MapEntry(timeElement.id, properties);
+      }),
+    );
   }
 }
 
@@ -87,7 +87,9 @@ class TimetablePositionBuilder {
   final Map<String, TimetableElementTimeProperties> elementTimeValues;
 
   const TimetablePositionBuilder(
-      this.conflictingElements, this.elementTimeValues);
+    this.conflictingElements,
+    this.elementTimeValues,
+  );
 
   Map<String, TimetableElementProperties> get propertiesForConflictingElements {
     if (conflictingElements.length <= 1) {
@@ -103,8 +105,10 @@ class TimetablePositionBuilder {
     final totalConflictElements = conflictingElements.length;
     for (final conflictID in conflictingElements) {
       int index = conflictingElements.indexOf(conflictID);
-      newMap[conflictID] =
-          TimetableElementProperties(totalConflictElements, index);
+      newMap[conflictID] = TimetableElementProperties(
+        totalConflictElements,
+        index,
+      );
     }
     return newMap;
   }
@@ -153,11 +157,17 @@ class TimetablePositionBuilder {
   }
 
   Set<String> _getDirectConflicts(
-      TimetableElementTimeProperties time, List<String> restValues) {
+    TimetableElementTimeProperties time,
+    List<String> restValues,
+  ) {
     return restValues.where((it) {
       final itTime = elementTimeValues[it]!;
       return _areTimesConflicting(
-          time.start, time.end, itTime.start, itTime.end);
+        time.start,
+        time.end,
+        itTime.start,
+        itTime.end,
+      );
     }).toSet();
   }
 }

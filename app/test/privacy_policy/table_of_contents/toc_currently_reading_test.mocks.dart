@@ -28,35 +28,20 @@ import 'package:sharezone/legal/privacy_policy/src/privacy_policy_src.dart'
 
 class _FakeAnchorController_0 extends _i1.SmartFake
     implements _i2.AnchorController {
-  _FakeAnchorController_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAnchorController_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeCurrentlyReadThreshold_1 extends _i1.SmartFake
     implements _i3.CurrentlyReadThreshold {
-  _FakeCurrentlyReadThreshold_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeCurrentlyReadThreshold_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeValueListenable_2<T> extends _i1.SmartFake
     implements _i4.ValueListenable<T> {
-  _FakeValueListenable_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeValueListenable_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [DocumentController].
@@ -65,57 +50,59 @@ class _FakeValueListenable_2<T> extends _i1.SmartFake
 class MockDocumentController extends _i1.Mock
     implements _i3.DocumentController {
   @override
-  _i2.AnchorController get anchorController => (super.noSuchMethod(
-        Invocation.getter(#anchorController),
-        returnValue: _FakeAnchorController_0(
-          this,
-          Invocation.getter(#anchorController),
-        ),
-        returnValueForMissingStub: _FakeAnchorController_0(
-          this,
-          Invocation.getter(#anchorController),
-        ),
-      ) as _i2.AnchorController);
+  _i2.AnchorController get anchorController =>
+      (super.noSuchMethod(
+            Invocation.getter(#anchorController),
+            returnValue: _FakeAnchorController_0(
+              this,
+              Invocation.getter(#anchorController),
+            ),
+            returnValueForMissingStub: _FakeAnchorController_0(
+              this,
+              Invocation.getter(#anchorController),
+            ),
+          )
+          as _i2.AnchorController);
 
   @override
-  _i3.CurrentlyReadThreshold get threshold => (super.noSuchMethod(
-        Invocation.getter(#threshold),
-        returnValue: _FakeCurrentlyReadThreshold_1(
-          this,
-          Invocation.getter(#threshold),
-        ),
-        returnValueForMissingStub: _FakeCurrentlyReadThreshold_1(
-          this,
-          Invocation.getter(#threshold),
-        ),
-      ) as _i3.CurrentlyReadThreshold);
+  _i3.CurrentlyReadThreshold get threshold =>
+      (super.noSuchMethod(
+            Invocation.getter(#threshold),
+            returnValue: _FakeCurrentlyReadThreshold_1(
+              this,
+              Invocation.getter(#threshold),
+            ),
+            returnValueForMissingStub: _FakeCurrentlyReadThreshold_1(
+              this,
+              Invocation.getter(#threshold),
+            ),
+          )
+          as _i3.CurrentlyReadThreshold);
 
   @override
   _i4.ValueListenable<_i5.IList<_i3.DocumentSectionHeadingPosition>>
-      get sortedSectionHeadings => (super.noSuchMethod(
+  get sortedSectionHeadings =>
+      (super.noSuchMethod(
             Invocation.getter(#sortedSectionHeadings),
             returnValue: _FakeValueListenable_2<
-                _i5.IList<_i3.DocumentSectionHeadingPosition>>(
-              this,
-              Invocation.getter(#sortedSectionHeadings),
-            ),
+              _i5.IList<_i3.DocumentSectionHeadingPosition>
+            >(this, Invocation.getter(#sortedSectionHeadings)),
             returnValueForMissingStub: _FakeValueListenable_2<
-                _i5.IList<_i3.DocumentSectionHeadingPosition>>(
-              this,
-              Invocation.getter(#sortedSectionHeadings),
-            ),
-          ) as _i4
-              .ValueListenable<_i5.IList<_i3.DocumentSectionHeadingPosition>>);
+              _i5.IList<_i3.DocumentSectionHeadingPosition>
+            >(this, Invocation.getter(#sortedSectionHeadings)),
+          )
+          as _i4.ValueListenable<
+            _i5.IList<_i3.DocumentSectionHeadingPosition>
+          >);
 
   @override
   _i6.Future<void> scrollToDocumentSection(
-          _i3.DocumentSectionId? documentSectionId) =>
+    _i3.DocumentSectionId? documentSectionId,
+  ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #scrollToDocumentSection,
-          [documentSectionId],
-        ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+            Invocation.method(#scrollToDocumentSection, [documentSectionId]),
+            returnValue: _i6.Future<void>.value(),
+            returnValueForMissingStub: _i6.Future<void>.value(),
+          )
+          as _i6.Future<void>);
 }

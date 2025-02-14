@@ -10,11 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SaveButton extends StatelessWidget {
-  const SaveButton({
-    super.key,
-    this.onPressed,
-    this.tooltip,
-  });
+  const SaveButton({super.key, this.onPressed, this.tooltip});
 
   final VoidCallback? onPressed;
   final String? tooltip;
@@ -28,13 +24,11 @@ class SaveButton extends StatelessWidget {
       child: FilledButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-          foregroundColor: Theme.of(context).isDarkTheme
-              ? null
-              : Theme.of(context).primaryColor,
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          foregroundColor:
+              Theme.of(context).isDarkTheme
+                  ? null
+                  : Theme.of(context).primaryColor,
           backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
         ),
         child: const Text('Speichern'),

@@ -16,11 +16,15 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/color.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 
-typedef CourseDataRetreiver = Future<({int colorHexValue, bool isAdmin})>
-    Function(CourseId courseId);
+typedef CourseDataRetreiver =
+    Future<({int colorHexValue, bool isAdmin})> Function(CourseId courseId);
 
-class TeacherHomeworkTransformer extends StreamTransformerBase<
-    QuerySnapshot<Map<String, dynamic>>, IList<TeacherHomeworkReadModel>> {
+class TeacherHomeworkTransformer
+    extends
+        StreamTransformerBase<
+          QuerySnapshot<Map<String, dynamic>>,
+          IList<TeacherHomeworkReadModel>
+        > {
   final String userId;
   final CourseDataRetreiver getCourseData;
 
@@ -32,11 +36,15 @@ class TeacherHomeworkTransformer extends StreamTransformerBase<
   }
 
   Future<IList<TeacherHomeworkReadModel>> querySnapshotToHomeworks(
-      QuerySnapshot querySnapshot) async {
+    QuerySnapshot querySnapshot,
+  ) async {
     IList<TeacherHomeworkReadModel> homeworks = const IListConst([]);
     for (final document in querySnapshot.docs) {
-      final homework = await tryToConvertToHomework(document, userId,
-          getCourseData: getCourseData);
+      final homework = await tryToConvertToHomework(
+        document,
+        userId,
+        getCourseData: getCourseData,
+      );
       if (homework != null) {
         homeworks = homeworks.add(homework);
       }
@@ -46,25 +54,28 @@ class TeacherHomeworkTransformer extends StreamTransformerBase<
 }
 
 Future<TeacherHomeworkReadModel?> tryToConvertToHomework(
-    DocumentSnapshot documentSnapshot, String uid,
-    {required CourseDataRetreiver getCourseData}) async {
+  DocumentSnapshot documentSnapshot,
+  String uid, {
+  required CourseDataRetreiver getCourseData,
+}) async {
   TeacherHomeworkReadModel? converted;
   try {
     final homework = HomeworkDto.fromData(
-        documentSnapshot.data() as Map<String, dynamic>,
-        id: documentSnapshot.id);
+      documentSnapshot.data() as Map<String, dynamic>,
+      id: documentSnapshot.id,
+    );
 
     final courseId = CourseId(homework.courseID);
 
     final data = await getCourseData(courseId);
 
     final startOfThisDay = clock.now().copyWith(
-          hour: 0,
-          minute: 0,
-          second: 0,
-          millisecond: 0,
-          microsecond: 0,
-        );
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+      microsecond: 0,
+    );
 
     converted = TeacherHomeworkReadModel(
       id: HomeworkId(homework.id),
@@ -73,9 +84,10 @@ Future<TeacherHomeworkReadModel?> tryToConvertToHomework(
       canEditForEveryone: data.isAdmin,
       canViewCompletions: data.isAdmin,
       canViewSubmissions: data.isAdmin,
-      status: homework.todoUntil.isBefore(startOfThisDay)
-          ? ArchivalStatus.archived
-          : ArchivalStatus.open,
+      status:
+          homework.todoUntil.isBefore(startOfThisDay)
+              ? ArchivalStatus.archived
+              : ArchivalStatus.open,
       courseId: courseId,
       subject: Subject(
         homework.subject,

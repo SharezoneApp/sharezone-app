@@ -50,13 +50,13 @@ class Comment extends StatelessWidget {
     required this.onRated,
     required this.onDelete,
     required this.onReport,
-  })  : avatarText = comment.avatarAbbreviation,
-        userComment = comment.content,
-        userName = comment.userName,
-        commentAge = comment.commentAge,
-        likes = comment.likes,
-        hasPermissionsToMangeComments = comment.hasPermissionsToManageComments,
-        status = comment.status;
+  }) : avatarText = comment.avatarAbbreviation,
+       userComment = comment.content,
+       userName = comment.userName,
+       commentAge = comment.commentAge,
+       likes = comment.likes,
+       hasPermissionsToMangeComments = comment.hasPermissionsToManageComments,
+       status = comment.status;
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +84,9 @@ class Comment extends StatelessWidget {
                     data: userComment,
                     selectable: true,
                     softLineBreak: true,
-                    styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-                        .copyWith(a: linkStyle(context, 14)),
+                    styleSheet: MarkdownStyleSheet.fromTheme(
+                      Theme.of(context),
+                    ).copyWith(a: linkStyle(context, 14)),
                     onTapLink: (url, _, __) => launchURL(url, context: context),
                   ),
                   const SizedBox(height: 4),
@@ -93,31 +94,39 @@ class Comment extends StatelessWidget {
                     children: <Widget>[
                       InkWell(
                         onTap: () => onRated(CommentEvent.liked),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(12),
+                        ),
                         child: Icon(
                           Icons.thumb_up,
                           size: 17.5,
-                          color: status == CommentStatus.liked
-                              ? Colors.green
-                              : Colors.grey[500],
+                          color:
+                              status == CommentStatus.liked
+                                  ? Colors.green
+                                  : Colors.grey[500],
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Text(likes,
-                          style: const TextStyle(
-                              color: Colors.grey, fontSize: 11)),
+                      Text(
+                        likes,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 11,
+                        ),
+                      ),
                       const SizedBox(width: 8),
                       InkWell(
                         onTap: () => onRated(CommentEvent.disliked),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(12),
+                        ),
                         child: Icon(
                           Icons.thumb_down,
                           size: 17.5,
-                          color: status == CommentStatus.disliked
-                              ? Colors.red
-                              : Colors.grey[500],
+                          color:
+                              status == CommentStatus.disliked
+                                  ? Colors.red
+                                  : Colors.grey[500],
                         ),
                       ),
                       Expanded(
@@ -127,10 +136,13 @@ class Comment extends StatelessWidget {
                             alignment: Alignment.centerRight,
                             child: InkWell(
                               onTap: () => openCommentSheet(context),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(12)),
-                              child: Icon(Icons.more_vert,
-                                  color: Colors.grey[500]),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                              child: Icon(
+                                Icons.more_vert,
+                                color: Colors.grey[500],
+                              ),
                             ),
                           ),
                         ),
@@ -150,12 +162,13 @@ class Comment extends StatelessWidget {
   Future<void> openCommentSheet(BuildContext context) async {
     final action = await showModalBottomSheet<_CommentSheetAction>(
       context: context,
-      builder: (context) => _CommentSheet(
-        avatarAbbreviation: avatarText,
-        authorName: userName,
-        content: userComment,
-        hasPermissionsToMangeComments: hasPermissionsToMangeComments,
-      ),
+      builder:
+          (context) => _CommentSheet(
+            avatarAbbreviation: avatarText,
+            authorName: userName,
+            content: userComment,
+            hasPermissionsToMangeComments: hasPermissionsToMangeComments,
+          ),
     );
 
     if (!context.mounted) return;
@@ -179,8 +192,9 @@ class Comment extends StatelessWidget {
       context: context,
       right: AdaptiveDialogAction.delete,
       defaultValue: false,
-      content:
-          const Text("Möchtest du wirklich den Kommentar für alle löschen?"),
+      content: const Text(
+        "Möchtest du wirklich den Kommentar für alle löschen?",
+      ),
     );
 
     if (result == true && context.mounted) {
@@ -213,10 +227,7 @@ class _Avatar extends StatelessWidget {
     return CircleAvatar(
       backgroundColor: Theme.of(context).colorScheme.surface,
       radius: 18,
-      child: Text(
-        avatarText,
-        style: const TextStyle(color: Colors.white),
-      ),
+      child: Text(avatarText, style: const TextStyle(color: Colors.white)),
     );
   }
 }
@@ -261,7 +272,7 @@ class _CommentSheet extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -281,7 +292,7 @@ class _CommentSheet extends StatelessWidget {
               title: const Text("Löschen"),
               leading: const Icon(Icons.delete),
               onTap: () => Navigator.pop(context, _CommentSheetAction.delete),
-            )
+            ),
         ],
       ),
     );

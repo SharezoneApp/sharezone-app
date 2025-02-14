@@ -26,11 +26,14 @@ class GroupJoinFunction {
     int version = 2,
   }) async {
     final appFunctionsResult = await _connectionsGateway.joinByKey(
-        publicKey: enteredValue,
-        coursesForSchoolClass: coursesForSchoolClass,
-        version: version);
+      publicKey: enteredValue,
+      coursesForSchoolClass: coursesForSchoolClass,
+      version: version,
+    );
     final groupJoinResult = _mapAppFunctionsResultToGroupJoinResult(
-        appFunctionsResult, enteredValue);
+      appFunctionsResult,
+      enteredValue,
+    );
 
     // Logs Error to CrashAnalytics if it is an UnknownGroupJoinException!
     if (groupJoinResult is ErrorJoinResult &&
@@ -38,18 +41,23 @@ class GroupJoinFunction {
       final unknownGroupJoinException =
           groupJoinResult.groupJoinException as UnknownGroupJoinException;
       _crashAnalytics.recordError(
-          unknownGroupJoinException.exception, StackTrace.current);
+        unknownGroupJoinException.exception,
+        StackTrace.current,
+      );
     }
     return groupJoinResult;
   }
 
   GroupJoinResult _mapAppFunctionsResultToGroupJoinResult(
-      AppFunctionsResult appFunctionsResult, String enteredValue) {
+    AppFunctionsResult appFunctionsResult,
+    String enteredValue,
+  ) {
     try {
       if (appFunctionsResult.hasData) {
         final data = Map<String, dynamic>.from(appFunctionsResult.data as Map);
-        final resultType =
-            GroupJoinResultTypeConverter.fromData(data['resultType'] as String);
+        final resultType = GroupJoinResultTypeConverter.fromData(
+          data['resultType'] as String,
+        );
         if (resultType == GroupJoinResultType.successful) {
           return SuccessfulJoinResult.fromData(data);
         }
@@ -64,7 +72,8 @@ class GroupJoinFunction {
         }
         if (resultType == GroupJoinResultType.notFound) {
           return ErrorJoinResult(
-              SharecodeNotFoundGroupJoinException(enteredValue));
+            SharecodeNotFoundGroupJoinException(enteredValue),
+          );
         }
         return ErrorJoinResult(UnknownGroupJoinException());
       } else {

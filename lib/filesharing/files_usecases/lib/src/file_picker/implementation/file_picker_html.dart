@@ -41,7 +41,11 @@ class FilePickerHtml extends FilePickerImplementation {
       final file = res.files.single;
 
       return LocalFileData.fromData(
-          file.bytes!, file.path!, file.name, file.extension!);
+        file.bytes!,
+        file.path!,
+        file.name,
+        file.extension!,
+      );
     }
     return null;
   }
@@ -50,8 +54,14 @@ class FilePickerHtml extends FilePickerImplementation {
     final res = (await web.FilePicker.platform.pickFiles(allowMultiple: true))!;
     if (res.files.isNotEmpty) {
       return res.files
-          .map((file) => LocalFileData.fromData(
-              file.bytes!, null, file.name, file.extension!))
+          .map(
+            (file) => LocalFileData.fromData(
+              file.bytes!,
+              null,
+              file.name,
+              file.extension!,
+            ),
+          )
           .toList();
     }
     return null;

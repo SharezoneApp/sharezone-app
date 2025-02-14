@@ -52,22 +52,24 @@ class FileSharingPageController extends StatelessWidget {
         popToOverview(context);
       },
       child: StreamBuilder<FileSharingPageState>(
-          initialData: FileSharingPageStateHome(),
-          stream: pageStateBloc.currentState,
-          builder: (context, snapshot) {
-            final pageState = snapshot.data;
+        initialData: FileSharingPageStateHome(),
+        stream: pageStateBloc.currentState,
+        builder: (context, snapshot) {
+          final pageState = snapshot.data;
 
-            return SharezoneMainScaffold(
-              navigationItem: NavigationItem.filesharing,
-              appBarConfiguration: AppBarConfiguration(
-                bottom: FileSharingPageHeader(pageState: pageState),
-              ),
-              body: FileSharingPageBody(pageState: pageState),
-              floatingActionButton: pageState is FileSharingPageStateGroup
-                  ? FileSharingPageFAB(groupState: pageState)
-                  : null,
-            );
-          }),
+          return SharezoneMainScaffold(
+            navigationItem: NavigationItem.filesharing,
+            appBarConfiguration: AppBarConfiguration(
+              bottom: FileSharingPageHeader(pageState: pageState),
+            ),
+            body: FileSharingPageBody(pageState: pageState),
+            floatingActionButton:
+                pageState is FileSharingPageStateGroup
+                    ? FileSharingPageFAB(groupState: pageState)
+                    : null,
+          );
+        },
+      ),
     );
   }
 }
@@ -83,10 +85,12 @@ class FileSharingPageBody extends StatelessWidget {
       child: Align(
         key: ValueKey(pageState is FileSharingPageStateGroup),
         alignment: Alignment.topCenter,
-        child: pageState is FileSharingPageStateGroup
-            ? FileSharingViewGroup(
-                groupState: pageState as FileSharingPageStateGroup?)
-            : const FileSharingViewHome(),
+        child:
+            pageState is FileSharingPageStateGroup
+                ? FileSharingViewGroup(
+                  groupState: pageState as FileSharingPageStateGroup?,
+                )
+                : const FileSharingViewHome(),
       ),
     );
   }

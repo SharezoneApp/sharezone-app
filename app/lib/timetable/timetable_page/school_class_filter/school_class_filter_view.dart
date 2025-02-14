@@ -16,7 +16,8 @@ class SchoolClassFilterView {
     ArgumentError.checkNotNull(schoolClassList, 'schoolClassList');
     if (_moreThanOneSchoolClassSelected()) {
       throw ArgumentError(
-          'SchoolClassFilterView must be not contain a selection of more than one school class');
+        'SchoolClassFilterView must be not contain a selection of more than one school class',
+      );
     }
   }
 
@@ -34,17 +35,19 @@ class SchoolClassFilterView {
 
   bool get hasMoreThanOneSchoolClass => schoolClassList.length > 1;
 
-  bool get hasSchoolClassSelected => schoolClassList
-      .where((schoolClass) => schoolClass.isSelected == true)
-      .isNotEmpty;
+  bool get hasSchoolClassSelected =>
+      schoolClassList
+          .where((schoolClass) => schoolClass.isSelected == true)
+          .isNotEmpty;
 
   bool get shouldShowAllGroups => !hasSchoolClassSelected;
 
   SchoolClassView? get selectedSchoolClass {
     if (!hasSchoolClassSelected) return null;
 
-    return schoolClassList
-        .singleWhere((schoolClass) => schoolClass.isSelected == true);
+    return schoolClassList.singleWhere(
+      (schoolClass) => schoolClass.isSelected == true,
+    );
   }
 
   @override

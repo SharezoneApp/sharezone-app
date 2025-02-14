@@ -144,7 +144,12 @@ class CalendricalEvent {
   LessonLength get length => calculateLessonLength(startTime, endTime);
 
   DateTime get startDateTime => DateTime(
-      date.year, date.month, date.day, startTime.hour, startTime.minute);
+    date.year,
+    date.month,
+    date.day,
+    startTime.hour,
+    startTime.minute,
+  );
 
   DateTime get endDateTime =>
       DateTime(date.year, date.month, date.day, endTime.hour, endTime.minute);

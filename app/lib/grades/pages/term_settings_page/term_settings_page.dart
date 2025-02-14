@@ -24,10 +24,7 @@ import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class TermSettingsPage extends StatelessWidget {
-  const TermSettingsPage({
-    super.key,
-    required this.termId,
-  });
+  const TermSettingsPage({super.key, required this.termId});
 
   static const tag = 'term-settings-page';
 
@@ -68,9 +65,7 @@ class TermSettingsPage extends StatelessWidget {
 }
 
 class _AppBarTitle extends StatelessWidget {
-  const _AppBarTitle({
-    required this.name,
-  });
+  const _AppBarTitle({required this.name});
 
   final String name;
 
@@ -90,9 +85,7 @@ class _Loading extends StatelessWidget {
 }
 
 class _Error extends StatelessWidget {
-  const _Error({
-    required this.message,
-  });
+  const _Error({required this.message});
 
   final String message;
 
@@ -102,17 +95,15 @@ class _Error extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: ErrorCard(
         message: Text(message),
-        onContactSupportPressed: () =>
-            Navigator.pushNamed(context, SupportPage.tag),
+        onContactSupportPressed:
+            () => Navigator.pushNamed(context, SupportPage.tag),
       ),
     );
   }
 }
 
 class _Loaded extends StatelessWidget {
-  const _Loaded({
-    required this.view,
-  });
+  const _Loaded({required this.view});
 
   final TermSettingsPageView view;
 
@@ -177,9 +168,7 @@ class _Name extends StatelessWidget {
 }
 
 class _NameDialog extends StatefulWidget {
-  const _NameDialog({
-    required this.name,
-  });
+  const _NameDialog({required this.name});
 
   final String name;
 
@@ -215,10 +204,9 @@ class _NameDialogState extends State<_NameDialog> {
               Text(
                 "Der Name beschreibt das Halbjahr, z.B. '10/2' für das zweite Halbjahr der 10. Klasse.",
                 style: TextStyle(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.6),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
               ),
               const SizedBox(height: 20),
@@ -267,9 +255,7 @@ class _NameDialogState extends State<_NameDialog> {
 }
 
 class _IsActiveTerm extends StatelessWidget {
-  const _IsActiveTerm({
-    required this.isActiveTerm,
-  });
+  const _IsActiveTerm({required this.isActiveTerm});
 
   final bool isActiveTerm;
 
@@ -315,20 +301,19 @@ class _SubjectWeights extends StatelessWidget {
         Text(
           'Solltest du Kurse haben, die doppelt gewichtet werden, kannst du bei diesen eine 2.0 eintragen.',
           style: TextStyle(
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.5)),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.5),
+          ),
         ),
         const SizedBox(height: 8),
         if (subjects.isEmpty)
           Text(
             'Du hast bisher noch keine Fächer erstellt.',
             style: TextStyle(
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.5),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.5),
             ),
           ),
         for (final subject in subjects)
@@ -348,9 +333,9 @@ class _WeightDisplaySetting extends StatelessWidget {
   final void Function(WeightDisplayType) onWeightDisplayTypeChanged;
 
   String get weightDisplayTypeString => switch (weightDisplayType) {
-        WeightDisplayType.factor => 'Faktor',
-        WeightDisplayType.percent => 'Prozent',
-      };
+    WeightDisplayType.factor => 'Faktor',
+    WeightDisplayType.percent => 'Prozent',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -361,23 +346,24 @@ class _WeightDisplaySetting extends StatelessWidget {
       onTap: () async {
         final result = await showDialog<WeightDisplayType?>(
           context: context,
-          builder: (context) => SimpleDialog(
-            title: const Text('Gewichtungssystem'),
-            children: [
-              ListTile(
-                title: const Text('Faktor'),
-                onTap: () {
-                  Navigator.pop(context, WeightDisplayType.factor);
-                },
+          builder:
+              (context) => SimpleDialog(
+                title: const Text('Gewichtungssystem'),
+                children: [
+                  ListTile(
+                    title: const Text('Faktor'),
+                    onTap: () {
+                      Navigator.pop(context, WeightDisplayType.factor);
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Prozent'),
+                    onTap: () {
+                      Navigator.pop(context, WeightDisplayType.percent);
+                    },
+                  ),
+                ],
               ),
-              ListTile(
-                title: const Text('Prozent'),
-                onTap: () {
-                  Navigator.pop(context, WeightDisplayType.percent);
-                },
-              ),
-            ],
-          ),
         );
         if (result != null) {
           onWeightDisplayTypeChanged(result);
@@ -396,8 +382,9 @@ class _SubjectTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final factor = switch (weightDisplayType) {
-      WeightDisplayType.factor =>
-        subject.weight.asFactor.toStringAsPrecision(2),
+      WeightDisplayType.factor => subject.weight.asFactor.toStringAsPrecision(
+        2,
+      ),
       WeightDisplayType.percent =>
         '${subject.weight.asPercentage.toStringAsPrecision(3)}%',
     };
@@ -410,10 +397,11 @@ class _SubjectTile extends StatelessWidget {
       onTap: () async {
         final weight = await showDialog<Weight>(
           context: context,
-          builder: (context) => _FactorDialog(
-            weight: subject.weight,
-            weightDisplayType: weightDisplayType,
-          ),
+          builder:
+              (context) => _FactorDialog(
+                weight: subject.weight,
+                weightDisplayType: weightDisplayType,
+              ),
         );
 
         if (weight != null && context.mounted) {
@@ -423,20 +411,14 @@ class _SubjectTile extends StatelessWidget {
       },
       trailing: Text(
         factor,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-        ),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
       ),
     );
   }
 }
 
 class _FactorDialog extends StatefulWidget {
-  const _FactorDialog({
-    required this.weight,
-    required this.weightDisplayType,
-  });
+  const _FactorDialog({required this.weight, required this.weightDisplayType});
 
   final Weight weight;
   final WeightDisplayType weightDisplayType;
@@ -450,28 +432,27 @@ class _FactorDialogState extends State<_FactorDialog> {
   num? value;
 
   num get initialValue => switch (widget.weightDisplayType) {
-        WeightDisplayType.factor => widget.weight.asFactor,
-        WeightDisplayType.percent => widget.weight.asPercentage,
-      };
+    WeightDisplayType.factor => widget.weight.asFactor,
+    WeightDisplayType.percent => widget.weight.asPercentage,
+  };
 
   String get formatted => switch (widget.weightDisplayType) {
-        WeightDisplayType.factor => value == null
-            ? ''
-            // If there are no decimals, we want to show the "1" as "1.0", so
-            // that the user knows that he can write a decimal number and what
-            // the seperator is ("." instead of ",").
-            : value!.hasDecimals
-                ? value.toString()
-                : value!.toStringAsPrecision(2),
-        WeightDisplayType.percent => value?.toString() ?? '',
-      };
+    WeightDisplayType.factor =>
+      value == null
+          ? ''
+          // If there are no decimals, we want to show the "1" as "1.0", so
+          // that the user knows that he can write a decimal number and what
+          // the seperator is ("." instead of ",").
+          : value!.hasDecimals
+          ? value.toString()
+          : value!.toStringAsPrecision(2),
+    WeightDisplayType.percent => value?.toString() ?? '',
+  };
 
   Weight? get valueAsWeight => switch (widget.weightDisplayType) {
-        WeightDisplayType.factor =>
-          value != null ? Weight.factor(value!) : null,
-        WeightDisplayType.percent =>
-          value != null ? Weight.percent(value!) : null,
-      };
+    WeightDisplayType.factor => value != null ? Weight.factor(value!) : null,
+    WeightDisplayType.percent => value != null ? Weight.percent(value!) : null,
+  };
 
   @override
   void initState() {
@@ -494,10 +475,9 @@ class _FactorDialogState extends State<_FactorDialog> {
               Text(
                 'Die Gewichtung beschreibt, wie stark die Note des Kurses in den Halbjahresschnitt einfließt.',
                 style: TextStyle(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.6),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
               ),
               const SizedBox(height: 20),
@@ -538,9 +518,10 @@ class _FactorDialogState extends State<_FactorDialog> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
             child: FilledButton(
-              onPressed: isValid()
-                  ? () => Navigator.of(context).pop(valueAsWeight)
-                  : null,
+              onPressed:
+                  isValid()
+                      ? () => Navigator.of(context).pop(valueAsWeight)
+                      : null,
               child: const Text('Speichern'),
             ),
           ),
@@ -577,9 +558,7 @@ class _GradingTypeWeights extends StatelessWidget {
 }
 
 class _GradingSystem extends StatelessWidget {
-  const _GradingSystem({
-    required this.gradingSystem,
-  });
+  const _GradingSystem({required this.gradingSystem});
 
   final GradingSystem gradingSystem;
 
@@ -596,16 +575,15 @@ class _GradingSystem extends StatelessWidget {
 }
 
 class _FinalGradeType extends StatelessWidget {
-  const _FinalGradeType({
-    required this.view,
-  });
+  const _FinalGradeType({required this.view});
 
   final TermSettingsPageView view;
 
   @override
   Widget build(BuildContext context) {
     return FinalGradeTypeSettings(
-      icon: view.finalGradeType.predefinedType?.getIcon() ??
+      icon:
+          view.finalGradeType.predefinedType?.getIcon() ??
           const Icon(Icons.help),
       displayName: view.finalGradeType.predefinedType?.toUiString() ?? '?',
       selectableGradingTypes: view.selectableGradingTypes,

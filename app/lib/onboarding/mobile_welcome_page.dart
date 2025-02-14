@@ -20,12 +20,7 @@ class MobileWelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Color(0xFFE7EBED),
-      body: Stack(
-        children: [
-          _BackgroundImage(),
-          _Bottom(),
-        ],
-      ),
+      body: Stack(children: [_BackgroundImage(), _Bottom()]),
     );
   }
 }
@@ -67,10 +62,7 @@ class _BackgroundImage extends StatelessWidget {
                     // will destroy the gradient effect.
                     Colors.white.withValues(alpha: 0.0),
                   ],
-                  stops: [
-                    if (isTablet) isPortrait ? 0.15 : 0.22 else 0.3,
-                    0.5,
-                  ],
+                  stops: [if (isTablet) isPortrait ? 0.15 : 0.22 else 0.3, 0.5],
                 ),
               ),
             ),
@@ -96,10 +88,11 @@ class _Bottom extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: AnimationConfiguration.toStaggeredList(
                 duration: const Duration(milliseconds: 1250),
-                childAnimationBuilder: (widget) => SlideAnimation(
-                  verticalOffset: 20,
-                  child: FadeInAnimation(child: widget),
-                ),
+                childAnimationBuilder:
+                    (widget) => SlideAnimation(
+                      verticalOffset: 20,
+                      child: FadeInAnimation(child: widget),
+                    ),
                 children: const [
                   _Headline(),
                   _SubHeadline(),
@@ -124,11 +117,7 @@ class _Headline extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 4),
       child: Text(
         'Gemeinsam den\nSchulalltag organisieren 🚀',
-        style: TextStyle(
-          fontSize: 22,
-          height: 1.1,
-          color: Colors.black,
-        ),
+        style: TextStyle(fontSize: 22, height: 1.1, color: Colors.black),
       ),
     );
   }
@@ -143,10 +132,7 @@ class _SubHeadline extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 20),
       child: Text(
         'Optional kannst du Sharezone auch komplett alleine verwenden.',
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 12,
-        ),
+        style: TextStyle(color: Colors.grey, fontSize: 12),
       ),
     );
   }
@@ -164,16 +150,18 @@ class _NewAtSharezoneButton extends StatelessWidget {
           'Ich bin neu bei Sharezone 👋',
           textAlign: TextAlign.center,
         ),
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SignUpPage(
-              withLogin: false,
-              withBackButton: true,
+        onPressed:
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (context) => const SignUpPage(
+                      withLogin: false,
+                      withBackButton: true,
+                    ),
+                settings: const RouteSettings(name: SignUpPage.tag),
+              ),
             ),
-            settings: const RouteSettings(name: SignUpPage.tag),
-          ),
-        ),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
       ),
@@ -190,29 +178,17 @@ class _AlreadyHaveAnAccountButton extends StatelessWidget {
       key: K.goToLoginButton,
       text: const Column(
         children: [
-          Text(
-            'Anmelden',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.black,
-            ),
-          ),
+          Text('Anmelden', style: TextStyle(fontSize: 18, color: Colors.black)),
           Text(
             'Mit existierendem Konto anmelden',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],
       ),
       onPressed: () => Navigator.pushNamed(context, LoginPage.tag),
       foregroundColor: Colors.grey,
       backgroundColor: Colors.white,
-      borderSide: BorderSide(
-        color: Colors.grey[300]!,
-        width: 1,
-      ),
+      borderSide: BorderSide(color: Colors.grey[300]!, width: 1),
     );
   }
 }
@@ -235,10 +211,7 @@ class _BaseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(
-      fontWeight: FontWeight.normal,
-      fontSize: 18,
-    );
+    const textStyle = TextStyle(fontWeight: FontWeight.normal, fontSize: 18);
     return ConstrainedBox(
       constraints: BoxConstraints(
         minWidth:

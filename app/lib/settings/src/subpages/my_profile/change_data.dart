@@ -17,8 +17,12 @@ import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 /// [title] ist der Titel, wie z.B. "Wozu brauchen wir deinen Namen?"
 /// [message] ist die Nachricht an den Nutzer, wie z.B. "Dein Namen brauchen wir für..."
 class InfoMessage extends StatelessWidget {
-  const InfoMessage(
-      {super.key, this.title, this.message, this.withPrivacyStatement});
+  const InfoMessage({
+    super.key,
+    this.title,
+    this.message,
+    this.withPrivacyStatement,
+  });
 
   final String? title;
   final String? message;
@@ -29,14 +33,8 @@ class InfoMessage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          title!,
-          style: const TextStyle(fontSize: 16.0),
-        ),
-        Text(
-          message!,
-          style: const TextStyle(color: Colors.grey),
-        ),
+        Text(title!, style: const TextStyle(fontSize: 16.0)),
+        Text(message!, style: const TextStyle(color: Colors.grey)),
         const SizedBox(height: 12.0),
         withPrivacyStatement != null && withPrivacyStatement!
             ? privacyStatement(context)
@@ -47,22 +45,24 @@ class InfoMessage extends StatelessWidget {
 
   Widget privacyStatement(BuildContext context) {
     return Text.rich(
-      TextSpan(children: <TextSpan>[
-        const TextSpan(
+      TextSpan(
+        children: <TextSpan>[
+          const TextSpan(
             style: TextStyle(color: Colors.grey),
-            text: "Mehr Informationen erhältst du in unserer "),
-        TextSpan(
+            text: "Mehr Informationen erhältst du in unserer ",
+          ),
+          TextSpan(
             text: "Datenschutzerklärung",
             style: TextStyle(color: Theme.of(context).primaryColor),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                Navigator.pushNamed(context, PrivacyPolicyPage.tag);
-              }),
-        const TextSpan(
-          style: TextStyle(color: Colors.grey),
-          text: ".",
-        ),
-      ]),
+            recognizer:
+                TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.pushNamed(context, PrivacyPolicyPage.tag);
+                  },
+          ),
+          const TextSpan(style: TextStyle(color: Colors.grey), text: "."),
+        ],
+      ),
     );
   }
 }
@@ -105,8 +105,9 @@ class _ChangeDataPasswordFieldState extends State<ChangeDataPasswordField> {
             errorText: snapshot.error?.toString(),
             suffixIcon: GestureDetector(
               onTap: () => setState(() => _obscureText = !_obscureText),
-              child:
-                  Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+              child: Icon(
+                _obscureText ? Icons.visibility : Icons.visibility_off,
+              ),
             ),
           ),
           obscureText: _obscureText,

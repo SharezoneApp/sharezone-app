@@ -70,8 +70,9 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
       _isLoading = false;
       _items = [
         ..._items,
-        ...newFeedbacks
-            .map((f) => FeedbackView.fromUserFeedback(f, supportTeamUserId)),
+        ...newFeedbacks.map(
+          (f) => FeedbackView.fromUserFeedback(f, supportTeamUserId),
+        ),
       ];
     });
   }
@@ -79,9 +80,7 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Feedbacks'),
-      ),
+      appBar: AppBar(title: const Text('Feedbacks')),
       body: InfiniteList(
         itemCount: _items.length,
         isLoading: _isLoading,
@@ -98,11 +97,12 @@ class _FeedbacksPageState extends State<FeedbacksPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FeedbackDetailsPage(
-                    feedbackId: feedbackId,
-                    onContactSupportPressed: null,
-                    showDeviceInformation: true,
-                  ),
+                  builder:
+                      (context) => FeedbackDetailsPage(
+                        feedbackId: feedbackId,
+                        onContactSupportPressed: null,
+                        showDeviceInformation: true,
+                      ),
                   settings: const RouteSettings(name: FeedbackDetailsPage.tag),
                 ),
               );
@@ -119,9 +119,7 @@ class _Error extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ErrorCard(
-      message: Text('Error loading feedbacks :('),
-    );
+    return ErrorCard(message: Text('Error loading feedbacks :('));
   }
 }
 

@@ -16,9 +16,7 @@ import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ICalLinksDialog extends StatelessWidget {
-  const ICalLinksDialog({
-    super.key,
-  });
+  const ICalLinksDialog({super.key});
 
   static const tag = 'ical-links-dialog';
 
@@ -39,12 +37,7 @@ class ICalLinksDialog extends StatelessWidget {
             const SingleChildScrollView(
               child: SafeArea(
                 child: MaxWidthConstraintBox(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 8),
-                      _Sources(),
-                    ],
-                  ),
+                  child: Column(children: [SizedBox(height: 8), _Sources()]),
                 ),
               ),
             ),
@@ -52,10 +45,7 @@ class ICalLinksDialog extends StatelessWidget {
         ),
         bottomNavigationBar: const Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            Divider(),
-            _PrivateNote(),
-          ],
+          children: [Divider(), _PrivateNote()],
         ),
       ),
     );
@@ -63,10 +53,7 @@ class ICalLinksDialog extends StatelessWidget {
 }
 
 class _AppBar extends StatelessWidget {
-  const _AppBar({
-    required this.onCloseTap,
-    required this.titleField,
-  });
+  const _AppBar({required this.onCloseTap, required this.titleField});
 
   final VoidCallback onCloseTap;
   final Widget titleField;
@@ -74,9 +61,10 @@ class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).isDarkTheme
-          ? Theme.of(context).appBarTheme.backgroundColor
-          : Theme.of(context).primaryColor,
+      color:
+          Theme.of(context).isDarkTheme
+              ? Theme.of(context).appBarTheme.backgroundColor
+              : Theme.of(context).primaryColor,
       elevation: 1,
       child: SafeArea(
         top: true,
@@ -109,16 +97,15 @@ class _AppBar extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField({
-    required this.focusNode,
-  });
+  const _TitleField({required this.focusNode});
 
   final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
     final error = context.select<ICalLinksDialogController, ICalDialogError?>(
-        (controller) => controller.state.error);
+      (controller) => controller.state.error,
+    );
     return MaxWidthConstraintBox(
       child: _TitleFieldBase(
         prefilledTitle: null,
@@ -154,17 +141,20 @@ class _TitleFieldBase extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20)
-              .add(const EdgeInsets.only(top: 8)),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ).add(const EdgeInsets.only(top: 8)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Theme(
                 data: Theme.of(context).copyWith(
-                  textSelectionTheme: !context.isDarkThemeEnabled
-                      ? const TextSelectionThemeData(
-                          selectionColor: Colors.white24)
-                      : null,
+                  textSelectionTheme:
+                      !context.isDarkThemeEnabled
+                          ? const TextSelectionThemeData(
+                            selectionColor: Colors.white24,
+                          )
+                          : null,
                 ),
                 child: PrefilledTextField(
                   prefilledText: prefilledTitle,
@@ -233,23 +223,21 @@ class _Sources extends StatelessWidget {
               enabled: source != ICalLinkSource.lessons,
               value: state.sources.contains(source),
               title: Text(source.getUiName()),
-              subtitle: source == ICalLinkSource.lessons
-                  ? const Text(
-                      'Diese Option ist demnächst verfügbar.',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    )
-                  : null,
+              subtitle:
+                  source == ICalLinkSource.lessons
+                      ? const Text(
+                        'Diese Option ist demnächst verfügbar.',
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      )
+                      : null,
               secondary: source.getIcon(),
               onChanged: (value) {
                 if (value == true) {
                   context.read<ICalLinksDialogController>().addSource(source);
                 } else {
-                  context
-                      .read<ICalLinksDialogController>()
-                      .removeSource(source);
+                  context.read<ICalLinksDialogController>().removeSource(
+                    source,
+                  );
                 }
               },
             ),
@@ -315,8 +303,9 @@ class _PrivateNote extends StatelessWidget {
         child: Text(
           "iCal Exporte sind privat und nur für dich sichtbar.",
           style: TextStyle(
-            color:
-                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.6),
           ),
           textAlign: TextAlign.center,
         ),

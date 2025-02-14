@@ -131,19 +131,21 @@ class _EmailTile extends StatelessWidget {
         if (user.provider == Provider.google) {
           showDialog(
             context: context,
-            builder: (context) => AlertDialog(
-              content: const Text(
-                  "Dein Account ist mit einem Google-Konto verbunden. Aus diesem Grund kannst du deine E-Mail nicht ändern."),
-              actions: <Widget>[
-                TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).primaryColor,
+            builder:
+                (context) => AlertDialog(
+                  content: const Text(
+                    "Dein Account ist mit einem Google-Konto verbunden. Aus diesem Grund kannst du deine E-Mail nicht ändern.",
                   ),
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("ALLES KLAR"),
+                  actions: <Widget>[
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Theme.of(context).primaryColor,
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text("ALLES KLAR"),
+                    ),
+                  ],
                 ),
-              ],
-            ),
           );
         } else {
           openChangeEmailPage(context, user.email!);
@@ -212,13 +214,14 @@ class _StateTile extends StatelessWidget {
       leading: const Icon(Icons.language),
       title: const Text("Bundesland"),
       subtitle: Text(state!),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const ChangeStatePage(),
-          settings: const RouteSettings(name: ChangeStatePage.tag),
-        ),
-      ),
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ChangeStatePage(),
+              settings: const RouteSettings(name: ChangeStatePage.tag),
+            ),
+          ),
     );
   }
 }
@@ -239,15 +242,16 @@ class _ProviderTile extends StatelessWidget {
           Navigator.pushNamed(context, AccountPage.tag);
         } else {
           showLeftRightAdaptiveDialog(
-              context: context,
-              title: 'Anmeldemethode ändern nicht möglich',
-              content: const Text(
-                "Die Anmeldemethode kann aktuell nur bei der Registrierung gesetzt werden. Später kann diese nicht mehr geändert werden.",
-              ),
-              left: const AdaptiveDialogAction(
-                isDefaultAction: true,
-                title: 'Ok',
-              ));
+            context: context,
+            title: 'Anmeldemethode ändern nicht möglich',
+            content: const Text(
+              "Die Anmeldemethode kann aktuell nur bei der Registrierung gesetzt werden. Später kann diese nicht mehr geändert werden.",
+            ),
+            left: const AdaptiveDialogAction(
+              isDefaultAction: true,
+              title: 'Ok',
+            ),
+          );
         }
       },
     );
@@ -260,8 +264,10 @@ class _PrivacyOptOut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
-    final crashAnalytics =
-        pv.Provider.of<CrashAnalytics>(context, listen: false);
+    final crashAnalytics = pv.Provider.of<CrashAnalytics>(
+      context,
+      listen: false,
+    );
     final preferences =
         BlocProvider.of<SharezoneContext>(context).streamingSharedPreferences;
 
@@ -343,10 +349,11 @@ class _DeleteAccountButton extends StatelessWidget {
       child: DangerButtonFilled(
         icon: const Icon(Icons.delete),
         label: Text("Konto löschen".toUpperCase()),
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => _DeleteAccountDialogContent(),
-        ),
+        onPressed:
+            () => showDialog(
+              context: context,
+              builder: (context) => _DeleteAccountDialogContent(),
+            ),
       ),
     );
   }
@@ -379,11 +386,12 @@ class _DeleteAccountDialogContentState
         style: TextButton.styleFrom(
           foregroundColor: Theme.of(context).colorScheme.error,
         ),
-        onPressed: provider != Provider.email
-            ? signOut!
-                ? () => tryToDeleteUser(context)
-                : null
-            : !isStringNullOrEmpty(password)
+        onPressed:
+            provider != Provider.email
+                ? signOut!
+                    ? () => tryToDeleteUser(context)
+                    : null
+                : !isStringNullOrEmpty(password)
                 ? () => tryToDeleteUser(context)
                 : null,
         child: const Text("LÖSCHEN"),
@@ -395,7 +403,10 @@ class _DeleteAccountDialogContentState
     Padding(
       padding: EdgeInsets.only(right: 16, bottom: 16),
       child: SizedBox(
-          width: 25, height: 25, child: AccentColorCircularProgressIndicator()),
+        width: 25,
+        height: 25,
+        child: AccentColorCircularProgressIndicator(),
+      ),
     ),
   ];
 
@@ -427,7 +438,9 @@ class _DeleteAccountDialogContentState
           await appleSignInLogic.reauthenticateWithApple();
         } else {
           final credential = EmailAuthProvider.credential(
-              email: fbUser.email!, password: password!);
+            email: fbUser.email!,
+            password: password!,
+          );
           await fbUser.reauthenticateWithCredential(credential);
         }
       }
@@ -463,7 +476,8 @@ class _DeleteAccountDialogContentState
                   children: <Widget>[
                     const SizedBox(height: 16),
                     const Text(
-                        "Bitte gib dein Passwort ein, um deinen Account zu löschen."),
+                      "Bitte gib dein Passwort ein, um deinen Account zu löschen.",
+                    ),
                     Material(
                       color: Colors.transparent,
                       child: TextField(
@@ -498,7 +512,7 @@ class _DeleteAccountDialogContentState
                   text: text,
                 ),
               if (isNotEmptyOrNull(error))
-                DeleteAccountDialogErrorText(text: error!)
+                DeleteAccountDialogErrorText(text: error!),
             ],
           ),
         ),
@@ -546,48 +560,53 @@ class _DeleteAccountDialogContentState
               ),
               provider == Provider.email
                   ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const SizedBox(height: 16),
-                          const Text(
-                              "Bitte gib dein Passwort ein, um deinen Account zu löschen."),
-                          TextField(
-                            onChanged: (s) => setState(() => password = s),
-                            onEditingComplete: () async =>
-                                tryToDeleteUser(context),
-                            autofocus: false,
-                            decoration: InputDecoration(
-                              labelText: 'Passwort',
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _obscureText = !_obscureText;
-                                  });
-                                },
-                                child: Icon(_obscureText
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const SizedBox(height: 16),
+                        const Text(
+                          "Bitte gib dein Passwort ein, um deinen Account zu löschen.",
+                        ),
+                        TextField(
+                          onChanged: (s) => setState(() => password = s),
+                          onEditingComplete:
+                              () async => tryToDeleteUser(context),
+                          autofocus: false,
+                          decoration: InputDecoration(
+                            labelText: 'Passwort',
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                              child: Icon(
+                                _obscureText
                                     ? Icons.visibility
-                                    : Icons.visibility_off),
+                                    : Icons.visibility_off,
                               ),
                             ),
-                            obscureText: _obscureText,
                           ),
-                        ],
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 4),
-                      child: DeleteConfirmationCheckbox(
-                        confirm: signOut!,
-                        onChanged: (value) => setState(() => signOut = value),
-                        text: text,
-                      ),
+                          obscureText: _obscureText,
+                        ),
+                      ],
                     ),
+                  )
+                  : Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 4,
+                    ),
+                    child: DeleteConfirmationCheckbox(
+                      confirm: signOut!,
+                      onChanged: (value) => setState(() => signOut = value),
+                      text: text,
+                    ),
+                  ),
               if (isNotEmptyOrNull(error))
-                DeleteAccountDialogErrorText(text: error!)
+                DeleteAccountDialogErrorText(text: error!),
             ],
           ),
         ),
@@ -603,7 +622,8 @@ class _DeleteAccountDialogText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Text(
-        "Sollte dein Account gelöscht werden, werden alle deine Daten gelöscht. Dieser Vorgang lässt sich nicht wieder rückgängig machen.");
+      "Sollte dein Account gelöscht werden, werden alle deine Daten gelöscht. Dieser Vorgang lässt sich nicht wieder rückgängig machen.",
+    );
   }
 }
 

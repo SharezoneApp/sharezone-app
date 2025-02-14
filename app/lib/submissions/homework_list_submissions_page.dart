@@ -21,10 +21,7 @@ import 'meme_placeholder.dart';
 import 'open_submission_file.dart';
 
 class HomeworkUserSubmissionsPage extends StatefulWidget {
-  const HomeworkUserSubmissionsPage({
-    required this.homeworkId,
-    super.key,
-  });
+  const HomeworkUserSubmissionsPage({required this.homeworkId, super.key});
 
   final String homeworkId;
 
@@ -38,8 +35,9 @@ class _HomeworkUserSubmissionsPageState
 
   @override
   void initState() {
-    final blocFactory =
-        BlocProvider.of<ViewSubmissionsPageBlocFactory>(context);
+    final blocFactory = BlocProvider.of<ViewSubmissionsPageBlocFactory>(
+      context,
+    );
     bloc = blocFactory.create(widget.homeworkId);
     super.initState();
   }
@@ -49,22 +47,21 @@ class _HomeworkUserSubmissionsPageState
     return SharezonePlusFeatureGuard(
       feature: SharezonePlusFeature.submissionsList,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Abgaben'),
-          centerTitle: true,
-        ),
+        appBar: AppBar(title: const Text('Abgaben'), centerTitle: true),
         body: StreamBuilder<CreatedSubmissionsPageView>(
           stream: bloc.pageView,
           builder: (context, snapshot) {
             return AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: snapshot.hasData
-                  ? _Abgabenbody(
-                      pageView: snapshot.data,
-                      key: const ValueKey('AnimatedSwitcherKey'),
-                    )
-                  : const _LoadingPlaceholder(
-                      key: ValueKey('AnimatedSwitcherKey')),
+              child:
+                  snapshot.hasData
+                      ? _Abgabenbody(
+                        pageView: snapshot.data,
+                        key: const ValueKey('AnimatedSwitcherKey'),
+                      )
+                      : const _LoadingPlaceholder(
+                        key: ValueKey('AnimatedSwitcherKey'),
+                      ),
             );
           },
         ),
@@ -74,10 +71,7 @@ class _HomeworkUserSubmissionsPageState
 }
 
 class _Abgabenbody extends StatelessWidget {
-  const _Abgabenbody({
-    super.key,
-    required this.pageView,
-  });
+  const _Abgabenbody({super.key, required this.pageView});
 
   final CreatedSubmissionsPageView? pageView;
 
@@ -91,32 +85,26 @@ class _Abgabenbody extends StatelessWidget {
         children: [
           ...[
             for (final view in pageView!.submissions)
-              _UserSubmissionTile(view: view)
+              _UserSubmissionTile(view: view),
           ],
           const SizedBox(height: 10),
           if (pageView!.afterDeadlineSubmissions.isNotEmpty)
             const DividerWithText(
               text: 'Zu spät abgegeben 🕐',
-              textStyle: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
+              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
           ...[
             for (final view in pageView!.afterDeadlineSubmissions)
-              _UserSubmissionTile(view: view)
+              _UserSubmissionTile(view: view),
           ],
           if (pageView!.missingSubmissions.isNotEmpty)
             const DividerWithText(
               text: 'Nicht abgegeben 😭',
-              textStyle: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
+              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
           ...[
             for (final view in pageView!.missingSubmissions)
-              _NoSubmissionTile(view: view)
+              _NoSubmissionTile(view: view),
           ],
         ],
       ),
@@ -132,35 +120,36 @@ class _LoadingPlaceholder extends StatelessWidget {
     return SingleChildScrollView(
       child: GrayShimmer(
         child: _Abgabenbody(
-          pageView: CreatedSubmissionsPageView(submissions: [
-            CreatedSubmissionView(
-              abbreviation: 'A',
-              username: 'Patrick Star',
-              submittedFiles: [],
-              lastActionDateTime: clock.now(),
-              wasEditedAfterwards: false,
-            ),
-            CreatedSubmissionView(
-              abbreviation: 'S',
-              username: 'Spongebob Schwammkopf',
-              submittedFiles: [],
-              lastActionDateTime: clock.now(),
-              wasEditedAfterwards: false,
-            ),
-          ], afterDeadlineSubmissions: [
-            CreatedSubmissionView(
-              abbreviation: 'B',
-              username: 'Thaddäus Tentakel',
-              submittedFiles: [],
-              lastActionDateTime: clock.now(),
-              wasEditedAfterwards: false,
-            ),
-          ], missingSubmissions: [
-            const NotSubmittedView(
-              abbreviation: 'P',
-              username: 'Plankton',
-            ),
-          ]),
+          pageView: CreatedSubmissionsPageView(
+            submissions: [
+              CreatedSubmissionView(
+                abbreviation: 'A',
+                username: 'Patrick Star',
+                submittedFiles: [],
+                lastActionDateTime: clock.now(),
+                wasEditedAfterwards: false,
+              ),
+              CreatedSubmissionView(
+                abbreviation: 'S',
+                username: 'Spongebob Schwammkopf',
+                submittedFiles: [],
+                lastActionDateTime: clock.now(),
+                wasEditedAfterwards: false,
+              ),
+            ],
+            afterDeadlineSubmissions: [
+              CreatedSubmissionView(
+                abbreviation: 'B',
+                username: 'Thaddäus Tentakel',
+                submittedFiles: [],
+                lastActionDateTime: clock.now(),
+                wasEditedAfterwards: false,
+              ),
+            ],
+            missingSubmissions: [
+              const NotSubmittedView(abbreviation: 'P', username: 'Plankton'),
+            ],
+          ),
         ),
       ),
     );
@@ -178,22 +167,19 @@ class _NoMembersPlaceholder extends StatelessWidget {
 }
 
 class _UserSubmissionTile extends StatelessWidget {
-  const _UserSubmissionTile({
-    required this.view,
-  });
+  const _UserSubmissionTile({required this.view});
 
   final CreatedSubmissionView view;
 
   @override
   Widget build(BuildContext context) {
-    String subtitle = DateFormat('dd.MM.yyyy HH:mm')
-        .format(view.lastActionDateTime.toLocal());
+    String subtitle = DateFormat(
+      'dd.MM.yyyy HH:mm',
+    ).format(view.lastActionDateTime.toLocal());
     if (view.wasEditedAfterwards) subtitle += ' (nachträglich bearbeitet)';
 
     return ExpansionTile(
-      leading: CircleAvatar(
-        child: Text(view.abbreviation),
-      ),
+      leading: CircleAvatar(child: Text(view.abbreviation)),
       title: Text(view.username),
       // letztes Datum, wo irgendwas passiert ist (eingereicht, gelöscht etc)
       subtitle: Text(subtitle),
@@ -242,9 +228,7 @@ class _FileTile extends StatelessWidget {
 }
 
 class _NoSubmissionTile extends StatelessWidget {
-  const _NoSubmissionTile({
-    required this.view,
-  });
+  const _NoSubmissionTile({required this.view});
 
   final NotSubmittedView view;
 
@@ -255,9 +239,7 @@ class _NoSubmissionTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 3),
       child: ListTile(
         title: Text(view.username),
-        leading: CircleAvatar(
-          child: Text(view.abbreviation),
-        ),
+        leading: CircleAvatar(child: Text(view.abbreviation)),
       ),
     );
   }

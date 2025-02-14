@@ -65,7 +65,8 @@ class OpenHomeworkList extends StatelessWidget {
                       // get checked and unchecked again, which we do not want.
                       if (newStatus == HomeworkStatus.completed) {
                         await delayOnChangeToDisplayAnimations(
-                            changedToCompleted: true);
+                          changedToCompleted: true,
+                        );
                         dispatchCompletionStatusChange(newStatus, hw.id, bloc);
                       }
 

@@ -31,11 +31,12 @@ part 'serializers.g.dart';
 @SerializersFor([
   Holiday,
   HolidayCacheData,
-//  State,
+  //  State,
 ])
 final Serializers serializers = _$serializers;
 
-final jsonSerializer = (serializers.toBuilder()
-      ..add(LocalDateTimeStringSerializer())
-      ..addPlugin(StandardJsonPlugin()))
-    .build();
+final jsonSerializer =
+    (serializers.toBuilder()
+          ..add(LocalDateTimeStringSerializer())
+          ..addPlugin(StandardJsonPlugin()))
+        .build();

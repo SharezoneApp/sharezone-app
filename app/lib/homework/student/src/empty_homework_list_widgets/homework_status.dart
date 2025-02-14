@@ -11,8 +11,8 @@ class HomeworkPageStatus {
   final int nrOfCompletedHomeworks;
   HomeworkPageStatus(this.nrOfOpenHomeworks, this.nrOfCompletedHomeworks);
   HomeworkPageStatus.empty()
-      : nrOfCompletedHomeworks = 0,
-        nrOfOpenHomeworks = 0;
+    : nrOfCompletedHomeworks = 0,
+      nrOfOpenHomeworks = 0;
   bool get hasCompletedHomeworks => nrOfCompletedHomeworks > 0;
   bool get hasOpenHomeworks => nrOfOpenHomeworks > 0;
 

@@ -35,8 +35,11 @@ class DocumentSection {
   final String sectionName;
   final IList<DocumentSection> subsections;
 
-  DocumentSection(this.id, this.sectionName,
-      [this.subsections = const IListConst([])]);
+  DocumentSection(
+    this.id,
+    this.sectionName, [
+    this.subsections = const IListConst([]),
+  ]);
 
   @override
   bool operator ==(Object other) {

@@ -19,8 +19,10 @@ class DownloadAppTipCache {
   DownloadAppTipCache(this._streamingKeyValueStore);
 
   Stream<bool> alreadyShowedTip(TargetPlatform platform) =>
-      _streamingKeyValueStore.getBool(_getPlatformKey(platform),
-          defaultValue: false);
+      _streamingKeyValueStore.getBool(
+        _getPlatformKey(platform),
+        defaultValue: false,
+      );
 
   void markTipAsShown(TargetPlatform platform) =>
       _streamingKeyValueStore.setBool(_getPlatformKey(platform), true);

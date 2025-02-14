@@ -119,7 +119,8 @@ class PluginInitializations {
   }
 
   static Future<void> tryFetchRemoteConfiguration(
-      RemoteConfiguration remoteConfiguration) async {
+    RemoteConfiguration remoteConfiguration,
+  ) async {
     try {
       await remoteConfiguration.fetch();
     } catch (e, s) {
@@ -133,7 +134,7 @@ class PluginInitializations {
   }
 
   static Future<StreamingSharedPreferences>
-      initializeStreamingSharedPreferences() async {
+  initializeStreamingSharedPreferences() async {
     final prefs = await StreamingSharedPreferences.instance;
     return prefs;
   }

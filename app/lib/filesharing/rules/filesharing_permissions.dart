@@ -24,14 +24,18 @@ class FileSharingPermissions {
 
   factory FileSharingPermissions.fromContext(BuildContext context) {
     return FileSharingPermissions(
-        BlocProvider.of<SharezoneContext>(context).api);
+      BlocProvider.of<SharezoneContext>(context).api,
+    );
   }
 
-  Future<bool> canUploadFiles(
-      {required String courseID, required FolderPath folderPath}) async {
+  Future<bool> canUploadFiles({
+    required String courseID,
+    required FolderPath folderPath,
+  }) async {
     final myRole = await _getMemberRole(courseID);
-    final bool isCreator =
-        myRole.hasPermission(GroupPermission.contentCreation);
+    final bool isCreator = myRole.hasPermission(
+      GroupPermission.contentCreation,
+    );
     if (isCreator) return true;
 
     return false;
@@ -55,7 +59,8 @@ class FileSharingPermissionsNoSync {
 
   factory FileSharingPermissionsNoSync.fromContext(BuildContext context) {
     return FileSharingPermissionsNoSync(
-        BlocProvider.of<SharezoneContext>(context).api);
+      BlocProvider.of<SharezoneContext>(context).api,
+    );
   }
 
   bool canUploadFiles({
@@ -87,10 +92,7 @@ class FileSharingPermissionsNoSync {
   }
 
   /// Ob ein Nutzer einen Ordner Löschen oder Umbenennen darf.
-  bool canManageFolder({
-    required String courseID,
-    required Folder folder,
-  }) {
+  bool canManageFolder({required String courseID, required Folder folder}) {
     final role = _getMemberRole(courseID)!;
     final isAdmin = role.hasPermission(GroupPermission.administration);
     if (isAdmin) return true;

@@ -36,10 +36,7 @@ class ThemePage extends StatelessWidget {
           child: MaxWidthConstraintBox(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _DarkModeSwitch(),
-                _NewNavigationExperiment(),
-              ],
+              children: <Widget>[_DarkModeSwitch(), _NewNavigationExperiment()],
             ),
           ),
         ),
@@ -53,10 +50,7 @@ class _DarkModeSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SettingsSubpageSection(
       title: "Light & Dark Mode",
-      children: [
-        _BrightnessRadioGroup(),
-        _RateOurApp(),
-      ],
+      children: [_BrightnessRadioGroup(), _RateOurApp()],
     );
   }
 }
@@ -67,7 +61,8 @@ class _BrightnessRadioGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeBrightness = context.select<ThemeSettings, ThemeBrightness>(
-        (settings) => settings.themeBrightness);
+      (settings) => settings.themeBrightness,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,8 +111,8 @@ class _BrightnessRadio extends StatelessWidget {
       title: Text(title),
       onTap: () => themeSettings.themeBrightness = themeBrightness,
       trailing: Radio<ThemeBrightness>(
-        onChanged: (newBrightness) =>
-            themeSettings.themeBrightness = newBrightness!,
+        onChanged:
+            (newBrightness) => themeSettings.themeBrightness = newBrightness!,
         value: themeBrightness,
         groupValue: groupValue,
       ),
@@ -134,9 +129,10 @@ class _RateOurApp extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: AnnouncementCard(
         title: "Gefällt dir Sharezone?",
-        color: Theme.of(context).isDarkTheme
-            ? ElevationColors.dp12
-            : context.primaryColor.withValues(alpha: 0.15),
+        color:
+            Theme.of(context).isDarkTheme
+                ? ElevationColors.dp12
+                : context.primaryColor.withValues(alpha: 0.15),
         content: const Text(
           "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
         ),
@@ -262,18 +258,15 @@ class _RateAppButton extends StatelessWidget {
       context: context,
       title: 'App-Bewertung nur über iOS & Android möglich!',
       content: const Text(
-          'Über die Web-App kann die App nicht bewertet werden. Nimm dafür einfach dein Handy 👍'),
+        'Über die Web-App kann die App nicht bewertet werden. Nimm dafür einfach dein Handy 👍',
+      ),
       left: AdaptiveDialogAction.ok,
     );
   }
 }
 
 class _NavigationRadioTile extends StatelessWidget {
-  const _NavigationRadioTile({
-    this.option,
-    this.number,
-    this.currentValue,
-  });
+  const _NavigationRadioTile({this.option, this.number, this.currentValue});
 
   final NavigationExperimentOption? currentValue;
   final NavigationExperimentOption? option;

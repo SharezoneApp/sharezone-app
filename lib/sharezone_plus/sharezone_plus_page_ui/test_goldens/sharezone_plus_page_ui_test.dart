@@ -44,8 +44,9 @@ void main() {
         );
       }
 
-      testGoldens('renders advantages as expected (dark theme)',
-          (tester) async {
+      testGoldens('renders advantages as expected (dark theme)', (
+        tester,
+      ) async {
         await pumpPlusAdvantages(
           tester,
           theme: getDarkTheme(fontFamily: roboto),
@@ -64,8 +65,9 @@ void main() {
         );
       });
 
-      testGoldens('renders advantages as expected (light theme)',
-          (tester) async {
+      testGoldens('renders advantages as expected (light theme)', (
+        tester,
+      ) async {
         await pumpPlusAdvantages(
           tester,
           theme: getLightTheme(fontFamily: roboto),
@@ -84,8 +86,9 @@ void main() {
 
     // ignore: invalid_use_of_visible_for_testing_member
     group(SharezonePlusFaq, () {
-      testGoldens('renders faq section as expected (dark theme)',
-          (tester) async {
+      testGoldens('renders faq section as expected (dark theme)', (
+        tester,
+      ) async {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(child: SharezonePlusFaq()),
           wrapper: materialAppWrapper(theme: getDarkTheme(fontFamily: roboto)),
@@ -101,8 +104,9 @@ void main() {
         );
       });
 
-      testGoldens('renders faq section as expected (light theme)',
-          (tester) async {
+      testGoldens('renders faq section as expected (light theme)', (
+        tester,
+      ) async {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(child: SharezonePlusFaq()),
           wrapper: materialAppWrapper(theme: getLightTheme(fontFamily: roboto)),

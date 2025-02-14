@@ -25,7 +25,9 @@ class QrSignInAuthentificationDeviceBloc extends BlocBase {
     required String uID,
   }) {
     return QrSignInAuthentificationDeviceBloc._(
-        QrCodeUserAuthenticator(firestore, appFunctions), uID);
+      QrCodeUserAuthenticator(firestore, appFunctions),
+      uID,
+    );
   }
 
   Future<bool> authenticateUserViaQrCodeId(String qrID) {

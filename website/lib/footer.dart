@@ -34,10 +34,7 @@ class Footer extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 48),
           child: Section(
             child: DefaultTextStyle(
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              ),
+              style: const TextStyle(color: Colors.white, fontSize: 16),
               child: getFooter(context),
             ),
           ),
@@ -95,10 +92,7 @@ class _FooterTablet extends StatelessWidget {
               child: ColumnSpacing(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 24,
-                children: [
-                  _FooterHelp(),
-                  _FooterNavLinks(),
-                ],
+                children: [_FooterHelp(), _FooterNavLinks()],
               ),
             ),
             const SizedBox(width: 32),
@@ -106,10 +100,7 @@ class _FooterTablet extends StatelessWidget {
               child: ColumnSpacing(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 24,
-                children: [
-                  _FooterDownlaod(),
-                  _FooterLegal(),
-                ],
+                children: [_FooterDownlaod(), _FooterLegal()],
               ),
             ),
           ],
@@ -135,20 +126,14 @@ class _FooterDesktop extends StatelessWidget {
           child: ColumnSpacing(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 24,
-            children: [
-              _FooterHelp(),
-              _FooterNavLinks(),
-            ],
+            children: [_FooterHelp(), _FooterNavLinks()],
           ),
         ),
         Expanded(
           child: ColumnSpacing(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 24,
-            children: [
-              _FooterDownlaod(),
-              _FooterLegal(),
-            ],
+            children: [_FooterDownlaod(), _FooterLegal()],
           ),
         ),
       ],
@@ -205,8 +190,10 @@ class _FooterLegal extends StatelessWidget {
       title: "Rechtliches",
       links: [
         _FooterAction("Impressum", tag: ImprintPage.tag),
-        _FooterAction("Allgemeine Nutzungsbedingungen (ANB)",
-            tag: TermsOfServicePage.tag),
+        _FooterAction(
+          "Allgemeine Nutzungsbedingungen (ANB)",
+          tag: TermsOfServicePage.tag,
+        ),
         _FooterAction("Datenschutzerklärung", tag: PrivacyPolicyPage.tag),
       ],
     );
@@ -234,11 +221,7 @@ class _FooterAction {
 }
 
 class _FooterSection extends StatelessWidget {
-  const _FooterSection({
-    this.title,
-    this.links,
-    this.subtitle,
-  });
+  const _FooterSection({this.title, this.links, this.subtitle});
 
   final String? title;
   final String? subtitle;
@@ -249,14 +232,8 @@ class _FooterSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != null) ...[
-          _FooterTitle(title!),
-          const SizedBox(height: 4),
-        ],
-        if (subtitle != null) ...[
-          Text(subtitle!),
-          const SizedBox(height: 8),
-        ],
+        if (title != null) ...[_FooterTitle(title!), const SizedBox(height: 4)],
+        if (subtitle != null) ...[Text(subtitle!), const SizedBox(height: 8)],
         ColumnSpacing(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 4,
@@ -275,7 +252,7 @@ class _FooterSection extends StatelessWidget {
                 fontSize: 16,
               ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -290,10 +267,7 @@ class _FooterTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-      ),
+      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
     );
   }
 }
@@ -306,11 +280,7 @@ class _FooterSocialMedia extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SharezoneLogo(
-          logoColor: LogoColor.white,
-          height: 50,
-          width: 200,
-        ),
+        SharezoneLogo(logoColor: LogoColor.white, height: 50, width: 200),
         SizedBox(height: 20),
         Wrap(
           spacing: 8,

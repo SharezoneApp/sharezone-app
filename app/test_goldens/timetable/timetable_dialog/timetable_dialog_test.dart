@@ -53,81 +53,79 @@ void main() {
       (isExam: false, theme: darkTheme),
     ]) {
       testGoldens(
-          'renders empty event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
-          (tester) async {
-        final dt = createDialogTester(tester);
-        dt.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
+        'renders empty event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
+        (tester) async {
+          final dt = createDialogTester(tester);
+          dt.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await withClock(Clock.fixed(DateTime(2024, 2, 22)), () async {
-          await dt.pumpDialog(
-            isExam: testConfig.isExam,
-            theme: testConfig.theme.data,
+          await withClock(Clock.fixed(DateTime(2024, 2, 22)), () async {
+            await dt.pumpDialog(
+              isExam: testConfig.isExam,
+              theme: testConfig.theme.data,
+            );
+          });
+
+          await multiScreenGolden(
+            tester,
+            'event_dialog_add_empty_${testConfig.theme.name}_${testConfig.isExam ? 'exam' : 'event'}',
           );
-        });
-
-        await multiScreenGolden(
-          tester,
-          'event_dialog_add_empty_${testConfig.theme.name}_${testConfig.isExam ? 'exam' : 'event'}',
-        );
-      });
+        },
+      );
 
       testGoldens(
-          'renders full event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
-          (tester) async {
-        final dt = createDialogTester(tester);
-        dt.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
+        'renders full event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
+        (tester) async {
+          final dt = createDialogTester(tester);
+          dt.addCourse(courseWith(id: 'fooId', name: 'Foo course'));
 
-        await withClock(Clock.fixed(DateTime(2024, 2, 22)), () async {
-          await dt.pumpDialog(
-            isExam: testConfig.isExam,
-            theme: testConfig.theme.data,
-          );
-        });
+          await withClock(Clock.fixed(DateTime(2024, 2, 22)), () async {
+            await dt.pumpDialog(
+              isExam: testConfig.isExam,
+              theme: testConfig.theme.data,
+            );
+          });
 
-        await dt.enterTitle('Test title');
-        await dt.selectCourse('Foo course');
-        await withClock(
-          Clock.fixed(
-            DateTime(2022, 1, 1),
-          ),
-          () async {
+          await dt.enterTitle('Test title');
+          await dt.selectCourse('Foo course');
+          await withClock(Clock.fixed(DateTime(2022, 1, 1)), () async {
             await dt.selectDate(dayOfCurrentMonth: '10');
-          },
-        );
-        await dt.enterDescription('Test description');
-        await dt.enterLocation('M12');
-        await dt.tapNotifyCourseMembersSwitch();
+          });
+          await dt.enterDescription('Test description');
+          await dt.enterLocation('M12');
+          await dt.tapNotifyCourseMembersSwitch();
 
-        await multiScreenGolden(
-          tester,
-          'event_dialog_add_full_${testConfig.theme.name}_${testConfig.isExam ? 'exam' : 'event'}',
-        );
-      });
+          await multiScreenGolden(
+            tester,
+            'event_dialog_add_full_${testConfig.theme.name}_${testConfig.isExam ? 'exam' : 'event'}',
+          );
+        },
+      );
 
       testGoldens(
-          'renders error event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
-          (tester) async {
-        final dt = createDialogTester(tester);
+        'renders error event dialog as expected (${testConfig.theme.name}, isExam: ${testConfig.isExam})',
+        (tester) async {
+          final dt = createDialogTester(tester);
 
-        await withClock(Clock.fixed(DateTime(2024, 2, 22)), () async {
-          await dt.pumpDialog(
-            isExam: testConfig.isExam,
-            theme: testConfig.theme.data,
+          await withClock(Clock.fixed(DateTime(2024, 2, 22)), () async {
+            await dt.pumpDialog(
+              isExam: testConfig.isExam,
+              theme: testConfig.theme.data,
+            );
+          });
+
+          // Set end time before start time.
+          await dt.selectStartTime(const TimeOfDay(hour: 12, minute: 0));
+          await dt.selectEndTime(const TimeOfDay(hour: 10, minute: 0));
+
+          // Triggers "empty title", "no course chosen" and "end time is before start time" error messages.
+          await dt.tapSaveButton();
+
+          await multiScreenGolden(
+            tester,
+            'event_dialog_add_error_${testConfig.theme.name}_${testConfig.isExam ? 'exam' : 'event'}',
           );
-        });
-
-        // Set end time before start time.
-        await dt.selectStartTime(const TimeOfDay(hour: 12, minute: 0));
-        await dt.selectEndTime(const TimeOfDay(hour: 10, minute: 0));
-
-        // Triggers "empty title", "no course chosen" and "end time is before start time" error messages.
-        await dt.tapSaveButton();
-
-        await multiScreenGolden(
-          tester,
-          'event_dialog_add_error_${testConfig.theme.name}_${testConfig.isExam ? 'exam' : 'event'}',
-        );
-      });
+        },
+      );
     }
   });
 }

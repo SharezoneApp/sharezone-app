@@ -24,12 +24,15 @@ void main() {
 
     test('A register analytics logs a anonymous register in boarding', () {
       final event = AuthentifactionEvent(
-          name: "registered", provider: "anonymousInOnboarding");
+        name: "registered",
+        provider: "anonymousInOnboarding",
+      );
 
       analytics.log(event);
 
-      expect(backend.getSingleEventData("registered"),
-          {"registeredWith": "anonymousInOnboarding"});
+      expect(backend.getSingleEventData("registered"), {
+        "registeredWith": "anonymousInOnboarding",
+      });
     });
   });
 }

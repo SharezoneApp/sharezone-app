@@ -26,14 +26,14 @@ class Support extends StatelessWidget {
       child: ImageText(
         desktopSpacing: 100,
         imagePosition: ImagePosition.left,
-        image:
-            SvgPicture.asset("assets/illustrations/support.svg", height: 400),
+        image: SvgPicture.asset(
+          "assets/illustrations/support.svg",
+          height: 400,
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Headline(
-              "Nie im Stich gelassen.",
-            ),
+            const Headline("Nie im Stich gelassen."),
             const SizedBox(height: 20),
             const Subline(
               "Unser Support ist für Dich jederzeit erreichbar. Egal welche Uhrzeit. Egal welcher Wochentag.",

@@ -36,25 +36,25 @@ void main() {
         MaterialApp(
           theme: ThemeData.light(useMaterial3: false),
           home: Scaffold(
-            body: Builder(builder: (context) {
-              return ElevatedButton(
-                onPressed: () => showQrCodeScanner(
-                  context,
-                  mockController: controller,
-                ),
-                child: const Text('Scan QR Code'),
-              );
-            }),
+            body: Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed:
+                      () => showQrCodeScanner(
+                        context,
+                        mockController: controller,
+                      ),
+                  child: const Text('Scan QR Code'),
+                );
+              },
+            ),
           ),
         ),
       );
 
       await tester.tap(find.byType(ElevatedButton));
 
-      await screenMatchesGolden(
-        tester,
-        'scanner_page',
-      );
+      await screenMatchesGolden(tester, 'scanner_page');
     });
   });
 }

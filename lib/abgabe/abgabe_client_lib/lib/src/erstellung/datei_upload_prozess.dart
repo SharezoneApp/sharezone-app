@@ -39,18 +39,19 @@ class DateiUploadProzessFortschritt {
   final UploadStatusEnum status;
 
   DateiUploadProzessFortschritt.fehlgeschlagen(this.dateiId)
-      : status = UploadStatusEnum.fehlgeschlagen;
+    : status = UploadStatusEnum.fehlgeschlagen;
 
   DateiUploadProzessFortschritt.erfolgreich(this.dateiId)
-      : status = UploadStatusEnum.erfolgreich;
+    : status = UploadStatusEnum.erfolgreich;
 
   /// Falls ein Upload im Gange ist muss ein gültiger fortschritt in Prozent sein.
   /// Null ist im diesem Falle nicht zulässig
   DateiUploadProzessFortschritt.imGange(
-      this.dateiId, double fortschrittInProzent)
-      : status = UploadStatusEnum.imGange,
-        // ignore: prefer_initializing_formals
-        fortschrittInProzent = fortschrittInProzent {
+    this.dateiId,
+    double fortschrittInProzent,
+  ) : status = UploadStatusEnum.imGange,
+      // ignore: prefer_initializing_formals
+      fortschrittInProzent = fortschrittInProzent {
     if (fortschrittInProzent < 0 || fortschrittInProzent > 1) {
       throw ArgumentError('Ungültiger Fortschritt: $fortschrittInProzent');
     }

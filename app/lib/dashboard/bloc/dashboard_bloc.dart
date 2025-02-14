@@ -53,8 +53,11 @@ extension RepeatEveryExtension<T> on Stream<T> {
 
 class DashboardBloc extends BlocBase {
   final String _uid;
-  final todayDateTimeWithoutTime =
-      DateTime(clock.now().year, clock.now().month, clock.now().day);
+  final todayDateTimeWithoutTime = DateTime(
+    clock.now().year,
+    clock.now().month,
+    clock.now().day,
+  );
 
   final _unreadBlackboardViewsSubject = BehaviorSubject<List<BlackboardView>>();
   final _unreadBlackboardItemsEmptySubject = BehaviorSubject<bool>();
@@ -82,13 +85,24 @@ class DashboardBloc extends BlocBase {
   final _subscriptions = <StreamSubscription>[];
 
   DashboardBloc(
-      this._uid, DashboardGateway gateway, TimetableBloc timetableBloc) {
+    this._uid,
+    DashboardGateway gateway,
+    TimetableBloc timetableBloc,
+  ) {
     _initializeUrgentHomeworks(
-        gateway.homeworkGateway, gateway.courseGateway, gateway.userGateway);
+      gateway.homeworkGateway,
+      gateway.courseGateway,
+      gateway.userGateway,
+    );
     _initializeUnreadBlackboardViews(
-        gateway.blackboardGateway, gateway.courseGateway);
-    _initializeUpcomingEvents(gateway.timetableGateway, gateway.courseGateway,
-        gateway.schoolClassGateway);
+      gateway.blackboardGateway,
+      gateway.courseGateway,
+    );
+    _initializeUpcomingEvents(
+      gateway.timetableGateway,
+      gateway.courseGateway,
+      gateway.schoolClassGateway,
+    );
     _initializeLessonViewStream(timetableBloc);
   }
 
@@ -97,8 +111,9 @@ class DashboardBloc extends BlocBase {
     // immer aktuell.
     // Ansonsten werden alte Daten angezeigt, wenn man die App am nächsten Tag
     // aus dem Hintergrund öffnet.
-    final periodicUpdatingLessonSnapshotStream =
-        Date.streamToday().flatMap(timetableBloc.streamLessonsForDate);
+    final periodicUpdatingLessonSnapshotStream = Date.streamToday().flatMap(
+      timetableBloc.streamLessonsForDate,
+    );
 
     final viewsStream = periodicUpdatingLessonSnapshotStream
         // Die Views werden jede Sekunde neu gebaut, damit der "Ablauf" der
@@ -111,20 +126,26 @@ class DashboardBloc extends BlocBase {
     _subscriptions.add(subscription);
   }
 
-  void _initializeUrgentHomeworks(HomeworkGateway homeworkGateway,
-      CourseGateway courseGateway, UserGateway userGateway) {
+  void _initializeUrgentHomeworks(
+    HomeworkGateway homeworkGateway,
+    CourseGateway courseGateway,
+    UserGateway userGateway,
+  ) {
     TwoStreams<List<HomeworkDto>, AppUser>(
-            homeworkGateway.homeworkForNowAndInFutureStream,
-            userGateway.userStream)
-        .stream
-        .listen((result) {
+      homeworkGateway.homeworkForNowAndInFutureStream,
+      userGateway.userStream,
+    ).stream.listen((result) {
       final homeworkList = result.data0 ?? [];
       final user = result.data1;
 
       final urgentHomeworks = _filterUrgentHomeworks(
-          homeworkList, user?.typeOfUser ?? TypeOfUser.student);
-      final urgentHomeworkViews =
-          _mapHomeworksIntoHomeworkViews(urgentHomeworks, courseGateway);
+        homeworkList,
+        user?.typeOfUser ?? TypeOfUser.student,
+      );
+      final urgentHomeworkViews = _mapHomeworksIntoHomeworkViews(
+        urgentHomeworks,
+        courseGateway,
+      );
 
       _sortUrgentHomeworksByTodoUntilAndCourseName(urgentHomeworkViews);
 
@@ -137,7 +158,8 @@ class DashboardBloc extends BlocBase {
   }
 
   void _sortUrgentHomeworksByTodoUntilAndCourseName(
-      List<HomeworkView> urgentHomeworkViews) {
+    List<HomeworkView> urgentHomeworkViews,
+  ) {
     urgentHomeworkViews.sort((a, b) {
       final r = a.homework.todoUntil.compareTo(b.homework.todoUntil);
       if (r != 0) return r;
@@ -146,14 +168,18 @@ class DashboardBloc extends BlocBase {
   }
 
   List<HomeworkView> _mapHomeworksIntoHomeworkViews(
-      List<HomeworkDto> urgentHomeworks, CourseGateway courseGateway) {
+    List<HomeworkDto> urgentHomeworks,
+    CourseGateway courseGateway,
+  ) {
     return urgentHomeworks
         .map((homework) => HomeworkView.fromHomework(homework, courseGateway))
         .toList();
   }
 
   List<HomeworkDto> _filterUrgentHomeworks(
-      List<HomeworkDto> allHomeworks, TypeOfUser typeOfUser) {
+    List<HomeworkDto> allHomeworks,
+    TypeOfUser typeOfUser,
+  ) {
     final now = clock.now();
     final dayAfterTomorrow = DateTime(now.year, now.month, now.day + 2);
     // Was passiert, wenn der 30. Oktober ist und 2 Tage dazu gezählt werden? Springt es dann auf den 1. November um?
@@ -161,9 +187,11 @@ class DashboardBloc extends BlocBase {
 
     if (typeOfUser == TypeOfUser.student) {
       return allHomeworks
-          .where((homework) =>
-              homework.forUsers[_uid] == false &&
-              homework.todoUntil.isBefore(dayAfterTomorrow))
+          .where(
+            (homework) =>
+                homework.forUsers[_uid] == false &&
+                homework.todoUntil.isBefore(dayAfterTomorrow),
+          )
           .toList();
     }
 
@@ -175,61 +203,88 @@ class DashboardBloc extends BlocBase {
   }
 
   void _initializeUnreadBlackboardViews(
-      BlackboardGateway gateway, CourseGateway courseGateway) {
-    _subscriptions.add(gateway.blackboardItemStream.listen((blackboardItems) {
-      final unreadBlackboardItems = blackboardItems
-          .where(
-              (item) => item.forUsers[_uid] == false && item.authorID != _uid)
-          .toList();
-      final unreadBlackboardViews = _mapBlackboardItemsIntoBlackboardView(
-          unreadBlackboardItems, courseGateway);
+    BlackboardGateway gateway,
+    CourseGateway courseGateway,
+  ) {
+    _subscriptions.add(
+      gateway.blackboardItemStream.listen((blackboardItems) {
+        final unreadBlackboardItems =
+            blackboardItems
+                .where(
+                  (item) =>
+                      item.forUsers[_uid] == false && item.authorID != _uid,
+                )
+                .toList();
+        final unreadBlackboardViews = _mapBlackboardItemsIntoBlackboardView(
+          unreadBlackboardItems,
+          courseGateway,
+        );
 
-      final isUnreadBlackboardItemsEmpty = unreadBlackboardViews.isEmpty;
-      _isSubjectListEmpty(
-          isUnreadBlackboardItemsEmpty, _unreadBlackboardItemsEmptySubject);
+        final isUnreadBlackboardItemsEmpty = unreadBlackboardViews.isEmpty;
+        _isSubjectListEmpty(
+          isUnreadBlackboardItemsEmpty,
+          _unreadBlackboardItemsEmptySubject,
+        );
 
-      _numberOfUnreadBlackboardViewsSubject.sink
-          .add(unreadBlackboardViews.length);
-      _unreadBlackboardViewsSubject.sink.add(unreadBlackboardViews);
-    }));
+        _numberOfUnreadBlackboardViewsSubject.sink.add(
+          unreadBlackboardViews.length,
+        );
+        _unreadBlackboardViewsSubject.sink.add(unreadBlackboardViews);
+      }),
+    );
   }
 
   List<BlackboardView> _mapBlackboardItemsIntoBlackboardView(
-      List<BlackboardItem> unreadBlackboardItems, CourseGateway courseGateway) {
+    List<BlackboardItem> unreadBlackboardItems,
+    CourseGateway courseGateway,
+  ) {
     return unreadBlackboardItems
-        .map((item) =>
-            BlackboardView.fromBlackboardItem(item, _uid, courseGateway))
+        .map(
+          (item) =>
+              BlackboardView.fromBlackboardItem(item, _uid, courseGateway),
+        )
         .toList();
   }
 
-  void _initializeUpcomingEvents(TimetableGateway timetablegGateway,
-      CourseGateway courseGateway, SchoolClassGateway schoolClassGateway) {
+  void _initializeUpcomingEvents(
+    TimetableGateway timetablegGateway,
+    CourseGateway courseGateway,
+    SchoolClassGateway schoolClassGateway,
+  ) {
     final eventStream = timetablegGateway.streamEvents(
-        Date.fromDateTime(todayDateTimeWithoutTime),
-        Date.fromDateTime(
-            todayDateTimeWithoutTime.add(const Duration(days: 14))));
-    final groupInfoStream =
-        courseGateway.getGroupInfoStream(schoolClassGateway);
+      Date.fromDateTime(todayDateTimeWithoutTime),
+      Date.fromDateTime(todayDateTimeWithoutTime.add(const Duration(days: 14))),
+    );
+    final groupInfoStream = courseGateway.getGroupInfoStream(
+      schoolClassGateway,
+    );
 
-    final stream =
-        CombineLatestStream([eventStream, groupInfoStream], (streamValues) {
+    final stream = CombineLatestStream([eventStream, groupInfoStream], (
+      streamValues,
+    ) {
       final events = streamValues[0] as List<CalendricalEvent>? ?? [];
       final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
 
       _sortEventsByDateTime(events);
 
-      final eventViews = events
-          .map((event) =>
-              EventView.fromEventAndGroupInfo(event, groupInfos[event.groupID]))
-          .toList();
+      final eventViews =
+          events
+              .map(
+                (event) => EventView.fromEventAndGroupInfo(
+                  event,
+                  groupInfos[event.groupID],
+                ),
+              )
+              .toList();
 
       _numberOfUpcomingEventsSubject.sink.add(eventViews.length);
 
       return eventViews;
     });
 
-    _subscriptions
-        .add(stream.listen((newData) => _upcomingEventsSubject.add(newData)));
+    _subscriptions.add(
+      stream.listen((newData) => _upcomingEventsSubject.add(newData)),
+    );
   }
 
   void _sortEventsByDateTime(List<CalendricalEvent> events) {

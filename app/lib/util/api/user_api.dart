@@ -61,27 +61,32 @@ class UserGateway implements UserGatewayAuthentifcation {
       _authUserSubject.map((user) => _getProvider(user?.firebaseUser));
 
   UserGateway(this.references, AuthUser authUser) : uID = authUser.uid {
-    _appUserSubscription =
-        references.users.doc(uID).snapshots().map((documentSnapshot) {
-      return AppUser.fromData(documentSnapshot.data(), id: uID);
-    }).listen((newUser) {
-      _userSubject.sink.add(newUser);
-    });
+    _appUserSubscription = references.users
+        .doc(uID)
+        .snapshots()
+        .map((documentSnapshot) {
+          return AppUser.fromData(documentSnapshot.data(), id: uID);
+        })
+        .listen((newUser) {
+          _userSubject.sink.add(newUser);
+        });
 
     _authUserSubject.sink.add(authUser);
     _authUserSubscription = FirebaseAuth.instance
         .userChanges()
         .map(AuthUser.fromFirebaseUser)
         .listen((event) {
-      _authUserSubject.sink.add(event);
-    });
+          _authUserSubject.sink.add(event);
+        });
   }
 
   Future<void> logOut() async {
     if (PlatformCheck.isMobile) {
       if (isIntegrationTest) {
         // Firebase Messaging is not available in integration tests.
-        log('Skipping to remove Firebase Messaging token because integration test is running.');
+        log(
+          'Skipping to remove Firebase Messaging token because integration test is running.',
+        );
         return;
       }
       removeNotificationToken(await FirebaseMessaging.instance.getToken());
@@ -138,26 +143,27 @@ class UserGateway implements UserGatewayAuthentifcation {
 
   Future<void> addNotificationToken(String token) async {
     await references.users.doc(uID).update({
-      "notificationTokens": FieldValue.arrayUnion([token])
+      "notificationTokens": FieldValue.arrayUnion([token]),
     });
   }
 
   void removeNotificationToken(String? token) {
     if (token == null) return;
     references.users.doc(uID).update({
-      "notificationTokens": FieldValue.arrayRemove([token])
+      "notificationTokens": FieldValue.arrayRemove([token]),
     });
   }
 
   Future<void> setHomeworkReminderTime(TimeOfDay? timeOfDay) async {
-    await references.users.doc(uID).update(
-        {"reminderTime": timeOfDay?.toApiString() ?? FieldValue.delete()});
+    await references.users.doc(uID).update({
+      "reminderTime": timeOfDay?.toApiString() ?? FieldValue.delete(),
+    });
   }
 
   Future<void> updateSettings(UserSettings userSettings) async {
-    await references.users
-        .doc(uID)
-        .set({"settings": userSettings.toJson()}, SetOptions(merge: true));
+    await references.users.doc(uID).set({
+      "settings": userSettings.toJson(),
+    }, SetOptions(merge: true));
   }
 
   Future<void> updateSettingsSingleFiled(String fieldName, dynamic data) async {
@@ -168,9 +174,7 @@ class UserGateway implements UserGatewayAuthentifcation {
 
   Future<void> updateUserTip(UserTipKey userTipKey, bool value) async {
     await references.users.doc(uID).set({
-      "tips": {
-        userTipKey.key: value,
-      },
+      "tips": {userTipKey.key: value},
     }, SetOptions(merge: true));
   }
 
@@ -210,8 +214,10 @@ class UserGateway implements UserGatewayAuthentifcation {
   }
 
   Future<AppFunctionsResult<bool>> updateUser(AppUser userData) async {
-    return references.functions
-        .userUpdate(userID: userData.id, userData: userData.toEditJson());
+    return references.functions.userUpdate(
+      userID: userData.id,
+      userData: userData.toEditJson(),
+    );
   }
 
   Future<void> dispose() async {
@@ -222,10 +228,7 @@ class UserGateway implements UserGatewayAuthentifcation {
       _authUserSubscription.cancel(),
     ]);
 
-    await Future.wait([
-      _authUserSubject.close(),
-      _userSubject.close(),
-    ]);
+    await Future.wait([_authUserSubject.close(), _userSubject.close()]);
   }
 }
 

@@ -15,37 +15,40 @@ import 'package:notifications/notifications.dart';
 // ignore_for_file: avoid_print
 
 void main() {
-  test('Example usage for documentation of the $PushNotificationActionHandler',
-      () {
-    final printSecretMessageRegistration =
-        ActionRegistration<PrintSecretMessage>(
-      registerForActionTypeStrings: {'print-secret-string'},
-      parseActionRequestFromNotification: (notification, instrumentation) {
-        return PrintSecretMessage(
-          notification.actionData['secret-message'] ?? 'no secret message',
-        );
-      },
-      executeActionRequest: (request) {
-        print(request.stringToPrint);
-      },
-    );
+  test(
+    'Example usage for documentation of the $PushNotificationActionHandler',
+    () {
+      final printSecretMessageRegistration = ActionRegistration<
+        PrintSecretMessage
+      >(
+        registerForActionTypeStrings: {'print-secret-string'},
+        parseActionRequestFromNotification: (notification, instrumentation) {
+          return PrintSecretMessage(
+            notification.actionData['secret-message'] ?? 'no secret message',
+          );
+        },
+        executeActionRequest: (request) {
+          print(request.stringToPrint);
+        },
+      );
 
-    final handler = PushNotificationActionHandler(
-      actionRegistrations: [printSecretMessageRegistration],
-      onFatalParsingError: (notification, e) {},
-      onUnhandledActionType: (notification) {},
-      instrumentation: LoggingPushNotificationActionHandlerInstrumentation(),
-    );
+      final handler = PushNotificationActionHandler(
+        actionRegistrations: [printSecretMessageRegistration],
+        onFatalParsingError: (notification, e) {},
+        onUnhandledActionType: (notification) {},
+        instrumentation: LoggingPushNotificationActionHandlerInstrumentation(),
+      );
 
-    handler.handlePushNotification(
-      const PushNotification(
-        actionType: 'print-secret-string',
-        actionData: {'secret-message': 'SHAREZONE4EVER'},
-        title: 'Title',
-        body: 'Body',
-      ),
-    );
-  });
+      handler.handlePushNotification(
+        const PushNotification(
+          actionType: 'print-secret-string',
+          actionData: {'secret-message': 'SHAREZONE4EVER'},
+          title: 'Title',
+          body: 'Body',
+        ),
+      );
+    },
+  );
 }
 
 class PrintSecretMessage extends ActionRequest {
@@ -64,25 +67,35 @@ class LoggingPushNotificationActionHandlerInstrumentation
 
   @override
   void actionExecutionFailed(
-      ActionRequest actionRequest, exception, StackTrace stacktrace) {}
+    ActionRequest actionRequest,
+    exception,
+    StackTrace stacktrace,
+  ) {}
 
   @override
   void startHandlingPushNotification(PushNotification pushNotification) {}
 
   @override
   void parsingFailedFataly(
-      PushNotification pushNotification, exception, StackTrace stacktrace) {}
+    PushNotification pushNotification,
+    exception,
+    StackTrace stacktrace,
+  ) {}
 
   @override
-  void parsingFailedNonFatalyOnAttribute(String attributeName,
-      {fallbackValueChosenInstead,
-      required PushNotification notification,
-      error}) {}
+  void parsingFailedNonFatalyOnAttribute(
+    String attributeName, {
+    fallbackValueChosenInstead,
+    required PushNotification notification,
+    error,
+  }) {}
 
   @override
   void parsingFailedOnUnknownActionType(PushNotification pushNotification) {}
 
   @override
   void parsingSucceeded(
-      PushNotification pushNotification, ActionRequest actionRequest) {}
+    PushNotification pushNotification,
+    ActionRequest actionRequest,
+  ) {}
 }

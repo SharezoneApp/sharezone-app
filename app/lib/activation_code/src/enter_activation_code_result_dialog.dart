@@ -27,7 +27,8 @@ class EnterActivationCodeResultDialog {
     if (enterActivationCodeResult is SuccessfulEnterActivationCodeResult) {
       return StateSheetContent(
         body: SuccessfulEnterActivationCodeResultDialog(
-            result: enterActivationCodeResult),
+          result: enterActivationCodeResult,
+        ),
         actions: [
           ActionItem(
             title: "Fertig",
@@ -45,7 +46,8 @@ class EnterActivationCodeResultDialog {
     if (enterActivationCodeResult is FailedEnterActivationCodeResult) {
       return StateSheetContent(
         body: FailedEnterActivationCodeResultDialog(
-            failedEnterActivationCodeResult: enterActivationCodeResult),
+          failedEnterActivationCodeResult: enterActivationCodeResult,
+        ),
         actions: [
           ActionItem(
             title: "Nochmal versuchen",
@@ -56,7 +58,8 @@ class EnterActivationCodeResultDialog {
     }
 
     return const StateSheetContent(
-        body: LoadingEnterActivationCodeResultDialog());
+      body: LoadingEnterActivationCodeResultDialog(),
+    );
   }
 
   Future<void> show(BuildContext context) async {

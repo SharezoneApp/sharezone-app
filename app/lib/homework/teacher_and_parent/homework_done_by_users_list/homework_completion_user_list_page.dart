@@ -22,10 +22,7 @@ import 'homework_completion_user_list_bloc_factory.dart';
 import 'user_has_completed_homework_view.dart';
 
 class HomeworkCompletionUserListPage extends StatefulWidget {
-  const HomeworkCompletionUserListPage({
-    super.key,
-    required this.homeworkId,
-  });
+  const HomeworkCompletionUserListPage({super.key, required this.homeworkId});
 
   final HomeworkId homeworkId;
 
@@ -42,8 +39,9 @@ class _HomeworkCompletionUserListPageState
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<HomeworkCompletionUserListBlocFactory>(context)
-        .create(widget.homeworkId);
+    bloc = BlocProvider.of<HomeworkCompletionUserListBlocFactory>(
+      context,
+    ).create(widget.homeworkId);
     bloc.logOpenHomeworkDoneByUsersList();
   }
 
@@ -52,10 +50,7 @@ class _HomeworkCompletionUserListPageState
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Erledigt von"),
-          centerTitle: true,
-        ),
+        appBar: AppBar(title: const Text("Erledigt von"), centerTitle: true),
         body: const HomeworkCompletionUserListPageBody(),
       ),
     );
@@ -73,9 +68,9 @@ class HomeworkCompletionUserListPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUnlocked = context
-        .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.homeworkDoneByUsersList);
+    final isUnlocked = context.read<SubscriptionService>().hasFeatureUnlocked(
+      SharezonePlusFeature.homeworkDoneByUsersList,
+    );
     if (!isUnlocked) {
       return const _FreeUsersLockScreen();
     }
@@ -154,7 +149,8 @@ class _FreeUsersLockScreen extends StatelessWidget {
                 onLearnMorePressed: () => navigateToSharezonePlusPage(context),
                 underlayColor: Theme.of(context).scaffoldBackgroundColor,
                 child: const Text(
-                    'Erwerbe Sharezone Plus, um nachzuvollziehen, wer bereits die Hausaufgabe als erledigt markiert hat.'),
+                  'Erwerbe Sharezone Plus, um nachzuvollziehen, wer bereits die Hausaufgabe als erledigt markiert hat.',
+                ),
               ),
             ),
           ),
@@ -226,8 +222,10 @@ class _UserTile extends StatelessWidget {
         title: Text(view.name),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
-          child: Text(view.abbreviation,
-              style: const TextStyle(color: Colors.white)),
+          child: Text(
+            view.abbreviation,
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
         trailing: _hasDoneIcon(),
       ),

@@ -51,11 +51,7 @@ class ReportPageBloc extends BlocBase {
       final description = _descriptionSubject.valueOrNull;
       final reason = _reasonSubject.valueOrNull;
 
-      final report = reportFactory.create(
-        description!,
-        reason!,
-        item,
-      );
+      final report = reportFactory.create(description!, reason!, item);
 
       reportGateway.sendReport(report);
     } else {

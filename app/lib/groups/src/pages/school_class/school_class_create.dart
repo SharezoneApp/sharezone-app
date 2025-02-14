@@ -12,7 +12,9 @@ import 'package:sharezone/groups/src/pages/school_class/my_school_class_bloc.dar
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<dynamic> openMySchoolClassCreateDialog(
-    BuildContext context, MySchoolClassBloc schoolClassBloc) {
+  BuildContext context,
+  MySchoolClassBloc schoolClassBloc,
+) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -84,19 +86,22 @@ class _SchoolClassCreateDialogState extends State<SchoolClassCreateDialog> {
           ],
         ),
       ),
-      actions: isLoading
-          ? <Widget>[const LoadingCircle()]
-          : <Widget>[
-              const CancelButton(),
-              TextButton(
+      actions:
+          isLoading
+              ? <Widget>[const LoadingCircle()]
+              : <Widget>[
+                const CancelButton(),
+                TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).primaryColor,
                   ),
-                  onPressed: className.isEmpty
-                      ? null
-                      : () => _createClass(context, className),
-                  child: const Text("ERSTELLEN")),
-            ],
+                  onPressed:
+                      className.isEmpty
+                          ? null
+                          : () => _createClass(context, className),
+                  child: const Text("ERSTELLEN"),
+                ),
+              ],
     );
   }
 }

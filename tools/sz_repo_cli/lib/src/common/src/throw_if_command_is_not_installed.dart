@@ -29,10 +29,7 @@ Future<void> throwIfCommandIsNotInstalled(
     return;
   }
 
-  final result = await processRunner.run(
-    ['which', command],
-    failOk: true,
-  );
+  final result = await processRunner.run(['which', command], failOk: true);
   if (result.exitCode != 0) {
     String message = 'Command "$command" is not installed.';
     if (instructionsToInstall != null) {
@@ -48,10 +45,7 @@ Future<bool> isCommandInstalled(
   required String command,
 }) async {
   try {
-    await throwIfCommandIsNotInstalled(
-      processRunner,
-      command: command,
-    );
+    await throwIfCommandIsNotInstalled(processRunner, command: command);
   } on Exception catch (_) {
     return false;
   }

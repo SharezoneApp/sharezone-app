@@ -54,10 +54,16 @@ class HomeworkCard extends StatelessWidget {
     final bloc = HomeworkCardBloc(api, homework!);
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
 
-    DateTime tomorrowWithoutTime =
-        DateTime(clock.now().year, clock.now().month, clock.now().day + 1);
-    DateTime todoUntilWithoutTime = DateTime(homework!.todoUntil.year,
-        homework!.todoUntil.month, homework!.todoUntil.day);
+    DateTime tomorrowWithoutTime = DateTime(
+      clock.now().year,
+      clock.now().month,
+      clock.now().day + 1,
+    );
+    DateTime todoUntilWithoutTime = DateTime(
+      homework!.todoUntil.year,
+      homework!.todoUntil.month,
+      homework!.todoUntil.day,
+    );
 
     return BlocProvider(
       bloc: bloc,
@@ -65,8 +71,9 @@ class HomeworkCard extends StatelessWidget {
         onTap: () async {
           final detailsViewFactory =
               BlocProvider.of<HomeworkDetailsViewFactory>(context);
-          final detailsView =
-              await detailsViewFactory.fromHomeworkDb(homework!);
+          final detailsView = await detailsViewFactory.fromHomeworkDb(
+            homework!,
+          );
           if (!context.mounted) return;
 
           return pushWithDefault<bool>(
@@ -82,8 +89,9 @@ class HomeworkCard extends StatelessWidget {
         onLongPress: () async {
           final detailsViewFactory =
               BlocProvider.of<HomeworkDetailsViewFactory>(context);
-          final detailsView =
-              await detailsViewFactory.fromHomeworkDb(homework!);
+          final detailsView = await detailsViewFactory.fromHomeworkDb(
+            homework!,
+          );
           if (!context.mounted) return;
 
           _logHomeworkCardLongPress(analytics);
@@ -91,32 +99,33 @@ class HomeworkCard extends StatelessWidget {
           final isStudent = typeOfUser == TypeOfUser.student;
           final longPressList =
               <LongPress<_HomeworkTileLongPressModelSheetOption>>[
-            if (isStudent)
-              const LongPress(
-                title: 'Als erledigt markieren',
-                icon: Icon(Icons.done),
-                popResult: _HomeworkTileLongPressModelSheetOption.done,
-              ),
-            const LongPress(
-              title: "Melden",
-              popResult: _HomeworkTileLongPressModelSheetOption.report,
-              icon: reportIcon,
-            ),
-            if (detailsView.hasPermission) ...[
-              const LongPress(
-                title: 'Bearbeiten',
-                icon: Icon(Icons.edit),
-                popResult: _HomeworkTileLongPressModelSheetOption.edit,
-              ),
-              const LongPress(
-                title: 'Löschen',
-                icon: Icon(Icons.delete),
-                popResult: _HomeworkTileLongPressModelSheetOption.delete,
-              )
-            ]
-          ];
+                if (isStudent)
+                  const LongPress(
+                    title: 'Als erledigt markieren',
+                    icon: Icon(Icons.done),
+                    popResult: _HomeworkTileLongPressModelSheetOption.done,
+                  ),
+                const LongPress(
+                  title: "Melden",
+                  popResult: _HomeworkTileLongPressModelSheetOption.report,
+                  icon: reportIcon,
+                ),
+                if (detailsView.hasPermission) ...[
+                  const LongPress(
+                    title: 'Bearbeiten',
+                    icon: Icon(Icons.edit),
+                    popResult: _HomeworkTileLongPressModelSheetOption.edit,
+                  ),
+                  const LongPress(
+                    title: 'Löschen',
+                    icon: Icon(Icons.delete),
+                    popResult: _HomeworkTileLongPressModelSheetOption.delete,
+                  ),
+                ],
+              ];
           final result = await showLongPressAdaptiveDialog<
-              _HomeworkTileLongPressModelSheetOption>(
+            _HomeworkTileLongPressModelSheetOption
+          >(
             context: context,
             longPressList: longPressList,
             title: "Hausaufgabe: ${homework!.title}",
@@ -137,8 +146,11 @@ class HomeworkCard extends StatelessWidget {
               break;
             case _HomeworkTileLongPressModelSheetOption.delete:
               _logHomeworkDeleteViaCardLongPress(analytics);
-              await deleteHomeworkDialogsEntry(context, homework!,
-                  popTwice: false);
+              await deleteHomeworkDialogsEntry(
+                context,
+                homework!,
+                popTwice: false,
+              );
               break;
             case _HomeworkTileLongPressModelSheetOption.report:
               _logHomeworkReportViaCardLongPress(analytics);
@@ -157,19 +169,29 @@ class HomeworkCard extends StatelessWidget {
             maxLines: 2,
           ),
           subtitle: Text.rich(
-            TextSpan(children: <TextSpan>[
-              TextSpan(text: "${homework!.courseName}\n"),
-              TextSpan(
+            TextSpan(
+              children: <TextSpan>[
+                TextSpan(text: "${homework!.courseName}\n"),
+                TextSpan(
                   text: _formatTodoUntil(
-                      homework!.todoUntil, homework!.withSubmissions),
-                  style: markedDate
-                      ? tomorrowWithoutTime
-                                  .isAtSameMomentAs(todoUntilWithoutTime) ||
-                              todoUntilWithoutTime.isBefore(tomorrowWithoutTime)
-                          ? const TextStyle(color: Colors.red)
-                          : null
-                      : null),
-            ], style: TextStyle(color: Colors.grey[600])),
+                    homework!.todoUntil,
+                    homework!.withSubmissions,
+                  ),
+                  style:
+                      markedDate
+                          ? tomorrowWithoutTime.isAtSameMomentAs(
+                                    todoUntilWithoutTime,
+                                  ) ||
+                                  todoUntilWithoutTime.isBefore(
+                                    tomorrowWithoutTime,
+                                  )
+                              ? const TextStyle(color: Colors.red)
+                              : null
+                          : null,
+                ),
+              ],
+              style: TextStyle(color: Colors.grey[600]),
+            ),
           ),
           leading: CourseCircleAvatar(
             courseId: homework!.courseID,
@@ -221,9 +243,10 @@ class HomeworkCard extends StatelessWidget {
       );
     } else {
       return IconButton(
-        tooltip: homework!.withSubmissions
-            ? 'Abgaben anzeigen'
-            : '"Erledigt von" anzeigen',
+        tooltip:
+            homework!.withSubmissions
+                ? 'Abgaben anzeigen'
+                : '"Erledigt von" anzeigen',
         iconSize: 50,
         icon: CircleAvatar(
           backgroundColor: Colors.transparent,
@@ -237,11 +260,15 @@ class HomeworkCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => homework!.withSubmissions
-                    ? HomeworkUserSubmissionsPage(homeworkId: homework!.id)
-                    : HomeworkCompletionUserListPage(
-                        homeworkId: HomeworkId(homework!.id),
-                      ),
+                builder:
+                    (_) =>
+                        homework!.withSubmissions
+                            ? HomeworkUserSubmissionsPage(
+                              homeworkId: homework!.id,
+                            )
+                            : HomeworkCompletionUserListPage(
+                              homeworkId: HomeworkId(homework!.id),
+                            ),
               ),
             );
           } else {
@@ -306,7 +333,9 @@ class HomeworkCardRedesigned extends StatelessWidget {
             padding: padding ?? const EdgeInsets.only(left: 12),
             child: CustomCard(
               size: Size(
-                  115, width ?? (MediaQuery.of(context).size.width / 2) - 36),
+                115,
+                width ?? (MediaQuery.of(context).size.width / 2) - 36,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -319,14 +348,14 @@ class HomeworkCardRedesigned extends StatelessWidget {
                         courseName: homeworkView!.courseName,
                         color: homeworkView!.courseNameColor,
                         typeOfUser: typeOfUser,
-                      )
+                      ),
                     ],
                   ),
                   _Title(homeworkView!.title, isDone: forceIsDone),
                   _TodoUntil(
                     date: homeworkView!.todoUntilText,
                     color: homeworkView!.todoUntilColor,
-                  )
+                  ),
                 ],
               ),
               onTap: () async {
@@ -346,8 +375,12 @@ class HomeworkCardRedesigned extends StatelessWidget {
                   if (value) showDataArrivalConfirmedSnackbar(context: context);
                 });
               },
-              onLongPress: () => showLongPressIfUserHasPermissions(
-                  context, bloc.toggleIsDone.add, homeworkView!),
+              onLongPress:
+                  () => showLongPressIfUserHasPermissions(
+                    context,
+                    bloc.toggleIsDone.add,
+                    homeworkView!,
+                  ),
             ),
           );
         },
@@ -377,9 +410,10 @@ void _logHomeworkReportViaCardLongPress(Analytics analytics) {
 }
 
 Future showLongPressIfUserHasPermissions(
-    BuildContext context,
-    void Function(bool newHomeworkStatus)? setHomeworkStatus,
-    HomeworkView homeworkView) async {
+  BuildContext context,
+  void Function(bool newHomeworkStatus)? setHomeworkStatus,
+  HomeworkView homeworkView,
+) async {
   final sharezoneContext = BlocProvider.of<SharezoneContext>(context);
   final api = sharezoneContext.api;
   final analytics = sharezoneContext.analytics;
@@ -389,8 +423,9 @@ Future showLongPressIfUserHasPermissions(
 
   final isAuthor = api.uID == homeworkView.homework.authorID;
   final hasPermission = hasPermissionToManageHomeworks(
-    api.course
-        .getRoleFromCourseNoSync(homeworkView.homework.courseReference!.id)!,
+    api.course.getRoleFromCourseNoSync(
+      homeworkView.homework.courseReference!.id,
+    )!,
     isAuthor,
   );
   final isStudent = typeOfUser == TypeOfUser.student;
@@ -417,15 +452,15 @@ Future showLongPressIfUserHasPermissions(
         title: 'Löschen',
         icon: Icon(Icons.delete),
         popResult: _HomeworkTileLongPressModelSheetOption.delete,
-      )
-    ]
+      ),
+    ],
   ];
   final result =
       await showLongPressAdaptiveDialog<_HomeworkTileLongPressModelSheetOption>(
-    context: context,
-    longPressList: longPressList,
-    title: "Hausaufgabe: ${homeworkView.title}",
-  );
+        context: context,
+        longPressList: longPressList,
+        title: "Hausaufgabe: ${homeworkView.title}",
+      );
   if (!context.mounted) return;
 
   switch (result) {
@@ -446,8 +481,11 @@ Future showLongPressIfUserHasPermissions(
     case _HomeworkTileLongPressModelSheetOption.delete:
       _logHomeworkDeleteViaCardLongPress(analytics);
       if (!context.mounted) return;
-      await deleteHomeworkDialogsEntry(context, homeworkView.homework,
-          popTwice: false);
+      await deleteHomeworkDialogsEntry(
+        context,
+        homeworkView.homework,
+        popTwice: false,
+      );
       break;
     case _HomeworkTileLongPressModelSheetOption.report:
       _logHomeworkReportViaCardLongPress(analytics);
@@ -502,9 +540,10 @@ class _CourseName extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.only(
-            top: 16,
-            right: 6,
-            left: typeOfUser == TypeOfUser.student ? 0 : 11.5),
+          top: 16,
+          right: 6,
+          left: typeOfUser == TypeOfUser.student ? 0 : 11.5,
+        ),
         child: Text(
           courseName,
           style: TextStyle(color: color),
@@ -516,10 +555,7 @@ class _CourseName extends StatelessWidget {
 }
 
 class _TodoUntil extends StatelessWidget {
-  const _TodoUntil({
-    required this.date,
-    required this.color,
-  });
+  const _TodoUntil({required this.date, required this.color});
 
   final String date;
   final Color color;
@@ -531,10 +567,7 @@ class _TodoUntil extends StatelessWidget {
         padding: const EdgeInsets.only(left: 12, bottom: 8),
         child: Align(
           alignment: Alignment.bottomLeft,
-          child: Text(
-            date,
-            style: TextStyle(color: color, fontSize: 12),
-          ),
+          child: Text(date, style: TextStyle(color: color, fontSize: 12)),
         ),
       ),
     );
@@ -559,9 +592,10 @@ class _Title extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              color: Theme.of(context).isDarkTheme
-                  ? Colors.lightBlue[100]
-                  : const Color(0xFF254D71),
+              color:
+                  Theme.of(context).isDarkTheme
+                      ? Colors.lightBlue[100]
+                      : const Color(0xFF254D71),
               fontSize: 16,
               fontWeight: FontWeight.w500,
               decoration: isDone ? TextDecoration.lineThrough : null,

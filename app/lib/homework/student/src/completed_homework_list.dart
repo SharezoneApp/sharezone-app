@@ -38,13 +38,14 @@ class CompletedHomeworkList extends StatelessWidget {
               // get unchecked and checked again, which we do not want.
               if (newStatus == HomeworkStatus.open) {
                 await delayOnChangeToDisplayAnimations(
-                    changedToCompleted: false);
+                  changedToCompleted: false,
+                );
                 // ignore: use_build_context_synchronously
                 final bloc = BlocProvider.of<StudentHomeworkPageBloc>(context);
                 dispatchCompletionStatusChange(newStatus, hw.id, bloc);
               }
             },
-          )
+          ),
       ],
     );
   }

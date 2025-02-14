@@ -29,15 +29,22 @@ class NavigationService extends BlocBase {
   }
 
   Future<T?> pushWidget<T>(Widget widget, {required String name}) async {
-    return navigatorKey.currentState?.push<T>(MaterialPageRoute(
-        builder: (context) => widget, settings: RouteSettings(name: name)));
+    return navigatorKey.currentState?.push<T>(
+      MaterialPageRoute(
+        builder: (context) => widget,
+        settings: RouteSettings(name: name),
+      ),
+    );
   }
 
-  Future<T?> pushWidgetWithDefault<T>(Widget widget,
-      {required T defaultValue}) async {
+  Future<T?> pushWidgetWithDefault<T>(
+    Widget widget, {
+    required T defaultValue,
+  }) async {
     assert(defaultValue != null);
-    final result = await navigatorKey.currentState
-        ?.push<T>(MaterialPageRoute(builder: (context) => widget));
+    final result = await navigatorKey.currentState?.push<T>(
+      MaterialPageRoute(builder: (context) => widget),
+    );
     if (result == null) return defaultValue;
     return result;
   }

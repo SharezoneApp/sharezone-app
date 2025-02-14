@@ -38,8 +38,9 @@ void main() {
     setUp(() {
       userSettingsBloc = MockUserSettingsBloc();
 
-      when(userSettingsBloc.streamUserSettings())
-          .thenAnswer((_) => Stream.value(UserSettings.defaultSettings()));
+      when(
+        userSettingsBloc.streamUserSettings(),
+      ).thenAnswer((_) => Stream.value(UserSettings.defaultSettings()));
     });
 
     Future<void> pumpTimetableSettingsPage(
@@ -57,7 +58,7 @@ void main() {
                   MockTimePickerSettingsCache(),
                 ),
               ),
-              BlocProvider<UserSettingsBloc>(bloc: userSettingsBloc)
+              BlocProvider<UserSettingsBloc>(bloc: userSettingsBloc),
             ],
             child: (_) => const TimetableSettingsPage(),
           ),
@@ -67,18 +68,12 @@ void main() {
     }
 
     testGoldens('should render as expected (light mode)', (tester) async {
-      await pumpTimetableSettingsPage(
-        tester,
-        themeData: getLightTheme(),
-      );
+      await pumpTimetableSettingsPage(tester, themeData: getLightTheme());
       await multiScreenGolden(tester, 'timetable_settings_page_light');
     });
 
     testGoldens('should render as expected (dark mode)', (tester) async {
-      await pumpTimetableSettingsPage(
-        tester,
-        themeData: getDarkTheme(),
-      );
+      await pumpTimetableSettingsPage(tester, themeData: getDarkTheme());
       await multiScreenGolden(tester, 'timetable_settings_page_dark');
     });
   });

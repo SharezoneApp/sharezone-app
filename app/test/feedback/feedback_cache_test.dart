@@ -22,38 +22,49 @@ void main() {
     });
 
     test("Returns no Cooldown if no last submit was saved", () async {
-      final onCooldown =
-          await cache.hasFeedbackSubmissionCoolDown(const Duration(minutes: 1));
+      final onCooldown = await cache.hasFeedbackSubmissionCoolDown(
+        const Duration(minutes: 1),
+      );
       expect(onCooldown, false);
     });
     test(
-        "Returns no cooldown if cached last send time is more than cooldown range",
-        () async {
-      const cooldownDuration = Duration(minutes: 2);
-      final lastFeedbackSend = clock.now().subtract(cooldownDuration +
-          const Duration(seconds: 10)); // So Feedback should get no cooldown
+      "Returns no cooldown if cached last send time is more than cooldown range",
+      () async {
+        const cooldownDuration = Duration(minutes: 2);
+        final lastFeedbackSend = clock.now().subtract(
+          cooldownDuration + const Duration(seconds: 10),
+        ); // So Feedback should get no cooldown
 
-      dummyKeyValueStore.setString(
-          FeedbackCache.lastSubmitCacheKey, lastFeedbackSend.toString());
+        dummyKeyValueStore.setString(
+          FeedbackCache.lastSubmitCacheKey,
+          lastFeedbackSend.toString(),
+        );
 
-      final onCooldown =
-          await cache.hasFeedbackSubmissionCoolDown(cooldownDuration);
-      expect(onCooldown, false);
-    });
+        final onCooldown = await cache.hasFeedbackSubmissionCoolDown(
+          cooldownDuration,
+        );
+        expect(onCooldown, false);
+      },
+    );
 
     test(
-        "Returns cooldown if cached last send time is less than cooldown range",
-        () async {
-      const cooldownDuration = Duration(minutes: 2);
-      final lastFeedbackSend = clock.now().subtract(cooldownDuration -
-          const Duration(seconds: 10)); // So Feedback should get cooldown
+      "Returns cooldown if cached last send time is less than cooldown range",
+      () async {
+        const cooldownDuration = Duration(minutes: 2);
+        final lastFeedbackSend = clock.now().subtract(
+          cooldownDuration - const Duration(seconds: 10),
+        ); // So Feedback should get cooldown
 
-      await dummyKeyValueStore.setString(
-          FeedbackCache.lastSubmitCacheKey, lastFeedbackSend.toString());
+        await dummyKeyValueStore.setString(
+          FeedbackCache.lastSubmitCacheKey,
+          lastFeedbackSend.toString(),
+        );
 
-      final onCooldown =
-          await cache.hasFeedbackSubmissionCoolDown(cooldownDuration);
-      expect(onCooldown, true);
-    });
+        final onCooldown = await cache.hasFeedbackSubmissionCoolDown(
+          cooldownDuration,
+        );
+        expect(onCooldown, true);
+      },
+    );
   });
 }

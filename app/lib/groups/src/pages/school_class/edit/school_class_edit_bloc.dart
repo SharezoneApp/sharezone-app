@@ -14,10 +14,7 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/validators.dart';
 
 class SchoolClassEditBloc extends BlocBase with SchoolClassValidators {
-  SchoolClassEditBloc({
-    required this.gateway,
-    required this.currentName,
-  }) {
+  SchoolClassEditBloc({required this.gateway, required this.currentName}) {
     _nameSubject.sink.add(currentName);
   }
 

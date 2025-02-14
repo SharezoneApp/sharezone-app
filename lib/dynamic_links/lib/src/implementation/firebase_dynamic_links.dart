@@ -35,10 +35,13 @@ class FirebaseDynamicLinks extends DynamicLinks {
 
   DynamicLinkData _getPendingFromFirebase(fb.PendingDynamicLinkData? pending) {
     return DynamicLinkData(
-        pending?.link,
-        DynamicLinkDataAndroid(
-            pending?.android?.clickTimestamp, pending?.android?.minimumVersion),
-        DynamicLinkDataIOS(pending?.ios?.minimumVersion));
+      pending?.link,
+      DynamicLinkDataAndroid(
+        pending?.android?.clickTimestamp,
+        pending?.android?.minimumVersion,
+      ),
+      DynamicLinkDataIOS(pending?.ios?.minimumVersion),
+    );
   }
 
   @override
@@ -64,9 +67,9 @@ class FirebaseDynamicLinks extends DynamicLinks {
 
   @override
   Future<DynamicLinkData> getLinkData(String dynamicLink) {
-    return _firebaseDynamicLinks
-        .getDynamicLink(Uri.parse(dynamicLink))
-        .then((fbData) {
+    return _firebaseDynamicLinks.getDynamicLink(Uri.parse(dynamicLink)).then((
+      fbData,
+    ) {
       return _getPendingFromFirebase(fbData);
     });
   }

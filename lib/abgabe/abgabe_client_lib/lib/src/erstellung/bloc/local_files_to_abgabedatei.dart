@@ -62,5 +62,7 @@ class LocalFilesConversionResult {
   bool get hatUnkonvertierteDateien => unkonvertierbareDateien.isNotEmpty;
 
   LocalFilesConversionResult(
-      this.konvertierteDateien, this.unkonvertierbareDateien);
+    this.konvertierteDateien,
+    this.unkonvertierbareDateien,
+  );
 }

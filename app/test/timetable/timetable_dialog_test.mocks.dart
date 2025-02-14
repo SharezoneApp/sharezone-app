@@ -25,13 +25,8 @@ import 'package:sharezone/timetable/timetable_add_event/src/timetable_add_event_
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeCourse_0 extends _i1.SmartFake implements _i2.Course {
-  _FakeCourse_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeCourse_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [EventDialogApi].
@@ -41,34 +36,22 @@ class MockEventDialogApi extends _i1.Mock implements _i3.EventDialogApi {
   @override
   _i4.Future<_i2.Course> loadCourse(_i5.CourseId? courseId) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #loadCourse,
-          [courseId],
-        ),
-        returnValue: _i4.Future<_i2.Course>.value(_FakeCourse_0(
-          this,
-          Invocation.method(
-            #loadCourse,
-            [courseId],
-          ),
-        )),
-        returnValueForMissingStub: _i4.Future<_i2.Course>.value(_FakeCourse_0(
-          this,
-          Invocation.method(
-            #loadCourse,
-            [courseId],
-          ),
-        )),
-      ) as _i4.Future<_i2.Course>);
+            Invocation.method(#loadCourse, [courseId]),
+            returnValue: _i4.Future<_i2.Course>.value(
+              _FakeCourse_0(this, Invocation.method(#loadCourse, [courseId])),
+            ),
+            returnValueForMissingStub: _i4.Future<_i2.Course>.value(
+              _FakeCourse_0(this, Invocation.method(#loadCourse, [courseId])),
+            ),
+          )
+          as _i4.Future<_i2.Course>);
 
   @override
   _i4.Future<void> createEvent(_i3.CreateEventCommand? command) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #createEvent,
-          [command],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+            Invocation.method(#createEvent, [command]),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 }

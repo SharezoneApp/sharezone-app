@@ -35,12 +35,14 @@ Future<bool?> showDeleteEventConfirmationDialog(BuildContext context) async {
     defaultValue: false,
     context: context,
     right: AdaptiveDialogAction.delete,
-    content: !ThemePlatform.isCupertino
-        ? const Text("Möchtest du wirklich diesen Termin löschen?")
-        : null,
-    title: ThemePlatform.isCupertino
-        ? "Möchtest du wirklich diesen Termin löschen?"
-        : null,
+    content:
+        !ThemePlatform.isCupertino
+            ? const Text("Möchtest du wirklich diesen Termin löschen?")
+            : null,
+    title:
+        ThemePlatform.isCupertino
+            ? "Möchtest du wirklich diesen Termin löschen?"
+            : null,
   );
 }
 
@@ -76,16 +78,19 @@ Future<void> showTimetableEventDetails(
 }
 
 Future<void> openTimetableEventEditPage(
-    BuildContext context, CalendricalEvent event) async {
+  BuildContext context,
+  CalendricalEvent event,
+) async {
   final api = BlocProvider.of<SharezoneContext>(context).api;
   final confirmed = await Navigator.push<bool>(
     context,
     MaterialPageRoute(
-      builder: (context) => TimetableEditEventPage(
-        event,
-        api.timetable,
-        api.connectionsGateway,
-      ),
+      builder:
+          (context) => TimetableEditEventPage(
+            event,
+            api.timetable,
+            api.connectionsGateway,
+          ),
       settings: const RouteSettings(name: TimetableEditEventPage.tag),
     ),
   );
@@ -113,7 +118,9 @@ Future<void> deleteEvent(BuildContext context, CalendricalEvent event) async {
 }
 
 Future<void> _deleteEventAndShowConfirmationSnackbar(
-    BuildContext context, CalendricalEvent event) async {
+  BuildContext context,
+  CalendricalEvent event,
+) async {
   final timetableGateway =
       BlocProvider.of<SharezoneContext>(context).api.timetable;
   timetableGateway.deleteEvent(event);
@@ -121,11 +128,7 @@ Future<void> _deleteEventAndShowConfirmationSnackbar(
   await waitingForPopAnimation();
   if (!context.mounted) return;
 
-  showSnackSec(
-    text: 'Termin wurde gelöscht',
-    context: context,
-    seconds: 2,
-  );
+  showSnackSec(text: 'Termin wurde gelöscht', context: context, seconds: 2);
 }
 
 class _TimetableEventDetailsPage extends StatelessWidget {
@@ -134,23 +137,21 @@ class _TimetableEventDetailsPage extends StatelessWidget {
   final CalendricalEvent event;
   final Design? design;
 
-  const _TimetableEventDetailsPage({
-    required this.event,
-    this.design,
-  });
+  const _TimetableEventDetailsPage({required this.event, this.design});
 
   @override
   Widget build(BuildContext context) {
-    final courseName = BlocProvider.of<SharezoneContext>(context)
-            .api
-            .course
-            .getCourse(event.groupID)
-            ?.name ??
+    final courseName =
+        BlocProvider.of<SharezoneContext>(
+          context,
+        ).api.course.getCourse(event.groupID)?.name ??
         "-";
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final isAuthor = api.uID == event.authorID;
     final hasPermissionsToManageLessons = hasPermissionToManageEvents(
-        api.course.getRoleFromCourseNoSync(event.groupID)!, isAuthor);
+      api.course.getRoleFromCourseNoSync(event.groupID)!,
+      isAuthor,
+    );
     final isExam = event.eventType == EventType.exam;
     final theme = Theme.of(context);
 
@@ -164,7 +165,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
           if (hasPermissionsToManageLessons) ...const [
             _EditIcon(),
             _DeleteIcon(),
-          ]
+          ],
         ],
       ),
       bottomNavigationBar: _AddToMyCalendarButton(event: event),
@@ -175,24 +176,24 @@ class _TimetableEventDetailsPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const SizedBox(height: 12),
-                _TitleAndDate(
-                  design: design,
-                  event: event,
-                ),
+                _TitleAndDate(design: design, event: event),
                 ListTile(
                   leading: const Icon(Icons.group),
                   title: Text.rich(
                     TextSpan(
                       style: TextStyle(
-                          color: Theme.of(context).isDarkTheme
-                              ? Colors.white
-                              : Colors.grey[800],
-                          fontSize: 16),
+                        color:
+                            Theme.of(context).isDarkTheme
+                                ? Colors.white
+                                : Colors.grey[800],
+                        fontSize: 16,
+                      ),
                       children: <TextSpan>[
                         const TextSpan(text: "Kursname: "),
                         TextSpan(
-                            text: courseName,
-                            style: TextStyle(color: design?.color))
+                          text: courseName,
+                          style: TextStyle(color: design?.color),
+                        ),
                       ],
                     ),
                   ),
@@ -208,16 +209,17 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                       data:
                           "${isExam ? "Themen der Prüfung" : "Details"}:\n${event.detail}",
                       selectable: true,
-                      onTapLink: (url, _, __) =>
-                          launchURL(url, context: context),
+                      onTapLink:
+                          (url, _, __) => launchURL(url, context: context),
                       softLineBreak: true,
                       styleSheet: MarkdownStyleSheet.fromTheme(
                         theme.copyWith(
                           textTheme: theme.textTheme.copyWith(
                             bodyMedium: TextStyle(
-                              color: Theme.of(context).isDarkTheme
-                                  ? Colors.white
-                                  : Colors.black,
+                              color:
+                                  Theme.of(context).isDarkTheme
+                                      ? Colors.white
+                                      : Colors.black,
                               fontSize: 16,
                             ),
                           ),
@@ -235,10 +237,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
 }
 
 class _TitleAndDate extends StatelessWidget {
-  const _TitleAndDate({
-    required this.design,
-    required this.event,
-  });
+  const _TitleAndDate({required this.design, required this.event});
 
   final Design? design;
   final CalendricalEvent event;
@@ -247,12 +246,7 @@ class _TitleAndDate extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: _Square(color: design?.color),
-      title: Text(
-        event.title,
-        style: const TextStyle(
-          fontSize: 26,
-        ),
-      ),
+      title: Text(event.title, style: const TextStyle(fontSize: 26)),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 6),
         child: Text(
@@ -265,9 +259,7 @@ class _TitleAndDate extends StatelessWidget {
 }
 
 class _Square extends StatelessWidget {
-  const _Square({
-    required this.color,
-  });
+  const _Square({required this.color});
 
   final Color? color;
 
@@ -343,7 +335,8 @@ class _AddToMyCalendarButton extends StatelessWidget {
       context: context,
       navigateToPlusPage: () => navigateToSharezonePlusPage(context),
       description: const Text(
-          'Mit Sharezone Plus kannst du kinderleicht die Termine aus Sharezone in deinen lokalen Kalender (z.B. Apple oder Google Kalender) übertragen.'),
+        'Mit Sharezone Plus kannst du kinderleicht die Termine aus Sharezone in deinen lokalen Kalender (z.B. Apple oder Google Kalender) übertragen.',
+      ),
       title: const Text('Termin zum Kalender hinzufügen'),
     );
   }
@@ -355,9 +348,9 @@ class _AddToMyCalendarButton extends StatelessWidget {
     // Ticket: https://github.com/ja2375/add_2_calendar/issues/32
     if (PlatformCheck.isDesktopOrWeb) return const Text("");
 
-    final isUnlocked = context
-        .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.addEventToLocalCalendar);
+    final isUnlocked = context.read<SubscriptionService>().hasFeatureUnlocked(
+      SharezonePlusFeature.addEventToLocalCalendar,
+    );
 
     return SafeArea(
       child: Column(
@@ -386,7 +379,7 @@ class _AddToMyCalendarButton extends StatelessWidget {
                           backgroundColor: Colors.white10,
                         ),
                       ),
-                    ]
+                    ],
                   ],
                 ),
                 style: ElevatedButton.styleFrom(

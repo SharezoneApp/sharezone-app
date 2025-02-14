@@ -28,10 +28,12 @@ class DesktopAlignment extends StatelessWidget {
         children: <Widget>[
           SizedBox(width: _drawerWidth, child: drawer),
           Container(
-              width: 1,
-              color: Theme.of(context).isDarkTheme
-                  ? Colors.grey.withValues(alpha: 0.1)
-                  : Colors.grey[200]),
+            width: 1,
+            color:
+                Theme.of(context).isDarkTheme
+                    ? Colors.grey.withValues(alpha: 0.1)
+                    : Colors.grey[200],
+          ),
           Expanded(child: scaffold),
         ],
       ),

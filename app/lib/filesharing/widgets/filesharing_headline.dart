@@ -21,10 +21,12 @@ class FileSharingHeadline extends StatelessWidget {
       child: Text(
         title!,
         style: TextStyle(
-            color: Theme.of(context).isDarkTheme
-                ? Colors.grey[400]
-                : Colors.grey[700],
-            fontWeight: FontWeight.w600),
+          color:
+              Theme.of(context).isDarkTheme
+                  ? Colors.grey[400]
+                  : Colors.grey[700],
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

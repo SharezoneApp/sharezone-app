@@ -14,7 +14,7 @@ PlatformInformationRetriever getPlatformInformationRetriever() {
 }
 
 Future<PlatformInformationRetriever>
-    getPlatformInformationRetrieverWithInit() async {
+getPlatformInformationRetrieverWithInit() async {
   final retriever = FlutterPlatformInformationRetriever();
   await retriever.init();
   return retriever;

@@ -71,8 +71,9 @@ class TimetableGateway {
     required bool notifyGroupMembers,
   }) {
     references.lessons.doc(lessonId).update({
-      'substitutions.${substitution.id}':
-          substitution.toCreateJson(notifyGroupMembers: notifyGroupMembers),
+      'substitutions.${substitution.id}': substitution.toCreateJson(
+        notifyGroupMembers: notifyGroupMembers,
+      ),
     });
   }
 
@@ -86,7 +87,7 @@ class TimetableGateway {
         'by': memberID,
         'on': FieldValue.serverTimestamp(),
         'notifyGroupMembers': notifyGroupMembers,
-      }
+      },
     });
   }
 
@@ -106,7 +107,7 @@ class TimetableGateway {
         'by': memberID,
         'on': FieldValue.serverTimestamp(),
         'notifyGroupMembers': notifyGroupMembers,
-      }
+      },
     });
   }
 
@@ -115,10 +116,12 @@ class TimetableGateway {
         .where('users', arrayContains: memberID)
         .snapshots()
         .map((querySnapshot) {
-      return querySnapshot.docs
-          .map((document) => Lesson.fromData(document.data(), id: document.id))
-          .toList();
-    });
+          return querySnapshot.docs
+              .map(
+                (document) => Lesson.fromData(document.data(), id: document.id),
+              )
+              .toList();
+        });
   }
 
   Future<CalendricalEvent> getEvent(String eventID) {
@@ -133,10 +136,12 @@ class TimetableGateway {
         .where('groupID', isEqualTo: groupID)
         .get()
         .then((querySnapshot) {
-      return querySnapshot.docs
-          .map((document) => Lesson.fromData(document.data(), id: document.id))
-          .toList();
-    });
+          return querySnapshot.docs
+              .map(
+                (document) => Lesson.fromData(document.data(), id: document.id),
+              )
+              .toList();
+        });
   }
 
   Stream<List<CalendricalEvent>> streamEvents(Date startDate, [Date? endDate]) {
@@ -147,11 +152,15 @@ class TimetableGateway {
           .where('date', isGreaterThanOrEqualTo: startDate.toDateString)
           .snapshots()
           .map((querySnapshot) {
-        return querySnapshot.docs
-            .map((document) =>
-                CalendricalEvent.fromData(document.data(), id: document.id))
-            .toList();
-      });
+            return querySnapshot.docs
+                .map(
+                  (document) => CalendricalEvent.fromData(
+                    document.data(),
+                    id: document.id,
+                  ),
+                )
+                .toList();
+          });
     }
 
     // Stream between a range
@@ -161,11 +170,13 @@ class TimetableGateway {
         .where('date', isLessThanOrEqualTo: endDate.toDateString)
         .snapshots()
         .map((querySnapshot) {
-      return querySnapshot.docs
-          .map((document) =>
-              CalendricalEvent.fromData(document.data(), id: document.id))
-          .toList();
-    });
+          return querySnapshot.docs
+              .map(
+                (document) =>
+                    CalendricalEvent.fromData(document.data(), id: document.id),
+              )
+              .toList();
+        });
   }
 
   /// Streams the calendrical events that occurred before or on the specified
@@ -184,11 +195,13 @@ class TimetableGateway {
         .orderBy('date', descending: descending)
         .snapshots()
         .map((querySnapshot) {
-      return querySnapshot.docs
-          .map((document) =>
-              CalendricalEvent.fromData(document.data(), id: document.id))
-          .toList();
-    });
+          return querySnapshot.docs
+              .map(
+                (document) =>
+                    CalendricalEvent.fromData(document.data(), id: document.id),
+              )
+              .toList();
+        });
   }
 
   Stream<bool> isEventStreamEmpty() {
@@ -218,9 +231,11 @@ class TimetableGateway {
         .where('weekday', isEqualTo: date.weekDayEnum.name)
         .snapshots()
         .map((querySnapshot) {
-      return querySnapshot.docs
-          .map((document) => Lesson.fromData(document.data(), id: document.id))
-          .toList();
-    });
+          return querySnapshot.docs
+              .map(
+                (document) => Lesson.fromData(document.data(), id: document.id),
+              )
+              .toList();
+        });
   }
 }

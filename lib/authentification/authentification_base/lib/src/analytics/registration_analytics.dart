@@ -18,8 +18,9 @@ class RegistrationAnalytics {
   RegistrationAnalytics(this._analytics);
 
   void logAnonymousRegistration() {
-    _analytics
-        .log(AuthentifactionEvent(provider: anonymous, name: "registered"));
+    _analytics.log(
+      AuthentifactionEvent(provider: anonymous, name: "registered"),
+    );
   }
 
   void logOAuthRegistration() {

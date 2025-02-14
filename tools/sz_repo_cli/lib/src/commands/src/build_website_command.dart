@@ -11,10 +11,7 @@ import 'dart:io';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 /// The different flavors of the website.
-final _websiteFlavors = [
-  'prod',
-  'dev',
-];
+final _websiteFlavors = ['prod', 'dev'];
 
 class BuildWebsiteCommand extends CommandBase {
   BuildWebsiteCommand(super.context) {
@@ -59,19 +56,16 @@ class BuildWebsiteCommand extends CommandBase {
   Future<void> _buildWebsite() async {
     try {
       final flavor = argResults![flavorOptionName] as String;
-      await processRunner.runCommand(
-        [
-          'flutter',
-          'build',
-          'web',
-          '--release',
-          '--dart-define',
-          'FLAVOR=$flavor',
-          '--pwa-strategy',
-          'none',
-        ],
-        workingDirectory: repo.sharezoneWebsite.location,
-      );
+      await processRunner.runCommand([
+        'flutter',
+        'build',
+        'web',
+        '--release',
+        '--dart-define',
+        'FLAVOR=$flavor',
+        '--pwa-strategy',
+        'none',
+      ], workingDirectory: repo.sharezoneWebsite.location);
     } catch (e) {
       throw Exception('Failed to build website: $e');
     }

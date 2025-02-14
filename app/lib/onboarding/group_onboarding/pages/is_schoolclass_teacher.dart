@@ -26,10 +26,7 @@ class GroupOnboardingIsClassTeacher extends StatelessWidget {
     return const GroupOnboardingPageTemplate(
       title: "Leitest du eine Klasse? (Klassenlehrer)",
       bottomNavigationBar: OnboardingNavigationBar(),
-      children: [
-        _ClassTeacherButton(),
-        _CourseTeacherButton(),
-      ],
+      children: [_ClassTeacherButton(), _CourseTeacherButton()],
     );
   }
 }

@@ -18,9 +18,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'support_page_test.mocks.dart';
 
-@GenerateNiceMocks([
-  MockSpec<SupportPageController>(),
-])
+@GenerateNiceMocks([MockSpec<SupportPageController>()])
 void main() {
   group(SupportPage, () {
     late MockSupportPageController controller;
@@ -39,7 +37,8 @@ void main() {
         MultiProvider(
           providers: [
             ChangeNotifierProvider<SupportPageController>.value(
-                value: controller),
+              value: controller,
+            ),
           ],
           child: const SupportPage(),
         ),

@@ -40,21 +40,27 @@ void main() {
       api = MockFeedbackApi();
       cache = FeedbackCache(InMemoryKeyValueStore());
       platformInformationRetriever = MockPlatformInformationRetriever();
-      bloc = FeedbackBloc(api, cache, platformInformationRetriever, uid,
-          MockFeedbackAnalytics());
+      bloc = FeedbackBloc(
+        api,
+        cache,
+        platformInformationRetriever,
+        uid,
+        MockFeedbackAnalytics(),
+      );
       platformInformationRetriever.appName = "appName";
       platformInformationRetriever.packageName = "packageName";
 
       expectedResponseWithIdentifiableInfo = UserFeedback.create().copyWith(
-          likes: likes,
-          dislikes: dislikes,
-          missing: missing,
-          heardFrom: heardFrom,
-          uid: uid,
-          deviceInformation: FeedbackDeviceInformation.create().copyWith(
-            appName: "appName",
-            packageName: "packageName",
-          ));
+        likes: likes,
+        dislikes: dislikes,
+        missing: missing,
+        heardFrom: heardFrom,
+        uid: uid,
+        deviceInformation: FeedbackDeviceInformation.create().copyWith(
+          appName: "appName",
+          packageName: "packageName",
+        ),
+      );
     });
 
     tearDown(() {
@@ -65,10 +71,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Material(
-            child: BlocProvider(
-              bloc: bloc,
-              child: const FeedbackPageBody(),
-            ),
+            child: BlocProvider(bloc: bloc, child: const FeedbackPageBody()),
           ),
         ),
       );
@@ -81,7 +84,9 @@ void main() {
       await bloc.submit();
 
       expect(
-          api.wasOnlyInvokedWith(expectedResponseWithIdentifiableInfo), true);
+        api.wasOnlyInvokedWith(expectedResponseWithIdentifiableInfo),
+        true,
+      );
     });
 
     test("submit does not call API if user is on cooldown", () async {

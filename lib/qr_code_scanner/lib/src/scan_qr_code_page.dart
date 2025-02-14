@@ -32,11 +32,12 @@ Future<String?> showQrCodeScanner(
   return Navigator.push<String?>(
     context,
     MaterialPageRoute(
-      builder: (context) => _ScanQrCodePage(
-        title: title,
-        description: description,
-        mockController: mockController,
-      ),
+      builder:
+          (context) => _ScanQrCodePage(
+            title: title,
+            description: description,
+            mockController: mockController,
+          ),
       settings: settings,
     ),
   );
@@ -75,42 +76,42 @@ class _ScanQrCodePageState extends State<_ScanQrCodePage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Builder(builder: (context) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            appBarTheme: AppBarTheme(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              titleTextStyle: AppBarTheme.of(context).titleTextStyle?.copyWith(
-                    color: Colors.white,
-                  ),
-              iconTheme: IconTheme.of(context).copyWith(
-                color: Colors.white,
+      child: Builder(
+        builder: (context) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              appBarTheme: AppBarTheme(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                titleTextStyle: AppBarTheme.of(
+                  context,
+                ).titleTextStyle?.copyWith(color: Colors.white),
+                iconTheme: IconTheme.of(context).copyWith(color: Colors.white),
               ),
             ),
-          ),
-          child: Scaffold(
-            // Because we make the [AppBar] transparent, we need to extend the
-            // body to the top.
-            extendBodyBehindAppBar: true,
-            appBar: AppBar(title: widget.title),
-            body: Scanner(
-              mockController: widget.mockController,
-              description: widget.description,
-              onDetect: (qrCode) {
-                if (hasFoundQrCode) {
-                  // We already found a QR code, so we ignore all other QR
-                  // codes.
-                  return;
-                }
+            child: Scaffold(
+              // Because we make the [AppBar] transparent, we need to extend the
+              // body to the top.
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(title: widget.title),
+              body: Scanner(
+                mockController: widget.mockController,
+                description: widget.description,
+                onDetect: (qrCode) {
+                  if (hasFoundQrCode) {
+                    // We already found a QR code, so we ignore all other QR
+                    // codes.
+                    return;
+                  }
 
-                hasFoundQrCode = true;
-                Navigator.pop(context, qrCode);
-              },
+                  hasFoundQrCode = true;
+                  Navigator.pop(context, qrCode);
+                },
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }

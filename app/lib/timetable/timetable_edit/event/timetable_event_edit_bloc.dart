@@ -99,7 +99,9 @@ class TimetableEditEventBloc extends BlocBase {
       final detail = _detailSubject.valueOrNull;
       final sendNotification = _sendNotificationSubject.valueOrNull;
 
-      log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $title $date $detail");
+      log(
+        "isValid: true; ${course.toString()}; $startTime; $endTime; $room $title $date $detail",
+      );
 
       final event = initialEvent.copyWith(
         groupID: course?.id,

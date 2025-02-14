@@ -33,7 +33,8 @@ class AppFunctionsResult<T> {
   }
 
   factory AppFunctionsResult.exception(
-      AppFunctionsException appFunctionsException) {
+    AppFunctionsException appFunctionsException,
+  ) {
     return AppFunctionsResult._(
       data: null,
       hasData: false,

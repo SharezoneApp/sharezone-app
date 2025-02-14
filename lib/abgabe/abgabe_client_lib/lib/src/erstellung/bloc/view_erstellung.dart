@@ -26,23 +26,23 @@ extension AbgabedateiToView on Abgabedatei {
 
 extension HochladeneDateiToView on HochladeneLokaleAbgabedatei {
   FileView toView() => FileView(
-        id: '$id',
-        path: pfad,
-        basename: name.ohneExtension,
-        extentionName: name.nurExtension,
-        fileFormat: format,
-        status: fortschritt.status,
-        uploadProgress: fortschritt.inProzent,
-      );
+    id: '$id',
+    path: pfad,
+    basename: name.ohneExtension,
+    extentionName: name.nurExtension,
+    fileFormat: format,
+    status: fortschritt.status,
+    uploadProgress: fortschritt.inProzent,
+  );
 }
 
 extension HochgeladeneAbgabedateiToView on HochgeladeneAbgabedatei {
   FileView toView() => FileView(
-        id: '$id',
-        extentionName: name.nurExtension,
-        basename: name.ohneExtension,
-        status: FileViewStatus.successfullyUploaded,
-        fileFormat: format,
-        downloadUrl: downloadUrl.toString(),
-      );
+    id: '$id',
+    extentionName: name.nurExtension,
+    basename: name.ohneExtension,
+    status: FileViewStatus.successfullyUploaded,
+    fileFormat: format,
+    downloadUrl: downloadUrl.toString(),
+  );
 }

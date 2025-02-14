@@ -12,8 +12,10 @@ class LazyLoadingHomeworkListView<T> {
   final bool loadedAllHomeworks;
   final IList<T> orderedHomeworks;
 
-  LazyLoadingHomeworkListView(this.orderedHomeworks,
-      {required this.loadedAllHomeworks});
+  LazyLoadingHomeworkListView(
+    this.orderedHomeworks, {
+    required this.loadedAllHomeworks,
+  });
 
   int get numberOfHomeworks => orderedHomeworks.length;
 

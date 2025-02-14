@@ -53,7 +53,9 @@ class _AuthAppState extends State<AuthApp> {
     super.initState();
     final controller = BlocProvider.of<SignUpBloc>(context);
     bloc = RegistrationBloc(
-        widget.blocDependencies.registrationGateway, controller);
+      widget.blocDependencies.registrationGateway,
+      controller,
+    );
   }
 
   @override
@@ -61,17 +63,18 @@ class _AuthAppState extends State<AuthApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => SupportPageController(
-            // Inside the [AuthApp] the user can't be signed in and can't have
-            // Sharezone Plus.
-            userNameStream: Stream.value(null),
-            userIdStream: Stream.value(null),
-            userEmailStream: Stream.value(null),
-            hasPlusSupportUnlockedStream: Stream.value(false),
-            isUserInGroupOnboardingStream: Stream.value(false),
-            typeOfUserStream: Stream.value(null),
-            urlLauncher: UrlLauncherExtended(),
-          ),
+          create:
+              (context) => SupportPageController(
+                // Inside the [AuthApp] the user can't be signed in and can't have
+                // Sharezone Plus.
+                userNameStream: Stream.value(null),
+                userIdStream: Stream.value(null),
+                userEmailStream: Stream.value(null),
+                hasPlusSupportUnlockedStream: Stream.value(false),
+                isUserInGroupOnboardingStream: Stream.value(false),
+                typeOfUserStream: Stream.value(null),
+                urlLauncher: UrlLauncherExtended(),
+              ),
         ),
       ],
       child: MultiBlocProvider(
@@ -80,31 +83,35 @@ class _AuthAppState extends State<AuthApp> {
             bloc: DownloadAppTipBloc(
               DownloadAppTipCache(
                 FlutterStreamingKeyValueStore(
-                    widget.blocDependencies.streamingSharedPreferences),
+                  widget.blocDependencies.streamingSharedPreferences,
+                ),
               ),
               DownloadAppTipAnalytics(widget.analytics),
             ),
           ),
           BlocProvider<RegistrationBloc>(bloc: bloc),
           BlocProvider<ImprintAnalytics>(
-              bloc: ImprintAnalytics(widget.analytics)),
+            bloc: ImprintAnalytics(widget.analytics),
+          ),
         ],
-        child: (context) => SharezoneMaterialApp(
-          blocDependencies: widget.blocDependencies,
-          home: const WelcomePage(),
-          onUnknownRouteWidget: const WelcomePage(),
-          analytics: widget.analytics,
-          navigatorKey: null,
-          routes: {
-            SupportPage.tag: (context) => const SupportPage(),
-            SignUpPage.tag: (context) => const SignUpPage(),
-            LoginPage.tag: (context) => const LoginPage(),
-            PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
-            TermsOfServicePage.tag: (context) => const TermsOfServicePage(),
-            SignInWithQrCodePage.tag: (context) => const SignInWithQrCodePage(),
-            ImprintPage.tag: (context) => const ImprintPage(),
-          },
-        ),
+        child:
+            (context) => SharezoneMaterialApp(
+              blocDependencies: widget.blocDependencies,
+              home: const WelcomePage(),
+              onUnknownRouteWidget: const WelcomePage(),
+              analytics: widget.analytics,
+              navigatorKey: null,
+              routes: {
+                SupportPage.tag: (context) => const SupportPage(),
+                SignUpPage.tag: (context) => const SignUpPage(),
+                LoginPage.tag: (context) => const LoginPage(),
+                PrivacyPolicyPage.tag: (context) => PrivacyPolicyPage(),
+                TermsOfServicePage.tag: (context) => const TermsOfServicePage(),
+                SignInWithQrCodePage.tag:
+                    (context) => const SignInWithQrCodePage(),
+                ImprintPage.tag: (context) => const ImprintPage(),
+              },
+            ),
       ),
     );
   }
