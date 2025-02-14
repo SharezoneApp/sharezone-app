@@ -69,8 +69,6 @@ class BuildAppWebCommand extends CommandBase {
         '--target',
         'lib/main_$flavor.dart',
         '--release',
-        '--web-renderer',
-        'canvaskit',
         '--dart-define',
         'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
         if (stage != 'stable') ...['--build-name', buildNameWithStage],
