@@ -687,7 +687,7 @@ SPEC CHECKSUMS:
   FirebaseStorage: 44f4e25073f6fa0d4d8c09f5bec299ee9e4eb985
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_image_compress_common: ec1d45c362c9d30a3f6a0426c297f47c52007e3e
-  flutter_timezone: ffb07bdad3c6276af8dada0f11978d8a1f8a20bb
+  flutter_timezone: ac3da59ac941ff1c98a2e1f0293420e020120282
   Google-Mobile-Ads-SDK: 14f57f2dc33532a24db288897e26494640810407
   google_mobile_ads: fe0e2c1764ad95323dd0e3081d0bb2d58411f957
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
@@ -738,4 +738,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: a99b3c1a318fb52a4f7a157c8ab41a41a9a256fc
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

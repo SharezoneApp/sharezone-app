@@ -509,7 +509,7 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: 0274086954b1b2d5fd7e829eccc587044d72a4ba
   FirebaseStorage: 44f4e25073f6fa0d4d8c09f5bec299ee9e4eb985
   flutter_image_compress_macos: c26c3c13ea0f28ae6dea4e139b3292e7729f99f1
-  flutter_timezone: 6b906d1740654acb16e50b639835628fea851037
+  flutter_timezone: 62400baa441155f2a4144188648f2ff861649747
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
   GoogleAppMeasurement: 9abf64b682732fed36da827aa2a68f0221fd2356
@@ -541,4 +541,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 3c0ad86ed3d6cfaec305e881639772a242a41bc2
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
