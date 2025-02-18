@@ -212,6 +212,12 @@ dependency_overrides:
       url: https://github.com/mbfakourii/Flare-Flutter.git
       path: flare_flutter
       ref: remove_hashValues
+  # Can be removed once this issue is fixed:
+  # https://github.com/joutvhu/open_file_plus/issues/22
+  open_file_plus:
+    git:
+      url: https://github.com/postflow/open_file_plus.git
+      ref: b29351d11174869ebe0d7a5401ecad0a2300a63b
 
 dev_dependencies:
   async: ^2.4.1
