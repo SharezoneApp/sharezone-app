@@ -32,19 +32,34 @@ import 'package:sharezone/feedback/history/feedback_history_page_controller.dart
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeFeedbackApi_0 extends _i1.SmartFake implements _i2.FeedbackApi {
-  _FakeFeedbackApi_0(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
+  _FakeFeedbackApi_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
 class _FakeUserId_1 extends _i1.SmartFake implements _i3.UserId {
-  _FakeUserId_1(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
+  _FakeUserId_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
 class _FakeCrashAnalytics_2 extends _i1.SmartFake
     implements _i4.CrashAnalytics {
-  _FakeCrashAnalytics_2(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
+  _FakeCrashAnalytics_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
 class _FakeFeedbackHistoryPageAnalytics_3 extends _i1.SmartFake
@@ -52,7 +67,10 @@ class _FakeFeedbackHistoryPageAnalytics_3 extends _i1.SmartFake
   _FakeFeedbackHistoryPageAnalytics_3(
     Object parent,
     Invocation parentInvocation,
-  ) : super(parent, parentInvocation);
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
 /// A class which mocks [FeedbackHistoryPageController].
@@ -61,120 +79,129 @@ class _FakeFeedbackHistoryPageAnalytics_3 extends _i1.SmartFake
 class MockFeedbackHistoryPageController extends _i1.Mock
     implements _i6.FeedbackHistoryPageController {
   @override
-  _i2.FeedbackApi get api =>
-      (super.noSuchMethod(
-            Invocation.getter(#api),
-            returnValue: _FakeFeedbackApi_0(this, Invocation.getter(#api)),
-            returnValueForMissingStub: _FakeFeedbackApi_0(
-              this,
-              Invocation.getter(#api),
-            ),
-          )
-          as _i2.FeedbackApi);
+  _i2.FeedbackApi get api => (super.noSuchMethod(
+        Invocation.getter(#api),
+        returnValue: _FakeFeedbackApi_0(
+          this,
+          Invocation.getter(#api),
+        ),
+        returnValueForMissingStub: _FakeFeedbackApi_0(
+          this,
+          Invocation.getter(#api),
+        ),
+      ) as _i2.FeedbackApi);
 
   @override
-  _i3.UserId get userId =>
-      (super.noSuchMethod(
-            Invocation.getter(#userId),
-            returnValue: _FakeUserId_1(this, Invocation.getter(#userId)),
-            returnValueForMissingStub: _FakeUserId_1(
-              this,
-              Invocation.getter(#userId),
-            ),
-          )
-          as _i3.UserId);
+  _i3.UserId get userId => (super.noSuchMethod(
+        Invocation.getter(#userId),
+        returnValue: _FakeUserId_1(
+          this,
+          Invocation.getter(#userId),
+        ),
+        returnValueForMissingStub: _FakeUserId_1(
+          this,
+          Invocation.getter(#userId),
+        ),
+      ) as _i3.UserId);
 
   @override
-  _i4.CrashAnalytics get crashAnalytics =>
-      (super.noSuchMethod(
-            Invocation.getter(#crashAnalytics),
-            returnValue: _FakeCrashAnalytics_2(
-              this,
-              Invocation.getter(#crashAnalytics),
-            ),
-            returnValueForMissingStub: _FakeCrashAnalytics_2(
-              this,
-              Invocation.getter(#crashAnalytics),
-            ),
-          )
-          as _i4.CrashAnalytics);
+  _i4.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
+        Invocation.getter(#crashAnalytics),
+        returnValue: _FakeCrashAnalytics_2(
+          this,
+          Invocation.getter(#crashAnalytics),
+        ),
+        returnValueForMissingStub: _FakeCrashAnalytics_2(
+          this,
+          Invocation.getter(#crashAnalytics),
+        ),
+      ) as _i4.CrashAnalytics);
 
   @override
-  _i5.FeedbackHistoryPageAnalytics get analytics =>
-      (super.noSuchMethod(
-            Invocation.getter(#analytics),
-            returnValue: _FakeFeedbackHistoryPageAnalytics_3(
-              this,
-              Invocation.getter(#analytics),
-            ),
-            returnValueForMissingStub: _FakeFeedbackHistoryPageAnalytics_3(
-              this,
-              Invocation.getter(#analytics),
-            ),
-          )
-          as _i5.FeedbackHistoryPageAnalytics);
+  _i5.FeedbackHistoryPageAnalytics get analytics => (super.noSuchMethod(
+        Invocation.getter(#analytics),
+        returnValue: _FakeFeedbackHistoryPageAnalytics_3(
+          this,
+          Invocation.getter(#analytics),
+        ),
+        returnValueForMissingStub: _FakeFeedbackHistoryPageAnalytics_3(
+          this,
+          Invocation.getter(#analytics),
+        ),
+      ) as _i5.FeedbackHistoryPageAnalytics);
 
   @override
-  _i6.FeedbackHistoryPageState get state =>
-      (super.noSuchMethod(
-            Invocation.getter(#state),
-            returnValue: _i7.dummyValue<_i6.FeedbackHistoryPageState>(
-              this,
-              Invocation.getter(#state),
-            ),
-            returnValueForMissingStub: _i7
-                .dummyValue<_i6.FeedbackHistoryPageState>(
-                  this,
-                  Invocation.getter(#state),
-                ),
-          )
-          as _i6.FeedbackHistoryPageState);
+  _i6.FeedbackHistoryPageState get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _i7.dummyValue<_i6.FeedbackHistoryPageState>(
+          this,
+          Invocation.getter(#state),
+        ),
+        returnValueForMissingStub: _i7.dummyValue<_i6.FeedbackHistoryPageState>(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i6.FeedbackHistoryPageState);
 
   @override
-  bool get hasListeners =>
-      (super.noSuchMethod(
-            Invocation.getter(#hasListeners),
-            returnValue: false,
-            returnValueForMissingStub: false,
-          )
-          as bool);
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
 
   @override
-  _i8.Future<void> startStreaming() =>
-      (super.noSuchMethod(
-            Invocation.method(#startStreaming, []),
-            returnValue: _i8.Future<void>.value(),
-            returnValueForMissingStub: _i8.Future<void>.value(),
-          )
-          as _i8.Future<void>);
+  _i8.Future<void> startStreaming() => (super.noSuchMethod(
+        Invocation.method(
+          #startStreaming,
+          [],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
   void logOpenedPage() => super.noSuchMethod(
-    Invocation.method(#logOpenedPage, []),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #logOpenedPage,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
-    Invocation.method(#addListener, [listener]),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void removeListener(_i9.VoidCallback? listener) => super.noSuchMethod(
-    Invocation.method(#removeListener, [listener]),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void notifyListeners() => super.noSuchMethod(
-    Invocation.method(#notifyListeners, []),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

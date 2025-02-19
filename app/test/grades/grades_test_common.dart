@@ -64,16 +64,11 @@ class GradesTestController {
       isActiveTerm: testTerm.isActiveTerm,
       name: testTerm.name,
       gradingSystem: testTerm.gradingSystem,
+      gradeTypeWeights: testTerm.gradeTypeWeights?.toIMap(),
     );
 
     if (testTerm.weightDisplayType != null) {
       service.term(termId).changeWeightDisplayType(testTerm.weightDisplayType!);
-    }
-
-    if (testTerm.gradeTypeWeights != null) {
-      for (var e in testTerm.gradeTypeWeights!.entries) {
-        service.term(termId).changeGradeTypeWeight(e.key, e.value);
-      }
     }
 
     for (var subject in testTerm.subjects.values) {

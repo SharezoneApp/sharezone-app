@@ -29,30 +29,55 @@ import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_pa
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeGradesService_0 extends _i1.SmartFake implements _i2.GradesService {
-  _FakeGradesService_0(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
+  _FakeGradesService_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
 class _FakeTermSubjectRef_1 extends _i1.SmartFake
     implements _i2.TermSubjectRef {
-  _FakeTermSubjectRef_1(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
+  _FakeTermSubjectRef_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
 class _FakeSubjectId_2 extends _i1.SmartFake implements _i2.SubjectId {
-  _FakeSubjectId_2(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
+  _FakeSubjectId_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
 class _FakeTermId_3 extends _i1.SmartFake implements _i2.TermId {
-  _FakeTermId_3(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
+  _FakeTermId_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
 class _FakeSubjectSettingsPageView_4 extends _i1.SmartFake
     implements _i3.SubjectSettingsPageView {
-  _FakeSubjectSettingsPageView_4(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
+  _FakeSubjectSettingsPageView_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
 }
 
 /// A class which mocks [SubjectSettingsPageController].
@@ -61,103 +86,98 @@ class _FakeSubjectSettingsPageView_4 extends _i1.SmartFake
 class MockSubjectSettingsPageController extends _i1.Mock
     implements _i4.SubjectSettingsPageController {
   @override
-  _i2.GradesService get gradesService =>
-      (super.noSuchMethod(
-            Invocation.getter(#gradesService),
-            returnValue: _FakeGradesService_0(
-              this,
-              Invocation.getter(#gradesService),
-            ),
-            returnValueForMissingStub: _FakeGradesService_0(
-              this,
-              Invocation.getter(#gradesService),
-            ),
-          )
-          as _i2.GradesService);
+  _i2.GradesService get gradesService => (super.noSuchMethod(
+        Invocation.getter(#gradesService),
+        returnValue: _FakeGradesService_0(
+          this,
+          Invocation.getter(#gradesService),
+        ),
+        returnValueForMissingStub: _FakeGradesService_0(
+          this,
+          Invocation.getter(#gradesService),
+        ),
+      ) as _i2.GradesService);
 
   @override
-  _i2.TermSubjectRef get subRef =>
-      (super.noSuchMethod(
-            Invocation.getter(#subRef),
-            returnValue: _FakeTermSubjectRef_1(
-              this,
-              Invocation.getter(#subRef),
-            ),
-            returnValueForMissingStub: _FakeTermSubjectRef_1(
-              this,
-              Invocation.getter(#subRef),
-            ),
-          )
-          as _i2.TermSubjectRef);
+  _i2.TermSubjectRef get subRef => (super.noSuchMethod(
+        Invocation.getter(#subRef),
+        returnValue: _FakeTermSubjectRef_1(
+          this,
+          Invocation.getter(#subRef),
+        ),
+        returnValueForMissingStub: _FakeTermSubjectRef_1(
+          this,
+          Invocation.getter(#subRef),
+        ),
+      ) as _i2.TermSubjectRef);
 
   @override
-  _i4.SubjectSettingsState get state =>
-      (super.noSuchMethod(
-            Invocation.getter(#state),
-            returnValue: _i5.dummyValue<_i4.SubjectSettingsState>(
-              this,
-              Invocation.getter(#state),
-            ),
-            returnValueForMissingStub: _i5.dummyValue<_i4.SubjectSettingsState>(
-              this,
-              Invocation.getter(#state),
-            ),
-          )
-          as _i4.SubjectSettingsState);
+  _i4.SubjectSettingsState get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _i5.dummyValue<_i4.SubjectSettingsState>(
+          this,
+          Invocation.getter(#state),
+        ),
+        returnValueForMissingStub: _i5.dummyValue<_i4.SubjectSettingsState>(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i4.SubjectSettingsState);
 
   @override
   set state(_i4.SubjectSettingsState? _state) => super.noSuchMethod(
-    Invocation.setter(#state, _state),
-    returnValueForMissingStub: null,
-  );
+        Invocation.setter(
+          #state,
+          _state,
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
-  _i2.SubjectId get subjectId =>
-      (super.noSuchMethod(
-            Invocation.getter(#subjectId),
-            returnValue: _FakeSubjectId_2(this, Invocation.getter(#subjectId)),
-            returnValueForMissingStub: _FakeSubjectId_2(
-              this,
-              Invocation.getter(#subjectId),
-            ),
-          )
-          as _i2.SubjectId);
+  _i2.SubjectId get subjectId => (super.noSuchMethod(
+        Invocation.getter(#subjectId),
+        returnValue: _FakeSubjectId_2(
+          this,
+          Invocation.getter(#subjectId),
+        ),
+        returnValueForMissingStub: _FakeSubjectId_2(
+          this,
+          Invocation.getter(#subjectId),
+        ),
+      ) as _i2.SubjectId);
 
   @override
-  _i2.TermId get termId =>
-      (super.noSuchMethod(
-            Invocation.getter(#termId),
-            returnValue: _FakeTermId_3(this, Invocation.getter(#termId)),
-            returnValueForMissingStub: _FakeTermId_3(
-              this,
-              Invocation.getter(#termId),
-            ),
-          )
-          as _i2.TermId);
+  _i2.TermId get termId => (super.noSuchMethod(
+        Invocation.getter(#termId),
+        returnValue: _FakeTermId_3(
+          this,
+          Invocation.getter(#termId),
+        ),
+        returnValueForMissingStub: _FakeTermId_3(
+          this,
+          Invocation.getter(#termId),
+        ),
+      ) as _i2.TermId);
 
   @override
-  _i3.SubjectSettingsPageView get view =>
-      (super.noSuchMethod(
-            Invocation.getter(#view),
-            returnValue: _FakeSubjectSettingsPageView_4(
-              this,
-              Invocation.getter(#view),
-            ),
-            returnValueForMissingStub: _FakeSubjectSettingsPageView_4(
-              this,
-              Invocation.getter(#view),
-            ),
-          )
-          as _i3.SubjectSettingsPageView);
+  _i3.SubjectSettingsPageView get view => (super.noSuchMethod(
+        Invocation.getter(#view),
+        returnValue: _FakeSubjectSettingsPageView_4(
+          this,
+          Invocation.getter(#view),
+        ),
+        returnValueForMissingStub: _FakeSubjectSettingsPageView_4(
+          this,
+          Invocation.getter(#view),
+        ),
+      ) as _i3.SubjectSettingsPageView);
 
   @override
-  bool get hasListeners =>
-      (super.noSuchMethod(
-            Invocation.getter(#hasListeners),
-            returnValue: false,
-            returnValueForMissingStub: false,
-          )
-          as bool);
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
 
   @override
   _i6.Future<void> setGradeWeight({
@@ -165,51 +185,71 @@ class MockSubjectSettingsPageController extends _i1.Mock
     required _i2.Weight? weight,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#setGradeWeight, [], {
-              #gradeTypeId: gradeTypeId,
-              #weight: weight,
-            }),
-            returnValue: _i6.Future<void>.value(),
-            returnValueForMissingStub: _i6.Future<void>.value(),
-          )
-          as _i6.Future<void>);
+        Invocation.method(
+          #setGradeWeight,
+          [],
+          {
+            #gradeTypeId: gradeTypeId,
+            #weight: weight,
+          },
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
 
   @override
   _i6.Future<void> removeGradeType(_i2.GradeTypeId? gradeTypeId) =>
       (super.noSuchMethod(
-            Invocation.method(#removeGradeType, [gradeTypeId]),
-            returnValue: _i6.Future<void>.value(),
-            returnValueForMissingStub: _i6.Future<void>.value(),
-          )
-          as _i6.Future<void>);
+        Invocation.method(
+          #removeGradeType,
+          [gradeTypeId],
+        ),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
 
   @override
   void setFinalGradeType(_i2.GradeType? gradeType) => super.noSuchMethod(
-    Invocation.method(#setFinalGradeType, [gradeType]),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #setFinalGradeType,
+          [gradeType],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
-    Invocation.method(#addListener, [listener]),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
-    Invocation.method(#removeListener, [listener]),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void notifyListeners() => super.noSuchMethod(
-    Invocation.method(#notifyListeners, []),
-    returnValueForMissingStub: null,
-  );
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
