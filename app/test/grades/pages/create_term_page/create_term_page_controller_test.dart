@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_analytics.dart';
@@ -56,6 +57,13 @@ void main() {
       expect(term.isActiveTerm, true);
       expect(term.finalGradeType.id, GradeType.schoolReportGrade.id);
       expect(term.gradingSystem, GradingSystem.oneToSixWithPlusAndMinus);
+      expect(
+        term.gradeTypeWeightings,
+        IMap({
+          GradeType.writtenExam.id: const Weight.percent(50),
+          GradeType.oralParticipation.id: const Weight.percent(50),
+        }),
+      );
     });
 
     test('saves term with custom grading system', () async {
