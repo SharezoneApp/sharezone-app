@@ -17,7 +17,7 @@ environment:
 
 dependencies:
   path: ^1.9.1
-  mime: ^1.0.6
+  mime: ^2.0.0
   meta: ^1.16.0
   sharezone_lints:
     path: ../../sharezone_lints

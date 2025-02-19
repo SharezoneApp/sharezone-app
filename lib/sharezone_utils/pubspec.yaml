@@ -22,7 +22,7 @@ dependencies:
   device_info_plus: ^10.1.2
   flutter:
     sdk: flutter
-  rxdart: ^0.27.7
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_test:
