@@ -1,37 +1,37 @@
+import 'package:analytics/analytics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_analytics.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page_controller.dart';
-import 'package:analytics/analytics.dart';
 
 import '../../../../test_goldens/grades/pages/create_term_page/create_term_page_test.mocks.dart';
 import '../../../analytics/analytics_test.dart';
 
 void main() {
+  late CreateTermPageController controller;
+  late GradesService gradesService;
+
+  setUp(() {
+    gradesService = GradesService();
+    controller = CreateTermPageController(
+      gradesService: gradesService,
+      analytics: CreateTermAnalytics(Analytics(LocalAnalyticsBackend())),
+      crashAnalytics: MockCrashAnalytics(),
+    );
+  });
+
   group('$CreateTermPageController', () {
     test(
       'throws $InvalidTermNameException when saving a term without a name',
       () {
-        final controller = CreateTermPageController(
-          gradesService: GradesService(),
-          analytics: CreateTermAnalytics(Analytics(LocalAnalyticsBackend())),
-          crashAnalytics: MockCrashAnalytics(),
-        );
-
         expect(
           () async => await controller.save(),
           throwsA(isA<InvalidTermNameException>()),
         );
       },
     );
-    test('saves term sucessfully with default values', () async {
-      var gradesService = GradesService();
-      final controller = CreateTermPageController(
-        gradesService: gradesService,
-        analytics: CreateTermAnalytics(Analytics(LocalAnalyticsBackend())),
-        crashAnalytics: MockCrashAnalytics(),
-      );
 
+    test('saves term successfully with default values', () async {
       controller.setName('Test');
       await controller.save();
 
