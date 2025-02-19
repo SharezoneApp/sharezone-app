@@ -58,5 +58,15 @@ void main() {
       final term = gradesService.terms.value.first;
       expect(term.gradingSystem, GradingSystem.zeroToFifteenPoints);
     });
+
+    test('saves term that is not active', () async {
+      controller.setName('Inactive Term');
+      controller.setIsCurrentTerm(false);
+      await controller.save();
+
+      expect(gradesService.terms.value, hasLength(1));
+      final term = gradesService.terms.value.first;
+      expect(term.isActiveTerm, false);
+    });
   });
 }
