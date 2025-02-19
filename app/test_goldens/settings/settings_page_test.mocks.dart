@@ -32,67 +32,37 @@ import 'package:streaming_shared_preferences/streaming_shared_preferences.dart'
 
 class _FakeSharezoneGateway_0 extends _i1.SmartFake
     implements _i2.SharezoneGateway {
-  _FakeSharezoneGateway_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSharezoneGateway_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeAnalytics_1 extends _i1.SmartFake implements _i3.Analytics {
-  _FakeAnalytics_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAnalytics_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeStreamingSharedPreferences_2 extends _i1.SmartFake
     implements _i4.StreamingSharedPreferences {
-  _FakeStreamingSharedPreferences_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeStreamingSharedPreferences_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeSharedPreferences_3 extends _i1.SmartFake
     implements _i5.SharedPreferences {
-  _FakeSharedPreferences_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSharedPreferences_3(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeNavigationService_4 extends _i1.SmartFake
     implements _i6.NavigationService {
-  _FakeNavigationService_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeNavigationService_4(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeStreamingKeyValueStore_5 extends _i1.SmartFake
     implements _i7.StreamingKeyValueStore {
-  _FakeStreamingKeyValueStore_5(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeStreamingKeyValueStore_5(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [SharezoneContext].
@@ -100,79 +70,79 @@ class _FakeStreamingKeyValueStore_5 extends _i1.SmartFake
 /// See the documentation for Mockito's code generation for more information.
 class MockSharezoneContext extends _i1.Mock implements _i8.SharezoneContext {
   @override
-  _i2.SharezoneGateway get api => (super.noSuchMethod(
-        Invocation.getter(#api),
-        returnValue: _FakeSharezoneGateway_0(
-          this,
-          Invocation.getter(#api),
-        ),
-        returnValueForMissingStub: _FakeSharezoneGateway_0(
-          this,
-          Invocation.getter(#api),
-        ),
-      ) as _i2.SharezoneGateway);
+  _i2.SharezoneGateway get api =>
+      (super.noSuchMethod(
+            Invocation.getter(#api),
+            returnValue: _FakeSharezoneGateway_0(this, Invocation.getter(#api)),
+            returnValueForMissingStub: _FakeSharezoneGateway_0(
+              this,
+              Invocation.getter(#api),
+            ),
+          )
+          as _i2.SharezoneGateway);
 
   @override
-  _i3.Analytics get analytics => (super.noSuchMethod(
-        Invocation.getter(#analytics),
-        returnValue: _FakeAnalytics_1(
-          this,
-          Invocation.getter(#analytics),
-        ),
-        returnValueForMissingStub: _FakeAnalytics_1(
-          this,
-          Invocation.getter(#analytics),
-        ),
-      ) as _i3.Analytics);
+  _i3.Analytics get analytics =>
+      (super.noSuchMethod(
+            Invocation.getter(#analytics),
+            returnValue: _FakeAnalytics_1(this, Invocation.getter(#analytics)),
+            returnValueForMissingStub: _FakeAnalytics_1(
+              this,
+              Invocation.getter(#analytics),
+            ),
+          )
+          as _i3.Analytics);
 
   @override
   _i4.StreamingSharedPreferences get streamingSharedPreferences =>
       (super.noSuchMethod(
-        Invocation.getter(#streamingSharedPreferences),
-        returnValue: _FakeStreamingSharedPreferences_2(
-          this,
-          Invocation.getter(#streamingSharedPreferences),
-        ),
-        returnValueForMissingStub: _FakeStreamingSharedPreferences_2(
-          this,
-          Invocation.getter(#streamingSharedPreferences),
-        ),
-      ) as _i4.StreamingSharedPreferences);
+            Invocation.getter(#streamingSharedPreferences),
+            returnValue: _FakeStreamingSharedPreferences_2(
+              this,
+              Invocation.getter(#streamingSharedPreferences),
+            ),
+            returnValueForMissingStub: _FakeStreamingSharedPreferences_2(
+              this,
+              Invocation.getter(#streamingSharedPreferences),
+            ),
+          )
+          as _i4.StreamingSharedPreferences);
 
   @override
-  _i5.SharedPreferences get sharedPreferences => (super.noSuchMethod(
-        Invocation.getter(#sharedPreferences),
-        returnValue: _FakeSharedPreferences_3(
-          this,
-          Invocation.getter(#sharedPreferences),
-        ),
-        returnValueForMissingStub: _FakeSharedPreferences_3(
-          this,
-          Invocation.getter(#sharedPreferences),
-        ),
-      ) as _i5.SharedPreferences);
+  _i5.SharedPreferences get sharedPreferences =>
+      (super.noSuchMethod(
+            Invocation.getter(#sharedPreferences),
+            returnValue: _FakeSharedPreferences_3(
+              this,
+              Invocation.getter(#sharedPreferences),
+            ),
+            returnValueForMissingStub: _FakeSharedPreferences_3(
+              this,
+              Invocation.getter(#sharedPreferences),
+            ),
+          )
+          as _i5.SharedPreferences);
 
   @override
-  _i6.NavigationService get navigationService => (super.noSuchMethod(
-        Invocation.getter(#navigationService),
-        returnValue: _FakeNavigationService_4(
-          this,
-          Invocation.getter(#navigationService),
-        ),
-        returnValueForMissingStub: _FakeNavigationService_4(
-          this,
-          Invocation.getter(#navigationService),
-        ),
-      ) as _i6.NavigationService);
+  _i6.NavigationService get navigationService =>
+      (super.noSuchMethod(
+            Invocation.getter(#navigationService),
+            returnValue: _FakeNavigationService_4(
+              this,
+              Invocation.getter(#navigationService),
+            ),
+            returnValueForMissingStub: _FakeNavigationService_4(
+              this,
+              Invocation.getter(#navigationService),
+            ),
+          )
+          as _i6.NavigationService);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [FeatureFlagl10n].
@@ -180,83 +150,71 @@ class MockSharezoneContext extends _i1.Mock implements _i8.SharezoneContext {
 /// See the documentation for Mockito's code generation for more information.
 class MockFeatureFlagl10n extends _i1.Mock implements _i9.FeatureFlagl10n {
   @override
-  _i7.StreamingKeyValueStore get keyValueStore => (super.noSuchMethod(
-        Invocation.getter(#keyValueStore),
-        returnValue: _FakeStreamingKeyValueStore_5(
-          this,
-          Invocation.getter(#keyValueStore),
-        ),
-        returnValueForMissingStub: _FakeStreamingKeyValueStore_5(
-          this,
-          Invocation.getter(#keyValueStore),
-        ),
-      ) as _i7.StreamingKeyValueStore);
+  _i7.StreamingKeyValueStore get keyValueStore =>
+      (super.noSuchMethod(
+            Invocation.getter(#keyValueStore),
+            returnValue: _FakeStreamingKeyValueStore_5(
+              this,
+              Invocation.getter(#keyValueStore),
+            ),
+            returnValueForMissingStub: _FakeStreamingKeyValueStore_5(
+              this,
+              Invocation.getter(#keyValueStore),
+            ),
+          )
+          as _i7.StreamingKeyValueStore);
 
   @override
-  bool get isl10nEnabled => (super.noSuchMethod(
-        Invocation.getter(#isl10nEnabled),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get isl10nEnabled =>
+      (super.noSuchMethod(
+            Invocation.getter(#isl10nEnabled),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   set isl10nEnabled(bool? _isl10nEnabled) => super.noSuchMethod(
-        Invocation.setter(
-          #isl10nEnabled,
-          _isl10nEnabled,
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#isl10nEnabled, _isl10nEnabled),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasListeners),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   void toggle() => super.noSuchMethod(
-        Invocation.method(
-          #toggle,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#toggle, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void addListener(_i10.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void removeListener(_i10.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#notifyListeners, []),
+    returnValueForMissingStub: null,
+  );
 }

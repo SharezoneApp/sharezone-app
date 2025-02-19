@@ -31,13 +31,8 @@ import 'package:user/user.dart' as _i7;
 
 class _FakeFirebaseFunctions_0 extends _i1.SmartFake
     implements _i2.FirebaseFunctions {
-  _FakeFirebaseFunctions_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeFirebaseFunctions_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [BlackboardItemReadByUsersListBloc].
@@ -46,20 +41,19 @@ class _FakeFirebaseFunctions_0 extends _i1.SmartFake
 class MockBlackboardItemReadByUsersListBloc extends _i1.Mock
     implements _i3.BlackboardItemReadByUsersListBloc {
   @override
-  _i4.Stream<List<_i5.UserView>> get userViews => (super.noSuchMethod(
-        Invocation.getter(#userViews),
-        returnValue: _i4.Stream<List<_i5.UserView>>.empty(),
-        returnValueForMissingStub: _i4.Stream<List<_i5.UserView>>.empty(),
-      ) as _i4.Stream<List<_i5.UserView>>);
+  _i4.Stream<List<_i5.UserView>> get userViews =>
+      (super.noSuchMethod(
+            Invocation.getter(#userViews),
+            returnValue: _i4.Stream<List<_i5.UserView>>.empty(),
+            returnValueForMissingStub: _i4.Stream<List<_i5.UserView>>.empty(),
+          )
+          as _i4.Stream<List<_i5.UserView>>);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [SubscriptionService].
@@ -68,123 +62,115 @@ class MockBlackboardItemReadByUsersListBloc extends _i1.Mock
 class MockSubscriptionService extends _i1.Mock
     implements _i6.SubscriptionService {
   @override
-  _i4.Stream<_i7.AppUser?> get user => (super.noSuchMethod(
-        Invocation.getter(#user),
-        returnValue: _i4.Stream<_i7.AppUser?>.empty(),
-        returnValueForMissingStub: _i4.Stream<_i7.AppUser?>.empty(),
-      ) as _i4.Stream<_i7.AppUser?>);
+  _i4.Stream<_i7.AppUser?> get user =>
+      (super.noSuchMethod(
+            Invocation.getter(#user),
+            returnValue: _i4.Stream<_i7.AppUser?>.empty(),
+            returnValueForMissingStub: _i4.Stream<_i7.AppUser?>.empty(),
+          )
+          as _i4.Stream<_i7.AppUser?>);
 
   @override
-  _i2.FirebaseFunctions get functions => (super.noSuchMethod(
-        Invocation.getter(#functions),
-        returnValue: _FakeFirebaseFunctions_0(
-          this,
-          Invocation.getter(#functions),
-        ),
-        returnValueForMissingStub: _FakeFirebaseFunctions_0(
-          this,
-          Invocation.getter(#functions),
-        ),
-      ) as _i2.FirebaseFunctions);
+  _i2.FirebaseFunctions get functions =>
+      (super.noSuchMethod(
+            Invocation.getter(#functions),
+            returnValue: _FakeFirebaseFunctions_0(
+              this,
+              Invocation.getter(#functions),
+            ),
+            returnValueForMissingStub: _FakeFirebaseFunctions_0(
+              this,
+              Invocation.getter(#functions),
+            ),
+          )
+          as _i2.FirebaseFunctions);
 
   @override
   _i4.Stream<_i7.SharezonePlusStatus?> get sharezonePlusStatusStream =>
       (super.noSuchMethod(
-        Invocation.getter(#sharezonePlusStatusStream),
-        returnValue: _i4.Stream<_i7.SharezonePlusStatus?>.empty(),
-        returnValueForMissingStub: _i4.Stream<_i7.SharezonePlusStatus?>.empty(),
-      ) as _i4.Stream<_i7.SharezonePlusStatus?>);
+            Invocation.getter(#sharezonePlusStatusStream),
+            returnValue: _i4.Stream<_i7.SharezonePlusStatus?>.empty(),
+            returnValueForMissingStub:
+                _i4.Stream<_i7.SharezonePlusStatus?>.empty(),
+          )
+          as _i4.Stream<_i7.SharezonePlusStatus?>);
 
   @override
   set sharezonePlusStatusStream(
-          _i4.Stream<_i7.SharezonePlusStatus?>? _sharezonePlusStatusStream) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #sharezonePlusStatusStream,
-          _sharezonePlusStatusStream,
-        ),
-        returnValueForMissingStub: null,
-      );
+    _i4.Stream<_i7.SharezonePlusStatus?>? _sharezonePlusStatusStream,
+  ) => super.noSuchMethod(
+    Invocation.setter(#sharezonePlusStatusStream, _sharezonePlusStatusStream),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  bool isSubscriptionActive([_i7.AppUser? appUser]) => (super.noSuchMethod(
-        Invocation.method(
-          #isSubscriptionActive,
-          [appUser],
-        ),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool isSubscriptionActive([_i7.AppUser? appUser]) =>
+      (super.noSuchMethod(
+            Invocation.method(#isSubscriptionActive, [appUser]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i4.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
-        Invocation.method(
-          #isSubscriptionActiveStream,
-          [],
-        ),
-        returnValue: _i4.Stream<bool>.empty(),
-        returnValueForMissingStub: _i4.Stream<bool>.empty(),
-      ) as _i4.Stream<bool>);
+  _i4.Stream<bool> isSubscriptionActiveStream() =>
+      (super.noSuchMethod(
+            Invocation.method(#isSubscriptionActiveStream, []),
+            returnValue: _i4.Stream<bool>.empty(),
+            returnValueForMissingStub: _i4.Stream<bool>.empty(),
+          )
+          as _i4.Stream<bool>);
 
   @override
   bool hasFeatureUnlocked(_i6.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #hasFeatureUnlocked,
-          [feature],
-        ),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+            Invocation.method(#hasFeatureUnlocked, [feature]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   _i4.Stream<bool> hasFeatureUnlockedStream(
-          _i6.SharezonePlusFeature? feature) =>
+    _i6.SharezonePlusFeature? feature,
+  ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #hasFeatureUnlockedStream,
-          [feature],
-        ),
-        returnValue: _i4.Stream<bool>.empty(),
-        returnValueForMissingStub: _i4.Stream<bool>.empty(),
-      ) as _i4.Stream<bool>);
+            Invocation.method(#hasFeatureUnlockedStream, [feature]),
+            returnValue: _i4.Stream<bool>.empty(),
+            returnValueForMissingStub: _i4.Stream<bool>.empty(),
+          )
+          as _i4.Stream<bool>);
 
   @override
-  _i4.Future<void> cancelStripeSubscription() => (super.noSuchMethod(
-        Invocation.method(
-          #cancelStripeSubscription,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> cancelStripeSubscription() =>
+      (super.noSuchMethod(
+            Invocation.method(#cancelStripeSubscription, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
-  _i4.Future<bool> showLetParentsBuyButton() => (super.noSuchMethod(
-        Invocation.method(
-          #showLetParentsBuyButton,
-          [],
-        ),
-        returnValue: _i4.Future<bool>.value(false),
-        returnValueForMissingStub: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+  _i4.Future<bool> showLetParentsBuyButton() =>
+      (super.noSuchMethod(
+            Invocation.method(#showLetParentsBuyButton, []),
+            returnValue: _i4.Future<bool>.value(false),
+            returnValueForMissingStub: _i4.Future<bool>.value(false),
+          )
+          as _i4.Future<bool>);
 
   @override
-  _i4.Future<String?> getPlusWebsiteBuyToken() => (super.noSuchMethod(
-        Invocation.method(
-          #getPlusWebsiteBuyToken,
-          [],
-        ),
-        returnValue: _i4.Future<String?>.value(),
-        returnValueForMissingStub: _i4.Future<String?>.value(),
-      ) as _i4.Future<String?>);
+  _i4.Future<String?> getPlusWebsiteBuyToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#getPlusWebsiteBuyToken, []),
+            returnValue: _i4.Future<String?>.value(),
+            returnValueForMissingStub: _i4.Future<String?>.value(),
+          )
+          as _i4.Future<String?>);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
