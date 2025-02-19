@@ -48,5 +48,15 @@ void main() {
       expect(term.finalGradeType.id, GradeType.schoolReportGrade.id);
       expect(term.gradingSystem, GradingSystem.oneToSixWithPlusAndMinus);
     });
+
+    test('saves term with custom grading system', () async {
+      controller.setName('foo');
+      controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
+      await controller.save();
+
+      expect(gradesService.terms.value, hasLength(1));
+      final term = gradesService.terms.value.first;
+      expect(term.gradingSystem, GradingSystem.zeroToFifteenPoints);
+    });
   });
 }
