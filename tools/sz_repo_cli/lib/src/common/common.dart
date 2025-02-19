@@ -32,7 +32,9 @@ export 'src/tool_exit.dart';
 bool isVerbose = false;
 
 Future<Directory> getProjectRootDirectory(
-    FileSystem fs, ProcessRunner processRunner) async {
+  FileSystem fs,
+  ProcessRunner processRunner,
+) async {
   final res = await processRunner.run(['git', 'rev-parse', '--show-toplevel']);
   final stdout = res.stdout;
   // Without [path.canonicalize] the path won't work on Windows as git returns

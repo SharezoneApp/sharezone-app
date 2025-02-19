@@ -45,20 +45,28 @@ class CalendricalEventsPageBloc extends BlocBase {
   ) {
     _layoutSubject.add(cache.getLayout() ?? defaultLayout);
 
-    CombineLatestStream([
-      timetableGateway.streamEvents(Date.today()),
-      courseGateway.getGroupInfoStream(schoolClassGateway)
-    ], (streamValues) {
-      final events = streamValues[0] as List<CalendricalEvent>? ?? [];
-      final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
+    CombineLatestStream(
+      [
+        timetableGateway.streamEvents(Date.today()),
+        courseGateway.getGroupInfoStream(schoolClassGateway),
+      ],
+      (streamValues) {
+        final events = streamValues[0] as List<CalendricalEvent>? ?? [];
+        final groupInfos = streamValues[1] as Map<String, GroupInfo>? ?? {};
 
-      final eventViews = events
-          .map((event) =>
-              EventView.fromEventAndGroupInfo(event, groupInfos[event.groupID]))
-          .toList();
+        final eventViews =
+            events
+                .map(
+                  (event) => EventView.fromEventAndGroupInfo(
+                    event,
+                    groupInfos[event.groupID],
+                  ),
+                )
+                .toList();
 
-      return eventViews;
-    }).listen(_allUpcomingEventsSubject.sink.add);
+        return eventViews;
+      },
+    ).listen(_allUpcomingEventsSubject.sink.add);
   }
 
   void setLayout(CalendricalEventsPageLayout layout) {

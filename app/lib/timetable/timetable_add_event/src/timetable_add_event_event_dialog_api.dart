@@ -26,9 +26,7 @@ class EventDialogApi {
     return (await _api.course.streamCourse(courseId.value).first)!;
   }
 
-  Future<void> createEvent(
-    CreateEventCommand command,
-  ) async {
+  Future<void> createEvent(CreateEventCommand command) async {
     final event = CalendricalEvent(
       // The 'createdOn' field will be added in the gateway because we use
       // serverTimestamp().
@@ -40,7 +38,8 @@ class EventDialogApi {
       place: command.location,
       startTime: command.startTime,
       endTime: command.endTime,
-      eventID: 'temp', authorID: 'temp', // WILL BE ADDED IN THE GATEWAY!
+      eventID: 'temp',
+      authorID: 'temp', // WILL BE ADDED IN THE GATEWAY!
       title: command.title,
       detail: command.description,
       sendNotification: command.notifyCourseMembers,
@@ -64,16 +63,16 @@ class CreateEventCommand extends Equatable {
 
   @override
   List<Object?> get props => [
-        title,
-        courseId,
-        description,
-        date,
-        startTime,
-        endTime,
-        location,
-        notifyCourseMembers,
-        eventType,
-      ];
+    title,
+    courseId,
+    description,
+    date,
+    startTime,
+    endTime,
+    location,
+    notifyCourseMembers,
+    eventType,
+  ];
 
   const CreateEventCommand({
     required this.title,

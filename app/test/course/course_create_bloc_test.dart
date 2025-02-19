@@ -34,14 +34,17 @@ void main() {
   });
 
   test(
-      "If a course subject is given then the same value should be emitted with no error",
-      () {
-    bloc.changeSubject("Mathematik");
-    expect(bloc.subject, emits("Mathematik"));
-    bloc.dispose();
-    expect(
-        bloc.subject, neverEmits(const TypeMatcher<TextValidationException>()));
-  });
+    "If a course subject is given then the same value should be emitted with no error",
+    () {
+      bloc.changeSubject("Mathematik");
+      expect(bloc.subject, emits("Mathematik"));
+      bloc.dispose();
+      expect(
+        bloc.subject,
+        neverEmits(const TypeMatcher<TextValidationException>()),
+      );
+    },
+  );
 
   test("If submit is called then the CourseCreateApi is used", () async {
     final bloc = CourseCreateBloc(gateway, analytics);
@@ -54,24 +57,29 @@ void main() {
   test("When no subject is initially given then no Exception is emitted", () {
     bloc.dispose();
     expect(
-        bloc.subject, neverEmits(const TypeMatcher<TextValidationException>()));
+      bloc.subject,
+      neverEmits(const TypeMatcher<TextValidationException>()),
+    );
   });
 
   test(
-      "If a user specifies and then deletes the course subject an validation error should be emitted",
-      () async {
-    bloc.changeSubject("Some value");
-    bloc.changeSubject("");
-    final queue = StreamQueue<String>(bloc.subject);
-    late TextValidationException validationException;
-    try {
-      await queue.next;
-    } on TextValidationException catch (e) {
-      validationException = e;
-    }
-    expect(
-        validationException.message, CourseValidators.emptySubjectUserMessage);
-  });
+    "If a user specifies and then deletes the course subject an validation error should be emitted",
+    () async {
+      bloc.changeSubject("Some value");
+      bloc.changeSubject("");
+      final queue = StreamQueue<String>(bloc.subject);
+      late TextValidationException validationException;
+      try {
+        await queue.next;
+      } on TextValidationException catch (e) {
+        validationException = e;
+      }
+      expect(
+        validationException.message,
+        CourseValidators.emptySubjectUserMessage,
+      );
+    },
+  );
 
   test("If the user gives a course name then it will be used", () async {
     final bloc = CourseCreateBloc(gateway, analytics);
@@ -84,15 +92,16 @@ void main() {
   });
 
   test(
-      "If the user doesn't give a course name then the subjec will be used as course name ",
-      () async {
-    final bloc = CourseCreateBloc(gateway, analytics);
-    bloc.changeSubject("Subject");
-    bloc.submitCourse();
-    List apiArguments = verify(gateway.createCourse(captureAny)).captured;
-    final userInput = apiArguments.first as UserInput;
-    expect(userInput.name, "Subject");
-  });
+    "If the user doesn't give a course name then the subjec will be used as course name ",
+    () async {
+      final bloc = CourseCreateBloc(gateway, analytics);
+      bloc.changeSubject("Subject");
+      bloc.submitCourse();
+      List apiArguments = verify(gateway.createCourse(captureAny)).captured;
+      final userInput = apiArguments.first as UserInput;
+      expect(userInput.name, "Subject");
+    },
+  );
 
   test("Input isValid == true if every validator is valid", () {
     final validator = _TestValidator(true);

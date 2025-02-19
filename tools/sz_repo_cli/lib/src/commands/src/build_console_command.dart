@@ -11,10 +11,7 @@ import 'dart:io';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 /// The different flavors of the console.
-final _websiteFlavors = [
-  'prod',
-  'dev',
-];
+final _websiteFlavors = ['prod', 'dev'];
 
 class BuildConsoleCommand extends CommandBase {
   BuildConsoleCommand(super.context) {
@@ -50,17 +47,14 @@ class BuildConsoleCommand extends CommandBase {
   Future<void> _buildConsole() async {
     try {
       final flavor = argResults![flavorOptionName] as String;
-      await processRunner.runCommand(
-        [
-          'flutter',
-          'build',
-          'web',
-          '--release',
-          '--dart-define',
-          'FLAVOR=$flavor',
-        ],
-        workingDirectory: repo.sharezoneAdminConsole.location,
-      );
+      await processRunner.runCommand([
+        'flutter',
+        'build',
+        'web',
+        '--release',
+        '--dart-define',
+        'FLAVOR=$flavor',
+      ], workingDirectory: repo.sharezoneAdminConsole.location);
     } catch (e) {
       throw Exception('Failed to build console: $e');
     }

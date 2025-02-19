@@ -57,18 +57,20 @@ class ModalBottomSheetBigIconButton<T> extends StatelessWidget {
                     child: Icon(
                       iconData,
                       size: 40,
-                      color: Theme.of(context).isDarkTheme
-                          ? Colors.white70
-                          : Colors.grey[600],
+                      color:
+                          Theme.of(context).isDarkTheme
+                              ? Colors.white70
+                              : Colors.grey[600],
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     title,
                     style: TextStyle(
-                      color: Theme.of(context).isDarkTheme
-                          ? Colors.white70
-                          : Colors.grey[600],
+                      color:
+                          Theme.of(context).isDarkTheme
+                              ? Colors.white70
+                              : Colors.grey[600],
                     ),
                   ),
                 ],

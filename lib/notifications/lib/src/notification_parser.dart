@@ -16,7 +16,9 @@ class PushNotificationParser {
   final PushNotificationParserInstrumentationFactory _instrumentationFactory;
 
   const PushNotificationParser._(
-      this._parsingMap, this._instrumentationFactory);
+    this._parsingMap,
+    this._instrumentationFactory,
+  );
 
   factory PushNotificationParser(
     List<ActionRegistration<ActionRequest>> actionRegistrations,
@@ -40,8 +42,10 @@ class PushNotificationParser {
       }
     }
 
-    return PushNotificationParser._(parserMap,
-        PushNotificationParserInstrumentationFactory(instrumentation));
+    return PushNotificationParser._(
+      parserMap,
+      PushNotificationParserInstrumentationFactory(instrumentation),
+    );
   }
 
   /// Finds the corresponding parsing function for the [notification] by looking
@@ -58,7 +62,9 @@ class PushNotificationParser {
     final buildActionRequest = _getParsingFunctionFor(notification.actionType)!;
 
     return buildActionRequest(
-        notification, _instrumentationFactory.forNotification(notification));
+      notification,
+      _instrumentationFactory.forNotification(notification),
+    );
   }
 
   bool _hasActionTypeRegistered(String? actionType) {

@@ -31,9 +31,9 @@ class AndroidDeviceInformation {
     required this.tags,
     required this.type,
     required this.isPhysicalDevice,
-  })  : supported32BitAbis = List<String>.unmodifiable(supported32BitAbis),
-        supported64BitAbis = List<String>.unmodifiable(supported64BitAbis),
-        supportedAbis = List<String>.unmodifiable(supportedAbis);
+  }) : supported32BitAbis = List<String>.unmodifiable(supported32BitAbis),
+       supported64BitAbis = List<String>.unmodifiable(supported64BitAbis),
+       supportedAbis = List<String>.unmodifiable(supportedAbis);
 
   /// Android operating system version values derived from `android.os.Build.VERSION`.
   final AndroidBuildVersion version;

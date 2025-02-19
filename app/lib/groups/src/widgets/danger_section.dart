@@ -47,10 +47,7 @@ class DangerSection extends StatelessWidget {
 }
 
 class _LeaveButton extends StatelessWidget {
-  const _LeaveButton({
-    required this.onPressed,
-    required this.label,
-  });
+  const _LeaveButton({required this.onPressed, required this.label});
 
   final VoidCallback? onPressed;
   final Widget label;
@@ -133,10 +130,7 @@ class DangerButtonFilled extends StatelessWidget {
 }
 
 class _DeleteSchoolClassButton extends StatelessWidget {
-  const _DeleteSchoolClassButton({
-    this.onPressed,
-    required this.label,
-  });
+  const _DeleteSchoolClassButton({this.onPressed, required this.label});
 
   final VoidCallback? onPressed;
   final Widget label;

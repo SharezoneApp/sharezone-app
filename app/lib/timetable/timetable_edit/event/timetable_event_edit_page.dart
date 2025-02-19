@@ -105,8 +105,9 @@ class _TimetableEditEventPage extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
-        appBar:
-            AppBar(title: Text("${isExam ? "Prüfung" : "Termin"} bearbeiten")),
+        appBar: AppBar(
+          title: Text("${isExam ? "Prüfung" : "Termin"} bearbeiten"),
+        ),
         body: SingleChildScrollView(
           child: MaxWidthConstraintBox(
             child: SafeArea(
@@ -165,7 +166,9 @@ class _CourseField extends StatelessWidget {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final isAuthor = api.uID == initialEvent.authorID;
     final hasPermissionsToManageLessons = hasPermissionToManageEvents(
-        api.course.getRoleFromCourseNoSync(initialEvent.groupID)!, isAuthor);
+      api.course.getRoleFromCourseNoSync(initialEvent.groupID)!,
+      isAuthor,
+    );
     return StreamBuilder<Course>(
       stream: bloc.course,
       builder: (context, snapshot) {
@@ -182,20 +185,21 @@ class _CourseField extends StatelessWidget {
               context: context,
               text: "Der Kurs kann nicht mehr nachträglich geändert werden.",
               seconds: 4,
-              action: hasPermissionsToManageLessons
-                  ? SnackBarAction(
-                      label: 'Termin löschen'.toUpperCase(),
-                      textColor: Colors.lightBlueAccent,
-                      onPressed: () async {
-                        final confirmed =
-                            await showDeleteLessonConfirmationDialog(context);
-                        if (confirmed == true && context.mounted) {
-                          timetableGateway.deleteEvent(initialEvent);
-                          Navigator.pop(context);
-                        }
-                      },
-                    )
-                  : null,
+              action:
+                  hasPermissionsToManageLessons
+                      ? SnackBarAction(
+                        label: 'Termin löschen'.toUpperCase(),
+                        textColor: Colors.lightBlueAccent,
+                        onPressed: () async {
+                          final confirmed =
+                              await showDeleteLessonConfirmationDialog(context);
+                          if (confirmed == true && context.mounted) {
+                            timetableGateway.deleteEvent(initialEvent);
+                            Navigator.pop(context);
+                          }
+                        },
+                      )
+                      : null,
             );
           },
         );
@@ -334,8 +338,9 @@ class _SendNotificationField extends StatelessWidget {
         final sendNotification = snapshot.data ?? false;
         return ListTile(
           leading: const Icon(Icons.notifications_active),
-          title:
-              const Text("Kursmitglieder über die Änderungen benachrichtigen"),
+          title: const Text(
+            "Kursmitglieder über die Änderungen benachrichtigen",
+          ),
           trailing: Switch.adaptive(
             onChanged: bloc.changeSendNotification,
             value: sendNotification,

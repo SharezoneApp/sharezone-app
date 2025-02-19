@@ -18,12 +18,12 @@ class CourseEditDesignBloc extends BlocBase {
   final Stream<Design?> personalDesign;
 
   CourseEditDesignBloc(this.courseId, this.courseGateway)
-      : courseDesign = courseGateway
-            .streamCourse(courseId)
-            .map((course) => course?.design),
-        personalDesign = courseGateway
-            .streamCourse(courseId)
-            .map((course) => course?.personalDesign);
+    : courseDesign = courseGateway
+          .streamCourse(courseId)
+          .map((course) => course?.design),
+      personalDesign = courseGateway
+          .streamCourse(courseId)
+          .map((course) => course?.personalDesign);
 
   Future<void> submitCourseDesign({
     Design? initialDesign,
@@ -52,7 +52,9 @@ class CourseEditDesignBloc extends BlocBase {
 
   void _editPersonalDesign(Design selectedDesign) {
     courseGateway.editCoursePersonalDesign(
-        personalDesign: selectedDesign, courseID: courseId);
+      personalDesign: selectedDesign,
+      courseID: courseId,
+    );
   }
 
   Future<bool> _editCourseDesign(Design selectedDesign) async {

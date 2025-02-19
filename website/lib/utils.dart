@@ -27,9 +27,6 @@ Future<void> launchUrl(
     if (context == null) return;
     if (!context.mounted) return;
 
-    showSnackSec(
-      context: context,
-      text: 'Link konnte nicht geöffnet werden!',
-    );
+    showSnackSec(context: context, text: 'Link konnte nicht geöffnet werden!');
   }
 }

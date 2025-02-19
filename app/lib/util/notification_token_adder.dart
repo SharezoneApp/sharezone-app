@@ -77,7 +77,9 @@ class NotificationTokenAdderApi {
   Future<void> tryAddTokenToDatabase(String token) async {
     if (isIntegrationTest) {
       // Firebase Messaging is not available in integration tests.
-      log('Skipping to add token to the database because integration test is running.');
+      log(
+        'Skipping to add token to the database because integration test is running.',
+      );
       return;
     }
 

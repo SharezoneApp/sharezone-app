@@ -34,12 +34,15 @@ List<LokaleAbgabedatei> benenneEinzigartig(
 /// Versucht so lange einen neuen Namen für die Datei zu generieren bis ein
 /// unbenutzer gefunden wird.
 LokaleAbgabedatei _renameUniquely(
-    LokaleAbgabedatei abgabedatei, Set<Dateiname> bereitsVorhandeneDateinamen) {
+  LokaleAbgabedatei abgabedatei,
+  Set<Dateiname> bereitsVorhandeneDateinamen,
+) {
   Dateiname generateReplacementName(int currentDuplicationSuffix) =>
       abgabedatei.name.neuerBasename(
-          '${abgabedatei.name.ohneExtension} ($currentDuplicationSuffix)');
+        '${abgabedatei.name.ohneExtension} ($currentDuplicationSuffix)',
+      );
 
-  for (var replacementNr = 1;; replacementNr++) {
+  for (var replacementNr = 1; ; replacementNr++) {
     final name = generateReplacementName(replacementNr);
 
     final nameAlreadyTaken = bereitsVorhandeneDateinamen.contains(name);

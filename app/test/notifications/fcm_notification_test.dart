@@ -43,34 +43,38 @@ void main() {
   });
 
   test(
-      'If retrieved token from api is not in passed users tokens it will be added',
-      () async {
-    when(api.getFCMToken()).thenAnswer((_) => Future.value(testToken));
+    'If retrieved token from api is not in passed users tokens it will be added',
+    () async {
+      when(api.getFCMToken()).thenAnswer((_) => Future.value(testToken));
 
-    await notificationService.addTokenToUserIfNotExisting();
+      await notificationService.addTokenToUserIfNotExisting();
 
-    verify(api.tryAddTokenToDatabase(testToken)).called(1);
-  });
-
-  test(
-      "If existing token is the same as the token from fcm then it will not be updated",
-      () async {
-    when(api.getUserTokensFromDatabase())
-        .thenAnswer((_) => Future.value([testToken]));
-
-    await notificationService.addTokenToUserIfNotExisting();
-
-    verifyNever(api.tryAddTokenToDatabase(testToken));
-  });
+      verify(api.tryAddTokenToDatabase(testToken)).called(1);
+    },
+  );
 
   test(
-      'if token will still be added if api throws an error when loading tokens from database',
-      () async {
-    when(api.getUserTokensFromDatabase()).thenThrow(Exception("test"));
-    when(api.getFCMToken()).thenAnswer((_) => Future.value(testToken));
+    "If existing token is the same as the token from fcm then it will not be updated",
+    () async {
+      when(
+        api.getUserTokensFromDatabase(),
+      ).thenAnswer((_) => Future.value([testToken]));
 
-    await notificationService.addTokenToUserIfNotExisting();
+      await notificationService.addTokenToUserIfNotExisting();
 
-    verify(api.tryAddTokenToDatabase(testToken)).called(1);
-  });
+      verifyNever(api.tryAddTokenToDatabase(testToken));
+    },
+  );
+
+  test(
+    'if token will still be added if api throws an error when loading tokens from database',
+    () async {
+      when(api.getUserTokensFromDatabase()).thenThrow(Exception("test"));
+      when(api.getFCMToken()).thenAnswer((_) => Future.value(testToken));
+
+      await notificationService.addTokenToUserIfNotExisting();
+
+      verify(api.tryAddTokenToDatabase(testToken)).called(1);
+    },
+  );
 }

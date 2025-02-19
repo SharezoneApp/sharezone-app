@@ -122,9 +122,7 @@ class _DashboardAdsState extends State<DashboardAds> {
                         color: Theme.of(context).primaryColor,
                       ),
                     ),
-                    const TextSpan(
-                      text: ' erwerben.',
-                    ),
+                    const TextSpan(text: ' erwerben.'),
                   ],
                 ),
               ),
@@ -139,9 +137,10 @@ class _DashboardAdsState extends State<DashboardAds> {
             ),
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: _nativeAdIsLoaded
-                  ? AdWidget(ad: nativeAd!)
-                  : const _Placeholder(),
+              child:
+                  _nativeAdIsLoaded
+                      ? AdWidget(ad: nativeAd!)
+                      : const _Placeholder(),
             ),
           ),
         ],
@@ -162,9 +161,7 @@ class _Placeholder extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color:
             Theme.of(context).isDarkTheme ? Colors.grey[900] : Colors.grey[100],
-        child: const Center(
-          child: Text('Anzeige lädt...'),
-        ),
+        child: const Center(child: Text('Anzeige lädt...')),
       ),
     );
   }

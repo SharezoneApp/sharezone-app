@@ -68,10 +68,7 @@ class BlackboardView {
       id: id,
       isAuthor: false,
       isRead: false,
-      item: BlackboardItem.create(
-        courseReference: null,
-        authorID: '',
-      ),
+      item: BlackboardItem.create(courseReference: null, authorID: ''),
       pictureURL: '',
       readPercent: 0,
       readPercentColor: Colors.green,
@@ -81,7 +78,10 @@ class BlackboardView {
   }
 
   factory BlackboardView.fromBlackboardItem(
-      BlackboardItem item, String uid, CourseGateway courseGateway) {
+    BlackboardItem item,
+    String uid,
+    CourseGateway courseGateway,
+  ) {
     final readPercent = _calculateReadPercent(item);
     final isAuthor = _isAuthor(item, uid);
     final courseID = item.courseReference?.id ?? 'placeholder';
@@ -102,8 +102,11 @@ class BlackboardView {
       hasAttachments: _hasAttachments(item),
       isAuthor: isAuthor,
       hasPhoto: _hasPhoto(item.pictureURL),
-      hasPermissionToEdit:
-          _hasPermissionToEdit(isAuthor, courseID, courseGateway),
+      hasPermissionToEdit: _hasPermissionToEdit(
+        isAuthor,
+        courseID,
+        courseGateway,
+      ),
       attachmentIDs: item.attachments,
       isRead: _isRead(item, uid),
     );
@@ -131,10 +134,14 @@ class BlackboardView {
   }
 
   static bool _hasPermissionToEdit(
-      bool isAuthor, String courseID, CourseGateway courseGateway) {
+    bool isAuthor,
+    String courseID,
+    CourseGateway courseGateway,
+  ) {
     if (isAuthor) return true;
     final isAdmin = isUserAdminOrOwnerOfGroup(
-        courseGateway.getRoleFromCourseNoSync(courseID));
+      courseGateway.getRoleFromCourseNoSync(courseID),
+    );
     if (isAdmin) return true;
     return false;
   }

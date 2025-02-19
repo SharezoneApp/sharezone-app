@@ -49,14 +49,8 @@ class ScanOverlay extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           const ScanAreaIndicatorOverlay(),
-          if (hasTorch)
-            _ToggleTorchButton(
-              onTorchToggled: onTorchToggled,
-            ),
-          if (description != null)
-            _Description(
-              description: description!,
-            )
+          if (hasTorch) _ToggleTorchButton(onTorchToggled: onTorchToggled),
+          if (description != null) _Description(description: description!),
         ],
       ),
     );
@@ -64,9 +58,7 @@ class ScanOverlay extends StatelessWidget {
 }
 
 class _Description extends StatelessWidget {
-  const _Description({
-    required this.description,
-  });
+  const _Description({required this.description});
 
   final Widget description;
 
@@ -80,10 +72,9 @@ class _Description extends StatelessWidget {
         right: isLandscapeLayout ? 500 : 32,
       ),
       child: DefaultTextStyle(
-        style: DefaultTextStyle.of(context).style.copyWith(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+        style: DefaultTextStyle.of(
+          context,
+        ).style.copyWith(color: Colors.white, fontSize: 16),
         textAlign: TextAlign.center,
         child: description,
       ),
@@ -92,9 +83,7 @@ class _Description extends StatelessWidget {
 }
 
 class _ToggleTorchButton extends StatefulWidget {
-  const _ToggleTorchButton({
-    required this.onTorchToggled,
-  });
+  const _ToggleTorchButton({required this.onTorchToggled});
 
   final VoidCallback? onTorchToggled;
 

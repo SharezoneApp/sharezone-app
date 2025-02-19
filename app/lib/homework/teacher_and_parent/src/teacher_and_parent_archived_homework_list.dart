@@ -29,7 +29,7 @@ class TeacherAndParentArchivedHomeworkList extends StatelessWidget {
       loadMoreHomeworksCallback: () => bloc.add(AdvanceArchivedHomeworks(10)),
       children: [
         for (final hw in view.orderedHomeworks)
-          TeacherAndParentHomeworkTile(homework: hw)
+          TeacherAndParentHomeworkTile(homework: hw),
       ],
     );
   }

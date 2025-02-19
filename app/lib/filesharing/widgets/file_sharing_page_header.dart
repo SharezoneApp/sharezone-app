@@ -27,8 +27,9 @@ class FileSharingPageHeader extends StatelessWidget
         leading: IconButton(
           icon: const Icon(Icons.home),
           onPressed: () {
-            final stateBloc =
-                BlocProvider.of<FileSharingPageStateBloc>(context);
+            final stateBloc = BlocProvider.of<FileSharingPageStateBloc>(
+              context,
+            );
             final newState = FileSharingPageStateHome();
             stateBloc.changeStateTo(newState);
           },
@@ -49,8 +50,10 @@ class FileSharingPageHeader extends StatelessWidget
   }
 
   Widget _getTitleOverview(BuildContext context) {
-    return Text("Kursordner",
-        style: TextStyle(color: Theme.of(context).primaryColor));
+    return Text(
+      "Kursordner",
+      style: TextStyle(color: Theme.of(context).primaryColor),
+    );
   }
 
   @override
@@ -68,28 +71,33 @@ class _FileSharingPathRow extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: pathHierachy.map((subPath) {
-          return _ClickableElement(
-            isLast: subPath == path,
-            text: _getTextSubPath(context, fileSharingData, subPath),
-            onTap: () {
-              final stateBloc =
-                  BlocProvider.of<FileSharingPageStateBloc>(context);
-              final newState = FileSharingPageStateGroup(
-                groupID: fileSharingData!.courseID,
-                initialFileSharingData: fileSharingData,
-                path: subPath,
+        children:
+            pathHierachy.map((subPath) {
+              return _ClickableElement(
+                isLast: subPath == path,
+                text: _getTextSubPath(context, fileSharingData, subPath),
+                onTap: () {
+                  final stateBloc = BlocProvider.of<FileSharingPageStateBloc>(
+                    context,
+                  );
+                  final newState = FileSharingPageStateGroup(
+                    groupID: fileSharingData!.courseID,
+                    initialFileSharingData: fileSharingData,
+                    path: subPath,
+                  );
+                  stateBloc.changeStateTo(newState);
+                },
               );
-              stateBloc.changeStateTo(newState);
-            },
-          );
-        }).toList(),
+            }).toList(),
       ),
     );
   }
 
-  String? _getTextSubPath(BuildContext context,
-      FileSharingData? fileSharingData, FolderPath subPath) {
+  String? _getTextSubPath(
+    BuildContext context,
+    FileSharingData? fileSharingData,
+    FolderPath subPath,
+  ) {
     if (subPath == FolderPath.root) return fileSharingData!.courseName;
     return fileSharingData!.getFolder(subPath)!.name;
   }
@@ -119,7 +127,8 @@ class _ClickableElement extends StatelessWidget {
           Text(
             text!,
             style: TextStyle(
-                color: isLast! ? Theme.of(context).primaryColor : null),
+              color: isLast! ? Theme.of(context).primaryColor : null,
+            ),
           ),
         ],
       ),

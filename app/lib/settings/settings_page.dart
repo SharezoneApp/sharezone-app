@@ -203,10 +203,8 @@ class _MoreSection extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          onTap: () => launchURL(
-            'https://sharezone.net/github',
-            context: context,
-          ),
+          onTap:
+              () => launchURL('https://sharezone.net/github', context: context),
         ),
         if (!PlatformCheck.isDesktopOrWeb)
           const _SettingsOption(
@@ -246,7 +244,7 @@ class _SettingsSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: children!,
           ),
-        )
+        ),
       ],
     );
   }
@@ -254,12 +252,7 @@ class _SettingsSection extends StatelessWidget {
 
 // Entweder eigene onTap übergeben oder einfach das Widget für die Navigation übergeben
 class _SettingsOption extends StatelessWidget {
-  const _SettingsOption({
-    this.title,
-    this.icon,
-    this.onTap,
-    this.tag,
-  });
+  const _SettingsOption({this.title, this.icon, this.onTap, this.tag});
 
   final String? title;
   final Widget? icon;

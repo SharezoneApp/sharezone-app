@@ -47,10 +47,11 @@ class HomeworkBottomActionBar extends StatelessWidget {
               onPressed: () async {
                 var action =
                     await showRoundedModalBottomSheet<_BottomSheetAction>(
-                        context: context,
-                        builder: (context) => const _MoreActionsBottomSheet(),
-                        defaultValue: _BottomSheetAction.abort,
-                        isScrollControlled: true);
+                      context: context,
+                      builder: (context) => const _MoreActionsBottomSheet(),
+                      defaultValue: _BottomSheetAction.abort,
+                      isScrollControlled: true,
+                    );
                 if (!context.mounted) return;
 
                 switch (action) {
@@ -80,21 +81,19 @@ class _MoreActionsBottomSheet extends StatelessWidget {
       initialChildSize: .2,
       minChildSize: .2,
       maxChildSize: 1,
-      builder: (context, controller) => Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16.0),
-            topRight: Radius.circular(16.0),
+      builder:
+          (context, controller) => Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.0),
+                topRight: Radius.circular(16.0),
+              ),
+            ),
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[_CompleteOverdue(), _MoreIdeas(opacity: .65)],
+            ),
           ),
-        ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _CompleteOverdue(),
-            _MoreIdeas(opacity: .65),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -113,9 +112,7 @@ class _CompleteOverdue extends StatelessWidget {
 }
 
 class _MoreIdeas extends StatelessWidget {
-  const _MoreIdeas({
-    this.opacity = 1,
-  });
+  const _MoreIdeas({this.opacity = 1});
 
   final double opacity;
 
@@ -129,11 +126,10 @@ class _MoreIdeas extends StatelessWidget {
       title: Text(
         "Noch Ideen?",
         style: TextStyle(
-            color: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .color!
-                .withValues(alpha: opacity)),
+          color: Theme.of(
+            context,
+          ).textTheme.bodyMedium!.color!.withValues(alpha: opacity),
+        ),
       ),
       onTap: () {
         Navigator.pop(context);

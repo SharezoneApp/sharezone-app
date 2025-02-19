@@ -14,10 +14,7 @@ class PackageTimeoutException implements Exception {
   final Duration packageTimeout;
   final Package package;
 
-  PackageTimeoutException(
-    this.packageTimeout,
-    this.package,
-  );
+  PackageTimeoutException(this.packageTimeout, this.package);
 
   @override
   String toString() {

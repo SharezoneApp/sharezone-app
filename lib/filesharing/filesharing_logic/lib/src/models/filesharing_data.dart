@@ -29,10 +29,11 @@ class FileSharingData {
     required this.type,
   });
 
-  factory FileSharingData.create(
-      {required String courseID,
-      required String courseName,
-      required List<String> users}) {
+  factory FileSharingData.create({
+    required String courseID,
+    required String courseName,
+    required List<String> users,
+  }) {
     return FileSharingData._(
       courseID: courseID,
       courseName: courseName,
@@ -42,21 +43,26 @@ class FileSharingData {
     );
   }
 
-  factory FileSharingData.fromData(
-      {required String id, required Map<String, dynamic> data}) {
+  factory FileSharingData.fromData({
+    required String id,
+    required Map<String, dynamic> data,
+  }) {
     Map<String, Folder>? mFolders;
     try {
-      mFolders = decodeMap(data['folders'],
-          (key, value) => Folder.fromData(id: key, data: value));
+      mFolders = decodeMap(
+        data['folders'],
+        (key, value) => Folder.fromData(id: key, data: value),
+      );
     } catch (e, s) {
       log("filesharingdata folders error: $id", error: e, stackTrace: s);
     }
     return FileSharingData._(
-        courseID: id,
-        courseName: data['courseName'],
-        folders: mFolders ?? {},
-        users: decodeList(data['users'], (it) => it),
-        type: fileSharingTypeEnumFromString(data['type'] ?? 'course'));
+      courseID: id,
+      courseName: data['courseName'],
+      folders: mFolders ?? {},
+      users: decodeList(data['users'], (it) => it),
+      type: fileSharingTypeEnumFromString(data['type'] ?? 'course'),
+    );
   }
 
   FileSharingData copyWith({

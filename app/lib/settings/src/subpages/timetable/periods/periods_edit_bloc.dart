@@ -27,7 +27,7 @@ class PeriodsEditBloc extends BlocBase {
   final _timetableStartSubject = BehaviorSubject<Time>();
 
   PeriodsEditBloc(this._userSettingsBloc, this._lengthCache)
-      : lessonLengthStream = _lengthCache.streamLessonLength() {
+    : lessonLengthStream = _lengthCache.streamLessonLength() {
     _changePeriods(_userSettingsBloc.current()!.periods);
     changeTimetableStart(_userSettingsBloc.current()!.timetableStartTime);
   }
@@ -65,8 +65,9 @@ class PeriodsEditBloc extends BlocBase {
     checkForErrors();
     if (isSubmitValid()) {
       final settings = _userSettingsBloc.current()!.copyWith(
-          periods: _periodsDataSubject.valueOrNull,
-          timetableStartTime: _timetableStartSubject.valueOrNull);
+        periods: _periodsDataSubject.valueOrNull,
+        timetableStartTime: _timetableStartSubject.valueOrNull,
+      );
       _userSettingsBloc.updateSettings(settings);
     }
   }
@@ -100,8 +101,12 @@ class PeriodsEditBloc extends BlocBase {
   Future<void> editPeriodStartTime(int number, Time startTime) async {
     final lessonLength = await lessonLengthStream.first;
     final periods = await _periodsDataSubject.first;
-    final period = periods.getPeriod(number)!.copyWith(
-        startTime: startTime, endTime: startTime.add(lessonLength.duration));
+    final period = periods
+        .getPeriod(number)!
+        .copyWith(
+          startTime: startTime,
+          endTime: startTime.add(lessonLength.duration),
+        );
     _changePeriods(periods.copyWithEditPeriod(period));
 
     if (number == 1) _setTimetableBeginToLessonStart(startTime);

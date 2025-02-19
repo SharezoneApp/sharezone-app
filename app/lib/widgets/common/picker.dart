@@ -16,34 +16,36 @@ Future<T?> selectItem<T>({
 }) async {
   return await showSheetBuilder<T>(
     context: context,
-    child: (context) => Flexible(
-      child: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) =>
-            builder(context, items[index]),
-        shrinkWrap: true,
-      ),
-    ),
+    child:
+        (context) => Flexible(
+          child: ListView.builder(
+            itemCount: items.length,
+            itemBuilder:
+                (BuildContext context, int index) =>
+                    builder(context, items[index]),
+            shrinkWrap: true,
+          ),
+        ),
     title: null,
     actions: actions,
   );
 }
 
-Theme clearAppTheme({
-  required BuildContext context,
-  required Widget child,
-}) {
+Theme clearAppTheme({required BuildContext context, required Widget child}) {
   ThemeData parentTheme = Theme.of(context);
   return Theme(
-      data: ThemeData(
-        primaryColor: parentTheme.brightness == Brightness.light
-            ? Colors.white
-            : Colors.grey[900],
-        brightness: parentTheme.brightness,
-        colorScheme: ColorScheme.fromSwatch()
-            .copyWith(secondary: parentTheme.colorScheme.secondary),
+    data: ThemeData(
+      primaryColor:
+          parentTheme.brightness == Brightness.light
+              ? Colors.white
+              : Colors.grey[900],
+      brightness: parentTheme.brightness,
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        secondary: parentTheme.colorScheme.secondary,
       ),
-      child: child);
+    ),
+    child: child,
+  );
 }
 
 Future<T?> showSheetBuilder<T>({
@@ -70,8 +72,9 @@ Future<T?> showSheetBuilder<T>({
                   height: 4,
                   width: MediaQuery.of(context).size.width / 6,
                   decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(16)),
-                      color: Colors.grey[400]),
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    color: Colors.grey[400],
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -81,9 +84,10 @@ Future<T?> showSheetBuilder<T>({
                   child: Text(
                     title,
                     style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey[500]),
+                      fontSize: 19,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey[500],
+                    ),
                   ),
                 ),
               if (title != null) const SizedBox(height: 12),
@@ -91,9 +95,9 @@ Future<T?> showSheetBuilder<T>({
               const SizedBox(height: 6),
               actions != null
                   ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: actions(context),
-                    )
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: actions(context),
+                  )
                   : const SizedBox(height: 0),
               const SizedBox(height: 6),
             ],

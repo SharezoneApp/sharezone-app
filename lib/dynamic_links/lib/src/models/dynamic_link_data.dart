@@ -28,10 +28,7 @@ class DynamicLinkData {
 
 /// Provides android specific data from received dynamic link.
 class DynamicLinkDataAndroid {
-  DynamicLinkDataAndroid(
-    this.clickTimestamp,
-    this.minimumVersion,
-  );
+  DynamicLinkDataAndroid(this.clickTimestamp, this.minimumVersion);
 
   /// The time the user clicked on the dynamic link.
   ///

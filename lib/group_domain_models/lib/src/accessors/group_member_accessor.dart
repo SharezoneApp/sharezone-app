@@ -35,11 +35,15 @@ class GroupMemberAccessor {
   Stream<MemberData> streamSingleMember(GroupKey groupKey, UserId memberID) {
     if (groupKey.groupType == GroupType.course) {
       return courseMemberAccessor.streamSingleMember(
-          groupKey.id, memberID.toString());
+        groupKey.id,
+        memberID.toString(),
+      );
     }
     if (groupKey.groupType == GroupType.schoolclass) {
       return schoolClassMemberAccessor.streamSingleMember(
-          groupKey.id, memberID.toString());
+        groupKey.id,
+        memberID.toString(),
+      );
     }
     throw InvalidGroupKeyException();
   }

@@ -22,8 +22,8 @@ class FilesharingCloudFilesGateway
   FilesharingCloudFilesGateway({
     required this.user,
     required FirebaseFirestore firestore,
-  })  : uID = user.uid,
-        _fStore = firestore;
+  }) : uID = user.uid,
+       _fStore = firestore;
 
   @override
   Future<void> deleteFile(String courseID, String fileID) {
@@ -32,16 +32,21 @@ class FilesharingCloudFilesGateway
 
   @override
   Stream<List<CloudFile>> filesStreamAttachment(
-      String courseID, String referenceID) {
+    String courseID,
+    String referenceID,
+  ) {
     return filesCollection
         .where('references', arrayContains: referenceID)
         // Es muss zusätzlich nach der UID gesucht werden, damit die
         // Security-Rules korrekt konfiguriert werden können.
         .where('forUsers.$uID', isEqualTo: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((docSnapshot) => CloudFile.fromData(docSnapshot.data()))
-            .toList());
+        .map(
+          (snapshot) =>
+              snapshot.docs
+                  .map((docSnapshot) => CloudFile.fromData(docSnapshot.data()))
+                  .toList(),
+        );
   }
 
   @override
@@ -53,22 +58,30 @@ class FilesharingCloudFilesGateway
         // Security-Rules korrekt konfiguriert werden können.
         .where('forUsers.$uID', isEqualTo: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((docSnapshot) => CloudFile.fromData(docSnapshot.data()))
-            .toList());
+        .map(
+          (snapshot) =>
+              snapshot.docs
+                  .map((docSnapshot) => CloudFile.fromData(docSnapshot.data()))
+                  .toList(),
+        );
   }
 
   @override
   Stream<List<CloudFile>> filesStreamFolderAndSubFolders(
-      String courseID, FolderPath path) {
+    String courseID,
+    FolderPath path,
+  ) {
     return filesCollection
         .where('courseID', isEqualTo: courseID)
         .where('path', isGreaterThan: path.toPathString())
         .where('path', isLessThan: '${path.toPathString()}{')
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((docSnapshot) => CloudFile.fromData(docSnapshot.data()))
-            .toList());
+        .map(
+          (snapshot) =>
+              snapshot.docs
+                  .map((docSnapshot) => CloudFile.fromData(docSnapshot.data()))
+                  .toList(),
+        );
   }
 
   @override

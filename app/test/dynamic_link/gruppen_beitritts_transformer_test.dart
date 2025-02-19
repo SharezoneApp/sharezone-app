@@ -27,82 +27,102 @@ void main() {
     });
 
     GruppenBeitrittsversuchFilterBloc transformerWithHasJoinedGroupAlways(
-            bool hasJoinedGroup) =>
-        GruppenBeitrittsversuchFilterBloc(
-          einkommendeLinks: einkommendeLinks,
-          istGruppeBereitsBeigetreten: (_) => Future.value(hasJoinedGroup),
-        );
+      bool hasJoinedGroup,
+    ) => GruppenBeitrittsversuchFilterBloc(
+      einkommendeLinks: einkommendeLinks,
+      istGruppeBereitsBeigetreten: (_) => Future.value(hasJoinedGroup),
+    );
 
-    EinkommenderLink erstelleValidenEinkommendenLink(
-        [EinkommensZeitpunkt einkommensZeitpunkt =
-            EinkommensZeitpunkt.appstart]) {
+    EinkommenderLink erstelleValidenEinkommendenLink([
+      EinkommensZeitpunkt einkommensZeitpunkt = EinkommensZeitpunkt.appstart,
+    ]) {
       final einkommenderLink = EinkommenderLink(
-          typ: GruppenBeitrittsversuchFilterBloc.matchingLinkType,
-          einkommensZeitpunkt: einkommensZeitpunkt,
-          zusatzinformationen: {
-            GruppenBeitrittsversuchFilterBloc.sharecodeKey: gruppenId
-          });
+        typ: GruppenBeitrittsversuchFilterBloc.matchingLinkType,
+        einkommensZeitpunkt: einkommensZeitpunkt,
+        zusatzinformationen: {
+          GruppenBeitrittsversuchFilterBloc.sharecodeKey: gruppenId,
+        },
+      );
       return einkommenderLink;
     }
 
     test(
-        'emittiert KEINE KursBereitsBeigetretenException, falls der Gruppe schon beigetreten wurde, aber der Link zur Laufzeit angekommen ist',
-        () async {
-      EinkommenderLink einkommenderLink =
-          erstelleValidenEinkommendenLink(EinkommensZeitpunkt.laufzeit);
+      'emittiert KEINE KursBereitsBeigetretenException, falls der Gruppe schon beigetreten wurde, aber der Link zur Laufzeit angekommen ist',
+      () async {
+        EinkommenderLink einkommenderLink = erstelleValidenEinkommendenLink(
+          EinkommensZeitpunkt.laufzeit,
+        );
 
-      var transformer = transformerWithHasJoinedGroupAlways(true);
-      final beitrittsVersuche = transformer.gefilterteBeitrittsversuche;
+        var transformer = transformerWithHasJoinedGroupAlways(true);
+        final beitrittsVersuche = transformer.gefilterteBeitrittsversuche;
 
-      einkommendeLinks.add(einkommenderLink);
+        einkommendeLinks.add(einkommenderLink);
 
-      beitrittsVersuche.listen((d) {}, onError: (e) {
-        throw Error();
-      });
-      transformer.dispose();
-      await beitrittsVersuche.drain();
-    });
+        beitrittsVersuche.listen(
+          (d) {},
+          onError: (e) {
+            throw Error();
+          },
+        );
+        transformer.dispose();
+        await beitrittsVersuche.drain();
+      },
+    );
     test(
-        'emittiert eine KursBereitsBeigetretenException, falls der Gruppe schon beigetreten wurde und der EinkommensZeitpunkt zum Appstart ist',
-        () {
-      EinkommenderLink einkommenderLink =
-          erstelleValidenEinkommendenLink(EinkommensZeitpunkt.appstart);
-      final beitrittsVersuche =
-          transformerWithHasJoinedGroupAlways(true).gefilterteBeitrittsversuche;
+      'emittiert eine KursBereitsBeigetretenException, falls der Gruppe schon beigetreten wurde und der EinkommensZeitpunkt zum Appstart ist',
+      () {
+        EinkommenderLink einkommenderLink = erstelleValidenEinkommendenLink(
+          EinkommensZeitpunkt.appstart,
+        );
+        final beitrittsVersuche =
+            transformerWithHasJoinedGroupAlways(
+              true,
+            ).gefilterteBeitrittsversuche;
 
-      einkommendeLinks.add(einkommenderLink);
+        einkommendeLinks.add(einkommenderLink);
 
-      expect(beitrittsVersuche,
-          emitsError(const TypeMatcher<KursBereitsBeigetretenException>()));
-    });
+        expect(
+          beitrittsVersuche,
+          emitsError(const TypeMatcher<KursBereitsBeigetretenException>()),
+        );
+      },
+    );
     test(
-        'emittiert keinen Beitrittsversuch, falls der Gruppe schon beigetreten wurde',
-        () {
-      EinkommenderLink einkommenderLink = erstelleValidenEinkommendenLink();
-      var transformer = transformerWithHasJoinedGroupAlways(true);
-      final beitrittsVersuche = transformer.gefilterteBeitrittsversuche;
+      'emittiert keinen Beitrittsversuch, falls der Gruppe schon beigetreten wurde',
+      () {
+        EinkommenderLink einkommenderLink = erstelleValidenEinkommendenLink();
+        var transformer = transformerWithHasJoinedGroupAlways(true);
+        final beitrittsVersuche = transformer.gefilterteBeitrittsversuche;
 
-      einkommendeLinks.add(einkommenderLink);
+        einkommendeLinks.add(einkommenderLink);
 
-      expect(beitrittsVersuche, neverEmits(anything));
-      transformer.dispose();
-    });
+        expect(beitrittsVersuche, neverEmits(anything));
+        transformer.dispose();
+      },
+    );
     test(
-        'emittiert einen Beitrittsversuch, falls der Gruppe noch nicht beigetreten wurde ',
-        () {
-      EinkommenderLink einkommenderLink = erstelleValidenEinkommendenLink();
-      final beitrittsVersuche = transformerWithHasJoinedGroupAlways(false)
-          .gefilterteBeitrittsversuche;
+      'emittiert einen Beitrittsversuch, falls der Gruppe noch nicht beigetreten wurde ',
+      () {
+        EinkommenderLink einkommenderLink = erstelleValidenEinkommendenLink();
+        final beitrittsVersuche =
+            transformerWithHasJoinedGroupAlways(
+              false,
+            ).gefilterteBeitrittsversuche;
 
-      einkommendeLinks.add(einkommenderLink);
+        einkommendeLinks.add(einkommenderLink);
 
-      expect(beitrittsVersuche,
-          emits(Beitrittsversuch(sharecode: Sharecode(gruppenId))));
-    });
+        expect(
+          beitrittsVersuche,
+          emits(Beitrittsversuch(sharecode: Sharecode(gruppenId))),
+        );
+      },
+    );
 
     test('transformiert keinen unpassenden einkommenden Link ', () {
       final einkommenderLink = EinkommenderLink(
-          typ: "some_wrong_type", zusatzinformationen: {"foo": "bar"});
+        typ: "some_wrong_type",
+        zusatzinformationen: {"foo": "bar"},
+      );
       var transformer = transformerWithHasJoinedGroupAlways(true);
       final beitrittsVersuche = transformer.gefilterteBeitrittsversuche;
 

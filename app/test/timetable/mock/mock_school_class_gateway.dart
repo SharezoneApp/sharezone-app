@@ -21,7 +21,9 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   @override
   Future<AppFunctionsResult<bool>> addCourse(
-      String schoolClassID, String courseID) async {
+    String schoolClassID,
+    String courseID,
+  ) async {
     final mockCourse = MockCourse(
       courseId: GroupId(courseID),
       schoolClassId: GroupId(schoolClassID),
@@ -32,19 +34,25 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   @override
   Future<AppFunctionsResult<bool>> createCourse(
-      String schoolClassID, CourseData courseData, courseID) {
+    String schoolClassID,
+    CourseData courseData,
+    courseID,
+  ) {
     throw UnimplementedError();
   }
 
   @override
   Future<AppFunctionsResult<bool>> createSchoolClass(
-      SchoolClassData schoolClass) {
+    SchoolClassData schoolClass,
+  ) {
     throw UnimplementedError();
   }
 
   @override
   Future<AppFunctionsResult<bool>> deleteSchoolClass(
-      String schoolClassID, SchoolClassDeleteType schoolClassDeleteType) {
+    String schoolClassID,
+    SchoolClassDeleteType schoolClassDeleteType,
+  ) {
     throw UnimplementedError();
   }
 
@@ -55,21 +63,28 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   @override
   Future<AppFunctionsResult<bool>> editSchoolClassSettings(
-      String schoolClassID, CourseSettings schoolClassSettings) {
+    String schoolClassID,
+    CourseSettings schoolClassSettings,
+  ) {
     throw UnimplementedError();
   }
 
   @override
   Future<AppFunctionsResult<bool>> kickMember(
-      String schoolClassID, String kickedMemberID) {
+    String schoolClassID,
+    String kickedMemberID,
+  ) {
     throw UnimplementedError();
   }
 
   @override
   Future<AppFunctionsResult<bool>> leaveSchoolClass(
-      String schoolClassID) async {
-    _schoolClassListSubject.sink.add(_schoolClassListSubject.valueOrNull!
-      ..removeWhere((schoolClass) => schoolClass.id == schoolClassID));
+    String schoolClassID,
+  ) async {
+    _schoolClassListSubject.sink.add(
+      _schoolClassListSubject.valueOrNull!
+        ..removeWhere((schoolClass) => schoolClass.id == schoolClassID),
+    );
     return AppFunctionsResult.data(true);
   }
 
@@ -84,7 +99,9 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   @override
   Future<AppFunctionsResult<bool>> removeCourse(
-      String schoolClassID, String courseID) {
+    String schoolClassID,
+    String courseID,
+  ) {
     throw UnimplementedError();
   }
 
@@ -98,10 +115,12 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   @override
   Stream<List<String>> streamCoursesID(String schoolClassID) {
-    return Stream.value(_courses.valueOrNull!
-        .where((course) => course.schoolClassId!.value == schoolClassID)
-        .map((course) => course.courseId.value)
-        .toList());
+    return Stream.value(
+      _courses.valueOrNull!
+          .where((course) => course.schoolClassId!.value == schoolClassID)
+          .map((course) => course.courseId.value)
+          .toList(),
+    );
   }
 
   @override
@@ -111,13 +130,17 @@ class MockSchoolClassGateway implements SchoolClassGateway {
 
   @override
   Future<AppFunctionsResult<bool>> updateMemberRole(
-      String schoolClassID, String memberID, MemberRole newRole) {
+    String schoolClassID,
+    String memberID,
+    MemberRole newRole,
+  ) {
     throw UnimplementedError();
   }
 
   void addSchoolClass(SchoolClass schoolClass) {
-    _schoolClassListSubject.sink
-        .add(_schoolClassListSubject.valueOrNull!..add(schoolClass));
+    _schoolClassListSubject.sink.add(
+      _schoolClassListSubject.valueOrNull!..add(schoolClass),
+    );
   }
 
   void addSchoolClasses(List<SchoolClass> schoolClasses) {

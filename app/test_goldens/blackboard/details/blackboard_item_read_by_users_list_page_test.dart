@@ -45,7 +45,7 @@ void main() {
             hasRead: random.nextBool(),
             typeOfUser: TypeOfUser.student.toReadableString(),
             name: 'User $i',
-          )
+          ),
       ];
       when(bloc.userViews).thenAnswer((_) => Stream.value(dummyUsers));
     }
@@ -74,9 +74,11 @@ void main() {
 
     group('renders sharezone plus ad as expected', () {
       setUp(() {
-        when(subscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.infoSheetReadByUsersList))
-            .thenAnswer((_) => false);
+        when(
+          subscriptionService.hasFeatureUnlocked(
+            SharezonePlusFeature.infoSheetReadByUsersList,
+          ),
+        ).thenAnswer((_) => false);
       });
 
       testGoldens('(light mode)', (tester) async {
@@ -100,9 +102,11 @@ void main() {
 
     group('renders list as expected', () {
       setUp(() {
-        when(subscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.infoSheetReadByUsersList))
-            .thenAnswer((_) => true);
+        when(
+          subscriptionService.hasFeatureUnlocked(
+            SharezonePlusFeature.infoSheetReadByUsersList,
+          ),
+        ).thenAnswer((_) => true);
       });
 
       testGoldens('(light mode)', (tester) async {

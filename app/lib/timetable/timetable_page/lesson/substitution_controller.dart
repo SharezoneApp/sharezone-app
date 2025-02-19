@@ -42,9 +42,12 @@ class SubstitutionController {
       notifyGroupMembers: notifyGroupMembers,
       substitution: substitution,
     );
-    analytics.log(NamedAnalyticsEvent(name: 'substitution_canceled', data: {
-      'notify_group_members': notifyGroupMembers,
-    }));
+    analytics.log(
+      NamedAnalyticsEvent(
+        name: 'substitution_canceled',
+        data: {'notify_group_members': notifyGroupMembers},
+      ),
+    );
   }
 
   void removeSubstitution({
@@ -77,10 +80,12 @@ class SubstitutionController {
       notifyGroupMembers: notifyGroupMembers,
       substitution: substitution,
     );
-    analytics
-        .log(NamedAnalyticsEvent(name: 'substitution_place_changed', data: {
-      'notify_group_members': notifyGroupMembers,
-    }));
+    analytics.log(
+      NamedAnalyticsEvent(
+        name: 'substitution_place_changed',
+        data: {'notify_group_members': notifyGroupMembers},
+      ),
+    );
   }
 
   void addTeacherSubstitution({
@@ -100,10 +105,12 @@ class SubstitutionController {
       notifyGroupMembers: notifyGroupMembers,
       substitution: substitution,
     );
-    analytics
-        .log(NamedAnalyticsEvent(name: 'substitution_teacher_changed', data: {
-      'notify_group_members': notifyGroupMembers,
-    }));
+    analytics.log(
+      NamedAnalyticsEvent(
+        name: 'substitution_teacher_changed',
+        data: {'notify_group_members': notifyGroupMembers},
+      ),
+    );
   }
 
   void updatePlaceSubstitution({
@@ -118,10 +125,12 @@ class SubstitutionController {
       newLocation: newLocation,
       substitutionId: substitutionId,
     );
-    analytics
-        .log(NamedAnalyticsEvent(name: 'substitution_place_changed', data: {
-      'notify_group_members': notifyGroupMembers,
-    }));
+    analytics.log(
+      NamedAnalyticsEvent(
+        name: 'substitution_place_changed',
+        data: {'notify_group_members': notifyGroupMembers},
+      ),
+    );
   }
 
   void updateTeacherSubstitution({
@@ -136,10 +145,12 @@ class SubstitutionController {
       newTeacher: newTeacher,
       substitutionId: substitutionId,
     );
-    analytics
-        .log(NamedAnalyticsEvent(name: 'substitution_teacher_changed', data: {
-      'notify_group_members': notifyGroupMembers,
-    }));
+    analytics.log(
+      NamedAnalyticsEvent(
+        name: 'substitution_teacher_changed',
+        data: {'notify_group_members': notifyGroupMembers},
+      ),
+    );
   }
 
   Future<String?> getMemberName(String courseId, UserId userId) async {

@@ -39,33 +39,31 @@ class MemberSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              AddMember(
-                groupInfo: groupInfo,
-              ),
+              AddMember(groupInfo: groupInfo),
               _isLoading()
                   ? const LoadingMemberList()
                   : Column(
-                      children: <Widget>[
-                        MemberList(
-                          title: "Administratoren",
-                          members: splittedMemberList.admins,
-                          allMembers: allMembers,
-                          onTap: onTap,
-                        ),
-                        MemberList(
-                          title: "Aktives Mitglied (Schreib- und Leserechte)",
-                          members: splittedMemberList.creator,
-                          allMembers: allMembers,
-                          onTap: onTap,
-                        ),
-                        MemberList(
-                          title: "Passives Mitglied (nur Leserechte)",
-                          members: splittedMemberList.reader,
-                          allMembers: allMembers,
-                          onTap: onTap,
-                        ),
-                      ],
-                    ),
+                    children: <Widget>[
+                      MemberList(
+                        title: "Administratoren",
+                        members: splittedMemberList.admins,
+                        allMembers: allMembers,
+                        onTap: onTap,
+                      ),
+                      MemberList(
+                        title: "Aktives Mitglied (Schreib- und Leserechte)",
+                        members: splittedMemberList.creator,
+                        allMembers: allMembers,
+                        onTap: onTap,
+                      ),
+                      MemberList(
+                        title: "Passives Mitglied (nur Leserechte)",
+                        members: splittedMemberList.reader,
+                        allMembers: allMembers,
+                        onTap: onTap,
+                      ),
+                    ],
+                  ),
             ],
           ),
         ),
@@ -84,10 +82,7 @@ class MemberCountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       "Anzahl der Teilnehmer: $memberCount",
-      style: const TextStyle(
-        color: Colors.grey,
-        fontSize: 13,
-      ),
+      style: const TextStyle(color: Colors.grey, fontSize: 13),
     );
   }
 }

@@ -14,8 +14,11 @@ class StateDialogContent {
   final Widget body;
   final List<ActionItem> actions;
 
-  const StateDialogContent(
-      {required this.title, required this.body, this.actions = const []});
+  const StateDialogContent({
+    required this.title,
+    required this.body,
+    this.actions = const [],
+  });
 
   factory StateDialogContent.fromSimpleData(SimpleData simpleData) {
     return StateDialogContent(

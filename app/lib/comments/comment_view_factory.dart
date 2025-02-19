@@ -18,10 +18,7 @@ class CommentViewFactory {
   final CourseGateway courseGateway;
   final String uid;
 
-  const CommentViewFactory({
-    required this.courseGateway,
-    required this.uid,
-  });
+  const CommentViewFactory({required this.courseGateway, required this.uid});
 
   CommentView fromModel(Comment comment, String courseID) {
     return CommentView(
@@ -32,8 +29,10 @@ class CommentViewFactory {
       status: _matchCommentStatus(comment.getCommentStatusOfUser(uid)),
       userName: comment.author.name,
       id: comment.id!,
-      hasPermissionsToManageComments:
-          _hasPermissionsToManageComments(courseID, comment.author.uid),
+      hasPermissionsToManageComments: _hasPermissionsToManageComments(
+        courseID,
+        comment.author.uid,
+      ),
     );
   }
 

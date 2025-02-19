@@ -41,9 +41,10 @@ class _LanguageTile extends StatelessWidget {
       child: SafeArea(
         child: RadioListTile<AppLocale>(
           title: Text(locale.getNativeName(context)),
-          subtitle: locale.isSystem()
-              ? null
-              : Text(locale.getTranslatedName(context)),
+          subtitle:
+              locale.isSystem()
+                  ? null
+                  : Text(locale.getTranslatedName(context)),
           value: locale,
           groupValue: localeProvider.locale,
           onChanged: (value) {

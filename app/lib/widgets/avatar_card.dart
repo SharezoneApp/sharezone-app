@@ -91,18 +91,20 @@ class AvatarCard extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: radius,
-                        backgroundColor: avatarBackgroundColor ??
+                        backgroundColor:
+                            avatarBackgroundColor ??
                             Theme.of(context).primaryColor,
-                        child: icon ??
+                        child:
+                            icon ??
                             (svgPath == null
                                 ? imagePath == null
                                     ? Text(
-                                        kuerzel,
-                                        style: TextStyle(
-                                          fontSize: 26,
-                                          color: fontColor,
-                                        ),
-                                      )
+                                      kuerzel,
+                                      style: TextStyle(
+                                        fontSize: 26,
+                                        color: fontColor,
+                                      ),
+                                    )
                                     : image()
                                 : svg()),
                       ),
@@ -120,10 +122,7 @@ class AvatarCard extends StatelessWidget {
   Widget svg() {
     return InkWell(
       onTap: onTapImage,
-      child: SvgWidget(
-        assetName: svgPath!,
-        size: svgSize,
-      ),
+      child: SvgWidget(assetName: svgPath!, size: svgSize),
     );
   }
 

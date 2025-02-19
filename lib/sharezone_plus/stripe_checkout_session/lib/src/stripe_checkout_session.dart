@@ -46,40 +46,33 @@ class StripeCheckoutSession {
       'Either userId or buysFor must be passed',
     );
 
-    return retry<String>(
-      () async {
-        final response = await client.post(
-          Uri.parse(createCheckoutSessionFunctionUrl),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: jsonEncode(
-            {
-              if (userId != null) 'userId': userId,
-              if (buysFor != null) 'buysFor': buysFor,
-              'successUrl': '$successUrl',
-              'cancelUrl': '$cancelUrl',
-              'period': period,
-            },
-          ),
-        );
+    return retry<String>(() async {
+      final response = await client.post(
+        Uri.parse(createCheckoutSessionFunctionUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          if (userId != null) 'userId': userId,
+          if (buysFor != null) 'buysFor': buysFor,
+          'successUrl': '$successUrl',
+          'cancelUrl': '$cancelUrl',
+          'period': period,
+        }),
+      );
 
-        if (response.statusCode == 200) {
-          var responseData = jsonDecode(response.body);
-          final String? url = responseData['url'];
+      if (response.statusCode == 200) {
+        var responseData = jsonDecode(response.body);
+        final String? url = responseData['url'];
 
-          if (url == null) {
-            throw Exception('Could not found url in response');
-          }
-
-          return url;
-        } else {
-          throw Exception(
-            'Request failed with status: ${response.statusCode} (${response.body})',
-          );
+        if (url == null) {
+          throw Exception('Could not found url in response');
         }
-      },
-      maxAttempts: 3,
-    );
+
+        return url;
+      } else {
+        throw Exception(
+          'Request failed with status: ${response.statusCode} (${response.body})',
+        );
+      }
+    }, maxAttempts: 3);
   }
 }

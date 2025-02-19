@@ -32,7 +32,8 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'school_class_details/school_class_course_list.dart';
 
 Future<SchoolClassDeleteType?> showDeleteSchoolClassDialog(
-    BuildContext context) async {
+  BuildContext context,
+) async {
   return await showColumnActionsAdaptiveDialog<SchoolClassDeleteType>(
     context: context,
     title: "Klasse verlassen",
@@ -55,12 +56,16 @@ Future<bool?> showLeaveSchoolClassDialog(BuildContext context) async {
   return await showLeftRightAdaptiveDialog<bool>(
     context: context,
     defaultValue: false,
-    title: ThemePlatform.isCupertino
-        ? "Möchtest du möchtest du wirklich Schulklasse verlassen?"
-        : null,
-    content: !ThemePlatform.isCupertino
-        ? const Text("Möchtest du möchtest du wirklich Schulklasse verlassen?")
-        : null,
+    title:
+        ThemePlatform.isCupertino
+            ? "Möchtest du möchtest du wirklich Schulklasse verlassen?"
+            : null,
+    content:
+        !ThemePlatform.isCupertino
+            ? const Text(
+              "Möchtest du möchtest du wirklich Schulklasse verlassen?",
+            )
+            : null,
     right: AdaptiveDialogAction.leave,
   );
 }
@@ -73,8 +78,9 @@ class SchoolClassDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<MySchoolClassBloc>(context);
-    final isAdmin =
-        schoolClass.myRole.hasPermission(GroupPermission.administration);
+    final isAdmin = schoolClass.myRole.hasPermission(
+      GroupPermission.administration,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(schoolClass.name),
@@ -94,7 +100,9 @@ class SchoolClassDetailsPage extends StatelessWidget {
               return Column(
                 children: <Widget>[
                   _SchoolClassAvatarCard(
-                      schoolClass: schoolClass, memberCount: members.length),
+                    schoolClass: schoolClass,
+                    memberCount: members.length,
+                  ),
                   SchoolClassCoursesList(
                     key: ValueKey(schoolClass.id),
                     schoolClassID: schoolClass.id,
@@ -114,16 +122,18 @@ class SchoolClassDetailsPage extends StatelessWidget {
                     },
                   ),
                   _DangerSection(
-                    onDeleteDialogClose: (appFunction) => Navigator.pop(
-                      context,
-                      DeleteSchoolClassDetailsPopOption(appFunction),
-                    ),
-                    onLeaveDialogClose: (appFunction) => Navigator.pop(
-                      context,
-                      LeaveSchoolClassDetailsPopOption(appFunction),
-                    ),
+                    onDeleteDialogClose:
+                        (appFunction) => Navigator.pop(
+                          context,
+                          DeleteSchoolClassDetailsPopOption(appFunction),
+                        ),
+                    onLeaveDialogClose:
+                        (appFunction) => Navigator.pop(
+                          context,
+                          LeaveSchoolClassDetailsPopOption(appFunction),
+                        ),
                     isAdmin: isAdmin,
-                  )
+                  ),
                 ],
               );
             },
@@ -152,8 +162,9 @@ class _DangerSection extends StatelessWidget {
       onPressedDeleteButton: () async {
         final bloc = BlocProvider.of<MySchoolClassBloc>(context);
 
-        final schoolClassDeleteType =
-            await showDeleteSchoolClassDialog(context);
+        final schoolClassDeleteType = await showDeleteSchoolClassDialog(
+          context,
+        );
         if (schoolClassDeleteType != null) {
           final deleteFuture = bloc.deleteSchoolClass(schoolClassDeleteType);
           onLeaveDialogClose(deleteFuture);
@@ -175,9 +186,7 @@ class _DangerSection extends StatelessWidget {
 }
 
 class _EditIcon extends StatelessWidget {
-  const _EditIcon({
-    required this.schoolClass,
-  });
+  const _EditIcon({required this.schoolClass});
 
   final SchoolClass schoolClass;
 
@@ -214,8 +223,9 @@ class _SchoolClassAvatarCard extends StatelessWidget {
         AvatarCard(
           crossAxisAlignment: CrossAxisAlignment.center,
           kuerzel: _getSchoolClassAbbreviation(),
-          avatarBackgroundColor:
-              schoolClass.getDesign().color.withValues(alpha: 0.2),
+          avatarBackgroundColor: schoolClass.getDesign().color.withValues(
+            alpha: 0.2,
+          ),
           fontColor: schoolClass.getDesign().color,
           withShadow: false,
           paddingBottom: 0,
@@ -301,8 +311,11 @@ class _IsPublic extends StatelessWidget {
         final setFuture = bloc.setIsPublic(!isPublic);
         showAppFunctionStateDialog(context, setFuture);
       },
-      onLongPress: () => showExplanation(context,
-          "Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen.\n\nDie Einstellung wird direkt auf alle Kurse übertragen, die mit der Schulklasse verbunden sind."),
+      onLongPress:
+          () => showExplanation(
+            context,
+            "Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen.\n\nDie Einstellung wird direkt auf alle Kurse übertragen, die mit der Schulklasse verbunden sind.",
+          ),
       trailing: Switch.adaptive(
         value: isPublic,
         onChanged: (newValue) {

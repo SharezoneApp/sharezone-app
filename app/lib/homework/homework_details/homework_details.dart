@@ -43,7 +43,8 @@ void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
     left: AdaptiveDialogAction.ok,
     title: 'Keine Berechtigung',
     content: const Text(
-        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.'),
+      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.',
+    ),
   );
 }
 
@@ -53,17 +54,20 @@ void showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
     left: AdaptiveDialogAction.ok,
     title: 'Keine Berechtigung',
     content: const Text(
-        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.'),
+      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.',
+    ),
   );
 }
 
 Future<bool?> confirmToMarkHomeworkAsDoneWithoutSubmission(
-    BuildContext context) {
+  BuildContext context,
+) {
   return showLeftRightAdaptiveDialog<bool>(
     context: context,
     title: 'Keine Abgabe bisher',
     content: const Text(
-        "Du hast bisher keine Abgabe gemacht. Möchtest du wirklich die Hausaufgabe ohne Abgabe als erledigt markieren?"),
+      "Du hast bisher keine Abgabe gemacht. Möchtest du wirklich die Hausaufgabe ohne Abgabe als erledigt markieren?",
+    ),
     defaultValue: false,
     right: const AdaptiveDialogAction<bool>(
       title: 'Abhaken',
@@ -79,7 +83,7 @@ class HomeworkDetails extends StatelessWidget {
   /// Loads the [HomeworkDetails] with [initialHomework] being prefilled into
   /// the page (no loading animation is shown).
   HomeworkDetails(HomeworkDetailsView this.initialHomework, {super.key})
-      : id = initialHomework.id;
+    : id = initialHomework.id;
 
   /// Loads the [HomeworkDetails] for the homework with the given [id].
   /// This means that there may be a loading animation shown until all
@@ -92,8 +96,9 @@ class HomeworkDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gateway = BlocProvider.of<SharezoneContext>(context).api.homework;
-    final detailsViewFactory =
-        BlocProvider.of<HomeworkDetailsViewFactory>(context);
+    final detailsViewFactory = BlocProvider.of<HomeworkDetailsViewFactory>(
+      context,
+    );
     final bloc = HomeworkDetailsBloc(gateway, id, detailsViewFactory);
 
     return BlocProvider(
@@ -112,13 +117,12 @@ class HomeworkDetails extends StatelessWidget {
               body: CustomScrollView(
                 slivers: <Widget>[
                   HomeworkTitleAppBar(view: view),
-                  SliverToBoxAdapter(
-                    child: _HomeworkDetailsBody(view: view),
-                  ),
+                  SliverToBoxAdapter(child: _HomeworkDetailsBody(view: view)),
                 ],
               ),
-              bottomNavigationBar:
-                  _BottomHomeworkIsDoneActionButton(view: view),
+              bottomNavigationBar: _BottomHomeworkIsDoneActionButton(
+                view: view,
+              ),
             ),
           );
         },
@@ -128,9 +132,7 @@ class HomeworkDetails extends StatelessWidget {
 }
 
 class _HomeworkDetailsBody extends StatelessWidget {
-  const _HomeworkDetailsBody({
-    required this.view,
-  });
+  const _HomeworkDetailsBody({required this.view});
 
   final HomeworkDetailsView view;
 
@@ -171,9 +173,10 @@ class HomeworkTitleAppBar extends StatelessWidget {
       data: Theme.of(context).copyWith(brightness: Brightness.dark),
       child: SliverAppBar(
         leading: const CloseIconButton(color: Colors.white),
-        backgroundColor: Theme.of(context).isDarkTheme
-            ? Theme.of(context).appBarTheme.backgroundColor
-            : Theme.of(context).primaryColor,
+        backgroundColor:
+            Theme.of(context).isDarkTheme
+                ? Theme.of(context).appBarTheme.backgroundColor
+                : Theme.of(context).primaryColor,
         iconTheme: const IconThemeData(color: Colors.white),
         elevation: 1,
         actions: <Widget>[
@@ -181,11 +184,12 @@ class HomeworkTitleAppBar extends StatelessWidget {
           if (view!.hasPermission) ...[
             _EditIcon(homework: view!.homework),
             _DeleteIcon(homework: view!.homework),
-          ]
+          ],
         ],
         expandedHeight: 155,
         flexibleSpace: FlexibleSpaceBar(
-            background: HomeworkDetailsHomeworkTitle(title: view!.title)),
+          background: HomeworkDetailsHomeworkTitle(title: view!.title),
+        ),
         pinned: true,
         floating: true,
       ),
@@ -220,9 +224,10 @@ class _DoneByTile extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => HomeworkCompletionUserListPage(
-          homeworkId: HomeworkId(view!.id),
-        ),
+        builder:
+            (context) => HomeworkCompletionUserListPage(
+              homeworkId: HomeworkId(view!.id),
+            ),
         settings: const RouteSettings(name: HomeworkCompletionUserListPage.tag),
       ),
     );
@@ -230,9 +235,7 @@ class _DoneByTile extends StatelessWidget {
 }
 
 class _UserSubmissionsTile extends StatelessWidget {
-  const _UserSubmissionsTile({
-    required this.view,
-  });
+  const _UserSubmissionsTile({required this.view});
 
   final HomeworkDetailsView view;
 
@@ -259,8 +262,9 @@ class _UserSubmissionsTeacherTile extends StatelessWidget {
     Navigator.pop(context);
 
     // Open Sharezone Plus page
-    BlocProvider.of<NavigationBloc>(context)
-        .navigateTo(NavigationItem.sharezonePlus);
+    BlocProvider.of<NavigationBloc>(
+      context,
+    ).navigateTo(NavigationItem.sharezonePlus);
   }
 
   @override
@@ -330,18 +334,20 @@ class _UserSubmissionsParentsTile extends StatelessWidget {
       leading: const Icon(Icons.folder_shared),
       title: const Text("Eltern dürfen keine Hausaufgaben abgeben"),
       onTap: () async {
-        final confirmed = (await showLeftRightAdaptiveDialog<bool>(
-          context: context,
-          defaultValue: false,
-          title: 'Account-Typ ändern?',
-          content: const Text(
-              "Wenn du eine Hausaufgabe abgeben möchtest, musst dein Account als Schüler registriert sein. Der Support kann deinen Account in einen Schüler-Account umwandeln, damit du Hausaufgaben abgeben darfst."),
-          right: const AdaptiveDialogAction(
-            isDefaultAction: true,
-            popResult: true,
-            title: "Support kontaktieren",
-          ),
-        ))!;
+        final confirmed =
+            (await showLeftRightAdaptiveDialog<bool>(
+              context: context,
+              defaultValue: false,
+              title: 'Account-Typ ändern?',
+              content: const Text(
+                "Wenn du eine Hausaufgabe abgeben möchtest, musst dein Account als Schüler registriert sein. Der Support kann deinen Account in einen Schüler-Account umwandeln, damit du Hausaufgaben abgeben darfst.",
+              ),
+              right: const AdaptiveDialogAction(
+                isDefaultAction: true,
+                popResult: true,
+                title: "Support kontaktieren",
+              ),
+            ))!;
 
         if (confirmed && context.mounted) {
           final uid = BlocProvider.of<SharezoneContext>(context).api.uID;
@@ -367,8 +373,8 @@ class _DeleteIcon extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.delete),
       tooltip: 'Löschen',
-      onPressed: () =>
-          deleteHomeworkDialogsEntry(context, homework, popTwice: true),
+      onPressed:
+          () => deleteHomeworkDialogsEntry(context, homework, popTwice: true),
     );
   }
 }
@@ -389,9 +395,10 @@ class _EditIcon extends StatelessWidget {
         final successful = await Navigator.push<bool>(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeworkDialog(
-              id: homework?.id != null ? HomeworkId(homework!.id) : null,
-            ),
+            builder:
+                (context) => HomeworkDialog(
+                  id: homework?.id != null ? HomeworkId(homework!.id) : null,
+                ),
             settings: const RouteSettings(name: HomeworkDialog.tag),
           ),
         );
@@ -446,7 +453,8 @@ class _BottomHomeworkIsDoneActionButton extends StatelessWidget {
             if (view.withSubmissions) {
               final result =
                   (await confirmToMarkHomeworkAsDoneWithoutSubmission(
-                      context))!;
+                    context,
+                  ))!;
               if (result && context.mounted) {
                 bloc.changeIsHomeworkDoneTo(true);
                 Navigator.pop(context);
@@ -488,11 +496,10 @@ class _HomeworkPrivateTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return isPrivate != null && isPrivate!
         ? const ListTile(
-            leading: Icon(Icons.security),
-            title: Text("Privat"),
-            subtitle:
-                Text("Diese Hausaufgabe wird nicht mit dem Kurs geteilt."),
-          )
+          leading: Icon(Icons.security),
+          title: Text("Privat"),
+          subtitle: Text("Diese Hausaufgabe wird nicht mit dem Kurs geteilt."),
+        )
         : Container();
   }
 }
@@ -507,28 +514,29 @@ class _HomeworkDescription extends StatelessWidget {
     final theme = Theme.of(context);
     return description != null && description!.isNotEmpty
         ? ListTile(
-            leading: const Icon(Icons.subject),
-            title: const Text("Zusatzinformationen"),
-            subtitle: MarkdownBody(
-              data: description!,
-              selectable: true,
-              softLineBreak: true,
-              styleSheet: MarkdownStyleSheet.fromTheme(
-                theme.copyWith(
-                  textTheme: theme.textTheme.copyWith(
-                    bodyMedium: TextStyle(
-                      color: Theme.of(context).isDarkTheme
-                          ? Colors.grey[400]
-                          : Colors.grey[600],
-                      fontFamily: rubik,
-                      fontSize: 14,
-                    ),
+          leading: const Icon(Icons.subject),
+          title: const Text("Zusatzinformationen"),
+          subtitle: MarkdownBody(
+            data: description!,
+            selectable: true,
+            softLineBreak: true,
+            styleSheet: MarkdownStyleSheet.fromTheme(
+              theme.copyWith(
+                textTheme: theme.textTheme.copyWith(
+                  bodyMedium: TextStyle(
+                    color:
+                        Theme.of(context).isDarkTheme
+                            ? Colors.grey[400]
+                            : Colors.grey[600],
+                    fontFamily: rubik,
+                    fontSize: 14,
                   ),
                 ),
-              ).copyWith(a: linkStyle(context, 14)),
-              onTapLink: (url, _, __) => launchURL(url, context: context),
-            ),
-          )
+              ),
+            ).copyWith(a: linkStyle(context, 14)),
+            onTapLink: (url, _, _) => launchURL(url, context: context),
+          ),
+        )
         : Container();
   }
 }
@@ -540,10 +548,7 @@ class _TodoUntil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: const Icon(Icons.today),
-      title: Text(todoUntil!),
-    );
+    return ListTile(leading: const Icon(Icons.today), title: Text(todoUntil!));
   }
 }
 
@@ -609,14 +614,16 @@ class HomeworkDetailsHomeworkTitle extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 1),
               child: SingleChildScrollView(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16, bottom: 11, right: 24),
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    bottom: 11,
+                    right: 24,
+                  ),
                   child: Text(
                     title!,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(color: Colors.white),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.headlineSmall!.copyWith(color: Colors.white),
                     textAlign: TextAlign.left,
                     // overflow: TextOverflow.ellipsis,
                   ),

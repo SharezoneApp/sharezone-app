@@ -54,9 +54,9 @@ class TimetableEditBloc extends BlocBase {
     changeWeekDay(initialLesson.weekday);
     changeWeekType(initialLesson.weektype);
     if (initialLesson.periodNumber != null) {
-      final period = timetableBloc.current
-          .getPeriods()
-          .getPeriod(initialLesson.periodNumber!);
+      final period = timetableBloc.current.getPeriods().getPeriod(
+        initialLesson.periodNumber!,
+      );
       if (period != null) {
         _periodSubject.sink.add(period);
       }
@@ -115,7 +115,9 @@ class TimetableEditBloc extends BlocBase {
         teacher = null;
       }
 
-      log("isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay");
+      log(
+        "isValid: true; ${course.toString()}; $startTime; $endTime; $room $weekDay",
+      );
 
       final lesson = initialLesson.copyWith(
         groupID: course?.id,

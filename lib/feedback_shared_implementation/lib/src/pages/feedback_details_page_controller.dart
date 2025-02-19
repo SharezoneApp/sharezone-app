@@ -42,48 +42,57 @@ class FeedbackDetailsPageController extends ChangeNotifier {
   }
 
   void _initFeedbackStream() {
-    _feedbackSubscription =
-        feedbackApi.streamFeedback(feedbackId).listen((feedback) {
-      // Since we are listening to the feedback, we can assume that the user has
-      // read all unread messages.
-      if (feedback.hasUnreadMessages(userId)) {
-        _markMessagesAsRead();
-      }
+    _feedbackSubscription = feedbackApi
+        .streamFeedback(feedbackId)
+        .listen(
+          (feedback) {
+            // Since we are listening to the feedback, we can assume that the user has
+            // read all unread messages.
+            if (feedback.hasUnreadMessages(userId)) {
+              _markMessagesAsRead();
+            }
 
-      state = FeedbackDetailsPageLoaded(
-        feedback: FeedbackView.fromUserFeedback(feedback, userId),
-        chatMessages: _getCurrentMessages(),
-      );
-      notifyListeners();
-    }, onError: (e, s) {
-      state = FeedbackDetailsPageError('$e');
-      crashAnalytics?.recordError('Error when streaming feedback: $e', s);
-      notifyListeners();
-    });
+            state = FeedbackDetailsPageLoaded(
+              feedback: FeedbackView.fromUserFeedback(feedback, userId),
+              chatMessages: _getCurrentMessages(),
+            );
+            notifyListeners();
+          },
+          onError: (e, s) {
+            state = FeedbackDetailsPageError('$e');
+            crashAnalytics?.recordError('Error when streaming feedback: $e', s);
+            notifyListeners();
+          },
+        );
   }
 
   void _initMessagesStream() {
-    _chatMessagesSubscription =
-        feedbackApi.streamChatMessages(feedbackId).listen((messages) {
-      final messageViews = messages
-          .map(
-            (e) => FeedbackMessageView(
-              message: e.text,
-              isMyMessage: e.senderId == userId,
-              sentAt: DateFormat.yMd().add_jm().format(e.sentAt),
-            ),
-          )
-          .toList();
-      state = FeedbackDetailsPageLoaded(
-        feedback: _getCurrentFeedbackView(),
-        chatMessages: messageViews,
-      );
-      notifyListeners();
-    }, onError: (e, s) {
-      state = FeedbackDetailsPageError('$e');
-      crashAnalytics?.recordError('Error when streaming messages: $e', s);
-      notifyListeners();
-    });
+    _chatMessagesSubscription = feedbackApi
+        .streamChatMessages(feedbackId)
+        .listen(
+          (messages) {
+            final messageViews =
+                messages
+                    .map(
+                      (e) => FeedbackMessageView(
+                        message: e.text,
+                        isMyMessage: e.senderId == userId,
+                        sentAt: DateFormat.yMd().add_jm().format(e.sentAt),
+                      ),
+                    )
+                    .toList();
+            state = FeedbackDetailsPageLoaded(
+              feedback: _getCurrentFeedbackView(),
+              chatMessages: messageViews,
+            );
+            notifyListeners();
+          },
+          onError: (e, s) {
+            state = FeedbackDetailsPageError('$e');
+            crashAnalytics?.recordError('Error when streaming messages: $e', s);
+            notifyListeners();
+          },
+        );
   }
 
   void sendResponse(String message) {
@@ -104,16 +113,18 @@ class FeedbackDetailsPageController extends ChangeNotifier {
   }
 
   FeedbackView? _getCurrentFeedbackView() {
-    final currentFeedback = state is FeedbackDetailsPageLoaded
-        ? (state as FeedbackDetailsPageLoaded).feedback
-        : null;
+    final currentFeedback =
+        state is FeedbackDetailsPageLoaded
+            ? (state as FeedbackDetailsPageLoaded).feedback
+            : null;
     return currentFeedback;
   }
 
   List<FeedbackMessageView>? _getCurrentMessages() {
-    final currentMessages = state is FeedbackDetailsPageLoaded
-        ? (state as FeedbackDetailsPageLoaded).chatMessages
-        : null;
+    final currentMessages =
+        state is FeedbackDetailsPageLoaded
+            ? (state as FeedbackDetailsPageLoaded).chatMessages
+            : null;
     return currentMessages;
   }
 

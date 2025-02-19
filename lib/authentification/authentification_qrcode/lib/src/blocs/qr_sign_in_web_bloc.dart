@@ -41,14 +41,18 @@ class QrSignInWebBloc extends BlocBase {
   final LoginAnalytics loginAnalytics;
   final CrashAnalytics crashAnalytics;
   final QrCodeUserAuthenticator qrSignInLogic;
-  final _qrSignInStateSubject =
-      BehaviorSubject<QrSignInState>.seeded(QrCodeIsGenerating());
+  final _qrSignInStateSubject = BehaviorSubject<QrSignInState>.seeded(
+    QrCodeIsGenerating(),
+  );
   RSAEncryptable? _rSAEncryptable;
 
   StreamSubscription? _qrIdStreamSubscription;
 
   QrSignInWebBloc._(
-      this.qrSignInLogic, this.loginAnalytics, this.crashAnalytics) {
+    this.qrSignInLogic,
+    this.loginAnalytics,
+    this.crashAnalytics,
+  ) {
     _initializeAuthentification();
   }
 
@@ -56,10 +60,12 @@ class QrSignInWebBloc extends BlocBase {
     // Eine kleine Verzögerung, damit die Seite erstmal lädt und nicht stottert. Dies soll helfen.
     await Future.delayed(const Duration(milliseconds: 100));
     _rSAEncryptable = await _computeRSAEncryptable();
-    final qrID =
-        qrSignInLogic.generateQrId(_rSAEncryptable!.getPublicKeyPemString());
-    _qrIdStreamSubscription =
-        qrSignInLogic.streamQrSignInState(qrID).listen((onUpdate) async {
+    final qrID = qrSignInLogic.generateQrId(
+      _rSAEncryptable!.getPublicKeyPemString(),
+    );
+    _qrIdStreamSubscription = qrSignInLogic.streamQrSignInState(qrID).listen((
+      onUpdate,
+    ) async {
       if (onUpdate is QrSignInSuccessfull) {
         final customToken = _getCustomToken(onUpdate);
         _signInWithCustomToken(customToken);
@@ -94,12 +100,16 @@ class QrSignInWebBloc extends BlocBase {
   Stream<QrSignInState> get qrSignInState => _qrSignInStateSubject;
 
   String _getCustomToken(QrSignInSuccessfull qrSignInSuccessfull) {
-    final aesKey = _rSAEncryptable!
-        .decryptFromBase64(qrSignInSuccessfull.base64encryptedKey!);
-    final aesEncryptable =
-        AESEncryptable.fromKeyString(key: aesKey, iv: qrSignInSuccessfull.iv!);
-    return aesEncryptable
-        .decryptFromBase64(qrSignInSuccessfull.base64encryptedCustomToken!);
+    final aesKey = _rSAEncryptable!.decryptFromBase64(
+      qrSignInSuccessfull.base64encryptedKey!,
+    );
+    final aesEncryptable = AESEncryptable.fromKeyString(
+      key: aesKey,
+      iv: qrSignInSuccessfull.iv!,
+    );
+    return aesEncryptable.decryptFromBase64(
+      qrSignInSuccessfull.base64encryptedCustomToken!,
+    );
   }
 
   @override

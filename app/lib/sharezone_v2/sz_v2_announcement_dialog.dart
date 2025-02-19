@@ -28,25 +28,22 @@ import 'package:user/user.dart';
 
 Future<void> openSzV2AnnoucementDialog(BuildContext context) async {
   await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => _StudentDialog(
-                BlocProvider.of<SharezoneContext>(context)
-                    .api
-                    .user
-                    .data!
-                    .typeOfUser
-                    .isStudent,
-              )));
+    context,
+    MaterialPageRoute(
+      builder:
+          (context) => _StudentDialog(
+            BlocProvider.of<SharezoneContext>(
+              context,
+            ).api.user.data!.typeOfUser.isStudent,
+          ),
+    ),
+  );
 }
 
 const _skipKey = 'v2-dialog-skipped-on';
 
 class SharezoneV2AnnoucementDialogGuard extends StatelessWidget {
-  const SharezoneV2AnnoucementDialogGuard({
-    super.key,
-    required this.child,
-  });
+  const SharezoneV2AnnoucementDialogGuard({super.key, required this.child});
 
   final Widget child;
 
@@ -57,31 +54,34 @@ class SharezoneV2AnnoucementDialogGuard extends StatelessWidget {
     bool skip = false;
     try {
       final dialogSkippedNum = szContext.sharedPreferences.getInt(_skipKey);
-      DateTime? dialogSkipped = dialogSkippedNum != null
-          ? DateTime.fromMillisecondsSinceEpoch(dialogSkippedNum)
-          : null;
-      skip = dialogSkipped != null &&
+      DateTime? dialogSkipped =
+          dialogSkippedNum != null
+              ? DateTime.fromMillisecondsSinceEpoch(dialogSkippedNum)
+              : null;
+      skip =
+          dialogSkipped != null &&
           dialogSkipped.isAfter(clock.now().subtract(const Duration(days: 3)));
     } catch (e) {
       log('Error reading dialog skipped time: $e');
     }
 
     return StreamBuilder(
-        stream: szContext.api.user.userStream,
-        builder: (context, snapshot) {
-          if (isIntegrationTest) {
-            return child;
-          }
-          if (snapshot.hasData) {
-            final user = snapshot.data;
-            if (user != null &&
-                user.legalData['v2_0-legal-accepted'] == null &&
-                !skip) {
-              return _StudentDialog(user.typeOfUser.isStudent);
-            }
-          }
+      stream: szContext.api.user.userStream,
+      builder: (context, snapshot) {
+        if (isIntegrationTest) {
           return child;
-        });
+        }
+        if (snapshot.hasData) {
+          final user = snapshot.data;
+          if (user != null &&
+              user.legalData['v2_0-legal-accepted'] == null &&
+              !skip) {
+            return _StudentDialog(user.typeOfUser.isStudent);
+          }
+        }
+        return child;
+      },
+    );
   }
 }
 
@@ -110,124 +110,131 @@ class _StudentDialogState extends State<_StudentDialog> {
     return PopScope<Object?>(
       canPop: false,
       child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text('Sharezone v2.0'),
-            elevation: 0,
-            automaticallyImplyLeading: false,
-          ),
-          body: MaxWidthConstraintBox(
-            maxWidth: 800,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: PageView(
-                controller: controller,
-                children: <Widget>[
-                  if (widget.isStudent) ...[
-                    const _JustText(markdownText: _markdownText1),
-                    const _SharezonePlus(),
-                  ],
-                  _OtherChanges(widget.isStudent),
-                  _FinalPage(
-                      isStudent: widget.isStudent,
-                      onCheckboxesChanged: (allChecked) {
-                        setState(() {
-                          _allCheckboxesChecked = allChecked;
-                        });
-                      }),
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Sharezone v2.0'),
+          elevation: 0,
+          automaticallyImplyLeading: false,
+        ),
+        body: MaxWidthConstraintBox(
+          maxWidth: 800,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: PageView(
+              controller: controller,
+              children: <Widget>[
+                if (widget.isStudent) ...[
+                  const _JustText(markdownText: _markdownText1),
+                  const _SharezonePlus(),
                 ],
-              ),
+                _OtherChanges(widget.isStudent),
+                _FinalPage(
+                  isStudent: widget.isStudent,
+                  onCheckboxesChanged: (allChecked) {
+                    setState(() {
+                      _allCheckboxesChecked = allChecked;
+                    });
+                  },
+                ),
+              ],
             ),
           ),
-          bottomNavigationBar: ListenableBuilder(
-              listenable: controller,
-              builder: (context, _) {
-                final lastPage = widget.isStudent ? 3 : 1;
-                final bool isLastPage = controller.page == lastPage;
+        ),
+        bottomNavigationBar: ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) {
+            final lastPage = widget.isStudent ? 3 : 1;
+            final bool isLastPage = controller.page == lastPage;
 
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Visibility(
-                        maintainSize: true,
-                        maintainAnimation: true,
-                        maintainState: true,
-                        visible: (controller.page ?? 0) > 0,
-                        child: TextButton(
-                          child: Text(
-                            'Zurück',
-                            style: TextStyle(
-                              color: context.isDarkThemeEnabled
-                                  ? null
-                                  : primaryColor,
-                            ),
-                          ),
-                          onPressed: () {
-                            controller.previousPage(
-                                duration: const Duration(milliseconds: 250),
-                                curve: Curves.easeInOut);
-                          },
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Visibility(
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
+                    visible: (controller.page ?? 0) > 0,
+                    child: TextButton(
+                      child: Text(
+                        'Zurück',
+                        style: TextStyle(
+                          color:
+                              context.isDarkThemeEnabled ? null : primaryColor,
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: !isLastPage || _allCheckboxesChecked
-                            ? () async {
-                                if (controller.page == lastPage) {
-                                  final ctx = BlocProvider.of<SharezoneContext>(
-                                      context);
-                                  // We navigate beforehand, so that the context
-                                  // is not already unmounted when we try to
-                                  // navigate.
-                                  BlocProvider.of<NavigationBloc>(context)
-                                      .navigateTo(NavigationItem.sharezonePlus);
-                                  // ignore: unused_local_variable
-                                  final uid = ctx.api.uID;
-
-                                  try {
-                                    szContext.api.references.firestore
-                                        .collection('User')
-                                        .doc(uid)
-                                        .update({
-                                      'legal': {
-                                        'v2_0-legal-accepted': {
-                                          "source": "v2.0-legal-dialog",
-                                          'deviceTime': clock.now(),
-                                          'serverTime':
-                                              FieldValue.serverTimestamp(),
-                                        },
-                                      },
-                                    });
-                                  } on Exception catch (e) {
-                                    if (context.mounted) {
-                                      await showLeftRightAdaptiveDialog(
-                                          context: context,
-                                          title: 'Fehler',
-                                          content: Text(
-                                              'Es ist ein Fehler aufgetreten: $e. Falls dieser bestehen bleibt, dann schreibe uns unter support@sharezone.net'));
-                                    }
-                                  }
-                                } else {
-                                  controller.nextPage(
-                                      duration:
-                                          const Duration(milliseconds: 250),
-                                      curve: Curves.easeInOut);
-                                }
-                              }
-                            : null,
-                        child: Text(
-                          isLastPage ? 'Fertig' : 'Weiter',
-                          style: TextStyle(
-                              color: context.isDarkThemeEnabled
-                                  ? null
-                                  : Colors.white),
-                        ),
-                      ),
-                    ],
+                      onPressed: () {
+                        controller.previousPage(
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                    ),
                   ),
-                );
-              })),
+                  ElevatedButton(
+                    onPressed:
+                        !isLastPage || _allCheckboxesChecked
+                            ? () async {
+                              if (controller.page == lastPage) {
+                                final ctx = BlocProvider.of<SharezoneContext>(
+                                  context,
+                                );
+                                // We navigate beforehand, so that the context
+                                // is not already unmounted when we try to
+                                // navigate.
+                                BlocProvider.of<NavigationBloc>(
+                                  context,
+                                ).navigateTo(NavigationItem.sharezonePlus);
+                                // ignore: unused_local_variable
+                                final uid = ctx.api.uID;
+
+                                try {
+                                  szContext.api.references.firestore
+                                      .collection('User')
+                                      .doc(uid)
+                                      .update({
+                                        'legal': {
+                                          'v2_0-legal-accepted': {
+                                            "source": "v2.0-legal-dialog",
+                                            'deviceTime': clock.now(),
+                                            'serverTime':
+                                                FieldValue.serverTimestamp(),
+                                          },
+                                        },
+                                      });
+                                } on Exception catch (e) {
+                                  if (context.mounted) {
+                                    await showLeftRightAdaptiveDialog(
+                                      context: context,
+                                      title: 'Fehler',
+                                      content: Text(
+                                        'Es ist ein Fehler aufgetreten: $e. Falls dieser bestehen bleibt, dann schreibe uns unter support@sharezone.net',
+                                      ),
+                                    );
+                                  }
+                                }
+                              } else {
+                                controller.nextPage(
+                                  duration: const Duration(milliseconds: 250),
+                                  curve: Curves.easeInOut,
+                                );
+                              }
+                            }
+                            : null,
+                    child: Text(
+                      isLastPage ? 'Fertig' : 'Weiter',
+                      style: TextStyle(
+                        color: context.isDarkThemeEnabled ? null : Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
@@ -244,9 +251,7 @@ class _SharezonePlus extends StatelessWidget {
           SizedBox(height: 190),
           _JustText(markdownText: _markdownText2),
           SizedBox(height: 30),
-          SharezonePlusAdvantages(
-            isHomeworkReminderFeatureVisible: true,
-          )
+          SharezonePlusAdvantages(isHomeworkReminderFeatureVisible: true),
         ],
       ),
     );
@@ -280,8 +285,9 @@ Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, d
             const _Card(
               header: Text('Geänderte Rechtsform'),
               body: MarkdownBody(
-                  data:
-                      'Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.'),
+                data:
+                    'Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.',
+              ),
             ),
             const SizedBox(height: 12),
             _Card(
@@ -313,10 +319,7 @@ Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, d
 }
 
 class _Card extends StatelessWidget {
-  const _Card({
-    required this.header,
-    required this.body,
-  });
+  const _Card({required this.header, required this.body});
 
   final Widget header;
   final Widget body;
@@ -326,9 +329,10 @@ class _Card extends StatelessWidget {
     return ExpansionCard(
       header: header,
       body: body,
-      backgroundColor: context.isDarkThemeEnabled
-          ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)
-          : primaryColor.withValues(alpha: .3),
+      backgroundColor:
+          context.isDarkThemeEnabled
+              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)
+              : primaryColor.withValues(alpha: .3),
     );
   }
 }
@@ -343,17 +347,16 @@ class _JustText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: MarkdownBody(
-        data: markdownText,
-        onTapLink: onLinkTap,
-      ),
+      child: MarkdownBody(data: markdownText, onTapLink: onLinkTap),
     );
   }
 }
 
 class _FinalPage extends StatefulWidget {
-  const _FinalPage(
-      {required this.onCheckboxesChanged, required this.isStudent});
+  const _FinalPage({
+    required this.onCheckboxesChanged,
+    required this.isStudent,
+  });
 
   final void Function(bool allCheckboxesChecked) onCheckboxesChanged;
   final bool isStudent;
@@ -440,8 +443,7 @@ ${widget.isStudent ? '\n\nWir danken dir, uns bis hierhin begleitet zu haben.' :
             if (clock.now().isBefore(DateTime(2024, 05, 15)))
               TextButton(
                 onPressed: () {
-                  BlocProvider.of<SharezoneContext>(context)
-                      .sharedPreferences
+                  BlocProvider.of<SharezoneContext>(context).sharedPreferences
                       .setInt(_skipKey, clock.now().millisecondsSinceEpoch);
                   Navigator.of(context).popAndPushNamed(DashboardPage.tag);
                 },

@@ -60,17 +60,19 @@ class SupportPageController extends ChangeNotifier {
       notifyListeners();
     });
 
-    _hasPlusSupportUnlockedSubscription =
-        hasPlusSupportUnlockedStream.listen((hasPlusSupportUnlocked) {
+    _hasPlusSupportUnlockedSubscription = hasPlusSupportUnlockedStream.listen((
+      hasPlusSupportUnlocked,
+    ) {
       _hasSharezonePlus = hasPlusSupportUnlocked;
       notifyListeners();
     });
 
-    _isUserInGroupOnboardingSubscription =
-        isUserInGroupOnboardingStream.listen((isUserInGroupOnboarding) {
-      this.isUserInGroupOnboarding = isUserInGroupOnboarding;
-      notifyListeners();
-    });
+    _isUserInGroupOnboardingSubscription = isUserInGroupOnboardingStream.listen(
+      (isUserInGroupOnboarding) {
+        this.isUserInGroupOnboarding = isUserInGroupOnboarding;
+        notifyListeners();
+      },
+    );
 
     _typeOfUserSubscription = typeOfUserStream.listen((typeOfUser) {
       _typeOfUser = typeOfUser;
@@ -126,10 +128,7 @@ class SupportPageController extends ChangeNotifier {
   }
 
   Future<void> sendEmailToFreeSupport() async {
-    await _openEmailApp(
-      email: freeSupportEmail,
-      subject: 'Meine Anfrage',
-    );
+    await _openEmailApp(email: freeSupportEmail, subject: 'Meine Anfrage');
   }
 
   Future<void> sendEmailToPlusSupport() async {

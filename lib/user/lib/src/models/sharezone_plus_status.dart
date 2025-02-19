@@ -47,7 +47,8 @@ class SharezonePlusStatus {
   }
 
   static SubscriptionSource? parseSource(
-      Map<String, dynamic>? subscriptionDetails) {
+    Map<String, dynamic>? subscriptionDetails,
+  ) {
     if (subscriptionDetails == null) return null;
     return SubscriptionSource.values.tryByName(
       subscriptionDetails['source'],

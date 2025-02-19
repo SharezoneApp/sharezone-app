@@ -55,15 +55,17 @@ void main() {
       expect(result, true);
     });
 
-    test('.tryLaunchOrThrow throws exception if link can not be launch',
-        () async {
-      mockUrlLauncherExtended.setCanLaunch(false);
+    test(
+      '.tryLaunchOrThrow throws exception if link can not be launch',
+      () async {
+        mockUrlLauncherExtended.setCanLaunch(false);
 
-      try {
-        await mockUrlLauncherExtended.tryLaunchOrThrow(url);
-      } on Exception catch (e) {
-        expect(e, CouldNotLaunchUrlException(url));
-      }
-    });
+        try {
+          await mockUrlLauncherExtended.tryLaunchOrThrow(url);
+        } on Exception catch (e) {
+          expect(e, CouldNotLaunchUrlException(url));
+        }
+      },
+    );
   });
 }

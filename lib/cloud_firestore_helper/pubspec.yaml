@@ -13,7 +13,7 @@ publish_to: none
 
 resolution: workspace
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.7.0
 
 # This package shouldn't have a dependency on cloud_firestore, because it's used
 # on our website, which slows down the loading time.

@@ -31,18 +31,19 @@ Future<void> showFolderSheet({
 }) async {
   final option = await showModalBottomSheet<SheetOption>(
     context: context,
-    builder: (context) => FileSheet(
-      name: folder.name,
-      creatorName: folder.creatorName,
-      icon: Icon(Icons.folder, color: Colors.grey[600]),
-      items: FolderActionsColumn(
-        hasPermissionsToEdit: hasPermissions,
-        isFolderDeletable: folder.isDeletable(path!),
-        onSelectFolderAction: (context, sheetOption) {
-          Navigator.pop(context, sheetOption);
-        },
-      ),
-    ),
+    builder:
+        (context) => FileSheet(
+          name: folder.name,
+          creatorName: folder.creatorName,
+          icon: Icon(Icons.folder, color: Colors.grey[600]),
+          items: FolderActionsColumn(
+            hasPermissionsToEdit: hasPermissions,
+            isFolderDeletable: folder.isDeletable(path!),
+            onSelectFolderAction: (context, sheetOption) {
+              Navigator.pop(context, sheetOption);
+            },
+          ),
+        ),
   );
   if (!context.mounted) return;
 
@@ -60,25 +61,25 @@ Future<void> showCloudFileSheet({
   required BuildContext context,
   required FileSharingPageBloc bloc,
 }) async {
-  final hasPermissionToEdit =
-      FileSharingPermissionsNoSync.fromContext(context).canManageCloudFile(
-    cloudFile: cloudFile,
-  );
+  final hasPermissionToEdit = FileSharingPermissionsNoSync.fromContext(
+    context,
+  ).canManageCloudFile(cloudFile: cloudFile);
   final option = await showModalBottomSheet<SheetOption>(
     context: context,
-    builder: (context) => FileSheet(
-      name: cloudFile.name,
-      icon: FileIcon(fileFormat: cloudFile.fileFormat),
-      creatorName: cloudFile.creatorName,
-      sizeBytes: cloudFile.sizeBytes,
-      isPrivate: cloudFile.isPrivate,
-      createdOn: cloudFile.createdOn,
-      items: CloudFileActionsColumn(
-        hasPermissionToEdit: hasPermissionToEdit,
-        onSelectCloudFileAction: (context, sheetOption) =>
-            Navigator.pop(context, sheetOption),
-      ),
-    ),
+    builder:
+        (context) => FileSheet(
+          name: cloudFile.name,
+          icon: FileIcon(fileFormat: cloudFile.fileFormat),
+          creatorName: cloudFile.creatorName,
+          sizeBytes: cloudFile.sizeBytes,
+          isPrivate: cloudFile.isPrivate,
+          createdOn: cloudFile.createdOn,
+          items: CloudFileActionsColumn(
+            hasPermissionToEdit: hasPermissionToEdit,
+            onSelectCloudFileAction:
+                (context, sheetOption) => Navigator.pop(context, sheetOption),
+          ),
+        ),
   );
   if (!context.mounted) return;
 
@@ -112,70 +113,74 @@ class FileSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle greyTextStyle = TextStyle(
-        color: Theme.of(context).isDarkTheme
-            ? Colors.grey[400]
-            : Colors.grey[600]);
+      color:
+          Theme.of(context).isDarkTheme ? Colors.grey[400] : Colors.grey[600],
+    );
     final api = BlocProvider.of<SharezoneContext>(context).api;
     return SafeArea(
       left: true,
       right: true,
       bottom: true,
       child: BlocProvider<FileSharingPageBloc>(
-          bloc: FileSharingPageBloc(api.fileSharing),
-          child: Builder(
-            builder: (context) {
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 8, 2),
-                      child: Row(
-                        children: <Widget>[
-                          icon!,
-                          const SizedBox(width: 32),
-                          Flexible(
-                            child: Text(name!,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 16)),
+        bloc: FileSharingPageBloc(api.fileSharing),
+        child: Builder(
+          builder: (context) {
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 8, 2),
+                    child: Row(
+                      children: <Widget>[
+                        icon!,
+                        const SizedBox(width: 32),
+                        Flexible(
+                          child: Text(
+                            name!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 72, bottom: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 72, bottom: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Ersteller: $creatorName", style: greyTextStyle),
+                        if (createdOn != null)
                           Text(
-                            "Ersteller: $creatorName",
+                            "Hochgeladen am: ${DateFormat('dd.MM.yyyy HH:mm').format(createdOn!)}",
                             style: greyTextStyle,
                           ),
-                          if (createdOn != null)
-                            Text(
-                              "Hochgeladen am: ${DateFormat('dd.MM.yyyy HH:mm').format(createdOn!)}",
+                        if (isPrivate == true)
+                          Text(
+                            'Privat (nur für dich sichtbar)',
+                            style: greyTextStyle,
+                          ),
+                        sizeBytes != null
+                            ? Text(
+                              "Größe: ${KiloByteSize(bytes: sizeBytes!).inMegabytes.toStringAsFixed(2)} MB",
                               style: greyTextStyle,
-                            ),
-                          if (isPrivate == true)
-                            Text('Privat (nur für dich sichtbar)',
-                                style: greyTextStyle),
-                          sizeBytes != null
-                              ? Text(
-                                  "Größe: ${KiloByteSize(bytes: sizeBytes!).inMegabytes.toStringAsFixed(2)} MB",
-                                  style: greyTextStyle,
-                                )
-                              : Container(),
-                        ],
-                      ),
+                            )
+                            : Container(),
+                      ],
                     ),
-                    const Divider(height: 0),
-                    items!,
-                  ],
-                ),
-              );
-            },
-          )),
+                  ),
+                  const Divider(height: 0),
+                  items!,
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

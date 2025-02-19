@@ -35,11 +35,7 @@ class BlackboardDialogChoosePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Titelbild auswählen")),
-      body: SafeArea(
-        child: MaxWidthConstraintBox(
-          child: _PictureGrid(),
-        ),
-      ),
+      body: SafeArea(child: MaxWidthConstraintBox(child: _PictureGrid())),
     );
   }
 }
@@ -61,9 +57,7 @@ class _PictureGrid extends StatelessWidget {
 }
 
 class _PictureBox extends StatelessWidget {
-  const _PictureBox({
-    required this.path,
-  });
+  const _PictureBox({required this.path});
 
   final String path;
 
@@ -75,36 +69,35 @@ class _PictureBox extends StatelessWidget {
       onTap: () {
         if (path != "assets/wallpaper/blackboard/make-photo.png" &&
             path != "assets/wallpaper/blackboard/upload.png") {
-          analytics
-              .log(NamedAnalyticsEvent(name: "blackboard_upload_preset_photo"));
+          analytics.log(
+            NamedAnalyticsEvent(name: "blackboard_upload_preset_photo"),
+          );
           Navigator.pop(context, path);
         } else {
-          analytics
-              .log(NamedAnalyticsEvent(name: "blackboard_upload_own_photo"));
+          analytics.log(
+            NamedAnalyticsEvent(name: "blackboard_upload_own_photo"),
+          );
           showDialog(
             context: context,
-            builder: (context) => AlertDialog(
-              content: const Text(
-                  "Bisher können keine eigenen Bilder aufgenommen/hochgeladen werden 😔\n\nDiese Funktion wird sehr bald verfügbar sein!"),
-              actions: <Widget>[
-                TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).primaryColor,
+            builder:
+                (context) => AlertDialog(
+                  content: const Text(
+                    "Bisher können keine eigenen Bilder aufgenommen/hochgeladen werden 😔\n\nDiese Funktion wird sehr bald verfügbar sein!",
                   ),
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("OK"),
-                )
-              ],
-            ),
+                  actions: <Widget>[
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Theme.of(context).primaryColor,
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text("OK"),
+                    ),
+                  ],
+                ),
           );
         }
       },
-      child: Image.asset(
-        path,
-        height: size,
-        width: size,
-        fit: BoxFit.cover,
-      ),
+      child: Image.asset(path, height: size, width: size, fit: BoxFit.cover),
     );
   }
 }

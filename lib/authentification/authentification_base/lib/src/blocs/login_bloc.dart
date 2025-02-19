@@ -48,7 +48,9 @@ class LoginBloc extends BlocBase with AuthentificationValidators {
         final validEmail = _emailSubject.valueOrNull!;
         final validPassword = _passwordSubject.valueOrNull!;
         await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: validEmail, password: validPassword);
+          email: validEmail,
+          password: validPassword,
+        );
         _analytics.logEmailAndPasswordLogin();
         return;
       } else {

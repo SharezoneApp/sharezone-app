@@ -63,23 +63,24 @@ class AppUser {
 
   factory AppUser.create({required String id}) {
     return AppUser._(
-        id: id,
-        name: "Anonymer Account",
-        abbreviation: "AA",
-        typeOfUser: TypeOfUser.student,
-        notificationTokens: [],
-        reminderTime: "18:00",
-        referralLink: null,
-        referredBy: null,
-        referralScore: 0,
-        state: StateEnum.anonymous,
-        blackboardNotifications: true,
-        commentsNotifications: true,
-        userSettings: UserSettings.defaultSettings(),
-        userTipData: UserTipData.empty(),
-        createdOn: null,
-        sharezonePlus: null,
-        legalData: {});
+      id: id,
+      name: "Anonymer Account",
+      abbreviation: "AA",
+      typeOfUser: TypeOfUser.student,
+      notificationTokens: [],
+      reminderTime: "18:00",
+      referralLink: null,
+      referredBy: null,
+      referralScore: 0,
+      state: StateEnum.anonymous,
+      blackboardNotifications: true,
+      commentsNotifications: true,
+      userSettings: UserSettings.defaultSettings(),
+      userTipData: UserTipData.empty(),
+      createdOn: null,
+      sharezonePlus: null,
+      legalData: {},
+    );
   }
 
   factory AppUser.fromData(Map<String, dynamic>? data, {required String id}) {
@@ -108,8 +109,10 @@ class AppUser {
       id: id,
       name: data['name'] ?? '',
       abbreviation: generateAbbreviation(data['name']),
-      typeOfUser: TypeOfUser.values
-          .tryByName(data['typeOfUser'], defaultValue: TypeOfUser.unknown),
+      typeOfUser: TypeOfUser.values.tryByName(
+        data['typeOfUser'],
+        defaultValue: TypeOfUser.unknown,
+      ),
       notificationTokens: decodeList(data['notificationTokens'], (it) => it),
       reminderTime: data['reminderTime'],
       referralLink: data['referralLink'],
@@ -123,8 +126,10 @@ class AppUser {
       createdOn: dateTimeFromTimestampOrNull(data['createdOn']),
       features: Features.fromJson(data['features']),
       sharezonePlus: SharezonePlusStatus.fromData(data['sharezonePlus']),
-      legalData: decodeMap(data['legal'] ?? {},
-          (key, decodedMapValue) => decodedMapValue as Map),
+      legalData: decodeMap(
+        data['legal'] ?? {},
+        (key, decodedMapValue) => decodedMapValue as Map,
+      ),
     );
   }
 

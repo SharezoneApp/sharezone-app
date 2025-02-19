@@ -88,17 +88,18 @@ class StudentHomeworkPage extends StatelessWidget {
                           .whereType<Success>()
                           .map((s) => s.open.sorting),
                       showOverflowMenu: true,
-                      onCompletedAllOverdue: () =>
-                          bloc.add(CompletedAllOverdue()),
-                      onSortingChanged: (sort) =>
-                          bloc.add(OpenHwSortingChanged(sort)),
+                      onCompletedAllOverdue:
+                          () => bloc.add(CompletedAllOverdue()),
+                      onSortingChanged:
+                          (sort) => bloc.add(OpenHwSortingChanged(sort)),
                     ),
                   ),
                 ],
               ),
             ),
-            floatingActionButton:
-                const BottomOfScrollViewInvisibility(child: HomeworkFab()),
+            floatingActionButton: const BottomOfScrollViewInvisibility(
+              child: HomeworkFab(),
+            ),
           ),
         ),
       ),
@@ -114,7 +115,9 @@ class StudentHomeworkBody extends StatelessWidget {
   Widget getCenteredPlaceholder(HomeworkTab tab, HomeworkPageStatus status) {
     return Center(
       child: getStudentEmptyHomeworkListWidgetsWithStatus(
-          forTab: tab, homeworkStatus: status),
+        forTab: tab,
+        homeworkStatus: status,
+      ),
     );
   }
 
@@ -139,24 +142,23 @@ class StudentHomeworkBody extends StatelessWidget {
             state.completed.numberOfHomeworks,
           );
 
-          final openHomeworkWidget = currentStatus.hasOpenHomeworks
-              ? OpenHomeworkList(
-                  homeworkListView: state.open,
-                  overscrollColor: overscrollColor,
-                  showCompleteAllOverdueCard:
-                      state.open.showCompleteOverdueHomeworkPrompt,
-                )
-              : getCenteredPlaceholder(HomeworkTab.open, currentStatus);
+          final openHomeworkWidget =
+              currentStatus.hasOpenHomeworks
+                  ? OpenHomeworkList(
+                    homeworkListView: state.open,
+                    overscrollColor: overscrollColor,
+                    showCompleteAllOverdueCard:
+                        state.open.showCompleteOverdueHomeworkPrompt,
+                  )
+                  : getCenteredPlaceholder(HomeworkTab.open, currentStatus);
 
-          final completedHomeworkWidget = currentStatus.hasCompletedHomeworks
-              ? CompletedHomeworkList(
-                  view: state.completed,
-                  bloc: bloc,
-                )
-              : getCenteredPlaceholder(
-                  HomeworkTab.completed,
-                  currentStatus,
-                );
+          final completedHomeworkWidget =
+              currentStatus.hasCompletedHomeworks
+                  ? CompletedHomeworkList(view: state.completed, bloc: bloc)
+                  : getCenteredPlaceholder(
+                    HomeworkTab.completed,
+                    currentStatus,
+                  );
 
           return TabBarView(
             children: <Widget>[openHomeworkWidget, completedHomeworkWidget],

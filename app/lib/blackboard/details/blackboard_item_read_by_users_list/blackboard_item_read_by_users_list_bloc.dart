@@ -39,11 +39,12 @@ class BlackboardItemReadByUsersListBloc extends BlocBase {
 
     for (final userId in item.forUsers.keys) {
       if (userId != item.authorID) {
-        final membersDoc = await _courseRef
-            .doc('$_courseId')
-            .collection(CollectionNames.members)
-            .doc(userId)
-            .get();
+        final membersDoc =
+            await _courseRef
+                .doc('$_courseId')
+                .collection(CollectionNames.members)
+                .doc(userId)
+                .get();
         final data = membersDoc.data();
         if (data == null) continue;
 
@@ -75,9 +76,11 @@ extension ImprovedSorting on List<UserView> {
   /// Gibt aus einer Liste mit UserViews alle User zurück, die dem [typeOfUser]
   /// entsprechen. Zudem wird diese Liste direkt alphabetisch sortiert.
   List<UserView> getViewsOfTypeOfUserSortedAlphabetically(
-      TypeOfUser typeOfUser) {
-    return where((user) => user.typeOfUser == typeOfUser.toReadableString())
-        .toList()
+    TypeOfUser typeOfUser,
+  ) {
+    return where(
+        (user) => user.typeOfUser == typeOfUser.toReadableString(),
+      ).toList()
       ..sort((a, b) => a.name.compareTo(b.name));
   }
 
@@ -87,7 +90,7 @@ extension ImprovedSorting on List<UserView> {
     return [
       ...getViewsOfTypeOfUserSortedAlphabetically(TypeOfUser.teacher),
       ...getViewsOfTypeOfUserSortedAlphabetically(TypeOfUser.student),
-      ...getViewsOfTypeOfUserSortedAlphabetically(TypeOfUser.parent)
+      ...getViewsOfTypeOfUserSortedAlphabetically(TypeOfUser.parent),
     ];
   }
 }

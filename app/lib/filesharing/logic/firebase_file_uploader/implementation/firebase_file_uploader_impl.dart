@@ -47,7 +47,7 @@ class FirebaseFileUploaderImplementation {
           authorID: creatorID,
           authorName: creatorName,
           changedOn: clock.now(),
-        )
+        ),
       ],
       name: localFile.getName(),
     );
@@ -73,7 +73,9 @@ class FirebaseFileUploaderImplementation {
   }
 
   Future<void> _saveCloudFileInFirestore(
-      DocumentReference reference, CloudFile cloudFile) async {
+    DocumentReference reference,
+    CloudFile cloudFile,
+  ) async {
     await reference.set(cloudFile.toJson(), SetOptions(merge: true));
   }
 }

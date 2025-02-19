@@ -31,10 +31,12 @@ class EnterActivationCodeTextField extends StatelessWidget
             child: Theme(
               data: Theme.of(context).copyWith(
                 primaryColor: Colors.white,
-                colorScheme: Theme.of(context).isDarkTheme
-                    ? null
-                    : ColorScheme.fromSwatch()
-                        .copyWith(secondary: Colors.white),
+                colorScheme:
+                    Theme.of(context).isDarkTheme
+                        ? null
+                        : ColorScheme.fromSwatch().copyWith(
+                          secondary: Colors.white,
+                        ),
               ),
               child: TextField(
                 maxLines: 1,
@@ -46,14 +48,11 @@ class EnterActivationCodeTextField extends StatelessWidget
                 onEditingComplete: () => onSend(context, bloc),
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  focusedBorder: Theme.of(context)
-                      .inputDecorationTheme
-                      .focusedBorder
-                      ?.copyWith(
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
+                  focusedBorder: Theme.of(
+                    context,
+                  ).inputDecorationTheme.focusedBorder?.copyWith(
+                    borderSide: const BorderSide(color: Colors.white),
+                  ),
                   labelText: 'Aktivierungscode',
                   hintText: "z.B. NavigationV2",
                   labelStyle: const TextStyle(color: Colors.white),

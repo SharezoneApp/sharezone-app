@@ -58,8 +58,10 @@ class Period {
     required this.endTime,
   });
 
-  factory Period.fromData(
-      {required int number, required Map<String, dynamic> data}) {
+  factory Period.fromData({
+    required int number,
+    required Map<String, dynamic> data,
+  }) {
     return Period(
       number: number,
       startTime: Time.parse(data['startTime']),
@@ -68,10 +70,7 @@ class Period {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'startTime': startTime.time,
-      'endTime': endTime.time,
-    };
+    return {'startTime': startTime.time, 'endTime': endTime.time};
   }
 
   bool includesTime(Time time) {
@@ -106,10 +105,7 @@ class Period {
         other.endTime == endTime;
   }
 
-  Period copyWith({
-    Time? startTime,
-    Time? endTime,
-  }) {
+  Period copyWith({Time? startTime, Time? endTime}) {
     return Period(
       number: number,
       startTime: startTime ?? this.startTime,
@@ -162,25 +158,32 @@ class Periods {
   Period? _internalCalculatePossibleNextPeriod() {
     if (getPeriods().isEmpty) {
       return Period(
-          number: 1, startTime: Time(hour: 7), endTime: Time(hour: 8));
+        number: 1,
+        startTime: Time(hour: 7),
+        endTime: Time(hour: 8),
+      );
     } else {
       final lastPeriod = getPeriods().last;
-      final minutesOfLastPeriod =
-          lastPeriod.endTime.differenceInMinutes(lastPeriod.startTime);
+      final minutesOfLastPeriod = lastPeriod.endTime.differenceInMinutes(
+        lastPeriod.startTime,
+      );
 
-      final wouldBeNextDay = lastPeriod.endTime
-          .isNextDayWith(Duration(minutes: minutesOfLastPeriod));
+      final wouldBeNextDay = lastPeriod.endTime.isNextDayWith(
+        Duration(minutes: minutesOfLastPeriod),
+      );
       if (wouldBeNextDay) {
         // When the new period would be longer than a day, we don't add it.
         return null;
       }
-      final newEndTime =
-          lastPeriod.endTime.add(Duration(minutes: minutesOfLastPeriod));
+      final newEndTime = lastPeriod.endTime.add(
+        Duration(minutes: minutesOfLastPeriod),
+      );
 
       final newPeriod = Period(
-          number: lastPeriod.number + 1,
-          startTime: lastPeriod.endTime,
-          endTime: newEndTime);
+        number: lastPeriod.number + 1,
+        startTime: lastPeriod.endTime,
+        endTime: newEndTime,
+      );
 
       return newPeriod;
     }

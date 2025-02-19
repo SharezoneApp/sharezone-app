@@ -39,16 +39,18 @@ class TimetableWeekViewDayTile extends StatelessWidget {
                   child: Text(
                     TimetableDateHelper.getDayOfWeek(date.weekDay),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: _getTextColorTitle(context), letterSpacing: 0.8),
+                      color: _getTextColorTitle(context),
+                      letterSpacing: 0.8,
+                    ),
                   ),
                 ),
               ),
               Text(
                 _getDayOfMonthText(),
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: _getTextColorMonth(context),
-                      fontSize: 12.5,
-                    ),
+                  color: _getTextColorMonth(context),
+                  fontSize: 12.5,
+                ),
               ),
             ],
           ),
@@ -65,9 +67,9 @@ class TimetableWeekViewDayTile extends StatelessWidget {
   Decoration? _getDecoration(BuildContext context) {
     return isToday
         ? ShapeDecoration(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-            color: Theme.of(context).isDarkTheme ? Colors.white : darkBlueColor)
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+          color: Theme.of(context).isDarkTheme ? Colors.white : darkBlueColor,
+        )
         : null;
   }
 
@@ -77,8 +79,8 @@ class TimetableWeekViewDayTile extends StatelessWidget {
             ? Theme.of(context).appBarTheme.backgroundColor
             : Colors.white
         : Theme.of(context).isDarkTheme
-            ? Colors.white
-            : darkBlueColor;
+        ? Colors.white
+        : darkBlueColor;
   }
 
   Color _getTextColorMonth(BuildContext context) =>

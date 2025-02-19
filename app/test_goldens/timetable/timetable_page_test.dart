@@ -28,9 +28,7 @@ import '../../test/timetable/mock/mock_timetable_gateway.dart';
 import '../../test/timetable/mock/mock_user_gateway.dart';
 import 'timetable_page_test.mocks.dart';
 
-@GenerateNiceMocks([
-  MockSpec<SubscriptionService>(),
-])
+@GenerateNiceMocks([MockSpec<SubscriptionService>()])
 void main() {
   group(TimetablePage, () {
     group(SchoolClassFilter, () {
@@ -43,7 +41,7 @@ void main() {
           'meetingID': 'l7hj-y1hw-s2we',
           'personalSharecode': '654321',
           'personalJoinLink': 'https://sharez.one/RpvEuUZMLEjb522N7',
-          'settings': null
+          'settings': null,
         };
 
         return SchoolClass.fromData(data, id: id);
@@ -110,9 +108,11 @@ void main() {
 
       group('with Sharezone Plus', () {
         setUp(() {
-          when(subscriptionService.hasFeatureUnlocked(
-                  SharezonePlusFeature.filterTimetableByClass))
-              .thenReturn(true);
+          when(
+            subscriptionService.hasFeatureUnlocked(
+              SharezonePlusFeature.filterTimetableByClass,
+            ),
+          ).thenReturn(true);
         });
 
         testGoldens('should render as expected (light mode)', (tester) async {
@@ -134,9 +134,11 @@ void main() {
 
       group('without Sharezone Plus', () {
         setUp(() {
-          when(subscriptionService.hasFeatureUnlocked(
-                  SharezonePlusFeature.filterTimetableByClass))
-              .thenReturn(false);
+          when(
+            subscriptionService.hasFeatureUnlocked(
+              SharezonePlusFeature.filterTimetableByClass,
+            ),
+          ).thenReturn(false);
         });
 
         testGoldens('should render as expected (light mode)', (tester) async {

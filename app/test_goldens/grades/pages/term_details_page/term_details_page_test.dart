@@ -53,14 +53,16 @@ void main() {
     }
 
     void setEmptyState() {
-      setState(const TermDetailsPageLoaded(
-        term: (
-          id: TermId('term-1'),
-          displayName: '10/2',
-          avgGrade: ('1,0', GradePerformance.good),
+      setState(
+        const TermDetailsPageLoaded(
+          term: (
+            id: TermId('term-1'),
+            displayName: '10/2',
+            avgGrade: ('1,0', GradePerformance.good),
+          ),
+          subjectsWithGrades: [],
         ),
-        subjectsWithGrades: [],
-      ));
+      );
     }
 
     void setLoaded() {
@@ -132,7 +134,9 @@ void main() {
     }
 
     Future<void> pushTermDetailsPage(
-        WidgetTester tester, ThemeData theme) async {
+      WidgetTester tester,
+      ThemeData theme,
+    ) async {
       await tester.pumpWidgetBuilder(
         Provider<TermDetailsPageControllerFactory>.value(
           value: controllerFactory,
@@ -191,17 +195,23 @@ void main() {
       testGoldens('renders as expected (light mode)', (tester) async {
         setLoading();
         await pushTermDetailsPage(tester, getLightTheme());
-        await multiScreenGolden(tester, 'terms_details_page_loading_light',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'terms_details_page_loading_light',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
         setLoading();
         await pushTermDetailsPage(tester, getDarkTheme());
-        await multiScreenGolden(tester, 'terms_details_page_loading_dark',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'terms_details_page_loading_dark',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
     });
   });

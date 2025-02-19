@@ -26,10 +26,7 @@ final _macOsStageToTracks = {
 };
 
 /// The different flavors of the macOS app that support deployment.
-final _macOsFlavors = [
-  'prod',
-  'dev',
-];
+final _macOsFlavors = ['prod', 'dev'];
 
 /// [DeployAppMacOsCommand] provides functionality for deploying the Sharezone macOS
 /// app to the App Store or TestFlight.
@@ -153,28 +150,27 @@ class DeployAppMacOsCommand extends CommandBase {
     }
   }
 
-  Future<void> _buildApp(ProcessRunner processRunner,
-      {required int buildNumber}) async {
+  Future<void> _buildApp(
+    ProcessRunner processRunner, {
+    required int buildNumber,
+  }) async {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      await processRunner.runCommand(
-        [
-          'dart',
-          'run',
-          'sz_repo_cli',
-          'build',
-          'app',
-          'macos',
-          '--flavor',
-          flavor,
-          '--stage',
-          stage,
-          '--build-number',
-          '$buildNumber',
-        ],
-        workingDirectory: repo.sharezoneCiCdTool.location,
-      );
+      await processRunner.runCommand([
+        'dart',
+        'run',
+        'sz_repo_cli',
+        'build',
+        'app',
+        'macos',
+        '--flavor',
+        flavor,
+        '--stage',
+        stage,
+        '--build-number',
+        '$buildNumber',
+      ], workingDirectory: repo.sharezoneCiCdTool.location);
     } catch (e) {
       throw Exception('Failed to build macOS app: $e');
     }
@@ -188,18 +184,15 @@ class DeployAppMacOsCommand extends CommandBase {
   /// The steps are copied from the Flutter docs. You can find more details
   /// here: https://docs.flutter.dev/deployment/macos#create-a-build-archive-with-codemagic-cli-tools
   Future<void> _createSignedPackage() async {
-    await processRunner.run(
-      [
-        'bash',
-        '-c',
-        '''APP_NAME=\$(find \$(pwd) -name "*.app") && \
+    await processRunner.run([
+      'bash',
+      '-c',
+      '''APP_NAME=\$(find \$(pwd) -name "*.app") && \
 PACKAGE_NAME=\$(basename "\$APP_NAME" .app).pkg && \
 xcrun productbuild --component "\$APP_NAME" /Applications/ unsigned.pkg && \
 INSTALLER_CERT_NAME=\$(keychain list-certificates | jq -r '.[] | select(.common_name | contains("Mac Developer Installer")) | .common_name' | head -1) && \
 xcrun productsign --sign "\$INSTALLER_CERT_NAME" unsigned.pkg "\$PACKAGE_NAME" && \
-rm -f unsigned.pkg'''
-      ],
-      workingDirectory: repo.sharezoneFlutterApp.location,
-    );
+rm -f unsigned.pkg''',
+    ], workingDirectory: repo.sharezoneFlutterApp.location);
   }
 }

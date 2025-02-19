@@ -22,14 +22,16 @@ part of 'dashboard_bloc.dart';
 /// [LessonTimeStatus.isNow]) this function will return 1.
 int getCurrentLessonIndex(List<LessonView> lessons) {
   // School hasn't begun yet.
-  if (lessons
-      .every((lesson) => lesson.timeStatus == LessonTimeStatus.isYetToCome)) {
+  if (lessons.every(
+    (lesson) => lesson.timeStatus == LessonTimeStatus.isYetToCome,
+  )) {
     return 0;
   }
 
   // School is over.
   if (lessons.every(
-      (lesson) => lesson.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace)) {
+    (lesson) => lesson.timeStatus == LessonTimeStatus.hasAlreadyTakenPlace,
+  )) {
     throw AllLessonsAreOverException();
   }
 

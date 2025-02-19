@@ -23,10 +23,7 @@ void showExplanation(BuildContext context, String text) {
 }
 
 class CourseSettingsCard extends StatelessWidget {
-  const CourseSettingsCard({
-    super.key,
-    required this.course,
-  });
+  const CourseSettingsCard({super.key, required this.course});
 
   final Course course;
 
@@ -51,9 +48,7 @@ class CourseSettingsCard extends StatelessWidget {
 }
 
 class _IsPublic extends StatelessWidget {
-  const _IsPublic({
-    required this.isPublic,
-  });
+  const _IsPublic({required this.isPublic});
 
   final bool isPublic;
 
@@ -64,17 +59,22 @@ class _IsPublic extends StatelessWidget {
       title: const Text("Beitreten erlauben"),
       leading: const Icon(Icons.lock),
       onTap: () {
-        Future<AppFunctionsResult<bool>> setFuture =
-            bloc.setIsPublic(!isPublic);
+        Future<AppFunctionsResult<bool>> setFuture = bloc.setIsPublic(
+          !isPublic,
+        );
         showAppFunctionStateDialog(context, setFuture);
       },
-      onLongPress: () => showExplanation(context,
-          "Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen."),
+      onLongPress:
+          () => showExplanation(
+            context,
+            "Über diese Einstellungen kannst du regulieren, ob neue Mitglieder dem Kurs beitreten dürfen.",
+          ),
       trailing: Switch.adaptive(
         value: isPublic,
         onChanged: (newValue) {
-          Future<AppFunctionsResult<bool>> setFuture =
-              bloc.setIsPublic(newValue);
+          Future<AppFunctionsResult<bool>> setFuture = bloc.setIsPublic(
+            newValue,
+          );
           showAppFunctionStateDialog(context, setFuture);
         },
       ),

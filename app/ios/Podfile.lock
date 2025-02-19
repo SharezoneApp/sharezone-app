@@ -416,13 +416,13 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
-  - purchases_flutter (6.30.2):
+  - purchases_flutter (8.5.0):
     - Flutter
-    - PurchasesHybridCommon (= 11.1.0)
-  - PurchasesHybridCommon (11.1.0):
-    - RevenueCat (= 4.43.2)
+    - PurchasesHybridCommon (= 13.18.1)
+  - PurchasesHybridCommon (13.18.1):
+    - RevenueCat (= 5.16.1)
   - RecaptchaInterop (100.0.0)
-  - RevenueCat (4.43.2)
+  - RevenueCat (5.16.1)
   - SDWebImage (5.20.0):
     - SDWebImage/Core (= 5.20.0)
   - SDWebImage/Core (5.20.0)
@@ -687,10 +687,10 @@ SPEC CHECKSUMS:
   FirebaseStorage: 44f4e25073f6fa0d4d8c09f5bec299ee9e4eb985
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_image_compress_common: ec1d45c362c9d30a3f6a0426c297f47c52007e3e
-  flutter_timezone: ffb07bdad3c6276af8dada0f11978d8a1f8a20bb
+  flutter_timezone: ac3da59ac941ff1c98a2e1f0293420e020120282
   Google-Mobile-Ads-SDK: 14f57f2dc33532a24db288897e26494640810407
   google_mobile_ads: fe0e2c1764ad95323dd0e3081d0bb2d58411f957
-  google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
+  google_sign_in_ios: 4111e87aa5e24a4404f00ea13479f35e571969cc
   GoogleAppMeasurement: 9abf64b682732fed36da827aa2a68f0221fd2356
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleMLKit: 97ac7af399057e99182ee8edfa8249e3226a4065
@@ -721,10 +721,10 @@ SPEC CHECKSUMS:
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  purchases_flutter: 42d5544e7730ea89a88cc2f008b7c700fd147052
-  PurchasesHybridCommon: 4022d5944cb30ec44ba5159e42aa161fe0e30175
+  purchases_flutter: 43c67a4d75e54b157f98f195523dd7ac73d1249b
+  PurchasesHybridCommon: bcc204d982166d7fcece10eb98e2ee7c0b0ea668
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  RevenueCat: 3d934653b7e8b09af88fd47e9e84cfaf5d0a89ba
+  RevenueCat: d38c56d5e1058f955ee7fce4ea7b18d126235e64
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
@@ -736,6 +736,6 @@ SPEC CHECKSUMS:
   wakelock_plus: 373cfe59b235a6dd5837d0fb88791d2f13a90d56
   webview_flutter_wkwebview: a4af96a051138e28e29f60101d094683b9f82188
 
-PODFILE CHECKSUM: a99b3c1a318fb52a4f7a157c8ab41a41a9a256fc
+PODFILE CHECKSUM: 8f50b23af349a19510c59c945a9703e96c225d14
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

@@ -21,10 +21,11 @@ class StateDialog {
   }) async {
     await showDialog(
       context: context,
-      builder: (context) => _StateDialogWidget(
-        stateDialogContent: stateSheetContent,
-        onDialogContextCreated: onDialogContextCreated,
-      ),
+      builder:
+          (context) => _StateDialogWidget(
+            stateDialogContent: stateSheetContent,
+            onDialogContextCreated: onDialogContextCreated,
+          ),
     );
   }
 
@@ -87,10 +88,7 @@ class _StateDialogWidget extends StatelessWidget {
 }
 
 class _PlatformAlertDialog extends StatelessWidget {
-  const _PlatformAlertDialog({
-    super.key,
-    required this.stateDialogContent,
-  });
+  const _PlatformAlertDialog({super.key, required this.stateDialogContent});
 
   final StateDialogContent stateDialogContent;
 
@@ -107,10 +105,7 @@ class _PlatformAlertDialog extends StatelessWidget {
       );
     }
     return AlertDialog(
-      title: Text(
-        stateDialogContent.title,
-        textAlign: TextAlign.center,
-      ),
+      title: Text(stateDialogContent.title, textAlign: TextAlign.center),
       content: DialogWrapper(child: stateDialogContent.body),
       actions: <Widget>[
         for (final action in stateDialogContent.actions)

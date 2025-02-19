@@ -40,98 +40,53 @@ import 'package:user/user.dart' as _i11;
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeRelease_0 extends _i1.SmartFake implements _i2.Release {
-  _FakeRelease_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeRelease_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeVersion_1 extends _i1.SmartFake implements _i3.Version {
-  _FakeVersion_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeVersion_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDuration_2 extends _i1.SmartFake implements Duration {
-  _FakeDuration_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDuration_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDateTime_3 extends _i1.SmartFake implements DateTime {
-  _FakeDateTime_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDateTime_3(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeHolidayService_4 extends _i1.SmartFake
     implements _i4.HolidayService {
-  _FakeHolidayService_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeHolidayService_4(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeHolidayStateGateway_5 extends _i1.SmartFake
     implements _i5.HolidayStateGateway {
-  _FakeHolidayStateGateway_5(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeHolidayStateGateway_5(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDashboardTipCache_6 extends _i1.SmartFake
     implements _i6.DashboardTipCache {
-  _FakeDashboardTipCache_6(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDashboardTipCache_6(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeNavigationBloc_7 extends _i1.SmartFake
     implements _i7.NavigationBloc {
-  _FakeNavigationBloc_7(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeNavigationBloc_7(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeFirebaseFunctions_8 extends _i1.SmartFake
     implements _i8.FirebaseFunctions {
-  _FakeFirebaseFunctions_8(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeFirebaseFunctions_8(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [UpdateReminderBloc].
@@ -142,77 +97,79 @@ class MockUpdateReminderBloc extends _i1.Mock
   @override
   _i10.Future<_i2.Release> Function() get getLatestRelease =>
       (super.noSuchMethod(
-        Invocation.getter(#getLatestRelease),
-        returnValue: () => _i10.Future<_i2.Release>.value(_FakeRelease_0(
-          this,
-          Invocation.getter(#getLatestRelease),
-        )),
-        returnValueForMissingStub: () =>
-            _i10.Future<_i2.Release>.value(_FakeRelease_0(
-          this,
-          Invocation.getter(#getLatestRelease),
-        )),
-      ) as _i10.Future<_i2.Release> Function());
+            Invocation.getter(#getLatestRelease),
+            returnValue:
+                () => _i10.Future<_i2.Release>.value(
+                  _FakeRelease_0(this, Invocation.getter(#getLatestRelease)),
+                ),
+            returnValueForMissingStub:
+                () => _i10.Future<_i2.Release>.value(
+                  _FakeRelease_0(this, Invocation.getter(#getLatestRelease)),
+                ),
+          )
+          as _i10.Future<_i2.Release> Function());
 
   @override
   _i10.Future<_i3.Version> Function() get getCurrentVersion =>
       (super.noSuchMethod(
-        Invocation.getter(#getCurrentVersion),
-        returnValue: () => _i10.Future<_i3.Version>.value(_FakeVersion_1(
-          this,
-          Invocation.getter(#getCurrentVersion),
-        )),
-        returnValueForMissingStub: () =>
-            _i10.Future<_i3.Version>.value(_FakeVersion_1(
-          this,
-          Invocation.getter(#getCurrentVersion),
-        )),
-      ) as _i10.Future<_i3.Version> Function());
+            Invocation.getter(#getCurrentVersion),
+            returnValue:
+                () => _i10.Future<_i3.Version>.value(
+                  _FakeVersion_1(this, Invocation.getter(#getCurrentVersion)),
+                ),
+            returnValueForMissingStub:
+                () => _i10.Future<_i3.Version>.value(
+                  _FakeVersion_1(this, Invocation.getter(#getCurrentVersion)),
+                ),
+          )
+          as _i10.Future<_i3.Version> Function());
 
   @override
-  Duration get updateGracePeriod => (super.noSuchMethod(
-        Invocation.getter(#updateGracePeriod),
-        returnValue: _FakeDuration_2(
-          this,
-          Invocation.getter(#updateGracePeriod),
-        ),
-        returnValueForMissingStub: _FakeDuration_2(
-          this,
-          Invocation.getter(#updateGracePeriod),
-        ),
-      ) as Duration);
+  Duration get updateGracePeriod =>
+      (super.noSuchMethod(
+            Invocation.getter(#updateGracePeriod),
+            returnValue: _FakeDuration_2(
+              this,
+              Invocation.getter(#updateGracePeriod),
+            ),
+            returnValueForMissingStub: _FakeDuration_2(
+              this,
+              Invocation.getter(#updateGracePeriod),
+            ),
+          )
+          as Duration);
 
   @override
-  DateTime Function() get getCurrentDateTime => (super.noSuchMethod(
-        Invocation.getter(#getCurrentDateTime),
-        returnValue: () => _FakeDateTime_3(
-          this,
-          Invocation.getter(#getCurrentDateTime),
-        ),
-        returnValueForMissingStub: () => _FakeDateTime_3(
-          this,
-          Invocation.getter(#getCurrentDateTime),
-        ),
-      ) as DateTime Function());
+  DateTime Function() get getCurrentDateTime =>
+      (super.noSuchMethod(
+            Invocation.getter(#getCurrentDateTime),
+            returnValue:
+                () => _FakeDateTime_3(
+                  this,
+                  Invocation.getter(#getCurrentDateTime),
+                ),
+            returnValueForMissingStub:
+                () => _FakeDateTime_3(
+                  this,
+                  Invocation.getter(#getCurrentDateTime),
+                ),
+          )
+          as DateTime Function());
 
   @override
-  _i10.Future<bool> shouldRemindToUpdate() => (super.noSuchMethod(
-        Invocation.method(
-          #shouldRemindToUpdate,
-          [],
-        ),
-        returnValue: _i10.Future<bool>.value(false),
-        returnValueForMissingStub: _i10.Future<bool>.value(false),
-      ) as _i10.Future<bool>);
+  _i10.Future<bool> shouldRemindToUpdate() =>
+      (super.noSuchMethod(
+            Invocation.method(#shouldRemindToUpdate, []),
+            returnValue: _i10.Future<bool>.value(false),
+            returnValueForMissingStub: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [HolidayBloc].
@@ -220,79 +177,84 @@ class MockUpdateReminderBloc extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockHolidayBloc extends _i1.Mock implements _i5.HolidayBloc {
   @override
-  _i4.HolidayService get holidayManager => (super.noSuchMethod(
-        Invocation.getter(#holidayManager),
-        returnValue: _FakeHolidayService_4(
-          this,
-          Invocation.getter(#holidayManager),
-        ),
-        returnValueForMissingStub: _FakeHolidayService_4(
-          this,
-          Invocation.getter(#holidayManager),
-        ),
-      ) as _i4.HolidayService);
+  _i4.HolidayService get holidayManager =>
+      (super.noSuchMethod(
+            Invocation.getter(#holidayManager),
+            returnValue: _FakeHolidayService_4(
+              this,
+              Invocation.getter(#holidayManager),
+            ),
+            returnValueForMissingStub: _FakeHolidayService_4(
+              this,
+              Invocation.getter(#holidayManager),
+            ),
+          )
+          as _i4.HolidayService);
 
   @override
   set getCurrentTime(DateTime Function()? _getCurrentTime) =>
       super.noSuchMethod(
-        Invocation.setter(
-          #getCurrentTime,
-          _getCurrentTime,
-        ),
+        Invocation.setter(#getCurrentTime, _getCurrentTime),
         returnValueForMissingStub: null,
       );
 
   @override
-  _i5.HolidayStateGateway get stateGateway => (super.noSuchMethod(
-        Invocation.getter(#stateGateway),
-        returnValue: _FakeHolidayStateGateway_5(
-          this,
-          Invocation.getter(#stateGateway),
-        ),
-        returnValueForMissingStub: _FakeHolidayStateGateway_5(
-          this,
-          Invocation.getter(#stateGateway),
-        ),
-      ) as _i5.HolidayStateGateway);
+  _i5.HolidayStateGateway get stateGateway =>
+      (super.noSuchMethod(
+            Invocation.getter(#stateGateway),
+            returnValue: _FakeHolidayStateGateway_5(
+              this,
+              Invocation.getter(#stateGateway),
+            ),
+            returnValueForMissingStub: _FakeHolidayStateGateway_5(
+              this,
+              Invocation.getter(#stateGateway),
+            ),
+          )
+          as _i5.HolidayStateGateway);
 
   @override
-  _i10.Stream<List<_i4.Holiday?>> get holidays => (super.noSuchMethod(
-        Invocation.getter(#holidays),
-        returnValue: _i10.Stream<List<_i4.Holiday?>>.empty(),
-        returnValueForMissingStub: _i10.Stream<List<_i4.Holiday?>>.empty(),
-      ) as _i10.Stream<List<_i4.Holiday?>>);
+  _i10.Stream<List<_i4.Holiday?>> get holidays =>
+      (super.noSuchMethod(
+            Invocation.getter(#holidays),
+            returnValue: _i10.Stream<List<_i4.Holiday?>>.empty(),
+            returnValueForMissingStub: _i10.Stream<List<_i4.Holiday?>>.empty(),
+          )
+          as _i10.Stream<List<_i4.Holiday?>>);
 
   @override
-  _i10.Stream<_i11.StateEnum?> get userState => (super.noSuchMethod(
-        Invocation.getter(#userState),
-        returnValue: _i10.Stream<_i11.StateEnum?>.empty(),
-        returnValueForMissingStub: _i10.Stream<_i11.StateEnum?>.empty(),
-      ) as _i10.Stream<_i11.StateEnum?>);
+  _i10.Stream<_i11.StateEnum?> get userState =>
+      (super.noSuchMethod(
+            Invocation.getter(#userState),
+            returnValue: _i10.Stream<_i11.StateEnum?>.empty(),
+            returnValueForMissingStub: _i10.Stream<_i11.StateEnum?>.empty(),
+          )
+          as _i10.Stream<_i11.StateEnum?>);
 
   @override
-  _i10.Stream<bool> get hasStateSelected => (super.noSuchMethod(
-        Invocation.getter(#hasStateSelected),
-        returnValue: _i10.Stream<bool>.empty(),
-        returnValueForMissingStub: _i10.Stream<bool>.empty(),
-      ) as _i10.Stream<bool>);
+  _i10.Stream<bool> get hasStateSelected =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasStateSelected),
+            returnValue: _i10.Stream<bool>.empty(),
+            returnValueForMissingStub: _i10.Stream<bool>.empty(),
+          )
+          as _i10.Stream<bool>);
 
   @override
   _i10.Future<void> Function(_i11.StateEnum?) get changeState =>
       (super.noSuchMethod(
-        Invocation.getter(#changeState),
-        returnValue: (_i11.StateEnum? state) => _i10.Future<void>.value(),
-        returnValueForMissingStub: (_i11.StateEnum? state) =>
-            _i10.Future<void>.value(),
-      ) as _i10.Future<void> Function(_i11.StateEnum?));
+            Invocation.getter(#changeState),
+            returnValue: (_i11.StateEnum? state) => _i10.Future<void>.value(),
+            returnValueForMissingStub:
+                (_i11.StateEnum? state) => _i10.Future<void>.value(),
+          )
+          as _i10.Future<void> Function(_i11.StateEnum?));
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [DashboardTipSystem].
@@ -301,46 +263,49 @@ class MockHolidayBloc extends _i1.Mock implements _i5.HolidayBloc {
 class MockDashboardTipSystem extends _i1.Mock
     implements _i12.DashboardTipSystem {
   @override
-  _i6.DashboardTipCache get cache => (super.noSuchMethod(
-        Invocation.getter(#cache),
-        returnValue: _FakeDashboardTipCache_6(
-          this,
-          Invocation.getter(#cache),
-        ),
-        returnValueForMissingStub: _FakeDashboardTipCache_6(
-          this,
-          Invocation.getter(#cache),
-        ),
-      ) as _i6.DashboardTipCache);
+  _i6.DashboardTipCache get cache =>
+      (super.noSuchMethod(
+            Invocation.getter(#cache),
+            returnValue: _FakeDashboardTipCache_6(
+              this,
+              Invocation.getter(#cache),
+            ),
+            returnValueForMissingStub: _FakeDashboardTipCache_6(
+              this,
+              Invocation.getter(#cache),
+            ),
+          )
+          as _i6.DashboardTipCache);
 
   @override
-  _i7.NavigationBloc get navigationBloc => (super.noSuchMethod(
-        Invocation.getter(#navigationBloc),
-        returnValue: _FakeNavigationBloc_7(
-          this,
-          Invocation.getter(#navigationBloc),
-        ),
-        returnValueForMissingStub: _FakeNavigationBloc_7(
-          this,
-          Invocation.getter(#navigationBloc),
-        ),
-      ) as _i7.NavigationBloc);
+  _i7.NavigationBloc get navigationBloc =>
+      (super.noSuchMethod(
+            Invocation.getter(#navigationBloc),
+            returnValue: _FakeNavigationBloc_7(
+              this,
+              Invocation.getter(#navigationBloc),
+            ),
+            returnValueForMissingStub: _FakeNavigationBloc_7(
+              this,
+              Invocation.getter(#navigationBloc),
+            ),
+          )
+          as _i7.NavigationBloc);
 
   @override
-  _i10.Stream<_i13.DashboardTip?> get dashboardTip => (super.noSuchMethod(
-        Invocation.getter(#dashboardTip),
-        returnValue: _i10.Stream<_i13.DashboardTip?>.empty(),
-        returnValueForMissingStub: _i10.Stream<_i13.DashboardTip?>.empty(),
-      ) as _i10.Stream<_i13.DashboardTip?>);
+  _i10.Stream<_i13.DashboardTip?> get dashboardTip =>
+      (super.noSuchMethod(
+            Invocation.getter(#dashboardTip),
+            returnValue: _i10.Stream<_i13.DashboardTip?>.empty(),
+            returnValueForMissingStub: _i10.Stream<_i13.DashboardTip?>.empty(),
+          )
+          as _i10.Stream<_i13.DashboardTip?>);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [DashboardBloc].
@@ -348,92 +313,110 @@ class MockDashboardTipSystem extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockDashboardBloc extends _i1.Mock implements _i14.DashboardBloc {
   @override
-  DateTime get todayDateTimeWithoutTime => (super.noSuchMethod(
-        Invocation.getter(#todayDateTimeWithoutTime),
-        returnValue: _FakeDateTime_3(
-          this,
-          Invocation.getter(#todayDateTimeWithoutTime),
-        ),
-        returnValueForMissingStub: _FakeDateTime_3(
-          this,
-          Invocation.getter(#todayDateTimeWithoutTime),
-        ),
-      ) as DateTime);
+  DateTime get todayDateTimeWithoutTime =>
+      (super.noSuchMethod(
+            Invocation.getter(#todayDateTimeWithoutTime),
+            returnValue: _FakeDateTime_3(
+              this,
+              Invocation.getter(#todayDateTimeWithoutTime),
+            ),
+            returnValueForMissingStub: _FakeDateTime_3(
+              this,
+              Invocation.getter(#todayDateTimeWithoutTime),
+            ),
+          )
+          as DateTime);
 
   @override
   _i10.Stream<List<_i15.HomeworkView>> get urgentHomeworks =>
       (super.noSuchMethod(
-        Invocation.getter(#urgentHomeworks),
-        returnValue: _i10.Stream<List<_i15.HomeworkView>>.empty(),
-        returnValueForMissingStub: _i10.Stream<List<_i15.HomeworkView>>.empty(),
-      ) as _i10.Stream<List<_i15.HomeworkView>>);
+            Invocation.getter(#urgentHomeworks),
+            returnValue: _i10.Stream<List<_i15.HomeworkView>>.empty(),
+            returnValueForMissingStub:
+                _i10.Stream<List<_i15.HomeworkView>>.empty(),
+          )
+          as _i10.Stream<List<_i15.HomeworkView>>);
 
   @override
   _i10.Stream<List<_i16.BlackboardView>> get unreadBlackboardViews =>
       (super.noSuchMethod(
-        Invocation.getter(#unreadBlackboardViews),
-        returnValue: _i10.Stream<List<_i16.BlackboardView>>.empty(),
-        returnValueForMissingStub:
-            _i10.Stream<List<_i16.BlackboardView>>.empty(),
-      ) as _i10.Stream<List<_i16.BlackboardView>>);
+            Invocation.getter(#unreadBlackboardViews),
+            returnValue: _i10.Stream<List<_i16.BlackboardView>>.empty(),
+            returnValueForMissingStub:
+                _i10.Stream<List<_i16.BlackboardView>>.empty(),
+          )
+          as _i10.Stream<List<_i16.BlackboardView>>);
 
   @override
-  _i10.Stream<bool> get urgentHomeworksEmpty => (super.noSuchMethod(
-        Invocation.getter(#urgentHomeworksEmpty),
-        returnValue: _i10.Stream<bool>.empty(),
-        returnValueForMissingStub: _i10.Stream<bool>.empty(),
-      ) as _i10.Stream<bool>);
+  _i10.Stream<bool> get urgentHomeworksEmpty =>
+      (super.noSuchMethod(
+            Invocation.getter(#urgentHomeworksEmpty),
+            returnValue: _i10.Stream<bool>.empty(),
+            returnValueForMissingStub: _i10.Stream<bool>.empty(),
+          )
+          as _i10.Stream<bool>);
 
   @override
-  _i10.Stream<List<_i17.EventView>> get upcomingEvents => (super.noSuchMethod(
-        Invocation.getter(#upcomingEvents),
-        returnValue: _i10.Stream<List<_i17.EventView>>.empty(),
-        returnValueForMissingStub: _i10.Stream<List<_i17.EventView>>.empty(),
-      ) as _i10.Stream<List<_i17.EventView>>);
+  _i10.Stream<List<_i17.EventView>> get upcomingEvents =>
+      (super.noSuchMethod(
+            Invocation.getter(#upcomingEvents),
+            returnValue: _i10.Stream<List<_i17.EventView>>.empty(),
+            returnValueForMissingStub:
+                _i10.Stream<List<_i17.EventView>>.empty(),
+          )
+          as _i10.Stream<List<_i17.EventView>>);
 
   @override
-  _i10.Stream<int> get numberOfUrgentHomeworks => (super.noSuchMethod(
-        Invocation.getter(#numberOfUrgentHomeworks),
-        returnValue: _i10.Stream<int>.empty(),
-        returnValueForMissingStub: _i10.Stream<int>.empty(),
-      ) as _i10.Stream<int>);
+  _i10.Stream<int> get numberOfUrgentHomeworks =>
+      (super.noSuchMethod(
+            Invocation.getter(#numberOfUrgentHomeworks),
+            returnValue: _i10.Stream<int>.empty(),
+            returnValueForMissingStub: _i10.Stream<int>.empty(),
+          )
+          as _i10.Stream<int>);
 
   @override
-  _i10.Stream<List<_i18.LessonView>> get lessonViews => (super.noSuchMethod(
-        Invocation.getter(#lessonViews),
-        returnValue: _i10.Stream<List<_i18.LessonView>>.empty(),
-        returnValueForMissingStub: _i10.Stream<List<_i18.LessonView>>.empty(),
-      ) as _i10.Stream<List<_i18.LessonView>>);
+  _i10.Stream<List<_i18.LessonView>> get lessonViews =>
+      (super.noSuchMethod(
+            Invocation.getter(#lessonViews),
+            returnValue: _i10.Stream<List<_i18.LessonView>>.empty(),
+            returnValueForMissingStub:
+                _i10.Stream<List<_i18.LessonView>>.empty(),
+          )
+          as _i10.Stream<List<_i18.LessonView>>);
 
   @override
-  _i10.Stream<int> get numberOfUnreadBlackboardViews => (super.noSuchMethod(
-        Invocation.getter(#numberOfUnreadBlackboardViews),
-        returnValue: _i10.Stream<int>.empty(),
-        returnValueForMissingStub: _i10.Stream<int>.empty(),
-      ) as _i10.Stream<int>);
+  _i10.Stream<int> get numberOfUnreadBlackboardViews =>
+      (super.noSuchMethod(
+            Invocation.getter(#numberOfUnreadBlackboardViews),
+            returnValue: _i10.Stream<int>.empty(),
+            returnValueForMissingStub: _i10.Stream<int>.empty(),
+          )
+          as _i10.Stream<int>);
 
   @override
-  _i10.Stream<bool> get unreadBlackboardViewsEmpty => (super.noSuchMethod(
-        Invocation.getter(#unreadBlackboardViewsEmpty),
-        returnValue: _i10.Stream<bool>.empty(),
-        returnValueForMissingStub: _i10.Stream<bool>.empty(),
-      ) as _i10.Stream<bool>);
+  _i10.Stream<bool> get unreadBlackboardViewsEmpty =>
+      (super.noSuchMethod(
+            Invocation.getter(#unreadBlackboardViewsEmpty),
+            returnValue: _i10.Stream<bool>.empty(),
+            returnValueForMissingStub: _i10.Stream<bool>.empty(),
+          )
+          as _i10.Stream<bool>);
 
   @override
-  _i10.Stream<int> get numberOfUpcomingEvents => (super.noSuchMethod(
-        Invocation.getter(#numberOfUpcomingEvents),
-        returnValue: _i10.Stream<int>.empty(),
-        returnValueForMissingStub: _i10.Stream<int>.empty(),
-      ) as _i10.Stream<int>);
+  _i10.Stream<int> get numberOfUpcomingEvents =>
+      (super.noSuchMethod(
+            Invocation.getter(#numberOfUpcomingEvents),
+            returnValue: _i10.Stream<int>.empty(),
+            returnValueForMissingStub: _i10.Stream<int>.empty(),
+          )
+          as _i10.Stream<int>);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [SubscriptionService].
@@ -442,124 +425,115 @@ class MockDashboardBloc extends _i1.Mock implements _i14.DashboardBloc {
 class MockSubscriptionService extends _i1.Mock
     implements _i19.SubscriptionService {
   @override
-  _i10.Stream<_i11.AppUser?> get user => (super.noSuchMethod(
-        Invocation.getter(#user),
-        returnValue: _i10.Stream<_i11.AppUser?>.empty(),
-        returnValueForMissingStub: _i10.Stream<_i11.AppUser?>.empty(),
-      ) as _i10.Stream<_i11.AppUser?>);
+  _i10.Stream<_i11.AppUser?> get user =>
+      (super.noSuchMethod(
+            Invocation.getter(#user),
+            returnValue: _i10.Stream<_i11.AppUser?>.empty(),
+            returnValueForMissingStub: _i10.Stream<_i11.AppUser?>.empty(),
+          )
+          as _i10.Stream<_i11.AppUser?>);
 
   @override
-  _i8.FirebaseFunctions get functions => (super.noSuchMethod(
-        Invocation.getter(#functions),
-        returnValue: _FakeFirebaseFunctions_8(
-          this,
-          Invocation.getter(#functions),
-        ),
-        returnValueForMissingStub: _FakeFirebaseFunctions_8(
-          this,
-          Invocation.getter(#functions),
-        ),
-      ) as _i8.FirebaseFunctions);
+  _i8.FirebaseFunctions get functions =>
+      (super.noSuchMethod(
+            Invocation.getter(#functions),
+            returnValue: _FakeFirebaseFunctions_8(
+              this,
+              Invocation.getter(#functions),
+            ),
+            returnValueForMissingStub: _FakeFirebaseFunctions_8(
+              this,
+              Invocation.getter(#functions),
+            ),
+          )
+          as _i8.FirebaseFunctions);
 
   @override
   _i10.Stream<_i11.SharezonePlusStatus?> get sharezonePlusStatusStream =>
       (super.noSuchMethod(
-        Invocation.getter(#sharezonePlusStatusStream),
-        returnValue: _i10.Stream<_i11.SharezonePlusStatus?>.empty(),
-        returnValueForMissingStub:
-            _i10.Stream<_i11.SharezonePlusStatus?>.empty(),
-      ) as _i10.Stream<_i11.SharezonePlusStatus?>);
+            Invocation.getter(#sharezonePlusStatusStream),
+            returnValue: _i10.Stream<_i11.SharezonePlusStatus?>.empty(),
+            returnValueForMissingStub:
+                _i10.Stream<_i11.SharezonePlusStatus?>.empty(),
+          )
+          as _i10.Stream<_i11.SharezonePlusStatus?>);
 
   @override
   set sharezonePlusStatusStream(
-          _i10.Stream<_i11.SharezonePlusStatus?>? _sharezonePlusStatusStream) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #sharezonePlusStatusStream,
-          _sharezonePlusStatusStream,
-        ),
-        returnValueForMissingStub: null,
-      );
+    _i10.Stream<_i11.SharezonePlusStatus?>? _sharezonePlusStatusStream,
+  ) => super.noSuchMethod(
+    Invocation.setter(#sharezonePlusStatusStream, _sharezonePlusStatusStream),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  bool isSubscriptionActive([_i11.AppUser? appUser]) => (super.noSuchMethod(
-        Invocation.method(
-          #isSubscriptionActive,
-          [appUser],
-        ),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool isSubscriptionActive([_i11.AppUser? appUser]) =>
+      (super.noSuchMethod(
+            Invocation.method(#isSubscriptionActive, [appUser]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i10.Stream<bool> isSubscriptionActiveStream() => (super.noSuchMethod(
-        Invocation.method(
-          #isSubscriptionActiveStream,
-          [],
-        ),
-        returnValue: _i10.Stream<bool>.empty(),
-        returnValueForMissingStub: _i10.Stream<bool>.empty(),
-      ) as _i10.Stream<bool>);
+  _i10.Stream<bool> isSubscriptionActiveStream() =>
+      (super.noSuchMethod(
+            Invocation.method(#isSubscriptionActiveStream, []),
+            returnValue: _i10.Stream<bool>.empty(),
+            returnValueForMissingStub: _i10.Stream<bool>.empty(),
+          )
+          as _i10.Stream<bool>);
 
   @override
   bool hasFeatureUnlocked(_i19.SharezonePlusFeature? feature) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #hasFeatureUnlocked,
-          [feature],
-        ),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+            Invocation.method(#hasFeatureUnlocked, [feature]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   _i10.Stream<bool> hasFeatureUnlockedStream(
-          _i19.SharezonePlusFeature? feature) =>
+    _i19.SharezonePlusFeature? feature,
+  ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #hasFeatureUnlockedStream,
-          [feature],
-        ),
-        returnValue: _i10.Stream<bool>.empty(),
-        returnValueForMissingStub: _i10.Stream<bool>.empty(),
-      ) as _i10.Stream<bool>);
+            Invocation.method(#hasFeatureUnlockedStream, [feature]),
+            returnValue: _i10.Stream<bool>.empty(),
+            returnValueForMissingStub: _i10.Stream<bool>.empty(),
+          )
+          as _i10.Stream<bool>);
 
   @override
-  _i10.Future<void> cancelStripeSubscription() => (super.noSuchMethod(
-        Invocation.method(
-          #cancelStripeSubscription,
-          [],
-        ),
-        returnValue: _i10.Future<void>.value(),
-        returnValueForMissingStub: _i10.Future<void>.value(),
-      ) as _i10.Future<void>);
+  _i10.Future<void> cancelStripeSubscription() =>
+      (super.noSuchMethod(
+            Invocation.method(#cancelStripeSubscription, []),
+            returnValue: _i10.Future<void>.value(),
+            returnValueForMissingStub: _i10.Future<void>.value(),
+          )
+          as _i10.Future<void>);
 
   @override
-  _i10.Future<bool> showLetParentsBuyButton() => (super.noSuchMethod(
-        Invocation.method(
-          #showLetParentsBuyButton,
-          [],
-        ),
-        returnValue: _i10.Future<bool>.value(false),
-        returnValueForMissingStub: _i10.Future<bool>.value(false),
-      ) as _i10.Future<bool>);
+  _i10.Future<bool> showLetParentsBuyButton() =>
+      (super.noSuchMethod(
+            Invocation.method(#showLetParentsBuyButton, []),
+            returnValue: _i10.Future<bool>.value(false),
+            returnValueForMissingStub: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
 
   @override
-  _i10.Future<String?> getPlusWebsiteBuyToken() => (super.noSuchMethod(
-        Invocation.method(
-          #getPlusWebsiteBuyToken,
-          [],
-        ),
-        returnValue: _i10.Future<String?>.value(),
-        returnValueForMissingStub: _i10.Future<String?>.value(),
-      ) as _i10.Future<String?>);
+  _i10.Future<String?> getPlusWebsiteBuyToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#getPlusWebsiteBuyToken, []),
+            returnValue: _i10.Future<String?>.value(),
+            returnValueForMissingStub: _i10.Future<String?>.value(),
+          )
+          as _i10.Future<String?>);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }

@@ -140,8 +140,10 @@ class HomeworkDto {
     );
   }
 
-  factory HomeworkDto.fromData(Map<String, dynamic> data,
-      {required String id}) {
+  factory HomeworkDto.fromData(
+    Map<String, dynamic> data, {
+    required String id,
+  }) {
     return HomeworkDto._(
       id: id,
       courseReference: data['courseReference'],
@@ -191,28 +193,29 @@ class HomeworkDto {
     };
   }
 
-  HomeworkDto copyWith(
-      {String? id,
-      DocumentReference? courseReference,
-      String? courseID,
-      String? subject,
-      String? subjectAbbreviation,
-      String? courseName,
-      DocumentReference? authorReference,
-      String? authorID,
-      String? authorName,
-      String? title,
-      String? description,
-      DateTime? todoUntil,
-      DateTime? createdOn,
-      List<String>? attachments,
-      List<String>? submitters,
-      bool? withSubmissions,
-      bool? private,
-      Map<String, bool>? forUsers,
-      bool? sendNotification,
-      String? latestEditor,
-      AssignedUserArrays? assignedUserArrays}) {
+  HomeworkDto copyWith({
+    String? id,
+    DocumentReference? courseReference,
+    String? courseID,
+    String? subject,
+    String? subjectAbbreviation,
+    String? courseName,
+    DocumentReference? authorReference,
+    String? authorID,
+    String? authorName,
+    String? title,
+    String? description,
+    DateTime? todoUntil,
+    DateTime? createdOn,
+    List<String>? attachments,
+    List<String>? submitters,
+    bool? withSubmissions,
+    bool? private,
+    Map<String, bool>? forUsers,
+    bool? sendNotification,
+    String? latestEditor,
+    AssignedUserArrays? assignedUserArrays,
+  }) {
     return HomeworkDto._(
       id: id ?? this.id,
       courseReference: courseReference ?? this.courseReference,

@@ -28,8 +28,9 @@ import 'src/timetable_add_event_dialog_src.dart';
 TimeOfDay Function()? _timePickerOverride;
 
 Future<void> openEventDialogAndShowConfirmationIfSuccessful(
-    BuildContext context,
-    {required bool isExam}) async {
+  BuildContext context, {
+  required bool isExam,
+}) async {
   final successful = await Navigator.push<bool>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
@@ -89,7 +90,8 @@ class _TimetableAddEventDialogState extends State<TimetableAddEventDialog> {
   void initState() {
     super.initState();
     titleFocusNode = widget.titleFocusNode ?? FocusNode();
-    controller = widget.controller ??
+    controller =
+        widget.controller ??
         AddEventDialogController(
           isExam: widget.isExam,
           api: EventDialogApi(BlocProvider.of<SharezoneContext>(context).api),
@@ -109,56 +111,59 @@ class _TimetableAddEventDialogState extends State<TimetableAddEventDialog> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: controller,
-      builder: (context, __) => PopScope<Object?>(
-          canPop: false,
-          onPopInvokedWithResult: (didPop, _) async {
-            if (didPop) return;
+      builder:
+          (context, _) => PopScope<Object?>(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, _) async {
+              if (didPop) return;
 
-            final hasInputChanged = hasModifiedData();
-            final navigator = Navigator.of(context);
-            if (!hasInputChanged) {
-              navigator.pop();
-              return;
-            }
+              final hasInputChanged = hasModifiedData();
+              final navigator = Navigator.of(context);
+              if (!hasInputChanged) {
+                navigator.pop();
+                return;
+              }
 
-            final shouldPop = await warnUserAboutLeavingForm(context);
-            if (shouldPop && context.mounted) {
-              navigator.pop();
-            }
-          },
-          child: Scaffold(
-            body: Column(
-              children: <Widget>[
-                _AppBar(
+              final shouldPop = await warnUserAboutLeavingForm(context);
+              if (shouldPop && context.mounted) {
+                navigator.pop();
+              }
+            },
+            child: Scaffold(
+              body: Column(
+                children: <Widget>[
+                  _AppBar(
                     editMode: false,
                     isExam: widget.isExam,
                     titleField: _TitleField(
                       key: EventDialogKeys.titleTextField,
                       focusNode: titleFocusNode,
                       isExam: widget.isExam,
-                    )),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const _CourseTile(),
-                        const _MobileDivider(),
-                        const _DateAndTimePicker(),
-                        const _MobileDivider(),
-                        _DescriptionField(isExam: widget.isExam),
-                        const _MobileDivider(),
-                        const _Location(),
-                        const _MobileDivider(),
-                        _SendNotification(isExam: widget.isExam),
-                      ],
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const _CourseTile(),
+                          const _MobileDivider(),
+                          const _DateAndTimePicker(),
+                          const _MobileDivider(),
+                          _DescriptionField(isExam: widget.isExam),
+                          const _MobileDivider(),
+                          const _Location(),
+                          const _MobileDivider(),
+                          _SendNotification(isExam: widget.isExam),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          )),
+          ),
     );
   }
 }
@@ -187,9 +192,10 @@ class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).isDarkTheme
-          ? Theme.of(context).appBarTheme.backgroundColor
-          : Theme.of(context).primaryColor,
+      color:
+          Theme.of(context).isDarkTheme
+              ? Theme.of(context).appBarTheme.backgroundColor
+              : Theme.of(context).primaryColor,
       elevation: 1,
       child: SafeArea(
         top: true,
@@ -203,14 +209,12 @@ class _AppBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   CloseButton(
-                    color: context.isDarkThemeEnabled
-                        ? Theme.of(context).iconTheme.color
-                        : Theme.of(context).colorScheme.onPrimary,
+                    color:
+                        context.isDarkThemeEnabled
+                            ? Theme.of(context).iconTheme.color
+                            : Theme.of(context).colorScheme.onPrimary,
                   ),
-                  _SaveButton(
-                    editMode: editMode,
-                    isExam: isExam,
-                  ),
+                  _SaveButton(editMode: editMode, isExam: isExam),
                 ],
               ),
             ),
@@ -229,8 +233,10 @@ class _SaveButton extends StatelessWidget {
   final bool isExam;
 
   Future<void> onPressed(BuildContext context) async {
-    final controller =
-        Provider.of<AddEventDialogController>(context, listen: false);
+    final controller = Provider.of<AddEventDialogController>(
+      context,
+      listen: false,
+    );
     try {
       final success = await controller.createEvent();
       if (success && context.mounted) {
@@ -265,11 +271,7 @@ class _SaveButton extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField({
-    super.key,
-    required this.focusNode,
-    required this.isExam,
-  });
+  const _TitleField({super.key, required this.focusNode, required this.isExam});
 
   final FocusNode focusNode;
   final bool isExam;
@@ -279,18 +281,21 @@ class _TitleField extends StatelessWidget {
     final controller = Provider.of<AddEventDialogController>(context);
     return MaxWidthConstraintBox(
       child: _TitleFieldBase(
-          prefilledTitle: controller.title,
-          focusNode: focusNode,
-          onChanged: (newTitle) {
-            Provider.of<AddEventDialogController>(context, listen: false)
-                .title = newTitle;
-          },
-          hintText: isExam
-              ? 'Titel (z.B. Statistik-Klausur)'
-              : 'Titel eingeben (z.B. Sportfest)',
-          errorText: controller.showEmptyTitleError
-              ? EventDialogErrorStrings.emptyTitle
-              : null),
+        prefilledTitle: controller.title,
+        focusNode: focusNode,
+        onChanged: (newTitle) {
+          Provider.of<AddEventDialogController>(context, listen: false).title =
+              newTitle;
+        },
+        hintText:
+            isExam
+                ? 'Titel (z.B. Statistik-Klausur)'
+                : 'Titel eingeben (z.B. Sportfest)',
+        errorText:
+            controller.showEmptyTitleError
+                ? EventDialogErrorStrings.emptyTitle
+                : null,
+      ),
     );
   }
 }
@@ -318,17 +323,20 @@ class _TitleFieldBase extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20)
-              .add(const EdgeInsets.only(top: 8)),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+          ).add(const EdgeInsets.only(top: 8)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Theme(
                 data: Theme.of(context).copyWith(
-                  textSelectionTheme: !context.isDarkThemeEnabled
-                      ? const TextSelectionThemeData(
-                          selectionColor: Colors.white24)
-                      : null,
+                  textSelectionTheme:
+                      !context.isDarkThemeEnabled
+                          ? const TextSelectionThemeData(
+                            selectionColor: Colors.white24,
+                          )
+                          : null,
                 ),
                 child: PrefilledTextField(
                   key: HwDialogKeys.titleTextField,
@@ -381,13 +389,17 @@ class _CourseTile extends StatelessWidget {
           key: EventDialogKeys.courseTile,
           courseName:
               controller.course?.name ?? HwDialogErrorStrings.emptyCourse,
-          errorText: controller.showEmptyCourseError
-              ? EventDialogErrorStrings.emptyCourse
-              : null,
+          errorText:
+              controller.showEmptyCourseError
+                  ? EventDialogErrorStrings.emptyCourse
+                  : null,
           onTap: () {
-            CourseTile.onTap(context, onChangedId: (courseId) {
-              controller.selectCourse(courseId);
-            });
+            CourseTile.onTap(
+              context,
+              onChangedId: (courseId) {
+                controller.selectCourse(courseId);
+              },
+            );
           },
         ),
       ),
@@ -474,39 +486,44 @@ class _DateAndTimeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: leading ?? const SizedBox(),
-      subtitle: showEndNotAfterBeginningError
-          ? Text(
-              EventDialogErrorStrings.endTimeMustBeAfterStartTime,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            )
-          : null,
+      subtitle:
+          showEndNotAfterBeginningError
+              ? Text(
+                EventDialogErrorStrings.endTimeMustBeAfterStartTime,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              )
+              : null,
       title: GestureDetector(
-        onTap: isDatePickingEnabled
-            ? null
-            : () {
-                showLeftRightAdaptiveDialog(
-                  key: EventDialogKeys.dateCantBeChangedDialog,
-                  context: context,
-                  title: 'Auswahl nicht möglich',
-                  content: const Text(
-                      'Aktuell ist nicht möglich, einen Termin oder eine Klausur über mehrere Tage hinweg zu haben.'),
-                );
-              },
+        onTap:
+            isDatePickingEnabled
+                ? null
+                : () {
+                  showLeftRightAdaptiveDialog(
+                    key: EventDialogKeys.dateCantBeChangedDialog,
+                    context: context,
+                    title: 'Auswahl nicht möglich',
+                    content: const Text(
+                      'Aktuell ist nicht möglich, einen Termin oder eine Klausur über mehrere Tage hinweg zu haben.',
+                    ),
+                  );
+                },
         child: Text(
           date.parser.toYMMMEd,
           style: TextStyle(
-            color: isDatePickingEnabled
-                ? Theme.of(context).textTheme.bodyMedium!.color
-                : Theme.of(context).disabledColor,
+            color:
+                isDatePickingEnabled
+                    ? Theme.of(context).textTheme.bodyMedium!.color
+                    : Theme.of(context).disabledColor,
           ),
         ),
       ),
       trailing: TextButton(
         key: timeFieldKey,
         style: TextButton.styleFrom(
-          foregroundColor: showEndNotAfterBeginningError
-              ? Theme.of(context).colorScheme.error
-              : Theme.of(context).textTheme.bodyMedium!.color,
+          foregroundColor:
+              showEndNotAfterBeginningError
+                  ? Theme.of(context).colorScheme.error
+                  : Theme.of(context).textTheme.bodyMedium!.color,
           textStyle: const TextStyle(fontSize: 15),
         ),
         onPressed: () async {
@@ -525,22 +542,25 @@ class _DateAndTimeTile extends StatelessWidget {
         },
         child: Text(time.toString()),
       ),
-      onTap: isDatePickingEnabled
-          ? () async {
-              final controller =
-                  Provider.of<AddEventDialogController>(context, listen: false);
+      onTap:
+          isDatePickingEnabled
+              ? () async {
+                final controller = Provider.of<AddEventDialogController>(
+                  context,
+                  listen: false,
+                );
 
-              final DateTime? picked = await showDatePicker(
-                context: context,
-                initialDate: clock.now(),
-                firstDate: DateTime(2015, 8),
-                lastDate: DateTime(2101),
-              );
-              if (picked != null) {
-                controller.date = Date.fromDateTime(picked);
+                final DateTime? picked = await showDatePicker(
+                  context: context,
+                  initialDate: clock.now(),
+                  firstDate: DateTime(2015, 8),
+                  lastDate: DateTime(2101),
+                );
+                if (picked != null) {
+                  controller.date = Date.fromDateTime(picked);
+                }
               }
-            }
-          : null,
+              : null,
     );
   }
 }
@@ -621,8 +641,9 @@ class EventDialogKeys {
   static const Key startTimeField = Key("start-time-field");
   static const Key endTimeField = Key("end-time-field");
   static const Key locationField = Key("location-field");
-  static const Key notifyCourseMembersSwitch =
-      Key("notify-course-members-switch");
+  static const Key notifyCourseMembersSwitch = Key(
+    "notify-course-members-switch",
+  );
 }
 
 class EventDialogErrorStrings {

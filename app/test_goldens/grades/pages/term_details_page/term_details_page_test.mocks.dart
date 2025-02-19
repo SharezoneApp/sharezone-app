@@ -29,65 +29,35 @@ import 'package:sharezone/grades/pages/term_details_page/term_details_page_contr
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeTermRef_0 extends _i1.SmartFake implements _i2.TermRef {
-  _FakeTermRef_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeTermRef_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeGradesService_1 extends _i1.SmartFake implements _i2.GradesService {
-  _FakeGradesService_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeGradesService_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeCrashAnalytics_2 extends _i1.SmartFake
     implements _i3.CrashAnalytics {
-  _FakeCrashAnalytics_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeCrashAnalytics_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeAnalytics_3 extends _i1.SmartFake implements _i4.Analytics {
-  _FakeAnalytics_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAnalytics_3(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeTermId_4 extends _i1.SmartFake implements _i2.TermId {
-  _FakeTermId_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeTermId_4(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeTermDetailsPageController_5 extends _i1.SmartFake
     implements _i5.TermDetailsPageController {
-  _FakeTermDetailsPageController_5(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeTermDetailsPageController_5(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [TermDetailsPageController].
@@ -96,143 +66,130 @@ class _FakeTermDetailsPageController_5 extends _i1.SmartFake
 class MockTermDetailsPageController extends _i1.Mock
     implements _i5.TermDetailsPageController {
   @override
-  _i5.TermDetailsPageState get state => (super.noSuchMethod(
-        Invocation.getter(#state),
-        returnValue: _i6.dummyValue<_i5.TermDetailsPageState>(
-          this,
-          Invocation.getter(#state),
-        ),
-        returnValueForMissingStub: _i6.dummyValue<_i5.TermDetailsPageState>(
-          this,
-          Invocation.getter(#state),
-        ),
-      ) as _i5.TermDetailsPageState);
+  _i5.TermDetailsPageState get state =>
+      (super.noSuchMethod(
+            Invocation.getter(#state),
+            returnValue: _i6.dummyValue<_i5.TermDetailsPageState>(
+              this,
+              Invocation.getter(#state),
+            ),
+            returnValueForMissingStub: _i6.dummyValue<_i5.TermDetailsPageState>(
+              this,
+              Invocation.getter(#state),
+            ),
+          )
+          as _i5.TermDetailsPageState);
 
   @override
   set state(_i5.TermDetailsPageState? _state) => super.noSuchMethod(
-        Invocation.setter(
-          #state,
-          _state,
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#state, _state),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i2.TermRef get termRef => (super.noSuchMethod(
-        Invocation.getter(#termRef),
-        returnValue: _FakeTermRef_0(
-          this,
-          Invocation.getter(#termRef),
-        ),
-        returnValueForMissingStub: _FakeTermRef_0(
-          this,
-          Invocation.getter(#termRef),
-        ),
-      ) as _i2.TermRef);
+  _i2.TermRef get termRef =>
+      (super.noSuchMethod(
+            Invocation.getter(#termRef),
+            returnValue: _FakeTermRef_0(this, Invocation.getter(#termRef)),
+            returnValueForMissingStub: _FakeTermRef_0(
+              this,
+              Invocation.getter(#termRef),
+            ),
+          )
+          as _i2.TermRef);
 
   @override
-  _i2.GradesService get gradesService => (super.noSuchMethod(
-        Invocation.getter(#gradesService),
-        returnValue: _FakeGradesService_1(
-          this,
-          Invocation.getter(#gradesService),
-        ),
-        returnValueForMissingStub: _FakeGradesService_1(
-          this,
-          Invocation.getter(#gradesService),
-        ),
-      ) as _i2.GradesService);
+  _i2.GradesService get gradesService =>
+      (super.noSuchMethod(
+            Invocation.getter(#gradesService),
+            returnValue: _FakeGradesService_1(
+              this,
+              Invocation.getter(#gradesService),
+            ),
+            returnValueForMissingStub: _FakeGradesService_1(
+              this,
+              Invocation.getter(#gradesService),
+            ),
+          )
+          as _i2.GradesService);
 
   @override
-  _i3.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
-        Invocation.getter(#crashAnalytics),
-        returnValue: _FakeCrashAnalytics_2(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-        returnValueForMissingStub: _FakeCrashAnalytics_2(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-      ) as _i3.CrashAnalytics);
+  _i3.CrashAnalytics get crashAnalytics =>
+      (super.noSuchMethod(
+            Invocation.getter(#crashAnalytics),
+            returnValue: _FakeCrashAnalytics_2(
+              this,
+              Invocation.getter(#crashAnalytics),
+            ),
+            returnValueForMissingStub: _FakeCrashAnalytics_2(
+              this,
+              Invocation.getter(#crashAnalytics),
+            ),
+          )
+          as _i3.CrashAnalytics);
 
   @override
-  _i4.Analytics get analytics => (super.noSuchMethod(
-        Invocation.getter(#analytics),
-        returnValue: _FakeAnalytics_3(
-          this,
-          Invocation.getter(#analytics),
-        ),
-        returnValueForMissingStub: _FakeAnalytics_3(
-          this,
-          Invocation.getter(#analytics),
-        ),
-      ) as _i4.Analytics);
+  _i4.Analytics get analytics =>
+      (super.noSuchMethod(
+            Invocation.getter(#analytics),
+            returnValue: _FakeAnalytics_3(this, Invocation.getter(#analytics)),
+            returnValueForMissingStub: _FakeAnalytics_3(
+              this,
+              Invocation.getter(#analytics),
+            ),
+          )
+          as _i4.Analytics);
 
   @override
-  _i2.TermId get termId => (super.noSuchMethod(
-        Invocation.getter(#termId),
-        returnValue: _FakeTermId_4(
-          this,
-          Invocation.getter(#termId),
-        ),
-        returnValueForMissingStub: _FakeTermId_4(
-          this,
-          Invocation.getter(#termId),
-        ),
-      ) as _i2.TermId);
+  _i2.TermId get termId =>
+      (super.noSuchMethod(
+            Invocation.getter(#termId),
+            returnValue: _FakeTermId_4(this, Invocation.getter(#termId)),
+            returnValueForMissingStub: _FakeTermId_4(
+              this,
+              Invocation.getter(#termId),
+            ),
+          )
+          as _i2.TermId);
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasListeners),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   void deleteTerm() => super.noSuchMethod(
-        Invocation.method(
-          #deleteTerm,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#deleteTerm, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#notifyListeners, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [TermDetailsPageControllerFactory].
@@ -241,64 +198,59 @@ class MockTermDetailsPageController extends _i1.Mock
 class MockTermDetailsPageControllerFactory extends _i1.Mock
     implements _i8.TermDetailsPageControllerFactory {
   @override
-  _i2.GradesService get gradesService => (super.noSuchMethod(
-        Invocation.getter(#gradesService),
-        returnValue: _FakeGradesService_1(
-          this,
-          Invocation.getter(#gradesService),
-        ),
-        returnValueForMissingStub: _FakeGradesService_1(
-          this,
-          Invocation.getter(#gradesService),
-        ),
-      ) as _i2.GradesService);
+  _i2.GradesService get gradesService =>
+      (super.noSuchMethod(
+            Invocation.getter(#gradesService),
+            returnValue: _FakeGradesService_1(
+              this,
+              Invocation.getter(#gradesService),
+            ),
+            returnValueForMissingStub: _FakeGradesService_1(
+              this,
+              Invocation.getter(#gradesService),
+            ),
+          )
+          as _i2.GradesService);
 
   @override
-  _i3.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
-        Invocation.getter(#crashAnalytics),
-        returnValue: _FakeCrashAnalytics_2(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-        returnValueForMissingStub: _FakeCrashAnalytics_2(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-      ) as _i3.CrashAnalytics);
+  _i3.CrashAnalytics get crashAnalytics =>
+      (super.noSuchMethod(
+            Invocation.getter(#crashAnalytics),
+            returnValue: _FakeCrashAnalytics_2(
+              this,
+              Invocation.getter(#crashAnalytics),
+            ),
+            returnValueForMissingStub: _FakeCrashAnalytics_2(
+              this,
+              Invocation.getter(#crashAnalytics),
+            ),
+          )
+          as _i3.CrashAnalytics);
 
   @override
-  _i4.Analytics get analytics => (super.noSuchMethod(
-        Invocation.getter(#analytics),
-        returnValue: _FakeAnalytics_3(
-          this,
-          Invocation.getter(#analytics),
-        ),
-        returnValueForMissingStub: _FakeAnalytics_3(
-          this,
-          Invocation.getter(#analytics),
-        ),
-      ) as _i4.Analytics);
+  _i4.Analytics get analytics =>
+      (super.noSuchMethod(
+            Invocation.getter(#analytics),
+            returnValue: _FakeAnalytics_3(this, Invocation.getter(#analytics)),
+            returnValueForMissingStub: _FakeAnalytics_3(
+              this,
+              Invocation.getter(#analytics),
+            ),
+          )
+          as _i4.Analytics);
 
   @override
   _i5.TermDetailsPageController create(_i2.TermId? termId) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #create,
-          [termId],
-        ),
-        returnValue: _FakeTermDetailsPageController_5(
-          this,
-          Invocation.method(
-            #create,
-            [termId],
-          ),
-        ),
-        returnValueForMissingStub: _FakeTermDetailsPageController_5(
-          this,
-          Invocation.method(
-            #create,
-            [termId],
-          ),
-        ),
-      ) as _i5.TermDetailsPageController);
+            Invocation.method(#create, [termId]),
+            returnValue: _FakeTermDetailsPageController_5(
+              this,
+              Invocation.method(#create, [termId]),
+            ),
+            returnValueForMissingStub: _FakeTermDetailsPageController_5(
+              this,
+              Invocation.method(#create, [termId]),
+            ),
+          )
+          as _i5.TermDetailsPageController);
 }

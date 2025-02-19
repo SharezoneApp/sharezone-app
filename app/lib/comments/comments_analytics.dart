@@ -17,13 +17,21 @@ class CommentsAnalytics {
   CommentsAnalytics(this._analytics);
 
   void logCommentAdded(CommentsLocation location) {
-    _analytics.log(_CommentsUsedEvent(
-        feature: location.baseCollection, action: _CommentAction.add));
+    _analytics.log(
+      _CommentsUsedEvent(
+        feature: location.baseCollection,
+        action: _CommentAction.add,
+      ),
+    );
   }
 
   void logCommentDeleted(CommentLocation location) {
-    _analytics.log(_CommentsUsedEvent(
-        feature: location.baseCollection, action: _CommentAction.delete));
+    _analytics.log(
+      _CommentsUsedEvent(
+        feature: location.baseCollection,
+        action: _CommentAction.delete,
+      ),
+    );
   }
 }
 
@@ -31,8 +39,8 @@ enum _CommentAction { add, delete }
 
 class _CommentsUsedEvent extends AnalyticsEvent {
   _CommentsUsedEvent({required this.feature, required _CommentAction action})
-      : assert(isNotEmptyOrNull(feature)),
-        super('comment_${action.name}_');
+    : assert(isNotEmptyOrNull(feature)),
+      super('comment_${action.name}_');
 
   final String feature;
 

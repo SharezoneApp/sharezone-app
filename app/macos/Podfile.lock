@@ -297,12 +297,12 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
-  - purchases_flutter (6.30.2):
+  - purchases_flutter (8.5.0):
     - FlutterMacOS
-    - PurchasesHybridCommon (= 11.1.0)
-  - PurchasesHybridCommon (11.1.0):
-    - RevenueCat (= 4.43.2)
-  - RevenueCat (4.43.2)
+    - PurchasesHybridCommon (= 13.18.1)
+  - PurchasesHybridCommon (13.18.1):
+    - RevenueCat (= 5.16.1)
+  - RevenueCat (5.16.1)
   - share_plus (0.0.1):
     - FlutterMacOS
   - shared_preferences_foundation (0.0.1):
@@ -509,9 +509,9 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: 0274086954b1b2d5fd7e829eccc587044d72a4ba
   FirebaseStorage: 44f4e25073f6fa0d4d8c09f5bec299ee9e4eb985
   flutter_image_compress_macos: c26c3c13ea0f28ae6dea4e139b3292e7729f99f1
-  flutter_timezone: 6b906d1740654acb16e50b639835628fea851037
+  flutter_timezone: 62400baa441155f2a4144188648f2ff861649747
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
+  google_sign_in_ios: 4111e87aa5e24a4404f00ea13479f35e571969cc
   GoogleAppMeasurement: 9abf64b682732fed36da827aa2a68f0221fd2356
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
@@ -528,9 +528,9 @@ SPEC CHECKSUMS:
   pdfx: d1c406047b02acc54fe98495ae24b04fe9b4f024
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  purchases_flutter: 3407100959d2aeb636507b2c98970d850dae57ae
-  PurchasesHybridCommon: 4022d5944cb30ec44ba5159e42aa161fe0e30175
-  RevenueCat: 3d934653b7e8b09af88fd47e9e84cfaf5d0a89ba
+  purchases_flutter: 5e6b1b1f784dd0cb00a759f12d1057e11766ebdc
+  PurchasesHybridCommon: bcc204d982166d7fcece10eb98e2ee7c0b0ea668
+  RevenueCat: d38c56d5e1058f955ee7fce4ea7b18d126235e64
   share_plus: 36537c04ce0c3e3f5bd297ce4318b6d5ee5fd6cf
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
@@ -541,4 +541,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 3c0ad86ed3d6cfaec305e881639772a242a41bc2
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

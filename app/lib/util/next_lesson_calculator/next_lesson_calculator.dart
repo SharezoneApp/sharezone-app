@@ -27,24 +27,28 @@ class NextLessonCalculator {
     required TimetableGateway timetableGateway,
     required UserGateway userGateway,
     required HolidayService holidayManager,
-  })  : _timetableGateway = timetableGateway,
-        _userGateway = userGateway,
-        _holidayManager = holidayManager;
+  }) : _timetableGateway = timetableGateway,
+       _userGateway = userGateway,
+       _holidayManager = holidayManager;
 
   Future<Date?> tryCalculateNextLesson(String courseID) async {
     return tryCalculateXNextLesson(courseID, inLessons: 1);
   }
 
-  Future<Date?> tryCalculateXNextLesson(String courseID,
-      {int inLessons = 1}) async {
+  Future<Date?> tryCalculateXNextLesson(
+    String courseID, {
+    int inLessons = 1,
+  }) async {
     assert(inLessons > 0);
     try {
       final lessons = await _timetableGateway.getLessonsOfGroup(courseID);
       final user = await _userGateway.get();
       final holidays = await _tryLoadHolidays(user);
-      final results =
-          _NextLessonCalculation(lessons, holidays, user.userSettings)
-              .calculate(days: inLessons);
+      final results = _NextLessonCalculation(
+        lessons,
+        holidays,
+        user.userSettings,
+      ).calculate(days: inLessons);
       if (results.isEmpty) return null;
       return results.elementAt(inLessons - 1);
     } catch (e, s) {
@@ -57,8 +61,11 @@ class NextLessonCalculator {
     try {
       return await _holidayManager.load(toStateOrThrow(user.state));
     } catch (e, s) {
-      log('Could not load holidays for calculating next lessons: $e',
-          error: e, stackTrace: s);
+      log(
+        'Could not load holidays for calculating next lessons: $e',
+        error: e,
+        stackTrace: s,
+      );
       return [];
     }
   }

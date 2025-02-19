@@ -33,12 +33,14 @@ class DynamicLinkOverlay extends StatelessWidget {
         if (snapshot.hasData && !snapshot.data!.empty && activated == true) {
           final einkommenderLink = snapshot.data;
           // If Notification is shown directly an Error as thrown, as it can't be displayed while this is still bulding (marked as dirty)
-          Future.delayed(const Duration(seconds: 1)).then((_) =>
-              showSimpleNotification(
-                  Text("Neuer dynamic Link: \n$einkommenderLink"),
-                  autoDismiss: false,
-                  slideDismissDirection: DismissDirection.horizontal,
-                  leading: const Icon(Icons.link)));
+          Future.delayed(const Duration(seconds: 1)).then(
+            (_) => showSimpleNotification(
+              Text("Neuer dynamic Link: \n$einkommenderLink"),
+              autoDismiss: false,
+              slideDismissDirection: DismissDirection.horizontal,
+              leading: const Icon(Icons.link),
+            ),
+          );
         }
         return child;
       },

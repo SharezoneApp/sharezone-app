@@ -11,17 +11,19 @@ import 'dart:async';
 mixin AuthentificationValidators {
   static const int minNameSize = 2;
   static const int maxNameSize = 48;
-  static RegExp charactersNotAllowedInNames =
-      RegExp(r"^[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=,]{1,48}$");
+  static RegExp charactersNotAllowedInNames = RegExp(
+    r"^[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=,]{1,48}$",
+  );
 
-  final validateEmail =
-      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
-    if (isEmailValid(email)) {
-      sink.add(email);
-    } else {
-      sink.addError('Gib eine gültige E-Mail ein');
-    }
-  });
+  final validateEmail = StreamTransformer<String, String>.fromHandlers(
+    handleData: (email, sink) {
+      if (isEmailValid(email)) {
+        sink.add(email);
+      } else {
+        sink.addError('Gib eine gültige E-Mail ein');
+      }
+    },
+  );
 
   /// Eine valide E-Mail sollte ein "@" und ein "." enthalten,
   /// sowie keine deutschen Umlaute beinhalten.
@@ -51,26 +53,28 @@ mixin AuthentificationValidators {
   // the same!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   final validatePassword = StreamTransformer<String?, String?>.fromHandlers(
-      handleData: (password, sink) {
-    if (password == null) {
-      return;
-    }
+    handleData: (password, sink) {
+      if (password == null) {
+        return;
+      }
 
-    if (isPasswordValid(password)) {
-      sink.add(password);
-    } else {
-      sink.addError('Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein');
-    }
-  });
+      if (isPasswordValid(password)) {
+        sink.add(password);
+      } else {
+        sink.addError('Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein');
+      }
+    },
+  );
 
-  final validateName =
-      StreamTransformer<String, String>.fromHandlers(handleData: (name, sink) {
-    if (isNameValid(name)) {
-      sink.add(name);
-    } else {
-      sink.addError("Ungültiger Name");
-    }
-  });
+  final validateName = StreamTransformer<String, String>.fromHandlers(
+    handleData: (name, sink) {
+      if (isNameValid(name)) {
+        sink.add(name);
+      } else {
+        sink.addError("Ungültiger Name");
+      }
+    },
+  );
 
   static bool isNameValid(String? name) {
     if (name == null) return false;

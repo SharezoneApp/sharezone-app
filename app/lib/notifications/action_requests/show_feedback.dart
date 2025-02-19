@@ -14,16 +14,17 @@ import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
 
 ActionRegistration<ShowFeedbackRequest> showFeedbackRegistrationWith(
-        ActionRequestExecutorFunc<ShowFeedbackRequest> executorFunc) =>
-    ActionRegistration<ShowFeedbackRequest>(
-      registerForActionTypeStrings: ShowFeedbackRequest.actionTypes,
-      parseActionRequestFromNotification: _toShowFeedbackActionRequest,
-      executeActionRequest: executorFunc,
-    );
+  ActionRequestExecutorFunc<ShowFeedbackRequest> executorFunc,
+) => ActionRegistration<ShowFeedbackRequest>(
+  registerForActionTypeStrings: ShowFeedbackRequest.actionTypes,
+  parseActionRequestFromNotification: _toShowFeedbackActionRequest,
+  executeActionRequest: executorFunc,
+);
 
-ShowFeedbackRequest _toShowFeedbackActionRequest(PushNotification notification,
-        PushNotificationParserInstrumentation instrumentation) =>
-    ShowFeedbackRequest(FeedbackId(notification.actionData['id'] as String));
+ShowFeedbackRequest _toShowFeedbackActionRequest(
+  PushNotification notification,
+  PushNotificationParserInstrumentation instrumentation,
+) => ShowFeedbackRequest(FeedbackId(notification.actionData['id'] as String));
 
 /// Show the detailed view of a single feedback with the given [feedbackId].
 ///
@@ -49,8 +50,8 @@ class ShowFeedbackExecutor extends ActionRequestExecutor<ShowFeedbackRequest> {
     return _navigationService!.pushWidget(
       FeedbackDetailsPage(
         feedbackId: actionRequest.feedbackId,
-        onContactSupportPressed: () =>
-            _navigationService.pushNamed(SupportPage.tag),
+        onContactSupportPressed:
+            () => _navigationService.pushNamed(SupportPage.tag),
       ),
       name: FeedbackDetailsPage.tag,
     );

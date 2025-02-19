@@ -29,93 +29,100 @@ import 'package:rxdart/subjects.dart';
 import 'package:test_randomness/test_randomness.dart';
 
 void main() {
-  group(
-    'HomeworkUserCreateSubmissionsBloc',
-    () {
-      group('Tests Zeitirrelevant', () {
-        late AbgabeId abgabeId;
-        late HomeworkUserCreateSubmissionsBloc bloc;
-        late MockAbgabendateiUseCases useCases;
-        late MockAbgabedateiIdGenerator abgabedateiIdGenerator;
-        SingletonLocalFileSaver fileSaver;
+  group('HomeworkUserCreateSubmissionsBloc', () {
+    group('Tests Zeitirrelevant', () {
+      late AbgabeId abgabeId;
+      late HomeworkUserCreateSubmissionsBloc bloc;
+      late MockAbgabendateiUseCases useCases;
+      late MockAbgabedateiIdGenerator abgabedateiIdGenerator;
+      SingletonLocalFileSaver fileSaver;
 
-        setUp(() {
-          useCases = MockAbgabendateiUseCases();
-          abgabedateiIdGenerator = MockAbgabedateiIdGenerator();
-          abgabeId = AbgabeId(
-              AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
-              const UserId('ValidUserId'));
-          fileSaver = SingletonLocalFileSaver();
-          bloc = HomeworkUserCreateSubmissionsBloc(
-            abgabeId,
-            useCases.recordError,
-            fileSaver,
-            useCases,
-            useCases.abgabe,
-            useCases,
-            useCases,
-            useCases,
-            Stream.value(DateTime(2020, 10, 02)),
-            () => DateTime(2020, 04, 30, 11, 30),
-            generiereAbgabedateiId:
-                abgabedateiIdGenerator.generiereAbgabedateiId,
-            abgabefristUeberwachungsfrequenz: const Duration(milliseconds: 10),
-          );
-        });
+      setUp(() {
+        useCases = MockAbgabendateiUseCases();
+        abgabedateiIdGenerator = MockAbgabedateiIdGenerator();
+        abgabeId = AbgabeId(
+          AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
+          const UserId('ValidUserId'),
+        );
+        fileSaver = SingletonLocalFileSaver();
+        bloc = HomeworkUserCreateSubmissionsBloc(
+          abgabeId,
+          useCases.recordError,
+          fileSaver,
+          useCases,
+          useCases.abgabe,
+          useCases,
+          useCases,
+          useCases,
+          Stream.value(DateTime(2020, 10, 02)),
+          () => DateTime(2020, 04, 30, 11, 30),
+          generiereAbgabedateiId: abgabedateiIdGenerator.generiereAbgabedateiId,
+          abgabefristUeberwachungsfrequenz: const Duration(milliseconds: 10),
+        );
+      });
 
-        Future<void> testeDateiumbenennung({
-          required String vorher,
-          required String neuerBasename,
-          required String nachher,
-        }) async {
-          var abgabedateiId = const AbgabedateiId('abgabedateiId');
+      Future<void> testeDateiumbenennung({
+        required String vorher,
+        required String neuerBasename,
+        required String nachher,
+      }) async {
+        var abgabedateiId = const AbgabedateiId('abgabedateiId');
+        useCases.abgabe.add(
+          erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [
+              hochgeladeneAbgabedatei(id: abgabedateiId, name: vorher),
+            ],
+          ),
+        );
+
+        // Darauf warten, dass das Event oben ausgegeben wurde
+        await pumpEventQueue();
+
+        await bloc.renameFile('$abgabedateiId', neuerBasename);
+
+        final name = useCases.dateiUmbenennenAufrufFuer(abgabedateiId);
+        expect(
+          name!.mitExtension,
+          nachher,
+          reason:
+              'Wenn der "Basename" (Name ohne Extension) der Datei "$vorher" zu "$neuerBasename" umgeändert wird, dann sollte der neue Dateiname (mit Extension) "$nachher" sein.',
+        );
+      }
+
+      void fuegeLokaleDateiHinzuUndSetzeId({
+        required AbgabedateiId id,
+        required String name,
+      }) {
+        final file = MockLocalFile(name: name);
+        abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
+          id,
+          name,
+        );
+        bloc.addSubmissionFiles([file]);
+      }
+
+      test(
+        'Übernimmt abgegeben Status aus dem Abgabe Ersteller-Modell',
+        () async {
           useCases.abgabe.add(
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            hochgeladeneAbgabedatei(
-              id: abgabedateiId,
-              name: vorher,
-            ),
-          ]));
+            erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: []),
+          );
 
-          // Darauf warten, dass das Event oben ausgegeben wurde
-          await pumpEventQueue();
+          useCases.abgabe.add(
+            erstelleAbgabenModelSnapshot(abgegeben: true, abgabedateien: []),
+          );
 
-          await bloc.renameFile('$abgabedateiId', neuerBasename);
-
-          final name = useCases.dateiUmbenennenAufrufFuer(abgabedateiId);
           expect(
-            name!.mitExtension,
-            nachher,
-            reason:
-                'Wenn der "Basename" (Name ohne Extension) der Datei "$vorher" zu "$neuerBasename" umgeändert wird, dann sollte der neue Dateiname (mit Extension) "$nachher" sein.',
+            bloc.pageView.map((pageView) => pageView.submitted),
+            emitsInOrder([false, true]),
           );
-        }
+        },
+      );
 
-        void fuegeLokaleDateiHinzuUndSetzeId({
-          required AbgabedateiId id,
-          required String name,
-        }) {
-          final file = MockLocalFile(name: name);
-          abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
-              id, name);
-          bloc.addSubmissionFiles([file]);
-        }
-
-        test('Übernimmt abgegeben Status aus dem Abgabe Ersteller-Modell',
-            () async {
-          useCases.abgabe.add(erstelleAbgabenModelSnapshot(
-              abgegeben: false, abgabedateien: []));
-
-          useCases.abgabe.add(
-              erstelleAbgabenModelSnapshot(abgegeben: true, abgabedateien: []));
-
-          expect(bloc.pageView.map((pageView) => pageView.submitted),
-              emitsInOrder([false, true]));
-        });
-
-        test(
-            'Recorded einen Error, falls eine lokale Datei nicht zu einer Abgabedatei konvertiert werden kann',
-            () async {
+      test(
+        'Recorded einen Error, falls eine lokale Datei nicht zu einer Abgabedatei konvertiert werden kann',
+        () async {
           final localFile = BrokenLocalFile();
 
           try {
@@ -127,123 +134,147 @@ void main() {
           await pumpEventQueue();
 
           expect(useCases.recordedError, true);
-        });
+        },
+      );
 
-        /// Momentan erlauben wir den Nutzer nur bei bereits hochgeladenen Dateien den Namen zu ändern.
-        test('Dateinamen-Änderung hochladene Datei', () async {
-          await testeDateiumbenennung(
-            vorher: 'Meine-Datei.jpg',
-            neuerBasename: 'Seite 1',
-            nachher: 'Seite 1.jpg',
-          );
-        });
+      /// Momentan erlauben wir den Nutzer nur bei bereits hochgeladenen Dateien den Namen zu ändern.
+      test('Dateinamen-Änderung hochladene Datei', () async {
+        await testeDateiumbenennung(
+          vorher: 'Meine-Datei.jpg',
+          neuerBasename: 'Seite 1',
+          nachher: 'Seite 1.jpg',
+        );
+      });
 
-        test(
-            'Beim Umbenennen des Dateinamens mit mehreren Extensions sollte sich alles bis auf die letzte Extension ändern',
-            () async {
+      test(
+        'Beim Umbenennen des Dateinamens mit mehreren Extensions sollte sich alles bis auf die letzte Extension ändern',
+        () async {
           await testeDateiumbenennung(
             vorher:
                 'Screenshot_20200316_114301_com.android.chrome.android.chrome.jpg',
             neuerBasename: 'Seite 1',
             nachher: 'Seite 1.jpg',
           );
-        });
-        test(
-            'Wenn beim Umbenennen ein Dateiname mit Extension eingegeben wird, dann wird die alte Extension einfach angehangen',
-            () async {
+        },
+      );
+      test(
+        'Wenn beim Umbenennen ein Dateiname mit Extension eingegeben wird, dann wird die alte Extension einfach angehangen',
+        () async {
           await testeDateiumbenennung(
             vorher: 'Meine-Datei.jpg',
             neuerBasename: 'NameMitExtension.pdf',
             nachher: 'NameMitExtension.pdf.jpg',
           );
-        });
+        },
+      );
 
-        test(
-            'Eine Abgabe ist abgebar, wenn mindestens eine Datei erfolgreich hochgeladen wurde und vom Server wieder beim Client ankommt',
-            () async {
-          useCases.abgabe.add(erstelleAbgabenModelSnapshot(
-              abgegeben: false, abgabedateien: []));
+      test(
+        'Eine Abgabe ist abgebar, wenn mindestens eine Datei erfolgreich hochgeladen wurde und vom Server wieder beim Client ankommt',
+        () async {
+          useCases.abgabe.add(
+            erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: []),
+          );
 
           var dateiname = 'gustav.pdf';
           var abgabedateiId = const AbgabedateiId('id1');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
-              Stream.value(
-                  DateiUploadProzessFortschritt.erfolgreich(abgabedateiId)),
-              dateiname);
+            Stream.value(
+              DateiUploadProzessFortschritt.erfolgreich(abgabedateiId),
+            ),
+            dateiname,
+          );
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId, name: dateiname);
 
-          await bloc.pageView.firstWhere((view) => view.files
-              .where(
-                  (file) => file.status == FileViewStatus.successfullyUploaded)
-              .isNotEmpty);
+          await bloc.pageView.firstWhere(
+            (view) =>
+                view.files
+                    .where(
+                      (file) =>
+                          file.status == FileViewStatus.successfullyUploaded,
+                    )
+                    .isNotEmpty,
+          );
 
           /// Wir wollen sichergehen, dass die Abgabe vom Server wieder ankommt
           expect(bloc.submittable, emits(false));
 
-          var abgabe =
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            hochgeladeneAbgabedatei(id: abgabedateiId, name: dateiname),
-          ]);
+          var abgabe = erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [
+              hochgeladeneAbgabedatei(id: abgabedateiId, name: dateiname),
+            ],
+          );
           useCases.abgabe.add(abgabe);
 
-          expect(bloc.pageView.map((view) => view.submittable),
-              emitsThrough(true));
-        });
-        test(
-            'Eine Abgabe ist nicht abgebar, wenn noch eine Datei am hochladen ist',
-            () async {
-          final abgabe =
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            hochgeladeneAbgabedatei(
-              name: 'gustav.pdf',
-              id: const AbgabedateiId('idH'),
-            ),
-          ]);
+          expect(
+            bloc.pageView.map((view) => view.submittable),
+            emitsThrough(true),
+          );
+        },
+      );
+      test(
+        'Eine Abgabe ist nicht abgebar, wenn noch eine Datei am hochladen ist',
+        () async {
+          final abgabe = erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [
+              hochgeladeneAbgabedatei(
+                name: 'gustav.pdf',
+                id: const AbgabedateiId('idH'),
+              ),
+            ],
+          );
           useCases.abgabe.add(abgabe);
 
           var dateiname = 'bernd.pdf';
           var abgabedateiId = const AbgabedateiId('id');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
-              Stream.value(
-                  DateiUploadProzessFortschritt.imGange(abgabedateiId, 0.22)),
-              dateiname);
+            Stream.value(
+              DateiUploadProzessFortschritt.imGange(abgabedateiId, 0.22),
+            ),
+            dateiname,
+          );
           fuegeLokaleDateiHinzuUndSetzeId(name: dateiname, id: abgabedateiId);
 
           await bloc.files.firstWhere((files) => files.length == 2);
 
           expect(bloc.submittable, emits(false));
-        });
+        },
+      );
 
-        test(
-            'Eine Abgabe ist nicht abgebbar, falls diese schon abgegeben wurde',
-            () {
+      test(
+        'Eine Abgabe ist nicht abgebbar, falls diese schon abgegeben wurde',
+        () {
           useCases.abgabe.add(
-              erstelleAbgabenModelSnapshot(abgegeben: true, abgabedateien: []));
+            erstelleAbgabenModelSnapshot(abgegeben: true, abgabedateien: []),
+          );
 
           expect(bloc.submittable, emits(false));
-        });
+        },
+      );
 
-        test(
-            'Wenn eine Abgabe abgegeben wird, dann wird vom Bloc der AbgabeAbgeber mit der richtigen Id aufgerufen',
-            () {
-          var abgabe =
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            hochgeladeneAbgabedatei(),
-          ]);
+      test(
+        'Wenn eine Abgabe abgegeben wird, dann wird vom Bloc der AbgabeAbgeber mit der richtigen Id aufgerufen',
+        () {
+          var abgabe = erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [hochgeladeneAbgabedatei()],
+          );
           useCases.abgabe.add(abgabe);
 
           bloc.veroeffentlicheAbgabe();
 
           expect(useCases.wurdeGebeAbMitIdAufgerufen(abgabeId), true);
-        });
+        },
+      );
 
-        /// Falls eine Datei aus der Datenbank entfernt wird, war es bisher so, dass
-        /// der Nutzer die Datei immer noch als erfolgreich hochgeladen sah.
-        /// So konnte es manchmal dazu kommen, dass man dachte, dass man eine Datei
-        /// agibt, obwohl gar nicht mehr auf dem Server existiert.
-        test(
-            'Lokal hochgeladene Datei nicht mehr anzeigen, falls diese vom Backend einmal ankam aber dann von außen entfernt wurde.',
-            () async {
+      /// Falls eine Datei aus der Datenbank entfernt wird, war es bisher so, dass
+      /// der Nutzer die Datei immer noch als erfolgreich hochgeladen sah.
+      /// So konnte es manchmal dazu kommen, dass man dachte, dass man eine Datei
+      /// agibt, obwohl gar nicht mehr auf dem Server existiert.
+      test(
+        'Lokal hochgeladene Datei nicht mehr anzeigen, falls diese vom Backend einmal ankam aber dann von außen entfernt wurde.',
+        () async {
           var dateiname1 = 'gustav.pdf';
           var dateiname2 = 'meier.mp3';
           var abgabedateiId1 = const AbgabedateiId('id1');
@@ -252,156 +283,175 @@ void main() {
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId1, name: dateiname1);
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId2, name: dateiname2);
 
-          var snapshot =
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            hochgeladeneAbgabedatei(id: abgabedateiId1, name: dateiname1),
-            hochgeladeneAbgabedatei(id: abgabedateiId2, name: dateiname2),
-          ]);
+          var snapshot = erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [
+              hochgeladeneAbgabedatei(id: abgabedateiId1, name: dateiname1),
+              hochgeladeneAbgabedatei(id: abgabedateiId2, name: dateiname2),
+            ],
+          );
           useCases.abgabe.add(snapshot);
 
           // Bevor eine Datei hinzugefügt wird, wird schon eine leere View erstellt
-          bloc.files.where((event) =>
-              event.length == 2 &&
-              event.every((element) =>
-                  element.status == FileViewStatus.successfullyUploaded));
+          bloc.files.where(
+            (event) =>
+                event.length == 2 &&
+                event.every(
+                  (element) =>
+                      element.status == FileViewStatus.successfullyUploaded,
+                ),
+          );
 
-          final abgabeMitEntfernterDatei =
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            snapshot.abgabe!.abgabedateien.first,
-          ]);
+          final abgabeMitEntfernterDatei = erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [snapshot.abgabe!.abgabedateien.first],
+          );
           useCases.abgabe.add(abgabeMitEntfernterDatei);
 
           expect(bloc.files.map((event) => event.length), emitsThrough(1));
-        });
+        },
+      );
+    });
+
+    group('Datei-Tests', () {
+      late HomeworkUserCreateSubmissionsBloc bloc;
+      late MockAbgabendateiUseCases useCases;
+      late MockAbgabedateiIdGenerator abgabedateiIdGenerator;
+      late SingletonLocalFileSaver fileSaver;
+      late DateTime Function() kriegeAktuelleZeit;
+
+      setUp(() {
+        useCases = MockAbgabendateiUseCases();
+        abgabedateiIdGenerator = MockAbgabedateiIdGenerator();
+        final abgabeId = AbgabeId(
+          AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
+          const UserId('ValidUserId'),
+        );
+        fileSaver = SingletonLocalFileSaver();
+        bloc = HomeworkUserCreateSubmissionsBloc(
+          abgabeId,
+          (_, _, {context}) async {},
+          fileSaver,
+          useCases,
+          useCases.abgabe,
+          useCases,
+          useCases,
+          useCases,
+          Stream.value(DateTime(2020, 10, 02)),
+          () => kriegeAktuelleZeit(),
+          generiereAbgabedateiId: abgabedateiIdGenerator.generiereAbgabedateiId,
+          abgabefristUeberwachungsfrequenz: const Duration(milliseconds: 10),
+        );
+        kriegeAktuelleZeit = () => DateTime(2020, 04, 30, 11, 30);
+        useCases.abgabe.add(ErstellerAbgabeModelSnapshot.nichtExistent());
       });
 
-      group('Datei-Tests', () {
-        late HomeworkUserCreateSubmissionsBloc bloc;
-        late MockAbgabendateiUseCases useCases;
-        late MockAbgabedateiIdGenerator abgabedateiIdGenerator;
-        late SingletonLocalFileSaver fileSaver;
-        late DateTime Function() kriegeAktuelleZeit;
+      void fuegeLokaleDateiHinzuUndSetzeId({
+        required AbgabedateiId id,
+        required String name,
+      }) {
+        final file = MockLocalFile(name: name);
+        abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
+          id,
+          name,
+        );
+        bloc.addSubmissionFiles([file]);
+      }
 
-        setUp(() {
-          useCases = MockAbgabendateiUseCases();
-          abgabedateiIdGenerator = MockAbgabedateiIdGenerator();
-          final abgabeId = AbgabeId(
-              AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
-              const UserId('ValidUserId'));
-          fileSaver = SingletonLocalFileSaver();
-          bloc = HomeworkUserCreateSubmissionsBloc(
-            abgabeId,
-            (_, __, {context}) async {},
-            fileSaver,
-            useCases,
-            useCases.abgabe,
-            useCases,
-            useCases,
-            useCases,
-            Stream.value(DateTime(2020, 10, 02)),
-            () => kriegeAktuelleZeit(),
-            generiereAbgabedateiId:
-                abgabedateiIdGenerator.generiereAbgabedateiId,
-            abgabefristUeberwachungsfrequenz: const Duration(milliseconds: 10),
-          );
-          kriegeAktuelleZeit = () => DateTime(2020, 04, 30, 11, 30);
-          useCases.abgabe.add(ErstellerAbgabeModelSnapshot.nichtExistent());
-        });
+      Future<FileView> getFirstFileView() async {
+        final pageView = await bloc.pageView.firstWhere(
+          (element) => element.files.isNotEmpty,
+        );
+        return pageView.files.first;
+      }
 
-        void fuegeLokaleDateiHinzuUndSetzeId({
-          required AbgabedateiId id,
-          required String name,
-        }) {
-          final file = MockLocalFile(name: name);
-          abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
-              id, name);
-          bloc.addSubmissionFiles([file]);
-        }
+      test('Datei-View-Attribute - Lokale Datei', () async {
+        final files = MockLocalFile(
+          name: 'datei.pdf',
+          path: '/eine/datei.pdf',
+          sizeInBytes: 1234,
+          mimeType: MimeType.any,
+        );
+        var abgabedateiId = const AbgabedateiId('testId');
+        abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
+          abgabedateiId,
+          'datei.pdf',
+        );
 
-        Future<FileView> getFirstFileView() async {
-          final pageView = await bloc.pageView
-              .firstWhere((element) => element.files.isNotEmpty);
-          return pageView.files.first;
-        }
+        bloc.addSubmissionFiles([files]);
 
-        test('Datei-View-Attribute - Lokale Datei', () async {
-          final files = MockLocalFile(
-              name: 'datei.pdf',
-              path: '/eine/datei.pdf',
-              sizeInBytes: 1234,
-              mimeType: MimeType.any);
-          var abgabedateiId = const AbgabedateiId('testId');
-          abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
-              abgabedateiId, 'datei.pdf');
+        final fileView = await getFirstFileView();
 
-          bloc.addSubmissionFiles([files]);
+        expect(fileView.name, 'datei.pdf');
+        expect(fileView.id, '$abgabedateiId');
+        expect(fileView.basename, 'datei');
+        expect(fileView.extentionName, 'pdf');
+        expect(fileView.fileFormat, FileFormat.pdf);
+        expect(fileView.path, '/eine/datei.pdf');
+        expect(fileView.status, FileViewStatus.unitiated);
+        expect(fileView.uploadProgress, null);
+        expect(fileView.downloadUrl, null);
+      });
 
-          final fileView = await getFirstFileView();
+      test('Datei-View-Attribute - Hochgeladene Datei', () async {
+        useCases.abgabe.add(
+          erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [
+              HochgeladeneAbgabedatei(
+                id: const AbgabedateiId('abgabedateiId'),
+                name: Dateiname('file.pdf'),
+                groesse: Dateigroesse(12345),
+                downloadUrl: DateiDownloadUrl('https://some-url.com'),
+                erstellungsdatum: DateTime(2020, 02, 02),
+              ),
+            ],
+          ),
+        );
 
-          expect(fileView.name, 'datei.pdf');
-          expect(fileView.id, '$abgabedateiId');
-          expect(fileView.basename, 'datei');
-          expect(fileView.extentionName, 'pdf');
-          expect(fileView.fileFormat, FileFormat.pdf);
-          expect(fileView.path, '/eine/datei.pdf');
-          expect(fileView.status, FileViewStatus.unitiated);
-          expect(fileView.uploadProgress, null);
-          expect(fileView.downloadUrl, null);
-        });
+        final fileView = await getFirstFileView();
 
-        test('Datei-View-Attribute - Hochgeladene Datei', () async {
-          useCases.abgabe.add(
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            HochgeladeneAbgabedatei(
-              id: const AbgabedateiId('abgabedateiId'),
-              name: Dateiname('file.pdf'),
-              groesse: Dateigroesse(12345),
-              downloadUrl: DateiDownloadUrl('https://some-url.com'),
-              erstellungsdatum: DateTime(2020, 02, 02),
-            )
-          ]));
+        expect(fileView.name, 'file.pdf');
+        expect(fileView.basename, 'file');
+        expect(fileView.extentionName, 'pdf');
+        expect(fileView.fileFormat, FileFormat.pdf);
+        expect(fileView.path, null);
+        expect(fileView.status, FileViewStatus.successfullyUploaded);
+        expect(fileView.uploadProgress, null);
+        expect(fileView.downloadUrl, 'https://some-url.com');
+      });
 
-          final fileView = await getFirstFileView();
+      test('File-Format - mp3', () async {
+        final files = MockLocalFile(
+          name: 'datei.mp3',
+          path: '/eine/datei.mp3',
+          sizeInBytes: 1234,
+          mimeType: MimeType.any,
+        );
+        bloc.addSubmissionFiles([files]);
 
-          expect(fileView.name, 'file.pdf');
-          expect(fileView.basename, 'file');
-          expect(fileView.extentionName, 'pdf');
-          expect(fileView.fileFormat, FileFormat.pdf);
-          expect(fileView.path, null);
-          expect(fileView.status, FileViewStatus.successfullyUploaded);
-          expect(fileView.uploadProgress, null);
-          expect(fileView.downloadUrl, 'https://some-url.com');
-        });
+        final fileView = await getFirstFileView();
 
-        test('File-Format - mp3', () async {
-          final files = MockLocalFile(
-              name: 'datei.mp3',
-              path: '/eine/datei.mp3',
-              sizeInBytes: 1234,
-              mimeType: MimeType.any);
-          bloc.addSubmissionFiles([files]);
+        expect(fileView.fileFormat, FileFormat.audio);
+      });
 
-          final fileView = await getFirstFileView();
+      test('File-Format - unknown', () async {
+        final files = MockLocalFile(
+          name: 'datei.gibsNicht',
+          path: '/eine/datei.gibsNicht',
+          sizeInBytes: 1234,
+          mimeType: MimeType.any,
+        );
+        bloc.addSubmissionFiles([files]);
 
-          expect(fileView.fileFormat, FileFormat.audio);
-        });
+        final fileView = await getFirstFileView();
 
-        test('File-Format - unknown', () async {
-          final files = MockLocalFile(
-              name: 'datei.gibsNicht',
-              path: '/eine/datei.gibsNicht',
-              sizeInBytes: 1234,
-              mimeType: MimeType.any);
-          bloc.addSubmissionFiles([files]);
+        expect(fileView.fileFormat, FileFormat.unknown);
+      });
 
-          final fileView = await getFirstFileView();
-
-          expect(fileView.fileFormat, FileFormat.unknown);
-        });
-
-        test(
-            'Gibt Datei-Uploadstatus zurück, wenn eine lokale Datei hochgeladen wird',
-            () async {
+      test(
+        'Gibt Datei-Uploadstatus zurück, wenn eine lokale Datei hochgeladen wird',
+        () async {
           // ARRANGE
           var dateiname = 'gustav.pdf';
           final uploadProzess =
@@ -411,8 +461,9 @@ void main() {
             dateiname,
           );
 
-          final fileStream = bloc.pageView
-              .map((event) => event.files.isEmpty ? null : event.files.single);
+          final fileStream = bloc.pageView.map(
+            (event) => event.files.isEmpty ? null : event.files.single,
+          );
           final queue = StreamQueue(fileStream);
           // Bevor eine Datei hinzugefügt wird, wird schon eine leere View erstellt
           await queue.skip(1);
@@ -428,28 +479,37 @@ void main() {
 
           uploadProzess.add(
             DateiUploadProzessFortschritt.imGange(
-                const AbgabedateiId('dad'), 0.2),
+              const AbgabedateiId('dad'),
+              0.2,
+            ),
           );
 
           fileView = (await queue.next)!;
           expect(fileView.status, FileViewStatus.uploading);
           expect(fileView.uploadProgress, 0.2);
 
-          uploadProzess.add(DateiUploadProzessFortschritt.erfolgreich(
-              const AbgabedateiId('dad')));
+          uploadProzess.add(
+            DateiUploadProzessFortschritt.erfolgreich(
+              const AbgabedateiId('dad'),
+            ),
+          );
           fileView = (await queue.next)!;
           expect(fileView.status, FileViewStatus.successfullyUploaded);
           expect(fileView.uploadProgress, null);
 
-          uploadProzess.add(DateiUploadProzessFortschritt.fehlgeschlagen(
-              const AbgabedateiId('dad')));
+          uploadProzess.add(
+            DateiUploadProzessFortschritt.fehlgeschlagen(
+              const AbgabedateiId('dad'),
+            ),
+          );
           fileView = (await queue.next)!;
           expect(fileView.uploadProgress, null);
-        });
+        },
+      );
 
-        test(
-            'Gibt die LocalFiles unter der jeweiligen Id an den Speicher weiter',
-            () async {
+      test(
+        'Gibt die LocalFiles unter der jeweiligen Id an den Speicher weiter',
+        () async {
           var abgabedateiId1 = const AbgabedateiId('id1');
           var abgabedateiId2 = const AbgabedateiId('id2');
           var name1 = 'Datei1.pdf';
@@ -463,22 +523,25 @@ void main() {
 
           expect(fileSaver.getFile('$abgabedateiId1'), isNotNull);
           expect(fileSaver.getFile('$abgabedateiId2'), isNotNull);
-        });
+        },
+      );
 
-        test(
-            'Regressions-Test: Wenn eine Datei bereits hochgeladen wurde, dann sollte bei den anderen nur lokalen, noch am hochladenen Dateien noch der richtige Upload-Fortschritt angezeigt werden',
-            () async {
+      test(
+        'Regressions-Test: Wenn eine Datei bereits hochgeladen wurde, dann sollte bei den anderen nur lokalen, noch am hochladenen Dateien noch der richtige Upload-Fortschritt angezeigt werden',
+        () async {
           useCases.abgabe.add(
             erstelleAbgabenModelSnapshot(
-                abgegeben: false,
-                abgabedateien: [hochgeladeneAbgabedatei(name: 'name.pdf')]),
+              abgegeben: false,
+              abgabedateien: [hochgeladeneAbgabedatei(name: 'name.pdf')],
+            ),
           );
 
           var hochladeneDateiName = 'abc.mp3';
           var abgabedateiId = const AbgabedateiId('id2');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(
-                DateiUploadProzessFortschritt.imGange(abgabedateiId, 0.2)),
+              DateiUploadProzessFortschritt.imGange(abgabedateiId, 0.2),
+            ),
             hochladeneDateiName,
           );
           fuegeLokaleDateiHinzuUndSetzeId(
@@ -487,24 +550,32 @@ void main() {
           );
 
           expect(
-              bloc.files.where((files) => files.length == 2).map(
-                    (files) => files
-                        .singleWhere((file) => file.name == 'abc.mp3')
-                        .status,
-                  ),
-              emitsInOrder(
-                  [FileViewStatus.unitiated, FileViewStatus.uploading]));
-        });
+            bloc.files
+                .where((files) => files.length == 2)
+                .map(
+                  (files) =>
+                      files
+                          .singleWhere((file) => file.name == 'abc.mp3')
+                          .status,
+                ),
+            emitsInOrder([FileViewStatus.unitiated, FileViewStatus.uploading]),
+          );
+        },
+      );
 
-        test(
-            'Schreibt hinter den Dateinamen einer Datei "(1)", "(2)" etc, wenn bereits eine lokale oder hochgeladene Datei mit dem selben Namen hinzugefügt wurde',
-            () async {
+      test(
+        'Schreibt hinter den Dateinamen einer Datei "(1)", "(2)" etc, wenn bereits eine lokale oder hochgeladene Datei mit dem selben Namen hinzugefügt wurde',
+        () async {
           var abgabedateiId = const AbgabedateiId('id');
           var name = 'hallo.pdf';
           useCases.abgabe.add(
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            hochgeladeneAbgabedatei(id: abgabedateiId, name: name),
-          ]));
+            erstelleAbgabenModelSnapshot(
+              abgegeben: false,
+              abgabedateien: [
+                hochgeladeneAbgabedatei(id: abgabedateiId, name: name),
+              ],
+            ),
+          );
           // Warten bis die Abgabe oben ankommt
           await pumpEventQueue();
 
@@ -524,23 +595,25 @@ void main() {
               .where((names) => names.length == 3);
 
           await expectLater(
-              namesStream,
-              emits(unorderedEquals(
-                [
-                  'hallo.pdf',
-                  'hallo (1).pdf',
-                  'hallo (2).pdf',
-                ],
-              )));
+            namesStream,
+            emits(
+              unorderedEquals(['hallo.pdf', 'hallo (1).pdf', 'hallo (2).pdf']),
+            ),
+          );
 
-          expect(useCases.wurdeAbgabedateiHochladenMitNamen('hallo (1).pdf'),
-              true);
-          expect(useCases.wurdeAbgabedateiHochladenMitNamen('hallo (2).pdf'),
-              true);
-        });
-        test(
-            'Schreibt hinter den Dateinamen einer Datei "(1)", "(2)" etc, wenn mehrere Dateien mit dem selben Namen hinzugefügt werden',
-            () {
+          expect(
+            useCases.wurdeAbgabedateiHochladenMitNamen('hallo (1).pdf'),
+            true,
+          );
+          expect(
+            useCases.wurdeAbgabedateiHochladenMitNamen('hallo (2).pdf'),
+            true,
+          );
+        },
+      );
+      test(
+        'Schreibt hinter den Dateinamen einer Datei "(1)", "(2)" etc, wenn mehrere Dateien mit dem selben Namen hinzugefügt werden',
+        () {
           final f1 = MockLocalFile(name: 'selberDateiname.pdf');
           final f2 = MockLocalFile(name: 'selberDateiname.pdf');
           final f3 = MockLocalFile(name: 'selberDateiname.pdf');
@@ -555,19 +628,21 @@ void main() {
               .where((event) => event.length == files.length);
 
           expect(
-              names,
-              emits([
-                'selberDateiname.pdf',
-                'selberDateiname (1).pdf',
-                'selberDateiname (2).pdf',
-                'nochmal.mp3',
-                'nochmal (1).mp3',
-              ]));
-        });
+            names,
+            emits([
+              'selberDateiname.pdf',
+              'selberDateiname (1).pdf',
+              'selberDateiname (2).pdf',
+              'nochmal.mp3',
+              'nochmal (1).mp3',
+            ]),
+          );
+        },
+      );
 
-        test(
-            'Wenn eine lokale Datei hochgeladen wurde und diese nun auch im Abgabe-Stream vorkommt, dann werden die Informationen aus Firestore den lokalen vorgezogen.',
-            () async {
+      test(
+        'Wenn eine lokale Datei hochgeladen wurde und diese nun auch im Abgabe-Stream vorkommt, dann werden die Informationen aus Firestore den lokalen vorgezogen.',
+        () async {
           var dateiname = 'gustav.pdf';
           const id = AbgabedateiId('gustav.pdf');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
@@ -578,261 +653,297 @@ void main() {
           fuegeLokaleDateiHinzuUndSetzeId(id: id, name: dateiname);
 
           useCases.abgabe.add(
-            erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-              hochgeladeneAbgabedatei(
-                id: id,
-                name: dateiname,
-              ),
-            ]),
+            erstelleAbgabenModelSnapshot(
+              abgegeben: false,
+              abgabedateien: [hochgeladeneAbgabedatei(id: id, name: dateiname)],
+            ),
           );
 
           final firstFileView = bloc.files
               .where((files) => files.isNotEmpty)
               .map((event) => event.first);
 
-          final view = await firstFileView
-              .firstWhere((file) => file.downloadUrl != null);
+          final view = await firstFileView.firstWhere(
+            (file) => file.downloadUrl != null,
+          );
 
           expect(view.downloadUrl, 'https://some-url.com');
           expect(view.status, FileViewStatus.successfullyUploaded);
 
           expect(
             bloc.files.map((event) => event.length),
-            neverEmits(
-              greaterThan(1),
-            ),
+            neverEmits(greaterThan(1)),
           );
           bloc.dispose();
-        });
+        },
+      );
 
-        test(
-            'Bloc wirft FileConversionException-Error, wenn ein LocalFile nicht in eine Abgabedatei konvertiert werden kann.',
-            () {
+      test(
+        'Bloc wirft FileConversionException-Error, wenn ein LocalFile nicht in eine Abgabedatei konvertiert werden kann.',
+        () {
           final broken = BrokenLocalFile();
 
-          expect(() => bloc.addSubmissionFiles([broken]),
-              throwsA(isA<FileConversionException>()));
-        });
+          expect(
+            () => bloc.addSubmissionFiles([broken]),
+            throwsA(isA<FileConversionException>()),
+          );
+        },
+      );
 
-        /// Hier geht es darum, dass die App nicht für eine Datei, die nur lokal ist,
-        /// den Server bittet diese (für den Server unbekannte) Datei zu löschen.
-        test(
-            'Wenn eine Datei gelöscht werden soll, die nicht erfolgreich hochgeladen werden konnte, dann wird das nur lokal gemacht',
-            () async {
+      /// Hier geht es darum, dass die App nicht für eine Datei, die nur lokal ist,
+      /// den Server bittet diese (für den Server unbekannte) Datei zu löschen.
+      test(
+        'Wenn eine Datei gelöscht werden soll, die nicht erfolgreich hochgeladen werden konnte, dann wird das nur lokal gemacht',
+        () async {
           var abgabedateiId = const AbgabedateiId('id');
           var name = 'file.pdf';
           useCases.abgabeprozessFortschrittFuerDateiMitName(
-              Stream.value(
-                  DateiUploadProzessFortschritt.fehlgeschlagen(abgabedateiId)),
-              name);
+            Stream.value(
+              DateiUploadProzessFortschritt.fehlgeschlagen(abgabedateiId),
+            ),
+            name,
+          );
           fuegeLokaleDateiHinzuUndSetzeId(name: name, id: abgabedateiId);
 
           await bloc.files
-              .where((files) =>
-                  files.isNotEmpty &&
-                  files.first.status == FileViewStatus.failed)
+              .where(
+                (files) =>
+                    files.isNotEmpty &&
+                    files.first.status == FileViewStatus.failed,
+              )
               .first;
 
           bloc.removeSubmissionFile('$abgabedateiId');
 
           expect(bloc.pageView.map((view) => view.files), emitsThrough([]));
           expect(useCases.wurdeLoescheDateiAufgerufen, false);
-        });
+        },
+      );
 
-        test('Löschen hochgeladene Datei', () async {
-          var abgabedateiId = const AbgabedateiId('fileId');
-          useCases.abgabe.add(
-            erstelleAbgabenModelSnapshot(
-              abgegeben: false,
-              abgabedateien: [hochgeladeneAbgabedatei(id: abgabedateiId)],
-            ),
+      test('Löschen hochgeladene Datei', () async {
+        var abgabedateiId = const AbgabedateiId('fileId');
+        useCases.abgabe.add(
+          erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [hochgeladeneAbgabedatei(id: abgabedateiId)],
+          ),
+        );
+
+        await bloc.files.firstWhere((files) => files.isNotEmpty);
+
+        bloc.removeSubmissionFile('$abgabedateiId');
+
+        // Das Löschen von einer Datei auf dem Server kann dauern
+        await expectLater(
+          bloc.files.map((files) => files.isEmpty),
+          emitsThrough(true),
+        );
+        expect(useCases.wurdeLoescheDateiAufgerufenMit(abgabedateiId), true);
+      });
+
+      test(
+        'zeigt Abgabe als abgegeben, wenn das Abgaben-Model aus Firestore das sagt',
+        () async {
+          final abgabe = erstelleAbgabenModelSnapshot(
+            abgegeben: true,
+            abgabedateien: [],
           );
-
-          await bloc.files.firstWhere((files) => files.isNotEmpty);
-
-          bloc.removeSubmissionFile('$abgabedateiId');
-
-          // Das Löschen von einer Datei auf dem Server kann dauern
-          await expectLater(
-            bloc.files.map((files) => files.isEmpty),
-            emitsThrough(true),
-          );
-          expect(useCases.wurdeLoescheDateiAufgerufenMit(abgabedateiId), true);
-        });
-
-        test(
-            'zeigt Abgabe als abgegeben, wenn das Abgaben-Model aus Firestore das sagt',
-            () async {
-          final abgabe =
-              erstelleAbgabenModelSnapshot(abgegeben: true, abgabedateien: []);
           useCases.abgabe.add(abgabe);
-          final abgabe2 =
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: []);
+          final abgabe2 = erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [],
+          );
           useCases.abgabe.add(abgabe2);
 
           expect(
             /// Das erste Event wird geskippt, weil es das "Standard-Event" ist,
             /// solange die Daten aus Firestore noch nicht angekommen sind.
             bloc.pageView.skip(1).map((event) => event.submitted),
-            emitsInOrder([
-              true,
-              false,
-            ]),
+            emitsInOrder([true, false]),
           );
-        });
+        },
+      );
 
-        test(
-            'Löschen lokale Datei die hochgeladen wurde lokal und auf dem Server',
-            () async {
+      test(
+        'Löschen lokale Datei die hochgeladen wurde lokal und auf dem Server',
+        () async {
           var abgabedateiId = const AbgabedateiId('id');
           var name = 'file.pdf';
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(
-                DateiUploadProzessFortschritt.erfolgreich(abgabedateiId)),
+              DateiUploadProzessFortschritt.erfolgreich(abgabedateiId),
+            ),
             name,
           );
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId, name: name);
 
           useCases.abgabe.add(
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            hochgeladeneAbgabedatei(
-              id: abgabedateiId,
-              name: name,
+            erstelleAbgabenModelSnapshot(
+              abgegeben: false,
+              abgabedateien: [
+                hochgeladeneAbgabedatei(id: abgabedateiId, name: name),
+              ],
             ),
-          ]));
+          );
 
-          await bloc.pageView.firstWhere((pageView) =>
-              pageView.files.isNotEmpty &&
-              pageView.files.first.status ==
-                  FileViewStatus.successfullyUploaded);
+          await bloc.pageView.firstWhere(
+            (pageView) =>
+                pageView.files.isNotEmpty &&
+                pageView.files.first.status ==
+                    FileViewStatus.successfullyUploaded,
+          );
 
           bloc.removeSubmissionFile('$abgabedateiId');
 
           await expectLater(
-              bloc.files.map((files) => files.isEmpty), emitsThrough(true));
+            bloc.files.map((files) => files.isEmpty),
+            emitsThrough(true),
+          );
           expect(useCases.wurdeLoescheDateiAufgerufenMit(abgabedateiId), true);
-        });
+        },
+      );
+    });
+
+    group('Abgabzeitpunkt-Status', () {
+      late HomeworkUserCreateSubmissionsBloc bloc;
+      late BehaviorSubject<DateTime> abgabezeitpunktStream;
+      late DateTime Function() kriegeAktuelleZeit;
+      late MockAbgabendateiUseCases useCases;
+      AbgabeId abgabeId;
+
+      setUp(() {
+        abgabezeitpunktStream = BehaviorSubject<DateTime>();
+        useCases = MockAbgabendateiUseCases();
+        abgabeId = AbgabeId(
+          AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
+          const UserId('ValidUserId'),
+        );
+        final localFileSaver = SingletonLocalFileSaver();
+        bloc = HomeworkUserCreateSubmissionsBloc(
+          abgabeId,
+          (_, _, {context}) async {},
+          localFileSaver,
+          useCases,
+          useCases.abgabe,
+          useCases,
+          useCases,
+          useCases,
+          abgabezeitpunktStream,
+          () => kriegeAktuelleZeit(),
+          abgabefristUeberwachungsfrequenz: const Duration(milliseconds: 10),
+        );
+
+        useCases.abgabe.add(
+          erstelleAbgabenModelSnapshot(abgegeben: true, abgabedateien: []),
+        );
       });
 
-      group('Abgabzeitpunkt-Status', () {
-        late HomeworkUserCreateSubmissionsBloc bloc;
-        late BehaviorSubject<DateTime> abgabezeitpunktStream;
-        late DateTime Function() kriegeAktuelleZeit;
-        late MockAbgabendateiUseCases useCases;
-        AbgabeId abgabeId;
+      tearDown(() async {
+        await abgabezeitpunktStream.close();
+      });
 
-        setUp(() {
-          abgabezeitpunktStream = BehaviorSubject<DateTime>();
-          useCases = MockAbgabendateiUseCases();
-          abgabeId = AbgabeId(
-            AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
-            const UserId('ValidUserId'),
-          );
-          final localFileSaver = SingletonLocalFileSaver();
-          bloc = HomeworkUserCreateSubmissionsBloc(
-            abgabeId,
-            (_, __, {context}) async {},
-            localFileSaver,
-            useCases,
-            useCases.abgabe,
-            useCases,
-            useCases,
-            useCases,
-            abgabezeitpunktStream,
-            () => kriegeAktuelleZeit(),
-            abgabefristUeberwachungsfrequenz: const Duration(milliseconds: 10),
-          );
+      test('Die Dateien werden nach hinzufuegedatum sortiert.', () async {
+        final now = clock.now();
+        abgabezeitpunktStream.add(now.add(const Duration(days: 20)));
+        kriegeAktuelleZeit = () => clock.now();
 
-          useCases.abgabe.add(
-            erstelleAbgabenModelSnapshot(abgegeben: true, abgabedateien: []),
-          );
-        });
+        useCases.abgabe.add(
+          erstelleAbgabenModelSnapshot(
+            abgegeben: false,
+            abgabedateien: [
+              hochgeladeneAbgabedatei(
+                name: 'first.pdf',
+                erstellungsdatum: now.subtract(const Duration(days: 3)),
+              ),
+              hochgeladeneAbgabedatei(
+                name: 'fourth.pdf',
+                erstellungsdatum: now.add(const Duration(hours: 3)),
+              ),
+            ],
+          ),
+        );
 
-        tearDown(() async {
-          await abgabezeitpunktStream.close();
-        });
+        final second = MockLocalFile(name: 'second.mp4');
+        final third = MockLocalFile(name: 'third.lol');
 
-        test('Die Dateien werden nach hinzufuegedatum sortiert.', () async {
-          final now = clock.now();
-          abgabezeitpunktStream.add(now.add(const Duration(days: 20)));
-          kriegeAktuelleZeit = () => clock.now();
+        bloc.addSubmissionFiles([second, third]);
 
-          useCases.abgabe.add(
-              erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: [
-            hochgeladeneAbgabedatei(
-              name: 'first.pdf',
-              erstellungsdatum: now.subtract(const Duration(days: 3)),
-            ),
-            hochgeladeneAbgabedatei(
-              name: 'fourth.pdf',
-              erstellungsdatum: now.add(const Duration(hours: 3)),
-            ),
-          ]));
+        await bloc.pageView.firstWhere(
+          (pageView) => pageView.files.length == 4,
+        );
 
-          final second = MockLocalFile(name: 'second.mp4');
-          final third = MockLocalFile(name: 'third.lol');
+        final names = bloc.pageView.map(
+          (pageView) => pageView.files.map((file) => file.name).toList(),
+        );
 
-          bloc.addSubmissionFiles([second, third]);
+        expect(
+          names,
+          emits(
+            orderedEquals([
+              'first.pdf',
+              'second.mp4',
+              'third.lol',
+              'fourth.pdf',
+            ]),
+          ),
+        );
+      });
 
-          await bloc.pageView
-              .firstWhere((pageView) => pageView.files.length == 4);
-
-          final names = bloc.pageView.map(
-              (pageView) => pageView.files.map((file) => file.name).toList());
-
-          expect(
-            names,
-            emits(orderedEquals(
-              ['first.pdf', 'second.mp4', 'third.lol', 'fourth.pdf'],
-            )),
-          );
-        });
-
-        test(
-            'Falls der Abgabezeitpunkt nach der aktuellen Zeit ist, sollte die View ein "vor Abgabezeitpunk"-State haben',
-            () {
+      test(
+        'Falls der Abgabezeitpunkt nach der aktuellen Zeit ist, sollte die View ein "vor Abgabezeitpunk"-State haben',
+        () {
           abgabezeitpunktStream.add(DateTime(2020, 02, 02));
           kriegeAktuelleZeit = () => DateTime(2020, 01, 01);
 
-          expect(bloc.deadlineState,
-              emitsInOrder([SubmissionDeadlineState.beforeDeadline]));
-        });
-        test(
-            'Falls der Abgabezeitpunkt vor der aktuellen Zeit ist, sollte die View ein "nach Abgabezeitpunk"-State haben',
-            () {
+          expect(
+            bloc.deadlineState,
+            emitsInOrder([SubmissionDeadlineState.beforeDeadline]),
+          );
+        },
+      );
+      test(
+        'Falls der Abgabezeitpunkt vor der aktuellen Zeit ist, sollte die View ein "nach Abgabezeitpunk"-State haben',
+        () {
           abgabezeitpunktStream.add(DateTime(2020, 01, 12));
           kriegeAktuelleZeit = () => DateTime(2020, 05, 10);
 
-          expect(bloc.deadlineState,
-              emitsInOrder([SubmissionDeadlineState.afterDeadline]));
-        });
-        test(
-            'Falls der Abgabezeitpunkt gleich der aktuellen Zeit ist, sollte eine leere PageView mit "gleich Abgabezeitpunkt"-State kommen',
-            () {
+          expect(
+            bloc.deadlineState,
+            emitsInOrder([SubmissionDeadlineState.afterDeadline]),
+          );
+        },
+      );
+      test(
+        'Falls der Abgabezeitpunkt gleich der aktuellen Zeit ist, sollte eine leere PageView mit "gleich Abgabezeitpunkt"-State kommen',
+        () {
           final dateTime = DateTime(2020, 04, 30);
           abgabezeitpunktStream.add(dateTime);
           kriegeAktuelleZeit = () => dateTime;
 
-          expect(bloc.deadlineState,
-              emitsInOrder([SubmissionDeadlineState.onDeadline]));
-        });
-        test(
-            'Wechselt Abgabezeitpunkt-State, wenn der Abgabezeitpunkt sich ändert',
-            () async {
+          expect(
+            bloc.deadlineState,
+            emitsInOrder([SubmissionDeadlineState.onDeadline]),
+          );
+        },
+      );
+      test(
+        'Wechselt Abgabezeitpunkt-State, wenn der Abgabezeitpunkt sich ändert',
+        () async {
           abgabezeitpunktStream.add(DateTime(2020, 04, 30, 12, 30));
           kriegeAktuelleZeit = () => DateTime(2020, 04, 30, 11, 30);
           abgabezeitpunktStream.add(DateTime(2020, 04, 30, 10, 30));
 
           expect(
-              bloc.deadlineState,
-              emitsInOrder([
-                SubmissionDeadlineState.beforeDeadline,
-                SubmissionDeadlineState.afterDeadline
-              ]));
-        });
-      });
-    },
-  );
+            bloc.deadlineState,
+            emitsInOrder([
+              SubmissionDeadlineState.beforeDeadline,
+              SubmissionDeadlineState.afterDeadline,
+            ]),
+          );
+        },
+      );
+    });
+  });
 }
 
 extension on HomeworkUserCreateSubmissionsBloc {
@@ -857,22 +968,26 @@ HochgeladeneAbgabedatei hochgeladeneAbgabedatei({
   );
 }
 
-ErstellerAbgabeModelSnapshot erstelleAbgabenModelSnapshot(
-    {required bool abgegeben,
-    required List<HochgeladeneAbgabedatei> abgabedateien}) {
+ErstellerAbgabeModelSnapshot erstelleAbgabenModelSnapshot({
+  required bool abgegeben,
+  required List<HochgeladeneAbgabedatei> abgabedateien,
+}) {
   return ErstellerAbgabeModel(
-          abgabeId: AbgabeId(
-              AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
-              const UserId('ValidUserId')),
-          abgegebenUm: abgegeben ? clock.now() : null,
-          abgabedateien: abgabedateien)
-      .toSnapshot();
+    abgabeId: AbgabeId(
+      AbgabezielId.homework(const HomeworkId('ValidHomeworkId')),
+      const UserId('ValidUserId'),
+    ),
+    abgegebenUm: abgegeben ? clock.now() : null,
+    abgabedateien: abgabedateien,
+  ).toSnapshot();
 }
 
 class MockAbgabedateiIdGenerator {
   final _namenIdsMap = <String, AbgabedateiId>{};
   void gebeAbgabedateiIdZurueckFuerDateiMitNamen(
-      AbgabedateiId id, String name) {
+    AbgabedateiId id,
+    String name,
+  ) {
     _namenIdsMap[name] = id;
   }
 
@@ -893,7 +1008,9 @@ class MockAbgabendateiUseCases
   final _mockFortschritt = <String, Stream<DateiUploadProzessFortschritt>>{};
 
   void abgabeprozessFortschrittFuerDateiMitName(
-      Stream<DateiUploadProzessFortschritt> fortschritt, String name) {
+    Stream<DateiUploadProzessFortschritt> fortschritt,
+    String name,
+  ) {
     _mockFortschritt[name] = fortschritt;
   }
 
@@ -905,7 +1022,8 @@ class MockAbgabendateiUseCases
 
   @override
   Stream<DateiUploadProzessFortschritt> ladeAbgabedateiHoch(
-      DateiHinzufuegenCommand befehl) {
+    DateiHinzufuegenCommand befehl,
+  ) {
     _ladeAbgabedateiHochAufrufe.add(befehl.dateiname);
     return _mockFortschritt[befehl.dateiname.mitExtension] ??
         const Stream.empty();
@@ -928,8 +1046,11 @@ class MockAbgabendateiUseCases
   }
 
   bool recordedError = false;
-  Future<void> recordError(dynamic exception, StackTrace stack,
-      {dynamic context}) async {
+  Future<void> recordError(
+    dynamic exception,
+    StackTrace stack, {
+    dynamic context,
+  }) async {
     recordedError = true;
     return;
   }

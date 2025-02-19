@@ -71,11 +71,15 @@ class CreateTermPageController extends ChangeNotifier {
       // https://stackoverflow.com/questions/74454570/has-firestore-removed-the-soft-limit-of-1-write-per-second-to-a-single-document
       await _waitForFirestoreLimit();
       termRef.changeGradeTypeWeight(
-          GradeType.writtenExam.id, const Weight.percent(50));
+        GradeType.writtenExam.id,
+        const Weight.percent(50),
+      );
 
       await _waitForFirestoreLimit();
       termRef.changeGradeTypeWeight(
-          GradeType.oralParticipation.id, const Weight.percent(50));
+        GradeType.oralParticipation.id,
+        const Weight.percent(50),
+      );
     } catch (e, s) {
       crashAnalytics.recordError('Could not save term: $e', s);
       throw CouldNotSaveTermException('$e');

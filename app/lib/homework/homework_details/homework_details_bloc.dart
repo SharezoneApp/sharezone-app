@@ -22,19 +22,21 @@ class HomeworkDetailsBloc extends BlocBase {
   static String courseID = '';
 
   HomeworkDetailsBloc(this.gateway, this.homeworkID, this.detailsViewFactory)
-      : homework = gateway.singleHomeworkStream(homeworkID).asyncMap(
-          (homework) async {
-            final view = await detailsViewFactory.fromHomeworkDb(homework);
+    : homework = gateway.singleHomeworkStream(homeworkID).asyncMap((
+        homework,
+      ) async {
+        final view = await detailsViewFactory.fromHomeworkDb(homework);
 
-            if (view.hasAttachments) {
-              return view.copyWith(
-                  attachmentStream: detailsViewFactory
-                      .fileSharingGateway.cloudFilesGateway
-                      .filesStreamAttachment(courseID, view.id));
-            }
-            return view;
-          },
-        );
+        if (view.hasAttachments) {
+          return view.copyWith(
+            attachmentStream: detailsViewFactory
+                .fileSharingGateway
+                .cloudFilesGateway
+                .filesStreamAttachment(courseID, view.id),
+          );
+        }
+        return view;
+      });
 
   void changeIsHomeworkDoneTo(bool newValue) =>
       gateway.changeIsHomeworkDoneTo(homeworkID, newValue);

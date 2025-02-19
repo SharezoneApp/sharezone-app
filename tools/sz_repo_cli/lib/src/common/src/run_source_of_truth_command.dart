@@ -30,10 +30,7 @@ Future<ProcessRunnerResult> runSourceOfTruthCommand(
   final arguments = _convertIntoArgumentsList(command)
     ..addAll(argumentsToAppend);
 
-  return processRunner.run(
-    arguments,
-    workingDirectory: repo.location,
-  );
+  return processRunner.run(arguments, workingDirectory: repo.location);
 }
 
 /// Converts command line arguments into a List<String>.

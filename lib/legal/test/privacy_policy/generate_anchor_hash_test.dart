@@ -75,14 +75,14 @@ void main() {
         'beendigung-des-nutzungsvertrags--kuendigung',
         'aenderungen-der-allgemeinen-nutzungsbedingungen',
         'datenschutz',
-        'schlussbestimmungen'
+        'schlussbestimmungen',
       ]);
     });
     test('replaces special chars', () {
       final sections = [
         r'1-?!=""§$pokémon~+',
         'Ist das eine Frage???',
-        'Wort-mit-Bindestrichen'
+        'Wort-mit-Bindestrichen',
       ];
 
       final anchorHashes = sections.map(generateAnchorHash).toList();
@@ -95,52 +95,50 @@ void main() {
     });
 
     test('replaces umlaute', () {
-      final umlaute = [
-        'ä',
-        'Ä',
-        'ö',
-        'Ö',
-        'ü',
-        'Ü',
-        'ß',
-      ];
+      final umlaute = ['ä', 'Ä', 'ö', 'Ö', 'ü', 'Ü', 'ß'];
 
       final anchorHashes = umlaute.map(generateAnchorHash).toList();
 
-      expect(anchorHashes, [
-        'ae',
-        'ae',
-        'oe',
-        'oe',
-        'ue',
-        'ue',
-        'ss',
-      ]);
+      expect(anchorHashes, ['ae', 'ae', 'oe', 'oe', 'ue', 'ue', 'ss']);
     });
 
     void expectCorrectAnchorHashes(PrivacyPolicy privacyPolicy) {
       expect(
-          privacyPolicy.tableOfContentSections.where((section) => section
-              .subsections
-              .where((subsubsection) => subsubsection.subsections.isNotEmpty)
-              .isNotEmpty),
-          isEmpty,
-          reason:
-              'Table of contents subscections must not have subscections. E.g. Section "foo" can have subsection "bar" but "bar" must not have subsections.');
+        privacyPolicy.tableOfContentSections.where(
+          (section) =>
+              section.subsections
+                  .where(
+                    (subsubsection) => subsubsection.subsections.isNotEmpty,
+                  )
+                  .isNotEmpty,
+        ),
+        isEmpty,
+        reason:
+            'Table of contents subscections must not have subscections. E.g. Section "foo" can have subsection "bar" but "bar" must not have subsections.',
+      );
 
-      final actualAnchorHashes = privacyPolicy.tableOfContentSections
-          .expand((section) => [
-                section.id.value,
-                ...section.subsections.map((subsection) => subsection.id.value)
-              ])
-          .toList();
-      final expectedAnchorHashes = privacyPolicy.tableOfContentSections
-          .expand((section) => [
-                generateAnchorHash(section.sectionName),
-                ...section.subsections.map(
-                    (subsection) => generateAnchorHash(subsection.sectionName))
-              ])
-          .toList();
+      final actualAnchorHashes =
+          privacyPolicy.tableOfContentSections
+              .expand(
+                (section) => [
+                  section.id.value,
+                  ...section.subsections.map(
+                    (subsection) => subsection.id.value,
+                  ),
+                ],
+              )
+              .toList();
+      final expectedAnchorHashes =
+          privacyPolicy.tableOfContentSections
+              .expand(
+                (section) => [
+                  generateAnchorHash(section.sectionName),
+                  ...section.subsections.map(
+                    (subsection) => generateAnchorHash(subsection.sectionName),
+                  ),
+                ],
+              )
+              .toList();
 
       expect(actualAnchorHashes, expectedAnchorHashes);
     }

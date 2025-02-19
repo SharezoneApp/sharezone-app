@@ -10,26 +10,37 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:sharezone/util/api.dart';
 
 Future<bool> istSchonGruppeMitSharecodeBeigetreten(
-    SharezoneGateway sharezoneGateway, Sharecode sharecode) async {
-  final kursBereitsBeigetreten =
-      await istBereitsKursMitSharecodeBeigetreten(sharezoneGateway, sharecode);
+  SharezoneGateway sharezoneGateway,
+  Sharecode sharecode,
+) async {
+  final kursBereitsBeigetreten = await istBereitsKursMitSharecodeBeigetreten(
+    sharezoneGateway,
+    sharecode,
+  );
   if (kursBereitsBeigetreten) return true;
   return await istBereitsSchulklasseMitSharecodeBeigetreten(
-      sharezoneGateway, sharecode);
+    sharezoneGateway,
+    sharecode,
+  );
 }
 
 Future<bool> istBereitsSchulklasseMitSharecodeBeigetreten(
-    SharezoneGateway sharezoneGateway, Sharecode sharecode) async {
+  SharezoneGateway sharezoneGateway,
+  Sharecode sharecode,
+) async {
   final schoolClasses =
       await sharezoneGateway.schoolClassGateway.stream().first;
-  final isAlreadyInClass = schoolClasses
-      .where((schoolClass) => schoolClass.sharecode == '$sharecode')
-      .isNotEmpty;
+  final isAlreadyInClass =
+      schoolClasses
+          .where((schoolClass) => schoolClass.sharecode == '$sharecode')
+          .isNotEmpty;
   return isAlreadyInClass;
 }
 
 Future<bool> istBereitsKursMitSharecodeBeigetreten(
-    SharezoneGateway sharezoneGateway, Sharecode publicKey) async {
+  SharezoneGateway sharezoneGateway,
+  Sharecode publicKey,
+) async {
   final courses = await sharezoneGateway.course.getCourses();
   final isAlreadyInCourse =
       courses.where((course) => course.sharecode == '$publicKey').isNotEmpty;

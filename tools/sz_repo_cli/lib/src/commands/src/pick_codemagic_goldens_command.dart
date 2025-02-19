@@ -44,19 +44,20 @@ class ReplaceGoldens extends CommandBase {
 
   @override
   Future<void> run() async {
-    final files = Glob('**/**testImage.png')
-        .listSync(root: repo.location.path)
-        .whereType<File>();
+    final files =
+        Glob(
+          '**/**testImage.png',
+        ).listSync(root: repo.location.path).whereType<File>();
 
     for (var file in files) {
       final fileName = path.basename(file.path);
       final newFileName = fileName.replaceAll('_testImage', '');
 
       // O(shit) - very inefficient.
-      final oldGolden = Glob("**/**$newFileName")
-          .listSync(root: repo.location.path)
-          .whereType<File>()
-          .single;
+      final oldGolden =
+          Glob(
+            "**/**$newFileName",
+          ).listSync(root: repo.location.path).whereType<File>().single;
 
       file.copySync(oldGolden.path);
     }

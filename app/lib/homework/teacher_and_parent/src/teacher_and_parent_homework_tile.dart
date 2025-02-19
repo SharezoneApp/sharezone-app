@@ -22,10 +22,7 @@ import 'package:user/user.dart';
 class TeacherAndParentHomeworkTile extends StatelessWidget {
   final TeacherAndParentHomeworkView homework;
 
-  const TeacherAndParentHomeworkTile({
-    super.key,
-    required this.homework,
-  });
+  const TeacherAndParentHomeworkTile({super.key, required this.homework});
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +35,30 @@ class TeacherAndParentHomeworkTile extends StatelessWidget {
       courseAbbreviation: homework.abbreviation,
       courseColor: Color(homework.subjectColor.value),
       todoDate: homework.todoDate,
-      todoDateColor: homework.colorDate
-          ? Colors.redAccent
-          : Theme.of(context).textTheme.bodyMedium!.color,
+      todoDateColor:
+          homework.colorDate
+              ? Colors.redAccent
+              : Theme.of(context).textTheme.bodyMedium!.color,
       onTap: () => _showHomeworkDetails(context),
-      trailing: isTeacher
-          ? homework.withSubmissions
-              ? _SubmissionsCounter(
-                  nrOfSubmitters: homework.nrOfStudentsCompletedOrSubmitted,
-                  hasPermissionsToSeeSubmissions:
-                      homework.canViewCompletionOrSubmissionList,
-                  homeworkId: homework.id)
-              : _DoneHomeworksCounter(
-                  nrOfDoneHomeworks: homework.nrOfStudentsCompletedOrSubmitted,
-                  hasPermissionsToSeeDoneHomeworks:
-                      homework.canViewCompletionOrSubmissionList,
-                  homeworkId: homework.id)
-          : const SizedBox.shrink(),
-      onLongPress: () =>
-          handleHomeworkTileLongPress(context, homeworkId: homework.id),
+      trailing:
+          isTeacher
+              ? homework.withSubmissions
+                  ? _SubmissionsCounter(
+                    nrOfSubmitters: homework.nrOfStudentsCompletedOrSubmitted,
+                    hasPermissionsToSeeSubmissions:
+                        homework.canViewCompletionOrSubmissionList,
+                    homeworkId: homework.id,
+                  )
+                  : _DoneHomeworksCounter(
+                    nrOfDoneHomeworks:
+                        homework.nrOfStudentsCompletedOrSubmitted,
+                    hasPermissionsToSeeDoneHomeworks:
+                        homework.canViewCompletionOrSubmissionList,
+                    homeworkId: homework.id,
+                  )
+              : const SizedBox.shrink(),
+      onLongPress:
+          () => handleHomeworkTileLongPress(context, homeworkId: homework.id),
       key: Key('${homework.id}'),
     );
   }
@@ -95,8 +97,9 @@ class _SubmissionsCounter extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (_) =>
-                  HomeworkUserSubmissionsPage(homeworkId: '$homeworkId')),
+            builder:
+                (_) => HomeworkUserSubmissionsPage(homeworkId: '$homeworkId'),
+          ),
         );
       },
     );
@@ -109,7 +112,8 @@ void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
     left: AdaptiveDialogAction.ok,
     title: 'Keine Berechtigung',
     content: const Text(
-        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.'),
+      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.',
+    ),
   );
 }
 
@@ -137,8 +141,8 @@ class _DoneHomeworksCounter extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) =>
-                HomeworkCompletionUserListPage(homeworkId: homeworkId),
+            builder:
+                (_) => HomeworkCompletionUserListPage(homeworkId: homeworkId),
           ),
         );
       },
@@ -152,7 +156,8 @@ void _showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
     left: AdaptiveDialogAction.ok,
     title: 'Keine Berechtigung',
     content: const Text(
-        'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.'),
+      'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.',
+    ),
   );
 }
 

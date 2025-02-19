@@ -84,8 +84,9 @@ void main() {
       // Ensure that the user document is loaded. Otherwise, the user might see
       // for short a moment the page to select the type of user which could fail
       // the test.
-      await tester
-          .pumpUntil(find.byKey(const Key('dashboard-appbar-title-E2E')));
+      await tester.pumpUntil(
+        find.byKey(const Key('dashboard-appbar-title-E2E')),
+      );
 
       expect(
         find.byKey(const Key('dashboard-appbar-title-E2E')),
@@ -166,10 +167,7 @@ void main() {
 
 /// The credentials for user used in the integration tests.
 class _UserCredentials {
-  const _UserCredentials({
-    required this.email,
-    required this.password,
-  });
+  const _UserCredentials({required this.email, required this.password});
 
   /// The email address of the user.
   final String email;

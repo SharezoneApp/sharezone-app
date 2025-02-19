@@ -23,10 +23,7 @@ class SubscriptionService {
   late StreamSubscription<AppUser?> _userSubscription;
   late AppUser? _user;
 
-  SubscriptionService({
-    required this.user,
-    required this.functions,
-  }) {
+  SubscriptionService({required this.user, required this.functions}) {
     sharezonePlusStatusStream = user.map((event) => event?.sharezonePlus);
     _userSubscription = user.listen((event) {
       _user = event;
@@ -68,17 +65,12 @@ class SubscriptionService {
 
   Future<bool> showLetParentsBuyButton() async {
     try {
-      return retry(
-        () async {
-          final response = await functions
-              .httpsCallable('showLetParentsBuyButton')
-              .call<bool>({
-            'platform': PlatformCheck.currentPlatform.name,
-          });
-          return response.data;
-        },
-        maxAttempts: 3,
-      );
+      return retry(() async {
+        final response = await functions
+            .httpsCallable('showLetParentsBuyButton')
+            .call<bool>({'platform': PlatformCheck.currentPlatform.name});
+        return response.data;
+      }, maxAttempts: 3);
     } catch (e) {
       return false;
     }
@@ -86,15 +78,13 @@ class SubscriptionService {
 
   Future<String?> getPlusWebsiteBuyToken() async {
     try {
-      return retry(
-        () async {
-          final response = await functions
-              .httpsCallable('createPlusWebsiteBuyToken')
-              .call<Map<String, dynamic>>();
-          return response.data['token'];
-        },
-        maxAttempts: 3,
-      );
+      return retry(() async {
+        final response =
+            await functions
+                .httpsCallable('createPlusWebsiteBuyToken')
+                .call<Map<String, dynamic>>();
+        return response.data['token'];
+      }, maxAttempts: 3);
     } catch (e) {
       return null;
     }
@@ -122,8 +112,11 @@ enum SharezonePlusFeature {
   addTeachersToTimetable,
 }
 
-void trySetSharezonePlusAnalyticsUserProperties(Analytics analytics,
-    CrashAnalytics crashAnalytics, SubscriptionService subscriptionService) {
+void trySetSharezonePlusAnalyticsUserProperties(
+  Analytics analytics,
+  CrashAnalytics crashAnalytics,
+  SubscriptionService subscriptionService,
+) {
   try {
     subscriptionService.sharezonePlusStatusStream.listen((final status) {
       if (status != null) {
@@ -147,8 +140,9 @@ void trySetSharezonePlusAnalyticsUserProperties(Analytics analytics,
       }
     });
   } catch (e) {
-    crashAnalytics
-        .log('Error setting user properties regarding Sharezone Plus: $e');
+    crashAnalytics.log(
+      'Error setting user properties regarding Sharezone Plus: $e',
+    );
     crashAnalytics.recordError(e, StackTrace.current);
   }
 }

@@ -22,54 +22,63 @@ class TimetableBuilder {
   final List<CalendricalEvent> events;
   final Map<String, GroupInfo> groupInfo;
 
-  const TimetableBuilder(
-    this.lessons,
-    this.dates,
-    this.events,
-    this.groupInfo,
-  );
+  const TimetableBuilder(this.lessons, this.dates, this.events, this.groupInfo);
 
   List<TimetableElement> buildElements() {
     List<TimetableElement> entries = [];
     for (Date date in dates) {
       final filteredLessons = _getFilteredLessonsForDate(date);
       final filteredEvents = _getFilteredEventsForDate(date);
-      final propertiesMap = calculatePropertiesForElements(Map.fromEntries([
-        for (final lesson in filteredLessons)
-          MapEntry(
-            lesson.lessonID!,
-            TimetableElementTimeProperties(
+      final propertiesMap = calculatePropertiesForElements(
+        Map.fromEntries([
+          for (final lesson in filteredLessons)
+            MapEntry(
               lesson.lessonID!,
-              date,
-              lesson.startTime,
-              lesson.endTime,
+              TimetableElementTimeProperties(
+                lesson.lessonID!,
+                date,
+                lesson.startTime,
+                lesson.endTime,
+              ),
             ),
-          ),
-        for (final event in filteredEvents)
-          MapEntry(
-            event.eventID,
-            TimetableElementTimeProperties(
-                event.eventID, date, event.startTime, event.endTime),
-          ),
-      ]));
+          for (final event in filteredEvents)
+            MapEntry(
+              event.eventID,
+              TimetableElementTimeProperties(
+                event.eventID,
+                date,
+                event.startTime,
+                event.endTime,
+              ),
+            ),
+        ]),
+      );
 
-      entries.addAll(filteredLessons.map((lesson) {
-        return _buildElementForLesson(
-          date,
-          lesson,
-          propertiesMap[lesson.lessonID]!,
-        );
-      }));
-      entries.addAll(filteredEvents.map((event) => _buildElementForEvent(
+      entries.addAll(
+        filteredLessons.map((lesson) {
+          return _buildElementForLesson(
+            date,
+            lesson,
+            propertiesMap[lesson.lessonID]!,
+          );
+        }),
+      );
+      entries.addAll(
+        filteredEvents.map(
+          (event) => _buildElementForEvent(
             event,
             propertiesMap[event.eventID] ?? TimetableElementProperties.standard,
-          )));
+          ),
+        ),
+      );
     }
     return entries;
   }
 
   TimetableElement _buildElementForEvent(
-      CalendricalEvent event, TimetableElementProperties properties) {
+    CalendricalEvent event,
+    TimetableElementProperties properties,
+  ) {
     return TimetableElement(
       date: event.date,
       start: event.startTime,
@@ -82,7 +91,10 @@ class TimetableBuilder {
   }
 
   TimetableElement _buildElementForLesson(
-      Date date, Lesson lesson, TimetableElementProperties properties) {
+    Date date,
+    Lesson lesson,
+    TimetableElementProperties properties,
+  ) {
     return TimetableElement(
       date: date,
       start: lesson.startTime,
@@ -112,7 +124,8 @@ class TimetableBuilder {
   }
 
   Map<String, TimetableElementProperties> calculatePropertiesForElements(
-      Map<String, TimetableElementTimeProperties> elementTimeProperties) {
+    Map<String, TimetableElementTimeProperties> elementTimeProperties,
+  ) {
     final positionLogic = TimetablePositionLogic(elementTimeProperties);
     return positionLogic.elementProperties;
   }

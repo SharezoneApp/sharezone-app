@@ -17,10 +17,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class GroupQrCode extends StatelessWidget {
   final GroupInfo groupInfo;
 
-  const GroupQrCode({
-    super.key,
-    required this.groupInfo,
-  });
+  const GroupQrCode({super.key, required this.groupInfo});
   @override
   Widget build(BuildContext context) {
     return QrImageView(
@@ -32,11 +29,7 @@ class GroupQrCode extends StatelessWidget {
 }
 
 class QRCodeButton extends StatelessWidget {
-  const QRCodeButton(
-    this.groupInfo, {
-    super.key,
-    required this.closeDialog,
-  });
+  const QRCodeButton(this.groupInfo, {super.key, required this.closeDialog});
 
   final bool closeDialog;
   final GroupInfo groupInfo;
@@ -46,7 +39,8 @@ class QRCodeButton extends StatelessWidget {
     if (closeDialog) {
       Navigator.pop(context); // Closing dialog
       await Future.delayed(
-          const Duration(milliseconds: 100)); // Waiting for closing
+        const Duration(milliseconds: 100),
+      ); // Waiting for closing
     }
     if (!context.mounted) return;
 
@@ -109,14 +103,13 @@ class _QRCodeBottomSheet extends StatelessWidget {
           SizedBox(
             height: 200,
             width: 200,
-            child: GroupQrCode(
-              groupInfo: groupInfo,
-            ),
+            child: GroupQrCode(groupInfo: groupInfo),
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12)
-                .add(const EdgeInsets.only(bottom: 20)),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+            ).add(const EdgeInsets.only(bottom: 20)),
             child: const Text(
               "Was muss ich machen?\n"
               "Nun muss dein Mitschüler oder dein Lehrer den QR-Code abscannen, indem er auf der \"Meine Kurse\" Seite auf \"Kurs beitreten\" klickt.",

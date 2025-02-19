@@ -46,10 +46,7 @@ class TransparentButton extends StatelessWidget {
       hoverColor: Colors.transparent,
       onTap: onTap,
       child: DefaultTextStyle(
-        style: TextStyle(
-          fontSize: fontSize,
-          color: color ?? Colors.black,
-        ),
+        style: TextStyle(fontSize: fontSize, color: color ?? Colors.black),
         child: child!,
       ),
     );

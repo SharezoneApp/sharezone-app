@@ -18,9 +18,7 @@ class ICalLinksAnalytics {
     analytics.log(
       ICalLinksEvent(
         'create',
-        data: {
-          'sources': sources.map((e) => e.name).toList(),
-        },
+        data: {'sources': sources.map((e) => e.name).toList()},
       ),
     );
   }
@@ -29,9 +27,7 @@ class ICalLinksAnalytics {
     analytics.log(
       ICalLinksEvent(
         'update_sources',
-        data: {
-          'sources': sources.map((e) => e.name).toList(),
-        },
+        data: {'sources': sources.map((e) => e.name).toList()},
       ),
     );
   }
@@ -47,5 +43,5 @@ class ICalLinksAnalytics {
 
 class ICalLinksEvent extends AnalyticsEvent {
   const ICalLinksEvent(String name, {Map<String, dynamic>? data})
-      : super('ical_links_$name', data: data);
+    : super('ical_links_$name', data: data);
 }

@@ -24,12 +24,16 @@ void main() {
       expect(dateAsDateTime, DateTime(2019, 1, 1, 0, 0, 0, 0, 0));
     });
     test('.addDays adds day regarding the month length', () {
-      expect(const Date(year: 2019, month: 11, day: 30).addDays(1),
-          const Date(year: 2019, month: 12, day: 1)); // has 30 days
+      expect(
+        const Date(year: 2019, month: 11, day: 30).addDays(1),
+        const Date(year: 2019, month: 12, day: 1),
+      ); // has 30 days
     });
     test('.addDays subtracts if given a negative number', () {
-      expect(const Date(year: 2019, month: 11, day: 30).addDays(-1),
-          const Date(year: 2019, month: 11, day: 29));
+      expect(
+        const Date(year: 2019, month: 11, day: 30).addDays(-1),
+        const Date(year: 2019, month: 11, day: 29),
+      );
     });
     test('.addDays returns the same date if given 0', () {
       var date = const Date(year: 2019, month: 11, day: 30);

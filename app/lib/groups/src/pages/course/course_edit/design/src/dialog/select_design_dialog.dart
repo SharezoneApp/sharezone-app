@@ -28,16 +28,14 @@ Future<SelectDesignPopResult?> selectDesign(
 }) async {
   return await showDialog<SelectDesignPopResult>(
     context: context,
-    builder: (context) =>
-        _SelectDesignAlert(currentDesign: currentDesign, type: type),
+    builder:
+        (context) =>
+            _SelectDesignAlert(currentDesign: currentDesign, type: type),
   );
 }
 
 class _SelectDesignAlert extends StatelessWidget {
-  const _SelectDesignAlert({
-    this.currentDesign,
-    required this.type,
-  });
+  const _SelectDesignAlert({this.currentDesign, required this.type});
 
   final Design? currentDesign;
   final EditDesignType type;
@@ -46,12 +44,16 @@ class _SelectDesignAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasUserPersonalColor =
         type == EditDesignType.personal && currentDesign != null;
-    final isUnlocked = context
-        .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.moreGroupColors);
+    final isUnlocked = context.read<SubscriptionService>().hasFeatureUnlocked(
+      SharezonePlusFeature.moreGroupColors,
+    );
     return AlertDialog(
-      contentPadding:
-          EdgeInsets.fromLTRB(24, 24, 24, hasUserPersonalColor ? 12 : 24),
+      contentPadding: EdgeInsets.fromLTRB(
+        24,
+        24,
+        24,
+        hasUserPersonalColor ? 12 : 24,
+      ),
       content: SingleChildScrollView(
         child: MaxWidthConstraintBox(
           maxWidth: 400,
@@ -83,7 +85,8 @@ class _SharezonePlusAd extends StatelessWidget {
       withLearnMoreButton: true,
       onLearnMorePressed: () => navigateToSharezonePlusPage(context),
       child: const Text(
-          'Nicht genug Farben? Schalte mit Sharezone Plus +200 zusätzliche Farben frei.'),
+        'Nicht genug Farben? Schalte mit Sharezone Plus +200 zusätzliche Farben frei.',
+      ),
     );
   }
 }
@@ -92,20 +95,19 @@ class _RemovePersonalColor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => Navigator.pop(
-          context, const SelectDesignPopResult(removePersonalColor: true)),
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.grey[700],
-      ),
+      onPressed:
+          () => Navigator.pop(
+            context,
+            const SelectDesignPopResult(removePersonalColor: true),
+          ),
+      style: TextButton.styleFrom(foregroundColor: Colors.grey[700]),
       child: const Text("Persönliche Farbe entfernen"),
     );
   }
 }
 
 class _FreeColors extends StatelessWidget {
-  const _FreeColors({
-    this.selectedDesign,
-  });
+  const _FreeColors({this.selectedDesign});
 
   final Design? selectedDesign;
 
@@ -126,10 +128,11 @@ class _FreeColors extends StatelessWidget {
               (design) => _ColorCircleSelectDesign(
                 design: design,
                 isSelected: _isDesignSelected(design),
-                onTap: () => Navigator.pop(
-                  context,
-                  SelectDesignPopResult(design: design),
-                ),
+                onTap:
+                    () => Navigator.pop(
+                      context,
+                      SelectDesignPopResult(design: design),
+                    ),
               ),
             ),
           ],
@@ -142,9 +145,7 @@ class _FreeColors extends StatelessWidget {
 /// This widget is used to select a base color and then select from the base
 /// color the accurate color.
 class _PlusColors extends StatefulWidget {
-  const _PlusColors({
-    this.selectedDesign,
-  });
+  const _PlusColors({this.selectedDesign});
 
   final Design? selectedDesign;
 
@@ -173,7 +174,7 @@ class _PlusColorsState extends State<_PlusColors> {
             child: Stack(
               children: [
                 _PlusBaseColors(),
-                _PlusAccurateColors(baseColor: Colors.amber)
+                _PlusAccurateColors(baseColor: Colors.amber),
               ],
             ),
           ),
@@ -196,17 +197,19 @@ class _PlusColorsState extends State<_PlusColors> {
           duration: const Duration(milliseconds: 250),
           // The user can first select a base color and then select from the
           // base color the accurate color.
-          child: baseColor == null
-              ? _PlusBaseColors(
-                  key: const Key('plus-accurate-colors'),
-                  onBaseColorChanged: (color) =>
-                      setState(() => baseColor = color))
-              : _PlusAccurateColors(
-                  key: const Key('plus-accurate-colors'),
-                  baseColor: baseColor!,
-                  onBackButtonPressed: () => setState(() => baseColor = null),
-                  selectedDesign: widget.selectedDesign,
-                ),
+          child:
+              baseColor == null
+                  ? _PlusBaseColors(
+                    key: const Key('plus-accurate-colors'),
+                    onBaseColorChanged:
+                        (color) => setState(() => baseColor = color),
+                  )
+                  : _PlusAccurateColors(
+                    key: const Key('plus-accurate-colors'),
+                    baseColor: baseColor!,
+                    onBackButtonPressed: () => setState(() => baseColor = null),
+                    selectedDesign: widget.selectedDesign,
+                  ),
         ),
       ],
     );
@@ -214,10 +217,7 @@ class _PlusColorsState extends State<_PlusColors> {
 }
 
 class _PlusBaseColors extends StatelessWidget {
-  const _PlusBaseColors({
-    super.key,
-    this.onBaseColorChanged,
-  });
+  const _PlusBaseColors({super.key, this.onBaseColorChanged});
 
   final ValueChanged<MaterialColor>? onBaseColorChanged;
 
@@ -269,15 +269,13 @@ class _PlusBaseColors extends StatelessWidget {
             spacing: 10,
             runSpacing: 10,
             children: [
-              ..._baseColors.map(
-                (color) {
-                  final design = Design.fromColor(color);
-                  return _ColorCircleSelectDesign(
-                    design: design,
-                    onTap: () => onBaseColorChanged!(color),
-                  );
-                },
-              ),
+              ..._baseColors.map((color) {
+                final design = Design.fromColor(color);
+                return _ColorCircleSelectDesign(
+                  design: design,
+                  onTap: () => onBaseColorChanged!(color),
+                );
+              }),
             ],
           ),
         ),
@@ -317,10 +315,7 @@ class _PlusAccurateColors extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        BackButton(
-          color: Colors.grey,
-          onPressed: onBackButtonPressed,
-        ),
+        BackButton(color: Colors.grey, onPressed: onBackButtonPressed),
         const SizedBox(height: 16),
         Wrap(
           spacing: 10,
@@ -330,10 +325,11 @@ class _PlusAccurateColors extends StatelessWidget {
               (design) => _ColorCircleSelectDesign(
                 design: design,
                 isSelected: _isDesignSelected(design),
-                onTap: () => Navigator.pop(
-                  context,
-                  SelectDesignPopResult(design: design),
-                ),
+                onTap:
+                    () => Navigator.pop(
+                      context,
+                      SelectDesignPopResult(design: design),
+                    ),
               ),
             ),
           ],
@@ -365,14 +361,11 @@ class _ColorCircleSelectDesign extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(size)),
       child: InkWell(
         key: Key(
-            'color-circle-${design.color.r}-${design.color.g}-${design.color.b}'),
+          'color-circle-${design.color.r}-${design.color.g}-${design.color.b}',
+        ),
         borderRadius: BorderRadius.circular(size),
         onTap: onTap,
-        child: SizedBox(
-          width: size,
-          height: size,
-          child: child,
-        ),
+        child: SizedBox(width: size, height: size, child: child),
       ),
     );
   }
@@ -383,10 +376,11 @@ class _BackToSelectTypeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BackButton(
       color: Colors.grey,
-      onPressed: () => Navigator.pop(
-        context,
-        const SelectDesignPopResult(navigateBackToSelectType: true),
-      ),
+      onPressed:
+          () => Navigator.pop(
+            context,
+            const SelectDesignPopResult(navigateBackToSelectType: true),
+          ),
     );
   }
 }

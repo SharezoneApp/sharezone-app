@@ -34,23 +34,24 @@ IList<StudentHomeworkReadModel> listOfHomeworksWithLength(int length) =>
     List.generate(
       length,
       (index) => StudentHomeworkReadModel(
-          id: HomeworkId("$index"),
-          todoDate: clock.now(),
-          courseId: const CourseId("testCourseId"),
-          status: CompletionStatus.completed,
-          subject: Subject("Mathe", abbreviation: 'Ma'),
-          title: const Title("ABC"),
-          withSubmissions: false),
+        id: HomeworkId("$index"),
+        todoDate: clock.now(),
+        courseId: const CourseId("testCourseId"),
+        status: CompletionStatus.completed,
+        subject: Subject("Mathe", abbreviation: 'Ma'),
+        title: const Title("ABC"),
+        withSubmissions: false,
+      ),
     ).toIList();
 
 Stream<IList<StudentHomeworkReadModel>> getHomeworkResultsAsStream(
-        Stream<LazyLoadingResult<StudentHomeworkReadModel>> resultStream) =>
-    resultStream.map((res) => res.homeworks);
+  Stream<LazyLoadingResult<StudentHomeworkReadModel>> resultStream,
+) => resultStream.map((res) => res.homeworks);
 
 void main() {
   group('LazyLoadingController', () {
     late ReportingInMemoryHomeworkLoader<StudentHomeworkReadModel>
-        homeworkLoader;
+    homeworkLoader;
     late rx.BehaviorSubject<IList<StudentHomeworkReadModel>> homeworkSubject;
 
     void addToDataSource(IList<StudentHomeworkReadModel> homeworks) {
@@ -67,7 +68,8 @@ void main() {
       homeworkSubject = rx.BehaviorSubject<IList<StudentHomeworkReadModel>>();
       homeworkLoader =
           ReportingInMemoryHomeworkLoader<StudentHomeworkReadModel>(
-              homeworkSubject);
+            homeworkSubject,
+          );
     });
 
     tearDown(() {
@@ -75,92 +77,118 @@ void main() {
     });
 
     test(
-        'the controller does not call the data source if the nr of initial homeworks to load is 0',
-        () {
-      RealtimeUpdatingLazyLoadingController(homeworkLoader,
-          initialNumberOfHomeworksToLoad: 0);
-      expect(homeworkLoader.wasInvoked, false);
-    });
+      'the controller does not call the data source if the nr of initial homeworks to load is 0',
+      () {
+        RealtimeUpdatingLazyLoadingController(
+          homeworkLoader,
+          initialNumberOfHomeworksToLoad: 0,
+        );
+        expect(homeworkLoader.wasInvoked, false);
+      },
+    );
 
     test(
-        'the controller calls the data source if initialNumberOfHomeworksToLoad is bigger than 0',
-        () {
-      RealtimeUpdatingLazyLoadingController(homeworkLoader,
-          initialNumberOfHomeworksToLoad: 3);
-      expect(homeworkLoader.wasInvoked, true);
-    });
+      'the controller calls the data source if initialNumberOfHomeworksToLoad is bigger than 0',
+      () {
+        RealtimeUpdatingLazyLoadingController(
+          homeworkLoader,
+          initialNumberOfHomeworksToLoad: 3,
+        );
+        expect(homeworkLoader.wasInvoked, true);
+      },
+    );
 
     test(
-        'throws an ArgumentError if the initial number of homeworks to load is less than 0',
-        () {
-      void create() => RealtimeUpdatingLazyLoadingController(homeworkLoader,
-          initialNumberOfHomeworksToLoad: -2);
-      expect(create, throwsArgumentError);
-    });
+      'throws an ArgumentError if the initial number of homeworks to load is less than 0',
+      () {
+        void create() => RealtimeUpdatingLazyLoadingController(
+          homeworkLoader,
+          initialNumberOfHomeworksToLoad: -2,
+        );
+        expect(create, throwsArgumentError);
+      },
+    );
     test(
-        'loads the first 2 homeworks from the data source if initialNumberOfHomeworksToLoad is 2',
-        () async {
-      var homeworks = listOfHomeworksWithLength(3);
-      addToDataSource(homeworks);
+      'loads the first 2 homeworks from the data source if initialNumberOfHomeworksToLoad is 2',
+      () async {
+        var homeworks = listOfHomeworksWithLength(3);
+        addToDataSource(homeworks);
 
-      final controller = RealtimeUpdatingLazyLoadingController(homeworkLoader,
-          initialNumberOfHomeworksToLoad: 2);
+        final controller = RealtimeUpdatingLazyLoadingController(
+          homeworkLoader,
+          initialNumberOfHomeworksToLoad: 2,
+        );
 
-      final homeworkStream = getHomeworkResultsAsStream(controller.results);
-      expect(homeworkStream, emits(homeworks.sublist(0, 2)));
-    });
-
-    test(
-        'gives back 4 homeworks if initial number of homeworks to load is 2 and the homeworks get advanced by 2',
-        () async {
-      final homeworks = listOfHomeworksWithLength(7);
-      addToDataSource(homeworks);
-
-      final controller = RealtimeUpdatingLazyLoadingController(homeworkLoader,
-          initialNumberOfHomeworksToLoad: 2);
-      controller.advanceBy(2);
-
-      final homeworkStream = getHomeworkResultsAsStream(controller.results);
-      expect(homeworkStream, emitsThrough(homeworks.sublist(0, 4)));
-    });
+        final homeworkStream = getHomeworkResultsAsStream(controller.results);
+        expect(homeworkStream, emits(homeworks.sublist(0, 2)));
+      },
+    );
 
     test(
-        'returns empty homework list if initial homeworks to load is 0 and indicates that more homeworks are available',
-        () {
-      final controller = RealtimeUpdatingLazyLoadingController(homeworkLoader,
-          initialNumberOfHomeworksToLoad: 0);
+      'gives back 4 homeworks if initial number of homeworks to load is 2 and the homeworks get advanced by 2',
+      () async {
+        final homeworks = listOfHomeworksWithLength(7);
+        addToDataSource(homeworks);
 
-      expect(controller.results, emits(LazyLoadingResult.empty()));
-    });
+        final controller = RealtimeUpdatingLazyLoadingController(
+          homeworkLoader,
+          initialNumberOfHomeworksToLoad: 2,
+        );
+        controller.advanceBy(2);
 
-    test('indicates that more homeworks are available when this is the case',
-        () {
-      addToDataSource(listOfHomeworksWithLength(5));
-      final controller = RealtimeUpdatingLazyLoadingController(homeworkLoader,
-          initialNumberOfHomeworksToLoad: 2);
-
-      final moreAvailableStream =
-          controller.results.map((res) => res.moreHomeworkAvailable);
-      expect(moreAvailableStream, emits(true));
-    });
+        final homeworkStream = getHomeworkResultsAsStream(controller.results);
+        expect(homeworkStream, emitsThrough(homeworks.sublist(0, 4)));
+      },
+    );
 
     test(
-        'indicates that no more homeworks are available when all are requested',
-        () async {
-      addToDataSource(listOfHomeworksWithLength(10));
-      final controller = RealtimeUpdatingLazyLoadingController(homeworkLoader,
-          initialNumberOfHomeworksToLoad: 5);
-      var results = controller.results.asBroadcastStream();
+      'returns empty homework list if initial homeworks to load is 0 and indicates that more homeworks are available',
+      () {
+        final controller = RealtimeUpdatingLazyLoadingController(
+          homeworkLoader,
+          initialNumberOfHomeworksToLoad: 0,
+        );
 
-      // Delay so that the first request (initial number of homeworks) gets
-      // executed before the stream subscription in the lazy loading controller
-      // for the first request gets cancelled because of the advanceBy call.
-      final first = await results.first;
-      controller.advanceBy(12);
-      final second = await results.first;
+        expect(controller.results, emits(LazyLoadingResult.empty()));
+      },
+    );
 
-      expect(first.moreHomeworkAvailable, true);
-      expect(second.moreHomeworkAvailable, false);
-    });
+    test(
+      'indicates that more homeworks are available when this is the case',
+      () {
+        addToDataSource(listOfHomeworksWithLength(5));
+        final controller = RealtimeUpdatingLazyLoadingController(
+          homeworkLoader,
+          initialNumberOfHomeworksToLoad: 2,
+        );
+
+        final moreAvailableStream = controller.results.map(
+          (res) => res.moreHomeworkAvailable,
+        );
+        expect(moreAvailableStream, emits(true));
+      },
+    );
+
+    test(
+      'indicates that no more homeworks are available when all are requested',
+      () async {
+        addToDataSource(listOfHomeworksWithLength(10));
+        final controller = RealtimeUpdatingLazyLoadingController(
+          homeworkLoader,
+          initialNumberOfHomeworksToLoad: 5,
+        );
+        var results = controller.results.asBroadcastStream();
+
+        // Delay so that the first request (initial number of homeworks) gets
+        // executed before the stream subscription in the lazy loading controller
+        // for the first request gets cancelled because of the advanceBy call.
+        final first = await results.first;
+        controller.advanceBy(12);
+        final second = await results.first;
+
+        expect(first.moreHomeworkAvailable, true);
+        expect(second.moreHomeworkAvailable, false);
+      },
+    );
   });
 }

@@ -32,78 +32,89 @@ void main() {
         analytics: analytics,
         defaultTextScalingFactor: 1.2,
         defaultThemeBrightness: ThemeBrightness.dark,
-        defaultVisualDensity:
-            VisualDensitySetting.manual(VisualDensity.comfortable),
+        defaultVisualDensity: VisualDensitySetting.manual(
+          VisualDensity.comfortable,
+        ),
         keyValueStore: keyValueStore,
       );
 
       expect(themeSettings.textScalingFactor, 1.2);
       expect(themeSettings.themeBrightness, ThemeBrightness.dark);
-      expect(themeSettings.visualDensitySetting,
-          VisualDensitySetting.manual(VisualDensity.comfortable));
+      expect(
+        themeSettings.visualDensitySetting,
+        VisualDensitySetting.manual(VisualDensity.comfortable),
+      );
     });
 
     test(
-        'Uses cached values instead of default values if they are already cached',
-        () {
-      ThemeSettings themeSettings = ThemeSettings(
-        analytics: analytics,
-        defaultTextScalingFactor: 1.2,
-        defaultThemeBrightness: ThemeBrightness.dark,
-        defaultVisualDensity:
-            VisualDensitySetting.manual(VisualDensity.comfortable),
-        keyValueStore: keyValueStore,
-      );
+      'Uses cached values instead of default values if they are already cached',
+      () {
+        ThemeSettings themeSettings = ThemeSettings(
+          analytics: analytics,
+          defaultTextScalingFactor: 1.2,
+          defaultThemeBrightness: ThemeBrightness.dark,
+          defaultVisualDensity: VisualDensitySetting.manual(
+            VisualDensity.comfortable,
+          ),
+          keyValueStore: keyValueStore,
+        );
 
-      // Will write to cache internally
-      themeSettings.textScalingFactor = 1.5;
-      themeSettings.themeBrightness = ThemeBrightness.light;
-      themeSettings.visualDensitySetting =
-          VisualDensitySetting.manual(VisualDensity.compact);
+        // Will write to cache internally
+        themeSettings.textScalingFactor = 1.5;
+        themeSettings.themeBrightness = ThemeBrightness.light;
+        themeSettings.visualDensitySetting = VisualDensitySetting.manual(
+          VisualDensity.compact,
+        );
 
-      themeSettings = ThemeSettings(
-        analytics: analytics,
-        defaultTextScalingFactor: 1.2,
-        defaultThemeBrightness: ThemeBrightness.dark,
-        defaultVisualDensity:
-            VisualDensitySetting.manual(VisualDensity.comfortable),
-        keyValueStore: keyValueStore,
-      );
+        themeSettings = ThemeSettings(
+          analytics: analytics,
+          defaultTextScalingFactor: 1.2,
+          defaultThemeBrightness: ThemeBrightness.dark,
+          defaultVisualDensity: VisualDensitySetting.manual(
+            VisualDensity.comfortable,
+          ),
+          keyValueStore: keyValueStore,
+        );
 
-      expect(themeSettings.textScalingFactor, 1.5);
-      expect(themeSettings.themeBrightness, ThemeBrightness.light);
-      expect(themeSettings.visualDensitySetting,
-          VisualDensitySetting.manual(VisualDensity.compact));
-    });
+        expect(themeSettings.textScalingFactor, 1.5);
+        expect(themeSettings.themeBrightness, ThemeBrightness.light);
+        expect(
+          themeSettings.visualDensitySetting,
+          VisualDensitySetting.manual(VisualDensity.compact),
+        );
+      },
+    );
 
     test('Tracks value changes via analytics', () {
       final themeSettings = ThemeSettings(
         analytics: analytics,
         defaultTextScalingFactor: 1.2,
         defaultThemeBrightness: ThemeBrightness.dark,
-        defaultVisualDensity:
-            VisualDensitySetting.manual(VisualDensity.comfortable),
+        defaultVisualDensity: VisualDensitySetting.manual(
+          VisualDensity.comfortable,
+        ),
         keyValueStore: keyValueStore,
       );
 
       themeSettings.textScalingFactor = 2.0;
       expect(localAnalyticsBackend.loggedEvents[0], {
-        'ui_text_scaling_factor_changed': {'text_scaling_factor': 2.0}
+        'ui_text_scaling_factor_changed': {'text_scaling_factor': 2.0},
       });
 
       themeSettings.themeBrightness = ThemeBrightness.system;
       expect(localAnalyticsBackend.loggedEvents[1], {
-        'ui_brightness_changed': {'brightness': 'system'}
+        'ui_brightness_changed': {'brightness': 'system'},
       });
 
       themeSettings.visualDensitySetting = VisualDensitySetting.manual(
-          const VisualDensity(horizontal: 1.0, vertical: 1.5));
+        const VisualDensity(horizontal: 1.0, vertical: 1.5),
+      );
       expect(localAnalyticsBackend.loggedEvents[2], {
         'ui_visual_density_changed': {
           'isAdaptivePlatformDensity': 'false',
           'horizontal': 1.0,
-          'vertical': 1.5
-        }
+          'vertical': 1.5,
+        },
       });
     });
   });

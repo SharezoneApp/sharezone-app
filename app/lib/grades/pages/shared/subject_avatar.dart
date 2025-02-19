@@ -23,10 +23,7 @@ class SubjectAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundColor: design.color.withValues(alpha: 0.2),
-      child: Text(
-        abbreviation,
-        style: TextStyle(color: design.color),
-      ),
+      child: Text(abbreviation, style: TextStyle(color: design.color)),
     );
   }
 }

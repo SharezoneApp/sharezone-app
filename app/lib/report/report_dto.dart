@@ -42,8 +42,10 @@ class ReportDto {
       'path': path,
       'reason': reason.name,
       'description': description,
-    }..removeWhere((string, object) =>
-        object == null || (object is String && object.isEmpty));
+    }..removeWhere(
+      (string, object) =>
+          object == null || (object is String && object.isEmpty),
+    );
   }
 
   ReportDto copyWith({

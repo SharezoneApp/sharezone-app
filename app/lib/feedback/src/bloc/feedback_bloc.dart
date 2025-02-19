@@ -31,8 +31,13 @@ class FeedbackBloc extends BlocBase {
   final _missingSubject = BehaviorSubject<String?>();
   final _heardFromSubject = BehaviorSubject<String?>();
 
-  FeedbackBloc(this._api, this._cache, this._platformInformationRetriever,
-      this.uid, this.feedbackAnalytics);
+  FeedbackBloc(
+    this._api,
+    this._cache,
+    this._platformInformationRetriever,
+    this.uid,
+    this.feedbackAnalytics,
+  );
 
   Function(double?) get changeRating => _ratingSubject.sink.add;
   Function(String?) get changeLike => _likeSubject.sink.add;
@@ -59,11 +64,14 @@ class FeedbackBloc extends BlocBase {
   /// [changeHeardFrom] - this is done by checking
   /// [UserFeedback.requiredUserInputIsEmpty].
   Future<void> submit() async {
-    final isOnCoolDown =
-        await _cache.hasFeedbackSubmissionCoolDown(feedbackCoolDown);
+    final isOnCoolDown = await _cache.hasFeedbackSubmissionCoolDown(
+      feedbackCoolDown,
+    );
     if (isOnCoolDown) {
       throw CoolDownException(
-          "User has not yet exceeded the cool down.", feedbackCoolDown);
+        "User has not yet exceeded the cool down.",
+        feedbackCoolDown,
+      );
     }
 
     final rating = _ratingSubject.valueOrNull;

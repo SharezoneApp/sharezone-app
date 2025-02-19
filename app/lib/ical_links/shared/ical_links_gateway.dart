@@ -22,9 +22,9 @@ class ICalLinksGateway {
   ICalLinksGateway({
     required FirebaseFirestore firestore,
     required FirebaseFunctions functions,
-  })  : _firestore = firestore,
-        _functions = functions,
-        _iCalLinks = firestore.collection('iCalLinks');
+  }) : _firestore = firestore,
+       _functions = functions,
+       _iCalLinks = firestore.collection('iCalLinks');
 
   ICalLinkId generateId() => ICalLinkId(_iCalLinks.doc().id);
 
@@ -34,26 +34,20 @@ class ICalLinksGateway {
 
   Future<void> updateICalLink(ICalLinkDto dto) async {
     await _firestore.runTransaction((transaction) async {
-      transaction.update(
-        _iCalLinks.doc('${dto.id}'),
-        dto.toUpdateJson(),
-      );
+      transaction.update(_iCalLinks.doc('${dto.id}'), dto.toUpdateJson());
     });
   }
 
   Future<String> getFancyUrl(ICalLinkId id) async {
     final callable = _functions.httpsCallable('getFancyIcalUrl');
-    final result = await callable.call<Map<String, dynamic>>({
-      'linkId': '$id',
-    });
+    final result = await callable.call<Map<String, dynamic>>({'linkId': '$id'});
     return result.data['url'];
   }
 
   Stream<List<ICalLinkDto>> getICalLinksStream(UserId userId) {
-    return _iCalLinks
-        .where('userId', isEqualTo: '$userId')
-        .snapshots()
-        .map((snapshot) {
+    return _iCalLinks.where('userId', isEqualTo: '$userId').snapshots().map((
+      snapshot,
+    ) {
       return snapshot.docs.map((doc) {
         return ICalLinkDto.fromJson(doc.id, doc.data() as Map<String, dynamic>);
       }).toList();

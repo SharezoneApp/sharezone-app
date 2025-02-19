@@ -31,8 +31,8 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     required PrivacyPolicyPageConfig config,
     this.textScalingFactorLowerBound = 0.1,
     this.textScalingFactorUpperBound = 5.0,
-  })  : _analytics = analytics,
-        _themeSettings = themeSettings {
+  }) : _analytics = analytics,
+       _themeSettings = themeSettings {
     _textScalingFactor = themeSettings.textScalingFactor;
     _visualDensitySetting = themeSettings.visualDensitySetting;
     _themeBrightness = themeSettings.themeBrightness;
@@ -42,16 +42,19 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
   late double _textScalingFactor;
   double get textScalingFactor => _textScalingFactor;
   set textScalingFactor(double textScalingFactor) {
-    textScalingFactor = textScalingFactor
-        .clamp(textScalingFactorLowerBound, textScalingFactorUpperBound)
-        .toDouble();
+    textScalingFactor =
+        textScalingFactor
+            .clamp(textScalingFactorLowerBound, textScalingFactorUpperBound)
+            .toDouble();
     _textScalingFactor = textScalingFactor;
     notifyListeners();
 
-    _analytics.log(NamedAnalyticsEvent(
-      name: 'ui_privacy_policy_text_scaling_changed',
-      data: {'text_scaling_factor': textScalingFactor},
-    ));
+    _analytics.log(
+      NamedAnalyticsEvent(
+        name: 'ui_privacy_policy_text_scaling_changed',
+        data: {'text_scaling_factor': textScalingFactor},
+      ),
+    );
   }
 
   late VisualDensitySetting _visualDensitySetting;
@@ -60,14 +63,16 @@ class PrivacyPolicyThemeSettings extends ChangeNotifier {
     _visualDensitySetting = value;
     notifyListeners();
 
-    _analytics.log(NamedAnalyticsEvent(
-      name: 'ui_privacy_policy_visual_density_changed',
-      data: {
-        'isAdaptivePlatformDensity': value.isAdaptivePlatformDensity,
-        'horizontal': value.visualDensity.horizontal,
-        'vertical': value.visualDensity.vertical,
-      },
-    ));
+    _analytics.log(
+      NamedAnalyticsEvent(
+        name: 'ui_privacy_policy_visual_density_changed',
+        data: {
+          'isAdaptivePlatformDensity': value.isAdaptivePlatformDensity,
+          'horizontal': value.visualDensity.horizontal,
+          'vertical': value.visualDensity.vertical,
+        },
+      ),
+    );
   }
 
   late ThemeBrightness _themeBrightness;

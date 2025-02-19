@@ -31,32 +31,41 @@ class ViewSubmissionsPageBloc extends BlocBase {
     required this.vonAbgabeBetroffendeNutzer,
   }) {
     // Muss der Stream geschlossen werden?
-    rx.CombineLatestStream.combine3<List<AbgegebeneAbgabe>, DateTime,
-            List<Nutzer>, CreatedSubmissionsPageView>(
-        abgegebeneAbgaben, abgabedatumStream, vonAbgabeBetroffendeNutzer,
-        (abgaben, abgabefrist, betroffendeNutzer) {
+    rx.CombineLatestStream.combine3<
+      List<AbgegebeneAbgabe>,
+      DateTime,
+      List<Nutzer>,
+      CreatedSubmissionsPageView
+    >(abgegebeneAbgaben, abgabedatumStream, vonAbgabeBetroffendeNutzer, (
+      abgaben,
+      abgabefrist,
+      betroffendeNutzer,
+    ) {
       // * Für alle Nutzer, die keine Abgabe haben eine "nicht abgegeben"-View
       // erstellen
       final userIds = abgaben.map((e) => e.author.id).toSet();
-      final nutzerOhneAbgaben =
-          betroffendeNutzer.where((event) => !userIds.contains(event.id));
+      final nutzerOhneAbgaben = betroffendeNutzer.where(
+        (event) => !userIds.contains(event.id),
+      );
       final ohneAbgabenViews = [
         for (final nutzer in nutzerOhneAbgaben)
           NotSubmittedView(
             abbreviation: nutzer.name.abbreviation,
             username: nutzer.name.ausgeschrieben,
-          )
+          ),
       ];
 
-      final zuSpaeteAbgaben = abgaben
-          .where((abgabe) => abgabe.wurdeAbgegebenNach(abgabefrist))
-          .map((abgabe) => abgabe.toView())
-          .toList();
+      final zuSpaeteAbgaben =
+          abgaben
+              .where((abgabe) => abgabe.wurdeAbgegebenNach(abgabefrist))
+              .map((abgabe) => abgabe.toView())
+              .toList();
 
-      final puentklicheAbgaben = abgaben
-          .where((abgabe) => !abgabe.wurdeAbgegebenNach(abgabefrist))
-          .map((abgabe) => abgabe.toView())
-          .toList();
+      final puentklicheAbgaben =
+          abgaben
+              .where((abgabe) => !abgabe.wurdeAbgegebenNach(abgabefrist))
+              .map((abgabe) => abgabe.toView())
+              .toList();
 
       return CreatedSubmissionsPageView(
         missingSubmissions: ohneAbgabenViews,
@@ -78,10 +87,7 @@ class Nutzer {
   final UserId id;
   final Nutzername name;
 
-  const Nutzer({
-    required this.id,
-    required this.name,
-  });
+  const Nutzer({required this.id, required this.name});
 }
 
 extension on AbgegebeneAbgabe {

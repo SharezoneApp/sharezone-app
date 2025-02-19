@@ -61,8 +61,10 @@ abstract class StreamingKeyValueStore {
   /// If the value is null, starts with the value provided in [defaultValue]. When
   /// the value transitions from non-null to null (ie. when the value is removed),
   /// emits [defaultValue].
-  Stream<List<String>> getStringList(String key,
-      {required List<String> defaultValue});
+  Stream<List<String>> getStringList(
+    String key, {
+    required List<String> defaultValue,
+  });
 
   /// Sets a bool value and notifies all active listeners that there's a new
   /// value for the [key].
@@ -138,21 +140,29 @@ class FlutterStreamingKeyValueStore extends StreamingKeyValueStore {
 
   @override
   Stream<double> getDouble(String key, {required double defaultValue}) {
-    return streamingSharedPreferences.getDouble(key,
-        defaultValue: defaultValue);
+    return streamingSharedPreferences.getDouble(
+      key,
+      defaultValue: defaultValue,
+    );
   }
 
   @override
   Stream<String> getString(String key, {required String defaultValue}) {
-    return streamingSharedPreferences.getString(key,
-        defaultValue: defaultValue);
+    return streamingSharedPreferences.getString(
+      key,
+      defaultValue: defaultValue,
+    );
   }
 
   @override
-  Stream<List<String>> getStringList(String key,
-      {required List<String> defaultValue}) {
-    return streamingSharedPreferences.getStringList(key,
-        defaultValue: defaultValue);
+  Stream<List<String>> getStringList(
+    String key, {
+    required List<String> defaultValue,
+  }) {
+    return streamingSharedPreferences.getStringList(
+      key,
+      defaultValue: defaultValue,
+    );
   }
 
   @override
@@ -200,10 +210,12 @@ class FlutterStreamingKeyValueStore extends StreamingKeyValueStore {
 class InMemoryStreamingKeyValueStore extends StreamingKeyValueStore {
   late BehaviorSubject<ModifiableMapFromIMap<String, dynamic>> storedValues;
 
-  InMemoryStreamingKeyValueStore(
-      [ModifiableMapFromIMap<String, dynamic>? storedValues]) {
-    this.storedValues =
-        BehaviorSubject.seeded(storedValues ?? ModifiableMapFromIMap(IMap()));
+  InMemoryStreamingKeyValueStore([
+    ModifiableMapFromIMap<String, dynamic>? storedValues,
+  ]) {
+    this.storedValues = BehaviorSubject.seeded(
+      storedValues ?? ModifiableMapFromIMap(IMap()),
+    );
   }
 
   @override
@@ -232,10 +244,13 @@ class InMemoryStreamingKeyValueStore extends StreamingKeyValueStore {
   }
 
   @override
-  Stream<List<String>> getStringList(String key,
-      {required List<String> defaultValue}) {
-    return storedValues
-        .map((value) => (value[key] as List<String>?) ?? defaultValue);
+  Stream<List<String>> getStringList(
+    String key, {
+    required List<String> defaultValue,
+  }) {
+    return storedValues.map(
+      (value) => (value[key] as List<String>?) ?? defaultValue,
+    );
   }
 
   @override

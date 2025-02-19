@@ -24,19 +24,19 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_page.dart';
 import 'package:sharezone/util/navigation_service.dart';
 
-ActionRegistration<
-    NavigateToLocationRequest> navigateToLocationRegistrationWith(
-        ActionRequestExecutorFunc<NavigateToLocationRequest> executorFunc) =>
-    ActionRegistration<NavigateToLocationRequest>(
-      registerForActionTypeStrings: NavigateToLocationRequest.actionTypes,
-      parseActionRequestFromNotification: _toNavigateToLocationActionRequest,
-      executeActionRequest: executorFunc,
-    );
+ActionRegistration<NavigateToLocationRequest>
+navigateToLocationRegistrationWith(
+  ActionRequestExecutorFunc<NavigateToLocationRequest> executorFunc,
+) => ActionRegistration<NavigateToLocationRequest>(
+  registerForActionTypeStrings: NavigateToLocationRequest.actionTypes,
+  parseActionRequestFromNotification: _toNavigateToLocationActionRequest,
+  executeActionRequest: executorFunc,
+);
 
 NavigateToLocationRequest _toNavigateToLocationActionRequest(
-        PushNotification notification,
-        PushNotificationParserInstrumentation instrumentation) =>
-    NavigateToLocationRequest(notification.actionData['page-tag'] as String);
+  PushNotification notification,
+  PushNotificationParserInstrumentation instrumentation,
+) => NavigateToLocationRequest(notification.actionData['page-tag'] as String);
 
 /// Navigates to a page inside the app that has the corresponsing
 /// [navigationTag] (e.g. navigate to the [FileSharingPage]).

@@ -14,20 +14,18 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 ActionRegistration<ShowNotificationDialogRequest>
-    showNotificationDialogRegistrationWith(
-            ActionRequestExecutorFunc<ShowNotificationDialogRequest>
-                executorFunc) =>
-        ActionRegistration<ShowNotificationDialogRequest>(
-          registerForActionTypeStrings:
-              ShowNotificationDialogRequest.actionTypes,
-          parseActionRequestFromNotification:
-              _toShowNotificationDialogActionRequest,
-          executeActionRequest: executorFunc,
-        );
+showNotificationDialogRegistrationWith(
+  ActionRequestExecutorFunc<ShowNotificationDialogRequest> executorFunc,
+) => ActionRegistration<ShowNotificationDialogRequest>(
+  registerForActionTypeStrings: ShowNotificationDialogRequest.actionTypes,
+  parseActionRequestFromNotification: _toShowNotificationDialogActionRequest,
+  executeActionRequest: executorFunc,
+);
 
 ShowNotificationDialogRequest _toShowNotificationDialogActionRequest(
-    PushNotification notification,
-    [PushNotificationParserInstrumentation? instrumentation]) {
+  PushNotification notification, [
+  PushNotificationParserInstrumentation? instrumentation,
+]) {
   final showSupportOption = instrumentation?.parseAttributeOrLogFailure(
     'showSupportOption',
     fallbackValue: false,
@@ -40,7 +38,8 @@ ShowNotificationDialogRequest _toShowNotificationDialogActionRequest(
       }
       if (val != null) {
         throw ArgumentError(
-            'Expected $val to be String or bool. It was instead a ${val.runtimeType}');
+          'Expected $val to be String or bool. It was instead a ${val.runtimeType}',
+        );
       }
     },
   );
@@ -88,8 +87,11 @@ class ShowNotificationDialogRequest extends ActionRequest {
   @override
   List<Object?> get props => [title, body, shouldShowAnswerToSupportOption];
 
-  ShowNotificationDialogRequest(this.title, this.body,
-      {required this.shouldShowAnswerToSupportOption}) {
+  ShowNotificationDialogRequest(
+    this.title,
+    this.body, {
+    required this.shouldShowAnswerToSupportOption,
+  }) {
     final isTitleEmpty = _isEmptyString(title);
     final isBodyEmpty = _isEmptyString(body);
     if (isTitleEmpty && isBodyEmpty) {
@@ -115,17 +117,18 @@ class ShowNotificationDialogExecutor
 
   void _showSupportDialog(ShowNotificationDialogRequest actionRequest) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final confirmed = (await showLeftRightAdaptiveDialog<bool>(
-        context: getCurrentContext(),
-        title: actionRequest.title,
-        content: actionRequest.hasBody ? Text(actionRequest.body!) : null,
-        defaultValue: false,
-        right: const AdaptiveDialogAction<bool>(
-          isDefaultAction: true,
-          popResult: true,
-          title: "Antworten",
-        ),
-      ))!;
+      final confirmed =
+          (await showLeftRightAdaptiveDialog<bool>(
+            context: getCurrentContext(),
+            title: actionRequest.title,
+            content: actionRequest.hasBody ? Text(actionRequest.body!) : null,
+            defaultValue: false,
+            right: const AdaptiveDialogAction<bool>(
+              isDefaultAction: true,
+              popResult: true,
+              title: "Antworten",
+            ),
+          ))!;
       if (confirmed) {
         UrlLauncherExtended().tryLaunchMailOrThrow(
           "support@sharezone.net",

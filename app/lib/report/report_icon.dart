@@ -16,12 +16,7 @@ import 'package:sharezone/report/report_item.dart';
 const reportIcon = Icon(Icons.flag);
 
 class ReportIcon extends StatelessWidget {
-  const ReportIcon({
-    super.key,
-    required this.item,
-    this.color,
-    this.tooltip,
-  });
+  const ReportIcon({super.key, required this.item, this.color, this.tooltip});
 
   final ReportItemReference item;
   final Color? color;
@@ -30,7 +25,8 @@ class ReportIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: tooltip ??
+      tooltip:
+          tooltip ??
           '${reportItemTypeToUiString(ReportItem(item.path).type)} melden',
       icon: reportIcon,
       onPressed: () => openReportPage(context, item),

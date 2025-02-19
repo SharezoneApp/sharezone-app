@@ -24,9 +24,9 @@ class StateDialogSimpleBody extends StatelessWidget {
   StateDialogSimpleBody.fromSimpleData({
     super.key,
     required SimpleData simpleData,
-  })  : iconData = simpleData.iconData,
-        iconColor = simpleData.iconColor,
-        description = simpleData.description;
+  }) : iconData = simpleData.iconData,
+       iconColor = simpleData.iconColor,
+       description = simpleData.description;
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +38,7 @@ class StateDialogSimpleBody extends StatelessWidget {
         Icon(iconData, size: 35, color: iconColor),
         const SizedBox(height: 16),
         if (description != null)
-          Text(
-            description!,
-            textAlign: TextAlign.center,
-          ),
+          Text(description!, textAlign: TextAlign.center),
       ],
     );
   }

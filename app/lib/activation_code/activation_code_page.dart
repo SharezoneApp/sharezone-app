@@ -19,10 +19,11 @@ Future<dynamic> openEnterActivationCodePage(BuildContext context) {
   return Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => BlocProvider(
-        bloc: blocFactory.createBloc(),
-        child: const _EnterActivationCodePage(),
-      ),
+      builder:
+          (context) => BlocProvider(
+            bloc: blocFactory.createBloc(),
+            child: const _EnterActivationCodePage(),
+          ),
       settings: const RouteSettings(name: _EnterActivationCodePage.tag),
     ),
   );
@@ -37,11 +38,7 @@ class _EnterActivationCodePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: _EnterActivationCodeAppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: _Note(),
-        ),
-      ),
+      body: SafeArea(child: SingleChildScrollView(child: _Note())),
       bottomNavigationBar: ContactSupport(),
     );
   }

@@ -11,13 +11,7 @@ import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-enum SocialButtonTypes {
-  linkedIn,
-  instagram,
-  twitter,
-  discord,
-  email,
-}
+enum SocialButtonTypes { linkedIn, instagram, twitter, discord, email }
 
 class SocialButton extends StatelessWidget {
   const SocialButton({
@@ -29,34 +23,34 @@ class SocialButton extends StatelessWidget {
   });
 
   const SocialButton.instagram(this.link, {super.key})
-      : tooltip = 'Instagram',
-        svgPath = 'assets/icons/instagram.svg',
-        socialButtonTypes = SocialButtonTypes.instagram;
+    : tooltip = 'Instagram',
+      svgPath = 'assets/icons/instagram.svg',
+      socialButtonTypes = SocialButtonTypes.instagram;
 
   const SocialButton.twitter(this.link, {super.key})
-      : tooltip = 'Twitter',
-        svgPath = 'assets/icons/twitter.svg',
-        socialButtonTypes = SocialButtonTypes.twitter;
+    : tooltip = 'Twitter',
+      svgPath = 'assets/icons/twitter.svg',
+      socialButtonTypes = SocialButtonTypes.twitter;
 
   const SocialButton.linkedIn(this.link, {super.key})
-      : tooltip = 'LinkedIn',
-        svgPath = 'assets/icons/linkedin.svg',
-        socialButtonTypes = SocialButtonTypes.linkedIn;
+    : tooltip = 'LinkedIn',
+      svgPath = 'assets/icons/linkedin.svg',
+      socialButtonTypes = SocialButtonTypes.linkedIn;
 
   const SocialButton.discord(this.link, {super.key})
-      : tooltip = 'Discord',
-        svgPath = 'assets/icons/discord.svg',
-        socialButtonTypes = SocialButtonTypes.linkedIn;
+    : tooltip = 'Discord',
+      svgPath = 'assets/icons/discord.svg',
+      socialButtonTypes = SocialButtonTypes.linkedIn;
 
   const SocialButton.email(this.link, {super.key})
-      : tooltip = 'E-Mail',
-        svgPath = 'assets/icons/email.svg',
-        socialButtonTypes = SocialButtonTypes.email;
+    : tooltip = 'E-Mail',
+      svgPath = 'assets/icons/email.svg',
+      socialButtonTypes = SocialButtonTypes.email;
 
   const SocialButton.github(this.link, {super.key})
-      : tooltip = 'GitHub',
-        svgPath = 'assets/icons/github.svg',
-        socialButtonTypes = SocialButtonTypes.linkedIn;
+    : tooltip = 'GitHub',
+      svgPath = 'assets/icons/github.svg',
+      socialButtonTypes = SocialButtonTypes.linkedIn;
 
   final String link, tooltip, svgPath;
   final SocialButtonTypes socialButtonTypes;
@@ -71,10 +65,7 @@ class SocialButton extends StatelessWidget {
         await launchUrl(url);
       } on Exception catch (_) {
         if (!context.mounted) return;
-        showSnackSec(
-          text: "E-Mail: $link",
-          context: context,
-        );
+        showSnackSec(text: "E-Mail: $link", context: context);
       }
     }
   }

@@ -21,7 +21,7 @@ class ChangelogPageView {
   });
 
   const ChangelogPageView.placeholder()
-      : changes = const [],
-        userHasNewestVersion = true,
-        allChangesLoaded = false;
+    : changes = const [],
+      userHasNewestVersion = true,
+      allChangesLoaded = false;
 }

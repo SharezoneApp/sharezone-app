@@ -87,34 +87,52 @@ extension NavigationItemExtension on NavigationItem {
     switch (this) {
       case NavigationItem.overview:
         return Icon(
-            themeIconData(Icons.home, cupertinoIcon: SFSymbols.house_fill));
+          themeIconData(Icons.home, cupertinoIcon: SFSymbols.house_fill),
+        );
       case NavigationItem.homework:
-        return Icon(themeIconData(Icons.book,
-            cupertinoIcon: SFSymbols.checkmark_square_fill));
+        return Icon(
+          themeIconData(
+            Icons.book,
+            cupertinoIcon: SFSymbols.checkmark_square_fill,
+          ),
+        );
       case NavigationItem.group:
         return Icon(
-            key: K.groupsNavigationItem,
-            themeIconData(Icons.group, cupertinoIcon: SFSymbols.person_2_fill));
+          key: K.groupsNavigationItem,
+          themeIconData(Icons.group, cupertinoIcon: SFSymbols.person_2_fill),
+        );
       case NavigationItem.timetable:
         return Icon(
-            themeIconData(Icons.event, cupertinoIcon: SFSymbols.calendar));
+          themeIconData(Icons.event, cupertinoIcon: SFSymbols.calendar),
+        );
       case NavigationItem.events:
-        return Icon(themeIconData(Icons.event_note,
-            cupertinoIcon: SFSymbols.clock_fill));
+        return Icon(
+          themeIconData(Icons.event_note, cupertinoIcon: SFSymbols.clock_fill),
+        );
       case NavigationItem.blackboard:
-        return Icon(themeIconData(Icons.new_releases,
-            cupertinoIcon: SFSymbols.info_circle_fill));
+        return Icon(
+          themeIconData(
+            Icons.new_releases,
+            cupertinoIcon: SFSymbols.info_circle_fill,
+          ),
+        );
       case NavigationItem.grades:
         return const Icon(Icons.emoji_events);
       case NavigationItem.filesharing:
-        return Icon(themeIconData(Icons.insert_drive_file,
-            cupertinoIcon: SFSymbols.folder_fill));
+        return Icon(
+          themeIconData(
+            Icons.insert_drive_file,
+            cupertinoIcon: SFSymbols.folder_fill,
+          ),
+        );
       case NavigationItem.sharezonePlus:
         return Icon(
-            themeIconData(Icons.star, cupertinoIcon: SFSymbols.star_fill));
+          themeIconData(Icons.star, cupertinoIcon: SFSymbols.star_fill),
+        );
       case NavigationItem.settings:
-        return Icon(themeIconData(Icons.settings,
-            cupertinoIcon: SFSymbols.gear_alt_fill));
+        return Icon(
+          themeIconData(Icons.settings, cupertinoIcon: SFSymbols.gear_alt_fill),
+        );
       case NavigationItem.feedbackBox:
         return Icon(
           key: K.feedbackNavigationItem,
@@ -125,10 +143,12 @@ extension NavigationItemExtension on NavigationItem {
         );
       case NavigationItem.accountPage:
         return Icon(
-            themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill));
+          themeIconData(Icons.person, cupertinoIcon: SFSymbols.person_fill),
+        );
       case NavigationItem.more:
         return Icon(
-            themeIconData(Icons.more_horiz, cupertinoIcon: SFSymbols.ellipsis));
+          themeIconData(Icons.more_horiz, cupertinoIcon: SFSymbols.ellipsis),
+        );
     }
   }
 

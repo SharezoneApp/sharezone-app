@@ -39,7 +39,8 @@ class HomeworkDetailsViewFactory implements BlocBase {
   }
 
   Future<HomeworkDetailsView> fromStudentHomeworkView(
-      StudentHomeworkView studentHomeworkView) async {
+    StudentHomeworkView studentHomeworkView,
+  ) async {
     final typeOfUser = await typeOfUserStream.first;
     return HomeworkDetailsView(
       title: studentHomeworkView.title,
@@ -95,12 +96,13 @@ class HomeworkDetailsViewFactory implements BlocBase {
       withSubmissions: homework.withSubmissions,
       nrOfCompletedStudents:
           homework.assignedUserArrays.completedStudentUids.length,
-      hasPermissionToViewSubmissions:
-          await _permissions.isAllowedToViewSubmittedPermissions(homework),
+      hasPermissionToViewSubmissions: await _permissions
+          .isAllowedToViewSubmittedPermissions(homework),
       hasPermissionsToViewDoneByList:
           typeOfUser == TypeOfUser.teacher && _isAdmin(homework.courseID),
-      hasTeacherSubmissionsUnlocked: subscriptionService
-          .hasFeatureUnlocked(SharezonePlusFeature.submissionsList),
+      hasTeacherSubmissionsUnlocked: subscriptionService.hasFeatureUnlocked(
+        SharezonePlusFeature.submissionsList,
+      ),
     );
   }
 

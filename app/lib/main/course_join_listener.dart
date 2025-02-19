@@ -56,47 +56,48 @@ class CourseJoinListener extends StatelessWidget {
   }
 
   Future<void> _joinGroup(Sharecode sharecode) async {
-    Future.delayed(const Duration(microseconds: 200)).then(
-      (_) {
-        showSimpleNotification(
-          Text("$sharecode beitreten..."),
-          autoDismiss: true,
-          slideDismissDirection: DismissDirection.horizontal,
-          trailing: const SizedBox(
-            height: 25,
-            width: 25,
-            child: AccentColorCircularProgressIndicator(),
-          ),
-          leading: const Icon(Icons.link),
-        );
-        groupJoinFunction
-            .runGroupJoinFunction(enteredValue: '$sharecode', version: 1)
-            .then((groupJoinResult) {
-          if (groupJoinResult is SuccessfulJoinResult) {
-            final groupInfo = groupJoinResult.groupInfo;
-            final groupname = groupInfo.name;
-            showSimpleNotification(
-              Text(groupInfo.groupType == GroupType.course
-                  ? 'Du bist dem Kurs "${groupname ?? "???"}" beigetreten'
-                  : 'Du bist der Klasse "${groupname ?? "???"}" beigetreten'),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              trailing: const Icon(Icons.check, color: Colors.lightGreen),
-              leading: const Icon(Icons.link),
-            );
-          } else if (groupJoinResult is ErrorJoinResult) {
-            showSimpleNotification(
-              const Text(
-                  'Ein Fehler ist beim Beitreten aufgetreten! Versuche es erneut oder schreibe den Support an.'),
-              autoDismiss: true,
-              slideDismissDirection: DismissDirection.horizontal,
-              trailing: const Icon(Icons.error, color: Colors.red),
-              leading: const Icon(Icons.link),
-              duration: const Duration(seconds: 3),
-            );
-          }
-        });
-      },
-    );
+    Future.delayed(const Duration(microseconds: 200)).then((_) {
+      showSimpleNotification(
+        Text("$sharecode beitreten..."),
+        autoDismiss: true,
+        slideDismissDirection: DismissDirection.horizontal,
+        trailing: const SizedBox(
+          height: 25,
+          width: 25,
+          child: AccentColorCircularProgressIndicator(),
+        ),
+        leading: const Icon(Icons.link),
+      );
+      groupJoinFunction
+          .runGroupJoinFunction(enteredValue: '$sharecode', version: 1)
+          .then((groupJoinResult) {
+            if (groupJoinResult is SuccessfulJoinResult) {
+              final groupInfo = groupJoinResult.groupInfo;
+              final groupname = groupInfo.name;
+              showSimpleNotification(
+                Text(
+                  groupInfo.groupType == GroupType.course
+                      ? 'Du bist dem Kurs "${groupname ?? "???"}" beigetreten'
+                      : 'Du bist der Klasse "${groupname ?? "???"}" beigetreten',
+                ),
+                autoDismiss: true,
+                slideDismissDirection: DismissDirection.horizontal,
+                trailing: const Icon(Icons.check, color: Colors.lightGreen),
+                leading: const Icon(Icons.link),
+              );
+            } else if (groupJoinResult is ErrorJoinResult) {
+              showSimpleNotification(
+                const Text(
+                  'Ein Fehler ist beim Beitreten aufgetreten! Versuche es erneut oder schreibe den Support an.',
+                ),
+                autoDismiss: true,
+                slideDismissDirection: DismissDirection.horizontal,
+                trailing: const Icon(Icons.error, color: Colors.red),
+                leading: const Icon(Icons.link),
+                duration: const Duration(seconds: 3),
+              );
+            }
+          });
+    });
   }
 }

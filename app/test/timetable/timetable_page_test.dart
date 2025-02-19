@@ -26,9 +26,7 @@ import 'mock/mock_school_class_gateway.dart';
 import 'mock/mock_timetable_gateway.dart';
 import 'mock/mock_user_gateway.dart';
 
-@GenerateNiceMocks([
-  MockSpec<SubscriptionService>(),
-])
+@GenerateNiceMocks([MockSpec<SubscriptionService>()])
 void main() {
   group('TimetablePage', () {
     group('SchoolClassFilter', () {
@@ -40,7 +38,7 @@ void main() {
           'joinLink': 'https://sharez.one/RpvEuUZMLEjb522N8',
           'personalSharecode': '654321',
           'personalJoinLink': 'https://sharez.one/RpvEuUZMLEjb522N7',
-          'settings': null
+          'settings': null,
         };
 
         return SchoolClass.fromData(data, id: id);
@@ -92,73 +90,86 @@ void main() {
       }
 
       testWidgets(
-          'If the user is member of one or zero school classes, the school class selection widget should not be shown',
-          (tester) async {
-        // Im Setup wird direkt zwei Schulklassen beigetreten. Deswegen muss
-        // wieder eine Schulklasse verlassen werden, damit der Test
-        // funktioniert.
-        await bloc.schoolClassGateway.leaveSchoolClass(klasse5b.id);
+        'If the user is member of one or zero school classes, the school class selection widget should not be shown',
+        (tester) async {
+          // Im Setup wird direkt zwei Schulklassen beigetreten. Deswegen muss
+          // wieder eine Schulklasse verlassen werden, damit der Test
+          // funktioniert.
+          await bloc.schoolClassGateway.leaveSchoolClass(klasse5b.id);
 
-        await pumpSchoolClassSelection(tester);
+          await pumpSchoolClassSelection(tester);
 
-        expect(find.byKey(const ValueKey('school-class-filter-widget-test')),
-            findsNothing);
-      });
-
-      testWidgets(
-          'If the user is member of two or more school classes, the school class selection widget should be shown',
-          (tester) async {
-        await pumpSchoolClassSelection(tester);
-
-        expect(find.byKey(const ValueKey('school-class-filter-widget-test')),
-            findsOneWidget);
-      });
+          expect(
+            find.byKey(const ValueKey('school-class-filter-widget-test')),
+            findsNothing,
+          );
+        },
+      );
 
       testWidgets(
-          'If the user has not selected a school class, the word "Alle" should be used as the current school class',
-          (tester) async {
-        await pumpSchoolClassSelection(tester);
+        'If the user is member of two or more school classes, the school class selection widget should be shown',
+        (tester) async {
+          await pumpSchoolClassSelection(tester);
 
-        expect(find.text('Schulklasse: Alle'), findsOneWidget);
-      });
-
-      testWidgets(
-          'If the user selects a school class, this school class should be passed to the bloc',
-          (tester) async {
-        when(subscriptionService.hasFeatureUnlocked(
-                SharezonePlusFeature.filterTimetableByClass))
-            .thenReturn(true);
-
-        await pumpSchoolClassSelection(tester);
-
-        // Öffne Schulklassen-Auswahl-Menü
-        await tester.tap(find.byIcon(Icons.group));
-        await tester.pumpAndSettle();
-
-        // Klasse 10a auswählen
-        await tester.tap(find.text(klasse10a.name));
-        await tester.pumpAndSettle();
-
-        expect(bloc.schoolClassFilterView.valueOrNull!.selectedSchoolClass!.id,
-            klasse10a.groupId);
-      });
+          expect(
+            find.byKey(const ValueKey('school-class-filter-widget-test')),
+            findsOneWidget,
+          );
+        },
+      );
 
       testWidgets(
-          'If a user opens school class menu, all school classes should be shown',
-          (tester) async {
-        await pumpSchoolClassSelection(tester);
-        expect(find.text('Alle Schulklassen'), findsNothing);
-        expect(find.text(klasse5b.name), findsNothing);
-        expect(find.text(klasse10a.name), findsNothing);
+        'If the user has not selected a school class, the word "Alle" should be used as the current school class',
+        (tester) async {
+          await pumpSchoolClassSelection(tester);
 
-        // Öffne Schulklassen-Auswahl-Menü
-        await tester.tap(find.byIcon(Icons.group));
-        await tester.pump();
+          expect(find.text('Schulklasse: Alle'), findsOneWidget);
+        },
+      );
 
-        expect(find.text('Alle Schulklassen'), findsOneWidget);
-        expect(find.text(klasse5b.name), findsOneWidget);
-        expect(find.text(klasse10a.name), findsOneWidget);
-      });
+      testWidgets(
+        'If the user selects a school class, this school class should be passed to the bloc',
+        (tester) async {
+          when(
+            subscriptionService.hasFeatureUnlocked(
+              SharezonePlusFeature.filterTimetableByClass,
+            ),
+          ).thenReturn(true);
+
+          await pumpSchoolClassSelection(tester);
+
+          // Öffne Schulklassen-Auswahl-Menü
+          await tester.tap(find.byIcon(Icons.group));
+          await tester.pumpAndSettle();
+
+          // Klasse 10a auswählen
+          await tester.tap(find.text(klasse10a.name));
+          await tester.pumpAndSettle();
+
+          expect(
+            bloc.schoolClassFilterView.valueOrNull!.selectedSchoolClass!.id,
+            klasse10a.groupId,
+          );
+        },
+      );
+
+      testWidgets(
+        'If a user opens school class menu, all school classes should be shown',
+        (tester) async {
+          await pumpSchoolClassSelection(tester);
+          expect(find.text('Alle Schulklassen'), findsNothing);
+          expect(find.text(klasse5b.name), findsNothing);
+          expect(find.text(klasse10a.name), findsNothing);
+
+          // Öffne Schulklassen-Auswahl-Menü
+          await tester.tap(find.byIcon(Icons.group));
+          await tester.pump();
+
+          expect(find.text('Alle Schulklassen'), findsOneWidget);
+          expect(find.text(klasse5b.name), findsOneWidget);
+          expect(find.text(klasse10a.name), findsOneWidget);
+        },
+      );
     });
   });
 }

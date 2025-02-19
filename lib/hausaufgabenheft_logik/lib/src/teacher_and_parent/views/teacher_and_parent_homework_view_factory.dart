@@ -19,9 +19,10 @@ class TeacherAndParentHomeworkViewFactory {
   final int defaultColorValue;
   final Color defaultColor;
 
-  TeacherAndParentHomeworkViewFactory(
-      {Date Function()? getCurrentDate, required this.defaultColorValue})
-      : defaultColor = Color(defaultColorValue) {
+  TeacherAndParentHomeworkViewFactory({
+    Date Function()? getCurrentDate,
+    required this.defaultColorValue,
+  }) : defaultColor = Color(defaultColorValue) {
     if (getCurrentDate == null) {
       _getCurrentDate = () => Date.now();
     } else {
@@ -36,13 +37,16 @@ class TeacherAndParentHomeworkViewFactory {
       title: homework.title.value,
       subject: homework.subject.name,
       abbreviation: homework.subject.abbreviation,
-      todoDate: _getLocaleDateString(Date.fromDateTime(homework.todoDate),
-          time: _getTime(homework.withSubmissions, homework.todoDate)),
+      todoDate: _getLocaleDateString(
+        Date.fromDateTime(homework.todoDate),
+        time: _getTime(homework.withSubmissions, homework.todoDate),
+      ),
       withSubmissions: homework.withSubmissions,
       nrOfStudentsCompletedOrSubmitted: homework.nrOfStudentsCompleted,
-      canViewCompletionOrSubmissionList: homework.withSubmissions
-          ? homework.canViewSubmissions
-          : homework.canViewCompletions,
+      canViewCompletionOrSubmissionList:
+          homework.withSubmissions
+              ? homework.canViewSubmissions
+              : homework.canViewCompletions,
       colorDate: homework.isOverdueRelativeTo(twoDaysInFuture),
       subjectColor: homework.subject.color ?? defaultColor,
       canDeleteForEveryone: false,

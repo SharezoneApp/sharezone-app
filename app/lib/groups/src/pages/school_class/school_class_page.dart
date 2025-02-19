@@ -31,7 +31,9 @@ class LeaveSchoolClassDetailsPopOption implements SchoolClassDetailsPopOption {
 }
 
 Future<void> openMySchoolClassPage(
-    BuildContext context, SchoolClass schoolClass) async {
+  BuildContext context,
+  SchoolClass schoolClass,
+) async {
   final analytics = BlocProvider.of<GroupAnalytics>(context);
   final bloc = MySchoolClassBloc(
     gateway: BlocProvider.of<SharezoneContext>(context).api,
@@ -41,10 +43,9 @@ Future<void> openMySchoolClassPage(
   final popOption = await Navigator.push<SchoolClassDetailsPopOption>(
     context,
     MaterialPageRoute(
-      builder: (context) => BlocProvider(
-        bloc: bloc,
-        child: const MySchoolClassPage(),
-      ),
+      builder:
+          (context) =>
+              BlocProvider(bloc: bloc, child: const MySchoolClassPage()),
       settings: const RouteSettings(name: MySchoolClassPage.tag),
     ),
   );
@@ -72,7 +73,8 @@ class MySchoolClassPage extends StatelessWidget {
         if (schoolClass == null) {
           return const Scaffold(
             body: Center(
-                child: Text("Es ist ein Fehler beim Laden aufgetreten...")),
+              child: Text("Es ist ein Fehler beim Laden aufgetreten..."),
+            ),
           );
         }
         return SchoolClassDetailsPage(schoolClass);

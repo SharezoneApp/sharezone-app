@@ -26,8 +26,12 @@ class SectionActionButton extends StatelessWidget {
     this.fontSize,
   });
 
-  factory SectionActionButton.openLink(
-      {String? link, String? text, Color? color, double? fontSize}) {
+  factory SectionActionButton.openLink({
+    String? link,
+    String? text,
+    Color? color,
+    double? fontSize,
+  }) {
     return SectionActionButton(
       text: text,
       onTap: () => launchUrl(link!),
@@ -40,12 +44,13 @@ class SectionActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // Disable selection to prevent showing a selection mouse pointer.
     return SelectionContainer.disabled(
-      child: TransparentButton(
-        onTap: onTap,
-        fontSize: fontSize ?? 22,
-        color: color ?? Theme.of(context).primaryColor,
-        child: Text("—> $text"),
-      ).moveLeftOnHover,
+      child:
+          TransparentButton(
+            onTap: onTap,
+            fontSize: fontSize ?? 22,
+            color: color ?? Theme.of(context).primaryColor,
+            child: Text("—> $text"),
+          ).moveLeftOnHover,
     );
   }
 }

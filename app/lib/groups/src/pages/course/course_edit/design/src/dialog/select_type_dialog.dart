@@ -12,16 +12,11 @@ class _SelectTypePopResult {
   final Design? initialDesign;
   final EditDesignType editDesignType;
 
-  const _SelectTypePopResult(
-    this.initialDesign,
-    this.editDesignType,
-  );
+  const _SelectTypePopResult(this.initialDesign, this.editDesignType);
 }
 
 class _SelectTypeDialog extends StatelessWidget {
-  const _SelectTypeDialog({
-    required this.bloc,
-  });
+  const _SelectTypeDialog({required this.bloc});
 
   final CourseEditDesignBloc bloc;
 
@@ -101,10 +96,13 @@ class _DesignTypeSection extends StatelessWidget {
           return Opacity(
             opacity: hasPermissionToEdit ? 1 : 0.5,
             child: InkWell(
-              onTap: hasPermissionToEdit
-                  ? () => Navigator.pop(
-                      context, _SelectTypePopResult(initialDesign, type))
-                  : null,
+              onTap:
+                  hasPermissionToEdit
+                      ? () => Navigator.pop(
+                        context,
+                        _SelectTypePopResult(initialDesign, type),
+                      )
+                      : null,
               child: Padding(
                 padding: padding,
                 child: Column(
@@ -163,10 +161,7 @@ class _ColorCircleSelectType extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: design?.color,
-      ),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: design?.color),
       child: child,
     );
   }

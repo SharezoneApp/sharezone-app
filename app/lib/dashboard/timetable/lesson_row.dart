@@ -39,8 +39,9 @@ class _LessonRow extends StatelessWidget {
 
         return Center(
           child: SingleChildScrollView(
-            controller:
-                ScrollController(initialScrollOffset: initialScrollOffset),
+            controller: ScrollController(
+              initialScrollOffset: initialScrollOffset,
+            ),
             scrollDirection: Axis.horizontal,
             child: Row(
               children: <Widget>[
@@ -103,10 +104,12 @@ class _EmptyStateMsg extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-                fontSize: 18,
-                color: Theme.of(context).isDarkTheme
-                    ? Colors.lightBlue
-                    : darkBlueColor),
+              fontSize: 18,
+              color:
+                  Theme.of(context).isDarkTheme
+                      ? Colors.lightBlue
+                      : darkBlueColor,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

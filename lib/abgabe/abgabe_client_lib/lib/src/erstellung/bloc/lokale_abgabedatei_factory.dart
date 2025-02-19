@@ -17,10 +17,7 @@ class LokaleAbgabedateiFactory {
   final AbgabedateiIdGenerator generiereId;
   final DateTime Function() _getCurrentDateTime;
 
-  LokaleAbgabedateiFactory(
-    this.generiereId,
-    this._getCurrentDateTime,
-  );
+  LokaleAbgabedateiFactory(this.generiereId, this._getCurrentDateTime);
 
   LokaleAbgabedatei vonLocalFile(LocalFile localFile) {
     return LokaleAbgabedatei(

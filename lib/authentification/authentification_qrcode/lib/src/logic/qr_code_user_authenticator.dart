@@ -35,7 +35,8 @@ class QrCodeUserAuthenticator {
     return query.map((documentSnapshot) {
       if (documentSnapshot.exists) {
         final qrSignInDocument = QrSignInDocument.fromData(
-            documentSnapshot.data() as Map<String, dynamic>);
+          documentSnapshot.data() as Map<String, dynamic>,
+        );
         return qrSignInDocument.toSignInState();
       } else {
         return QrCodeIsGenerating();
@@ -56,10 +57,14 @@ class QrCodeUserAuthenticator {
     return qrId;
   }
 
-  Future<bool> authenticateUserViaQrCodeId(
-      {required String uid, required String qrId}) async {
-    final appFunctionResult =
-        await appFunctions.authenticateUserViaQrCodeId(qrId: qrId, uid: uid);
+  Future<bool> authenticateUserViaQrCodeId({
+    required String uid,
+    required String qrId,
+  }) async {
+    final appFunctionResult = await appFunctions.authenticateUserViaQrCodeId(
+      qrId: qrId,
+      uid: uid,
+    );
     return appFunctionResult.hasData && appFunctionResult.data == true;
   }
 }

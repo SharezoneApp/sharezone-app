@@ -54,13 +54,15 @@ abstract class ExpansionBehavior {
     assert(before.isExpandable);
     assert(after.isExpandable);
     assert(
-        before.expansionStateOrNull!.isExpanded ==
-            after.expansionStateOrNull!.isExpanded,
-        "expansionState hasn't changed already (since this method is responsible for changing it)");
+      before.expansionStateOrNull!.isExpanded ==
+          after.expansionStateOrNull!.isExpanded,
+      "expansionState hasn't changed already (since this method is responsible for changing it)",
+    );
     assert(
-        before.expansionStateOrNull!.expansionMode ==
-            after.expansionStateOrNull!.expansionMode,
-        "expansionState hasn't changed already (since this method is responsible for changing it)");
+      before.expansionStateOrNull!.expansionMode ==
+          after.expansionStateOrNull!.expansionMode,
+      "expansionState hasn't changed already (since this method is responsible for changing it)",
+    );
 
     // We use if instead of switch to check which [ExpansionMode] we are dealing
     // with in the ExpansionBehavior subclasses for better readability.
@@ -70,10 +72,14 @@ abstract class ExpansionBehavior {
     // We check here that no new Enum Values are introduced by accident.
     // If a new Enum value is introduced it should be checked that all usages
     // of the enum are accounted for in the subclasses.
-    assert(before.expansionStateOrNull!.expansionMode == ExpansionMode.forced ||
-        before.expansionStateOrNull!.expansionMode == ExpansionMode.automatic);
-    assert(after.expansionStateOrNull!.expansionMode == ExpansionMode.forced ||
-        after.expansionStateOrNull!.expansionMode == ExpansionMode.automatic);
+    assert(
+      before.expansionStateOrNull!.expansionMode == ExpansionMode.forced ||
+          before.expansionStateOrNull!.expansionMode == ExpansionMode.automatic,
+    );
+    assert(
+      after.expansionStateOrNull!.expansionMode == ExpansionMode.forced ||
+          after.expansionStateOrNull!.expansionMode == ExpansionMode.automatic,
+    );
   }
 }
 
@@ -140,9 +146,7 @@ class _LeaveManuallyOpenedSectionsOpenExpansionBehavior
       // We are in force-opened section.
       // We leave the section expanded regardless if it is currently read or not.
       if (wasExpanded) {
-        return oldExpansionState.copyWith(
-          isExpanded: true,
-        );
+        return oldExpansionState.copyWith(isExpanded: true);
       }
 
       // We are in a force-collapsed section.
@@ -158,9 +162,7 @@ class _LeaveManuallyOpenedSectionsOpenExpansionBehavior
         // would expand it right away again which is unexpected for the user.
         if (before.isThisOrASubsectionCurrentlyRead &&
             after.isThisOrASubsectionCurrentlyRead) {
-          return oldExpansionState.copyWith(
-            isExpanded: false,
-          );
+          return oldExpansionState.copyWith(isExpanded: false);
         }
 
         /// In any other case we just switch back to the automatic behavior (there

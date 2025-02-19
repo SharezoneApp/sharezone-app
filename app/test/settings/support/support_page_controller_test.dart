@@ -26,26 +26,28 @@ void main() {
     });
 
     group('getVideoCallAppointmentsUnencodedUrlWithPrefills()', () {
-      test('throws $UserNotAuthenticatedException when user Id is null',
-          () async {
-        final controller = SupportPageController(
-          userIdStream: Stream.value(null),
-          userNameStream: Stream.value(null),
-          userEmailStream: Stream.value(null),
-          hasPlusSupportUnlockedStream: Stream.value(false),
-          isUserInGroupOnboardingStream: Stream.value(false),
-          typeOfUserStream: Stream.value(null),
-          urlLauncher: urlLauncher,
-        );
+      test(
+        'throws $UserNotAuthenticatedException when user Id is null',
+        () async {
+          final controller = SupportPageController(
+            userIdStream: Stream.value(null),
+            userNameStream: Stream.value(null),
+            userEmailStream: Stream.value(null),
+            hasPlusSupportUnlockedStream: Stream.value(false),
+            isUserInGroupOnboardingStream: Stream.value(false),
+            typeOfUserStream: Stream.value(null),
+            urlLauncher: urlLauncher,
+          );
 
-        // Workaround to wait for stream subscription in constructor.
-        await Future.delayed(Duration.zero);
+          // Workaround to wait for stream subscription in constructor.
+          await Future.delayed(Duration.zero);
 
-        expect(
-          () => controller.getVideoCallAppointmentsUnencodedUrlWithPrefills(),
-          throwsA(isA<UserNotAuthenticatedException>()),
-        );
-      });
+          expect(
+            () => controller.getVideoCallAppointmentsUnencodedUrlWithPrefills(),
+            throwsA(isA<UserNotAuthenticatedException>()),
+          );
+        },
+      );
 
       test('returns url with user data', () async {
         final controller = SupportPageController(
@@ -83,10 +85,7 @@ void main() {
         // Workaround to wait for stream subscription in constructor.
         await Future.delayed(Duration.zero);
 
-        expect(
-          controller.hasPlusSupportUnlocked,
-          false,
-        );
+        expect(controller.hasPlusSupportUnlocked, false);
       });
 
       test('show free support for teachers', () async {
@@ -103,10 +102,7 @@ void main() {
         // Workaround to wait for stream subscription in constructor.
         await Future.delayed(Duration.zero);
 
-        expect(
-          controller.hasPlusSupportUnlocked,
-          false,
-        );
+        expect(controller.hasPlusSupportUnlocked, false);
       });
 
       test('show free support for students without Sharezone Plus', () async {
@@ -123,10 +119,7 @@ void main() {
         // Workaround to wait for stream subscription in constructor.
         await Future.delayed(Duration.zero);
 
-        expect(
-          controller.hasPlusSupportUnlocked,
-          false,
-        );
+        expect(controller.hasPlusSupportUnlocked, false);
       });
 
       test('show plus support for students with Sharezone Plus', () async {
@@ -143,10 +136,7 @@ void main() {
         // Workaround to wait for stream subscription in constructor.
         await Future.delayed(Duration.zero);
 
-        expect(
-          controller.hasPlusSupportUnlocked,
-          true,
-        );
+        expect(controller.hasPlusSupportUnlocked, true);
       });
     });
 

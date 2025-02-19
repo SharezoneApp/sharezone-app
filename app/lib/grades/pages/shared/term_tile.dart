@@ -38,12 +38,7 @@ class TermTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
+                Text(title, style: const TextStyle(color: Colors.grey)),
                 Text(
                   displayName,
                   style: const TextStyle(
@@ -63,7 +58,7 @@ class TermTile extends StatelessWidget {
               ],
               _TermGrade(grade: avgGrade),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -71,9 +66,7 @@ class TermTile extends StatelessWidget {
 }
 
 class _EditIconButton extends StatelessWidget {
-  const _EditIconButton({
-    required this.termId,
-  });
+  const _EditIconButton({required this.termId});
 
   final TermId termId;
 
@@ -83,12 +76,11 @@ class _EditIconButton extends StatelessWidget {
       tooltip: 'Bearbeiten des Schnitts',
       icon: const Icon(Icons.edit),
       color: Theme.of(context).listTileTheme.iconColor,
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => TermSettingsPage(termId: termId),
-        ),
-      ),
+      onPressed:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => TermSettingsPage(termId: termId)),
+          ),
     );
   }
 }

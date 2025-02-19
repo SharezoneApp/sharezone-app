@@ -58,10 +58,11 @@ class GroupJoinSelectCoursesBloc extends BlocBase {
   }
 
   Future<void> submit() async {
-    final coursesList = _coursesListSubject.valueOrNull!
-        .where((groupInfo) => groupInfo.isSelected)
-        .map((groupInfo) => groupInfo.groupKey)
-        .toList();
+    final coursesList =
+        _coursesListSubject.valueOrNull!
+            .where((groupInfo) => groupInfo.isSelected)
+            .map((groupInfo) => groupInfo.groupKey)
+            .toList();
     await groupJoinBloc.enterValueWithCourseList(coursesList);
   }
 
@@ -80,11 +81,14 @@ extension on List<GroupInfoWithSelectionState> {
       indexWhere((object) => object.id == id);
 
   List<GroupInfoWithSelectionState> updateSelectionStateOf(
-      GroupKey groupKey, bool newSelectionState) {
+    GroupKey groupKey,
+    bool newSelectionState,
+  ) {
     final indexOfItem = indexOfGroupInfoWithId(groupKey.id);
     final item = this[indexOfItem];
-    replaceRange(indexOfItem, indexOfItem + 1,
-        [item.copyWithSelectionState(newSelectionState)]);
+    replaceRange(indexOfItem, indexOfItem + 1, [
+      item.copyWithSelectionState(newSelectionState),
+    ]);
     return this;
   }
 }

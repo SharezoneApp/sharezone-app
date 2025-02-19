@@ -16,9 +16,11 @@ import 'package:sharezone/main/application_bloc.dart';
 
 import 'homework_card.dart';
 
-Future<void> handleHomeworkTileLongPress(BuildContext context,
-    {required HomeworkId homeworkId,
-    void Function(bool)? setHomeworkStatus}) async {
+Future<void> handleHomeworkTileLongPress(
+  BuildContext context, {
+  required HomeworkId homeworkId,
+  void Function(bool)? setHomeworkStatus,
+}) async {
   final dbModel = await getHomeworkDbModel(homeworkId);
   if (!context.mounted) return;
   final courseGateway = BlocProvider.of<SharezoneContext>(context).api.course;
@@ -35,7 +37,9 @@ Future<HomeworkDto> getHomeworkDbModel(HomeworkId homeworkId) async {
       FirebaseFirestore.instance.collection("Homework");
 
   final homeworkDocument = await homeworkCollection.doc(homeworkId.value).get();
-  final homework =
-      HomeworkDto.fromData(homeworkDocument.data()!, id: homeworkDocument.id);
+  final homework = HomeworkDto.fromData(
+    homeworkDocument.data()!,
+    id: homeworkDocument.id,
+  );
   return homework;
 }

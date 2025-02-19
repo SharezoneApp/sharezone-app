@@ -18,7 +18,7 @@ class FirestoreLastOnlineReporterBackend {
   final String _userId;
 
   FirestoreLastOnlineReporterBackend(this._firestore, UserId userId)
-      : _userId = userId.toString();
+    : _userId = userId.toString();
 
   /// Reports to our backend that the user has been online at this point of time.
   /// Uses the server timestamp for the current time.

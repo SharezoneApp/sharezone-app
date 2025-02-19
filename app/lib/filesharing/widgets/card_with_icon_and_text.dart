@@ -46,7 +46,7 @@ class CardWithIconAndText extends StatelessWidget {
                       maxLines: 2,
                     ),
                   ),
-                  if (trailing != null) trailing! else const SizedBox(width: 8)
+                  if (trailing != null) trailing! else const SizedBox(width: 8),
                 ],
               ),
             ),

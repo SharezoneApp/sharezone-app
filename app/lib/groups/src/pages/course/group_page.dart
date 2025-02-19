@@ -25,11 +25,7 @@ import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-enum CourseDialogOption {
-  groupJoin,
-  courseCreate,
-  schoolClassCreate,
-}
+enum CourseDialogOption { groupJoin, courseCreate, schoolClassCreate }
 
 Future<dynamic> handleCourseDialogOption(
   BuildContext context,
@@ -41,13 +37,12 @@ Future<dynamic> handleCourseDialogOption(
       case CourseDialogOption.schoolClassCreate:
         final analytics = BlocProvider.of<GroupAnalytics>(context);
         openMySchoolClassCreateDialog(
-            context, MySchoolClassBloc(gateway: gateway, analytics: analytics));
+          context,
+          MySchoolClassBloc(gateway: gateway, analytics: analytics),
+        );
         break;
       case CourseDialogOption.courseCreate:
-        return Navigator.pushNamed(
-          context,
-          CourseTemplatePage.tag,
-        );
+        return Navigator.pushNamed(context, CourseTemplatePage.tag);
       case CourseDialogOption.groupJoin:
         return await openGroupJoinPage(context);
     }
@@ -113,7 +108,8 @@ class GroupPageState extends State<GroupPage> {
           stream: gateway.streamConnectionsData(),
           builder: (context, snapshot) {
             final data = snapshot.hasData ? snapshot.data : null;
-            final isEmpty = (data?.courses == null || data!.courses.isEmpty) &&
+            final isEmpty =
+                (data?.courses == null || data!.courses.isEmpty) &&
                 (data?.schoolClass == null || data!.schoolClass!.isEmpty);
 
             if (isEmpty) return _EmptyGroupList();
@@ -126,7 +122,8 @@ class GroupPageState extends State<GroupPage> {
                   children: <Widget>[
                     if (data.schoolClass != null)
                       _SchoolClassList(
-                          schoolClasses: data.schoolClass!.values.toList()),
+                        schoolClasses: data.schoolClass!.values.toList(),
+                      ),
                     _CourseList(data.courses.values.toList()),
                   ],
                 ),
@@ -136,8 +133,9 @@ class GroupPageState extends State<GroupPage> {
         ),
         floatingActionButton: AnimatedSwitcher(
           duration: const Duration(milliseconds: 175),
-          transitionBuilder: (child, animation) =>
-              ScaleTransition(scale: animation, child: child),
+          transitionBuilder:
+              (child, animation) =>
+                  ScaleTransition(scale: animation, child: child),
           child:
               _isVisible ? _CoursePageFAB(visible: _isVisible) : const Text(""),
         ),
@@ -152,9 +150,7 @@ class GroupPageState extends State<GroupPage> {
 }
 
 class _SchoolClassList extends StatelessWidget {
-  const _SchoolClassList({
-    required this.schoolClasses,
-  });
+  const _SchoolClassList({required this.schoolClasses});
 
   final List<SchoolClass> schoolClasses;
 
@@ -165,18 +161,19 @@ class _SchoolClassList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Meine Klasse${schoolClasses.length == 1 ? "" : "n"}:",
-            style: const TextStyle(color: Colors.grey)),
+        Text(
+          "Meine Klasse${schoolClasses.length == 1 ? "" : "n"}:",
+          style: const TextStyle(color: Colors.grey),
+        ),
         AnimationLimiter(
           child: Column(
             children: AnimationConfiguration.toStaggeredList(
               duration: const Duration(milliseconds: 225),
-              childAnimationBuilder: (widget) => SlideAnimation(
-                verticalOffset: 25,
-                child: FadeInAnimation(
-                  child: widget,
-                ),
-              ),
+              childAnimationBuilder:
+                  (widget) => SlideAnimation(
+                    verticalOffset: 25,
+                    child: FadeInAnimation(child: widget),
+                  ),
               children: <Widget>[
                 for (int i = 0; i < schoolClasses.length; i++)
                   Padding(
@@ -215,19 +212,23 @@ class _CourseList extends StatelessWidget {
               child: Wrap(
                 children: AnimationConfiguration.toStaggeredList(
                   duration: const Duration(milliseconds: 225),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    verticalOffset: 20,
-                    child: FadeInAnimation(
-                      child: widget,
-                    ),
-                  ),
-                  children: courseList
-                      .map((course) => Padding(
-                            padding:
-                                const EdgeInsets.only(right: 8, bottom: 10),
-                            child: CourseCardRedesign(course),
-                          ))
-                      .toList(),
+                  childAnimationBuilder:
+                      (widget) => SlideAnimation(
+                        verticalOffset: 20,
+                        child: FadeInAnimation(child: widget),
+                      ),
+                  children:
+                      courseList
+                          .map(
+                            (course) => Padding(
+                              padding: const EdgeInsets.only(
+                                right: 8,
+                                bottom: 10,
+                              ),
+                              child: CourseCardRedesign(course),
+                            ),
+                          )
+                          .toList(),
                 ),
               ),
             ),
@@ -239,9 +240,7 @@ class _CourseList extends StatelessWidget {
 }
 
 class _CoursePageFAB extends StatelessWidget {
-  const _CoursePageFAB({
-    required this.visible,
-  });
+  const _CoursePageFAB({required this.visible});
 
   final bool visible;
 
@@ -251,10 +250,7 @@ class _CoursePageFAB extends StatelessWidget {
       builder: (BuildContext contextSheet) => _ModelBottomSheetContent(context),
     );
     if (context.mounted) {
-      handleCourseDialogOption(
-        context,
-        courseDialogOption,
-      );
+      handleCourseDialogOption(context, courseDialogOption);
     }
   }
 
@@ -356,10 +352,13 @@ class _JoinGroupTile extends StatelessWidget {
           Row(
             children: <Widget>[
               const SizedBox(width: 16),
-              Icon(iconData,
-                  color: Theme.of(context).isDarkTheme
-                      ? Colors.white54
-                      : Colors.grey[600]),
+              Icon(
+                iconData,
+                color:
+                    Theme.of(context).isDarkTheme
+                        ? Colors.white54
+                        : Colors.grey[600],
+              ),
               const SizedBox(width: 22),
               Text(title, style: const TextStyle(fontSize: 16)),
               const SizedBox(width: 16),
@@ -370,7 +369,9 @@ class _JoinGroupTile extends StatelessWidget {
             child: Text(
               description,
               style: TextStyle(
-                  color: Colors.grey.withValues(alpha: 0.85), fontSize: 12),
+                color: Colors.grey.withValues(alpha: 0.85),
+                fontSize: 12,
+              ),
             ),
           ),
         ],

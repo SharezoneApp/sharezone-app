@@ -24,19 +24,22 @@ class EinkommenderLink {
   });
 
   factory EinkommenderLink.fromDynamicLink(
-      DynamicLinkData? pendingDynamicLinkData,
-      EinkommensZeitpunkt einkommensZeitpunkt) {
+    DynamicLinkData? pendingDynamicLinkData,
+    EinkommensZeitpunkt einkommensZeitpunkt,
+  ) {
     if (pendingDynamicLinkData == null) {
       return EinkommenderLink();
     }
     final copiedQueryParameters = Map<String, String>.from(
-        pendingDynamicLinkData.link?.queryParameters ?? {});
+      pendingDynamicLinkData.link?.queryParameters ?? {},
+    );
     final type = copiedQueryParameters.remove("type") ?? "";
 
     return EinkommenderLink(
-        typ: type,
-        zusatzinformationen: copiedQueryParameters,
-        einkommensZeitpunkt: einkommensZeitpunkt);
+      typ: type,
+      zusatzinformationen: copiedQueryParameters,
+      einkommensZeitpunkt: einkommensZeitpunkt,
+    );
   }
 
   @override

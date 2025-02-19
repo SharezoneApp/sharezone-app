@@ -25,9 +25,10 @@ class MoveFilePageHeader extends StatelessWidget
       leading: IconButton(
         icon: Icon(
           Icons.home,
-          color: currentPath == FolderPath.root
-              ? Theme.of(context).primaryColor
-              : null,
+          color:
+              currentPath == FolderPath.root
+                  ? Theme.of(context).primaryColor
+                  : null,
         ),
         onPressed: () {
           if (currentPath == FolderPath.root) {
@@ -65,24 +66,28 @@ class _FileSharingPathRow extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: pathHierachy.map((subPath) {
-          return _ClickableElement(
-            isLast: subPath == path,
-            text: _getTextSubPath(context, fileSharingData, subPath) ?? '',
-            onTap: () {
-              // if(path == FolderPaths.ROOT)
-              final moveFileBloc = BlocProvider.of<MoveFileBloc>(context);
+        children:
+            pathHierachy.map((subPath) {
+              return _ClickableElement(
+                isLast: subPath == path,
+                text: _getTextSubPath(context, fileSharingData, subPath) ?? '',
+                onTap: () {
+                  // if(path == FolderPaths.ROOT)
+                  final moveFileBloc = BlocProvider.of<MoveFileBloc>(context);
 
-              moveFileBloc.changeNewPath(subPath);
-            },
-          );
-        }).toList(),
+                  moveFileBloc.changeNewPath(subPath);
+                },
+              );
+            }).toList(),
       ),
     );
   }
 
-  String? _getTextSubPath(BuildContext context,
-      FileSharingData? fileSharingData, FolderPath subPath) {
+  String? _getTextSubPath(
+    BuildContext context,
+    FileSharingData? fileSharingData,
+    FolderPath subPath,
+  ) {
     if (subPath == FolderPath.root) return fileSharingData!.courseName;
     return fileSharingData!.getFolder(subPath)?.name;
   }
@@ -113,7 +118,8 @@ class _ClickableElement extends StatelessWidget {
           Text(
             text!,
             style: TextStyle(
-                color: isLast! ? Theme.of(context).primaryColor : null),
+              color: isLast! ? Theme.of(context).primaryColor : null,
+            ),
           ),
         ],
       ),

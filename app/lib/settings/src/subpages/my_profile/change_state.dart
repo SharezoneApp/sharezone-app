@@ -20,9 +20,9 @@ class ChangeStatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-            AppBar(title: const Text("Bundesland ändern"), centerTitle: true),
-        body: const _ChangeStatePageBody());
+      appBar: AppBar(title: const Text("Bundesland ändern"), centerTitle: true),
+      body: const _ChangeStatePageBody(),
+    );
   }
 }
 
@@ -41,7 +41,8 @@ class _ChangeStatePageBody extends StatelessWidget {
         }
         if (snapshot.hasError) {
           return const Text(
-              "Error beim Anzeigen der Bundesländer. Falls der Fehler besteht kontaktiere uns bitte.");
+            "Error beim Anzeigen der Bundesländer. Falls der Fehler besteht kontaktiere uns bitte.",
+          );
         }
         final currentState = snapshot.data;
         return SingleChildScrollView(
@@ -65,9 +66,10 @@ class _ChangeStatePageBody extends StatelessWidget {
   }
 
   void showExceptionSnackbar(BuildContext context) => showSnackSec(
-      context: context,
-      text: "Fehler beim Ändern deines Bundeslandes!:(",
-      seconds: 3);
+    context: context,
+    text: "Fehler beim Ändern deines Bundeslandes!:(",
+    seconds: 3,
+  );
 }
 
 class _WhyWeNeedTheState extends StatelessWidget {
@@ -101,11 +103,15 @@ class _StateRadioGroup extends StatelessWidget {
         _StateListTile(StateEnum.bremen, initialState: initialState),
         _StateListTile(StateEnum.hamburg, initialState: initialState),
         _StateListTile(StateEnum.hessen, initialState: initialState),
-        _StateListTile(StateEnum.mecklenburgVorpommern,
-            initialState: initialState),
+        _StateListTile(
+          StateEnum.mecklenburgVorpommern,
+          initialState: initialState,
+        ),
         _StateListTile(StateEnum.niedersachsen, initialState: initialState),
-        _StateListTile(StateEnum.nordrheinWestfalen,
-            initialState: initialState),
+        _StateListTile(
+          StateEnum.nordrheinWestfalen,
+          initialState: initialState,
+        ),
         _StateListTile(StateEnum.rheinlandPfalz, initialState: initialState),
         _StateListTile(StateEnum.saarland, initialState: initialState),
         _StateListTile(StateEnum.sachsen, initialState: initialState),

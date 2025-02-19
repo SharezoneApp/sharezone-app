@@ -12,16 +12,10 @@ class ReferenceData {
   String id;
   ReferenceType type;
 
-  ReferenceData({
-    required this.id,
-    required this.type,
-  });
+  ReferenceData({required this.id, required this.type});
 
   factory ReferenceData.fromData(Map<String, dynamic> data) {
-    return ReferenceData(
-      id: data['id'],
-      type: data['type'],
-    );
+    return ReferenceData(id: data['id'], type: data['type']);
   }
 
   factory ReferenceData.fromMapData({
@@ -35,19 +29,10 @@ class ReferenceData {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'type': type.name,
-    };
+    return {'id': id, 'type': type.name};
   }
 
-  ReferenceData copyWith({
-    String? id,
-    ReferenceType? type,
-  }) {
-    return ReferenceData(
-      id: id ?? this.id,
-      type: type ?? this.type,
-    );
+  ReferenceData copyWith({String? id, ReferenceType? type}) {
+    return ReferenceData(id: id ?? this.id, type: type ?? this.type);
   }
 }

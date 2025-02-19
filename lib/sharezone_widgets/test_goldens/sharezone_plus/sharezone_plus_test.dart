@@ -53,7 +53,8 @@ void main() {
             child: SharezonePlusFeatureInfoCard(
               withLearnMoreButton: true,
               child: const Text(
-                  'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.'),
+                'Erwerbe Sharezone Plus, um nachzuvollziehen, wer den Infozettel bereits gelesen hat.',
+              ),
               onLearnMorePressed: () {},
             ),
           ),
@@ -68,15 +69,21 @@ void main() {
         );
 
         await screenMatchesGolden(
-            tester, 'sharezone_plus_feature_info_card_light');
+          tester,
+          'sharezone_plus_feature_info_card_light',
+        );
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
-        await pumpSharezonePlusFeatureInfoCard(tester,
-            theme: getDarkTheme(fontFamily: roboto));
+        await pumpSharezonePlusFeatureInfoCard(
+          tester,
+          theme: getDarkTheme(fontFamily: roboto),
+        );
 
         await screenMatchesGolden(
-            tester, 'sharezone_plus_feature_info_card_dark');
+          tester,
+          'sharezone_plus_feature_info_card_dark',
+        );
       });
     });
   });

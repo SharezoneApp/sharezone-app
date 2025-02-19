@@ -223,10 +223,15 @@ class DataCollectionPackage<T> {
     _isInitiated = true;
     _listener = reference.snapshots().listen((event) {
       if (_loadedData == false) _loadedData = true;
-      var preData = event.docs
-          .map((docSnap) =>
-              objectBuilder(docSnap.id, docSnap.data() as Map<String, dynamic>))
-          .toList();
+      var preData =
+          event.docs
+              .map(
+                (docSnap) => objectBuilder(
+                  docSnap.id,
+                  docSnap.data() as Map<String, dynamic>,
+                ),
+              )
+              .toList();
       if (sorter != null) preData.sort(sorter);
       data = preData;
       for (StreamController<List<T>> controller in _listStreamController) {

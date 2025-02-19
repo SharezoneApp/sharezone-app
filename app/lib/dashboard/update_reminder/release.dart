@@ -12,10 +12,7 @@ class Release {
   final Version version;
   final DateTime releaseDate;
 
-  Release({
-    required this.version,
-    required this.releaseDate,
-  });
+  Release({required this.version, required this.releaseDate});
 
   @override
   bool operator ==(Object other) {

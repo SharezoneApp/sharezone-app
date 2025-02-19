@@ -15,29 +15,26 @@ class DownloadAppTipAnalytics {
   DownloadAppTipAnalytics(this._analytics);
 
   void logOpenTip(TargetPlatform platform) {
-    _analytics.log(_DownloadAppTipEvent(
-      status: 'opened',
-      targetPlatform: platform,
-    ));
+    _analytics.log(
+      _DownloadAppTipEvent(status: 'opened', targetPlatform: platform),
+    );
   }
 
   void logCloseTip(TargetPlatform platform) {
-    _analytics.log(_DownloadAppTipEvent(
-      status: 'closed',
-      targetPlatform: platform,
-    ));
+    _analytics.log(
+      _DownloadAppTipEvent(status: 'closed', targetPlatform: platform),
+    );
   }
 }
 
 class _DownloadAppTipEvent extends AnalyticsEvent {
-  _DownloadAppTipEvent({
-    required String status,
-    required this.targetPlatform,
-  }) : super('download_app_tip_$status');
+  _DownloadAppTipEvent({required String status, required this.targetPlatform})
+    : super('download_app_tip_$status');
 
   final TargetPlatform targetPlatform;
 
   @override
-  Map<String, dynamic> get data =>
-      {"targetPlatform": targetPlatform.toString()};
+  Map<String, dynamic> get data => {
+    "targetPlatform": targetPlatform.toString(),
+  };
 }

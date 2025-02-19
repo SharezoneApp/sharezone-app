@@ -21,55 +21,67 @@ class TableOfContentsController extends ChangeNotifier {
     required DocumentController documentController,
     required ExpansionBehavior initialExpansionBehavior,
   }) : _documentController = documentController {
-    _tableOfContents =
-        _createTableOfContents(privacyPolicy, initialExpansionBehavior);
+    _tableOfContents = _createTableOfContents(
+      privacyPolicy,
+      initialExpansionBehavior,
+    );
 
     _updateViews();
 
-    currentlyReadingController.currentlyReadDocumentSectionOrNull
-        .addListener(() {
-      final currentlyReadSection =
-          currentlyReadingController.currentlyReadDocumentSectionOrNull.value;
-      _tableOfContents =
-          _tableOfContents.changeCurrentlyReadSectionTo(currentlyReadSection);
-      _updateViews();
-    });
+    currentlyReadingController.currentlyReadDocumentSectionOrNull.addListener(
+      () {
+        final currentlyReadSection =
+            currentlyReadingController.currentlyReadDocumentSectionOrNull.value;
+        _tableOfContents = _tableOfContents.changeCurrentlyReadSectionTo(
+          currentlyReadSection,
+        );
+        _updateViews();
+      },
+    );
   }
 
   TableOfContents _createTableOfContents(
-      PrivacyPolicy privacyPolicy, ExpansionBehavior initialExpansionBehavior) {
-    final IList<TocSection> sections = privacyPolicy.tableOfContentSections
-        .map((e) => TocSection(
-              id: e.id,
-              title: e.sectionName,
-              subsections: e.subsections
-                  .map(
-                    (sub) => TocSection(
-                      id: sub.id,
-                      title: sub.sectionName,
-                      subsections: IList(const []),
-                      expansionStateOrNull: null,
-                      isThisCurrentlyRead: false,
-                    ),
-                  )
-                  .toIList(),
-              isThisCurrentlyRead: false,
-              expansionStateOrNull: e.subsections.isNotEmpty
-                  ? TocSectionExpansionState(
-                      expansionBehavior: initialExpansionBehavior,
-                      expansionMode: ExpansionMode.automatic,
-                      isExpanded: false,
-                    )
-                  : null,
-            ))
-        .toIList();
+    PrivacyPolicy privacyPolicy,
+    ExpansionBehavior initialExpansionBehavior,
+  ) {
+    final IList<TocSection> sections =
+        privacyPolicy.tableOfContentSections
+            .map(
+              (e) => TocSection(
+                id: e.id,
+                title: e.sectionName,
+                subsections:
+                    e.subsections
+                        .map(
+                          (sub) => TocSection(
+                            id: sub.id,
+                            title: sub.sectionName,
+                            subsections: IList(const []),
+                            expansionStateOrNull: null,
+                            isThisCurrentlyRead: false,
+                          ),
+                        )
+                        .toIList(),
+                isThisCurrentlyRead: false,
+                expansionStateOrNull:
+                    e.subsections.isNotEmpty
+                        ? TocSectionExpansionState(
+                          expansionBehavior: initialExpansionBehavior,
+                          expansionMode: ExpansionMode.automatic,
+                          isExpanded: false,
+                        )
+                        : null,
+              ),
+            )
+            .toIList();
 
     return TableOfContents(sections, initialExpansionBehavior);
   }
 
   void changeExpansionBehavior(ExpansionBehavior expansionBehavior) {
-    _tableOfContents =
-        _tableOfContents.changeExpansionBehaviorTo(expansionBehavior);
+    _tableOfContents = _tableOfContents.changeExpansionBehaviorTo(
+      expansionBehavior,
+    );
   }
 
   Future<void> scrollTo(DocumentSectionId documentSectionId) {
@@ -77,8 +89,9 @@ class TableOfContentsController extends ChangeNotifier {
   }
 
   void toggleDocumentSectionExpansion(DocumentSectionId documentSectionId) {
-    _tableOfContents =
-        _tableOfContents.forceToggleExpansionOf(documentSectionId);
+    _tableOfContents = _tableOfContents.forceToggleExpansionOf(
+      documentSectionId,
+    );
 
     _updateViews();
   }
@@ -98,17 +111,18 @@ class TableOfContentsController extends ChangeNotifier {
       isExpanded: documentSection.isExpanded,
       sectionHeadingText: documentSection.title,
       shouldHighlight: documentSection.isThisOrASubsectionCurrentlyRead,
-      subsections: documentSection.subsections
-          .map(
-            (subsection) => TocDocumentSectionView(
-              id: subsection.id,
-              isExpanded: subsection.isExpanded,
-              sectionHeadingText: subsection.title,
-              shouldHighlight: subsection.isThisOrASubsectionCurrentlyRead,
-              subsections: const IListConst([]),
-            ),
-          )
-          .toIList(),
+      subsections:
+          documentSection.subsections
+              .map(
+                (subsection) => TocDocumentSectionView(
+                  id: subsection.id,
+                  isExpanded: subsection.isExpanded,
+                  sectionHeadingText: subsection.title,
+                  shouldHighlight: subsection.isThisOrASubsectionCurrentlyRead,
+                  subsections: const IListConst([]),
+                ),
+              )
+              .toIList(),
     );
   }
 }

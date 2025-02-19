@@ -84,7 +84,7 @@ class _MarkOverdueHomeworkPromptState extends State<MarkOverdueHomeworkPrompt> {
                       bloc.add(CompletedAllOverdue());
                     },
                     child: const Text("Abhaken"),
-                  )
+                  ),
                 ],
               ),
             ],

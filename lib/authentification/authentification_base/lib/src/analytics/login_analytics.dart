@@ -30,14 +30,12 @@ class LoginAnalytics {
   }
 
   void logQrCodeCustomTokenWebLogin() {
-    _analytics.log(AuthentifactionEvent(
-      provider: customToken,
-      name: name,
-    ));
+    _analytics.log(AuthentifactionEvent(provider: customToken, name: name));
   }
 
   void logEmailAndPasswordLogin() {
-    _analytics
-        .log(AuthentifactionEvent(provider: emailAndPassword, name: name));
+    _analytics.log(
+      AuthentifactionEvent(provider: emailAndPassword, name: name),
+    );
   }
 }

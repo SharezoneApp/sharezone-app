@@ -40,7 +40,8 @@ class FirestoreAbgabeGateway
 
   @override
   Stream<ErstellerAbgabeModelSnapshot> streamAbgabe(
-      final HomeworkId homeworkId) async* {
+    final HomeworkId homeworkId,
+  ) async* {
     final abgabeId = AbgabeId(AbgabezielId.homework(homeworkId), userId);
 
     final reference = submissionCreationCollection.doc('$abgabeId');
@@ -58,21 +59,23 @@ class FirestoreAbgabeGateway
         .snapshots()
         .whereNotNull()
         .asyncMap((event) {
-      final homework = HomeworkDto.fromData(
-        event.data() as Map<String, dynamic>,
-        id: event.id,
-      );
-      return homework.todoUntil;
-    });
+          final homework = HomeworkDto.fromData(
+            event.data() as Map<String, dynamic>,
+            id: event.id,
+          );
+          return homework.todoUntil;
+        });
   }
 
   @override
   Stream<List<AbgegebeneAbgabe>> streamAbgabenFuerHausaufgabe(
-      final HomeworkId homeworkId) {
-    final querySnapshots = submissionReviewCollection
-        .where('submittedForReference.type', isEqualTo: 'hw')
-        .where('submittedForReference.id', isEqualTo: homeworkId.toString())
-        .snapshots();
+    final HomeworkId homeworkId,
+  ) {
+    final querySnapshots =
+        submissionReviewCollection
+            .where('submittedForReference.type', isEqualTo: 'hw')
+            .where('submittedForReference.id', isEqualTo: homeworkId.toString())
+            .snapshots();
 
     return querySnapshots.map(_toAbgegebeneAbgaben);
   }
@@ -95,22 +98,25 @@ class FirestoreAbgabeGateway
 
   AbgegebeneAbgabeDto _toDto(DocumentSnapshot snapshot) {
     return AbgegebeneAbgabeDto.fromData(
-        snapshot.id, snapshot.data() as Map<String, dynamic>);
+      snapshot.id,
+      snapshot.data() as Map<String, dynamic>,
+    );
   }
 
   AbgegebeneAbgabe _toAbgegebeneAbgabe(AbgegebeneAbgabeDto dto) {
-    final dateien = dto.submittedFiles
-        .map(
-          (f) => HochgeladeneAbgabedatei(
-            id: AbgabedateiId(f.id),
-            erstellungsdatum: DateTime.parse(f.createdOnIsoString),
-            name: Dateiname(f.fileNameWithExtension),
-            downloadUrl: DateiDownloadUrl(f.downloadUrl),
-            groesse: Dateigroesse(f.sizeInBytes),
-            zuletztBearbeitet: f.lastEditedIsoString?.toDateTime(),
-          ),
-        )
-        .toList();
+    final dateien =
+        dto.submittedFiles
+            .map(
+              (f) => HochgeladeneAbgabedatei(
+                id: AbgabedateiId(f.id),
+                erstellungsdatum: DateTime.parse(f.createdOnIsoString),
+                name: Dateiname(f.fileNameWithExtension),
+                downloadUrl: DateiDownloadUrl(f.downloadUrl),
+                groesse: Dateigroesse(f.sizeInBytes),
+                zuletztBearbeitet: f.lastEditedIsoString?.toDateTime(),
+              ),
+            )
+            .toList();
 
     final authorName = Nutzername(dto.author.name, dto.author.abbreviation);
     return AbgegebeneAbgabe(
@@ -126,36 +132,39 @@ class FirestoreAbgabeGateway
   Stream<List<Nutzer>> vonAbgabeBetroffendeNutzer(AbgabeId abgabeId) async* {
     if (abgabeId.abgabenzielId.zielTyp != AbgabenzielTyp.hausaufgabe) {
       throw UnimplementedError(
-          '${abgabeId.abgabenzielId.zielTyp} nicht implementiert');
+        '${abgabeId.abgabenzielId.zielTyp} nicht implementiert',
+      );
     }
     final homeworkId = abgabeId.abgabenzielId.zielId.toString();
     final docSnaps = homeworkCollection.doc(homeworkId).snapshots();
 
     await for (final snapshot in docSnaps) {
       final homework = HomeworkDto.fromData(
-          snapshot.data() as Map<String, dynamic>,
-          id: snapshot.id);
+        snapshot.data() as Map<String, dynamic>,
+        id: snapshot.id,
+      );
       final allStudentUids = _getAllNonEmptyStudentIds(homework);
 
       final schueler = <Nutzer>[];
       for (var studentId in allStudentUids) {
-        final membersDoc = await courseCollection
-            .doc(homework.courseID)
-            .collection("Members")
-            .doc(studentId)
-            .get();
+        final membersDoc =
+            await courseCollection
+                .doc(homework.courseID)
+                .collection("Members")
+                .doc(studentId)
+                .get();
         if (membersDoc.get('typeOfUser') == 'student') {
           try {
             final nutzer = Nutzer(
               id: UserId(membersDoc.id),
-              name: Nutzername.generiereAbkuerzung(
-                membersDoc.get('name'),
-              ),
+              name: Nutzername.generiereAbkuerzung(membersDoc.get('name')),
             );
             schueler.add(nutzer);
           } catch (e) {
-            log('Konnte kein Nutzer aus ${membersDoc.reference.path} generieren: $e',
-                error: e);
+            log(
+              'Konnte kein Nutzer aus ${membersDoc.reference.path} generieren: $e',
+              error: e,
+            );
           }
         }
       }
@@ -167,9 +176,10 @@ class FirestoreAbgabeGateway
   Iterable<String> _getAllNonEmptyStudentIds(HomeworkDto homework) {
     final studentsCompleted = homework.assignedUserArrays.completedStudentUids;
     final studentsOpen = homework.assignedUserArrays.openStudentUids;
-    Iterable<String> allStudentUids = studentsCompleted
-      ..addAll(studentsOpen)
-      ..toSet();
+    Iterable<String> allStudentUids =
+        studentsCompleted
+          ..addAll(studentsOpen)
+          ..toSet();
     allStudentUids = allStudentUids.where((id) => id.isNotEmpty);
     return allStudentUids;
   }

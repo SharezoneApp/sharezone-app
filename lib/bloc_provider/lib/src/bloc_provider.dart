@@ -12,11 +12,7 @@ import 'package:flutter/material.dart';
 
 // Generic BLoC provider
 class BlocProvider<T extends BlocBase> extends StatefulWidget {
-  const BlocProvider({
-    super.key,
-    this.child,
-    required this.bloc,
-  });
+  const BlocProvider({super.key, this.child, required this.bloc});
 
   final T bloc;
   final Widget? child;
@@ -30,10 +26,11 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
     final provider = context.findAncestorWidgetOfExactType<BlocProvider<T>>();
     if (provider == null) {
       throw Exception(
-          """A BlocProvider ancestor with Type $type should be given in the widget tree.
+        """A BlocProvider ancestor with Type $type should be given in the widget tree.
 If this is not true this propably means that BlocProvider.of<$T>(context)
 was called while no BlocProvider with Type of $T was created in an 
-ancestor widget.""");
+ancestor widget.""",
+      );
     }
     return provider.bloc;
   }
@@ -41,11 +38,7 @@ ancestor widget.""");
   static Type _typeOf<T>() => T;
 
   BlocProvider<T> copyWith(Widget child) {
-    return BlocProvider<T>(
-      key: key,
-      bloc: bloc,
-      child: child,
-    );
+    return BlocProvider<T>(key: key, bloc: bloc, child: child);
   }
 }
 

@@ -30,19 +30,10 @@ class GradeDetailsPage extends StatelessWidget {
         return factory.create(id);
       },
       child: Scaffold(
-        appBar: AppBar(
-          actions: const [
-            _DeleteIconButton(),
-            _EditIconButton(),
-          ],
-        ),
+        appBar: AppBar(actions: const [_DeleteIconButton(), _EditIconButton()]),
         body: const SingleChildScrollView(
           padding: EdgeInsets.all(8),
-          child: SafeArea(
-            child: MaxWidthConstraintBox(
-              child: _Body(),
-            ),
-          ),
+          child: SafeArea(child: MaxWidthConstraintBox(child: _Body())),
         ),
       ),
     );
@@ -132,7 +123,7 @@ class _EditIconButton extends StatelessWidget {
                 TextButton(
                   child: const Text('OK'),
                   onPressed: () => Navigator.pop(context),
-                )
+                ),
               ],
             );
           },
@@ -162,9 +153,7 @@ class _Body extends StatelessWidget {
 }
 
 class _Error extends StatelessWidget {
-  const _Error({
-    required this.state,
-  });
+  const _Error({required this.state});
 
   final GradeDetailsPageError state;
 
@@ -172,8 +161,8 @@ class _Error extends StatelessWidget {
   Widget build(BuildContext context) {
     return ErrorCard(
       message: Text(state.message),
-      onContactSupportPressed: () =>
-          Navigator.pushNamed(context, SupportPage.tag),
+      onContactSupportPressed:
+          () => Navigator.pushNamed(context, SupportPage.tag),
     );
   }
 }
@@ -194,18 +183,12 @@ class _Loading extends StatelessWidget {
       title: 'Algebra',
       details: 'This is a test grade for algebra.',
     );
-    return const _Items(
-      view: dummyView,
-      isLoading: true,
-    );
+    return const _Items(view: dummyView, isLoading: true);
   }
 }
 
 class _Items extends StatelessWidget {
-  const _Items({
-    required this.view,
-    this.isLoading = false,
-  });
+  const _Items({required this.view, this.isLoading = false});
 
   final GradeDetailsView view;
   final bool isLoading;
@@ -225,7 +208,8 @@ class _Items extends StatelessWidget {
             _GradingType(gradeType: view.gradeType),
             _Term(termDisplayName: view.termDisplayName),
             _IntegrateGradeIntoSubjectGrade(
-                value: view.integrateGradeIntoSubjectGrade),
+              value: view.integrateGradeIntoSubjectGrade,
+            ),
             _Topic(topic: view.title),
             _Details(details: view.details),
           ],
@@ -236,9 +220,7 @@ class _Items extends StatelessWidget {
 }
 
 class _GradeValue extends StatelessWidget {
-  const _GradeValue({
-    required this.value,
-  });
+  const _GradeValue({required this.value});
 
   final String value;
 
@@ -252,9 +234,7 @@ class _GradeValue extends StatelessWidget {
 }
 
 class _GradingSystem extends StatelessWidget {
-  const _GradingSystem({
-    required this.gradingSystemDisplayName,
-  });
+  const _GradingSystem({required this.gradingSystemDisplayName});
 
   final String gradingSystemDisplayName;
 
@@ -269,9 +249,7 @@ class _GradingSystem extends StatelessWidget {
 }
 
 class _Subject extends StatelessWidget {
-  const _Subject({
-    required this.subjectDisplayName,
-  });
+  const _Subject({required this.subjectDisplayName});
 
   final String subjectDisplayName;
 
@@ -286,25 +264,18 @@ class _Subject extends StatelessWidget {
 }
 
 class _Date extends StatelessWidget {
-  const _Date({
-    required this.date,
-  });
+  const _Date({required this.date});
 
   final String date;
 
   @override
   Widget build(BuildContext context) {
-    return _GradeDetailsTile(
-      leading: SavedGradeIcons.date,
-      title: Text(date),
-    );
+    return _GradeDetailsTile(leading: SavedGradeIcons.date, title: Text(date));
   }
 }
 
 class _GradingType extends StatelessWidget {
-  const _GradingType({
-    required this.gradeType,
-  });
+  const _GradingType({required this.gradeType});
 
   final String gradeType;
 
@@ -319,9 +290,7 @@ class _GradingType extends StatelessWidget {
 }
 
 class _Term extends StatelessWidget {
-  const _Term({
-    required this.termDisplayName,
-  });
+  const _Term({required this.termDisplayName});
 
   final String termDisplayName;
 
@@ -336,9 +305,7 @@ class _Term extends StatelessWidget {
 }
 
 class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
-  const _IntegrateGradeIntoSubjectGrade({
-    required this.value,
-  });
+  const _IntegrateGradeIntoSubjectGrade({required this.value});
 
   final bool? value;
 
@@ -354,9 +321,7 @@ class _IntegrateGradeIntoSubjectGrade extends StatelessWidget {
 }
 
 class _Topic extends StatelessWidget {
-  const _Topic({
-    required this.topic,
-  });
+  const _Topic({required this.topic});
 
   final String? topic;
 
@@ -364,14 +329,14 @@ class _Topic extends StatelessWidget {
   Widget build(BuildContext context) {
     if (topic == null) return const SizedBox();
     return _GradeDetailsTile(
-        leading: SavedGradeIcons.title, title: Text(topic!));
+      leading: SavedGradeIcons.title,
+      title: Text(topic!),
+    );
   }
 }
 
 class _Details extends StatelessWidget {
-  const _Details({
-    required this.details,
-  });
+  const _Details({required this.details});
 
   final String? details;
 
@@ -409,13 +374,14 @@ class _GradeDetailsTile extends StatelessWidget {
     );
     return ListTile(
       leading: leading,
-      title: isLoading
-          ? Container(
-              height: 20,
-              width: double.infinity,
-              decoration: boxDecoration,
-            )
-          : title,
+      title:
+          isLoading
+              ? Container(
+                height: 20,
+                width: double.infinity,
+                decoration: boxDecoration,
+              )
+              : title,
       subtitle: () {
         if (subtitle == null) return null;
         if (isLoading) {

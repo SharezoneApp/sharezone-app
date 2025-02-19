@@ -22,7 +22,8 @@ class AnalyzeCommand extends ConcurrentCommand {
   final String name = 'analyze';
 
   @override
-  final String description = 'Analyzes all packages using package:tuneup.\n\n'
+  final String description =
+      'Analyzes all packages using package:tuneup.\n\n'
       'This command requires "pub" and "flutter" to be in your path.';
 
   @override
@@ -34,7 +35,9 @@ class AnalyzeCommand extends ConcurrentCommand {
 }
 
 Future<void> analyzePackage(
-    ProcessRunner processRunner, Package package) async {
+  ProcessRunner processRunner,
+  Package package,
+) async {
   await getPackage(processRunner, package);
   await _runDartAnalyze(processRunner, package);
   await formatCode(processRunner, package, throwIfCodeChanged: true);
@@ -42,18 +45,25 @@ Future<void> analyzePackage(
 }
 
 Future<void> _runDartAnalyze(
-    ProcessRunner processRunner, Package package) async {
-  await processRunner.runCommand(
-    ['dart', 'analyze', '--fatal-infos', '--fatal-warnings'],
-    workingDirectory: package.location,
-  );
+  ProcessRunner processRunner,
+  Package package,
+) async {
+  await processRunner.runCommand([
+    'dart',
+    'analyze',
+    '--fatal-infos',
+    '--fatal-warnings',
+  ], workingDirectory: package.location);
 }
 
 Future<void> _checkForCommentsWithBadSpacing(
-    ProcessRunner processRunner, Package package) async {
+  ProcessRunner processRunner,
+  Package package,
+) async {
   if (doesPackageIncludeFilesWithBadCommentSpacing(package.path)) {
     throw Exception(
-        'Package ${package.name} has comments with bad spacing. Fix them by running the `sz fix-comment-spacing` command.');
+      'Package ${package.name} has comments with bad spacing. Fix them by running the `sz fix-comment-spacing` command.',
+    );
   }
   return;
 }

@@ -31,12 +31,13 @@ class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'de';
 
   @override
-  final Map<String, dynamic> messages =
-      _notInlinedMessages(_notInlinedMessages);
+  final Map<String, dynamic> messages = _notInlinedMessages(
+    _notInlinedMessages,
+  );
   static _notInlinedMessages(_) => <String, Function>{
-        // ignore: map_value_type_not_assignable
-        "Feddig": MessageLookupByLibrary.simpleMessage("Feddig"),
-        // ignore: map_value_type_not_assignable
-        "Offen": MessageLookupByLibrary.simpleMessage("Offen")
-      };
+    // ignore: map_value_type_not_assignable
+    "Feddig": MessageLookupByLibrary.simpleMessage("Feddig"),
+    // ignore: map_value_type_not_assignable
+    "Offen": MessageLookupByLibrary.simpleMessage("Offen"),
+  };
 }

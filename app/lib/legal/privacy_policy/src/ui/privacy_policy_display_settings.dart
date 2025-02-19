@@ -24,36 +24,42 @@ class DisplaySettingsDialog extends StatelessWidget {
     // settings this dialog also changes accordingly.
     return AnimatedBuilder(
       animation: themeSettings,
-      builder: (context, _) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          textScaler: TextScaler.linear(themeSettings.textScalingFactor),
-        ),
-        child: Theme(
-          data: ThemeData(
-              brightness:
-                  _getBrightness(context, themeSettings.themeBrightness)),
-          child: SimpleDialog(
-            title: const Text('Anzeigeeinstellungen'),
-            children: [
-              _TextSize(themeSettings: themeSettings),
-              const SizedBox(height: 20),
-              _LightOrDarkMode(themeSettings: themeSettings),
-              const SizedBox(height: 10),
-              _VisualDensity(themeSettings: themeSettings),
-              if (kDebugMode) ...[
-                const SizedBox(height: 10),
-                _DrawDebugThresholdIndicator(themeSettings: themeSettings),
-              ]
-            ],
+      builder:
+          (context, _) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: TextScaler.linear(themeSettings.textScalingFactor),
+            ),
+            child: Theme(
+              data: ThemeData(
+                brightness: _getBrightness(
+                  context,
+                  themeSettings.themeBrightness,
+                ),
+              ),
+              child: SimpleDialog(
+                title: const Text('Anzeigeeinstellungen'),
+                children: [
+                  _TextSize(themeSettings: themeSettings),
+                  const SizedBox(height: 20),
+                  _LightOrDarkMode(themeSettings: themeSettings),
+                  const SizedBox(height: 10),
+                  _VisualDensity(themeSettings: themeSettings),
+                  if (kDebugMode) ...[
+                    const SizedBox(height: 10),
+                    _DrawDebugThresholdIndicator(themeSettings: themeSettings),
+                  ],
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 }
 
 Brightness _getBrightness(
-    BuildContext context, ThemeBrightness themeBrightness) {
+  BuildContext context,
+  ThemeBrightness themeBrightness,
+) {
   switch (themeBrightness) {
     case ThemeBrightness.dark:
       return Brightness.dark;
@@ -77,16 +83,16 @@ class _TextSize extends StatelessWidget {
         alignment: WrapAlignment.spaceAround,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Text('Textskalierungsfaktor',
-              style: Theme.of(context).textTheme.labelLarge),
+          Text(
+            'Textskalierungsfaktor',
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
           DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(
                 color: Theme.of(context).textTheme.bodyMedium!.color!,
               ),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
-              ),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -135,21 +141,23 @@ class _LightOrDarkMode extends StatelessWidget {
         alignment: WrapAlignment.spaceAround,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Text('Dunkel-/Hellmodus',
-              style: Theme.of(context).textTheme.labelLarge),
+          Text(
+            'Dunkel-/Hellmodus',
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
           const SizedBox(width: 10),
           Column(
             children: [
               ToggleButtons(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
-                ),
-                selectedColor: Theme.of(context).isDarkTheme
-                    ? Colors.black.withAlpha(240)
-                    : null, // standard color
-                fillColor: Theme.of(context).isDarkTheme
-                    ? blueColor
-                    : null, // standard color
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                selectedColor:
+                    Theme.of(context).isDarkTheme
+                        ? Colors.black.withAlpha(240)
+                        : null, // standard color
+                fillColor:
+                    Theme.of(context).isDarkTheme
+                        ? blueColor
+                        : null, // standard color
                 borderColor: Theme.of(context).textTheme.bodyMedium!.color,
                 selectedBorderColor:
                     Theme.of(context).textTheme.bodyMedium!.color,
@@ -159,11 +167,12 @@ class _LightOrDarkMode extends StatelessWidget {
                   themeSettings.themeBrightness == ThemeBrightness.system,
                 ],
                 onPressed: (index) {
-                  final brightness = <int, ThemeBrightness>{
-                    0: ThemeBrightness.dark,
-                    1: ThemeBrightness.light,
-                    2: ThemeBrightness.system,
-                  }[index]!;
+                  final brightness =
+                      <int, ThemeBrightness>{
+                        0: ThemeBrightness.dark,
+                        1: ThemeBrightness.light,
+                        2: ThemeBrightness.system,
+                      }[index]!;
 
                   themeSettings.themeBrightness = brightness;
                 },
@@ -173,7 +182,7 @@ class _LightOrDarkMode extends StatelessWidget {
                   Icon(Icons.settings_brightness),
                 ],
               ),
-              Text(_getText()!)
+              Text(_getText()!),
             ],
           ),
         ],
@@ -201,8 +210,10 @@ class _VisualDensity extends StatelessWidget {
       alignment: WrapAlignment.spaceAround,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        Text('Visuelle Kompaktheit',
-            style: Theme.of(context).textTheme.labelLarge),
+        Text(
+          'Visuelle Kompaktheit',
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
         const SizedBox(width: 10),
         DropdownButton<VisualDensitySetting>(
           value: themeSettings.visualDensitySetting,
@@ -242,18 +253,21 @@ class _DrawDebugThresholdIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final drawIndicator = themeSettings.showDebugThresholdIndicator;
     return Wrap(
-        alignment: WrapAlignment.spaceAround,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          Text('"Am Lesen"-Indikator anzeigen',
-              style: Theme.of(context).textTheme.labelLarge),
-          const SizedBox(width: 10),
-          Checkbox(
-            value: drawIndicator,
-            onChanged: (newValue) {
-              themeSettings.showDebugThresholdIndicator = newValue;
-            },
-          ),
-        ]);
+      alignment: WrapAlignment.spaceAround,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Text(
+          '"Am Lesen"-Indikator anzeigen',
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        const SizedBox(width: 10),
+        Checkbox(
+          value: drawIndicator,
+          onChanged: (newValue) {
+            themeSettings.showDebugThresholdIndicator = newValue;
+          },
+        ),
+      ],
+    );
   }
 }

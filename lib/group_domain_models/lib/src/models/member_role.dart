@@ -6,13 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum MemberRole {
-  owner,
-  admin,
-  creator,
-  standard,
-  none,
-}
+enum MemberRole { owner, admin, creator, standard, none }
 
 const Map<MemberRole, String> memberRoleAsString = {
   MemberRole.admin: "Admin",

@@ -56,7 +56,8 @@ class _TimetableDayViewState extends State<TimetableDayView> {
     super.initState();
     // Start showcase view after current widget frames are drawn.
     WidgetsBinding.instance.addPostFrameCallback(
-        (_) => ShowCaseWidget.of(context).startShowCase([globalKey]));
+      (_) => ShowCaseWidget.of(context).startShowCase([globalKey]),
+    );
   }
 
   EmptyPeriodSelection getEmptyPeriodSelection(Period period) =>
@@ -83,15 +84,18 @@ class _TimetableDayViewState extends State<TimetableDayView> {
         isSelected: selection == getEmptyPeriodSelection(periodList[i]),
         onHighlightChanged: (value) {
           if (value) {
-            selectionBloc
-                .onTapSelection(getEmptyPeriodSelection(periodList[i]));
+            selectionBloc.onTapSelection(
+              getEmptyPeriodSelection(periodList[i]),
+            );
           } else {
             selectionBloc.clearSelections();
           }
         },
         onTap: () {
           _openQuickCreateLessonDialog(
-              context, getEmptyPeriodSelection(periodList[i]));
+            context,
+            getEmptyPeriodSelection(periodList[i]),
+          );
         },
       );
 
@@ -107,44 +111,48 @@ class _TimetableDayViewState extends State<TimetableDayView> {
     return Expanded(
       flex: 3,
       child: StreamBuilder<EmptyPeriodSelection?>(
-          stream: selectionBloc.emptyPeriodSelections,
-          builder: (context, snapshot) {
-            final selection = snapshot.data;
-            return Stack(
-              children: [
-                ...getPositionedPeriodElementTiles(
-                  context: context,
-                  selection: selection,
-                  selectionBloc: selectionBloc,
-                  periodList: periodList,
-                  hourHeight: widget.hourHeight,
-                  timetableBegin: widget.timetableBegin,
+        stream: selectionBloc.emptyPeriodSelections,
+        builder: (context, snapshot) {
+          final selection = snapshot.data;
+          return Stack(
+            children: [
+              ...getPositionedPeriodElementTiles(
+                context: context,
+                selection: selection,
+                selectionBloc: selectionBloc,
+                periodList: periodList,
+                hourHeight: widget.hourHeight,
+                timetableBegin: widget.timetableBegin,
+              ),
+              for (final element
+                  in widget.elements
+                    ..sort((e1, e2) => e1.priority.compareTo(e2.priority)))
+                TimetableElementTile(
+                  element,
+                  widget.hourHeight,
+                  widget.width,
+                  widget.timetableBegin,
+                  widget.date,
                 ),
-                for (final element
-                    in widget.elements
-                      ..sort((e1, e2) => e1.priority.compareTo(e2.priority)))
-                  TimetableElementTile(
-                    element,
-                    widget.hourHeight,
-                    widget.width,
-                    widget.timetableBegin,
-                    widget.date,
-                  )
-              ],
-            );
-          }),
+            ],
+          );
+        },
+      ),
     );
   }
 
   void _openQuickCreateLessonDialog(
-      BuildContext context, EmptyPeriodSelection emptyPeriodSelection) {
+    BuildContext context,
+    EmptyPeriodSelection emptyPeriodSelection,
+  ) {
     final selectionBloc = BlocProvider.of<TimetableSelectionBloc>(context);
     showModalBottomSheet(
       context: context,
-      builder: (context) => TimetableQuickCreateDialog(
-        periodSelection: emptyPeriodSelection,
-        selectionBloc: selectionBloc,
-      ),
+      builder:
+          (context) => TimetableQuickCreateDialog(
+            periodSelection: emptyPeriodSelection,
+            selectionBloc: selectionBloc,
+          ),
       isScrollControlled: true,
     );
   }
@@ -171,8 +179,11 @@ class _PositionedPeriodElementTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dimensions =
-        TimetablePeriodDimensions(period, hourHeight, timetableBegin);
+    final dimensions = TimetablePeriodDimensions(
+      period,
+      hourHeight,
+      timetableBegin,
+    );
     return Positioned(
       left: 0.0,
       top: dimensions.topPosition,
@@ -190,8 +201,9 @@ class _PositionedPeriodElementTile extends StatelessWidget {
   Widget _getWidgetSelected(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
-          borderRadius: borderRadius),
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
+        borderRadius: borderRadius,
+      ),
       child: const Center(child: Icon(Icons.add, color: Colors.white)),
     );
   }
@@ -215,7 +227,11 @@ class TimetableElementTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dimensions = TimetableElementDimensions(
-        timetableElement, hourHeight, width, timetableBegin);
+      timetableElement,
+      hourHeight,
+      width,
+      timetableBegin,
+    );
     return Positioned(
       left: dimensions.leftPosition,
       top: dimensions.topPosition,

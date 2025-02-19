@@ -25,8 +25,10 @@ class NavigationExperimentCache extends BlocBase {
 
   NavigationExperimentCache(this._cache) {
     _cache
-        .getString(key,
-            defaultValue: NavigationExperimentOption.drawerAndBnb.name)
+        .getString(
+          key,
+          defaultValue: NavigationExperimentOption.drawerAndBnb.name,
+        )
         .map(NavigationExperimentOption.values.byName)
         .listen(_currentNavigationSubject.sink.add);
   }

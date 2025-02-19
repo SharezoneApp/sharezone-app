@@ -55,7 +55,8 @@ class HomeworkCompletionUserListBlocFactory extends BlocBase {
     } catch (e) {
       if (_isDebug()) {
         throw StateError(
-            'Homework $id is not in Firestore cache. This is unexpected as we assume it is always in the cache. This code needs to be fixed.');
+          'Homework $id is not in Firestore cache. This is unexpected as we assume it is always in the cache. This code needs to be fixed.',
+        );
       }
       hw = await _gateway.singleHomework('$id', source: Source.server);
     }

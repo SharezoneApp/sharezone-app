@@ -44,8 +44,9 @@ class _GroupOnboardingGroupJoinPageState
         builder: (context) {
           return const Scaffold(
             appBar: GroupJoinAppBar(withBackIcon: false),
-            body:
-                SafeArea(child: SingleChildScrollView(child: GroupJoinHelp())),
+            body: SafeArea(
+              child: SingleChildScrollView(child: GroupJoinHelp()),
+            ),
             bottomNavigationBar: OnboardingNavigationBar(
               action: _FinishButton(),
             ),

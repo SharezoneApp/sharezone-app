@@ -16,11 +16,13 @@ class MyProfileBloc extends BlocBase {
   final Stream<UserView> userViewStream;
 
   MyProfileBloc(UserGateway userGateway)
-      : userViewStream = TwoStreams(
-                userGateway.userStream, userGateway.authUserStream)
-            .stream
-            .map((result) =>
-                UserView.fromUserAndFirebaseUser(result.data0!, result.data1!));
+    : userViewStream = TwoStreams(
+        userGateway.userStream,
+        userGateway.authUserStream,
+      ).stream.map(
+        (result) =>
+            UserView.fromUserAndFirebaseUser(result.data0!, result.data1!),
+      );
 
   @override
   void dispose() {}
