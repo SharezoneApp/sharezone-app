@@ -47,10 +47,11 @@ void main() {
 
     test('saves term successfully with default values', () async {
       controller.setName('Test');
+
       await controller.save();
 
       expect(gradesService.terms.value, hasLength(1));
-      final term = gradesService.terms.value.first;
+      final term = gradesService.terms.value.single;
       expect(term.name, 'Test');
       expect(term.isActiveTerm, true);
       expect(term.finalGradeType.id, GradeType.schoolReportGrade.id);
@@ -60,6 +61,7 @@ void main() {
     test('saves term with custom grading system', () async {
       controller.setName('foo');
       controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
+
       await controller.save();
 
       final term = gradesService.terms.value.single;
@@ -69,6 +71,7 @@ void main() {
     test('saves term that is not active', () async {
       controller.setName('Inactive Term');
       controller.setIsCurrentTerm(false);
+
       await controller.save();
 
       final term = gradesService.terms.value.single;
