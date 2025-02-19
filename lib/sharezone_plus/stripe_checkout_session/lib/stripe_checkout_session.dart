@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library stripe_checkout_session;
+library;
 
 export 'src/stripe_checkout_session.dart';

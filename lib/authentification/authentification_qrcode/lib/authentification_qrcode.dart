@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library authentification_qrcode;
+library;
 
 export 'src/models/qr_sign_in_document.dart';
 export 'src/models/qr_sign_in_state.dart';

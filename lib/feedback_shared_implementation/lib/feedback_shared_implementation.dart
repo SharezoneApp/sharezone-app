@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library feedback_shared_implementation;
+library;
 
 export 'src/api/feedback_api.dart';
 export 'src/api/firebase_feedback_api.dart';

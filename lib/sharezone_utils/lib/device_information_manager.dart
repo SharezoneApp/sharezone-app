@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library device_information_manager;
+library;
 
 export 'src/device_information_manager/mobile_device_information_manager.dart';
 export 'src/device_information_manager/android_information.dart';

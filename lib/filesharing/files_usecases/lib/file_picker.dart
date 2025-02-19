@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library file_picker;
+library;
 
 export 'src/file_picker/file_picker.dart';

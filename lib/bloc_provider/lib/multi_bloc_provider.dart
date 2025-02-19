@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library multi_bloc_provider;
+library;
 
 export 'src/multi_bloc_provider.dart';

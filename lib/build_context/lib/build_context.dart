@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library build_context;
+library;
 
 export 'package:build_context/src/build_context_impl.dart';

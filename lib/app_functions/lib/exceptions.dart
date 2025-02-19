@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library exceptions;
+library;
 
 export 'src/app_functions_exceptions.dart';

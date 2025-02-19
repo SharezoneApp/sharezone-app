@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library authentification_apple;
+library;
 
 export 'src/apple/apple_sign_in_logic.dart';
