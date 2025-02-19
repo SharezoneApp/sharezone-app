@@ -27,7 +27,7 @@ import 'package:sharezone/notifications/setup_push_notification_action_handler.d
 ///
 /// Example: Notice that there are more notifications that could be generated
 /// but are not. E.g. a notification with a title but no body.
-/// dart```
+/// ```
 /// final notifications = generateNotificationMutations(
 ///   actionType: {'do-something', 'do-something-aswell'},
 ///   actionData: {
