@@ -24,5 +24,23 @@ void main() {
         );
       },
     );
+    test('saves term sucessfully with default values', () async {
+      var gradesService = GradesService();
+      final controller = CreateTermPageController(
+        gradesService: gradesService,
+        analytics: CreateTermAnalytics(Analytics(LocalAnalyticsBackend())),
+        crashAnalytics: MockCrashAnalytics(),
+      );
+
+      controller.setName('Test');
+      await controller.save();
+
+      expect(gradesService.terms.value, hasLength(1));
+      final term = gradesService.terms.value.first;
+      expect(term.name, 'Test');
+      expect(term.isActiveTerm, true);
+      expect(term.finalGradeType.id, GradeType.schoolReportGrade.id);
+      expect(term.gradingSystem, GradingSystem.oneToSixWithPlusAndMinus);
+    });
   });
 }
