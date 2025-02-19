@@ -16,6 +16,6 @@ environment:
   sdk: ^3.7.0
 
 dev_dependencies:
-  test: ^1.23.1
+  test: ^1.25.15
   sharezone_lints:
     path: ../sharezone_lints

@@ -17,10 +17,10 @@ environment:
   sdk: ^3.7.0
 
 dependencies:
-  collection: ^1.17.2
+  collection: ^1.19.1
   flutter:
     sdk: flutter
-  mobile_scanner: ^5.0.1
+  mobile_scanner: ^5.2.3
 
 dev_dependencies:
   flutter_test:

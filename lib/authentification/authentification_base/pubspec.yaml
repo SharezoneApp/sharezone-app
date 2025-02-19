@@ -31,12 +31,12 @@ dependencies:
   streaming_shared_preferences: ^2.0.0
   user:
     path: ../../user
-  clock: ^1.1.1
-  cloud_firestore: ^4.17.2
-  firebase_auth: ^4.19.4
-  google_sign_in: ^6.2.1
-  meta: ^1.1.8
-  rxdart: ^0.27.1
+  clock: ^1.1.2
+  cloud_firestore: ^4.17.5
+  firebase_auth: ^4.20.0
+  google_sign_in: ^6.2.2
+  meta: ^1.16.0
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:

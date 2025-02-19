@@ -32,15 +32,15 @@ dependencies:
     path: ../../platform_check
   util:
     path: ../../util
-  cloud_firestore: ^4.17.2
+  cloud_firestore: ^4.17.5
   fast_rsa:
     # Git reference can be removed once 3.6.5 is released
     git:
       url: https://github.com/jerson/flutter-rsa
       ref: 13fc5edafb7a74bd8e11394f86557f3669024f0e
-  firebase_auth: ^4.19.4
-  rxdart: ^0.27.1
-  clock: ^1.1.1
+  firebase_auth: ^4.20.0
+  rxdart: ^0.27.7
+  clock: ^1.1.2
 
 dev_dependencies:
   flutter_test:

@@ -18,10 +18,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.17.2
+  collection: ^1.19.1
   crash_analytics:
     path: ../crash_analytics
-  firebase_analytics: ^10.10.4
+  firebase_analytics: ^10.10.7
 
 dev_dependencies:
   flutter_test:
