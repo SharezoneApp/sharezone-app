@@ -54,8 +54,7 @@ void main() {
       controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
       await controller.save();
 
-      expect(gradesService.terms.value, hasLength(1));
-      final term = gradesService.terms.value.first;
+      final term = gradesService.terms.value.single;
       expect(term.gradingSystem, GradingSystem.zeroToFifteenPoints);
     });
 
@@ -64,8 +63,7 @@ void main() {
       controller.setIsCurrentTerm(false);
       await controller.save();
 
-      expect(gradesService.terms.value, hasLength(1));
-      final term = gradesService.terms.value.first;
+      final term = gradesService.terms.value.single;
       expect(term.isActiveTerm, false);
     });
   });
