@@ -415,7 +415,7 @@ packages:
     source: hosted
     version: "0.7.11"
   device_info_plus:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: device_info_plus
       sha256: a7fd703482b391a87d60b6061d04dfdeab07826b96f9abd8f5ed98068acc0074
@@ -1254,7 +1254,7 @@ packages:
     source: git
     version: "2.0.0+5"
   intl:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -1471,7 +1471,7 @@ packages:
     source: hosted
     version: "2.1.1"
   package_info_plus:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: package_info_plus
       sha256: "67eae327b1b0faf761964a1d2e5d323c797f3799db0e85aa232db8d9e922bc35"
@@ -2021,7 +2021,7 @@ packages:
     source: hosted
     version: "1.12.1"
   states_rebuilder:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: states_rebuilder
       sha256: f760498bb7adbe12d0d6da67f23c07e6c41de6261052ba8794356222fe27ddf3
@@ -2421,7 +2421,7 @@ packages:
     source: hosted
     version: "3.18.1"
   win32:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: win32
       sha256: daf97c9d80197ed7b619040e86c8ab9a9dad285e7671ee7390f9180cc828a51e

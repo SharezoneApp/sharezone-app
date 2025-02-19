@@ -193,19 +193,6 @@ dependencies:
 # * warum der dependency_override hinzugefügt wird.
 # * ab wann der override entfernt werden kann.
 dependency_overrides:
-  # Is required to be able to build the app using Flutter 3.19. Can be removed
-  # when animator > 3.3.0 is released.
-  states_rebuilder: 6.4.0
-  # Is required to be able to build the app using Flutter 3.10. Can be removed
-  # when app_review uses package_info_plus > 5.0.1.
-  package_info_plus: ^8.0.2
-  # Is required to be able to build the app using Flutter 3.24. Can be removed
-  # when the packages are using win32 >= 5.5.1
-  win32: ^5.5.4
-  # Can be removed once pdfx uses device_info_plus >= 10.0.0.
-  device_info_plus: ^10.1.0
-  # Can be removed once flutter_localizations uses intl >= 0.19.0
-  intl: ^0.19.0
   # Can be removed once this issue is fixed: https://github.com/2d-inc/Flare-Flutter/issues/325
   flare_flutter:
     git:
