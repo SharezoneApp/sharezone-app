@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library weektype;
+library;
 
 export 'src/weektype.dart';

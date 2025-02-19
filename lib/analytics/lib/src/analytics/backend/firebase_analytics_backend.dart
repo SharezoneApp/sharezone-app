@@ -18,7 +18,16 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
 
   @override
   void log(String name, [Map<String, dynamic>? data]) {
-    _firebaseAnalytics.logEvent(name: name, parameters: data);
+    final converted =
+        data != null
+            // Convert from Map<String, dynamic> to Map<String, Object>
+            ? Map.fromEntries(
+              data.entries
+                  .where((entry) => entry.value is Object)
+                  .map((entry) => MapEntry(entry.key, entry.value as Object)),
+            )
+            : null;
+    _firebaseAnalytics.logEvent(name: name, parameters: converted);
     crashAnalytics.log(name);
   }
 

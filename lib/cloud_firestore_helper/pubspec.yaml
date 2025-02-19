@@ -23,4 +23,4 @@ dev_dependencies:
     path: ../sharezone_lints
 
 dependencies:
-  clock: ^1.1.1
+  clock: ^1.1.2

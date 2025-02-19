@@ -16,7 +16,7 @@ environment:
   sdk: ^3.7.0
 
 dependencies:
-  firebase_dynamic_links: ^5.5.4
+  firebase_dynamic_links: ^6.1.3
   platform_check:
     path: ../platform_check
   flutter:

@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library authentification_google;
+library;
 
 export 'src/google/google_sign_in_logic.dart';

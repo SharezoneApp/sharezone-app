@@ -17,14 +17,14 @@ environment:
   sdk: ^3.7.0
 
 dependencies:
-  built_collection: ^5.1.0
-  built_value: ^8.1.1
+  built_collection: ^5.1.1
+  built_value: ^8.9.3
   key_value_store:
     path: ../key_value_store
-  cloud_functions: ^4.7.3
+  cloud_functions: ^5.3.3
   app_functions:
     path: ../app_functions
-  clock: ^1.1.1
+  clock: ^1.1.2
 
 dev_dependencies:
   # We need to add the `flutter` package as dev dependency as workaround for the
@@ -36,8 +36,8 @@ dev_dependencies:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  mockito: ^5.4.4
-  build_runner: ^2.4.7
-  built_value_generator: ^8.1.1
+  mockito: ^5.4.5
+  build_runner: ^2.4.14
+  built_value_generator: ^8.9.3
   sharezone_lints:
     path: ../sharezone_lints

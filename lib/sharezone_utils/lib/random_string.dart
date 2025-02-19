@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library random_string;
+library;
 
 export 'src/random_string/random_string.dart';

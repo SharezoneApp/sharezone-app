@@ -37,7 +37,7 @@
 ///
 /// Ein Bloc kann über hausaufgabenheft_logik_setup erstellt werden.
 ///
-library hausaufgabenheft_logik;
+library;
 
 export 'src/firebase/firebase_hausaufgabenheft_logik.dart';
 export 'src/shared/homework_list_extensions.dart';

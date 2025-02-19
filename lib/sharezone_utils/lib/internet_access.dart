@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library internet_access;
+library;
 
 export 'src/internet_access/internet_access_check.dart';

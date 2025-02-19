@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library mock_url_launcher_extended;
+library;
 
 export 'src/mock_url_launcher_extended.dart';

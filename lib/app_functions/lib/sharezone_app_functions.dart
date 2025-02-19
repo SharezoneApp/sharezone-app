@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library sharezone_app_functions;
+library;
 
 export 'src/sharezone_app_functions.dart';

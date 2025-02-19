@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library last_online_reporting;
+library;
 
 import 'dart:async';
 

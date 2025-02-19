@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library serializers;
+library;
 
 import 'package:abgabe_http_api/model/datei_hinzufuegen_command_dto.dart';
 import 'package:abgabe_http_api/model/dateien_hinzufuegen_command_dto.dart';

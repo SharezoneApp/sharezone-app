@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library mock_crash_analytics;
+library;
 
 export 'src/mock_crash_analytics.dart';

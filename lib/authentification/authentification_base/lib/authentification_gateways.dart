@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library authentification_gateways;
+library;
 
 export 'src/gateways/user_gateway_authentifcation.dart';
 export 'src/gateways/registration_gateway.dart';

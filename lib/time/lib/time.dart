@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library time;
+library;
 
 export 'src/time.dart';

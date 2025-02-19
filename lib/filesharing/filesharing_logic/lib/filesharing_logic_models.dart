@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library filesharing_logic_models;
+library;
 
 export 'src/models/change_activity.dart';
 export 'src/models/cloud_file.dart';

@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library course_validators;
+library;
 
 export 'src/validators/course_validators.dart';

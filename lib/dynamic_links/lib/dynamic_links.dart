@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library dynamic_links;
+library;
 
 export 'src/dynamic_links.dart';
 export 'src/get_dynamic_links.dart';

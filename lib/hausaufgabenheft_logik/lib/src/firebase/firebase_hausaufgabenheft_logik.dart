@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library firebase_hausaufgaben_logik;
+library;
 
 export 'src/homework_transformation.dart';
 export 'src/homework_dto.dart';

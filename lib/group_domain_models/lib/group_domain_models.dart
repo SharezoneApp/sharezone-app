@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library group_domain_models;
+library;
 
 export 'src/models/connections_data.dart';
 

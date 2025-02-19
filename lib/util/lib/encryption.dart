@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library encryption;
+library;
 
 export 'src/encryption/rsa_encryption.dart';
 export 'src/encryption/aes_encryption.dart';

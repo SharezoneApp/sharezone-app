@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library sharezone_widgets;
+library;
 
 // adaptive_dialog
 export 'src/adaptive_dialog/adaptive_dialog_action.dart';

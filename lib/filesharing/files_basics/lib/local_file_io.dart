@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library local_file_io;
+library;
 
 export 'src/local_file/local_file_io.dart';

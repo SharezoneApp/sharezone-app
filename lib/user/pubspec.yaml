@@ -24,8 +24,8 @@ dependencies:
     path: ../date
   time:
     path: ../time
-  characters: ^1.0.0
-  collection: ^1.15.0-nullsafety.4
+  characters: ^1.4.0
+  collection: ^1.19.1
   helper_functions:
     path: ../helper_functions
 

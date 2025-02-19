@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library remote_configuration;
+library;
 
 export 'src/remote_configuration.dart';
 export 'src/get_remote_configuration.dart';

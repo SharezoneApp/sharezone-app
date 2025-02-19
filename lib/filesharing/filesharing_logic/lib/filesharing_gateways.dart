@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library filesharing_gateways;
+library;
 
 export 'src/gateway/cloud_file_accessor.dart';
 export 'src/gateway/cloud_file_operator.dart';

@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library abgabe_client_lib;
+library;
 
 export 'src/erstellung/bloc/homework_user_create_submissions_bloc_factory.dart';
 export 'src/erstellung/bloc/homework_user_submissions_bloc.dart';

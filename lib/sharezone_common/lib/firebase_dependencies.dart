@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library firebase_dependencies;
+library;
 
 export 'src/firebase_dependencies.dart';

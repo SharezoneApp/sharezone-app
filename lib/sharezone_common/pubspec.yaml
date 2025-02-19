@@ -24,13 +24,13 @@ dependencies:
     path: ../crash_analytics
   sharezone_utils:
     path: ../sharezone_utils
-  cloud_firestore: ^4.17.2
-  firebase_auth: ^4.19.4
+  cloud_firestore: ^5.6.4
+  firebase_auth: ^5.5.0
   helper_functions:
     path: ../helper_functions
 
   intl: ^0.19.0
-  quiver: any
+  quiver: ^3.2.2
 
 dev_dependencies:
   flutter_test:

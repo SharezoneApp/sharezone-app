@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library group_domain_accessors;
+library;
 
 export 'src/accessors/course_member_accessor.dart';
 export 'src/accessors/school_class_member_accessor.dart';

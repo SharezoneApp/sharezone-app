@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library holiday;
+library;
 
 import 'dart:convert';
 

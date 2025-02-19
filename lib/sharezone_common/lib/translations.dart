@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library translations;
+library;
 
 export 'src/translations.dart';

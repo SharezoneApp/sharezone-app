@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library file_compression;
+library;
 
 export 'src/file_compression/image_compressor.dart';
 export 'src/file_compression/get_image_compressor.dart';
