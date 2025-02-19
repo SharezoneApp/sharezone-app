@@ -14,15 +14,17 @@ class _$DateiHinzufuegenCommandDtoSerializer
   @override
   final Iterable<Type> types = const [
     DateiHinzufuegenCommandDto,
-    _$DateiHinzufuegenCommandDto
+    _$DateiHinzufuegenCommandDto,
   ];
   @override
   final String wireName = 'DateiHinzufuegenCommandDto';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, DateiHinzufuegenCommandDto object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    DateiHinzufuegenCommandDto object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(String)),
@@ -35,8 +37,10 @@ class _$DateiHinzufuegenCommandDtoSerializer
 
   @override
   DateiHinzufuegenCommandDto deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = new DateiHinzufuegenCommandDtoBuilder();
 
     final iterator = serialized.iterator;
@@ -46,12 +50,20 @@ class _$DateiHinzufuegenCommandDtoSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.id =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'name':
-          result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.name =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -66,22 +78,28 @@ class _$DateiHinzufuegenCommandDto extends DateiHinzufuegenCommandDto {
   @override
   final String name;
 
-  factory _$DateiHinzufuegenCommandDto(
-          [void Function(DateiHinzufuegenCommandDtoBuilder)? updates]) =>
-      (new DateiHinzufuegenCommandDtoBuilder()..update(updates))._build();
+  factory _$DateiHinzufuegenCommandDto([
+    void Function(DateiHinzufuegenCommandDtoBuilder)? updates,
+  ]) => (new DateiHinzufuegenCommandDtoBuilder()..update(updates))._build();
 
   _$DateiHinzufuegenCommandDto._({required this.id, required this.name})
-      : super._() {
+    : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        id, r'DateiHinzufuegenCommandDto', 'id');
+      id,
+      r'DateiHinzufuegenCommandDto',
+      'id',
+    );
     BuiltValueNullFieldError.checkNotNull(
-        name, r'DateiHinzufuegenCommandDto', 'name');
+      name,
+      r'DateiHinzufuegenCommandDto',
+      'name',
+    );
   }
 
   @override
   DateiHinzufuegenCommandDto rebuild(
-          void Function(DateiHinzufuegenCommandDtoBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(DateiHinzufuegenCommandDtoBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   DateiHinzufuegenCommandDtoBuilder toBuilder() =>
@@ -153,12 +171,19 @@ class DateiHinzufuegenCommandDtoBuilder
   DateiHinzufuegenCommandDto build() => _build();
 
   _$DateiHinzufuegenCommandDto _build() {
-    final _$result = _$v ??
+    final _$result =
+        _$v ??
         new _$DateiHinzufuegenCommandDto._(
           id: BuiltValueNullFieldError.checkNotNull(
-              id, r'DateiHinzufuegenCommandDto', 'id'),
+            id,
+            r'DateiHinzufuegenCommandDto',
+            'id',
+          ),
           name: BuiltValueNullFieldError.checkNotNull(
-              name, r'DateiHinzufuegenCommandDto', 'name'),
+            name,
+            r'DateiHinzufuegenCommandDto',
+            'name',
+          ),
         );
     replace(_$result);
     return _$result;

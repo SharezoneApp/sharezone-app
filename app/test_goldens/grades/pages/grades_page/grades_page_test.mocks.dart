@@ -26,13 +26,8 @@ import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart'
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeGradesService_0 extends _i1.SmartFake implements _i2.GradesService {
-  _FakeGradesService_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeGradesService_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [GradesPageController].
@@ -41,80 +36,71 @@ class _FakeGradesService_0 extends _i1.SmartFake implements _i2.GradesService {
 class MockGradesPageController extends _i1.Mock
     implements _i3.GradesPageController {
   @override
-  _i3.GradesPageState get state => (super.noSuchMethod(
-        Invocation.getter(#state),
-        returnValue: _i4.dummyValue<_i3.GradesPageState>(
-          this,
-          Invocation.getter(#state),
-        ),
-        returnValueForMissingStub: _i4.dummyValue<_i3.GradesPageState>(
-          this,
-          Invocation.getter(#state),
-        ),
-      ) as _i3.GradesPageState);
+  _i3.GradesPageState get state =>
+      (super.noSuchMethod(
+            Invocation.getter(#state),
+            returnValue: _i4.dummyValue<_i3.GradesPageState>(
+              this,
+              Invocation.getter(#state),
+            ),
+            returnValueForMissingStub: _i4.dummyValue<_i3.GradesPageState>(
+              this,
+              Invocation.getter(#state),
+            ),
+          )
+          as _i3.GradesPageState);
 
   @override
   set state(_i3.GradesPageState? _state) => super.noSuchMethod(
-        Invocation.setter(
-          #state,
-          _state,
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#state, _state),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i2.GradesService get gradesService => (super.noSuchMethod(
-        Invocation.getter(#gradesService),
-        returnValue: _FakeGradesService_0(
-          this,
-          Invocation.getter(#gradesService),
-        ),
-        returnValueForMissingStub: _FakeGradesService_0(
-          this,
-          Invocation.getter(#gradesService),
-        ),
-      ) as _i2.GradesService);
+  _i2.GradesService get gradesService =>
+      (super.noSuchMethod(
+            Invocation.getter(#gradesService),
+            returnValue: _FakeGradesService_0(
+              this,
+              Invocation.getter(#gradesService),
+            ),
+            returnValueForMissingStub: _FakeGradesService_0(
+              this,
+              Invocation.getter(#gradesService),
+            ),
+          )
+          as _i2.GradesService);
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasListeners),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void addListener(_i5.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void removeListener(_i5.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#notifyListeners, []),
+    returnValueForMissingStub: null,
+  );
 }
