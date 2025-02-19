@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:crash_analytics/crash_analytics.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_analytics.dart';
@@ -56,38 +57,21 @@ class CreateTermPageController extends ChangeNotifier {
     }
 
     try {
-      final termRef = gradesService.addTerm(
+      gradesService.addTerm(
         name: view.name!,
         isActiveTerm: view.isActiveTerm,
         finalGradeType: GradeType.schoolReportGrade.id,
         gradingSystem: view.gradingSystem,
+        gradeTypeWeights: IMap({
+          GradeType.writtenExam.id: const Weight.percent(50),
+          GradeType.oralParticipation.id: const Weight.percent(50),
+        }),
       );
       analytics.logCreateTerm();
-
-      // Firestore had a soft limit of 1 write per second per document. However,
-      // this limit isn't mentioned in the documentation anymore. We still keep
-      // the delay to be on the safe side.
-      //
-      // https://stackoverflow.com/questions/74454570/has-firestore-removed-the-soft-limit-of-1-write-per-second-to-a-single-document
-      await _waitForFirestoreLimit();
-      termRef.changeGradeTypeWeight(
-        GradeType.writtenExam.id,
-        const Weight.percent(50),
-      );
-
-      await _waitForFirestoreLimit();
-      termRef.changeGradeTypeWeight(
-        GradeType.oralParticipation.id,
-        const Weight.percent(50),
-      );
     } catch (e, s) {
       crashAnalytics.recordError('Could not save term: $e', s);
       throw CouldNotSaveTermException('$e');
     }
-  }
-
-  Future<void> _waitForFirestoreLimit() async {
-    await Future.delayed(const Duration(milliseconds: 200));
   }
 
   void setGradingSystem(GradingSystem system) {
