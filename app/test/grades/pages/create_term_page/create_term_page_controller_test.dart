@@ -28,6 +28,12 @@ void main() {
           () async => await controller.save(),
           throwsA(isA<InvalidTermNameException>()),
         );
+
+        controller.setName('');
+        expect(
+          () async => await controller.save(),
+          throwsA(isA<InvalidTermNameException>()),
+        );
       },
     );
 
