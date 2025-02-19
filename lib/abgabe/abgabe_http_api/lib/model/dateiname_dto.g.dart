@@ -16,11 +16,8 @@ class _$DateinameDtoSerializer implements StructuredSerializer<DateinameDto> {
   final String wireName = 'DateinameDto';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    DateinameDto object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, DateinameDto object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
@@ -31,10 +28,8 @@ class _$DateinameDtoSerializer implements StructuredSerializer<DateinameDto> {
 
   @override
   DateinameDto deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = new DateinameDtoBuilder();
 
     final iterator = serialized.iterator;
@@ -44,12 +39,8 @@ class _$DateinameDtoSerializer implements StructuredSerializer<DateinameDto> {
       final Object? value = iterator.current;
       switch (key) {
         case 'name':
-          result.name =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -92,8 +83,8 @@ class _$DateinameDto extends DateinameDto {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'DateinameDto')
-      ..add('name', name)).toString();
+    return (newBuiltValueToStringHelper(r'DateinameDto')..add('name', name))
+        .toString();
   }
 }
 
@@ -131,14 +122,10 @@ class DateinameDtoBuilder
   DateinameDto build() => _build();
 
   _$DateinameDto _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         new _$DateinameDto._(
           name: BuiltValueNullFieldError.checkNotNull(
-            name,
-            r'DateinameDto',
-            'name',
-          ),
+              name, r'DateinameDto', 'name'),
         );
     replace(_$result);
     return _$result;

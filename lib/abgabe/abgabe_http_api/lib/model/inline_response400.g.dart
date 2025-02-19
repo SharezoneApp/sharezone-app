@@ -17,17 +17,12 @@ class _$InlineResponse400Serializer
   final String wireName = 'InlineResponse400';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    InlineResponse400 object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, InlineResponse400 object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'error',
-      serializers.serialize(
-        object.error,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.error,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -35,10 +30,8 @@ class _$InlineResponse400Serializer
 
   @override
   InlineResponse400 deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = new InlineResponse400Builder();
 
     final iterator = serialized.iterator;
@@ -48,12 +41,8 @@ class _$InlineResponse400Serializer
       final Object? value = iterator.current;
       switch (key) {
         case 'error':
-          result.error =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -66,9 +55,9 @@ class _$InlineResponse400 extends InlineResponse400 {
   @override
   final String error;
 
-  factory _$InlineResponse400([
-    void Function(InlineResponse400Builder)? updates,
-  ]) => (new InlineResponse400Builder()..update(updates))._build();
+  factory _$InlineResponse400(
+          [void Function(InlineResponse400Builder)? updates]) =>
+      (new InlineResponse400Builder()..update(updates))._build();
 
   _$InlineResponse400._({required this.error}) : super._() {
     BuiltValueNullFieldError.checkNotNull(error, r'InlineResponse400', 'error');
@@ -99,7 +88,8 @@ class _$InlineResponse400 extends InlineResponse400 {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'InlineResponse400')
-      ..add('error', error)).toString();
+          ..add('error', error))
+        .toString();
   }
 }
 
@@ -137,14 +127,10 @@ class InlineResponse400Builder
   InlineResponse400 build() => _build();
 
   _$InlineResponse400 _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         new _$InlineResponse400._(
           error: BuiltValueNullFieldError.checkNotNull(
-            error,
-            r'InlineResponse400',
-            'error',
-          ),
+              error, r'InlineResponse400', 'error'),
         );
     replace(_$result);
     return _$result;

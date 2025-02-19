@@ -18,24 +18,16 @@ class _$HolidayCacheDataSerializer
   final String wireName = 'HolidayCacheData';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    HolidayCacheData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, HolidayCacheData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'saved',
-      serializers.serialize(
-        object.saved,
-        specifiedType: const FullType(DateTime),
-      ),
+      serializers.serialize(object.saved,
+          specifiedType: const FullType(DateTime)),
       'holidays',
-      serializers.serialize(
-        object.holidays,
-        specifiedType: const FullType(BuiltList, const [
-          const FullType(Holiday),
-        ]),
-      ),
+      serializers.serialize(object.holidays,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(Holiday)])),
     ];
 
     return result;
@@ -43,10 +35,8 @@ class _$HolidayCacheDataSerializer
 
   @override
   HolidayCacheData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = new HolidayCacheDataBuilder();
 
     final iterator = serialized.iterator;
@@ -56,23 +46,14 @@ class _$HolidayCacheDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'saved':
-          result.saved =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )!
-                  as DateTime;
+          result.saved = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
         case 'holidays':
-          result.holidays.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(BuiltList, const [
-                    const FullType(Holiday),
-                  ]),
-                )!
-                as BuiltList<Object?>,
-          );
+          result.holidays.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(Holiday)]))!
+              as BuiltList<Object?>);
           break;
       }
     }
@@ -88,29 +69,20 @@ class _$HolidaySerializer implements StructuredSerializer<Holiday> {
   final String wireName = 'Holiday';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    Holiday object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, Holiday object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'start',
-      serializers.serialize(
-        object.start,
-        specifiedType: const FullType(DateTime),
-      ),
+      serializers.serialize(object.start,
+          specifiedType: const FullType(DateTime)),
       'end',
-      serializers.serialize(
-        object.end,
-        specifiedType: const FullType(DateTime),
-      ),
+      serializers.serialize(object.end,
+          specifiedType: const FullType(DateTime)),
       'year',
       serializers.serialize(object.year, specifiedType: const FullType(int)),
       'stateCode',
-      serializers.serialize(
-        object.stateCode,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.stateCode,
+          specifiedType: const FullType(String)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
       'slug',
@@ -121,11 +93,8 @@ class _$HolidaySerializer implements StructuredSerializer<Holiday> {
   }
 
   @override
-  Holiday deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Holiday deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = new HolidayBuilder();
 
     final iterator = serialized.iterator;
@@ -135,52 +104,28 @@ class _$HolidaySerializer implements StructuredSerializer<Holiday> {
       final Object? value = iterator.current;
       switch (key) {
         case 'start':
-          result.start =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )!
-                  as DateTime;
+          result.start = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
         case 'end':
-          result.end =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )!
-                  as DateTime;
+          result.end = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
         case 'year':
-          result.year =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.year = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'stateCode':
-          result.stateCode =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.stateCode = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'name':
-          result.name =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'slug':
-          result.slug =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.slug = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -195,18 +140,15 @@ class _$HolidayCacheData extends HolidayCacheData {
   @override
   final BuiltList<Holiday> holidays;
 
-  factory _$HolidayCacheData([
-    void Function(HolidayCacheDataBuilder)? updates,
-  ]) => (new HolidayCacheDataBuilder()..update(updates))._build();
+  factory _$HolidayCacheData(
+          [void Function(HolidayCacheDataBuilder)? updates]) =>
+      (new HolidayCacheDataBuilder()..update(updates))._build();
 
   _$HolidayCacheData._({required this.saved, required this.holidays})
-    : super._() {
+      : super._() {
     BuiltValueNullFieldError.checkNotNull(saved, r'HolidayCacheData', 'saved');
     BuiltValueNullFieldError.checkNotNull(
-      holidays,
-      r'HolidayCacheData',
-      'holidays',
-    );
+        holidays, r'HolidayCacheData', 'holidays');
   }
 
   @override
@@ -285,14 +227,10 @@ class HolidayCacheDataBuilder
   _$HolidayCacheData _build() {
     _$HolidayCacheData _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           new _$HolidayCacheData._(
             saved: BuiltValueNullFieldError.checkNotNull(
-              saved,
-              r'HolidayCacheData',
-              'saved',
-            ),
+                saved, r'HolidayCacheData', 'saved'),
             holidays: holidays.build(),
           );
     } catch (_) {
@@ -302,10 +240,7 @@ class HolidayCacheDataBuilder
         holidays.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-          r'HolidayCacheData',
-          _$failedField,
-          e.toString(),
-        );
+            r'HolidayCacheData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -331,14 +266,14 @@ class _$Holiday extends Holiday {
   factory _$Holiday([void Function(HolidayBuilder)? updates]) =>
       (new HolidayBuilder()..update(updates))._build();
 
-  _$Holiday._({
-    required this.start,
-    required this.end,
-    required this.year,
-    required this.stateCode,
-    required this.name,
-    required this.slug,
-  }) : super._() {
+  _$Holiday._(
+      {required this.start,
+      required this.end,
+      required this.year,
+      required this.stateCode,
+      required this.name,
+      required this.slug})
+      : super._() {
     BuiltValueNullFieldError.checkNotNull(start, r'Holiday', 'start');
     BuiltValueNullFieldError.checkNotNull(end, r'Holiday', 'end');
     BuiltValueNullFieldError.checkNotNull(year, r'Holiday', 'year');
@@ -450,21 +385,14 @@ class HolidayBuilder implements Builder<Holiday, HolidayBuilder> {
   Holiday build() => _build();
 
   _$Holiday _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         new _$Holiday._(
-          start: BuiltValueNullFieldError.checkNotNull(
-            start,
-            r'Holiday',
-            'start',
-          ),
+          start:
+              BuiltValueNullFieldError.checkNotNull(start, r'Holiday', 'start'),
           end: BuiltValueNullFieldError.checkNotNull(end, r'Holiday', 'end'),
           year: BuiltValueNullFieldError.checkNotNull(year, r'Holiday', 'year'),
           stateCode: BuiltValueNullFieldError.checkNotNull(
-            stateCode,
-            r'Holiday',
-            'stateCode',
-          ),
+              stateCode, r'Holiday', 'stateCode'),
           name: BuiltValueNullFieldError.checkNotNull(name, r'Holiday', 'name'),
           slug: BuiltValueNullFieldError.checkNotNull(slug, r'Holiday', 'slug'),
         );
