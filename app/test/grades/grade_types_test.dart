@@ -222,10 +222,7 @@ void main() {
           2.5,
         );
 
-        expect(
-          controller.term(const TermId('foo')).gradeTypeWeightings,
-          isEmpty,
-        );
+        expect(controller.term(const TermId('foo')).gradeTypeWeights, isEmpty);
         expect(
           controller
               .term(const TermId('foo'))

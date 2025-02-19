@@ -15,7 +15,7 @@ class TermModel extends Equatable {
   final TermId id;
   final DateTime? createdOn;
   final IList<SubjectModel> subjects;
-  final IMap<GradeTypeId, NonNegativeWeight> gradeTypeWeightings;
+  final IMap<GradeTypeId, NonNegativeWeight> gradeTypeWeights;
   final GradingSystemModel gradingSystem;
   final GradeTypeId finalGradeType;
   final bool isActiveTerm;
@@ -27,7 +27,7 @@ class TermModel extends Equatable {
     id,
     createdOn,
     subjects,
-    gradeTypeWeightings,
+    gradeTypeWeights,
     weightDisplayType,
     gradingSystem,
     finalGradeType,
@@ -43,14 +43,14 @@ class TermModel extends Equatable {
     required this.name,
     this.createdOn,
     this.subjects = const IListConst([]),
-    this.gradeTypeWeightings = const IMapConst({}),
+    this.gradeTypeWeights = const IMapConst({}),
     this.weightDisplayType = WeightDisplayType.factor,
   });
 
   const TermModel.internal(
     this.id,
     this.subjects,
-    this.gradeTypeWeightings,
+    this.gradeTypeWeights,
     this.weightDisplayType,
     this.finalGradeType,
     this.isActiveTerm,
@@ -79,7 +79,7 @@ class TermModel extends Equatable {
           finalGradeType: finalGradeType,
           connectedCourses: subject.connectedCourses,
           weightType: WeightType.inheritFromTerm,
-          gradeTypeWeightingsFromTerm: gradeTypeWeightings,
+          gradeTypeWeightsFromTerm: gradeTypeWeights,
         ),
       ),
     );
@@ -98,7 +98,7 @@ class TermModel extends Equatable {
   TermModel _copyWith({
     TermId? id,
     IList<SubjectModel>? subjects,
-    IMap<GradeTypeId, NonNegativeWeight>? gradeTypeWeightings,
+    IMap<GradeTypeId, NonNegativeWeight>? gradeTypeWeights,
     WeightDisplayType? weightDisplayType,
     GradeTypeId? finalGradeType,
     bool? isActiveTerm,
@@ -109,7 +109,7 @@ class TermModel extends Equatable {
     return TermModel.internal(
       id ?? this.id,
       subjects ?? this.subjects,
-      gradeTypeWeightings ?? this.gradeTypeWeightings,
+      gradeTypeWeights ?? this.gradeTypeWeights,
       weightDisplayType ?? this.weightDisplayType,
       finalGradeType ?? this.finalGradeType,
       isActiveTerm ?? this.isActiveTerm,
@@ -155,29 +155,25 @@ class TermModel extends Equatable {
     GradeTypeId type, {
     required NonNegativeWeight weight,
   }) {
-    final newWeights = gradeTypeWeightings.add(type, weight);
+    final newWeights = gradeTypeWeights.add(type, weight);
     final newSubjects =
         subjects.map((s) {
-          final newSubject = s.copyWith(
-            gradeTypeWeightingsFromTerm: newWeights,
-          );
+          final newSubject = s.copyWith(gradeTypeWeightsFromTerm: newWeights);
           return newSubject;
         }).toIList();
 
-    return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
+    return _copyWith(subjects: newSubjects, gradeTypeWeights: newWeights);
   }
 
   TermModel removeWeightingOfGradeType(GradeTypeId type) {
-    final newWeights = gradeTypeWeightings.remove(type);
+    final newWeights = gradeTypeWeights.remove(type);
     final newSubjects =
         subjects.map((s) {
-          final newSubject = s.copyWith(
-            gradeTypeWeightingsFromTerm: newWeights,
-          );
+          final newSubject = s.copyWith(gradeTypeWeightsFromTerm: newWeights);
           return newSubject;
         }).toIList();
 
-    return _copyWith(subjects: newSubjects, gradeTypeWeightings: newWeights);
+    return _copyWith(subjects: newSubjects, gradeTypeWeights: newWeights);
   }
 
   TermModel setFinalGradeType(GradeTypeId gradeType) {
@@ -364,8 +360,8 @@ class SubjectModel extends Equatable {
   final GradeTypeId finalGradeType;
   final bool isFinalGradeTypeOverridden;
   final NonNegativeWeight weightingForTermGrade;
-  final IMap<GradeTypeId, NonNegativeWeight> gradeTypeWeightings;
-  final IMap<GradeTypeId, NonNegativeWeight> gradeTypeWeightingsFromTerm;
+  final IMap<GradeTypeId, NonNegativeWeight> gradeTypeWeights;
+  final IMap<GradeTypeId, NonNegativeWeight> gradeTypeWeightsFromTerm;
   final WeightType weightType;
   final String abbreviation;
   final Design design;
@@ -384,8 +380,8 @@ class SubjectModel extends Equatable {
     finalGradeType,
     isFinalGradeTypeOverridden,
     weightingForTermGrade,
-    gradeTypeWeightings,
-    gradeTypeWeightingsFromTerm,
+    gradeTypeWeights,
+    gradeTypeWeightsFromTerm,
     weightType,
     abbreviation,
     design,
@@ -407,8 +403,8 @@ class SubjectModel extends Equatable {
     this.isFinalGradeTypeOverridden = false,
     this.grades = const IListConst([]),
     NonNegativeWeight? weightingForTermGrade,
-    this.gradeTypeWeightings = const IMapConst({}),
-    this.gradeTypeWeightingsFromTerm = const IMapConst({}),
+    this.gradeTypeWeights = const IMapConst({}),
+    this.gradeTypeWeightsFromTerm = const IMapConst({}),
   }) : weightingForTermGrade =
            weightingForTermGrade ?? NonNegativeWeight.factor(1) {
     gradeVal = _getGradeVal();
@@ -437,9 +433,9 @@ class SubjectModel extends Equatable {
     return switch (weightType) {
       WeightType.perGrade => grade.weight,
       WeightType.perGradeType =>
-        gradeTypeWeightings[grade.gradeType] ?? const Weight.factor(1),
+        gradeTypeWeights[grade.gradeType] ?? const Weight.factor(1),
       WeightType.inheritFromTerm =>
-        gradeTypeWeightingsFromTerm[grade.gradeType] ?? const Weight.factor(1),
+        gradeTypeWeightsFromTerm[grade.gradeType] ?? const Weight.factor(1),
     };
   }
 
@@ -459,13 +455,11 @@ class SubjectModel extends Equatable {
     GradeTypeId gradeType, {
     required NonNegativeWeight weight,
   }) {
-    return copyWith(
-      gradeTypeWeightings: gradeTypeWeightings.add(gradeType, weight),
-    );
+    return copyWith(gradeTypeWeights: gradeTypeWeights.add(gradeType, weight));
   }
 
   SubjectModel removeGradeTypeWeight(GradeTypeId gradeType) {
-    return copyWith(gradeTypeWeightings: gradeTypeWeightings.remove(gradeType));
+    return copyWith(gradeTypeWeights: gradeTypeWeights.remove(gradeType));
   }
 
   SubjectModel overrideFinalGradeType(GradeTypeId gradeType) {
@@ -498,8 +492,8 @@ class SubjectModel extends Equatable {
     bool? isFinalGradeTypeOverridden,
     NonNegativeWeight? weightingForTermGrade,
     GradingSystemModel? gradingSystem,
-    IMap<GradeTypeId, NonNegativeWeight>? gradeTypeWeightings,
-    IMap<GradeTypeId, NonNegativeWeight>? gradeTypeWeightingsFromTerm,
+    IMap<GradeTypeId, NonNegativeWeight>? gradeTypeWeights,
+    IMap<GradeTypeId, NonNegativeWeight>? gradeTypeWeightsFromTerm,
     WeightType? weightType,
     IList<ConnectedCourse>? connectedCourses,
     DateTime? createdOn,
@@ -517,10 +511,10 @@ class SubjectModel extends Equatable {
           isFinalGradeTypeOverridden ?? this.isFinalGradeTypeOverridden,
       weightingForTermGrade:
           weightingForTermGrade ?? this.weightingForTermGrade,
-      gradeTypeWeightings: gradeTypeWeightings ?? this.gradeTypeWeightings,
+      gradeTypeWeights: gradeTypeWeights ?? this.gradeTypeWeights,
       weightType: weightType ?? this.weightType,
-      gradeTypeWeightingsFromTerm:
-          gradeTypeWeightingsFromTerm ?? this.gradeTypeWeightingsFromTerm,
+      gradeTypeWeightsFromTerm:
+          gradeTypeWeightsFromTerm ?? this.gradeTypeWeightsFromTerm,
       connectedCourses: connectedCourses ?? this.connectedCourses,
       createdOn: createdOn ?? this.createdOn,
     );

@@ -572,12 +572,12 @@ void main() {
               finalGradeType: const GradeTypeId('school-report-grade'),
               isFinalGradeTypeOverridden: false,
               weightingForTermGrade: NonNegativeWeight.factor(2.5),
-              gradeTypeWeightings: IMapConst({
+              gradeTypeWeights: IMapConst({
                 const GradeTypeId(
                   'my-custom-grade-type',
                 ): NonNegativeWeight.factor(2.0),
               }),
-              gradeTypeWeightingsFromTerm: IMapConst({
+              gradeTypeWeightsFromTerm: IMapConst({
                 const GradeTypeId('vocabulary-test'): NonNegativeWeight.factor(
                   1.5,
                 ),
@@ -595,7 +595,7 @@ void main() {
               ]),
             ),
           ]),
-          gradeTypeWeightings: IMapConst({
+          gradeTypeWeights: IMapConst({
             const GradeTypeId('vocabulary-test'): NonNegativeWeight.factor(1.5),
           }),
           gradingSystem: GradingSystemModel.zeroToFifteenPoints,
@@ -654,8 +654,8 @@ void main() {
               finalGradeType: const GradeTypeId('oral-participation'),
               isFinalGradeTypeOverridden: true,
               weightingForTermGrade: NonNegativeWeight.factor(1),
-              gradeTypeWeightings: const IMapConst({}),
-              gradeTypeWeightingsFromTerm: const IMapConst({}),
+              gradeTypeWeights: const IMapConst({}),
+              gradeTypeWeightsFromTerm: const IMapConst({}),
               weightType: WeightType.inheritFromTerm,
               abbreviation: 'E',
               design: Design.fromData('000000'),
@@ -669,7 +669,7 @@ void main() {
               ]),
             ),
           ]),
-          gradeTypeWeightings: const IMapConst({}),
+          gradeTypeWeights: const IMapConst({}),
           gradingSystem: GradingSystemModel.oneToSixWithPlusAndMinus,
           finalGradeType: const GradeTypeId('my-custom-grade-type'),
           isActiveTerm: false,
@@ -689,7 +689,7 @@ void main() {
         );
 
         expect(actual.id, expected.id);
-        expect(actual.gradeTypeWeightings, expected.gradeTypeWeightings);
+        expect(actual.gradeTypeWeights, expected.gradeTypeWeights);
         expect(actual.gradingSystem, expected.gradingSystem);
         expect(actual.finalGradeType, expected.finalGradeType);
         expect(actual.isActiveTerm, expected.isActiveTerm);
@@ -718,13 +718,10 @@ void main() {
             actualSub.weightingForTermGrade,
             expectedSub.weightingForTermGrade,
           );
+          expect(actualSub.gradeTypeWeights, expectedSub.gradeTypeWeights);
           expect(
-            actualSub.gradeTypeWeightings,
-            expectedSub.gradeTypeWeightings,
-          );
-          expect(
-            actualSub.gradeTypeWeightingsFromTerm,
-            expectedSub.gradeTypeWeightingsFromTerm,
+            actualSub.gradeTypeWeightsFromTerm,
+            expectedSub.gradeTypeWeightsFromTerm,
           );
           expect(actualSub.weightType, expectedSub.weightType);
           expect(actualSub.abbreviation, expectedSub.abbreviation);

@@ -64,7 +64,7 @@ class _GradesServiceInternal {
           term.tryGetTermGrade() != null
               ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
               : null,
-      gradeTypeWeightings: term.gradeTypeWeightings,
+      gradeTypeWeights: term.gradeTypeWeights,
       weightDisplayType: term.weightDisplayType,
       subjects:
           term.subjects
@@ -82,7 +82,7 @@ class _GradesServiceInternal {
                           )
                           : null,
                   weightType: subject.weightType,
-                  gradeTypeWeights: subject.gradeTypeWeightings,
+                  gradeTypeWeights: subject.gradeTypeWeights,
                   finalGradeTypeId: subject.finalGradeType,
                   weightingForTermGrade: subject.weightingForTermGrade,
                   grades:
@@ -132,7 +132,7 @@ class _GradesServiceInternal {
         name: name,
         finalGradeType: finalGradeType,
         gradingSystem: gradingSystem.toGradingSystemModel(),
-        gradeTypeWeightings: gradeTypeWeights.map(
+        gradeTypeWeights: gradeTypeWeights.map(
           (key, value) => MapEntry(key, value.toNonNegativeWeightOrThrow()),
         ),
       ),

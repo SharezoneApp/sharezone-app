@@ -52,7 +52,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
     if (subject.weightType == WeightType.inheritFromTerm) {
       // We show the weights from the term, but we need to copy them into the
       // subject if the user changes them.
-      _weights = _weights.addAll(_getTerm()!.gradeTypeWeightings);
+      _weights = _weights.addAll(_getTerm()!.gradeTypeWeights);
     } else {
       _weights = _weights.addAll(subject.gradeTypeWeights);
     }
@@ -129,7 +129,7 @@ class SubjectSettingsPageController extends ChangeNotifier {
 
     // When switching from inheritFromTerm to perGradeType, we need to copy the
     // existing weights from the term to the subject.
-    final termWeights = _getTerm()!.gradeTypeWeightings.entries;
+    final termWeights = _getTerm()!.gradeTypeWeights.entries;
     for (final entry in termWeights) {
       subRef.changeGradeTypeWeight(entry.key, entry.value);
       await waitForFirestoreWriteLimit();

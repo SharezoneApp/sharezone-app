@@ -58,7 +58,7 @@ void main() {
       expect(term.finalGradeType.id, GradeType.schoolReportGrade.id);
       expect(term.gradingSystem, GradingSystem.oneToSixWithPlusAndMinus);
       expect(
-        term.gradeTypeWeightings,
+        term.gradeTypeWeights,
         IMap({
           GradeType.writtenExam.id: const Weight.percent(50),
           GradeType.oralParticipation.id: const Weight.percent(50),

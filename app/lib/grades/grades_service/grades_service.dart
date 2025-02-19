@@ -604,7 +604,7 @@ class TermResult extends Equatable {
   final bool isActiveTerm;
   final String name;
   final GradeType finalGradeType;
-  final IMap<GradeTypeId, Weight> gradeTypeWeightings;
+  final IMap<GradeTypeId, Weight> gradeTypeWeights;
   final WeightDisplayType weightDisplayType;
 
   SubjectResult subject(SubjectId id) {
@@ -620,7 +620,7 @@ class TermResult extends Equatable {
     required this.subjects,
     required this.isActiveTerm,
     required this.finalGradeType,
-    required this.gradeTypeWeightings,
+    required this.gradeTypeWeights,
     required this.weightDisplayType,
   });
 
@@ -633,7 +633,7 @@ class TermResult extends Equatable {
     isActiveTerm,
     name,
     finalGradeType,
-    gradeTypeWeightings,
+    gradeTypeWeights,
     weightDisplayType,
   ];
 }
