@@ -68,7 +68,7 @@ void main() {
       },
     );
     test(
-      'the term grade should equal the average of the average grades of every subject taking weightings into account',
+      'the term grade should equal the average of the average grades of every subject taking weights into account',
       () {
         final controller = GradesTestController();
 
@@ -775,7 +775,7 @@ void main() {
         gradeTypeId: presentation.id,
       );
 
-      expect(controller.term(term.id).gradeTypeWeightings.keys, [exam.id]);
+      expect(controller.term(term.id).gradeTypeWeights.keys, [exam.id]);
     });
     test(
       'a subjects gradeType weights are saved even when they are deactivated',

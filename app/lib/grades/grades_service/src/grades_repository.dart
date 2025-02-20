@@ -283,7 +283,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
             createdOn: termSubject.createdOn?.toDate(),
             isFinalGradeTypeOverridden:
                 termSubject.finalGradeType != subTerm.finalGradeTypeId,
-            gradeTypeWeightings:
+            gradeTypeWeights:
                 termSubject.gradeComposition.gradeTypeWeights
                     .map(
                       (key, value) => MapEntry(
@@ -292,7 +292,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
                       ),
                     )
                     .toIMap(),
-            gradeTypeWeightingsFromTerm:
+            gradeTypeWeightsFromTerm:
                 subTerm.gradeTypeWeights
                     .map(
                       (key, value) => MapEntry(
@@ -337,7 +337,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
                         .toIList(),
                 name: dto.displayName,
                 // Change both to num
-                gradeTypeWeightings:
+                gradeTypeWeights:
                     dto.gradeTypeWeights
                         .map(
                           (key, value) => MapEntry(
@@ -515,7 +515,7 @@ class TermDto {
         ),
       ),
       gradeTypeWeights:
-          term.gradeTypeWeightings
+          term.gradeTypeWeights
               .map((gradeId, weight) => MapEntry(gradeId.value, weight.toDto()))
               .unlock,
     );
@@ -631,7 +631,7 @@ class SubjectGradeCompositionDto {
     return SubjectGradeCompositionDto(
       weightType: subject.weightType,
       gradeTypeWeights:
-          subject.gradeTypeWeightings
+          subject.gradeTypeWeights
               .map((gradeId, weight) => MapEntry(gradeId.value, weight.toDto()))
               .unlock,
       gradeWeights: Map.fromEntries(

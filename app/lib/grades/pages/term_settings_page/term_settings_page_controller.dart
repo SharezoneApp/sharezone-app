@@ -60,7 +60,7 @@ class TermSettingsPageController extends ChangeNotifier {
     isActiveTerm = term.isActiveTerm;
     gradingSystem = term.gradingSystem;
     finalGradeType = term.finalGradeType;
-    _weights = term.gradeTypeWeightings;
+    _weights = term.gradeTypeWeights;
     weightDisplayType = term.weightDisplayType;
 
     state = TermSettingsLoaded(view);

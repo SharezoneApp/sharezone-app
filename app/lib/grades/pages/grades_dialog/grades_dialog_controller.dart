@@ -57,8 +57,8 @@ class GradesDialogController extends ChangeNotifier {
 
       return switch (termSub.weightType) {
         WeightType.inheritFromTerm =>
-          term.gradeTypeWeightings.isNotEmpty
-              ? term.gradeTypeWeightings[gradeTypeId] ?? Weight.zero
+          term.gradeTypeWeights.isNotEmpty
+              ? term.gradeTypeWeights[gradeTypeId] ?? Weight.zero
               : null,
         WeightType.perGradeType =>
           termSub.gradeTypeWeights.isNotEmpty
