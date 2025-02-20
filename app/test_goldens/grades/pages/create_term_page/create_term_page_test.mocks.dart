@@ -92,6 +92,7 @@ class MockGradesService extends _i1.Mock implements _i3.GradesService {
     required _i3.GradeTypeId? finalGradeType,
     required _i3.GradingSystem? gradingSystem,
     required bool? isActiveTerm,
+    _i4.IMap<_i3.GradeTypeId, _i3.Weight>? gradeTypeWeights,
     _i6.TermId? id,
   }) =>
       (super.noSuchMethod(
@@ -100,6 +101,7 @@ class MockGradesService extends _i1.Mock implements _i3.GradesService {
               #finalGradeType: finalGradeType,
               #gradingSystem: gradingSystem,
               #isActiveTerm: isActiveTerm,
+              #gradeTypeWeights: gradeTypeWeights,
               #id: id,
             }),
             returnValue: _FakeTermRef_1(
@@ -109,6 +111,7 @@ class MockGradesService extends _i1.Mock implements _i3.GradesService {
                 #finalGradeType: finalGradeType,
                 #gradingSystem: gradingSystem,
                 #isActiveTerm: isActiveTerm,
+                #gradeTypeWeights: gradeTypeWeights,
                 #id: id,
               }),
             ),
@@ -119,6 +122,7 @@ class MockGradesService extends _i1.Mock implements _i3.GradesService {
                 #finalGradeType: finalGradeType,
                 #gradingSystem: gradingSystem,
                 #isActiveTerm: isActiveTerm,
+                #gradeTypeWeights: gradeTypeWeights,
                 #id: id,
               }),
             ),

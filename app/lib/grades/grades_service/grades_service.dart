@@ -46,6 +46,7 @@ class GradesService {
     required GradeTypeId finalGradeType,
     required GradingSystem gradingSystem,
     required bool isActiveTerm,
+    IMap<GradeTypeId, Weight>? gradeTypeWeights,
     @visibleForTesting TermId? id,
   }) {
     final newId = _service.addTerm(
@@ -54,6 +55,7 @@ class GradesService {
       finalGradeType: finalGradeType,
       gradingSystem: gradingSystem,
       isActiveTerm: isActiveTerm,
+      gradeTypeWeights: gradeTypeWeights ?? const IMapConst({}),
     );
 
     return term(newId);

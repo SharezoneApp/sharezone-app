@@ -111,6 +111,7 @@ class _GradesServiceInternal {
     required GradeTypeId finalGradeType,
     required GradingSystem gradingSystem,
     required bool isActiveTerm,
+    IMap<GradeTypeId, Weight> gradeTypeWeights = const IMapConst({}),
     @visibleForTesting TermId? id,
   }) {
     final termId = id ?? TermId(Id.generate().value);
@@ -131,6 +132,9 @@ class _GradesServiceInternal {
         name: name,
         finalGradeType: finalGradeType,
         gradingSystem: gradingSystem.toGradingSystemModel(),
+        gradeTypeWeightings: gradeTypeWeights.map(
+          (key, value) => MapEntry(key, value.toNonNegativeWeightOrThrow()),
+        ),
       ),
     );
     _updateTerms(newTerms);
