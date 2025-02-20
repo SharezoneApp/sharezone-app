@@ -32,34 +32,19 @@ import 'package:sharezone/groups/src/pages/course/create/models/course_template.
 
 class _FakeCourseCreateBloc_0 extends _i1.SmartFake
     implements _i2.CourseCreateBloc {
-  _FakeCourseCreateBloc_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeCourseCreateBloc_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeStreamTransformer_1<S, T> extends _i1.SmartFake
     implements _i3.StreamTransformer<S, T> {
-  _FakeStreamTransformer_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeStreamTransformer_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeCourseId_2 extends _i1.SmartFake implements _i4.CourseId {
-  _FakeCourseId_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeCourseId_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [CourseCreateBlocFactory].
@@ -70,37 +55,23 @@ class MockCourseCreateBlocFactory extends _i1.Mock
   @override
   _i2.CourseCreateBloc create({_i4.SchoolClassId? schoolClassId}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #create,
-          [],
-          {#schoolClassId: schoolClassId},
-        ),
-        returnValue: _FakeCourseCreateBloc_0(
-          this,
-          Invocation.method(
-            #create,
-            [],
-            {#schoolClassId: schoolClassId},
-          ),
-        ),
-        returnValueForMissingStub: _FakeCourseCreateBloc_0(
-          this,
-          Invocation.method(
-            #create,
-            [],
-            {#schoolClassId: schoolClassId},
-          ),
-        ),
-      ) as _i2.CourseCreateBloc);
+            Invocation.method(#create, [], {#schoolClassId: schoolClassId}),
+            returnValue: _FakeCourseCreateBloc_0(
+              this,
+              Invocation.method(#create, [], {#schoolClassId: schoolClassId}),
+            ),
+            returnValueForMissingStub: _FakeCourseCreateBloc_0(
+              this,
+              Invocation.method(#create, [], {#schoolClassId: schoolClassId}),
+            ),
+          )
+          as _i2.CourseCreateBloc);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [CourseCreateBloc].
@@ -109,226 +80,187 @@ class MockCourseCreateBlocFactory extends _i1.Mock
 class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
   @override
   set schoolClassId(_i4.SchoolClassId? _schoolClassId) => super.noSuchMethod(
-        Invocation.setter(
-          #schoolClassId,
-          _schoolClassId,
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#schoolClassId, _schoolClassId),
+    returnValueForMissingStub: null,
+  );
 
   @override
   set initialCourse(_i6.Course? _initialCourse) => super.noSuchMethod(
-        Invocation.setter(
-          #initialCourse,
-          _initialCourse,
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#initialCourse, _initialCourse),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  bool get hasSchoolClassId => (super.noSuchMethod(
-        Invocation.getter(#hasSchoolClassId),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get hasSchoolClassId =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasSchoolClassId),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i3.Stream<String> get subject => (super.noSuchMethod(
-        Invocation.getter(#subject),
-        returnValue: _i3.Stream<String>.empty(),
-        returnValueForMissingStub: _i3.Stream<String>.empty(),
-      ) as _i3.Stream<String>);
+  _i3.Stream<String> get subject =>
+      (super.noSuchMethod(
+            Invocation.getter(#subject),
+            returnValue: _i3.Stream<String>.empty(),
+            returnValueForMissingStub: _i3.Stream<String>.empty(),
+          )
+          as _i3.Stream<String>);
 
   @override
   _i3.Stream<List<(_i4.SchoolClassId, String)>?> get myAdminSchoolClasses =>
       (super.noSuchMethod(
-        Invocation.getter(#myAdminSchoolClasses),
-        returnValue: _i3.Stream<List<(_i4.SchoolClassId, String)>?>.empty(),
-        returnValueForMissingStub:
-            _i3.Stream<List<(_i4.SchoolClassId, String)>?>.empty(),
-      ) as _i3.Stream<List<(_i4.SchoolClassId, String)>?>);
+            Invocation.getter(#myAdminSchoolClasses),
+            returnValue: _i3.Stream<List<(_i4.SchoolClassId, String)>?>.empty(),
+            returnValueForMissingStub:
+                _i3.Stream<List<(_i4.SchoolClassId, String)>?>.empty(),
+          )
+          as _i3.Stream<List<(_i4.SchoolClassId, String)>?>);
 
   @override
-  dynamic Function(String) get changeName => (super.noSuchMethod(
-        Invocation.getter(#changeName),
-        returnValue: (String __p0) => null,
-        returnValueForMissingStub: (String __p0) => null,
-      ) as dynamic Function(String));
+  dynamic Function(String) get changeName =>
+      (super.noSuchMethod(
+            Invocation.getter(#changeName),
+            returnValue: (String __p0) => null,
+            returnValueForMissingStub: (String __p0) => null,
+          )
+          as dynamic Function(String));
 
   @override
-  dynamic Function(String) get changeSubject => (super.noSuchMethod(
-        Invocation.getter(#changeSubject),
-        returnValue: (String __p0) => null,
-        returnValueForMissingStub: (String __p0) => null,
-      ) as dynamic Function(String));
+  dynamic Function(String) get changeSubject =>
+      (super.noSuchMethod(
+            Invocation.getter(#changeSubject),
+            returnValue: (String __p0) => null,
+            returnValueForMissingStub: (String __p0) => null,
+          )
+          as dynamic Function(String));
 
   @override
-  dynamic Function(String) get changeAbbreviation => (super.noSuchMethod(
-        Invocation.getter(#changeAbbreviation),
-        returnValue: (String __p0) => null,
-        returnValueForMissingStub: (String __p0) => null,
-      ) as dynamic Function(String));
+  dynamic Function(String) get changeAbbreviation =>
+      (super.noSuchMethod(
+            Invocation.getter(#changeAbbreviation),
+            returnValue: (String __p0) => null,
+            returnValueForMissingStub: (String __p0) => null,
+          )
+          as dynamic Function(String));
 
   @override
   _i3.StreamTransformer<String, String> get validateSubject =>
       (super.noSuchMethod(
-        Invocation.getter(#validateSubject),
-        returnValue: _FakeStreamTransformer_1<String, String>(
-          this,
-          Invocation.getter(#validateSubject),
-        ),
-        returnValueForMissingStub: _FakeStreamTransformer_1<String, String>(
-          this,
-          Invocation.getter(#validateSubject),
-        ),
-      ) as _i3.StreamTransformer<String, String>);
+            Invocation.getter(#validateSubject),
+            returnValue: _FakeStreamTransformer_1<String, String>(
+              this,
+              Invocation.getter(#validateSubject),
+            ),
+            returnValueForMissingStub: _FakeStreamTransformer_1<String, String>(
+              this,
+              Invocation.getter(#validateSubject),
+            ),
+          )
+          as _i3.StreamTransformer<String, String>);
 
   @override
   void loadAdminSchoolClasses() => super.noSuchMethod(
-        Invocation.method(
-          #loadAdminSchoolClasses,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#loadAdminSchoolClasses, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setInitialTemplate(_i7.CourseTemplate? template) => super.noSuchMethod(
-        Invocation.method(
-          #setInitialTemplate,
-          [template],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setInitialTemplate, [template]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setSchoolClassId(_i4.SchoolClassId? schoolClassId) => super.noSuchMethod(
-        Invocation.method(
-          #setSchoolClassId,
-          [schoolClassId],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setSchoolClassId, [schoolClassId]),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  bool hasUserEditInput() => (super.noSuchMethod(
-        Invocation.method(
-          #hasUserEditInput,
-          [],
-        ),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool hasUserEditInput() =>
+      (super.noSuchMethod(
+            Invocation.method(#hasUserEditInput, []),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i3.Future<(_i4.CourseId, String)> submitCourse() => (super.noSuchMethod(
-        Invocation.method(
-          #submitCourse,
-          [],
-        ),
-        returnValue: _i3.Future<(_i4.CourseId, String)>.value((
-          _FakeCourseId_2(
-            this,
-            Invocation.method(
-              #submitCourse,
-              [],
-            ),
-          ),
-          _i8.dummyValue<String>(
-            this,
-            Invocation.method(
-              #submitCourse,
-              [],
-            ),
+  _i3.Future<(_i4.CourseId, String)> submitCourse() =>
+      (super.noSuchMethod(
+            Invocation.method(#submitCourse, []),
+            returnValue: _i3.Future<(_i4.CourseId, String)>.value((
+              _FakeCourseId_2(this, Invocation.method(#submitCourse, [])),
+              _i8.dummyValue<String>(
+                this,
+                Invocation.method(#submitCourse, []),
+              ),
+            )),
+            returnValueForMissingStub:
+                _i3.Future<(_i4.CourseId, String)>.value((
+                  _FakeCourseId_2(this, Invocation.method(#submitCourse, [])),
+                  _i8.dummyValue<String>(
+                    this,
+                    Invocation.method(#submitCourse, []),
+                  ),
+                )),
           )
-        )),
-        returnValueForMissingStub: _i3.Future<(_i4.CourseId, String)>.value((
-          _FakeCourseId_2(
-            this,
-            Invocation.method(
-              #submitCourse,
-              [],
-            ),
-          ),
-          _i8.dummyValue<String>(
-            this,
-            Invocation.method(
-              #submitCourse,
-              [],
-            ),
-          )
-        )),
-      ) as _i3.Future<(_i4.CourseId, String)>);
+          as _i3.Future<(_i4.CourseId, String)>);
 
   @override
   _i3.Future<(_i4.CourseId, String)> submitWithCourseTemplate(
-          _i7.CourseTemplate? courseTemplate) =>
+    _i7.CourseTemplate? courseTemplate,
+  ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #submitWithCourseTemplate,
-          [courseTemplate],
-        ),
-        returnValue: _i3.Future<(_i4.CourseId, String)>.value((
-          _FakeCourseId_2(
-            this,
-            Invocation.method(
-              #submitWithCourseTemplate,
-              [courseTemplate],
-            ),
-          ),
-          _i8.dummyValue<String>(
-            this,
-            Invocation.method(
-              #submitWithCourseTemplate,
-              [courseTemplate],
-            ),
+            Invocation.method(#submitWithCourseTemplate, [courseTemplate]),
+            returnValue: _i3.Future<(_i4.CourseId, String)>.value((
+              _FakeCourseId_2(
+                this,
+                Invocation.method(#submitWithCourseTemplate, [courseTemplate]),
+              ),
+              _i8.dummyValue<String>(
+                this,
+                Invocation.method(#submitWithCourseTemplate, [courseTemplate]),
+              ),
+            )),
+            returnValueForMissingStub: _i3.Future<
+              (_i4.CourseId, String)
+            >.value((
+              _FakeCourseId_2(
+                this,
+                Invocation.method(#submitWithCourseTemplate, [courseTemplate]),
+              ),
+              _i8.dummyValue<String>(
+                this,
+                Invocation.method(#submitWithCourseTemplate, [courseTemplate]),
+              ),
+            )),
           )
-        )),
-        returnValueForMissingStub: _i3.Future<(_i4.CourseId, String)>.value((
-          _FakeCourseId_2(
-            this,
-            Invocation.method(
-              #submitWithCourseTemplate,
-              [courseTemplate],
-            ),
-          ),
-          _i8.dummyValue<String>(
-            this,
-            Invocation.method(
-              #submitWithCourseTemplate,
-              [courseTemplate],
-            ),
-          )
-        )),
-      ) as _i3.Future<(_i4.CourseId, String)>);
+          as _i3.Future<(_i4.CourseId, String)>);
 
   @override
-  _i3.Future<void> deleteCourse(_i4.CourseId? courseId) => (super.noSuchMethod(
-        Invocation.method(
-          #deleteCourse,
-          [courseId],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+  _i3.Future<void> deleteCourse(_i4.CourseId? courseId) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteCourse, [courseId]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
   bool isCourseTemplateAlreadyAdded(_i7.CourseTemplate? courseTemplate) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #isCourseTemplateAlreadyAdded,
-          [courseTemplate],
-        ),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+            Invocation.method(#isCourseTemplateAlreadyAdded, [courseTemplate]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
