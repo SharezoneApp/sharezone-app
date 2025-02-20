@@ -99,7 +99,6 @@ void main() {
         weight: const Weight.factor(0.5),
       );
 
-      // This works:
       expect(pageController.view.weights.unlockView, {
         GradeType.presentation.id: const Weight.factor(0.5),
         GradeType.writtenExam.id: const Weight.factor(1.5),
