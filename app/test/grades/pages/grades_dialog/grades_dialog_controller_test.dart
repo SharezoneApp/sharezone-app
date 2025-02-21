@@ -30,10 +30,19 @@ void main() {
 
     test(
       'throws correct $MultipleInvalidFieldsSaveGradeException when no fields are filled out and save is pressed',
-      () {
+      () async {
+        controller.setTitle('');
+
         expect(
-          () => controller.save(),
-          throwsA(isA<MultipleInvalidFieldsSaveGradeException>()),
+          () async => await controller.save(),
+          throwsA(
+            MultipleInvalidFieldsSaveGradeException([
+              GradingDialogFields.gradeValue,
+              GradingDialogFields.subject,
+              GradingDialogFields.term,
+              GradingDialogFields.title,
+            ]),
+          ),
         );
       },
     );

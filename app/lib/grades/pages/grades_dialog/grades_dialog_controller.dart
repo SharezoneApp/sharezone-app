@@ -13,6 +13,7 @@ import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/date.dart';
+import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -614,7 +615,7 @@ enum GradingDialogFields {
   }
 }
 
-sealed class SaveGradeException implements Exception {
+sealed class SaveGradeException extends Equatable implements Exception {
   const SaveGradeException();
 }
 
@@ -622,16 +623,26 @@ class UnknownSaveGradeException extends SaveGradeException {
   final Object e;
 
   const UnknownSaveGradeException(this.e);
+
+  @override
+  List<Object?> get props => [e];
 }
 
+// TODO: Merge SingleInvalidFieldSaveGradeException and MultipleInvalidFieldsSaveGradeException?
 class MultipleInvalidFieldsSaveGradeException extends SaveGradeException {
   final List<GradingDialogFields> invalidFields;
 
   const MultipleInvalidFieldsSaveGradeException(this.invalidFields);
+
+  @override
+  List<Object?> get props => [invalidFields];
 }
 
 class SingleInvalidFieldSaveGradeException extends SaveGradeException {
   final GradingDialogFields invalidField;
 
   const SingleInvalidFieldSaveGradeException(this.invalidField);
+
+  @override
+  List<Object?> get props => [invalidField];
 }
