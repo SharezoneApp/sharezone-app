@@ -57,6 +57,27 @@ void main() {
     );
 
     test(
+      'if there is an active term then its grading system is the default value',
+      () {
+        gradesTestController.createTerm(
+          termWith(gradingSystem: GradingSystem.zeroToFifteenPoints),
+        );
+
+        controller = GradesDialogController(
+          gradesService: gradesService,
+          coursesStream: Stream.value([]),
+          crashAnalytics: crashAnalytics,
+          analytics: analytics,
+        );
+
+        expect(
+          controller.view.selectedGradingSystem,
+          (GradingSystem.zeroToFifteenPoints),
+        );
+      },
+    );
+
+    test(
       'if there is no active term then the default $GradingSystem is ${GradingSystem.oneToSixWithPlusAndMinus}',
       () {
         expect(
