@@ -1,4 +1,6 @@
 import 'package:analytics/analytics.dart';
+import 'package:date/date.dart';
+import 'package:clock/clock.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -35,6 +37,14 @@ void main() {
       crashAnalytics = MockCrashAnalytics();
       analytics = MockAnalytics();
       controller = createController();
+    });
+
+    test('the default date is the current day', () {
+      withClock(Clock.fixed(DateTime(2025, 02, 21)), () {
+        controller = createController();
+
+        expect(controller.view.selectedDate, Date("2025-02-21"));
+      });
     });
 
     test(
