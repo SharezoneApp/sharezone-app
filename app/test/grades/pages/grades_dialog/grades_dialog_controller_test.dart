@@ -40,6 +40,144 @@ void main() {
       controller = createController();
     });
 
+    test('setting multiple fields updates the view', () {
+      gradesTestController.createTerm(
+        termWith(
+          id: TermId('foo'),
+          name: 'Foo term',
+          gradingSystem: GradingSystem.zeroToFifteenPoints,
+          subjects: [
+            subjectWith(
+              id: SubjectId('maths'),
+              name: 'Maths',
+              grades: [gradeWith()],
+            ),
+          ],
+        ),
+      );
+
+      controller = createController();
+
+      // Test setting grade
+      controller.setGrade('1');
+      expect(controller.view.selectedGrade, '1');
+      expect(controller.view.selectedGradeErrorText, null);
+
+      // Test setting subject
+      controller.setSubject(SubjectId('maths'));
+      expect(controller.view.selectedSubject?.name, 'Maths');
+      expect(controller.view.isSubjectMissing, false);
+
+      // Test setting term
+      controller.setTerm(TermId('foo'));
+      expect(controller.view.selectedTerm?.name, 'Foo term');
+      expect(controller.view.isTermMissing, false);
+
+      // Test setting date
+      controller.setDate(Date("2025-02-21"));
+      expect(controller.view.selectedDate, Date("2025-02-21"));
+
+      // Test setting grade type
+      controller.setGradeType(GradeType.presentation);
+      expect(controller.view.selectedGradingType, GradeType.presentation);
+      expect(controller.view.isGradeTypeMissing, false);
+
+      // Test setting title
+      controller.setTitle('Test Title');
+      expect(controller.view.title, 'Test Title');
+      expect(controller.view.titleErrorText, null);
+
+      // Test take into account flag
+      controller.setIntegrateGradeIntoSubjectGrade(false);
+      expect(controller.view.takeIntoAccount, false);
+    });
+
+    test('setting invalid grade shows error', () {
+      controller.setGradingSystem(
+        GradingSystem.zeroToFifteenPointsWithDecimals,
+      );
+
+      controller.setGrade('13,,2,3,3');
+      expect(
+        controller.view.selectedGradeErrorText,
+        'Die Eingabe ist keine gültige Zahl.',
+      );
+
+      controller.setGrade('');
+      expect(
+        controller.view.selectedGradeErrorText,
+        'Bitte eine Note eingeben.',
+      );
+    });
+
+    test('resetting grade system clears grade value', () {
+      controller = createController();
+
+      controller.setGrade('1');
+      expect(controller.view.selectedGrade, '1');
+
+      controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
+      expect(controller.view.selectedGrade, null);
+    });
+
+    test('changing term updates grading system if no grade entered', () {
+      gradesTestController.createTerm(
+        termWith(
+          id: TermId('term1'),
+          gradingSystem: GradingSystem.zeroToFifteenPoints,
+        ),
+      );
+
+      controller = createController();
+      controller.setTerm(TermId('term1'));
+
+      expect(
+        controller.view.selectedGradingSystem,
+        GradingSystem.zeroToFifteenPoints,
+      );
+    });
+
+    test('changing term preserves grading system if grade already entered', () {
+      gradesTestController.createTerms([
+        termWith(
+          id: TermId('term1'),
+          gradingSystem: GradingSystem.zeroToFifteenPoints,
+        ),
+        termWith(
+          id: TermId('term2'),
+          gradingSystem: GradingSystem.oneToFiveWithDecimals,
+        ),
+      ]);
+      controller = createController();
+
+      controller.setTerm(TermId('term1'));
+      controller.setGrade('8');
+      controller.setTerm(TermId('term2'));
+
+      expect(
+        controller.view.selectedGradingSystem,
+        GradingSystem.zeroToFifteenPoints,
+      );
+    });
+
+    test('changing grade type updates title if empty', () {
+      controller = createController();
+
+      controller.setGradeType(GradeType.presentation);
+      expect(
+        controller.view.title,
+        GradeType.presentation.predefinedType?.toUiString(),
+      );
+    });
+
+    test('changing grade type preserves custom title', () {
+      controller = createController();
+
+      controller.setTitle('Custom Title');
+      controller.setGradeType(GradeType.presentation);
+      expect(controller.view.title, 'Custom Title');
+    });
+
     test('the default date is the current day', () {
       withClock(Clock.fixed(DateTime(2025, 02, 21)), () {
         controller = createController();
