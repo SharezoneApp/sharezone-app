@@ -482,9 +482,9 @@ class GradesDialogController extends ChangeNotifier {
       if (e is InvalidGradeValueException) {
         _gradeErrorText = 'Die Note ist ungültig.';
         notifyListeners();
-        throw const SingleInvalidFieldSaveGradeException(
+        throw const InvalidFieldsSaveGradeException([
           GradingDialogFields.gradeValue,
-        );
+        ]);
       }
 
       crashAnalytics.recordError('Error saving grade: $e', s);
@@ -536,12 +536,7 @@ class GradesDialogController extends ChangeNotifier {
   void _throwInvalidSaveState(List<GradingDialogFields> invalidFields) {
     assert(invalidFields.isNotEmpty, 'Invalid fields must not be empty.');
 
-    if (invalidFields.length > 1) {
-      throw MultipleInvalidFieldsSaveGradeException(invalidFields);
-    }
-
-    final field = invalidFields.first;
-    throw SingleInvalidFieldSaveGradeException(field);
+    throw InvalidFieldsSaveGradeException(invalidFields);
   }
 
   IList<String>? _getPossibleDistinctGrades(PossibleGradesResult posGradesRes) {
@@ -628,21 +623,11 @@ class UnknownSaveGradeException extends SaveGradeException {
   List<Object?> get props => [e];
 }
 
-// TODO: Merge SingleInvalidFieldSaveGradeException and MultipleInvalidFieldsSaveGradeException?
-class MultipleInvalidFieldsSaveGradeException extends SaveGradeException {
+class InvalidFieldsSaveGradeException extends SaveGradeException {
   final List<GradingDialogFields> invalidFields;
 
-  const MultipleInvalidFieldsSaveGradeException(this.invalidFields);
+  const InvalidFieldsSaveGradeException(this.invalidFields);
 
   @override
   List<Object?> get props => [invalidFields];
-}
-
-class SingleInvalidFieldSaveGradeException extends SaveGradeException {
-  final GradingDialogFields invalidField;
-
-  const SingleInvalidFieldSaveGradeException(this.invalidField);
-
-  @override
-  List<Object?> get props => [invalidField];
 }

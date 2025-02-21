@@ -67,14 +67,7 @@ class _SaveButton extends StatelessWidget {
 
     if (e is SaveGradeException) {
       message = switch (e) {
-        MultipleInvalidFieldsSaveGradeException() =>
-          'Folgende Felder fehlen oder sind ungültig: ${e.invalidFields.map((f) => f.toUiString()).join(', ')}.',
-        SingleInvalidFieldSaveGradeException() => switch (e.invalidField) {
-          GradingDialogFields.gradeValue => 'Die Note fehlt oder ist ungültig.',
-          GradingDialogFields.title => 'Der Titel fehlt oder ist ungültig.',
-          GradingDialogFields.subject => 'Bitte gib ein Fach für die Note an.',
-          GradingDialogFields.term => 'Bitte gib ein Halbjahr für die an.',
-        },
+        InvalidFieldsSaveGradeException() => _getInvalidFieldsMessage(e),
         UnknownSaveGradeException() => unknownErrorMessage,
       };
     } else {
@@ -82,6 +75,22 @@ class _SaveButton extends StatelessWidget {
     }
 
     showSnackSec(context: context, text: message);
+  }
+
+  String _getInvalidFieldsMessage(InvalidFieldsSaveGradeException e) {
+    assert(e.invalidFields.isNotEmpty);
+
+    if (e.invalidFields.length == 1) {
+      return switch (e.invalidFields.first) {
+        GradingDialogFields.gradeValue => 'Die Note fehlt oder ist ungültig.',
+        GradingDialogFields.title => 'Der Titel fehlt oder ist ungültig.',
+        GradingDialogFields.subject => 'Bitte gib ein Fach für die Note an.',
+        GradingDialogFields.term => 'Bitte gib ein Halbjahr für die an.',
+      };
+    }
+    final fields = e.invalidFields;
+    final fieldMessages = fields.map((f) => f.toUiString()).join(', ');
+    return 'Folgende Felder fehlen oder sind ungültig: $fieldMessages.';
   }
 
   @override
