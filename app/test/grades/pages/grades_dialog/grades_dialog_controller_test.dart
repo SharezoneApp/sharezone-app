@@ -1,5 +1,6 @@
 import 'package:analytics/analytics.dart';
 import 'package:crash_analytics/crash_analytics.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -36,12 +37,14 @@ void main() {
         expect(
           () async => await controller.save(),
           throwsA(
-            InvalidFieldsSaveGradeException([
-              GradingDialogFields.gradeValue,
-              GradingDialogFields.subject,
-              GradingDialogFields.term,
-              GradingDialogFields.title,
-            ]),
+            InvalidFieldsSaveGradeException(
+              ISet({
+                GradingDialogFields.gradeValue,
+                GradingDialogFields.subject,
+                GradingDialogFields.term,
+                GradingDialogFields.title,
+              }),
+            ),
           ),
         );
       },

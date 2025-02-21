@@ -417,8 +417,8 @@ class GradesDialogController extends ChangeNotifier {
   /// Validates the fields and returns the invalid ones.
   ///
   /// If all fields are valid, an empty list is returned.
-  List<GradingDialogFields> _validateFields() {
-    final invalidFields = <GradingDialogFields>[];
+  ISet<GradingDialogFields> _validateFields() {
+    final invalidFields = <GradingDialogFields>{};
 
     if (!_validateGrade()) {
       invalidFields.add(GradingDialogFields.gradeValue);
@@ -436,7 +436,7 @@ class GradesDialogController extends ChangeNotifier {
       invalidFields.add(GradingDialogFields.title);
     }
 
-    return invalidFields;
+    return invalidFields.toISet();
   }
 
   void _addGradeToGradeService() {
@@ -482,9 +482,9 @@ class GradesDialogController extends ChangeNotifier {
       if (e is InvalidGradeValueException) {
         _gradeErrorText = 'Die Note ist ungültig.';
         notifyListeners();
-        throw const InvalidFieldsSaveGradeException([
-          GradingDialogFields.gradeValue,
-        ]);
+        throw const InvalidFieldsSaveGradeException(
+          ISetConst({GradingDialogFields.gradeValue}),
+        );
       }
 
       crashAnalytics.recordError('Error saving grade: $e', s);
@@ -533,9 +533,8 @@ class GradesDialogController extends ChangeNotifier {
         .toIList();
   }
 
-  void _throwInvalidSaveState(List<GradingDialogFields> invalidFields) {
+  void _throwInvalidSaveState(ISet<GradingDialogFields> invalidFields) {
     assert(invalidFields.isNotEmpty, 'Invalid fields must not be empty.');
-
     throw InvalidFieldsSaveGradeException(invalidFields);
   }
 
@@ -624,7 +623,7 @@ class UnknownSaveGradeException extends SaveGradeException {
 }
 
 class InvalidFieldsSaveGradeException extends SaveGradeException {
-  final List<GradingDialogFields> invalidFields;
+  final ISet<GradingDialogFields> invalidFields;
 
   const InvalidFieldsSaveGradeException(this.invalidFields);
 
