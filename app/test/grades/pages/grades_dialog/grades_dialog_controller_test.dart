@@ -11,7 +11,7 @@ class MockCrashAnalytics extends Mock implements CrashAnalytics {}
 class MockAnalytics extends Mock implements Analytics {}
 
 void main() {
-  group('GradesDialogController', () {
+  group('$GradesDialogController', () {
     late GradesService gradesService;
     late CrashAnalytics crashAnalytics;
     late Analytics analytics;
@@ -30,7 +30,7 @@ void main() {
     });
 
     test(
-      'throws correct $InvalidFieldsSaveGradeException when no fields are filled out and save is pressed',
+      '.save throws correct $InvalidFieldsSaveGradeException when no fields are filled out and save is pressed',
       () async {
         controller.setTitle('');
 
