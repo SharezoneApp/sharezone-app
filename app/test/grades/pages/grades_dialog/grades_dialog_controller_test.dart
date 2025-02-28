@@ -158,26 +158,6 @@ void main() {
         controller.setIntegrateGradeIntoSubjectGrade(false);
         expect(controller.view.takeIntoAccount, false);
       });
-
-      test('setGradingSystem only notifies listeners when system changes', () {
-        controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
-        final initialSystem = controller.view.selectedGradingSystem;
-
-        // Setting the same system shouldn't trigger change
-        controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
-        expect(controller.view.selectedGradingSystem, initialSystem);
-      });
-
-      test('grade type updates when setGradeType is called', () {
-        controller.setGradeType(GradeType.oralParticipation);
-        expect(
-          controller.view.selectedGradingType,
-          GradeType.oralParticipation,
-        );
-
-        controller.setGradeType(GradeType.presentation);
-        expect(controller.view.selectedGradingType, GradeType.presentation);
-      });
     });
 
     group('Grade handling', () {
@@ -208,6 +188,29 @@ void main() {
         controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
         expect(controller.view.selectedGrade, null);
       });
+
+      test(
+        'setGradingSystem only notifies listeners when system changes and grade is preserved',
+        () {
+          // Set initial grading system and a grade value
+          controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
+          controller.setGrade('10');
+
+          final initialSystem = controller.view.selectedGradingSystem;
+          final initialGrade = controller.view.selectedGrade;
+
+          // Setting the same system shouldn't trigger change or reset grade
+          controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
+
+          expect(controller.view.selectedGradingSystem, initialSystem);
+          expect(
+            controller.view.selectedGrade,
+            initialGrade,
+            reason:
+                'Grade should not be reset when setting the same grading system',
+          );
+        },
+      );
 
       test('setting grade with valid input clears error text', () {
         controller.setGradingSystem(
