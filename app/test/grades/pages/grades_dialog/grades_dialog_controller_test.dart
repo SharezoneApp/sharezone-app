@@ -118,6 +118,13 @@ void main() {
 
         controller = createController();
 
+        // Test settings grading system
+        controller.setGradingSystem(GradingSystem.oneToSixWithPlusAndMinus);
+        expect(
+          controller.view.selectedGradingSystem,
+          GradingSystem.oneToSixWithPlusAndMinus,
+        );
+
         // Test setting grade
         controller.setGrade('1');
         expect(controller.view.selectedGrade, '1');
