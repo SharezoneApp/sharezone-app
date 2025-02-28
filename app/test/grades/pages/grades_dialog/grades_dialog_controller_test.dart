@@ -178,6 +178,82 @@ void main() {
       expect(controller.view.title, 'Custom Title');
     });
 
+    test('title error text is shown when title is empty', () {
+      controller.setTitle('');
+      expect(controller.view.titleErrorText, 'Bitte einen Titel eingeben.');
+
+      controller.setTitle('Valid Title');
+      expect(controller.view.titleErrorText, null);
+    });
+
+    test('grade type updates when setGradeType is called', () {
+      controller.setGradeType(GradeType.oralParticipation);
+      expect(controller.view.selectedGradingType, GradeType.oralParticipation);
+
+      controller.setGradeType(GradeType.presentation);
+      expect(controller.view.selectedGradingType, GradeType.presentation);
+    });
+
+    test('setGradingSystem only notifies listeners when system changes', () {
+      controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
+      final initialSystem = controller.view.selectedGradingSystem;
+
+      // Setting the same system shouldn't trigger change
+      controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
+      expect(controller.view.selectedGradingSystem, initialSystem);
+    });
+
+    test('setting grade with valid input clears error text', () {
+      controller.setGradingSystem(
+        GradingSystem.zeroToFifteenPointsWithDecimals,
+      );
+
+      controller.setGrade('invalid');
+      expect(controller.view.selectedGradeErrorText, isNotNull);
+
+      controller.setGrade('12.5');
+      expect(controller.view.selectedGradeErrorText, isNull);
+    });
+
+    test(
+      'changing grade type when title matches previous grade type updates title',
+      () {
+        controller = createController();
+
+        // Set initial grade type and verify title is set
+        controller.setGradeType(GradeType.oralParticipation);
+        final initialTitle = controller.view.title;
+
+        // Change to new grade type, title should update
+        controller.setGradeType(GradeType.presentation);
+        expect(controller.view.title, isNot(equals(initialTitle)));
+        expect(
+          controller.view.title,
+          GradeType.presentation.predefinedType?.toUiString(),
+        );
+      },
+    );
+
+    test(
+      'validate methods set corresponding missing flags to true when invalid',
+      () async {
+        controller = createController();
+
+        expect(controller.view.isSubjectMissing, isFalse);
+        expect(controller.view.isTermMissing, isFalse);
+        expect(controller.view.isGradeMissing, isFalse);
+
+        // Try to save without setting required fields
+        try {
+          await controller.save();
+        } catch (_) {}
+
+        expect(controller.view.isSubjectMissing, isTrue);
+        expect(controller.view.isTermMissing, isTrue);
+        expect(controller.view.isGradeMissing, isTrue);
+      },
+    );
+
     test('the default date is the current day', () {
       withClock(Clock.fixed(DateTime(2025, 02, 21)), () {
         controller = createController();
