@@ -387,5 +387,28 @@ void main() {
         );
       },
     );
+    test('analytics is called when grade is saved', () async {
+      final termId = TermId('term1');
+      final subjectId = SubjectId('subject1');
+
+      gradesTestController.createTerm(
+        termWith(
+          id: termId,
+          subjects: [
+            subjectWith(id: subjectId, grades: [gradeWith()]),
+          ],
+        ),
+      );
+
+      controller = createController();
+      controller.setGrade('1');
+      controller.setTitle('Analytics Test');
+      controller.setSubject(subjectId);
+      controller.setTerm(termId);
+
+      await controller.save();
+
+      verify(analytics.log(NamedAnalyticsEvent(name: 'grade_added'))).called(1);
+    });
   });
 }
