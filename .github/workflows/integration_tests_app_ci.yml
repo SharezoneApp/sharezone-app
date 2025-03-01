@@ -175,27 +175,17 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Set Flutter version from FVM config file to environment variables
-        id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
-
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
-        with:
-          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+      - name: Install Custom Flutter SDK
+        run: |
+          git clone https://github.com/nilsreichardt/flutter
+          cd flutter
+          git checkout add-ignore-timeouts-flag
+          echo "$PWD/bin" >> $GITHUB_PATH
 
       - uses: futureware-tech/simulator-action@bde6805eedaeaba7775a9959970edc7d8bf10c4d
         id: simulator
         with:
           model: "iPhone 16"
-
-      - name: Build app
-        working-directory: app
-        run: |
-          flutter build ipa \
-            --flavor dev \
-            -t lib/main_dev.dart \
-            --no-codesign
 
       - name: Run integration tests
         working-directory: app
@@ -217,7 +207,8 @@ jobs:
             --flavor prod \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
-            -d $SIMULATOR_UDID
+            -d $SIMULATOR_UDID \
+            --ignore-timeouts
 
   web-integration-test:
     needs: changes
