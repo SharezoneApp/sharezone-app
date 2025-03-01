@@ -13,6 +13,7 @@ import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/date.dart';
+import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -416,8 +417,8 @@ class GradesDialogController extends ChangeNotifier {
   /// Validates the fields and returns the invalid ones.
   ///
   /// If all fields are valid, an empty list is returned.
-  List<GradingDialogFields> _validateFields() {
-    final invalidFields = <GradingDialogFields>[];
+  ISet<GradingDialogFields> _validateFields() {
+    final invalidFields = <GradingDialogFields>{};
 
     if (!_validateGrade()) {
       invalidFields.add(GradingDialogFields.gradeValue);
@@ -435,7 +436,7 @@ class GradesDialogController extends ChangeNotifier {
       invalidFields.add(GradingDialogFields.title);
     }
 
-    return invalidFields;
+    return invalidFields.toISet();
   }
 
   void _addGradeToGradeService() {
@@ -481,8 +482,8 @@ class GradesDialogController extends ChangeNotifier {
       if (e is InvalidGradeValueException) {
         _gradeErrorText = 'Die Note ist ungültig.';
         notifyListeners();
-        throw const SingleInvalidFieldSaveGradeException(
-          GradingDialogFields.gradeValue,
+        throw const InvalidFieldsSaveGradeException(
+          ISetConst({GradingDialogFields.gradeValue}),
         );
       }
 
@@ -532,15 +533,9 @@ class GradesDialogController extends ChangeNotifier {
         .toIList();
   }
 
-  void _throwInvalidSaveState(List<GradingDialogFields> invalidFields) {
+  void _throwInvalidSaveState(ISet<GradingDialogFields> invalidFields) {
     assert(invalidFields.isNotEmpty, 'Invalid fields must not be empty.');
-
-    if (invalidFields.length > 1) {
-      throw MultipleInvalidFieldsSaveGradeException(invalidFields);
-    }
-
-    final field = invalidFields.first;
-    throw SingleInvalidFieldSaveGradeException(field);
+    throw InvalidFieldsSaveGradeException(invalidFields);
   }
 
   IList<String>? _getPossibleDistinctGrades(PossibleGradesResult posGradesRes) {
@@ -614,7 +609,7 @@ enum GradingDialogFields {
   }
 }
 
-sealed class SaveGradeException implements Exception {
+sealed class SaveGradeException extends Equatable implements Exception {
   const SaveGradeException();
 }
 
@@ -622,16 +617,16 @@ class UnknownSaveGradeException extends SaveGradeException {
   final Object e;
 
   const UnknownSaveGradeException(this.e);
+
+  @override
+  List<Object?> get props => [e];
 }
 
-class MultipleInvalidFieldsSaveGradeException extends SaveGradeException {
-  final List<GradingDialogFields> invalidFields;
+class InvalidFieldsSaveGradeException extends SaveGradeException {
+  final ISet<GradingDialogFields> invalidFields;
 
-  const MultipleInvalidFieldsSaveGradeException(this.invalidFields);
-}
+  const InvalidFieldsSaveGradeException(this.invalidFields);
 
-class SingleInvalidFieldSaveGradeException extends SaveGradeException {
-  final GradingDialogFields invalidField;
-
-  const SingleInvalidFieldSaveGradeException(this.invalidField);
+  @override
+  List<Object?> get props => [invalidFields];
 }
