@@ -209,6 +209,7 @@ Future<void> publishToAppStoreConnect(
     // We use this option because otherwise the deployment will fail if the
     // previous submission is not approved yet.
     '--cancel-previous-submissions',
+    '--verbose',
   ], workingDirectory: repo.sharezoneFlutterApp.location);
 }
 
@@ -301,7 +302,7 @@ class AppleSigningConfig {
 
     final certificatePrivateKey =
         argResults[certificateKeyOptionName] as String? ??
-        Platform.environment['CERTIFICATE_PRIVATE_KEY'];
+            Platform.environment['CERTIFICATE_PRIVATE_KEY'];
 
     if (certificatePrivateKey == null) {
       throw Exception(
@@ -333,14 +334,11 @@ class AppStoreConnectConfig {
     ArgResults argResults,
     Map<String, String> environment,
   ) {
-    final issuerId =
-        argResults[issuerIdOptionName] as String? ??
+    final issuerId = argResults[issuerIdOptionName] as String? ??
         Platform.environment['APP_STORE_CONNECT_ISSUER_ID'];
-    final keyIdentifier =
-        argResults[keyIdOptionName] as String? ??
+    final keyIdentifier = argResults[keyIdOptionName] as String? ??
         Platform.environment['APP_STORE_CONNECT_KEY_IDENTIFIER'];
-    final privateKey =
-        argResults[privateKeyOptionName] as String? ??
+    final privateKey = argResults[privateKeyOptionName] as String? ??
         Platform.environment['APP_STORE_CONNECT_PRIVATE_KEY'];
 
     if (issuerId == null) {
