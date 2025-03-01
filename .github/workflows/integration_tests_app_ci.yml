@@ -175,16 +175,10 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: Install Custom Flutter SDK
-        run: |
-          git clone https://github.com/nilsreichardt/flutter
-          cd flutter
-          git checkout add-ignore-timeouts-flag
-          echo "$PWD/bin" >> $GITHUB_PATH
-
       - uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
         with:
-          flutter-version: 'add-ignore-timeouts-flag'
+          channel: "master"
+          flutter-version: "add-ignore-timeouts-flag"
           git-source: https://github.com/nilsreichardt/flutter.git
 
       - uses: futureware-tech/simulator-action@bde6805eedaeaba7775a9959970edc7d8bf10c4d
