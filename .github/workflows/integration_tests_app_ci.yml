@@ -263,7 +263,7 @@ jobs:
   # macOS app.
   macos-build-test:
     needs: changes
-    runs-on: macos-14
+    runs-on: macos-15
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     defaults:
