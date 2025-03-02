@@ -66,7 +66,7 @@ jobs:
   deploy-ios:
     # We skip the deployment if no changelog is provided because we assume that
     # nothing has changed in the iOS app and therefore no new version is needed.
-    # 
+    #
     # For scheduled builds, a changelog is not required.
     if: github.event.inputs.ios-changelog != '' || github.event_name == 'schedule'
     runs-on: macos-15
