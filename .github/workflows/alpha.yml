@@ -16,7 +16,6 @@ concurrency:
   group: app-release
 
 on:
-  pull_request: # TEMP, DELETE BEFORE MERGING
   push:
     branches:
       - main
