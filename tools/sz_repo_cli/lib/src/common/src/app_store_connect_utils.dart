@@ -209,7 +209,6 @@ Future<void> publishToAppStoreConnect(
     // We use this option because otherwise the deployment will fail if the
     // previous submission is not approved yet.
     '--cancel-previous-submissions',
-    '--verbose',
   ], workingDirectory: repo.sharezoneFlutterApp.location);
 }
 
