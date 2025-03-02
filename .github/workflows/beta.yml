@@ -16,6 +16,10 @@ concurrency:
   group: app-release
 
 on:
+  schedule:
+    # TestFlight builds expire after 90 days. To ensure we have regular builds,
+    # we run this workflow every 90 days.
+    - cron: "0 0 1 */3 *"
   workflow_dispatch:
     inputs:
       ios-changelog:
@@ -62,7 +66,9 @@ jobs:
   deploy-ios:
     # We skip the deployment if no changelog is provided because we assume that
     # nothing has changed in the iOS app and therefore no new version is needed.
-    if: github.event.inputs.ios-changelog != ''
+    # 
+    # For scheduled builds, a changelog is not required.
+    if: github.event.inputs.ios-changelog != '' || github.event_name == 'schedule'
     runs-on: macos-15
     timeout-minutes: 120
     steps:
@@ -101,6 +107,9 @@ jobs:
           # When passing the changelog from GitHub Actions to the CLI, the line
           # breaks are escaped. We need to replace them with actual line breaks.
           CHANGELOG="${{ github.event.inputs.ios-changelog }}"
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="Scheduled build"
+          fi
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
           sz deploy app ios \
@@ -223,7 +232,9 @@ jobs:
   deploy-macos:
     # We skip the deployment if no changelog is provided because we assume that
     # nothing has changed in the macOS app and therefore no new version is needed.
-    if: github.event.inputs.macos-changelog != ''
+    #
+    # For scheduled builds, a changelog is not required.
+    if: github.event.inputs.macos-changelog != '' || github.event_name == 'schedule'
     runs-on: macos-15
     timeout-minutes: 60
     steps:
@@ -268,6 +279,9 @@ jobs:
           # When passing the changelog from GitHub Actions to the CLI, the line
           # breaks are escaped. We need to replace them with actual line breaks.
           CHANGELOG="${{ github.event.inputs.macos-changelog }}"
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="Scheduled build"
+          fi
           CHANGELOG_WITH_NEW_LINES=$(echo -e "$CHANGELOG" | sed 's/\\n/\\n/g')
 
           sz deploy app macos \
