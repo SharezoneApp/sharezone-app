@@ -63,7 +63,7 @@ jobs:
     # We skip the deployment if no changelog is provided because we assume that
     # nothing has changed in the iOS app and therefore no new version is needed.
     if: github.event.inputs.ios-changelog != ''
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -73,7 +73,7 @@ jobs:
           python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.7
+        run: pip3 install codemagic-cli-tools==0.57.3
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -173,7 +173,7 @@ jobs:
           python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.7
+        run: pip3 install codemagic-cli-tools==0.57.3
 
       - name: Setup signing
         working-directory: app/android
@@ -226,7 +226,7 @@ jobs:
     # We skip the deployment if no changelog is provided because we assume that
     # nothing has changed in the macOS app and therefore no new version is needed.
     if: github.event.inputs.macos-changelog != ''
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -236,7 +236,7 @@ jobs:
           python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.7
+        run: pip3 install codemagic-cli-tools==0.57.3
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action

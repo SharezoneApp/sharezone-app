@@ -263,7 +263,7 @@ jobs:
   # macOS app.
   macos-build-test:
     needs: changes
-    runs-on: macos-14
+    runs-on: macos-15
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     defaults:
@@ -277,7 +277,7 @@ jobs:
           python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.7
+        run: pip3 install codemagic-cli-tools==0.57.3
 
       - name: Setup signing
         env:

@@ -132,7 +132,7 @@ jobs:
           python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.7
+        run: pip3 install codemagic-cli-tools==0.57.3
 
       - name: Setup signing
         working-directory: app/android
@@ -212,7 +212,7 @@ jobs:
             --release-notes "$LAST_COMMIT_MESSAGE"
 
   deploy-alpha-ios-app:
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -222,7 +222,7 @@ jobs:
           python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.7
+        run: pip3 install codemagic-cli-tools==0.57.3
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
@@ -275,7 +275,7 @@ jobs:
             --export-options-plist=$HOME/export_options.plist
 
   deploy-alpha-macos-app:
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -285,7 +285,7 @@ jobs:
           python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.7
+        run: pip3 install codemagic-cli-tools==0.57.3
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
