@@ -155,6 +155,13 @@ class GradesDialogController extends ChangeNotifier {
     _gradeFieldController = TextEditingController();
     _detailsController = TextEditingController();
 
+    if (gradeId != null) {
+      final grade = gradesService.grade(gradeId!).get()!;
+
+      _title = grade.title;
+      _titleController = TextEditingController(text: _title);
+    }
+
     // Even though the fields are not filled at the beginning, we don't want to
     // show any error messages. The user should see the error messages only
     // after they have pressed the save button.
