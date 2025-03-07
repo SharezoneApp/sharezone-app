@@ -12,6 +12,7 @@ import 'package:sharezone/grades/models/grade_id.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_view.dart';
+import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/grades/pages/shared/saved_grade_icons.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -109,25 +110,10 @@ class _EditIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      key: const Key('edit-grade-icon-button'),
       tooltip: 'Note bearbeiten',
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Note bearbeiten'),
-              content: const Text(
-                'Das Bearbeiten einer Note ist aktuell noch nicht möglich. Bitte lösche die Note und erstelle sie neu.',
-              ),
-              actions: [
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
-            );
-          },
-        );
+      onPressed: () async {
+        await Navigator.pushNamed(context, GradesDialog.tag);
       },
       icon: const Icon(Icons.edit),
     );
