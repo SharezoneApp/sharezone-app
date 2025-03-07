@@ -60,6 +60,7 @@ void main() {
   setUp(() {
     controllerFactory = MockGradeDetailsPageControllerFactory();
     controller = MockGradeDetailsPageController();
+    when(controller.id).thenReturn(id);
     when(controllerFactory.create(id)).thenReturn(controller);
     setLoaded();
   });
@@ -85,7 +86,16 @@ void main() {
             ),
           ],
           child: MaterialApp(
-            routes: {GradesDialog.tag: (_) => const GradesDialog()},
+            routes: {
+              GradesDialog.tag: (context) {
+                if (ModalRoute.of(context)!.settings.arguments case {
+                  'gradeId': String id,
+                }) {
+                  return GradesDialog(gradeId: GradeId(id));
+                }
+                return const GradesDialog();
+              },
+            },
             home: const GradeDetailsPage(id: id),
           ),
         ),
@@ -101,6 +111,12 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.byType(GradesDialog), findsOneWidget);
+        expect(
+          find.byWidgetPredicate(
+            (widget) => widget is GradesDialog && widget.gradeId == id,
+          ),
+          findsOneWidget,
+        );
       },
     );
 

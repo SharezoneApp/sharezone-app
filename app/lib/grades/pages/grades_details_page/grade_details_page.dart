@@ -113,7 +113,13 @@ class _EditIconButton extends StatelessWidget {
       key: const Key('edit-grade-icon-button'),
       tooltip: 'Note bearbeiten',
       onPressed: () async {
-        await Navigator.pushNamed(context, GradesDialog.tag);
+        await Navigator.pushNamed(
+          context,
+          GradesDialog.tag,
+          arguments: {
+            'gradeId': context.read<GradeDetailsPageController>().id.value,
+          },
+        );
       },
       icon: const Icon(Icons.edit),
     );

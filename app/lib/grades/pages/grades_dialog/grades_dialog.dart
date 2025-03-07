@@ -30,9 +30,12 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 part 'fields.dart';
 
 class GradesDialog extends StatelessWidget {
-  const GradesDialog({super.key});
+  const GradesDialog({super.key, this.gradeId});
 
   static const tag = 'grades-dialog';
+
+  /// The [GradeId] of the grade to edit, `null` if grade should be created.
+  final GradeId? gradeId;
 
   @override
   Widget build(BuildContext context) {
