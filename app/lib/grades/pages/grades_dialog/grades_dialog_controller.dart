@@ -146,8 +146,9 @@ class GradesDialogController extends ChangeNotifier {
       final gradeRef = gradesService.grade(gradeId!);
       final grade = gradeRef.get()!;
       final subjectOfGrade = gradesService.getSubject(gradeRef.subjectRef.id)!;
-      // TODO: Won't work with numerical values, create test case for it
-      _grade = grade.value.displayableGrade;
+      _grade =
+          grade.value.displayableGrade ??
+          grade.value.asNum.toString().replaceAll('.', ',');
       _title = grade.title;
 
       _selectedTermId = _getActiveTermId();

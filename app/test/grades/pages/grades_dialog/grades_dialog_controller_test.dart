@@ -111,6 +111,26 @@ void main() {
           expect(controller.view.isSubjectMissing, false);
           expect(controller.view.isTermMissing, false);
           expect(controller.view.isGradeTypeMissing, false);
+
+          gradesTestController.addGrade(
+            termId: TermId('foo'),
+            subjectId: SubjectId('maths'),
+            value: gradeWith(
+              id: GradeId('grade2'),
+              gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
+              includeInGradeCalculations: true,
+              value: 13.2,
+            ),
+          );
+
+          controller = createController(gradeId: GradeId('grade2'));
+
+          expect(controller.view.selectedGrade, '13,2');
+          expect(
+            controller.view.selectedGradingSystem,
+            GradingSystem.zeroToFifteenPointsWithDecimals,
+          );
+          expect(controller.view.takeIntoAccount, true);
         },
       );
     });
