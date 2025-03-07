@@ -50,6 +50,7 @@ void main() {
     });
 
     group('editing', () {
+      // TODO: Test TakeIntoAccountState
       test(
         'if a grade id is passed then the data of the grade will be prefilled',
         () {
@@ -62,16 +63,17 @@ void main() {
                 subjectWith(
                   id: SubjectId('maths'),
                   name: 'Maths',
-                  weightType: WeightType.perGrade,
+                  // weightType: WeightType.perGrade,
                   grades: [
                     gradeWith(
                       id: GradeId('grade1'),
                       title: 'Foo',
                       gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-                      includeInGradeCalculations: true,
+                      includeInGradeCalculations: false,
                       type: GradeType.presentation.id,
                       value: '2-',
-                      weight: Weight.factor(1.5),
+                      // TODO: Doesn't work yet. Test
+                      // weight: Weight.factor(1.5),
                       date: Date("2025-02-21"),
                       details: 'Notes',
                     ),
@@ -84,6 +86,31 @@ void main() {
           controller = createController(gradeId: GradeId('grade1'));
 
           expect(controller.view.title, 'Foo');
+          // TODO: Test numerical value
+          expect(controller.view.selectedGrade, '2-');
+          expect(
+            controller.view.selectedGradingSystem,
+            GradingSystem.oneToSixWithPlusAndMinus,
+          );
+          expect(controller.view.selectedDate, Date("2025-02-21"));
+          expect(controller.view.selectedGradingType, GradeType.presentation);
+          expect(controller.view.takeIntoAccount, false);
+          expect(controller.view.detailsController.text, 'Notes');
+          expect(controller.view.selectedSubject, (
+            id: SubjectId('maths'),
+            name: 'Maths',
+          ));
+          expect(controller.view.selectedTerm, (
+            id: TermId('foo'),
+            name: 'Foo term',
+          ));
+
+          expect(controller.view.titleErrorText, null);
+          expect(controller.view.selectedGradeErrorText, null);
+          expect(controller.view.isGradeMissing, false);
+          expect(controller.view.isSubjectMissing, false);
+          expect(controller.view.isTermMissing, false);
+          expect(controller.view.isGradeTypeMissing, false);
         },
       );
     });

@@ -142,25 +142,41 @@ class GradesDialogController extends ChangeNotifier {
     required this.analytics,
     this.gradeId,
   }) {
-    _selectedTermId = _getActiveTermId();
-    _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
-    _gradingSystem =
-        _gradingSystemOfSelectedTerm ?? GradingSystem.oneToSixWithPlusAndMinus;
-    _date = Date.today();
-    _gradeType = GradeType.writtenExam;
-    _title = _gradeType.predefinedType?.toUiString();
-    _takeIntoAccount = true;
-    _titleController = TextEditingController(text: _title);
-    _subjects = gradesService.getSubjects();
-    _gradeFieldController = TextEditingController();
-    _detailsController = TextEditingController();
-
     if (gradeId != null) {
-      final grade = gradesService.grade(gradeId!).get()!;
-
+      final gradeRef = gradesService.grade(gradeId!);
+      final grade = gradeRef.get()!;
+      final subjectOfGrade = gradesService.getSubject(gradeRef.subjectRef.id)!;
+      // TODO: Won't work with numerical values, create test case for it
+      _grade = grade.value.displayableGrade;
       _title = grade.title;
-      _titleController = TextEditingController(text: _title);
+
+      _selectedTermId = _getActiveTermId();
+      _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
+      _gradingSystem = grade.gradingSystem;
+      _selectSubjectId = subjectOfGrade.id;
+      _date = grade.date;
+      _gradeType = gradesService.getPossibleGradeTypes().firstWhere(
+        (gt) => gt.id == grade.gradeTypeId,
+      );
+      _takeIntoAccount = grade.isTakenIntoAccount;
+      _subjects = gradesService.getSubjects();
+      _detailsController = TextEditingController(text: grade.details);
+    } else {
+      _selectedTermId = _getActiveTermId();
+      _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
+      _gradingSystem =
+          _gradingSystemOfSelectedTerm ??
+          GradingSystem.oneToSixWithPlusAndMinus;
+      _date = Date.today();
+      _gradeType = GradeType.writtenExam;
+      _title = _gradeType.predefinedType?.toUiString();
+      _takeIntoAccount = true;
+      _subjects = gradesService.getSubjects();
+      _detailsController = TextEditingController();
     }
+
+    _titleController = TextEditingController(text: _title);
+    _gradeFieldController = TextEditingController(text: _grade);
 
     // Even though the fields are not filled at the beginning, we don't want to
     // show any error messages. The user should see the error messages only
