@@ -22,6 +22,7 @@ import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'grades_dialog_view.dart';
 
 class GradesDialogController extends ChangeNotifier {
+  final GradeId? gradeId;
   final Stream<List<Course>> coursesStream;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
@@ -139,6 +140,7 @@ class GradesDialogController extends ChangeNotifier {
     required this.coursesStream,
     required this.crashAnalytics,
     required this.analytics,
+    this.gradeId,
   }) {
     _selectedTermId = _getActiveTermId();
     _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);

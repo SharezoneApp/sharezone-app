@@ -31,12 +31,13 @@ void main() {
     late Analytics analytics;
     late GradesDialogController controller;
 
-    GradesDialogController createController() {
+    GradesDialogController createController({GradeId? gradeId}) {
       return GradesDialogController(
         gradesService: gradesService,
         coursesStream: Stream.value([]),
         crashAnalytics: crashAnalytics,
         analytics: analytics,
+        gradeId: gradeId,
       );
     }
 
@@ -46,6 +47,45 @@ void main() {
       crashAnalytics = MockCrashAnalytics();
       analytics = MockAnalytics();
       controller = createController();
+    });
+
+    group('editing', () {
+      test(
+        'if a grade id is passed then the data of the grade will be prefilled',
+        () {
+          gradesTestController.createTerm(
+            termWith(
+              id: TermId('foo'),
+              name: 'Foo term',
+              gradingSystem: GradingSystem.zeroToFifteenPoints,
+              subjects: [
+                subjectWith(
+                  id: SubjectId('maths'),
+                  name: 'Maths',
+                  weightType: WeightType.perGrade,
+                  grades: [
+                    gradeWith(
+                      id: GradeId('grade1'),
+                      title: 'Foo',
+                      gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                      includeInGradeCalculations: true,
+                      type: GradeType.presentation.id,
+                      value: '2-',
+                      weight: Weight.factor(1.5),
+                      date: Date("2025-02-21"),
+                      details: 'Notes',
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+
+          controller = createController(gradeId: GradeId('grade1'));
+
+          expect(controller.view.title, 'Foo');
+        },
+      );
     });
 
     group('Initialization and defaults', () {
