@@ -31,12 +31,13 @@ void main() {
     late Analytics analytics;
     late GradesDialogController controller;
 
-    GradesDialogController createController() {
+    GradesDialogController createController({GradeId? gradeId}) {
       return GradesDialogController(
         gradesService: gradesService,
         coursesStream: Stream.value([]),
         crashAnalytics: crashAnalytics,
         analytics: analytics,
+        gradeId: gradeId,
       );
     }
 
@@ -46,6 +47,92 @@ void main() {
       crashAnalytics = MockCrashAnalytics();
       analytics = MockAnalytics();
       controller = createController();
+    });
+
+    group('editing', () {
+      // TODO: Test TakeIntoAccountState
+      test(
+        'if a grade id is passed then the data of the grade will be prefilled',
+        () {
+          gradesTestController.createTerm(
+            termWith(
+              id: TermId('foo'),
+              name: 'Foo term',
+              gradingSystem: GradingSystem.zeroToFifteenPoints,
+              subjects: [
+                subjectWith(
+                  id: SubjectId('maths'),
+                  name: 'Maths',
+                  // weightType: WeightType.perGrade,
+                  grades: [
+                    gradeWith(
+                      id: GradeId('grade1'),
+                      title: 'Foo',
+                      gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                      includeInGradeCalculations: false,
+                      type: GradeType.presentation.id,
+                      value: '2-',
+                      // TODO: Doesn't work yet. Test
+                      // weight: Weight.factor(1.5),
+                      date: Date("2025-02-21"),
+                      details: 'Notes',
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+
+          controller = createController(gradeId: GradeId('grade1'));
+
+          expect(controller.view.title, 'Foo');
+          // TODO: Test numerical value
+          expect(controller.view.selectedGrade, '2-');
+          expect(
+            controller.view.selectedGradingSystem,
+            GradingSystem.oneToSixWithPlusAndMinus,
+          );
+          expect(controller.view.selectedDate, Date("2025-02-21"));
+          expect(controller.view.selectedGradingType, GradeType.presentation);
+          expect(controller.view.takeIntoAccount, false);
+          expect(controller.view.detailsController.text, 'Notes');
+          expect(controller.view.selectedSubject, (
+            id: SubjectId('maths'),
+            name: 'Maths',
+          ));
+          expect(controller.view.selectedTerm, (
+            id: TermId('foo'),
+            name: 'Foo term',
+          ));
+
+          expect(controller.view.titleErrorText, null);
+          expect(controller.view.selectedGradeErrorText, null);
+          expect(controller.view.isGradeMissing, false);
+          expect(controller.view.isSubjectMissing, false);
+          expect(controller.view.isTermMissing, false);
+          expect(controller.view.isGradeTypeMissing, false);
+
+          gradesTestController.addGrade(
+            termId: TermId('foo'),
+            subjectId: SubjectId('maths'),
+            value: gradeWith(
+              id: GradeId('grade2'),
+              gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
+              includeInGradeCalculations: true,
+              value: 13.2,
+            ),
+          );
+
+          controller = createController(gradeId: GradeId('grade2'));
+
+          expect(controller.view.selectedGrade, '13,2');
+          expect(
+            controller.view.selectedGradingSystem,
+            GradingSystem.zeroToFifteenPointsWithDecimals,
+          );
+          expect(controller.view.takeIntoAccount, true);
+        },
+      );
     });
 
     group('Initialization and defaults', () {

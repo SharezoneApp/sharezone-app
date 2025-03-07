@@ -64,6 +64,7 @@ import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_common/references.dart';
 import 'package:showcaseview/showcaseview.dart';
 
+import '../grades/grades_service/grades_service.dart';
 import 'missing_account_information_guard/missing_account_information_guard.dart';
 import 'onboarding/onboarding_listener.dart';
 
@@ -209,7 +210,14 @@ class _SharezoneAppState extends State<SharezoneApp>
                 ICalLinksPage.tag: (context) => const ICalLinksPage(),
                 ICalLinksDialog.tag: (context) => const ICalLinksDialog(),
                 CreateTermPage.tag: (context) => const CreateTermPage(),
-                GradesDialog.tag: (context) => const GradesDialog(),
+                GradesDialog.tag: (context) {
+                  if (ModalRoute.of(context)!.settings.arguments case {
+                    'gradeId': String id,
+                  }) {
+                    return GradesDialog(gradeId: GradeId(id));
+                  }
+                  return const GradesDialog();
+                },
                 LanguagePage.tag: (context) => const LanguagePage(),
               },
               navigatorKey: navigationService.navigatorKey,
