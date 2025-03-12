@@ -110,6 +110,7 @@ jobs:
           # We are using the prod flavor because we were not able to set up
           # Firebase Test Lab with the dev flavor. We always got "No tests
           # found.".
+          #
           # Using --debug mode since --release mode will not include
           # package:integration_test, see
           # https://github.com/flutter/website/pull/11744
