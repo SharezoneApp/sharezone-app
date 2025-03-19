@@ -38,8 +38,20 @@ end tell
 ```
 
 How to run the script:
+
 1. Open Sharezone on macOS
 2. Open the script with AppleScript Editor
 3. Press the "Run" button
+
+### Export the video in Screen Studio
+
+Use the following export settings:
+
+* Format: `.mp4`
+* Frame rate: 30 FPS
+* Resolution: 720p
+* Compression: Social Media
+
+### Upload the video
 
 We upload the video to Firebase Storage at `gs://sharezone-c2bd8.appspot.com/docs`.
