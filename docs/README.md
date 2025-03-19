@@ -47,10 +47,10 @@ How to run the script:
 
 Use the following export settings:
 
-* Format: `.mp4`
-* Frame rate: 30 FPS
-* Resolution: 720p
-* Compression: Social Media
+- Format: `.mp4`
+- Frame rate: 30 FPS
+- Resolution: 720p
+- Compression: Social Media
 
 ### Upload the video
 
