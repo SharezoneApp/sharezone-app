@@ -278,14 +278,13 @@ class GradeRef {
     return this;
   }
 
-  // TODO: Test this seperately / make sure if not existing does not throw
   GradeResult? get() {
     return _service.terms.value
-        .firstWhere((term) => term.id == termRef.id)
-        .subjects
-        .firstWhere((subject) => subject.id == subjectRef.id)
-        .grades
-        .firstWhere((grade) => grade.id == id);
+        .firstWhereOrNull((term) => term.id == termRef.id)
+        ?.subjects
+        .firstWhereOrNull((subject) => subject.id == subjectRef.id)
+        ?.grades
+        .firstWhereOrNull((grade) => grade.id == id);
   }
 
   void changeWeight(Weight weight) {
