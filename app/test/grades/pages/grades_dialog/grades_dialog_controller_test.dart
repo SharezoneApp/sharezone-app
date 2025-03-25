@@ -142,9 +142,6 @@ void main() {
             'Analysis of Schillers Book "Die Räuber"';
         controller.setGradeType(GradeType.presentation);
         controller.setIntegrateGradeIntoSubjectGrade(true);
-        // TODO:
-        // controller.setSubject()
-        // controller.setTerm(res)
 
         await controller.save();
 
