@@ -302,6 +302,9 @@ class GradesDialogController extends ChangeNotifier {
   late bool _isSubjectMissing;
   SubjectId? _selectSubjectId;
   void setSubject(SubjectId res) {
+    if (isEditingGrade) {
+      throw UnsupportedError('Cannot change subject of an existing grade.');
+    }
     _selectSubjectId = res;
     _isSubjectMissing = false;
     notifyListeners();
