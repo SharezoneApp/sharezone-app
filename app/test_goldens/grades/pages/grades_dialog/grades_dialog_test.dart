@@ -19,10 +19,12 @@ import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:group_domain_models/group_domain_models.dart';
 
 import '../../../../test/grades/grades_test_common.dart';
 import '../../../../test/grades/pages/grades_dialog/grades_dialog_controller_test.dart';
 
+import '../../../../test/homework/homework_dialog_test.dart';
 import 'grades_dialog_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<GradesDialogControllerFactory>()])
@@ -38,7 +40,9 @@ void main() {
     GradesDialogController createController({GradeId? gradeId}) {
       return GradesDialogController(
         gradesService: gradesService,
-        coursesStream: Stream.value([]),
+        coursesStream: Stream.value([
+          courseWith(id: 'deutsch', name: 'Deutsch'),
+        ]),
         crashAnalytics: crashAnalytics,
         analytics: analytics,
         gradeId: gradeId,
@@ -106,7 +110,8 @@ void main() {
 
       Future<void> setData(WidgetTester tester) async {
         controller.setTerm(TermId('term-125'));
-        // Idk why this doesn't work
+        // Idk why this doesn't work :(
+        // I don't know how to fix it right now
         // controller.setSubject(SubjectId('deutsch'));
         controller.setTitle('Analyse Schiller');
         controller.setGradingSystem(GradingSystem.oneToSixWithDecimals);
