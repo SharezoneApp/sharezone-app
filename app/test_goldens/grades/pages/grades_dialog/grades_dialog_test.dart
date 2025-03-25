@@ -19,11 +19,9 @@ import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:group_domain_models/group_domain_models.dart';
 
 import '../../../../test/grades/grades_test_common.dart';
 import '../../../../test/grades/pages/grades_dialog/grades_dialog_controller_test.dart';
-
 import '../../../../test/homework/homework_dialog_test.dart';
 import 'grades_dialog_test.mocks.dart';
 
