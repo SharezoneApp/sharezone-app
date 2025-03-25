@@ -133,7 +133,6 @@ void main() {
               subjectWith(
                 id: SubjectId('german'),
                 name: 'German',
-                // weightType: WeightType.perGrade,
                 grades: [
                   gradeWith(
                     id: GradeId('grade1'),
@@ -350,11 +349,13 @@ void main() {
         controller.setSubject(SubjectId('maths'));
         expect(controller.view.selectedSubject?.name, 'Maths');
         expect(controller.view.isSubjectMissing, false);
+        expect(controller.view.isSubjectFieldDisabled, false);
 
         // Test setting term
         controller.setTerm(TermId('foo'));
         expect(controller.view.selectedTerm?.name, 'Foo term');
         expect(controller.view.isTermMissing, false);
+        expect(controller.view.isTermFieldDisabled, false);
 
         // Test setting date
         controller.setDate(Date("2025-02-21"));

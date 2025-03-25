@@ -249,6 +249,7 @@ class GradesDialogController extends ChangeNotifier {
   String? _gradeErrorText;
   void setGrade(String res) {
     _grade = res.isEmpty ? null : res;
+    _gradeFieldController.text = res;
     _validateGrade();
   }
 
