@@ -50,7 +50,6 @@ void main() {
     });
 
     group('editing', () {
-      // TODO: Test TakeIntoAccountState
       test('error is thrown if subject is tried to be changed', () {
         gradesTestController.createTerm(
           termWith(
@@ -563,6 +562,36 @@ void main() {
           );
         },
       );
+      test(
+        '$TakeIntoAccountState is ${TakeIntoAccountState.disabledWrongGradingSystem} when grade type has weight of zero (when editing grade)',
+        () {
+          gradesTestController.createTerm(
+            termWith(
+              gradeTypeWeights: {GradeType.presentation.id: Weight.zero},
+              subjects: [
+                subjectWith(
+                  id: SubjectId('maths'),
+                  grades: [
+                    gradeWith(
+                      id: GradeId('grade1'),
+                      type: GradeType.writtenExam.id,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+
+          controller = createController(gradeId: GradeId('grade1'));
+
+          controller.setGradeType(GradeType.presentation);
+
+          expect(
+            controller.view.takeIntoAccountState,
+            TakeIntoAccountState.disabledGradeTypeWithNoWeight,
+          );
+        },
+      );
 
       test(
         '$TakeIntoAccountState is ${TakeIntoAccountState.disabledWrongGradingSystem} when term and selected grading systems differ',
@@ -581,12 +610,59 @@ void main() {
       );
 
       test(
+        '$TakeIntoAccountState is ${TakeIntoAccountState.disabledWrongGradingSystem} when term and selected grading systems differ (when editing grade)',
+        () {
+          gradesTestController.createTerm(
+            termWith(
+              gradingSystem: GradingSystem.zeroToFifteenPoints,
+              subjects: [
+                subjectWith(
+                  id: SubjectId('maths'),
+                  grades: [gradeWith(id: GradeId('grade1'))],
+                ),
+              ],
+            ),
+          );
+          controller = createController(gradeId: GradeId('grade1'));
+          controller.setGradingSystem(GradingSystem.oneToSixWithPlusAndMinus);
+
+          expect(
+            controller.view.takeIntoAccountState,
+            TakeIntoAccountState.disabledWrongGradingSystem,
+          );
+        },
+      );
+
+      test(
         '$TakeIntoAccountState remains enabled when term and selected grading systems match',
         () {
           gradesTestController.createTerm(
             termWith(gradingSystem: GradingSystem.zeroToFifteenPoints),
           );
           controller = createController();
+          controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
+
+          expect(
+            controller.view.takeIntoAccountState,
+            TakeIntoAccountState.enabled,
+          );
+        },
+      );
+      test(
+        '$TakeIntoAccountState remains enabled when term and selected grading systems match (when editing grade)',
+        () {
+          gradesTestController.createTerm(
+            termWith(
+              gradingSystem: GradingSystem.zeroToFifteenPoints,
+              subjects: [
+                subjectWith(
+                  id: SubjectId('maths'),
+                  grades: [gradeWith(id: GradeId('grade1'))],
+                ),
+              ],
+            ),
+          );
+          controller = createController(gradeId: GradeId('grade1'));
           controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
 
           expect(
