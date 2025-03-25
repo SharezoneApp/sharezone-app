@@ -31,7 +31,7 @@ class GradeDetailsPage extends StatelessWidget {
         return factory.create(id);
       },
       child: Scaffold(
-        appBar: AppBar(actions: const [_DeleteIconButton(), _EditIconButton()]),
+        appBar: AppBar(actions: const [_EditIconButton(), _DeleteIconButton()]),
         body: const SingleChildScrollView(
           padding: EdgeInsets.all(8),
           child: SafeArea(child: MaxWidthConstraintBox(child: _Body())),
