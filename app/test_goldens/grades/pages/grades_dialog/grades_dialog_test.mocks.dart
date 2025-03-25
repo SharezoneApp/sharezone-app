@@ -31,44 +31,24 @@ import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_fa
 
 class _FakeCrashAnalytics_0 extends _i1.SmartFake
     implements _i2.CrashAnalytics {
-  _FakeCrashAnalytics_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeCrashAnalytics_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeGradesService_1 extends _i1.SmartFake implements _i3.GradesService {
-  _FakeGradesService_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeGradesService_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeAnalytics_2 extends _i1.SmartFake implements _i4.Analytics {
-  _FakeAnalytics_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAnalytics_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeGradesDialogController_3 extends _i1.SmartFake
     implements _i5.GradesDialogController {
-  _FakeGradesDialogController_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeGradesDialogController_3(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [GradesDialogControllerFactory].
@@ -77,72 +57,69 @@ class _FakeGradesDialogController_3 extends _i1.SmartFake
 class MockGradesDialogControllerFactory extends _i1.Mock
     implements _i6.GradesDialogControllerFactory {
   @override
-  _i2.CrashAnalytics get crashAnalytics => (super.noSuchMethod(
-        Invocation.getter(#crashAnalytics),
-        returnValue: _FakeCrashAnalytics_0(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-        returnValueForMissingStub: _FakeCrashAnalytics_0(
-          this,
-          Invocation.getter(#crashAnalytics),
-        ),
-      ) as _i2.CrashAnalytics);
+  _i2.CrashAnalytics get crashAnalytics =>
+      (super.noSuchMethod(
+            Invocation.getter(#crashAnalytics),
+            returnValue: _FakeCrashAnalytics_0(
+              this,
+              Invocation.getter(#crashAnalytics),
+            ),
+            returnValueForMissingStub: _FakeCrashAnalytics_0(
+              this,
+              Invocation.getter(#crashAnalytics),
+            ),
+          )
+          as _i2.CrashAnalytics);
 
   @override
-  _i3.GradesService get gradesService => (super.noSuchMethod(
-        Invocation.getter(#gradesService),
-        returnValue: _FakeGradesService_1(
-          this,
-          Invocation.getter(#gradesService),
-        ),
-        returnValueForMissingStub: _FakeGradesService_1(
-          this,
-          Invocation.getter(#gradesService),
-        ),
-      ) as _i3.GradesService);
+  _i3.GradesService get gradesService =>
+      (super.noSuchMethod(
+            Invocation.getter(#gradesService),
+            returnValue: _FakeGradesService_1(
+              this,
+              Invocation.getter(#gradesService),
+            ),
+            returnValueForMissingStub: _FakeGradesService_1(
+              this,
+              Invocation.getter(#gradesService),
+            ),
+          )
+          as _i3.GradesService);
 
   @override
-  _i4.Analytics get analytics => (super.noSuchMethod(
-        Invocation.getter(#analytics),
-        returnValue: _FakeAnalytics_2(
-          this,
-          Invocation.getter(#analytics),
-        ),
-        returnValueForMissingStub: _FakeAnalytics_2(
-          this,
-          Invocation.getter(#analytics),
-        ),
-      ) as _i4.Analytics);
+  _i4.Analytics get analytics =>
+      (super.noSuchMethod(
+            Invocation.getter(#analytics),
+            returnValue: _FakeAnalytics_2(this, Invocation.getter(#analytics)),
+            returnValueForMissingStub: _FakeAnalytics_2(
+              this,
+              Invocation.getter(#analytics),
+            ),
+          )
+          as _i4.Analytics);
 
   @override
   _i7.Stream<List<_i8.Course>> Function() get coursesStream =>
       (super.noSuchMethod(
-        Invocation.getter(#coursesStream),
-        returnValue: () => _i7.Stream<List<_i8.Course>>.empty(),
-        returnValueForMissingStub: () => _i7.Stream<List<_i8.Course>>.empty(),
-      ) as _i7.Stream<List<_i8.Course>> Function());
+            Invocation.getter(#coursesStream),
+            returnValue: () => _i7.Stream<List<_i8.Course>>.empty(),
+            returnValueForMissingStub:
+                () => _i7.Stream<List<_i8.Course>>.empty(),
+          )
+          as _i7.Stream<List<_i8.Course>> Function());
 
   @override
   _i5.GradesDialogController create(_i3.GradeId? gradeId) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #create,
-          [gradeId],
-        ),
-        returnValue: _FakeGradesDialogController_3(
-          this,
-          Invocation.method(
-            #create,
-            [gradeId],
-          ),
-        ),
-        returnValueForMissingStub: _FakeGradesDialogController_3(
-          this,
-          Invocation.method(
-            #create,
-            [gradeId],
-          ),
-        ),
-      ) as _i5.GradesDialogController);
+            Invocation.method(#create, [gradeId]),
+            returnValue: _FakeGradesDialogController_3(
+              this,
+              Invocation.method(#create, [gradeId]),
+            ),
+            returnValueForMissingStub: _FakeGradesDialogController_3(
+              this,
+              Invocation.method(#create, [gradeId]),
+            ),
+          )
+          as _i5.GradesDialogController);
 }
