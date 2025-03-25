@@ -420,7 +420,12 @@ class GradesDialogController extends ChangeNotifier {
     return _title != null && _title!.isNotEmpty;
   }
 
+  String? _details;
   late TextEditingController _detailsController;
+  void setDetails(String res) {
+    _details = res;
+    notifyListeners();
+  }
 
   Future<void> save() async {
     final invalidFields = _validateFields();
@@ -476,11 +481,6 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   void _addGradeToGradeService() {
-    String? details;
-    if (_detailsController.text.isNotEmpty) {
-      details = _detailsController.text;
-    }
-
     final takeIntoAccount = switch ((
       _takeIntoAccount,
       view.takeIntoAccountState,
@@ -511,7 +511,7 @@ class GradesDialogController extends ChangeNotifier {
                 takeIntoAccount: takeIntoAccount,
                 gradingSystem: _gradingSystem,
                 title: _title!,
-                details: details,
+                details: _details,
               ),
             );
         return;
@@ -527,7 +527,7 @@ class GradesDialogController extends ChangeNotifier {
                 takeIntoAccount: takeIntoAccount,
                 gradingSystem: _gradingSystem,
                 title: _title!,
-                details: details,
+                details: _details,
               ),
             );
       }

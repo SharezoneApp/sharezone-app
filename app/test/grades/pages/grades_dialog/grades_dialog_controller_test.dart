@@ -157,9 +157,7 @@ void main() {
         controller.setGradingSystem(GradingSystem.oneToSixWithDecimals);
         controller.setGrade('2.25');
         controller.setDate(Date("2025-02-22"));
-        // TODO: Change the way of settings this:
-        controller.view.detailsController.text =
-            'Analysis of Schillers Book "Die Räuber"';
+        controller.setDetails('Analysis of Schillers Book "Die Räuber"');
         controller.setGradeType(GradeType.presentation);
         controller.setIntegrateGradeIntoSubjectGrade(true);
 

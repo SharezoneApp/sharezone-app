@@ -619,14 +619,11 @@ class _Details extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final detailsController = context
-        .select<GradesDialogController, TextEditingController>(
-          (c) => c.view.detailsController,
-        );
+    final controller = context.read<GradesDialogController>();
     return MarkdownField(
-      controller: detailsController,
+      controller: controller.view.detailsController,
       icon: SavedGradeIcons.details,
-      onChanged: (value) {},
+      onChanged: controller.setDetails,
       inputDecoration: const InputDecoration(labelText: "Notizen"),
     );
   }
