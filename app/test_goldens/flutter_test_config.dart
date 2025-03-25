@@ -33,7 +33,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
       //
       // See
       // https://github.com/flutter/flutter/issues/36667#issuecomment-521335243.
-      // skipGoldenAssertion: () => !Platform.isMacOS,
+      skipGoldenAssertion: () => !Platform.isMacOS,
       defaultDevices: const [
         Device.phone,
         phoneLandscape,
