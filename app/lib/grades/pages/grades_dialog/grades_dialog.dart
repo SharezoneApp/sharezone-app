@@ -42,7 +42,7 @@ class GradesDialog extends StatelessWidget {
     return ChangeNotifierProvider<GradesDialogController>(
       create: (context) {
         final factory = context.read<GradesDialogControllerFactory>();
-        return factory.create();
+        return factory.create(gradeId);
       },
       builder: (context, _) {
         return Scaffold(

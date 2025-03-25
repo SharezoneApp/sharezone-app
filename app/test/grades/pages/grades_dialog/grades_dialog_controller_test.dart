@@ -103,6 +103,27 @@ void main() {
           throwsA(isA<UnsupportedError>()),
         );
       });
+      test('term and subject fields are deactivated in view', () {
+        gradesTestController.createTerm(
+          termWith(
+            id: TermId('foo'),
+            name: 'Foo term',
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
+            subjects: [
+              subjectWith(
+                id: SubjectId('maths'),
+                name: 'Maths',
+                grades: [gradeWith(id: GradeId('grade1'))],
+              ),
+            ],
+          ),
+        );
+
+        controller = createController(gradeId: GradeId('grade1'));
+
+        expect(controller.view.isSubjectFieldDisabled, true);
+        expect(controller.view.isTermFieldDisabled, true);
+      });
       test('changes to grade are correctly applied', () async {
         gradesTestController.createTerm(
           termWith(

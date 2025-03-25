@@ -51,6 +51,12 @@ class GradesDialogView {
   /// This is used to indicate that the user must select a subject when the user
   /// clicks the save button.
   final bool isSubjectMissing;
+
+  /// If `true`, the subject field should be disabled (user can't tap on it).
+  ///
+  /// This is used to indicate that the user can't change the subject, used when
+  /// editing a grade.
+  final bool isSubjectFieldDisabled;
   final IList<SubjectView> selectableSubjects;
 
   /// The selected date in the format "Sat, Mar 16, 2024".
@@ -76,6 +82,12 @@ class GradesDialogView {
   /// This is used to indicate that the user must select a term when the user
   /// clicks the save button.
   final bool isTermMissing;
+
+  /// If `true`, the term field should be disabled (user can't tap on it).
+  ///
+  /// This is used to indicate that the user can't change the term, used when
+  /// editing a grade.
+  final bool isTermFieldDisabled;
   final IList<({TermId id, String name})> selectableTerms;
   final String? title;
   final String? titleErrorText;
@@ -87,6 +99,7 @@ class GradesDialogView {
     required this.selectableGrades,
     required this.selectedGradingSystem,
     required this.selectedSubject,
+    required this.isSubjectFieldDisabled,
     required this.selectableSubjects,
     required this.selectedDate,
     required this.selectedGradingType,
@@ -104,6 +117,7 @@ class GradesDialogView {
     required this.isGradeMissing,
     required this.selectedGradeErrorText,
     required this.isTermMissing,
+    required this.isTermFieldDisabled,
     required this.gradeFieldController,
   });
 }

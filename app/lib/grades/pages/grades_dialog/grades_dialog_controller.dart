@@ -99,6 +99,7 @@ class GradesDialogController extends ChangeNotifier {
       selectedGradingSystem: _gradingSystem,
       selectedSubject:
           subject != null ? (id: subject.id, name: subject.name) : null,
+      isSubjectFieldDisabled: isEditingGrade,
       selectableSubjects:
           _subjects
               .map(
@@ -121,6 +122,7 @@ class GradesDialogController extends ChangeNotifier {
               : null,
       selectableTerms:
           _selectableTerms.map((t) => (id: t.id, name: t.name)).toIList(),
+      isTermFieldDisabled: isEditingGrade,
       detailsController: _detailsController,
       title: _title,
       titleErrorText: _titleErrorText,
