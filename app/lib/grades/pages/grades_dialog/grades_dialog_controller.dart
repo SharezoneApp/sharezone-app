@@ -123,6 +123,7 @@ class GradesDialogController extends ChangeNotifier {
       selectableTerms:
           _selectableTerms.map((t) => (id: t.id, name: t.name)).toIList(),
       isTermFieldDisabled: isEditingGrade,
+      details: _details,
       detailsController: _detailsController,
       title: _title,
       titleErrorText: _titleErrorText,
@@ -164,7 +165,7 @@ class GradesDialogController extends ChangeNotifier {
       );
       _takeIntoAccount = grade.isTakenIntoAccount;
       _subjects = gradesService.getSubjects();
-      _detailsController = TextEditingController(text: grade.details);
+      _details = grade.details;
     } else {
       _selectedTermId = _getActiveTermId();
       _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
@@ -181,6 +182,7 @@ class GradesDialogController extends ChangeNotifier {
 
     _titleController = TextEditingController(text: _title);
     _gradeFieldController = TextEditingController(text: _grade);
+    _detailsController = TextEditingController(text: _details);
 
     // Even though the fields are not filled at the beginning, we don't want to
     // show any error messages. The user should see the error messages only
@@ -406,6 +408,7 @@ class GradesDialogController extends ChangeNotifier {
   late TextEditingController _titleController;
   void setTitle(String res) {
     _title = res;
+    _titleController.text = res;
     _validateTitle();
   }
 
@@ -424,6 +427,7 @@ class GradesDialogController extends ChangeNotifier {
   late TextEditingController _detailsController;
   void setDetails(String res) {
     _details = res;
+    _detailsController.text = res;
     notifyListeners();
   }
 

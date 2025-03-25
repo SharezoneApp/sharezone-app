@@ -92,6 +92,7 @@ class GradesDialogView {
   final String? title;
   final String? titleErrorText;
   final TextEditingController titleController;
+  final String? details;
   final TextEditingController detailsController;
 
   const GradesDialogView({
@@ -108,6 +109,7 @@ class GradesDialogView {
     required this.selectableTerms,
     required this.title,
     required this.titleErrorText,
+    required this.details,
     required this.detailsController,
     required this.takeIntoAccount,
     required this.takeIntoAccountState,

@@ -87,22 +87,49 @@ void main() {
     });
 
     group('creating new grade (filled fields)', () {
-      testGoldens('renders as expected (light mode)', (tester) async {
-        await pushGradeDetailsPage(tester, getLightTheme());
+      void setup() {
+        gradesTestController.createTerm(
+          termWith(
+            id: TermId('term-125'),
+            name: '1/25',
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
+            subjects: [
+              subjectWith(
+                id: SubjectId('deutsch'),
+                name: 'Deutsch',
+                grades: [gradeWith()],
+              ),
+            ],
+          ),
+        );
+      }
 
-        controller.setTitle('Analysis of Schiller');
+      Future<void> setData(WidgetTester tester) async {
+        controller.setTerm(TermId('term-125'));
+        // Idk why this doesn't work
+        // controller.setSubject(SubjectId('deutsch'));
+        controller.setTitle('Analyse Schiller');
         controller.setGradingSystem(GradingSystem.oneToSixWithDecimals);
         controller.setGrade('2.25');
         controller.setDate(Date("2025-02-22"));
-        controller.setDetails('Analysis of Schillers Book "Die Räuber"');
+        controller.setDetails('Analyse von Schillers Buch "Die Räuber"');
         controller.setGradeType(GradeType.presentation);
         controller.setIntegrateGradeIntoSubjectGrade(true);
 
+        await tester.pumpAndSettle();
+      }
+
+      testGoldens('renders as expected (light mode)', (tester) async {
+        setup();
+        await pushGradeDetailsPage(tester, getLightTheme());
+        await setData(tester);
         await multiScreenGolden(tester, 'grade_dialog_create_filled_light');
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
+        setup();
         await pushGradeDetailsPage(tester, getDarkTheme());
+        await setData(tester);
         await multiScreenGolden(tester, 'grade_dialog_create_filled_dark');
       });
     });
@@ -111,23 +138,23 @@ void main() {
       void createExistingGrade() {
         gradesTestController.createTerm(
           termWith(
-            id: TermId('foo'),
-            name: 'Foo term',
+            id: TermId('term-225'),
+            name: '2/25',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             subjects: [
               subjectWith(
                 id: SubjectId('maths'),
-                name: 'Maths',
+                name: 'Mathe',
                 grades: [
                   gradeWith(
                     id: GradeId('grade1'),
-                    title: 'Foo',
+                    title: 'Graphen analysieren',
                     gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
                     includeInGradeCalculations: false,
-                    type: GradeType.presentation.id,
+                    type: GradeType.writtenExam.id,
                     value: '2-',
-                    date: Date("2025-02-21"),
-                    details: 'Notes',
+                    date: Date("2025-02-25"),
+                    details: 'Analyse von Graphen',
                   ),
                 ],
               ),
