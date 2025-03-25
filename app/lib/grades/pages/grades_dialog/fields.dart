@@ -177,21 +177,33 @@ class _Subject extends StatelessWidget {
                   : null,
         ),
       ),
-      onTap: () async {
-        final res = await showDialog<SubjectId?>(
-          context: context,
-          builder:
-              (context) => ChangeNotifierProvider.value(
-                value: controller,
-                child: const _SelectSubjectDialog(),
-              ),
-        );
+      onTap:
+          view.isSubjectFieldDisabled
+              ? () async => await showLeftRightAdaptiveDialog(
+                context: context,
+                title: "Fach ändern",
+                content: const Text(
+                  "Du kannst das Fach von bereits erstellten Noten nicht nachträglich ändern.\n\n"
+                  "Lösche diese Note und erstelle Sie erneut, um ein anderes Fach auszuwählen.",
+                ),
+                left: null,
+                right: AdaptiveDialogAction.ok,
+              )
+              : () async {
+                final res = await showDialog<SubjectId?>(
+                  context: context,
+                  builder:
+                      (context) => ChangeNotifierProvider.value(
+                        value: controller,
+                        child: const _SelectSubjectDialog(),
+                      ),
+                );
 
-        if (res != null && context.mounted) {
-          final controller = context.read<GradesDialogController>();
-          controller.setSubject(res);
-        }
-      },
+                if (res != null && context.mounted) {
+                  final controller = context.read<GradesDialogController>();
+                  controller.setSubject(res);
+                }
+              },
     );
   }
 }
@@ -392,20 +404,34 @@ class _Term extends StatelessWidget {
               view.isTermMissing ? Theme.of(context).colorScheme.error : null,
         ),
       ),
-      onTap: () async {
-        final res = await showDialog<TermId?>(
-          context: context,
-          builder:
-              (context) => ChangeNotifierProvider.value(
-                value: controller,
-                child: const _SelectTermDialog(),
-              ),
-        );
+      onTap:
+          view.isTermFieldDisabled
+              ? () async {
+                await showLeftRightAdaptiveDialog(
+                  context: context,
+                  title: "Halbjahr ändern",
+                  content: const Text(
+                    "Du kannst das Halbjahr von bereits erstellten Noten nicht nachträglich ändern.\n\n"
+                    "Lösche diese Note und erstelle Sie erneut, um ein anderes Halbjahr auszuwählen.",
+                  ),
+                  left: null,
+                  right: AdaptiveDialogAction.ok,
+                );
+              }
+              : () async {
+                final res = await showDialog<TermId?>(
+                  context: context,
+                  builder:
+                      (context) => ChangeNotifierProvider.value(
+                        value: controller,
+                        child: const _SelectTermDialog(),
+                      ),
+                );
 
-        if (res != null) {
-          controller.setTerm(res);
-        }
-      },
+                if (res != null) {
+                  controller.setTerm(res);
+                }
+              },
     );
   }
 }
