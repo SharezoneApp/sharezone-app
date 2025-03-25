@@ -51,6 +51,64 @@ void main() {
 
     group('editing', () {
       // TODO: Test TakeIntoAccountState
+      test('changes to grade are correctly applied', () async {
+        gradesTestController.createTerm(
+          termWith(
+            id: TermId('foo'),
+            name: 'Foo term',
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
+            subjects: [
+              subjectWith(
+                id: SubjectId('german'),
+                name: 'German',
+                // weightType: WeightType.perGrade,
+                grades: [
+                  gradeWith(
+                    id: GradeId('grade1'),
+                    title: 'Analysis of Goethe',
+                    gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                    type: GradeType.oralParticipation.id,
+                    includeInGradeCalculations: false,
+                    value: '2-',
+                    date: Date("2025-02-21"),
+                    details: 'Notes',
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+
+        controller = createController(gradeId: GradeId('grade1'));
+
+        controller.setTitle('Analysis of Schiller');
+        controller.setGradingSystem(GradingSystem.oneToSixWithDecimals);
+        controller.setGrade('2.25');
+        controller.setDate(Date("2025-02-22"));
+        // TODO: Change the way of settings this:
+        controller.view.detailsController.text =
+            'Analysis of Schillers Book "Die Räuber"';
+        controller.setGradeType(GradeType.presentation);
+        controller.setIntegrateGradeIntoSubjectGrade(true);
+        // TODO:
+        // controller.setSubject()
+        // controller.setTerm(res)
+
+        await controller.save();
+
+        final grade = gradesTestController
+            .term(TermId('foo'))
+            .subject(SubjectId('german'))
+            .grade(GradeId('grade1'));
+
+        expect(grade.title, 'Analysis of Schiller');
+        expect(grade.gradingSystem, GradingSystem.oneToSixWithDecimals);
+        expect(grade.value.asNum, 2.25);
+        expect(grade.date, Date("2025-02-22"));
+        expect(grade.gradeTypeId, GradeType.presentation.id);
+        expect(grade.isTakenIntoAccount, true);
+        expect(grade.details, 'Analysis of Schillers Book "Die Räuber"');
+      });
       test(
         'if a grade id is passed then the data of the grade will be prefilled',
         () {
