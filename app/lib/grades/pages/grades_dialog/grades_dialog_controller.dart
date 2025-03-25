@@ -23,6 +23,7 @@ import 'grades_dialog_view.dart';
 
 class GradesDialogController extends ChangeNotifier {
   final GradeId? gradeId;
+  bool get isEditingGrade => gradeId != null;
   final Stream<List<Course>> coursesStream;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
@@ -328,6 +329,10 @@ class GradesDialogController extends ChangeNotifier {
   GradingSystem? _gradingSystemOfSelectedTerm;
   IList<TermResult> _selectableTerms = IList(const []);
   void setTerm(TermId res) {
+    if (isEditingGrade) {
+      throw UnsupportedError('Cannot change term of an existing grade.');
+    }
+
     _selectedTermId = res;
     _isTermMissing = false;
 
@@ -490,7 +495,7 @@ class GradesDialogController extends ChangeNotifier {
     };
 
     try {
-      if (gradeId != null) {
+      if (isEditingGrade) {
         gradesService
             .grade(gradeId!)
             .edit(

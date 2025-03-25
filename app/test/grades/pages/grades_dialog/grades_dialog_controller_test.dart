@@ -51,6 +51,30 @@ void main() {
 
     group('editing', () {
       // TODO: Test TakeIntoAccountState
+      test('error is thrown if term is tried to be changed', () {
+        gradesTestController.createTerms([
+          termWith(
+            id: TermId('foo'),
+            name: 'Foo term',
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
+            subjects: [
+              subjectWith(
+                id: SubjectId('maths'),
+                name: 'Maths',
+                grades: [gradeWith(id: GradeId('grade1'))],
+              ),
+            ],
+          ),
+          termWith(id: TermId('bar'), name: 'Bar term'),
+        ]);
+
+        controller = createController(gradeId: GradeId('grade1'));
+
+        expect(
+          () => controller.setTerm(TermId('bar')),
+          throwsA(isA<UnsupportedError>()),
+        );
+      });
       test('changes to grade are correctly applied', () async {
         gradesTestController.createTerm(
           termWith(
