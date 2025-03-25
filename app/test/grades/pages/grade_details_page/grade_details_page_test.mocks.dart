@@ -327,16 +327,16 @@ class MockGradesDialogControllerFactory extends _i1.Mock
           as _i11.Stream<List<_i12.Course>> Function());
 
   @override
-  _i6.GradesDialogController create() =>
+  _i6.GradesDialogController create(_i2.GradeId? gradeId) =>
       (super.noSuchMethod(
-            Invocation.method(#create, []),
+            Invocation.method(#create, [gradeId]),
             returnValue: _FakeGradesDialogController_6(
               this,
-              Invocation.method(#create, []),
+              Invocation.method(#create, [gradeId]),
             ),
             returnValueForMissingStub: _FakeGradesDialogController_6(
               this,
-              Invocation.method(#create, []),
+              Invocation.method(#create, [gradeId]),
             ),
           )
           as _i6.GradesDialogController);
