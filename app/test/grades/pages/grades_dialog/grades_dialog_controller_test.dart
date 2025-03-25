@@ -190,7 +190,6 @@ void main() {
                 subjectWith(
                   id: SubjectId('maths'),
                   name: 'Maths',
-                  // weightType: WeightType.perGrade,
                   grades: [
                     gradeWith(
                       id: GradeId('grade1'),
@@ -199,8 +198,6 @@ void main() {
                       includeInGradeCalculations: false,
                       type: GradeType.presentation.id,
                       value: '2-',
-                      // TODO: Doesn't work yet. Test
-                      // weight: Weight.factor(1.5),
                       date: Date("2025-02-21"),
                       details: 'Notes',
                     ),
@@ -213,7 +210,6 @@ void main() {
           controller = createController(gradeId: GradeId('grade1'));
 
           expect(controller.view.title, 'Foo');
-          // TODO: Test numerical value
           expect(controller.view.selectedGrade, '2-');
           expect(
             controller.view.selectedGradingSystem,
