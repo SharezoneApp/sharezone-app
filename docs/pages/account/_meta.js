@@ -14,5 +14,6 @@ export default {
     "change-name": "Namen ändern",
     "change-password": "Passwort ändern",
     "change-province": "Bundesland ändern",
+    "copy-user-id": "User ID kopieren",
     "delete-account": "Konto löschen"
 }

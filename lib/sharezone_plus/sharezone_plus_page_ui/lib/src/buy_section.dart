@@ -91,7 +91,7 @@ class BuySection extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 _PeriodOption(
-                  name: 'Lifetime (einmaliger Kauf)',
+                  name: 'Lebenslang (einmaliger Kauf)',
                   price: lifetimePrice,
                   period: PurchasePeriod.lifetime,
                   currentPeriod: currentPeriod,
