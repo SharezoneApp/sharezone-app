@@ -408,7 +408,6 @@ class GradesDialogController extends ChangeNotifier {
   late TextEditingController _titleController;
   void setTitle(String res) {
     _title = res;
-    _titleController.text = res;
     _validateTitle();
   }
 
