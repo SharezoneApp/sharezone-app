@@ -11,21 +11,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/grades/grades_service/grades_service.dart';
+import 'package:sharezone/grades/models/grade_id.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/grades_details_page/grade_details_view.dart';
-import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
-import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_factory.dart';
 
-import '../grades_dialog/grades_dialog_controller_test.dart';
 import 'grade_details_page_test.mocks.dart';
 
 @GenerateNiceMocks([
   MockSpec<GradeDetailsPageController>(),
   MockSpec<GradeDetailsPageControllerFactory>(),
-  MockSpec<GradesDialogControllerFactory>(),
 ])
 void main() {
   const id = GradeId('1');
@@ -60,7 +56,6 @@ void main() {
   setUp(() {
     controllerFactory = MockGradeDetailsPageControllerFactory();
     controller = MockGradeDetailsPageController();
-    when(controller.id).thenReturn(id);
     when(controllerFactory.create(id)).thenReturn(controller);
     setLoaded();
   });
@@ -68,57 +63,21 @@ void main() {
   group(GradeDetailsPage, () {
     Future<void> pushGradeDetailsPage(WidgetTester tester) async {
       await tester.pumpWidget(
-        MultiProvider(
-          providers: [
-            Provider<GradeDetailsPageControllerFactory>.value(
-              value: controllerFactory,
-            ),
-            ChangeNotifierProvider<GradeDetailsPageController>(
-              create: (context) => controller,
-            ),
-            Provider<GradesDialogControllerFactory>.value(
-              value: GradesDialogControllerFactory(
-                analytics: MockAnalytics(),
-                coursesStream: () => Stream.empty(),
-                gradesService: GradesService(),
-                crashAnalytics: MockCrashAnalytics(),
+        MaterialApp(
+          home: MultiProvider(
+            providers: [
+              Provider<GradeDetailsPageControllerFactory>.value(
+                value: controllerFactory,
               ),
-            ),
-          ],
-          child: MaterialApp(
-            routes: {
-              GradesDialog.tag: (context) {
-                if (ModalRoute.of(context)!.settings.arguments case {
-                  'gradeId': String id,
-                }) {
-                  return GradesDialog(gradeId: GradeId(id));
-                }
-                return const GradesDialog();
-              },
-            },
-            home: const GradeDetailsPage(id: id),
+              ChangeNotifierProvider<GradeDetailsPageController>(
+                create: (context) => controller,
+              ),
+            ],
+            child: const GradeDetailsPage(id: id),
           ),
         ),
       );
     }
-
-    testWidgets(
-      'should show grades editing dialog with selected grade when edit icon is tapped',
-      (tester) async {
-        await pushGradeDetailsPage(tester);
-
-        await tester.tap(find.byKey(const Key('edit-grade-icon-button')));
-        await tester.pumpAndSettle();
-
-        expect(find.byType(GradesDialog), findsOneWidget);
-        expect(
-          find.byWidgetPredicate(
-            (widget) => widget is GradesDialog && widget.gradeId == id,
-          ),
-          findsOneWidget,
-        );
-      },
-    );
 
     testWidgets('should delete grade when confirmed', (tester) async {
       await pushGradeDetailsPage(tester);
