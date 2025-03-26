@@ -456,7 +456,7 @@ class GradesDialogController extends ChangeNotifier {
     }
 
     _addGradeToGradeService();
-    _logGradeAdded();
+    _logGradeAddedOrEdited();
   }
 
   /// Validates the fields and returns the invalid ones.
@@ -549,8 +549,12 @@ class GradesDialogController extends ChangeNotifier {
     }
   }
 
-  void _logGradeAdded() {
-    analytics.log(NamedAnalyticsEvent(name: 'grade_added'));
+  void _logGradeAddedOrEdited() {
+    analytics.log(
+      NamedAnalyticsEvent(
+        name: isEditingGrade ? 'grade_edited' : 'grade_added',
+      ),
+    );
   }
 
   void _createSubject() {
