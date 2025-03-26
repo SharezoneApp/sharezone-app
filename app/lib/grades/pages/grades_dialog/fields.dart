@@ -184,7 +184,7 @@ class _Subject extends StatelessWidget {
                 title: "Fach ändern",
                 content: const Text(
                   "Du kannst das Fach von bereits erstellten Noten nicht nachträglich ändern.\n\n"
-                  "Lösche diese Note und erstelle Sie erneut, um ein anderes Fach auszuwählen.",
+                  "Lösche diese Note und erstelle sie erneut, um ein anderes Fach auszuwählen.",
                 ),
                 left: null,
                 right: AdaptiveDialogAction.ok,
@@ -412,7 +412,7 @@ class _Term extends StatelessWidget {
                   title: "Halbjahr ändern",
                   content: const Text(
                     "Du kannst das Halbjahr von bereits erstellten Noten nicht nachträglich ändern.\n\n"
-                    "Lösche diese Note und erstelle Sie erneut, um ein anderes Halbjahr auszuwählen.",
+                    "Lösche diese Note und erstelle sie erneut, um ein anderes Halbjahr auszuwählen.",
                   ),
                   left: null,
                   right: AdaptiveDialogAction.ok,
