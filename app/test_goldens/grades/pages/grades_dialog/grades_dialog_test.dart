@@ -5,6 +5,7 @@
 // https://joinup.ec.europa.eu SPDX-License-Identifier: EUPL-1.2
 
 import 'package:analytics/analytics.dart';
+import 'package:clock/clock.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
@@ -48,14 +49,18 @@ void main() {
     }
 
     setUp(() {
-      gradesService = GradesService();
-      gradesTestController = GradesTestController(gradesService: gradesService);
-      crashAnalytics = MockCrashAnalytics();
-      analytics = MockAnalytics();
-      controller = createController();
-      controllerFactory = MockGradesDialogControllerFactory();
+      withClock(Clock.fixed(DateTime(2025, 03, 25)), () async {
+        gradesService = GradesService();
+        gradesTestController = GradesTestController(
+          gradesService: gradesService,
+        );
+        crashAnalytics = MockCrashAnalytics();
+        analytics = MockAnalytics();
+        controller = createController();
+        controllerFactory = MockGradesDialogControllerFactory();
 
-      when(controllerFactory.create(any)).thenAnswer((_) => controller);
+        when(controllerFactory.create(any)).thenAnswer((_) => controller);
+      });
     });
 
     Future<void> pushGradeDetailsPage(
