@@ -31,12 +31,13 @@ void main() {
     late Analytics analytics;
     late GradesDialogController controller;
 
-    GradesDialogController createController() {
+    GradesDialogController createController({GradeId? gradeId}) {
       return GradesDialogController(
         gradesService: gradesService,
         coursesStream: Stream.value([]),
         crashAnalytics: crashAnalytics,
         analytics: analytics,
+        gradeId: gradeId,
       );
     }
 
@@ -46,6 +47,212 @@ void main() {
       crashAnalytics = MockCrashAnalytics();
       analytics = MockAnalytics();
       controller = createController();
+    });
+
+    group('editing', () {
+      test('error is thrown if subject is tried to be changed', () {
+        gradesTestController.createTerm(
+          termWith(
+            id: TermId('foo'),
+            name: 'Foo term',
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
+            subjects: [
+              subjectWith(
+                id: SubjectId('maths'),
+                name: 'Maths',
+                grades: [gradeWith(id: GradeId('grade1'))],
+              ),
+              subjectWith(
+                id: SubjectId('english'),
+                name: 'english',
+                grades: [gradeWith(id: GradeId('grade2'))],
+              ),
+            ],
+          ),
+        );
+
+        controller = createController(gradeId: GradeId('grade1'));
+
+        expect(
+          () => controller.setSubject(SubjectId('english')),
+          throwsA(isA<UnsupportedError>()),
+        );
+      });
+      test('error is thrown if term is tried to be changed', () {
+        gradesTestController.createTerms([
+          termWith(
+            id: TermId('foo'),
+            name: 'Foo term',
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
+            subjects: [
+              subjectWith(
+                id: SubjectId('maths'),
+                name: 'Maths',
+                grades: [gradeWith(id: GradeId('grade1'))],
+              ),
+            ],
+          ),
+          termWith(id: TermId('bar'), name: 'Bar term'),
+        ]);
+
+        controller = createController(gradeId: GradeId('grade1'));
+
+        expect(
+          () => controller.setTerm(TermId('bar')),
+          throwsA(isA<UnsupportedError>()),
+        );
+      });
+      test('term and subject fields are deactivated in view', () {
+        gradesTestController.createTerm(
+          termWith(
+            id: TermId('foo'),
+            name: 'Foo term',
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
+            subjects: [
+              subjectWith(
+                id: SubjectId('maths'),
+                name: 'Maths',
+                grades: [gradeWith(id: GradeId('grade1'))],
+              ),
+            ],
+          ),
+        );
+
+        controller = createController(gradeId: GradeId('grade1'));
+
+        expect(controller.view.isSubjectFieldDisabled, true);
+        expect(controller.view.isTermFieldDisabled, true);
+      });
+      test('changes to grade are correctly applied', () async {
+        gradesTestController.createTerm(
+          termWith(
+            id: TermId('foo'),
+            name: 'Foo term',
+            gradingSystem: GradingSystem.zeroToFifteenPoints,
+            subjects: [
+              subjectWith(
+                id: SubjectId('german'),
+                name: 'German',
+                grades: [
+                  gradeWith(
+                    id: GradeId('grade1'),
+                    title: 'Analysis of Goethe',
+                    gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                    type: GradeType.oralParticipation.id,
+                    includeInGradeCalculations: false,
+                    value: '2-',
+                    date: Date("2025-02-21"),
+                    details: 'Notes',
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+
+        controller = createController(gradeId: GradeId('grade1'));
+
+        controller.setTitle('Analysis of Schiller');
+        controller.setGradingSystem(GradingSystem.oneToSixWithDecimals);
+        controller.setGrade('2.25');
+        controller.setDate(Date("2025-02-22"));
+        controller.setDetails('Analysis of Schillers Book "Die Räuber"');
+        controller.setGradeType(GradeType.presentation);
+        controller.setIntegrateGradeIntoSubjectGrade(true);
+
+        await controller.save();
+
+        final grade = gradesTestController
+            .term(TermId('foo'))
+            .subject(SubjectId('german'))
+            .grade(GradeId('grade1'));
+
+        expect(grade.title, 'Analysis of Schiller');
+        expect(grade.gradingSystem, GradingSystem.oneToSixWithDecimals);
+        expect(grade.value.asNum, 2.25);
+        expect(grade.date, Date("2025-02-22"));
+        expect(grade.gradeTypeId, GradeType.presentation.id);
+        expect(grade.isTakenIntoAccount, true);
+        expect(grade.details, 'Analysis of Schillers Book "Die Räuber"');
+      });
+      test(
+        'if a grade id is passed then the data of the grade will be prefilled',
+        () {
+          gradesTestController.createTerm(
+            termWith(
+              id: TermId('foo'),
+              name: 'Foo term',
+              gradingSystem: GradingSystem.zeroToFifteenPoints,
+              subjects: [
+                subjectWith(
+                  id: SubjectId('maths'),
+                  name: 'Maths',
+                  grades: [
+                    gradeWith(
+                      id: GradeId('grade1'),
+                      title: 'Foo',
+                      gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                      includeInGradeCalculations: false,
+                      type: GradeType.presentation.id,
+                      value: '2-',
+                      date: Date("2025-02-21"),
+                      details: 'Notes',
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+
+          controller = createController(gradeId: GradeId('grade1'));
+
+          expect(controller.view.title, 'Foo');
+          expect(controller.view.selectedGrade, '2-');
+          expect(
+            controller.view.selectedGradingSystem,
+            GradingSystem.oneToSixWithPlusAndMinus,
+          );
+          expect(controller.view.selectedDate, Date("2025-02-21"));
+          expect(controller.view.selectedGradingType, GradeType.presentation);
+          expect(controller.view.takeIntoAccount, false);
+          expect(controller.view.detailsController.text, 'Notes');
+          expect(controller.view.selectedSubject, (
+            id: SubjectId('maths'),
+            name: 'Maths',
+          ));
+          expect(controller.view.selectedTerm, (
+            id: TermId('foo'),
+            name: 'Foo term',
+          ));
+
+          expect(controller.view.titleErrorText, null);
+          expect(controller.view.selectedGradeErrorText, null);
+          expect(controller.view.isGradeMissing, false);
+          expect(controller.view.isSubjectMissing, false);
+          expect(controller.view.isTermMissing, false);
+          expect(controller.view.isGradeTypeMissing, false);
+
+          gradesTestController.addGrade(
+            termId: TermId('foo'),
+            subjectId: SubjectId('maths'),
+            value: gradeWith(
+              id: GradeId('grade2'),
+              gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
+              includeInGradeCalculations: true,
+              value: 13.2,
+            ),
+          );
+
+          controller = createController(gradeId: GradeId('grade2'));
+
+          expect(controller.view.selectedGrade, '13,2');
+          expect(
+            controller.view.selectedGradingSystem,
+            GradingSystem.zeroToFifteenPointsWithDecimals,
+          );
+          expect(controller.view.takeIntoAccount, true);
+        },
+      );
     });
 
     group('Initialization and defaults', () {
@@ -142,11 +349,13 @@ void main() {
         controller.setSubject(SubjectId('maths'));
         expect(controller.view.selectedSubject?.name, 'Maths');
         expect(controller.view.isSubjectMissing, false);
+        expect(controller.view.isSubjectFieldDisabled, false);
 
         // Test setting term
         controller.setTerm(TermId('foo'));
         expect(controller.view.selectedTerm?.name, 'Foo term');
         expect(controller.view.isTermMissing, false);
+        expect(controller.view.isTermFieldDisabled, false);
 
         // Test setting date
         controller.setDate(Date("2025-02-21"));
@@ -348,6 +557,36 @@ void main() {
           );
         },
       );
+      test(
+        '$TakeIntoAccountState is ${TakeIntoAccountState.disabledWrongGradingSystem} when grade type has weight of zero (when editing grade)',
+        () {
+          gradesTestController.createTerm(
+            termWith(
+              gradeTypeWeights: {GradeType.presentation.id: Weight.zero},
+              subjects: [
+                subjectWith(
+                  id: SubjectId('maths'),
+                  grades: [
+                    gradeWith(
+                      id: GradeId('grade1'),
+                      type: GradeType.writtenExam.id,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+
+          controller = createController(gradeId: GradeId('grade1'));
+
+          controller.setGradeType(GradeType.presentation);
+
+          expect(
+            controller.view.takeIntoAccountState,
+            TakeIntoAccountState.disabledGradeTypeWithNoWeight,
+          );
+        },
+      );
 
       test(
         '$TakeIntoAccountState is ${TakeIntoAccountState.disabledWrongGradingSystem} when term and selected grading systems differ',
@@ -366,12 +605,59 @@ void main() {
       );
 
       test(
+        '$TakeIntoAccountState is ${TakeIntoAccountState.disabledWrongGradingSystem} when term and selected grading systems differ (when editing grade)',
+        () {
+          gradesTestController.createTerm(
+            termWith(
+              gradingSystem: GradingSystem.zeroToFifteenPoints,
+              subjects: [
+                subjectWith(
+                  id: SubjectId('maths'),
+                  grades: [gradeWith(id: GradeId('grade1'))],
+                ),
+              ],
+            ),
+          );
+          controller = createController(gradeId: GradeId('grade1'));
+          controller.setGradingSystem(GradingSystem.oneToSixWithPlusAndMinus);
+
+          expect(
+            controller.view.takeIntoAccountState,
+            TakeIntoAccountState.disabledWrongGradingSystem,
+          );
+        },
+      );
+
+      test(
         '$TakeIntoAccountState remains enabled when term and selected grading systems match',
         () {
           gradesTestController.createTerm(
             termWith(gradingSystem: GradingSystem.zeroToFifteenPoints),
           );
           controller = createController();
+          controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
+
+          expect(
+            controller.view.takeIntoAccountState,
+            TakeIntoAccountState.enabled,
+          );
+        },
+      );
+      test(
+        '$TakeIntoAccountState remains enabled when term and selected grading systems match (when editing grade)',
+        () {
+          gradesTestController.createTerm(
+            termWith(
+              gradingSystem: GradingSystem.zeroToFifteenPoints,
+              subjects: [
+                subjectWith(
+                  id: SubjectId('maths'),
+                  grades: [gradeWith(id: GradeId('grade1'))],
+                ),
+              ],
+            ),
+          );
+          controller = createController(gradeId: GradeId('grade1'));
           controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
 
           expect(

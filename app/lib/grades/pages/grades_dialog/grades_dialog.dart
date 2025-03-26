@@ -30,16 +30,19 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 part 'fields.dart';
 
 class GradesDialog extends StatelessWidget {
-  const GradesDialog({super.key});
+  const GradesDialog({super.key, this.gradeId});
 
   static const tag = 'grades-dialog';
+
+  /// The [GradeId] of the grade to edit, `null` if grade should be created.
+  final GradeId? gradeId;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<GradesDialogController>(
       create: (context) {
         final factory = context.read<GradesDialogControllerFactory>();
-        return factory.create();
+        return factory.create(gradeId);
       },
       builder: (context, _) {
         return Scaffold(

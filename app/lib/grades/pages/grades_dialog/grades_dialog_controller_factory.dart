@@ -32,12 +32,13 @@ class GradesDialogControllerFactory {
     required this.analytics,
   });
 
-  GradesDialogController create() {
+  GradesDialogController create(GradeId? gradeId) {
     return GradesDialogController(
       coursesStream: coursesStream(),
       crashAnalytics: crashAnalytics,
       gradesService: gradesService,
       analytics: analytics,
+      gradeId: gradeId,
     );
   }
 }
