@@ -185,14 +185,6 @@ jobs:
         with:
           model: "iPhone 16"
 
-      - name: Build app
-        working-directory: app
-        run: |
-          flutter build ipa \
-            --flavor dev \
-            -t lib/main_dev.dart \
-            --no-codesign
-
       - name: Run integration tests
         working-directory: app
         env:
