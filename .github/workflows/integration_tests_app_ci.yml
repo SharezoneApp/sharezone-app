@@ -14,10 +14,6 @@ name: integration-tests-app-ci
 
 on:
   pull_request:
-    paths:
-      # We trigger also this workflow, if this workflow is changed, so that new
-      # changes can be tested.
-      - ".github/workflows/integration_tests_app_ci.yml"
   merge_group:
     types:
       - checks_requested
