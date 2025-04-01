@@ -237,7 +237,7 @@ jobs:
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Install chromedriver
-        uses: nanasess/setup-chromedriver@42cc2998329f041de87dc3cfa33a930eacd57eaa
+        uses: nanasess/setup-chromedriver@e93e57b843c0c92788f22483f1a31af8ee48db25
 
       - name: Run integration tests
         working-directory: app
