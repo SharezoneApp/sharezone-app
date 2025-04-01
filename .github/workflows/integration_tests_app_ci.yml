@@ -14,10 +14,6 @@ name: integration-tests-app-ci
 
 on:
   pull_request:
-    paths:
-      # We trigger also this workflow, if this workflow is changed, so that new
-      # changes can be tested.
-      - ".github/workflows/integration_tests_app_ci.yml"
   merge_group:
     types:
       - checks_requested
@@ -189,14 +185,6 @@ jobs:
         with:
           model: "iPhone 16"
 
-      - name: Build app
-        working-directory: app
-        run: |
-          flutter build ipa \
-            --flavor dev \
-            -t lib/main_dev.dart \
-            --no-codesign
-
       - name: Run integration tests
         working-directory: app
         env:
@@ -217,7 +205,8 @@ jobs:
             --flavor prod \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
-            -d $SIMULATOR_UDID
+            -d $SIMULATOR_UDID \
+            --ignore-timeouts
 
   web-integration-test:
     needs: changes

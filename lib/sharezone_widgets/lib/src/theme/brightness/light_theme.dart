@@ -30,7 +30,7 @@ ThemeData getLightTheme({String? fontFamily = rubik}) {
     fontFamily: fontFamily,
 
     // Theme
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: TabBarThemeData(
       labelColor: darkBlueColor,
       unselectedLabelColor: darkBlueColor.withValues(alpha: 0.45),
     ),
