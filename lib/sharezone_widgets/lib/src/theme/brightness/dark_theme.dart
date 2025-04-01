@@ -64,7 +64,7 @@ ThemeData getDarkTheme({String? fontFamily = rubik}) {
         ),
       ),
     ),
-    tabBarTheme: const TabBarTheme(labelColor: Colors.white),
+    tabBarTheme: const TabBarThemeData(labelColor: Colors.white),
     checkboxTheme: CheckboxThemeData(
       fillColor: WidgetStateProperty.resolveWith<Color?>((
         Set<WidgetState> states,

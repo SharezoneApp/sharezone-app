@@ -205,6 +205,7 @@ dependency_overrides:
     git:
       url: https://github.com/postflow/open_file_plus.git
       ref: b29351d11174869ebe0d7a5401ecad0a2300a63b
+  intl: ^0.20.2
 
 dev_dependencies:
   async: ^2.12.0
