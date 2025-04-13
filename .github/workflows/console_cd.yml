@@ -94,6 +94,11 @@ jobs:
       - name: Install Firebase CLI
         run: npm i -g firebase-tools@11.24.1
 
+      - name: Setup Node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
+        with:
+          node-version: '22'
+
       - name: Build and deploy console
         env:
           FIREBASE_HOSTING_KEY: ${{ secrets[matrix.environment.serviceAccountSecret] }}
