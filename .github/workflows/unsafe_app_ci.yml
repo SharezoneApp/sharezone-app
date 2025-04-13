@@ -184,3 +184,4 @@ jobs:
           # of pull requests, we will run out of quota (we get 429 errors).
           expires: "3d"
           target: "test-web-app"
+          firebaseToolsVersion: 14.1.0

@@ -93,7 +93,7 @@ jobs:
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Install Firebase CLI
-        run: npm i -g firebase-tools@11.24.1
+        run: npm i -g firebase-tools@14.1.0
 
       - name: Build and deploy web-app
         env:
@@ -193,7 +193,7 @@ jobs:
             --output-type apk
 
       - name: Install Firebase CLI
-        run: sudo npm i -g firebase-tools@11.24.1
+        run: sudo npm i -g firebase-tools@14.1.0
 
       - name: Publish to Firebase Distribution
         working-directory: app
