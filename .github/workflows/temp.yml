@@ -50,67 +50,7 @@ on:
 permissions: {}
 
 jobs:
-  # It's important that we run this job first, because we need to remove the
-  # "safe to test" label when the PR comes from a fork in order to ensure that
-  # every change is reviewed for security implications.
-  remove-safe-to-build-label:
-    runs-on: ubuntu-22.04
-    permissions:
-      # Required by the remove-safe-to-test-label action
-      contents: read
-      pull-requests: write
-    steps:
-      - name: Remove "safe to test" label, if PR is from a fork
-        uses: SharezoneApp/remove-safe-to-test-label@91b378205db41bb08dde8e4c4f2685847eb3d168
-
-  # We can't use the official "paths" filter because it has no support for merge
-  # groups and we would need some kind of fallback CI when a check is required
-  # but ignored because of the path filter.
-  #
-  # See:
-  # * https://github.com/community/community/discussions/45899 (merge groups)
-  # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
-  #   (workaround for required checks with path filters)
-  changes:
-    needs: remove-safe-to-build-label
-    runs-on: ubuntu-22.04
-    outputs:
-      changesFound: ${{ steps.filter.outputs.changesFound }}
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          # Because we are using the "pull_request_target" event, we need to
-          # checkout the PR head commit instead of the merge commit.
-          ref: ${{ github.event.pull_request.head.sha }}
-      - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
-        id: filter
-        with:
-          filters: |
-            changesFound:
-              # We only build and deploy a new version, when a user relevant files
-              # changed.
-              - "docs/**"
-              # We trigger also this workflow, if this workflow is changed, so that new
-              # changes will be applied.
-              - ".github/workflows/unsafe_docs_ci.yml"
-
-  # We are building for every PR a web preview, which will be deployed to
-  # Firebase Hosting. The link to the website will posted as comment (like:
-  # https://github.com/SharezoneApp/sharezone-app/pull/119#issuecomment-1030012299).
-  #
-  # The previews are helping reviewer and other users to quickly view the
-  # changes in a compiled version.
-  #
-  # A link to a preview expires after 3 days.
-  #
-  # Required steps to set this up:
-  # 1. Run "firebase init hosting:github"
-  # 2. Enable "Firebase Hosting API" in Google Cloud project
-  # 3. Write GitHub action job
-  # 4. Adjust website restrictions for Firebase Key "Sharezone Web Key".
   web-preview:
-    needs: changes
-    if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
     runs-on: ubuntu-22.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
