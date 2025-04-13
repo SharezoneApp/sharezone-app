@@ -184,7 +184,7 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      - uses: futureware-tech/simulator-action@bde6805eedaeaba7775a9959970edc7d8bf10c4d
+      - uses: futureware-tech/simulator-action@d7d71f46661576907b12f85b402a61b6650d0e57
         id: simulator
         with:
           model: "iPhone 16"
