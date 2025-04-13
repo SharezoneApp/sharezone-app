@@ -65,7 +65,7 @@ permissions: {}
 jobs:
   deploy-alpha-web-app:
     name: "deploy-alpha-web-app-${{ matrix.environment.flavor }}"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -107,7 +107,7 @@ jobs:
             --flavor ${{ matrix.environment.flavor }}
 
   deploy-alpha-android-app:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
