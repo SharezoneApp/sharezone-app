@@ -178,4 +178,4 @@ jobs:
           # of pull requests, we will run out of quota (we get 429 errors).
           expires: "3d"
           target: "sharezone-console"
-          firebaseToolsVersion: 14.1.0
+          firebaseToolsVersion: 13.35.1

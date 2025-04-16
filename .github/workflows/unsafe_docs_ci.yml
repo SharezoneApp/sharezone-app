@@ -147,7 +147,7 @@ jobs:
           # of pull requests, we will run out of quota (we get 429 errors).
           expires: "3d"
           target: "docs"
-          firebaseToolsVersion: 14.1.0
+          firebaseToolsVersion: 13.35.1
         env:
           # Required to deploy Next.js applications to Firebase Hosting
           FIREBASE_CLI_EXPERIMENTS: webframeworks
