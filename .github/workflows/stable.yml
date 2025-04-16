@@ -140,7 +140,7 @@ jobs:
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
       - name: Install Firebase CLI
-        run: npm i -g firebase-tools@14.1.0
+        run: npm i -g firebase-tools@13.35.1
 
       - name: Setup Node.js
         uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e

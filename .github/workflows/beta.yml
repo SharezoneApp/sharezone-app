@@ -152,7 +152,7 @@ jobs:
           node-version: "20"
 
       - name: Install Firebase CLI
-        run: npm i -g firebase-tools@14.1.0
+        run: npm i -g firebase-tools@13.35.1
 
       - name: Build and deploy web-app
         env:
