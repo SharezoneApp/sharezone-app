@@ -27,7 +27,7 @@ permissions: {}
 
 jobs:
   check-files-licence-headers:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: actions/setup-go@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b
@@ -37,7 +37,7 @@ jobs:
       - run: ./bin/check_license_headers.sh
 
   check-dependency-licenses:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 

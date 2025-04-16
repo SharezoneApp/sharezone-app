@@ -56,7 +56,7 @@ jobs:
   # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
   #   (workaround for required checks with path filters)
   changes:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
@@ -70,7 +70,7 @@ jobs:
 
   format:
     needs: changes
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683

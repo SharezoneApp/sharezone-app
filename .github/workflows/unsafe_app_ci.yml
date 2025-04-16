@@ -58,7 +58,7 @@ jobs:
   # "safe to test" label when the PR comes from a fork in order to ensure that
   # every change is reviewed for security implications.
   remove-safe-to-build-label:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       # Required by the remove-safe-to-test-label action
       contents: read
@@ -77,7 +77,7 @@ jobs:
   #   (workaround for required checks with path filters)
   changes:
     needs: remove-safe-to-build-label
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
@@ -132,7 +132,7 @@ jobs:
     #
     # Otherwise this will be triggered inside a merge-queue.
     if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)

@@ -61,7 +61,7 @@ env:
 
 jobs:
   deploy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: console-deploy-${{ matrix.environment.flavor }}
     permissions:
       checks: write # for FirebaseExtended/action-hosting-deploy
