@@ -77,7 +77,7 @@ jobs:
           entryPoint: "./docs"
           target: docs
           projectId: ${{ matrix.environment.projectId }}
-          firebaseToolsVersion: 14.1.0
+          firebaseToolsVersion: 13.35.1
         env:
           # Required to deploy Next.js applications to Firebase Hosting
           FIREBASE_CLI_EXPERIMENTS: webframeworks

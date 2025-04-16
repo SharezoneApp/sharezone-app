@@ -146,8 +146,13 @@ jobs:
           flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
           echo $(pwd)/bin >> $GITHUB_PATH
 
+      - name: Setup Node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
+        with:
+          node-version: "20"
+
       - name: Install Firebase CLI
-        run: npm i -g firebase-tools@14.1.0
+        run: npm i -g firebase-tools@13.35.1
 
       - name: Build and deploy web-app
         env:
