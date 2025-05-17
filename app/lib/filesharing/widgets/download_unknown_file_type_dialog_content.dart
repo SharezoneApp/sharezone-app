@@ -9,15 +9,14 @@
 import 'dart:developer';
 
 import 'package:crash_analytics/crash_analytics.dart';
-import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_downloader.dart';
 import 'package:files_usecases/file_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file_plus/open_file_plus.dart';
-import 'package:sharezone_utils/launch_link.dart';
-import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_utils/device_information_manager.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class DownloadUnknownFileFormatPage extends StatelessWidget {

@@ -8,13 +8,11 @@
 
 import 'dart:io';
 
-import 'package:files_basics/files_models.dart';
-import 'package:path/path.dart' as path;
-
 import 'package:files_basics/local_file.dart';
 import 'package:files_basics/local_file_io.dart';
 import 'package:files_usecases/src/file_downloader/file_downloader.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:path/path.dart' as path;
 import 'package:platform_check/platform_check.dart';
 
 class MobileFileDownloader extends FileDownloader {

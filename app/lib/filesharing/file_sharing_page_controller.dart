@@ -9,6 +9,8 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
 import 'package:sharezone/filesharing/widgets/file_sharing_page_header.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
@@ -26,6 +28,7 @@ class FileSharingPageController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final keyValueStore = context.read<KeyValueStore>();
     final pageStateBloc = BlocProvider.of<FileSharingPageStateBloc>(context);
     return PopScope<Object?>(
       canPop: false,
@@ -43,6 +46,7 @@ class FileSharingPageController extends StatelessWidget {
               initialFileSharingData: pageState.initialFileSharingData,
               groupID: pageState.groupID,
               path: pageState.path.getParentPath(),
+              viewMode: getViewModeFromCache(keyValueStore),
             );
             stateBloc.changeStateTo(newState);
           }

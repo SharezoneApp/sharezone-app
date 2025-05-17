@@ -10,3 +10,4 @@ library;
 
 export 'src/local_file/local_file.dart';
 export 'src/local_file/mime_type.dart';
+export 'src/models/file_format.dart';
