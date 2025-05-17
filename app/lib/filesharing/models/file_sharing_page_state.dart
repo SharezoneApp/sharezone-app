@@ -29,9 +29,7 @@ const String _viewModeCacheKey = 'fileSharingViewMode';
 FileSharingViewMode? getViewModeFromCache(KeyValueStore keyValueStore) {
   final viewMode = keyValueStore.getString(_viewModeCacheKey);
   if (viewMode == null) return null;
-  final mode = FileSharingViewMode.values.byName(viewMode);
-  print('viewMode: $viewMode, mode: $mode');
-  return mode;
+  return FileSharingViewMode.values.byName(viewMode);
 }
 
 void setViewModeToCache(
