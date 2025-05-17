@@ -65,7 +65,7 @@ class _FileGridCardBottom extends StatelessWidget {
     if (cloudFile.fileFormat != FileFormat.image) {
       return Center(
         child: IconTheme(
-          data: Theme.of(context).iconTheme.copyWith(size: 100),
+          data: Theme.of(context).iconTheme.copyWith(size: 80),
           child: FileIcon(fileFormat: cloudFile.fileFormat),
         ),
       );
@@ -132,6 +132,7 @@ class _ImagePreviewNative extends StatelessWidget {
       ),
       builder: (context, resultSnapshot) {
         if (resultSnapshot.hasError) {
+          debugPrint(resultSnapshot.error.toString());
           return const Center(
             child: Icon(Icons.error_outline, color: Colors.red),
           );

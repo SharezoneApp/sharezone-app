@@ -157,6 +157,7 @@ class _Files extends StatelessWidget {
               if (viewMode == FileSharingViewMode.grid)
                 GridView.builder(
                   shrinkWrap: true,
+                  // Scrolling is done via SingleChildScrollView
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: () {
@@ -165,6 +166,9 @@ class _Files extends StatelessWidget {
                       // * Mobile: 2 columns
                       // * Tablet: 3 columns
                       // * Desktop: > 4 columns
+                      if (width < 600) {
+                        return 2;
+                      }
                       return (width / 400).ceil();
                     }(),
                     childAspectRatio: 1.0,
@@ -183,6 +187,7 @@ class _Files extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 8),
                   child: ListView.builder(
                     shrinkWrap: true,
+                    // Scrolling is done via SingleChildScrollView
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: files.length,
                     itemBuilder:
