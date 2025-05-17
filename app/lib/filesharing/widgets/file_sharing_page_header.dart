@@ -109,6 +109,9 @@ class _FileSharingPathRow extends StatelessWidget {
                     groupID: fileSharingData!.courseID,
                     initialFileSharingData: fileSharingData,
                     path: subPath,
+                    viewMode: getViewModeFromCache(
+                      context.read<KeyValueStore>(),
+                    ),
                   );
                   stateBloc.changeStateTo(newState);
                 },

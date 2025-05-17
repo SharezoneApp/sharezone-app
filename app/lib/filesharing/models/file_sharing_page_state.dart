@@ -29,7 +29,9 @@ const String _viewModeCacheKey = 'fileSharingViewMode';
 FileSharingViewMode? getViewModeFromCache(KeyValueStore keyValueStore) {
   final viewMode = keyValueStore.getString(_viewModeCacheKey);
   if (viewMode == null) return null;
-  return FileSharingViewMode.values.byName(viewMode);
+  final mode = FileSharingViewMode.values.byName(viewMode);
+  print('viewMode: $viewMode, mode: $mode');
+  return mode;
 }
 
 void setViewModeToCache(
@@ -49,7 +51,7 @@ class FileSharingPageStateGroup extends FileSharingPageState {
     required this.groupID,
     required this.path,
     required this.initialFileSharingData,
-    FileSharingViewMode? viewMode,
+    required FileSharingViewMode? viewMode,
   }) : viewMode = viewMode ?? defaultViewMode;
 
   FileSharingPageStateGroup copyWith({
