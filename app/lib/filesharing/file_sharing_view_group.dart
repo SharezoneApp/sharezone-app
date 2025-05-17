@@ -157,8 +157,15 @@ class _Files extends StatelessWidget {
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: () {
+                      final width = MediaQuery.of(context).size.width;
+                      // Amining to have:
+                      // * Mobile: 2 columns
+                      // * Tablet: 3 columns
+                      // * Desktop: > 4 columns
+                      return (width / 400).ceil();
+                    }(),
                     childAspectRatio: 1.0,
                     crossAxisSpacing: 8.0,
                     mainAxisSpacing: 8.0,
