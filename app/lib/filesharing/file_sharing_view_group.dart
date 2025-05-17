@@ -16,7 +16,7 @@ import 'package:sharezone/filesharing/logic/file_sharing_page_state_bloc.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
 import 'package:sharezone/filesharing/widgets/card_with_icon_and_text.dart';
-import 'package:sharezone/filesharing/widgets/file_grird_card.dart';
+import 'package:sharezone/filesharing/widgets/file_grid_card.dart';
 import 'package:sharezone/filesharing/widgets/file_list_card.dart';
 import 'package:sharezone/filesharing/widgets/filesharing_headline.dart';
 import 'package:sharezone/filesharing/widgets/sheet.dart';
@@ -56,9 +56,8 @@ class FileSharingViewGroup extends StatelessWidget {
                   key: ValueKey(path),
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    // Even though files can be displayed as a list and a grid,
-                    // we always display them as a grid (Google Drive does the
-                    // same).
+                    // Folders are always displayed as a grid even when files
+                    // are displayed as a list (similar to Google Drive's approach).
                     _FolderGrid(
                       courseID: fileSharingData.courseID,
                       fileSharingData: fileSharingData,

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:filesharing_logic/filesharing_logic_models.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:key_value_store/key_value_store.dart';
 
 enum FileSharingViewMode { list, grid }
@@ -29,7 +30,10 @@ const String _viewModeCacheKey = 'fileSharingViewMode';
 FileSharingViewMode? getViewModeFromCache(KeyValueStore keyValueStore) {
   final viewMode = keyValueStore.getString(_viewModeCacheKey);
   if (viewMode == null) return null;
-  return FileSharingViewMode.values.byName(viewMode);
+  return FileSharingViewMode.values.tryByName(
+    viewMode,
+    defaultValue: defaultViewMode,
+  );
 }
 
 void setViewModeToCache(
