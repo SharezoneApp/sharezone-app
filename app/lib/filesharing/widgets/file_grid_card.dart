@@ -74,6 +74,7 @@ class _FileGridCardBottom extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8, top: 4),
       child: ClipRRect(
+        key: Key(cloudFile.id!),
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         child:
             PlatformCheck.isWeb
