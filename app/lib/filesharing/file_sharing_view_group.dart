@@ -45,35 +45,35 @@ class FileSharingViewGroup extends StatelessWidget {
         }
         final folders = fileSharingData.getFolders(path)!.values.toList();
 
-        return SingleChildScrollView(
-          padding: const EdgeInsets.only(left: 8, top: 8),
-          child: SafeArea(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Column(
-                  key: ValueKey(path),
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    // Folders are always displayed as a grid even when files
-                    // are displayed as a list (similar to Google Drive's approach).
-                    _FolderGrid(
-                      courseID: fileSharingData.courseID,
-                      fileSharingData: fileSharingData,
-                      folders: folders,
-                      path: path,
-                    ),
-                    _Files(
-                      courseID: initialData!.courseID,
-                      path: path,
-                      folderNumber: folders.length,
-                    ),
-                  ],
+        return CustomScrollView(
+          slivers: [
+            SliverSafeArea(
+              sliver: SliverPadding(
+                padding: const EdgeInsets.only(left: 8, top: 8),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    key: ValueKey(path),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      // Folders are always displayed as a grid even when files
+                      // are displayed as a list (similar to Google Drive's approach).
+                      _FolderGrid(
+                        courseID: fileSharingData.courseID,
+                        fileSharingData: fileSharingData,
+                        folders: folders,
+                        path: path,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
+            _FilesSliver(
+              courseID: initialData!.courseID,
+              path: path,
+              folderNumber: folders.length,
+            ),
+          ],
         );
       },
     );
@@ -118,8 +118,8 @@ class _FolderGrid extends StatelessWidget {
   }
 }
 
-class _Files extends StatelessWidget {
-  const _Files({
+class _FilesSliver extends StatelessWidget {
+  const _FilesSliver({
     required this.courseID,
     required this.path,
     this.folderNumber = 0,
@@ -142,67 +142,61 @@ class _Files extends StatelessWidget {
     return StreamBuilder<List<CloudFile>>(
       stream: bloc.fileQuery(courseID, path),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Container();
-        if (snapshot.data!.isEmpty && folderNumber == 0) return _NoFilesFound();
-        if (snapshot.data!.isEmpty) return Container();
+        if (!snapshot.hasData) {
+          return const SliverToBoxAdapter(child: SizedBox());
+        }
+        if (snapshot.data!.isEmpty && folderNumber == 0) {
+          return SliverToBoxAdapter(child: _NoFilesFound());
+        }
+        if (snapshot.data!.isEmpty) {
+          return const SliverToBoxAdapter(child: SizedBox());
+        }
+
         final files = snapshot.data!;
         files.sort((a, b) => a.name.compareTo(b.name));
-        return ColorFadeIn(
-          color: Colors.transparent,
-          duration: const Duration(milliseconds: 200),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const FileSharingHeadline(title: "Dateien"),
-              if (viewMode == FileSharingViewMode.grid)
-                GridView.builder(
-                  shrinkWrap: true,
-                  // Scrolling is done via SingleChildScrollView
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: () {
-                      final width = MediaQuery.of(context).size.width;
-                      // Amining to have:
-                      // * Mobile: 2 columns
-                      // * Tablet: 3 columns
-                      // * Desktop: > 4 columns
-                      if (width < 600) {
-                        return 2;
-                      }
-                      return (width / 400).ceil();
-                    }(),
-                    childAspectRatio: 1.0,
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 8.0,
-                  ),
-                  itemCount: files.length,
-                  itemBuilder:
+
+        return SliverPadding(
+          padding: const EdgeInsets.only(left: 8, right: 8),
+          sliver:
+              viewMode == FileSharingViewMode.grid
+                  ? SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: () {
+                        final width = MediaQuery.of(context).size.width;
+                        // Aiming to have:
+                        // * Mobile: 2 columns
+                        // * Tablet: 3 columns
+                        // * Desktop: > 4 columns
+                        if (width < 600) {
+                          return 2;
+                        }
+                        return (width / 400).ceil();
+                      }(),
+                      childAspectRatio: 1.0,
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
                       (context, index) => FileGridCard(
                         cloudFile: files[index],
                         courseId: courseID,
                       ),
-                )
-              else
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    // Scrolling is done via SingleChildScrollView
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: files.length,
-                    itemBuilder:
-                        (context, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: FileListCard(
-                            file: files[index],
-                            courseID: courseID,
-                            bloc: bloc,
-                          ),
+                      childCount: files.length,
+                    ),
+                  )
+                  : SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: FileListCard(
+                          file: files[index],
+                          courseID: courseID,
+                          bloc: bloc,
                         ),
+                      ),
+                      childCount: files.length,
+                    ),
                   ),
-                ),
-            ],
-          ),
         );
       },
     );

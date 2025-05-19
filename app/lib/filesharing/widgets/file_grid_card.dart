@@ -109,6 +109,27 @@ class _ImagePreviewWeb extends StatelessWidget {
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: double.infinity,
+                    cacheWidth: 400,
+                    frameBuilder: (
+                      context,
+                      child,
+                      frame,
+                      wasSynchronouslyLoaded,
+                    ) {
+                      if (wasSynchronouslyLoaded) return child;
+                      return AnimatedOpacity(
+                        opacity: frame != null ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOut,
+                        child: child,
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      debugPrint('Error loading image: $error');
+                      return const Center(
+                        child: Icon(Icons.error_outline, color: Colors.red),
+                      );
+                    },
                   )
                   : const SizedBox(),
         );
@@ -147,6 +168,27 @@ class _ImagePreviewNative extends StatelessWidget {
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: double.infinity,
+                    cacheWidth: 400,
+                    frameBuilder: (
+                      context,
+                      child,
+                      frame,
+                      wasSynchronouslyLoaded,
+                    ) {
+                      if (wasSynchronouslyLoaded) return child;
+                      return AnimatedOpacity(
+                        opacity: frame != null ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOut,
+                        child: child,
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      debugPrint('Error loading image: $error');
+                      return const Center(
+                        child: Icon(Icons.error_outline, color: Colors.red),
+                      );
+                    },
                   )
                   : const SizedBox(),
         );
