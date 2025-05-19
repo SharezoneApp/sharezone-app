@@ -44,35 +44,39 @@ class FileSharingViewGroup extends StatelessWidget {
         }
         final folders = fileSharingData.getFolders(path)!.values.toList();
 
-        return CustomScrollView(
-          slivers: [
-            SliverSafeArea(
-              sliver: SliverPadding(
-                padding: const EdgeInsets.only(left: 8, top: 8),
-                sliver: SliverToBoxAdapter(
-                  child: Column(
-                    key: ValueKey(path),
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      // Folders are always displayed as a grid even when files
-                      // are displayed as a list (similar to Google Drive's approach).
-                      _FolderGrid(
-                        courseID: fileSharingData.courseID,
-                        fileSharingData: fileSharingData,
-                        folders: folders,
-                        path: path,
-                      ),
-                    ],
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: CustomScrollView(
+            key: ValueKey(path),
+            slivers: [
+              SliverSafeArea(
+                sliver: SliverPadding(
+                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      key: ValueKey(path),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        // Folders are always displayed as a grid even when files
+                        // are displayed as a list (similar to Google Drive's approach).
+                        _FolderGrid(
+                          courseID: fileSharingData.courseID,
+                          fileSharingData: fileSharingData,
+                          folders: folders,
+                          path: path,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            _FilesSliver(
-              courseID: initialData!.courseID,
-              path: path,
-              folderNumber: folders.length,
-            ),
-          ],
+              _FilesSliver(
+                courseID: initialData!.courseID,
+                path: path,
+                folderNumber: folders.length,
+              ),
+            ],
+          ),
         );
       },
     );
