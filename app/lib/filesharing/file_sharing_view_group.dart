@@ -9,8 +9,8 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:key_value_store/key_value_store.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
 import 'package:sharezone/filesharing/logic/file_sharing_page_state_bloc.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
@@ -20,7 +20,6 @@ import 'package:sharezone/filesharing/widgets/file_grid_card.dart';
 import 'package:sharezone/filesharing/widgets/file_list_card.dart';
 import 'package:sharezone/filesharing/widgets/filesharing_headline.dart';
 import 'package:sharezone/filesharing/widgets/sheet.dart';
-import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FileSharingViewGroup extends StatelessWidget {
