@@ -171,9 +171,9 @@ class _FilesSliver extends StatelessWidget {
                         }
                         return (width / 400).ceil();
                       }(),
-                      childAspectRatio: 1.0,
-                      crossAxisSpacing: 8.0,
-                      mainAxisSpacing: 8.0,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 2,
+                      mainAxisSpacing: 2,
                     ),
                     delegate: SliverChildBuilderDelegate(
                       (context, index) => FileGridCard(
