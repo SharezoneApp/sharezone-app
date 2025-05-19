@@ -9,8 +9,11 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/logic/file_sharing_page_state_bloc.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
+import 'package:sharezone/filesharing/widgets/view_mode_toggle.dart';
+import 'package:key_value_store/key_value_store.dart';
 
 class FileSharingPageHeader extends StatelessWidget
     implements PreferredSizeWidget {
@@ -23,21 +26,43 @@ class FileSharingPageHeader extends StatelessWidget
     if (pageState is FileSharingPageStateGroup) {
       final groupState = pageState as FileSharingPageStateGroup;
 
-      return ListTile(
-        leading: IconButton(
-          icon: const Icon(Icons.home),
-          onPressed: () {
-            final stateBloc = BlocProvider.of<FileSharingPageStateBloc>(
-              context,
-            );
-            final newState = FileSharingPageStateHome();
-            stateBloc.changeStateTo(newState);
-          },
-        ),
-        title: _FileSharingPathRow(
-          fileSharingData: groupState.initialFileSharingData,
-          path: groupState.path,
-        ),
+      return Row(
+        children: [
+          Expanded(
+            child: ListTile(
+              leading: IconButton(
+                icon: const Icon(Icons.home),
+                onPressed: () {
+                  final stateBloc = BlocProvider.of<FileSharingPageStateBloc>(
+                    context,
+                  );
+                  final newState = FileSharingPageStateHome();
+                  stateBloc.changeStateTo(newState);
+                },
+              ),
+              title: _FileSharingPathRow(
+                fileSharingData: groupState.initialFileSharingData,
+                path: groupState.path,
+              ),
+            ),
+          ),
+          ViewModeToggle(
+            viewMode: groupState.viewMode,
+            onViewModeChanged: (viewMode) {
+              if (pageState is FileSharingPageStateGroup) {
+                final stateBloc = BlocProvider.of<FileSharingPageStateBloc>(
+                  context,
+                );
+                final currentState = pageState as FileSharingPageStateGroup;
+                stateBloc.changeStateTo(
+                  currentState.copyWith(viewMode: viewMode),
+                );
+                setViewModeToCache(context.read<KeyValueStore>(), viewMode);
+              }
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
       );
     }
     return ListTile(
@@ -84,6 +109,9 @@ class _FileSharingPathRow extends StatelessWidget {
                     groupID: fileSharingData!.courseID,
                     initialFileSharingData: fileSharingData,
                     path: subPath,
+                    viewMode: getViewModeFromCache(
+                      context.read<KeyValueStore>(),
+                    ),
                   );
                   stateBloc.changeStateTo(newState);
                 },
