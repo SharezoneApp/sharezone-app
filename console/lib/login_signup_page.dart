@@ -165,8 +165,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           hintText: 'Passwort',
           icon: new Icon(Icons.lock, color: Colors.grey),
         ),
-        validator: (value) =>
-            value!.isEmpty ? 'Password can\'t be empty' : null,
+        validator:
+            (value) => value!.isEmpty ? 'Password can\'t be empty' : null,
         onSaved: (value) => _password = value!.trim(),
       ),
     );

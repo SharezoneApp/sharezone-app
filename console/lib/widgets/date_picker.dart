@@ -52,9 +52,10 @@ class DatePicker extends StatelessWidget {
               _InputDropdown(
                 iconData: Icons.today,
                 labelText: labelText,
-                valueText: selectedDate != null
-                    ? DateFormat.yMMMd().format(selectedDate!)
-                    : "Datum auswählen",
+                valueText:
+                    selectedDate != null
+                        ? DateFormat.yMMMd().format(selectedDate!)
+                        : "Datum auswählen",
                 valueStyle: valueStyle,
                 padding: padding,
                 onPressed: () async {
@@ -117,12 +118,12 @@ class _InputDropdown extends StatelessWidget {
                   SizedBox(width: 32.0),
                   labelText != null
                       ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(labelText!, style: TextStyle(fontSize: 16.0)),
-                            Text(valueText!, style: valueStyle),
-                          ],
-                        )
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(labelText!, style: TextStyle(fontSize: 16.0)),
+                          Text(valueText!, style: valueStyle),
+                        ],
+                      )
                       : Text(valueText!, style: TextStyle(fontSize: 16.0)),
                 ],
               ),
@@ -130,9 +131,10 @@ class _InputDropdown extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 3),
                 child: Icon(
                   Icons.keyboard_arrow_down,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.grey[600]
-                      : Colors.white70,
+                  color:
+                      Theme.of(context).brightness == Brightness.light
+                          ? Colors.grey[600]
+                          : Colors.white70,
                 ),
               ),
             ],
