@@ -41,30 +41,29 @@ class _CreateActivationCodePage extends StatelessWidget {
               final result = await bloc.submit(context);
               showDialog(
                 context: context,
-                builder:
-                    (context) => AlertDialog(
-                      title: const Text("Ergebnis"),
-                      content: Builder(
-                        builder: (context) {
-                          return Column(
-                            children: [
-                              Text(result.runtimeType.toString()),
-                              Text(result.data.toString()),
-                            ],
-                            mainAxisSize: MainAxisSize.min,
-                          );
-                        },
-                      ),
-                      actions: [
-                        TextButton(
-                          child: const Text("Fertig"),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
+                builder: (context) => AlertDialog(
+                  title: const Text("Ergebnis"),
+                  content: Builder(
+                    builder: (context) {
+                      return Column(
+                        children: [
+                          Text(result.runtimeType.toString()),
+                          Text(result.data.toString()),
+                        ],
+                        mainAxisSize: MainAxisSize.min,
+                      );
+                    },
+                  ),
+                  actions: [
+                    TextButton(
+                      child: const Text("Fertig"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
                     ),
+                  ],
+                ),
               );
             },
           ),

@@ -125,7 +125,7 @@ dependencies:
     git:
       url: https://github.com/nilsreichardt/interval_time_picker.git
       ref: ed0dd597ef1bbe5429504fe4314976856fa7d213
-  intl: ^0.19.0
+  intl: ^0.20.2
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:

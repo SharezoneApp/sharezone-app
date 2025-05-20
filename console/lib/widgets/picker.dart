@@ -16,16 +16,14 @@ Future<T?> selectItem<T>({
 }) async {
   return await showSheetBuilder<T>(
     context: context,
-    child:
-        (context) => Flexible(
-          child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder:
-                (BuildContext context, int index) =>
-                    builder(context, items[index]),
-            shrinkWrap: true,
-          ),
-        ),
+    child: (context) => Flexible(
+      child: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (BuildContext context, int index) =>
+            builder(context, items[index]),
+        shrinkWrap: true,
+      ),
+    ),
     title: null,
     actions: actions,
   );
@@ -76,9 +74,9 @@ Future<T?> showSheetBuilder<T>({
             const SizedBox(height: 6),
             actions != null
                 ? Row(
-                  children: actions(context),
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                )
+                    children: actions(context),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  )
                 : const SizedBox(height: 0),
             const SizedBox(height: 6),
           ],

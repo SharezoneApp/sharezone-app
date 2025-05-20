@@ -13,7 +13,7 @@ import 'bloc_base.dart';
 // Generic BLoC provider
 class BlocProvider<T extends BlocBase> extends StatefulWidget {
   const BlocProvider({Key? key, this.child, required this.bloc})
-    : super(key: key);
+      : super(key: key);
 
   final T bloc;
   final Widget? child;

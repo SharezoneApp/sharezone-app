@@ -76,13 +76,12 @@ class _TypeOfUserChangeDialogsState extends State<TypeOfUserChangeDialogs> {
                     _nutzertyp = newValue;
                   });
                 },
-                items:
-                    Nutzertyp.values.map((location) {
-                      return DropdownMenuItem(
-                        child: Text(location.toReadableString()),
-                        value: location,
-                      );
-                    }).toList(),
+                items: Nutzertyp.values.map((location) {
+                  return DropdownMenuItem(
+                    child: Text(location.toReadableString()),
+                    value: location,
+                  );
+                }).toList(),
               ),
               const SizedBox(width: 150),
               if (loading)

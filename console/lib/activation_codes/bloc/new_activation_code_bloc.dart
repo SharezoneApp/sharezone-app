@@ -44,9 +44,9 @@ class NewActivationCodeBloc extends BlocBase {
   Future<HttpsCallableResult> submit(BuildContext context) async {
     final activationCodeValue = _codeSubject.value;
     final endTimeValue = _endTimeSubject.value.toIso8601String().substring(
-      0,
-      10,
-    );
+          0,
+          10,
+        );
     final actionsValue = _actionsSubject.value;
     final codeNameValue = _codeNameSubject.value;
     final codeDescriptionValue = _codeDescriptionSubject.value;
