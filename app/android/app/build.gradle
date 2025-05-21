@@ -35,6 +35,7 @@ if (flutterVersionName == null) {
 android {
     namespace "de.codingbrain.sharezone"
     compileSdkVersion 35
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
