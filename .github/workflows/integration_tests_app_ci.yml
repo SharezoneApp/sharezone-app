@@ -189,25 +189,17 @@ jobs:
         with:
           model: "iPhone 16"
 
-      - name: Build app
-        working-directory: app
-        run: |
-          flutter build ipa \
-            --flavor dev \
-            -t lib/main_dev.dart \
-            --no-codesign
-
       - name: Run integration tests
         working-directory: app
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
           SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
-        # We use the `flutter drive` instead of the `flutter test` command
-        # because the test command times out after 12 minutes. But building the
-        # app takes more than 12 minutes... It seems so that there is no way to
-        # set the timeout (the --timeout argument has not effect). Tracking
-        # issue: https://github.com/flutter/flutter/issues/105913
+        # We use --ignore-timeouts to avoid the 12 minute timeout during the
+        # build. Flutter has a timeout of 12 minutes for the build, but building
+        # our iOS app takes longer. Using --ignore-timeouts is the current
+        # recommended workaround, see
+        # https://github.com/flutter/flutter/issues/105913#issuecomment-2770877374
         run: |
           # We need to run the integration tests with the prod flavor because
           # using not the default flavor will cause an exception when
@@ -217,6 +209,7 @@ jobs:
             --flavor prod \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
+            --ignore-timeouts \
             -d $SIMULATOR_UDID
 
   web-integration-test:
