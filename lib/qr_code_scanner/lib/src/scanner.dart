@@ -80,7 +80,7 @@ class _ScannerState extends State<Scanner> {
     return MobileScanner(
       controller: controller,
       fit: BoxFit.cover,
-      errorBuilder: (context, exception, child) {
+      errorBuilder: (context, exception) {
         return _Error(exception: exception);
       },
       // The overlay (including controls like torch and text) that is
