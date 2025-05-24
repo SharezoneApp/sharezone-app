@@ -54,7 +54,7 @@ jobs:
   # "safe to test" label when the PR comes from a fork in order to ensure that
   # every change is reviewed for security implications.
   remove-safe-to-build-label:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       # Required by the remove-safe-to-test-label action
       contents: read
@@ -73,7 +73,7 @@ jobs:
   #   (workaround for required checks with path filters)
   changes:
     needs: remove-safe-to-build-label
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
@@ -111,7 +111,7 @@ jobs:
   web-preview:
     needs: changes
     if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
@@ -131,6 +131,11 @@ jobs:
       - name: Build
         run: npm run build -C docs/
 
+      - name: Setup Node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
+        with:
+          node-version: "20"
+
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
         with:
@@ -142,6 +147,7 @@ jobs:
           # of pull requests, we will run out of quota (we get 429 errors).
           expires: "3d"
           target: "docs"
+          firebaseToolsVersion: 13.35.1
         env:
           # Required to deploy Next.js applications to Firebase Hosting
           FIREBASE_CLI_EXPERIMENTS: webframeworks

@@ -22,6 +22,8 @@ import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'grades_dialog_view.dart';
 
 class GradesDialogController extends ChangeNotifier {
+  final GradeId? gradeId;
+  bool get isEditingGrade => gradeId != null;
   final Stream<List<Course>> coursesStream;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
@@ -97,6 +99,7 @@ class GradesDialogController extends ChangeNotifier {
       selectedGradingSystem: _gradingSystem,
       selectedSubject:
           subject != null ? (id: subject.id, name: subject.name) : null,
+      isSubjectFieldDisabled: isEditingGrade,
       selectableSubjects:
           _subjects
               .map(
@@ -119,6 +122,8 @@ class GradesDialogController extends ChangeNotifier {
               : null,
       selectableTerms:
           _selectableTerms.map((t) => (id: t.id, name: t.name)).toIList(),
+      isTermFieldDisabled: isEditingGrade,
+      details: _details,
       detailsController: _detailsController,
       title: _title,
       titleErrorText: _titleErrorText,
@@ -139,19 +144,45 @@ class GradesDialogController extends ChangeNotifier {
     required this.coursesStream,
     required this.crashAnalytics,
     required this.analytics,
+    this.gradeId,
   }) {
-    _selectedTermId = _getActiveTermId();
-    _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
-    _gradingSystem =
-        _gradingSystemOfSelectedTerm ?? GradingSystem.oneToSixWithPlusAndMinus;
-    _date = Date.today();
-    _gradeType = GradeType.writtenExam;
-    _title = _gradeType.predefinedType?.toUiString();
-    _takeIntoAccount = true;
+    if (gradeId != null) {
+      final gradeRef = gradesService.grade(gradeId!);
+      final grade = gradeRef.get()!;
+      final subjectOfGrade = gradesService.getSubject(gradeRef.subjectRef.id)!;
+      _grade =
+          grade.value.displayableGrade ??
+          grade.value.asNum.toString().replaceAll('.', ',');
+      _title = grade.title;
+
+      _selectedTermId = _getActiveTermId();
+      _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
+      _gradingSystem = grade.gradingSystem;
+      _selectSubjectId = subjectOfGrade.id;
+      _date = grade.date;
+      _gradeType = gradesService.getPossibleGradeTypes().firstWhere(
+        (gt) => gt.id == grade.gradeTypeId,
+      );
+      _takeIntoAccount = grade.isTakenIntoAccount;
+      _subjects = gradesService.getSubjects();
+      _details = grade.details;
+    } else {
+      _selectedTermId = _getActiveTermId();
+      _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
+      _gradingSystem =
+          _gradingSystemOfSelectedTerm ??
+          GradingSystem.oneToSixWithPlusAndMinus;
+      _date = Date.today();
+      _gradeType = GradeType.writtenExam;
+      _title = _gradeType.predefinedType?.toUiString();
+      _takeIntoAccount = true;
+      _subjects = gradesService.getSubjects();
+      _detailsController = TextEditingController();
+    }
+
     _titleController = TextEditingController(text: _title);
-    _subjects = gradesService.getSubjects();
-    _gradeFieldController = TextEditingController();
-    _detailsController = TextEditingController();
+    _gradeFieldController = TextEditingController(text: _grade);
+    _detailsController = TextEditingController(text: _details);
 
     // Even though the fields are not filled at the beginning, we don't want to
     // show any error messages. The user should see the error messages only
@@ -218,6 +249,7 @@ class GradesDialogController extends ChangeNotifier {
   String? _gradeErrorText;
   void setGrade(String res) {
     _grade = res.isEmpty ? null : res;
+    _gradeFieldController.text = res;
     _validateGrade();
   }
 
@@ -275,6 +307,9 @@ class GradesDialogController extends ChangeNotifier {
   late bool _isSubjectMissing;
   SubjectId? _selectSubjectId;
   void setSubject(SubjectId res) {
+    if (isEditingGrade) {
+      throw UnsupportedError('Cannot change subject of an existing grade.');
+    }
     _selectSubjectId = res;
     _isSubjectMissing = false;
     notifyListeners();
@@ -302,6 +337,10 @@ class GradesDialogController extends ChangeNotifier {
   GradingSystem? _gradingSystemOfSelectedTerm;
   IList<TermResult> _selectableTerms = IList(const []);
   void setTerm(TermId res) {
+    if (isEditingGrade) {
+      throw UnsupportedError('Cannot change term of an existing grade.');
+    }
+
     _selectedTermId = res;
     _isTermMissing = false;
 
@@ -384,7 +423,13 @@ class GradesDialogController extends ChangeNotifier {
     return _title != null && _title!.isNotEmpty;
   }
 
+  String? _details;
   late TextEditingController _detailsController;
+  void setDetails(String res) {
+    _details = res;
+    _detailsController.text = res;
+    notifyListeners();
+  }
 
   Future<void> save() async {
     final invalidFields = _validateFields();
@@ -411,7 +456,7 @@ class GradesDialogController extends ChangeNotifier {
     }
 
     _addGradeToGradeService();
-    _logGradeAdded();
+    _logGradeAddedOrEdited();
   }
 
   /// Validates the fields and returns the invalid ones.
@@ -440,11 +485,6 @@ class GradesDialogController extends ChangeNotifier {
   }
 
   void _addGradeToGradeService() {
-    String? details;
-    if (_detailsController.text.isNotEmpty) {
-      details = _detailsController.text;
-    }
-
     final takeIntoAccount = switch ((
       _takeIntoAccount,
       view.takeIntoAccountState,
@@ -464,20 +504,37 @@ class GradesDialogController extends ChangeNotifier {
     };
 
     try {
-      gradesService
-          .term(_selectedTermId!)
-          .subject(_selectSubjectId!)
-          .addGrade(
-            GradeInput(
-              type: _gradeType.id,
-              value: _grade!,
-              date: _date,
-              takeIntoAccount: takeIntoAccount,
-              gradingSystem: _gradingSystem,
-              title: _title!,
-              details: details,
-            ),
-          );
+      if (isEditingGrade) {
+        gradesService
+            .grade(gradeId!)
+            .edit(
+              GradeInput(
+                type: _gradeType.id,
+                value: _grade!,
+                date: _date,
+                takeIntoAccount: takeIntoAccount,
+                gradingSystem: _gradingSystem,
+                title: _title!,
+                details: _details,
+              ),
+            );
+        return;
+      } else {
+        gradesService
+            .term(_selectedTermId!)
+            .subject(_selectSubjectId!)
+            .addGrade(
+              GradeInput(
+                type: _gradeType.id,
+                value: _grade!,
+                date: _date,
+                takeIntoAccount: takeIntoAccount,
+                gradingSystem: _gradingSystem,
+                title: _title!,
+                details: _details,
+              ),
+            );
+      }
     } catch (e, s) {
       if (e is InvalidGradeValueException) {
         _gradeErrorText = 'Die Note ist ungültig.';
@@ -492,8 +549,12 @@ class GradesDialogController extends ChangeNotifier {
     }
   }
 
-  void _logGradeAdded() {
-    analytics.log(NamedAnalyticsEvent(name: 'grade_added'));
+  void _logGradeAddedOrEdited() {
+    analytics.log(
+      NamedAnalyticsEvent(
+        name: isEditingGrade ? 'grade_edited' : 'grade_added',
+      ),
+    );
   }
 
   void _createSubject() {

@@ -40,7 +40,7 @@ permissions: {}
 
 jobs:
   deploy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: docs-deploy-${{ matrix.environment.flavor }}
     permissions:
       checks: write # for FirebaseExtended/action-hosting-deploy
@@ -64,6 +64,11 @@ jobs:
         if: ${{ matrix.environment.flavor == 'prod' }}
         run: rm -f docs/public/robots.txt
 
+      - name: Setup Node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
+        with:
+          node-version: "20"
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
@@ -72,6 +77,7 @@ jobs:
           entryPoint: "./docs"
           target: docs
           projectId: ${{ matrix.environment.projectId }}
+          firebaseToolsVersion: 13.35.1
         env:
           # Required to deploy Next.js applications to Firebase Hosting
           FIREBASE_CLI_EXPERIMENTS: webframeworks

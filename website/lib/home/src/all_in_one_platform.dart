@@ -136,7 +136,7 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                           bulletpoints: [
                             "Mit Ruhemodus",
                             "Immer informiert",
-                            "Indiviuell einstellbar",
+                            "Individuell einstellbar",
                           ],
                         ),
                       ],

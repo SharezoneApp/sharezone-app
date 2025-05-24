@@ -278,6 +278,15 @@ class GradeRef {
     return this;
   }
 
+  GradeResult? get() {
+    return _service.terms.value
+        .firstWhereOrNull((term) => term.id == termRef.id)
+        ?.subjects
+        .firstWhereOrNull((subject) => subject.id == subjectRef.id)
+        ?.grades
+        .firstWhereOrNull((grade) => grade.id == id);
+  }
+
   void changeWeight(Weight weight) {
     _service.changeGradeWeight(id: id, termId: termRef.id, weight: weight);
   }

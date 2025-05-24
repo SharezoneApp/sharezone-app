@@ -61,7 +61,7 @@ env:
 
 jobs:
   deploy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: website-deploy-${{ matrix.environment.flavor }}
     permissions:
       checks: write # for FirebaseExtended/action-hosting-deploy
@@ -79,9 +79,9 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
+      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -92,7 +92,12 @@ jobs:
           echo $(pwd)/bin >> $GITHUB_PATH
 
       - name: Install Firebase CLI
-        run: npm i -g firebase-tools@11.24.1
+        run: npm i -g firebase-tools@13.35.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e
+        with:
+          node-version: "20"
 
       - name: Build and deploy website
         env:

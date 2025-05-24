@@ -179,15 +179,12 @@ class Room extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 4),
-      child: Text(
-        room,
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
-          decoration: isStrikeThrough ? TextDecoration.lineThrough : null,
-        ),
+    return Text(
+      room,
+      style: TextStyle(
+        color: color,
+        fontSize: 12,
+        decoration: isStrikeThrough ? TextDecoration.lineThrough : null,
       ),
     );
   }
