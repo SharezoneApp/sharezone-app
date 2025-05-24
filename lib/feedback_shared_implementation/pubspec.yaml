@@ -24,7 +24,7 @@ dependencies:
     path: ../crash_analytics
   build_context:
     path: ../build_context
-  intl: ^0.19.0
+  intl: ^0.20.2
   common_domain_models:
     path: ../common_domain_models
   sharezone_widgets:

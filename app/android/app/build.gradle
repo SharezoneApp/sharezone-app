@@ -34,7 +34,8 @@ if (flutterVersionName == null) {
 
 android {
     namespace "de.codingbrain.sharezone"
-    compileSdkVersion 34
+    compileSdkVersion 35
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -65,7 +66,7 @@ android {
     defaultConfig {
         applicationId "de.codingbrain.sharezone"
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
