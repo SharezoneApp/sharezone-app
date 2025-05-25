@@ -9,6 +9,8 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -79,6 +81,7 @@ class _CourseFolderCard extends StatelessWidget {
           groupID: fileSharingData.courseID,
           path: FolderPath.root,
           initialFileSharingData: fileSharingData,
+          viewMode: getViewModeFromCache(context.read<KeyValueStore>()),
         );
         stateBloc.changeStateTo(newState);
       },

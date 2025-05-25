@@ -22,6 +22,7 @@ permittedLicenses:
   - Zlib
   - MIT-Modern-Variant
   - EUPL-1.2-or-later
+  - BSL-1.0
 
 approvedPackages:
   no-file:

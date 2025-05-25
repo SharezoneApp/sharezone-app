@@ -125,7 +125,7 @@ dependencies:
     git:
       url: https://github.com/nilsreichardt/interval_time_picker.git
       ref: ed0dd597ef1bbe5429504fe4314976856fa7d213
-  intl: ^0.19.0
+  intl: ^0.20.2
   key_value_store:
     path: ../lib/key_value_store
   last_online_reporting:
@@ -143,11 +143,11 @@ dependencies:
   numberpicker: ^2.1.2
   open_file_plus: ^3.4.1+1
   overlay_support: ^2.1.0
-  package_info_plus: ^8.2.1
+  package_info_plus: ^8.3.0
   permission_handler: ^11.3.1
   photo_view: ^0.15.0
   provider: ^6.1.2
-  purchases_flutter: ^8.5.0
+  purchases_flutter: ^8.7.5
   qr_code_scanner:
     path: ../lib/qr_code_scanner
   qr_flutter: ^4.1.0
@@ -221,7 +221,7 @@ dev_dependencies:
   bloc_test: ^10.0.0
   bloc_presentation_test: ^1.0.2
   path: ^1.9.1
-  patrol: ^3.14.0
+  patrol: ^3.15.2
 
 patrol:
   app_name: Sharezone App

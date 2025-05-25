@@ -45,7 +45,7 @@ dependencies:
   fast_immutable_collections: ^11.0.3
   url_launcher: ^6.3.1
   collection: ^1.19.1
-  intl: ^0.19.0
+  intl: ^0.20.2
   diacritic: ^0.1.6
   provider: ^6.1.2
   markdown: ^7.3.0
