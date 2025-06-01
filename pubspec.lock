@@ -538,10 +538,10 @@ packages:
     dependency: transitive
     description:
       name: file_picker
-      sha256: "6f6bfa8797f296965bdc3e1f702574ab49a540c19b9237b401e7c2b25dfe594c"
+      sha256: "77f8e81d22d2a07d0dee2c62e1dda71dc1da73bf43bb2d45af09727406167964"
       url: "https://pub.dev"
     source: hosted
-    version: "9.0.0"
+    version: "10.1.9"
   file_selector_linux:
     dependency: transitive
     description:
