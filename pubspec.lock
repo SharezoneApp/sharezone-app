@@ -506,10 +506,10 @@ packages:
     dependency: transitive
     description:
       name: fast_immutable_collections
-      sha256: "95a69b9380483dff49ae2c12c9eb92e2b4e1aeff481a33c2a20883471771598a"
+      sha256: d1aa3d7788fab06cce7f303f4969c7a16a10c865e1bd2478291a8ebcbee084e5
       url: "https://pub.dev"
     source: hosted
-    version: "11.0.3"
+    version: "11.0.4"
   fast_rsa:
     dependency: transitive
     description:
