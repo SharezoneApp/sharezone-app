@@ -47,7 +47,7 @@ dependencies:
     path: ../lib/build_context
   characters: ^1.4.0
   clock: ^1.1.2
-  cloud_firestore: ^5.6.4
+  cloud_firestore: ^5.6.8
   cloud_firestore_helper:
     path: ../lib/cloud_firestore_helper
   cloud_functions: ^5.3.3
