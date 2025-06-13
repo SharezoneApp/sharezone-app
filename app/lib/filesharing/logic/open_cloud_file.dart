@@ -141,9 +141,8 @@ class FirestoreFilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (downloadURL == null) {
       return ErrorFilePage(
-        name: name!,
+        name: name,
         nameStream: nameStream,
-        id: id!,
         error: Text(
           "Die Datei ist scheint beschädigt zu sein. Lösche sie bitte und lade sie erneut hoch.",
           style: Theme.of(context).textTheme.bodyLarge,
