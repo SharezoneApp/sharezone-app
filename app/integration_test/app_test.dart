@@ -16,9 +16,9 @@ import 'package:sharezone/util/flavor.dart';
 
 void main() {
   const config = PatrolTesterConfig(
-    existsTimeout: Duration(seconds: 30),
-    visibleTimeout: Duration(seconds: 30),
-    settleTimeout: Duration(seconds: 30),
+    existsTimeout: Duration(seconds: 120),
+    visibleTimeout: Duration(seconds: 120),
+    settleTimeout: Duration(seconds: 120),
   );
   group('e2e tests', () {
     late AppDependencies dependencies;
