@@ -9,5 +9,14 @@
 import 'package:files_basics/local_file.dart';
 
 abstract class FileDownloader {
-  Future<LocalFile> downloadFileFromURL(String url, String filename, String id);
+  /// Downloads a file from the given [url], saves it locally and returns a
+  /// [LocalFile] representing the downloaded file.
+  ///
+  /// Renames to [filename], if [rename] is `true`.
+  Future<LocalFile> downloadFileFromURL(
+    String url,
+    String filename,
+    String id, {
+    bool rename = true,
+  });
 }
