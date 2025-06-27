@@ -96,8 +96,12 @@ void openFirestoreFilePage({
       !(fileFormat == FileFormat.video ||
           fileFormat == FileFormat.image ||
           fileFormat == FileFormat.pdf)) {
-    showStartedDownloadSnackBar(context, downloadURL);
-    getFileSaver()!.saveFromUrl(downloadURL!, name!, fileFormat);
+    saveFileOnDevice(
+      context: context,
+      downloadUrl: downloadURL,
+      fileId: id,
+      fileName: name,
+    );
   } else {
     Navigator.push(
       context,

@@ -10,6 +10,7 @@ import 'dart:typed_data';
 
 import 'package:files_basics/files_models.dart';
 import 'package:files_usecases/src/file_saver/file_saver.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MobileFileSaver extends FileSaver {
   @override
@@ -18,7 +19,7 @@ class MobileFileSaver extends FileSaver {
     String filename,
     FileFormat fileType,
   ) async {
-    return false;
+    return launchUrl(Uri.parse(url));
   }
 
   @override
