@@ -86,6 +86,7 @@ class _ImageFilePageState extends State<ImageFilePage> {
         widget.downloadURL,
         widget.name,
         widget.id,
+        rename: false,
       ),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {

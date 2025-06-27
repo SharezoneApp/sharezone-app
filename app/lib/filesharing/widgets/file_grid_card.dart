@@ -151,6 +151,7 @@ class _ImagePreviewNative extends StatelessWidget {
         cloudFile.downloadURL!,
         cloudFile.name,
         cloudFile.id!,
+        rename: false,
       ),
       builder: (context, resultSnapshot) {
         if (resultSnapshot.hasError) {
