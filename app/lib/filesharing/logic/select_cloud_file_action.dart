@@ -149,7 +149,7 @@ void saveFileOnDevice({
           id: fileId,
           name: fileName,
           nameStream: Stream.value(fileName ?? ''),
-          action: DownloadUnknownFileTypeDialogContentAction.shareFile,
+          action: FileHandlingAction.shareFile,
         ),
   );
 }

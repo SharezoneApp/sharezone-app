@@ -55,7 +55,7 @@ class DownloadUnknownFileFormatPage extends StatelessWidget {
   }
 }
 
-enum DownloadUnknownFileTypeDialogContentAction { openFile, shareFile }
+enum FileHandlingAction { openFile, shareFile }
 
 class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
   const DownloadUnknownFileTypeDialogContent({
@@ -64,14 +64,14 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
     required this.nameStream,
     required this.downloadURL,
     required this.id,
-    this.action = DownloadUnknownFileTypeDialogContentAction.openFile,
+    this.action = FileHandlingAction.openFile,
   });
 
   final String? name;
   final String? downloadURL;
   final Stream<String>? nameStream;
   final String? id;
-  final DownloadUnknownFileTypeDialogContentAction action;
+  final FileHandlingAction action;
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +85,12 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
         // Finished Downloading
         if (future.hasData) {
           switch (action) {
-            case DownloadUnknownFileTypeDialogContentAction.openFile:
+            case FileHandlingAction.openFile:
               OpenFile.open(
                 future.data!.getPath(),
               ).then((value) => log(value.message));
               break;
-            case DownloadUnknownFileTypeDialogContentAction.shareFile:
+            case FileHandlingAction.shareFile:
               Share.shareXFiles(
                 [
                   if (PlatformCheck.isWeb)
