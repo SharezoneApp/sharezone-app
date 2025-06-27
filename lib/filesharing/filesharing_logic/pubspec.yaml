@@ -30,6 +30,7 @@ dependencies:
   firebase_storage: ^12.4.3
   meta: ^1.16.0
   mime: ^2.0.0
+  path: ^1.9.1
   permission_handler: ^11.3.1
   helper_functions:
     path: ../../helper_functions
