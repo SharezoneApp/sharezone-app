@@ -7,13 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:abgabe_client_lib/abgabe_client_lib.dart';
-import 'package:files_basics/files_models.dart';
-import 'package:files_usecases/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/logic/open_cloud_file.dart';
 import 'package:sharezone/filesharing/logic/select_cloud_file_action.dart';
-import 'package:sharezone/filesharing/widgets/download_unknown_file_type_dialog_content.dart';
-import 'package:platform_check/platform_check.dart';
 
 void openCreateSubmissionFile(BuildContext context, FileView view) {
   if (view.downloadUrl != null) {
@@ -24,12 +20,11 @@ void openCreateSubmissionFile(BuildContext context, FileView view) {
         IconButton(
           icon: const Icon(Icons.file_download),
           onPressed:
-              () => _downloadFile(
+              () => saveFileOnDevice(
                 context: context,
                 downloadUrl: view.downloadUrl!,
                 fileId: view.id,
                 fileName: view.name,
-                format: view.fileFormat,
               ),
         ),
       ],
@@ -48,12 +43,11 @@ void openAbgegebeneAbgabedatei(BuildContext context, CreatedFileView view) {
       IconButton(
         icon: const Icon(Icons.file_download),
         onPressed:
-            () => _downloadFile(
+            () => saveFileOnDevice(
               context: context,
               downloadUrl: view.downloadUrl,
               fileId: view.id,
               fileName: view.title,
-              format: view.format,
             ),
       ),
     ],
@@ -61,31 +55,4 @@ void openAbgegebeneAbgabedatei(BuildContext context, CreatedFileView view) {
     id: view.id,
     name: view.title,
   );
-}
-
-void _downloadFile({
-  required BuildContext context,
-  required String downloadUrl,
-  required String fileName,
-  required FileFormat format,
-  required String fileId,
-}) {
-  // Bei der Web-App wird die Datei direkt über den Browser heruntergeladen,
-  // weswegen kein Lade-Dialog notwendig ist (Lade-Dialog wird vom Browser
-  // übernommen).
-  if (PlatformCheck.isWeb) {
-    showStartedDownloadSnackBar(context, downloadUrl);
-    getFileSaver()!.saveFromUrl(downloadUrl, fileName, format);
-  } else {
-    showDialog(
-      context: context,
-      builder:
-          (context) => DownloadUnknownFileTypeDialogContent(
-            downloadURL: downloadUrl,
-            name: fileName,
-            id: fileId,
-            nameStream: Stream.value(fileName),
-          ),
-    );
-  }
 }

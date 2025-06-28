@@ -74,12 +74,7 @@ void openFirestoreFilePage({
   Stream<String>? nameStream,
   String? id,
 }) {
-  if (!PlatformCheck.isWeb &&
-      (fileFormat == FileFormat.unknown ||
-          fileFormat == FileFormat.excel ||
-          fileFormat == FileFormat.text ||
-          fileFormat == FileFormat.zip ||
-          (PlatformCheck.isIOS && fileFormat == FileFormat.pdf))) {
+  if (PlatformCheck.isIOS && fileFormat == FileFormat.pdf) {
     showDialog(
       context: context,
       builder:
@@ -90,31 +85,52 @@ void openFirestoreFilePage({
             nameStream: nameStream,
           ),
     );
+    return;
   }
+
+  if (!PlatformCheck.isWeb &&
+      (fileFormat == FileFormat.unknown ||
+          fileFormat == FileFormat.excel ||
+          fileFormat == FileFormat.text ||
+          fileFormat == FileFormat.zip)) {
+    saveFileOnDevice(
+      context: context,
+      downloadUrl: downloadURL,
+      fileId: id,
+      fileName: name,
+    );
+    return;
+  }
+
   // Die Datei wird im Web gedownloadet, sollten wir keine passende Anzeige (Video/PDF/Bild) haben
-  else if (PlatformCheck.isWeb &&
+  if (PlatformCheck.isWeb &&
       !(fileFormat == FileFormat.video ||
           fileFormat == FileFormat.image ||
           fileFormat == FileFormat.pdf)) {
-    showStartedDownloadSnackBar(context, downloadURL);
-    getFileSaver()!.saveFromUrl(downloadURL!, name!, fileFormat);
-  } else {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder:
-            (context) => FirestoreFilePage(
-              id: id,
-              downloadURL: downloadURL,
-              name: name,
-              nameStream: nameStream,
-              actions: actions,
-              fileFormat: fileFormat,
-            ),
-        settings: const RouteSettings(name: FirestoreFilePage.tag),
-      ),
+    saveFileOnDevice(
+      context: context,
+      downloadUrl: downloadURL,
+      fileId: id,
+      fileName: name,
     );
+    return;
   }
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder:
+          (context) => FirestoreFilePage(
+            id: id,
+            downloadURL: downloadURL,
+            name: name,
+            nameStream: nameStream,
+            actions: actions,
+            fileFormat: fileFormat,
+          ),
+      settings: const RouteSettings(name: FirestoreFilePage.tag),
+    ),
+  );
 }
 
 class FirestoreFilePage extends StatelessWidget {
