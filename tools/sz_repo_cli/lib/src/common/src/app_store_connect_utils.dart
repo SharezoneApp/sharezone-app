@@ -71,6 +71,12 @@ Future<void> _fetchSigningFiles(
     config.appStoreConnectConfig.privateKey,
     '--certificate-key',
     config.certificatePrivateKey,
+    // The --strict option ensures that we don't accidentally fetch the
+    // provisioning profile for de.codingbrain.sharezone.app.dev, which is used
+    // for development builds and is a substring of the prod bundle ID. With
+    // this option selected, we can be sure that only the provisioning profile
+    // for de.codingbrain.sharezone.app is fetched.
+    '--strict',
     '--create',
   ]);
 }
