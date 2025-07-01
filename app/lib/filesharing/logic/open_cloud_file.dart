@@ -8,17 +8,16 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:files_basics/files_models.dart';
-import 'package:files_usecases/file_saver.dart';
 import 'package:files_usecases/file_viewer.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/main/application_bloc.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/filesharing/logic/select_cloud_file_action.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_actions.dart';
 import 'package:sharezone/filesharing/widgets/download_unknown_file_type_dialog_content.dart';
-import 'package:platform_check/platform_check.dart';
+import 'package:sharezone/main/application_bloc.dart';
 
 import '../file_page.dart';
 
