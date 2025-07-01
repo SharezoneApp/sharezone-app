@@ -15,6 +15,7 @@ import 'package:files_usecases/file_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sharezone_utils/device_information_manager.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -54,6 +55,8 @@ class DownloadUnknownFileFormatPage extends StatelessWidget {
   }
 }
 
+enum FileHandlingAction { openFile, shareFile }
+
 class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
   const DownloadUnknownFileTypeDialogContent({
     super.key,
@@ -61,12 +64,14 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
     required this.nameStream,
     required this.downloadURL,
     required this.id,
+    this.action = FileHandlingAction.openFile,
   });
 
   final String? name;
   final String? downloadURL;
   final Stream<String>? nameStream;
   final String? id;
+  final FileHandlingAction action;
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +84,24 @@ class DownloadUnknownFileTypeDialogContent extends StatelessWidget {
       builder: (context, future) {
         // Finished Downloading
         if (future.hasData) {
-          OpenFile.open(
-            future.data!.getPath(),
-          ).then((value) => log(value.message));
+          switch (action) {
+            case FileHandlingAction.openFile:
+              OpenFile.open(
+                future.data!.getPath(),
+              ).then((value) => log(value.message));
+              break;
+            case FileHandlingAction.shareFile:
+              Share.shareXFiles(
+                [
+                  if (PlatformCheck.isWeb)
+                    XFile.fromData(future.data!.getData())
+                  else
+                    XFile(future.data!.getPath()!),
+                ],
+                fileNameOverrides: [if (name != null) name!],
+              );
+              break;
+          }
 
           _closeDialogAfter1500Milliseconds(context);
           return _FinishDialog();
@@ -132,7 +152,7 @@ class _FinishDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return const _Dialog(
       leading: Icon(Icons.check_circle, color: Colors.green),
-      text: "Datei wird geöffnet...",
+      text: "Datei wird heruntergeladen...",
     );
   }
 }
