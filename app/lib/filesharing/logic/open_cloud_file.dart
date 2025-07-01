@@ -73,6 +73,8 @@ void openFirestoreFilePage({
   Stream<String>? nameStream,
   String? id,
 }) {
+  // Since the native iOS PDF viewer is better than every Flutter PDF viewer
+  // package, we download & open the PDF file directly in the native viewer.
   if (PlatformCheck.isIOS && fileFormat == FileFormat.pdf) {
     showDialog(
       context: context,
@@ -82,16 +84,21 @@ void openFirestoreFilePage({
             name: name,
             id: id,
             nameStream: nameStream,
+            action: FileHandlingAction.openFile,
           ),
     );
     return;
   }
 
-  if (!PlatformCheck.isWeb &&
-      (fileFormat == FileFormat.unknown ||
-          fileFormat == FileFormat.excel ||
-          fileFormat == FileFormat.text ||
-          fileFormat == FileFormat.zip)) {
+  final hasInAppViewerSupport = switch (fileFormat) {
+    FileFormat.video => true,
+    FileFormat.image => true,
+    FileFormat.pdf => true,
+    _ => false,
+  };
+
+  // If we can't display the file in our app, we download it to the device.
+  if (!hasInAppViewerSupport) {
     saveFileOnDevice(
       context: context,
       downloadUrl: downloadURL,
@@ -101,20 +108,26 @@ void openFirestoreFilePage({
     return;
   }
 
-  // Die Datei wird im Web gedownloadet, sollten wir keine passende Anzeige (Video/PDF/Bild) haben
-  if (PlatformCheck.isWeb &&
-      !(fileFormat == FileFormat.video ||
-          fileFormat == FileFormat.image ||
-          fileFormat == FileFormat.pdf)) {
-    saveFileOnDevice(
-      context: context,
-      downloadUrl: downloadURL,
-      fileId: id,
-      fileName: name,
-    );
-    return;
-  }
+  openInAppFileViewer(
+    context,
+    id,
+    downloadURL,
+    name,
+    nameStream,
+    actions,
+    fileFormat,
+  );
+}
 
+void openInAppFileViewer(
+  BuildContext context,
+  String? id,
+  String? downloadURL,
+  String? name,
+  Stream<String>? nameStream,
+  List<Widget>? actions,
+  FileFormat fileFormat,
+) {
   Navigator.push(
     context,
     MaterialPageRoute(
