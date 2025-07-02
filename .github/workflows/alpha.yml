@@ -81,7 +81,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -126,7 +126,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -237,7 +237,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -300,7 +300,7 @@ jobs:
         id: fvm-config-action
         uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
