@@ -116,7 +116,7 @@ dependencies:
     path: ../lib/holidays
   helper_functions:
     path: ../lib/helper_functions
-  http: ^1.3.0
+  http: ^1.4.0
   # Used so that we can select a minute interval (only either XX:00 or XX:30)
   # for the homework reminder time picker.
   interval_time_picker:
