@@ -34,6 +34,7 @@ import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_utils/streams.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
+import 'package:sharezone/home_widget/timetable_widget_updater.dart';
 
 import '../gateway/dashboard_gateway.dart';
 
@@ -121,7 +122,10 @@ class DashboardBloc extends BlocBase {
         .repeatEvery(const Duration(seconds: 1))
         .map((v) => _buildSortedViews(v, Date.fromDateTime(clock.now())));
 
-    final subscription = viewsStream.listen(_lessonViewsSubject.add);
+    final subscription = viewsStream.listen((views) {
+      _lessonViewsSubject.add(views);
+      updateTimetableWidget(views);
+    });
 
     _subscriptions.add(subscription);
   }

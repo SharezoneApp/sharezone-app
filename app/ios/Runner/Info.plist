@@ -115,9 +115,11 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>GADApplicationIdentifier</key>
+        <key>UIApplicationSupportsIndirectInputEvents</key>
+        <true/>
+        <key>AppGroup</key>
+        <string>group.de.codingbrain.sharezone.widget</string>
+        <key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-7730914075870960~4953718516</string>
 </dict>
 </plist>
