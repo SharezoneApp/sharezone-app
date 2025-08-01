@@ -50,7 +50,7 @@ dependencies:
   cloud_firestore: ^5.6.4
   cloud_firestore_helper:
     path: ../lib/cloud_firestore_helper
-  cloud_functions: ^5.3.3
+  cloud_functions: ^5.6.2
   collection: ^1.19.1
   common_domain_models:
     path: ../lib/common_domain_models
