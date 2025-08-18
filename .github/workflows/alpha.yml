@@ -248,6 +248,11 @@ jobs:
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(pwd)/bin >> $GITHUB_PATH
 
+      # Temporary workaround for https://github.com/actions/runner-images/issues/12758.
+      # Once the issue is fixed, we can remove this step.
+      - name: Install XCode 16
+        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
+
       - name: Deploy iOS alpha to TestFlight
         env:
           # The following secrets are used by the Codemagic CLI tool. It's important
