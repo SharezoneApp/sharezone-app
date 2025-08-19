@@ -37,7 +37,7 @@ class CardWithIconAndText extends StatelessWidget {
           child: CustomCard(
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 8, 0, 8),
+              padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
