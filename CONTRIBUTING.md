@@ -101,7 +101,7 @@ To install & use FVM, follow the following steps:
 2. Navigate to the root of the repository
 3. Run `fvm install` (This installs the Flutter version from `.fvm/fvm_config.json`)
 
-When you are using VS Code, no further steps should be necessary, because we included the `.vscode/setting.json` to git. However, when you are using Android Studio, you need to configure your IDE to use the Flutter version of FVM. Follow the [official documentation](https://fvm.app/docs/getting_started/configuration#android-studio) to configure Android Studio.
+When you are using VS Code, no further steps should be necessary. However, when you are using Android Studio, you need to configure your IDE to use the Flutter version of FVM. Follow the [official documentation](https://fvm.app/docs/getting_started/configuration#android-studio) to configure Android Studio.
 
 ### FlutterFire CLI
 
