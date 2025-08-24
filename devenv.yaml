@@ -15,6 +15,7 @@ inputs:
 # If you're using non-OSS software, you can set allowUnfree to true.
 # We need it for the Android SDK and Google Chrome
 allowUnfree: true
+clean.enabled: true
 # If you're willing to use a package that's vulnerable
 # permittedInsecurePackages:
 #  - "openssl-1.1.1w"
