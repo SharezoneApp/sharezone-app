@@ -31,6 +31,7 @@ in
     pkgs.unzip
 
     # For Flutter Web development
+    # pkgs.google-chrome lead to long local builds that don't happen with pkgs.chromium.
     pkgs.chromium
 
     # Used by sharezone developers / sz cli
