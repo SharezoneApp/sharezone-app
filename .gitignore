@@ -10,7 +10,6 @@ coverage/
 # IDE
 .vscode/*
 !.vscode/launch.json
-!.vscode/settings.json
 !.vscode/tasks.json
 
 # FVM will create a relative symlink in your project from .fvm/versions/ to
