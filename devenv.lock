@@ -87,18 +87,18 @@
         "type": "github"
       }
     },
-    "nixpkgs-unstable": {
+    "nixpkgs-flutter": {
       "locked": {
-        "lastModified": 1755829505,
+        "lastModified": 1748547392,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f937f8ecd1c70efd7e9f90ba13dfb400cf559de4",
+        "rev": "807602f98877e3847d7d7ed91087216229d1b4fb",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
+        "rev": "807602f98877e3847d7d7ed91087216229d1b4fb",
         "type": "github"
       }
     },
@@ -107,7 +107,7 @@
         "devenv": "devenv",
         "git-hooks": "git-hooks",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable",
+        "nixpkgs-flutter": "nixpkgs-flutter",
         "pre-commit-hooks": [
           "git-hooks"
         ]

@@ -12,6 +12,10 @@
   lib,
   ...
 }:
+let
+  # Used so that we can select a specific version of Flutter
+  pkgs-flutter = import inputs.nixpkgs-flutter { system = pkgs.stdenv.system; };
+in
 {
 
   env = {
@@ -91,7 +95,10 @@
       "34"
       "35"
     ];
-    flutter.enable = true;
+    flutter = {
+      enable = true;
+      package = pkgs-flutter.flutter;
+    };
   };
 
   # See full reference at https://devenv.sh/reference/options/
