@@ -57,7 +57,7 @@ BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
 DynamicLinkBloc runDynamicLinkBloc(
   PluginInitializations pluginInitializations,
 ) {
-  final dynamicLinkBloc = DynamicLinkBloc(pluginInitializations.dynamicLinks);
+  final dynamicLinkBloc = DynamicLinkBloc(pluginInitializations.appLinks);
   dynamicLinkBloc.initialisere();
 
   dynamicLinkBloc.einkommendeLinks.listen(

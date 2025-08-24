@@ -30,7 +30,6 @@ workspace:
   - lib/crash_analytics
   - lib/date
   - lib/design
-  - lib/dynamic_links
   - lib/feedback_shared_implementation
   - lib/filesharing/files_basics
   - lib/filesharing/files_usecases
