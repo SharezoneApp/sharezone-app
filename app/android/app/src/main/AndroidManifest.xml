@@ -72,7 +72,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Add optional android:host to distinguish your app
                       from others in case of conflicting scheme name -->
-                <data android:scheme="https" android:host="web.sharezone.net" android:pathPrefix="/links" />
+                <data android:scheme="https" android:host="web.sharezone.net" android:pathPrefix="/link" />
                 <!-- <data android:scheme="sample" /> -->
             </intent-filter>
         </activity>
