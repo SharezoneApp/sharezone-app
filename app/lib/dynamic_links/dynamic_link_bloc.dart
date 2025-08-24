@@ -9,6 +9,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:app_links/app_links.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:dynamic_links/dynamic_links.dart';
 import 'package:rxdart/rxdart.dart';
@@ -27,11 +28,11 @@ class DynamicLinkBloc extends BlocBase {
   /// can't be called in the constructor, because otherwise the dynamic link
   /// wouldn't work on ios at a cold start of the app.
   Future<void> initialisere() async {
-    final initData = await dynamicLinks.getInitialLink();
+    final appLinks = AppLinks(); // AppLinks is singleton
+    final initData = await appLinks.getInitialLink();
     _konvertiereZuEingehendemLink(initData, isInitialLink: true);
-    dynamicLinks.onLink(
-      onSuccess:
-          (incommingLink) async => _konvertiereZuEingehendemLink(incommingLink),
+    appLinks.uriLinkStream.listen(
+      (incommingLink) async => _konvertiereZuEingehendemLink(incommingLink),
       onError: (e) async {
         log(
           "DynamicLink Error - Details: ${e.details}, Code: ${e.code}, Message: ${e.message}",
@@ -42,12 +43,12 @@ class DynamicLinkBloc extends BlocBase {
   }
 
   void _konvertiereZuEingehendemLink(
-    DynamicLinkData? einkommenderLink, {
+    Uri? einkommenderLink, {
     bool isInitialLink = false,
   }) {
     if (einkommenderLink != null) {
       _einkommendeLinksSubject.add(
-        EinkommenderLink.fromDynamicLink(
+        EinkommenderLink.fromUri(
           einkommenderLink,
           isInitialLink
               ? EinkommensZeitpunkt.appstart
