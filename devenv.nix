@@ -98,7 +98,7 @@ in
     ];
     flutter = {
       enable = true;
-      package = pkgs-flutter.flutter;
+      package = pkgs-flutter.flutter332;
     };
   };
 
