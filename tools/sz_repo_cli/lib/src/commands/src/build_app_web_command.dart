@@ -8,6 +8,7 @@
 
 import 'dart:io';
 
+import 'package:grinder/grinder_files.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
@@ -73,6 +74,17 @@ class BuildAppWebCommand extends CommandBase {
         'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
         if (stage != 'stable') ...['--build-name', buildNameWithStage],
       ], workingDirectory: repo.sharezoneFlutterApp.location);
+
+      // Might be more suited to deploy command, but I don't want to risk anyone
+      // forgetting to do this step.
+      stdout.writeln('Moving files in ./web_static_root into ./build/web ...');
+      final webStaticRootDir = repo.sharezoneFlutterApp.location.childDirectory(
+        "web_static_root",
+      );
+      final webBuildDir = repo.sharezoneFlutterApp.location.childDirectory(
+        'build/web',
+      );
+      copy(webStaticRootDir, webBuildDir);
     } catch (e) {
       throw Exception('Failed to build web app: $e');
     }
