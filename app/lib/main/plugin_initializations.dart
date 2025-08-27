@@ -9,8 +9,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:app_links/app_links.dart';
 import 'package:crash_analytics/crash_analytics.dart';
-import 'package:dynamic_links/dynamic_links.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl_standalone.dart'
@@ -26,14 +27,14 @@ class PluginInitializations {
   const PluginInitializations({
     required this.remoteConfiguration,
     required this.crashAnalytics,
-    required this.dynamicLinks,
+    required this.appLinks,
     required this.sharedPreferences,
     required this.streamingSharedPreferences,
   });
 
   final RemoteConfiguration remoteConfiguration;
   final CrashAnalytics crashAnalytics;
-  final DynamicLinks dynamicLinks;
+  final AppLinks appLinks;
   final SharedPreferences sharedPreferences;
   final StreamingSharedPreferences streamingSharedPreferences;
 
@@ -63,9 +64,9 @@ class PluginInitializations {
     }
   }
 
-  static Future<DynamicLinks> initializeDynamicLinks() async {
-    final dynamicLinks = getDynamicLinks();
-    return dynamicLinks;
+  static Future<AppLinks> initializeDynamicLinks() async {
+    final appLinks = AppLinks();
+    return appLinks;
   }
 
   static Future<RemoteConfiguration> initializeRemoteConfiguration({
@@ -178,6 +179,6 @@ Future<PluginInitializations> runPluginInitializations({
     remoteConfiguration: result[1] as RemoteConfiguration,
     streamingSharedPreferences: result[2] as StreamingSharedPreferences,
     crashAnalytics: result[3] as CrashAnalytics,
-    dynamicLinks: result[4] as DynamicLinks,
+    appLinks: result[4] as AppLinks,
   );
 }

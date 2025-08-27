@@ -13,7 +13,16 @@ class GroupInfo {
   final String id;
   final String? name, abbreviation;
   final Design design;
-  final String? sharecode, joinLink;
+  final String? sharecode;
+  // Originally we used a joinLink from the backend, but since Firebase Dynamic
+  // Links was deprecated, we needed a quick solution for new links.
+  // Regenerating all existing join links in the database is not feasible right
+  // now, so we compute the joinLink from the sharecode (before we used another
+  // link format).
+  String? get joinLink =>
+      sharecode == null
+          ? null
+          : "https://web.sharezone.net/link?type=joinbykey&data=$sharecode";
   final MemberRole? myRole;
   final GroupType groupType;
 
@@ -23,7 +32,11 @@ class GroupInfo {
     required this.design,
     required this.abbreviation,
     required this.sharecode,
-    required this.joinLink,
+
+    /// Is ignored since we compute the joinLink from the sharecode. This is a
+    /// quick/hacky solution, since we can't update all the existing join links
+    /// in the database to the new format right now.
+    String? joinLink,
     required this.groupType,
     this.myRole,
   });

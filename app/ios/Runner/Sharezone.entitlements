@@ -12,6 +12,7 @@
 	<array>
 		<string>applinks:sharez.one</string>
 		<string>applinks:sharezone.page.link</string>
+		<string>applinks:web.sharezone.net</string>
 	</array>
 </dict>
 </plist>

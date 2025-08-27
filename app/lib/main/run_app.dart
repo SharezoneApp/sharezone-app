@@ -43,7 +43,12 @@ BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
 
   beitrittsversuche.listen(
     (beitrittsversuch) => log("Neuer beitrittsversuch: $beitrittsversuch"),
-    onError: (e) => log("Error beim Beitreten über Dynamic Link: $e", error: e),
+    onError:
+        (e, s) => log(
+          "Error beim Beitreten über Dynamic Link: $e $s",
+          error: e,
+          stackTrace: s,
+        ),
     cancelOnError: false,
   );
   return beitrittsversuche;
@@ -52,7 +57,7 @@ BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
 DynamicLinkBloc runDynamicLinkBloc(
   PluginInitializations pluginInitializations,
 ) {
-  final dynamicLinkBloc = DynamicLinkBloc(pluginInitializations.dynamicLinks);
+  final dynamicLinkBloc = DynamicLinkBloc(pluginInitializations.appLinks);
   dynamicLinkBloc.initialisere();
 
   dynamicLinkBloc.einkommendeLinks.listen(

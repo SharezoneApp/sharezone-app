@@ -8,6 +8,10 @@
 	</array>
 	<key>com.apple.developer.aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:web.sharezone.net</string>
+	</array>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
 	<key>com.apple.security.device.camera</key>
@@ -20,7 +24,7 @@
 	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-        <string>$(AppIdentifierPrefix)com.google.GIDSignIn</string>
-    </array>
+		<string>$(AppIdentifierPrefix)com.google.GIDSignIn</string>
+	</array>
 </dict>
 </plist>

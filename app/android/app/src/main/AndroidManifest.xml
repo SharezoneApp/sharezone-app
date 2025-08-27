@@ -41,7 +41,10 @@
 
         <!-- 'android:exported="true"' is required by Firebase Messaging, see https://github.com/firebase/flutterfire/pull/9348 -->
         <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density" android:exported="true" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
-            <meta-data android:name="io.flutter.embedding.android.LaunchTheme" android:resource="@style/LaunchTheme" />
+           <!-- Disable because of app_links package: https://github.com/llfbandit/app_links/blob/master/doc/README_android.md -->
+           <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
+
+           <meta-data android:name="io.flutter.embedding.android.LaunchTheme" android:resource="@style/LaunchTheme" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -61,6 +64,16 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:host="sharez.one" android:scheme="https"/>
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Add optional android:host to distinguish your app
+                      from others in case of conflicting scheme name -->
+                <data android:scheme="https" android:host="web.sharezone.net" android:pathPrefix="/link" />
+                <!-- <data android:scheme="sample" /> -->
             </intent-filter>
         </activity>
 

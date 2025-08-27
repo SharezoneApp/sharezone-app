@@ -1,6 +1,8 @@
 PODS:
   - add_2_calendar (0.0.1):
     - Flutter
+  - app_links (6.4.1):
+    - Flutter
   - AppAuth (1.7.6):
     - AppAuth/Core (= 1.7.6)
     - AppAuth/ExternalUserAgent (= 1.7.6)
@@ -67,9 +69,6 @@ PODS:
   - Firebase/Crashlytics (11.8.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 11.8.0)
-  - Firebase/DynamicLinks (11.8.0):
-    - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 11.8.0)
   - Firebase/Firestore (11.8.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 11.8.0)
@@ -101,10 +100,6 @@ PODS:
     - Flutter
   - firebase_crashlytics (4.3.3):
     - Firebase/Crashlytics (= 11.8.0)
-    - firebase_core
-    - Flutter
-  - firebase_dynamic_links (6.1.3):
-    - Firebase/DynamicLinks (= 11.8.0)
     - firebase_core
     - Flutter
   - firebase_messaging (15.2.3):
@@ -171,8 +166,6 @@ PODS:
     - GoogleUtilities/Environment (~> 8.0)
     - nanopb (~> 3.30910.0)
     - PromisesObjC (~> 2.4)
-  - FirebaseDynamicLinks (11.8.0):
-    - FirebaseCore (~> 11.8.0)
   - FirebaseFirestore (11.8.0):
     - FirebaseFirestoreBinary (= 11.8.0)
   - FirebaseFirestoreAbseilBinary (1.2024011602.0)
@@ -419,6 +412,7 @@ PODS:
 
 DEPENDENCIES:
   - add_2_calendar (from `.symlinks/plugins/add_2_calendar/ios`)
+  - app_links (from `.symlinks/plugins/app_links/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
@@ -428,7 +422,6 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
-  - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_performance (from `.symlinks/plugins/firebase_performance/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
@@ -474,7 +467,6 @@ SPEC REPOS:
     - FirebaseCoreExtension
     - FirebaseCoreInternal
     - FirebaseCrashlytics
-    - FirebaseDynamicLinks
     - FirebaseFirestoreAbseilBinary
     - FirebaseFirestoreBinary
     - FirebaseFirestoreGRPCBoringSSLBinary
@@ -515,6 +507,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   add_2_calendar:
     :path: ".symlinks/plugins/add_2_calendar/ios"
+  app_links:
+    :path: ".symlinks/plugins/app_links/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   cloud_functions:
@@ -533,8 +527,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_crashlytics:
     :path: ".symlinks/plugins/firebase_crashlytics/ios"
-  firebase_dynamic_links:
-    :path: ".symlinks/plugins/firebase_dynamic_links/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_performance:
@@ -600,6 +592,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   add_2_calendar: 5eee66d5a3b99cd5e1487a7e03abd4e3ac4aff11
+  app_links: 585674be3c6661708e6cd794ab4f39fb9d8356f9
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   cloud_firestore: 63a98b4e73424e1b66ebb6f289eb1a73514cbc49
   cloud_functions: c5c6d5e971fc5d0693bd30b03255dc21d037dbe0
@@ -607,14 +600,13 @@ SPEC CHECKSUMS:
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
-  fast_rsa: 2bccc4850c915fe0d543fcb25c6b2e469dd68968
+  fast_rsa: 384c6b9164132faa660d62e927e23990df0a8b58
   file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
   Firebase: d80354ed7f6df5f9aca55e9eb47cc4b634735eaf
   firebase_analytics: 7ec1166af61987fa968766eb11587c562a5650ee
   firebase_auth: cecfcb5b0655e1cb66a5c45a88ee77811ca93514
   firebase_core: 6e223dfa350b2edceb729cea505eaaef59330682
   firebase_crashlytics: 2a473aeb12dd2d5a3fe150f6ebb8fadc8c9664d7
-  firebase_dynamic_links: 4797def094ed27c85cc2e5a2ab98697c7f3381c3
   firebase_messaging: 07fde77ae28c08616a1d4d870450efc2b38cf40d
   firebase_performance: 0551e7bfccb9bb9b4478f9db52494654325627f6
   firebase_remote_config: daf651047eff182140a133b4dd3d3b43c59b05da
@@ -628,7 +620,6 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: 3d3f2017a00d06e09ab4ebe065391b0bb642565e
   FirebaseCoreInternal: df24ce5af28864660ecbd13596fc8dd3a8c34629
   FirebaseCrashlytics: a1102c035f18d5dd94a5969ee439c526d0c9e313
-  FirebaseDynamicLinks: 629256017b6ed32a5629fd1a90bc734ab213edfb
   FirebaseFirestore: c3c9dfb2e2ab96bd74a42804bbefb3a7edd32c88
   FirebaseFirestoreAbseilBinary: fa2ebd2ed02cadef5382e4f7c93f1b265c812c85
   FirebaseFirestoreBinary: 072a7121be7fbe601733a039c5ed80936ffb1e9b
@@ -692,4 +683,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e6f2c3144aa834346595531f5d341488af0f23f3
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.16.2
