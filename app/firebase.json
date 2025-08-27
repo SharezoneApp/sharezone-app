@@ -5,13 +5,32 @@
             "public": "build/web",
             "ignore": [
                 "firebase.json",
-                "**/.*",
                 "**/node_modules/**"
             ],
             "rewrites": [
                 {
                     "source": "**",
                     "destination": "/index.html"
+                }
+            ],
+            "headers": [
+                {
+                    "source": "/.well-known/assetlinks.json",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                {
+                    "source": "/.well-known/apple-app-site-association",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
                 }
             ]
         },
@@ -20,13 +39,32 @@
             "public": "build/web",
             "ignore": [
                 "firebase.json",
-                "**/.*",
                 "**/node_modules/**"
             ],
             "rewrites": [
                 {
                     "source": "**",
                     "destination": "/index.html"
+                }
+            ],
+            "headers": [
+                {
+                    "source": "/.well-known/assetlinks.json",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                {
+                    "source": "/.well-known/apple-app-site-association",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
                 }
             ]
         },
@@ -35,13 +73,32 @@
             "public": "build/web",
             "ignore": [
                 "firebase.json",
-                "**/.*",
                 "**/node_modules/**"
             ],
             "rewrites": [
                 {
                     "source": "**",
                     "destination": "/index.html"
+                }
+            ],
+            "headers": [
+                {
+                    "source": "/.well-known/assetlinks.json",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                {
+                    "source": "/.well-known/apple-app-site-association",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
                 }
             ]
         },
@@ -50,13 +107,32 @@
             "public": "build/web",
             "ignore": [
                 "firebase.json",
-                "**/.*",
                 "**/node_modules/**"
             ],
             "rewrites": [
                 {
                     "source": "**",
                     "destination": "/index.html"
+                }
+            ],
+            "headers": [
+                {
+                    "source": "/.well-known/assetlinks.json",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                {
+                    "source": "/.well-known/apple-app-site-association",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
                 }
             ]
         }

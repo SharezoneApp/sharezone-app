@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "de.codingbrain.sharezone",
+            "sha256_cert_fingerprints": [
+                "F2:7D:E4:D5:90:A2:22:8F:C5:BD:56:8B:83:AE:E1:63:57:5E:5F:CF:01:EA:D4:8C:E5:3B:7B:89:06:BB:8A:51"
+            ]
+        }
+    }
+]
