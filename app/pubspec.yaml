@@ -188,6 +188,7 @@ dependencies:
     path: ../lib/user
   video_player: ^2.9.2
   chewie: ^1.10.0
+  home_widget: ^0.8.0
 
 # Falls hier etwas hinzugefügt wird, MUSS ab jetzt ein Kommentar hinzugefügt:
 # * warum der dependency_override hinzugefügt wird.
