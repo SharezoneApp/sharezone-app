@@ -65,7 +65,6 @@ packageLicenseOverride:
   cloud_firestore_helper: EUPL-1.2-or-later
   date: EUPL-1.2-or-later
   design: EUPL-1.2-or-later
-  dynamic_links: EUPL-1.2-or-later
   files_basics: EUPL-1.2-or-later
   files_usecases: EUPL-1.2-or-later
   filesharing_logic: EUPL-1.2-or-later
