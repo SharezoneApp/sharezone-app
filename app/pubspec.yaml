@@ -119,10 +119,10 @@ dependencies:
   # for the homework reminder time picker.
   interval_time_picker:
     # Git references can be removed when the following PR is merged:
-    # https://github.com/Fleximex/interval_time_picker/pull/10
+    # https://github.com/Fleximex/interval_time_picker/pull/17
     git:
-      url: https://github.com/nilsreichardt/interval_time_picker.git
-      ref: ed0dd597ef1bbe5429504fe4314976856fa7d213
+      url: https://github.com/pamafe1976/interval_time_picker.git
+      ref: 64a70d183dc24d0ded3fbf36169398ca73143a4c
   intl: ^0.20.2
   key_value_store:
     path: ../lib/key_value_store
