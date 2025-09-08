@@ -12,6 +12,7 @@ export 'src/deploy_app_web_command.dart';
 export 'src/do_stuff_command.dart';
 export 'src/exec_command.dart';
 export 'src/fix_comment_spacing_command.dart' show FixCommentSpacingCommand;
+export 'src/l10n_command.dart';
 export 'src/pick_codemagic_goldens_command.dart';
 export 'src/pub_command.dart';
 export 'src/pub_get_command.dart' show PubGetCommand;

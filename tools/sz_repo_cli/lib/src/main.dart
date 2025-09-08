@@ -32,6 +32,7 @@ import 'package:sz_repo_cli/src/commands/src/deploy_console_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_website_command.dart';
 import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
+import 'package:sz_repo_cli/src/commands/src/l10n_command.dart';
 
 import 'commands/commands.dart';
 import 'common/common.dart';
@@ -60,6 +61,7 @@ Future<void> main(List<String> args) async {
         ..addCommand(AnalyzeCommand(context))
         ..addCommand(TestCommand(context))
         ..addCommand(FormatCommand(context))
+        ..addCommand(L10nCommand(context))
         ..addCommand(ExecCommand(context))
         ..addCommand(DoStuffCommand(context))
         ..addCommand(FixCommentSpacingCommand(context))
