@@ -10,7 +10,7 @@ import 'dart:async';
 
 import 'package:sz_repo_cli/src/common/common.dart';
 
-/// Generates localization files and formats them.
+/// Generates localization files and adds license headers.
 class L10nCommand extends CommandBase {
   L10nCommand(super.context);
 
@@ -18,7 +18,8 @@ class L10nCommand extends CommandBase {
   String get name => 'l10n';
 
   @override
-  String get description => 'Generates localization files and formats them.';
+  String get description =>
+      'Generates localization files and adds license headers.';
 
   @override
   Future<void> run() async {
@@ -27,12 +28,16 @@ class L10nCommand extends CommandBase {
         .childDirectory('sharezone_localizations');
 
     await processRunner.runCommand([
+      'fvm',
       'flutter',
       'gen-l10n',
     ], workingDirectory: l10nDir);
     await processRunner.runCommand([
-      'dart',
-      'format',
+      'addlicense',
+      '-c',
+      'Sharezone UG (haftungsbeschränkt)',
+      '-f',
+      '../../header_template.txt',
       '.',
     ], workingDirectory: l10nDir);
   }
