@@ -1,3 +1,11 @@
+// Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 /// emoji-regex offers a regular expression to match all emoji symbols and
 /// sequences (including textual representations of emoji) as per the Unicode
 /// Standard.
