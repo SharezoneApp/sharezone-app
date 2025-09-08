@@ -101,7 +101,6 @@ class SubjectIsMissingException implements Exception {
   }
 }
 
-
 class NameIsMissingException implements Exception {
   @override
   String toString() {
