@@ -14,10 +14,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 
 /// {@template clock_widget}
-/// A widget that displays a custom-rendered analog clock. The clock shows the time
-/// that was set during initialization.
+/// A custom-rendered analog clock widget that displays a fixed time.
 ///
-/// It supports an initial "catching up" animation to synchronize with
+/// It supports a "catching up" animation to synchronize with
 /// the current time.
 ///
 /// Tapping the clock will stop or start its animation.
@@ -26,11 +25,12 @@ import 'package:flutter/scheduler.dart';
 /// for efficient custom painting and animation.
 /// {@endtemplate}
 @immutable
-class EasterEggClockWidget extends LeafRenderObjectWidget {
+class EasterEggClock extends LeafRenderObjectWidget {
   /// {@macro clock_widget}
-  const EasterEggClockWidget({
+  const EasterEggClock({
     this.dimension = double.infinity,
     this.animationDuration = const Duration(seconds: 2),
+    this.idleTime,
     super.key,
   });
 
@@ -39,13 +39,17 @@ class EasterEggClockWidget extends LeafRenderObjectWidget {
   /// If set to [double.infinity], the clock will expand to fill the available space.
   final double dimension;
 
-  /// Duration for the initial catching up animation.
+  /// Duration for the catching up animation.
   final Duration animationDuration;
+
+  /// The time to display on the clock when it's idle.
+  final DateTime? idleTime;
 
   @override
   RenderObject createRenderObject(BuildContext context) => ClockRenderBox(
     dimension: dimension,
     animationDuration: animationDuration,
+    idleTime: idleTime,
   );
 
   @override
@@ -55,8 +59,12 @@ class EasterEggClockWidget extends LeafRenderObjectWidget {
   ) {
     renderObject.dimension = dimension;
     renderObject._animator.animationDuration = animationDuration;
+    renderObject._animator.idleTime = idleTime;
   }
 }
+
+/// Default time used when no idle time is provided. It's like a smile.
+final defaultIdleTime = DateTime(2025, 1, 1, 1, 50, 22);
 
 /// A custom [RenderBox] that lays out and paints an analog clock.
 ///
@@ -71,14 +79,14 @@ class ClockRenderBox extends RenderBox {
   ClockRenderBox({
     required double dimension,
     required Duration animationDuration,
-    DateTime? initTime,
+    DateTime? idleTime,
   }) : _dimension = dimension,
        _dialPainter = _DialPainter(),
        _handsPainter = _HandsPainter(),
        _centerPainter = _CenterPainter() {
     _animator = _ClockAnimator(
       onUpdate: markNeedsPaint,
-      initTime: initTime ?? DateTime(2025, 1, 1, 1, 50, 22),
+      idleTime: idleTime ?? defaultIdleTime,
       animationDuration: animationDuration,
     );
   }
@@ -166,9 +174,24 @@ class ClockRenderBox extends RenderBox {
   }
 
   @override
+  void attach(PipelineOwner owner) {
+    super.attach(owner);
+    _animator.muted = false;
+  }
+
+  @override
   void detach() {
     super.detach();
+    _animator.muted = true;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
     _animator.dispose();
+    _dialPainter.dispose();
+    _handsPainter.dispose();
+    _centerPainter.dispose();
   }
 
   @override
@@ -238,12 +261,12 @@ mixin _ClockPainterMixin {
     _clockRadius = size.shortestSide / 2;
   }
 
+  /// Releases resources held by the painter.
+  void dispose() {}
+
   /// Draws an inner shadow for a circular shape on the canvas.
   @protected
   void drawInnerShadow(Canvas canvas, double radius, double shadowSize) {
-    // Don't draw the shadow if the clock is too small for performance and visual clarity.
-    // if (clockRadius < 32) return;
-
     final shadowPaint = Paint()..color = Colors.black12;
 
     // Create a shadow effect by subtracting a slightly translated circle from the main one.
@@ -268,6 +291,7 @@ mixin _ClockPainterMixin {
 }
 
 /// A painter responsible for drawing the clock's dial.
+///
 /// The dial is static and only changes when the size changes, so we cache it as a [Picture] for performance.
 class _DialPainter with _ClockPainterMixin {
   /// A cached Picture of the dial to optimize performance.
@@ -276,6 +300,8 @@ class _DialPainter with _ClockPainterMixin {
   @override
   void prepare(Size size) {
     super.prepare(size);
+    _dialPicture?.dispose();
+    _dialPicture = null;
 
     final recorder = PictureRecorder();
     final canvas = Canvas(recorder)..translate(size.width / 2, size.height / 2);
@@ -332,6 +358,12 @@ class _DialPainter with _ClockPainterMixin {
       canvas.drawPicture(picture);
     }
   }
+
+  @override
+  void dispose() {
+    _dialPicture?.dispose();
+    _dialPicture = null;
+  }
 }
 
 /// A painter for the central circle, drawn on top of the hands.
@@ -341,6 +373,8 @@ class _CenterPainter with _ClockPainterMixin {
   @override
   void prepare(Size size) {
     super.prepare(size);
+    _centerPicture?.dispose();
+    _centerPicture = null;
 
     final recorder = PictureRecorder();
     final canvas = Canvas(recorder)..translate(size.width / 2, size.height / 2);
@@ -360,6 +394,12 @@ class _CenterPainter with _ClockPainterMixin {
     if (_centerPicture case Picture picture) {
       canvas.drawPicture(picture);
     }
+  }
+
+  @override
+  void dispose() {
+    _centerPicture?.dispose();
+    _centerPicture = null;
   }
 }
 
@@ -386,6 +426,7 @@ class _HandsPainter with _ClockPainterMixin {
   double _secondHandLength = 0;
 
   /// Pre-calculates size-dependent properties like hand lengths and paint styles.
+  ///
   /// This is called whenever the clock's size changes to avoid expensive calculations
   /// during the frequent paint calls.
   @override
@@ -477,19 +518,31 @@ enum _ClockState {
 class _ClockAnimator {
   _ClockAnimator({
     required this.onUpdate,
-    required DateTime initTime,
-    required this.animationDuration,
-  }) : _initTime = initTime,
-       _clockTime = initTime;
+    required DateTime idleTime,
+    required Duration animationDuration,
+  }) : _animationDuration = animationDuration,
+       _idleTime = idleTime,
+       _clockTime = idleTime;
 
   /// A callback to be invoked when the animator's state changes and a repaint is needed.
   final VoidCallback onUpdate;
 
-  /// The initial time for the clock, used for resetting.
-  final DateTime _initTime;
+  /// The time for the clock when idle, used for resetting.
+  DateTime _idleTime;
+  DateTime get idleTime => _idleTime;
+  set idleTime(DateTime? time) {
+    if (_idleTime == time) {
+      return;
+    }
+    _idleTime = time ?? defaultIdleTime;
+    _clockTime = time ?? defaultIdleTime;
+    _state = _ClockState.idle;
+    _progress = 0.0;
+    onUpdate();
+  }
 
   /// The current time displayed by the clock.
-  late DateTime _clockTime;
+  DateTime _clockTime;
 
   /// The ticker that drives the animation.
   Ticker? _ticker;
@@ -498,16 +551,35 @@ class _ClockAnimator {
   _ClockState _state = _ClockState.idle;
   _ClockState get state => _state;
 
-  // Animation state for the initial "catching up" animation.
+  // Animation state for the "catching up" animation.
   DateTime _animationStartTime = DateTime.now();
 
-  /// Duration for the initial catching up animation.
-  Duration animationDuration;
+  /// Duration for the catching up animation.
+  Duration _animationDuration;
+  Duration get animationDuration => _animationDuration;
+  set animationDuration(Duration value) {
+    if (_animationDuration == value) {
+      return;
+    }
+    _animationDuration = value;
+    if (_state == _ClockState.catchingUp) {
+      _progress = 0;
+      onUpdate();
+    }
+  }
 
+  /// Progress of the animation.
   double _progress = 0;
 
   // Start, target, and current angles for the hands animation.
   Animatable<double>? _hourTween, _minuteTween, _secondTween;
+
+  /// Whether this ticker has been silenced.
+  ///
+  /// While silenced, a ticker's clock can still run, but the callback will not
+  /// be called.
+  set muted(bool value) => _ticker?.muted = value;
+  bool get muted => _ticker?.muted ?? true;
 
   /// Returns the current angles of the clock hands.
   ({double hour, double minute, double second}) get currentAngles =>
@@ -518,7 +590,7 @@ class _ClockAnimator {
           minute: _minuteTween!.transform(_progress),
           second: _secondTween!.transform(_progress),
         ),
-        _ClockState.idle => _getAnglesFromTime(_initTime),
+        _ClockState.idle => _getAnglesFromTime(_idleTime),
       };
 
   /// Calculates the angles for each hand based on a given [DateTime].
@@ -560,11 +632,11 @@ class _ClockAnimator {
   void start() {
     if (_state != _ClockState.idle) return;
     _animationStartTime = DateTime.now();
-    final targetTime = _animationStartTime.add(animationDuration);
+    final targetTime = _animationStartTime.add(_animationDuration);
 
     // 1. Get the initial angles of the hands.
     //    These are the angles corresponding to the time the clock showed before
-    //    the animation started (_initTime). They serve as the starting point for the animation.
+    //    the animation started (_idleTime). They serve as the starting point for the animation.
     final startAngles = _getAnglesFromTime(_clockTime);
 
     // 2. Calculate the target angles.
@@ -584,14 +656,14 @@ class _ClockAnimator {
     _ticker?.start();
   }
 
-  /// Stops the clock animation and resets it to the initial time.
+  /// Stops the clock animation and resets it to the idle time.
   ///
   /// Transitions the clock to the `idle` state.
   void stop() {
     if (_state == _ClockState.idle) return;
     _state = _ClockState.idle;
     _ticker?.stop();
-    _clockTime = _initTime;
+    _clockTime = _idleTime;
     _progress = 0.0;
     onUpdate();
   }
@@ -604,7 +676,7 @@ class _ClockAnimator {
         break;
       case _ClockState.catchingUp:
         final animationElapsed = now.difference(_animationStartTime);
-        if (animationElapsed >= animationDuration) {
+        if (animationElapsed >= _animationDuration) {
           _state = _ClockState.running;
           _clockTime = now;
           _progress = 1;
@@ -612,7 +684,7 @@ class _ClockAnimator {
         } else {
           _progress =
               animationElapsed.inMicroseconds /
-              animationDuration.inMicroseconds;
+              _animationDuration.inMicroseconds;
           onUpdate();
         }
         break;

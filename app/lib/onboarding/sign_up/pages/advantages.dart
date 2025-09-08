@@ -93,9 +93,9 @@ class _AdvantageSaveTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _AdvancedListTile(
+    return const _AdvancedListTile(
       title: "Große Zeitersparnis durch gemeinsames Organisieren",
-      leading: EasterEggClockWidget(dimension: 45),
+      leading: EasterEggClock(dimension: 45),
     );
   }
 }
