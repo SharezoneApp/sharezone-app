@@ -27,10 +27,33 @@ class DynamicLinkBloc extends BlocBase {
   /// can't be called in the constructor, because otherwise the dynamic link
   /// wouldn't work on ios at a cold start of the app.
   Future<void> initialisere() async {
-    final initData = await appLinks.getInitialLink();
+    Uri? initData;
+    try {
+      initData = await appLinks.getInitialLink();
+      // On some platforms (e.g. Web) only a string based API is available.
+      if (initData == null) {
+        final initString = await appLinks.getInitialLinkString();
+        if (initString != null) initData = Uri.tryParse(initString);
+      }
+    } catch (e) {
+      log('DynamicLink Error while getting initial link', error: e);
+    }
     _konvertiereZuEingehendemLink(initData, isInitialLink: true);
+
     appLinks.uriLinkStream.listen(
       (incommingLink) async => _konvertiereZuEingehendemLink(incommingLink),
+      onError: (e) async {
+        log(
+          "DynamicLink Error - Details: ${e.details}, Code: ${e.code}, Message: ${e.message}",
+          error: e,
+        );
+      },
+    );
+
+    // Fallback for platforms where events are emitted as strings (e.g. Web).
+    appLinks.stringLinkStream.listen(
+      (incommingLink) =>
+          _konvertiereZuEingehendemLink(Uri.tryParse(incommingLink)),
       onError: (e) async {
         log(
           "DynamicLink Error - Details: ${e.details}, Code: ${e.code}, Message: ${e.message}",
