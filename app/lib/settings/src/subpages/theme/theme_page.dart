@@ -64,28 +64,36 @@ class _BrightnessRadioGroup extends StatelessWidget {
       (settings) => settings.themeBrightness,
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _BrightnessRadio(
-          title: "Heller Modus",
-          groupValue: themeBrightness,
-          icon: const Icon(Icons.brightness_high),
-          themeBrightness: ThemeBrightness.light,
-        ),
-        _BrightnessRadio(
-          title: "Dunkler Modus",
-          groupValue: themeBrightness,
-          icon: const Icon(Icons.brightness_low),
-          themeBrightness: ThemeBrightness.dark,
-        ),
-        _BrightnessRadio(
-          title: "System",
-          groupValue: themeBrightness,
-          icon: const Icon(Icons.settings_brightness),
-          themeBrightness: ThemeBrightness.system,
-        ),
-      ],
+    return RadioGroup(
+      groupValue: themeBrightness,
+      onChanged: (value) {
+        if (value == null) return;
+        final themeSettings = context.read<ThemeSettings>();
+        themeSettings.themeBrightness = value;
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _BrightnessRadio(
+            title: "Heller Modus",
+            groupValue: themeBrightness,
+            icon: const Icon(Icons.brightness_high),
+            themeBrightness: ThemeBrightness.light,
+          ),
+          _BrightnessRadio(
+            title: "Dunkler Modus",
+            groupValue: themeBrightness,
+            icon: const Icon(Icons.brightness_low),
+            themeBrightness: ThemeBrightness.dark,
+          ),
+          _BrightnessRadio(
+            title: "System",
+            groupValue: themeBrightness,
+            icon: const Icon(Icons.settings_brightness),
+            themeBrightness: ThemeBrightness.system,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -105,17 +113,11 @@ class _BrightnessRadio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeSettings = context.read<ThemeSettings>();
-
     return ListTile(
       leading: icon,
       title: Text(title),
       onTap: () => themeSettings.themeBrightness = themeBrightness,
-      trailing: Radio<ThemeBrightness>(
-        onChanged:
-            (newBrightness) => themeSettings.themeBrightness = newBrightness!,
-        value: themeBrightness,
-        groupValue: groupValue,
-      ),
+      trailing: Radio<ThemeBrightness>(value: themeBrightness),
     );
   }
 }
