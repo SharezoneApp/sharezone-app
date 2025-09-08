@@ -36,7 +36,6 @@ dependencies:
   process_runner: ^4.2.0
   file: ^7.0.1
   clock: ^1.1.2
-  emoji_regex: ^0.0.5
 
 dev_dependencies:
   sharezone_lints:

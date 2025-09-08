@@ -11,11 +11,11 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:file/file.dart';
 import 'package:process_runner/process_runner.dart';
-import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
+import 'package:sz_repo_cli/src/common/src/emoji_regex.dart';
+import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 import 'package:sz_repo_cli/src/common/src/sharezone_repo.dart';
 import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
-import 'package:emoji_regex/emoji_regex.dart';
 
 const certificateKeyOptionName = 'certificate-key';
 const privateKeyOptionName = 'private-key';

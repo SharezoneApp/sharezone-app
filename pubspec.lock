@@ -502,14 +502,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-  emoji_regex:
-    dependency: transitive
-    description:
-      name: emoji_regex
-      sha256: "3a25dd4d16f98b6f76dc37cc9ae49b8511891ac4b87beac9443a1e9f4634b6c7"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.5"
   encrypt:
     dependency: transitive
     description:
