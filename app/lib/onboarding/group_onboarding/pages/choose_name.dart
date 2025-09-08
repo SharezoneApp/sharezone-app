@@ -154,6 +154,13 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
         await userEditPageBloc.submit();
         if (!context.mounted) return;
         await _continue(context);
+      } on NameContainsInvalidCharactersException catch (e) {
+        setState(() => isLoading = false);
+        if (!context.mounted) return;
+        showSnackSec(
+          text: e.toString(),
+          context: context,
+        );
       } on Exception catch (e, s) {
         setState(() => isLoading = false);
         if (!context.mounted) return;

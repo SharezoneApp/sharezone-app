@@ -48,10 +48,12 @@ class UserEditPageBloc extends BlocBase with AuthentificationValidators {
   }
 
   bool _isSubmitValid(String? name) {
-    if (AuthentificationValidators.isNameValid(name)) {
-      return true;
-    } else {
+    try {
+      return AuthentificationValidators.isNameValid(name);
+    } on NameIsMissingException {
       throw NameIsMissingException();
+    } on NameContainsInvalidCharactersException {
+      throw NameContainsInvalidCharactersException();
     }
   }
 

@@ -101,10 +101,18 @@ class SubjectIsMissingException implements Exception {
   }
 }
 
+
 class NameIsMissingException implements Exception {
   @override
   String toString() {
     return "Bitte gib einen Namen an, der mehr als ein Zeichen hat.";
+  }
+}
+
+class NameContainsInvalidCharactersException implements Exception {
+  @override
+  String toString() {
+    return "Der Name enthält ungültige Zeichen. Bitte verwende nur erlaubte Zeichen.";
   }
 }
 

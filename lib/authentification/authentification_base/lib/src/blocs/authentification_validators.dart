@@ -78,9 +78,12 @@ mixin AuthentificationValidators {
 
   static bool isNameValid(String? name) {
     if (name == null) return false;
-    return name.length >= minNameSize &&
-        name.length <= maxNameSize &&
-        name != "" &&
-        charactersNotAllowedInNames.hasMatch(name);
+    if (name.length < minNameSize || name.length > maxNameSize || name == "") {
+      throw NameIsMissingException();
+    }
+    if (!charactersNotAllowedInNames.hasMatch(name)) {
+      throw NameContainsInvalidCharactersException();
+    }
+    return true;
   }
 }
