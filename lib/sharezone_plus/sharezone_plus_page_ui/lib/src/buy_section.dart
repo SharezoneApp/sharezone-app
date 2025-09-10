@@ -79,26 +79,30 @@ class BuySection extends StatelessWidget {
         children: [
           MaxWidthConstraintBox(
             maxWidth: 500,
-            child: Column(
-              children: [
-                _PeriodOption(
-                  name: 'Monatlich',
-                  price: monthlyPrice,
-                  period: PurchasePeriod.monthly,
-                  currentPeriod: currentPeriod,
-                  onPeriodChanged: onPeriodChanged,
-                  isLoading: isPriceLoading,
-                ),
-                const SizedBox(height: 6),
-                _PeriodOption(
-                  name: 'Lebenslang (einmaliger Kauf)',
-                  price: lifetimePrice,
-                  period: PurchasePeriod.lifetime,
-                  currentPeriod: currentPeriod,
-                  onPeriodChanged: onPeriodChanged,
-                  isLoading: isPriceLoading,
-                ),
-              ],
+            child: RadioGroup(
+              groupValue: currentPeriod,
+              onChanged: (value) {
+                if (value != null && !isPriceLoading) onPeriodChanged(value);
+              },
+              child: Column(
+                children: [
+                  _PeriodOption(
+                    name: 'Monatlich',
+                    price: monthlyPrice,
+                    period: PurchasePeriod.monthly,
+                    onPeriodChanged: onPeriodChanged,
+                    isLoading: isPriceLoading,
+                  ),
+                  const SizedBox(height: 6),
+                  _PeriodOption(
+                    name: 'Lebenslang (einmaliger Kauf)',
+                    price: lifetimePrice,
+                    period: PurchasePeriod.lifetime,
+                    onPeriodChanged: onPeriodChanged,
+                    isLoading: isPriceLoading,
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -210,7 +214,6 @@ class _PeriodOption extends StatelessWidget {
     required this.name,
     required this.price,
     required this.period,
-    required this.currentPeriod,
     required this.onPeriodChanged,
     required this.isLoading,
   });
@@ -218,7 +221,6 @@ class _PeriodOption extends StatelessWidget {
   final String name;
   final String? price;
   final PurchasePeriod period;
-  final PurchasePeriod currentPeriod;
   final ValueChanged<PurchasePeriod> onPeriodChanged;
   final bool isLoading;
 
@@ -230,13 +232,7 @@ class _PeriodOption extends StatelessWidget {
         child: ListTile(
           title: Text(name),
           onTap: isLoading ? null : () => onPeriodChanged(period),
-          trailing: Radio<PurchasePeriod>(
-            groupValue: currentPeriod,
-            value: period,
-            onChanged: (v) {
-              if (v != null && !isLoading) onPeriodChanged(v);
-            },
-          ),
+          trailing: Radio<PurchasePeriod>(value: period),
           subtitle: Text(
             price ?? '...',
             style: TextStyle(

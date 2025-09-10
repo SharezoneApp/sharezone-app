@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart' hide TimePickerEntryMode;
 import 'package:interval_time_picker/interval_time_picker.dart';
+import 'package:interval_time_picker/models/visible_step.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/notifications/notifications_bloc.dart';
