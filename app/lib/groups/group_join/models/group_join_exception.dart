@@ -6,21 +6,21 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-abstract class GroupJoinException {}
+sealed class GroupJoinException {}
 
-class UnknownGroupJoinException implements GroupJoinException {
+class UnknownGroupJoinException extends GroupJoinException {
   final dynamic exception;
   UnknownGroupJoinException({this.exception});
 }
 
-class NoInternetGroupJoinException implements GroupJoinException {}
+class NoInternetGroupJoinException extends GroupJoinException {}
 
-class GroupNotPublicGroupJoinException implements GroupJoinException {}
+class GroupNotPublicGroupJoinException extends GroupJoinException {}
 
-class AlreadyMemberGroupJoinException implements GroupJoinException {}
+class AlreadyMemberGroupJoinException extends GroupJoinException {}
 
-class SharecodeNotFoundGroupJoinException implements GroupJoinException {
+class SharecodeNotFoundGroupJoinException extends GroupJoinException {
   final String enteredSharecode;
 
-  const SharecodeNotFoundGroupJoinException(this.enteredSharecode);
+  SharecodeNotFoundGroupJoinException(this.enteredSharecode);
 }
