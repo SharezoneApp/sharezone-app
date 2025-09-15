@@ -27,8 +27,6 @@ class DynamicLinkBloc extends BlocBase {
   /// can't be called in the constructor, because otherwise the dynamic link
   /// wouldn't work on ios at a cold start of the app.
   Future<void> initialisere() async {
-    final initData = await appLinks.getInitialLink();
-    _konvertiereZuEingehendemLink(initData, isInitialLink: true);
     appLinks.uriLinkStream.listen(
       (incommingLink) async => _konvertiereZuEingehendemLink(incommingLink),
       onError: (e) async {
