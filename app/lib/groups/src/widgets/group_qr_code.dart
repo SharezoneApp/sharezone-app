@@ -23,7 +23,10 @@ class GroupQrCode extends StatelessWidget {
     return QrImageView(
       backgroundColor: Colors.white,
       data: groupInfo.joinLink ?? groupInfo.sharecode ?? "",
-      version: 3,
+      // See https://www.qrcode.com/en/about/version.html for more information
+      // about QR code versions.
+      version: 5, // 37x37 modules
+      errorCorrectionLevel: QrErrorCorrectLevel.M, // ~15% error correction
     );
   }
 }
