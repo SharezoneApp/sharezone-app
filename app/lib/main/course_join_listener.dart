@@ -15,6 +15,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
+import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -91,9 +92,16 @@ class _CourseJoinListenerState extends State<CourseJoinListener> {
         };
         showSuccessNotification(message);
       } else if (result is ErrorJoinResult) {
-        showErrorNotification(
-          'Ein Fehler ist beim Beitreten aufgetreten! Versuche es erneut oder schreibe den Support an.',
-        );
+        showErrorNotification(switch (result.groupJoinException) {
+          NoInternetGroupJoinException() => 'Keine Internetverbindung',
+          GroupNotPublicGroupJoinException() =>
+            'Beitreten verboten. Kontaktiere den Admin der Gruppe.',
+          AlreadyMemberGroupJoinException() =>
+            'Du bist der Gruppe bereits beigetreten',
+          SharecodeNotFoundGroupJoinException() => 'Gruppe nicht gefunden',
+          UnknownGroupJoinException() =>
+            'Ein Fehler ist aufgetreten. Bitte kontaktiere den Support.',
+        });
       }
     });
   }
