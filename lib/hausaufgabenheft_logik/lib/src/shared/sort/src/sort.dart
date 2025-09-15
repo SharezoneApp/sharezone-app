@@ -24,8 +24,10 @@ extension SortWith<
 }
 
 /// Sorts the homeworks firstly by date (earliest date first).
+///
 /// If they have the same date, they will be sorted alphabetically by subject.
-/// If they have the same date and subject, they will be sorted alphabetically by title.
+/// If they have the same date and subject, they will be sorted alphabetically
+/// by title.
 class SmallestDateSubjectAndTitleSort extends Sort<BaseHomeworkReadModel> {
   late Date Function() getCurrentDate;
 
