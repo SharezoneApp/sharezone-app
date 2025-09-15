@@ -99,15 +99,15 @@ class _CourseJoinListenerState extends State<CourseJoinListener> {
   }
 
   void onBeitrittsStreamError(dynamic error) {
-    if (error is KursBereitsBeigetretenException) {
-      Future.delayed(const Duration(microseconds: 200)).then((_) {
+    Future.delayed(const Duration(microseconds: 200)).then((_) {
+      if (error is KursBereitsBeigetretenException) {
         showErrorNotification("Du bist der Gruppe bereits beigetreten");
-      });
-    } else {
-      showErrorNotification(
-        "Ein Fehler ist aufgetreten: $error. Bitte kontaktiere den Support.",
-      );
-    }
+      } else {
+        showErrorNotification(
+          "Ein Fehler ist aufgetreten: $error. Bitte kontaktiere den Support.",
+        );
+      }
+    });
   }
 
   @override
