@@ -13,7 +13,6 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
-import 'package:sharezone/groups/group_join/models/group_join_exception.dart';
 import 'package:sharezone/groups/group_join/models/group_join_result.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -88,17 +87,9 @@ class CourseJoinListener extends StatelessWidget {
               );
             } else if (groupJoinResult is ErrorJoinResult) {
               showSimpleNotification(
-                Text(switch (groupJoinResult.groupJoinException) {
-                  NoInternetGroupJoinException() => 'Keine Internetverbindung',
-                  GroupNotPublicGroupJoinException() =>
-                    'Gruppe nicht öffentlich',
-                  AlreadyMemberGroupJoinException() =>
-                    'Du bist der Gruppe bereits beigetreten',
-                  SharecodeNotFoundGroupJoinException() =>
-                    'Gruppe nicht gefunden',
-                  UnknownGroupJoinException() =>
-                    'Ein Fehler ist aufgetreten. Bitte kontaktiere den Support.',
-                }),
+                const Text(
+                  'Ein Fehler ist beim Beitreten aufgetreten! Versuche es erneut oder schreibe den Support an.',
+                ),
                 autoDismiss: true,
                 slideDismissDirection: DismissDirection.horizontal,
                 trailing: const Icon(Icons.error, color: Colors.red),
