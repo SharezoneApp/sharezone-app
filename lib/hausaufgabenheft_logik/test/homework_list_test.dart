@@ -109,8 +109,8 @@ void main() {
         'integration test',
         unsorted: unsorted,
         sorted: sorted,
-        sort: (homeworks) =>
-            homeworks.sortWith(WeekdayDateSubjectAndTitleSort()),
+        sort:
+            (homeworks) => homeworks.sortWith(WeekdayDateSubjectAndTitleSort()),
       );
     });
   });

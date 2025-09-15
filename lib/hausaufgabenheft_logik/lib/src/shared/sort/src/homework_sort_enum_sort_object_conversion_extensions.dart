@@ -7,7 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
-    hide SmallestDateSubjectAndTitleSort, SubjectSmallestDateAndTitleSort, WeekdayDateSubjectAndTitleSort, Sort;
+    hide
+        SmallestDateSubjectAndTitleSort,
+        SubjectSmallestDateAndTitleSort,
+        WeekdayDateSubjectAndTitleSort,
+        Sort;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
 extension HomeworkSortToEnumExtension on Sort<BaseHomeworkReadModel> {

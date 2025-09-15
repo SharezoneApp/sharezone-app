@@ -86,9 +86,12 @@ class WeekdayDateSubjectAndTitleSort extends Sort<BaseHomeworkReadModel> {
   IList<T> sort<T extends BaseHomeworkReadModel>(IList<T> list) {
     return sortWithOperations<T>(
       list,
-      IListConst<ComparisonResult Function(T, T)>(
-        [weekdaySort, dateSort, subjectSort, titleSort],
-      ),
+      IListConst<ComparisonResult Function(T, T)>([
+        weekdaySort,
+        dateSort,
+        subjectSort,
+        titleSort,
+      ]),
     );
   }
 

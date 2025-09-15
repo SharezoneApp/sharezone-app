@@ -98,9 +98,7 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
     for (var i = 1; i <= 7; i++) {
       final list = map[i]!;
       if (list.isNotEmpty) {
-        sections.add(
-          HomeworkSectionView(titles[i]!, list.toIList()),
-        );
+        sections.add(HomeworkSectionView(titles[i]!, list.toIList()));
       }
     }
     return sections.toIList();
