@@ -84,29 +84,29 @@ void main() {
     });
     group('sort with WeekdayDateSubjectAndTitleSort', () {
       final h1 = createHomework(
-        todoDate: const Date(year: 2023, month: 1, day: 2),
+        todoDate: const Date(year: 2023, month: 1, day: 2), // Monday
         subject: 'A',
         title: 'a',
       );
       final h2 = createHomework(
-        todoDate: const Date(year: 2023, month: 1, day: 3),
+        todoDate: const Date(year: 2023, month: 1, day: 3), // Tuesday
         subject: 'B',
         title: 'b',
       );
       final h3 = createHomework(
-        todoDate: const Date(year: 2023, month: 1, day: 9),
+        todoDate: const Date(year: 2023, month: 1, day: 9), // Monday
         subject: 'C',
         title: 'c',
       );
       final h4 = createHomework(
-        todoDate: const Date(year: 2023, month: 1, day: 4),
+        todoDate: const Date(year: 2023, month: 1, day: 4), // Wednesday
         subject: 'D',
         title: 'd',
       );
       final unsorted = [h4, h3, h2, h1];
       final sorted = [h1, h3, h2, h4];
       testSort(
-        'integration test',
+        'does sort by weekday',
         unsorted: unsorted,
         sorted: sorted,
         sort:
