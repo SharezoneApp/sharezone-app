@@ -297,6 +297,17 @@ void main() {
         find.text(SortButton.sortBySubjectSortButtonUiString),
         findsOneWidget,
       );
+
+      homeworkPageBloc.emitNewState(
+        _openHomeworksWith(HomeworkSort.weekdayDateSubjectAndTitle),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(SortButton.sortByWeekdaySortButtonUiString),
+        findsOneWidget,
+      );
     });
 
     Future<void> scrollDownToEndOfArchivedHomeworkList(WidgetTester tester) {
@@ -426,7 +437,7 @@ void main() {
     );
 
     testWidgets(
-      'pressing sort button changes sorting to date sort when current sort is subject sort',
+      'pressing sort button changes sorting to weekday sort when current sort is subject sort',
       (tester) async {
         homeworkPageBloc = createBloc();
 
@@ -438,6 +449,34 @@ void main() {
 
         homeworkPageBloc.emitNewState(
           _openHomeworksWith(HomeworkSort.subjectSmallestDateAndTitleSort),
+        );
+
+        await tester.pump();
+
+        await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+
+        expect(
+          homeworkPageBloc.receivedEvents
+              .whereType<OpenHwSortingChanged>()
+              .single,
+          OpenHwSortingChanged(HomeworkSort.weekdayDateSubjectAndTitle),
+        );
+      },
+    );
+
+    testWidgets(
+      'pressing sort button changes sorting to date sort when current sort is weekday sort',
+      (tester) async {
+        homeworkPageBloc = createBloc();
+
+        await pumpHomeworkPage(
+          tester,
+          bloc: homeworkPageBloc,
+          initialTab: HomeworkTab.open,
+        );
+
+        homeworkPageBloc.emitNewState(
+          _openHomeworksWith(HomeworkSort.weekdayDateSubjectAndTitle),
         );
 
         await tester.pump();

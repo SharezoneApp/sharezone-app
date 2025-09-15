@@ -18,3 +18,6 @@ ComparisonResult subjectSort<T extends BaseHomeworkReadModel>(T ha1, T ha2) =>
 
 ComparisonResult titleSort<T extends BaseHomeworkReadModel>(T ha1, T ha2) =>
     ComparisonResult(ha1.title.compareTo(ha2.title));
+
+ComparisonResult weekdaySort<T extends BaseHomeworkReadModel>(T ha1, T ha2) =>
+    ComparisonResult(ha1.todoDate.weekday.compareTo(ha2.todoDate.weekday));

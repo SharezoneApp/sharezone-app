@@ -146,6 +146,8 @@ class SortButton extends StatelessWidget {
   static const sortByDateSortButtonUiString = "Sortiere nach Datum";
   @visibleForTesting
   static const sortBySubjectSortButtonUiString = "Sortiere nach Fach";
+  @visibleForTesting
+  static const sortByWeekdaySortButtonUiString = "Sortiere nach Wochentag";
 
   const SortButton({
     super.key,
@@ -162,6 +164,8 @@ class SortButton extends StatelessWidget {
         return sortByDateSortButtonUiString;
       case HomeworkSort.subjectSmallestDateAndTitleSort:
         return sortBySubjectSortButtonUiString;
+      case HomeworkSort.weekdayDateSubjectAndTitle:
+        return sortByWeekdaySortButtonUiString;
     }
   }
 
@@ -170,6 +174,8 @@ class SortButton extends StatelessWidget {
       case HomeworkSort.smallestDateSubjectAndTitle:
         return HomeworkSort.subjectSmallestDateAndTitleSort;
       case HomeworkSort.subjectSmallestDateAndTitleSort:
+        return HomeworkSort.weekdayDateSubjectAndTitle;
+      case HomeworkSort.weekdayDateSubjectAndTitle:
         return HomeworkSort.smallestDateSubjectAndTitle;
     }
   }

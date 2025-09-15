@@ -82,6 +82,37 @@ void main() {
         skip: true,
       );
     });
+    group('sort with WeekdayDateSubjectAndTitleSort', () {
+      final h1 = createHomework(
+        todoDate: const Date(year: 2023, month: 1, day: 2),
+        subject: 'A',
+        title: 'a',
+      );
+      final h2 = createHomework(
+        todoDate: const Date(year: 2023, month: 1, day: 3),
+        subject: 'B',
+        title: 'b',
+      );
+      final h3 = createHomework(
+        todoDate: const Date(year: 2023, month: 1, day: 9),
+        subject: 'C',
+        title: 'c',
+      );
+      final h4 = createHomework(
+        todoDate: const Date(year: 2023, month: 1, day: 4),
+        subject: 'D',
+        title: 'd',
+      );
+      final unsorted = [h4, h3, h2, h1];
+      final sorted = [h1, h3, h2, h4];
+      testSort(
+        'integration test',
+        unsorted: unsorted,
+        sorted: sorted,
+        sort: (homeworks) =>
+            homeworks.sortWith(WeekdayDateSubjectAndTitleSort()),
+      );
+    });
   });
   test('getDistinctSubjects', () {
     var mathe = Subject('Mathe', abbreviation: 'Ma');
