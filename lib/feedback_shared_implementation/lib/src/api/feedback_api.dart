@@ -12,11 +12,7 @@ import 'package:feedback_shared_implementation/src/models/feedback_id.dart';
 import 'package:feedback_shared_implementation/src/models/user_feedback.dart';
 
 /// Filters that can be applied when querying feedbacks for the support team.
-enum SupportFeedbackFilter {
-  all,
-  unreadMessages,
-  noMessages,
-}
+enum SupportFeedbackFilter { all, unreadMessages, noMessages }
 
 abstract class FeedbackApi {
   Future<void> sendFeedback(UserFeedback feedback);
