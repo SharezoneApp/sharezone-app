@@ -89,16 +89,16 @@
     },
     "nixpkgs-flutter": {
       "locked": {
-        "lastModified": 1748547392,
+        "lastModified": 1756251650,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "807602f98877e3847d7d7ed91087216229d1b4fb",
+        "rev": "27b23c793a053b3cb802100a15a82d714c17629c",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "807602f98877e3847d7d7ed91087216229d1b4fb",
+        "rev": "27b23c793a053b3cb802100a15a82d714c17629c",
         "type": "github"
       }
     },
