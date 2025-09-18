@@ -13,7 +13,7 @@ inputs:
   # Search here for a commit that updates Flutter to the desired version:
   # https://github.com/NixOS/nixpkgs/commits/nixos-unstable/pkgs/development/compilers/flutter
   nixpkgs-flutter:
-    url: github:NixOS/nixpkgs/27b23c793a053b3cb802100a15a82d714c17629c
+    url: github:NixOS/nixpkgs/master
 
 # If you're using non-OSS software, you can set allowUnfree to true.
 # We need it for the Android SDK and Google Chrome
