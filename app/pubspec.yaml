@@ -117,12 +117,7 @@ dependencies:
   http: ^1.4.0
   # Used so that we can select a minute interval (only either XX:00 or XX:30)
   # for the homework reminder time picker.
-  interval_time_picker:
-    # Git references can be removed when the following PR is merged:
-    # https://github.com/Fleximex/interval_time_picker/pull/17
-    git:
-      url: https://github.com/pamafe1976/interval_time_picker.git
-      ref: 64a70d183dc24d0ded3fbf36169398ca73143a4c
+  interval_time_picker: ^4.0.0+12
   intl: ^0.20.2
   key_value_store:
     path: ../lib/key_value_store
