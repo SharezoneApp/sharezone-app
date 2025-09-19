@@ -511,21 +511,20 @@ class _ChatBubble extends StatelessWidget {
                   data: text,
                   selectable: true,
                   softLineBreak: true,
-                  onTapLink: (text, href, title) {
+                  onTapLink: (text, href, title) async {
                     if (href == null) return;
-                    () async {
-                      try {
-                        await UrlLauncherExtended()
-                            .tryLaunchOrThrow(Uri.parse(href));
-                      } on Exception {
-                        if (context.mounted) {
-                          showSnackSec(
-                            context: context,
-                            text: 'Could not open link.',
-                          );
-                        }
+                    try {
+                      await UrlLauncherExtended().tryLaunchOrThrow(
+                        Uri.parse(href),
+                      );
+                    } on Exception {
+                      if (context.mounted) {
+                        showSnackSec(
+                          context: context,
+                          text: 'Fehler beim Öffnen des Links.',
+                        );
                       }
-                    }();
+                    }
                   },
                 ),
                 const SizedBox(height: 4),
