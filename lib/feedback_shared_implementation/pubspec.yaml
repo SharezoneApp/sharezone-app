@@ -40,7 +40,7 @@ dependencies:
       path: packages/flutter_markdown
       ref: 2f680bb80119f6fd037a7bda0984bc811b5dccb8
   url_launcher_extended:
-    path: ../lib/url_launcher_extended
+    path: ../url_launcher_extended
 
 dev_dependencies:
   build_runner: ^2.4.14
