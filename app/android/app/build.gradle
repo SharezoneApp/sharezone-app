@@ -65,7 +65,7 @@ android {
 
     defaultConfig {
         applicationId "de.codingbrain.sharezone"
-        minSdkVersion 23
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

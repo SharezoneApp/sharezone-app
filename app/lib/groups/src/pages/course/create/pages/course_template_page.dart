@@ -607,52 +607,52 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
           padding: const EdgeInsets.all(12),
           child: CustomCard(
             padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text(
-                  "Schulklasse auswählen",
-                  style: TextStyle(fontSize: 18),
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  "Du bist in einer oder mehreren Schulklasse(n) Administrator. Wähle eine Schulklasse aus, um festzulegen, zu welcher Schulklasse die Kurse verknüpft werden sollen.",
-                ),
-                const SizedBox(height: 12),
-                for (final schoolClass in schoolClasses)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: ListTile(
-                      leading: SchoolClassAbbreviationAvatar(
-                        name: schoolClass.$2,
-                      ),
-                      title: Text(schoolClass.$2),
-                      onTap: () => setSelectId(schoolClass),
-                      trailing: Radio<(SchoolClassId, SchoolClassName)?>(
-                        value: schoolClass,
-                        groupValue: selectedSchoolClass,
-                        onChanged: setSelectId,
+            child: RadioGroup<(SchoolClassId, SchoolClassName)?>(
+              groupValue: selectedSchoolClass,
+              onChanged: setSelectId,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text(
+                    "Schulklasse auswählen",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    "Du bist in einer oder mehreren Schulklasse(n) Administrator. Wähle eine Schulklasse aus, um festzulegen, zu welcher Schulklasse die Kurse verknüpft werden sollen.",
+                  ),
+                  const SizedBox(height: 12),
+                  for (final schoolClass in schoolClasses)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: ListTile(
+                        leading: SchoolClassAbbreviationAvatar(
+                          name: schoolClass.$2,
+                        ),
+                        title: Text(schoolClass.$2),
+                        onTap: () => setSelectId(schoolClass),
+                        trailing: Radio<(SchoolClassId, SchoolClassName)?>(
+                          value: schoolClass,
+                        ),
                       ),
                     ),
+                  const SizedBox(height: 4),
+                  ListTile(
+                    onTap: () => setSelectId(null),
+                    leading: const Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Icon(Icons.remove_circle_outline),
+                    ),
+                    title: const Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Text("Mit keiner Schulklasse verknüpfen"),
+                    ),
+                    trailing: Radio<(SchoolClassId, SchoolClassName)?>(
+                      value: null,
+                    ),
                   ),
-                const SizedBox(height: 4),
-                ListTile(
-                  onTap: () => setSelectId(null),
-                  leading: const Padding(
-                    padding: EdgeInsets.only(left: 8),
-                    child: Icon(Icons.remove_circle_outline),
-                  ),
-                  title: const Padding(
-                    padding: EdgeInsets.only(left: 8),
-                    child: Text("Mit keiner Schulklasse verknüpfen"),
-                  ),
-                  trailing: Radio<(SchoolClassId, SchoolClassName)?>(
-                    value: null,
-                    groupValue: selectedSchoolClass,
-                    onChanged: setSelectId,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
