@@ -55,6 +55,7 @@ class _CourseMemberOptionsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
     final api = BlocProvider.of<SharezoneContext>(context).api;
+
     return StreamBuilder<bool>(
       initialData: bloc.hasAdminPermission(),
       stream: bloc.hasAdminPermissionStream(),
