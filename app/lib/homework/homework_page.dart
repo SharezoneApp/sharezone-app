@@ -20,11 +20,12 @@ import 'package:user/user.dart';
 import 'student/student_homework_page.dart';
 import 'teacher_and_parent/teacher_and_parent_homework_page.dart';
 
-enum SortBy { date, subject }
+enum SortBy { date, subject, weekday }
 
 Map<SortBy, String> sortByAsString = {
   SortBy.date: "Datum",
   SortBy.subject: "Fach",
+  SortBy.weekday: "Wochentag",
 };
 
 Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(

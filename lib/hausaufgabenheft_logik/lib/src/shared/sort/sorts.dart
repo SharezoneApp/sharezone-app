@@ -21,12 +21,18 @@ enum HomeworkSort {
   /// If they have the same subject, they will be sorted by date (earliest date first).
   /// If they have the same date and subject, they will be sorted alphabetically by title.
   subjectSmallestDateAndTitleSort,
+
+  /// Sorts the homeworks firstly by weekday (Monday to Sunday).
+  /// If they have the same weekday, they will be sorted by date, then subject,
+  /// then title.
+  weekdayDateSubjectAndTitle,
 }
 
 const String _subjectSmallestDateAndTitleSortAsString =
     'smallestDateSubjectAndTitle';
 const String _subjectSmallestDateAndTitleSort =
     'subjectSmallestDateAndTitleSort';
+const String _weekdayDateSubjectAndTitle = 'weekdayDateSubjectAndTitle';
 
 HomeworkSort homeworkSortFromString(String s) {
   switch (s) {
@@ -34,6 +40,8 @@ HomeworkSort homeworkSortFromString(String s) {
       return HomeworkSort.smallestDateSubjectAndTitle;
     case _subjectSmallestDateAndTitleSort:
       return HomeworkSort.subjectSmallestDateAndTitleSort;
+    case _weekdayDateSubjectAndTitle:
+      return HomeworkSort.weekdayDateSubjectAndTitle;
   }
   throw UnimplementedError();
 }
@@ -44,5 +52,7 @@ String homeworkSortToString(HomeworkSort s) {
       return _subjectSmallestDateAndTitleSortAsString;
     case HomeworkSort.subjectSmallestDateAndTitleSort:
       return _subjectSmallestDateAndTitleSort;
+    case HomeworkSort.weekdayDateSubjectAndTitle:
+      return _weekdayDateSubjectAndTitle;
   }
 }
