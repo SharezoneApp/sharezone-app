@@ -183,22 +183,25 @@ class _ChangeTypeOfUser extends StatelessWidget {
     final controller = context.watch<ChangeTypeOfUserController>();
     final selectedTypeOfUser =
         controller.selectedTypeOfUser ?? controller.initialTypeOfUser;
-    return Column(
-      children: [
-        for (final typeOfUser in [
-          TypeOfUser.student,
-          TypeOfUser.teacher,
-          TypeOfUser.parent,
-        ])
-          RadioListTile<TypeOfUser>(
-            value: typeOfUser,
-            groupValue: selectedTypeOfUser,
-            title: Text(typeOfUser.toReadableString()),
-            onChanged: (value) {
-              controller.setSelectedTypeOfUser(typeOfUser);
-            },
-          ),
-      ],
+    return RadioGroup<TypeOfUser>(
+      groupValue: selectedTypeOfUser,
+      onChanged: (value) {
+        if (value == null) return;
+        controller.setSelectedTypeOfUser(value);
+      },
+      child: Column(
+        children: [
+          for (final typeOfUser in [
+            TypeOfUser.student,
+            TypeOfUser.teacher,
+            TypeOfUser.parent,
+          ])
+            RadioListTile<TypeOfUser>(
+              value: typeOfUser,
+              title: Text(typeOfUser.toReadableString()),
+            ),
+        ],
+      ),
     );
   }
 }

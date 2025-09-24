@@ -83,7 +83,7 @@ in
     #         The SDK directory is not writable (/nix/store/iqrggkmmq55v3db7ns5rmr62x8bq0ymz-androidsdk/libexec/android-sdk)
     ndk = {
       enable = true;
-      version = [ "26.3.11579264" ];
+      version = [ "27.0.12077973" ];
     };
     # > Failed to install the following SDK components:
     #  build-tools;34.0.0 Android SDK Build-Tools 34
@@ -95,6 +95,7 @@ in
       "33"
       "34"
       "35"
+      "36"
     ];
     flutter = {
       enable = true;
