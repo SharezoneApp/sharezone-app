@@ -8,7 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart' hide TimePickerEntryMode;
+import 'package:flutter/material.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
 import 'package:interval_time_picker/models/visible_step.dart';
 import 'package:sharezone/settings/src/subpages/timetable/time_picker_settings_cache.dart';
