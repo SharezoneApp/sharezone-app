@@ -11,6 +11,9 @@ import 'package:feedback_shared_implementation/src/models/feedback_chat_message.
 import 'package:feedback_shared_implementation/src/models/feedback_id.dart';
 import 'package:feedback_shared_implementation/src/models/user_feedback.dart';
 
+/// Filters that can be applied when querying feedbacks for the support team.
+enum SupportFeedbackFilter { all, unreadMessages, noMessages }
+
 abstract class FeedbackApi {
   Future<void> sendFeedback(UserFeedback feedback);
   Stream<List<UserFeedback>> streamFeedbacks(String userId);
@@ -20,6 +23,7 @@ abstract class FeedbackApi {
   Future<List<UserFeedback>> getFeedbacksForSupportTeam({
     DateTime? startAfter,
     int limit = 0,
+    SupportFeedbackFilter filter = SupportFeedbackFilter.all,
   });
   void markMessageAsRead(FeedbackId feedbackId, UserId userId);
   void sendResponse({

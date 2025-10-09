@@ -11,7 +11,7 @@ description: A collaborative school planner for students, teachers and parents.
 # Note that we do not store the current build number in the pubspec.yaml. The
 # build number is automatically increased by the CD pipeline (using `sz deploy`
 # command).
-version: 2.2.6+0
+version: 2.3.1+0
 publish_to: none
 
 resolution: workspace
@@ -221,6 +221,7 @@ dev_dependencies:
   bloc_presentation_test: ^1.0.2
   path: ^1.9.1
   patrol: ^3.15.2
+  flutter_launcher_icons: ^0.14.4
 
 patrol:
   app_name: Sharezone App
@@ -269,3 +270,13 @@ flutter:
     - packages/fast_rsa/web/assets/wasm_exec.js
     - packages/fast_rsa/web/assets/rsa.wasm
     - packages/sharezone_plus_page_ui/assets/jonas-nils.png
+
+# See https://pub.dev/packages/flutter_launcher_icons
+flutter_launcher_icons:
+  ios: true
+  # Light (default) icon
+  image_path_ios: icon/ios/light.png
+  # Dark icon (iOS 18+) — Apple recommends a transparent icon foreground
+  image_path_ios_dark_transparent: icon/ios/dark_transparent.png
+  remove_alpha_ios: true
+  desaturate_tinted_to_grayscale_ios: true

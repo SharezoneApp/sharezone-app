@@ -10,11 +10,11 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:helper_functions/helper_functions.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:helper_functions/helper_functions.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'group_qr_code.dart';
@@ -46,13 +46,6 @@ class LinkSharingButton extends StatelessWidget {
             subtitle: PlatformCheck.isMobile ? "verschicken" : "kopieren",
             color: color,
             onTap: () async {
-              // Courses with an old course structure do not have a JoinLink,
-              // which is why the sharecode should be used there.
-              if (hasJoinLink) {
-                await _showJoinLinksNotAvailableOnWebWarning(context);
-              }
-              if (!context.mounted) return;
-
               _showShareJoinLinkBox(
                 context: context,
                 groupInfo: groupInfo,
@@ -122,27 +115,6 @@ class LinkSharingButton extends StatelessWidget {
 
   void _copyToClipboard(String data) {
     Clipboard.setData(ClipboardData(text: data));
-  }
-
-  /// JoinLinks funktionieren aktuell nur für Android & iOS. Solange diese noch
-  /// nicht für's Web funktionieren (Ticket:
-  /// https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1073) sollte
-  /// der Nutzer zu mindestens darauf hingewiesen werden, dass diese nur über
-  /// Android & iOS funktionieren, damit dieser seinen Freunden Bescheid geben
-  /// kann. Es kam in der Vergangenheit immer wieder zu Verwirrung, warum die
-  /// Links nicht im Web funktionieren:
-  /// https://www.gutefrage.net/frage/warum-funktioniert-der-sharezone-link-bei-mir-nicht
-  Future<void> _showJoinLinksNotAvailableOnWebWarning(
-    BuildContext context,
-  ) async {
-    return showLeftRightAdaptiveDialog(
-      context: context,
-      left: AdaptiveDialogAction.ok,
-      title: 'Links funktionieren nur für Android & iOS',
-      content: const Text(
-        'Wird ein Link über den PC aufgerufen, funktioniert dieser momentan noch nicht. Achte darauf, wenn du den Link mit deinen Freunden teilst.',
-      ),
-    );
   }
 
   Future<void> _logOnboardingShareLinkAnalytics(BuildContext context) async {

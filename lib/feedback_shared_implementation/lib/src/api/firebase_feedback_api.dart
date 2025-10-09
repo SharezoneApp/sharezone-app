@@ -123,13 +123,27 @@ class FirebaseFeedbackApi implements FeedbackApi {
   @override
   Future<List<UserFeedback>> getFeedbacksForSupportTeam({
     DateTime? startAfter,
-    int? limit,
+    int limit = 0,
+    SupportFeedbackFilter filter = SupportFeedbackFilter.all,
   }) {
-    Query query = feedbackCollection
-        .orderBy('createdOn', descending: true)
-        .limit(limit ?? 0);
+    const supportTeamUnreadPath =
+        'unreadMessagesStatus.support-team.hasUnreadMessages';
+    Query query = feedbackCollection.orderBy('createdOn', descending: true);
+    switch (filter) {
+      case SupportFeedbackFilter.all:
+        break;
+      case SupportFeedbackFilter.unreadMessages:
+        query = query.where(supportTeamUnreadPath, isEqualTo: true);
+        break;
+      case SupportFeedbackFilter.noMessages:
+        query = query.where('unreadMessagesStatus', isNull: true);
+        break;
+    }
     if (startAfter != null) {
       query = query.startAfter([startAfter]);
+    }
+    if (limit > 0) {
+      query = query.limit(limit);
     }
     return query.get().then(
       (snapshot) =>
