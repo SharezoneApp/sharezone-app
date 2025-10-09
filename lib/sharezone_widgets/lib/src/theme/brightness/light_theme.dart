@@ -35,7 +35,7 @@ ThemeData getLightTheme({String? fontFamily = rubik}) {
       unselectedLabelColor: darkBlueColor.withValues(alpha: 0.45),
     ),
     appBarTheme: AppBarTheme(
-      color: Colors.white,
+      backgroundColor: Colors.white,
       elevation: 1,
       iconTheme: const IconThemeData(color: Color(0xFF8da2b6)),
       titleTextStyle: TextStyle(
