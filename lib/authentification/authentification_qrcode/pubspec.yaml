@@ -33,7 +33,7 @@ dependencies:
   util:
     path: ../../util
   cloud_firestore: ^6.0.2
-  fast_rsa: ^3.7.1
+  fast_rsa: ^3.8.5
   firebase_auth: ^6.1.0
   rxdart: ^0.28.0
   clock: ^1.1.2

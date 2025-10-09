@@ -549,10 +549,10 @@ packages:
     dependency: transitive
     description:
       name: fast_rsa
-      sha256: "65d767e53b8e1065befee598658354df63ec821c9082878952a66b229406429c"
+      sha256: e410cf3bc1e5034a79ff11a1d5a0b9928e4d5c3f9e861b0b7d3a1b16833585a5
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.1"
+    version: "3.8.5"
   ffi:
     dependency: transitive
     description:
