@@ -145,11 +145,6 @@ class DemoFirebaseUser implements User {
   }
 
   @override
-  Future<void> updateEmail(String newEmail) {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> updatePassword(String newPassword) {
     throw UnimplementedError();
   }
