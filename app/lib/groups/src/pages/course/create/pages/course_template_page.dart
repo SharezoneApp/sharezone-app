@@ -647,7 +647,7 @@ class _SelectSchoolClassState extends State<_SelectSchoolClass> {
                       padding: EdgeInsets.only(left: 8),
                       child: Text("Mit keiner Schulklasse verknüpfen"),
                     ),
-                    trailing: Radio<(SchoolClassId, SchoolClassName)?>(
+                    trailing: const Radio<(SchoolClassId, SchoolClassName)?>(
                       value: null,
                     ),
                   ),
