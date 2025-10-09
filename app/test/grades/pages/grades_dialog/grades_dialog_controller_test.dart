@@ -318,12 +318,22 @@ void main() {
           termWith(
             subjects: [
               subjectWith(
-                id: SubjectId('maths'),
+                id: SubjectId('maths-lowercase'),
+                name: 'maths',
+                grades: [gradeWith()],
+              ),
+              subjectWith(
+                id: SubjectId('english-lowercase'),
+                name: 'english',
+                grades: [gradeWith()],
+              ),
+              subjectWith(
+                id: SubjectId('maths-uppercase'),
                 name: 'Maths',
                 grades: [gradeWith()],
               ),
               subjectWith(
-                id: SubjectId('english'),
+                id: SubjectId('english-uppercase'),
                 name: 'English',
                 grades: [gradeWith()],
               ),
@@ -334,7 +344,9 @@ void main() {
         controller = createController();
 
         expect(controller.view.selectableSubjects.map((s) => s.name).toList(), [
+          'english',
           'English',
+          'maths',
           'Maths',
         ]);
       });
