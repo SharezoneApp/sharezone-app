@@ -18,7 +18,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cloud_functions: ^5.3.3
+  cloud_functions: ^6.0.2
   rxdart: ^0.28.0
   sharezone_widgets:
     path: ../sharezone_widgets
