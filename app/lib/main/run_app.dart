@@ -37,8 +37,8 @@ import '../firebase_options_dev.g.dart' as fb_dev;
 import '../firebase_options_prod.g.dart' as fb_prod;
 
 BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
-  // We seed with null, because we in the codebase .first and this will never
-  // complete without seeding.
+  // We seed with `null` because `.first` is used on this stream. Without a seed,
+  // `await stream.first` would hang indefinitely if no value is ever added.
   //
   // ignore:close_sinks
   BehaviorSubject<Beitrittsversuch?> beitrittsversuche =
