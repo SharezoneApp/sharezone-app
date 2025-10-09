@@ -192,7 +192,7 @@ class VerifyEmailAddressDialog extends StatelessWidget {
       content: Text.rich(
         TextSpan(
           text:
-              'Wir haben dir einen Link geschickt. Bitte klicke darauf, um deine E-Mail zu bestätigen. Prüfe auch deinen Spam-Ordner.\n\n',
+              'Wir haben dir einen Link geschickt. Bitte klicke jetzt auf den Link, um deine E-Mail zu bestätigen. Prüfe auch deinen Spam-Ordner.\n\n',
           children: [
             TextSpan(
               text: "Nachdem",
