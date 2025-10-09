@@ -76,8 +76,6 @@ class UserGateway implements UserGatewayAuthentifcation {
         .userChanges()
         .map(AuthUser.fromFirebaseUser)
         .listen((event) {
-          print("AuthUser changed: $event");
-          print(event?.email);
           _authUserSubject.sink.add(event);
         });
   }
