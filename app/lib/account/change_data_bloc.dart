@@ -172,10 +172,6 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
     return;
   }
 
-  Future<void> logout() async {
-    await userAPI.logOut();
-  }
-
   @override
   void dispose() {
     _emailSubject.close();
