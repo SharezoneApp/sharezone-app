@@ -217,7 +217,7 @@ class _ReAuthenticationDialog extends StatelessWidget {
   static Future<void> show(BuildContext context) async {
     final clickedLogout = await showDialog<bool>(
       context: context,
-      builder: (context) => _ReAuthenticationDialog(),
+      builder: (context) => const _ReAuthenticationDialog(),
       barrierDismissible: false,
     );
 
