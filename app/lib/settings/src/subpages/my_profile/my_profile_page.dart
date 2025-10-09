@@ -74,7 +74,6 @@ class MyProfilePage extends StatelessWidget {
                       const Divider(height: 32),
                       SignOutButton(isAnonymous: user.isAnonymous),
                       _DeleteAccountButton(),
-                      _ReloadButton(),
                     ],
                   );
                 },
@@ -83,21 +82,6 @@ class MyProfilePage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ReloadButton extends StatelessWidget {
-  const _ReloadButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: const Text("Neu laden"),
-      leading: const Icon(Icons.refresh),
-      onTap: () {
-        FirebaseAuth.instance.currentUser!.reload();
-      },
     );
   }
 }
