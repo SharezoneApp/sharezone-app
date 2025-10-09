@@ -101,13 +101,7 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
             await userAPI.authUser!.firebaseUser.reauthenticateWithCredential(
               credential,
             );
-            await userAPI.changeEmail(newEmail);
-
-            firebaseAuth.signOut();
-            firebaseAuth.signInWithEmailAndPassword(
-              email: newEmail,
-              password: password,
-            );
+            await userAPI.verifyBeforeUpdateEmail(newEmail);
           } else {
             throw NoInternetAccess();
           }

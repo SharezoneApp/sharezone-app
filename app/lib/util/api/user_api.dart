@@ -76,6 +76,8 @@ class UserGateway implements UserGatewayAuthentifcation {
         .userChanges()
         .map(AuthUser.fromFirebaseUser)
         .listen((event) {
+          print("AuthUser changed: $event");
+          print(event?.email);
           _authUserSubject.sink.add(event);
         });
   }
@@ -186,7 +188,10 @@ class UserGateway implements UserGatewayAuthentifcation {
     references.users.doc(uID).update({"commentsNotifications": enabled});
   }
 
-  Future<void> changeEmail(String email) async {
+  /// Sends a verification email to a new email address.
+  ///
+  /// The user's email will be updated to the new one after being verified.
+  Future<void> verifyBeforeUpdateEmail(String email) async {
     await authUser!.firebaseUser.verifyBeforeUpdateEmail(email);
     return;
   }

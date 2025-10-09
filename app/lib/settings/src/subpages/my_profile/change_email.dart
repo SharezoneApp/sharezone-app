@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
@@ -79,11 +80,6 @@ class ChangeEmailPageBody extends StatelessWidget {
                 focusNode: passwordNode,
                 onEditComplete:
                     () async => await submit(context, snackBarText, changeType),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                "Hinweis: Wenn deine E-Mail geändert wurde, wirst du automatisch kurz ab- und sofort wieder angemeldet - also nicht wundern 😉",
-                style: TextStyle(color: Colors.grey, fontSize: 11),
               ),
               const Divider(height: 42),
               const _WhyWeNeedTheEmail(),
@@ -169,6 +165,44 @@ class __NewEmailFieldState extends State<_NewEmailField> {
           onChanged: (newEmail) => bloc.changeEmail(newEmail.trim()),
         );
       },
+    );
+  }
+}
+
+class VerifyEmailAddressDialog extends StatelessWidget {
+  const VerifyEmailAddressDialog({super.key});
+
+  static Future<void> show(BuildContext context) async {
+    final shouldClose = await showDialog<bool>(
+      context: context,
+      builder: (context) => VerifyEmailAddressDialog(),
+    );
+    if (!context.mounted) return;
+    if (shouldClose == true) {
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Neue E-Mail Adresse bestätigen"),
+      content: const Text(
+        'Wir haben dir einen Link geschickt. Bitte klicke darauf, um deine E-Mail zu bestätigen. Prüfe auch deinen Spam-Ordner.\n\n'
+        'Nachdem du die neue E-Mail-Adresse bestätigt hast, starte die App neu.',
+      ),
+      actions: [
+        TextButton(
+          child: const Text("Reload"),
+          onPressed: () {
+            FirebaseAuth.instance.currentUser!.reload();
+          },
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: const Text("OK"),
+        ),
+      ],
     );
   }
 }
