@@ -21,7 +21,7 @@ dependencies:
   collection: ^1.19.1
   crash_analytics:
     path: ../crash_analytics
-  firebase_analytics: ^11.4.3
+  firebase_analytics: ^12.0.2
 
 dev_dependencies:
   flutter_test:
