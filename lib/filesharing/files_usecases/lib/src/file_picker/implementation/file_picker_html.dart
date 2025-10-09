@@ -36,7 +36,10 @@ class FilePickerHtml extends FilePickerImplementation {
 
   Future<LocalFile?> _pickSingle() async {
     final res =
-        (await web.FilePicker.platform.pickFiles(allowMultiple: false))!;
+        (await web.FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          compressionQuality: 30,
+        ))!;
     if (res.files.isNotEmpty) {
       final file = res.files.single;
 
@@ -51,7 +54,11 @@ class FilePickerHtml extends FilePickerImplementation {
   }
 
   Future<List<LocalFile>?> _pickMulti() async {
-    final res = (await web.FilePicker.platform.pickFiles(allowMultiple: true))!;
+    final res =
+        (await web.FilePicker.platform.pickFiles(
+          allowMultiple: true,
+          compressionQuality: 30,
+        ))!;
     if (res.files.isNotEmpty) {
       return res.files
           .map(
