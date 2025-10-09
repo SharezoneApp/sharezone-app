@@ -213,7 +213,7 @@ dev_dependencies:
   test_randomness:
     path: ../lib/test_randomness
   bloc_test: ^10.0.0
-  bloc_presentation_test: ^1.0.2
+  bloc_presentation_test: ^1.2.0
   path: ^1.9.1
   patrol: ^3.15.2
   flutter_launcher_icons: ^0.14.4

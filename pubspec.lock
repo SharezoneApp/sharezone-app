@@ -157,10 +157,10 @@ packages:
     dependency: transitive
     description:
       name: bloc_presentation_test
-      sha256: dd3801492fec229d7d889b0231521d59a3f1fd726a61c44e3d9be10342e2746c
+      sha256: "8e2a847383a026f9cbe0c39d5cb285c3a0618be62bc8c27dd393a4ac66b988de"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   bloc_test:
     dependency: transitive
     description:
