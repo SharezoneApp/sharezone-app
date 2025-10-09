@@ -37,9 +37,12 @@ import '../firebase_options_dev.g.dart' as fb_dev;
 import '../firebase_options_prod.g.dart' as fb_prod;
 
 BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
+  // We seed with null, because we in the codebase .first and this will never
+  // complete without seeding.
+  //
   // ignore:close_sinks
   BehaviorSubject<Beitrittsversuch?> beitrittsversuche =
-      BehaviorSubject<Beitrittsversuch?>();
+      BehaviorSubject<Beitrittsversuch?>.seeded(null);
 
   beitrittsversuche.listen(
     (beitrittsversuch) => log("Neuer beitrittsversuch: $beitrittsversuch"),
