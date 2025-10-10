@@ -101,7 +101,7 @@ class _StateRadioGroup extends StatelessWidget {
         bloc.changeState(newState);
         savedChangesSnackBar(context);
       },
-      child: Column(
+      child: const Column(
         children: <Widget>[
           _StateListTile(StateEnum.badenWuerttemberg),
           _StateListTile(StateEnum.bayern),

@@ -11,7 +11,7 @@ description: A collaborative school planner for students, teachers and parents.
 # Note that we do not store the current build number in the pubspec.yaml. The
 # build number is automatically increased by the CD pipeline (using `sz deploy`
 # command).
-version: 2.3.1+0
+version: 2.3.2+0
 publish_to: none
 
 resolution: workspace
@@ -47,10 +47,10 @@ dependencies:
     path: ../lib/build_context
   characters: ^1.4.0
   clock: ^1.1.2
-  cloud_firestore: ^5.6.4
+  cloud_firestore: ^6.0.2
   cloud_firestore_helper:
     path: ../lib/cloud_firestore_helper
-  cloud_functions: ^5.3.3
+  cloud_functions: ^6.0.2
   collection: ^1.19.1
   common_domain_models:
     path: ../lib/common_domain_models
@@ -75,11 +75,11 @@ dependencies:
     path: ../lib/filesharing/files_usecases
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
-  firebase_auth: ^5.5.0
-  firebase_core: ^3.12.0
-  firebase_messaging: ^15.2.3
-  firebase_performance: ^0.10.1+3
-  firebase_storage: ^12.4.3
+  firebase_auth: ^6.1.0
+  firebase_core: ^4.1.1
+  firebase_messaging: ^16.0.2
+  firebase_performance: ^0.11.1
+  firebase_storage: ^13.0.2
   flare_flutter: ^3.0.2
   flutter:
     sdk: flutter
@@ -213,7 +213,7 @@ dev_dependencies:
   test_randomness:
     path: ../lib/test_randomness
   bloc_test: ^10.0.0
-  bloc_presentation_test: ^1.0.2
+  bloc_presentation_test: ^1.2.0
   path: ^1.9.1
   patrol: ^3.15.2
   flutter_launcher_icons: ^0.14.4
