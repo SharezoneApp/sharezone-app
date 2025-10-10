@@ -128,12 +128,18 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
 
   Future<void> signOutAndSignInWithNewCredentials() async {
     final newEmail = _emailSubject.value;
-    final newPassword = _passwordSubject.value;
+    final password = _passwordSubject.value;
     await firebaseAuth.signOut();
+
+    if (password == null) {
+      log('Could not reauthenticate as password was null.');
+      return;
+    }
+
     try {
       await firebaseAuth.signInWithEmailAndPassword(
         email: newEmail,
-        password: newPassword!,
+        password: password,
       );
     } catch (e) {
       // At this point, we can't show an error message to the user anymore
