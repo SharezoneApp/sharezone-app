@@ -318,22 +318,22 @@ void main() {
           termWith(
             subjects: [
               subjectWith(
-                id: SubjectId('maths-lowercase'),
+                id: const SubjectId('maths-lowercase'),
                 name: 'maths',
                 grades: [gradeWith()],
               ),
               subjectWith(
-                id: SubjectId('english-lowercase'),
+                id: const SubjectId('english-lowercase'),
                 name: 'english',
                 grades: [gradeWith()],
               ),
               subjectWith(
-                id: SubjectId('maths-uppercase'),
+                id: const SubjectId('maths-uppercase'),
                 name: 'Maths',
                 grades: [gradeWith()],
               ),
               subjectWith(
-                id: SubjectId('english-uppercase'),
+                id: const SubjectId('english-uppercase'),
                 name: 'English',
                 grades: [gradeWith()],
               ),
