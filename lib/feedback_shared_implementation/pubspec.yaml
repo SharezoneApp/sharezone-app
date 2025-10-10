@@ -31,7 +31,7 @@ dependencies:
     path: ../sharezone_widgets
   helper_functions:
     path: ../helper_functions
-  cloud_firestore: ^5.6.4
+  cloud_firestore: ^6.0.2
   cloud_firestore_helper:
     path: ../cloud_firestore_helper
   flutter_markdown:

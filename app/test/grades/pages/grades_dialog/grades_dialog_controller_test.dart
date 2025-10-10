@@ -53,72 +53,72 @@ void main() {
       test('error is thrown if subject is tried to be changed', () {
         gradesTestController.createTerm(
           termWith(
-            id: TermId('foo'),
+            id: const TermId('foo'),
             name: 'Foo term',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             subjects: [
               subjectWith(
-                id: SubjectId('maths'),
+                id: const SubjectId('maths'),
                 name: 'Maths',
-                grades: [gradeWith(id: GradeId('grade1'))],
+                grades: [gradeWith(id: const GradeId('grade1'))],
               ),
               subjectWith(
-                id: SubjectId('english'),
+                id: const SubjectId('english'),
                 name: 'english',
-                grades: [gradeWith(id: GradeId('grade2'))],
+                grades: [gradeWith(id: const GradeId('grade2'))],
               ),
             ],
           ),
         );
 
-        controller = createController(gradeId: GradeId('grade1'));
+        controller = createController(gradeId: const GradeId('grade1'));
 
         expect(
-          () => controller.setSubject(SubjectId('english')),
+          () => controller.setSubject(const SubjectId('english')),
           throwsA(isA<UnsupportedError>()),
         );
       });
       test('error is thrown if term is tried to be changed', () {
         gradesTestController.createTerms([
           termWith(
-            id: TermId('foo'),
+            id: const TermId('foo'),
             name: 'Foo term',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             subjects: [
               subjectWith(
-                id: SubjectId('maths'),
+                id: const SubjectId('maths'),
                 name: 'Maths',
-                grades: [gradeWith(id: GradeId('grade1'))],
+                grades: [gradeWith(id: const GradeId('grade1'))],
               ),
             ],
           ),
-          termWith(id: TermId('bar'), name: 'Bar term'),
+          termWith(id: const TermId('bar'), name: 'Bar term'),
         ]);
 
-        controller = createController(gradeId: GradeId('grade1'));
+        controller = createController(gradeId: const GradeId('grade1'));
 
         expect(
-          () => controller.setTerm(TermId('bar')),
+          () => controller.setTerm(const TermId('bar')),
           throwsA(isA<UnsupportedError>()),
         );
       });
       test('term and subject fields are deactivated in view', () {
         gradesTestController.createTerm(
           termWith(
-            id: TermId('foo'),
+            id: const TermId('foo'),
             name: 'Foo term',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             subjects: [
               subjectWith(
-                id: SubjectId('maths'),
+                id: const SubjectId('maths'),
                 name: 'Maths',
-                grades: [gradeWith(id: GradeId('grade1'))],
+                grades: [gradeWith(id: const GradeId('grade1'))],
               ),
             ],
           ),
         );
 
-        controller = createController(gradeId: GradeId('grade1'));
+        controller = createController(gradeId: const GradeId('grade1'));
 
         expect(controller.view.isSubjectFieldDisabled, true);
         expect(controller.view.isTermFieldDisabled, true);
@@ -126,16 +126,16 @@ void main() {
       test('changes to grade are correctly applied', () async {
         gradesTestController.createTerm(
           termWith(
-            id: TermId('foo'),
+            id: const TermId('foo'),
             name: 'Foo term',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             subjects: [
               subjectWith(
-                id: SubjectId('german'),
+                id: const SubjectId('german'),
                 name: 'German',
                 grades: [
                   gradeWith(
-                    id: GradeId('grade1'),
+                    id: const GradeId('grade1'),
                     title: 'Analysis of Goethe',
                     gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
                     type: GradeType.oralParticipation.id,
@@ -150,7 +150,7 @@ void main() {
           ),
         );
 
-        controller = createController(gradeId: GradeId('grade1'));
+        controller = createController(gradeId: const GradeId('grade1'));
 
         controller.setTitle('Analysis of Schiller');
         controller.setGradingSystem(GradingSystem.oneToSixWithDecimals);
@@ -163,9 +163,9 @@ void main() {
         await controller.save();
 
         final grade = gradesTestController
-            .term(TermId('foo'))
-            .subject(SubjectId('german'))
-            .grade(GradeId('grade1'));
+            .term(const TermId('foo'))
+            .subject(const SubjectId('german'))
+            .grade(const GradeId('grade1'));
 
         expect(grade.title, 'Analysis of Schiller');
         expect(grade.gradingSystem, GradingSystem.oneToSixWithDecimals);
@@ -180,16 +180,16 @@ void main() {
         () {
           gradesTestController.createTerm(
             termWith(
-              id: TermId('foo'),
+              id: const TermId('foo'),
               name: 'Foo term',
               gradingSystem: GradingSystem.zeroToFifteenPoints,
               subjects: [
                 subjectWith(
-                  id: SubjectId('maths'),
+                  id: const SubjectId('maths'),
                   name: 'Maths',
                   grades: [
                     gradeWith(
-                      id: GradeId('grade1'),
+                      id: const GradeId('grade1'),
                       title: 'Foo',
                       gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
                       includeInGradeCalculations: false,
@@ -204,7 +204,7 @@ void main() {
             ),
           );
 
-          controller = createController(gradeId: GradeId('grade1'));
+          controller = createController(gradeId: const GradeId('grade1'));
 
           expect(controller.view.title, 'Foo');
           expect(controller.view.selectedGrade, '2-');
@@ -217,11 +217,11 @@ void main() {
           expect(controller.view.takeIntoAccount, false);
           expect(controller.view.detailsController.text, 'Notes');
           expect(controller.view.selectedSubject, (
-            id: SubjectId('maths'),
+            id: const SubjectId('maths'),
             name: 'Maths',
           ));
           expect(controller.view.selectedTerm, (
-            id: TermId('foo'),
+            id: const TermId('foo'),
             name: 'Foo term',
           ));
 
@@ -233,17 +233,17 @@ void main() {
           expect(controller.view.isGradeTypeMissing, false);
 
           gradesTestController.addGrade(
-            termId: TermId('foo'),
-            subjectId: SubjectId('maths'),
+            termId: const TermId('foo'),
+            subjectId: const SubjectId('maths'),
             value: gradeWith(
-              id: GradeId('grade2'),
+              id: const GradeId('grade2'),
               gradingSystem: GradingSystem.zeroToFifteenPointsWithDecimals,
               includeInGradeCalculations: true,
               value: 13.2,
             ),
           );
 
-          controller = createController(gradeId: GradeId('grade2'));
+          controller = createController(gradeId: const GradeId('grade2'));
 
           expect(controller.view.selectedGrade, '13,2');
           expect(
@@ -267,13 +267,13 @@ void main() {
         'if there is an active term then it is the default value for the selected term',
         () {
           gradesTestController.createTerm(
-            termWith(id: TermId('foo'), name: "Foo term"),
+            termWith(id: const TermId('foo'), name: "Foo term"),
           );
 
           controller = createController();
 
           expect(controller.view.selectedTerm, (
-            id: TermId('foo'),
+            id: const TermId('foo'),
             name: "Foo term",
           ));
         },
@@ -318,12 +318,12 @@ void main() {
       test('setting multiple fields updates the view', () {
         gradesTestController.createTerm(
           termWith(
-            id: TermId('foo'),
+            id: const TermId('foo'),
             name: 'Foo term',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             subjects: [
               subjectWith(
-                id: SubjectId('maths'),
+                id: const SubjectId('maths'),
                 name: 'Maths',
                 grades: [gradeWith()],
               ),
@@ -346,13 +346,13 @@ void main() {
         expect(controller.view.selectedGradeErrorText, null);
 
         // Test setting subject
-        controller.setSubject(SubjectId('maths'));
+        controller.setSubject(const SubjectId('maths'));
         expect(controller.view.selectedSubject?.name, 'Maths');
         expect(controller.view.isSubjectMissing, false);
         expect(controller.view.isSubjectFieldDisabled, false);
 
         // Test setting term
-        controller.setTerm(TermId('foo'));
+        controller.setTerm(const TermId('foo'));
         expect(controller.view.selectedTerm?.name, 'Foo term');
         expect(controller.view.isTermMissing, false);
         expect(controller.view.isTermFieldDisabled, false);
@@ -446,13 +446,13 @@ void main() {
       test('changing term updates grading system if no grade entered', () {
         gradesTestController.createTerm(
           termWith(
-            id: TermId('term1'),
+            id: const TermId('term1'),
             gradingSystem: GradingSystem.zeroToFifteenPoints,
           ),
         );
 
         controller = createController();
-        controller.setTerm(TermId('term1'));
+        controller.setTerm(const TermId('term1'));
 
         expect(
           controller.view.selectedGradingSystem,
@@ -465,19 +465,19 @@ void main() {
         () {
           gradesTestController.createTerms([
             termWith(
-              id: TermId('term1'),
+              id: const TermId('term1'),
               gradingSystem: GradingSystem.zeroToFifteenPoints,
             ),
             termWith(
-              id: TermId('term2'),
+              id: const TermId('term2'),
               gradingSystem: GradingSystem.oneToFiveWithDecimals,
             ),
           ]);
           controller = createController();
 
-          controller.setTerm(TermId('term1'));
+          controller.setTerm(const TermId('term1'));
           controller.setGrade('8');
-          controller.setTerm(TermId('term2'));
+          controller.setTerm(const TermId('term2'));
 
           expect(
             controller.view.selectedGradingSystem,
@@ -542,13 +542,16 @@ void main() {
             termWith(
               gradeTypeWeights: {GradeType.presentation.id: Weight.zero},
               subjects: [
-                subjectWith(id: SubjectId('maths'), grades: [gradeWith()]),
+                subjectWith(
+                  id: const SubjectId('maths'),
+                  grades: [gradeWith()],
+                ),
               ],
             ),
           );
 
           controller = createController();
-          controller.setSubject(SubjectId('maths'));
+          controller.setSubject(const SubjectId('maths'));
           controller.setGradeType(GradeType.presentation);
 
           expect(
@@ -565,10 +568,10 @@ void main() {
               gradeTypeWeights: {GradeType.presentation.id: Weight.zero},
               subjects: [
                 subjectWith(
-                  id: SubjectId('maths'),
+                  id: const SubjectId('maths'),
                   grades: [
                     gradeWith(
-                      id: GradeId('grade1'),
+                      id: const GradeId('grade1'),
                       type: GradeType.writtenExam.id,
                     ),
                   ],
@@ -577,7 +580,7 @@ void main() {
             ),
           );
 
-          controller = createController(gradeId: GradeId('grade1'));
+          controller = createController(gradeId: const GradeId('grade1'));
 
           controller.setGradeType(GradeType.presentation);
 
@@ -612,13 +615,13 @@ void main() {
               gradingSystem: GradingSystem.zeroToFifteenPoints,
               subjects: [
                 subjectWith(
-                  id: SubjectId('maths'),
-                  grades: [gradeWith(id: GradeId('grade1'))],
+                  id: const SubjectId('maths'),
+                  grades: [gradeWith(id: const GradeId('grade1'))],
                 ),
               ],
             ),
           );
-          controller = createController(gradeId: GradeId('grade1'));
+          controller = createController(gradeId: const GradeId('grade1'));
           controller.setGradingSystem(GradingSystem.oneToSixWithPlusAndMinus);
 
           expect(
@@ -651,13 +654,13 @@ void main() {
               gradingSystem: GradingSystem.zeroToFifteenPoints,
               subjects: [
                 subjectWith(
-                  id: SubjectId('maths'),
-                  grades: [gradeWith(id: GradeId('grade1'))],
+                  id: const SubjectId('maths'),
+                  grades: [gradeWith(id: const GradeId('grade1'))],
                 ),
               ],
             ),
           );
-          controller = createController(gradeId: GradeId('grade1'));
+          controller = createController(gradeId: const GradeId('grade1'));
           controller.setGradingSystem(GradingSystem.zeroToFifteenPoints);
 
           expect(
@@ -711,8 +714,8 @@ void main() {
       );
 
       test('analytics is called when grade is saved', () async {
-        final termId = TermId('term1');
-        final subjectId = SubjectId('subject1');
+        const termId = TermId('term1');
+        const subjectId = SubjectId('subject1');
 
         gradesTestController.createTerm(
           termWith(

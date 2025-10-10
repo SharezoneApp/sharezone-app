@@ -18,7 +18,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_crashlytics: ^4.3.3
+  firebase_crashlytics: ^5.0.2
 
 dev_dependencies:
   flutter_test:

@@ -19,7 +19,7 @@ environment:
 dependencies:
   collection: ^1.19.1
   equatable: ^2.0.7
-  firebase_messaging: ^15.2.3
+  firebase_messaging: ^16.0.2
   flutter:
     sdk: flutter
   meta: ^1.16.0
