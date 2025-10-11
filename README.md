@@ -52,7 +52,7 @@ We use several types of tests to ensure the quality and stability of Sharezone:
 - [Golden Tests](https://api.flutter.dev/flutter/flutter_test/matchesGoldenFile.html): Compare rendered widgets to “golden” reference images to detect unintended visual changes.
 - [Integration Tests](https://docs.flutter.dev/cookbook/testing/integration/introduction): Run the app on a device or emulator to test end-to-end flows.
 
-To run the tests, please read the instructions in our [CONTRIBUTIND.md](./CONTRIBUTIND.md#tests).
+To run the tests, please read the instructions in our [CONTRIBUTING.md](./CONTRIBUTING.md#tests).
 
 ## Open-Source
 
