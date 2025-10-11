@@ -21,11 +21,7 @@ class GradesSettingsPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Noten-Einstellungen')),
       body: const SingleChildScrollView(
         padding: EdgeInsets.all(12),
-        child: SafeArea(
-          child: MaxWidthConstraintBox(
-            child: _SettingsList(),
-          ),
-        ),
+        child: SafeArea(child: MaxWidthConstraintBox(child: _SettingsList())),
       ),
     );
   }
@@ -36,16 +32,24 @@ class _SettingsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
+      spacing: 12,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        CardListTile(
-          leading: const Icon(Icons.menu_book_outlined),
-          title: const Text('Fächer'),
-          subtitle: const Text('Verwalte Fächer und verbundene Kurse'),
-          onTap: () => Navigator.pushNamed(context, SubjectsPage.tag),
-        ),
-      ],
+      children: [_SubjectsTile()],
+    );
+  }
+}
+
+class _SubjectsTile extends StatelessWidget {
+  const _SubjectsTile();
+
+  @override
+  Widget build(BuildContext context) {
+    return CardListTile(
+      leading: const Icon(Icons.menu_book_outlined),
+      title: const Text('Fächer'),
+      subtitle: const Text('Verwalte Fächer und verbundene Kurse'),
+      onTap: () => Navigator.pushNamed(context, SubjectsPage.tag),
     );
   }
 }
