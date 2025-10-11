@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 
 import 'weekday.dart';
 
-class Date {
+class Date implements Comparable<Date> {
   final String _iso8601String;
 
   factory Date(String dateString) {
@@ -105,6 +105,9 @@ class Date {
   Date addDays(int days) {
     return Date.fromDateTime(toDateTime.add(Duration(days: days, hours: 2)));
   }
+
+  @override
+  int compareTo(Date other) => _iso8601String.compareTo(other._iso8601String);
 }
 
 extension DateTimeToDate on DateTime {
