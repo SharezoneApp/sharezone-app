@@ -39,6 +39,21 @@ We might expand to more languages and regions in the future 🌍🚀
 - 🛠️ **tools/sz_repo_cli/**: Our custom `sz` Dart CLI used by developers and CI/CD pipelines.
   Helps with tasks like testing, analyzing, building, deploying etc.
 
+## Running the app
+
+To run the locally, please read the instructions in our [CONTRIBUTIND.md](./CONTRIBUTIND.md#running-the-app).
+
+## Tests
+
+We use several types of tests to ensure the quality and stability of Sharezone:
+
+- [Unit Tests](https://docs.flutter.dev/cookbook/testing/unit/introduction): Verify the logic of individual functions or classes in isolation.
+- [Widget Tests](https://docs.flutter.dev/cookbook/testing/widget/introduction): Test widgets’ UI and interaction behavior without running the full app.
+- [Golden Tests](https://api.flutter.dev/flutter/flutter_test/matchesGoldenFile.html): Compare rendered widgets to “golden” reference images to detect unintended visual changes.
+- [Integration Tests](https://docs.flutter.dev/cookbook/testing/integration/introduction): Run the app on a device or emulator to test end-to-end flows.
+
+To run the tests, please read the instructions in our [CONTRIBUTIND.md](./CONTRIBUTIND.md#tests).
+
 ## Open-Source
 
 This project is licensed under [EUPL v1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12) or later.\
