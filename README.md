@@ -41,7 +41,7 @@ We might expand to more languages and regions in the future 🌍🚀
 
 ## Running the app
 
-To run the locally, please read the instructions in our [CONTRIBUTIND.md](./CONTRIBUTIND.md#running-the-app).
+To run the app locally, please read the instructions in our [CONTRIBUTING.md](./CONTRIBUTING.md#running-the-app).
 
 ## Tests
 
