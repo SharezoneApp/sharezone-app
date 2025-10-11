@@ -51,7 +51,7 @@ PODS:
   - DKPhotoGallery/Resource (0.0.19):
     - SDWebImage
     - SwiftyGif
-  - fast_rsa (0.6.0):
+  - fast_rsa (0.7.0):
     - Flutter
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
@@ -602,7 +602,7 @@ SPEC CHECKSUMS:
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
-  fast_rsa: 2bccc4850c915fe0d543fcb25c6b2e469dd68968
+  fast_rsa: 033e7c710ae2491717cca9617cf3910c9bc64553
   file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
   Firebase: 26f6f8d460603af3df970ad505b16b15f5e2e9a1
   firebase_analytics: 9c18d3099ede6fd5a64f01d663aea7c1912b2307
@@ -686,4 +686,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 64c74f08fb0c24210086ae431b4bf6507123539c
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.16.2
