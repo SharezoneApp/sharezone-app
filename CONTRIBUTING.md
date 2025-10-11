@@ -163,7 +163,7 @@ sz test
 > [!NOTE]
 > This command is relatively slow because it runs **all** tests across all packages. During development, you may want to only run a subset of tests to speed things up.
 
-### Executing unit & widget tests:
+### Executing unit & widget tests
 
 To run all unit and widget tests, use:
 
