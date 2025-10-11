@@ -149,7 +149,7 @@ We use several types of tests to ensure the quality and stability of Sharezone:
 
 - [Unit Tests](https://docs.flutter.dev/cookbook/testing/unit/introduction): Verify the logic of individual functions or classes in isolation.
 - [Widget Tests](https://docs.flutter.dev/cookbook/testing/widget/introduction): Test widgets’ UI and interaction behavior without running the full app.
-- [Golden Tests](https://medium.com/profusion-engineering/golden-tests-in-flutter-a-comprehensive-guide-b4b50a932fd5): Compare rendered widgets to “golden” reference images to detect unintended visual changes.
+- [Golden Tests](https://api.flutter.dev/flutter/flutter_test/matchesGoldenFile.html): Compare rendered widgets to “golden” reference images to detect unintended visual changes.
 - [Integration Tests](https://docs.flutter.dev/cookbook/testing/integration/introduction): Run the app on a device or emulator to test end-to-end flows.
 
 ### Executing all tests
