@@ -8,6 +8,7 @@
 
 import 'dart:async';
 
+import 'package:date/date.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
@@ -31,79 +32,78 @@ void main() {
       await coursesController.close();
     });
 
-    test('builds view with grade subjects and courses without subjects', () async {
-      const termId = TermId('term-1');
-      const subjectId = SubjectId('subject-1');
-      const gradeId = GradeId('grade-1');
-      const termName = '11/1';
+    test(
+      'builds view with grade subjects and courses without subjects',
+      () async {
+        testController.createTerm(
+          termWith(
+            id: const TermId('term-1'),
+            name: '11/1',
+            subjects: [
+              subjectWith(
+                id: const SubjectId('subject-1'),
+                name: 'Mathematik',
+                abbreviation: 'MA',
+                grades: [
+                  gradeWith(
+                    id: const GradeId('grade-2'),
+                    value: 3,
+                    gradingSystem: GradingSystem.zeroToFifteenPoints,
+                    title: 'Klausur 2',
+                    type: GradeType.writtenExam.id,
+                    date: Date('2025-10-12'),
+                  ),
+                  gradeWith(
+                    id: const GradeId('grade-1'),
+                    value: 5,
+                    gradingSystem: GradingSystem.zeroToFifteenPoints,
+                    title: 'Klausur 1',
+                    type: GradeType.writtenExam.id,
+                    date: Date('2025-10-11'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
 
-      testController.createTerm(
-        termWith(
-          id: termId,
-          name: termName,
-          subjects: [
-            subjectWith(
-              id: subjectId,
-              name: 'Mathematik',
-              abbreviation: 'MA',
-              grades: [
-                gradeWith(
-                  id: gradeId,
-                  value: 5,
-                  gradingSystem: GradingSystem.zeroToFifteenPoints,
-                  title: 'Klausur 1',
-                  type: GradeType.writtenExam.id,
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
+        final controller = SubjectsPageController(
+          gradesService: service,
+          coursesStream: coursesController.stream,
+        );
 
-      final controller = SubjectsPageController(
-        gradesService: service,
-        coursesStream: coursesController.stream,
-      );
+        addTearDown(controller.dispose);
 
-      addTearDown(controller.dispose);
+        await pumpEventQueue();
+        expect(controller.state, isA<SubjectsPageLoaded>());
 
-      await pumpEventQueue();
-      expect(controller.state, isA<SubjectsPageLoaded>());
+        final firstView = (controller.state as SubjectsPageLoaded).view;
+        expect(firstView.gradeSubjects, hasLength(1));
+        final subjectView = firstView.gradeSubjects.first;
+        expect(subjectView.name, 'Mathematik');
+        expect(subjectView.grades.map((grade) => grade.title).toList(), [
+          'Klausur 1',
+          'Klausur 2',
+        ]);
 
-      final firstView = (controller.state as SubjectsPageLoaded).view;
-      expect(firstView.gradeSubjects, hasLength(1));
-      final subjectView = firstView.gradeSubjects.first;
-      expect(subjectView.name, 'Mathematik');
-      expect(subjectView.grades, hasLength(1));
-      expect(subjectView.grades.first.displayValue, '5');
-      expect(subjectView.grades.first.termName, termName);
-      expect(subjectView.grades.first.gradeTypeName, 'Schriftliche Prüfung');
+        coursesController.add([
+          _course(id: 'course-math', subject: 'Mathematik', name: 'Mathe Kurs'),
+          _course(id: 'course-bio', subject: 'Biologie', name: 'Bio Kurs'),
+        ]);
 
-      coursesController.add([
-        _course(
-          id: 'course-math',
-          subject: 'Mathematik',
-          name: 'Mathe Kurs',
-        ),
-        _course(
-          id: 'course-bio',
-          subject: 'Biologie',
-          name: 'Bio Kurs',
-        ),
-      ]);
+        await pumpEventQueue();
 
-      await pumpEventQueue();
-
-      expect(controller.state, isA<SubjectsPageLoaded>());
-      final updatedView = (controller.state as SubjectsPageLoaded).view;
-      expect(updatedView.gradeSubjects, hasLength(1));
-      expect(updatedView.coursesWithoutSubject, hasLength(1));
-      expect(updatedView.coursesWithoutSubject.first.name, 'Biologie');
-      expect(
-        updatedView.coursesWithoutSubject.first.connectedCourses.first.name,
-        'Bio Kurs',
-      );
-    });
+        expect(controller.state, isA<SubjectsPageLoaded>());
+        final updatedView = (controller.state as SubjectsPageLoaded).view;
+        expect(updatedView.gradeSubjects, hasLength(1));
+        expect(updatedView.coursesWithoutSubject, hasLength(1));
+        expect(updatedView.coursesWithoutSubject.first.name, 'Biologie');
+        expect(
+          updatedView.coursesWithoutSubject.first.connectedCourses.first.name,
+          'Bio Kurs',
+        );
+      },
+    );
   });
 }
 
@@ -112,7 +112,8 @@ Course _course({required String id, required String subject, String? name}) {
     id: id,
     name: name ?? subject,
     subject: subject,
-    abbreviation: subject.isNotEmpty ? subject.substring(0, 1).toUpperCase() : 'C',
+    abbreviation:
+        subject.isNotEmpty ? subject.substring(0, 1).toUpperCase() : 'C',
     myRole: MemberRole.admin,
   );
 }

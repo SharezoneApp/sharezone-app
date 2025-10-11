@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller_factory.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 
 import '../../grades_test_common.dart';
 
@@ -27,6 +29,53 @@ void main() {
     });
 
     testWidgets('shows subjects and allows deleting them', (tester) async {
+      testController.createTerm(
+        termWith(
+          id: const TermId('term'),
+          name: '11/1',
+          subjects: [
+            subjectWith(
+              id: const SubjectId('subject'),
+              name: 'Maths',
+              abbreviation: 'MA',
+              grades: [
+                gradeWith(
+                  id: const GradeId('grade'),
+                  value: 5,
+                  gradingSystem: GradingSystem.zeroToFifteenPoints,
+                  title: 'Exam 1',
+                  type: GradeType.writtenExam.id,
+                ),
+              ],
+              connectedCourses: [
+                _course(
+                  id: "math",
+                  subject: "Maths",
+                  name: "Maths Class",
+                ).toConnectedCourse(),
+              ],
+            ),
+          ],
+        ),
+      );
+
+      await tester.pumpWidget(
+        Provider<SubjectsPageControllerFactory>.value(
+          value: SubjectsPageControllerFactory(
+            gradesService: service,
+            coursesStream: () => Stream.value([]),
+          ),
+          child: const MaterialApp(home: SubjectsPage()),
+        ),
+      );
+
+      await tester.pump();
+
+      expect(find.text('Maths'), findsOneWidget);
+      expect(find.text('1 Note · Kurse: Maths Class'), findsOneWidget);
+    });
+
+    testWidgets('shows subjects and allows deleting them', (tester) async {
       const termId = TermId('term');
       const termName = '11/1';
       const subjectId = SubjectId('subject');
@@ -38,7 +87,7 @@ void main() {
           subjects: [
             subjectWith(
               id: subjectId,
-              name: 'Mathematik',
+              name: 'Maths',
               abbreviation: 'MA',
               grades: [
                 gradeWith(
@@ -56,10 +105,11 @@ void main() {
 
       final factory = SubjectsPageControllerFactory(
         gradesService: service,
-        coursesStream: () => Stream.value([
-          _course(id: 'math', subject: 'Mathematik', name: 'Mathe Kurs'),
-          _course(id: 'bio', subject: 'Biologie', name: 'Bio Kurs'),
-        ]),
+        coursesStream:
+            () => Stream.value([
+              _course(id: 'math', subject: 'Maths', name: 'Maths Class'),
+              _course(id: 'bio', subject: 'Bio', name: 'Bio Class'),
+            ]),
       );
 
       await tester.pumpWidget(
@@ -71,8 +121,7 @@ void main() {
 
       await tester.pump();
 
-      expect(find.text('Mathematik'), findsOneWidget);
-      expect(find.textContaining('Kurse: Bio Kurs'), findsOneWidget);
+      expect(find.text('Maths'), findsOneWidget);
 
       await tester.tap(find.byTooltip('Fach löschen'));
       await tester.pumpAndSettle();
@@ -90,6 +139,44 @@ void main() {
 
       expect(find.text('Noch keine Fächer angelegt'), findsOneWidget);
     });
+
+    testWidgets('shows empty state when no subjects are available', (
+      tester,
+    ) async {
+      final factory = SubjectsPageControllerFactory(
+        gradesService: service,
+        coursesStream: () => Stream.value([]),
+      );
+
+      await tester.pumpWidget(
+        Provider<SubjectsPageControllerFactory>.value(
+          value: factory,
+          child: const MaterialApp(home: SubjectsPage()),
+        ),
+      );
+
+      await tester.pump();
+
+      expect(find.text('Noch keine Fächer angelegt'), findsOneWidget);
+    });
+
+    testWidgets('shows error state when an error occurs', (tester) async {
+      final factory = SubjectsPageControllerFactory(
+        gradesService: service,
+        coursesStream: () => Stream.error(Exception('Test error')),
+      );
+
+      await tester.pumpWidget(
+        Provider<SubjectsPageControllerFactory>.value(
+          value: factory,
+          child: const MaterialApp(home: SubjectsPage()),
+        ),
+      );
+
+      await tester.pump();
+
+      expect(find.byType(ErrorCard), findsOneWidget);
+    });
   });
 }
 
@@ -98,7 +185,20 @@ Course _course({required String id, required String subject, String? name}) {
     id: id,
     name: name ?? subject,
     subject: subject,
-    abbreviation: subject.isNotEmpty ? subject.substring(0, 1).toUpperCase() : 'C',
+    abbreviation:
+        subject.isNotEmpty ? subject.substring(0, 1).toUpperCase() : 'C',
     myRole: MemberRole.admin,
   );
+}
+
+extension on Course {
+  ConnectedCourse toConnectedCourse({DateTime? addedOn}) {
+    return ConnectedCourse(
+      id: CourseId(id),
+      name: name,
+      subjectName: subject,
+      abbreviation: abbreviation,
+      addedOn: addedOn,
+    );
+  }
 }
