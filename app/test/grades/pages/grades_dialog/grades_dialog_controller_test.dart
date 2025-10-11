@@ -312,6 +312,44 @@ void main() {
           TakeIntoAccountState.enabled,
         );
       });
+
+      test('subjects are sorted by name in the view', () {
+        gradesTestController.createTerm(
+          termWith(
+            subjects: [
+              subjectWith(
+                id: const SubjectId('maths-lowercase'),
+                name: 'maths',
+                grades: [gradeWith()],
+              ),
+              subjectWith(
+                id: const SubjectId('english-lowercase'),
+                name: 'english',
+                grades: [gradeWith()],
+              ),
+              subjectWith(
+                id: const SubjectId('maths-uppercase'),
+                name: 'Maths',
+                grades: [gradeWith()],
+              ),
+              subjectWith(
+                id: const SubjectId('english-uppercase'),
+                name: 'English',
+                grades: [gradeWith()],
+              ),
+            ],
+          ),
+        );
+
+        controller = createController();
+
+        expect(controller.view.selectableSubjects.map((s) => s.name).toList(), [
+          'english',
+          'English',
+          'maths',
+          'Maths',
+        ]);
+      });
     });
 
     group('Field setters', () {
