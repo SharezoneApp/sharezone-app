@@ -146,6 +146,10 @@ class GradesService {
   Subject? getSubject(SubjectId id) {
     return _service.getSubject(id);
   }
+
+  void deleteSubject(SubjectId id) {
+    _service.deleteSubject(id);
+  }
 }
 
 class TermRef {
