@@ -83,6 +83,8 @@ class _Loaded extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const _CourseVsSubjectsInfo(),
+              const SizedBox(height: 12),
               if (view.hasGradeSubjects) ...[
                 const _SectionHeader(title: 'Notenfächer'),
                 const SizedBox(height: 12),
@@ -90,9 +92,6 @@ class _Loaded extends StatelessWidget {
                   _SubjectTile(subject: subject),
                   const SizedBox(height: 12),
                 ],
-              ] else ...[
-                const _EmptySubjectsHint(),
-                const SizedBox(height: 24),
               ],
               if (view.hasCoursesWithoutSubject) ...[
                 const _SectionHeader(title: 'Kurse ohne Notenfach'),
@@ -121,39 +120,24 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-class _EmptySubjectsHint extends StatelessWidget {
-  const _EmptySubjectsHint();
+class _CourseVsSubjectsInfo extends StatelessWidget {
+  const _CourseVsSubjectsInfo();
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return CustomCard(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 12),
-            child: Icon(Icons.menu_book_outlined),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Noch keine Fächer angelegt',
-                  style: textTheme.titleMedium,
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  'Verbinde Kurse mit den Noten, indem du beim Eintragen einer Note ein neues Fach auswählst. '
-                  'Sobald ein Fach erstellt wurde, erscheint es hier und kann wieder gelöscht werden.',
-                ),
-              ],
-            ),
-          ),
-        ],
+    return ExpansionCard(
+      header: const Text('Notenfächer vs Kurse'),
+      body: const Text(
+        '''In Sharezone werden alle Inhalte (wie Hausaufgaben oder Prüfungen) einem Kurs zugeordnet. Deine Noten werden jedoch in Notenfächern gespeichert - nicht in Kursen. So bleiben sie erhalten, auch wenn du einen Kurs verlässt.
+
+Das hat noch einen Vorteil: Du kannst deine Noten nach Fächern sortieren und später deine Entwicklung in einem Fach über mehrere Jahre hinweg verfolgen (diese Funktion ist bald verfügbar).
+
+Sharezone legt automatisch ein Notenfach an, sobald du eine Note in einem Kurs erstellst.
+''',
       ),
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.1),
     );
   }
 }
