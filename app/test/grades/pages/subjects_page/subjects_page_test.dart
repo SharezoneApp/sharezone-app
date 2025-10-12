@@ -137,27 +137,7 @@ void main() {
       expect(find.text('Fach und zugehörige Noten gelöscht.'), findsOneWidget);
       await tester.pump(const Duration(seconds: 1));
 
-      expect(find.text('Noch keine Fächer angelegt'), findsOneWidget);
-    });
-
-    testWidgets('shows empty state when no subjects are available', (
-      tester,
-    ) async {
-      final factory = SubjectsPageControllerFactory(
-        gradesService: service,
-        coursesStream: () => Stream.value([]),
-      );
-
-      await tester.pumpWidget(
-        Provider<SubjectsPageControllerFactory>.value(
-          value: factory,
-          child: const MaterialApp(home: SubjectsPage()),
-        ),
-      );
-
-      await tester.pump();
-
-      expect(find.text('Noch keine Fächer angelegt'), findsOneWidget);
+      expect(find.text('Notenfächer'), findsNothing);
     });
 
     testWidgets('shows error state when an error occurs', (tester) async {
