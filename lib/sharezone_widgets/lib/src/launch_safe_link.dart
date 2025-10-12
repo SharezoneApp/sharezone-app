@@ -75,15 +75,11 @@ Future<void> launchSafeLink({
 
   final bool didLaunch = await _launchExternally(uri);
 
-  if (!didLaunch) {
-    if (context.mounted) {
-      showSnackSec(
-        context: context,
-        text: 'Der Link konnte nicht geöffnet werden!',
-      );
-    } else {
-      throw Exception('Could not launchUrl $sanitizedHref');
-    }
+  if (!didLaunch && context.mounted) {
+    showSnackSec(
+      context: context,
+      text: 'Der Link konnte nicht geöffnet werden!',
+    );
   }
 }
 
