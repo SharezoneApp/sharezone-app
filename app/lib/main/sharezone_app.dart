@@ -212,8 +212,7 @@ class _SharezoneAppState extends State<SharezoneApp>
                 ICalLinksPage.tag: (context) => const ICalLinksPage(),
                 ICalLinksDialog.tag: (context) => const ICalLinksDialog(),
                 CreateTermPage.tag: (context) => const CreateTermPage(),
-                GradesSettingsPage.tag:
-                    (context) => const GradesSettingsPage(),
+                GradesSettingsPage.tag: (context) => const GradesSettingsPage(),
                 SubjectsPage.tag: (context) => const SubjectsPage(),
                 GradesDialog.tag: (context) {
                   if (ModalRoute.of(context)!.settings.arguments case {

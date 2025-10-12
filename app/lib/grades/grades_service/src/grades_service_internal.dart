@@ -575,10 +575,7 @@ class _GradesServiceInternal {
     final newSubjects = _subjects.removeWhere((subject) => subject.id == id);
     final newTerms =
         _terms
-            .map(
-              (term) =>
-                  term.hasSubject(id) ? term.removeSubject(id) : term,
-            )
+            .map((term) => term.hasSubject(id) ? term.removeSubject(id) : term)
             .toIList();
 
     final newState = _state.copyWith(subjects: newSubjects, terms: newTerms);
