@@ -8,10 +8,10 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
-import 'package:sharezone/settings/src/subpages/my_profile/submit_method.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
+import 'package:sharezone/settings/src/subpages/my_profile/submit_method.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 const snackBarText = 'Neue E-Mail Adresse wird an die Zentrale geschickt...';
@@ -79,11 +79,6 @@ class ChangeEmailPageBody extends StatelessWidget {
                 focusNode: passwordNode,
                 onEditComplete:
                     () async => await submit(context, snackBarText, changeType),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                "Hinweis: Wenn deine E-Mail geändert wurde, wirst du automatisch kurz ab- und sofort wieder angemeldet - also nicht wundern 😉",
-                style: TextStyle(color: Colors.grey, fontSize: 11),
               ),
               const Divider(height: 42),
               const _WhyWeNeedTheEmail(),
@@ -169,6 +164,86 @@ class __NewEmailFieldState extends State<_NewEmailField> {
           onChanged: (newEmail) => bloc.changeEmail(newEmail.trim()),
         );
       },
+    );
+  }
+}
+
+class VerifyEmailAddressDialog extends StatelessWidget {
+  const VerifyEmailAddressDialog({super.key});
+
+  static Future<void> show(BuildContext context) async {
+    final clickedContinue = await showDialog<bool>(
+      context: context,
+      builder: (context) => const VerifyEmailAddressDialog(),
+      // We disallow dismissing the dialog by clicking outside of it
+      // because we want to guide the user through the process of verifying
+      // the new email address.
+      barrierDismissible: false,
+    );
+    if (!context.mounted || clickedContinue != true) return;
+
+    await _ReAuthenticationDialog.show(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const LeftAndRightAdaptiveDialog(
+      title: "Neue E-Mail Adresse bestätigen",
+      content: Text.rich(
+        TextSpan(
+          text:
+              'Wir haben dir einen Link geschickt. Bitte klicke jetzt auf den Link, um deine E-Mail zu bestätigen. Prüfe auch deinen Spam-Ordner.\n\n',
+          children: [
+            TextSpan(
+              text: "Nachdem",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextSpan(
+              text:
+                  " du die neue E-Mail-Adresse bestätigt hast, klicke auf \"Weiter\".",
+            ),
+          ],
+        ),
+      ),
+      left: AdaptiveDialogAction.cancel,
+      right: AdaptiveDialogAction.continue_,
+    );
+  }
+}
+
+class _ReAuthenticationDialog extends StatelessWidget {
+  const _ReAuthenticationDialog();
+
+  static Future<void> show(BuildContext context) async {
+    final clickedLogout = await showDialog<bool>(
+      context: context,
+      builder: (context) => const _ReAuthenticationDialog(),
+      barrierDismissible: false,
+    );
+
+    if (!context.mounted || clickedLogout != true) return;
+
+    await _reauthenticate(context);
+  }
+
+  static Future<void> _reauthenticate(BuildContext context) async {
+    final bloc = BlocProvider.of<ChangeDataBloc>(context);
+    await bloc.signOutAndSignInWithNewCredentials();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const LeftAndRightAdaptiveDialog(
+      title: "Re-Authentifizierung",
+      content: Text(
+        '''Nach der Änderung der E-Mail-Adresse musst du abgemeldet und wieder angemeldet werden. Danach kannst du die App wie gewohnt weiter nutzen.
+
+Klicke auf "Weiter" um eine Abmeldung und eine Anmeldung von Sharezone durchzuführen.
+
+Es kann sein, dass die Anmeldung nicht funktioniert (z.B. weil die E-Mail-Adresse noch nicht bestätigt wurde). Führe in diesem Fall die Anmeldung selbständig durch.''',
+      ),
+      left: AdaptiveDialogAction.cancel,
+      right: AdaptiveDialogAction.continue_,
     );
   }
 }
