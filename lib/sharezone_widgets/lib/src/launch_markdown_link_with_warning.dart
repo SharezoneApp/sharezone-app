@@ -56,7 +56,7 @@ Future<void> launchMarkdownLinkWithWarning({
   _LinkDialogResult? dialogResult;
 
   if (!textMatchesHref && !isTrustedDomain) {
-    dialogResult = await _showLinkConfirmationDialog(
+    dialogResult = await _showLinkNotMatchingWarningDialog(
       context: context,
       displayText: sanitizedText,
       href: sanitizedHref,
@@ -82,7 +82,7 @@ Future<void> launchMarkdownLinkWithWarning({
   }
 }
 
-Future<_LinkDialogResult?> _showLinkConfirmationDialog({
+Future<_LinkDialogResult?> _showLinkNotMatchingWarningDialog({
   required BuildContext context,
   required String displayText,
   required String href,
