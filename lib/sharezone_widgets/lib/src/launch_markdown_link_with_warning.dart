@@ -13,8 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dialog_wrapper.dart';
 import 'snackbars.dart';
 
-const _trustedDomainsStoreKey =
-    'sharezone_widgets.markdown.trusted_link_domains';
+const _trustedDomainsStoreKey = 'markdown.trusted_link_domains';
 
 /// Launches [href] in an external application while preventing deceptive
 /// markdown links from opening without a warning dialog.

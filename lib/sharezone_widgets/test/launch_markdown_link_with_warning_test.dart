@@ -43,10 +43,7 @@ void main() {
 
     expect(fakeLauncher.launchUrlCallCount, 1);
     expect(find.byType(AlertDialog), findsNothing);
-    expect(
-      store.containsKey('sharezone_widgets.markdown.trusted_link_domains'),
-      isFalse,
-    );
+    expect(store.containsKey('markdown.trusted_link_domains'), isFalse);
   });
 
   testWidgets('shows confirmation dialog when text differs', (tester) async {
@@ -70,10 +67,7 @@ void main() {
     await launchFuture;
 
     expect(fakeLauncher.launchUrlCallCount, 1);
-    expect(
-      store.containsKey('sharezone_widgets.markdown.trusted_link_domains'),
-      isFalse,
-    );
+    expect(store.containsKey('markdown.trusted_link_domains'), isFalse);
   });
 
   testWidgets('stores trusted domain when user opts in', (tester) async {
@@ -97,7 +91,7 @@ void main() {
     await launchFuture;
 
     expect(
-      store.getStringList('sharezone_widgets.markdown.trusted_link_domains'),
+      store.getStringList('markdown.trusted_link_domains'),
       contains('evil.google.com'),
     );
 
