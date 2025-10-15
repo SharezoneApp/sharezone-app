@@ -39,7 +39,7 @@ Future<void> launchSafeLink({
     return;
   }
 
-  final uri = Uri.tryParse(sanitizedHref);
+  final uri = toLaunchableUri(sanitizedHref);
   if (uri == null || (!uri.hasScheme && !uri.hasAuthority)) {
     showSnackSec(
       context: context,
@@ -191,6 +191,43 @@ Future<void> _storeTrustedDomain({
   current.sort();
 
   await keyValueStore.setStringList(_trustedDomainsStoreKey, current);
+}
+
+@visibleForTesting
+Uri? toLaunchableUri(String input) {
+  final trimmed = input.trim();
+
+  if (trimmed.isEmpty) return null;
+
+  final Uri? initial = Uri.tryParse(trimmed);
+  if (initial == null) return null;
+
+  // Accept URIs that already have a scheme (e.g., https, http, mailto, tel)
+  // Only treat as a proper scheme if the original string contains '://' to
+  // avoid misclassifying inputs like 'example.com:8080' where Dart may parse
+  // 'example.com' as a scheme.
+  if (initial.hasScheme && trimmed.contains('://')) {
+    return initial;
+  }
+
+  // If there is no scheme and it looks like a domain (e.g., example.com or
+  // www.example.com), optionally with a port, assume https and try again.
+  final bool looksLikeDomain =
+      RegExp(
+        r'^[A-Za-z0-9.-]+\.[A-Za-z]{2,}(:[0-9]+)?(/.*)?$',
+      ).hasMatch(trimmed) ||
+      trimmed.startsWith('www.');
+
+  if (looksLikeDomain) {
+    final Uri? httpsUri = Uri.tryParse('https://$trimmed');
+    if (httpsUri != null) {
+      return httpsUri;
+    }
+  }
+
+  // Fallback to the initial parse result (may be a relative path which we won't
+  // launch)
+  return initial;
 }
 
 Future<bool> _launchExternally(Uri uri) async {
