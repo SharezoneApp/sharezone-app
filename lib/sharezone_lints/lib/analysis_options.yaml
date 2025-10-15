@@ -20,3 +20,5 @@ analyzer:
 linter:
   rules:
     # We can add here our own rules, which are not included in the flutter_lints
+    - prefer_const_constructors
+    - prefer_const_declarations

@@ -21,7 +21,7 @@ dependencies:
   built_value: ^8.9.3
   key_value_store:
     path: ../key_value_store
-  cloud_functions: ^5.3.3
+  cloud_functions: ^6.0.2
   app_functions:
     path: ../app_functions
   clock: ^1.1.2

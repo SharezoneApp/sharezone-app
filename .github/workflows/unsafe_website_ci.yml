@@ -81,7 +81,7 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
@@ -139,7 +139,7 @@ jobs:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
         uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
@@ -163,7 +163,7 @@ jobs:
         run: sz build website --flavor dev
 
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version: "20"
 

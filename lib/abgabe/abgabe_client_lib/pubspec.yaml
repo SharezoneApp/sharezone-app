@@ -32,7 +32,7 @@ dependencies:
   hausaufgabenheft_logik:
     path: ../../hausaufgabenheft_logik
   built_collection: ^5.1.1
-  cloud_firestore: ^5.6.4
+  cloud_firestore: ^6.0.2
   gcloud: ^0.8.18
   googleapis: ^13.2.0
   googleapis_auth: ^1.6.0

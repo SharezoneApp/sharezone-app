@@ -499,12 +499,13 @@ class CardListTile extends StatelessWidget {
     this.leading,
     this.title,
     this.subtitle,
+    this.trailing,
     this.onTap,
     this.centerTitle = false,
     this.maxWidth = 550,
   });
 
-  final Widget? leading, title, subtitle;
+  final Widget? leading, title, subtitle, trailing;
   final VoidCallback? onTap;
   final bool centerTitle;
   final double maxWidth;
@@ -566,6 +567,7 @@ class CardListTile extends StatelessWidget {
                   ],
                 ),
               ),
+              if (trailing != null) trailing!,
             ],
           ),
         ),
