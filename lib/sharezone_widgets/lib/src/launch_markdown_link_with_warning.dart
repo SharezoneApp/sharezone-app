@@ -197,6 +197,12 @@ Future<void> _storeTrustedDomain({
   await keyValueStore.setStringList(trustedDomainsStoreKey, current);
 }
 
+/// Tries to parse [input] as a URI.
+///
+/// Adds a `https://` prefix if [input] looks like a domain (e.g.,
+/// `example.com` or `www.example.com`).
+///
+/// Returns `null` if [input] is empty or cannot be parsed as a URI.
 @visibleForTesting
 Uri? toLaunchableUri(String input) {
   final trimmed = input.trim();
