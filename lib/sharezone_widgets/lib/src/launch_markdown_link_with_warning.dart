@@ -47,11 +47,11 @@ Future<void> launchMarkdownLinkWithWarning({
     return;
   }
 
-  final domain = uri.host.isNotEmpty ? uri.host.toLowerCase() : null;
+  final hrefDomain = uri.host.isNotEmpty ? uri.host.toLowerCase() : null;
   final textMatchesHref = sanitizedText == sanitizedHref;
   final isTrustedDomain =
-      domain != null &&
-      _isDomainTrusted(keyValueStore: keyValueStore, domain: domain);
+      hrefDomain != null &&
+      _isDomainTrusted(keyValueStore: keyValueStore, domain: hrefDomain);
 
   _LinkDialogResult? dialogResult;
 
@@ -60,7 +60,7 @@ Future<void> launchMarkdownLinkWithWarning({
       context: context,
       displayText: sanitizedText,
       href: sanitizedHref,
-      domain: domain,
+      domain: hrefDomain,
     );
 
     if (dialogResult == null || !dialogResult.open) {
@@ -68,8 +68,8 @@ Future<void> launchMarkdownLinkWithWarning({
     }
   }
 
-  if ((dialogResult?.trustDomain ?? false) && domain != null) {
-    await _storeTrustedDomain(keyValueStore: keyValueStore, domain: domain);
+  if ((dialogResult?.trustDomain ?? false) && hrefDomain != null) {
+    await _storeTrustedDomain(keyValueStore: keyValueStore, domain: hrefDomain);
   }
 
   final bool didLaunch = await _launchExternally(uri);
