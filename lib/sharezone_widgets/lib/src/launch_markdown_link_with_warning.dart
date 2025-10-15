@@ -68,7 +68,7 @@ Future<void> launchMarkdownLinkWithWarning({
     }
   }
 
-  if ((dialogResult?.trustDomain ?? false) && hrefDomain != null) {
+  if ((dialogResult?.dontWarnAgainForDomain ?? false) && hrefDomain != null) {
     await _storeTrustedDomain(keyValueStore: keyValueStore, domain: hrefDomain);
   }
 
@@ -91,7 +91,7 @@ Future<_LinkDialogResult?> _showLinkNotMatchingWarningDialog({
   return showDialog<_LinkDialogResult>(
     context: context,
     builder: (dialogContext) {
-      bool trustDomain = false;
+      bool dontWarnAgainForDomain = false;
 
       return DialogWrapper(
         child: StatefulBuilder(
@@ -119,10 +119,11 @@ Future<_LinkDialogResult?> _showLinkNotMatchingWarningDialog({
                     CheckboxListTile(
                       contentPadding: EdgeInsets.zero,
                       controlAffinity: ListTileControlAffinity.leading,
-                      value: trustDomain,
+                      value: dontWarnAgainForDomain,
                       onChanged:
-                          (value) =>
-                              setState(() => trustDomain = value ?? false),
+                          (value) => setState(
+                            () => dontWarnAgainForDomain = value ?? false,
+                          ),
                       title: Text('Domain $domain vertrauen'),
                       subtitle: const Text(
                         'Beim nächsten Mal nicht mehr nachfragen.',
@@ -137,7 +138,7 @@ Future<_LinkDialogResult?> _showLinkNotMatchingWarningDialog({
                       () => Navigator.of(builderContext).pop(
                         const _LinkDialogResult(
                           open: false,
-                          trustDomain: false,
+                          dontWarnAgainForDomain: false,
                         ),
                       ),
                   child: Text('Abbrechen', style: theme.textTheme.labelLarge),
@@ -145,7 +146,10 @@ Future<_LinkDialogResult?> _showLinkNotMatchingWarningDialog({
                 FilledButton(
                   onPressed:
                       () => Navigator.of(builderContext).pop(
-                        _LinkDialogResult(open: true, trustDomain: trustDomain),
+                        _LinkDialogResult(
+                          open: true,
+                          dontWarnAgainForDomain: dontWarnAgainForDomain,
+                        ),
                       ),
                   child: const Text('Link öffnen'),
                 ),
@@ -238,10 +242,13 @@ Future<bool> _launchExternally(Uri uri) async {
 }
 
 class _LinkDialogResult {
-  const _LinkDialogResult({required this.open, required this.trustDomain});
+  const _LinkDialogResult({
+    required this.open,
+    required this.dontWarnAgainForDomain,
+  });
 
   final bool open;
-  final bool trustDomain;
+  final bool dontWarnAgainForDomain;
 }
 
 class _LinkPreview extends StatelessWidget {
