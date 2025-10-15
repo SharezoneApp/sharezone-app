@@ -14,6 +14,7 @@ import 'package:authentification_base/authentification_analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/download_app_tip/widgets/download_app_tip_card.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
@@ -529,11 +530,14 @@ class _LoginWithQrCodeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SignWithOAuthButton(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         "assets/icons/qr-code.svg",
         width: 24,
         height: 24,
-        color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+          BlendMode.srcIn,
+        ),
       ),
       text: "Über einen Qr-Code einloggen",
       onTap: () => Navigator.pushNamed(context, SignInWithQrCodePage.tag),
@@ -549,11 +553,14 @@ class _LoginWithAppleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SignWithOAuthButton(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         "assets/logo/apple-logo.svg",
         width: 24,
         height: 24,
-        color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+          BlendMode.srcIn,
+        ),
       ),
       onTap: onLogin,
       text: 'Über Apple anmelden',

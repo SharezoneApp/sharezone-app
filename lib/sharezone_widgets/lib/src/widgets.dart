@@ -12,6 +12,7 @@ import 'dart:developer';
 import 'package:build_context/build_context.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -185,7 +186,7 @@ class SharezoneLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: 'sharezone-logo',
-      child: PlatformSvg.asset(
+      child: SvgPicture.asset(
         getLogoPath()!,
         height: height,
         width: width,
