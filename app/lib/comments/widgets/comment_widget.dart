@@ -89,7 +89,7 @@ class Comment extends StatelessWidget {
                       Theme.of(context),
                     ).copyWith(a: linkStyle(context, 14)),
                     onTapLink:
-                        (url, href, _) => launchSafeLink(
+                        (url, href, _) => launchMarkdownLinkWithWarning(
                           href: href ?? url,
                           text: url,
                           keyValueStore: context.read<KeyValueStore>(),

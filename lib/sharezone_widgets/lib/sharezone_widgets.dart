@@ -49,7 +49,7 @@ export 'src/form.dart';
 export 'src/list_tile_with_description.dart';
 
 // link
-export 'src/launch_safe_link.dart';
+export 'src/launch_markdown_link_with_warning.dart';
 
 // placeholder
 export 'src/placeholder.dart';

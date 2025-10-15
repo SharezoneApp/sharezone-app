@@ -535,7 +535,7 @@ class _HomeworkDescription extends StatelessWidget {
               ),
             ).copyWith(a: linkStyle(context, 14)),
             onTapLink:
-                (text, href, _) => launchSafeLink(
+                (text, href, _) => launchMarkdownLinkWithWarning(
                   href: href ?? text,
                   text: text,
                   keyValueStore: context.read<KeyValueStore>(),

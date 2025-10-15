@@ -52,7 +52,7 @@ void main() {
         fail('Context was not mounted');
       }
 
-      launchSafeLink(
+      launchMarkdownLinkWithWarning(
         text: 'https://google.com',
         href: 'https://evil-google.com',
         context: context,
@@ -85,7 +85,7 @@ void main() {
         fail('Context was not mounted');
       }
 
-      launchSafeLink(
+      launchMarkdownLinkWithWarning(
         text: 'https://google.com',
         href: 'https://evil-google.com',
         context: context,

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:sharezone_widgets/src/launch_safe_link.dart';
+import 'package:sharezone_widgets/src/launch_markdown_link_with_warning.dart';
 // ignore: depend_on_referenced_packages
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 // ignore: depend_on_referenced_packages
@@ -34,7 +34,7 @@ void main() {
     final store = InMemoryKeyValueStore();
     final context = await _pumpTestHost(tester);
 
-    await launchSafeLink(
+    await launchMarkdownLinkWithWarning(
       text: 'https://sharezone.net',
       href: 'https://sharezone.net',
       context: context,
@@ -53,7 +53,7 @@ void main() {
     final store = InMemoryKeyValueStore();
     final context = await _pumpTestHost(tester);
 
-    final launchFuture = launchSafeLink(
+    final launchFuture = launchMarkdownLinkWithWarning(
       text: 'https://google.com',
       href: 'https://evil-google.com',
       context: context,
@@ -80,7 +80,7 @@ void main() {
     final store = InMemoryKeyValueStore();
     final context = await _pumpTestHost(tester);
 
-    final launchFuture = launchSafeLink(
+    final launchFuture = launchMarkdownLinkWithWarning(
       text: 'https://google.com',
       href: 'https://evil.google.com',
       context: context,
@@ -103,7 +103,7 @@ void main() {
 
     fakeLauncher.launchUrlCallCount = 0;
 
-    await launchSafeLink(
+    await launchMarkdownLinkWithWarning(
       text: 'Hier klicken',
       href: 'https://evil.google.com',
       context: context,
@@ -122,7 +122,7 @@ void main() {
 
     fakeLauncher.shouldSucceed = false;
 
-    await launchSafeLink(
+    await launchMarkdownLinkWithWarning(
       text: 'https://sharezone.net',
       href: 'https://sharezone.net',
       context: context,
@@ -140,7 +140,7 @@ void main() {
     final store = InMemoryKeyValueStore();
     final context = await _pumpTestHost(tester);
 
-    await launchSafeLink(
+    await launchMarkdownLinkWithWarning(
       text: 'google.com',
       href: 'google.com',
       context: context,
@@ -158,7 +158,7 @@ void main() {
       final store = InMemoryKeyValueStore();
       final context = await _pumpTestHost(tester);
 
-      final launchFuture = launchSafeLink(
+      final launchFuture = launchMarkdownLinkWithWarning(
         text: 'https://google.com',
         href: 'google.com',
         context: context,

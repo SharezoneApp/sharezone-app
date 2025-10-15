@@ -440,7 +440,7 @@ class _Text extends StatelessWidget {
       //   a: linkStyle(context, 15),
       // ),
       onTapLink:
-          (text, href, _) => launchSafeLink(
+          (text, href, _) => launchMarkdownLinkWithWarning(
             href: href ?? text,
             text: text,
             keyValueStore: context.read<KeyValueStore>(),

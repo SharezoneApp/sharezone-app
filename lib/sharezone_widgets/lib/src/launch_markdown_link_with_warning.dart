@@ -22,7 +22,7 @@ const _trustedDomainsStoreKey =
 /// When the visible markdown text ([text]) differs from [href], a confirmation
 /// dialog is shown. Users can optionally trust the link's domain to skip the
 /// dialog for future taps.
-Future<void> launchSafeLink({
+Future<void> launchMarkdownLinkWithWarning({
   required String text,
   required String href,
   required BuildContext context,
