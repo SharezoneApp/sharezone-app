@@ -229,6 +229,10 @@ class _SortButtonState extends State<SortButton> {
         tapPosition & const Size(40, 40),
         Offset.zero & overlay.size,
       ),
+      popUpAnimationStyle: const AnimationStyle(
+        curve: Curves.easeOutQuint,
+        duration: Duration(milliseconds: 350),
+      ),
       constraints: const BoxConstraints(minWidth: 200, maxWidth: 360),
       items: [
         for (final sort in HomeworkSort.values)
