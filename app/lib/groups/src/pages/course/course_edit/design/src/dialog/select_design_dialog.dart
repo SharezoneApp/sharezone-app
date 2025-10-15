@@ -299,7 +299,7 @@ class _PlusAccurateColors extends StatelessWidget {
   bool _isDesignSelected(Design design) => selectedDesign == design;
 
   List<Design> getDesigns() {
-    List<Color> colors = [];
+    final List<Color> colors = [];
     for (final level in [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]) {
       try {
         colors.add(baseColor[level]!);
@@ -353,7 +353,7 @@ class _ColorCircleSelectDesign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const size = 50.0;
-    Widget? child =
+    final Widget? child =
         isSelected ? const Icon(Icons.check, color: Colors.white) : null;
 
     return Material(

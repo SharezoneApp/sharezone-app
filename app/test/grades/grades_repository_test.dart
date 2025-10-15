@@ -41,7 +41,7 @@ void main() {
       test(
         'A term is still saved when deleting the Grade service as long as the repository is the same',
         () {
-          var term = termWith(name: 'term1');
+          final term = termWith(name: 'term1');
           controller.createTerm(term);
 
           replaceGradesServiceWithSameRepository();
@@ -66,7 +66,7 @@ void main() {
       test(
         'A subject is still saved when deleting the Grade service as long as the repository is the same',
         () {
-          var subject = subjectWith(
+          final subject = subjectWith(
             id: const SubjectId('foo'),
             name: 'Foo Subject',
           );

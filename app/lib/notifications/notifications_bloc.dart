@@ -102,7 +102,7 @@ class NotificationsBloc extends BlocBase {
 
   /// Returns a list with the times from 0:00 to 23:30 for every 30 min: 0:00, 0:30, 1:00, 1:30, etc.
   List<TimeOfDay> getTimeForHomeworkNotifications() {
-    List<TimeOfDay> times = <TimeOfDay>[];
+    final List<TimeOfDay> times = <TimeOfDay>[];
     for (int i = 0; i < 24; i++) {
       for (int j = 0; j < 60; j += 30) {
         times.add(TimeOfDay(hour: i, minute: j));

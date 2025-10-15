@@ -49,7 +49,9 @@ class CourseGateway {
 
   Course createCourse(CourseData courseData, UserGateway userGateway) {
     final user = userGateway.data;
-    CourseData course = courseData.copyWith(id: references.courses.doc().id);
+    final CourseData course = courseData.copyWith(
+      id: references.courses.doc().id,
+    );
 
     references.courses.doc(course.id).set(course.toCreateJson(memberID));
 
@@ -206,11 +208,11 @@ class CourseGateway {
 
   MemberRole? getRoleFromCourseNoSync(String courseID) {
     if (_connectionsGateway.current() == null) return null;
-    Map<String?, Course> courses = _connectionsGateway.current()!.courses;
+    final Map<String?, Course> courses = _connectionsGateway.current()!.courses;
     if (courses.containsKey(courseID)) {
       return courses[courseID]?.myRole;
     } else {
-      Iterable<Course> filteredJoinedCourses = _connectionsGateway
+      final Iterable<Course> filteredJoinedCourses = _connectionsGateway
           .newJoinedCourses
           .where((it) => it.id == courseID);
       if (filteredJoinedCourses.isNotEmpty) {
@@ -242,10 +244,10 @@ class CourseGateway {
     final streamGroup = CombineLatestStream([courseStream, schoolClassStream], (
       streamValues,
     ) {
-      List<Course> courses = streamValues[0] as List<Course>? ?? [];
-      List<SchoolClass> schoolClasses =
+      final List<Course> courses = streamValues[0] as List<Course>? ?? [];
+      final List<SchoolClass> schoolClasses =
           streamValues[1] as List<SchoolClass>? ?? [];
-      List<GroupInfo> groupInfos = [
+      final List<GroupInfo> groupInfos = [
         for (final course in courses) course.toGroupInfo(),
         for (final schoolClass in schoolClasses) schoolClass.toGroupInfo(),
       ];

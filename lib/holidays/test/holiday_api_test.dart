@@ -95,11 +95,11 @@ void main() {
   test('Api gets called for correct year', () async {
     final szAppFunction = MockSharezoneAppFunctions();
 
-    HolidayApi api = HolidayApi(
+    final HolidayApi api = HolidayApi(
       CloudFunctionHolidayApiClient(szAppFunction),
       getCurrentTime: () => dateTime,
     );
-    int expectedYear = dateTime.year;
+    final int expectedYear = dateTime.year;
 
     when(
       szAppFunction.loadHolidays(stateCode: "NW", year: '$expectedYear'),

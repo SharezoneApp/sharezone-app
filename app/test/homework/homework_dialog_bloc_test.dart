@@ -123,7 +123,7 @@ void main() {
         final bloc = createBlocForNewHomeworkDialog();
         bloc.add(const Save());
         await pumpEventQueue();
-        Ready state = bloc.state as Ready;
+        final Ready state = bloc.state as Ready;
         expect(state.title.error, const EmptyTitleException());
       },
     );
@@ -155,7 +155,7 @@ void main() {
         bloc.add(const Save());
 
         expect(bloc.presentation, emits(const RequiredFieldsNotFilledOut()));
-        Ready state = await bloc.stream.whereType<Ready>().firstWhere(
+        final Ready state = await bloc.stream.whereType<Ready>().firstWhere(
           (event) => event.title.error != null,
         );
         expect(state.title.error, const EmptyTitleException());
@@ -194,7 +194,7 @@ void main() {
         bloc.add(const Save());
 
         expect(bloc.presentation, emits(const RequiredFieldsNotFilledOut()));
-        Ready state = await bloc.stream.whereType<Ready>().first;
+        final Ready state = await bloc.stream.whereType<Ready>().first;
         final courseState = state.course as NoCourseChosen;
         expect(courseState.error, const NoCourseChosenException());
       },
@@ -208,7 +208,7 @@ void main() {
         bloc.add(const Save());
 
         expect(bloc.presentation, emits(const RequiredFieldsNotFilledOut()));
-        Ready state = await bloc.stream.whereType<Ready>().first;
+        final Ready state = await bloc.stream.whereType<Ready>().first;
         expect(state.dueDate.error, const NoDueDateSelectedException());
       },
     );

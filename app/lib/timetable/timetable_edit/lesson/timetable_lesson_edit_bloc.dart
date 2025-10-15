@@ -43,7 +43,7 @@ class TimetableEditBloc extends BlocBase {
     required this.connectionsGateway,
     required this.timetableBloc,
   }) {
-    Course course =
+    final Course course =
         connectionsGateway.current()!.courses[initialLesson.groupID]!;
     _changeCourse(course);
     changeStartTime(initialLesson.startTime);

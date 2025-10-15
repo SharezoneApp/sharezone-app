@@ -93,7 +93,7 @@ void main() {
         ),
       );
 
-      var pageController = createPageController();
+      final pageController = createPageController();
       await pageController.setGradeWeight(
         gradeTypeId: GradeType.presentation.id,
         weight: const Weight.factor(0.5),

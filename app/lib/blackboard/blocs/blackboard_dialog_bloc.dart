@@ -102,7 +102,7 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
     String courseID,
     String blackboardItemID,
   ) async {
-    List<CloudFile> cloudFiles =
+    final List<CloudFile> cloudFiles =
         await api.api.fileSharing.cloudFilesGateway
             .filesStreamAttachment(courseID, blackboardItemID)
             .first;

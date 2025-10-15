@@ -324,7 +324,7 @@ void main() {
     });
     test('Austrian behavioural grades returns correct possible grades', () {
       final service = GradesService();
-      var possibleGrades =
+      final possibleGrades =
           service.getPossibleGrades(GradingSystem.austrianBehaviouralGrades)
               as NonNumericalPossibleGradesResult;
 

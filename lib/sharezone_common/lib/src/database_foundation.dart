@@ -49,7 +49,7 @@ class DataDocumentPackage<T> {
 
   Stream<T?> get stream {
     if (_isLocked == false) if (_isInitiated == false) _initiate();
-    StreamController<T?> newcontroller = StreamController();
+    final StreamController<T?> newcontroller = StreamController();
     _listStreamController.add(newcontroller);
     newcontroller.add(data);
     newcontroller.onCancel = () {
@@ -63,7 +63,7 @@ class DataDocumentPackage<T> {
     if (_loadedData) {
       return Future.value(data);
     } else {
-      StreamController<T> newcontroller = StreamController();
+      final StreamController<T> newcontroller = StreamController();
       _listStreamControllerOnce.add(newcontroller);
       return newcontroller.stream.first;
     }
@@ -159,7 +159,7 @@ class DataCollectionPackage<T> {
   }
 
   T? getItemByFilter(ItemFilter<T> filter) {
-    Iterable<T> iterable = data.where(filter);
+    final Iterable<T> iterable = data.where(filter);
     if (iterable.isNotEmpty) {
       return iterable.first;
     } else {
@@ -177,7 +177,7 @@ class DataCollectionPackage<T> {
 
   Stream<T> getItemFilteredStream(ItemFilter<T> filter) {
     if (_isLocked == false) if (_isInitiated == false) _initiate();
-    StreamController<List<T>> newcontroller = StreamController();
+    final StreamController<List<T>> newcontroller = StreamController();
     _listStreamController.add(newcontroller);
     newcontroller.add(data);
     newcontroller.onCancel = () {
@@ -188,7 +188,7 @@ class DataCollectionPackage<T> {
 
   Stream<List<T>> getFilteredStream(ItemFilter<T> filter) {
     if (_isLocked == false) if (_isInitiated == false) _initiate();
-    StreamController<List<T>> newcontroller = StreamController();
+    final StreamController<List<T>> newcontroller = StreamController();
     _listStreamController.add(newcontroller);
     newcontroller.add(data);
     newcontroller.onCancel = () {
@@ -199,7 +199,7 @@ class DataCollectionPackage<T> {
 
   Stream<List<T>> get stream {
     if (_isLocked == false) if (_isInitiated == false) _initiate();
-    StreamController<List<T>> newcontroller = StreamController();
+    final StreamController<List<T>> newcontroller = StreamController();
     _listStreamController.add(newcontroller);
     newcontroller.add(data);
     newcontroller.onCancel = () {
@@ -213,7 +213,7 @@ class DataCollectionPackage<T> {
     if (_loadedData) {
       return Future.value(data);
     } else {
-      StreamController<List<T>> newcontroller = StreamController();
+      final StreamController<List<T>> newcontroller = StreamController();
       _listStreamControllerOnce.add(newcontroller);
       return newcontroller.stream.first;
     }
@@ -223,7 +223,7 @@ class DataCollectionPackage<T> {
     _isInitiated = true;
     _listener = reference.snapshots().listen((event) {
       if (_loadedData == false) _loadedData = true;
-      var preData =
+      final preData =
           event.docs
               .map(
                 (docSnap) => objectBuilder(

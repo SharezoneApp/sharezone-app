@@ -43,8 +43,8 @@ void main() {
       );
     }
 
-    var lightTheme = (data: getLightTheme(), name: 'light');
-    var darkTheme = (data: getDarkTheme(), name: 'dark');
+    final lightTheme = (data: getLightTheme(), name: 'light');
+    final darkTheme = (data: getDarkTheme(), name: 'dark');
 
     for (var testConfig in [
       (isExam: true, theme: lightTheme),

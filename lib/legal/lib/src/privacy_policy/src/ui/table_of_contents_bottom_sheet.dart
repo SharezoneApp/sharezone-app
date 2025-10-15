@@ -110,7 +110,7 @@ class _TocSectionHeadingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tocController = context.watch<TableOfContentsController>();
-    int indexHighlighted = tocController.documentSections!.indexWhere(
+    final int indexHighlighted = tocController.documentSections!.indexWhere(
       (section) => section.shouldHighlight,
     );
 

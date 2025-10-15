@@ -80,7 +80,7 @@ class _NextLessonCalculation {
 
   List<Date> calculate({int days = 3}) {
     if (lessons.isEmpty) return [];
-    List<Date> results = [];
+    final List<Date> results = [];
     Date date = Date.today();
     while (results.length < days) {
       // LOOP TO NEXT DAY
@@ -95,8 +95,8 @@ class _NextLessonCalculation {
   }
 
   bool _areLessonsAt(Date date) {
-    WeekType weekType = userSettings.getWeekTypeOfDate(date);
-    WeekDay weekDay = WeekDay.values[date.weekDay - 1];
+    final WeekType weekType = userSettings.getWeekTypeOfDate(date);
+    final WeekDay weekDay = WeekDay.values[date.weekDay - 1];
     for (final lesson in lessons) {
       if (weekDay != lesson.weekday) continue;
       if (lesson.weektype == WeekType.always || weekType == WeekType.always) {
@@ -109,8 +109,8 @@ class _NextLessonCalculation {
 
   bool _isHolidayAt(Date date) {
     for (final holiday in holidays) {
-      Date start = Date.fromDateTime(holiday!.start);
-      Date end = Date.fromDateTime(holiday.end);
+      final Date start = Date.fromDateTime(holiday!.start);
+      final Date end = Date.fromDateTime(holiday.end);
       if (date.isInsideDateRange(start, end)) return true;
     }
     return false;

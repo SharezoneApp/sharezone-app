@@ -118,7 +118,7 @@ class FileSharingPageFAB extends StatelessWidget {
           }
           break;
         case _FABAddOption.camera:
-          bool hasPermissions = await _checkCameraPermission();
+          final bool hasPermissions = await _checkCameraPermission();
           if (hasPermissions) {
             final tempImage = await FilePicker().pickImageCamera();
             if (tempImage != null) {

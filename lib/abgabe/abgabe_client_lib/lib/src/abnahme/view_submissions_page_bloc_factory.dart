@@ -22,7 +22,7 @@ class ViewSubmissionsPageBlocFactory extends BlocBase {
   final UserId nutzerId;
 
   ViewSubmissionsPageBloc create(String homeworkId) {
-    var id = HomeworkId(homeworkId);
+    final id = HomeworkId(homeworkId);
     final abgabeId = AbgabeId(AbgabezielId.homework(id), nutzerId);
 
     return ViewSubmissionsPageBloc(

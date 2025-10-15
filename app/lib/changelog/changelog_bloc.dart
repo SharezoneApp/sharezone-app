@@ -61,7 +61,7 @@ class ChangelogBloc extends BlocBase {
       change.currentUserVersion = currentVersion;
     }
 
-    bool allChangesLoaded = changes.length < (to - from);
+    final bool allChangesLoaded = changes.length < (to - from);
 
     final userHasNewestVersion =
         changes.where((change) => change.version > currentVersion).isEmpty;

@@ -39,7 +39,7 @@ Future<WeekDay?> selectWeekDay(BuildContext context, {WeekDay? selected}) {
     context: context,
     items: enabledWeekDays,
     builder: (context, item) {
-      bool isSelected = selected == item;
+      final bool isSelected = selected == item;
       return ListTile(
         title: Text(getWeekDayText(item)),
         trailing:

@@ -46,7 +46,7 @@ class FileUtils {
   ];
   static String getExtension(String filePath) {
     String fileExtension = "";
-    int i = filePath.lastIndexOf('.');
+    final int i = filePath.lastIndexOf('.');
     if (i > 0) {
       fileExtension = filePath.substring(i + 1);
     }

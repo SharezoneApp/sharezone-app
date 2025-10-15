@@ -74,16 +74,17 @@ void main() {
       "should call the api and change reminder status when messaging status gets turned off",
       () async {
         when(user.reminderTime).thenAnswer((_) => "12:30");
-        BehaviorSubject<AppUser> userStream = BehaviorSubject<AppUser>.seeded(
-          user,
-        );
+        final BehaviorSubject<AppUser> userStream =
+            BehaviorSubject<AppUser>.seeded(user);
         when(api.userStream).thenAnswer((_) => userStream);
         when(
           api.setHomeworkReminderTime(null),
         ).thenAnswer((_) => Future.value());
         bloc = NotificationsBloc(api);
 
-        StreamQueue queue = StreamQueue<bool>(bloc.notificationsForHomeworks);
+        final StreamQueue queue = StreamQueue<bool>(
+          bloc.notificationsForHomeworks,
+        );
 
         expect(await queue.next, true);
 

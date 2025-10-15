@@ -57,8 +57,8 @@ class StudentOpenHomeworkListViewFactory {
   bool _shouldShowCompleteOverdueHomeworkPrompt(
     IList<StudentHomeworkReadModel> openHomeworks,
   ) {
-    var now = _getCurrentDate();
-    var overdueOpenHomeworks = openHomeworks.getOverdue(now);
+    final now = _getCurrentDate();
+    final overdueOpenHomeworks = openHomeworks.getOverdue(now);
     return overdueOpenHomeworks.length > 2;
   }
 }

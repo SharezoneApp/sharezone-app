@@ -157,12 +157,12 @@ class BlackboardGateway {
   }
 
   static String parentOfPath(String documentRefPath) {
-    int lastIndex = documentRefPath.lastIndexOf("/");
+    final int lastIndex = documentRefPath.lastIndexOf("/");
     assert(
       lastIndex != -1,
       "documentReferencePath of DocumentReference should have a '/' in it. - documentReferencePath: $documentRefPath",
     );
-    String collectionRefPath = documentRefPath.substring(0, lastIndex);
+    final String collectionRefPath = documentRefPath.substring(0, lastIndex);
     return collectionRefPath;
   }
 

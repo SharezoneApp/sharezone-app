@@ -28,22 +28,22 @@ class AbgabeApi {
     CancelToken? cancelToken,
     Map<String, String>? headers,
   }) async {
-    String path = "/v1/submissions/{id}".replaceAll(
+    final String path = "/v1/submissions/{id}".replaceAll(
       "{"
       r'id'
       "}",
       id.toString(),
     );
 
-    Map<String, dynamic> queryParams = {};
+    final Map<String, dynamic> queryParams = {};
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
 
-    List<String> contentTypes = ["application/json"];
+    final List<String> contentTypes = ["application/json"];
 
-    var serializedBody = _serializers!.serialize(submissionDto);
-    var jsonsubmissionDto = json.encode(serializedBody);
+    final serializedBody = _serializers!.serialize(submissionDto);
+    final jsonsubmissionDto = json.encode(serializedBody);
     bodyData = jsonsubmissionDto;
 
     return _dio.request(

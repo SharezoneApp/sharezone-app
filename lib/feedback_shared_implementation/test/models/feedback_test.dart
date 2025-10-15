@@ -12,7 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Feedback', () {
     test('equality', () {
-      UserFeedback a = UserFeedback.create().copyWith(
+      final UserFeedback a = UserFeedback.create().copyWith(
         rating: 5.0,
         dislikes: "d",
         heardFrom: "h",
@@ -21,7 +21,7 @@ void main() {
         uid: "u",
       );
 
-      UserFeedback b = UserFeedback.create().copyWith(
+      final UserFeedback b = UserFeedback.create().copyWith(
         rating: 5.0,
         dislikes: "d",
         heardFrom: "h",
@@ -30,7 +30,7 @@ void main() {
         uid: "u",
       );
 
-      UserFeedback c = UserFeedback.create().copyWith(dislikes: "d");
+      final UserFeedback c = UserFeedback.create().copyWith(dislikes: "d");
       expect(a, equals(b));
       expect(a.copyWith(dislikes: "dd"), isNot(equals(c)));
     });

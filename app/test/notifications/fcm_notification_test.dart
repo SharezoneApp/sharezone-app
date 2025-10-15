@@ -17,7 +17,7 @@ import 'fcm_notification_test.mocks.dart';
 void main() {
   late NotificationTokenAdder notificationService;
   late MockNotificationTokenAdderApi api;
-  String testToken = "TOKEN";
+  const String testToken = "TOKEN";
 
   setUp(() {
     api = MockNotificationTokenAdderApi();

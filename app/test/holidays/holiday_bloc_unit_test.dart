@@ -58,9 +58,9 @@ void main() {
   test(
     'If Cache can not load Holidays the API will be invoked and will save the data to cache again',
     () async {
-      List<Holiday> apiResponse = [generateHoliday(), generateHoliday()];
+      final List<Holiday> apiResponse = [generateHoliday(), generateHoliday()];
 
-      HolidayBloc bloc = getBlocWithMocks();
+      final HolidayBloc bloc = getBlocWithMocks();
 
       cacheThrows();
       apiAnswersWith(apiResponse);
@@ -78,11 +78,11 @@ void main() {
   test(
     'If Cache returns valid data then the API does not get called',
     () async {
-      CacheResponse cachedHolidays = CacheResponse.valid([
+      final CacheResponse cachedHolidays = CacheResponse.valid([
         generateHoliday(),
         generateHoliday(),
       ]);
-      HolidayBloc bloc = getBlocWithMocks();
+      final HolidayBloc bloc = getBlocWithMocks();
 
       when(
         mockCache.load(const NordrheinWestfalen()),
@@ -95,13 +95,13 @@ void main() {
   test(
     'If cached Holidays are not valid anymore, then the API will get called, but will still return cached data when API call is failing',
     () {
-      List<Holiday> expectedHolidays = generateHolidayList(4);
+      final List<Holiday> expectedHolidays = generateHolidayList(4);
       when(
         mockCache.load(nrwState),
       ).thenReturn(CacheResponse.invalid(expectedHolidays));
       when(mockAPI.load(any, any)).thenThrow(Exception("Some Exception"));
 
-      HolidayBloc bloc = getBlocWithMocks();
+      final HolidayBloc bloc = getBlocWithMocks();
 
       expect(bloc.holidays, emits(expectedHolidays));
     },
@@ -110,23 +110,26 @@ void main() {
   test(
     "If cached Holidays are not valid anymore, then the API will get called and if successfull return",
     () {
-      List<Holiday> expectedHolidays = generateHolidayList(4);
+      final List<Holiday> expectedHolidays = generateHolidayList(4);
       cacheReturnsInvalidHolidays(generateHolidayList(4));
       apiAnswersWith(expectedHolidays);
-      HolidayBloc bloc = getBlocWithMocks();
+      final HolidayBloc bloc = getBlocWithMocks();
 
       expect(bloc.holidays, emits(expectedHolidays));
     },
   );
 
   test("Changing states from Stream yields correct holidays from stream", () {
-    List<Holiday> expectedNrwResponse = [generateHoliday(), generateHoliday()];
-    List<Holiday> expectedHessenResponse = [
+    final List<Holiday> expectedNrwResponse = [
       generateHoliday(),
       generateHoliday(),
     ];
-    var holidayStateGateway = InMemoryHolidayStateGateway();
-    HolidayBloc bloc = HolidayBloc(
+    final List<Holiday> expectedHessenResponse = [
+      generateHoliday(),
+      generateHoliday(),
+    ];
+    final holidayStateGateway = InMemoryHolidayStateGateway();
+    final HolidayBloc bloc = HolidayBloc(
       holidayManager: getMockManager(),
       stateGateway: holidayStateGateway,
     );
@@ -145,8 +148,8 @@ void main() {
   });
 
   test('When giving wrong state an Exception is given back to the stream', () {
-    var stateGateway = InMemoryHolidayStateGateway();
-    HolidayBloc bloc = HolidayBloc(
+    final stateGateway = InMemoryHolidayStateGateway();
+    final HolidayBloc bloc = HolidayBloc(
       holidayManager: getMockManager(),
       stateGateway: stateGateway,
     );
@@ -165,8 +168,8 @@ void main() {
   });
 
   test('When holidays can not be saved the api still returns as usual', () {
-    List<Holiday> apiResponse = generateHolidayList(4);
-    HolidayBloc bloc = getBlocWithMocks();
+    final List<Holiday> apiResponse = generateHolidayList(4);
+    final HolidayBloc bloc = getBlocWithMocks();
     when(mockCache.load(any)).thenThrow(Exception());
     apiAnswersWith(apiResponse);
     when(mockCache.save(any, any)).thenThrow(Exception());
@@ -200,7 +203,7 @@ class InMemoryHolidayStateGateway extends HolidayStateGateway {
 }
 
 List<Holiday> generateHolidayList(int length) {
-  List<Holiday> holidays = [];
+  final List<Holiday> holidays = [];
   for (int i = 0; i < length; i++) {
     final start = clock.now().add(Duration(days: i + 1));
     final end = start.add(Duration(days: i + 4));

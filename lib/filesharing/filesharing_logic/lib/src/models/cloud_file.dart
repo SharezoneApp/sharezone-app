@@ -215,7 +215,7 @@ List<CloudFile> matchRemovedCloudFilesFromTwoList(
   List<CloudFile> biggerList,
   List<CloudFile> smallerList,
 ) {
-  List<CloudFile> removedCloudFiles = [];
+  final List<CloudFile> removedCloudFiles = [];
   for (var biggerListFile in biggerList) {
     if (!smallerList.contains(biggerListFile)) {
       removedCloudFiles.add(biggerListFile);

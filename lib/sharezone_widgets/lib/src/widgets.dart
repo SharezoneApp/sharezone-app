@@ -360,7 +360,7 @@ void showAlert({
   String? flatButton2Text,
   VoidCallback? flatButton2OnPressed,
 }) {
-  AlertDialog alert = AlertDialog(
+  final AlertDialog alert = AlertDialog(
     title: title != null ? Text(title) : null,
     content: content,
     actions: <Widget>[

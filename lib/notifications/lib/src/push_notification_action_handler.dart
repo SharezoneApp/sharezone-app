@@ -200,7 +200,7 @@ class PushNotificationActionHandler {
 void _checkForDuplicateActionTypeRegistrations(
   List<ActionRegistration<ActionRequest>> actionRegistrations,
 ) {
-  Set<ActionRegistration> allDuplicates = {};
+  final Set<ActionRegistration> allDuplicates = {};
   for (final registration in actionRegistrations) {
     final duplicates = registration.getDuplicates(actionRegistrations);
     if (duplicates.isNotEmpty) {
@@ -221,7 +221,7 @@ extension on ActionRegistration {
   Set<ActionRegistration> getDuplicates(
     List<ActionRegistration> registrations,
   ) {
-    Set<ActionRegistration> duplicates = {};
+    final Set<ActionRegistration> duplicates = {};
 
     for (var registration in registrations.where((r) => r != this)) {
       if (hasIntersection(registration)) {

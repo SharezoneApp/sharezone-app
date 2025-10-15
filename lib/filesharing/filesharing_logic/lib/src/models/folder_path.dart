@@ -68,7 +68,7 @@ class FolderPath {
   /// Die Position im Dokument der [FileSharingData], damit man die Daten im Dokument abgreifen kann.
   String toPathDocumentPosition() {
     String fullPosition = 'folders';
-    List<String> subFolders = _pathString.split("/");
+    final List<String> subFolders = _pathString.split("/");
     for (String mFolderID in subFolders) {
       if (mFolderID == "") {
       } else {

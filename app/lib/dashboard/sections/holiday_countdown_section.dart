@@ -118,20 +118,21 @@ class _HolidayText extends StatelessWidget {
   }
 
   List<Widget> _buildHolidayWidgets(List<Holiday?> holidayList, int maxItems) {
-    List<Widget> widgetList = [];
+    final List<Widget> widgetList = [];
     if (holidayList.length > maxItems) {
       holidayList = List.from(holidayList.getRange(0, maxItems));
     }
     // For each Holiday create a Widget and add to the list.
     for (var holiday in holidayList) {
-      int daysTillHolidayBeginn = holiday!.start.difference(clock.now()).inDays;
-      String holidayTitle = capitalize(holiday.name);
+      final int daysTillHolidayBeginn =
+          holiday!.start.difference(clock.now()).inDays;
+      final String holidayTitle = capitalize(holiday.name);
 
       String emoji;
       Text textWidget;
       if (daysTillHolidayBeginn > 0) {
         emoji = daysTillHolidayBeginn > 24 ? "😴" : "😍";
-        String text =
+        final String text =
             daysTillHolidayBeginn > 1
                 ? "In $daysTillHolidayBeginn Tagen $emoji"
                 : "Morgen 😱🎉";
@@ -140,7 +141,8 @@ class _HolidayText extends StatelessWidget {
         emoji = "🎉🎉🙌";
         textWidget = Text("$holidayTitle: JETZT, WOOOOOOO! $emoji");
       } else {
-        int daysTillHolidayEnd = holiday.end.difference(clock.now()).inDays;
+        final int daysTillHolidayEnd =
+            holiday.end.difference(clock.now()).inDays;
         if (daysTillHolidayEnd == 0) {
           textWidget = Text("$holidayTitle: Letzer Tag 😱");
         } else {

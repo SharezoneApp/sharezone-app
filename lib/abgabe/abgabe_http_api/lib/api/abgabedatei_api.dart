@@ -29,22 +29,22 @@ class AbgabedateiApi {
     CancelToken? cancelToken,
     Map<String, String?>? headers,
   }) async {
-    String path = "/v1/submissions/{submissionId}/files".replaceAll(
+    final String path = "/v1/submissions/{submissionId}/files".replaceAll(
       "{"
       r'submissionId'
       "}",
       submissionId.toString(),
     );
 
-    Map<String, dynamic> queryParams = {};
+    final Map<String, dynamic> queryParams = {};
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
 
-    List<String> contentTypes = ["application/json"];
+    final List<String> contentTypes = ["application/json"];
 
-    var serializedBody = _serializers.serialize(dateiHinzufuegenCommandDto);
-    var jsondateiHinzufuegenCommandDto = json.encode(serializedBody);
+    final serializedBody = _serializers.serialize(dateiHinzufuegenCommandDto);
+    final jsondateiHinzufuegenCommandDto = json.encode(serializedBody);
     bodyData = jsondateiHinzufuegenCommandDto;
 
     return _dio.request(
@@ -70,7 +70,7 @@ class AbgabedateiApi {
     CancelToken? cancelToken,
     Map<String, String>? headers,
   }) async {
-    String path = "/v1/submissions/{submissionId}/files/{fileId}"
+    final String path = "/v1/submissions/{submissionId}/files/{fileId}"
         .replaceAll(
           "{"
           r'submissionId'
@@ -84,12 +84,12 @@ class AbgabedateiApi {
           fileId.toString(),
         );
 
-    Map<String, dynamic> queryParams = {};
+    final Map<String, dynamic> queryParams = {};
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
 
-    List<String> contentTypes = [];
+    final List<String> contentTypes = [];
 
     return _dio.request(
       path,
@@ -115,7 +115,7 @@ class AbgabedateiApi {
     CancelToken? cancelToken,
     Map<String, String>? headers,
   }) async {
-    String path = "/v1/submissions/{submissionId}/files/{fileId}"
+    final String path = "/v1/submissions/{submissionId}/files/{fileId}"
         .replaceAll(
           "{"
           r'submissionId'
@@ -129,15 +129,15 @@ class AbgabedateiApi {
           fileId.toString(),
         );
 
-    Map<String, dynamic> queryParams = {};
+    final Map<String, dynamic> queryParams = {};
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
 
-    List<String> contentTypes = ["application/json"];
+    final List<String> contentTypes = ["application/json"];
 
-    var serializedBody = _serializers.serialize(dateinameDto);
-    var jsondateinameDto = json.encode(serializedBody);
+    final serializedBody = _serializers.serialize(dateinameDto);
+    final jsondateinameDto = json.encode(serializedBody);
     bodyData = jsondateinameDto;
 
     return _dio.request(

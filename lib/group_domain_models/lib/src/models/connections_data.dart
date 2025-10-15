@@ -21,7 +21,7 @@ class ConnectionsData {
       return const ConnectionsData._(schoolClass: null, courses: {});
     }
 
-    Map<String, SchoolClass> schoolClasses = decodeMap(
+    final Map<String, SchoolClass> schoolClasses = decodeMap(
       data[CollectionNames.schoolClasses],
       (key, data) => SchoolClass.fromData(data, id: key),
     );
@@ -35,7 +35,7 @@ class ConnectionsData {
   }
 
   ConnectionsData copyWithJoinedCourses(List<Course> joinedCourses) {
-    Map<String?, Course> courseMap = Map.of(courses);
+    final Map<String?, Course> courseMap = Map.of(courses);
     for (Course course in joinedCourses) {
       if (!courseMap.containsKey(course.id)) {
         courseMap[course.id] = course;

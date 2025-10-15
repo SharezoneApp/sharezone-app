@@ -54,7 +54,7 @@ class SharezoneV2AnnoucementDialogGuard extends StatelessWidget {
     bool skip = false;
     try {
       final dialogSkippedNum = szContext.sharedPreferences.getInt(_skipKey);
-      DateTime? dialogSkipped =
+      final DateTime? dialogSkipped =
           dialogSkippedNum != null
               ? DateTime.fromMillisecondsSinceEpoch(dialogSkippedNum)
               : null;

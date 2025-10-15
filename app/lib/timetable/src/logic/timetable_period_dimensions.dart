@@ -25,15 +25,15 @@ class TimetablePeriodDimensions {
     final diffHours = period.endTime.hour - period.startTime.hour;
     final diffMinutes = period.endTime.minute - period.startTime.minute;
 
-    double diffTotalInHours = diffHours + (diffMinutes / 60);
+    final double diffTotalInHours = diffHours + (diffMinutes / 60);
     return diffTotalInHours * hourHeight;
   }
 
   double get topPosition {
-    int startHour = period.startTime.hour;
-    int startMinutes = period.startTime.minute;
-    double startHourTotalInHours = startHour + (startMinutes / 60);
-    double timetableBeginInHours =
+    final int startHour = period.startTime.hour;
+    final int startMinutes = period.startTime.minute;
+    final double startHourTotalInHours = startHour + (startMinutes / 60);
+    final double timetableBeginInHours =
         timetableBegin.hour + (timetableBegin.minute / 60);
     return (startHourTotalInHours - timetableBeginInHours) * hourHeight;
   }
@@ -51,10 +51,10 @@ class TimetableTimeDimensions {
   );
 
   double get topPosition {
-    int startHour = time.hour;
-    int startMinutes = time.minute;
-    double startHourTotalInHours = startHour + (startMinutes / 60);
-    double timetableBeginInHours =
+    final int startHour = time.hour;
+    final int startMinutes = time.minute;
+    final double startHourTotalInHours = startHour + (startMinutes / 60);
+    final double timetableBeginInHours =
         timetableBegin.hour + (timetableBegin.minute / 60);
     return (startHourTotalInHours - timetableBeginInHours) * hourHeight;
   }

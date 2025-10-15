@@ -14,7 +14,7 @@ void main() {
   group('ListWithBottomThreshold', () {
     group("given no children", () {
       testWidgets("shows LoadingWidget", (WidgetTester tester) async {
-        Widget loadingWidget = const CircularProgressIndicator();
+        const Widget loadingWidget = CircularProgressIndicator();
         final list = Directionality(
           textDirection: TextDirection.ltr,
           child: ListWithBottomThreshold(loadingIndicator: loadingWidget),
@@ -80,7 +80,7 @@ void main() {
       }
 
       const loadingWidgetHeight = 20.0;
-      Widget loadingWidget = const SizedBox(height: loadingWidgetHeight);
+      const Widget loadingWidget = SizedBox(height: loadingWidgetHeight);
       Widget? infiniteScrollingList;
 
       Future<void> scrollList(

@@ -23,10 +23,10 @@ class AnalyticsProvider extends InheritedWidget {
   final Analytics analytics;
 
   static Analytics ofOrNullObject(BuildContext context) {
-    AnalyticsProvider? provider =
+    final AnalyticsProvider? provider =
         context.findAncestorWidgetOfExactType<AnalyticsProvider>();
     if (provider == null) {
-      var loggingAnalyticsBackend = NullAnalyticsBackend();
+      final loggingAnalyticsBackend = NullAnalyticsBackend();
       developer.log("""
           ATTENTION: 
           AnalyticsProvider was not found in the widget tree. 

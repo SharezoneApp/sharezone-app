@@ -211,7 +211,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
     _disposeCallbacks.add(api.dispose);
 
-    var streamingKeyValueStore = FlutterStreamingKeyValueStore(
+    final streamingKeyValueStore = FlutterStreamingKeyValueStore(
       widget.blocDependencies.streamingSharedPreferences,
     );
 
@@ -291,7 +291,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
 
     final markdownAnalytics = MarkdownAnalytics(Analytics(getBackend()));
 
-    var abgabenGateway = FirestoreAbgabeGateway(
+    final abgabenGateway = FirestoreAbgabeGateway(
       firestore: firestore,
       submissionReviewCollection: firestore.collection(
         'Submissions/review/submissions',
@@ -317,14 +317,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     // Im Web muss der Bucket-Name zum lokalen Testen manuell gesetzt werden, weil Remote Config noch nicht geht
     // 'sharezone-debug-submissions';
     final abgabeHttpApi = AbgabeHttpApi();
-    var baseOptions = BaseOptions(
+    final baseOptions = BaseOptions(
       baseUrl: abgabenServiceBaseUrl,
 
       /// Cold-Start kann manchmal dauern
       connectTimeout: const Duration(seconds: 45),
     );
     abgabeHttpApi.dio = Dio(baseOptions);
-    var firebaseAuthTokenRetriever = FirebaseAuthTokenRetrieverImpl(
+    final firebaseAuthTokenRetriever = FirebaseAuthTokenRetrieverImpl(
       widget.blocDependencies.authUser!.firebaseUser,
     );
 

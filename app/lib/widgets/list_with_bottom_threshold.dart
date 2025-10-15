@@ -109,7 +109,7 @@ class _ListWithBottomThresholdState extends State<ListWithBottomThreshold> {
 
   void _onScroll() {
     _wasOnScrollCalled = true;
-    bool isOverThreshold =
+    final bool isOverThreshold =
         _controller.position.extentAfter < widget.thresholdHeight;
     if (isOverThreshold && !_wasCallbackCalled) {
       widget.onThresholdExceeded();

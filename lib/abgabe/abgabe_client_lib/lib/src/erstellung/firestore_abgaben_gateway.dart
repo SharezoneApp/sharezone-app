@@ -85,7 +85,7 @@ class FirestoreAbgabeGateway
       final dto = ErstellerAbgabenModelDto.fromMap(
         snapshot.data() as Map<String, dynamic>,
       );
-      var abgabe = dto.toAbgabe();
+      final abgabe = dto.toAbgabe();
       return ErstellerAbgabeModelSnapshot(abgabe);
     } else {
       return ErstellerAbgabeModelSnapshot.nichtExistent();

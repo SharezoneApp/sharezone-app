@@ -146,7 +146,7 @@ class _PermissionRadioGroup extends StatelessWidget {
       groupValue: currentPermission,
       onChanged: (newPermission) {
         if (newPermission == null) return;
-        Future<bool> kickUser = onChange(newPermission);
+        final Future<bool> kickUser = onChange(newPermission);
         showSimpleStateDialog(context, kickUser);
       },
       child: Column(

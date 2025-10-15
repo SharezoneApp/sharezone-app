@@ -65,7 +65,7 @@ void main() {
         required String neuerBasename,
         required String nachher,
       }) async {
-        var abgabedateiId = const AbgabedateiId('abgabedateiId');
+        const abgabedateiId = AbgabedateiId('abgabedateiId');
         useCases.abgabe.add(
           erstelleAbgabenModelSnapshot(
             abgegeben: false,
@@ -174,8 +174,8 @@ void main() {
             erstelleAbgabenModelSnapshot(abgegeben: false, abgabedateien: []),
           );
 
-          var dateiname = 'gustav.pdf';
-          var abgabedateiId = const AbgabedateiId('id1');
+          const dateiname = 'gustav.pdf';
+          const abgabedateiId = AbgabedateiId('id1');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(
               DateiUploadProzessFortschritt.erfolgreich(abgabedateiId),
@@ -197,7 +197,7 @@ void main() {
           /// Wir wollen sichergehen, dass die Abgabe vom Server wieder ankommt
           expect(bloc.submittable, emits(false));
 
-          var abgabe = erstelleAbgabenModelSnapshot(
+          final abgabe = erstelleAbgabenModelSnapshot(
             abgegeben: false,
             abgabedateien: [
               hochgeladeneAbgabedatei(id: abgabedateiId, name: dateiname),
@@ -225,8 +225,8 @@ void main() {
           );
           useCases.abgabe.add(abgabe);
 
-          var dateiname = 'bernd.pdf';
-          var abgabedateiId = const AbgabedateiId('id');
+          const dateiname = 'bernd.pdf';
+          const abgabedateiId = AbgabedateiId('id');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(
               DateiUploadProzessFortschritt.imGange(abgabedateiId, 0.22),
@@ -255,7 +255,7 @@ void main() {
       test(
         'Wenn eine Abgabe abgegeben wird, dann wird vom Bloc der AbgabeAbgeber mit der richtigen Id aufgerufen',
         () {
-          var abgabe = erstelleAbgabenModelSnapshot(
+          final abgabe = erstelleAbgabenModelSnapshot(
             abgegeben: false,
             abgabedateien: [hochgeladeneAbgabedatei()],
           );
@@ -274,15 +274,15 @@ void main() {
       test(
         'Lokal hochgeladene Datei nicht mehr anzeigen, falls diese vom Backend einmal ankam aber dann von außen entfernt wurde.',
         () async {
-          var dateiname1 = 'gustav.pdf';
-          var dateiname2 = 'meier.mp3';
-          var abgabedateiId1 = const AbgabedateiId('id1');
-          var abgabedateiId2 = const AbgabedateiId('id2');
+          const dateiname1 = 'gustav.pdf';
+          const dateiname2 = 'meier.mp3';
+          const abgabedateiId1 = AbgabedateiId('id1');
+          const abgabedateiId2 = AbgabedateiId('id2');
 
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId1, name: dateiname1);
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId2, name: dateiname2);
 
-          var snapshot = erstelleAbgabenModelSnapshot(
+          final snapshot = erstelleAbgabenModelSnapshot(
             abgegeben: false,
             abgabedateien: [
               hochgeladeneAbgabedatei(id: abgabedateiId1, name: dateiname1),
@@ -371,7 +371,7 @@ void main() {
           sizeInBytes: 1234,
           mimeType: MimeType.any,
         );
-        var abgabedateiId = const AbgabedateiId('testId');
+        const abgabedateiId = AbgabedateiId('testId');
         abgabedateiIdGenerator.gebeAbgabedateiIdZurueckFuerDateiMitNamen(
           abgabedateiId,
           'datei.pdf',
@@ -452,7 +452,7 @@ void main() {
         'Gibt Datei-Uploadstatus zurück, wenn eine lokale Datei hochgeladen wird',
         () async {
           // ARRANGE
-          var dateiname = 'gustav.pdf';
+          const dateiname = 'gustav.pdf';
           final uploadProzess =
               BehaviorSubject<DateiUploadProzessFortschritt>();
           useCases.abgabeprozessFortschrittFuerDateiMitName(
@@ -509,10 +509,10 @@ void main() {
       test(
         'Gibt die LocalFiles unter der jeweiligen Id an den Speicher weiter',
         () async {
-          var abgabedateiId1 = const AbgabedateiId('id1');
-          var abgabedateiId2 = const AbgabedateiId('id2');
-          var name1 = 'Datei1.pdf';
-          var name2 = 'Datei2.pdf';
+          const abgabedateiId1 = AbgabedateiId('id1');
+          const abgabedateiId2 = AbgabedateiId('id2');
+          const name1 = 'Datei1.pdf';
+          const name2 = 'Datei2.pdf';
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId1, name: name1);
           fuegeLokaleDateiHinzuUndSetzeId(id: abgabedateiId2, name: name2);
 
@@ -535,8 +535,8 @@ void main() {
             ),
           );
 
-          var hochladeneDateiName = 'abc.mp3';
-          var abgabedateiId = const AbgabedateiId('id2');
+          const hochladeneDateiName = 'abc.mp3';
+          const abgabedateiId = AbgabedateiId('id2');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(
               DateiUploadProzessFortschritt.imGange(abgabedateiId, 0.2),
@@ -565,8 +565,8 @@ void main() {
       test(
         'Schreibt hinter den Dateinamen einer Datei "(1)", "(2)" etc, wenn bereits eine lokale oder hochgeladene Datei mit dem selben Namen hinzugefügt wurde',
         () async {
-          var abgabedateiId = const AbgabedateiId('id');
-          var name = 'hallo.pdf';
+          const abgabedateiId = AbgabedateiId('id');
+          const name = 'hallo.pdf';
           useCases.abgabe.add(
             erstelleAbgabenModelSnapshot(
               abgegeben: false,
@@ -619,7 +619,7 @@ void main() {
           final f4 = MockLocalFile(name: 'nochmal.mp3');
           final f5 = MockLocalFile(name: 'nochmal.mp3');
 
-          var files = [f1, f2, f3, f4, f5];
+          final files = [f1, f2, f3, f4, f5];
           bloc.addSubmissionFiles(files);
 
           final names = bloc.files
@@ -642,7 +642,7 @@ void main() {
       test(
         'Wenn eine lokale Datei hochgeladen wurde und diese nun auch im Abgabe-Stream vorkommt, dann werden die Informationen aus Firestore den lokalen vorgezogen.',
         () async {
-          var dateiname = 'gustav.pdf';
+          const dateiname = 'gustav.pdf';
           const id = AbgabedateiId('gustav.pdf');
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(DateiUploadProzessFortschritt.erfolgreich(id)),
@@ -694,8 +694,8 @@ void main() {
       test(
         'Wenn eine Datei gelöscht werden soll, die nicht erfolgreich hochgeladen werden konnte, dann wird das nur lokal gemacht',
         () async {
-          var abgabedateiId = const AbgabedateiId('id');
-          var name = 'file.pdf';
+          const abgabedateiId = AbgabedateiId('id');
+          const name = 'file.pdf';
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(
               DateiUploadProzessFortschritt.fehlgeschlagen(abgabedateiId),
@@ -720,7 +720,7 @@ void main() {
       );
 
       test('Löschen hochgeladene Datei', () async {
-        var abgabedateiId = const AbgabedateiId('fileId');
+        const abgabedateiId = AbgabedateiId('fileId');
         useCases.abgabe.add(
           erstelleAbgabenModelSnapshot(
             abgegeben: false,
@@ -766,8 +766,8 @@ void main() {
       test(
         'Löschen lokale Datei die hochgeladen wurde lokal und auf dem Server',
         () async {
-          var abgabedateiId = const AbgabedateiId('id');
-          var name = 'file.pdf';
+          const abgabedateiId = AbgabedateiId('id');
+          const name = 'file.pdf';
           useCases.abgabeprozessFortschrittFuerDateiMitName(
             Stream.value(
               DateiUploadProzessFortschritt.erfolgreich(abgabedateiId),

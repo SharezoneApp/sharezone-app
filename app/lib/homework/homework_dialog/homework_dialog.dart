@@ -226,7 +226,7 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
               context: context,
               seconds: 2,
             );
-          case SavingFailed(error: var error):
+          case SavingFailed(error: final error):
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             showLeftRightAdaptiveDialog(
               content: Text(
@@ -589,7 +589,7 @@ class _DueDateChipsController extends ChangeNotifier {
     switch (dueDate) {
       case NextSchooldayDueDateSelection _:
         return 'Nächster Schultag';
-      case InXLessonsDueDateSelection due:
+      case final InXLessonsDueDateSelection due:
         return switch (due.inXLessons) {
           1 => 'Nächste Stunde',
           2 => 'Übernächste Stunde',

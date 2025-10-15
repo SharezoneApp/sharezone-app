@@ -131,7 +131,7 @@ void trySetSharezonePlusAnalyticsUserProperties(
               value: status.period!,
             );
           }
-          var source = status.source ?? SubscriptionSource.unknown;
+          final source = status.source ?? SubscriptionSource.unknown;
           analytics.setUserProperty(
             name: 'plus_source',
             value: source.stableAnalyticsKey,

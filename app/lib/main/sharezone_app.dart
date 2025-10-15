@@ -212,7 +212,7 @@ class _SharezoneAppState extends State<SharezoneApp>
                 CreateTermPage.tag: (context) => const CreateTermPage(),
                 GradesDialog.tag: (context) {
                   if (ModalRoute.of(context)!.settings.arguments case {
-                    'gradeId': String id,
+                    'gradeId': final String id,
                   }) {
                     return GradesDialog(gradeId: GradeId(id));
                   }

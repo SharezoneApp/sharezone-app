@@ -36,13 +36,13 @@ void main() {
       );
     });
     test('.addDays returns the same date if given 0', () {
-      var date = const Date(year: 2019, month: 11, day: 30);
+      const date = Date(year: 2019, month: 11, day: 30);
       expect(date.addDays(0), date);
     });
 
     test('Date.now', () {
       final now = Date.now();
-      var nowDateTime = clock.now();
+      final nowDateTime = clock.now();
       expect(now.year, nowDateTime.year);
       expect(now.month, nowDateTime.month);
       expect(now.day, nowDateTime.day);

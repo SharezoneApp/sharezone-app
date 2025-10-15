@@ -1615,7 +1615,7 @@ void main() {
         ),
       );
 
-      var subject = controller.getSubjects().single;
+      final subject = controller.getSubjects().single;
       expect(subject.name, 'Deutsch');
       expect(subject.abbreviation, 'D');
       final subject2 = controller.term(const TermId('term1')).subjects.single;
@@ -1654,7 +1654,7 @@ void main() {
         ),
       );
 
-      var subject = controller.getSubjects().single;
+      final subject = controller.getSubjects().single;
       expect(subject.connectedCourses, connectedCourses);
       final subject2 = controller
           .term(const TermId('term1'))

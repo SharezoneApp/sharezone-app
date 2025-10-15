@@ -59,7 +59,7 @@ class _IsPublic extends StatelessWidget {
       title: const Text("Beitreten erlauben"),
       leading: const Icon(Icons.lock),
       onTap: () {
-        Future<AppFunctionsResult<bool>> setFuture = bloc.setIsPublic(
+        final Future<AppFunctionsResult<bool>> setFuture = bloc.setIsPublic(
           !isPublic,
         );
         showAppFunctionStateDialog(context, setFuture);
@@ -72,7 +72,7 @@ class _IsPublic extends StatelessWidget {
       trailing: Switch.adaptive(
         value: isPublic,
         onChanged: (newValue) {
-          Future<AppFunctionsResult<bool>> setFuture = bloc.setIsPublic(
+          final Future<AppFunctionsResult<bool>> setFuture = bloc.setIsPublic(
             newValue,
           );
           showAppFunctionStateDialog(context, setFuture);

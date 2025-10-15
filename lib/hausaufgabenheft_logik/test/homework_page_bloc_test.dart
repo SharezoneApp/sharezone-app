@@ -71,7 +71,7 @@ void main() {
 
         bloc.add(LoadHomeworks());
 
-        Success success = await bloc.stream.whereType<Success>().first;
+        final Success success = await bloc.stream.whereType<Success>().first;
         expect(success.open.sections.first.title, 'Morgen');
       },
     );
@@ -105,7 +105,7 @@ void main() {
         await pumpEventQueue();
         bloc.add(CompletionStatusChanged('hw', true));
 
-        Success success = await bloc.stream.whereType<Success>().first;
+        final Success success = await bloc.stream.whereType<Success>().first;
 
         expect(
           success.open.sorting,
@@ -123,7 +123,7 @@ void main() {
         );
 
         bloc.add(LoadHomeworks());
-        Success success = await bloc.stream.whereType<Success>().first;
+        final Success success = await bloc.stream.whereType<Success>().first;
 
         expect(
           success.open.sorting,
@@ -137,7 +137,7 @@ void main() {
       () async {
         await addToRepository([createHomework(title: 'Hallo')]);
         bloc.add(LoadHomeworks());
-        Success success = await bloc.stream.whereType<Success>().first;
+        final Success success = await bloc.stream.whereType<Success>().first;
 
         expect(success.open.sorting, HomeworkSort.smallestDateSubjectAndTitle);
       },
@@ -161,25 +161,25 @@ void main() {
     test(
       'THEN he should see all open homework sorted firstly by date then subject then title',
       () async {
-        var h1 = createHomework(
+        final h1 = createHomework(
           todoDate: const Date(year: 2019, month: 2, day: 10),
           subject: 'Biologie',
           title: 'Analyse',
           id: '1',
         );
-        var h2 = createHomework(
+        final h2 = createHomework(
           todoDate: const Date(year: 2019, month: 2, day: 12),
           subject: 'Biologie',
           title: 'Buchstaben lernen',
           id: '2',
         );
-        var h3 = createHomework(
+        final h3 = createHomework(
           todoDate: const Date(year: 2019, month: 2, day: 12),
           subject: 'Computerkurs',
           title: 'Neuland erkunden',
           id: '3',
         );
-        var h4 = createHomework(
+        final h4 = createHomework(
           todoDate: const Date(year: 2020, month: 4, day: 20),
           subject: 'Afrikanisch',
           title: 'Analyse',
@@ -242,7 +242,7 @@ void main() {
           OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle),
         );
 
-        Success result = await bloc.stream.whereType<Success>().first;
+        final Success result = await bloc.stream.whereType<Success>().first;
 
         final notDone = result.open;
         expect(notDone.sections.length, 5);
@@ -328,7 +328,7 @@ void main() {
     test(
       'AND marks a homework as done THEN the homework should disapper from the open homework list and go to the done homework list',
       () async {
-        var homework = createHomework(
+        final homework = createHomework(
           id: 'homeworkId',
           done: false,
           title: 'title',

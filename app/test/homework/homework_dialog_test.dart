@@ -116,7 +116,7 @@ class MockNextSchooldayCalculator implements NextSchooldayCalculator {
       return Date.today().addDays(1);
     }
 
-    List<Date> results = [];
+    final List<Date> results = [];
     Date date = Date.today();
     while (results.length < inSchooldays) {
       date = date.addDays(1);
@@ -134,8 +134,8 @@ class MockNextSchooldayCalculator implements NextSchooldayCalculator {
   }
 
   bool _isHolidayAt(Date date) {
-    Date start = Date.fromDateTime(holiday!.start);
-    Date end = Date.fromDateTime(holiday!.end);
+    final Date start = Date.fromDateTime(holiday!.start);
+    final Date end = Date.fromDateTime(holiday!.end);
     if (date.isInsideDateRange(start, end)) return true;
     return false;
   }

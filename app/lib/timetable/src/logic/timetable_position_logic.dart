@@ -104,7 +104,7 @@ class TimetablePositionBuilder {
     final Map<String, TimetableElementProperties> newMap = {};
     final totalConflictElements = conflictingElements.length;
     for (final conflictID in conflictingElements) {
-      int index = conflictingElements.indexOf(conflictID);
+      final int index = conflictingElements.indexOf(conflictID);
       newMap[conflictID] = TimetableElementProperties(
         totalConflictElements,
         index,

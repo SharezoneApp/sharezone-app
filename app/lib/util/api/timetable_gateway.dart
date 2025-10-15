@@ -21,8 +21,9 @@ class TimetableGateway {
   const TimetableGateway(this.references, this.memberID);
 
   Future<bool> createLesson(Lesson lesson) {
-    String lessonID = references.lessons.doc().id;
-    Map<String, dynamic> data = lesson.copyWith(lessonID: lessonID).toJson();
+    final String lessonID = references.lessons.doc().id;
+    final Map<String, dynamic> data =
+        lesson.copyWith(lessonID: lessonID).toJson();
     data['users'] = [memberID];
     data['createdOn'] = FieldValue.serverTimestamp();
     return references.lessons
@@ -43,8 +44,8 @@ class TimetableGateway {
   }
 
   Future<bool> createEvent(CalendricalEvent event) {
-    String eventID = references.events.doc().id;
-    Map<String, dynamic> data =
+    final String eventID = references.events.doc().id;
+    final Map<String, dynamic> data =
         event.copyWith(eventID: eventID, authorID: memberID).toJson();
     data['users'] = [memberID];
     data['createdOn'] = FieldValue.serverTimestamp();

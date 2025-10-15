@@ -231,7 +231,7 @@ class HomeworkUserCreateSubmissionsBloc extends BlocBase {
     }
 
     for (var abgabedatei in einzigartigBenannteDateien) {
-      var hochladeneDatei = HochladeneLokaleAbgabedatei(
+      final hochladeneDatei = HochladeneLokaleAbgabedatei(
         abgabedatei,
         Fortschritt.nichtGestartet(),
       );
@@ -464,7 +464,7 @@ SubmissionDeadlineState _getDeadlineState(
   DateTime abgabezeitpunkt,
   DateTime now,
 ) {
-  var compareTo = now.compareTo(abgabezeitpunkt);
+  final compareTo = now.compareTo(abgabezeitpunkt);
   if (compareTo < 0) {
     return SubmissionDeadlineState.beforeDeadline;
   } else if (compareTo == 0) {

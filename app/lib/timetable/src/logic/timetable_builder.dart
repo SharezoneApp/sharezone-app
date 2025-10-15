@@ -25,7 +25,7 @@ class TimetableBuilder {
   const TimetableBuilder(this.lessons, this.dates, this.events, this.groupInfo);
 
   List<TimetableElement> buildElements() {
-    List<TimetableElement> entries = [];
+    final List<TimetableElement> entries = [];
     for (Date date in dates) {
       final filteredLessons = _getFilteredLessonsForDate(date);
       final filteredEvents = _getFilteredEventsForDate(date);
@@ -107,7 +107,7 @@ class TimetableBuilder {
   }
 
   Iterable<Lesson> _getFilteredLessonsForDate(Date date) {
-    WeekDay weekday = date.weekDayEnum;
+    final WeekDay weekday = date.weekDayEnum;
     return lessons.where((lesson) {
       if (lesson.startDate != null && lesson.startDate!.isBefore(date)) {
         return false;

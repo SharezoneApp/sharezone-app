@@ -157,7 +157,7 @@ enum ReferenceType { homework, blackboard }
 typedef ObjectListBuilder<T> = T Function(dynamic decodedMapValue);
 
 List<T> decodeList<T>(dynamic data, ObjectListBuilder<T> builder) {
-  List<dynamic>? originaldata = data;
+  final List<dynamic>? originaldata = data;
   if (originaldata == null) return [];
   return originaldata.map((dynamic value) => builder(value)).toList();
 }

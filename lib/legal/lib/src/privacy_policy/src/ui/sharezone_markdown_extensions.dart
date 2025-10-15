@@ -53,7 +53,7 @@ class _SharezoneHeaderWithIdSyntax extends HeaderWithIdSyntax {
 
   @override
   Node parse(BlockParser parser) {
-    var element = super.parse(parser) as Element;
+    final element = super.parse(parser) as Element;
     element.generatedId = _generateAnchorHashFromElement(element);
     return element;
   }
@@ -64,7 +64,7 @@ class _SharezoneSetextHeaderWithIdSyntax extends SetextHeaderWithIdSyntax {
 
   @override
   Node parse(BlockParser parser) {
-    var element = super.parse(parser) as Element;
+    final element = super.parse(parser) as Element;
     element.generatedId = _generateAnchorHashFromElement(element);
     return element;
   }

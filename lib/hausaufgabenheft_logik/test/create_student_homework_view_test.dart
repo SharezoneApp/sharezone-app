@@ -109,7 +109,7 @@ void main() {
       },
     );
     test('date should not get colored if the homework is not overdue', () {
-      var todoDate = const Date(year: 2020, month: 02, day: 01);
+      const todoDate = Date(year: 2020, month: 02, day: 01);
       final hw = createHomework(todoDate: todoDate);
       assert(todoDate > currentDate);
 

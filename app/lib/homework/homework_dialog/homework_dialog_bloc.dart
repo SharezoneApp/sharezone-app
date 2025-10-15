@@ -654,7 +654,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     });
     on<DueDateChanged>((event, emit) async {
       switch (event.newDueDate) {
-        case DateDueDateSelection s:
+        case final DateDueDateSelection s:
           final nextSchoolDay =
               await nextSchooldayCalculator.tryCalculateNextSchoolday();
           if (s.date == nextSchoolDay) {
@@ -669,7 +669,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             dueDateSelection: s,
           );
           break;
-        case NextSchooldayDueDateSelection s:
+        case final NextSchooldayDueDateSelection s:
           final nextSchoolDay =
               await nextSchooldayCalculator.tryCalculateNextSchoolday();
           _dateSelection = _dateSelection.copyWith(
@@ -677,7 +677,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
             dueDateSelection: s,
           );
           break;
-        case InXLessonsDueDateSelection s:
+        case final InXLessonsDueDateSelection s:
           final nextLesson = await nextLessonCalculator.tryCalculateXNextLesson(
             _homework.courseID,
             inLessons: s.inXLessons,
@@ -1034,7 +1034,7 @@ class HomeworkDialogApi {
   }) async {
     final oldHomework =
         await _api.homework.singleHomeworkStream(homeworkId.value).first;
-    List<String> attachments = oldHomework.attachments.toList();
+    final List<String> attachments = oldHomework.attachments.toList();
     final editorName = (await _api.user.userStream.first)!.name;
     final editorID = _api.user.authUser!.uid;
 

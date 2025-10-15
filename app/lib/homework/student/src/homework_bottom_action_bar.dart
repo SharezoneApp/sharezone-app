@@ -45,7 +45,7 @@ class HomeworkBottomActionBar extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.more_vert),
               onPressed: () async {
-                var action =
+                final action =
                     await showRoundedModalBottomSheet<_BottomSheetAction>(
                       context: context,
                       builder: (context) => const _MoreActionsBottomSheet(),

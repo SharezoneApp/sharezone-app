@@ -86,7 +86,8 @@ void main() {
     _createValidInput(bloc);
     bloc.changeName("Mathematik LK Q1");
     bloc.submitCourse();
-    List gatewayArguments = verify(gateway.createCourse(captureAny)).captured;
+    final List gatewayArguments =
+        verify(gateway.createCourse(captureAny)).captured;
     final userInput = gatewayArguments.first as UserInput;
     expect(userInput.name, "Mathematik LK Q1");
   });
@@ -97,7 +98,8 @@ void main() {
       final bloc = CourseCreateBloc(gateway, analytics);
       bloc.changeSubject("Subject");
       bloc.submitCourse();
-      List apiArguments = verify(gateway.createCourse(captureAny)).captured;
+      final List apiArguments =
+          verify(gateway.createCourse(captureAny)).captured;
       final userInput = apiArguments.first as UserInput;
       expect(userInput.name, "Subject");
     },

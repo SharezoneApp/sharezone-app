@@ -23,17 +23,21 @@ import 'integration_test.mocks.dart';
 @GenerateNiceMocks([MockSpec<SharezoneAppFunctions>()])
 void main() {
   test('Cache loads from API after empty cache and then from Cache', () async {
-    StateEnum firstState = StateEnum.nordrheinWestfalen;
-    StateEnum secondState = StateEnum.hamburg;
+    const StateEnum firstState = StateEnum.nordrheinWestfalen;
+    const StateEnum secondState = StateEnum.hamburg;
     final stateGateway = InMemoryHolidayStateGateway(initialValue: firstState);
     final szAppFunctions = MockSharezoneAppFunctions();
 
     final current = DateTime(2018, 03, 09);
-    HolidayBloc holidayBloc = setupBloc(szAppFunctions, stateGateway, current);
+    final HolidayBloc holidayBloc = setupBloc(
+      szAppFunctions,
+      stateGateway,
+      current,
+    );
 
     setMockAnswers(szAppFunctions);
 
-    StreamQueue<List<Holiday?>> queue = StreamQueue<List<Holiday?>>(
+    final StreamQueue<List<Holiday?>> queue = StreamQueue<List<Holiday?>>(
       holidayBloc.holidays,
     );
     stateGateway.changeState(secondState);
@@ -75,17 +79,17 @@ HolidayBloc setupBloc(
   HolidayStateGateway stateGateway,
   DateTime currentTime,
 ) {
-  HolidayApi api = HolidayApi(
+  final HolidayApi api = HolidayApi(
     CloudFunctionHolidayApiClient(szAppFunctions),
     getCurrentTime: () => currentTime,
   ); // Return ended Holidays, as I can't manipulate clock.now(). This would lead to flaky tests.
-  InMemoryKeyValueStore keyValueStore = InMemoryKeyValueStore();
-  HolidayCache cache = HolidayCache(
+  final InMemoryKeyValueStore keyValueStore = InMemoryKeyValueStore();
+  final HolidayCache cache = HolidayCache(
     keyValueStore,
     getCurrentTime: () => currentTime,
   );
-  HolidayService holidayManager = HolidayService(api, cache);
-  HolidayBloc holidayBloc = HolidayBloc(
+  final HolidayService holidayManager = HolidayService(api, cache);
+  final HolidayBloc holidayBloc = HolidayBloc(
     holidayManager: holidayManager,
     stateGateway: stateGateway,
     getCurrentTime: () => currentTime,

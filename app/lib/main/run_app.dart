@@ -41,7 +41,7 @@ BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
   // `await stream.first` would hang indefinitely if no value is ever added.
   //
   // ignore:close_sinks
-  BehaviorSubject<Beitrittsversuch?> beitrittsversuche =
+  final BehaviorSubject<Beitrittsversuch?> beitrittsversuche =
       BehaviorSubject<Beitrittsversuch?>.seeded(null);
 
   beitrittsversuche.listen(

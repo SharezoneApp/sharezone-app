@@ -34,7 +34,7 @@ class HolidayService {
       if (apiResponse != null) await _trySavingToCache(apiResponse, state);
     }
 
-    List<Holiday?>? response = apiResponse ?? cached?.payload;
+    final List<Holiday?>? response = apiResponse ?? cached?.payload;
     // Don't retrun null, as in most StreamBuilers there will be just a loading indicator.
     if (response == null) {
       throw HolidayLoadingException("Loading from Cache and Api both failed");

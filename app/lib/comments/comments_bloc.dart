@@ -90,7 +90,7 @@ class CommentsBloc extends BlocBase {
     final oldViewStatus = _searchOldStatus(event.commentId);
     final userAction = event.status;
 
-    CommentStatus newStatus = _getNewStatus(userAction, oldViewStatus);
+    final CommentStatus newStatus = _getNewStatus(userAction, oldViewStatus);
 
     final uid = _currentAuthorInformation.uid;
     final commentLocation = CommentLocation.fromCommentsLocation(

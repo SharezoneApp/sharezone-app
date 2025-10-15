@@ -221,7 +221,7 @@ class DeserializeFirestoreDocException implements Exception {
       report +=
           "\n.toString() of the document that should have been deserialized:\n${documentToDeserialize?.toString()}";
       report += "\n Fields of Document:\n";
-      List<String> listOfContent = [];
+      final List<String> listOfContent = [];
       try {
         listOfContent.add("\nDocument ID: ${documentToDeserialize!.id}");
         documentToDeserialize?.data()?.forEach((string, dyn) {

@@ -48,10 +48,10 @@ class FeedbackCache {
   }
 
   Future<DateTime?> _getLastSubmitTime() async {
-    String? lastSubmitString = _cache.getString(lastSubmitCacheKey);
+    final String? lastSubmitString = _cache.getString(lastSubmitCacheKey);
     if (lastSubmitString == null) return null;
 
-    DateTime lastSubmit = DateTime.parse(lastSubmitString);
+    final DateTime lastSubmit = DateTime.parse(lastSubmitString);
     return lastSubmit;
   }
 }

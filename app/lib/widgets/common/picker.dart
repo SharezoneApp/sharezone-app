@@ -32,7 +32,7 @@ Future<T?> selectItem<T>({
 }
 
 Theme clearAppTheme({required BuildContext context, required Widget child}) {
-  ThemeData parentTheme = Theme.of(context);
+  final ThemeData parentTheme = Theme.of(context);
   return Theme(
     data: ThemeData(
       primaryColor:

@@ -28,15 +28,15 @@ class TimetableElementDimensions {
     final diffMinutes =
         timetableElement.end.minute - timetableElement.start.minute;
 
-    double diffTotalInHours = diffHours + (diffMinutes / 60);
+    final double diffTotalInHours = diffHours + (diffMinutes / 60);
     return diffTotalInHours * hourHeight;
   }
 
   double get topPosition {
-    int startHour = timetableElement.start.hour;
-    int startMinutes = timetableElement.start.minute;
-    double startHourTotalInHours = startHour + (startMinutes / 60);
-    double timetableBeginInHours =
+    final int startHour = timetableElement.start.hour;
+    final int startMinutes = timetableElement.start.minute;
+    final double startHourTotalInHours = startHour + (startMinutes / 60);
+    final double timetableBeginInHours =
         timetableBegin.hour + (timetableBegin.minute / 60);
     return (startHourTotalInHours - timetableBeginInHours) * hourHeight;
   }

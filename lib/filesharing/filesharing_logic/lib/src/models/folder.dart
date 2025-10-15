@@ -134,7 +134,7 @@ class Folder {
     if (attempt >= 10 || attempt < 0) {
       throw Exception('Too Many Attempts to generate random ID!');
     }
-    List<Folder> folders =
+    final List<Folder> folders =
         fileSharingData.getFolders(folderPath)!.values.toList();
     String nameID =
         folderName.toLowerCase() +

@@ -135,11 +135,8 @@ class _PermissionRadioGroup extends StatelessWidget {
               : memberData.role,
       onChanged: (newRole) {
         if (newRole == null) return;
-        Future<AppFunctionsResult<bool>> updateFuture = bloc.updateMemberRole(
-          schoolClassID,
-          memberData.id,
-          newRole,
-        );
+        final Future<AppFunctionsResult<bool>> updateFuture = bloc
+            .updateMemberRole(schoolClassID, memberData.id, newRole);
         showAppFunctionStateDialog(context, updateFuture);
       },
       child: Column(
@@ -222,7 +219,8 @@ class _LeaveCourse extends StatelessWidget {
       onPressed: () {
         Navigator.pop(context);
         Navigator.pop(context);
-        Future<AppFunctionsResult<bool>> kickUser = bloc.leaveSchoolClass();
+        final Future<AppFunctionsResult<bool>> kickUser =
+            bloc.leaveSchoolClass();
         showAppFunctionStateDialog(context, kickUser);
       },
       child: const Text("SCHULKLASSE VERLASSEN"),
@@ -245,9 +243,8 @@ class _KickUser extends StatelessWidget {
           isAdmin
               ? () {
                 Navigator.pop(context);
-                Future<AppFunctionsResult<bool>> kickUser = bloc.kickMember(
-                  memberID,
-                );
+                final Future<AppFunctionsResult<bool>> kickUser = bloc
+                    .kickMember(memberID);
                 showAppFunctionStateDialog(context, kickUser);
               }
               : null,

@@ -11,8 +11,8 @@ import 'package:user/user.dart';
 
 class TimetableDateHelper {
   static Date dateBeginThisWeek() {
-    Date today = Date.today();
-    Date startOfThisWeek = today.addDays(-(today.weekDay - 1));
+    final Date today = Date.today();
+    final Date startOfThisWeek = today.addDays(-(today.weekDay - 1));
     return startOfThisWeek;
   }
 
@@ -30,9 +30,9 @@ class TimetableDateHelper {
     Date endDate,
     EnabledWeekDays enabledWeekDays,
   ) {
-    DateTime startDateTime = startDate.toDateTime;
-    DateTime endDateTime = endDate.toDateTime;
-    int days = endDateTime.difference(startDateTime).inDays.abs() + 1;
+    final DateTime startDateTime = startDate.toDateTime;
+    final DateTime endDateTime = endDate.toDateTime;
+    final int days = endDateTime.difference(startDateTime).inDays.abs() + 1;
     return List.generate(
       days,
       (it) => Date.fromDateTime(startDateTime.add(Duration(days: it))),

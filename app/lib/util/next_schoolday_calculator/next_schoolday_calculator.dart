@@ -72,7 +72,7 @@ class _NextSchooldayCaluclation {
 
   List<Date> calculate({int days = 3}) {
     if (enabledWeekdays.getEnabledWeekDaysList().isEmpty) return [];
-    List<Date> results = [];
+    final List<Date> results = [];
     Date date = Date.today();
     while (results.length < days) {
       // LOOP TO NEXT DAY
@@ -92,8 +92,8 @@ class _NextSchooldayCaluclation {
 
   bool _isHolidayAt(Date date) {
     for (final holiday in holidays) {
-      Date start = Date.fromDateTime(holiday!.start);
-      Date end = Date.fromDateTime(holiday.end);
+      final Date start = Date.fromDateTime(holiday!.start);
+      final Date end = Date.fromDateTime(holiday.end);
       if (date.isInsideDateRange(start, end)) return true;
     }
     return false;

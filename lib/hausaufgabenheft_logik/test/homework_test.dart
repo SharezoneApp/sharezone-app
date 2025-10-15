@@ -23,7 +23,7 @@ void main() {
       expect(h.isOverdueRelativeTo(today), true);
     });
     test('is not overdue when the todoDate equals the day given', () {
-      var date = const Date(year: 2019, month: 02, day: 03);
+      const date = Date(year: 2019, month: 02, day: 03);
       final h = createHomework(todoDate: date);
       expect(h.isOverdueRelativeTo(date), false);
     });

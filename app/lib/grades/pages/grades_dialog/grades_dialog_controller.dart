@@ -81,7 +81,7 @@ class GradesDialogController extends ChangeNotifier {
     }
 
     final posGradesRes = gradesService.getPossibleGrades(_gradingSystem);
-    SelectableGrades selectableGrades = (
+    final SelectableGrades selectableGrades = (
       distinctGrades: _getPossibleDistinctGrades(posGradesRes),
       nonDistinctGrades:
           posGradesRes is ContinuousNumericalPossibleGradesResult

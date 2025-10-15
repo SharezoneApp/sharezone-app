@@ -60,7 +60,7 @@ class StripeCheckoutSession {
       );
 
       if (response.statusCode == 200) {
-        var responseData = jsonDecode(response.body);
+        final responseData = jsonDecode(response.body);
         final String? url = responseData['url'];
 
         if (url == null) {

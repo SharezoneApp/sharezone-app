@@ -111,7 +111,7 @@ void main() {
     test(
       'loads the first 2 homeworks from the data source if initialNumberOfHomeworksToLoad is 2',
       () async {
-        var homeworks = listOfHomeworksWithLength(3);
+        final homeworks = listOfHomeworksWithLength(3);
         addToDataSource(homeworks);
 
         final controller = RealtimeUpdatingLazyLoadingController(
@@ -177,7 +177,7 @@ void main() {
           homeworkLoader,
           initialNumberOfHomeworksToLoad: 5,
         );
-        var results = controller.results.asBroadcastStream();
+        final results = controller.results.asBroadcastStream();
 
         // Delay so that the first request (initial number of homeworks) gets
         // executed before the stream subscription in the lazy loading controller

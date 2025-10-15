@@ -93,7 +93,7 @@ class FilesharingCloudFilesGateway
 
   @override
   Future<void> renameFile(CloudFile file) async {
-    DocumentReference ref = filesCollection.doc(file.id);
+    final DocumentReference ref = filesCollection.doc(file.id);
     ref.set({'name': file.name}, SetOptions(merge: true));
   }
 

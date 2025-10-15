@@ -28,22 +28,23 @@ class AbgabedateienApi {
     CancelToken? cancelToken,
     Map<String, String>? headers,
   }) async {
-    String path = "/v1/submissions/{submissionId}/files/addList".replaceAll(
-      "{"
-      r'submissionId'
-      "}",
-      submissionId.toString(),
-    );
+    final String path = "/v1/submissions/{submissionId}/files/addList"
+        .replaceAll(
+          "{"
+          r'submissionId'
+          "}",
+          submissionId.toString(),
+        );
 
-    Map<String, dynamic> queryParams = {};
+    final Map<String, dynamic> queryParams = {};
     dynamic bodyData;
 
     queryParams.removeWhere((key, value) => value == null);
 
-    List<String> contentTypes = ["application/json"];
+    final List<String> contentTypes = ["application/json"];
 
-    var serializedBody = _serializers.serialize(dateienHinzufuegenCommandDto);
-    var jsondateienHinzufuegenCommandDto = json.encode(serializedBody);
+    final serializedBody = _serializers.serialize(dateienHinzufuegenCommandDto);
+    final jsondateienHinzufuegenCommandDto = json.encode(serializedBody);
     bodyData = jsondateienHinzufuegenCommandDto;
 
     return _dio.request(

@@ -255,12 +255,12 @@ class HomeworkGateway {
   }
 
   static String parentOfPath(String documentRefPath) {
-    int lastIndex = documentRefPath.lastIndexOf("/");
+    final int lastIndex = documentRefPath.lastIndexOf("/");
     assert(
       lastIndex != -1,
       "documentReferencePath of DocumentReference should have a '/' in it. - documentReferencePath: $documentRefPath",
     );
-    String collectionRefPath = documentRefPath.substring(0, lastIndex);
+    final String collectionRefPath = documentRefPath.substring(0, lastIndex);
     return collectionRefPath;
   }
 
@@ -278,8 +278,8 @@ class HomeworkGateway {
     List<HomeworkDto>
   >.fromHandlers(
     handleData: (querySnapshot, sink) {
-      List<HomeworkDto> parsedHomeworkList = [];
-      List<DeserializeFirestoreDocException> errorList = [];
+      final List<HomeworkDto> parsedHomeworkList = [];
+      final List<DeserializeFirestoreDocException> errorList = [];
 
       // Adds each document either to parsedHomeworkList or errorList, depending if the deserializing/parsing succeeded.
       for (var homeworkDocument in querySnapshot.docs) {

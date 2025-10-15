@@ -29,13 +29,16 @@ class HolidayCache {
   }
 
   CacheResponse? load(State state) {
-    String? jsonHolidayCacheData = cache.getString(getKeyString(state));
+    final String? jsonHolidayCacheData = cache.getString(getKeyString(state));
     if (jsonHolidayCacheData == null) return null;
-    HolidayCacheData cacheData =
+    final HolidayCacheData cacheData =
         HolidayCacheData.fromJson(jsonHolidayCacheData)!;
     List<Holiday> holidays = cacheData.holidays.toList();
     holidays = removePassedHolidays(holidays);
-    bool isValid = isCacheDataValid(cacheData, maxValidDurationTillLastSaved);
+    final bool isValid = isCacheDataValid(
+      cacheData,
+      maxValidDurationTillLastSaved,
+    );
     return CacheResponse(holidays, isValid);
   }
 
@@ -46,7 +49,7 @@ class HolidayCache {
   }
 
   Future<void> save(List<Holiday?> holidays, State state) {
-    HolidayCacheData cacheData = HolidayCacheData(
+    final HolidayCacheData cacheData = HolidayCacheData(
       (b) =>
           b
             ..holidays = ListBuilder(holidays)

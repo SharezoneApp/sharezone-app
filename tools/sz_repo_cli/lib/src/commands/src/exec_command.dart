@@ -39,7 +39,7 @@ class ExecCommand extends ConcurrentCommand {
 
   @override
   Stream<Package> get packagesToProcess {
-    List<bool Function(Package)> testFuncs = [];
+    final List<bool Function(Package)> testFuncs = [];
     if (onlyDart) testFuncs.add((package) => package.isPureDartPackage);
     if (onlyFlutter) testFuncs.add((package) => package.isFlutterPackage);
 

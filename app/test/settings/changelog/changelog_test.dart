@@ -21,7 +21,7 @@ void main() {
     final gateway = LocalChangeGateway();
     final platformInformationManager = MockInformationManager();
     final bloc = ChangelogBloc(gateway, platformInformationManager, 3);
-    StreamQueue<ChangelogPageView> queue = StreamQueue<ChangelogPageView>(
+    final StreamQueue<ChangelogPageView> queue = StreamQueue<ChangelogPageView>(
       bloc.changes,
     );
     final firstLoad = await queue.next;

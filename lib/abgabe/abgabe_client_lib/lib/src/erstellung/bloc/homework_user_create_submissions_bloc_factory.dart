@@ -39,7 +39,7 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
   });
 
   HomeworkUserCreateSubmissionsBloc create(String homeworkId) {
-    var id = HomeworkId(homeworkId);
+    final id = HomeworkId(homeworkId);
     final abgabeId = AbgabeId(AbgabezielId.homework(id), UserId(userId));
     final abgabedateiApi = abgabeHttpApi.getAbgabedateiApi();
     final headerRetriever = FirebaseAuthHeaderRetriever(authTokenRetriever);

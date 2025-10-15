@@ -22,26 +22,26 @@ void main() {
     kVstore = InMemoryKeyValueStore();
   });
   test('Can save and load Holidays from Cache', () async {
-    State state = const NordrheinWestfalen();
-    HolidayCache cache = HolidayCache(kVstore);
-    var expectedHolidays = generateHolidayList(5);
+    const State state = NordrheinWestfalen();
+    final HolidayCache cache = HolidayCache(kVstore);
+    final expectedHolidays = generateHolidayList(5);
 
     cache.save(expectedHolidays, state);
-    CacheResponse cacheResponse = cache.load(state)!;
+    final CacheResponse cacheResponse = cache.load(state)!;
 
     expect(cacheResponse.payload, expectedHolidays);
   });
 
   test('Does not return holidays which are over/in the past.', () {
-    HolidayCache cache = HolidayCache(kVstore);
+    final HolidayCache cache = HolidayCache(kVstore);
     HolidayCacheData holidayCacheData;
-    State state = const NordrheinWestfalen();
+    const State state = NordrheinWestfalen();
 
-    Holiday holidayInTheFuture = generateHoliday(
+    final Holiday holidayInTheFuture = generateHoliday(
       clock.now().add(const Duration(days: 1)),
       clock.now().add(const Duration(days: 5)),
     );
-    Holiday holidayInThePast = generateHoliday(
+    final Holiday holidayInThePast = generateHoliday(
       clock.now().subtract(const Duration(days: 10)),
       clock.now().subtract(const Duration(days: 5)),
     );
@@ -56,7 +56,9 @@ void main() {
       holidayCacheData.toJson(),
     );
 
-    CacheResponse expectedResonse = CacheResponse.valid([holidayInTheFuture]);
+    final CacheResponse expectedResonse = CacheResponse.valid([
+      holidayInTheFuture,
+    ]);
     expect(cache.load(state)!.payload, expectedResonse.payload);
   });
 
@@ -66,10 +68,10 @@ void main() {
       expectedHolidays = generateHolidayList(3);
     });
     test("Correctly returns true", () async {
-      HolidayCache cache = HolidayCache(kVstore);
+      final HolidayCache cache = HolidayCache(kVstore);
 
       await cache.save(expectedHolidays, state);
-      CacheResponse cacheResponse = cache.load(state)!;
+      final CacheResponse cacheResponse = cache.load(state)!;
 
       expect(cacheResponse.inValidTimeframe, true);
     });
@@ -77,7 +79,7 @@ void main() {
       final sixtyDaysBefore = clock.now().subtract(const Duration(days: 60));
       final now = clock.now();
       var currentTimeReturnedToCache = sixtyDaysBefore;
-      HolidayCache cache = HolidayCache(
+      final HolidayCache cache = HolidayCache(
         kVstore,
         getCurrentTime: () => currentTimeReturnedToCache,
       );
@@ -85,7 +87,7 @@ void main() {
       await cache.save(expectedHolidays, state);
       currentTimeReturnedToCache = now;
 
-      CacheResponse cacheResponse = cache.load(state)!;
+      final CacheResponse cacheResponse = cache.load(state)!;
 
       expect(cacheResponse.inValidTimeframe, false);
     });

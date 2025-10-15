@@ -86,7 +86,8 @@ class CloudFunctionHolidayApiClient extends HolidayApiClient {
       return [];
     }
 
-    List<dynamic> holidayList = json.decode(responseBody) as List<dynamic>;
+    final List<dynamic> holidayList =
+        json.decode(responseBody) as List<dynamic>;
     return holidayList;
   }
 }
@@ -114,12 +115,12 @@ class HolidayApi {
   ]) async {
     assert(yearsInAdvance >= 0);
 
-    List<Holiday> holidays = [];
+    final List<Holiday> holidays = [];
 
     for (int i = 0; i <= yearsInAdvance; i++) {
-      int yearToLoad = getCurrentTime().year + i;
+      final int yearToLoad = getCurrentTime().year + i;
       try {
-        List<Holiday> holidayList = await _loadHolidaysForYear(
+        final List<Holiday> holidayList = await _loadHolidaysForYear(
           yearToLoad,
           state,
         );
@@ -133,7 +134,7 @@ class HolidayApi {
   }
 
   List<Holiday> _deserializeHolidaysFromJSON(List jsonHolidayList) {
-    List<Holiday> holidayList =
+    final List<Holiday> holidayList =
         jsonHolidayList
             .map(
               (jsonHoliday) => jsonSerializer.deserializeWith(
@@ -147,11 +148,13 @@ class HolidayApi {
   }
 
   Future<List<Holiday>> _loadHolidaysForYear(int year, State state) async {
-    List jsonHolidayList = await apiClient.getHolidayAPIResponse(
+    final List jsonHolidayList = await apiClient.getHolidayAPIResponse(
       year,
       state.code,
     );
-    List<Holiday> holidayList = _deserializeHolidaysFromJSON(jsonHolidayList);
+    final List<Holiday> holidayList = _deserializeHolidaysFromJSON(
+      jsonHolidayList,
+    );
     removePassedHolidays(holidayList);
     return holidayList;
   }

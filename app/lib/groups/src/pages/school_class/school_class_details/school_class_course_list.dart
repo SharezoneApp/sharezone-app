@@ -32,7 +32,7 @@ class SchoolClassCoursesList extends StatelessWidget {
           child: StreamBuilder<List<Course>>(
             stream: bloc.streamCourses(schoolClassID),
             builder: (context, snapshot) {
-              List<Course> courses = snapshot.data ?? [];
+              final List<Course> courses = snapshot.data ?? [];
               return _List(
                 courses: courses,
                 schoolClassId: schoolClassID,

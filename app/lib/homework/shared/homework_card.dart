@@ -54,12 +54,12 @@ class HomeworkCard extends StatelessWidget {
     final bloc = HomeworkCardBloc(api, homework!);
     final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
 
-    DateTime tomorrowWithoutTime = DateTime(
+    final DateTime tomorrowWithoutTime = DateTime(
       clock.now().year,
       clock.now().month,
       clock.now().day + 1,
     );
-    DateTime todoUntilWithoutTime = DateTime(
+    final DateTime todoUntilWithoutTime = DateTime(
       homework!.todoUntil.year,
       homework!.todoUntil.month,
       homework!.todoUntil.day,

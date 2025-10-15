@@ -354,7 +354,7 @@ class _DialPainter with _ClockPainterMixin {
 
   /// Paints the cached dial picture onto the canvas.
   void paint(Canvas canvas) {
-    if (_dialPicture case Picture picture) {
+    if (_dialPicture case final Picture picture) {
       canvas.drawPicture(picture);
     }
   }
@@ -391,7 +391,7 @@ class _CenterPainter with _ClockPainterMixin {
 
   /// Paints the cached center circle picture onto the canvas.
   void paint(Canvas canvas) {
-    if (_centerPicture case Picture picture) {
+    if (_centerPicture case final Picture picture) {
       canvas.drawPicture(picture);
     }
   }

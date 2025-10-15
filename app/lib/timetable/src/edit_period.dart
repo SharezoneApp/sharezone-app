@@ -20,7 +20,7 @@ Future<Period?> selectPeriod(BuildContext context, {Period? selected}) {
     context: context,
     items: periods.getPeriods(),
     builder: (context, item) {
-      bool isSelected = selected == item;
+      final bool isSelected = selected == item;
       return ListTile(
         leading: Text(
           item.number.toString(),

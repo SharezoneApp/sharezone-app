@@ -170,25 +170,25 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     // Cant use this from data from Firestore as the maps and Lists are all
     // dynamic.
     // if (data case {'terms': Map<String, Map<String, Object?>> termData}) {
-    if (data case {'terms': Map termData}) {
+    if (data case {'terms': final Map termData}) {
       termDtos =
           termData.mapTo((value, key) => TermDto.fromData(key)).toIList();
     }
 
     IList<SubjectDto> subjectDtos = const IListConst([]);
-    if (data case {'subjects': Map subjectData}) {
+    if (data case {'subjects': final Map subjectData}) {
       subjectDtos =
           subjectData.mapTo((value, key) => SubjectDto.fromData(key)).toIList();
     }
 
     IList<GradeDto> gradeDtos = const IListConst([]);
-    if (data case {'grades': Map gradeData}) {
+    if (data case {'grades': final Map gradeData}) {
       gradeDtos =
           gradeData.mapTo((value, key) => GradeDto.fromData(key)).toIList();
     }
 
     IList<CustomGradeTypeDto> customGradeTypeDtos = const IListConst([]);
-    if (data case {'customGradeTypes': Map gradeTypeData}) {
+    if (data case {'customGradeTypes': final Map gradeTypeData}) {
       customGradeTypeDtos =
           gradeTypeData
               .mapTo((value, key) => CustomGradeTypeDto.fromData(key))
@@ -269,8 +269,8 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
 
     final termSubjects =
         combinedTermSubjects.map((s) {
-          var (:subject, :termSubjectObj) = s;
-          var (:termSubject, :termId) = termSubjectObj;
+          final (:subject, :termSubjectObj) = s;
+          final (:termSubject, :termId) = termSubjectObj;
 
           final subTerm = termDtos.firstWhere(
             (term) => term.id == termSubjectObj.termId,
@@ -321,7 +321,7 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
           );
         }).toIList();
 
-    var terms =
+    final terms =
         termDtos
             .map(
               (dto) => TermModel(
