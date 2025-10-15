@@ -13,7 +13,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dialog_wrapper.dart';
 import 'snackbars.dart';
 
-const _trustedDomainsStoreKey = 'markdown.trusted_link_domains';
+@visibleForTesting
+const trustedDomainsStoreKey = 'markdown.trusted_link_domains';
 
 /// Launches [href] in an external application while preventing deceptive
 /// markdown links from opening without a warning dialog.
@@ -167,7 +168,7 @@ bool _isDomainTrusted({
   required String domain,
 }) {
   final List<String>? stored = keyValueStore.tryGetStringList(
-    _trustedDomainsStoreKey,
+    trustedDomainsStoreKey,
   );
 
   if (stored == null || stored.isEmpty) {
@@ -182,7 +183,7 @@ Future<void> _storeTrustedDomain({
   required String domain,
 }) async {
   final List<String> current = List<String>.from(
-    keyValueStore.tryGetStringList(_trustedDomainsStoreKey) ?? [],
+    keyValueStore.tryGetStringList(trustedDomainsStoreKey) ?? [],
   );
 
   final String normalized = domain.toLowerCase();
@@ -193,7 +194,7 @@ Future<void> _storeTrustedDomain({
   current.add(normalized);
   current.sort();
 
-  await keyValueStore.setStringList(_trustedDomainsStoreKey, current);
+  await keyValueStore.setStringList(trustedDomainsStoreKey, current);
 }
 
 @visibleForTesting
