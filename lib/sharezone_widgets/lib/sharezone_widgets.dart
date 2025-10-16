@@ -48,6 +48,9 @@ export 'src/form.dart';
 // list_tile_with_description
 export 'src/list_tile_with_description.dart';
 
+// link
+export 'src/launch_markdown_link_with_warning.dart';
+
 // placeholder
 export 'src/placeholder.dart';
 
