@@ -9,6 +9,7 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -239,7 +240,7 @@ class SVGIconState extends State<SVGIcon> with TickerProviderStateMixin {
     return SizedBox(
       width: widget.size!.width,
       height: widget.size!.height,
-      child: PlatformSvg.asset(widget.path!),
+      child: SvgPicture.asset(widget.path!),
     );
   }
 }

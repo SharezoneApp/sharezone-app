@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -75,11 +76,14 @@ class SocialButton extends StatelessWidget {
     return IconButton(
       tooltip: tooltip,
       onPressed: () => onPressed(context),
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         svgPath,
         width: _svgSize,
         height: _svgSize,
-        color: Theme.of(context).primaryColor,
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).primaryColor,
+          BlendMode.srcIn,
+        ),
       ),
       iconSize: _svgSize,
     );

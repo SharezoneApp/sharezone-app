@@ -11,6 +11,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/keys.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
@@ -105,7 +106,7 @@ class _AdvancedListTile extends StatelessWidget {
     String? subtitle,
   }) {
     return _AdvancedListTile(
-      leading: PlatformSvg.asset("assets/icons/correct.svg", height: 40),
+      leading: SvgPicture.asset("assets/icons/correct.svg", height: 40),
       title: title,
       subtitle: subtitle,
     );
