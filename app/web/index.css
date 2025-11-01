@@ -59,3 +59,28 @@
         -webkit-transform: scale(1.0);
     }
 }
+
+.error-container {
+    position: fixed;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #c62828;
+    color: #c62828;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-family: sans-serif;
+    z-index: 1000;
+}
+
+.error-container a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.error-container ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+}

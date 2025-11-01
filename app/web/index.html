@@ -78,6 +78,14 @@
         <div class="double-bounce2"></div>
     </div>
 
+    <div id="error-container" class="error-container" role="alert" aria-live="assertive" hidden>
+        <p>
+            An error occurred. Please reload the page. If the problem persists,
+            contact <a href="mailto:support@sharezone.net">support@sharezone.net</a>.
+        </p>
+        <ul id="error-list"></ul>
+    </div>
+
     <!-- Required for the pdfx package -->
     <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/build/pdf.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -86,6 +94,66 @@
             cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
             cMapPacked: true,
         }
+    </script>
+    <script type="text/javascript">
+        (function () {
+            var container = document.getElementById('error-container');
+            var list = document.getElementById('error-list');
+            if (!container || !list) {
+                return;
+            }
+
+            var seenMessages = [];
+
+            function hideSpinner() {
+                var spinner = document.querySelector('.spinner');
+                if (spinner) {
+                    spinner.style.display = 'none';
+                }
+            }
+
+            function normalizeMessage(value) {
+                if (!value) {
+                    return '';
+                }
+                if (typeof value === 'string') {
+                    return value;
+                }
+                if (value && typeof value.message === 'string') {
+                    return value.message;
+                }
+                try {
+                    return JSON.stringify(value);
+                } catch (error) {
+                    return String(value);
+                }
+            }
+
+            function showError(message) {
+                var text = message || 'Unknown error.';
+                if (seenMessages.indexOf(text) === -1) {
+                    seenMessages.push(text);
+                    var entry = document.createElement('li');
+                    entry.textContent = text;
+                    list.appendChild(entry);
+                }
+                container.hidden = false;
+                hideSpinner();
+            }
+
+            window.addEventListener('error', function (event) {
+                var text = event && event.message ? event.message : 'Unknown error.';
+                showError(text);
+            });
+
+            window.addEventListener('unhandledrejection', function (event) {
+                var text = normalizeMessage(event ? event.reason : null);
+                if (!text) {
+                    text = 'Unknown error.';
+                }
+                showError(text);
+            });
+        })();
     </script>
 </body>
 
