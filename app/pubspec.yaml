@@ -76,7 +76,7 @@ dependencies:
   filesharing_logic:
     path: ../lib/filesharing/filesharing_logic
   firebase_auth: ^6.1.0
-  firebase_core: ^4.1.1
+  firebase_core: ^4.2.0
   firebase_messaging: ^16.0.2
   firebase_performance: ^0.11.1
   firebase_storage: ^13.0.2
