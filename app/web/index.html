@@ -99,16 +99,16 @@
     <!-- Error handling -->
     <script type="text/javascript">
         (function () {
-            var container = document.getElementById('error-container');
-            var list = document.getElementById('error-list');
+            const container = document.getElementById('error-container');
+            const list = document.getElementById('error-list');
             if (!container || !list) {
                 return;
             }
 
-            var seenMessages = [];
+            const seenMessages = [];
 
             function hideSpinner() {
-                var spinner = document.querySelector('.spinner');
+                const spinner = document.querySelector('.spinner');
                 if (spinner) {
                     spinner.style.display = 'none';
                 }
@@ -132,10 +132,10 @@
             }
 
             function showError(message) {
-                var text = message || 'Unknown error.';
+                const text = message || 'Unknown error.';
                 if (seenMessages.indexOf(text) === -1) {
                     seenMessages.push(text);
-                    var entry = document.createElement('li');
+                    const entry = document.createElement('li');
                     entry.textContent = text;
                     list.appendChild(entry);
                 }
@@ -144,7 +144,7 @@
             }
 
             window.addEventListener('error', function (event) {
-                var text = event && event.message ? event.message : 'Unknown error.';
+                const text = event && event.message ? event.message : 'Unknown error.';
                 showError(text);
             });
 
