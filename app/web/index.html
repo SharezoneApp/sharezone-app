@@ -105,7 +105,7 @@
                 return;
             }
 
-            const seenMessages = [];
+            const seenMessages = new Set();
 
             function hideSpinner() {
                 const spinner = document.querySelector('.spinner');
@@ -133,8 +133,8 @@
 
             function showError(message) {
                 const text = message || 'Unknown error.';
-                if (seenMessages.indexOf(text) === -1) {
-                    seenMessages.push(text);
+                if (!seenMessages.has(text)) {
+                    seenMessages.add(text);
                     const entry = document.createElement('li');
                     entry.textContent = text;
                     list.appendChild(entry);
