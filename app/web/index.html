@@ -144,15 +144,11 @@
             }
 
             window.addEventListener('error', function (event) {
-                const text = event && event.message ? event.message : 'Unknown error.';
-                showError(text);
+                showError(event?.message);
             });
 
             window.addEventListener('unhandledrejection', function (event) {
-                var text = normalizeMessage(event ? event.reason : null);
-                if (!text) {
-                    text = 'Unknown error.';
-                }
+                const text = normalizeMessage(event?.reason);
                 showError(text);
             });
         })();
