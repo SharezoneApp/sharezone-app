@@ -71,19 +71,20 @@
         We're sorry but Sharezone doesn't work properly without JavaScript enabled. Please enable it to
         continue.
     </noscript>
+
+    <div id="error-container" class="error-container" role="alert" aria-live="assertive" hidden>
+        <p>
+            <!-- Translated string will be inserted here -->
+        </p>
+        <ul id="error-list"></ul>
+    </div>
+    <script src="js/initialization_error_handling.js"></script>
+
     <script src="flutter_bootstrap.js" async></script>
 
     <div class="spinner">
         <div class="double-bounce1"></div>
         <div class="double-bounce2"></div>
-    </div>
-
-    <div id="error-container" class="error-container" role="alert" aria-live="assertive" hidden>
-        <p>
-            An error occurred. Please reload the page. If the problem persists,
-            contact <a href="mailto:support@sharezone.net">support@sharezone.net</a>.
-        </p>
-        <ul id="error-list"></ul>
     </div>
 
     <!-- Required for the pdfx package -->
@@ -94,64 +95,6 @@
             cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.12.313/cmaps/',
             cMapPacked: true,
         }
-    </script>
-
-    <!-- Error handling -->
-    <script type="text/javascript">
-        (function () {
-            const container = document.getElementById('error-container');
-            const list = document.getElementById('error-list');
-            if (!container || !list) {
-                return;
-            }
-
-            const seenMessages = new Set();
-
-            function hideSpinner() {
-                const spinner = document.querySelector('.spinner');
-                if (spinner) {
-                    spinner.style.display = 'none';
-                }
-            }
-
-            function normalizeMessage(value) {
-                if (!value) {
-                    return '';
-                }
-                if (typeof value === 'string') {
-                    return value;
-                }
-                if (value && typeof value.message === 'string') {
-                    return value.message;
-                }
-                try {
-                    return JSON.stringify(value);
-                } catch (error) {
-                    return String(value);
-                }
-            }
-
-            function showError(message) {
-                const text = message || 'Unknown error.';
-                if (!seenMessages.has(text)) {
-                    seenMessages.add(text);
-                    const entry = document.createElement('li');
-                    entry.textContent = text;
-                    list.appendChild(entry);
-                }
-                container.hidden = false;
-                hideSpinner();
-            }
-
-            window.addEventListener('error', function (event) {
-                showError(event?.message);
-            });
-
-            window.addEventListener('unhandledrejection', function (event) {
-                const text = normalizeMessage(event?.reason);
-                showError(text);
-            });
-        })();
     </script>
 </body>
 
