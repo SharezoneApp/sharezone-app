@@ -72,7 +72,11 @@
     padding: 1rem 1.25rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     font-family: sans-serif;
-    z-index: 1000;
+    z-index: 9999;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 
 .error-container a {
