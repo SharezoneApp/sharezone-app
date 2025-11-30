@@ -17,6 +17,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 class FeedbackDetailsPage extends StatefulWidget {
   const FeedbackDetailsPage({
@@ -506,7 +507,26 @@ class _ChatBubble extends StatelessWidget {
                       ? CrossAxisAlignment.end
                       : CrossAxisAlignment.start,
               children: [
-                MarkdownBody(data: text, selectable: true, softLineBreak: true),
+                MarkdownBody(
+                  data: text,
+                  selectable: true,
+                  softLineBreak: true,
+                  onTapLink: (text, href, title) async {
+                    if (href == null) return;
+                    try {
+                      await UrlLauncherExtended().tryLaunchOrThrow(
+                        Uri.parse(href),
+                      );
+                    } on Exception {
+                      if (context.mounted) {
+                        showSnackSec(
+                          context: context,
+                          text: 'Fehler beim Öffnen des Links.',
+                        );
+                      }
+                    }
+                  },
+                ),
                 const SizedBox(height: 4),
                 Text(
                   sentAt,
