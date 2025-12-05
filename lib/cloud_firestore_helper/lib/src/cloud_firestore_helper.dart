@@ -17,18 +17,22 @@ Map<String, T> decodeMap<T>(dynamic data, ObjectMapBuilder<T> builder) {
     originaldata.removeWhere((key, value) => value == null);
   }
   Map<String, dynamic> decodedMap = (originaldata ?? {}).map<String, dynamic>(
-      (dynamic key, dynamic value) => MapEntry<String, dynamic>(key, value));
+    (dynamic key, dynamic value) => MapEntry<String, dynamic>(key, value),
+  );
   return decodedMap.map((key, value) => MapEntry(key, builder(key, value)));
 }
 
-Map<T1, T2> decodeMapAdvanced<T1, T2>(dynamic data,
-    MapEntry<T1, T2> Function(dynamic key, dynamic value) mapEntryBuilder) {
+Map<T1, T2> decodeMapAdvanced<T1, T2>(
+  dynamic data,
+  MapEntry<T1, T2> Function(dynamic key, dynamic value) mapEntryBuilder,
+) {
   Map<dynamic, dynamic>? originaldata = data?.cast<dynamic, dynamic>();
   if (originaldata != null) {
     originaldata.removeWhere((key, value) => value == null);
   }
-  final decodedMap =
-      (originaldata ?? {}).map((key, value) => mapEntryBuilder(key, value));
+  final decodedMap = (originaldata ?? {}).map(
+    (key, value) => mapEntryBuilder(key, value),
+  );
   return decodedMap;
 }
 

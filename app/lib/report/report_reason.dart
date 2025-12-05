@@ -12,7 +12,7 @@ enum ReportReason {
   pornographicContent,
   violentContent,
   illegalContent,
-  other
+  other,
 }
 
 String getReportReasonUiText(ReportReason reason) {

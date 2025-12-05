@@ -1,0 +1,13 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "AJ3PMPVZ7H.de.codingbrain.sharezone.app",
+                "paths": [
+                    "/link"
+                ]
+            }
+        ]
+    }
+}

@@ -31,13 +31,14 @@ class MainContentMobile extends StatelessWidget {
         title: Text(headingText),
         actions: [
           IconButton(
-              onPressed: () {
-                showDisplaySettingsDialog(context);
-              },
-              icon: const Icon(Icons.display_settings)),
+            onPressed: () {
+              showDisplaySettingsDialog(context);
+            },
+            icon: const Icon(Icons.display_settings),
+          ),
           const SizedBox(width: 5),
           const DownloadAsPDFButton.icon(),
-          const SizedBox(width: 10)
+          const SizedBox(width: 10),
         ],
       ),
       body: Padding(
@@ -57,9 +58,7 @@ class MainContentMobile extends StatelessWidget {
                 ),
               ),
             const Divider(height: 0, thickness: .5),
-            Flexible(
-              child: PrivacyPolicyText(privacyPolicy: privacyPolicy),
-            ),
+            Flexible(child: PrivacyPolicyText(privacyPolicy: privacyPolicy)),
             const Divider(height: 0, thickness: .5),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12.0),

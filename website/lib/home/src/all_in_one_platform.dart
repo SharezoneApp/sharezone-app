@@ -46,23 +46,35 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                     child: ColumnSpacing(
                       spacing: 10,
                       children: [
-                        feature("Aufgaben", bulletpoints: [
-                          "Mit Erinnerungsfunktion",
-                          "Mit Kommentarfunktion",
-                          "Mit Abgabefunktion",
-                        ]),
-                        feature("Infozettel", bulletpoints: [
-                          "Mit Lesebestätigung",
-                          "Mit Kommentarfunktion",
-                          "Mit Notifications",
-                        ]),
-                        feature("Dateiablage", bulletpoints: [
-                          "Arbeitsmaterialien teilen",
-                          "Optional: Unbegrenzter \nSpeicherplatz",
-                        ]),
-                        feature("Termine", bulletpoints: [
-                          "Prüfungen und Termine auf einen Blick",
-                        ]),
+                        feature(
+                          "Aufgaben",
+                          bulletpoints: [
+                            "Mit Erinnerungsfunktion",
+                            "Mit Kommentarfunktion",
+                            "Mit Abgabefunktion",
+                          ],
+                        ),
+                        feature(
+                          "Infozettel",
+                          bulletpoints: [
+                            "Mit Lesebestätigung",
+                            "Mit Kommentarfunktion",
+                            "Mit Notifications",
+                          ],
+                        ),
+                        feature(
+                          "Dateiablage",
+                          bulletpoints: [
+                            "Arbeitsmaterialien teilen",
+                            "Optional: Unbegrenzter \nSpeicherplatz",
+                          ],
+                        ),
+                        feature(
+                          "Termine",
+                          bulletpoints: [
+                            "Prüfungen und Termine auf einen Blick",
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -72,12 +84,11 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                     // Adding the default transitionBuilder here fixes
                     // https://github.com/flutter/flutter/issues/121336. The bug can occur
                     // when clicking the card very quickly.
-                    transitionBuilder:
-                        (Widget child, Animation<double> animation) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
+                    transitionBuilder: (
+                      Widget child,
+                      Animation<double> animation,
+                    ) {
+                      return FadeTransition(opacity: animation, child: child);
                     },
                     duration: const Duration(milliseconds: 300),
                     child: SizedBox(
@@ -100,7 +111,7 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                           "Notensystem",
                           bulletpoints: [
                             "Speichere deine Noten in Sharezone",
-                            "Verschiedene Notensysteme"
+                            "Verschiedene Notensysteme",
                           ],
                           height: 60,
                         ),
@@ -113,15 +124,21 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                           leaveDefaultPicture: true,
                           height: 60,
                         ),
-                        feature("Stundenplan", bulletpoints: [
-                          "Mit A/B Wochen",
-                          "Wochentage individuell einstellbar"
-                        ]),
-                        feature("Notifications", bulletpoints: [
-                          "Mit Ruhemodus",
-                          "Immer informiert",
-                          "Indiviuell einstellbar",
-                        ]),
+                        feature(
+                          "Stundenplan",
+                          bulletpoints: [
+                            "Mit A/B Wochen",
+                            "Wochentage individuell einstellbar",
+                          ],
+                        ),
+                        feature(
+                          "Notifications",
+                          bulletpoints: [
+                            "Mit Ruhemodus",
+                            "Immer informiert",
+                            "Individuell einstellbar",
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -144,7 +161,8 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
     bool leaveDefaultPicture = false,
   }) {
     return MouseRegion(
-      onHover: (event) =>
+      onHover:
+          (event) =>
           // If we don't call setState when [leaveDefaultPicture] is `true`
           // then the text in the [_FeatureCard] won't be drawn somehow.
           setState(() => leaveDefaultPicture ? (_) {} : currentFeature = title),
@@ -188,8 +206,10 @@ class _FeatureCard extends StatefulWidget {
 class __FeatureCardState extends State<_FeatureCard> {
   // Please use 0.0 instead of 0. You will get a .toDouble() issue, if you
   // use 0 instead of 0.0
-  final nonHoverTransform = Matrix4.identity()..translate(0.0, 0, 0.0);
-  final hoverTransform = Matrix4.identity()..translate(10.0, 0.0, 0.0);
+  final nonHoverTransform =
+      Matrix4.identity()..translateByDouble(0.0, 0.0, 0.0, 1.0);
+  final hoverTransform =
+      Matrix4.identity()..translateByDouble(10.0, 0.0, 0.0, 1.0);
 
   bool showIcon = true;
 
@@ -208,39 +228,38 @@ class __FeatureCardState extends State<_FeatureCard> {
             children: [
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                child: showIcon
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 7),
-                        child: Semantics(
-                          image: true,
-                          label: 'An image of the ${widget.title} feature',
-                          child: SvgPicture.asset(
-                            "assets/icons/${widget.title.toLowerCase()}.svg",
-                            height: widget.height ?? 45,
+                child:
+                    showIcon
+                        ? Padding(
+                          padding: const EdgeInsets.only(bottom: 7),
+                          child: Semantics(
+                            image: true,
+                            label: 'An image of the ${widget.title} feature',
+                            child: SvgPicture.asset(
+                              "assets/icons/${widget.title.toLowerCase()}.svg",
+                              height: widget.height ?? 45,
+                            ),
                           ),
-                        ),
-                      )
-                    : Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 16),
-                          child: SizedBox(
-                            height: 52,
-                            child: DefaultTextStyle(
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  for (final subtitle in widget.bulletpoints)
-                                    Text("• $subtitle"),
-                                ],
+                        )
+                        : Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            child: SizedBox(
+                              height: 52,
+                              child: DefaultTextStyle(
+                                style: TextStyle(color: Colors.grey[600]),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    for (final subtitle in widget.bulletpoints)
+                                      Text("• $subtitle"),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -258,8 +277,10 @@ class __FeatureCardState extends State<_FeatureCard> {
                       Text(
                         widget.subtitle!,
                         textAlign: TextAlign.center,
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                   ],
                 ),

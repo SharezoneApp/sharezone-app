@@ -17,7 +17,7 @@ class ReportGateway extends BlocBase {
   final CollectionReference _reportsCollection;
 
   ReportGateway(FirebaseFirestore firestore)
-      : _reportsCollection = firestore.collection(CollectionNames.reports);
+    : _reportsCollection = firestore.collection(CollectionNames.reports);
 
   void sendReport(Report report) {
     final dto = ReportDto.fromReport(report);

@@ -29,10 +29,7 @@ class AllPlatforms extends StatelessWidget {
 class _AllPlatformsImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      "assets/images/all-platforms.png",
-      height: 300,
-    );
+    return Image.asset("assets/images/all-platforms.png", height: 300);
   }
 }
 
@@ -44,9 +41,7 @@ class _AllPlatformsText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Headline(
-            "Auf allen Geräten verfügbar.",
-          ),
+          const Headline("Auf allen Geräten verfügbar."),
           const SizedBox(height: 16),
           const Subline(
             "Sharezone funktioniert auf allen Systemen. Somit kannst Du jederzeit auf deine Daten zugreifen.",
@@ -78,9 +73,10 @@ class _AllPlatformsText extends StatelessWidget {
                 Row(
                   children: [
                     TransparentButton.openLink(
-                      link: Theme.of(context).platform == TargetPlatform.macOS
-                          ? "https://sharezone.net/macos-direct"
-                          : "https://sharezone.net/macos",
+                      link:
+                          Theme.of(context).platform == TargetPlatform.macOS
+                              ? "https://sharezone.net/macos-direct"
+                              : "https://sharezone.net/macos",
                       child: SvgPicture.asset(
                         "assets/get_it_on/macos.svg",
                         height: 52,
@@ -98,7 +94,7 @@ class _AllPlatformsText extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

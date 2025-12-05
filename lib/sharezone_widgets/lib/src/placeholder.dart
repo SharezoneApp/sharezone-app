@@ -9,6 +9,7 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -64,10 +65,11 @@ class PlaceholderModelState extends State<PlaceholderModel>
         mainAxisSize: MainAxisSize.min,
         children: AnimationConfiguration.toStaggeredList(
           duration: const Duration(milliseconds: 370),
-          childAnimationBuilder: (widget) => SlideAnimation(
-            verticalOffset: 20,
-            child: FadeInAnimation(child: widget),
-          ),
+          childAnimationBuilder:
+              (widget) => SlideAnimation(
+                verticalOffset: 20,
+                child: FadeInAnimation(child: widget),
+              ),
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 12),
@@ -82,8 +84,10 @@ class PlaceholderModelState extends State<PlaceholderModel>
             const SizedBox(height: 7.5),
             if (isNotEmptyOrNull(widget.title))
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
+                ),
                 child: Text(
                   widget.title!,
                   style: const TextStyle(fontSize: 20),
@@ -94,10 +98,12 @@ class PlaceholderModelState extends State<PlaceholderModel>
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: DefaultTextStyle(
                 style: TextStyle(
-                    fontFamily: rubik,
-                    color: Theme.of(context).isDarkTheme
-                        ? Colors.white70
-                        : Colors.grey[800]),
+                  fontFamily: rubik,
+                  color:
+                      Theme.of(context).isDarkTheme
+                          ? Colors.white70
+                          : Colors.grey[800],
+                ),
                 textAlign: TextAlign.center,
                 child: widget.subtitle ?? Container(),
               ),
@@ -151,18 +157,18 @@ class _RotateAnimation extends StatelessWidget {
     this.rivePath,
     this.riveAnimationName,
   }) : rotate = Tween<double>(
-          begin: 0,
-          end: 1, // Do 1 Roation
-        ).animate(
-          CurvedAnimation(
-            parent: controller,
-            curve: const Interval(
-              0.2, // Starts at 20% of the Animation
-              0.3, // Ends at 30% of the Animation
-              curve: Curves.ease, // Easy Ease Out
-            ),
-          ),
-        );
+         begin: 0,
+         end: 1, // Do 1 Roation
+       ).animate(
+         CurvedAnimation(
+           parent: controller,
+           curve: const Interval(
+             0.2, // Starts at 20% of the Animation
+             0.3, // Ends at 30% of the Animation
+             curve: Curves.ease, // Easy Ease Out
+           ),
+         ),
+       );
 
   final Animation<double> controller;
   final Animation<double> rotate;
@@ -181,16 +187,14 @@ class _RotateAnimation extends StatelessWidget {
           alignment: Alignment.center,
           child: RotationTransition(
             turns: AlwaysStoppedAnimation(rotate.value),
-            child: isNotEmptyOrNull(rivePath)
-                ? _Rive(
-                    size: size,
-                    path: rivePath,
-                    animationName: riveAnimationName,
-                  )
-                : SVGIcon(
-                    path: path,
-                    size: size,
-                  ),
+            child:
+                isNotEmptyOrNull(rivePath)
+                    ? _Rive(
+                      size: size,
+                      path: rivePath,
+                      animationName: riveAnimationName,
+                    )
+                    : SVGIcon(path: path, size: size),
           ),
         );
       },
@@ -214,22 +218,14 @@ class _Rive extends StatelessWidget {
     return SizedBox(
       height: size!.height,
       width: size!.width,
-      child: FlareActor(
-        path,
-        animation: animationName,
-        fit: BoxFit.fitHeight,
-      ),
+      child: FlareActor(path, animation: animationName, fit: BoxFit.fitHeight),
     );
   }
 }
 
 /// Ghost SVG
 class SVGIcon extends StatefulWidget {
-  const SVGIcon({
-    super.key,
-    this.size,
-    required this.path,
-  });
+  const SVGIcon({super.key, this.size, required this.path});
 
   final Size? size;
   final String? path;
@@ -244,7 +240,7 @@ class SVGIconState extends State<SVGIcon> with TickerProviderStateMixin {
     return SizedBox(
       width: widget.size!.width,
       height: widget.size!.height,
-      child: PlatformSvg.asset(widget.path!),
+      child: SvgPicture.asset(widget.path!),
     );
   }
 }

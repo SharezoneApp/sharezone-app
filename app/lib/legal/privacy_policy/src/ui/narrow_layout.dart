@@ -28,11 +28,7 @@ class MainContentNarrow extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 800),
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 20,
-            left: 20,
-            right: 20,
-          ),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +44,9 @@ class MainContentNarrow extends StatelessWidget {
                         if (privacyPolicy.hasNotYetEnteredIntoForce)
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 6),
+                              horizontal: 20,
+                              vertical: 6,
+                            ),
                             child: PrivacyPolicySubheading(
                               entersIntoForceOn:
                                   privacyPolicy.entersIntoForceOnOrNull,
@@ -78,9 +76,7 @@ class MainContentNarrow extends StatelessWidget {
                 ],
               ),
               const Divider(),
-              Flexible(
-                child: PrivacyPolicyText(privacyPolicy: privacyPolicy),
-              ),
+              Flexible(child: PrivacyPolicyText(privacyPolicy: privacyPolicy)),
               // If height is not zero this would cause a an uneven vertical
               // padding for the button below.
               const Divider(height: 0),

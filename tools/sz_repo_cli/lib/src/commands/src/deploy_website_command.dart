@@ -19,10 +19,7 @@ final _flavorToProjectId = {
 };
 
 /// The different flavors of the web app that support deployment.
-final _webFlavors = [
-  'prod',
-  'dev',
-];
+final _webFlavors = ['prod', 'dev'];
 
 /// Deploy the Sharezone web app to one of the several deploy sites (e.g. alpha
 /// or production).
@@ -86,17 +83,14 @@ class DeployWebsiteCommand extends CommandBase {
 
     final deployMessage = await _getDeployMessage();
 
-    await processRunner.run(
-      [
-        'firebase',
-        'deploy',
-        '--project',
-        firebaseProjectId,
-        '--message',
-        deployMessage,
-      ],
-      workingDirectory: repo.sharezoneWebsite.location,
-    );
+    await processRunner.run([
+      'firebase',
+      'deploy',
+      '--project',
+      firebaseProjectId,
+      '--message',
+      deployMessage,
+    ], workingDirectory: repo.sharezoneWebsite.location);
   }
 
   Future<String> _getDeployMessage() async {

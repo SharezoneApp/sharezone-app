@@ -63,10 +63,7 @@ class ChangeTypeOfUserController extends ChangeNotifier {
 
       await service.changeTypeOfUser(typeOfUser);
 
-      analytics.logChangedOrder(
-        from: initialTypeOfUser,
-        to: typeOfUser,
-      );
+      analytics.logChangedOrder(from: initialTypeOfUser, to: typeOfUser);
       initialTypeOfUser = typeOfUser;
     } on FirebaseFunctionsException catch (e) {
       _parseException(e);
@@ -88,9 +85,7 @@ class ChangeTypeOfUserController extends ChangeNotifier {
       final json = jsonDecode(e.message!);
       if (json['errorId'] == 'typeofuser-change-limit-reached') {
         final blockedUntil = DateTime.parse(json['blockedUntil']);
-        throw ChangedTypeOfUserTooOftenException(
-          blockedUntil: blockedUntil,
-        );
+        throw ChangedTypeOfUserTooOftenException(blockedUntil: blockedUntil);
       } else {
         throw ChangeTypeOfUserUnknownException(unknownErrorMessage);
       }
@@ -139,9 +134,7 @@ class TypeUserOfUserHasNotChangedException extends ChangeTypeOfUserFailed {
 class ChangedTypeOfUserTooOftenException extends ChangeTypeOfUserFailed {
   final DateTime blockedUntil;
 
-  const ChangedTypeOfUserTooOftenException({
-    required this.blockedUntil,
-  });
+  const ChangedTypeOfUserTooOftenException({required this.blockedUntil});
 }
 
 class ChangeTypeOfUserUnknownException extends ChangeTypeOfUserFailed {

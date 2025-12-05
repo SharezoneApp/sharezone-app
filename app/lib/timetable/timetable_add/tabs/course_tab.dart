@@ -33,18 +33,21 @@ class _CourseList extends StatelessWidget {
     for (int i = 0; i < courseList.length; i += 2) {
       final first = _CourseTile(
         course: courseList[i],
-        color: selectedCourse == courseList[i]
-            ? Colors.lightGreen
-            : Colors.lightBlue,
+        color:
+            selectedCourse == courseList[i]
+                ? Colors.lightGreen
+                : Colors.lightBlue,
       );
-      final second = i + 1 < courseList.length
-          ? _CourseTile(
-              course: courseList[i + 1],
-              color: selectedCourse == courseList[i + 1]
-                  ? Colors.lightGreen
-                  : Colors.lightBlue,
-            )
-          : const Text("");
+      final second =
+          i + 1 < courseList.length
+              ? _CourseTile(
+                course: courseList[i + 1],
+                color:
+                    selectedCourse == courseList[i + 1]
+                        ? Colors.lightGreen
+                        : Colors.lightBlue,
+              )
+              : const Text("");
       list.add(_LineWithTwoWidgets(first: first, second: second));
     }
     return list;
@@ -81,10 +84,7 @@ class _CourseList extends StatelessWidget {
 }
 
 class _CourseTile extends StatelessWidget {
-  const _CourseTile({
-    required this.course,
-    required this.color,
-  });
+  const _CourseTile({required this.course, required this.color});
 
   final Course course;
   final Color color;
@@ -93,8 +93,9 @@ class _CourseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableAddBloc>(context);
 
-    final hasPermissions =
-        course.myRole.hasPermission(GroupPermission.contentCreation);
+    final hasPermissions = course.myRole.hasPermission(
+      GroupPermission.contentCreation,
+    );
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Opacity(
@@ -102,42 +103,42 @@ class _CourseTile extends StatelessWidget {
         child: _RectangleButton(
           title: course.name,
           leading: hasPermissions ? courseAvatar() : lockAvatar(),
-          backgroundColor: hasPermissions
-              ? color.withOpacity(0.14)
-              : Colors.grey.withOpacity(0.14),
-          onTap: hasPermissions
-              ? () async {
-                  bloc.changeCourse(course);
+          backgroundColor:
+              hasPermissions
+                  ? color.withValues(alpha: 0.14)
+                  : Colors.grey.withValues(alpha: 0.14),
+          onTap:
+              hasPermissions
+                  ? () async {
+                    bloc.changeCourse(course);
 
-                  await Future.delayed(const Duration(
-                      milliseconds: 200)); // Waiting for selecting feedback
-                  if (!context.mounted) return;
+                    await Future.delayed(
+                      const Duration(milliseconds: 200),
+                    ); // Waiting for selecting feedback
+                    if (!context.mounted) return;
 
-                  navigateToNextTab(context);
-                }
-              : null,
+                    navigateToNextTab(context);
+                  }
+                  : null,
         ),
       ),
     );
   }
 
   Widget courseAvatar() => CircleAvatar(
-        backgroundColor: color,
-        foregroundColor: Colors.white,
-        child: Text(course.abbreviation),
-      );
+    backgroundColor: color,
+    foregroundColor: Colors.white,
+    child: Text(course.abbreviation),
+  );
   Widget lockAvatar() => const CircleAvatar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.grey,
-        child: Icon(Icons.lock),
-      );
+    backgroundColor: Colors.transparent,
+    foregroundColor: Colors.grey,
+    child: Icon(Icons.lock),
+  );
 }
 
 class _LineWithTwoWidgets extends StatelessWidget {
-  const _LineWithTwoWidgets({
-    required this.first,
-    required this.second,
-  });
+  const _LineWithTwoWidgets({required this.first, required this.second});
 
   final Widget first;
   final Widget second;
@@ -163,7 +164,9 @@ class _JoinCourse extends StatelessWidget {
       iconData: Icons.vpn_key,
       onTap: () async {
         final course = await handleCourseDialogOption(
-            context, CourseDialogOption.groupJoin);
+          context,
+          CourseDialogOption.groupJoin,
+        );
         if (course != null) {
           bloc.changeCourse(course as Course);
         }
@@ -181,7 +184,9 @@ class _CreateCourse extends StatelessWidget {
       iconData: Icons.add,
       onTap: () async {
         final course = await handleCourseDialogOption(
-            context, CourseDialogOption.courseCreate);
+          context,
+          CourseDialogOption.courseCreate,
+        );
         if (course != null) {
           bloc.changeCourse(course as Course);
         }
@@ -209,7 +214,7 @@ class CourseManagementButton extends StatelessWidget {
         backgroundColor: Colors.white,
         child: Icon(iconData, color: Theme.of(context).primaryColor),
       ),
-      backgroundColor: Colors.grey.withOpacity(0.2),
+      backgroundColor: Colors.grey.withValues(alpha: 0.2),
       title: title,
       onTap: onTap,
     );

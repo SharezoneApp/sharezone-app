@@ -32,10 +32,7 @@ class GroupOnboardingIsItFirstPersonUsingSharezone extends StatelessWidget {
           "Wenn ein Mitschüler schon Sharezone verwendet, kann dir dieser einen Sharecode geben, damit du seiner Klasse beitreten kannst.",
         ),
       ),
-      children: const [
-        _JoinGroupButton(),
-        _CreateGroupsButton(),
-      ],
+      children: const [_JoinGroupButton(), _CreateGroupsButton()],
     );
   }
 
@@ -61,16 +58,18 @@ class _JoinGroupButton extends StatelessWidget {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
     return GroupOnboardingTextButton(
       icon: const Icon(Icons.vpn_key),
-      text: bloc.isStudent
-          ? "Ja, ich möchte dieser Gruppe beitreten"
-          : "Ja, ich möchte diesen Gruppen beitreten",
-      onTap: () => Navigator.push(
-        context,
-        FadeRoute(
-          child: const GroupOnboardingGroupJoinPage(),
-          tag: GroupOnboardingGroupJoinPage.tag,
-        ),
-      ),
+      text:
+          bloc.isStudent
+              ? "Ja, ich möchte dieser Gruppe beitreten"
+              : "Ja, ich möchte diesen Gruppen beitreten",
+      onTap:
+          () => Navigator.push(
+            context,
+            FadeRoute(
+              child: const GroupOnboardingGroupJoinPage(),
+              tag: GroupOnboardingGroupJoinPage.tag,
+            ),
+          ),
     );
   }
 }

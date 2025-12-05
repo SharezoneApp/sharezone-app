@@ -27,20 +27,19 @@ class _VideoViewerState extends State<VideoViewer> {
   @override
   void initState() {
     super.initState();
-    _videoPlayerController =
-        VideoPlayerController.networkUrl(Uri.parse(widget.downloadURL));
-    _videoPlayerController.initialize().then(
-      (value) {
-        setState(() {
-          _controller = ChewieController(
-            videoPlayerController: _videoPlayerController,
-            autoPlay: true,
-            aspectRatio: _videoPlayerController.value.aspectRatio,
-            looping: true,
-          );
-        });
-      },
+    _videoPlayerController = VideoPlayerController.networkUrl(
+      Uri.parse(widget.downloadURL),
     );
+    _videoPlayerController.initialize().then((value) {
+      setState(() {
+        _controller = ChewieController(
+          videoPlayerController: _videoPlayerController,
+          autoPlay: true,
+          aspectRatio: _videoPlayerController.value.aspectRatio,
+          looping: true,
+        );
+      });
+    });
   }
 
   @override
@@ -53,9 +52,7 @@ class _VideoViewerState extends State<VideoViewer> {
   @override
   Widget build(BuildContext context) {
     if (_controller == null) {
-      return const Center(
-        child: AccentColorCircularProgressIndicator(),
-      );
+      return const Center(child: AccentColorCircularProgressIndicator());
     }
     return Chewie(controller: _controller!);
   }

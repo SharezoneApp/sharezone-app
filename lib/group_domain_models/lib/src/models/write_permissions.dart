@@ -14,7 +14,5 @@ String writePermissionAsUiString(WritePermission writePermission) {
       return 'Alle';
     case WritePermission.onlyAdmins:
       return 'Nur Admins';
-    default:
-      return 'Einstellung konnte nicht gefunden werden';
   }
 }

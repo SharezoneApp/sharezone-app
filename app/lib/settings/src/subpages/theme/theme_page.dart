@@ -39,10 +39,7 @@ class ThemePage extends StatelessWidget {
           child: MaxWidthConstraintBox(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _DarkModeSwitch(),
-                _NewNavigationExperiment(),
-              ],
+              children: <Widget>[_DarkModeSwitch(), _NewNavigationExperiment()],
             ),
           ),
         ),
@@ -56,10 +53,7 @@ class _DarkModeSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return SettingsSubpageSection(
       title: context.l10n.themePageLightDarkModeSectionTitle,
-      children: const [
-        _BrightnessRadioGroup(),
-        _RateOurApp(),
-      ],
+      children: const [_BrightnessRadioGroup(), _RateOurApp()],
     );
   }
 }
@@ -70,30 +64,39 @@ class _BrightnessRadioGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeBrightness = context.select<ThemeSettings, ThemeBrightness>(
-        (settings) => settings.themeBrightness);
+      (settings) => settings.themeBrightness,
+    );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _BrightnessRadio(
-          title: context.l10n.themePageLightMode,
-          groupValue: themeBrightness,
-          icon: const Icon(Icons.brightness_high),
-          themeBrightness: ThemeBrightness.light,
-        ),
-        _BrightnessRadio(
-          title: context.l10n.themePageDarkMode,
-          groupValue: themeBrightness,
-          icon: const Icon(Icons.brightness_low),
-          themeBrightness: ThemeBrightness.dark,
-        ),
-        _BrightnessRadio(
-          title: context.l10n.themePageSystemMode,
-          groupValue: themeBrightness,
-          icon: const Icon(Icons.settings_brightness),
-          themeBrightness: ThemeBrightness.system,
-        ),
-      ],
+    return RadioGroup(
+      groupValue: themeBrightness,
+      onChanged: (value) {
+        if (value == null) return;
+        final themeSettings = context.read<ThemeSettings>();
+        themeSettings.themeBrightness = value;
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _BrightnessRadio(
+            title: context.l10n.themePageLightMode,
+            groupValue: themeBrightness,
+            icon: const Icon(Icons.brightness_high),
+            themeBrightness: ThemeBrightness.light,
+          ),
+          _BrightnessRadio(
+            title: context.l10n.themePageDarkMode,
+            groupValue: themeBrightness,
+            icon: const Icon(Icons.brightness_low),
+            themeBrightness: ThemeBrightness.dark,
+          ),
+          _BrightnessRadio(
+            title: context.l10n.themePageSystemMode,
+            groupValue: themeBrightness,
+            icon: const Icon(Icons.settings_brightness),
+            themeBrightness: ThemeBrightness.system,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -113,17 +116,11 @@ class _BrightnessRadio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeSettings = context.read<ThemeSettings>();
-
     return ListTile(
       leading: icon,
       title: Text(title),
       onTap: () => themeSettings.themeBrightness = themeBrightness,
-      trailing: Radio<ThemeBrightness>(
-        onChanged: (newBrightness) =>
-            themeSettings.themeBrightness = newBrightness!,
-        value: themeBrightness,
-        groupValue: groupValue,
-      ),
+      trailing: Radio<ThemeBrightness>(value: themeBrightness),
     );
   }
 }
@@ -137,9 +134,10 @@ class _RateOurApp extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: AnnouncementCard(
         title: context.l10n.themePageRateOurAppCardTitle,
-        color: Theme.of(context).isDarkTheme
-            ? ElevationColors.dp12
-            : context.primaryColor.withOpacity(0.15),
+        color:
+            Theme.of(context).isDarkTheme
+                ? ElevationColors.dp12
+                : context.primaryColor.withValues(alpha: 0.15),
         content: Text(context.l10n.themePageRateOurAppCardContent),
         actions: const [
           SingleChildScrollView(
@@ -189,6 +187,24 @@ class _NewNavigationExperiment extends StatelessWidget {
 class _NavigationRadioGroup extends StatelessWidget {
   const _NavigationRadioGroup();
 
+  /// Pops to the settings page to show the [ExtenableBottomNavigationBar] and
+  /// [BnbTutorial] ([ThemePage] has no navigation, like a BottonNavigationBar
+  /// or a Drawer).
+  Future<void> popToShowBnbTutorial(BuildContext context) async {
+    final bloc = BlocProvider.of<BnbTutorialBloc>(context);
+    if (await bloc.shouldShowBnbTutorial().first && context.mounted) {
+      Navigator.pop(context);
+    }
+  }
+
+  void onChange(NavigationExperimentOption option, BuildContext context) {
+    final navigationCache = BlocProvider.of<NavigationExperimentCache>(context);
+    navigationCache.setNavigation(option);
+    if (option != NavigationExperimentOption.drawerAndBnb) {
+      popToShowBnbTutorial(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final navigationCache = BlocProvider.of<NavigationExperimentCache>(context);
@@ -197,15 +213,22 @@ class _NavigationRadioGroup extends StatelessWidget {
       initialData: navigationCache.currentNavigation.valueOrNull,
       builder: (context, snapshot) {
         final option = snapshot.data ?? NavigationExperimentOption.drawerAndBnb;
-        return Column(
-          children: [
-            for (int i = 0; i < NavigationExperimentOption.values.length; i++)
-              _NavigationRadioTile(
-                currentValue: option,
-                option: NavigationExperimentOption.values[i],
-                number: i + 1,
-              ),
-          ],
+        return RadioGroup(
+          groupValue: option,
+          onChanged: (value) {
+            if (value == null) return;
+            onChange(value, context);
+          },
+          child: Column(
+            children: [
+              for (int i = 0; i < NavigationExperimentOption.values.length; i++)
+                _NavigationRadioTile(
+                  option: NavigationExperimentOption.values[i],
+                  onTap: (value) => onChange(value, context),
+                  number: i + 1,
+                ),
+            ],
+          ),
         );
       },
     );
@@ -261,10 +284,15 @@ class _RateAppButton extends StatelessWidget {
   void _showAppRatingIsNotAvailableOnWeb(BuildContext context) {
     showLeftRightAdaptiveDialog(
       context: context,
-      title: context
-          .l10n.themePageRateOurAppCardRatingsNotAvailableOnWebDialogTitle,
-      content: Text(context
-          .l10n.themePageRateOurAppCardRatingsNotAvailableOnWebDialogContent),
+      title:
+          context
+              .l10n
+              .themePageRateOurAppCardRatingsNotAvailableOnWebDialogTitle,
+      content: Text(
+        context
+            .l10n
+            .themePageRateOurAppCardRatingsNotAvailableOnWebDialogContent,
+      ),
       left: AdaptiveDialogAction.ok,
     );
   }
@@ -273,47 +301,23 @@ class _RateAppButton extends StatelessWidget {
 class _NavigationRadioTile extends StatelessWidget {
   const _NavigationRadioTile({
     required this.option,
-    required this.number,
-    this.currentValue,
+    this.number,
+    required this.onTap,
   });
 
-  final NavigationExperimentOption? currentValue;
   final NavigationExperimentOption option;
-  final int number;
+  final int? number;
+  final ValueChanged<NavigationExperimentOption> onTap;
 
   @override
   Widget build(BuildContext context) {
-    final optionName = option.getDisplayName(context);
     return MergeSemantics(
       child: ListTile(
-        title: Text(context.l10n
-            .themePageNavigationExperimentOptionTile(number, optionName)),
-        onTap: () => onTap(context),
-        trailing: Radio(
-          value: option,
-          groupValue: currentValue,
-          onChanged: (dynamic _) => onTap(context),
-        ),
+        title: Text('Option $number: ${option.getDisplayName(context)}'),
+        onTap: () => onTap(option),
+        trailing: Radio(value: option),
       ),
     );
-  }
-
-  void onTap(BuildContext context) {
-    final navigationCache = BlocProvider.of<NavigationExperimentCache>(context);
-    navigationCache.setNavigation(option);
-    if (option != NavigationExperimentOption.drawerAndBnb) {
-      popToShowBnbTutorial(context);
-    }
-  }
-
-  /// Pops to the settings page to show the [ExtenableBottomNavigationBar] and
-  /// [BnbTutorial] ([ThemePage] has no navigation, like a BottonNavigationBar
-  /// or a Drawer).
-  Future<void> popToShowBnbTutorial(BuildContext context) async {
-    final bloc = BlocProvider.of<BnbTutorialBloc>(context);
-    if (await bloc.shouldShowBnbTutorial().first && context.mounted) {
-      Navigator.pop(context);
-    }
   }
 }
 

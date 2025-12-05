@@ -25,10 +25,7 @@ import 'package:sharezone/main/constants.dart';
 /// mode.
 class DevelopmentStageBanner extends StatelessWidget {
   /// Creates a const alpha version banner.
-  const DevelopmentStageBanner({
-    super.key,
-    required this.child,
-  });
+  const DevelopmentStageBanner({super.key, required this.child});
 
   /// The widget to show behind the banner.
   final Widget child;

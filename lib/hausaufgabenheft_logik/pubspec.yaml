@@ -11,23 +11,24 @@ description: A starting point for Dart libraries or applications.
 # version: 1.0.0
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ^3.7.0
 
 dependencies:
   common_domain_models:
     path: ../common_domain_models
   cloud_firestore_helper:
     path: ../cloud_firestore_helper
-  cloud_firestore: ^4.17.2
+  cloud_firestore: ^6.0.2
   time:
     path: ../time
-  bloc: ^8.1.2
-  rxdart: ^0.27.1
-  equatable: ^2.0.5
-  fast_immutable_collections: ^9.1.5
-  collection: ^1.17.2
-  meta: any
+  bloc: ^9.0.0
+  rxdart: ^0.28.0
+  equatable: ^2.0.7
+  fast_immutable_collections: ^11.0.4
+  collection: ^1.19.1
+  meta: ^1.16.0
   key_value_store:
     path: ../key_value_store
   bloc_base:
@@ -36,16 +37,16 @@ dependencies:
   # https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1460
   test_randomness:
     path: ../test_randomness
-  clock: ^1.1.1
+  clock: ^1.1.2
   flutter:
     sdk: flutter
 
 dev_dependencies:
-  async: ^2.11.0
+  async: ^2.12.0
   # Is not used, but if I don't explicitly depend on it then
   # compiling the `test` package will fail.
-  file: ^7.0.0
-  test: ^1.23.1
+  file: ^7.0.1
+  test: ^1.25.15
   flutter_test:
     sdk: flutter
   sharezone_lints:

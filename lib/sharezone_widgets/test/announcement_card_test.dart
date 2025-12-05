@@ -12,29 +12,33 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
   group('AnnouncementCard', () {
-    Future<void> pumpAnnouncementCard(
-        {required WidgetTester tester, required Widget card}) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Material(child: card),
-        ),
-      );
+    Future<void> pumpAnnouncementCard({
+      required WidgetTester tester,
+      required Widget card,
+    }) async {
+      await tester.pumpWidget(MaterialApp(home: Material(child: card)));
     }
 
     testWidgets('shows given title', (tester) async {
       const title = 'title';
       await pumpAnnouncementCard(
-          tester: tester, card: const AnnouncementCard(title: title));
+        tester: tester,
+        card: const AnnouncementCard(title: title),
+      );
 
       expect(find.text('» $title'), findsOneWidget);
     });
 
     testWidgets('shows given actions', (tester) async {
-      final action =
-          TextButton(onPressed: () {}, child: const Text('FlatButton'));
+      final action = TextButton(
+        onPressed: () {},
+        child: const Text('FlatButton'),
+      );
 
       await pumpAnnouncementCard(
-          tester: tester, card: AnnouncementCard(actions: [action]));
+        tester: tester,
+        card: AnnouncementCard(actions: [action]),
+      );
 
       expect(find.byWidget(action), findsOneWidget);
     });
@@ -43,7 +47,9 @@ void main() {
       const content = Text('content');
 
       await pumpAnnouncementCard(
-          tester: tester, card: const AnnouncementCard(content: content));
+        tester: tester,
+        card: const AnnouncementCard(content: content),
+      );
 
       expect(find.byWidget(content), findsOneWidget);
     });
@@ -52,7 +58,9 @@ void main() {
       const color = Colors.brown;
 
       await pumpAnnouncementCard(
-          tester: tester, card: const AnnouncementCard(color: color));
+        tester: tester,
+        card: const AnnouncementCard(color: color),
+      );
 
       final card = tester.firstWidget<CustomCard>(find.byType(CustomCard));
       expect(card.color, color);
@@ -62,7 +70,9 @@ void main() {
       final borderRadius = BorderRadius.circular(1.5);
 
       await pumpAnnouncementCard(
-          tester: tester, card: AnnouncementCard(borderRadius: borderRadius));
+        tester: tester,
+        card: AnnouncementCard(borderRadius: borderRadius),
+      );
 
       final card = tester.firstWidget<CustomCard>(find.byType(CustomCard));
       expect(card.borderRadius, borderRadius);
@@ -73,9 +83,7 @@ void main() {
 
       await pumpAnnouncementCard(
         tester: tester,
-        card: AnnouncementCard(
-          onTap: () => log.add('tap'),
-        ),
+        card: AnnouncementCard(onTap: () => log.add('tap')),
       );
 
       await tester.tap(find.byType(AnnouncementCard));

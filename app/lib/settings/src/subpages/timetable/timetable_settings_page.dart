@@ -65,7 +65,7 @@ class TimetableSettingsPage extends StatelessWidget {
                   if (PlatformCheck.isIOS) ...[
                     const Divider(),
                     _IsTimePickerFifeMinutesIntervalActive(),
-                  ]
+                  ],
                 ],
               ),
             ),
@@ -94,23 +94,31 @@ class _ABWeekField extends StatelessWidget {
               value: userSettings!.isABWeekEnabled,
               onChanged: (newValue) {
                 bloc.updateSettings(
-                    userSettings.copyWith(isABWeekEnabled: newValue));
+                  userSettings.copyWith(isABWeekEnabled: newValue),
+                );
               },
             ),
             if (userSettings.isABWeekEnabled) ...[
               InkWell(
-                onTap: () => bloc.updateSettings(userSettings.copyWith(
-                    isAWeekEvenWeek: !userSettings.isAWeekEvenWeek)),
+                onTap:
+                    () => bloc.updateSettings(
+                      userSettings.copyWith(
+                        isAWeekEvenWeek: !userSettings.isAWeekEvenWeek,
+                      ),
+                    ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListTile(
-                      title: Text(context
-                          .l10n.timetableSettingsPageAWeeksAreEvenSwitch),
+                      title: Text(
+                        context.l10n.timetableSettingsPageAWeeksAreEvenSwitch,
+                      ),
                       trailing: Switch.adaptive(
                         value: userSettings.isAWeekEvenWeek,
-                        onChanged: (newValue) => bloc.updateSettings(
-                            userSettings.copyWith(isAWeekEvenWeek: newValue)),
+                        onChanged:
+                            (newValue) => bloc.updateSettings(
+                              userSettings.copyWith(isAWeekEvenWeek: newValue),
+                            ),
                       ),
                     ),
                     Padding(
@@ -119,12 +127,15 @@ class _ABWeekField extends StatelessWidget {
                         context.l10n.timetableSettingsPageThisWeekIs(
                           getWeekNumber(clock.now()),
                           _getAWeekIsEvenOrOddName(
-                              userSettings.isAWeekEvenWeek),
+                            userSettings.isAWeekEvenWeek,
+                          ),
                           _getCurrentWeekTypeName(userSettings.isAWeekEvenWeek),
                         ),
                         textAlign: TextAlign.left,
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ],
@@ -165,12 +176,14 @@ class _AbbreviationInTimetable extends StatelessWidget {
         if (!snapshot.hasData) return Container();
         final userSettings = snapshot.data!;
         return SwitchListTile.adaptive(
-          title:
-              Text(context.l10n.timetableSettingsPageShowLessonsAbbreviation),
+          title: Text(
+            context.l10n.timetableSettingsPageShowLessonsAbbreviation,
+          ),
           value: userSettings.showAbbreviation,
           onChanged: (newValue) {
             bloc.updateSettings(
-                userSettings.copyWith(showAbbreviation: newValue));
+              userSettings.copyWith(showAbbreviation: newValue),
+            );
           },
         );
       },
@@ -183,8 +196,9 @@ class _TimetablePeriodsField extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(context.l10n.timetableSettingsPagePeriodsFieldTileTitle),
-      subtitle:
-          Text(context.l10n.timetableSettingsPagePeriodsFieldTileSubtitle),
+      subtitle: Text(
+        context.l10n.timetableSettingsPagePeriodsFieldTileSubtitle,
+      ),
       onTap: () => openPeriodsEditPage(context),
     );
   }
@@ -195,9 +209,9 @@ class _ICalLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUnlocked = context
-        .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.iCalLinks);
+    final isUnlocked = context.read<SubscriptionService>().hasFeatureUnlocked(
+      SharezonePlusFeature.iCalLinks,
+    );
     return ListTile(
       title: Text(context.l10n.timetableSettingsPageIcalLinksTitleTitle),
       subtitle: Text(context.l10n.timetableSettingsPageIcalLinksTitleSubtitle),
@@ -207,10 +221,11 @@ class _ICalLinks extends StatelessWidget {
         } else {
           showSharezonePlusFeatureInfoDialog(
             context: context,
-            navigateToPlusPage: () =>
-                openSharezonePlusPageAsFullscreenDialog(context),
+            navigateToPlusPage:
+                () => openSharezonePlusPageAsFullscreenDialog(context),
             description: Text(
-                context.l10n.timetableSettingsPageIcalLinksPlusDialogContent),
+              context.l10n.timetableSettingsPageIcalLinksPlusDialogContent,
+            ),
           );
         }
       },
@@ -248,8 +263,10 @@ class LessonsLengthField extends StatelessWidget {
         return InkWell(
           borderRadius: splashBorderRadius,
           onTap: () async {
-            final selectedLessonLength =
-                await showNumberPickerDialog(context, lessonLength.minutes);
+            final selectedLessonLength = await showNumberPickerDialog(
+              context,
+              lessonLength.minutes,
+            );
             if (selectedLessonLength.isValid &&
                 selectedLessonLength != lessonLength &&
                 context.mounted) {
@@ -263,13 +280,17 @@ class LessonsLengthField extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.timelapse),
                 title: Text(
-                    context.l10n.timetableSettingsPageLessonLengthTileTile),
+                  context.l10n.timetableSettingsPageLessonLengthTileTile,
+                ),
                 mouseCursor: SystemMouseCursors.click,
-                trailing: Text(lessonLength.isValid
-                    ? context.l10n
-                        .timetableSettingsPageLessonLengthTileTrailing(
-                            lessonLength.minutes)
-                    : "-"),
+                trailing: Text(
+                  lessonLength.isValid
+                      ? context.l10n
+                          .timetableSettingsPageLessonLengthTileTrailing(
+                            lessonLength.minutes,
+                          )
+                      : "-",
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
@@ -286,12 +307,13 @@ class LessonsLengthField extends StatelessWidget {
   }
 
   Future<LessonLength> showNumberPickerDialog(
-      BuildContext context, int initialLengthInMinutes) async {
+    BuildContext context,
+    int initialLengthInMinutes,
+  ) async {
     final selectedLengthInMinutes = await showDialog<int>(
       context: context,
-      builder: (context) => _NumberPicker(
-        initialLength: initialLengthInMinutes,
-      ),
+      builder:
+          (context) => _NumberPicker(initialLength: initialLengthInMinutes),
     );
 
     return LessonLength(selectedLengthInMinutes ?? initialLengthInMinutes);
@@ -307,9 +329,7 @@ class LessonsLengthField extends StatelessWidget {
 }
 
 class _NumberPicker extends StatefulWidget {
-  const _NumberPicker({
-    required this.initialLength,
-  });
+  const _NumberPicker({required this.initialLength});
 
   final int initialLength;
 
@@ -347,10 +367,9 @@ class __NumberPickerState extends State<_NumberPicker> {
       // Needed to work on the web.
       // See: https://github.com/MarcinusX/NumberPicker/issues/118
       content: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
-          PointerDeviceKind.touch,
-          PointerDeviceKind.mouse,
-        }),
+        behavior: ScrollConfiguration.of(context).copyWith(
+          dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+        ),
         child: NumberPicker(
           minValue: 1,
           maxValue: 300,
@@ -375,8 +394,11 @@ class _IsTimePickerFifeMinutesIntervalActive extends StatelessWidget {
       builder: (context, snapshot) {
         final isActive = snapshot.data ?? true;
         return SwitchListTile.adaptive(
-          title: Text(context
-              .l10n.timetableSettingsPageIsFiveMinutesIntervalActiveTileTitle),
+          title: Text(
+            context
+                .l10n
+                .timetableSettingsPageIsFiveMinutesIntervalActiveTileTitle,
+          ),
           value: isActive,
           onChanged: bloc.setIsTimePickerFifeMinutesIntervalActive,
         );

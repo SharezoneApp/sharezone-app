@@ -18,12 +18,20 @@ class LanguagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localeProvider = context.watch<AppLocaleProvider>();
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.languagePageTitle)),
-      body: ListView(
-        padding: const EdgeInsets.all(12),
-        children:
-            AppLocale.values.map((locale) => _LanguageTile(locale)).toList(),
+      body: RadioGroup(
+        groupValue: localeProvider.locale,
+        onChanged: (value) {
+          if (value == null) return;
+          localeProvider.locale = value;
+        },
+        child: ListView(
+          padding: const EdgeInsets.all(12),
+          children:
+              AppLocale.values.map((locale) => _LanguageTile(locale)).toList(),
+        ),
       ),
     );
   }
@@ -36,19 +44,15 @@ class _LanguageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localeProvider = context.watch<AppLocaleProvider>();
     return MaxWidthConstraintBox(
       child: SafeArea(
         child: RadioListTile<AppLocale>(
           title: Text(locale.getNativeName(context)),
-          subtitle: locale.isSystem()
-              ? null
-              : Text(locale.getTranslatedName(context)),
+          subtitle:
+              locale.isSystem()
+                  ? null
+                  : Text(locale.getTranslatedName(context)),
           value: locale,
-          groupValue: localeProvider.locale,
-          onChanged: (value) {
-            localeProvider.locale = value!;
-          },
         ),
       ),
     );

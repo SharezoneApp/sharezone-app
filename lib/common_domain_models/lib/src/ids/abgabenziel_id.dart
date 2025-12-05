@@ -18,8 +18,6 @@ String abgabenzielTypToDtoString(AbgabenzielTyp typ) {
   switch (typ) {
     case AbgabenzielTyp.hausaufgabe:
       return _homework;
-    default:
-      throw UnimplementedError();
   }
 }
 
@@ -40,10 +38,10 @@ class AbgabezielId extends Id {
   final AbgabenzielTyp zielTyp;
   final Id zielId;
 
-  AbgabezielId._(
-    this.zielTyp,
-    this.zielId,
-  ) : super('${abgabenzielTypToDtoString(zielTyp)}$informationSeperator$zielId');
+  AbgabezielId._(this.zielTyp, this.zielId)
+    : super(
+        '${abgabenzielTypToDtoString(zielTyp)}$informationSeperator$zielId',
+      );
 
   factory AbgabezielId.homework(HomeworkId id) {
     ArgumentError.checkNotNull(id, 'HomeworkId');
@@ -51,11 +49,14 @@ class AbgabezielId extends Id {
   }
 
   factory AbgabezielId.fromOrThrow(String id) {
-    final seperatorIndexMatches =
-        RegExp('\\$informationSeperator').allMatches(id);
+    final seperatorIndexMatches = RegExp(
+      '\\$informationSeperator',
+    ).allMatches(id);
     if (seperatorIndexMatches.length != 1) {
-      throw _argumentError(id,
-          'Eine AbgabenzielId muss genau ein "$informationSeperator" haben');
+      throw _argumentError(
+        id,
+        'Eine AbgabenzielId muss genau ein "$informationSeperator" haben',
+      );
     }
     final seperatorMatch = seperatorIndexMatches.single;
     final typeString = id.substring(0, seperatorMatch.start);
@@ -70,8 +71,6 @@ class AbgabezielId extends Id {
       case AbgabenzielTyp.hausaufgabe:
         _id = HomeworkId(contentIdString);
         break;
-      default:
-        throw Exception('Unknown AbgabenzielTyp: $type');
     }
 
     return AbgabezielId._(type, _id);

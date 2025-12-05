@@ -9,7 +9,9 @@
 class Dateiname {
   final String mitExtension;
   String get nurExtension => mitExtension.substring(
-      mitExtension.lastIndexOf('.') + 1, mitExtension.length);
+    mitExtension.lastIndexOf('.') + 1,
+    mitExtension.length,
+  );
   String get ohneExtension =>
       mitExtension.substring(0, mitExtension.lastIndexOf('.'));
 
@@ -17,8 +19,11 @@ class Dateiname {
   Dateiname(this.mitExtension) {
     final punktIndex = mitExtension.lastIndexOf('.');
     if (punktIndex == -1) {
-      throw ArgumentError.value(mitExtension, 'dateinameMitExtension',
-          'muss ein Seperator "." im Namen haben.');
+      throw ArgumentError.value(
+        mitExtension,
+        'dateinameMitExtension',
+        'muss ein Seperator "." im Namen haben.',
+      );
     }
     final punktIstAmEnde = punktIndex == mitExtension.length - 1;
     final punktIstAmAnfang = punktIndex == 0;

@@ -27,9 +27,7 @@ Future<T?> showRoundedModalBottomSheet<T>({
     elevation: elevation,
     isScrollControlled: isScrollControlled,
     useRootNavigator: useRootNavigator,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
   );
   return res ??= defaultValue;
 }

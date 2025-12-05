@@ -9,24 +9,21 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
+import 'package:key_value_store/key_value_store.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
 import 'package:sharezone/filesharing/logic/file_sharing_page_state_bloc.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
 import 'package:sharezone/filesharing/rules/filesharing_permissions.dart';
-import 'package:sharezone/widgets/animation/color_fade_in.dart';
+import 'package:sharezone/filesharing/widgets/card_with_icon_and_text.dart';
+import 'package:sharezone/filesharing/widgets/file_grid_card.dart';
+import 'package:sharezone/filesharing/widgets/file_list_card.dart';
+import 'package:sharezone/filesharing/widgets/filesharing_headline.dart';
+import 'package:sharezone/filesharing/widgets/sheet.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-import 'logic/open_cloud_file.dart';
-import 'widgets/card_with_icon_and_text.dart';
-import 'widgets/cloud_file_icon.dart';
-import 'widgets/filesharing_headline.dart';
-import 'widgets/sheet.dart';
-
 class FileSharingViewGroup extends StatelessWidget {
-  const FileSharingViewGroup({
-    super.key,
-    required this.groupState,
-  });
+  const FileSharingViewGroup({super.key, required this.groupState});
 
   final FileSharingPageStateGroup? groupState;
 
@@ -47,32 +44,38 @@ class FileSharingViewGroup extends StatelessWidget {
         }
         final folders = fileSharingData.getFolders(path)!.values.toList();
 
-        return SingleChildScrollView(
-          padding: const EdgeInsets.only(left: 8, top: 8),
-          child: SafeArea(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Column(
-                  key: ValueKey(path),
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    _FolderGrid(
-                      courseID: fileSharingData.courseID,
-                      fileSharingData: fileSharingData,
-                      folders: folders,
-                      path: path,
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: CustomScrollView(
+            key: ValueKey(path),
+            slivers: [
+              SliverSafeArea(
+                sliver: SliverPadding(
+                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      key: ValueKey(path),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        // Folders are always displayed as a grid even when files
+                        // are displayed as a list (similar to Google Drive's approach).
+                        _FolderGrid(
+                          courseID: fileSharingData.courseID,
+                          fileSharingData: fileSharingData,
+                          folders: folders,
+                          path: path,
+                        ),
+                      ],
                     ),
-                    _FileGrid(
-                      courseID: initialData!.courseID,
-                      path: path,
-                      folderNumber: folders.length,
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              _FilesSliver(
+                courseID: initialData!.courseID,
+                path: path,
+                folderNumber: folders.length,
+              ),
+            ],
           ),
         );
       },
@@ -118,8 +121,8 @@ class _FolderGrid extends StatelessWidget {
   }
 }
 
-class _FileGrid extends StatelessWidget {
-  const _FileGrid({
+class _FilesSliver extends StatelessWidget {
+  const _FilesSliver({
     required this.courseID,
     required this.path,
     this.folderNumber = 0,
@@ -132,34 +135,71 @@ class _FileGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<FileSharingPageBloc>(context);
+    final stateBloc = BlocProvider.of<FileSharingPageStateBloc>(context);
+    final viewMode =
+        stateBloc.currentStateValue is FileSharingPageStateGroup
+            ? (stateBloc.currentStateValue as FileSharingPageStateGroup)
+                .viewMode
+            : defaultViewMode;
+
     return StreamBuilder<List<CloudFile>>(
       stream: bloc.fileQuery(courseID, path),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Container();
-        if (snapshot.data!.isEmpty && folderNumber == 0) return _NoFilesFound();
-        if (snapshot.data!.isEmpty) return Container();
+        if (!snapshot.hasData) {
+          return const SliverToBoxAdapter(child: SizedBox());
+        }
+        if (snapshot.data!.isEmpty && folderNumber == 0) {
+          return SliverToBoxAdapter(child: _NoFilesFound());
+        }
+        if (snapshot.data!.isEmpty) {
+          return const SliverToBoxAdapter(child: SizedBox());
+        }
+
         final files = snapshot.data!;
         files.sort((a, b) => a.name.compareTo(b.name));
-        return ColorFadeIn(
-          color: Colors.transparent,
-          duration: const Duration(milliseconds: 200),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const FileSharingHeadline(title: "Dateien"),
-              WrappableList(
-                minWidth: 150.0,
-                maxElementsPerSection: 3,
-                children: <Widget>[
-                  for (final file in files)
-                    _FileCard(
-                      cloudFile: file,
-                      courseId: courseID,
+
+        return SliverPadding(
+          padding: const EdgeInsets.only(left: 8, right: 8),
+          sliver:
+              viewMode == FileSharingViewMode.grid
+                  ? SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: () {
+                        final width = MediaQuery.of(context).size.width;
+                        // Aiming to have:
+                        // * Mobile: 2 columns
+                        // * Tablet: 3 columns
+                        // * Desktop: > 4 columns
+                        if (width < 600) {
+                          return 2;
+                        }
+                        return (width / 400).ceil();
+                      }(),
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 2,
+                      mainAxisSpacing: 2,
                     ),
-                ],
-              ),
-            ],
-          ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => FileGridCard(
+                        cloudFile: files[index],
+                        courseId: courseID,
+                      ),
+                      childCount: files.length,
+                    ),
+                  )
+                  : SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: FileListCard(
+                          file: files[index],
+                          courseID: courseID,
+                          bloc: bloc,
+                        ),
+                      ),
+                      childCount: files.length,
+                    ),
+                  ),
         );
       },
     );
@@ -187,55 +227,31 @@ class _FolderCard extends StatelessWidget {
           groupID: fileSharingData!.courseID,
           path: path!.getChildPath(folder.id),
           initialFileSharingData: fileSharingData,
+          viewMode: getViewModeFromCache(context.read<KeyValueStore>()),
         );
         stateBloc.changeStateTo(newState);
       },
       icon: Icon(Icons.folder, color: Colors.grey[600]),
       text: folder.name ?? "?",
-      trailing: folder.id != "attachment"
-          ? IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () => showFolderSheet(
-                courseID: fileSharingData!.courseID,
-                path: path,
-                folder: folder,
-                context: context,
-                hasPermissions:
-                    FileSharingPermissionsNoSync.fromContext(context)
-                        .canManageFolder(
-                            courseID: fileSharingData!.courseID,
-                            folder: folder),
-              ),
-            )
-          : null,
-    );
-  }
-}
-
-class _FileCard extends StatelessWidget {
-  const _FileCard({
-    required this.cloudFile,
-    required this.courseId,
-  });
-
-  final CloudFile cloudFile;
-  final String courseId;
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<FileSharingPageBloc>(context);
-    return CardWithIconAndText(
-      icon: FileIcon(fileFormat: cloudFile.fileFormat),
-      text: cloudFile.name,
-      onTap: () => openCloudFilePage(context, cloudFile, courseId),
-      trailing: IconButton(
-        icon: const Icon(Icons.more_vert),
-        onPressed: () => showCloudFileSheet(
-          cloudFile: cloudFile,
-          context: context,
-          bloc: bloc,
-        ),
-      ),
+      trailing:
+          folder.id != "attachment"
+              ? IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed:
+                    () => showFolderSheet(
+                      courseID: fileSharingData!.courseID,
+                      path: path,
+                      folder: folder,
+                      context: context,
+                      hasPermissions: FileSharingPermissionsNoSync.fromContext(
+                        context,
+                      ).canManageFolder(
+                        courseID: fileSharingData!.courseID,
+                        folder: folder,
+                      ),
+                    ),
+              )
+              : null,
     );
   }
 }
@@ -245,7 +261,8 @@ class _NoFilesFound extends StatelessWidget {
   Widget build(BuildContext context) {
     final dimensions = Dimensions.fromMediaQuery(context);
     return SizedBox(
-      height: MediaQuery.of(context).size.height -
+      height:
+          MediaQuery.of(context).size.height -
           (dimensions.isDesktopModus ? 100 : 200),
       child: const Padding(
         padding: EdgeInsets.only(bottom: 48),
@@ -254,7 +271,8 @@ class _NoFilesFound extends StatelessWidget {
           animateSVG: true,
           title: "Keine Dateien gefunden 😶",
           description: Text(
-              "Lade jetzt einfach eine Datei hoch, um diese mit deinem Kurs zu teilen 👍"),
+            "Lade jetzt einfach eine Datei hoch, um diese mit deinem Kurs zu teilen 👍",
+          ),
         ),
       ),
     );

@@ -8,21 +8,14 @@
 
 import 'dart:io';
 
+import 'package:grinder/grinder_files.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/build_utils.dart';
 
-final _webStages = [
-  'stable',
-  'beta',
-  'alpha',
-  'preview',
-];
+final _webStages = ['stable', 'beta', 'alpha', 'preview'];
 
 /// The different flavors of the Web app.
-final _webFlavors = [
-  'prod',
-  'dev',
-];
+final _webFlavors = ['prod', 'dev'];
 
 class BuildAppWebCommand extends CommandBase {
   BuildAppWebCommand(super.context) {
@@ -66,24 +59,32 @@ class BuildAppWebCommand extends CommandBase {
     try {
       final flavor = argResults![flavorOptionName] as String;
       final stage = argResults![releaseStageOptionName] as String;
-      final buildNameWithStage =
-          getBuildNameWithStage(repo.sharezoneFlutterApp, stage);
-      await processRunner.runCommand(
-        [
-          'flutter',
-          'build',
-          'web',
-          '--target',
-          'lib/main_$flavor.dart',
-          '--release',
-          '--web-renderer',
-          'canvaskit',
-          '--dart-define',
-          'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
-          if (stage != 'stable') ...['--build-name', buildNameWithStage]
-        ],
-        workingDirectory: repo.sharezoneFlutterApp.location,
+      final buildNameWithStage = getBuildNameWithStage(
+        repo.sharezoneFlutterApp,
+        stage,
       );
+      await processRunner.runCommand([
+        'flutter',
+        'build',
+        'web',
+        '--target',
+        'lib/main_$flavor.dart',
+        '--release',
+        '--dart-define',
+        'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
+        if (stage != 'stable') ...['--build-name', buildNameWithStage],
+      ], workingDirectory: repo.sharezoneFlutterApp.location);
+
+      // Might be more suited to deploy command, but I don't want to risk anyone
+      // forgetting to do this step.
+      stdout.writeln('Moving files in ./web_static_root into ./build/web ...');
+      final webStaticRootDir = repo.sharezoneFlutterApp.location.childDirectory(
+        "web_static_root",
+      );
+      final webBuildDir = repo.sharezoneFlutterApp.location.childDirectory(
+        'build/web',
+      );
+      copy(webStaticRootDir, webBuildDir);
     } catch (e) {
       throw Exception('Failed to build web app: $e');
     }

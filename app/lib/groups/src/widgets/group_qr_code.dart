@@ -8,6 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
@@ -17,26 +18,22 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class GroupQrCode extends StatelessWidget {
   final GroupInfo groupInfo;
 
-  const GroupQrCode({
-    super.key,
-    required this.groupInfo,
-  });
+  const GroupQrCode({super.key, required this.groupInfo});
   @override
   Widget build(BuildContext context) {
     return QrImageView(
       backgroundColor: Colors.white,
       data: groupInfo.joinLink ?? groupInfo.sharecode ?? "",
-      version: 3,
+      // See https://www.qrcode.com/en/about/version.html for more information
+      // about QR code versions.
+      version: 5, // 37x37 modules
+      errorCorrectionLevel: QrErrorCorrectLevel.M, // ~15% error correction
     );
   }
 }
 
 class QRCodeButton extends StatelessWidget {
-  const QRCodeButton(
-    this.groupInfo, {
-    super.key,
-    required this.closeDialog,
-  });
+  const QRCodeButton(this.groupInfo, {super.key, required this.closeDialog});
 
   final bool closeDialog;
   final GroupInfo groupInfo;
@@ -46,7 +43,8 @@ class QRCodeButton extends StatelessWidget {
     if (closeDialog) {
       Navigator.pop(context); // Closing dialog
       await Future.delayed(
-          const Duration(milliseconds: 100)); // Waiting for closing
+        const Duration(milliseconds: 100),
+      ); // Waiting for closing
     }
     if (!context.mounted) return;
 
@@ -77,9 +75,9 @@ class QRCodeButton extends StatelessWidget {
       child: GrayShimmer(
         enabled: !isEnabled,
         child: CircularButton(
-          icon: PlatformSvg.asset(
+          icon: SvgPicture.asset(
             "assets/icons/qr-code.svg",
-            color: color,
+            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
             width: 23.5,
             height: 23.5,
           ),
@@ -109,14 +107,13 @@ class _QRCodeBottomSheet extends StatelessWidget {
           SizedBox(
             height: 200,
             width: 200,
-            child: GroupQrCode(
-              groupInfo: groupInfo,
-            ),
+            child: GroupQrCode(groupInfo: groupInfo),
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12)
-                .add(const EdgeInsets.only(bottom: 20)),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+            ).add(const EdgeInsets.only(bottom: 20)),
             child: const Text(
               "Was muss ich machen?\n"
               "Nun muss dein Mitschüler oder dein Lehrer den QR-Code abscannen, indem er auf der \"Meine Kurse\" Seite auf \"Kurs beitreten\" klickt.",

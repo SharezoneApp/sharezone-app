@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 class ColorParser {
   static String toHex(Color color) {
+    // ignore: deprecated_member_use
     final rgbColor = colorlib.RgbColor(color.red, color.green, color.blue);
     return rgbColor.toHexColor().toString();
   }
@@ -19,6 +20,10 @@ class ColorParser {
     if (hex == null) return Colors.blue;
     final rgbColor = colorlib.HexColor(hex).toRgbColor();
     return Color.fromARGB(
-        255, rgbColor.r as int, rgbColor.g as int, rgbColor.b as int);
+      255,
+      rgbColor.r as int,
+      rgbColor.g as int,
+      rgbColor.b as int,
+    );
   }
 }

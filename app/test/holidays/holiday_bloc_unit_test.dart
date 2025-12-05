@@ -32,13 +32,17 @@ void main() {
 
   HolidayService getMockManager() => HolidayService(mockAPI, mockCache);
   HolidayBloc getBlocWithMocks() => HolidayBloc(
-      holidayManager: getMockManager(),
-      stateGateway: InMemoryHolidayStateGateway(initialValue: nrwStateEnum));
+    holidayManager: getMockManager(),
+    stateGateway: InMemoryHolidayStateGateway(initialValue: nrwStateEnum),
+  );
 
-  void cacheReturnsInvalidHolidays(List<Holiday> expectedHolidays,
-      [MockHolidayCache? mockCachePassed]) {
-    when(mockCachePassed?.load(any) ?? mockCache.load(any))
-        .thenReturn(CacheResponse.invalid(expectedHolidays));
+  void cacheReturnsInvalidHolidays(
+    List<Holiday> expectedHolidays, [
+    MockHolidayCache? mockCachePassed,
+  ]) {
+    when(
+      mockCachePassed?.load(any) ?? mockCache.load(any),
+    ).thenReturn(CacheResponse.invalid(expectedHolidays));
   }
 
   void cacheThrows() {
@@ -46,72 +50,86 @@ void main() {
   }
 
   void apiAnswersWith(List<Holiday> expectedHolidays, {State? forState}) {
-    when(mockAPI.load(any, forState ?? any))
-        .thenAnswer((_) => Future.value(expectedHolidays));
+    when(
+      mockAPI.load(any, forState ?? any),
+    ).thenAnswer((_) => Future.value(expectedHolidays));
   }
 
   test(
-      'If Cache can not load Holidays the API will be invoked and will save the data to cache again',
-      () async {
-    List<Holiday> apiResponse = [generateHoliday(), generateHoliday()];
+    'If Cache can not load Holidays the API will be invoked and will save the data to cache again',
+    () async {
+      List<Holiday> apiResponse = [generateHoliday(), generateHoliday()];
 
-    HolidayBloc bloc = getBlocWithMocks();
+      HolidayBloc bloc = getBlocWithMocks();
 
-    cacheThrows();
-    apiAnswersWith(apiResponse);
-    when(mockCache.save(apiResponse, nrwState))
-        .thenAnswer((_) => Future.value());
+      cacheThrows();
+      apiAnswersWith(apiResponse);
+      when(
+        mockCache.save(apiResponse, nrwState),
+      ).thenAnswer((_) => Future.value());
 
-    await bloc.holidays.first;
+      await bloc.holidays.first;
 
-    expect(bloc.holidays, emits(apiResponse));
-    verify(mockCache.save(apiResponse, nrwState)).called(1);
-  });
-
-  test('If Cache returns valid data then the API does not get called',
-      () async {
-    CacheResponse cachedHolidays =
-        CacheResponse.valid([generateHoliday(), generateHoliday()]);
-    HolidayBloc bloc = getBlocWithMocks();
-
-    when(mockCache.load(const NordrheinWestfalen())).thenReturn(cachedHolidays);
-
-    expect(bloc.holidays, emits(cachedHolidays.payload));
-  });
+      expect(bloc.holidays, emits(apiResponse));
+      verify(mockCache.save(apiResponse, nrwState)).called(1);
+    },
+  );
 
   test(
-      'If cached Holidays are not valid anymore, then the API will get called, but will still return cached data when API call is failing',
-      () {
-    List<Holiday> expectedHolidays = generateHolidayList(4);
-    when(mockCache.load(nrwState))
-        .thenReturn(CacheResponse.invalid(expectedHolidays));
-    when(mockAPI.load(any, any)).thenThrow(Exception("Some Exception"));
+    'If Cache returns valid data then the API does not get called',
+    () async {
+      CacheResponse cachedHolidays = CacheResponse.valid([
+        generateHoliday(),
+        generateHoliday(),
+      ]);
+      HolidayBloc bloc = getBlocWithMocks();
 
-    HolidayBloc bloc = getBlocWithMocks();
+      when(
+        mockCache.load(const NordrheinWestfalen()),
+      ).thenReturn(cachedHolidays);
 
-    expect(bloc.holidays, emits(expectedHolidays));
-  });
+      expect(bloc.holidays, emits(cachedHolidays.payload));
+    },
+  );
 
   test(
-      "If cached Holidays are not valid anymore, then the API will get called and if successfull return",
-      () {
-    List<Holiday> expectedHolidays = generateHolidayList(4);
-    cacheReturnsInvalidHolidays(generateHolidayList(4));
-    apiAnswersWith(expectedHolidays);
-    HolidayBloc bloc = getBlocWithMocks();
+    'If cached Holidays are not valid anymore, then the API will get called, but will still return cached data when API call is failing',
+    () {
+      List<Holiday> expectedHolidays = generateHolidayList(4);
+      when(
+        mockCache.load(nrwState),
+      ).thenReturn(CacheResponse.invalid(expectedHolidays));
+      when(mockAPI.load(any, any)).thenThrow(Exception("Some Exception"));
 
-    expect(bloc.holidays, emits(expectedHolidays));
-  });
+      HolidayBloc bloc = getBlocWithMocks();
+
+      expect(bloc.holidays, emits(expectedHolidays));
+    },
+  );
+
+  test(
+    "If cached Holidays are not valid anymore, then the API will get called and if successfull return",
+    () {
+      List<Holiday> expectedHolidays = generateHolidayList(4);
+      cacheReturnsInvalidHolidays(generateHolidayList(4));
+      apiAnswersWith(expectedHolidays);
+      HolidayBloc bloc = getBlocWithMocks();
+
+      expect(bloc.holidays, emits(expectedHolidays));
+    },
+  );
 
   test("Changing states from Stream yields correct holidays from stream", () {
     List<Holiday> expectedNrwResponse = [generateHoliday(), generateHoliday()];
     List<Holiday> expectedHessenResponse = [
       generateHoliday(),
-      generateHoliday()
+      generateHoliday(),
     ];
     var holidayStateGateway = InMemoryHolidayStateGateway();
     HolidayBloc bloc = HolidayBloc(
-        holidayManager: getMockManager(), stateGateway: holidayStateGateway);
+      holidayManager: getMockManager(),
+      stateGateway: holidayStateGateway,
+    );
 
     cacheReturnsInvalidHolidays(generateHolidayList(2));
     apiAnswersWith(expectedNrwResponse, forState: const NordrheinWestfalen());
@@ -120,22 +138,30 @@ void main() {
     holidayStateGateway.changeState(StateEnum.nordrheinWestfalen);
     holidayStateGateway.changeState(StateEnum.hessen);
 
-    expect(bloc.holidays,
-        emitsInOrder([expectedNrwResponse, expectedHessenResponse]));
+    expect(
+      bloc.holidays,
+      emitsInOrder([expectedNrwResponse, expectedHessenResponse]),
+    );
   });
 
   test('When giving wrong state an Exception is given back to the stream', () {
     var stateGateway = InMemoryHolidayStateGateway();
     HolidayBloc bloc = HolidayBloc(
-        holidayManager: getMockManager(), stateGateway: stateGateway);
+      holidayManager: getMockManager(),
+      stateGateway: stateGateway,
+    );
 
     stateGateway.changeState(StateEnum.anonymous);
-    expect(bloc.holidays,
-        emitsError(const TypeMatcher<UnsupportedStateException>()));
+    expect(
+      bloc.holidays,
+      emitsError(const TypeMatcher<UnsupportedStateException>()),
+    );
 
     stateGateway.changeState(StateEnum.notFromGermany);
-    expect(bloc.holidays,
-        emitsError(const TypeMatcher<UnsupportedStateException>()));
+    expect(
+      bloc.holidays,
+      emitsError(const TypeMatcher<UnsupportedStateException>()),
+    );
   });
 
   test('When holidays can not be saved the api still returns as usual', () {
@@ -185,20 +211,26 @@ List<Holiday> generateHolidayList(int length) {
 
 Holiday generateHoliday([DateTime? start, DateTime? end]) {
   if (start != null && end != null) {
-    return Holiday((b) => b
-      ..start = start
-      ..end = end
-      ..name = rdm.randomString(10)
-      ..slug = "Slug"
-      ..stateCode = "NW"
-      ..year = end.year);
+    return Holiday(
+      (b) =>
+          b
+            ..start = start
+            ..end = end
+            ..name = rdm.randomString(10)
+            ..slug = "Slug"
+            ..stateCode = "NW"
+            ..year = end.year,
+    );
   } else {
-    return Holiday((b) => b
-      ..start = DateTime.fromMicrosecondsSinceEpoch(123)
-      ..end = DateTime.fromMillisecondsSinceEpoch(123)
-      ..name = rdm.randomString(10)
-      ..slug = "Slug"
-      ..stateCode = "NW"
-      ..year = 2018);
+    return Holiday(
+      (b) =>
+          b
+            ..start = DateTime.fromMicrosecondsSinceEpoch(123)
+            ..end = DateTime.fromMillisecondsSinceEpoch(123)
+            ..name = rdm.randomString(10)
+            ..slug = "Slug"
+            ..stateCode = "NW"
+            ..year = 2018,
+    );
   }
 }

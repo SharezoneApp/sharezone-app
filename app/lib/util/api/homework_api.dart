@@ -45,19 +45,23 @@ class HomeworkGateway {
     required FirebaseFirestore firestore,
     required this.typeOfUserStream,
   }) : homeworkCollection = firestore.collection("Homework") {
-    typeOfUserStream.firstWhere((e) => e != null).then((typeOfUser) {
-      _setUpStreams(firestore, typeOfUser!);
-    })
+    typeOfUserStream
+        .firstWhere((e) => e != null)
+        .then((typeOfUser) {
+          _setUpStreams(firestore, typeOfUser!);
+        })
         // Sometimes, especially in test cases the typeOfUserStream is closed
         // before the first non-null value is emitted. In this case
         // .firstWhere() throws an error.
         .catchError((e, StackTrace s) {
-      log('Error setting up homework streams: $e', error: e, stackTrace: s);
-    });
+          log('Error setting up homework streams: $e', error: e, stackTrace: s);
+        });
   }
 
   Future<void> _setUpStreams(
-      FirebaseFirestore firestore, TypeOfUser typeOfUser) async {
+    FirebaseFirestore firestore,
+    TypeOfUser typeOfUser,
+  ) async {
     final now = clock.now();
     final startOfThisDay = DateTime(now.year, now.month, now.day);
 
@@ -114,18 +118,29 @@ class HomeworkGateway {
     // [_homeworkNowAndInFutureStream] also einfach mit den gefilterten
     // Hausaufgaben aus dem [_homeworkSubjectStream] gefüllt werden.
     _homeworkSubjectStream
-        .map((homeworks) => homeworks
-            .where((hw) =>
-                hw.todoUntil.isAfter(startOfThisDay) ||
-                hw.todoUntil.isAtSameMomentAs(startOfThisDay))
-            .toList())
-        .listen(_homeworkNowAndInFutureStream.add,
-            onError: _homeworkSubjectStream.addError);
+        .map(
+          (homeworks) =>
+              homeworks
+                  .where(
+                    (hw) =>
+                        hw.todoUntil.isAfter(startOfThisDay) ||
+                        hw.todoUntil.isAtSameMomentAs(startOfThisDay),
+                  )
+                  .toList(),
+        )
+        .listen(
+          _homeworkNowAndInFutureStream.add,
+          onError: _homeworkSubjectStream.addError,
+        );
   }
 
   Stream<HomeworkDto> singleHomeworkStream(String homeworkId) {
-    return homeworkCollection.doc(homeworkId).snapshots().map(
-        (docSnap) => HomeworkDto.fromData(docSnap.data()!, id: docSnap.id));
+    return homeworkCollection
+        .doc(homeworkId)
+        .snapshots()
+        .map(
+          (docSnap) => HomeworkDto.fromData(docSnap.data()!, id: docSnap.id),
+        );
   }
 
   Future<HomeworkDto> singleHomework(
@@ -144,8 +159,10 @@ class HomeworkGateway {
   }) async {
     if (homework.attachments.isNotEmpty && fileSharingGateway != null) {
       for (final fileID in homework.attachments) {
-        fileSharingGateway.removeReferenceData(fileID,
-            ReferenceData(type: ReferenceType.blackboard, id: homework.id));
+        fileSharingGateway.removeReferenceData(
+          fileID,
+          ReferenceData(type: ReferenceType.blackboard, id: homework.id),
+        );
       }
     }
     _deleteHomeworkDocument(homework.id);
@@ -158,7 +175,7 @@ class HomeworkGateway {
   void deleteHomeworkOnlyForCurrentUser(HomeworkDto homework) {
     if (homework.forUsers.length > 1) {
       final deleteCurrentUserOutOfUserMap = <String, Object>{
-        "forUsers.$userId": FieldValue.delete()
+        "forUsers.$userId": FieldValue.delete(),
       };
       homeworkCollection.doc(homework.id).update(deleteCurrentUserOutOfUserMap);
     } else {
@@ -184,8 +201,10 @@ class HomeworkGateway {
     final hasAttachments = attachments != null && attachments.isNotEmpty;
     if (hasAttachments) {
       for (int i = 0; i < attachments.length; i++) {
-        await fileSharingGateway.addReferenceData(attachments[i],
-            ReferenceData(type: ReferenceType.homework, id: reference.id));
+        await fileSharingGateway.addReferenceData(
+          attachments[i],
+          ReferenceData(type: ReferenceType.homework, id: reference.id),
+        );
       }
     }
 
@@ -199,7 +218,8 @@ class HomeworkGateway {
     List<String>? attachments,
     FileSharingGateway? fileSharingGateway,
   }) async {
-    final hasAttachments = attachments != null &&
+    final hasAttachments =
+        attachments != null &&
         attachments.isNotEmpty &&
         fileSharingGateway != null;
 
@@ -228,10 +248,7 @@ class HomeworkGateway {
       for (int i = 0; i < attachments.length; i++) {
         await fileSharingGateway.addReferenceData(
           attachments[i],
-          ReferenceData(
-            type: ReferenceType.homework,
-            id: reference.id,
-          ),
+          ReferenceData(type: ReferenceType.homework, id: reference.id),
         );
       }
     }
@@ -239,8 +256,10 @@ class HomeworkGateway {
 
   static String parentOfPath(String documentRefPath) {
     int lastIndex = documentRefPath.lastIndexOf("/");
-    assert(lastIndex != -1,
-        "documentReferencePath of DocumentReference should have a '/' in it. - documentReferencePath: $documentRefPath");
+    assert(
+      lastIndex != -1,
+      "documentReferencePath of DocumentReference should have a '/' in it. - documentReferencePath: $documentRefPath",
+    );
     String collectionRefPath = documentRefPath.substring(0, lastIndex);
     return collectionRefPath;
   }
@@ -255,26 +274,36 @@ class HomeworkGateway {
   /// Takes a [QuerySnapshot] and tries to transform the [List] of [DocumentSnapshot] into a [List] of [HomeworkDto].
   /// Every error while deserializing will be added as an [List] of [DeserializeFirestoreDocException] with [sink.addError()] of the [Stream].
   static final _homeworkTransformer = StreamTransformer<
-      QuerySnapshot<Map<String, dynamic>>,
-      List<HomeworkDto>>.fromHandlers(handleData: (querySnapshot, sink) {
-    List<HomeworkDto> parsedHomeworkList = [];
-    List<DeserializeFirestoreDocException> errorList = [];
+    QuerySnapshot<Map<String, dynamic>>,
+    List<HomeworkDto>
+  >.fromHandlers(
+    handleData: (querySnapshot, sink) {
+      List<HomeworkDto> parsedHomeworkList = [];
+      List<DeserializeFirestoreDocException> errorList = [];
 
-    // Adds each document either to parsedHomeworkList or errorList, depending if the deserializing/parsing succeeded.
-    for (var homeworkDocument in querySnapshot.docs) {
-      try {
-        parsedHomeworkList.add(HomeworkDto.fromData(homeworkDocument.data(),
-            id: homeworkDocument.id));
-      } catch (e, s) {
-        errorList.add(DeserializeFirestoreDocException(
-            homeworkDocument,
-            "Error while trying to deserialize a FirestoreDocument into a Homework.",
-            s));
+      // Adds each document either to parsedHomeworkList or errorList, depending if the deserializing/parsing succeeded.
+      for (var homeworkDocument in querySnapshot.docs) {
+        try {
+          parsedHomeworkList.add(
+            HomeworkDto.fromData(
+              homeworkDocument.data(),
+              id: homeworkDocument.id,
+            ),
+          );
+        } catch (e, s) {
+          errorList.add(
+            DeserializeFirestoreDocException(
+              homeworkDocument,
+              "Error while trying to deserialize a FirestoreDocument into a Homework.",
+              s,
+            ),
+          );
+        }
       }
-    }
-    sink.add(parsedHomeworkList);
-    if (errorList.isNotEmpty) sink.addError(errorList);
-  });
+      sink.add(parsedHomeworkList);
+      if (errorList.isNotEmpty) sink.addError(errorList);
+    },
+  );
 
   Future<void> dispose() async {
     await _homeworkSubjectStream.close();

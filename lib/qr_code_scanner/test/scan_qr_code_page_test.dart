@@ -38,16 +38,19 @@ void main() {
         MaterialApp(
           navigatorObservers: [routeSettingsObserver],
           home: Scaffold(
-            body: Builder(builder: (context) {
-              return ElevatedButton(
-                onPressed: () => showQrCodeScanner(
-                  context,
-                  mockController: controller,
-                  settings: const RouteSettings(name: route),
-                ),
-                child: const Text('Scan QR Code'),
-              );
-            }),
+            body: Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed:
+                      () => showQrCodeScanner(
+                        context,
+                        mockController: controller,
+                        settings: const RouteSettings(name: route),
+                      ),
+                  child: const Text('Scan QR Code'),
+                );
+              },
+            ),
           ),
         ),
       );

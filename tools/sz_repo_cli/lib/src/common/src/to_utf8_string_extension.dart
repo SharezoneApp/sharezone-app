@@ -10,8 +10,9 @@ import 'dart:convert';
 
 extension StreamToUtf8String on Stream<List<int>> {
   Stream<String> toUtf8() => transform(utf8.decoder);
-  Future<String> toUtf8String() => transform(utf8.decoder)
-      .reduce((previous, element) => '$previous $element');
+  Future<String> toUtf8String() => transform(
+    utf8.decoder,
+  ).reduce((previous, element) => '$previous $element');
 }
 
 extension FutureTouUtf8String on Future<List<int>> {

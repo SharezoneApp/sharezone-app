@@ -38,16 +38,23 @@ void main() {
     State state = const NordrheinWestfalen();
 
     Holiday holidayInTheFuture = generateHoliday(
-        clock.now().add(const Duration(days: 1)),
-        clock.now().add(const Duration(days: 5)));
+      clock.now().add(const Duration(days: 1)),
+      clock.now().add(const Duration(days: 5)),
+    );
     Holiday holidayInThePast = generateHoliday(
-        clock.now().subtract(const Duration(days: 10)),
-        clock.now().subtract(const Duration(days: 5)));
-    holidayCacheData = HolidayCacheData((b) => b
-      ..holidays = ListBuilder([holidayInThePast, holidayInTheFuture])
-      ..saved = clock.now());
+      clock.now().subtract(const Duration(days: 10)),
+      clock.now().subtract(const Duration(days: 5)),
+    );
+    holidayCacheData = HolidayCacheData(
+      (b) =>
+          b
+            ..holidays = ListBuilder([holidayInThePast, holidayInTheFuture])
+            ..saved = clock.now(),
+    );
     kVstore.setString(
-        HolidayCache.getKeyString(state), holidayCacheData.toJson());
+      HolidayCache.getKeyString(state),
+      holidayCacheData.toJson(),
+    );
 
     CacheResponse expectedResonse = CacheResponse.valid([holidayInTheFuture]);
     expect(cache.load(state)!.payload, expectedResonse.payload);
@@ -70,8 +77,10 @@ void main() {
       final sixtyDaysBefore = clock.now().subtract(const Duration(days: 60));
       final now = clock.now();
       var currentTimeReturnedToCache = sixtyDaysBefore;
-      HolidayCache cache = HolidayCache(kVstore,
-          getCurrentTime: () => currentTimeReturnedToCache);
+      HolidayCache cache = HolidayCache(
+        kVstore,
+        getCurrentTime: () => currentTimeReturnedToCache,
+      );
 
       await cache.save(expectedHolidays, state);
       currentTimeReturnedToCache = now;

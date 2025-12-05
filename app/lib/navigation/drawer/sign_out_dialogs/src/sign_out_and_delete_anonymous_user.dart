@@ -19,12 +19,14 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 Future<bool?> showSignOutAndDeleteAnonymousDialog(BuildContext context) {
   if (ThemePlatform.isCupertino) {
     return showCupertinoDialog(
-        context: context,
-        builder: (context) => const SignOutAndDeleteAnonymousUserAlert());
+      context: context,
+      builder: (context) => const SignOutAndDeleteAnonymousUserAlert(),
+    );
   } else {
     return showDialog(
-        context: context,
-        builder: (context) => const SignOutAndDeleteAnonymousUserAlert());
+      context: context,
+      builder: (context) => const SignOutAndDeleteAnonymousUserAlert(),
+    );
   }
 }
 
@@ -93,7 +95,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
                 text: text,
               ),
               if (isValidError(errorTextForUser))
-                DeleteAccountDialogErrorText(text: errorTextForUser!)
+                DeleteAccountDialogErrorText(text: errorTextForUser!),
             ],
           ),
         ),
@@ -113,60 +115,63 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
             ),
           if (confirmedToDeleteAccount && !isLoading)
             CupertinoDialogAction(
-                isDefaultAction: true,
-                isDestructiveAction: true,
-                onPressed: () => tryToSignOutAndDeleteUser(context),
-                child: const Text("Löschen")),
+              isDefaultAction: true,
+              isDestructiveAction: true,
+              onPressed: () => tryToSignOutAndDeleteUser(context),
+              child: const Text("Löschen"),
+            ),
         ],
       );
     }
 
     return AlertDialog(
-        title: const _SignOutAndDeleteAnonymousDialogTitle(),
-        contentPadding: const EdgeInsets.only(top: 24),
-        content: DialogWrapper(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: Text(userDeletionNotice),
-                ),
-                DeleteConfirmationCheckbox(
-                  onChanged: (bool? value) {
-                    if (value == null) return;
-                    setState(() => confirmedToDeleteAccount = value);
-                  },
-                  confirm: confirmedToDeleteAccount,
-                  text: text,
-                ),
-                if (isValidError(errorTextForUser))
-                  DeleteAccountDialogErrorText(text: errorTextForUser!)
-              ],
-            ),
+      title: const _SignOutAndDeleteAnonymousDialogTitle(),
+      contentPadding: const EdgeInsets.only(top: 24),
+      content: DialogWrapper(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Text(userDeletionNotice),
+              ),
+              DeleteConfirmationCheckbox(
+                onChanged: (bool? value) {
+                  if (value == null) return;
+                  setState(() => confirmedToDeleteAccount = value);
+                },
+                confirm: confirmedToDeleteAccount,
+                text: text,
+              ),
+              if (isValidError(errorTextForUser))
+                DeleteAccountDialogErrorText(text: errorTextForUser!),
+            ],
           ),
         ),
-        actions: [
-          if (isLoading)
-            const LoadingCircle()
-          else
-            Row(
-              children: <Widget>[
-                const CancelButton(),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.error,
-                  ),
-                  onPressed: confirmedToDeleteAccount
-                      ? () => tryToSignOutAndDeleteUser(context)
-                      : null,
-                  child: const Text("LÖSCHEN"),
+      ),
+      actions: [
+        if (isLoading)
+          const LoadingCircle()
+        else
+          Row(
+            children: <Widget>[
+              const CancelButton(),
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Theme.of(context).colorScheme.error,
                 ),
-              ],
-            )
-        ]);
+                onPressed:
+                    confirmedToDeleteAccount
+                        ? () => tryToSignOutAndDeleteUser(context)
+                        : null,
+                child: const Text("LÖSCHEN"),
+              ),
+            ],
+          ),
+      ],
+    );
   }
 
   bool isValidError(String? error) => error != null && error.isNotEmpty;
@@ -185,21 +190,26 @@ class _SignOutAndDeleteAnonymousDialogTitle extends StatelessWidget {
 }
 
 class DeleteAccountDialogErrorText extends StatelessWidget {
-  const DeleteAccountDialogErrorText({
-    super.key,
-    required this.text,
-  });
+  const DeleteAccountDialogErrorText({super.key, required this.text});
 
   final String text;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(ThemePlatform.isCupertino ? 0 : 24, 16,
-          ThemePlatform.isCupertino ? 0 : 24, 0),
-      child: Text(text,
-          style: TextStyle(
-              color: Theme.of(context).colorScheme.error, fontSize: 14)),
+      padding: EdgeInsets.fromLTRB(
+        ThemePlatform.isCupertino ? 0 : 24,
+        16,
+        ThemePlatform.isCupertino ? 0 : 24,
+        0,
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.error,
+          fontSize: 14,
+        ),
+      ),
     );
   }
 }
@@ -224,24 +234,20 @@ class DeleteConfirmationCheckbox extends StatelessWidget {
         child: child(context),
       );
     }
-    return InkWell(
-      onTap: () => onChanged(!confirm),
-      child: child(context),
-    );
+    return InkWell(onTap: () => onChanged(!confirm), child: child(context));
   }
 
   Widget child(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          ThemePlatform.isCupertino ? 0 : 24,
-          12,
-          ThemePlatform.isCupertino ? 0 : 24,
-          ThemePlatform.isCupertino ? 0 : 12),
+        ThemePlatform.isCupertino ? 0 : 24,
+        12,
+        ThemePlatform.isCupertino ? 0 : 24,
+        ThemePlatform.isCupertino ? 0 : 12,
+      ),
       child: Row(
         children: <Widget>[
-          Flexible(
-            child: Text(text, textAlign: TextAlign.start),
-          ),
+          Flexible(child: Text(text, textAlign: TextAlign.start)),
           if (!ThemePlatform.isCupertino) const SizedBox(width: 12),
           Material(
             color: Colors.transparent,
@@ -250,13 +256,10 @@ class DeleteConfirmationCheckbox extends StatelessWidget {
               child: Checkbox(
                 value: confirm,
                 onChanged: onChanged,
-                side: BorderSide(
-                  color: Colors.grey[700]!,
-                  width: 2,
-                ),
+                side: BorderSide(color: Colors.grey[700]!, width: 2),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

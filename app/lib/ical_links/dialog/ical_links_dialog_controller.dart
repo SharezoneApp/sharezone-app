@@ -26,9 +26,9 @@ class ICalLinksDialogController extends ChangeNotifier {
     required ICalLinksGateway gateway,
     required ICalLinksAnalytics analytics,
     required UserId userId,
-  })  : _gateway = gateway,
-        _analytics = analytics,
-        _userId = userId;
+  }) : _gateway = gateway,
+       _analytics = analytics,
+       _userId = userId;
 
   void create() async {
     _gateway.createICalLink(
@@ -41,9 +41,7 @@ class ICalLinksDialogController extends ChangeNotifier {
       ),
     );
     _analytics.logCreate(state.sources);
-    _setState(
-      state.copyWith(status: ICalDialogStatus.success),
-    );
+    _setState(state.copyWith(status: ICalDialogStatus.success));
   }
 
   bool validate() {
@@ -89,8 +87,9 @@ class ICalLinksDialogController extends ChangeNotifier {
   }
 
   void removeSource(ICalLinkSource source) {
-    _setState(state.copyWith(
-        sources: state.sources.where((s) => s != source).toList()));
+    _setState(
+      state.copyWith(sources: state.sources.where((s) => s != source).toList()),
+    );
     _isSourcesValid();
   }
 
@@ -104,10 +103,9 @@ class ICalLinksDialogController extends ChangeNotifier {
   }
 
   void _setError(ICalDialogError error) {
-    _setState(state.copyWith(
-      status: ICalDialogStatus.error,
-      error: () => error,
-    ));
+    _setState(
+      state.copyWith(status: ICalDialogStatus.error, error: () => error),
+    );
   }
 }
 
@@ -143,11 +141,7 @@ class ICalDialogState extends Equatable {
   List<Object?> get props => [name, sources, status, error];
 }
 
-enum ICalDialogStatus {
-  initial,
-  success,
-  error,
-}
+enum ICalDialogStatus { initial, success, error }
 
 sealed class ICalDialogError extends Equatable {
   const ICalDialogError();

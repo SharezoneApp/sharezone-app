@@ -14,7 +14,8 @@ class ActionExecutor {
   ActionExecutor._(this._executionMap);
 
   factory ActionExecutor(
-      List<ActionRegistration<ActionRequest>> actionRegistrations) {
+    List<ActionRegistration<ActionRequest>> actionRegistrations,
+  ) {
     final executorMap = <Type, Function>{};
     for (final actionRegistration in actionRegistrations) {
       executorMap[actionRegistration.actionRequestType] =

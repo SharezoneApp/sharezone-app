@@ -34,22 +34,18 @@ import 'package:diacritic/diacritic.dart' as pkg;
 /// --> [SharezoneHeaderWithIdSyntax] replaces [HeaderWithIdSyntax]
 /// --> [SharezoneSetextHeaderWithIdSyntax] replaces [SetextHeaderWithIdSyntax]
 final ExtensionSet sharezoneMarkdownExtensionSet = ExtensionSet(
-  List<BlockSyntax>.unmodifiable(
-    <BlockSyntax>[
-      const FencedCodeBlockSyntax(),
-      const _SharezoneHeaderWithIdSyntax(),
-      const _SharezoneSetextHeaderWithIdSyntax(),
-      const TableSyntax(),
-    ],
-  ),
-  List<InlineSyntax>.unmodifiable(
-    <InlineSyntax>[
-      InlineHtmlSyntax(),
-      StrikethroughSyntax(),
-      EmojiSyntax(),
-      AutolinkExtensionSyntax()
-    ],
-  ),
+  List<BlockSyntax>.unmodifiable(<BlockSyntax>[
+    const FencedCodeBlockSyntax(),
+    const _SharezoneHeaderWithIdSyntax(),
+    const _SharezoneSetextHeaderWithIdSyntax(),
+    const TableSyntax(),
+  ]),
+  List<InlineSyntax>.unmodifiable(<InlineSyntax>[
+    InlineHtmlSyntax(),
+    StrikethroughSyntax(),
+    EmojiSyntax(),
+    AutolinkExtensionSyntax(),
+  ]),
 );
 
 class _SharezoneHeaderWithIdSyntax extends HeaderWithIdSyntax {

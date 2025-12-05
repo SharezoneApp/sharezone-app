@@ -24,7 +24,8 @@ void main() {
             children: [
               ErrorCard(
                 message: const Text(
-                    '[cloud_firestore/permission-denied] The caller does not have permission to execute the specified operation.'),
+                  '[cloud_firestore/permission-denied] The caller does not have permission to execute the specified operation.',
+                ),
                 onContactSupportPressed: () {},
                 onRetryPressed: () {},
               ),
@@ -36,19 +37,13 @@ void main() {
     }
 
     testGoldens('renders as expected (light mode)', (tester) async {
-      await pushErrorCard(
-        tester,
-        themeData: getLightTheme(fontFamily: roboto),
-      );
+      await pushErrorCard(tester, themeData: getLightTheme(fontFamily: roboto));
 
       await multiScreenGolden(tester, 'error_card_light');
     });
 
     testGoldens('renders as expected (dark mode)', (tester) async {
-      await pushErrorCard(
-        tester,
-        themeData: getDarkTheme(fontFamily: roboto),
-      );
+      await pushErrorCard(tester, themeData: getDarkTheme(fontFamily: roboto));
 
       await multiScreenGolden(tester, 'error_card_dark');
     });

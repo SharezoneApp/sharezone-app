@@ -35,17 +35,17 @@ class ChooseTypeOfUser extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 48),
                       child: Column(
                         children: <Widget>[
-                          Text("Ich bin...",
-                              style: Theme.of(context).textTheme.headlineSmall),
+                          Text(
+                            "Ich bin...",
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
                           const SizedBox(height: 12),
                           typeOfUserButtons(context),
                           const SizedBox(height: 12),
                           const _LegalText(),
                           if (withLogin) ...[
                             const Divider(height: 46),
-                            const _LoginButton(
-                              key: K.goToLoginButton,
-                            ),
+                            const _LoginButton(key: K.goToLoginButton),
                           ],
                         ],
                       ),
@@ -56,8 +56,9 @@ class ChooseTypeOfUser extends StatelessWidget {
             ),
           ),
           Padding(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.12),
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.12,
+            ),
             child: const Align(
               alignment: Alignment.topCenter,
               child: SharezoneLogo(
@@ -66,7 +67,7 @@ class ChooseTypeOfUser extends StatelessWidget {
                 width: 150,
               ),
             ),
-          )
+          ),
         ],
       ),
       bottomNavigationBar:
@@ -78,32 +79,27 @@ class ChooseTypeOfUser extends StatelessWidget {
     final hasLowWidth = MediaQuery.of(context).size.width < 350;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: hasLowWidth
-          ? const Column(
-              children: <Widget>[
-                _StudentNew(),
-                SizedBox(height: 12),
-                _TeacherNew(),
-                SizedBox(height: 12),
-                _ParentsNew(),
-              ],
-            )
-          : const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: _StudentNew(),
-                ),
-                SizedBox(width: 4),
-                Expanded(
-                  child: _TeacherNew(),
-                ),
-                SizedBox(width: 4),
-                Expanded(
-                  child: _ParentsNew(),
-                ),
-              ],
-            ),
+      child:
+          hasLowWidth
+              ? const Column(
+                children: <Widget>[
+                  _StudentNew(),
+                  SizedBox(height: 12),
+                  _TeacherNew(),
+                  SizedBox(height: 12),
+                  _ParentsNew(),
+                ],
+              )
+              : const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(child: _StudentNew()),
+                  SizedBox(width: 4),
+                  Expanded(child: _TeacherNew()),
+                  SizedBox(width: 4),
+                  Expanded(child: _ParentsNew()),
+                ],
+              ),
     );
   }
 }
@@ -223,19 +219,11 @@ class _TypeOfUserTileNew extends StatelessWidget {
       if (hasExtremplyLowWidth) {
         return Padding(
           padding: const EdgeInsets.all(4),
-          child: PlatformSvg.asset(
-            iconSvgPath,
-            width: 45,
-            height: 45,
-          ),
+          child: SvgPicture.asset(iconSvgPath, width: 45, height: 45),
         );
       } else {
         return ListTile(
-          leading: PlatformSvg.asset(
-            iconSvgPath,
-            width: 45,
-            height: 45,
-          ),
+          leading: SvgPicture.asset(iconSvgPath, width: 45, height: 45),
           title: Text(
             typeOfUser.toReadableString(),
             textAlign: TextAlign.center,
@@ -245,17 +233,13 @@ class _TypeOfUserTileNew extends StatelessWidget {
     } else {
       return Column(
         children: <Widget>[
-          PlatformSvg.asset(
-            iconSvgPath,
-            width: 60,
-            height: 60,
-          ),
+          SvgPicture.asset(iconSvgPath, width: 60, height: 60),
           const SizedBox(height: 8),
           Text(
             typeOfUser.toReadableString(),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 16),
-          )
+          ),
         ],
       );
     }
@@ -272,9 +256,7 @@ class _LoginButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: TextButton(
-        style: TextButton.styleFrom(
-          foregroundColor: Colors.grey,
-        ),
+        style: TextButton.styleFrom(foregroundColor: Colors.grey),
         onPressed: () => Navigator.pushNamed(context, LoginPage.tag),
         child: const Padding(
           padding: EdgeInsets.symmetric(vertical: 4),

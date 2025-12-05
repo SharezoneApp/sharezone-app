@@ -16,12 +16,15 @@ class FolderPath {
   const FolderPath.fromPathString(this._pathString);
 
   static const FolderPath root = FolderPath.fromPathString('/');
-  static const FolderPath attachments =
-      FolderPath.fromPathString('/attachment');
+  static const FolderPath attachments = FolderPath.fromPathString(
+    '/attachment',
+  );
   FolderPath getParentPath() {
     final lastFolderLength = _pathString.split("/").last.length;
-    final newPath =
-        _pathString.substring(0, _pathString.length - (lastFolderLength + 1));
+    final newPath = _pathString.substring(
+      0,
+      _pathString.length - (lastFolderLength + 1),
+    );
     if (newPath == "") return FolderPath.root;
     return FolderPath.fromPathString(newPath);
   }
@@ -84,7 +87,7 @@ class FolderPath {
         reversedMap = {'folders': reversedMap ?? value};
       } else {
         reversedMap = {
-          mFolderID: {'folders': reversedMap ?? value}
+          mFolderID: {'folders': reversedMap ?? value},
         };
       }
     }

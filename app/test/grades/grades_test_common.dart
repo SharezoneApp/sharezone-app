@@ -34,16 +34,27 @@ class GradesTestController {
     service = gradesService ?? GradesService();
   }
 
-  void createTerm(TestTerm testTerm, {bool createMissingGradeTypes = true}) {
+  void createTerm(
+    TestTerm testTerm, {
+    bool createMissingGradeTypes = true,
+
+    /// If true, throws error if a subject of the term has no grades.
+    ///
+    /// Is true by default to prevent developers from being confused when they
+    /// create a term with a subject that has no grades and then try to access
+    /// the subject of the term. This would throw an error as the term won't
+    /// have the subject added, as it has no grades for it (yet).
+    ///
+    /// If you acknowledge this behavior and want to manually add grades to the
+    /// subject later, set this to false.
+    bool throwErrorForSubjectsWithNoGrades = true,
+  }) {
     final termId = testTerm.id;
     final termRef = service.term(termId);
 
     if (createMissingGradeTypes) {
       for (var id in _getAllGradeTypeIds(testTerm)) {
-        service.addCustomGradeType(
-          id: id,
-          displayName: randomAlpha(5),
-        );
+        service.addCustomGradeType(id: id, displayName: randomAlpha(5));
       }
     }
 
@@ -53,20 +64,34 @@ class GradesTestController {
       isActiveTerm: testTerm.isActiveTerm,
       name: testTerm.name,
       gradingSystem: testTerm.gradingSystem,
+      gradeTypeWeights: testTerm.gradeTypeWeights?.toIMap(),
     );
 
     if (testTerm.weightDisplayType != null) {
       service.term(termId).changeWeightDisplayType(testTerm.weightDisplayType!);
     }
 
-    if (testTerm.gradeTypeWeights != null) {
-      for (var e in testTerm.gradeTypeWeights!.entries) {
-        service.term(termId).changeGradeTypeWeight(e.key, e.value);
-      }
-    }
-
     for (var subject in testTerm.subjects.values) {
       final subRef = termRef.subject(subject.id);
+
+      if (subject.grades.isEmpty && throwErrorForSubjectsWithNoGrades) {
+        throw ArgumentError("""
+The subject "${subject.name}" was added to the term "${testTerm.name}", but it has no grades.
+Inside the $GradesService a subject is only really added to a term when a grade is added for this subject.
+Either add a grade to the subject when creating it or set `throwErrorForSubjectsWithNoGrades` to false if you acknowledge this behavior and want to manually add grades later to the subject.
+
+This error is created so that developers are not confused in this case:
+```
+testController.createTerm(termWith(id: TermId('foo'), subjects: [
+  subjectWith(id: SubjectId('maths')),
+]));
+// Throws error as the term does not have the 'maths' subject, because 
+// it was not added to the term because there is no grade for 'maths' fo
+// this term.
+testController.term(TermId('foo')).subject(SubjectId('maths')).name;
+```
+""");
+      }
 
       service.addSubject(
         id: subject.id,
@@ -110,13 +135,11 @@ class GradesTestController {
   IList<GradeTypeId> _getAllGradeTypeIds(TestTerm testTerm) {
     final ids = IList<GradeTypeId>()
         .add(testTerm.finalGradeType)
-        .addAll(
-          testTerm.gradeTypeWeights?.keys ?? [],
-        )
+        .addAll(testTerm.gradeTypeWeights?.keys ?? [])
         .addAll([
-      for (var subject in testTerm.subjects.values)
-        ..._getAllGradeTypeIdsForSubject(subject),
-    ]);
+          for (var subject in testTerm.subjects.values)
+            ..._getAllGradeTypeIdsForSubject(subject),
+        ]);
 
     return ids;
   }
@@ -124,9 +147,11 @@ class GradesTestController {
   IList<GradeTypeId> _getAllGradeTypeIdsForSubject(TestSubject testSubject) {
     return testSubject.gradeTypeWeights.keys
         .toIList()
-        .addAll(testSubject.finalGradeType != null
-            ? [testSubject.finalGradeType!]
-            : [])
+        .addAll(
+          testSubject.finalGradeType != null
+              ? [testSubject.finalGradeType!]
+              : [],
+        )
         .addAll(testSubject.grades.map((g) => g.type));
   }
 
@@ -150,10 +175,11 @@ class GradesTestController {
     return term;
   }
 
-  void changeWeightTypeForSubject(
-      {required TermId termId,
-      required SubjectId subjectId,
-      required WeightType weightType}) {
+  void changeWeightTypeForSubject({
+    required TermId termId,
+    required SubjectId subjectId,
+    required WeightType weightType,
+  }) {
     service.term(termId).subject(subjectId).changeWeightType(weightType);
   }
 
@@ -172,10 +198,11 @@ class GradesTestController {
     service.term(termId).removeGradeTypeWeight(gradeTypeId);
   }
 
-  void changeGradeWeightsForSubject(
-      {required TermId termId,
-      required SubjectId subjectId,
-      required Map<GradeId, Weight> weights}) {
+  void changeGradeWeightsForSubject({
+    required TermId termId,
+    required SubjectId subjectId,
+    required Map<GradeId, Weight> weights,
+  }) {
     final subRef = service.term(termId).subject(subjectId);
     for (var e in weights.entries) {
       final gradeRef = subRef.grade(e.key);
@@ -183,28 +210,31 @@ class GradesTestController {
     }
   }
 
-  void changeTermWeightsForSubject(
-      {required TermId termId,
-      required SubjectId subjectId,
-      required Map<GradeTypeId, Weight> gradeTypeWeights}) {
+  void changeTermWeightsForSubject({
+    required TermId termId,
+    required SubjectId subjectId,
+    required Map<GradeTypeId, Weight> gradeTypeWeights,
+  }) {
     final subRef = service.term(termId).subject(subjectId);
     for (var e in gradeTypeWeights.entries) {
       subRef.changeGradeTypeWeight(e.key, e.value);
     }
   }
 
-  void changeGradeTypeWeightForTerm(
-      {required TermId termId,
-      required Map<GradeTypeId, Weight> gradeTypeWeights}) {
+  void changeGradeTypeWeightForTerm({
+    required TermId termId,
+    required Map<GradeTypeId, Weight> gradeTypeWeights,
+  }) {
     for (var e in gradeTypeWeights.entries) {
       service.term(termId).changeGradeTypeWeight(e.key, e.value);
     }
   }
 
-  void changeFinalGradeTypeForSubject(
-      {required TermId termId,
-      required SubjectId subjectId,
-      required GradeTypeId? gradeType}) {
+  void changeFinalGradeTypeForSubject({
+    required TermId termId,
+    required SubjectId subjectId,
+    required GradeTypeId? gradeType,
+  }) {
     service.term(termId).subject(subjectId).changeFinalGradeType(gradeType);
   }
 
@@ -314,8 +344,10 @@ class GradesTestController {
     service.deleteCustomGradeType(gradeTypeId);
   }
 
-  void changeFinalGradeTypeForTerm(
-      {required TermId termId, required GradeTypeId gradeTypeId}) {
+  void changeFinalGradeTypeForTerm({
+    required TermId termId,
+    required GradeTypeId gradeTypeId,
+  }) {
     service.term(termId).changeFinalGradeType(gradeTypeId);
   }
 
@@ -329,14 +361,17 @@ class GradesTestController {
     }
   }
 
-  void changeWeightDisplayTypeForTerm(
-      {required TermId termId, required WeightDisplayType weightDisplayType}) {
+  void changeWeightDisplayTypeForTerm({
+    required TermId termId,
+    required WeightDisplayType weightDisplayType,
+  }) {
     service.term(termId).changeWeightDisplayType(weightDisplayType);
   }
 
-  void changeTermSubjectWeights(
-      {required TermId termId,
-      required Map<SubjectId, Weight> subjectWeights}) {
+  void changeTermSubjectWeights({
+    required TermId termId,
+    required Map<SubjectId, Weight> subjectWeights,
+  }) {
     for (var e in subjectWeights.entries) {
       service.term(termId).subject(e.key).changeWeightForTermGrade(e.value);
     }
@@ -400,6 +435,7 @@ TestSubject subjectWith({
   GradeTypeId? finalGradeType,
   Design? design,
   List<ConnectedCourse> connectedCourses = const [],
+  bool ignoreWeightTypeAssertion = false,
 }) {
   final idRes = id ?? SubjectId(randomAlpha(5));
   final nameRes = name ?? idRes.value;
@@ -415,6 +451,7 @@ TestSubject subjectWith({
     gradeTypeWeights: gradeTypeWeights,
     finalGradeType: finalGradeType,
     design: design ?? Design.random(szTestRandom),
+    ignoreWeightTypeAssertion: ignoreWeightTypeAssertion,
   );
 }
 
@@ -441,20 +478,22 @@ class TestSubject {
     this.weightType,
     this.weight,
     this.finalGradeType,
+    bool ignoreWeightTypeAssertion = false,
   }) : assert(() {
-          // Help developers to not forget to set the weightType if
-          // gradeTypeWeights or grade weights are set. This is not a hard
-          // requirement by the logic, so if you need to do it anyways then you
-          // might edit this assert.
-          if (gradeTypeWeights.isNotEmpty) {
-            return weightType == WeightType.perGradeType;
-          }
-          if (grades.any((g) => g.weight != null)) {
-            return weightType == WeightType.perGrade;
-          }
+         if (ignoreWeightTypeAssertion) return true;
+         // Help developers to not forget to set the weightType if
+         // gradeTypeWeights or grade weights are set. This is not a hard
+         // requirement by the logic, so if you need to do it anyways then you
+         // might edit this assert.
+         if (gradeTypeWeights.isNotEmpty) {
+           return weightType == WeightType.perGradeType;
+         }
+         if (grades.any((g) => g.weight != null)) {
+           return weightType == WeightType.perGrade;
+         }
 
-          return true;
-        }());
+         return true;
+       }());
 }
 
 TestGrade gradeWith({

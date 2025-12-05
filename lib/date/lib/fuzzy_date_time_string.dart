@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library fuzzy_date_time_string;
+library;
 
 export 'src/fuzzy_date_time_string.dart';

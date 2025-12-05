@@ -55,9 +55,7 @@ class SharezonePlusAdvantages extends StatelessWidget {
 }
 
 class _RemoveAds extends StatelessWidget {
-  const _RemoveAds({
-    required this.onOpen,
-  });
+  const _RemoveAds({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -70,15 +68,14 @@ class _RemoveAds extends StatelessWidget {
       icon: const Icon(Icons.block),
       title: const Text('Werbung entfernen'),
       description: const Text(
-          'Genieße Sharezone komplett werbefrei.\n\nHinweis: Wir testen derzeit die Anzeige von Werbung. Es ist möglich, dass wir in Zukunft die Werbung wieder für alle Nutzer entfernen.'),
+        'Genieße Sharezone komplett werbefrei.\n\nHinweis: Wir testen derzeit die Anzeige von Werbung. Es ist möglich, dass wir in Zukunft die Werbung wieder für alle Nutzer entfernen.',
+      ),
     );
   }
 }
 
 class _Grades extends StatelessWidget {
-  const _Grades({
-    required this.onOpen,
-  });
+  const _Grades({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -91,15 +88,14 @@ class _Grades extends StatelessWidget {
       icon: const Icon(Icons.emoji_events),
       title: const Text('Noten'),
       description: const Text(
-          'Speichere deine Schulnoten mit Sharezone Plus und behalte den Überblick über deine Leistungen. Schriftliche Prüfungen, mündliche Mitarbeit, Halbjahresnoten - alles an einem Ort.'),
+        'Speichere deine Schulnoten mit Sharezone Plus und behalte den Überblick über deine Leistungen. Schriftliche Prüfungen, mündliche Mitarbeit, Halbjahresnoten - alles an einem Ort.',
+      ),
     );
   }
 }
 
 class _MoreColors extends StatelessWidget {
-  const _MoreColors({
-    required this.onOpen,
-  });
+  const _MoreColors({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -112,15 +108,14 @@ class _MoreColors extends StatelessWidget {
       icon: const Icon(Icons.color_lens),
       title: const Text('Mehr Farben für die Gruppen'),
       description: const Text(
-          'Sharezone Plus bietet dir über 200 (statt 19) Farben für deine Gruppen. Setzt du mit Sharezone Plus eine Farbe für deine Gruppe, so können auch deine Gruppenmitglieder diese Farbe sehen.'),
+        'Sharezone Plus bietet dir über 200 (statt 19) Farben für deine Gruppen. Setzt du mit Sharezone Plus eine Farbe für deine Gruppe, so können auch deine Gruppenmitglieder diese Farbe sehen.',
+      ),
     );
   }
 }
 
 class _SelectTimetableBySchoolClass extends StatelessWidget {
-  const _SelectTimetableBySchoolClass({
-    required this.onOpen,
-  });
+  const _SelectTimetableBySchoolClass({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -133,15 +128,14 @@ class _SelectTimetableBySchoolClass extends StatelessWidget {
       icon: const Icon(Icons.calendar_month),
       title: const Text('Stundenplan nach Klasse auswählen'),
       description: const Text(
-          'Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.'),
+        'Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.',
+      ),
     );
   }
 }
 
 class _Substitutions extends StatelessWidget {
-  const _Substitutions({
-    required this.onOpen,
-  });
+  const _Substitutions({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -167,9 +161,7 @@ Beachte, dass der Vertretungsplan manuell eingetragen werden muss und nicht auto
 }
 
 class _TeachersTimetable extends StatelessWidget {
-  const _TeachersTimetable({
-    required this.onOpen,
-  });
+  const _TeachersTimetable({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -189,9 +181,7 @@ class _TeachersTimetable extends StatelessWidget {
 }
 
 class _PastEvents extends StatelessWidget {
-  const _PastEvents({
-    required this.onOpen,
-  });
+  const _PastEvents({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -204,15 +194,14 @@ class _PastEvents extends StatelessWidget {
       icon: const Icon(Icons.history),
       title: const Text('Vergangene Termine einsehen'),
       description: const Text(
-          'Mit Sharezone Plus kannst du alle vergangenen Termine, wie z.B. Prüfungen, einsehen.'),
+        'Mit Sharezone Plus kannst du alle vergangenen Termine, wie z.B. Prüfungen, einsehen.',
+      ),
     );
   }
 }
 
 class _AddEventsToLocalCalendar extends StatelessWidget {
-  const _AddEventsToLocalCalendar({
-    required this.onOpen,
-  });
+  const _AddEventsToLocalCalendar({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -225,15 +214,14 @@ class _AddEventsToLocalCalendar extends StatelessWidget {
       icon: const Icon(Icons.calendar_today),
       title: const Text('Termine zum lokalen Kalender hinzufügen'),
       description: const Text(
-          'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.'),
+        'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.',
+      ),
     );
   }
 }
 
 class _IcalFeature extends StatelessWidget {
-  const _IcalFeature({
-    required this.onOpen,
-  });
+  const _IcalFeature({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -246,15 +234,14 @@ class _IcalFeature extends StatelessWidget {
       icon: const Icon(Icons.link),
       title: const Text('Stundenplan exportieren (iCal)'),
       description: const Text(
-          'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.'),
+        'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.',
+      ),
     );
   }
 }
 
 class _MoreStorage extends StatelessWidget {
-  const _MoreStorage({
-    required this.onOpen,
-  });
+  const _MoreStorage({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -267,15 +254,14 @@ class _MoreStorage extends StatelessWidget {
       icon: const Icon(Icons.storage),
       title: const Text('30 GB Speicherplatz'),
       description: const Text(
-          'Mit Sharezone Plus erhältst du 30 GB Speicherplatz (statt 100 MB) für deine Dateien & Anhänge (bei Hausaufgaben & Infozetteln). Dies entspricht ca. 15.000 Fotos (2 MB pro Bild).\n\nDie Begrenzung gilt nicht für Dateien, die als Abgabe bei Hausaufgaben hochgeladen wird.'),
+        'Mit Sharezone Plus erhältst du 30 GB Speicherplatz (statt 100 MB) für deine Dateien & Anhänge (bei Hausaufgaben & Infozetteln). Dies entspricht ca. 15.000 Fotos (2 MB pro Bild).\n\nDie Begrenzung gilt nicht für Dateien, die als Abgabe bei Hausaufgaben hochgeladen wird.',
+      ),
     );
   }
 }
 
 class _PlusSupport extends StatelessWidget {
-  const _PlusSupport({
-    required this.onOpen,
-  });
+  const _PlusSupport({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -298,9 +284,7 @@ class _PlusSupport extends StatelessWidget {
 }
 
 class _HomeworkReminder extends StatelessWidget {
-  const _HomeworkReminder({
-    required this.onOpen,
-  });
+  const _HomeworkReminder({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -313,15 +297,14 @@ class _HomeworkReminder extends StatelessWidget {
       icon: const Icon(Icons.notifications),
       title: const Text('Individuelle Uhrzeit für Hausaufgaben-Erinnerungen'),
       description: const Text(
-          'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr. Dieses Feature ist nur für Schüler*innen verfügbar.'),
+        'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr. Dieses Feature ist nur für Schüler*innen verfügbar.',
+      ),
     );
   }
 }
 
 class _ReadByInformationSheets extends StatelessWidget {
-  const _ReadByInformationSheets({
-    required this.onOpen,
-  });
+  const _ReadByInformationSheets({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -334,15 +317,14 @@ class _ReadByInformationSheets extends StatelessWidget {
       icon: const Icon(Icons.format_list_bulleted),
       title: const Text('Gelesen-Status bei Infozetteln'),
       description: const Text(
-          'Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.'),
+        'Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.',
+      ),
     );
   }
 }
 
 class _DiscordPlusRang extends StatelessWidget {
-  const _DiscordPlusRang({
-    required this.onOpen,
-  });
+  const _DiscordPlusRang({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -359,9 +341,9 @@ class _DiscordPlusRang extends StatelessWidget {
             'Erhalte den Discord Sharezone Plus Rang auf unserem [Discord-Server](https://sharezone.net/discord). Dieser Rang zeigt, dass du Sharezone Plus hast und gibt dir Zugriff auf einen exklusive Channel nur für Sharezone Plus Nutzer.',
         styleSheet: MarkdownStyleSheet(
           a: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: Theme.of(context).primaryColor,
-                decoration: TextDecoration.underline,
-              ),
+            color: Theme.of(context).primaryColor,
+            decoration: TextDecoration.underline,
+          ),
         ),
         onTapLink: (text, href, title) async {
           if (href == null) return;
@@ -373,10 +355,7 @@ class _DiscordPlusRang extends StatelessWidget {
 }
 
 class _SupportOpenSource extends StatelessWidget {
-  const _SupportOpenSource({
-    required this.onOpen,
-    required this.onGitHubOpen,
-  });
+  const _SupportOpenSource({required this.onOpen, required this.onGitHubOpen});
 
   final ValueChanged<String>? onOpen;
   final VoidCallback? onGitHubOpen;
@@ -394,9 +373,9 @@ class _SupportOpenSource extends StatelessWidget {
             'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)',
         styleSheet: MarkdownStyleSheet(
           a: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: Theme.of(context).primaryColor,
-                decoration: TextDecoration.underline,
-              ),
+            color: Theme.of(context).primaryColor,
+            decoration: TextDecoration.underline,
+          ),
         ),
         onTapLink: (text, href, title) async {
           if (href == null) return;
@@ -411,9 +390,7 @@ class _SupportOpenSource extends StatelessWidget {
 }
 
 class _QuickHomeworkDueDate extends StatelessWidget {
-  const _QuickHomeworkDueDate({
-    required this.onOpen,
-  });
+  const _QuickHomeworkDueDate({required this.onOpen});
 
   final ValueChanged<String>? onOpen;
 
@@ -426,7 +403,8 @@ class _QuickHomeworkDueDate extends StatelessWidget {
       icon: const Icon(Icons.check_box),
       title: const Text('Schnellauswahl für Fälligkeitsdatum'),
       description: const Text(
-          'Mit Sharezone Plus kannst du das Fälligkeitsdatum einer Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.'),
+        'Mit Sharezone Plus kannst du das Fälligkeitsdatum einer Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.',
+      ),
     );
   }
 }
@@ -437,7 +415,7 @@ class _AdvantageTile extends StatelessWidget {
     required this.title,
     // Can be removed when the subtitle is used.
     //
-    // ignore: unused_element
+    // ignore: unused_element_parameter
     this.subtitle,
     required this.description,
     required this.onOpen,
@@ -458,7 +436,7 @@ class _AdvantageTile extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: green.withOpacity(0.2),
+              color: green.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Padding(

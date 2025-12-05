@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library last_online_reporting;
+library;
 
 import 'dart:async';
 
@@ -31,6 +31,7 @@ class LastOnlineReporter {
     FirebaseFirestore firestore,
     UserId userId,
     CrashAnalytics crashAnalytics, {
+
     /// Controls how often the client reports being online to the backend.
     /// If [minimumTimeBetweenReports] is e.g. 10 minutes the client will at max
     /// report being online every ten minutes (instead of reporting more often).
@@ -39,8 +40,10 @@ class LastOnlineReporter {
     required Duration minimumDurationBetweenReports,
   }) {
     final reporter = LastOnlineReporter.internal(
-      FirestoreLastOnlineReporterBackend(firestore, userId)
-          .reportCurrentlyOnline,
+      FirestoreLastOnlineReporterBackend(
+        firestore,
+        userId,
+      ).reportCurrentlyOnline,
       AppLifecycleStateObserver().lifecycleChanges,
       crashAnalytics,
       debounceTime: minimumDurationBetweenReports,
@@ -62,11 +65,9 @@ class LastOnlineReporter {
   @visibleForTesting
   void startReporting() {
     _streamSubscription = _lifecycleChanges
-
         /// We don't want to report too many times being online just because
         /// [_lifecycleChanges] emits events in quick succession.
         .debounceTime(_debounceTime)
-
         /// We start with an own [AppLifecycleState] so that being online is
         /// being directly reported when calling this method because
         /// [_lifecycleChanges] may not directly emit an event.

@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library abgabe_http_api.api;
+library;
 
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
@@ -21,7 +21,8 @@ class AbgabeHttpApi {
   String basePath = "https://api.sharezone.net";
 
   AbgabeHttpApi({Dio? dio, Serializers? serializers}) {
-    this.dio = dio ??
+    this.dio =
+        dio ??
         Dio(
           BaseOptions(
             baseUrl: basePath,

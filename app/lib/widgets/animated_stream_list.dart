@@ -9,12 +9,13 @@
 import 'package:animated_stream_list_nullsafety/animated_stream_list.dart';
 import 'package:flutter/material.dart';
 
-typedef SharezoneAnimatedStreamListItemBuilder<T> = Widget Function(
-  T item,
-  int index,
-  BuildContext context,
-  Animation<double> animation,
-);
+typedef SharezoneAnimatedStreamListItemBuilder<T> =
+    Widget Function(
+      T item,
+      int index,
+      BuildContext context,
+      Animation<double> animation,
+    );
 
 class SharezoneAnimatedStreamList<E> extends StatelessWidget {
   const SharezoneAnimatedStreamList({

@@ -17,14 +17,20 @@ class LocalDateTimeStringSerializer implements PrimitiveSerializer<DateTime> {
   final String wireName = 'DateTime';
 
   @override
-  Object serialize(Serializers serializers, DateTime dateTime,
-      {FullType specifiedType = FullType.unspecified}) {
+  Object serialize(
+    Serializers serializers,
+    DateTime dateTime, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     return dateTime.toUtc().toIso8601String();
   }
 
   @override
-  DateTime deserialize(Serializers serializers, Object serialized,
-      {FullType specifiedType = FullType.unspecified}) {
+  DateTime deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     return DateTime.parse(serialized as String).toLocal();
   }
 }

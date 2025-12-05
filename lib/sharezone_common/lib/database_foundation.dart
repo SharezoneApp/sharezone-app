@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library database_foundation;
+library;
 
 export 'src/database_foundation.dart';

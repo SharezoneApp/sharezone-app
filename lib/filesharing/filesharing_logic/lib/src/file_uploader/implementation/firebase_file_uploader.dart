@@ -8,7 +8,6 @@
 
 import 'dart:developer';
 
-import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_compression.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
@@ -49,8 +48,10 @@ class FirebaseFileUploader extends FileUploader {
   }
 
   @override
-  Future<UploadTask> uploadFile(
-      {required CloudFile cloudFile, required LocalFile file}) async {
+  Future<UploadTask> uploadFile({
+    required CloudFile cloudFile,
+    required LocalFile file,
+  }) async {
     final fileType = FileUtils.getFileFormatFromMimeType(file.getType()!);
     final storageReference = fb.FirebaseStorage.instance
         .ref()
@@ -88,14 +89,17 @@ class FirebaseFileUploader extends FileUploader {
   UploadTask _uploadTaskFromFirebase(fb.UploadTask uploadTask) {
     return UploadTask(
       onComplete: uploadTask.then(
-          (taskSnapshot) => _uploadTaskSnapshotFromFirebase(taskSnapshot)),
-      events: uploadTask.snapshotEvents
-          .map((taskSnapshot) => _uploadTaskEventFromFirebase(taskSnapshot)),
+        (taskSnapshot) => _uploadTaskSnapshotFromFirebase(taskSnapshot),
+      ),
+      events: uploadTask.snapshotEvents.map(
+        (taskSnapshot) => _uploadTaskEventFromFirebase(taskSnapshot),
+      ),
     );
   }
 
   UploadTaskSnapshot _uploadTaskSnapshotFromFirebase(
-      fb.TaskSnapshot taskSnapshot) {
+    fb.TaskSnapshot taskSnapshot,
+  ) {
     return UploadTaskSnapshot(
       storageMetaData: UploadMetadata(
         customMetadata: taskSnapshot.metadata?.customMetadata,
@@ -131,16 +135,23 @@ class FirebaseFileUploader extends FileUploader {
 
   @override
   Future<UploadTask> uploadFileToStorage(
-      CloudStoragePfad cloudStoragePfad, String creatorId, LocalFile localFile,
-      {String? cacheControl}) async {
+    CloudStoragePfad cloudStoragePfad,
+    String creatorId,
+    LocalFile localFile, {
+    String? cacheControl,
+  }) async {
     if (!cloudStoragePfad.istDateiPfad) {
       throw ArgumentError.value(
-          cloudStoragePfad, 'cloudStoragePfad', 'muss ein Dateipfad sein.');
+        cloudStoragePfad,
+        'cloudStoragePfad',
+        'muss ein Dateipfad sein.',
+      );
     }
     final fileId = cloudStoragePfad.uri.pathSegments.last;
     final fileType = FileUtils.getFileFormatFromMimeType(localFile.getType()!);
-    final storage =
-        fb.FirebaseStorage.instanceFor(bucket: cloudStoragePfad.bucket.name);
+    final storage = fb.FirebaseStorage.instanceFor(
+      bucket: cloudStoragePfad.bucket.name,
+    );
     final storageReference = storage.ref().child(cloudStoragePfad.lokalerPfad);
 
     /// Bei der Kompression wird der Dateiname verändert, wir wollen aber den
@@ -166,7 +177,7 @@ class FirebaseFileUploader extends FileUploader {
       customMetadata: {
         'fileID': fileId,
         'fileName': originalerName,
-        'creatorID': creatorId
+        'creatorID': creatorId,
       },
     );
 

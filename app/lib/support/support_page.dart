@@ -10,6 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -27,13 +28,11 @@ class SupportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<SupportPageController>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Support'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Support'), centerTitle: true),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 12)
-            .add(const EdgeInsets.only(bottom: 12)),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+        ).add(const EdgeInsets.only(bottom: 12)),
         child: SafeArea(
           child: MaxWidthConstraintBox(
             child: Column(
@@ -62,8 +61,8 @@ class SupportPage extends StatelessWidget {
                       !controller.isUserInGroupOnboarding) ...const [
                     SizedBox(height: 16),
                     _SharezonePlusAdvertising(),
-                  ]
-                ]
+                  ],
+                ],
               ],
             ),
           ),
@@ -86,14 +85,11 @@ class _Header extends StatelessWidget {
         child: SizedBox(
           width: 70,
           height: 70,
-          child: PlatformSvg.asset('assets/icons/confused.svg'),
+          child: SvgPicture.asset('assets/icons/confused.svg'),
         ),
       ),
       children: const <Widget>[
-        Text(
-          'Du brauchst Hilfe?',
-          style: TextStyle(fontSize: 26),
-        ),
+        Text('Du brauchst Hilfe?', style: TextStyle(fontSize: 26)),
         SizedBox(height: 4),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12),
@@ -117,13 +113,9 @@ class _FreeSupport extends StatelessWidget {
       key: ValueKey('free-support'),
       title: Text('Kostenfreier Support'),
       subtitle: Text(
-          'Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann.'),
-      body: Column(
-        children: [
-          _DiscordTile(),
-          _FreeEmailTile(),
-        ],
+        'Bitte beachte, dass die Wartezeit beim kostenfreien Support bis zu 2 Wochen betragen kann.',
       ),
+      body: Column(children: [_DiscordTile(), _FreeEmailTile()]),
     );
   }
 }
@@ -137,13 +129,10 @@ class _PlusSupport extends StatelessWidget {
       key: ValueKey('plus-support'),
       title: Text('Plus Support'),
       subtitle: Text(
-          'Als Sharezone Plus Nutzer hast du Zugriff auf unseren Premium Support.'),
+        'Als Sharezone Plus Nutzer hast du Zugriff auf unseren Premium Support.',
+      ),
       body: Column(
-        children: [
-          _PlusEmailTile(),
-          _VideoCallTile(),
-          _DiscordTile(),
-        ],
+        children: [_PlusEmailTile(), _VideoCallTile(), _DiscordTile()],
       ),
     );
   }
@@ -204,11 +193,7 @@ class _SupportCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8),
       child: CustomCard(
         child: ListTile(
-          leading: SizedBox(
-            width: 30,
-            height: 30,
-            child: icon,
-          ),
+          leading: SizedBox(width: 30, height: 30, child: icon),
           title: Text(title),
           subtitle: subtitle != null ? Text(subtitle!) : null,
           onTap: onPressed,
@@ -225,9 +210,9 @@ class _FreeEmailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         'assets/icons/email.svg',
-        color: context.primaryColor,
+        colorFilter: ColorFilter.mode(context.primaryColor, BlendMode.srcIn),
         semanticsLabel: 'E-Mail Icon',
       ),
       title: 'E-Mail',
@@ -238,10 +223,7 @@ class _FreeEmailTile extends StatelessWidget {
           await controller.sendEmailToFreeSupport();
         } on Exception catch (_) {
           if (!context.mounted) return;
-          showSnackSec(
-            context: context,
-            text: 'E-Mail: $freeSupportEmail',
-          );
+          showSnackSec(context: context, text: 'E-Mail: $freeSupportEmail');
         }
       },
     );
@@ -255,9 +237,9 @@ class _PlusEmailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         'assets/icons/email.svg',
-        color: context.primaryColor,
+        colorFilter: ColorFilter.mode(context.primaryColor, BlendMode.srcIn),
         semanticsLabel: 'E-Mail Icon',
       ),
       title: 'E-Mail',
@@ -268,10 +250,7 @@ class _PlusEmailTile extends StatelessWidget {
           await controller.sendEmailToPlusSupport();
         } on Exception catch (_) {
           if (!context.mounted) return;
-          showSnackSec(
-            context: context,
-            text: 'E-Mail: $plusSupportEmail',
-          );
+          showSnackSec(context: context, text: 'E-Mail: $plusSupportEmail');
         }
       },
     );
@@ -283,9 +262,10 @@ class _VideoCallTile extends StatelessWidget {
 
   void launchVideoCallPage(BuildContext context) {
     try {
-      final url = context
-          .read<SupportPageController>()
-          .getVideoCallAppointmentsUnencodedUrlWithPrefills();
+      final url =
+          context
+              .read<SupportPageController>()
+              .getVideoCallAppointmentsUnencodedUrlWithPrefills();
       launchURL(url, context: context);
     } on UserNotAuthenticatedException catch (_) {
       showSnackSec(
@@ -293,20 +273,14 @@ class _VideoCallTile extends StatelessWidget {
         text: 'Du musst angemeldet sein, um einen Videocall zu vereinbaren.',
       );
     } on Exception catch (_) {
-      showSnackSec(
-        context: context,
-        text: 'Es ist ein Fehler aufgetreten.',
-      );
+      showSnackSec(context: context, text: 'Es ist ein Fehler aufgetreten.');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
-      icon: Icon(
-        Icons.video_call,
-        color: context.primaryColor,
-      ),
+      icon: Icon(Icons.video_call, color: context.primaryColor),
       title: 'Videocall-Support',
       subtitle:
           'Nach Terminvereinbarung, bei Bedarf kann ebenfalls der Bildschirm geteilt werden.',
@@ -349,7 +323,7 @@ class _SharezonePlusAdvertising extends StatelessWidget {
                     data:
                         '''- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)
 - Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)''',
-                  )
+                  ),
                 ],
               ),
             ),
@@ -366,9 +340,9 @@ class _DiscordTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         'assets/icons/discord.svg',
-        color: context.primaryColor,
+        colorFilter: ColorFilter.mode(context.primaryColor, BlendMode.srcIn),
         semanticsLabel: 'Discord Icon',
       ),
       title: 'Discord',
@@ -399,7 +373,7 @@ class _NoteAboutPrivacyPolicy extends StatelessWidget {
           data:
               "Bitte beachte, dass bei der Nutzung von Discord dessen [Datenschutzbestimmungen](https://discord.com/privacy) gelten.",
           styleSheet: MarkdownStyleSheet(a: linkStyle(context, 14)),
-          onTapLink: (_, url, __) {
+          onTapLink: (_, url, _) {
             if (url == null) return;
             launchURL(url, context: context);
           },

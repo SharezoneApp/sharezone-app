@@ -24,10 +24,11 @@ Future<(CourseId, CourseName)?> openCourseCreatePage(
   return Navigator.push<(CourseId, CourseName)?>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
-      builder: (context) => _CourseCreatePage(
-        template: template,
-        schoolClassId: schoolClassId,
-      ),
+      builder:
+          (context) => _CourseCreatePage(
+            template: template,
+            schoolClassId: schoolClassId,
+          ),
       settings: const RouteSettings(name: _CourseCreatePage.tag),
     ),
   );
@@ -47,19 +48,13 @@ Future<void> submit(BuildContext context) async {
     }
   } catch (e, s) {
     if (context.mounted) {
-      showSnackSec(
-        context: context,
-        text: handleErrorMessage(e.toString(), s),
-      );
+      showSnackSec(context: context, text: handleErrorMessage(e.toString(), s));
     }
   }
 }
 
 class _CourseCreatePage extends StatefulWidget {
-  const _CourseCreatePage({
-    this.template,
-    this.schoolClassId,
-  });
+  const _CourseCreatePage({this.template, this.schoolClassId});
 
   static const tag = "course-create-page";
 
@@ -79,9 +74,9 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<CourseCreateBlocFactory>(context).create(
-      schoolClassId: widget.schoolClassId,
-    );
+    bloc = BlocProvider.of<CourseCreateBlocFactory>(
+      context,
+    ).create(schoolClassId: widget.schoolClassId);
     if (widget.template != null) {
       bloc.setInitialTemplate(widget.template!);
     }
@@ -109,20 +104,24 @@ class _CourseCreatePageState extends State<_CourseCreatePage> {
           }
         },
         child: Scaffold(
-          appBar:
-              AppBar(title: const Text("Kurs erstellen"), centerTitle: true),
+          appBar: AppBar(
+            title: const Text("Kurs erstellen"),
+            centerTitle: true,
+          ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Column(
               children: <Widget>[
                 _Subject(
-                    subject: widget.template?.subject,
-                    nextFocusNode: abbreviationNode),
+                  subject: widget.template?.subject,
+                  nextFocusNode: abbreviationNode,
+                ),
                 const SizedBox(height: 28),
                 _Abbreviation(
-                    abbreviation: widget.template?.abbreviation,
-                    focusNode: abbreviationNode,
-                    nextFocusNode: nameNode),
+                  abbreviation: widget.template?.abbreviation,
+                  focusNode: abbreviationNode,
+                  nextFocusNode: nameNode,
+                ),
                 const SizedBox(height: 12),
                 _CourseName(focusNode: nameNode),
               ],
@@ -147,10 +146,7 @@ class _CreateCourseFAB extends StatelessWidget {
 }
 
 class _Subject extends StatelessWidget {
-  const _Subject({
-    this.subject,
-    required this.nextFocusNode,
-  });
+  const _Subject({this.subject, required this.nextFocusNode});
 
   final String? subject;
   final FocusNode nextFocusNode;
@@ -173,8 +169,8 @@ class _Subject extends StatelessWidget {
             autofocus: true,
             textInputAction: TextInputAction.next,
             onChanged: bloc.changeSubject,
-            onEditingComplete: () =>
-                FocusManager.instance.primaryFocus?.unfocus(),
+            onEditingComplete:
+                () => FocusManager.instance.primaryFocus?.unfocus(),
             textCapitalization: TextCapitalization.sentences,
           ),
         );
@@ -214,9 +210,7 @@ class _Abbreviation extends StatelessWidget {
 }
 
 class _CourseName extends StatelessWidget {
-  const _CourseName({
-    required this.focusNode,
-  });
+  const _CourseName({required this.focusNode});
 
   final FocusNode focusNode;
 

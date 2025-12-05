@@ -52,8 +52,9 @@ class InAppNotification extends StatelessWidget {
               title: Text(title!),
               subtitle: Text(body!),
               trailing: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => OverlaySupportEntry.of(context)!.dismiss()),
+                icon: const Icon(Icons.close),
+                onPressed: () => OverlaySupportEntry.of(context)!.dismiss(),
+              ),
             ),
           ),
         ),

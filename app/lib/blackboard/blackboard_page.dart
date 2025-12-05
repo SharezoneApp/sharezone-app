@@ -23,7 +23,8 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// Open the blackboard page and returns true, if the user added a blackboard item
 Future<bool> openBlackboardDialogAndShowConfirmationIfSuccessful(
-    BuildContext context) async {
+  BuildContext context,
+) async {
   final popOption = await Navigator.push<BlackboardPopOption>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
@@ -75,8 +76,8 @@ class _BlackboardPageFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ModalFloatingActionButton(
-      onPressed: () =>
-          openBlackboardDialogAndShowConfirmationIfSuccessful(context),
+      onPressed:
+          () => openBlackboardDialogAndShowConfirmationIfSuccessful(context),
       tooltip: "Neuen Infozettel",
       heroTag: 'sharezone-fab',
       icon: const Icon(Icons.add),
@@ -104,13 +105,12 @@ class _BlackboardList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: AnimationConfiguration.toStaggeredList(
                   duration: const Duration(milliseconds: 250),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    verticalOffset: 20,
-                    child: FadeInAnimation(child: widget),
-                  ),
-                  children: [
-                    for (final view in list) BlackboardCard(view),
-                  ],
+                  childAnimationBuilder:
+                      (widget) => SlideAnimation(
+                        verticalOffset: 20,
+                        child: FadeInAnimation(child: widget),
+                      ),
+                  children: [for (final view in list) BlackboardCard(view)],
                 ),
               ),
             ),
@@ -135,14 +135,17 @@ class _NoItemsFound extends StatelessWidget {
         description: Column(
           children: <Widget>[
             const Text(
-                'Hier können wichtige Ankündigungen in Form eines digitalen Zettels an Schüler, Lehrkräfte und Eltern ausgeteilt werden. Ideal für beispielsweise den Elternsprechtag, den Wandertag, das Sportfest, usw.'),
+              'Hier können wichtige Ankündigungen in Form eines digitalen Zettels an Schüler, Lehrkräfte und Eltern ausgeteilt werden. Ideal für beispielsweise den Elternsprechtag, den Wandertag, das Sportfest, usw.',
+            ),
             const SizedBox(height: 16),
             CardListTile(
               title: const Text('Infozettel hinzufügen'),
               leading: const Icon(Icons.add_circle_outline),
               centerTitle: true,
-              onTap: () =>
-                  openBlackboardDialogAndShowConfirmationIfSuccessful(context),
+              onTap:
+                  () => openBlackboardDialogAndShowConfirmationIfSuccessful(
+                    context,
+                  ),
             ),
           ],
         ),

@@ -19,9 +19,11 @@ extension SharezoneLocalizationsContextExtension on BuildContext {
   SharezoneLocalizations get l10n {
     final localizations = SharezoneLocalizations.of(this);
     if (localizations == null) {
-      throw FlutterError('SharezoneLocalizations not found.\n'
-          'Did you forget to add SharezoneLocalizations.delegate to your '
-          'MaterialApp/CupertinoApp localizationsDelegates?');
+      throw FlutterError(
+        'SharezoneLocalizations not found.\n'
+        'Did you forget to add SharezoneLocalizations.delegate to your '
+        'MaterialApp/CupertinoApp localizationsDelegates?',
+      );
     }
     return localizations;
   }

@@ -36,28 +36,28 @@ void main() {
       expect(backend.wasLogged("valid_name"), true);
     });
 
+    test('An Event can have optional simple data that will be logged', () {
+      const bar = 1;
+      const zoink = "String";
+      final data = {"foo": bar, "baz": zoink};
+      const event = AnalyticsEvent(
+        "with_data",
+        data: {"foo": bar, "baz": zoink},
+      );
+
+      analytics.log(event);
+
+      expect(backend.getSingleEventData("with_data"), data);
+    });
+
     test(
-      'An Event can have optional simple data that will be logged',
+      'if an Event has null data it will be given as an empty map to the backend',
       () {
-        const bar = 1;
-        const zoink = "String";
-        final data = {"foo": bar, "baz": zoink};
-        const event =
-            AnalyticsEvent("with_data", data: {"foo": bar, "baz": zoink});
+        analytics.log(const AnalyticsEvent("name", data: null));
 
-        analytics.log(event);
-
-        expect(backend.getSingleEventData("with_data"), data);
+        expect(backend.getSingleEventData("name"), {});
       },
     );
-
-    test(
-        'if an Event has null data it will be given as an empty map to the backend',
-        () {
-      analytics.log(const AnalyticsEvent("name", data: null));
-
-      expect(backend.getSingleEventData("name"), {});
-    });
   });
 }
 

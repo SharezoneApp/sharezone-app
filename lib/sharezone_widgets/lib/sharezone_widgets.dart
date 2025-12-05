@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library sharezone_widgets;
+library;
 
 // adaptive_dialog
 export 'src/adaptive_dialog/adaptive_dialog_action.dart';
@@ -77,9 +77,6 @@ export 'src/state_sheet/simple/simple_content_dialog.dart';
 export 'src/state_sheet/simple/simple_content_sheet.dart';
 export 'src/state_sheet/simple/simple_state_dialog.dart';
 export 'src/state_sheet/simple/simple_state_sheet.dart';
-
-// svg
-export 'src/svg.dart';
 
 // theme
 export 'src/theme/theme.dart';

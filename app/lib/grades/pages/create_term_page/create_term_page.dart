@@ -28,20 +28,13 @@ class CreateTermPage extends StatelessWidget {
       create: (context) {
         final analytics = context.read<Analytics>();
         return CreateTermPageController(
-          gradesService: Provider.of<GradesService>(
-            context,
-            listen: false,
-          ),
+          gradesService: Provider.of<GradesService>(context, listen: false),
           analytics: CreateTermAnalytics(analytics),
           crashAnalytics: context.read<CrashAnalytics>(),
         );
       },
       child: Scaffold(
-        appBar: AppBar(
-          actions: const [
-            _SaveButton(),
-          ],
-        ),
+        appBar: AppBar(actions: const [_SaveButton()]),
         body: const SingleChildScrollView(
           padding: EdgeInsets.all(8),
           child: SafeArea(
@@ -83,8 +76,10 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller =
-        Provider.of<CreateTermPageController>(context, listen: false);
+    final controller = Provider.of<CreateTermPageController>(
+      context,
+      listen: false,
+    );
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: FilledButton(
@@ -131,7 +126,9 @@ class _NameField extends StatelessWidget {
           child: Text(
             "Der Name beschreibt das Halbjahr, z.B. '10/2' für das zweite Halbjahr der 10. Klasse.",
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
         ),
@@ -145,9 +142,10 @@ class _GradingSystem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gradingSystem =
-        context.select<CreateTermPageController, GradingSystem>(
-            (controller) => controller.view.gradingSystem);
+    final gradingSystem = context
+        .select<CreateTermPageController, GradingSystem>(
+          (controller) => controller.view.gradingSystem,
+        );
     return GradingSystemBase(
       currentGradingSystemName: gradingSystem.displayName,
       onGradingSystemChanged: (res) {
@@ -175,18 +173,21 @@ class GradingSystemBase extends StatelessWidget {
       onTap: () async {
         final res = await showDialog<GradingSystem?>(
           context: context,
-          builder: (context) => SimpleDialog(
-            title: const Text("Notensystem auswählen"),
-            children: [
-              for (final gradingSystem in GradingSystem.values)
-                ListTile(
-                  title: Text(gradingSystem.displayName),
-                  onTap: () {
-                    Navigator.of(context).pop<GradingSystem?>(gradingSystem);
-                  },
-                ),
-            ],
-          ),
+          builder:
+              (context) => SimpleDialog(
+                title: const Text("Notensystem auswählen"),
+                children: [
+                  for (final gradingSystem in GradingSystem.values)
+                    ListTile(
+                      title: Text(gradingSystem.displayName),
+                      onTap: () {
+                        Navigator.of(
+                          context,
+                        ).pop<GradingSystem?>(gradingSystem);
+                      },
+                    ),
+                ],
+              ),
         );
 
         if (res != null && context.mounted) {
@@ -207,11 +208,13 @@ class GradingSystemBase extends StatelessWidget {
             child: Text(
               'Nur Noten von dem Notensystem, welches für das Halbjahr festlegt wurde, können für den Schnitt des Halbjahres berücksichtigt werden. Solltest du beispielsweise für das Halbjahr das Notensystem "1 - 6" festlegen und eine Note mit dem Notensystem "15 - 0" eintragen, kann diese Note für den Halbjahresschnitt nicht berücksichtigt werden.',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.5),
                 fontSize: 12,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -224,7 +227,8 @@ class _ActiveTermSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isActiveTerm = context.select<CreateTermPageController, bool>(
-        (controller) => controller.view.isActiveTerm);
+      (controller) => controller.view.isActiveTerm,
+    );
     return ActiveTermSwitchBase(
       isActiveTerm: isActiveTerm,
       onActiveTermChanged: (res) {
@@ -251,10 +255,7 @@ class ActiveTermSwitchBase extends StatelessWidget {
       leading: const Icon(Icons.calendar_today),
       onTap: () => onActiveTermChanged(!isActiveTerm),
       title: const Text("Aktuelles Halbjahr"),
-      trailing: Switch(
-        value: isActiveTerm,
-        onChanged: onActiveTermChanged,
-      ),
+      trailing: Switch(value: isActiveTerm, onChanged: onActiveTermChanged),
     );
   }
 }

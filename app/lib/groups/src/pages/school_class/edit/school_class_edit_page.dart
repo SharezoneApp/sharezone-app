@@ -16,19 +16,24 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openSchoolClassEditPage(
-    BuildContext context, SchoolClass schoolClass) async {
+  BuildContext context,
+  SchoolClass schoolClass,
+) async {
   final successful = await Navigator.push<bool>(
-      context,
-      MaterialPageRoute(
-          builder: (context) => SchoolClassEditPage(schoolClass: schoolClass),
-          settings: const RouteSettings(name: SchoolClassEditPage.tag)));
+    context,
+    MaterialPageRoute(
+      builder: (context) => SchoolClassEditPage(schoolClass: schoolClass),
+      settings: const RouteSettings(name: SchoolClassEditPage.tag),
+    ),
+  );
   if (successful == true && context.mounted) {
     await _showSchoolClassConformationSnackbarWithDelay(context);
   }
 }
 
 Future<void> _showSchoolClassConformationSnackbarWithDelay(
-    BuildContext context) async {
+  BuildContext context,
+) async {
   await waitingForPopAnimation();
   if (!context.mounted) return;
   showSnackSec(
@@ -56,10 +61,7 @@ Future<void> _submit(BuildContext context) async {
 }
 
 class SchoolClassEditPage extends StatefulWidget {
-  const SchoolClassEditPage({
-    super.key,
-    required this.schoolClass,
-  });
+  const SchoolClassEditPage({super.key, required this.schoolClass});
 
   static const tag = "school-class-details-page";
   final SchoolClass schoolClass;
@@ -95,7 +97,7 @@ class _SchoolClassEditPageState extends State<SchoolClassEditPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _NameField(currentName: widget.schoolClass.name)
+                  _NameField(currentName: widget.schoolClass.name),
                 ],
               ),
             ),
@@ -119,9 +121,7 @@ class _SchoolClassEditPageFAB extends StatelessWidget {
 }
 
 class _NameField extends StatelessWidget {
-  const _NameField({
-    this.currentName,
-  });
+  const _NameField({this.currentName});
 
   final String? currentName;
 

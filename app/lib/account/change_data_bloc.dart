@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_base/bloc_base.dart';
@@ -70,8 +71,9 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
 
   Future<void> sendResetPasswordMail() async {
     if (await hasInternetAccess()) {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: userAPI.authUser!.email!);
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: userAPI.authUser!.email!,
+      );
     } else {
       throw NoInternetAccess();
     }
@@ -84,23 +86,17 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
 
     if (newEmail == currentEmail) {
       throw IdenticalEmailException(
-          "Die eingegebene E-Mail ist doch identisch mit der alten?! 🙈",
-          currentEmail);
+        "Die eingegebene E-Mail ist doch identisch mit der alten?! 🙈",
+        currentEmail,
+      );
     } else {
       if (!isEmptyOrNull(newEmail) &&
           AuthentificationValidators.isEmailValid(newEmail!)) {
         if (!isEmptyOrNull(password) &&
             AuthentificationValidators.isPasswordValid(password!)) {
           if (await hasInternetAccess()) {
-            final credential = EmailAuthProvider.credential(
-                email: currentEmail, password: password);
-            await userAPI.authUser!.firebaseUser
-                .reauthenticateWithCredential(credential);
-            await userAPI.changeEmail(newEmail);
-
-            firebaseAuth.signOut();
-            firebaseAuth.signInWithEmailAndPassword(
-                email: newEmail, password: password);
+            await _reauthenticateWithEmailAndPassword(currentEmail, password);
+            await userAPI.verifyBeforeUpdateEmail(newEmail);
           } else {
             throw NoInternetAccess();
           }
@@ -117,6 +113,41 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
     return;
   }
 
+  Future<void> _reauthenticateWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    final AuthCredential credential = EmailAuthProvider.credential(
+      email: email,
+      password: password,
+    );
+    await userAPI.authUser!.firebaseUser.reauthenticateWithCredential(
+      credential,
+    );
+  }
+
+  Future<void> signOutAndSignInWithNewCredentials() async {
+    final newEmail = _emailSubject.value;
+    final password = _passwordSubject.value;
+    await firebaseAuth.signOut();
+
+    if (password == null) {
+      log('Could not reauthenticate as password was null.');
+      return;
+    }
+
+    try {
+      await firebaseAuth.signInWithEmailAndPassword(
+        email: newEmail,
+        password: password,
+      );
+    } catch (e) {
+      // At this point, we can't show an error message to the user anymore
+      // because the user is on the welcome screen (different MaterialApp).
+      log('Could not reauthenticate with new credentials', error: e);
+    }
+  }
+
   Future<void> submitPassword() async {
     final String? password = _passwordSubject.valueOrNull;
     final String? newPassword = _newPasswordSubject.valueOrNull;
@@ -127,10 +158,7 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
       if (!isEmptyOrNull(newPassword) &&
           AuthentificationValidators.isPasswordValid(newPassword!)) {
         if (await hasInternetAccess()) {
-          final AuthCredential credential =
-              EmailAuthProvider.credential(email: email, password: password);
-          await userAPI.authUser!.firebaseUser
-              .reauthenticateWithCredential(credential);
+          await _reauthenticateWithEmailAndPassword(email, password);
           userAPI.authUser!.firebaseUser.updatePassword(newPassword);
         } else {
           throw NoInternetAccess();

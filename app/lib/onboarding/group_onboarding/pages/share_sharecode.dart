@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
 import 'package:sharezone/groups/src/widgets/group_qr_code.dart';
@@ -22,10 +23,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
 class GroupOnboardingShareSharecode extends StatelessWidget {
-  const GroupOnboardingShareSharecode({
-    super.key,
-    required this.schoolClassId,
-  });
+  const GroupOnboardingShareSharecode({super.key, required this.schoolClassId});
 
   static const tag = 'onboarding-share-sharecode-page';
   final String? schoolClassId;
@@ -56,10 +54,7 @@ class GroupOnboardingShareSharecode extends StatelessWidget {
 class _Icon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PlatformSvg.asset(
-      'assets/icons/teamwork.svg',
-      height: 120,
-    );
+    return SvgPicture.asset('assets/icons/teamwork.svg', height: 120);
   }
 }
 
@@ -105,9 +100,7 @@ class _CoursesSharecodeBox extends StatelessWidget {
 }
 
 class _SchoolClassSharecodeBox extends StatelessWidget {
-  const _SchoolClassSharecodeBox({
-    required this.schoolClassId,
-  });
+  const _SchoolClassSharecodeBox({required this.schoolClassId});
 
   final String schoolClassId;
 
@@ -143,9 +136,7 @@ class _LoadingSharecodeBox extends StatelessWidget {
 }
 
 class _SharecodeBox extends StatelessWidget {
-  const _SharecodeBox({
-    required this.groupInfo,
-  });
+  const _SharecodeBox({required this.groupInfo});
 
   final GroupInfo groupInfo;
 
@@ -157,7 +148,7 @@ class _SharecodeBox extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 12),
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             borderRadius: const BorderRadius.all(Radius.circular(15)),
           ),
           child: Column(
@@ -167,9 +158,14 @@ class _SharecodeBox extends StatelessWidget {
                 "Zum Beitreten ${getGroupType()} (${groupInfo.name}):",
                 style: const TextStyle(color: Colors.grey),
               ),
-              SharecodeText(groupInfo.sharecode, onCopied: () {
-                BlocProvider.of<GroupOnboardingBloc>(context).logShareQrCode();
-              }),
+              SharecodeText(
+                groupInfo.sharecode,
+                onCopied: () {
+                  BlocProvider.of<GroupOnboardingBloc>(
+                    context,
+                  ).logShareQrCode();
+                },
+              ),
               const SizedBox(height: 12),
               Row(
                 children: [
@@ -177,7 +173,7 @@ class _SharecodeBox extends StatelessWidget {
                   const SizedBox(width: 12),
                   LinkSharingButton(groupInfo: groupInfo),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -191,8 +187,6 @@ class _SharecodeBox extends StatelessWidget {
         return 'des Kurses';
       case GroupType.schoolclass:
         return 'der Schulklasse';
-      default:
-        return '';
     }
   }
 }

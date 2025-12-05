@@ -36,13 +36,8 @@ class ScanAreaIndicatorOverlay extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        CustomPaint(
-          painter: _ScanAreaPainter(width: width),
-        ),
-        _Corners(
-          width: width,
-          color: color,
-        ),
+        CustomPaint(painter: _ScanAreaPainter(width: width)),
+        _Corners(width: width, color: color),
       ],
     );
   }
@@ -50,9 +45,7 @@ class ScanAreaIndicatorOverlay extends StatelessWidget {
 
 /// Darkens the screen except for a rectangular area in the middle.
 class _ScanAreaPainter extends CustomPainter {
-  const _ScanAreaPainter({
-    this.width = 250,
-  });
+  const _ScanAreaPainter({this.width = 250});
 
   /// The width of the scan selection.
   ///
@@ -71,7 +64,7 @@ class _ScanAreaPainter extends CustomPainter {
         Radius.circular(width / 10),
       ),
     );
-    canvas.drawPath(path, Paint()..color = Colors.black.withOpacity(0.4));
+    canvas.drawPath(path, Paint()..color = Colors.black.withValues(alpha: 0.4));
   }
 
   @override
@@ -81,10 +74,7 @@ class _ScanAreaPainter extends CustomPainter {
 }
 
 class _Corners extends StatelessWidget {
-  const _Corners({
-    this.color = Colors.white,
-    this.width = 250,
-  });
+  const _Corners({this.color = Colors.white, this.width = 250});
 
   /// The color of the scan selection corners.
   ///
@@ -101,37 +91,23 @@ class _Corners extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        CustomPaint(
-          painter: _CornerBorderPainter(
-            color: color,
-            size: width,
-          ),
-        ),
+        CustomPaint(painter: _CornerBorderPainter(color: color, size: width)),
         Transform.rotate(
           angle: pi,
           child: CustomPaint(
-            painter: _CornerBorderPainter(
-              color: color,
-              size: width,
-            ),
+            painter: _CornerBorderPainter(color: color, size: width),
           ),
         ),
         Transform.rotate(
           angle: pi / 2,
           child: CustomPaint(
-            painter: _CornerBorderPainter(
-              color: color,
-              size: width,
-            ),
+            painter: _CornerBorderPainter(color: color, size: width),
           ),
         ),
         Transform.rotate(
           angle: pi / -2,
           child: CustomPaint(
-            painter: _CornerBorderPainter(
-              color: color,
-              size: width,
-            ),
+            painter: _CornerBorderPainter(color: color, size: width),
           ),
         ),
       ],
@@ -141,10 +117,7 @@ class _Corners extends StatelessWidget {
 
 /// A painter that draws a rounded corner.
 class _CornerBorderPainter extends CustomPainter {
-  const _CornerBorderPainter({
-    this.color = Colors.white,
-    this.size = 250,
-  });
+  const _CornerBorderPainter({this.color = Colors.white, this.size = 250});
 
   /// The color of the scan selection corners.
   ///

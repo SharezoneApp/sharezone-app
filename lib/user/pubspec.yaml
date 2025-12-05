@@ -11,8 +11,9 @@ description: A new Flutter package project.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ^3.7.0
 
 dependencies:
   flutter:
@@ -23,8 +24,8 @@ dependencies:
     path: ../date
   time:
     path: ../time
-  characters: ^1.0.0
-  collection: ^1.15.0-nullsafety.4
+  characters: ^1.4.0
+  collection: ^1.19.1
   helper_functions:
     path: ../helper_functions
   sharezone_localizations:

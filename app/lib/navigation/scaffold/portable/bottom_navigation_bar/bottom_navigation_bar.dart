@@ -90,12 +90,15 @@ class FirstNavigationRow extends StatelessWidget {
         return _BottomNavBarWithNonSelectionAllowed(
           currentItem: navigationItem,
           backgroundColor: backgroundColor,
-          onMoreButtonTapped: () => controller!.isPanelOpen
-              ? controller!.close()
-              : controller!.open(),
-          items: option == NavigationExperimentOption.extendableBnb
-              ? getExtendableBnbItems()
-              : getExtendableWithMoreButtonBnbItems(),
+          onMoreButtonTapped:
+              () =>
+                  controller!.isPanelOpen
+                      ? controller!.close()
+                      : controller!.open(),
+          items:
+              option == NavigationExperimentOption.extendableBnb
+                  ? getExtendableBnbItems()
+                  : getExtendableWithMoreButtonBnbItems(),
           onNavigationItemSelected: (item) async {
             if (controller!.isPanelOpen) {
               controller!.close();
@@ -161,11 +164,15 @@ class SecondNavigationRow extends StatelessWidget {
         return _BottomNavBarWithNonSelectionAllowed(
           currentItem: navigationItem,
           backgroundColor: backgroundColor,
-          onMoreButtonTapped: () =>
-              controller.isPanelOpen ? controller.close() : controller.open(),
-          items: option == NavigationExperimentOption.extendableBnb
-              ? getExtendableBnbItems()
-              : getExtendableWithMoreButtonBnbItems(),
+          onMoreButtonTapped:
+              () =>
+                  controller.isPanelOpen
+                      ? controller.close()
+                      : controller.open(),
+          items:
+              option == NavigationExperimentOption.extendableBnb
+                  ? getExtendableBnbItems()
+                  : getExtendableWithMoreButtonBnbItems(),
           onNavigationItemSelected: (item) async {
             controller.close();
             await waitForClosingPanel();
@@ -271,17 +278,18 @@ class _BottomNavItem extends StatelessWidget {
       key: ValueKey('nav-item-${item.name}-E2E'),
       flex: 1,
       child: InkResponse(
-        onTap: isSelected
-            ? null
-            : () {
-                if (item == NavigationItem.more) {
-                  if (onMoreButtonTapped != null) {
-                    onMoreButtonTapped!();
+        onTap:
+            isSelected
+                ? null
+                : () {
+                  if (item == NavigationItem.more) {
+                    if (onMoreButtonTapped != null) {
+                      onMoreButtonTapped!();
+                    }
+                  } else {
+                    onNavigationItemSelected(item);
                   }
-                } else {
-                  onNavigationItemSelected(item);
-                }
-              },
+                },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 6, 4, 6),
           child: IconTheme(

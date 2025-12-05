@@ -44,24 +44,29 @@ void main() {
       addTearDown(holidayBloc.dispose);
 
       final now = clock.now();
-      final firstHolidays = Holiday.fromJson(jsonEncode({
-        "start": DateFormat('yyyy-MM-dd').format(now),
-        "end": "${now.year + 1}-02-01",
-        "year": now.year,
-        "stateCode": "HB",
-        "name": "winterferien, aber mit einem sehr langen Namen",
-        "slug": "winterferien 2022-2022-HB"
-      }));
+      final firstHolidays = Holiday.fromJson(
+        jsonEncode({
+          "start": DateFormat('yyyy-MM-dd').format(now),
+          "end": "${now.year + 1}-02-01",
+          "year": now.year,
+          "stateCode": "HB",
+          "name": "winterferien, aber mit einem sehr langen Namen",
+          "slug": "winterferien 2022-2022-HB",
+        }),
+      );
 
-      final secondHolidays = Holiday.fromJson(jsonEncode({
-        "start":
-            DateFormat('yyyy-MM-dd').format(now.add(const Duration(days: 20))),
-        "end": "${now.year + 1}-02-01",
-        "year": now.year,
-        "stateCode": "HB",
-        "name": "osterferien",
-        "slug": "osterferien 2022-2022-HB"
-      }));
+      final secondHolidays = Holiday.fromJson(
+        jsonEncode({
+          "start": DateFormat(
+            'yyyy-MM-dd',
+          ).format(now.add(const Duration(days: 20))),
+          "end": "${now.year + 1}-02-01",
+          "year": now.year,
+          "stateCode": "HB",
+          "name": "osterferien",
+          "slug": "osterferien 2022-2022-HB",
+        }),
+      );
 
       holidayBloc.holidaysController.add([firstHolidays, secondHolidays]);
       holidayBloc.hasStateSelectedController.add(true);
@@ -72,9 +77,7 @@ void main() {
           child: MaterialApp(
             theme: getLightTheme(),
             home: const Scaffold(
-              body: Center(
-                child: HolidayCountdownSection(),
-              ),
+              body: Center(child: HolidayCountdownSection()),
             ),
           ),
         ),

@@ -14,10 +14,7 @@ import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/group_permission.dart';
 import 'package:sharezone/util/api.dart';
 
-enum SchoolClassDeleteType {
-  withCourses,
-  withoutCourses,
-}
+enum SchoolClassDeleteType { withCourses, withoutCourses }
 
 class MySchoolClassBloc extends BlocBase {
   final SharezoneGateway gateway;
@@ -63,26 +60,37 @@ class MySchoolClassBloc extends BlocBase {
   }
 
   Stream<List<MemberData>> streamMembers(String schoolClassID) {
-    return gateway.schoolClassGateway.memberAccessor
-        .streamAllMembers(schoolClassID);
+    return gateway.schoolClassGateway.memberAccessor.streamAllMembers(
+      schoolClassID,
+    );
   }
 
   Stream<MemberData> streamMember(String schoolClassID, String memberID) {
-    return gateway.schoolClassGateway.memberAccessor
-        .streamSingleMember(schoolClassID, memberID);
+    return gateway.schoolClassGateway.memberAccessor.streamSingleMember(
+      schoolClassID,
+      memberID,
+    );
   }
 
   Future<AppFunctionsResult<bool>> updateMemberRole(
-      String schoolClassID, UserId memberID, MemberRole newRole) {
+    String schoolClassID,
+    UserId memberID,
+    MemberRole newRole,
+  ) {
     analytics.logUpdateMemberRole(newRole, groupType: _groupType);
-    return gateway.schoolClassGateway
-        .updateMemberRole(schoolClassID, memberID.toString(), newRole);
+    return gateway.schoolClassGateway.updateMemberRole(
+      schoolClassID,
+      memberID.toString(),
+      newRole,
+    );
   }
 
   bool moreThanOneAdmin(List<MemberData> membersDataList) {
     if (membersDataList
-            .where((member) =>
-                member.role.hasPermission(GroupPermission.administration))
+            .where(
+              (member) =>
+                  member.role.hasPermission(GroupPermission.administration),
+            )
             .length >
         1) {
       return true;
@@ -101,30 +109,41 @@ class MySchoolClassBloc extends BlocBase {
   }
 
   Future<AppFunctionsResult<bool>> deleteSchoolClass(
-      SchoolClassDeleteType schoolClassDeleteType) async {
+    SchoolClassDeleteType schoolClassDeleteType,
+  ) async {
     analytics.logDeletedGroup(groupType: _groupType);
-    return gateway.schoolClassGateway
-        .deleteSchoolClass(schoolClassId!, schoolClassDeleteType);
+    return gateway.schoolClassGateway.deleteSchoolClass(
+      schoolClassId!,
+      schoolClassDeleteType,
+    );
   }
 
   Future<AppFunctionsResult<bool>> kickMember(String kickedMemberID) async {
     analytics.logKickedMember(groupType: _groupType);
-    return gateway.schoolClassGateway
-        .kickMember(schoolClassId!, kickedMemberID);
+    return gateway.schoolClassGateway.kickMember(
+      schoolClassId!,
+      kickedMemberID,
+    );
   }
 
   Future<AppFunctionsResult<bool>> setIsPublic(bool isPublic) {
     analytics.logChangeGroupVisibility(
-        isPublic: isPublic, groupType: _groupType);
+      isPublic: isPublic,
+      groupType: _groupType,
+    );
     return gateway.schoolClassGateway.editSchoolClassSettings(
-        schoolClassId!, schoolClass!.settings.copyWith(isPublic: isPublic));
+      schoolClassId!,
+      schoolClass!.settings.copyWith(isPublic: isPublic),
+    );
   }
 
   Future<bool> setWritePermission(WritePermission writePermission) {
     analytics.logChangedWritePermission(writePermission, groupType: _groupType);
     return gateway.schoolClassGateway
-        .editSchoolClassSettings(schoolClassId!,
-            schoolClass!.settings.copyWith(writePermission: writePermission))
+        .editSchoolClassSettings(
+          schoolClassId!,
+          schoolClass!.settings.copyWith(writePermission: writePermission),
+        )
         .then((result) => result.hasData && result.data == true);
   }
 
@@ -133,8 +152,9 @@ class MySchoolClassBloc extends BlocBase {
   }
 
   Stream<bool> isAdminStream() {
-    return streamSchoolClass()
-        .map((sc) => sc!.myRole.hasPermission(GroupPermission.administration));
+    return streamSchoolClass().map(
+      (sc) => sc!.myRole.hasPermission(GroupPermission.administration),
+    );
   }
 
   @override

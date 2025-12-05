@@ -18,10 +18,11 @@ Future<void> showSharezonePlusFeatureInfoDialog({
 }) async {
   final shouldNavigateToPlusPage = await showDialog<bool>(
     context: context,
-    builder: (_) => _SharezonePlusFeatureInfoDialog(
-      title: title,
-      description: description,
-    ),
+    builder:
+        (_) => _SharezonePlusFeatureInfoDialog(
+          title: title,
+          description: description,
+        ),
   );
   if (shouldNavigateToPlusPage == true) {
     navigateToPlusPage();
@@ -29,10 +30,8 @@ Future<void> showSharezonePlusFeatureInfoDialog({
 }
 
 class _SharezonePlusFeatureInfoDialog extends StatelessWidget {
-  const _SharezonePlusFeatureInfoDialog({
-    this.title,
-    required this.description,
-  }) : super(key: const Key('sharezone-plus-feature-info-dialog'));
+  const _SharezonePlusFeatureInfoDialog({this.title, required this.description})
+    : super(key: const Key('sharezone-plus-feature-info-dialog'));
 
   final Widget? title;
   final Widget description;
@@ -40,14 +39,15 @@ class _SharezonePlusFeatureInfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: title == null
-          ? null
-          : Center(
-              child: DefaultTextStyle.merge(
-                textAlign: TextAlign.center,
-                child: title!,
+      title:
+          title == null
+              ? null
+              : Center(
+                child: DefaultTextStyle.merge(
+                  textAlign: TextAlign.center,
+                  child: title!,
+                ),
               ),
-            ),
       content: SingleChildScrollView(
         child: SharezonePlusFeatureInfoCard(
           withLearnMoreButton: false,

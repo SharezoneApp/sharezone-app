@@ -39,19 +39,22 @@ class _WeekTypeList extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Center(
           child: Column(
-            children: (WeekType.values).map((weektype) {
-              return _WeekTypeTile(
-                weekType: weektype,
-                selectedWeekType: selectedWeekType,
-                onTap: () {
-                  bloc.changeWeekType(weektype);
-                  Future.delayed(const Duration(milliseconds: 200)).then((_) {
-                    if (!context.mounted) return;
-                    navigateToNextTab(context);
-                  });
-                },
-              );
-            }).toList(),
+            children:
+                (WeekType.values).map((weektype) {
+                  return _WeekTypeTile(
+                    weekType: weektype,
+                    selectedWeekType: selectedWeekType,
+                    onTap: () {
+                      bloc.changeWeekType(weektype);
+                      Future.delayed(const Duration(milliseconds: 200)).then((
+                        _,
+                      ) {
+                        if (!context.mounted) return;
+                        navigateToNextTab(context);
+                      });
+                    },
+                  );
+                }).toList(),
           ),
         ),
       ),
@@ -77,15 +80,11 @@ class _WeekTypeTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Material(
         clipBehavior: Clip.antiAlias,
-        color: (isSelected ? Colors.lightGreen : Colors.lightBlue)
-            .withOpacity(0.20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+        color: (isSelected ? Colors.lightGreen : Colors.lightBlue).withValues(
+          alpha: 0.20,
         ),
-        child: ListTile(
-          title: Text(getWeekTypeText(weekType)),
-          onTap: onTap,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: ListTile(title: Text(getWeekTypeText(weekType)), onTap: onTap),
       ),
     );
   }

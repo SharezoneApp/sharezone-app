@@ -171,11 +171,12 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
   void initState() {
     super.initState();
 
-    final analyticsBackend = kDebugMode
-        ?
-        // LoggingAnalyticsBackend()
-        NullAnalyticsBackend()
-        : getBackend();
+    final analyticsBackend =
+        kDebugMode
+            ?
+            // LoggingAnalyticsBackend()
+            NullAnalyticsBackend()
+            : getBackend();
     analytics = Analytics(analyticsBackend);
 
     // Muss in die initState, weil ansonsten der Bloc die Daten resettet,
@@ -184,42 +185,49 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     feedbackBloc = FeedbackBloc(
       FirebaseFeedbackApi(widget.blocDependencies.firestore),
       FeedbackCache(
-          FlutterKeyValueStore(widget.blocDependencies.sharedPreferences)),
+        FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+      ),
       getPlatformInformationRetriever(),
       widget.blocDependencies.authUser!.uid,
       FeedbackAnalytics(analytics),
     );
 
     PluginInitializations.tryInitializeRevenueCat(
-      androidApiKey: widget.blocDependencies.remoteConfiguration
-          .getString('revenuecat_api_android_key'),
-      appleApiKey: widget.blocDependencies.remoteConfiguration
-          .getString('revenuecat_api_apple_key'),
+      androidApiKey: widget.blocDependencies.remoteConfiguration.getString(
+        'revenuecat_api_android_key',
+      ),
+      appleApiKey: widget.blocDependencies.remoteConfiguration.getString(
+        'revenuecat_api_apple_key',
+      ),
       uid: widget.blocDependencies.authUser!.uid,
     );
 
     final api = SharezoneGateway(
       authUser: widget.blocDependencies.authUser!,
-      memberID:
-          MemberIDUtils.getMemberID(uid: widget.blocDependencies.authUser!.uid),
+      memberID: MemberIDUtils.getMemberID(
+        uid: widget.blocDependencies.authUser!.uid,
+      ),
       references: widget.blocDependencies.references,
     );
     _disposeCallbacks.add(api.dispose);
 
     var streamingKeyValueStore = FlutterStreamingKeyValueStore(
-        widget.blocDependencies.streamingSharedPreferences);
+      widget.blocDependencies.streamingSharedPreferences,
+    );
 
     final lessonLengthCache = LessonLengthCache(streamingKeyValueStore);
-    final timePickerSettingsCache =
-        TimePickerSettingsCache(streamingKeyValueStore);
+    final timePickerSettingsCache = TimePickerSettingsCache(
+      streamingKeyValueStore,
+    );
 
     if (isFirebaseMessagingSupported()) {
       NotificationTokenAdder(
         NotificationTokenAdderApi(
           api.user,
           FirebaseMessaging.instance,
-          widget.blocDependencies.remoteConfiguration
-              .getString('firebase_messaging_vapid_key'),
+          widget.blocDependencies.remoteConfiguration.getString(
+            'firebase_messaging_vapid_key',
+          ),
         ),
       ).addTokenToUserIfNotExisting();
     }
@@ -235,6 +243,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
 
     final config = HausaufgabenheftConfig(
+      // ignore: deprecated_member_use
       defaultCourseColorValue: Colors.lightBlue.value,
       nrOfInitialCompletedHomeworksToLoad:
           // Falls zu wenig Hausaufgaben am Anfang geladen werden, sodass die
@@ -257,36 +266,48 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       api: homeworkApi,
       keyValueStore: widget.blocDependencies.keyValueStore,
     );
-    final homeworkPageBloc =
-        createStudentHomeworkPageBloc(dependencies, config);
+    final homeworkPageBloc = createStudentHomeworkPageBloc(
+      dependencies,
+      config,
+    );
     // Not sure if we need to call both, but without .close the linter complains
     _disposeCallbacks.add(homeworkPageBloc.dispose);
     _disposeCallbacks.add(homeworkPageBloc.close);
-    final teacherHomeworkBloc =
-        createTeacherAndParentHomeworkPageBloc(dependencies, config);
+    final teacherHomeworkBloc = createTeacherAndParentHomeworkPageBloc(
+      dependencies,
+      config,
+    );
     // Not sure if we need to call both, but without .close the linter complains
     _disposeCallbacks.add(teacherHomeworkBloc.dispose);
     _disposeCallbacks.add(teacherHomeworkBloc.close);
 
-    final timetableBloc = TimetableBloc(api.schoolClassGateway, api.user,
-        api.timetable, api.course, SchoolClassFilterAnalytics(analytics));
+    final timetableBloc = TimetableBloc(
+      api.schoolClassGateway,
+      api.user,
+      api.timetable,
+      api.course,
+      SchoolClassFilterAnalytics(analytics),
+    );
 
     final markdownAnalytics = MarkdownAnalytics(Analytics(getBackend()));
 
     var abgabenGateway = FirestoreAbgabeGateway(
       firestore: firestore,
-      submissionReviewCollection:
-          firestore.collection('Submissions/review/submissions'),
-      submissionCreationCollection:
-          firestore.collection('Submissions/create/submissions'),
+      submissionReviewCollection: firestore.collection(
+        'Submissions/review/submissions',
+      ),
+      submissionCreationCollection: firestore.collection(
+        'Submissions/create/submissions',
+      ),
       courseCollection: firestore.collection('Courses'),
       homeworkCollection: firestore.collection('Homework'),
       userId: UserId(uid),
     );
 
     final remoteConfig = widget.blocDependencies.remoteConfiguration;
-    final abgabenServiceBaseUrl =
-        remoteConfig.getString('abgaben_service_base_url');
+    final abgabenServiceBaseUrl = remoteConfig.getString(
+      'abgaben_service_base_url',
+    );
     // Im Web muss die Url zum lokalen Testen manuell gesetzt werden, weil Remote Config noch nicht geht
     // 'https://dev.api.sharezone.net';
     // 'http://localhost:8080';
@@ -304,19 +325,22 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     );
     abgabeHttpApi.dio = Dio(baseOptions);
     var firebaseAuthTokenRetriever = FirebaseAuthTokenRetrieverImpl(
-        widget.blocDependencies.authUser!.firebaseUser);
+      widget.blocDependencies.authUser!.firebaseUser,
+    );
 
     final signUpBloc = BlocProvider.of<SignUpBloc>(context);
 
-    final typeOfUserStream =
-        api.user.userStream.map((user) => user!.typeOfUser);
+    final typeOfUserStream = api.user.userStream.map(
+      (user) => user!.typeOfUser,
+    );
     final onboardingNavigator = OnboardingNavigator(
       signUpBloc,
       widget.beitrittsversuche!,
     );
 
-    final holidayApiClient =
-        CloudFunctionHolidayApiClient(api.references.functions);
+    final holidayApiClient = CloudFunctionHolidayApiClient(
+      api.references.functions,
+    );
 
     const clock = Clock();
     final subscriptionService = SubscriptionService(
@@ -324,22 +348,26 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       functions: widget.blocDependencies.functions,
     );
     trySetSharezonePlusAnalyticsUserProperties(
-        analytics, crashAnalytics, subscriptionService);
+      analytics,
+      crashAnalytics,
+      subscriptionService,
+    );
 
     final feedbackApi = FirebaseFeedbackApi(firestore);
 
     final userDocRef = api.references.users.doc(api.uID);
     final gradesService = GradesService(
-        repository:
-            FirestoreGradesStateRepository(userDocumentRef: userDocRef));
+      repository: FirestoreGradesStateRepository(userDocumentRef: userDocRef),
+    );
 
     final iCalLinksGateway = ICalLinksGateway(
       firestore: widget.blocDependencies.firestore,
       functions: widget.blocDependencies.functions,
     );
 
-    final keyValueStore =
-        FlutterKeyValueStore(widget.blocDependencies.sharedPreferences);
+    final keyValueStore = FlutterKeyValueStore(
+      widget.blocDependencies.sharedPreferences,
+    );
 
     // In the past we used BlocProvider for everything (even non-bloc classes).
     // This forced us to use BlocProvider wrapper classes for non-bloc entities,
@@ -347,155 +375,169 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     providers = [
       Provider<Analytics>(create: (context) => analytics),
       Provider<CrashAnalytics>(create: (context) => crashAnalytics),
-      Provider<SubscriptionService>(
-        create: (context) => subscriptionService,
-      ),
+      Provider<SubscriptionService>(create: (context) => subscriptionService),
       StreamProvider<auth.AuthUser?>(
         create: (context) => api.user.authUserStream,
         initialData: null,
       ),
       ChangeNotifierProvider(
-        create: (context) => SharezonePlusPageController(
-          buyingFlagApi: BuyingEnabledApi(client: http.Client()),
-          userId: UserId(api.uID),
-          purchaseService: RevenueCatPurchaseService(),
-          subscriptionService: subscriptionService,
-          crashAnalytics: crashAnalytics,
-          analytics: SharezonePlusPageAnalytics(analytics),
-          stripeCheckoutSession: StripeCheckoutSession(
-            createCheckoutSessionFunctionUrl: widget
-                .blocDependencies.remoteConfiguration
-                .getString('stripe_checkout_session_function_url'),
-            client: http.Client(),
-          ),
-        ),
+        create:
+            (context) => SharezonePlusPageController(
+              buyingFlagApi: BuyingEnabledApi(client: http.Client()),
+              userId: UserId(api.uID),
+              purchaseService: RevenueCatPurchaseService(),
+              subscriptionService: subscriptionService,
+              crashAnalytics: crashAnalytics,
+              analytics: SharezonePlusPageAnalytics(analytics),
+              stripeCheckoutSession: StripeCheckoutSession(
+                createCheckoutSessionFunctionUrl: widget
+                    .blocDependencies
+                    .remoteConfiguration
+                    .getString('stripe_checkout_session_function_url'),
+                client: http.Client(),
+              ),
+            ),
       ),
       ChangeNotifierProvider(
-        create: (context) => SupportPageController(
-          userNameStream: api.user.userStream.map((user) => user?.name),
-          userIdStream: api.user.authUserStream
-              .map((user) => user == null ? null : UserId(user.uid)),
-          userEmailStream: api.user.authUserStream.map((user) => user?.email),
-          hasPlusSupportUnlockedStream: subscriptionService
-              .hasFeatureUnlockedStream(SharezonePlusFeature.plusSupport),
-          isUserInGroupOnboardingStream: signUpBloc.signedUp,
-          typeOfUserStream: typeOfUserStream,
-          urlLauncher: UrlLauncherExtended(),
-        ),
+        create:
+            (context) => SupportPageController(
+              userNameStream: api.user.userStream.map((user) => user?.name),
+              userIdStream: api.user.authUserStream.map(
+                (user) => user == null ? null : UserId(user.uid),
+              ),
+              userEmailStream: api.user.authUserStream.map(
+                (user) => user?.email,
+              ),
+              hasPlusSupportUnlockedStream: subscriptionService
+                  .hasFeatureUnlockedStream(SharezonePlusFeature.plusSupport),
+              isUserInGroupOnboardingStream: signUpBloc.signedUp,
+              typeOfUserStream: typeOfUserStream,
+              urlLauncher: UrlLauncherExtended(),
+            ),
       ),
       StreamProvider<TypeOfUser?>.value(
         value: typeOfUserStream,
         initialData: null,
       ),
       ChangeNotifierProvider(
-        create: (context) => ChangeTypeOfUserController(
-          service: ChangeTypeOfUserService(
-            functions: widget.blocDependencies.functions,
-          ),
-          typeOfUserStream: typeOfUserStream,
-          analytics: ChangeTypeOfUserAnalytics(analytics),
-          userId: UserId(api.uID),
-        ),
+        create:
+            (context) => ChangeTypeOfUserController(
+              service: ChangeTypeOfUserService(
+                functions: widget.blocDependencies.functions,
+              ),
+              typeOfUserStream: typeOfUserStream,
+              analytics: ChangeTypeOfUserAnalytics(analytics),
+              userId: UserId(api.uID),
+            ),
       ),
       Provider(
-        create: (context) => PastCalendricalEventsPageControllerFactory(
-          clock: clock,
-          subscriptionService: subscriptionService,
-          timetableGateway: api.timetable,
-          courseGateway: api.course,
-          schoolClassGateway: api.schoolClassGateway,
-          analytics: PastCalendricalEventsPageAnalytics(analytics),
-        ),
+        create:
+            (context) => PastCalendricalEventsPageControllerFactory(
+              clock: clock,
+              subscriptionService: subscriptionService,
+              timetableGateway: api.timetable,
+              courseGateway: api.course,
+              schoolClassGateway: api.schoolClassGateway,
+              analytics: PastCalendricalEventsPageAnalytics(analytics),
+            ),
       ),
       ChangeNotifierProvider(
-        create: (context) => FeedbackHistoryPageController(
-          analytics: FeedbackHistoryPageAnalytics(analytics),
-          api: feedbackApi,
-          userId: api.userId,
-          crashAnalytics: crashAnalytics,
-        ),
+        create:
+            (context) => FeedbackHistoryPageController(
+              analytics: FeedbackHistoryPageAnalytics(analytics),
+              api: feedbackApi,
+              userId: api.userId,
+              crashAnalytics: crashAnalytics,
+            ),
       ),
       Provider(
-        create: (context) => FeedbackDetailsPageControllerFactory(
-          userId: api.userId,
-          feedbackApi: feedbackApi,
-          crashAnalytics: crashAnalytics,
-        ),
+        create:
+            (context) => FeedbackDetailsPageControllerFactory(
+              userId: api.userId,
+              feedbackApi: feedbackApi,
+              crashAnalytics: crashAnalytics,
+            ),
       ),
       Provider(
-        create: (context) => ICalLinksDialogControllerFactory(
-          gateway: iCalLinksGateway,
-          analytics: ICalLinksAnalytics(analytics),
-          userId: api.userId,
-        ),
+        create:
+            (context) => ICalLinksDialogControllerFactory(
+              gateway: iCalLinksGateway,
+              analytics: ICalLinksAnalytics(analytics),
+              userId: api.userId,
+            ),
       ),
       ChangeNotifierProvider(
-        create: (context) => HasUnreadFeedbackMessagesProvider(
-          feedbackApi: feedbackApi,
-          userId: api.userId,
-        ),
+        create:
+            (context) => HasUnreadFeedbackMessagesProvider(
+              feedbackApi: feedbackApi,
+              userId: api.userId,
+            ),
       ),
-      Provider<GradesService>(
-        create: (context) => gradesService,
-      ),
+      Provider<GradesService>(create: (context) => gradesService),
       ChangeNotifierProvider(
-        create: (context) => GradesPageController(
-          gradesService: gradesService,
-        ),
+        create: (context) => GradesPageController(gradesService: gradesService),
       ),
       StreamProvider<TypeOfUser>(
         create: (context) => typeOfUserStream,
         initialData: TypeOfUser.unknown,
       ),
       Provider(
-        create: (context) => TermDetailsPageControllerFactory(
-          gradesService: gradesService,
-          crashAnalytics: crashAnalytics,
-          analytics: analytics,
-        ),
+        create:
+            (context) => TermDetailsPageControllerFactory(
+              gradesService: gradesService,
+              crashAnalytics: crashAnalytics,
+              analytics: analytics,
+            ),
       ),
       Provider(
-        create: (context) => GradeDetailsPageControllerFactory(
-          gradesService: gradesService,
-          crashAnalytics: crashAnalytics,
-          analytics: analytics,
-        ),
+        create:
+            (context) => GradeDetailsPageControllerFactory(
+              gradesService: gradesService,
+              crashAnalytics: crashAnalytics,
+              analytics: analytics,
+            ),
       ),
       Provider(
-        create: (context) => GradesDialogControllerFactory(
-          crashAnalytics: crashAnalytics,
-          gradesService: gradesService,
-          coursesStream: () => api.course.streamCourses(),
-          analytics: analytics,
-        ),
+        create:
+            (context) => GradesDialogControllerFactory(
+              crashAnalytics: crashAnalytics,
+              gradesService: gradesService,
+              coursesStream: () => api.course.streamCourses(),
+              analytics: analytics,
+            ),
       ),
       ChangeNotifierProvider(
-        create: (context) => IcalLinksPageController(
-          gateway: iCalLinksGateway,
-          userId: api.userId,
-        ),
+        create:
+            (context) => IcalLinksPageController(
+              gateway: iCalLinksGateway,
+              userId: api.userId,
+            ),
       ),
       Provider(
-        create: (context) => TermSettingsPageControllerFactory(
-          gradesService: gradesService,
-          coursesStream: () => api.course.streamCourses(),
-        ),
+        create:
+            (context) => TermSettingsPageControllerFactory(
+              gradesService: gradesService,
+              coursesStream: () => api.course.streamCourses(),
+            ),
       ),
       Provider(
-        create: (context) => SubstitutionController(
-          gateway: api.timetable,
-          analytics: analytics,
-          userId: api.userId,
-          courseMemberAccessor:
-              FirestoreCourseMemberAccessor(api.references.firestore),
-        ),
+        create:
+            (context) => SubstitutionController(
+              gateway: api.timetable,
+              analytics: analytics,
+              userId: api.userId,
+              courseMemberAccessor: FirestoreCourseMemberAccessor(
+                api.references.firestore,
+              ),
+            ),
       ),
       ChangeNotifierProvider(
-        create: (context) => AdsController(
-          subscriptionService: subscriptionService,
-          remoteConfiguration: widget.blocDependencies.remoteConfiguration,
-          keyValueStore: keyValueStore,
-        ),
+        create:
+            (context) => AdsController(
+              subscriptionService: subscriptionService,
+              remoteConfiguration: widget.blocDependencies.remoteConfiguration,
+              keyValueStore: keyValueStore,
+            ),
         lazy: false,
       ),
       Provider<KeyValueStore>.value(value: keyValueStore),
@@ -513,30 +555,41 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       BlocProvider<TypeOfUserBloc>(bloc: TypeOfUserBloc(typeOfUserStream)),
       BlocProvider<BlackboardPageBloc>(
-          bloc: BlackboardPageBloc(
-              gateway: api.blackboard,
-              courseGateway: api.course,
-              uid: api.uID)),
+        bloc: BlackboardPageBloc(
+          gateway: api.blackboard,
+          courseGateway: api.course,
+          uid: api.uID,
+        ),
+      ),
       BlocProvider<DashboardBloc>(
         bloc: DashboardBloc(
-            api.uID,
-            DashboardGateway(api.homework, api.blackboard, api.timetable,
-                api.course, api.schoolClassGateway, api.user),
-            timetableBloc),
+          api.uID,
+          DashboardGateway(
+            api.homework,
+            api.blackboard,
+            api.timetable,
+            api.course,
+            api.schoolClassGateway,
+            api.user,
+          ),
+          timetableBloc,
+        ),
       ),
       BlocProvider<UpdateReminderBloc>(
         bloc: UpdateReminderBloc(
-            platformInformationRetriever: FlutterPlatformInformationRetriever(),
-            changelogGateway: ChangelogGateway(firestore: firestore),
-            crashAnalytics: getCrashAnalytics(),
-            updateGracePeriod: const Duration(days: 3)),
+          platformInformationRetriever: FlutterPlatformInformationRetriever(),
+          changelogGateway: ChangelogGateway(firestore: firestore),
+          crashAnalytics: getCrashAnalytics(),
+          updateGracePeriod: const Duration(days: 3),
+        ),
       ),
       BlocProvider<DashboardTipSystem>(
-          bloc: DashboardTipSystem(
-        cache: DashboardTipCache(streamingKeyValueStore),
-        navigationBloc: navigationBloc,
-        userTipsBloc: UserTipsBloc(api.user),
-      )),
+        bloc: DashboardTipSystem(
+          cache: DashboardTipCache(streamingKeyValueStore),
+          navigationBloc: navigationBloc,
+          userTipsBloc: UserTipsBloc(api.user),
+        ),
+      ),
       BlocProvider<CalendricalEventsPageBlocFactory>(
         bloc: CalendricalEventsPageBlocFactory(
           api.timetable,
@@ -549,17 +602,24 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<AccountPageBlocFactory>(
-          bloc: AccountPageBlocFactory(api.user)),
+        bloc: AccountPageBlocFactory(api.user),
+      ),
       BlocProvider<BlackboardAnalytics>(bloc: BlackboardAnalytics(analytics)),
       BlocProvider<NavigationExperimentCache>(
-          bloc: NavigationExperimentCache(FlutterStreamingKeyValueStore(
-              widget.blocDependencies.streamingSharedPreferences))),
+        bloc: NavigationExperimentCache(
+          FlutterStreamingKeyValueStore(
+            widget.blocDependencies.streamingSharedPreferences,
+          ),
+        ),
+      ),
       BlocProvider<OverdueHomeworkDialogDismissedCache>(
         bloc: OverdueHomeworkDialogDismissedCache(InMemoryKeyValueStore()),
       ),
       BlocProvider<ViewSubmissionsPageBlocFactory>(
         bloc: ViewSubmissionsPageBlocFactory(
-            gateway: abgabenGateway, nutzerId: UserId(uid)),
+          gateway: abgabenGateway,
+          nutzerId: UserId(uid),
+        ),
       ),
       BlocProvider<BnbTutorialBloc>(
         bloc: BnbTutorialBloc(
@@ -573,12 +633,15 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       BlocProvider<HomeworkUserCreateSubmissionsBlocFactory>(
         bloc: HomeworkUserCreateSubmissionsBlocFactory(
           uploader: CloudStorageAbgabedateiUploader(
-              getFileUploader(),
+            getFileUploader(),
+            abgabeHttpApi.getAbgabedateiApi(),
+            crashAnalytics,
+            CloudStorageBucket(abgabenBucketName),
+            HttpAbgabedateiHinzufueger(
               abgabeHttpApi.getAbgabedateiApi(),
-              crashAnalytics,
-              CloudStorageBucket(abgabenBucketName),
-              HttpAbgabedateiHinzufueger(abgabeHttpApi.getAbgabedateiApi(),
-                  FirebaseAuthHeaderRetriever(firebaseAuthTokenRetriever))),
+              FirebaseAuthHeaderRetriever(firebaseAuthTokenRetriever),
+            ),
+          ),
           authTokenRetriever: firebaseAuthTokenRetriever,
           saver: SingletonLocalFileSaver(),
           recordError: crashAnalytics.recordError,
@@ -598,12 +661,14 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<NotificationsBlocFactory>(
-          bloc: NotificationsBlocFactory(api.user)),
+        bloc: NotificationsBlocFactory(api.user),
+      ),
       BlocProvider<DownloadAppTipBloc>(
         bloc: DownloadAppTipBloc(
           DownloadAppTipCache(
             FlutterStreamingKeyValueStore(
-                widget.blocDependencies.streamingSharedPreferences),
+              widget.blocDependencies.streamingSharedPreferences,
+            ),
           ),
           DownloadAppTipAnalytics(analytics),
         ),
@@ -634,13 +699,20 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<RegistrationBloc>(
-          bloc: RegistrationBloc(
-              widget.blocDependencies.registrationGateway, signUpBloc)),
+        bloc: RegistrationBloc(
+          widget.blocDependencies.registrationGateway,
+          signUpBloc,
+        ),
+      ),
       BlocProvider<ReportFactory>(
-          bloc: ReportFactory(
-              uid: api.uID, firestore: widget.blocDependencies.firestore)),
+        bloc: ReportFactory(
+          uid: api.uID,
+          firestore: widget.blocDependencies.firestore,
+        ),
+      ),
       BlocProvider<ReportGateway>(
-          bloc: ReportGateway(widget.blocDependencies.firestore)),
+        bloc: ReportGateway(widget.blocDependencies.firestore),
+      ),
       BlocProvider<FeedbackBloc>(bloc: feedbackBloc),
       BlocProvider<MarkdownAnalytics>(bloc: markdownAnalytics),
       BlocProvider<CommentsBlocFactory>(
@@ -661,45 +733,51 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<ChangeDataBloc>(
-          bloc: ChangeDataBloc(
-        userAPI: api.user,
-        currentEmail: api.user.authUser!.email,
-        firebaseAuth: firebaseAuth,
-      )),
+        bloc: ChangeDataBloc(
+          userAPI: api.user,
+          currentEmail: api.user.authUser!.email,
+          firebaseAuth: firebaseAuth,
+        ),
+      ),
       BlocProvider<HolidayBloc>(
-          bloc: HolidayBloc(
-        stateGateway: HolidayStateGateway.fromUserGateway(api.user),
-        holidayManager: HolidayService(
-          HolidayApi(
-            holidayApiClient,
-            getCurrentTime: () => clock.now(),
-          ),
-          HolidayCache(
-            FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+        bloc: HolidayBloc(
+          stateGateway: HolidayStateGateway.fromUserGateway(api.user),
+          holidayManager: HolidayService(
+            HolidayApi(holidayApiClient, getCurrentTime: () => clock.now()),
+            HolidayCache(
+              FlutterKeyValueStore(widget.blocDependencies.sharedPreferences),
+            ),
           ),
         ),
-      )),
+      ),
       BlocProvider<CourseCreateBlocFactory>(
         bloc: CourseCreateBlocFactory(
-            CourseCreateGateway(
-              api.course,
-              api.user,
-              api.schoolClassGateway,
-              api.connectionsGateway,
-            ),
-            CourseCreateAnalytics(Analytics(getBackend()))),
+          CourseCreateGateway(
+            api.course,
+            api.user,
+            api.schoolClassGateway,
+            api.connectionsGateway,
+          ),
+          CourseCreateAnalytics(Analytics(getBackend())),
+        ),
       ),
     ];
 
     timetableProviders = [
       BlocProvider<TimetableBloc>(bloc: timetableBloc),
       BlocProvider<TimetableAddBlocFactory>(
-        bloc: TimetableAddBlocFactory(TimetableAddBlocDependencies(
-            gateway: api.timetable, lessonLengthCache: lessonLengthCache)),
+        bloc: TimetableAddBlocFactory(
+          TimetableAddBlocDependencies(
+            gateway: api.timetable,
+            lessonLengthCache: lessonLengthCache,
+          ),
+        ),
       ),
       BlocProvider<TimetableSettingsBlocFactory>(
         bloc: TimetableSettingsBlocFactory(
-            lessonLengthCache, timePickerSettingsCache),
+          lessonLengthCache,
+          timePickerSettingsCache,
+        ),
       ),
       BlocProvider<TimePickerSettingsCache>(bloc: timePickerSettingsCache),
     ];
@@ -721,23 +799,24 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       providers: providers,
       child: MultiBlocProvider(
         key: const ValueKey("MultiBlocProvider"),
-        blocProviders: [
-          ...mainBlocProviders,
-          ...timetableProviders,
-        ],
-        child: (context) => AnalyticsProvider(
-          analytics: analytics,
-          child: Builder(builder: (context) => widget.child),
-        ),
+        blocProviders: [...mainBlocProviders, ...timetableProviders],
+        child:
+            (context) => AnalyticsProvider(
+              analytics: analytics,
+              child: Builder(builder: (context) => widget.child),
+            ),
       ),
     );
   }
 
   Future<({int colorHexValue, bool isAdmin})> getCourseData(
-      SharezoneGateway api, String courseId) async {
+    SharezoneGateway api,
+    String courseId,
+  ) async {
     final course = api.course.getCourse(courseId)!;
     final role = _getMemberRole(api.connectionsGateway, courseId);
     final isAdmin = role == MemberRole.admin || role == MemberRole.owner;
+    // ignore: deprecated_member_use
     return (colorHexValue: course.getDesign().color.value, isAdmin: isAdmin);
   }
 

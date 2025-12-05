@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library holiday;
+library;
 
 import 'dart:convert';
 
@@ -30,12 +30,15 @@ abstract class HolidayCacheData
   BuiltList<Holiday> get holidays;
   String toJson() {
     return json.encode(
-        jsonSerializer.serializeWith(HolidayCacheData.serializer, this));
+      jsonSerializer.serializeWith(HolidayCacheData.serializer, this),
+    );
   }
 
   static HolidayCacheData? fromJson(String jsonString) {
     return jsonSerializer.deserializeWith(
-        HolidayCacheData.serializer, json.decode(jsonString));
+      HolidayCacheData.serializer,
+      json.decode(jsonString),
+    );
   }
 
   static Serializer<HolidayCacheData> get serializer =>
@@ -64,7 +67,9 @@ abstract class Holiday implements Built<Holiday, HolidayBuilder> {
 
   static Holiday? fromJson(String jsonString) {
     return jsonSerializer.deserializeWith(
-        Holiday.serializer, json.decode(jsonString));
+      Holiday.serializer,
+      json.decode(jsonString),
+    );
   }
 
   static Serializer<Holiday> get serializer => _$holidaySerializer;

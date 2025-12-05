@@ -9,13 +9,14 @@
 import 'package:flutter/material.dart';
 
 class CircularButton extends StatelessWidget {
-  const CircularButton(
-      {super.key,
-      this.title,
-      this.subtitle,
-      this.color,
-      this.icon,
-      this.onTap});
+  const CircularButton({
+    super.key,
+    this.title,
+    this.subtitle,
+    this.color,
+    this.icon,
+    this.onTap,
+  });
 
   final String? title, subtitle;
   final Color? color;
@@ -36,16 +37,18 @@ class CircularButton extends StatelessWidget {
                 width: 45,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: color!.withOpacity(0.1),
+                  color: color!.withValues(alpha: 0.1),
                 ),
               ),
-              Positioned(left: 11, top: 11, child: icon!)
+              Positioned(left: 11, top: 11, child: icon!),
             ],
           ),
           const SizedBox(height: 8),
           Text(title!, style: Theme.of(context).textTheme.titleLarge),
-          Text(subtitle!,
-              style: TextStyle(fontSize: 15, color: Colors.grey[400])),
+          Text(
+            subtitle!,
+            style: TextStyle(fontSize: 15, color: Colors.grey[400]),
+          ),
           const SizedBox(height: 16),
         ],
       ),

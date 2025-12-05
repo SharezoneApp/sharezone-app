@@ -9,6 +9,8 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone/filesharing/bloc/file_sharing_page_bloc.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -32,8 +34,9 @@ class FileSharingViewHome extends StatelessWidget {
         if (snapshot.data!.isEmpty) return _NoCourseFolderFound();
 
         final fileSharingDataList = snapshot.data!;
-        fileSharingDataList
-            .sort((a, b) => a.courseName!.compareTo(b.courseName!));
+        fileSharingDataList.sort(
+          (a, b) => a.courseName!.compareTo(b.courseName!),
+        );
 
         return SingleChildScrollView(
           padding: const EdgeInsets.only(left: 8, top: 8),
@@ -51,7 +54,7 @@ class FileSharingViewHome extends StatelessWidget {
                     maxElementsPerSection: 3,
                     children: <Widget>[
                       for (final fileSharingData in fileSharingDataList)
-                        _CourseFolderCard(fileSharingData)
+                        _CourseFolderCard(fileSharingData),
                     ],
                   ),
                 ],
@@ -78,6 +81,7 @@ class _CourseFolderCard extends StatelessWidget {
           groupID: fileSharingData.courseID,
           path: FolderPath.root,
           initialFileSharingData: fileSharingData,
+          viewMode: getViewModeFromCache(context.read<KeyValueStore>()),
         );
         stateBloc.changeStateTo(newState);
       },
@@ -95,7 +99,8 @@ class _NoCourseFolderFound extends StatelessWidget {
       animateSVG: true,
       title: "Keine Ordner gefunden! 😬",
       description: Text(
-          "Es wurden keine Ordner gefunden, da du noch keinen Kursen beigetreten bist. Trete einfach einem Kurs bei oder erstelle einen eigenen Kurs."),
+        "Es wurden keine Ordner gefunden, da du noch keinen Kursen beigetreten bist. Trete einfach einem Kurs bei oder erstelle einen eigenen Kurs.",
+      ),
     );
   }
 }

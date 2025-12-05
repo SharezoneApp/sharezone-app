@@ -12,11 +12,12 @@ import 'package:authentification_qrcode/authentification_qrcode.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone_utils/launch_link.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class WebAppSettingsPage extends StatelessWidget {
@@ -71,7 +72,7 @@ class _Header extends StatelessWidget {
         child: SizedBox(
           width: 65,
           height: 65,
-          child: PlatformSvg.asset("assets/icons/desktop.svg"),
+          child: SvgPicture.asset("assets/icons/desktop.svg"),
         ),
       ),
       children: <Widget>[
@@ -83,12 +84,14 @@ class _Header extends StatelessWidget {
             data:
                 "Besuche für weitere Informationen einfach https://web.sharezone.net.",
             selectable: true,
-            styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-                .copyWith(
-                    a: linkStyle(context, 14),
-                    p: const TextStyle(fontSize: 14, color: Colors.grey),
-                    textAlign: WrapAlignment.center),
-            onTapLink: (url, _, __) => launchURL(url, context: context),
+            styleSheet: MarkdownStyleSheet.fromTheme(
+              Theme.of(context),
+            ).copyWith(
+              a: linkStyle(context, 14),
+              p: const TextStyle(fontSize: 14, color: Colors.grey),
+              textAlign: WrapAlignment.center,
+            ),
+            onTapLink: (url, _, _) => launchURL(url, context: context),
           ),
         ),
       ],
@@ -113,11 +116,14 @@ class _ScanQrCode extends StatelessWidget {
     return Column(
       children: <Widget>[
         CustomCardListTile(
-          icon: PlatformSvg.asset(
+          icon: SvgPicture.asset(
             'assets/icons/qr-code.svg',
             height: 24,
             width: 24,
-            color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+              BlendMode.srcIn,
+            ),
           ),
           title: "QR-Code scannen",
           onTap: () async {
@@ -134,12 +140,9 @@ class _ScanQrCode extends StatelessWidget {
         const SizedBox(height: 6),
         const Text(
           "Mithilfe der Anmeldung über einen QR-Code kannst du dich in der Web-App anmelden, ohne ein Passwort einzugeben. Besonders hilfreich ist das bei der Nutzung eines öffentlichen PCs.",
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 11.5,
-          ),
+          style: TextStyle(color: Colors.grey, fontSize: 11.5),
           textAlign: TextAlign.center,
-        )
+        ),
       ],
     );
   }

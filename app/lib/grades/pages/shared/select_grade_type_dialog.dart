@@ -23,9 +23,10 @@ class SelectGradeTypeDialog extends StatelessWidget {
   }) async {
     return showDialog<GradeType?>(
       context: context,
-      builder: (context) => SelectGradeTypeDialog(
-        selectableGradingTypes: selectableGradingTypes,
-      ),
+      builder:
+          (context) => SelectGradeTypeDialog(
+            selectableGradingTypes: selectableGradingTypes,
+          ),
     );
   }
 
@@ -37,10 +38,13 @@ class SelectGradeTypeDialog extends StatelessWidget {
       children: [
         for (final gradeType in selectableGradingTypes)
           ListTile(
-            leading: gradeType.predefinedType?.getIcon() ??
+            leading:
+                gradeType.predefinedType?.getIcon() ??
                 const Icon(Icons.help_outline),
-            title: Text(gradeType.predefinedType?.toUiString() ??
-                'Unbekannt/Eigener Notentyp'),
+            title: Text(
+              gradeType.predefinedType?.toUiString() ??
+                  'Unbekannt/Eigener Notentyp',
+            ),
             onTap: () {
               Navigator.of(context).pop<GradeType?>(gradeType);
             },

@@ -9,11 +9,12 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone_utils/launch_link.dart';
-import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> showThankYouBottomSheet(BuildContext context) async {
@@ -49,7 +50,7 @@ class ThankYouBottomSheetChild extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: CloseIconButton(),
             ),
-            PlatformSvg.asset(
+            SvgPicture.asset(
               'assets/icons/thumbs_up.svg',
               width: 120,
               height: 120,
@@ -68,24 +69,27 @@ class ThankYouBottomSheetChild extends StatelessWidget {
                 TextSpan(
                   children: <TextSpan>[
                     const TextSpan(
-                        text:
-                            "Dir gefällt unsere App? Dann würden wir uns über eine Bewertung im "),
+                      text:
+                          "Dir gefällt unsere App? Dann würden wir uns über eine Bewertung im ",
+                    ),
                     TextSpan(
-                        text: (PlatformCheck.isIOS || PlatformCheck.isMacOS)
-                            ? "AppStore"
-                            : "PlayStore",
-                        style: linkStyle(context, 16),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            logOpenRating(context);
-                            launchURL(
+                      text:
+                          (PlatformCheck.isIOS || PlatformCheck.isMacOS)
+                              ? "AppStore"
+                              : "PlayStore",
+                      style: linkStyle(context, 16),
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              logOpenRating(context);
+                              launchURL(
                                 (PlatformCheck.isIOS || PlatformCheck.isMacOS)
                                     ? "https://sharezone.net/ios"
-                                    : "https://sharezone.net/android");
-                          }),
-                    const TextSpan(
-                      text: " riesig freuen! 😄",
+                                    : "https://sharezone.net/android",
+                              );
+                            },
                     ),
+                    const TextSpan(text: " riesig freuen! 😄"),
                   ],
                   style: const TextStyle(color: Colors.grey, fontSize: 16),
                 ),

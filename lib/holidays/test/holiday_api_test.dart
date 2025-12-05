@@ -30,9 +30,7 @@ void main() {
     dateTime = DateTime(2018, 1, 1);
 
     api = HolidayApi(
-      CloudFunctionHolidayApiClient(
-        SharezoneAppFunctions(functions),
-      ),
+      CloudFunctionHolidayApiClient(SharezoneAppFunctions(functions)),
       getCurrentTime: () => dateTime,
     );
   });
@@ -41,16 +39,13 @@ void main() {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
         functionName: "loadHolidays",
-        parameters: {
-          "stateCode": "NW",
-          "year": "2018",
-        },
+        parameters: {"stateCode": "NW", "year": "2018"},
       ),
     ).thenAnswer(
       (_) => Future.value(
-        AppFunctionsResult<Map<String, dynamic>>.data(
-          {'rawResponseBody': validResponseString},
-        ),
+        AppFunctionsResult<Map<String, dynamic>>.data({
+          'rawResponseBody': validResponseString,
+        }),
       ),
     );
 
@@ -61,10 +56,7 @@ void main() {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
         functionName: "loadHolidays",
-        parameters: {
-          "stateCode": "NW",
-          "year": "2018",
-        },
+        parameters: {"stateCode": "NW", "year": "2018"},
       ),
     ).thenAnswer(
       (_) => Future.value(
@@ -79,24 +71,21 @@ void main() {
       ),
     );
 
-    expect(() async => await api.load(0, state),
-        throwsA(const TypeMatcher<ApiResponseException>()));
+    expect(
+      () async => await api.load(0, state),
+      throwsA(const TypeMatcher<ApiResponseException>()),
+    );
   });
 
   test('If Api gets empty response gives back empty list', () async {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
         functionName: "loadHolidays",
-        parameters: {
-          "stateCode": "NW",
-          "year": "2018",
-        },
+        parameters: {"stateCode": "NW", "year": "2018"},
       ),
     ).thenAnswer(
       (_) => Future.value(
-        AppFunctionsResult<Map<String, dynamic>>.data(
-          {'rawResponseBody': ""},
-        ),
+        AppFunctionsResult<Map<String, dynamic>>.data({'rawResponseBody': ""}),
       ),
     );
 
@@ -112,8 +101,9 @@ void main() {
     );
     int expectedYear = dateTime.year;
 
-    when(szAppFunction.loadHolidays(stateCode: "NW", year: '$expectedYear'))
-        .thenAnswer(
+    when(
+      szAppFunction.loadHolidays(stateCode: "NW", year: '$expectedYear'),
+    ).thenAnswer(
       (_) => Future.value(
         AppFunctionsResult<Map<String, dynamic>>.data(
           // Doesn't matter what we return here, we just want to check that
@@ -129,8 +119,10 @@ void main() {
   });
 
   void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {
-    expect(api.load(year, const NordrheinWestfalen()),
-        throwsA(const TypeMatcher<AssertionError>()));
+    expect(
+      api.load(year, const NordrheinWestfalen()),
+      throwsA(const TypeMatcher<AssertionError>()),
+    );
   }
 
   test('Throws when given invalid years', () {

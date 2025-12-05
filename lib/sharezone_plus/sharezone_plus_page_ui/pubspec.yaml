@@ -12,8 +12,9 @@ description: A package that provides the UI widgets for the Sharezone Plus Page.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: ">=3.1.0 <4.0.0"
+  sdk: ^3.7.0
 
 dependencies:
   flutter:
@@ -28,7 +29,7 @@ dependencies:
     path: ../../platform_check
   sharezone_widgets:
     path: ../../sharezone_widgets
-  url_launcher: ^6.2.6
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   golden_toolkit: ^0.15.0

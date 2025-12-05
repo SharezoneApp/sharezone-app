@@ -41,12 +41,12 @@ class GroupOnboardingAnalytics {
 
 class GroupOnboardingEvent extends AnalyticsEvent {
   GroupOnboardingEvent(String name)
-      : assert(isNotEmptyOrNull(name)),
-        super("group_onboarding$name");
+    : assert(isNotEmptyOrNull(name)),
+      super("group_onboarding$name");
 }
 
 class GroupOnboardingShareEvent extends AnalyticsEvent {
   GroupOnboardingShareEvent(String name)
-      : assert(isNotEmptyOrNull(name)),
-        super("group_onboarding_share_$name");
+    : assert(isNotEmptyOrNull(name)),
+      super("group_onboarding_share_$name");
 }

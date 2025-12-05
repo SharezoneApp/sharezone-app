@@ -43,12 +43,16 @@ void main() {
       cache = BnbTutorialCache(InMemoryKeyValueStore());
       analytics = MockBnbTutorialAnalytics();
       isGroupOnboardingFinished = BehaviorSubject.seeded(true);
-      tutorialBloc =
-          BnbTutorialBloc(cache, analytics, isGroupOnboardingFinished);
+      tutorialBloc = BnbTutorialBloc(
+        cache,
+        analytics,
+        isGroupOnboardingFinished,
+      );
       navigationBloc = NavigationBloc();
       navigationAnalytics = MockNavigationAnalytics();
-      navigationExperimentCache =
-          NavigationExperimentCache(InMemoryStreamingKeyValueStore());
+      navigationExperimentCache = NavigationExperimentCache(
+        InMemoryStreamingKeyValueStore(),
+      );
     });
 
     tearDown(() {
@@ -56,29 +60,32 @@ void main() {
     });
 
     testWidgets(
-        'should not be shown, if as navigation drawer + bnb is selected',
-        (tester) async {
-      await tester.pumpWidget(
-        MultiBlocProvider(
-          blocProviders: [
-            BlocProvider<NavigationBloc>(bloc: navigationBloc),
-            BlocProvider<BnbTutorialBloc>(bloc: tutorialBloc),
-            BlocProvider<NavigationAnalytics>(bloc: navigationAnalytics),
-            BlocProvider<NavigationExperimentCache>(
-                bloc: navigationExperimentCache),
-          ],
-          child: (context) => const MaterialApp(
-            home: ExtendableBottomNavigationBar(
-              page: Scaffold(body: SizedBox(height: 800, width: 800)),
-              option: NavigationExperimentOption.drawerAndBnb,
-              currentNavigationItem: NavigationItem.overview,
-            ),
+      'should not be shown, if as navigation drawer + bnb is selected',
+      (tester) async {
+        await tester.pumpWidget(
+          MultiBlocProvider(
+            blocProviders: [
+              BlocProvider<NavigationBloc>(bloc: navigationBloc),
+              BlocProvider<BnbTutorialBloc>(bloc: tutorialBloc),
+              BlocProvider<NavigationAnalytics>(bloc: navigationAnalytics),
+              BlocProvider<NavigationExperimentCache>(
+                bloc: navigationExperimentCache,
+              ),
+            ],
+            child:
+                (context) => const MaterialApp(
+                  home: ExtendableBottomNavigationBar(
+                    page: Scaffold(body: SizedBox(height: 800, width: 800)),
+                    option: NavigationExperimentOption.drawerAndBnb,
+                    currentNavigationItem: NavigationItem.overview,
+                  ),
+                ),
           ),
-        ),
-      );
+        );
 
-      expect(find.byType(FirstNavigationRow), findsNothing);
-      expect(find.byType(SecondNavigationRow), findsNothing);
-    });
+        expect(find.byType(FirstNavigationRow), findsNothing);
+        expect(find.byType(SecondNavigationRow), findsNothing);
+      },
+    );
   });
 }

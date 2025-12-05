@@ -7,7 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
-    hide SmallestDateSubjectAndTitleSort, SubjectSmallestDateAndTitleSort, Sort;
+    hide
+        SmallestDateSubjectAndTitleSort,
+        SubjectSmallestDateAndTitleSort,
+        WeekdayDateSubjectAndTitleSort,
+        Sort;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 
 extension HomeworkSortToEnumExtension on Sort<BaseHomeworkReadModel> {
@@ -16,20 +20,26 @@ extension HomeworkSortToEnumExtension on Sort<BaseHomeworkReadModel> {
       return HomeworkSort.smallestDateSubjectAndTitle;
     } else if (this is SubjectSmallestDateAndTitleSort) {
       return HomeworkSort.subjectSmallestDateAndTitleSort;
+    } else if (this is WeekdayDateSubjectAndTitleSort) {
+      return HomeworkSort.weekdayDateSubjectAndTitle;
     }
     throw UnimplementedError(
-        'Sort<HomeworkReadModel>.toEnum not implemented for $runtimeType');
+      'Sort<HomeworkReadModel>.toEnum not implemented for $runtimeType',
+    );
   }
 }
 
 extension StudentHomeworkSortEnumToSortExtension on HomeworkSort {
-  Sort<BaseHomeworkReadModel> toSortObject(
-      {required Date Function()? getCurrentDate}) {
+  Sort<BaseHomeworkReadModel> toSortObject({
+    required Date Function()? getCurrentDate,
+  }) {
     switch (this) {
       case HomeworkSort.smallestDateSubjectAndTitle:
         return SmallestDateSubjectAndTitleSort(getCurrentDate: getCurrentDate);
       case HomeworkSort.subjectSmallestDateAndTitleSort:
         return SubjectSmallestDateAndTitleSort();
+      case HomeworkSort.weekdayDateSubjectAndTitle:
+        return WeekdayDateSubjectAndTitleSort();
     }
   }
 }

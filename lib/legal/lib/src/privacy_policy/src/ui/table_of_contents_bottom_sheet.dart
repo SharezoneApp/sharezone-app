@@ -20,24 +20,30 @@ void showTableOfContentsBottomSheet(BuildContext context) {
   showRoundedModalBottomSheet(
     isScrollControlled: true,
     context: context,
-    builder: (context) => MultiProvider(
-      providers: [
-        // We use ListenableProvider instead of ChangeNotifierProvider because
-        // ChangeNotifierProvider would auto-dispose our Controllers when the
-        // bottom sheet is closed (i.e. the providers are removed from the
-        // widget tree).
-        ListenableProvider<TableOfContentsController>(
-          create: (context) =>
-              Provider.of<TableOfContentsController>(oldContext, listen: false),
+    builder:
+        (context) => MultiProvider(
+          providers: [
+            // We use ListenableProvider instead of ChangeNotifierProvider because
+            // ChangeNotifierProvider would auto-dispose our Controllers when the
+            // bottom sheet is closed (i.e. the providers are removed from the
+            // widget tree).
+            ListenableProvider<TableOfContentsController>(
+              create:
+                  (context) => Provider.of<TableOfContentsController>(
+                    oldContext,
+                    listen: false,
+                  ),
+            ),
+            ListenableProvider<PrivacyPolicyThemeSettings>(
+              create:
+                  (context) => Provider.of<PrivacyPolicyThemeSettings>(
+                    oldContext,
+                    listen: false,
+                  ),
+            ),
+          ],
+          child: const _TableOfContentsBottomSheet(),
         ),
-        ListenableProvider<PrivacyPolicyThemeSettings>(
-          create: (context) => Provider.of<PrivacyPolicyThemeSettings>(
-              oldContext,
-              listen: false),
-        ),
-      ],
-      child: const _TableOfContentsBottomSheet(),
-    ),
   );
 }
 
@@ -52,7 +58,8 @@ class _TableOfContentsBottomSheet extends StatefulWidget {
 // TickerProviderStateMixin instead of SingleTickerProviderStateMixin because
 // else we get an error if we hot reload while the bottom bar is opened.
 class __TableOfContentsBottomSheetState
-    extends State<_TableOfContentsBottomSheet> with TickerProviderStateMixin {
+    extends State<_TableOfContentsBottomSheet>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BottomSheet(
@@ -60,36 +67,38 @@ class __TableOfContentsBottomSheetState
       enableDrag: true,
       onClosing: () {},
       animationController: BottomSheet.createAnimationController(this),
-      builder: (context) => Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0)
-                      .add(const EdgeInsets.only(left: 20)),
-                  child: Text(
-                    'Inhaltsverzeichnis',
-                    style: Theme.of(context).textTheme.titleLarge,
+      builder:
+          (context) => Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                      ).add(const EdgeInsets.only(left: 20)),
+                      child: Text(
+                        'Inhaltsverzeichnis',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      icon: Icon(Icons.close, color: Colors.grey[600]),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                ],
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  icon: Icon(Icons.close, color: Colors.grey[600]),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ),
+              const Divider(thickness: 2, height: 0),
+              Expanded(child: _TocSectionHeadingList()),
             ],
           ),
-          const Divider(thickness: 2, height: 0),
-          Expanded(child: _TocSectionHeadingList())
-        ],
-      ),
     );
   }
 }
@@ -101,8 +110,9 @@ class _TocSectionHeadingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tocController = context.watch<TableOfContentsController>();
-    int indexHighlighted = tocController.documentSections!
-        .indexWhere((section) => section.shouldHighlight);
+    int indexHighlighted = tocController.documentSections!.indexWhere(
+      (section) => section.shouldHighlight,
+    );
 
     // This list bounces when opening the bottom sheet and viewing the list
     // if the user is reading one of the last chapters (so
@@ -110,27 +120,21 @@ class _TocSectionHeadingList extends StatelessWidget {
     // It seems like this has to be fixed inside ScrollablePositionedList.
     // See: https://github.com/google/flutter.widgets/issues/276
     return ScrollablePositionedList.separated(
-      separatorBuilder: (context, index) =>
-          const Divider(height: 1, thickness: 1),
+      separatorBuilder:
+          (context, index) => const Divider(height: 1, thickness: 1),
       initialScrollIndex: indexHighlighted == -1 ? 0 : indexHighlighted,
       itemScrollController: itemScrollController,
       itemCount: tocController.documentSections!.length,
       itemBuilder: (context, index) {
         final section = tocController.documentSections![index];
-        return _TocHeading(
-          key: ValueKey(section.id),
-          section: section,
-        );
+        return _TocHeading(key: ValueKey(section.id), section: section);
       },
     );
   }
 }
 
 class _TocHeading extends StatefulWidget {
-  const _TocHeading({
-    super.key,
-    required this.section,
-  });
+  const _TocHeading({super.key, required this.section});
 
   final TocDocumentSectionView section;
 
@@ -172,13 +176,15 @@ class _TocHeadingState extends State<_TocHeading>
   void initState() {
     isExpanded = widget.section.isExpanded;
     _controller = AnimationController(
-        vsync: this,
-        duration: expansionDuration,
-        reverseDuration: collapseDuration,
-        value: isExpanded ? 1 : 0);
+      vsync: this,
+      duration: expansionDuration,
+      reverseDuration: collapseDuration,
+      value: isExpanded ? 1 : 0,
+    );
 
     expansionArrowTurns = _controller.drive(
-        Tween(begin: 0.0, end: 0.5).chain(CurveTween(curve: Curves.easeIn)));
+      Tween(begin: 0.0, end: 0.5).chain(CurveTween(curve: Curves.easeIn)),
+    );
 
     _heightFactor = _controller.view;
     super.initState();
@@ -192,8 +198,10 @@ class _TocHeadingState extends State<_TocHeading>
 
   @override
   Widget build(BuildContext context) {
-    final tocController =
-        Provider.of<TableOfContentsController>(context, listen: false);
+    final tocController = Provider.of<TableOfContentsController>(
+      context,
+      listen: false,
+    );
     final showExpansionArrow = widget.section.isExpandable;
     final visualDensity = context.ppVisualDensity;
 
@@ -209,17 +217,20 @@ class _TocHeadingState extends State<_TocHeading>
             Navigator.pop(context);
           },
           shouldHighlight: widget.section.shouldHighlight,
-          backgroundColor: Theme.of(context).isDarkTheme
-              ? Theme.of(context).canvasColor
-              : Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor:
+              Theme.of(context).isDarkTheme
+                  ? Theme.of(context).canvasColor
+                  : Theme.of(context).scaffoldBackgroundColor,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: (22 + visualDensity.vertical * 3)
-                  .clamp(0, double.infinity)
-                  .toDouble(),
-              horizontal: (25 + visualDensity.horizontal)
-                  .clamp(0, double.infinity)
-                  .toDouble(),
+              vertical:
+                  (22 + visualDensity.vertical * 3)
+                      .clamp(0, double.infinity)
+                      .toDouble(),
+              horizontal:
+                  (25 + visualDensity.horizontal)
+                      .clamp(0, double.infinity)
+                      .toDouble(),
             ),
             child: Row(
               children: [
@@ -227,10 +238,11 @@ class _TocHeadingState extends State<_TocHeading>
                   child: Text(
                     widget.section.sectionHeadingText,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontWeight: widget.section.shouldHighlight
+                      fontWeight:
+                          widget.section.shouldHighlight
                               ? FontWeight.w500
                               : FontWeight.normal,
-                        ),
+                    ),
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -241,12 +253,13 @@ class _TocHeadingState extends State<_TocHeading>
                       key: const ValueKey('toc-section-expansion-arrow-E2E'),
                       expansionArrowTurns: expansionArrowTurns,
                       onPressed: () {
-                        Provider.of<TableOfContentsController>(context,
-                                listen: false)
-                            .toggleDocumentSectionExpansion(widget.section.id);
+                        Provider.of<TableOfContentsController>(
+                          context,
+                          listen: false,
+                        ).toggleDocumentSectionExpansion(widget.section.id);
                       },
                     ),
-                  )
+                  ),
               ],
             ),
           ),
@@ -254,25 +267,26 @@ class _TocHeadingState extends State<_TocHeading>
         if (widget.section.isExpandable)
           AnimatedBuilder(
             animation: _heightFactor,
-            builder: (context, child) => Visibility(
-              // If the subsections are not visible we don't need to draw them.
-              visible: _heightFactor.value != 0,
-              child: ClipRRect(
-                child: Align(
-                  alignment: Alignment.center,
-                  heightFactor: _heightFactor.value,
-                  child: child,
+            builder:
+                (context, child) => Visibility(
+                  // If the subsections are not visible we don't need to draw them.
+                  visible: _heightFactor.value != 0,
+                  child: ClipRRect(
+                    child: Align(
+                      alignment: Alignment.center,
+                      heightFactor: _heightFactor.value,
+                      child: child,
+                    ),
+                  ),
                 ),
-              ),
-            ),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                // CrossAxisAlignment.start causes single line text to not be
-                // aligned with multiline text. Single line text would have too
-                // much space on the left.
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children:
-                    _buildSubheadings(context, widget.section.subsections)),
+              mainAxisAlignment: MainAxisAlignment.start,
+              // CrossAxisAlignment.start causes single line text to not be
+              // aligned with multiline text. Single line text would have too
+              // much space on the left.
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: _buildSubheadings(context, widget.section.subsections),
+            ),
           ),
       ],
     );
@@ -280,10 +294,14 @@ class _TocHeadingState extends State<_TocHeading>
 }
 
 List<Widget> _buildSubheadings(
-    BuildContext context, IList<TocDocumentSectionView> subheadings) {
+  BuildContext context,
+  IList<TocDocumentSectionView> subheadings,
+) {
   final visualDensity = context.ppVisualDensity;
-  final tocController =
-      Provider.of<TableOfContentsController>(context, listen: false);
+  final tocController = Provider.of<TableOfContentsController>(
+    context,
+    listen: false,
+  );
 
   final widgets = <Widget>[];
 
@@ -294,51 +312,51 @@ List<Widget> _buildSubheadings(
       // We don't want to use Divider.height to provider the space instead of
       // this as Divider.height would make the last Subsection assymetric as
       // there is no header below.
-      widgets.add(ColoredBox(
-        color: subheadings.first.shouldHighlight
-            ? Colors.black.withOpacity(.3)
-            : Colors.transparent,
-        child: const SizedBox(height: .5),
-      ));
+      widgets.add(
+        ColoredBox(
+          color:
+              subheadings.first.shouldHighlight
+                  ? Colors.black.withValues(alpha: .3)
+                  : Colors.transparent,
+          child: const SizedBox(height: .5),
+        ),
+      );
     }
 
     widgets.add(const Divider(height: 0, thickness: .5));
 
-    widgets.add(TocSectionHighlight(
-      backgroundColor: Theme.of(context).isDarkTheme
-          ? const Color(0xff121212)
-          : Theme.of(context).scaffoldBackgroundColor,
-      shape: const ContinuousRectangleBorder(),
-      shouldHighlight: subheading.shouldHighlight,
-      onTap: () async {
-        await tocController.scrollTo(subheading.id);
-        if (!context.mounted) return;
-        Navigator.pop(context);
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 19.0,
-        ).add(
-          EdgeInsets.symmetric(
-            vertical: visualDensity
-                .effectiveConstraints(const BoxConstraints(maxHeight: 20))
-                .constrainHeight(6 + visualDensity.vertical * 2),
+    widgets.add(
+      TocSectionHighlight(
+        backgroundColor:
+            Theme.of(context).isDarkTheme
+                ? const Color(0xff121212)
+                : Theme.of(context).scaffoldBackgroundColor,
+        shape: const ContinuousRectangleBorder(),
+        shouldHighlight: subheading.shouldHighlight,
+        onTap: () async {
+          await tocController.scrollTo(subheading.id);
+          if (!context.mounted) return;
+          Navigator.pop(context);
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 19.0).add(
+            EdgeInsets.symmetric(
+              vertical: visualDensity
+                  .effectiveConstraints(const BoxConstraints(maxHeight: 20))
+                  .constrainHeight(6 + visualDensity.vertical * 2),
+            ),
           ),
-        ),
-        child: _Subheading(
-          subsection: subheading,
+          child: _Subheading(subsection: subheading),
         ),
       ),
-    ));
+    );
   }
 
   return widgets;
 }
 
 class _Subheading extends StatelessWidget {
-  const _Subheading({
-    required this.subsection,
-  });
+  const _Subheading({required this.subsection});
 
   final TocDocumentSectionView subsection;
 
@@ -355,22 +373,25 @@ class _Subheading extends StatelessWidget {
         Flexible(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: (16 + visualDensity.vertical * 3)
-                  .clamp(0, double.infinity)
-                  .toDouble(),
-              horizontal: (10 + visualDensity.horizontal)
-                  .clamp(0, double.infinity)
-                  .toDouble(),
+              vertical:
+                  (16 + visualDensity.vertical * 3)
+                      .clamp(0, double.infinity)
+                      .toDouble(),
+              horizontal:
+                  (10 + visualDensity.horizontal)
+                      .clamp(0, double.infinity)
+                      .toDouble(),
             ),
             child: Text(
               subsection.sectionHeadingText,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize:
-                        Theme.of(context).textTheme.bodyMedium!.fontSize! - .5,
-                    fontWeight: subsection.shouldHighlight
+                fontSize:
+                    Theme.of(context).textTheme.bodyMedium!.fontSize! - .5,
+                fontWeight:
+                    subsection.shouldHighlight
                         ? FontWeight.w400
                         : FontWeight.normal,
-                  ),
+              ),
               textAlign: TextAlign.start,
             ),
           ),

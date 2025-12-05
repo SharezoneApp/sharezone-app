@@ -11,8 +11,9 @@ description: A new Flutter package project.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ^3.7.0
 
 dependencies:
   common_domain_models:
@@ -23,7 +24,7 @@ dependencies:
     path: ../sharezone_common
   user:
     path: ../user
-  cloud_firestore: ^4.17.2
+  cloud_firestore: ^6.0.2
   flutter:
     sdk: flutter
 

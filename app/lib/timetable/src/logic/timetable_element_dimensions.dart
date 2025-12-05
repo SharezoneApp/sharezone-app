@@ -16,8 +16,12 @@ class TimetableElementDimensions {
   final double hourHeight, totalWidth;
   final Time timetableBegin;
 
-  const TimetableElementDimensions(this.timetableElement, this.hourHeight,
-      this.totalWidth, this.timetableBegin);
+  const TimetableElementDimensions(
+    this.timetableElement,
+    this.hourHeight,
+    this.totalWidth,
+    this.timetableBegin,
+  );
 
   double get height {
     final diffHours = timetableElement.end.hour - timetableElement.start.hour;

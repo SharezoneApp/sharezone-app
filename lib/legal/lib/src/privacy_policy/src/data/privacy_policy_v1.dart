@@ -20,25 +20,34 @@ final v1PrivacyPolicy = PrivacyPolicy(
 final v1TocDocumentSections = [
   _section('1-einfuehrung', '1. Einführung'),
   _section('2-kontaktinformationen', '2. Kontaktinformationen'),
-  _section('3-wichtige-begriffe-die-du-kennen-solltest',
-      '3. Wichtige Begriffe, die du kennen solltest'),
-  _section('4-welche-informationen-erfassen-wir-grundsaetzlich',
-      '4. Welche Informationen erfassen wir grundsätzlich?'),
-  _section('5-an-wen-geben-wir-deine-daten-weiter',
-      '5. An wen geben wir deine Daten weiter?'),
-  _section('6-wie-lange-speichern-wir-deine-daten',
-      '6. Wie lange speichern wir deine Daten?'),
+  _section(
+    '3-wichtige-begriffe-die-du-kennen-solltest',
+    '3. Wichtige Begriffe, die du kennen solltest',
+  ),
+  _section(
+    '4-welche-informationen-erfassen-wir-grundsaetzlich',
+    '4. Welche Informationen erfassen wir grundsätzlich?',
+  ),
+  _section(
+    '5-an-wen-geben-wir-deine-daten-weiter',
+    '5. An wen geben wir deine Daten weiter?',
+  ),
+  _section(
+    '6-wie-lange-speichern-wir-deine-daten',
+    '6. Wie lange speichern wir deine Daten?',
+  ),
   _section('7-welche-rechte-hast-du', '7. Welche Rechte hast du?'),
   _section(
-      'glueckwunsch-du-hast-es-geschafft', 'Glückwunsch, du hast es geschafft'),
+    'glueckwunsch-du-hast-es-geschafft',
+    'Glückwunsch, du hast es geschafft',
+  ),
 ];
 
 DocumentSection _section(
   String id,
   String name, [
   List<DocumentSection> subsections = const [],
-]) =>
-    DocumentSection(DocumentSectionId(id), name, subsections.toIList());
+]) => DocumentSection(DocumentSectionId(id), name, subsections.toIList());
 
 const v1TableOfContentStrings = [
   '1. Einführung',
@@ -48,7 +57,7 @@ const v1TableOfContentStrings = [
   '5. An wen geben wir deine Daten weiter?',
   '6. Wie lange speichern wir deine Daten?',
   '7. Welche Rechte hast du?',
-  'Glückwunsch, du hast es geschafft'
+  'Glückwunsch, du hast es geschafft',
 ];
 
 const v1MarkdownPrivacyPolicy = """

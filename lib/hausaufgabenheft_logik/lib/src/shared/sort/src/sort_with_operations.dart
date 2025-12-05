@@ -32,7 +32,9 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 /// h5 - Mathematik: “Buch S. 33” (01.01.19)
 /// h7 - Mathematik: “Buch S. 37” (06.10.20)
 IList<T> sortWithOperations<T>(
-    IList<T> listToSort, IList<Comparision<T>> comparisions) {
+  IList<T> listToSort,
+  IList<Comparision<T>> comparisions,
+) {
   final last = comparisions.last;
   return listToSort.sort((ha1, ha2) {
     for (final comparision in comparisions) {

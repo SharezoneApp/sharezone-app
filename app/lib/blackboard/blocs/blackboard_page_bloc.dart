@@ -25,8 +25,11 @@ class BlackboardPageBloc extends BlocBase {
     required String uid,
   }) {
     _subscription = gateway.blackboardItemStream.listen((items) {
-      final view =
-          _mapBlackboardItemsIntoBlackboardView(items, courseGateway, uid);
+      final view = _mapBlackboardItemsIntoBlackboardView(
+        items,
+        courseGateway,
+        uid,
+      );
       _viewsSubject.sink.add(view);
     });
   }
@@ -34,11 +37,15 @@ class BlackboardPageBloc extends BlocBase {
   Stream<List<BlackboardView>> get views => _viewsSubject;
 
   List<BlackboardView> _mapBlackboardItemsIntoBlackboardView(
-      List<BlackboardItem> items, CourseGateway courseGateway, String uid) {
+    List<BlackboardItem> items,
+    CourseGateway courseGateway,
+    String uid,
+  ) {
     _sortItemsByDate(items);
     return items
-        .map((item) =>
-            BlackboardView.fromBlackboardItem(item, uid, courseGateway))
+        .map(
+          (item) => BlackboardView.fromBlackboardItem(item, uid, courseGateway),
+        )
         .toList();
   }
 

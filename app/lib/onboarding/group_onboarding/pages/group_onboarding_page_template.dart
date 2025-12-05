@@ -40,7 +40,9 @@ class GroupOnboardingPageTemplate extends StatelessWidget {
           child: Stack(
             children: [
               Align(
-                  alignment: Alignment.topCenter, child: top ?? _SkipButton()),
+                alignment: Alignment.topCenter,
+                child: top ?? _SkipButton(),
+              ),
               Padding(
                 padding: EdgeInsets.only(top: topPadding),
                 child: Center(
@@ -49,22 +51,23 @@ class GroupOnboardingPageTemplate extends StatelessWidget {
                     child: AnimationLimiter(
                       child: Column(
                         children: AnimationConfiguration.toStaggeredList(
-                          childAnimationBuilder: (widget) => SlideAnimation(
-                            verticalOffset: 25,
-                            child: FadeInAnimation(child: widget),
-                          ),
+                          childAnimationBuilder:
+                              (widget) => SlideAnimation(
+                                verticalOffset: 25,
+                                child: FadeInAnimation(child: widget),
+                              ),
                           children: [
                             if (isNotEmptyOrNull(title))
                               GroupOnboardingTitle(title!),
                             const SizedBox(height: 12),
-                            ...children
+                            ...children,
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

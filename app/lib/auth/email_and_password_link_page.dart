@@ -36,16 +36,15 @@ Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
 }
 
 TextStyle _hintTextStyle(BuildContext context) => TextStyle(
-    color: Theme.of(context).isDarkTheme
-        ? Colors.grey
-        : Colors.grey[600]!.withOpacity(0.75),
-    fontSize: 11.5);
+  color:
+      Theme.of(context).isDarkTheme
+          ? Colors.grey
+          : Colors.grey[600]!.withValues(alpha: 0.75),
+  fontSize: 11.5,
+);
 
 class EmailAndPasswordLinkPage extends StatefulWidget {
-  const EmailAndPasswordLinkPage({
-    super.key,
-    required this.user,
-  });
+  const EmailAndPasswordLinkPage({super.key, required this.user});
 
   static const tag = "email-and-password-link-page";
   final AppUser user;
@@ -103,9 +102,10 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
                             children: <Widget>[
                               NameField(
                                 focusNode: nameFocusNode,
-                                onEditingComplete: () => FocusManager
-                                    .instance.primaryFocus
-                                    ?.unfocus(),
+                                onEditingComplete:
+                                    () =>
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus(),
                                 initialName: widget.user.name,
                                 nameStream: bloc.name,
                                 onChanged: bloc.changeName,
@@ -117,7 +117,8 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
                               ),
                               const SizedBox(height: 16),
                               _PasswordField(
-                                  passwordFocusNode: passwordFocusNode),
+                                passwordFocusNode: passwordFocusNode,
+                              ),
                             ],
                           ),
                         ),
@@ -138,9 +139,7 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
 }
 
 class _PasswordField extends StatelessWidget {
-  const _PasswordField({
-    required this.passwordFocusNode,
-  });
+  const _PasswordField({required this.passwordFocusNode});
 
   final FocusNode passwordFocusNode;
 
@@ -167,11 +166,16 @@ class BackIcon extends StatelessWidget {
       left: 5,
       child: SafeArea(
         child: IconButton(
-          color: Theme.of(context).isDarkTheme
-              ? Colors.grey
-              : darkBlueColor.withOpacity(0.4),
-          icon: Icon(themeIconData(Icons.arrow_back,
-              cupertinoIcon: Icons.arrow_back_ios)),
+          color:
+              Theme.of(context).isDarkTheme
+                  ? Colors.grey
+                  : darkBlueColor.withValues(alpha: 0.4),
+          icon: Icon(
+            themeIconData(
+              Icons.arrow_back,
+              cupertinoIcon: Icons.arrow_back_ios,
+            ),
+          ),
           tooltip: 'Zurück',
           onPressed: () => Navigator.pop(context),
         ),
@@ -248,10 +252,7 @@ class NameField extends StatelessWidget {
 }
 
 class _EmailField extends StatelessWidget {
-  const _EmailField({
-    required this.focusNode,
-    required this.nextFocusNode,
-  });
+  const _EmailField({required this.focusNode, required this.nextFocusNode});
 
   final FocusNode focusNode;
   final FocusNode nextFocusNode;
@@ -272,8 +273,9 @@ class _EmailField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 38),
           child: Text(
-              "Die E-Mail ist für niemanden sichtbar und dient nur zur Anmeldung.",
-              style: _hintTextStyle(context)),
+            "Die E-Mail ist für niemanden sichtbar und dient nur zur Anmeldung.",
+            style: _hintTextStyle(context),
+          ),
         ),
       ],
     );

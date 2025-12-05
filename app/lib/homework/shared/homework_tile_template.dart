@@ -45,10 +45,7 @@ class HomeworkTileTemplate extends StatelessWidget {
         child: ListTile(
           minVerticalPadding: 4,
           dense: true,
-          title: _Title(
-            title: title,
-            isCompleted: isCompleted,
-          ),
+          title: _Title(title: title, isCompleted: isCompleted),
           subtitle: _Subtitle(
             courseName: courseName,
             todoDate: todoDate,
@@ -56,7 +53,7 @@ class HomeworkTileTemplate extends StatelessWidget {
             isCompleted: isCompleted,
           ),
           leading: CircleAvatar(
-            backgroundColor: courseColor.withOpacity(0.2),
+            backgroundColor: courseColor.withValues(alpha: 0.2),
             child: _StrikeThrough(
               isStrikeThrough: isCompleted,
               delay: const Duration(milliseconds: 50),
@@ -96,10 +93,7 @@ class _Subtitle extends StatelessWidget {
         _StrikeThrough(
           isStrikeThrough: isCompleted,
           delay: const Duration(milliseconds: 100),
-          child: Text(
-            courseName,
-            style: TextStyle(color: Colors.grey[600]),
-          ),
+          child: Text(courseName, style: TextStyle(color: Colors.grey[600])),
         ),
         const SizedBox(height: 4),
         _StrikeThrough(
@@ -113,10 +107,7 @@ class _Subtitle extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  const _Title({
-    required this.title,
-    required this.isCompleted,
-  });
+  const _Title({required this.title, required this.isCompleted});
 
   final String title;
   final bool isCompleted;
@@ -177,8 +168,8 @@ class _StrikeThroughState extends State<_StrikeThrough>
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.ease),
     )..addListener(() {
-        setState(() {});
-      });
+      setState(() {});
+    });
   }
 
   @override
@@ -218,18 +209,19 @@ class _StrikeThroughPainter extends CustomPainter {
   final double progress;
   final Color color;
 
-  _StrikeThroughPainter({
-    required this.progress,
-    required this.color,
-  });
+  _StrikeThroughPainter({required this.progress, required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 2;
-    canvas.drawLine(Offset(0, size.height / 2),
-        Offset(size.width * progress, size.height / 2), paint);
+    final paint =
+        Paint()
+          ..color = color
+          ..strokeWidth = 2;
+    canvas.drawLine(
+      Offset(0, size.height / 2),
+      Offset(size.width * progress, size.height / 2),
+      paint,
+    );
   }
 
   @override

@@ -13,8 +13,8 @@ class _GradesServiceInternal {
   final GradesStateRepository _repository;
 
   _GradesServiceInternal({GradesStateRepository? repository})
-      : _repository = repository ?? InMemoryGradesStateRepository(),
-        terms = rx.BehaviorSubject.seeded(const IListConst([])) {
+    : _repository = repository ?? InMemoryGradesStateRepository(),
+      terms = rx.BehaviorSubject.seeded(const IListConst([])) {
     _repository.state.listen((state) {
       _updateView();
     });
@@ -60,43 +60,49 @@ class _GradesServiceInternal {
       isActiveTerm: term.isActiveTerm,
       finalGradeType: _getGradeType(term.finalGradeType),
       gradingSystem: term.gradingSystem.toGradingSystem(),
-      calculatedGrade: term.tryGetTermGrade() != null
-          ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
-          : null,
-      gradeTypeWeightings: term.gradeTypeWeightings,
+      calculatedGrade:
+          term.tryGetTermGrade() != null
+              ? term.gradingSystem.toGradeResult(term.tryGetTermGrade()!)
+              : null,
+      gradeTypeWeights: term.gradeTypeWeights,
       weightDisplayType: term.weightDisplayType,
-      subjects: term.subjects
-          .map(
-            (subject) => SubjectResult(
-              id: subject.id,
-              name: subject.name,
-              design: subject.design,
-              abbreviation: subject.abbreviation,
-              connectedCourses: subject.connectedCourses,
-              calculatedGrade: subject.gradeVal != null
-                  ? subject.gradingSystem.toGradeResult(subject.gradeVal!)
-                  : null,
-              weightType: subject.weightType,
-              gradeTypeWeights: subject.gradeTypeWeightings,
-              finalGradeTypeId: subject.finalGradeType,
-              weightingForTermGrade: subject.weightingForTermGrade,
-              grades: subject.grades
-                  .map(
-                    (grade) => GradeResult(
-                      id: grade.id,
-                      date: grade.date,
-                      isTakenIntoAccount: grade.takenIntoAccount,
-                      value: grade.value,
-                      title: grade.title,
-                      gradeTypeId: grade.gradeType,
-                      details: grade.details,
-                      originalInput: grade.originalInput,
-                    ),
-                  )
-                  .toIList(),
-            ),
-          )
-          .toIList(),
+      subjects:
+          term.subjects
+              .map(
+                (subject) => SubjectResult(
+                  id: subject.id,
+                  name: subject.name,
+                  design: subject.design,
+                  abbreviation: subject.abbreviation,
+                  connectedCourses: subject.connectedCourses,
+                  calculatedGrade:
+                      subject.gradeVal != null
+                          ? subject.gradingSystem.toGradeResult(
+                            subject.gradeVal!,
+                          )
+                          : null,
+                  weightType: subject.weightType,
+                  gradeTypeWeights: subject.gradeTypeWeights,
+                  finalGradeTypeId: subject.finalGradeType,
+                  weightingForTermGrade: subject.weightingForTermGrade,
+                  grades:
+                      subject.grades
+                          .map(
+                            (grade) => GradeResult(
+                              id: grade.id,
+                              date: grade.date,
+                              isTakenIntoAccount: grade.takenIntoAccount,
+                              value: grade.value,
+                              title: grade.title,
+                              gradeTypeId: grade.gradeType,
+                              details: grade.details,
+                              originalInput: grade.originalInput,
+                            ),
+                          )
+                          .toIList(),
+                ),
+              )
+              .toIList(),
     );
   }
 
@@ -105,6 +111,7 @@ class _GradesServiceInternal {
     required GradeTypeId finalGradeType,
     required GradingSystem gradingSystem,
     required bool isActiveTerm,
+    IMap<GradeTypeId, Weight> gradeTypeWeights = const IMapConst({}),
     @visibleForTesting TermId? id,
   }) {
     final termId = id ?? TermId(Id.generate().value);
@@ -125,6 +132,9 @@ class _GradesServiceInternal {
         name: name,
         finalGradeType: finalGradeType,
         gradingSystem: gradingSystem.toGradingSystemModel(),
+        gradeTypeWeights: gradeTypeWeights.map(
+          (key, value) => MapEntry(key, value.toNonNegativeWeightOrThrow()),
+        ),
       ),
     );
     _updateTerms(newTerms);
@@ -151,38 +161,53 @@ class _GradesServiceInternal {
     IList<TermModel> newTerms = _terms;
 
     if (isActiveTerm != null) {
-      newTerms = newTerms.map((term) {
-        if (id == term.id) {
-          return term.setIsActiveTerm(isActiveTerm);
-        } else {
-          // If the term that is edited is set to being active, all other terms
-          // should be set to inactive.
-          // If the term that is edited is set to being inactive, nothing should
-          // happen to the other terms.
-          return term.setIsActiveTerm(isActiveTerm ? false : term.isActiveTerm);
-        }
-      }).toIList();
+      newTerms =
+          newTerms.map((term) {
+            if (id == term.id) {
+              return term.setIsActiveTerm(isActiveTerm);
+            } else {
+              // If the term that is edited is set to being active, all other terms
+              // should be set to inactive.
+              // If the term that is edited is set to being inactive, nothing should
+              // happen to the other terms.
+              return term.setIsActiveTerm(
+                isActiveTerm ? false : term.isActiveTerm,
+              );
+            }
+          }).toIList();
     }
     if (name != null) {
-      newTerms = newTerms
-          .map((term) => term.id == id ? term.setName(name) : term)
-          .toIList();
+      newTerms =
+          newTerms
+              .map((term) => term.id == id ? term.setName(name) : term)
+              .toIList();
     }
     if (finalGradeType != null) {
       if (!_hasGradeTypeWithId(finalGradeType)) {
         throw GradeTypeNotFoundException(finalGradeType);
       }
-      newTerms = newTerms
-          .map((term) =>
-              term.id == id ? term.setFinalGradeType(finalGradeType) : term)
-          .toIList();
+      newTerms =
+          newTerms
+              .map(
+                (term) =>
+                    term.id == id
+                        ? term.setFinalGradeType(finalGradeType)
+                        : term,
+              )
+              .toIList();
     }
     if (gradingSystem != null) {
-      newTerms = newTerms
-          .map((term) => term.id == id
-              ? term.setGradingSystem(gradingSystem.toGradingSystemModel())
-              : term)
-          .toIList();
+      newTerms =
+          newTerms
+              .map(
+                (term) =>
+                    term.id == id
+                        ? term.setGradingSystem(
+                          gradingSystem.toGradingSystemModel(),
+                        )
+                        : term,
+              )
+              .toIList();
     }
 
     _updateTerms(newTerms);
@@ -207,8 +232,11 @@ class _GradesServiceInternal {
 
   TermModel _term(TermId id) => _terms.singleWhere((term) => term.id == id);
 
-  void changeSubjectWeightForTermGrade(
-      {required SubjectId id, required TermId termId, required Weight weight}) {
+  void changeSubjectWeightForTermGrade({
+    required SubjectId id,
+    required TermId termId,
+    required Weight weight,
+  }) {
     final subject = _getSubjectOrThrow(id);
 
     var newTerm = _term(termId);
@@ -220,10 +248,11 @@ class _GradesServiceInternal {
     _updateTerm(newTerm);
   }
 
-  void changeSubjectWeightTypeSettings(
-      {required SubjectId id,
-      required TermId termId,
-      required WeightType perGradeType}) {
+  void changeSubjectWeightTypeSettings({
+    required SubjectId id,
+    required TermId termId,
+    required WeightType perGradeType,
+  }) {
     final newTerm = _term(termId).changeWeightTypeForSubject(id, perGradeType);
     _updateTerm(newTerm);
   }
@@ -235,7 +264,10 @@ class _GradesServiceInternal {
     required Weight weight,
   }) {
     final newTerm = _term(termId).changeWeightingOfGradeTypeInSubject(
-        id, gradeType, weight.toNonNegativeWeightOrThrow());
+      id,
+      gradeType,
+      weight.toNonNegativeWeightOrThrow(),
+    );
     _updateTerm(newTerm);
   }
 
@@ -244,8 +276,9 @@ class _GradesServiceInternal {
     required TermId termId,
     required GradeTypeId gradeType,
   }) {
-    final newTerm =
-        _term(termId).removeWeightingOfGradeTypeInSubject(id, gradeType);
+    final newTerm = _term(
+      termId,
+    ).removeWeightingOfGradeTypeInSubject(id, gradeType);
     _updateTerm(newTerm);
   }
 
@@ -322,28 +355,34 @@ class _GradesServiceInternal {
     required TermId termId,
     required Weight weight,
   }) {
-    final subject = _term(termId)
-        .subjects
-        .where((element) => element.grades.any((grade) => grade.id == id))
-        .first;
-    final newTerm = _term(termId).changeWeightOfGrade(
-        id, subject.id, weight.toNonNegativeWeightOrThrow());
+    final subject =
+        _term(termId).subjects
+            .where((element) => element.grades.any((grade) => grade.id == id))
+            .first;
+    final newTerm = _term(
+      termId,
+    ).changeWeightOfGrade(id, subject.id, weight.toNonNegativeWeightOrThrow());
 
     _updateTerm(newTerm);
   }
 
-  void changeWeightDisplayTypeForTerm(
-      {required TermId termId, required WeightDisplayType weightDisplayType}) {
+  void changeWeightDisplayTypeForTerm({
+    required TermId termId,
+    required WeightDisplayType weightDisplayType,
+  }) {
     final newTerm = _term(termId).changeWeightDisplayType(weightDisplayType);
     _updateTerm(newTerm);
   }
 
-  void changeGradeTypeWeightForTerm(
-      {required TermId termId,
-      required GradeTypeId gradeType,
-      required Weight weight}) {
-    final newTerm = _term(termId).changeWeightingOfGradeType(gradeType,
-        weight: weight.toNonNegativeWeightOrThrow());
+  void changeGradeTypeWeightForTerm({
+    required TermId termId,
+    required GradeTypeId gradeType,
+    required Weight weight,
+  }) {
+    final newTerm = _term(termId).changeWeightingOfGradeType(
+      gradeType,
+      weight: weight.toNonNegativeWeightOrThrow(),
+    );
     _updateTerm(newTerm);
   }
 
@@ -402,8 +441,9 @@ class _GradesServiceInternal {
       return gradeTypeId;
     }
 
-    final newState =
-        _state.copyWith(customGradeTypes: _customGradeTypes.add(gradeType));
+    final newState = _state.copyWith(
+      customGradeTypes: _customGradeTypes.add(gradeType),
+    );
     _updateState(newState);
 
     return gradeTypeId;
@@ -418,14 +458,17 @@ class _GradesServiceInternal {
   ///
   /// Throws [ArgumentError] if the grade type with the given [id] is a
   /// predefined grade type.
-  void editCustomGradeType(
-      {required GradeTypeId id, required String displayName}) {
+  void editCustomGradeType({
+    required GradeTypeId id,
+    required String displayName,
+  }) {
     if (displayName.isEmpty) {
       throw ArgumentError('The display name must not be empty.');
     }
 
-    final isPredefinedGradeType =
-        GradeType.predefinedGradeTypes.map((gt) => gt.id).contains(id);
+    final isPredefinedGradeType = GradeType.predefinedGradeTypes
+        .map((gt) => gt.id)
+        .contains(id);
     if (isPredefinedGradeType) {
       throw ArgumentError('Cannot edit a predefined grade type.');
     }
@@ -434,8 +477,9 @@ class _GradesServiceInternal {
     }
 
     final newCustomGradeTypes = _customGradeTypes.replaceAllWhere(
-        (element) => element.id == id,
-        GradeType(id: id, displayName: displayName));
+      (element) => element.id == id,
+      GradeType(id: id, displayName: displayName),
+    );
 
     final newState = _state.copyWith(customGradeTypes: newCustomGradeTypes);
     _updateState(newState);
@@ -460,9 +504,11 @@ class _GradesServiceInternal {
       throw GradeTypeNotFoundException(id);
     }
 
-    final anyGradeHasGradeTypeAssigned = _terms.any((term) => term.subjects
-        .expand((subj) => subj.grades)
-        .any((grade) => grade.gradeType == id));
+    final anyGradeHasGradeTypeAssigned = _terms.any(
+      (term) => term.subjects
+          .expand((subj) => subj.grades)
+          .any((grade) => grade.gradeType == id),
+    );
     if (anyGradeHasGradeTypeAssigned) {
       throw GradeTypeStillAssignedException(id);
     }
@@ -471,19 +517,22 @@ class _GradesServiceInternal {
       throw GradeTypeStillAssignedException(id);
     }
 
-    final newTerms = _terms.map((term) {
-      var newTerm = term.removeWeightingOfGradeType(id);
-      for (var subject in newTerm.subjects) {
-        subject = subject.removeGradeTypeWeight(id);
-        newTerm = newTerm.replaceSubject(subject);
-      }
-      return newTerm;
-    }).toIList();
+    final newTerms =
+        _terms.map((term) {
+          var newTerm = term.removeWeightingOfGradeType(id);
+          for (var subject in newTerm.subjects) {
+            subject = subject.removeGradeTypeWeight(id);
+            newTerm = newTerm.replaceSubject(subject);
+          }
+          return newTerm;
+        }).toIList();
 
     final newCustomGrades = _customGradeTypes.removeWhere((gt) => gt.id == id);
 
-    final newState =
-        _state.copyWith(terms: newTerms, customGradeTypes: newCustomGrades);
+    final newState = _state.copyWith(
+      terms: newTerms,
+      customGradeTypes: newCustomGrades,
+    );
     _updateState(newState);
   }
 
@@ -491,14 +540,17 @@ class _GradesServiceInternal {
     return getPossibleGradeTypes().firstWhere((gt) => gt.id == finalGradeType);
   }
 
-  SubjectId addSubject(SubjectInput subjectInput,
-      {@visibleForTesting SubjectId? id}) {
+  SubjectId addSubject(
+    SubjectInput subjectInput, {
+    @visibleForTesting SubjectId? id,
+  }) {
     final subjectId = id ?? SubjectId(Id.generate().value);
     final subject = subjectInput.toSubject(subjectId);
 
     if (subject.createdOn != null) {
       throw ArgumentError(
-          'The createdOn field should not be set when adding a new subject.');
+        'The createdOn field should not be set when adding a new subject.',
+      );
     }
     if (getSubjects().any((s) => s.id == subjectId)) {
       throw SubjectAlreadyExistsException(subjectId);

@@ -30,16 +30,13 @@ Future<ProcessRunnerResult> runSourceOfTruthCommand(
   final arguments = _convertIntoArgumentsList(command)
     ..addAll(argumentsToAppend);
 
-  return processRunner.run(
-    arguments,
-    workingDirectory: repo.location,
-  );
+  return processRunner.run(arguments, workingDirectory: repo.location);
 }
 
-/// Converts command line arguments into a List<String>.
+/// Converts command line arguments into a `List<String>`.
 ///
 /// The methods to run commands via [Process] expect a single "command string"
-/// (e.g. `addlicense`) and a List<String> for arguments (example below).
+/// (e.g. `addlicense`) and a `List<String>` for arguments (example below).
 ///
 /// If we read a command String from somewhere else we will need to split this
 /// string into its arguments via this method.

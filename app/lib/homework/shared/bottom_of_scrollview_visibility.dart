@@ -86,8 +86,9 @@ class _BottomOfScrollViewInvisibilityState
 /// To see how it is used in conjunction with [BottomOfScrollViewInvisibility]
 /// see the documentation of [BottomOfScrollViewInvisibility].
 class BottomOfScrollViewInvisibilityController extends ChangeNotifier {
-  BottomOfScrollViewInvisibilityController(
-      {this.heightOfBottomZoneInPixel = 20});
+  BottomOfScrollViewInvisibilityController({
+    this.heightOfBottomZoneInPixel = 20,
+  });
 
   /// The size of the bottom zone of the [ScrollPosition] where the FAB will be
   /// hidden.

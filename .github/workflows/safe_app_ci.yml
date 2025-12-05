@@ -60,11 +60,11 @@ jobs:
   # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
   #   (workaround for required checks with path filters)
   changes:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
@@ -93,18 +93,18 @@ jobs:
 
   analyze:
     needs: changes
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     # In draft PRs we might use TODOs temporarily.
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -130,15 +130,15 @@ jobs:
   test-without-goldens:
     needs: changes
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -166,16 +166,16 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     # Due to https://github.com/flutter/flutter/issues/111739 our golden tests
-    # require macOS arm64. Therefore, we need to use macos-14.
-    runs-on: macos-14
+    # require macOS arm64. Therefore, we need to use macos-15.
+    runs-on: macos-15
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -200,7 +200,7 @@ jobs:
       # this workflows finished.
       - name: Upload failed golden tests
         if: failure()
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: failed-golden-tests
           # When golden test fail then the results are stored in "failures"

@@ -41,20 +41,22 @@ class SharezoneMaterialApp extends StatelessWidget {
       title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
       color: primaryColor,
       darkTheme: getDarkTheme().copyWith(
-          visualDensity: themeSettings.visualDensitySetting.visualDensity),
+        visualDensity: themeSettings.visualDensitySetting.visualDensity,
+      ),
       theme: getLightTheme().copyWith(
-          visualDensity: themeSettings.visualDensitySetting.visualDensity),
+        visualDensity: themeSettings.visualDensitySetting.visualDensity,
+      ),
       themeMode: _getThemeMode(themeSettings.themeBrightness),
       localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
       supportedLocales: SharezoneLocalizations.supportedLocales,
       locale: localProvider.locale.toLocale(),
       navigatorObservers: <NavigatorObserver>[
-        AnalyticsNavigationObserver(analytics: analytics)
+        AnalyticsNavigationObserver(analytics: analytics),
       ],
       home: home,
       routes: routes,
-      onUnknownRoute: (_) =>
-          MaterialPageRoute(builder: (context) => onUnknownRouteWidget),
+      onUnknownRoute:
+          (_) => MaterialPageRoute(builder: (context) => onUnknownRouteWidget),
       navigatorKey: navigatorKey,
     );
   }

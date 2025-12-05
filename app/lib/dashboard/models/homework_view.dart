@@ -35,22 +35,29 @@ class HomeworkView {
   });
 
   static String _getTodoUntilText(
-      DateTime dateTime, bool withTodoUntilTextUrgentColor) {
+    DateTime dateTime,
+    bool withTodoUntilTextUrgentColor,
+  ) {
     if (!withTodoUntilTextUrgentColor) {
       return _convertDateTimeIntoFormattedString(dateTime);
     }
 
-    final todayDateTimeWithoutTime =
-        DateTime(clock.now().year, clock.now().month, clock.now().day);
+    final todayDateTimeWithoutTime = DateTime(
+      clock.now().year,
+      clock.now().month,
+      clock.now().day,
+    );
     if (dateTime.isBefore(todayDateTimeWithoutTime)) {
       return "Überfällig!";
     } else if (dateTime.isAtSameMomentAs(todayDateTimeWithoutTime)) {
       return "Bis heute!";
     } else if (dateTime.isAtSameMomentAs(
-        todayDateTimeWithoutTime.add(const Duration(days: 1)))) {
+      todayDateTimeWithoutTime.add(const Duration(days: 1)),
+    )) {
       return "Bis morgen!";
     } else if (dateTime.isAtSameMomentAs(
-        todayDateTimeWithoutTime.add(const Duration(days: 2)))) {
+      todayDateTimeWithoutTime.add(const Duration(days: 2)),
+    )) {
       return "Bis übermorgen!";
     } else {
       return _convertDateTimeIntoFormattedString(dateTime);
@@ -64,8 +71,11 @@ class HomeworkView {
     final defaultColor = Colors.grey[400]!;
     if (!withUrgentColor) return defaultColor;
 
-    final dayAfterTomorrow =
-        DateTime(clock.now().year, clock.now().month, clock.now().day + 2);
+    final dayAfterTomorrow = DateTime(
+      clock.now().year,
+      clock.now().month,
+      clock.now().day + 2,
+    );
     return dateTime.isBefore(dayAfterTomorrow)
         ? Colors.redAccent
         : defaultColor;
@@ -80,13 +90,19 @@ class HomeworkView {
   /// [withTodoUntilTextUrgentColor] means, if it is true, the todoUntil date for homeworks, which are urgent,
   /// will be marked with a red color. Other homeworks will be marked
   /// with a grey color.
-  HomeworkView.fromHomework(this.homework, CourseGateway courseGateway,
-      {bool withTodoUntilTextUrgentColor = true})
-      : courseName = homework.courseName,
-        courseNameColor = _getCourseColor(homework.courseID, courseGateway),
-        title = homework.title,
-        todoUntilColor = _getTodoUntilColor(
-            homework.todoUntil, withTodoUntilTextUrgentColor),
-        todoUntilText =
-            _getTodoUntilText(homework.todoUntil, withTodoUntilTextUrgentColor);
+  HomeworkView.fromHomework(
+    this.homework,
+    CourseGateway courseGateway, {
+    bool withTodoUntilTextUrgentColor = true,
+  }) : courseName = homework.courseName,
+       courseNameColor = _getCourseColor(homework.courseID, courseGateway),
+       title = homework.title,
+       todoUntilColor = _getTodoUntilColor(
+         homework.todoUntil,
+         withTodoUntilTextUrgentColor,
+       ),
+       todoUntilText = _getTodoUntilText(
+         homework.todoUntil,
+         withTodoUntilTextUrgentColor,
+       );
 }

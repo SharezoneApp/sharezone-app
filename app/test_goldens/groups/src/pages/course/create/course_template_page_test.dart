@@ -35,14 +35,18 @@ void main() {
       courseCreateBloc = MockCourseCreateBloc();
 
       final random = Random(42);
-      when(courseCreateBlocFactory.create(schoolClassId: null))
-          .thenReturn(courseCreateBloc);
-      when(courseCreateBloc.isCourseTemplateAlreadyAdded(any))
-          .thenAnswer((_) => random.nextBool());
+      when(
+        courseCreateBlocFactory.create(schoolClassId: null),
+      ).thenReturn(courseCreateBloc);
+      when(
+        courseCreateBloc.isCourseTemplateAlreadyAdded(any),
+      ).thenAnswer((_) => random.nextBool());
     });
 
     Future<void> pushCourseTemplatePage(
-        WidgetTester tester, ThemeData theme) async {
+      WidgetTester tester,
+      ThemeData theme,
+    ) async {
       await tester.pumpWidgetBuilder(
         BlocProvider<CourseCreateBlocFactory>(
           bloc: courseCreateBlocFactory,

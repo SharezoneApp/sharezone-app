@@ -205,8 +205,11 @@ class DeserializeFirestoreDocException implements Exception {
 
   StackTrace? stackTrace;
 
-  DeserializeFirestoreDocException(
-      [this.documentToDeserialize, this.message, this.stackTrace]) {
+  DeserializeFirestoreDocException([
+    this.documentToDeserialize,
+    this.message,
+    this.stackTrace,
+  ]) {
     stackTrace ??= StackTrace.current;
   }
 

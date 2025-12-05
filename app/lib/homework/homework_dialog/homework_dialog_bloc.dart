@@ -15,7 +15,6 @@ import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -128,12 +127,13 @@ sealed class HomeworkDialogState extends Equatable {
   const HomeworkDialogState({required this.isEditing});
 }
 
-typedef DueDateState = (
-  Date?, {
-  DueDateSelection? selection,
-  bool lessonChipsSelectable,
-  dynamic error
-});
+typedef DueDateState =
+    (
+      Date?, {
+      DueDateSelection? selection,
+      bool lessonChipsSelectable,
+      dynamic error,
+    });
 
 class Ready extends HomeworkDialogState {
   final (String, {dynamic error}) title;
@@ -148,17 +148,17 @@ class Ready extends HomeworkDialogState {
 
   @override
   List<Object?> get props => [
-        title,
-        course,
-        dueDate,
-        submissions,
-        description,
-        attachments,
-        notifyCourseMembers,
-        isPrivate,
-        hasModifiedData,
-        super.isEditing,
-      ];
+    title,
+    course,
+    dueDate,
+    submissions,
+    description,
+    attachments,
+    notifyCourseMembers,
+    isPrivate,
+    hasModifiedData,
+    super.isEditing,
+  ];
 
   const Ready({
     required this.title,
@@ -228,8 +228,10 @@ class FileView extends Equatable {
     required this.format,
     this.localFile,
     this.cloudFile,
-  }) : assert((localFile != null && cloudFile == null) ||
-            (localFile == null && cloudFile != null));
+  }) : assert(
+         (localFile != null && cloudFile == null) ||
+             (localFile == null && cloudFile != null),
+       );
 }
 
 sealed class SubmissionState extends Equatable {
@@ -449,8 +451,10 @@ class _DateSelection extends Equatable {
 
 class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     with
-        BlocPresentationMixin<HomeworkDialogState,
-            HomeworkDialogBlocPresentationEvent> {
+        BlocPresentationMixin<
+          HomeworkDialogState,
+          HomeworkDialogBlocPresentationEvent
+        > {
   final HomeworkDialogApi api;
   final Analytics analytics;
   final MarkdownAnalytics markdownAnalytics;
@@ -484,10 +488,12 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   void onEvent(HomeworkDialogEvent event) {
     super.onEvent(event);
     if (event is! _LoadedHomeworkData && !finishedInitializing) {
-      throw StateError('Bloc has not finished initializing yet. Events should '
-          'not be added before the initialization is finished. If you see this '
-          'error is thrown in a test, either await the first $Ready state or '
-          'use `pumpEventQueue` after creating the bloc.');
+      throw StateError(
+        'Bloc has not finished initializing yet. Events should '
+        'not be added before the initialization is finished. If you see this '
+        'error is thrown in a test, either await the first $Ready state or '
+        'use `pumpEventQueue` after creating the bloc.',
+      );
     }
   }
 
@@ -499,9 +505,11 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required this.nextSchooldayCalculator,
     Clock? clockOverride,
     HomeworkId? homeworkId,
-  }) : super(homeworkId != null
-            ? LoadingHomework(homeworkId, isEditing: true)
-            : emptyCreateHomeworkDialogState) {
+  }) : super(
+         homeworkId != null
+             ? LoadingHomework(homeworkId, isEditing: true)
+             : emptyCreateHomeworkDialogState,
+       ) {
     isEditing = homeworkId != null;
     if (isEditing) {
       _loadExistingData(homeworkId!);
@@ -511,305 +519,301 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       finishedInitializing = true;
     }
 
-    on<_LoadedHomeworkData>(
-      (event, emit) {
-        // Because currently sendNotifications can be true for existing
-        // homeworks and because we don't want to set the UI value depending on
-        // the existing value, we set the value to false here.
-        // This also helps us when comparing if the user changed the homework by
-        // using `_initialHomework != _homework` since otherwise it might be
-        // false when the user didn't change anything as the sendNotification
-        // value might be `true` in the _initialHomework.
-        _initialHomework = _initialHomework!.copyWith(sendNotification: false);
-        _homework = _initialHomework!;
-        _initialDateSelection = _DateSelection(
-          dueDate: _homework.todoUntil.toDate(),
-          submissionTime: _homework.todoUntil.toTime(),
-        );
-        _dateSelection = _DateSelection(
-          dueDate: _homework.todoUntil.toDate(),
-          submissionTime: _homework.todoUntil.toTime(),
-        );
-        _cloudFiles = _initialAttachments;
-        finishedInitializing = true;
+    on<_LoadedHomeworkData>((event, emit) {
+      // Because currently sendNotifications can be true for existing
+      // homeworks and because we don't want to set the UI value depending on
+      // the existing value, we set the value to false here.
+      // This also helps us when comparing if the user changed the homework by
+      // using `_initialHomework != _homework` since otherwise it might be
+      // false when the user didn't change anything as the sendNotification
+      // value might be `true` in the _initialHomework.
+      _initialHomework = _initialHomework!.copyWith(sendNotification: false);
+      _homework = _initialHomework!;
+      _initialDateSelection = _DateSelection(
+        dueDate: _homework.todoUntil.toDate(),
+        submissionTime: _homework.todoUntil.toTime(),
+      );
+      _dateSelection = _DateSelection(
+        dueDate: _homework.todoUntil.toDate(),
+        submissionTime: _homework.todoUntil.toTime(),
+      );
+      _cloudFiles = _initialAttachments;
+      finishedInitializing = true;
 
+      emit(_getNewState());
+    });
+    on<Save>((event, emit) async {
+      bool hasInputErrors = false;
+      if (_homework.title.isEmpty) {
+        showTitleEmptyError = true;
+        hasInputErrors = true;
+      }
+      if (_homework.courseID.isEmpty) {
+        showNoCourseChosenError = true;
+        hasInputErrors = true;
+      }
+      if (_dateSelection.dueDate == null) {
+        showNoDueDateChosenError = true;
+        hasInputErrors = true;
+      }
+      if (hasInputErrors) {
+        emitPresentation(const RequiredFieldsNotFilledOut());
         emit(_getNewState());
-      },
-    );
-    on<Save>(
-      (event, emit) async {
-        bool hasInputErrors = false;
-        if (_homework.title.isEmpty) {
-          showTitleEmptyError = true;
-          hasInputErrors = true;
-        }
-        if (_homework.courseID.isEmpty) {
-          showNoCourseChosenError = true;
-          hasInputErrors = true;
-        }
-        if (_dateSelection.dueDate == null) {
-          showNoDueDateChosenError = true;
-          hasInputErrors = true;
-        }
-        if (hasInputErrors) {
-          emitPresentation(const RequiredFieldsNotFilledOut());
-          emit(_getNewState());
-          return;
-        }
+        return;
+      }
 
-        final userInput = UserInput(
-          title: _homework.title,
-          todoUntil: DateTime(
-            _dateSelection.dueDate!.year,
-            _dateSelection.dueDate!.month,
-            _dateSelection.dueDate!.day,
-            _dateSelection.submissionTime?.hour ?? 0,
-            _dateSelection.submissionTime?.minute ?? 0,
-          ),
-          description: _homework.description,
-          withSubmission: _homework.withSubmissions,
-          localFiles: _localFiles,
-          sendNotification: _homework.sendNotification,
-          private: _homework.private,
-        );
+      final userInput = UserInput(
+        title: _homework.title,
+        todoUntil: DateTime(
+          _dateSelection.dueDate!.year,
+          _dateSelection.dueDate!.month,
+          _dateSelection.dueDate!.day,
+          _dateSelection.submissionTime?.hour ?? 0,
+          _dateSelection.submissionTime?.minute ?? 0,
+        ),
+        description: _homework.description,
+        withSubmission: _homework.withSubmissions,
+        localFiles: _localFiles,
+        sendNotification: _homework.sendNotification,
+        private: _homework.private,
+      );
 
-        if (isEditing) {
-          try {
-            // try-catch won't work for this case as we don't await the future.
-            // This might be solved with Zones (handleUncaughtError).
-            if (userInput.localFiles.isEmpty) {
-              // If user is offline Firestore will add the homework locally but
-              // won't complete the future until the server has received the
-              // homework. We remove the await so that the user can save the
-              // homework while being offline.
-              api.editHomework(HomeworkId(_homework.id), userInput,
-                  removedCloudFiles:
-                      _initialAttachments.removeAll(_cloudFiles).toList());
-            } else {
-              emitPresentation(const StartedUploadingAttachments());
-              // As we can't save a homework with attachments when we are offline,
-              // we await the future here.
-              await api.editHomework(HomeworkId(_homework.id), userInput,
-                  removedCloudFiles:
-                      _initialAttachments.removeAll(_cloudFiles).toList());
-            }
-          } catch (e, s) {
-            emitPresentation(SavingFailed(e, s));
-            return;
-          }
-
-          analytics.log(NamedAnalyticsEvent(name: 'homework_edit'));
-          if (markdownAnalytics.containsMarkdown(_homework.description) &&
-              !markdownAnalytics
-                  .containsMarkdown(_initialHomework?.description ?? '')) {
-            markdownAnalytics.logMarkdownUsedHomework();
-          }
-        } else {
-          try {
-            // try-catch won't work for this case as we don't await the future.
-            // This might be solved with Zones (handleUncaughtError).
-            if (userInput.localFiles.isEmpty) {
-              // If user is offline Firestore will add the homework locally but
-              // won't complete the future until the server has received the
-              // homework. We remove the await so that the user can save the
-              // homework while being offline.
-              api.createHomework(CourseId(_homework.courseID), userInput);
-            } else {
-              emitPresentation(const StartedUploadingAttachments());
-              // As we can't save a homework with attachments when we are offline,
-              // we await the future here.
-              await api.createHomework(CourseId(_homework.courseID), userInput);
-            }
-          } catch (e, s) {
-            emitPresentation(SavingFailed(e, s));
-            return;
-          }
-
-          analytics.log(NamedAnalyticsEvent(name: 'homework_add'));
-          if (markdownAnalytics.containsMarkdown(_homework.description)) {
-            markdownAnalytics.logMarkdownUsedHomework();
-          }
-        }
-
-        emit(SavedSuccessfully(isEditing: isEditing));
-      },
-    );
-    on<TitleChanged>(
-      (event, emit) {
-        _homework = _homework.copyWith(title: event.newTitle);
-        if (showTitleEmptyError && _homework.title.isNotEmpty) {
-          showTitleEmptyError = false;
-        }
-        emit(_getNewState());
-      },
-    );
-    on<DueDateChanged>(
-      (event, emit) async {
-        switch (event.newDueDate) {
-          case DateDueDateSelection s:
-            final nextSchoolDay =
-                await nextSchooldayCalculator.tryCalculateNextSchoolday();
-            if (s.date == nextSchoolDay) {
-              _dateSelection = _dateSelection.copyWith(
-                dueDate: s.date,
-                dueDateSelection: const NextSchooldayDueDateSelection(),
-              );
-              break;
-            }
-            _dateSelection =
-                _dateSelection.copyWith(dueDate: s.date, dueDateSelection: s);
-            break;
-          case NextSchooldayDueDateSelection s:
-            final nextSchoolDay =
-                await nextSchooldayCalculator.tryCalculateNextSchoolday();
-            _dateSelection = _dateSelection.copyWith(
-              dueDate: nextSchoolDay,
-              dueDateSelection: s,
+      if (isEditing) {
+        try {
+          // try-catch won't work for this case as we don't await the future.
+          // This might be solved with Zones (handleUncaughtError).
+          if (userInput.localFiles.isEmpty) {
+            // If user is offline Firestore will add the homework locally but
+            // won't complete the future until the server has received the
+            // homework. We remove the await so that the user can save the
+            // homework while being offline.
+            api.editHomework(
+              HomeworkId(_homework.id),
+              userInput,
+              removedCloudFiles:
+                  _initialAttachments.removeAll(_cloudFiles).toList(),
             );
-            break;
-          case InXLessonsDueDateSelection s:
-            final nextLesson = await nextLessonCalculator
-                .tryCalculateXNextLesson(_homework.courseID,
-                    inLessons: s.inXLessons);
-            _dateSelection = _dateSelection.copyWith(
-              dueDate: nextLesson,
-              dueDateSelection: s,
-            );
-        }
-        if (showNoDueDateChosenError) {
-          showNoDueDateChosenError = false;
-        }
-        emit(_getNewState());
-      },
-    );
-    on<CourseChanged>(
-      (event, emit) async {
-        final course = await api.loadCourse(event.newCourseId);
-        if (showNoCourseChosenError) {
-          showNoCourseChosenError = false;
-        }
-        _homework =
-            _homework.copyWith(courseID: course.id, courseName: course.name);
-
-        // This somehow leads to a race condition, which causes further emit
-        // calls in this method to not emit a new state (saw this behavior only
-        // on device, not in tests 🤷‍♂️).
-        // Originally I used this so that we instantly display the course change
-        // and don't wait for async next lesson calculation. But since otherwise
-        // we get the race condition, we just wait for the async call (
-        // calculation is currently done locally so it should be fast enough).
-        // emit(_getNewState());
-
-        final selection = _dateSelection.dueDateSelection;
-        final inXLessons =
-            selection is InXLessonsDueDateSelection ? selection.inXLessons : 1;
-        final newLessonDate = await nextLessonCalculator
-            .tryCalculateXNextLesson(course.id, inLessons: inXLessons);
-        _hasLessons[course.id] = newLessonDate != null;
-
-        final nextSchoolDay =
-            await nextSchooldayCalculator.tryCalculateNextSchoolday();
-
-        // Manual date was already set, we don't want to overwrite it.
-        if (_dateSelection.dueDateSelection != null &&
-            _dateSelection.dueDateSelection is! InXLessonsDueDateSelection) {
-          emit(_getNewState());
-          return;
-        } else {
-          if (newLessonDate != null) {
-            _dateSelection = _dateSelection.copyWith(
-              dueDate: newLessonDate,
-              dueDateSelection:
-                  selection ?? const DueDateSelection.inXLessons(1),
-            );
-            emit(_getNewState());
           } else {
-            if (_dateSelection.dueDateSelection is InXLessonsDueDateSelection) {
-              // .copyWith doesn't work if we want to replace a non-null value
-              // with null.
-              _dateSelection = _DateSelection(
-                dueDate: _dateSelection.dueDate,
-                submissionTime: _dateSelection.submissionTime,
-                dueDateSelection: null,
-              );
-              emit(_getNewState());
-              return;
-            }
+            emitPresentation(const StartedUploadingAttachments());
+            // As we can't save a homework with attachments when we are offline,
+            // we await the future here.
+            await api.editHomework(
+              HomeworkId(_homework.id),
+              userInput,
+              removedCloudFiles:
+                  _initialAttachments.removeAll(_cloudFiles).toList(),
+            );
+          }
+        } catch (e, s) {
+          emitPresentation(SavingFailed(e, s));
+          return;
+        }
 
+        analytics.log(NamedAnalyticsEvent(name: 'homework_edit'));
+        if (markdownAnalytics.containsMarkdown(_homework.description) &&
+            !markdownAnalytics.containsMarkdown(
+              _initialHomework?.description ?? '',
+            )) {
+          markdownAnalytics.logMarkdownUsedHomework();
+        }
+      } else {
+        try {
+          // try-catch won't work for this case as we don't await the future.
+          // This might be solved with Zones (handleUncaughtError).
+          if (userInput.localFiles.isEmpty) {
+            // If user is offline Firestore will add the homework locally but
+            // won't complete the future until the server has received the
+            // homework. We remove the await so that the user can save the
+            // homework while being offline.
+            api.createHomework(CourseId(_homework.courseID), userInput);
+          } else {
+            emitPresentation(const StartedUploadingAttachments());
+            // As we can't save a homework with attachments when we are offline,
+            // we await the future here.
+            await api.createHomework(CourseId(_homework.courseID), userInput);
+          }
+        } catch (e, s) {
+          emitPresentation(SavingFailed(e, s));
+          return;
+        }
+
+        analytics.log(NamedAnalyticsEvent(name: 'homework_add'));
+        if (markdownAnalytics.containsMarkdown(_homework.description)) {
+          markdownAnalytics.logMarkdownUsedHomework();
+        }
+      }
+
+      emit(SavedSuccessfully(isEditing: isEditing));
+    });
+    on<TitleChanged>((event, emit) {
+      _homework = _homework.copyWith(title: event.newTitle);
+      if (showTitleEmptyError && _homework.title.isNotEmpty) {
+        showTitleEmptyError = false;
+      }
+      emit(_getNewState());
+    });
+    on<DueDateChanged>((event, emit) async {
+      switch (event.newDueDate) {
+        case DateDueDateSelection s:
+          final nextSchoolDay =
+              await nextSchooldayCalculator.tryCalculateNextSchoolday();
+          if (s.date == nextSchoolDay) {
             _dateSelection = _dateSelection.copyWith(
-              dueDate: nextSchoolDay,
+              dueDate: s.date,
               dueDateSelection: const NextSchooldayDueDateSelection(),
             );
-            emit(_getNewState());
+            break;
           }
-        }
-      },
-    );
-    on<SubmissionsChanged>(
-      (event, emit) {
-        final enabled = event.newSubmissionsOptions.enabled;
-        _homework = _homework.copyWith(withSubmissions: enabled);
-
-        if (enabled) {
           _dateSelection = _dateSelection.copyWith(
-              submissionTime: event.newSubmissionsOptions.submissionTime ??
-                  Time(hour: 23, minute: 59));
-        } else {
-          _dateSelection = _DateSelection(
-            dueDate: _dateSelection.dueDate,
-            dueDateSelection: _dateSelection.dueDateSelection,
-            submissionTime: null,
+            dueDate: s.date,
+            dueDateSelection: s,
           );
-        }
-        emit(_getNewState());
-      },
-    );
-    on<DescriptionChanged>(
-      (event, emit) {
-        _homework = _homework.copyWith(description: event.newDescription);
-        emit(_getNewState());
-      },
-    );
-    on<AttachmentsAdded>(
-      (event, emit) {
-        _localFiles = _localFiles.addAll(event.newFiles);
-        emit(_getNewState());
-      },
-    );
-    on<AttachmentRemoved>(
-      (event, emit) {
-        _localFiles =
-            _localFiles.removeWhere((file) => file.fileId == event.id);
-        _cloudFiles = _cloudFiles
-            .removeWhere((cloudFile) => FileId(cloudFile.id!) == event.id);
+          break;
+        case NextSchooldayDueDateSelection s:
+          final nextSchoolDay =
+              await nextSchooldayCalculator.tryCalculateNextSchoolday();
+          _dateSelection = _dateSelection.copyWith(
+            dueDate: nextSchoolDay,
+            dueDateSelection: s,
+          );
+          break;
+        case InXLessonsDueDateSelection s:
+          final nextLesson = await nextLessonCalculator.tryCalculateXNextLesson(
+            _homework.courseID,
+            inLessons: s.inXLessons,
+          );
+          _dateSelection = _dateSelection.copyWith(
+            dueDate: nextLesson,
+            dueDateSelection: s,
+          );
+      }
+      if (showNoDueDateChosenError) {
+        showNoDueDateChosenError = false;
+      }
+      emit(_getNewState());
+    });
+    on<CourseChanged>((event, emit) async {
+      final course = await api.loadCourse(event.newCourseId);
+      if (showNoCourseChosenError) {
+        showNoCourseChosenError = false;
+      }
+      _homework = _homework.copyWith(
+        courseID: course.id,
+        courseName: course.name,
+      );
 
+      // This somehow leads to a race condition, which causes further emit
+      // calls in this method to not emit a new state (saw this behavior only
+      // on device, not in tests 🤷‍♂️).
+      // Originally I used this so that we instantly display the course change
+      // and don't wait for async next lesson calculation. But since otherwise
+      // we get the race condition, we just wait for the async call (
+      // calculation is currently done locally so it should be fast enough).
+      // emit(_getNewState());
+
+      final selection = _dateSelection.dueDateSelection;
+      final inXLessons =
+          selection is InXLessonsDueDateSelection ? selection.inXLessons : 1;
+      final newLessonDate = await nextLessonCalculator.tryCalculateXNextLesson(
+        course.id,
+        inLessons: inXLessons,
+      );
+      _hasLessons[course.id] = newLessonDate != null;
+
+      final nextSchoolDay =
+          await nextSchooldayCalculator.tryCalculateNextSchoolday();
+
+      // Manual date was already set, we don't want to overwrite it.
+      if (_dateSelection.dueDateSelection != null &&
+          _dateSelection.dueDateSelection is! InXLessonsDueDateSelection) {
         emit(_getNewState());
-      },
-    );
-    on<NotifyCourseMembersChanged>(
-      (event, emit) {
-        _homework =
-            _homework.copyWith(sendNotification: event.newNotifyCourseMembers);
-        emit(_getNewState());
-      },
-    );
-    on<IsPrivateChanged>(
-      (event, emit) {
-        _homework = _homework.copyWith(private: event.newIsPrivate);
-        emit(_getNewState());
-      },
-    );
+        return;
+      } else {
+        if (newLessonDate != null) {
+          _dateSelection = _dateSelection.copyWith(
+            dueDate: newLessonDate,
+            dueDateSelection: selection ?? const DueDateSelection.inXLessons(1),
+          );
+          emit(_getNewState());
+        } else {
+          if (_dateSelection.dueDateSelection is InXLessonsDueDateSelection) {
+            // .copyWith doesn't work if we want to replace a non-null value
+            // with null.
+            _dateSelection = _DateSelection(
+              dueDate: _dateSelection.dueDate,
+              submissionTime: _dateSelection.submissionTime,
+              dueDateSelection: null,
+            );
+            emit(_getNewState());
+            return;
+          }
+
+          _dateSelection = _dateSelection.copyWith(
+            dueDate: nextSchoolDay,
+            dueDateSelection: const NextSchooldayDueDateSelection(),
+          );
+          emit(_getNewState());
+        }
+      }
+    });
+    on<SubmissionsChanged>((event, emit) {
+      final enabled = event.newSubmissionsOptions.enabled;
+      _homework = _homework.copyWith(withSubmissions: enabled);
+
+      if (enabled) {
+        _dateSelection = _dateSelection.copyWith(
+          submissionTime:
+              event.newSubmissionsOptions.submissionTime ??
+              Time(hour: 23, minute: 59),
+        );
+      } else {
+        _dateSelection = _DateSelection(
+          dueDate: _dateSelection.dueDate,
+          dueDateSelection: _dateSelection.dueDateSelection,
+          submissionTime: null,
+        );
+      }
+      emit(_getNewState());
+    });
+    on<DescriptionChanged>((event, emit) {
+      _homework = _homework.copyWith(description: event.newDescription);
+      emit(_getNewState());
+    });
+    on<AttachmentsAdded>((event, emit) {
+      _localFiles = _localFiles.addAll(event.newFiles);
+      emit(_getNewState());
+    });
+    on<AttachmentRemoved>((event, emit) {
+      _localFiles = _localFiles.removeWhere((file) => file.fileId == event.id);
+      _cloudFiles = _cloudFiles.removeWhere(
+        (cloudFile) => FileId(cloudFile.id!) == event.id,
+      );
+
+      emit(_getNewState());
+    });
+    on<NotifyCourseMembersChanged>((event, emit) {
+      _homework = _homework.copyWith(
+        sendNotification: event.newNotifyCourseMembers,
+      );
+      emit(_getNewState());
+    });
+    on<IsPrivateChanged>((event, emit) {
+      _homework = _homework.copyWith(private: event.newIsPrivate);
+      emit(_getNewState());
+    });
   }
 
   Ready _getNewState() {
-    final didHomeworkChange = isEditing
-        ? _initialHomework != _homework
-        : _homework != _kNoDataChangedHomework;
+    final didHomeworkChange =
+        isEditing
+            ? _initialHomework != _homework
+            : _homework != _kNoDataChangedHomework;
 
     final didDueDateChange = _dateSelection != _initialDateSelection;
     final didFilesChange = _initialAttachments != _cloudFiles;
     final didLocalFilesChange = _localFiles.isNotEmpty;
-    final didDataChange = didHomeworkChange ||
+    final didDataChange =
+        didHomeworkChange ||
         didDueDateChange ||
         didFilesChange ||
         didLocalFilesChange;
@@ -817,41 +821,46 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     return Ready(
       title: (
         _homework.title,
-        error: showTitleEmptyError ? const EmptyTitleException() : null
+        error: showTitleEmptyError ? const EmptyTitleException() : null,
       ),
-      course: _homework.courseID != ''
-          ? CourseChosen(
-              courseId: CourseId(_homework.courseID),
-              courseName: _homework.courseName,
-              isChangeable: !isEditing,
-            )
-          : NoCourseChosen(
-              error: showNoCourseChosenError
-                  ? const NoCourseChosenException()
-                  : null,
-            ),
+      course:
+          _homework.courseID != ''
+              ? CourseChosen(
+                courseId: CourseId(_homework.courseID),
+                courseName: _homework.courseName,
+                isChangeable: !isEditing,
+              )
+              : NoCourseChosen(
+                error:
+                    showNoCourseChosenError
+                        ? const NoCourseChosenException()
+                        : null,
+              ),
       dueDate: (
         _dateSelection.dueDate,
-        error: showNoDueDateChosenError
-            ? const NoDueDateSelectedException()
-            : null,
+        error:
+            showNoDueDateChosenError
+                ? const NoDueDateSelectedException()
+                : null,
         lessonChipsSelectable: _hasLessons[_homework.courseID] ?? false,
         selection: _dateSelection.dueDateSelection,
       ),
-      submissions: _homework.withSubmissions
-          ? SubmissionsEnabled(
-              deadline:
-                  _dateSelection.submissionTime ?? Time(hour: 23, minute: 59),
-            )
-          : SubmissionsDisabled(isChangeable: !_homework.private),
+      submissions:
+          _homework.withSubmissions
+              ? SubmissionsEnabled(
+                deadline:
+                    _dateSelection.submissionTime ?? Time(hour: 23, minute: 59),
+              )
+              : SubmissionsDisabled(isChangeable: !_homework.private),
       description: _homework.description,
       attachments: IList([
         for (final attachment in _localFiles)
           FileView(
             fileId: attachment.fileId,
             fileName: attachment.getName(),
-            format:
-                fileFormatEnumFromFilenameWithExtension(attachment.getName()),
+            format: fileFormatEnumFromFilenameWithExtension(
+              attachment.getName(),
+            ),
             localFile: attachment,
           ),
         for (final attachment in _cloudFiles)
@@ -865,7 +874,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       notifyCourseMembers: _homework.sendNotification,
       isPrivate: (
         _homework.private,
-        isChangeable: !(isEditing || _homework.withSubmissions)
+        isChangeable: !(isEditing || _homework.withSubmissions),
       ),
       hasModifiedData: didDataChange,
       isEditing: isEditing,
@@ -874,15 +883,15 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
 
   Future<void> _loadExistingData(HomeworkId homeworkId) async {
     _initialHomework = await api.loadHomework(homeworkId);
-    _initialAttachments = (await api.loadCloudFiles(
-      homeworkId: _initialHomework!.id,
-    ))
-        .toIList();
+    _initialAttachments =
+        (await api.loadCloudFiles(homeworkId: _initialHomework!.id)).toIList();
 
     // If one lesson time can be calculated, we assume that the user has lesson
     // data.
-    _hasLessons[_initialHomework!.courseID] = await nextLessonCalculator
-            .tryCalculateNextLesson(_initialHomework!.courseID) !=
+    _hasLessons[_initialHomework!.courseID] =
+        await nextLessonCalculator.tryCalculateNextLesson(
+          _initialHomework!.courseID,
+        ) !=
         null;
     add(_LoadedHomeworkData());
   }
@@ -903,14 +912,14 @@ class UserInput extends Equatable {
 
   @override
   List<Object?> get props => [
-        title,
-        description,
-        todoUntil,
-        private,
-        localFiles,
-        sendNotification,
-        withSubmission
-      ];
+    title,
+    description,
+    todoUntil,
+    private,
+    localFiles,
+    sendNotification,
+    withSubmission,
+  ];
 
   const UserInput({
     required this.title,
@@ -930,11 +939,15 @@ class HomeworkDialogApi {
 
   Future<HomeworkDto> loadHomework(HomeworkId homeworkId) async {
     try {
-      return _api.homework
-          .singleHomework(homeworkId.value, source: Source.cache);
+      return _api.homework.singleHomework(
+        homeworkId.value,
+        source: Source.cache,
+      );
     } catch (e) {
-      return _api.homework
-          .singleHomework(homeworkId.value, source: Source.server);
+      return _api.homework.singleHomework(
+        homeworkId.value,
+        source: Source.server,
+      );
     }
   }
 
@@ -950,7 +963,9 @@ class HomeworkDialogApi {
   }
 
   Future<HomeworkDto> createHomework(
-      CourseId courseId, UserInput userInput) async {
+    CourseId courseId,
+    UserInput userInput,
+  ) async {
     final localFiles = userInput.localFiles;
     final course = (await _api.course.streamCourse(courseId.value).first)!;
     final authorID = _api.user.authUser!.uid;
@@ -960,13 +975,17 @@ class HomeworkDialogApi {
     final typeOfUser = user.typeOfUser;
 
     final attachments = await _api.fileSharing.uploadAttachments(
-        localFiles, courseId.value, authorReference.id, authorName,
-        isPrivate: userInput.private);
+      localFiles,
+      courseId.value,
+      authorReference.id,
+      authorName,
+      isPrivate: userInput.private,
+    );
 
     final homework = HomeworkDto.create(
-            courseReference: _api.references.getCourseReference(course.id),
-            courseID: course.id)
-        .copyWith(
+      courseReference: _api.references.getCourseReference(course.id),
+      courseID: course.id,
+    ).copyWith(
       subject: course.subject,
       subjectAbbreviation: course.abbreviation,
       courseName: course.name,
@@ -990,19 +1009,29 @@ class HomeworkDialogApi {
     );
 
     if (userInput.private) {
-      await _api.homework.addPrivateHomework(homework, false,
-          attachments: attachments, fileSharingGateway: _api.fileSharing);
+      await _api.homework.addPrivateHomework(
+        homework,
+        false,
+        attachments: attachments,
+        fileSharingGateway: _api.fileSharing,
+      );
     } else {
-      await _api.homework.addHomeworkToCourse(homework,
-          attachments: attachments, fileSharingGateway: _api.fileSharing);
+      await _api.homework.addHomeworkToCourse(
+        homework,
+        attachments: attachments,
+        fileSharingGateway: _api.fileSharing,
+      );
     }
 
     // If the homework will be added to the create, the wrong homework object will be return (the new forUsers map is missing)
     return homework;
   }
 
-  Future<HomeworkDto> editHomework(HomeworkId homeworkId, UserInput userInput,
-      {List<CloudFile> removedCloudFiles = const []}) async {
+  Future<HomeworkDto> editHomework(
+    HomeworkId homeworkId,
+    UserInput userInput, {
+    List<CloudFile> removedCloudFiles = const [],
+  }) async {
     final oldHomework =
         await _api.homework.singleHomeworkStream(homeworkId.value).first;
     List<String> attachments = oldHomework.attachments.toList();
@@ -1011,8 +1040,10 @@ class HomeworkDialogApi {
 
     for (int i = 0; i < removedCloudFiles.length; i++) {
       attachments.remove(removedCloudFiles[i].id);
-      _api.fileSharing.removeReferenceData(removedCloudFiles[i].id!,
-          ReferenceData(type: ReferenceType.blackboard, id: oldHomework.id));
+      _api.fileSharing.removeReferenceData(
+        removedCloudFiles[i].id!,
+        ReferenceData(type: ReferenceType.blackboard, id: oldHomework.id),
+      );
     }
 
     final localFiles = userInput.localFiles;
@@ -1037,11 +1068,19 @@ class HomeworkDialogApi {
 
     final hasAttachments = attachments.isNotEmpty;
     if (hasAttachments) {
-      await _api.homework.addPrivateHomework(homework, true,
-          attachments: newAttachments, fileSharingGateway: _api.fileSharing);
+      await _api.homework.addPrivateHomework(
+        homework,
+        true,
+        attachments: newAttachments,
+        fileSharingGateway: _api.fileSharing,
+      );
     } else {
-      _api.homework.addPrivateHomework(homework, true,
-          attachments: newAttachments, fileSharingGateway: _api.fileSharing);
+      _api.homework.addPrivateHomework(
+        homework,
+        true,
+        attachments: newAttachments,
+        fileSharingGateway: _api.fileSharing,
+      );
     }
     return homework;
   }

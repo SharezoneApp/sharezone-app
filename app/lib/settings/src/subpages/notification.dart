@@ -7,8 +7,9 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:flutter/material.dart' hide TimePickerEntryMode;
+import 'package:flutter/material.dart';
 import 'package:interval_time_picker/interval_time_picker.dart';
+import 'package:interval_time_picker/models/visible_step.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/notifications/notifications_bloc.dart';
@@ -55,8 +56,10 @@ class _NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).isDarkTheme ? null : Colors.white,
-      appBar:
-          AppBar(title: const Text("Benachrichtigungen"), centerTitle: true),
+      appBar: AppBar(
+        title: const Text("Benachrichtigungen"),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: SafeArea(
@@ -112,28 +115,28 @@ class _HomeworkNotificationsSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<NotificationsBloc>(context);
     return StreamBuilder<bool>(
-        stream: bloc.notificationsForHomeworks,
-        builder: (context, snapshot) {
-          final bool notificationsForHomework = snapshot.data ?? true;
-          return ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text("Erinnerungen für offene Hausaufgaben"),
-            onTap: () =>
-                bloc.changeNotificationsForHomeworks(!notificationsForHomework),
-            trailing: Switch.adaptive(
-              value: notificationsForHomework,
-              onChanged: bloc.changeNotificationsForHomeworks,
-            ),
-          );
-        });
+      stream: bloc.notificationsForHomeworks,
+      builder: (context, snapshot) {
+        final bool notificationsForHomework = snapshot.data ?? true;
+        return ListTile(
+          leading: const Icon(Icons.notifications),
+          title: const Text("Erinnerungen für offene Hausaufgaben"),
+          onTap:
+              () => bloc.changeNotificationsForHomeworks(
+                !notificationsForHomework,
+              ),
+          trailing: Switch.adaptive(
+            value: notificationsForHomework,
+            onChanged: bloc.changeNotificationsForHomeworks,
+          ),
+        );
+      },
+    );
   }
 }
 
 class _HomeworkNotificationsTimeTile extends StatelessWidget {
-  Future<Time?> _openPicker(
-    BuildContext context, {
-    required Time initialTime,
-  }) {
+  Future<Time?> _openPicker(BuildContext context, {required Time initialTime}) {
     // Currently, the homework reminder only supports 30 minute intervals.
     const interval = 30;
 
@@ -162,10 +165,11 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
       context: context,
       // We just use the iOS picker also on Android, because the Interval picker
       // looks a bit weird when setting the visual steps to 30 minutes.
-      builder: (context) => CupertinoTimerPickerWithTimeOfDay(
-        initialTime: initialTime.toTimeOfDay(),
-        minutesInterval: interval,
-      ),
+      builder:
+          (context) => CupertinoTimerPickerWithTimeOfDay(
+            initialTime: initialTime.toTimeOfDay(),
+            minutesInterval: interval,
+          ),
     ).then((timeOfDay) {
       if (timeOfDay == null) return null;
       return Time.fromTimeOfDay(timeOfDay);
@@ -197,25 +201,29 @@ class _HomeworkNotificationsTimeTile extends StatelessWidget {
               leading: const Icon(Icons.access_time),
               title: const Text("Uhrzeit"),
               subtitle: Text(
-                  "${timeForHomeworks.data?.format(context) ?? "18:00"} Uhr"),
+                "${timeForHomeworks.data?.format(context) ?? "18:00"} Uhr",
+              ),
               enabled: homeworkEnabled.data ?? true,
               onTap: () async {
                 final isUnlocked = context
                     .read<SubscriptionService>()
                     .hasFeatureUnlocked(
-                        SharezonePlusFeature.changeHomeworkReminderTime);
+                      SharezonePlusFeature.changeHomeworkReminderTime,
+                    );
 
                 if (isUnlocked) {
                   final newTime = await _openPicker(
                     context,
                     initialTime: Time(
-                        hour: timeForHomeworks.data?.hour ?? 18,
-                        minute: timeForHomeworks.data?.minute ?? 0),
+                      hour: timeForHomeworks.data?.hour ?? 18,
+                      minute: timeForHomeworks.data?.minute ?? 0,
+                    ),
                   );
 
                   if (newTime != null) {
                     bloc.changeNotificationsTimeForHomeworks(
-                        TimeOfDay(hour: newTime.hour, minute: newTime.minute));
+                      TimeOfDay(hour: newTime.hour, minute: newTime.minute),
+                    );
                   }
                 } else {
                   await showPlusAdDialog(context);
@@ -235,9 +243,9 @@ class _HomeworkNotificationsTimeTileTrailing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isUnlocked = context
-        .read<SubscriptionService>()
-        .hasFeatureUnlocked(SharezonePlusFeature.changeHomeworkReminderTime);
+    final isUnlocked = context.read<SubscriptionService>().hasFeatureUnlocked(
+      SharezonePlusFeature.changeHomeworkReminderTime,
+    );
     return isUnlocked ? const SizedBox() : const SharezonePlusChip();
   }
 }
@@ -250,10 +258,7 @@ class _BlackboardNotificationsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Padding(
-            padding: _leftPadding,
-            child: Headline("Infozettel"),
-          ),
+          const Padding(padding: _leftPadding, child: Headline("Infozettel")),
           _BlackboardNotificationsSwitch(),
         ],
       ),
@@ -270,8 +275,10 @@ class _BlackboardNotificationsSwitch extends StatelessWidget {
       builder: (context, snapshot) {
         final notificationsForBlackboard = snapshot.data ?? true;
         return ListTileWithDescription(
-          onTap: () => bloc
-              .changeNotificationsForBlackboard(!notificationsForBlackboard),
+          onTap:
+              () => bloc.changeNotificationsForBlackboard(
+                !notificationsForBlackboard,
+              ),
           title: const Text("Benachrichtigungen für Infozettel"),
           trailing: Switch.adaptive(
             value: notificationsForBlackboard,
@@ -296,10 +303,7 @@ class _CommentsNotificationsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Padding(
-            padding: _leftPadding,
-            child: Headline("Kommentare"),
-          ),
+          const Padding(padding: _leftPadding, child: Headline("Kommentare")),
           _CommentsNotificationsSwitch(),
         ],
       ),
@@ -316,8 +320,10 @@ class _CommentsNotificationsSwitch extends StatelessWidget {
       builder: (context, snapshot) {
         final notificationsForComments = snapshot.data ?? true;
         return ListTileWithDescription(
-          onTap: () =>
-              bloc.changeNotificationsForComments(!notificationsForComments),
+          onTap:
+              () => bloc.changeNotificationsForComments(
+                !notificationsForComments,
+              ),
           title: const Text("Benachrichtigungen für Kommentare"),
           trailing: Switch.adaptive(
             value: notificationsForComments,

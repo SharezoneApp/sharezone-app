@@ -13,6 +13,7 @@ import 'package:collection/collection.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:date/date.dart';
+import 'package:equatable/equatable.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -21,6 +22,8 @@ import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'grades_dialog_view.dart';
 
 class GradesDialogController extends ChangeNotifier {
+  final GradeId? gradeId;
+  bool get isEditingGrade => gradeId != null;
   final Stream<List<Course>> coursesStream;
   final GradesService gradesService;
   final CrashAnalytics crashAnalytics;
@@ -29,16 +32,19 @@ class GradesDialogController extends ChangeNotifier {
   final Analytics analytics;
 
   GradesDialogView get view {
-    final subject = _selectSubjectId != null
-        ? _subjects.singleWhere((s) => s.id == _selectSubjectId)
-        : null;
+    final subject =
+        _selectSubjectId != null
+            ? _subjects.singleWhere((s) => s.id == _selectSubjectId)
+            : null;
     final terms = gradesService.terms.value;
-    final term = _selectedTermId != null
-        ? terms.firstWhere((t) => t.id == _selectedTermId)
-        : null;
+    final term =
+        _selectedTermId != null
+            ? terms.firstWhere((t) => t.id == _selectedTermId)
+            : null;
 
-    final termSub =
-        term?.subjects.firstWhereOrNull((s) => s.id == _selectSubjectId);
+    final termSub = term?.subjects.firstWhereOrNull(
+      (s) => s.id == _selectSubjectId,
+    );
 
     Weight? getWeightFor(GradeTypeId gradeTypeId) {
       if (term == null) return null;
@@ -53,12 +59,14 @@ class GradesDialogController extends ChangeNotifier {
       }
 
       return switch (termSub.weightType) {
-        WeightType.inheritFromTerm => term.gradeTypeWeightings.isNotEmpty
-            ? term.gradeTypeWeightings[gradeTypeId] ?? Weight.zero
-            : null,
-        WeightType.perGradeType => termSub.gradeTypeWeights.isNotEmpty
-            ? termSub.gradeTypeWeights[gradeTypeId] ?? Weight.zero
-            : null,
+        WeightType.inheritFromTerm =>
+          term.gradeTypeWeights.isNotEmpty
+              ? term.gradeTypeWeights[gradeTypeId] ?? Weight.zero
+              : null,
+        WeightType.perGradeType =>
+          termSub.gradeTypeWeights.isNotEmpty
+              ? termSub.gradeTypeWeights[gradeTypeId] ?? Weight.zero
+              : null,
         WeightType.perGrade => throw UnimplementedError(),
       };
     }
@@ -75,13 +83,14 @@ class GradesDialogController extends ChangeNotifier {
     final posGradesRes = gradesService.getPossibleGrades(_gradingSystem);
     SelectableGrades selectableGrades = (
       distinctGrades: _getPossibleDistinctGrades(posGradesRes),
-      nonDistinctGrades: posGradesRes is ContinuousNumericalPossibleGradesResult
-          ? (
-              min: posGradesRes.min,
-              max: posGradesRes.max,
-              decimalsAllowed: posGradesRes.decimalsAllowed
-            )
-          : null
+      nonDistinctGrades:
+          posGradesRes is ContinuousNumericalPossibleGradesResult
+              ? (
+                min: posGradesRes.min,
+                max: posGradesRes.max,
+                decimalsAllowed: posGradesRes.decimalsAllowed,
+              )
+              : null,
     );
 
     return GradesDialogView(
@@ -90,24 +99,34 @@ class GradesDialogController extends ChangeNotifier {
       selectedGradingSystem: _gradingSystem,
       selectedSubject:
           subject != null ? (id: subject.id, name: subject.name) : null,
-      selectableSubjects: _subjects
-          .map((s) => (
-                id: s.id,
-                name: s.name,
-                abbreviation: s.abbreviation,
-                design: s.design,
-              ))
-          .toIList(),
+      isSubjectFieldDisabled: isEditingGrade,
+      selectableSubjects:
+          _subjects
+              .map(
+                (s) => (
+                  id: s.id,
+                  name: s.name,
+                  abbreviation: s.abbreviation,
+                  design: s.design,
+                ),
+              )
+              .sorted(
+                (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+              )
+              .toIList(),
       selectedDate: _date,
       selectedGradingType: _gradeType,
       selectableGradingTypes: gradesService.getPossibleGradeTypes(),
-      selectedTerm: _selectedTermId != null
-          // The term name can be null if the term is selected and deleted from
-          // a different device while the dialog is open.
-          ? (id: _selectedTermId!, name: term?.name ?? '?')
-          : null,
+      selectedTerm:
+          _selectedTermId != null
+              // The term name can be null if the term is selected and deleted from
+              // a different device while the dialog is open.
+              ? (id: _selectedTermId!, name: term?.name ?? '?')
+              : null,
       selectableTerms:
           _selectableTerms.map((t) => (id: t.id, name: t.name)).toIList(),
+      isTermFieldDisabled: isEditingGrade,
+      details: _details,
       detailsController: _detailsController,
       title: _title,
       titleErrorText: _titleErrorText,
@@ -128,19 +147,45 @@ class GradesDialogController extends ChangeNotifier {
     required this.coursesStream,
     required this.crashAnalytics,
     required this.analytics,
+    this.gradeId,
   }) {
-    _selectedTermId = _getActiveTermId();
-    _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
-    _gradingSystem =
-        _gradingSystemOfSelectedTerm ?? GradingSystem.oneToSixWithPlusAndMinus;
-    _date = Date.today();
-    _gradeType = GradeType.writtenExam;
-    _title = _gradeType.predefinedType?.toUiString();
-    _takeIntoAccount = true;
+    if (gradeId != null) {
+      final gradeRef = gradesService.grade(gradeId!);
+      final grade = gradeRef.get()!;
+      final subjectOfGrade = gradesService.getSubject(gradeRef.subjectRef.id)!;
+      _grade =
+          grade.value.displayableGrade ??
+          grade.value.asNum.toString().replaceAll('.', ',');
+      _title = grade.title;
+
+      _selectedTermId = _getActiveTermId();
+      _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
+      _gradingSystem = grade.gradingSystem;
+      _selectSubjectId = subjectOfGrade.id;
+      _date = grade.date;
+      _gradeType = gradesService.getPossibleGradeTypes().firstWhere(
+        (gt) => gt.id == grade.gradeTypeId,
+      );
+      _takeIntoAccount = grade.isTakenIntoAccount;
+      _subjects = gradesService.getSubjects();
+      _details = grade.details;
+    } else {
+      _selectedTermId = _getActiveTermId();
+      _gradingSystemOfSelectedTerm = _getGradingSystemOfTerm(_selectedTermId);
+      _gradingSystem =
+          _gradingSystemOfSelectedTerm ??
+          GradingSystem.oneToSixWithPlusAndMinus;
+      _date = Date.today();
+      _gradeType = GradeType.writtenExam;
+      _title = _gradeType.predefinedType?.toUiString();
+      _takeIntoAccount = true;
+      _subjects = gradesService.getSubjects();
+      _detailsController = TextEditingController();
+    }
+
     _titleController = TextEditingController(text: _title);
-    _subjects = gradesService.getSubjects();
-    _gradeFieldController = TextEditingController();
-    _detailsController = TextEditingController();
+    _gradeFieldController = TextEditingController(text: _grade);
+    _detailsController = TextEditingController(text: _details);
 
     // Even though the fields are not filled at the beginning, we don't want to
     // show any error messages. The user should see the error messages only
@@ -179,8 +224,9 @@ class GradesDialogController extends ChangeNotifier {
       return null;
     }
 
-    final term =
-        gradesService.terms.value.firstWhere((term) => term.id == termId);
+    final term = gradesService.terms.value.firstWhere(
+      (term) => term.id == termId,
+    );
     return term.gradingSystem;
   }
 
@@ -189,8 +235,9 @@ class GradesDialogController extends ChangeNotifier {
   IList<Subject> _mergeCoursesAndSubjects(List<Course> courses) {
     final subjects = <Subject>[...gradesService.getSubjects()];
     for (final course in courses) {
-      final matchingSubject = subjects
-          .firstWhereOrNull((subject) => subject.name == course.subject);
+      final matchingSubject = subjects.firstWhereOrNull(
+        (subject) => subject.name == course.subject,
+      );
       final hasSubjectForThisCourse = matchingSubject != null;
       if (!hasSubjectForThisCourse) {
         final subjectId = SubjectId(Id.generate().value);
@@ -205,6 +252,7 @@ class GradesDialogController extends ChangeNotifier {
   String? _gradeErrorText;
   void setGrade(String res) {
     _grade = res.isEmpty ? null : res;
+    _gradeFieldController.text = res;
     _validateGrade();
   }
 
@@ -262,6 +310,9 @@ class GradesDialogController extends ChangeNotifier {
   late bool _isSubjectMissing;
   SubjectId? _selectSubjectId;
   void setSubject(SubjectId res) {
+    if (isEditingGrade) {
+      throw UnsupportedError('Cannot change subject of an existing grade.');
+    }
     _selectSubjectId = res;
     _isSubjectMissing = false;
     notifyListeners();
@@ -289,6 +340,10 @@ class GradesDialogController extends ChangeNotifier {
   GradingSystem? _gradingSystemOfSelectedTerm;
   IList<TermResult> _selectableTerms = IList(const []);
   void setTerm(TermId res) {
+    if (isEditingGrade) {
+      throw UnsupportedError('Cannot change term of an existing grade.');
+    }
+
     _selectedTermId = res;
     _isTermMissing = false;
 
@@ -340,7 +395,8 @@ class GradesDialogController extends ChangeNotifier {
 
   void _maybeSetTitleWithGradeType(GradeType newType, GradeType? previousType) {
     final isTitleEmpty = _title == null || _title!.isEmpty;
-    final isTitleAsPreviousType = previousType != null &&
+    final isTitleAsPreviousType =
+        previousType != null &&
         _title == previousType.predefinedType?.toUiString();
 
     if (isTitleEmpty || isTitleAsPreviousType) {
@@ -370,7 +426,13 @@ class GradesDialogController extends ChangeNotifier {
     return _title != null && _title!.isNotEmpty;
   }
 
+  String? _details;
   late TextEditingController _detailsController;
+  void setDetails(String res) {
+    _details = res;
+    _detailsController.text = res;
+    notifyListeners();
+  }
 
   Future<void> save() async {
     final invalidFields = _validateFields();
@@ -380,10 +442,11 @@ class GradesDialogController extends ChangeNotifier {
       return;
     }
 
-    final isNewSubject = gradesService
-        .getSubjects()
-        .where((s) => s.id == _selectSubjectId)
-        .isEmpty;
+    final isNewSubject =
+        gradesService
+            .getSubjects()
+            .where((s) => s.id == _selectSubjectId)
+            .isEmpty;
     if (isNewSubject) {
       _createSubject();
 
@@ -396,14 +459,14 @@ class GradesDialogController extends ChangeNotifier {
     }
 
     _addGradeToGradeService();
-    _logGradeAdded();
+    _logGradeAddedOrEdited();
   }
 
   /// Validates the fields and returns the invalid ones.
   ///
   /// If all fields are valid, an empty list is returned.
-  List<GradingDialogFields> _validateFields() {
-    final invalidFields = <GradingDialogFields>[];
+  ISet<GradingDialogFields> _validateFields() {
+    final invalidFields = <GradingDialogFields>{};
 
     if (!_validateGrade()) {
       invalidFields.add(GradingDialogFields.gradeValue);
@@ -421,17 +484,14 @@ class GradesDialogController extends ChangeNotifier {
       invalidFields.add(GradingDialogFields.title);
     }
 
-    return invalidFields;
+    return invalidFields.toISet();
   }
 
   void _addGradeToGradeService() {
-    String? details;
-    if (_detailsController.text.isNotEmpty) {
-      details = _detailsController.text;
-    }
-
-    final takeIntoAccount =
-        switch ((_takeIntoAccount, view.takeIntoAccountState)) {
+    final takeIntoAccount = switch ((
+      _takeIntoAccount,
+      view.takeIntoAccountState,
+    )) {
       // If the grade type has no weight, it will not be taken into account
       // anyways. Thus we can takeIntoAccount true here, so its easier for the
       // user when changing the weight of the grade type afterwards, so that he
@@ -447,23 +507,44 @@ class GradesDialogController extends ChangeNotifier {
     };
 
     try {
-      gradesService.term(_selectedTermId!).subject(_selectSubjectId!).addGrade(
-            GradeInput(
-              type: _gradeType.id,
-              value: _grade!,
-              date: _date,
-              takeIntoAccount: takeIntoAccount,
-              gradingSystem: _gradingSystem,
-              title: _title!,
-              details: details,
-            ),
-          );
+      if (isEditingGrade) {
+        gradesService
+            .grade(gradeId!)
+            .edit(
+              GradeInput(
+                type: _gradeType.id,
+                value: _grade!,
+                date: _date,
+                takeIntoAccount: takeIntoAccount,
+                gradingSystem: _gradingSystem,
+                title: _title!,
+                details: _details,
+              ),
+            );
+        return;
+      } else {
+        gradesService
+            .term(_selectedTermId!)
+            .subject(_selectSubjectId!)
+            .addGrade(
+              GradeInput(
+                type: _gradeType.id,
+                value: _grade!,
+                date: _date,
+                takeIntoAccount: takeIntoAccount,
+                gradingSystem: _gradingSystem,
+                title: _title!,
+                details: _details,
+              ),
+            );
+      }
     } catch (e, s) {
       if (e is InvalidGradeValueException) {
         _gradeErrorText = 'Die Note ist ungültig.';
         notifyListeners();
-        throw const SingleInvalidFieldSaveGradeException(
-            GradingDialogFields.gradeValue);
+        throw const InvalidFieldsSaveGradeException(
+          ISetConst({GradingDialogFields.gradeValue}),
+        );
       }
 
       crashAnalytics.recordError('Error saving grade: $e', s);
@@ -471,8 +552,12 @@ class GradesDialogController extends ChangeNotifier {
     }
   }
 
-  void _logGradeAdded() {
-    analytics.log(NamedAnalyticsEvent(name: 'grade_added'));
+  void _logGradeAddedOrEdited() {
+    analytics.log(
+      NamedAnalyticsEvent(
+        name: isEditingGrade ? 'grade_edited' : 'grade_added',
+      ),
+    );
   }
 
   void _createSubject() {
@@ -512,15 +597,9 @@ class GradesDialogController extends ChangeNotifier {
         .toIList();
   }
 
-  void _throwInvalidSaveState(List<GradingDialogFields> invalidFields) {
+  void _throwInvalidSaveState(ISet<GradingDialogFields> invalidFields) {
     assert(invalidFields.isNotEmpty, 'Invalid fields must not be empty.');
-
-    if (invalidFields.length > 1) {
-      throw MultipleInvalidFieldsSaveGradeException(invalidFields);
-    }
-
-    final field = invalidFields.first;
-    throw SingleInvalidFieldSaveGradeException(field);
+    throw InvalidFieldsSaveGradeException(invalidFields);
   }
 
   IList<String>? _getPossibleDistinctGrades(PossibleGradesResult posGradesRes) {
@@ -531,9 +610,11 @@ class GradesDialogController extends ChangeNotifier {
     if (posGradesRes is ContinuousNumericalPossibleGradesResult) {
       if (!posGradesRes.decimalsAllowed) {
         final grades = <String>[];
-        for (int i = posGradesRes.min.toInt();
-            i <= posGradesRes.max.toInt();
-            i++) {
+        for (
+          int i = posGradesRes.min.toInt();
+          i <= posGradesRes.max.toInt();
+          i++
+        ) {
           grades.add(i.toString());
         }
         return grades.toIList();
@@ -570,7 +651,7 @@ extension on Course {
           name: name,
           abbreviation: abbreviation,
           subjectName: subject,
-        )
+        ),
       ]),
     );
   }
@@ -592,7 +673,7 @@ enum GradingDialogFields {
   }
 }
 
-sealed class SaveGradeException implements Exception {
+sealed class SaveGradeException extends Equatable implements Exception {
   const SaveGradeException();
 }
 
@@ -600,16 +681,16 @@ class UnknownSaveGradeException extends SaveGradeException {
   final Object e;
 
   const UnknownSaveGradeException(this.e);
+
+  @override
+  List<Object?> get props => [e];
 }
 
-class MultipleInvalidFieldsSaveGradeException extends SaveGradeException {
-  final List<GradingDialogFields> invalidFields;
+class InvalidFieldsSaveGradeException extends SaveGradeException {
+  final ISet<GradingDialogFields> invalidFields;
 
-  const MultipleInvalidFieldsSaveGradeException(this.invalidFields);
-}
+  const InvalidFieldsSaveGradeException(this.invalidFields);
 
-class SingleInvalidFieldSaveGradeException extends SaveGradeException {
-  final GradingDialogFields invalidField;
-
-  const SingleInvalidFieldSaveGradeException(this.invalidField);
+  @override
+  List<Object?> get props => [invalidFields];
 }

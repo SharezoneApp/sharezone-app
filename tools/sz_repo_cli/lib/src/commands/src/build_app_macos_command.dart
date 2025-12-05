@@ -11,15 +11,9 @@ import 'dart:io';
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
-final _macOsStages = [
-  'stable',
-  'alpha',
-];
+final _macOsStages = ['stable', 'alpha'];
 
-final _macOsFlavors = [
-  'prod',
-  'dev',
-];
+final _macOsFlavors = ['prod', 'dev'];
 
 class BuildAppMacOsCommand extends CommandBase {
   BuildAppMacOsCommand(super.context) {
@@ -30,12 +24,14 @@ class BuildAppMacOsCommand extends CommandBase {
         allowed: _macOsStages,
         defaultsTo: 'stable',
       )
-      ..addOption(buildNumberOptionName,
-          help: '''An identifier used as an internal version number.
+      ..addOption(
+        buildNumberOptionName,
+        help: '''An identifier used as an internal version number.
 Each build must have a unique identifier to differentiate it from previous builds.
 It is used to determine whether one build is more recent than
 another, with higher numbers indicating more recent build.
-When none is specified, the value from pubspec.yaml is used.''')
+When none is specified, the value from pubspec.yaml is used.''',
+      )
       ..addOption(
         flavorOptionName,
         allowed: _macOsFlavors,
@@ -82,29 +78,26 @@ When none is specified, the value from pubspec.yaml is used.''')
       const flavor = 'prod';
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
-      await processRunner.runCommand(
-        [
-          'flutter',
-          'build',
-          'macos',
-          '--target',
-          'lib/main_$flavor.dart',
-          '--flavor',
-          flavor,
-          '--release',
-          '--dart-define',
-          'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
-          if (buildNumber != null) ...['--build-number', buildNumber],
-          // For Android we add the stage to the build name (using
-          // --build-name), but for iOS we can't do that because Flutter removes
-          // the stage from the build name.
-          //
-          // See:
-          //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
-          //  * https://github.com/flutter/flutter/issues/115483
-        ],
-        workingDirectory: repo.sharezoneFlutterApp.location,
-      );
+      await processRunner.runCommand([
+        'flutter',
+        'build',
+        'macos',
+        '--target',
+        'lib/main_$flavor.dart',
+        '--flavor',
+        flavor,
+        '--release',
+        '--dart-define',
+        'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
+        if (buildNumber != null) ...['--build-number', buildNumber],
+        // For Android we add the stage to the build name (using
+        // --build-name), but for iOS we can't do that because Flutter removes
+        // the stage from the build name.
+        //
+        // See:
+        //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
+        //  * https://github.com/flutter/flutter/issues/115483
+      ], workingDirectory: repo.sharezoneFlutterApp.location);
     } catch (e) {
       throw Exception('Failed to build macOS app: $e');
     }

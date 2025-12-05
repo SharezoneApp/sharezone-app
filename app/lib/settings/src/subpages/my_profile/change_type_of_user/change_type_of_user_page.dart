@@ -56,37 +56,37 @@ class _SaveFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLoading = context.select<ChangeTypeOfUserController, bool>(
-        (controller) => controller.state is ChangeTypeOfUserLoading);
+      (controller) => controller.state is ChangeTypeOfUserLoading,
+    );
     return FloatingActionButton.extended(
       label:
           isLoading ? const _Loading() : Text(context.l10n.commonActionsSave),
       mouseCursor:
           isLoading ? SystemMouseCursors.basic : SystemMouseCursors.click,
-      onPressed: !isLoading
-          ? () async {
-              final controller = context.read<ChangeTypeOfUserController>();
-              try {
-                await controller.changeTypeOfUser();
+      onPressed:
+          !isLoading
+              ? () async {
+                final controller = context.read<ChangeTypeOfUserController>();
+                try {
+                  await controller.changeTypeOfUser();
 
-                if (context.mounted) {
-                  _showRestartDialog(context);
-                }
-              } on ChangeTypeOfUserFailed catch (e) {
-                if (context.mounted) {
-                  _showErrorDialog(context: context, e: e);
+                  if (context.mounted) {
+                    _showRestartDialog(context);
+                  }
+                } on ChangeTypeOfUserFailed catch (e) {
+                  if (context.mounted) {
+                    _showErrorDialog(context: context, e: e);
+                  }
                 }
               }
-            }
-          : null,
+              : null,
       icon: isLoading ? null : const Icon(Icons.check),
     );
   }
 }
 
 class _ErrorDialog extends StatelessWidget {
-  const _ErrorDialog({
-    required this.failure,
-  });
+  const _ErrorDialog({required this.failure});
 
   final ChangeTypeOfUserFailed failure;
 
@@ -96,22 +96,25 @@ class _ErrorDialog extends StatelessWidget {
       maxWidth: 500,
       child: AlertDialog(
         title: Text(context.l10n.changeTypeOfUserPageErrorDialogTitle),
-        content: Text(
-          switch (failure) {
-            ChangeTypeOfUserUnknownException(error: final error) =>
-              context.l10n.changeTypeOfUserPageErrorDialogContentUnknown(error),
-            NoTypeOfUserSelectedException() => context.l10n
+        content: Text(switch (failure) {
+          ChangeTypeOfUserUnknownException(error: final error) => context.l10n
+              .changeTypeOfUserPageErrorDialogContentUnknown(error),
+          NoTypeOfUserSelectedException() =>
+            context
+                .l10n
                 .changeTypeOfUserPageErrorDialogContentNoTypeOfUserSelected,
-            TypeUserOfUserHasNotChangedException() => context.l10n
+          TypeUserOfUserHasNotChangedException() =>
+            context
+                .l10n
                 .changeTypeOfUserPageErrorDialogContentTypeOfUserHasNotChanged,
-            ChangedTypeOfUserTooOftenException(
-              blockedUntil: final blockedUntil
-            ) =>
-              context.l10n
-                  .changeTypeOfUserPageErrorDialogContentChangedTypeOfUserTooOften(
-                      blockedUntil),
-          },
-        ),
+          ChangedTypeOfUserTooOftenException(
+            blockedUntil: final blockedUntil,
+          ) =>
+            context.l10n
+                .changeTypeOfUserPageErrorDialogContentChangedTypeOfUserTooOften(
+                  blockedUntil,
+                ),
+        }),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -119,10 +122,13 @@ class _ErrorDialog extends StatelessWidget {
           ),
           if (failure is ChangeTypeOfUserUnknownException)
             TextButton(
-              onPressed: () =>
-                  Navigator.of(context).pushReplacementNamed(SupportPage.tag),
-              child:
-                  Text(context.l10n.commonActionsContactSupport.toUpperCase()),
+              onPressed:
+                  () => Navigator.of(
+                    context,
+                  ).pushReplacementNamed(SupportPage.tag),
+              child: Text(
+                context.l10n.commonActionsContactSupport.toUpperCase(),
+              ),
             ),
         ],
       ),
@@ -138,9 +144,7 @@ class _Loading extends StatelessWidget {
     return const SizedBox(
       height: 25,
       width: 25,
-      child: CircularProgressIndicator(
-        color: Colors.white,
-      ),
+      child: CircularProgressIndicator(color: Colors.white),
     );
   }
 }
@@ -174,10 +178,7 @@ class _PermissionNote extends StatelessWidget {
     const textStyle = TextStyle(color: Colors.grey);
     return MarkdownBody(
       data: context.l10n.changeTypeOfUserPagePermissionNote,
-      styleSheet: MarkdownStyleSheet(
-        p: textStyle,
-        listBullet: textStyle,
-      ),
+      styleSheet: MarkdownStyleSheet(p: textStyle, listBullet: textStyle),
     );
   }
 }
@@ -190,22 +191,25 @@ class _ChangeTypeOfUser extends StatelessWidget {
     final controller = context.watch<ChangeTypeOfUserController>();
     final selectedTypeOfUser =
         controller.selectedTypeOfUser ?? controller.initialTypeOfUser;
-    return Column(
-      children: [
-        for (final typeOfUser in [
-          TypeOfUser.student,
-          TypeOfUser.teacher,
-          TypeOfUser.parent
-        ])
-          RadioListTile<TypeOfUser>(
-            value: typeOfUser,
-            groupValue: selectedTypeOfUser,
-            title: Text(typeOfUser.toReadableString()),
-            onChanged: (value) {
-              controller.setSelectedTypeOfUser(typeOfUser);
-            },
-          )
-      ],
+    return RadioGroup<TypeOfUser>(
+      groupValue: selectedTypeOfUser,
+      onChanged: (value) {
+        if (value == null) return;
+        controller.setSelectedTypeOfUser(value);
+      },
+      child: Column(
+        children: [
+          for (final typeOfUser in [
+            TypeOfUser.student,
+            TypeOfUser.teacher,
+            TypeOfUser.parent,
+          ])
+            RadioListTile<TypeOfUser>(
+              value: typeOfUser,
+              title: Text(typeOfUser.toReadableString()),
+            ),
+        ],
+      ),
     );
   }
 }

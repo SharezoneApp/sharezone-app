@@ -26,9 +26,9 @@ class HasUnreadFeedbackMessagesProvider extends ChangeNotifier {
     _unreadMessagesSubscription = feedbackApi
         .streamHasUnreadFeedbackMessages(userId)
         .listen((hasUnreadMessages) {
-      _hasUnreadFeedbackMessages = hasUnreadMessages;
-      notifyListeners();
-    });
+          _hasUnreadFeedbackMessages = hasUnreadMessages;
+          notifyListeners();
+        });
   }
 
   bool get hasUnreadFeedbackMessages => _hasUnreadFeedbackMessages;

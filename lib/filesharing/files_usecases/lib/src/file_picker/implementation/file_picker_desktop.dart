@@ -57,21 +57,27 @@ class FilePickerDesktop extends FilePickerImplementation {
 }
 
 Future<List<LocalFile>> selectMultipleFiles() async {
-  final fileChooserResult =
-      (await file_picker.FilePicker.platform.pickFiles(allowMultiple: true));
+  final fileChooserResult = (await file_picker.FilePicker.platform.pickFiles(
+    allowMultiple: true,
+    compressionQuality: 30,
+  ));
   if (fileChooserResult == null || fileChooserResult.count == 0) return [];
   log('fileChooserResult.paths: ${fileChooserResult.paths}');
-  final files =
-      fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path!)));
+  final files = fileChooserResult.paths.map(
+    (path) => LocalFileIo.fromFile(File(path!)),
+  );
   return files.toList();
 }
 
 Future<LocalFile?> selectSingleFile() async {
-  final fileChooserResult =
-      (await file_picker.FilePicker.platform.pickFiles(allowMultiple: false));
+  final fileChooserResult = (await file_picker.FilePicker.platform.pickFiles(
+    allowMultiple: false,
+    compressionQuality: 30,
+  ));
   if (fileChooserResult == null || fileChooserResult.count == 0) return null;
-  final files =
-      fileChooserResult.paths.map((path) => LocalFileIo.fromFile(File(path!)));
+  final files = fileChooserResult.paths.map(
+    (path) => LocalFileIo.fromFile(File(path!)),
+  );
   return files.toList()[0];
 }
 

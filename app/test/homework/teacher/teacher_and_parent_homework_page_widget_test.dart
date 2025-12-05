@@ -32,8 +32,12 @@ import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:test_randomness/test_randomness.dart';
 import 'package:user/user.dart';
 
-class MockTeacherAndParentHomeworkPageBloc extends Bloc<
-        TeacherAndParentHomeworkPageEvent, TeacherAndParentHomeworkPageState>
+class MockTeacherAndParentHomeworkPageBloc
+    extends
+        Bloc<
+          TeacherAndParentHomeworkPageEvent,
+          TeacherAndParentHomeworkPageState
+        >
     implements TeacherAndParentHomeworkPageBloc {
   final _queuedStates = Queue<TeacherAndParentHomeworkPageState>();
 
@@ -89,51 +93,59 @@ Future<void> pumpHomeworkPage(
           /// [NullAnalyticsBackend] does nothing, just used as a replacement for
           /// testing (else warnings would be printed out for tests.)
           analytics: Analytics(NullAnalyticsBackend()),
-          child:
-              ChangeNotifierProvider<BottomOfScrollViewInvisibilityController>(
+          child: ChangeNotifierProvider<
+            BottomOfScrollViewInvisibilityController
+          >(
             create: (_) => BottomOfScrollViewInvisibilityController(),
             child: MultiBlocProvider(
               blocProviders: [
                 BlocProvider<NavigationBloc>(bloc: NavigationBloc()),
                 BlocProvider<TeacherAndParentHomeworkPageBloc>(bloc: bloc),
               ],
-              child: (context) => BlocProvider(
-                bloc: NavigationBloc(),
-                child: BlocProvider(
-                  bloc: bloc,
-                  child: DefaultTabController(
-                    length: 2,
-                    initialIndex: initialTab == HomeworkTab.open ? 0 : 1,
-                    child: Scaffold(
-                      body: const TeacherHomeworkBody(),
-                      appBar: const HomeworkTabBar(
-                        tabs: [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
-                      ),
-                      bottomNavigationBar: AnimatedTabVisibility(
-                        visibleInTabIndicies: const [0],
-                        maintainState: true,
-                        child: HomeworkBottomActionBar(
-                          currentHomeworkSortStream: bloc.stream
-                              .whereType<Success>()
-                              .map((s) => s.open.sorting),
-                          backgroundColor:
-                              const flutter.Color.fromRGBO(0, 0, 0, 255),
+              child:
+                  (context) => BlocProvider(
+                    bloc: NavigationBloc(),
+                    child: BlocProvider(
+                      bloc: bloc,
+                      child: DefaultTabController(
+                        length: 2,
+                        initialIndex: initialTab == HomeworkTab.open ? 0 : 1,
+                        child: Scaffold(
+                          body: const TeacherHomeworkBody(),
+                          appBar: const HomeworkTabBar(
+                            tabs: [Tab(text: 'OFFEN'), Tab(text: 'ARCHIVIERT')],
+                          ),
+                          bottomNavigationBar: AnimatedTabVisibility(
+                            visibleInTabIndicies: const [0],
+                            maintainState: true,
+                            child: HomeworkBottomActionBar(
+                              currentHomeworkSortStream: bloc.stream
+                                  .whereType<Success>()
+                                  .map((s) => s.open.sorting),
+                              backgroundColor: const flutter.Color.fromRGBO(
+                                0,
+                                0,
+                                0,
+                                255,
+                              ),
 
-                          showOverflowMenu: false,
-                          // Not visible since we don't show the overflow menu
-                          onCompletedAllOverdue: () =>
-                              throw UnimplementedError(),
-                          onSortingChanged: (newSort) =>
-                              bloc.add(OpenHwSortingChanged(newSort)),
+                              showOverflowMenu: false,
+                              // Not visible since we don't show the overflow menu
+                              onCompletedAllOverdue:
+                                  () => throw UnimplementedError(),
+                              onSortingChanged:
+                                  (newSort) =>
+                                      bloc.add(OpenHwSortingChanged(newSort)),
+                            ),
+                          ),
+                          floatingActionButton:
+                              const BottomOfScrollViewInvisibility(
+                                child: HomeworkFab(),
+                              ),
                         ),
                       ),
-                      floatingActionButton:
-                          const BottomOfScrollViewInvisibility(
-                              child: HomeworkFab()),
                     ),
                   ),
-                ),
-              ),
             ),
           ),
         ),
@@ -162,48 +174,60 @@ void main() {
     }
 
     testWidgets(
-        'placeholder is shown on open homework page when no homeworks are to do',
-        (tester) async {
-      // If I comment this out (--> use the bloc from setUp) it won't work anymore
-      homeworkPageBloc = createBloc();
+      'placeholder is shown on open homework page when no homeworks are to do',
+      (tester) async {
+        // If I comment this out (--> use the bloc from setUp) it won't work anymore
+        homeworkPageBloc = createBloc();
 
-      await _pumpHomeworkPageWithNoHomeworks(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
+        await _pumpHomeworkPageWithNoHomeworks(
+          tester,
+          bloc: homeworkPageBloc,
+          initialTab: HomeworkTab.open,
+        );
 
-      expect(_finders.openHomeworkTab.noHomeworkPlaceholder, findsOneWidget);
-    });
+        expect(_finders.openHomeworkTab.noHomeworkPlaceholder, findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'placeholder is shown in archived homework page when no homework is archived',
-        (tester) async {
-      homeworkPageBloc = createBloc();
+      'placeholder is shown in archived homework page when no homework is archived',
+      (tester) async {
+        homeworkPageBloc = createBloc();
 
-      await _pumpHomeworkPageWithNoHomeworks(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.archived);
+        await _pumpHomeworkPageWithNoHomeworks(
+          tester,
+          bloc: homeworkPageBloc,
+          initialTab: HomeworkTab.archived,
+        );
 
-      expect(
-          _finders.archivedHomeworkTab.noHomeworkPlaceholder, findsOneWidget);
-    });
+        expect(
+          _finders.archivedHomeworkTab.noHomeworkPlaceholder,
+          findsOneWidget,
+        );
+      },
+    );
 
-    testWidgets('shows open homeworks with section titles in given order',
-        (tester) async {
+    testWidgets('shows open homeworks with section titles in given order', (
+      tester,
+    ) async {
       homeworkPageBloc = createBloc();
 
       final state = Success(
         TeacherAndParentOpenHomeworkListView(
-            IList([
-              HomeworkSectionView(
-                  'Section 1',
-                  IListConst([
-                    randomHomeworkViewWith(title: 'HW in first Section'),
-                  ])),
-              HomeworkSectionView(
-                  'Section 2',
-                  IList([
-                    randomHomeworkViewWith(title: 'HW in second Section'),
-                  ])),
-            ]),
-            sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
+          IList([
+            HomeworkSectionView(
+              'Section 1',
+              IListConst([
+                randomHomeworkViewWith(title: 'HW in first Section'),
+              ]),
+            ),
+            HomeworkSectionView(
+              'Section 2',
+              IList([randomHomeworkViewWith(title: 'HW in second Section')]),
+            ),
+          ]),
+          sorting: HomeworkSort.subjectSmallestDateAndTitleSort,
+        ),
         LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
           const IListConst([]),
           loadedAllHomeworks: true,
@@ -211,14 +235,18 @@ void main() {
       );
       homeworkPageBloc.emitNewState(state);
 
-      await pumpHomeworkPage(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
+      await pumpHomeworkPage(
+        tester,
+        bloc: homeworkPageBloc,
+        initialTab: HomeworkTab.open,
+      );
 
       final sectionTitle1Offset = tester.getCenter(find.text('Section 1'));
       final ha1TitleOffset = tester.getCenter(find.text('HW in first Section'));
       final sectionTitle2Offset = tester.getCenter(find.text('Section 2'));
-      final ha2TitleOffset =
-          tester.getCenter(find.text('HW in second Section'));
+      final ha2TitleOffset = tester.getCenter(
+        find.text('HW in second Section'),
+      );
 
       // Offset starts from the top left.
       // The Y-Axis (height) is positive going to the bottom.
@@ -236,49 +264,78 @@ void main() {
       expect(sectionTitle2Offset.dy, lessThan(ha2TitleOffset.dy));
     });
 
-    testWidgets('shows curent sorting text inside of sort button',
-        (tester) async {
+    testWidgets('shows curent sorting text inside of sort button', (
+      tester,
+    ) async {
       homeworkPageBloc = createBloc();
 
-      await pumpHomeworkPage(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
+      await pumpHomeworkPage(
+        tester,
+        bloc: homeworkPageBloc,
+        initialTab: HomeworkTab.open,
+      );
 
       // It doesn't matter if there are homeworks or not for this test
       homeworkPageBloc.emitNewState(
-          _openHomeworksWith(HomeworkSort.smallestDateSubjectAndTitle));
+        _openHomeworksWith(HomeworkSort.smallestDateSubjectAndTitle),
+      );
 
       await tester.pump();
 
       expect(
-          find.text(SortButton.sortByDateSortButtonUiString), findsOneWidget);
+        find.text(SortButton.sortByDateSortButtonUiString),
+        findsOneWidget,
+      );
 
       homeworkPageBloc.emitNewState(
-          _openHomeworksWith(HomeworkSort.subjectSmallestDateAndTitleSort));
+        _openHomeworksWith(HomeworkSort.subjectSmallestDateAndTitleSort),
+      );
 
       await tester.pumpAndSettle();
 
-      expect(find.text(SortButton.sortBySubjectSortButtonUiString),
-          findsOneWidget);
+      expect(
+        find.text(SortButton.sortBySubjectSortButtonUiString),
+        findsOneWidget,
+      );
+
+      homeworkPageBloc.emitNewState(
+        _openHomeworksWith(HomeworkSort.weekdayDateSubjectAndTitle),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(SortButton.sortByWeekdaySortButtonUiString),
+        findsOneWidget,
+      );
     });
 
     Future<void> scrollDownToEndOfArchivedHomeworkList(WidgetTester tester) {
       return tester.drag(
-          find.byWidgetPredicate(
-              (widget) => widget is TeacherAndParentArchivedHomeworkList),
-          const Offset(0, -5000));
+        find.byWidgetPredicate(
+          (widget) => widget is TeacherAndParentArchivedHomeworkList,
+        ),
+        const Offset(0, -5000),
+      );
     }
 
-    List<TeacherAndParentHomeworkView> generateRandomHomeworks(
-        {required int count}) {
+    List<TeacherAndParentHomeworkView> generateRandomHomeworks({
+      required int count,
+    }) {
       return List.generate(
-          count, (index) => randomHomeworkViewWith(/*Random content*/));
+        count,
+        (index) => randomHomeworkViewWith(/*Random content*/),
+      );
     }
 
     testWidgets('lazy-loads archived homeworks', (tester) async {
       homeworkPageBloc = createBloc();
 
-      await pumpHomeworkPage(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.archived);
+      await pumpHomeworkPage(
+        tester,
+        bloc: homeworkPageBloc,
+        initialTab: HomeworkTab.archived,
+      );
 
       final firstHomeworkBatch = generateRandomHomeworks(count: 30).toIList();
 
@@ -295,10 +352,11 @@ void main() {
       await tester.pump();
 
       expect(
-          homeworkPageBloc.receivedEvents.whereType<AdvanceArchivedHomeworks>(),
-          isEmpty,
-          reason:
-              'The UI should not trigger loading the next homeworks if the user has not scrolled down far enough (to save bandwidth and only load new homeworks when necessary).');
+        homeworkPageBloc.receivedEvents.whereType<AdvanceArchivedHomeworks>(),
+        isEmpty,
+        reason:
+            'The UI should not trigger loading the next homeworks if the user has not scrolled down far enough (to save bandwidth and only load new homeworks when necessary).',
+      );
 
       // Originally I wanted to scroll only until the last visible homework but I
       // couldn't get it to work. So this is the stupid solution :)
@@ -307,13 +365,16 @@ void main() {
       await scrollDownToEndOfArchivedHomeworkList(tester);
 
       expect(
-          homeworkPageBloc.receivedEvents.whereType<AdvanceArchivedHomeworks>(),
-          hasLength(1),
-          reason:
-              "After scrolling down to near the last loaded homework the bloc should've received the event to load the next archived homeworks (as there are more to load in this test).");
+        homeworkPageBloc.receivedEvents.whereType<AdvanceArchivedHomeworks>(),
+        hasLength(1),
+        reason:
+            "After scrolling down to near the last loaded homework the bloc should've received the event to load the next archived homeworks (as there are more to load in this test).",
+      );
 
-      final allLoadedHomeworks =
-          IList([...firstHomeworkBatch, ...generateRandomHomeworks(count: 10)]);
+      final allLoadedHomeworks = IList([
+        ...firstHomeworkBatch,
+        ...generateRandomHomeworks(count: 10),
+      ]);
 
       homeworkPageBloc.emitNewState(
         Success(
@@ -329,11 +390,12 @@ void main() {
       await scrollDownToEndOfArchivedHomeworkList(tester);
 
       expect(
-          homeworkPageBloc.receivedEvents.whereType<AdvanceArchivedHomeworks>(),
-          // Same as above - the UI didn't ask again this time
-          hasLength(1),
-          reason:
-              "The UI should not ask the bloc for new homework when scrolling to the end of the homework list (as all homeworks have already been loaded).");
+        homeworkPageBloc.receivedEvents.whereType<AdvanceArchivedHomeworks>(),
+        // Same as above - the UI didn't ask again this time
+        hasLength(1),
+        reason:
+            "The UI should not ask the bloc for new homework when scrolling to the end of the homework list (as all homeworks have already been loaded).",
+      );
 
       // In the teacher homework page bloc which is just a mock right now we use
       // `await Future.delayed(const Duration(milliseconds: 1200))` to simulate
@@ -347,126 +409,237 @@ void main() {
     });
 
     testWidgets(
-        'pressing the sort button changes sorting to subject sort when current sort is date sort',
-        (tester) async {
+      'pressing the sort button changes sorting to subject sort when current sort is date sort',
+      (tester) async {
+        homeworkPageBloc = createBloc();
+
+        await pumpHomeworkPage(
+          tester,
+          bloc: homeworkPageBloc,
+          initialTab: HomeworkTab.open,
+        );
+
+        homeworkPageBloc.emitNewState(
+          _openHomeworksWith(HomeworkSort.smallestDateSubjectAndTitle),
+        );
+
+        await tester.pump();
+
+        await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.text(SortButton.sortBySubjectSortButtonUiString).last,
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          homeworkPageBloc.receivedEvents
+              .whereType<OpenHwSortingChanged>()
+              .single,
+          OpenHwSortingChanged(HomeworkSort.subjectSmallestDateAndTitleSort),
+        );
+      },
+    );
+
+    testWidgets(
+      'pressing sort by weekday button changes sorting to weekday sort',
+      (tester) async {
+        homeworkPageBloc = createBloc();
+
+        await pumpHomeworkPage(
+          tester,
+          bloc: homeworkPageBloc,
+          initialTab: HomeworkTab.open,
+        );
+
+        homeworkPageBloc.emitNewState(
+          _openHomeworksWith(HomeworkSort.subjectSmallestDateAndTitleSort),
+        );
+
+        await tester.pump();
+
+        await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.text(SortButton.sortByWeekdaySortButtonUiString).last,
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          homeworkPageBloc.receivedEvents
+              .whereType<OpenHwSortingChanged>()
+              .single,
+          OpenHwSortingChanged(HomeworkSort.weekdayDateSubjectAndTitle),
+        );
+      },
+    );
+
+    testWidgets('pressing sort by date button changes sorting to date sort', (
+      tester,
+    ) async {
       homeworkPageBloc = createBloc();
 
-      await pumpHomeworkPage(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
+      await pumpHomeworkPage(
+        tester,
+        bloc: homeworkPageBloc,
+        initialTab: HomeworkTab.open,
+      );
 
       homeworkPageBloc.emitNewState(
-          _openHomeworksWith(HomeworkSort.smallestDateSubjectAndTitle));
+        _openHomeworksWith(HomeworkSort.weekdayDateSubjectAndTitle),
+      );
 
       await tester.pump();
 
       await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text(SortButton.sortByDateSortButtonUiString).last);
+      await tester.pumpAndSettle();
 
       expect(
-          homeworkPageBloc.receivedEvents
-              .whereType<OpenHwSortingChanged>()
-              .single,
-          OpenHwSortingChanged(HomeworkSort.subjectSmallestDateAndTitleSort));
+        homeworkPageBloc.receivedEvents
+            .whereType<OpenHwSortingChanged>()
+            .single,
+        OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle),
+      );
     });
 
     testWidgets(
-        'pressing sort button changes sorting to date sort when current sort is subject sort',
-        (tester) async {
-      homeworkPageBloc = createBloc();
+      'pressing sort by subject button changes sorting to subject sort',
+      (tester) async {
+        homeworkPageBloc = createBloc();
 
-      await pumpHomeworkPage(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
+        await pumpHomeworkPage(
+          tester,
+          bloc: homeworkPageBloc,
+          initialTab: HomeworkTab.open,
+        );
 
-      homeworkPageBloc.emitNewState(
-          _openHomeworksWith(HomeworkSort.subjectSmallestDateAndTitleSort));
+        homeworkPageBloc.emitNewState(
+          _openHomeworksWith(HomeworkSort.weekdayDateSubjectAndTitle),
+        );
 
-      await tester.pump();
+        await tester.pump();
 
-      await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+        await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+        await tester.pumpAndSettle();
 
-      expect(
+        await tester.tap(
+          find.text(SortButton.sortBySubjectSortButtonUiString).last,
+        );
+        await tester.pumpAndSettle();
+
+        expect(
           homeworkPageBloc.receivedEvents
               .whereType<OpenHwSortingChanged>()
               .single,
-          OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle));
-    });
+          OpenHwSortingChanged(HomeworkSort.subjectSmallestDateAndTitleSort),
+        );
+      },
+    );
 
     Future<void> pumpHomeworkTiles(
-        WidgetTester tester, List<TeacherAndParentHomeworkView> views) async {
+      WidgetTester tester,
+      List<TeacherAndParentHomeworkView> views,
+    ) async {
       homeworkPageBloc = createBloc();
 
-      await pumpHomeworkPage(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.open);
+      await pumpHomeworkPage(
+        tester,
+        bloc: homeworkPageBloc,
+        initialTab: HomeworkTab.open,
+      );
 
-      homeworkPageBloc.emitNewState(Success(
-        TeacherAndParentOpenHomeworkListView(
-            IList([
-              HomeworkSectionView('Section 1', views.toIList()),
-            ]),
-            sorting: HomeworkSort.subjectSmallestDateAndTitleSort),
-        LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
-          const IListConst([]),
-          loadedAllHomeworks: true,
+      homeworkPageBloc.emitNewState(
+        Success(
+          TeacherAndParentOpenHomeworkListView(
+            IList([HomeworkSectionView('Section 1', views.toIList())]),
+            sorting: HomeworkSort.subjectSmallestDateAndTitleSort,
+          ),
+          LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
+            const IListConst([]),
+            loadedAllHomeworks: true,
+          ),
         ),
-      ));
+      );
 
       await tester.pump();
     }
 
     testWidgets(
-        'shows number of students who have done the homework as a counter in the homework tile',
-        (tester) async {
-      const nrOfCompletionsForNormalHomework = 5;
-      const nrOfCompletionsForSubmittableHomework = 8;
+      'shows number of students who have done the homework as a counter in the homework tile',
+      (tester) async {
+        const nrOfCompletionsForNormalHomework = 5;
+        const nrOfCompletionsForSubmittableHomework = 8;
 
-      await pumpHomeworkTiles(tester, [
-        randomHomeworkViewWith(
-          title: 'normal HW',
-          withSubmissions: false,
-          nrOfStudentsCompletedOrSubmitted: nrOfCompletionsForNormalHomework,
-        ),
-        randomHomeworkViewWith(
-          title: 'submittable HW',
-          withSubmissions: true,
-          nrOfStudentsCompletedOrSubmitted:
-              nrOfCompletionsForSubmittableHomework,
-        ),
-      ]);
+        await pumpHomeworkTiles(tester, [
+          randomHomeworkViewWith(
+            title: 'normal HW',
+            withSubmissions: false,
+            nrOfStudentsCompletedOrSubmitted: nrOfCompletionsForNormalHomework,
+          ),
+          randomHomeworkViewWith(
+            title: 'submittable HW',
+            withSubmissions: true,
+            nrOfStudentsCompletedOrSubmitted:
+                nrOfCompletionsForSubmittableHomework,
+          ),
+        ]);
 
-      expect(
-          find.widgetWithText(TeacherAndParentHomeworkTile,
-              '$nrOfCompletionsForNormalHomework'),
-          findsOneWidget);
-      expect(
-          find.widgetWithText(TeacherAndParentHomeworkTile,
-              '$nrOfCompletionsForSubmittableHomework'),
-          findsOneWidget);
-    });
+        expect(
+          find.widgetWithText(
+            TeacherAndParentHomeworkTile,
+            '$nrOfCompletionsForNormalHomework',
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.widgetWithText(
+            TeacherAndParentHomeworkTile,
+            '$nrOfCompletionsForSubmittableHomework',
+          ),
+          findsOneWidget,
+        );
+      },
+    );
 
     testWidgets(
-        'displays no placeholder on archived homework tab when there are no homeworks loaded locally but not all homeworks have been loaded from the backend',
-        (tester) async {
-      homeworkPageBloc = createBloc();
+      'displays no placeholder on archived homework tab when there are no homeworks loaded locally but not all homeworks have been loaded from the backend',
+      (tester) async {
+        homeworkPageBloc = createBloc();
 
-      await pumpHomeworkPage(tester,
-          bloc: homeworkPageBloc, initialTab: HomeworkTab.archived);
+        await pumpHomeworkPage(
+          tester,
+          bloc: homeworkPageBloc,
+          initialTab: HomeworkTab.archived,
+        );
 
-      homeworkPageBloc.emitNewState(Success(
-        _noOpenHomeworks,
-        LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
-          // No homeworks loaded already
-          const IListConst([]),
-          // but there are homeworks to load
-          loadedAllHomeworks: false,
-        ),
-      ));
+        homeworkPageBloc.emitNewState(
+          Success(
+            _noOpenHomeworks,
+            LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
+              // No homeworks loaded already
+              const IListConst([]),
+              // but there are homeworks to load
+              loadedAllHomeworks: false,
+            ),
+          ),
+        );
 
-      await tester.pump();
+        await tester.pump();
 
-      expect(_finders.archivedHomeworkTab.noHomeworkPlaceholder, findsNothing);
+        expect(
+          _finders.archivedHomeworkTab.noHomeworkPlaceholder,
+          findsNothing,
+        );
 
-      // See test further above for why we need to pump here.
-      tester.pump(const Duration(seconds: 2));
-    });
+        // See test further above for why we need to pump here.
+        tester.pump(const Duration(seconds: 2));
+      },
+    );
   });
 }
 
@@ -482,21 +655,23 @@ class _HomeworkPageFinders {
 
 class _OpenHomeworkTabFinders {
   Finder get homeworkList => find.byType(TeacherAndParentOpenHomeworkList);
-  Finder get bnbSortButton => find.byType(SortButton);
+  Finder get bnbSortButton => find.byKey(const Key('change_homework_sorting'));
   Finder get noHomeworkPlaceholder =>
-      // Widget is private. Not sure if this is the best way or if we should make
-      // the Widget public and use the type directly.
-      find.byKey(
-          const ValueKey('no-homework-teacher-placeholder-for-open-homework'));
+  // Widget is private. Not sure if this is the best way or if we should make
+  // the Widget public and use the type directly.
+  find.byKey(
+    const ValueKey('no-homework-teacher-placeholder-for-open-homework'),
+  );
 }
 
 class _ArchivedHomeworkListFinders {
   Finder get homeworkList => find.byType(TeacherAndParentArchivedHomeworkList);
   Finder get noHomeworkPlaceholder => find
-      // Widget is private. Not sure if this is the best way or if we should make
-      // the Widget public and use the type directly.
-      .byKey(const ValueKey(
-          'no-homework-teacher-placeholder-for-archived-homework'));
+  // Widget is private. Not sure if this is the best way or if we should make
+  // the Widget public and use the type directly.
+  .byKey(
+    const ValueKey('no-homework-teacher-placeholder-for-archived-homework'),
+  );
 }
 
 bool _randomBool() {
@@ -528,16 +703,18 @@ TeacherAndParentHomeworkView randomHomeworkViewWith({
 Success _openHomeworksWith(HomeworkSort sort) {
   return Success(
     TeacherAndParentOpenHomeworkListView(
-        IList([
-          HomeworkSectionView(
-              'Heute',
-              IList([
-                randomHomeworkViewWith(title: 'S. 32'),
-                randomHomeworkViewWith(title: 'S. 34'),
-                randomHomeworkViewWith(title: 'S. 31'),
-              ])),
-        ]),
-        sorting: sort),
+      IList([
+        HomeworkSectionView(
+          'Heute',
+          IList([
+            randomHomeworkViewWith(title: 'S. 32'),
+            randomHomeworkViewWith(title: 'S. 34'),
+            randomHomeworkViewWith(title: 'S. 31'),
+          ]),
+        ),
+      ]),
+      sorting: sort,
+    ),
     _noArchivedHomeworks,
   );
 }
@@ -554,12 +731,14 @@ final _noHomeworks = Success(
 );
 
 final _noOpenHomeworks = TeacherAndParentOpenHomeworkListView(
-    const IListConst([]),
-    sorting: HomeworkSort.smallestDateSubjectAndTitle);
+  const IListConst([]),
+  sorting: HomeworkSort.smallestDateSubjectAndTitle,
+);
 final _noArchivedHomeworks =
     LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
-        const IListConst([]),
-        loadedAllHomeworks: true);
+      const IListConst([]),
+      loadedAllHomeworks: true,
+    );
 
 Future<void> _pumpHomeworkPageWithNoHomeworks(
   WidgetTester tester, {

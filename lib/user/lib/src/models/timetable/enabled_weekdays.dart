@@ -27,7 +27,8 @@ class EnabledWeekDays {
   static const EnabledWeekDays standard = EnabledWeekDays._({});
 
   factory EnabledWeekDays.fromEnabledWeekDaysList(
-      List<WeekDay> enabledWeekDays) {
+    List<WeekDay> enabledWeekDays,
+  ) {
     var wkd = EnabledWeekDays.standard;
 
     for (var weekday in WeekDay.values) {

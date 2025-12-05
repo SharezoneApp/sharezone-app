@@ -68,9 +68,10 @@ class _ChangeStatePageBody extends StatelessWidget {
   }
 
   void showExceptionSnackbar(BuildContext context) => showSnackSec(
-      context: context,
-      text: context.l10n.changeStatePageErrorChangingState,
-      seconds: 3);
+    context: context,
+    text: context.l10n.changeStatePageErrorChangingState,
+    seconds: 3,
+  );
 }
 
 class _WhyWeNeedTheState extends StatelessWidget {
@@ -93,50 +94,49 @@ class _StateRadioGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        _StateListTile(StateEnum.badenWuerttemberg, initialState: initialState),
-        _StateListTile(StateEnum.bayern, initialState: initialState),
-        _StateListTile(StateEnum.berlin, initialState: initialState),
-        _StateListTile(StateEnum.brandenburg, initialState: initialState),
-        _StateListTile(StateEnum.bremen, initialState: initialState),
-        _StateListTile(StateEnum.hamburg, initialState: initialState),
-        _StateListTile(StateEnum.hessen, initialState: initialState),
-        _StateListTile(StateEnum.mecklenburgVorpommern,
-            initialState: initialState),
-        _StateListTile(StateEnum.niedersachsen, initialState: initialState),
-        _StateListTile(StateEnum.nordrheinWestfalen,
-            initialState: initialState),
-        _StateListTile(StateEnum.rheinlandPfalz, initialState: initialState),
-        _StateListTile(StateEnum.saarland, initialState: initialState),
-        _StateListTile(StateEnum.sachsen, initialState: initialState),
-        _StateListTile(StateEnum.sachsenAnhalt, initialState: initialState),
-        _StateListTile(StateEnum.schleswigHolstein, initialState: initialState),
-        _StateListTile(StateEnum.thueringen, initialState: initialState),
-        _StateListTile(StateEnum.notFromGermany, initialState: initialState),
-        _StateListTile(StateEnum.anonymous, initialState: initialState),
-      ],
-    );
-  }
-}
-
-class _StateListTile extends StatelessWidget {
-  const _StateListTile(this.state, {this.initialState});
-
-  final StateEnum state;
-  final StateEnum? initialState;
-
-  @override
-  Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HolidayBloc>(context);
-    return RadioListTile(
-      title: Text(state.getDisplayName(context)),
-      value: state,
+    return RadioGroup(
       groupValue: initialState,
       onChanged: (StateEnum? newState) {
         bloc.changeState(newState);
         savedChangesSnackBar(context);
       },
+      child: const Column(
+        children: <Widget>[
+          _StateListTile(StateEnum.badenWuerttemberg),
+          _StateListTile(StateEnum.bayern),
+          _StateListTile(StateEnum.berlin),
+          _StateListTile(StateEnum.brandenburg),
+          _StateListTile(StateEnum.bremen),
+          _StateListTile(StateEnum.hamburg),
+          _StateListTile(StateEnum.hessen),
+          _StateListTile(StateEnum.mecklenburgVorpommern),
+          _StateListTile(StateEnum.niedersachsen),
+          _StateListTile(StateEnum.nordrheinWestfalen),
+          _StateListTile(StateEnum.rheinlandPfalz),
+          _StateListTile(StateEnum.saarland),
+          _StateListTile(StateEnum.sachsen),
+          _StateListTile(StateEnum.sachsenAnhalt),
+          _StateListTile(StateEnum.schleswigHolstein),
+          _StateListTile(StateEnum.thueringen),
+          _StateListTile(StateEnum.notFromGermany),
+          _StateListTile(StateEnum.anonymous),
+        ],
+      ),
+    );
+  }
+}
+
+class _StateListTile extends StatelessWidget {
+  const _StateListTile(this.state);
+
+  final StateEnum state;
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioListTile(
+      title: Text(state.getDisplayName(context)),
+      value: state,
     );
   }
 }

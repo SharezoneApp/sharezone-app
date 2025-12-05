@@ -11,8 +11,9 @@ description: A new Flutter package project.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ^3.7.0
 
 dependencies:
   cloud_firestore_helper:
@@ -27,7 +28,7 @@ dependencies:
     path: ../design
   flutter:
     sdk: flutter
-  clock: ^1.1.1
+  clock: ^1.1.2
 
 dev_dependencies:
   flutter_test:

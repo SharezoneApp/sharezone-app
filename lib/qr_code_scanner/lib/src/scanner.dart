@@ -80,7 +80,7 @@ class _ScannerState extends State<Scanner> {
     return MobileScanner(
       controller: controller,
       fit: BoxFit.cover,
-      errorBuilder: (context, exception, child) {
+      errorBuilder: (context, exception) {
         return _Error(exception: exception);
       },
       // The overlay (including controls like torch and text) that is
@@ -98,9 +98,7 @@ class _ScannerState extends State<Scanner> {
 }
 
 class _Error extends StatelessWidget {
-  const _Error({
-    required this.exception,
-  });
+  const _Error({required this.exception});
 
   final MobileScannerException exception;
 

@@ -55,12 +55,12 @@ class ChangeDatabaseModel {
   }
 
   Change toChange() => Change(
-        fixes: fixes,
-        releaseDate: releaseDate,
-        newFeatures: newFeatures,
-        improvements: improvements,
-        version: Version.parse(name: version),
-      );
+    fixes: fixes,
+    releaseDate: releaseDate,
+    newFeatures: newFeatures,
+    improvements: improvements,
+    version: Version.parse(name: version),
+  );
 
   ChangeDatabaseModel copyWith({
     String? id,

@@ -59,10 +59,7 @@ enum AppLocale {
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'isSystem': isSystem(),
-      'languageTag': _toLanguageTag(),
-    };
+    return {'isSystem': isSystem(), 'languageTag': _toLanguageTag()};
   }
 
   bool isSystem() {

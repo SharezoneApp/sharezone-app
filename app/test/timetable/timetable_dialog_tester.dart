@@ -77,31 +77,30 @@ class TimetableDialogTester {
 
     await tester.pumpWidgetBuilder(
       MultiBlocProvider(
-        blocProviders: [
-          BlocProvider<SharezoneContext>(
-            bloc: sharezoneContext,
-          ),
-        ],
-        child: (context) => TimetableAddEventDialog(
-          isExam: isExam,
-          controller: dialogController,
-          // We can't select anything in the time picker, its like its not
-          // visible to the widget tests. So we have to return a fake time
-          // and not use the real time picker at all.
-          showTimePickerTestOverride: _showTimePickerDialogTestOverride,
-          titleFocusNode: titleFocusNode,
-        ),
+        blocProviders: [BlocProvider<SharezoneContext>(bloc: sharezoneContext)],
+        child:
+            (context) => TimetableAddEventDialog(
+              isExam: isExam,
+              controller: dialogController,
+              // We can't select anything in the time picker, its like its not
+              // visible to the widget tests. So we have to return a fake time
+              // and not use the real time picker at all.
+              showTimePickerTestOverride: _showTimePickerDialogTestOverride,
+              titleFocusNode: titleFocusNode,
+            ),
       ),
       wrapper: materialAppWrapper(theme: theme),
     );
 
     await tester.pumpAndSettle(
-        additionalPumpAndSettleDuration ?? const Duration(milliseconds: 100));
+      additionalPumpAndSettleDuration ?? const Duration(milliseconds: 100),
+    );
   }
 
   void addCourse(Course course) {
-    when(courseGateway.streamCourses())
-        .thenAnswer((_) => Stream.value([course]));
+    when(
+      courseGateway.streamCourses(),
+    ).thenAnswer((_) => Stream.value([course]));
     when(api.loadCourse(any)).thenAnswer((_) => Future.value(course));
   }
 
@@ -152,7 +151,9 @@ class TimetableDialogTester {
 
   Future<void> enterDescription(String description) async {
     await tester.enterText(
-        find.byKey(EventDialogKeys.descriptionTextField), description);
+      find.byKey(EventDialogKeys.descriptionTextField),
+      description,
+    );
   }
 
   Future<void> enterLocation(String location) async {

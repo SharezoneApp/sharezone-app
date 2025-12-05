@@ -58,7 +58,7 @@ jobs:
   # "safe to test" label when the PR comes from a fork in order to ensure that
   # every change is reviewed for security implications.
   remove-safe-to-build-label:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       # Required by the remove-safe-to-test-label action
       contents: read
@@ -77,11 +77,11 @@ jobs:
   #   (workaround for required checks with path filters)
   changes:
     needs: remove-safe-to-build-label
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
@@ -131,7 +131,7 @@ jobs:
     #
     # Otherwise this will be triggered inside a merge-queue.
     if: ${{ github.event_name == 'pull_request_target' && needs.changes.outputs.changesFound == 'true'}}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       pull-requests: write # for FirebaseExtended/action-hosting-deploy to comment on PRs
       checks: write # for FirebaseExtended/action-hosting-deploy to comment on PRs (without write permissions for checks the action doesn't post a comment to the PR, we don't know why)
@@ -139,7 +139,7 @@ jobs:
       - name: Ensure PR has "safe to test" label, if PR is from a fork
         uses: SharezoneApp/verify-safe-to-test-label@c1059d43fc918756660a700ca6d08e445ff314a2
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           # Because we are using the "pull_request_target" event, we need to
           # checkout the PR head commit instead of the merge commit.
@@ -147,9 +147,9 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -162,6 +162,11 @@ jobs:
       - name: Build
         run: sz build console --flavor dev
 
+      - name: Setup Node.js
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903
+        with:
+          node-version: "20"
+
       - name: Deploy to Firebase Hosting (sharezone-debug)
         uses: FirebaseExtended/action-hosting-deploy@120e124148ab7016bec2374e5050f15051255ba2
         with:
@@ -173,3 +178,4 @@ jobs:
           # of pull requests, we will run out of quota (we get 429 errors).
           expires: "3d"
           target: "sharezone-console"
+          firebaseToolsVersion: 13.35.1

@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
@@ -23,19 +22,20 @@ Future<void> showRemoveFileFromBlocDialog({
 
   showDialog(
     context: context,
-    builder: (context) => SimpleDialog(
-      contentPadding: const EdgeInsets.all(0),
-      children: <Widget>[
-        LongPressDialogTile(
-          iconData: Icons.delete,
-          title: "Anhang entfernen",
-          onTap: () {
-            removeFileFromBlocMethod();
-            Navigator.pop(context);
-          },
+    builder:
+        (context) => SimpleDialog(
+          contentPadding: const EdgeInsets.all(0),
+          children: <Widget>[
+            LongPressDialogTile(
+              iconData: Icons.delete,
+              title: "Anhang entfernen",
+              onTap: () {
+                removeFileFromBlocMethod();
+                Navigator.pop(context);
+              },
+            ),
+          ],
         ),
-      ],
-    ),
   );
 }
 
@@ -57,12 +57,12 @@ class FileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FileTile(
-        cloudFile: cloudFile,
-        localFile: localFile,
-        trailing: trailing,
-        onTap: onTap,
-        onLongPress: onLongPress,
-      );
+    cloudFile: cloudFile,
+    localFile: localFile,
+    trailing: trailing,
+    onTap: onTap,
+    onLongPress: onLongPress,
+  );
 }
 
 class FileTile extends StatelessWidget {
@@ -83,9 +83,10 @@ class FileTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FileFormat fileType = localFile != null
-        ? FileUtils.getFileFormatFromMimeType(localFile!.getType())
-        : cloudFile!.fileFormat;
+    final FileFormat fileType =
+        localFile != null
+            ? FileUtils.getFileFormatFromMimeType(localFile!.getType())
+            : cloudFile!.fileFormat;
     final name = localFile != null ? localFile!.getName() : cloudFile!.name;
 
     return FileTileBase(
@@ -138,10 +139,11 @@ class FileMoreOptionsWithOnlyRemoveFileFromBloc extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.more_vert),
-      onPressed: () => showRemoveFileFromBlocDialog(
-        context: context,
-        removeFileFromBlocMethod: removeFileFromBlocMethod,
-      ),
+      onPressed:
+          () => showRemoveFileFromBlocDialog(
+            context: context,
+            removeFileFromBlocMethod: removeFileFromBlocMethod,
+          ),
     );
   }
 }

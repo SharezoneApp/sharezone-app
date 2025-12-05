@@ -46,7 +46,8 @@ class Package {
     final YamlMap dependencies = pubspecYaml['dependencies'] ?? YamlMap();
     final YamlMap devDependencies =
         pubspecYaml['dev_dependencies'] ?? YamlMap();
-    final containsFlutter = dependencies.containsKey('flutter') ||
+    final containsFlutter =
+        dependencies.containsKey('flutter') ||
         devDependencies.containsKey('flutter');
     final name = pubspecYaml['name'] as String?;
     final version = pubspecYaml['version'] as String?;
@@ -59,7 +60,8 @@ class Package {
     final hasTestGoldensDirectory =
         directory.childDirectory('test_goldens').existsSync();
 
-    final hasBuildRunnerDependency = dependencies.containsKey('build_runner') ||
+    final hasBuildRunnerDependency =
+        dependencies.containsKey('build_runner') ||
         devDependencies.containsKey('build_runner');
 
     return Package(

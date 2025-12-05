@@ -14,10 +14,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class ErrorJoinResultDialog extends StatelessWidget {
   final ErrorJoinResult errorJoinResult;
 
-  const ErrorJoinResultDialog({
-    super.key,
-    required this.errorJoinResult,
-  });
+  const ErrorJoinResultDialog({super.key, required this.errorJoinResult});
   @override
   Widget build(BuildContext context) {
     if (errorJoinResult.groupJoinException is NoInternetGroupJoinException) {
@@ -31,7 +28,9 @@ class ErrorJoinResultDialog extends StatelessWidget {
       return _NotPublic();
     }
     if (errorJoinResult.groupJoinException
-        is SharecodeNotFoundGroupJoinException) return _NotFound();
+        is SharecodeNotFoundGroupJoinException) {
+      return _NotFound();
+    }
 
     return _UnknownError();
   }

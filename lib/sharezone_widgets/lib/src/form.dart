@@ -24,14 +24,15 @@ Future<void> showDeleteDialog({
   VoidCallback? onDelete,
   bool popTwice = true,
 }) async {
-  final result = (await showLeftRightAdaptiveDialog<bool>(
-    context: context,
-    title: title,
-    content: description,
-    defaultValue: false,
-    left: AdaptiveDialogAction.cancel,
-    right: AdaptiveDialogAction.delete,
-  ))!;
+  final result =
+      (await showLeftRightAdaptiveDialog<bool>(
+        context: context,
+        title: title,
+        content: description,
+        defaultValue: false,
+        left: AdaptiveDialogAction.cancel,
+        right: AdaptiveDialogAction.delete,
+      ))!;
 
   if (result) {
     onDelete!();
@@ -51,12 +52,14 @@ class LeaveEditedFormAlert extends StatelessWidget {
         TextSpan(
           text: 'Möchtest du die Eingabe wirklich beenden? Die Daten werden ',
           style: TextStyle(
-              color:
-                  Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
-              fontSize: 16.0),
+            color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+            fontSize: 16.0,
+          ),
           children: const <TextSpan>[
             TextSpan(
-                text: 'nicht', style: TextStyle(fontWeight: FontWeight.bold)),
+              text: 'nicht',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             TextSpan(text: ' gespeichert!'),
           ],
         ),
@@ -151,8 +154,10 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
         autofocus: true,
         textInputAction: TextInputAction.done,
         onEditingComplete: () => widget.onTap(name),
-        decoration:
-            InputDecoration(hintText: widget.hint, errorText: errorText),
+        decoration: InputDecoration(
+          hintText: widget.hint,
+          errorText: errorText,
+        ),
       ),
       actions: <Widget>[
         TextButton(
@@ -182,12 +187,13 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
               if (!containsStringNowAllowChars(name)) {
                 widget.onTap(name);
               } else {
-                setState(() =>
-                    errorText = "Folgende Zeichen sind nicht erlaubt: / ");
+                setState(
+                  () => errorText = "Folgende Zeichen sind nicht erlaubt: / ",
+                );
               }
             }
           },
-        )
+        ),
       ],
     );
   }

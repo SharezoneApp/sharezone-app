@@ -72,8 +72,10 @@ class _PortableMainScaffoldState extends State<PortableMainScaffold> {
               child: Scaffold(
                 drawer: isOldNav ? const SharezoneDrawer() : null,
                 appBar: AppBar(
-                  title: Text(widget.appBarConfiguration?.title ??
-                      widget.navigationItem.getName()),
+                  title: Text(
+                    widget.appBarConfiguration?.title ??
+                        widget.navigationItem.getName(),
+                  ),
                   centerTitle: isOldNav,
                   elevation: widget.appBarConfiguration?.elevation,
                   leading: isOldNav ? const DrawerIcon() : null,

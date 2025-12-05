@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library holidays;
+library;
 
 export 'src/holiday_service.dart';
 export 'src/api/holiday.dart';

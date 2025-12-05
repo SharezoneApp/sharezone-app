@@ -6,10 +6,10 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-# This file is used to check that we only use dependencies with 
+# This file is used to check that we only use dependencies with
 # licenses that we are allowed to use / that we want to use.
 # It is used by the Dart `license_checker` package.
-# 
+#
 # Run in `app` to show if some dependency are not allowed:
 # dart lic_ck check-licenses --config ../licenses_config.yaml --problematic
 
@@ -22,15 +22,16 @@ permittedLicenses:
   - Zlib
   - MIT-Modern-Variant
   - EUPL-1.2-or-later
+  - BSL-1.0
 
 approvedPackages:
   no-file:
-  - flutter_driver
-  - flutter_localizations
-  - flutter_test
-  - flutter_web_plugins
-  - fuchsia_remote_debug_protocol
-  - integration_test
+    - flutter_driver
+    - flutter_localizations
+    - flutter_test
+    - flutter_web_plugins
+    - fuchsia_remote_debug_protocol
+    - integration_test
 
 packageLicenseOverride:
   rxdart: Apache-2.0
@@ -44,6 +45,12 @@ packageLicenseOverride:
   # Open issue about the license: https://github.com/akshathjain/sliding_up_panel/issues/312
   sliding_up_panel: BSD-2-Clause
   # Our local packages
+  sharezone: EUPL-1.2-or-later
+  sharezone_console: EUPL-1.2-or-later
+  cloud_firestore_helper_example: EUPL-1.2-or-later
+  qr_code_scanner_example: EUPL-1.2-or-later
+  sz_repo_cli: EUPL-1.2-or-later
+  sharezone_website: EUPL-1.2-or-later
   abgabe_client_lib: EUPL-1.2-or-later
   abgabe_http_api: EUPL-1.2-or-later
   analytics: EUPL-1.2-or-later
@@ -58,7 +65,6 @@ packageLicenseOverride:
   cloud_firestore_helper: EUPL-1.2-or-later
   date: EUPL-1.2-or-later
   design: EUPL-1.2-or-later
-  dynamic_links: EUPL-1.2-or-later
   files_basics: EUPL-1.2-or-later
   files_usecases: EUPL-1.2-or-later
   filesharing_logic: EUPL-1.2-or-later
@@ -79,7 +85,7 @@ packageLicenseOverride:
   sharezone_utils: EUPL-1.2-or-later
   sharezone_widgets: EUPL-1.2-or-later
   stripe_checkout_session: EUPL-1.2-or-later
-  legal: EUPL-1.2-or-later 
+  legal: EUPL-1.2-or-later
   time: EUPL-1.2-or-later
   url_launcher_extended: EUPL-1.2-or-later
   user: EUPL-1.2-or-later

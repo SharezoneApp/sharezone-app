@@ -13,9 +13,5 @@ class LongPress<T> {
   final T popResult;
   final Widget? icon;
 
-  const LongPress({
-    required this.title,
-    required this.popResult,
-    this.icon,
-  });
+  const LongPress({required this.title, required this.popResult, this.icon});
 }

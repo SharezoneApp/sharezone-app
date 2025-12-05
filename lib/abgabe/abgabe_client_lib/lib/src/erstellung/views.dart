@@ -42,11 +42,7 @@ class SubmissionPageView {
       'SubmissionPageView(state: $deadlineState, submitted: $submitted, files: $files)';
 }
 
-enum SubmissionDeadlineState {
-  beforeDeadline,
-  onDeadline,
-  afterDeadline,
-}
+enum SubmissionDeadlineState { beforeDeadline, onDeadline, afterDeadline }
 
 class FileView {
   final String id;

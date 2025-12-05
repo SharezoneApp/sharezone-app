@@ -37,11 +37,14 @@ class ChangePasswordPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ChangeDataPasswordField(
-                  labelText: context
-                      .l10n.changePasswordPageCurrentPasswordTextfieldLabel,
-                  autofocus: true,
-                  onEditComplete: () =>
-                      FocusManager.instance.primaryFocus?.unfocus()),
+                labelText:
+                    context
+                        .l10n
+                        .changePasswordPageCurrentPasswordTextfieldLabel,
+                autofocus: true,
+                onEditComplete:
+                    () => FocusManager.instance.primaryFocus?.unfocus(),
+              ),
               const SizedBox(height: 16),
               _NewPasswordField(newPasswordNode: newPasswordNode),
               const SizedBox(height: 16),
@@ -60,11 +63,12 @@ class _ChangePasswordFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: FloatingActionButton(
-        onPressed: () async => submit(
-          context,
-          context.l10n.changePasswordPageLoadingSnackbarText,
-          changeType,
-        ),
+        onPressed:
+            () async => submit(
+              context,
+              context.l10n.changePasswordPageLoadingSnackbarText,
+              changeType,
+            ),
         tooltip: context.l10n.commonActionsSave,
         child: const Icon(Icons.check),
       ),
@@ -93,13 +97,13 @@ class _NewPasswordFieldState extends State<_NewPasswordField> {
         return TextField(
           focusNode: widget.newPasswordNode,
           onChanged: bloc.changeNewPassword,
-          onEditingComplete: () async =>
-              submit(context, snackBarText, changeType),
+          onEditingComplete:
+              () async => submit(context, snackBarText, changeType),
           autofocus: false,
           autofillHints: const [AutofillHints.newPassword],
           decoration: InputDecoration(
             labelText: context.l10n.changePasswordPageNewPasswordTextfieldLabel,
-//            icon: new Icon(Icons.vpn_key),
+            //            icon: new Icon(Icons.vpn_key),
             errorText: snapshot.error?.toString(),
             suffixIcon: GestureDetector(
               onTap: () {
@@ -107,8 +111,9 @@ class _NewPasswordFieldState extends State<_NewPasswordField> {
                   _obscureText = !_obscureText;
                 });
               },
-              child:
-                  Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+              child: Icon(
+                _obscureText ? Icons.visibility : Icons.visibility_off,
+              ),
             ),
           ),
           obscureText: _obscureText,
@@ -125,37 +130,41 @@ class _ResetPassword extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: TextButton(
-        style: TextButton.styleFrom(
-          foregroundColor: Colors.grey[400],
-        ),
+        style: TextButton.styleFrom(foregroundColor: Colors.grey[400]),
         onPressed: () async {
           bool? reset = await showDialog<bool>(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(context
-                      .l10n.changePasswordPageResetCurrentPasswordDialogTitle),
-                  content: Text(context.l10n
-                      .changePasswordPageResetCurrentPasswordDialogContent),
-                  actions: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(context).primaryColor,
-                      ),
-                      child:
-                          Text(context.l10n.commonActionsCancel.toUpperCase()),
-                      onPressed: () => Navigator.pop(context, false),
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  context
+                      .l10n
+                      .changePasswordPageResetCurrentPasswordDialogTitle,
+                ),
+                content: Text(
+                  context
+                      .l10n
+                      .changePasswordPageResetCurrentPasswordDialogContent,
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context).primaryColor,
                     ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(context).primaryColor,
-                      ),
-                      child: Text(context.l10n.commonActionsYes.toUpperCase()),
-                      onPressed: () => Navigator.pop(context, true),
+                    child: Text(context.l10n.commonActionsCancel.toUpperCase()),
+                    onPressed: () => Navigator.pop(context, false),
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context).primaryColor,
                     ),
-                  ],
-                );
-              });
+                    child: Text(context.l10n.commonActionsYes.toUpperCase()),
+                    onPressed: () => Navigator.pop(context, true),
+                  ),
+                ],
+              );
+            },
+          );
           if (!context.mounted) return;
 
           if (reset != null && reset) {
@@ -169,15 +178,14 @@ class _ResetPassword extends StatelessWidget {
             String? message;
             try {
               bloc.sendResetPasswordMail();
-              message = context.l10n
-                  .changePasswordPageResetCurrentPasswordEmailSentConfirmation;
+              message =
+                  context
+                      .l10n
+                      .changePasswordPageResetCurrentPasswordEmailSentConfirmation;
             } on Exception catch (e, s) {
               message = handleErrorMessage(e.toString(), s);
             } finally {
-              showSnackSec(
-                context: context,
-                text: message,
-              );
+              showSnackSec(context: context, text: message);
             }
           }
         },

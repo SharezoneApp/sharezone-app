@@ -30,9 +30,11 @@ void main() {
     });
 
     Widget buildWidget({bool isUnlocked = true}) {
-      when(mockSubscriptionService
-              .hasFeatureUnlocked(SharezonePlusFeature.addTeachersToTimetable))
-          .thenReturn(isUnlocked);
+      when(
+        mockSubscriptionService.hasFeatureUnlocked(
+          SharezonePlusFeature.addTeachersToTimetable,
+        ),
+      ).thenReturn(isUnlocked);
       return Provider<SubscriptionService>.value(
         value: mockSubscriptionService,
         child: MaterialApp(
@@ -47,14 +49,16 @@ void main() {
       );
     }
 
-    testWidgets('should show initial teacher value',
-        (WidgetTester tester) async {
+    testWidgets('should show initial teacher value', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildWidget());
       expect(find.text(initialTeacher), findsOneWidget);
     });
 
-    testWidgets('should related teachers in autocomplete menu',
-        (WidgetTester tester) async {
+    testWidgets('should related teachers in autocomplete menu', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildWidget());
       await tester.enterText(find.byType(TextField), 'Rog');
 
@@ -64,22 +68,25 @@ void main() {
       expect(find.text('Ms. Lee'), findsNothing);
     });
 
-    testWidgets('should take selected value from autocomplete menu',
-        (WidgetTester tester) async {
+    testWidgets('should take selected value from autocomplete menu', (
+      WidgetTester tester,
+    ) async {
       String selectedTeacher = '';
-      await tester.pumpWidget(Provider<SubscriptionService>.value(
-        value: mockSubscriptionService,
-        child: MaterialApp(
-          home: Scaffold(
-            body: TeacherField(
-              teachers: teachersList,
-              onTeacherChanged: (teacher) {
-                selectedTeacher = teacher;
-              },
+      await tester.pumpWidget(
+        Provider<SubscriptionService>.value(
+          value: mockSubscriptionService,
+          child: MaterialApp(
+            home: Scaffold(
+              body: TeacherField(
+                teachers: teachersList,
+                onTeacherChanged: (teacher) {
+                  selectedTeacher = teacher;
+                },
+              ),
             ),
           ),
         ),
-      ));
+      );
 
       await tester.enterText(find.byType(TextField), 'Mrs.');
       await tester.pumpAndSettle();
@@ -89,43 +96,51 @@ void main() {
       expect(selectedTeacher, equals('Mrs. Stark'));
     });
 
-    testWidgets('should ignore interaction when Locked',
-        (WidgetTester tester) async {
+    testWidgets('should ignore interaction when Locked', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildWidget(isUnlocked: false));
 
       expect(
-          tester
-              .widget<IgnorePointer>(
-                  find.byKey(const Key('teacher-ignore-pointer-widget')))
-              .ignoring,
-          isTrue);
+        tester
+            .widget<IgnorePointer>(
+              find.byKey(const Key('teacher-ignore-pointer-widget')),
+            )
+            .ignoring,
+        isTrue,
+      );
     });
 
-    testWidgets('show allow interactions when unlocked',
-        (WidgetTester tester) async {
+    testWidgets('show allow interactions when unlocked', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildWidget(isUnlocked: true));
 
       expect(
-          tester
-              .widget<IgnorePointer>(
-                  find.byKey(const Key('teacher-ignore-pointer-widget')))
-              .ignoring,
-          isFalse);
+        tester
+            .widget<IgnorePointer>(
+              find.byKey(const Key('teacher-ignore-pointer-widget')),
+            )
+            .ignoring,
+        isFalse,
+      );
     });
 
     testWidgets(
-        'should show showTeachersInTimetablePlusDialog when non plus user taps on teacher field',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(buildWidget(isUnlocked: false));
+      'should show showTeachersInTimetablePlusDialog when non plus user taps on teacher field',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(buildWidget(isUnlocked: false));
 
-      await tester.tap(find.byType(ListTile));
-      await tester.pumpAndSettle();
+        await tester.tap(find.byType(ListTile));
+        await tester.pumpAndSettle();
 
-      expect(find.byType(AlertDialog), findsOneWidget);
-    });
+        expect(find.byType(AlertDialog), findsOneWidget);
+      },
+    );
 
-    testWidgets('should show Sharezone Plus chip for non plus users',
-        (WidgetTester tester) async {
+    testWidgets('should show Sharezone Plus chip for non plus users', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(buildWidget(isUnlocked: false));
 
       expect(find.byType(SharezonePlusChip), findsOneWidget);

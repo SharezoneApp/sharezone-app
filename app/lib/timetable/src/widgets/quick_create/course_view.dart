@@ -16,12 +16,13 @@ class QuickCreateCourseView {
   final Design? design;
   final Course? course;
 
-  const QuickCreateCourseView(
-      {this.name,
-      this.abbreviation,
-      this.abbreviationColor,
-      this.design,
-      this.course});
+  const QuickCreateCourseView({
+    this.name,
+    this.abbreviation,
+    this.abbreviationColor,
+    this.design,
+    this.course,
+  });
 
   factory QuickCreateCourseView.fromCourseAndGroupInfo(
     Course course,
@@ -30,7 +31,7 @@ class QuickCreateCourseView {
   ) {
     return QuickCreateCourseView(
       name: course.name,
-      abbreviationColor: course.getDesign().color.withOpacity(0.2),
+      abbreviationColor: course.getDesign().color.withValues(alpha: 0.2),
     );
   }
 }

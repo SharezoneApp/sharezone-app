@@ -20,8 +20,9 @@ class LoggingAnalyticsBackend extends AnalyticsBackend {
 
   @override
   Future<void> setAnalyticsCollectionEnabled(bool value) async {
-    developer
-        .log("setAnalyticsCollectionEnabled: $setAnalyticsCollectionEnabled");
+    developer.log(
+      "setAnalyticsCollectionEnabled: $setAnalyticsCollectionEnabled",
+    );
   }
 
   @override

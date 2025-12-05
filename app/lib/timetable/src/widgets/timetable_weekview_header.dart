@@ -20,13 +20,14 @@ const _headerHeight = 50.0;
 class TimetableWeekViewHeader extends SliverPersistentHeaderDelegate {
   final List<Date> dates;
 
-  TimetableWeekViewHeader({
-    required this.dates,
-  });
+  TimetableWeekViewHeader({required this.dates});
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Material(
       color: Theme.of(context).appBarTheme.backgroundColor,
       elevation: 1,
@@ -35,32 +36,34 @@ class TimetableWeekViewHeader extends SliverPersistentHeaderDelegate {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-                flex: 2,
-                child: TimetableConfigBuilder(
-                  builder: (context, config) {
-                    final WeekType currentWeekType =
-                        config.getWeekType(dates.first);
-                    return currentWeekType == WeekType.always
-                        ? Container()
-                        : Center(
-                            child: Text(
-                              getWeekTypeTextShort(currentWeekType),
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).isDarkTheme
-                                      ? Theme.of(context)
-                                          .textTheme
-                                          .titleLarge
-                                          ?.color
-                                      : Theme.of(context)
-                                          .appBarTheme
-                                          .titleTextStyle
-                                          ?.color),
-                            ),
-                          );
-                  },
-                )),
+              flex: 2,
+              child: TimetableConfigBuilder(
+                builder: (context, config) {
+                  final WeekType currentWeekType = config.getWeekType(
+                    dates.first,
+                  );
+                  return currentWeekType == WeekType.always
+                      ? Container()
+                      : Center(
+                        child: Text(
+                          getWeekTypeTextShort(currentWeekType),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                Theme.of(context).isDarkTheme
+                                    ? Theme.of(
+                                      context,
+                                    ).textTheme.titleLarge?.color
+                                    : Theme.of(
+                                      context,
+                                    ).appBarTheme.titleTextStyle?.color,
+                          ),
+                        ),
+                      );
+                },
+              ),
+            ),
             for (final date in dates)
               TimetableWeekViewDayTile(
                 date: date,

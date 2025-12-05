@@ -11,11 +11,12 @@ description: Example for cloud_firestore_helper.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: ">=3.1.0 <4.0.0"
+  sdk: ^3.7.0
 
 dependencies:
-  cloud_firestore: ^4.17.2
+  cloud_firestore: ^6.0.2
   cloud_firestore_helper:
     path: ../
   flutter:

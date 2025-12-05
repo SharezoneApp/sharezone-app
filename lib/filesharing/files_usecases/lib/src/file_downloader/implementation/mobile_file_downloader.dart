@@ -8,20 +8,26 @@
 
 import 'dart:io';
 
-import 'package:files_basics/files_models.dart';
-import 'package:path/path.dart' as path;
-
 import 'package:files_basics/local_file.dart';
 import 'package:files_basics/local_file_io.dart';
 import 'package:files_usecases/src/file_downloader/file_downloader.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:path/path.dart' as path;
 import 'package:platform_check/platform_check.dart';
 
 class MobileFileDownloader extends FileDownloader {
   @override
   Future<LocalFile> downloadFileFromURL(
-      String url, String filename, String id) async {
+    String url,
+    String filename,
+    String id, {
+    bool rename = true,
+  }) async {
     File fileWithID = await DefaultCacheManager().getSingleFile(url);
+    if (!rename) {
+      return LocalFileIo.fromFile(fileWithID);
+    }
+
     final filePath =
         '${path.dirname(fileWithID.path)}/$id.${FileUtils.getExtension(filename)}';
 
@@ -33,9 +39,10 @@ class MobileFileDownloader extends FileDownloader {
     // befindet sich bei dem Path, welchen der [DefaultCacheManger] zurückgegeben hat,
     // keine Datei. Das liegt daran, weil wir vorher die Datei mit dem richtigen Namen
     // benannt haben. Wir müssen dann auch an diesem Ort suchen, also nach dem [filePath].
-    fileWithID = await fileWithID.exists()
-        ? await fileWithID.rename(filePath)
-        : File(filePath);
+    fileWithID =
+        await fileWithID.exists()
+            ? await fileWithID.rename(filePath)
+            : File(filePath);
 
     if (PlatformCheck.isMacOS) {
       filename = filename.replaceAll(RegExp(r"""[();:"` <>&']"""), '');

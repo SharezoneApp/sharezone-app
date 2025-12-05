@@ -6,7 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:dynamic_links/dynamic_links.dart';
 import 'package:helper_functions/helper_functions.dart';
 
 enum EinkommensZeitpunkt { appstart, laufzeit, unbekannt }
@@ -23,20 +22,24 @@ class EinkommenderLink {
     this.einkommensZeitpunkt = EinkommensZeitpunkt.unbekannt,
   });
 
-  factory EinkommenderLink.fromDynamicLink(
-      DynamicLinkData? pendingDynamicLinkData,
-      EinkommensZeitpunkt einkommensZeitpunkt) {
+  factory EinkommenderLink.fromUri(
+    Uri? pendingDynamicLinkData,
+    EinkommensZeitpunkt einkommensZeitpunkt,
+  ) {
     if (pendingDynamicLinkData == null) {
       return EinkommenderLink();
     }
+
     final copiedQueryParameters = Map<String, String>.from(
-        pendingDynamicLinkData.link?.queryParameters ?? {});
+      pendingDynamicLinkData.queryParameters,
+    );
     final type = copiedQueryParameters.remove("type") ?? "";
 
     return EinkommenderLink(
-        typ: type,
-        zusatzinformationen: copiedQueryParameters,
-        einkommensZeitpunkt: einkommensZeitpunkt);
+      typ: type,
+      zusatzinformationen: copiedQueryParameters,
+      einkommensZeitpunkt: einkommensZeitpunkt,
+    );
   }
 
   @override

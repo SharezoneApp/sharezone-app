@@ -104,18 +104,19 @@ class _UnreadMessagesIndicatorState extends State<_UnreadMessagesIndicator> {
       // We use a listener instead of context.watch to force an animation of the
       // unread messages indicator. This should bring more attention to the user
       // that there are unread messages.
-      context
-          .read<HasUnreadFeedbackMessagesProvider>()
-          .addListener(() => updateUnreadStatus());
+      context.read<HasUnreadFeedbackMessagesProvider>().addListener(
+        () => updateUnreadStatus(),
+      );
       updateUnreadStatus();
     });
   }
 
   void updateUnreadStatus() {
     if (mounted) {
-      final value = context
-          .read<HasUnreadFeedbackMessagesProvider>()
-          .hasUnreadFeedbackMessages;
+      final value =
+          context
+              .read<HasUnreadFeedbackMessagesProvider>()
+              .hasUnreadFeedbackMessages;
       setState(() {
         _hasUnreadFeedbackMessages = value;
       });
@@ -130,10 +131,14 @@ class _UnreadMessagesIndicatorState extends State<_UnreadMessagesIndicator> {
       child: IgnorePointer(
         child: AnimatedSwap(
           duration: const Duration(milliseconds: 350),
-          child: _hasUnreadFeedbackMessages
-              ? Icon(Icons.brightness_1,
-                  color: Theme.of(context).primaryColor, size: 13)
-              : const SizedBox.shrink(),
+          child:
+              _hasUnreadFeedbackMessages
+                  ? Icon(
+                    Icons.brightness_1,
+                    color: Theme.of(context).primaryColor,
+                    size: 13,
+                  )
+                  : const SizedBox.shrink(),
         ),
       ),
     );
@@ -162,7 +167,7 @@ class FeedbackPageBody extends StatelessWidget {
               const _MissingField(),
               const _HeardFromField(),
               const FeedbackPageSubmitButton(key: Key("submitButton")),
-              const SizedBox(height: _padding)
+              const SizedBox(height: _padding),
             ],
           ),
         ),
@@ -285,9 +290,10 @@ class _Description extends StatelessWidget {
             style: TextStyle(fontSize: 16),
           ),
           Text(
-              "Wir möchten die beste App zum Organisieren des Schulalltags entwickeln! Damit wir das schaffen, brauchen wir Dich! Fülle einfach das Formular aus und schick es ab."
-              "\n\nAlle Fragen sind selbstverständlich freiwillig.",
-              style: TextStyle(color: Colors.grey)),
+            "Wir möchten die beste App zum Organisieren des Schulalltags entwickeln! Damit wir das schaffen, brauchen wir Dich! Fülle einfach das Formular aus und schick es ab."
+            "\n\nAlle Fragen sind selbstverständlich freiwillig.",
+            style: TextStyle(color: Colors.grey),
+          ),
         ],
       ),
     );
@@ -311,8 +317,9 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.lightBlueAccent,
           padding: const EdgeInsets.symmetric(vertical: 12),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
         ),
         onPressed: () async {
           try {
@@ -336,8 +343,11 @@ class _FeedbackPageSubmitButtonState extends State<FeedbackPageSubmitButton> {
               );
             }
           } on Exception catch (e, s) {
-            log("Exception when submitting Feedback: $e",
-                error: e, stackTrace: s);
+            log(
+              "Exception when submitting Feedback: $e",
+              error: e,
+              stackTrace: s,
+            );
             if (context.mounted) {
               showSnackSec(
                 context: context,
@@ -391,7 +401,7 @@ class _FeedbackTextField extends StatelessWidget {
             onChanged: onChanged,
             textCapitalization: TextCapitalization.sentences,
           ),
-        )
+        ),
       ],
     );
   }

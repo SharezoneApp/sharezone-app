@@ -12,14 +12,15 @@ description: A wrapper around the mobile scanner package with a custom UI to
 publish_to: "none"
 version: 1.0.0+1
 
+resolution: workspace
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ^3.7.0
 
 dependencies:
-  collection: ^1.17.2
+  collection: ^1.19.1
   flutter:
     sdk: flutter
-  mobile_scanner: ^5.0.1
+  mobile_scanner: ^7.0.1
 
 dev_dependencies:
   flutter_test:

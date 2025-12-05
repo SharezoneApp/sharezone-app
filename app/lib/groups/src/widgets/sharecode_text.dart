@@ -13,11 +13,7 @@ import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class SharecodeText extends StatelessWidget {
-  const SharecodeText(
-    this.sharecode, {
-    super.key,
-    this.onCopied,
-  });
+  const SharecodeText(this.sharecode, {super.key, this.onCopied});
 
   final String? sharecode;
 
@@ -46,26 +42,29 @@ class SharecodeText extends StatelessWidget {
         child: ExcludeSemantics(
           // Für die Web-App wird keine spezielle Schriftart genommen, da es
           // aktuell zu einem Crash kommt, wenn das Widget gebuildet wird.
-          child: PlatformCheck.isWeb
-              ? Text("Sharecode: $sharecode", style: style)
-              : Text.rich(
-                  TextSpan(
-                    style: style,
-                    children: [
-                      const TextSpan(text: "Sharecode: "),
-                      TextSpan(
-                        text: "$sharecode",
-                        style: TextStyle(
-                          fontFamily: "PT MONO",
-                          fontWeight: FontWeight.bold,
-                          background: Paint()
-                            ..color =
-                                Theme.of(context).primaryColor.withOpacity(0.2),
+          child:
+              PlatformCheck.isWeb
+                  ? Text("Sharecode: $sharecode", style: style)
+                  : Text.rich(
+                    TextSpan(
+                      style: style,
+                      children: [
+                        const TextSpan(text: "Sharecode: "),
+                        TextSpan(
+                          text: "$sharecode",
+                          style: TextStyle(
+                            fontFamily: "PT MONO",
+                            fontWeight: FontWeight.bold,
+                            background:
+                                Paint()
+                                  ..color = Theme.of(
+                                    context,
+                                  ).primaryColor.withValues(alpha: 0.2),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
         ),
       ),
     );

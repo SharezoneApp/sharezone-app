@@ -13,10 +13,7 @@ import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SharezonePlusFaq extends StatelessWidget {
-  const SharezonePlusFaq({
-    super.key,
-    this.showContentCreatorQuestion = false,
-  });
+  const SharezonePlusFaq({super.key, this.showContentCreatorQuestion = false});
 
   final bool showContentCreatorQuestion;
 
@@ -61,7 +58,9 @@ class _WhoIsBehindSharezone extends StatelessWidget {
         'unsere Vision, den Schulalltag für alle einfacher und übersichtlicher '
         'zu gestalten.',
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -83,22 +82,26 @@ class _IsSharezoneOpenSource extends StatelessWidget {
           const SizedBox(height: 12),
           Link(
             uri: Uri.parse('https://sharezone.net/github'),
-            builder: (context, followLink) => GestureDetector(
-              onTap: followLink,
-              child: Text(
-                'https://github.com/SharezoneApp/sharezone-app',
-                style: TextStyle(
-                  color: Theme.of(context).isDarkTheme
-                      ? Theme.of(context).colorScheme.primary
-                      : darkPrimaryColor,
-                  decoration: TextDecoration.underline,
+            builder:
+                (context, followLink) => GestureDetector(
+                  onTap: followLink,
+                  child: Text(
+                    'https://github.com/SharezoneApp/sharezone-app',
+                    style: TextStyle(
+                      color:
+                          Theme.of(context).isDarkTheme
+                              ? Theme.of(context).colorScheme.primary
+                              : darkPrimaryColor,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          )
+          ),
         ],
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -119,7 +122,9 @@ class _DoAlsoGroupMemberGetPlus extends StatelessWidget {
         'Sharezone Plus verfügbar ist, so wird diese Farbe auch für deine '
         'Gruppenmitglieder verwendet.',
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -139,7 +144,9 @@ class _DoesTheFileStorageLimitAlsoForGroups extends StatelessWidget {
         'Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen '
         'Speicherplatz.',
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -167,14 +174,13 @@ class _SchoolClassLicense extends StatelessWidget {
             await launchUrl(uri);
           } on Exception catch (_) {
             if (!context.mounted) return;
-            showSnackSec(
-              text: 'E-Mail: plus@sharezone.net',
-              context: context,
-            );
+            showSnackSec(text: 'E-Mail: plus@sharezone.net', context: context);
           }
         },
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -201,14 +207,13 @@ class _FamilyLicense extends StatelessWidget {
             await launchUrl(uri);
           } on Exception catch (_) {
             if (!context.mounted) return;
-            showSnackSec(
-              text: 'E-Mail: plus@sharezone.net',
-              context: context,
-            );
+            showSnackSec(text: 'E-Mail: plus@sharezone.net', context: context);
           }
         },
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }
@@ -242,14 +247,13 @@ Deiner Kreativität sind keine Grenzen gesetzt. Bitte beachte unsere Bedingungen
             await launchUrl(uri);
           } on Exception catch (_) {
             if (!context.mounted) return;
-            showSnackSec(
-              text: 'E-Mail: plus@sharezone.net',
-              context: context,
-            );
+            showSnackSec(text: 'E-Mail: plus@sharezone.net', context: context);
           }
         },
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      backgroundColor: Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.2),
     );
   }
 }

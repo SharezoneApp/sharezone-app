@@ -12,18 +12,13 @@ import 'package:flutter/material.dart';
 
 import 'color_parser.dart';
 
-enum DesignType {
-  color,
-}
+enum DesignType { color }
 
 class Design {
   final String hex;
   final DesignType type;
 
-  const Design._({
-    required this.hex,
-    required this.type,
-  });
+  const Design._({required this.hex, required this.type});
 
   factory Design.standard() => Design.fromColor(Colors.lightBlue);
 
@@ -56,10 +51,7 @@ class Design {
   Color get color => ColorParser.fromHex(hex);
 
   dynamic toJson() {
-    return {
-      'color': hex,
-      'type': type.name,
-    };
+    return {'color': hex, 'type': type.name};
   }
 
   @override
@@ -75,25 +67,26 @@ class Design {
 
   /// A list of designs that are available for free and don't require a
   /// Sharezone Plus subscription.
-  static List<Design> freeDesigns = [
-    Colors.pinkAccent,
-    Colors.grey[700],
-    Colors.green,
-    Colors.deepOrangeAccent,
-    Colors.orangeAccent,
-    Colors.purpleAccent,
-    Colors.lightBlue,
-    Colors.amberAccent,
-    Colors.yellow,
-    Colors.redAccent,
-    Colors.deepPurpleAccent,
-    Colors.lightGreen,
-    Colors.green[800],
-    Colors.blueAccent,
-    Colors.blue[800],
-    Colors.indigo,
-    Colors.grey,
-    Colors.brown,
-    Colors.black87,
-  ].map((color) => Design.fromColor(color!)).toList();
+  static List<Design> freeDesigns =
+      [
+        Colors.pinkAccent,
+        Colors.grey[700],
+        Colors.green,
+        Colors.deepOrangeAccent,
+        Colors.orangeAccent,
+        Colors.purpleAccent,
+        Colors.lightBlue,
+        Colors.amberAccent,
+        Colors.yellow,
+        Colors.redAccent,
+        Colors.deepPurpleAccent,
+        Colors.lightGreen,
+        Colors.green[800],
+        Colors.blueAccent,
+        Colors.blue[800],
+        Colors.indigo,
+        Colors.grey,
+        Colors.brown,
+        Colors.black87,
+      ].map((color) => Design.fromColor(color!)).toList();
 }

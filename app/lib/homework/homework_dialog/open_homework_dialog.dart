@@ -19,9 +19,10 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   final successful = await Navigator.push<bool>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
-      builder: (context) => HomeworkDialog(
-        id: homework?.id != null ? HomeworkId(homework!.id) : null,
-      ),
+      builder:
+          (context) => HomeworkDialog(
+            id: homework?.id != null ? HomeworkId(homework!.id) : null,
+          ),
       settings: const RouteSettings(name: HomeworkDialog.tag),
     ),
   );

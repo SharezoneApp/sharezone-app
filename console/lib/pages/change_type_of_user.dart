@@ -13,12 +13,8 @@ class ChangeTypeOfUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Change Type Of User"),
-      ),
-      body: Center(
-        child: TypeOfUserChangeDialogs(),
-      ),
+      appBar: AppBar(title: const Text("Change Type Of User")),
+      body: Center(child: TypeOfUserChangeDialogs()),
     );
   }
 }
@@ -57,9 +53,7 @@ class _TypeOfUserChangeDialogsState extends State<TypeOfUserChangeDialogs> {
               Container(
                 width: 200,
                 child: TextFormField(
-                  decoration: InputDecoration(
-                    helperText: 'Nutzer-Id',
-                  ),
+                  decoration: InputDecoration(helperText: 'Nutzer-Id'),
                   validator: (userId) {
                     if (userId!.isEmpty) {
                       return 'UserId darf nicht leer sein.';
@@ -82,12 +76,13 @@ class _TypeOfUserChangeDialogsState extends State<TypeOfUserChangeDialogs> {
                     _nutzertyp = newValue;
                   });
                 },
-                items: Nutzertyp.values.map((location) {
-                  return DropdownMenuItem(
-                    child: Text(location.toReadableString()),
-                    value: location,
-                  );
-                }).toList(),
+                items:
+                    Nutzertyp.values.map((location) {
+                      return DropdownMenuItem(
+                        child: Text(location.toReadableString()),
+                        value: location,
+                      );
+                    }).toList(),
               ),
               const SizedBox(width: 150),
               if (loading)
@@ -99,10 +94,12 @@ class _TypeOfUserChangeDialogsState extends State<TypeOfUserChangeDialogs> {
                         _nutzertyp != null) {
                       _cloudFunctionResult = null;
 
-                      final cfs =
-                          FirebaseFunctions.instanceFor(region: 'europe-west1');
-                      final function =
-                          cfs.httpsCallable('updateTypeOfUserAdmin');
+                      final cfs = FirebaseFunctions.instanceFor(
+                        region: 'europe-west1',
+                      );
+                      final function = cfs.httpsCallable(
+                        'updateTypeOfUserAdmin',
+                      );
                       final parameters = {
                         'userID': _userId,
                         'typeOfUser': _nutzertyp.toTypeOfUserString(),
@@ -134,9 +131,9 @@ class _TypeOfUserChangeDialogsState extends State<TypeOfUserChangeDialogs> {
                         });
                       }
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Input nicht valide'),
-                      ));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Input nicht valide')),
+                      );
                     }
                   },
                   child: const Text('Submit'),

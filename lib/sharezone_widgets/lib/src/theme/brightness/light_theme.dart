@@ -14,9 +14,7 @@ const _errorCode = Colors.red;
 ///
 /// In golden tests outside of `/app`, it's recommended to override [fontFamily]
 /// to [roboto] to because `golden_toolkit` can't load fonts of other packages.
-ThemeData getLightTheme({
-  String? fontFamily = rubik,
-}) {
+ThemeData getLightTheme({String? fontFamily = rubik}) {
   return ThemeData(
     // Brightness
     brightness: Brightness.light,
@@ -32,12 +30,12 @@ ThemeData getLightTheme({
     fontFamily: fontFamily,
 
     // Theme
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: TabBarThemeData(
       labelColor: darkBlueColor,
-      unselectedLabelColor: darkBlueColor.withOpacity(0.45),
+      unselectedLabelColor: darkBlueColor.withValues(alpha: 0.45),
     ),
     appBarTheme: AppBarTheme(
-      color: Colors.white,
+      backgroundColor: Colors.white,
       elevation: 1,
       iconTheme: const IconThemeData(color: Color(0xFF8da2b6)),
       titleTextStyle: TextStyle(
@@ -60,9 +58,7 @@ ThemeData getLightTheme({
       mouseCursor: WidgetStateMouseCursor.clickable,
     ),
     textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        foregroundColor: primaryColor,
-      ),
+      style: TextButton.styleFrom(foregroundColor: primaryColor),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -78,19 +74,18 @@ ThemeData getLightTheme({
         backgroundColor: primaryColor,
       ),
     ),
-    dialogBackgroundColor: Colors.white,
-    dividerTheme: const DividerThemeData(
-      color: Color(0xFFE5E5E5),
-    ),
+    dividerTheme: const DividerThemeData(color: Color(0xFFE5E5E5)),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
+      backgroundColor: Colors.redAccent,
+      foregroundColor: Colors.white,
+    ),
     pageTransitionsTheme: _pageTransitionsTheme,
     snackBarTheme: _snackBarTheme.copyWith(
       backgroundColor: const Color(0xFF2B2525),
     ),
     inputDecorationTheme: inputDecorationTheme,
     bottomSheetTheme: _bottomSheetTheme,
-    dialogTheme: _dialogTheme,
+    dialogTheme: _dialogTheme.copyWith(backgroundColor: Colors.white),
     switchTheme: SwitchThemeData(
       trackColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
@@ -106,7 +101,7 @@ ThemeData getLightTheme({
       }),
       thumbColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.hovered)) {
-          return primaryColor.withOpacity(0.2);
+          return primaryColor.withValues(alpha: 0.2);
         }
         if (states.contains(WidgetState.selected)) {
           return Colors.white;

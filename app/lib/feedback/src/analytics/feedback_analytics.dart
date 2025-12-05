@@ -19,8 +19,9 @@ class FeedbackAnalytics extends BlocBase {
   }
 
   void logOpenRatingOfThankYouSheet() {
-    _analytics
-        .log(NamedAnalyticsEvent(name: 'feedback_thank_you_sheet_open_rating'));
+    _analytics.log(
+      NamedAnalyticsEvent(name: 'feedback_thank_you_sheet_open_rating'),
+    );
   }
 
   @override

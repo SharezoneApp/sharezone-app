@@ -36,9 +36,7 @@ class OnboardingNavigator extends BlocBase {
   Stream<OnboardingStatus> get status =>
       CombineLatestStream.combine2<bool, Beitrittsversuch?, OnboardingStatus>(
         _signedUpBloc.signedUp,
-        // CombineLatestStream: Beide Streams müssen jemals einen Wert ausgegeben
-        // haben, damit der Code ausgeführt wird. Aus diesem Grund wird startWith verwendet.
-        _beitrittsversucheStream.startWith(null),
+        _beitrittsversucheStream,
         (hasSignedUp, beitrittsversuche) {
           final usedJoinLink = beitrittsversuche?.sharecode != null;
 

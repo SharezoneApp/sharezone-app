@@ -34,8 +34,8 @@ class ErrorCard extends StatelessWidget {
     final color = Theme.of(context).colorScheme.error;
     return CustomCard(
       padding: const EdgeInsets.all(12),
-      color: color.withOpacity(0.1),
-      borderColor: color.withOpacity(0.2),
+      color: color.withValues(alpha: 0.1),
+      borderColor: color.withValues(alpha: 0.2),
       child: Row(
         children: [
           Icon(
@@ -81,7 +81,7 @@ class ErrorCard extends StatelessWidget {
                           _ContactSupport(onPressed: onContactSupportPressed!),
                       ],
                     ),
-                  ]
+                  ],
                 ],
               ),
             ),
@@ -93,9 +93,7 @@ class ErrorCard extends StatelessWidget {
 }
 
 class _RetryButton extends StatelessWidget {
-  const _RetryButton({
-    required this.onPressed,
-  });
+  const _RetryButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -110,9 +108,7 @@ class _RetryButton extends StatelessWidget {
 }
 
 class _ContactSupport extends StatelessWidget {
-  const _ContactSupport({
-    required this.onPressed,
-  });
+  const _ContactSupport({required this.onPressed});
 
   final VoidCallback onPressed;
 

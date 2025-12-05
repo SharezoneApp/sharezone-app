@@ -21,7 +21,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'upload_file_dialog.dart';
 
-enum _FABAddOption { newFolder, camera, upload, gallery }
+enum _FABAddOption { newFolder, camera, upload, gallery, video }
 
 class FileSharingPageFAB extends StatelessWidget {
   const FileSharingPageFAB({super.key, this.groupState});
@@ -60,32 +60,35 @@ class FileSharingPageFAB extends StatelessWidget {
 
           showDialog(
             context: context,
-            builder: (context) => OneTextFieldDialog(
-              title: "Ordner erstellen",
-              hint: "Ordnername",
-              actionName: "Erstellen".toUpperCase(),
-              onTap: (name) async {
-                final creatorName = (await api.user.userStream.first)!.name;
-                final fileSharingData = await api.fileSharing.folderGateway
-                    .getFilesharingData(courseID);
-                api.fileSharing.folderGateway.createFolder(
-                    courseID,
-                    path,
-                    Folder.create(
-                      id: Folder.generateFolderID(
+            builder:
+                (context) => OneTextFieldDialog(
+                  title: "Ordner erstellen",
+                  hint: "Ordnername",
+                  actionName: "Erstellen".toUpperCase(),
+                  onTap: (name) async {
+                    final creatorName = (await api.user.userStream.first)!.name;
+                    final fileSharingData = await api.fileSharing.folderGateway
+                        .getFilesharingData(courseID);
+                    api.fileSharing.folderGateway.createFolder(
+                      courseID,
+                      path,
+                      Folder.create(
+                        id: Folder.generateFolderID(
                           folderName: name!,
                           folderPath: path,
-                          fileSharingData: fileSharingData),
-                      name: name,
-                      creatorID: api.uID,
-                      creatorName: creatorName,
-                      folderType: FolderType.normal,
-                    ));
-                if (!context.mounted) return;
+                          fileSharingData: fileSharingData,
+                        ),
+                        name: name,
+                        creatorID: api.uID,
+                        creatorName: creatorName,
+                        folderType: FolderType.normal,
+                      ),
+                    );
+                    if (!context.mounted) return;
 
-                Navigator.pop(context);
-              },
-            ),
+                    Navigator.pop(context);
+                  },
+                ),
           );
           break;
         case _FABAddOption.gallery:
@@ -102,17 +105,15 @@ class FileSharingPageFAB extends StatelessWidget {
             final creatorName = (await api.user.userStream.first)!.name;
             for (final file in tempFiles) {
               final taskAsFuture = api.fileSharing.fileUploader.uploadFile(
-                  courseID: courseID,
-                  path: path,
-                  localFile: file,
-                  creatorID: api.uID,
-                  creatorName: creatorName);
+                courseID: courseID,
+                path: path,
+                localFile: file,
+                creatorID: api.uID,
+                creatorName: creatorName,
+              );
               if (!context.mounted) return;
 
-              await showUploadFileDialog(
-                context: context,
-                task: taskAsFuture,
-              );
+              await showUploadFileDialog(context: context, task: taskAsFuture);
             }
           }
           break;
@@ -123,17 +124,15 @@ class FileSharingPageFAB extends StatelessWidget {
             if (tempImage != null) {
               final creatorName = (await api.user.userStream.first)!.name;
               final taskAsFuture = api.fileSharing.fileUploader.uploadFile(
-                  courseID: courseID,
-                  path: path,
-                  localFile: tempImage,
-                  creatorID: api.uID,
-                  creatorName: creatorName);
+                courseID: courseID,
+                path: path,
+                localFile: tempImage,
+                creatorID: api.uID,
+                creatorName: creatorName,
+              );
               if (!context.mounted) return;
 
-              showUploadFileDialog(
-                context: context,
-                task: taskAsFuture,
-              );
+              showUploadFileDialog(context: context, task: taskAsFuture);
             }
           } else {
             if (context.mounted) {
@@ -144,17 +143,35 @@ class FileSharingPageFAB extends StatelessWidget {
             }
           }
           break;
+        case _FABAddOption.video:
+          final video = await FilePicker().pickFileVideo();
+          if (video == null) return;
+
+          final creatorName = (await api.user.userStream.first)!.name;
+          final taskAsFuture = api.fileSharing.fileUploader.uploadFile(
+            courseID: courseID,
+            path: path,
+            localFile: video,
+            creatorID: api.uID,
+            creatorName: creatorName,
+          );
+          if (!context.mounted) return;
+
+          await showUploadFileDialog(context: context, task: taskAsFuture);
+          break;
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final hasPermissionsToUpload =
-        FileSharingPermissionsNoSync.fromContext(context).canUploadFiles(
-            courseID: courseID,
-            folderPath: path,
-            fileSharingData: groupState!.initialFileSharingData);
+    final hasPermissionsToUpload = FileSharingPermissionsNoSync.fromContext(
+      context,
+    ).canUploadFiles(
+      courseID: courseID,
+      folderPath: path,
+      fileSharingData: groupState!.initialFileSharingData,
+    );
     if (!hasPermissionsToUpload) return Container();
     return ModalFloatingActionButton(
       tooltip: 'Neu erstellen',
@@ -184,12 +201,16 @@ class __FABModalBottomSheetContentState
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const SizedBox(height: 20),
-            Text("Neu erstellen",
-                style: TextStyle(
-                    color: Theme.of(context).isDarkTheme
+            Text(
+              "Neu erstellen",
+              style: TextStyle(
+                color:
+                    Theme.of(context).isDarkTheme
                         ? Colors.grey[100]
                         : Colors.grey[800],
-                    fontSize: 18)),
+                fontSize: 18,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: SizedBox(
@@ -200,7 +221,7 @@ class __FABModalBottomSheetContentState
                       showUploadOptions ? getSecondChoice() : getFirstChoice(),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -218,7 +239,7 @@ class __FABModalBottomSheetContentState
       child: const Stack(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 130),
+            padding: EdgeInsets.only(left: 205),
             child: ModalBottomSheetBigIconButton<_FABAddOption>(
               title: "Bilder",
               iconData: Icons.photo,
@@ -226,8 +247,14 @@ class __FABModalBottomSheetContentState
               tooltip: "Bilder",
             ),
           ),
+          ModalBottomSheetBigIconButton<_FABAddOption>(
+            title: "Videos",
+            iconData: Icons.movie,
+            popValue: _FABAddOption.video,
+            tooltip: "Videos",
+          ),
           Padding(
-            padding: EdgeInsets.only(left: 130),
+            padding: EdgeInsets.only(right: 205),
             child: ModalBottomSheetBigIconButton<_FABAddOption>(
               title: "Dateien",
               iconData: Icons.insert_drive_file,
@@ -245,8 +272,9 @@ class __FABModalBottomSheetContentState
       key: const ValueKey('first-choice'),
       children: <Widget>[
         Padding(
-          padding:
-              EdgeInsets.only(right: PlatformCheck.isDesktopOrWeb ? 100 : 205),
+          padding: EdgeInsets.only(
+            right: PlatformCheck.isDesktopOrWeb ? 100 : 205,
+          ),
           child: const ModalBottomSheetBigIconButton<_FABAddOption>(
             title: "Ordner",
             iconData: Icons.folder,
@@ -255,8 +283,9 @@ class __FABModalBottomSheetContentState
           ),
         ),
         Padding(
-          padding:
-              EdgeInsets.only(left: PlatformCheck.isDesktopOrWeb ? 100 : 0),
+          padding: EdgeInsets.only(
+            left: PlatformCheck.isDesktopOrWeb ? 100 : 0,
+          ),
           child: ModalBottomSheetBigIconButton<_FABAddOption>(
             title: "Hochladen",
             iconData: Icons.file_upload,

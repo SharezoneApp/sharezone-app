@@ -34,7 +34,10 @@ class SpecifiableOverscrollColorScrollBehavior extends ScrollBehavior {
 
   @override
   Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
     switch (getPlatform(context)) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
@@ -43,7 +46,6 @@ class SpecifiableOverscrollColorScrollBehavior extends ScrollBehavior {
       case TargetPlatform.linux:
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
-      default:
         return GlowingOverscrollIndicator(
           axisDirection: details.direction,
           color: _overscrollColor!,

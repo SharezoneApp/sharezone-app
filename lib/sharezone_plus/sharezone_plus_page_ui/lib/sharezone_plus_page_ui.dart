@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library sharezone_plus_page_ui;
+library;
 
 export 'src/buy_section.dart';
 export 'src/buying_disabled_dialog.dart';

@@ -1,3 +1,6 @@
 node_modules/
 .next/
 .firebase/
+
+# From https://nextra.site/docs/guide/search#ignore-generated-files
+_pagefind/

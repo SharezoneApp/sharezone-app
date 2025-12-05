@@ -27,7 +27,15 @@ class SubjectSettingsPageController extends ChangeNotifier {
     final subject = _getSubject();
     if (subject == null) {
       state = const SubjectSettingsError(
-          'We could not find the subject. Please try again.');
+        'We could not find the subject. Please try again.',
+      );
+      return;
+    }
+
+    if (subject.weightType == WeightType.perGrade) {
+      state = SubjectSettingsError(
+        'Subject "${subject.name}" (id: $subjectId) has its weightType set to ${WeightType.perGrade}. This is not supported (yet).',
+      );
       return;
     }
 
@@ -37,20 +45,25 @@ class SubjectSettingsPageController extends ChangeNotifier {
     _finalGradeTypeIcon = _getFinalGradeTypeIcon(finalGradeType);
     _selectableGradeTypes = gradesService.getPossibleGradeTypes();
 
+    // We shouldn't use the weights from the term/subject directly, because of
+    // https://github.com/SharezoneApp/sharezone-app/issues/1814
+    _weights = IMap();
+
     if (subject.weightType == WeightType.inheritFromTerm) {
       // We show the weights from the term, but we need to copy them into the
       // subject if the user changes them.
-      _weights = _getTerm()!.gradeTypeWeightings;
+      _weights = _weights.addAll(_getTerm()!.gradeTypeWeights);
     } else {
-      _weights = subject.gradeTypeWeights;
+      _weights = _weights.addAll(subject.gradeTypeWeights);
     }
 
     state = SubjectSettingsLoaded(view);
   }
 
   TermResult? _getTerm() {
-    return gradesService.terms.value
-        .firstWhereOrNull((term) => term.id == termId);
+    return gradesService.terms.value.firstWhereOrNull(
+      (term) => term.id == termId,
+    );
   }
 
   SubjectResult? _getSubject() {
@@ -96,9 +109,10 @@ class SubjectSettingsPageController extends ChangeNotifier {
       subjectName: _subjectName,
       finalGradeTypeDisplayName: _finalGradeTypeDisplayName,
       finalGradeTypeIcon: _finalGradeTypeIcon,
-      selectableGradingTypes: _selectableGradeTypes.where((gradeType) {
-        return !_weights.containsKey(gradeType.id);
-      }).toIList(),
+      selectableGradingTypes:
+          _selectableGradeTypes.where((gradeType) {
+            return !_weights.containsKey(gradeType.id);
+          }).toIList(),
       weights: _weights,
     );
   }
@@ -113,11 +127,11 @@ class SubjectSettingsPageController extends ChangeNotifier {
       return;
     }
 
-    // In the constructor, we already copied the weights from the term. But they
-    // were only copied into the state. Now we need to copy them into the
-    // database.
-    for (final gradeType in _weights.keys) {
-      subRef.changeFinalGradeType(gradeType);
+    // When switching from inheritFromTerm to perGradeType, we need to copy the
+    // existing weights from the term to the subject.
+    final termWeights = _getTerm()!.gradeTypeWeights.entries;
+    for (final entry in termWeights) {
+      subRef.changeGradeTypeWeight(entry.key, entry.value);
       await waitForFirestoreWriteLimit();
     }
 

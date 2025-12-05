@@ -38,8 +38,9 @@ void main() {
           Padding(
             padding: EdgeInsets.all(8),
             child: ExpansionCard(
-              header:
-                  Text('This is a very very very very very very long header'),
+              header: Text(
+                'This is a very very very very very very long header',
+              ),
               body: Text('And this is a very long body'),
               backgroundColor: Colors.lightBlue,
             ),
@@ -52,9 +53,11 @@ void main() {
       await tester.tap(find.byType(ExpansionCard));
       await tester.pumpAndSettle();
 
-      await multiScreenGolden(tester, 'expansion_card_expanded', devices: [
-        Device.phone,
-      ]);
+      await multiScreenGolden(
+        tester,
+        'expansion_card_expanded',
+        devices: [Device.phone],
+      );
     });
   });
 }

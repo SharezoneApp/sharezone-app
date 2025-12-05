@@ -10,11 +10,7 @@ import 'package:authentification_base/authentification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class DemoUser extends AuthUser {
-  DemoUser()
-      : super(
-          uid: 'testUser',
-          firebaseUser: DemoFirebaseUser(),
-        );
+  DemoUser() : super(uid: 'testUser', firebaseUser: DemoFirebaseUser());
 
   @override
   String get uid => "testUser";
@@ -60,8 +56,10 @@ class DemoFirebaseUser implements User {
   }
 
   @override
-  Future<ConfirmationResult> linkWithPhoneNumber(String phoneNumber,
-      [RecaptchaVerifier? verifier]) {
+  Future<ConfirmationResult> linkWithPhoneNumber(
+    String phoneNumber, [
+    RecaptchaVerifier? verifier,
+  ]) {
     throw UnimplementedError();
   }
 
@@ -97,7 +95,8 @@ class DemoFirebaseUser implements User {
 
   @override
   Future<UserCredential> reauthenticateWithCredential(
-      AuthCredential credential) {
+    AuthCredential credential,
+  ) {
     throw UnimplementedError();
   }
 
@@ -146,11 +145,6 @@ class DemoFirebaseUser implements User {
   }
 
   @override
-  Future<void> updateEmail(String newEmail) {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> updatePassword(String newPassword) {
     throw UnimplementedError();
   }
@@ -171,8 +165,10 @@ class DemoFirebaseUser implements User {
   }
 
   @override
-  Future<void> verifyBeforeUpdateEmail(String newEmail,
-      [ActionCodeSettings? actionCodeSettings]) {
+  Future<void> verifyBeforeUpdateEmail(
+    String newEmail, [
+    ActionCodeSettings? actionCodeSettings,
+  ]) {
     throw UnimplementedError();
   }
 }

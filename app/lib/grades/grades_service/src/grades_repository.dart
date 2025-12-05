@@ -10,11 +10,12 @@
 
 part of '../grades_service.dart';
 
-typedef GradesState = ({
-  IList<TermModel> terms,
-  IList<GradeType> customGradeTypes,
-  IList<Subject> subjects
-});
+typedef GradesState =
+    ({
+      IList<TermModel> terms,
+      IList<GradeType> customGradeTypes,
+      IList<Subject> subjects,
+    });
 
 extension GradesStateCopyWith on GradesState {
   bool get isEmpty =>
@@ -93,13 +94,11 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
   }
 
   @override
-  BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>.seeded(
-    (
-      terms: const IListConst([]),
-      customGradeTypes: const IListConst([]),
-      subjects: const IListConst([]),
-    ),
-  );
+  BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>.seeded((
+    terms: const IListConst([]),
+    customGradeTypes: const IListConst([]),
+    subjects: const IListConst([]),
+  ));
 
   @override
   Future<void> updateState(GradesState state) async {
@@ -114,10 +113,9 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
     // We're sure that the top level createdOn does not exist yet, so we add it.
     // This will also create the document if it doesn't exist yet.
     if (topLevelCreatedOnExists == false) {
-      gradesDocumentRef.set(
-        {'createdOn': FieldValue.serverTimestamp()},
-        SetOptions(merge: true),
-      );
+      gradesDocumentRef.set({
+        'createdOn': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
     }
 
     final data = toDto(state);
@@ -133,22 +131,36 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
         state.terms.firstWhereOrNull((term) => term.isActiveTerm)?.id.value;
     return {
       'currentTerm': currentTermOrNull,
-      'terms': state.terms
-          .map((term) =>
-              MapEntry(term.id.value, TermDto.fromTerm(term).toData()))
-          .toMap(),
-      'grades': state.terms
-          .expand((term) => term.subjects.expand((p0) => p0.grades))
-          .map((g) => MapEntry(g.id.value, GradeDto.fromGrade(g).toData()))
-          .toMap(),
-      'customGradeTypes': state.customGradeTypes
-          .map((element) => MapEntry(element.id.value,
-              CustomGradeTypeDto.fromGradeType(element).toData()))
-          .toMap(),
-      'subjects': state.subjects
-          .map((subject) => MapEntry(
-              subject.id.value, SubjectDto.fromSubject(subject).toData()))
-          .toMap()
+      'terms':
+          state.terms
+              .map(
+                (term) =>
+                    MapEntry(term.id.value, TermDto.fromTerm(term).toData()),
+              )
+              .toMap(),
+      'grades':
+          state.terms
+              .expand((term) => term.subjects.expand((p0) => p0.grades))
+              .map((g) => MapEntry(g.id.value, GradeDto.fromGrade(g).toData()))
+              .toMap(),
+      'customGradeTypes':
+          state.customGradeTypes
+              .map(
+                (element) => MapEntry(
+                  element.id.value,
+                  CustomGradeTypeDto.fromGradeType(element).toData(),
+                ),
+              )
+              .toMap(),
+      'subjects':
+          state.subjects
+              .map(
+                (subject) => MapEntry(
+                  subject.id.value,
+                  SubjectDto.fromSubject(subject).toData(),
+                ),
+              )
+              .toMap(),
     };
   }
 
@@ -177,138 +189,176 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
 
     IList<CustomGradeTypeDto> customGradeTypeDtos = const IListConst([]);
     if (data case {'customGradeTypes': Map gradeTypeData}) {
-      customGradeTypeDtos = gradeTypeData
-          .mapTo((value, key) => CustomGradeTypeDto.fromData(key))
-          .toIList();
+      customGradeTypeDtos =
+          gradeTypeData
+              .mapTo((value, key) => CustomGradeTypeDto.fromData(key))
+              .toIList();
     }
 
-    final grades = gradeDtos.map(
-      (dto) {
-        final gradingSystem = dto.gradingSystem.toGradingSystemModel();
-        return GradeModel(
-          id: GradeId(dto.id),
-          termId: TermId(dto.termId),
-          date: dto.receivedAt,
-          gradingSystem: gradingSystem,
-          gradeType: GradeTypeId(dto.gradeType),
-          subjectId: SubjectId(dto.subjectId),
-          takenIntoAccount: dto.includeInGrading,
-          title: dto.title,
-          details: dto.details,
-          createdOn: dto.createdOn?.toDate(),
-          value: gradingSystem.toGradeResult(dto.numValue),
-          originalInput: dto.originalInput,
-          weight: termDtos
-                  .firstWhereOrNull((element) => element.id == dto.termId)
-                  ?.subjects
-                  .firstWhereOrNull((element) => element.id == dto.subjectId)
-                  ?.gradeComposition
-                  .gradeWeights
-                  .map((key, value) =>
-                      MapEntry(key, value.toNonNegativeWeight()))[dto.id] ??
-              NonNegativeWeight.factor(1),
-        );
-      },
-    ).toIList();
-
-    final subjects = subjectDtos.map(
-      (dto) {
-        return Subject(
-          id: SubjectId(dto.id),
-          createdOn: dto.createdOn?.toDate(),
-          design: dto.design,
-          name: dto.name,
-          abbreviation: dto.abbreviation,
-          connectedCourses: dto.connectedCourses
-              .map((cc) => cc.toConnectedCourse())
-              .toIList(),
-        );
-      },
-    ).toIList();
-
-    final allTermSubjects = termDtos
-        .expand((term) => term.subjects
-            .map((subject) => (termSubject: subject, termId: term.id)))
-        .toIList();
-
-    final combinedTermSubjects = allTermSubjects
-        .map((termSub) {
-          final subject = subjects.firstWhereOrNull(
-              (subject) => subject.id.value == termSub.termSubject.id);
-          if (subject == null) {
-            log('No subject found for the term subject id ${termSub.termSubject.id}.');
-            return null;
-          }
-          return (subject: subject, termSubjectObj: termSub);
-        })
-        .whereNotNull()
-        .toIList();
-
-    final termSubjects = combinedTermSubjects.map((s) {
-      var (:subject, :termSubjectObj) = s;
-      var (:termSubject, :termId) = termSubjectObj;
-
-      final subTerm =
-          termDtos.firstWhere((term) => term.id == termSubjectObj.termId);
-      return SubjectModel(
-        id: subject.id,
-        termId: TermId(subTerm.id),
-        name: subject.name,
-        connectedCourses: subject.connectedCourses,
-        createdOn: termSubject.createdOn?.toDate(),
-        isFinalGradeTypeOverridden:
-            termSubject.finalGradeType != subTerm.finalGradeTypeId,
-        gradeTypeWeightings: termSubject.gradeComposition.gradeTypeWeights
-            .map((key, value) =>
-                MapEntry(GradeTypeId(key), value.toNonNegativeWeight()))
-            .toIMap(),
-        gradeTypeWeightingsFromTerm: subTerm.gradeTypeWeights
-            .map((key, value) =>
-                MapEntry(GradeTypeId(key), value.toNonNegativeWeight()))
-            .toIMap(),
-        weightingForTermGrade:
-            subTerm.subjectWeights[subject.id.value]?.toNonNegativeWeight() ??
-                NonNegativeWeight.factor(1),
-        grades: grades
-            .where((grade) =>
-                grade.subjectId == subject.id && grade.termId.value == termId)
-            .toIList(),
-        weightType: termSubject.gradeComposition.weightType,
-        gradingSystem: subTerm.gradingSystem.toGradingSystemModel(),
-        finalGradeType: GradeTypeId(termSubject.finalGradeType),
-        abbreviation: subject.abbreviation,
-        design: subject.design,
-      );
-    }).toIList();
-
-    var terms = termDtos
-        .map(
-          (dto) => TermModel(
-            id: TermId(dto.id),
-            finalGradeType: GradeTypeId(dto.finalGradeTypeId),
+    final grades =
+        gradeDtos.map((dto) {
+          final gradingSystem = dto.gradingSystem.toGradingSystemModel();
+          return GradeModel(
+            id: GradeId(dto.id),
+            termId: TermId(dto.termId),
+            date: dto.receivedAt,
+            gradingSystem: gradingSystem,
+            gradeType: GradeTypeId(dto.gradeType),
+            subjectId: SubjectId(dto.subjectId),
+            takenIntoAccount: dto.includeInGrading,
+            title: dto.title,
+            details: dto.details,
             createdOn: dto.createdOn?.toDate(),
-            gradingSystem: dto.gradingSystem.toGradingSystemModel(),
-            isActiveTerm: data['currentTerm'] == dto.id,
-            weightDisplayType: dto.weightDisplayType,
-            subjects: termSubjects
-                .where((subject) => subject.termId.value == dto.id)
-                .toIList(),
-            name: dto.displayName,
-            // Change both to num
-            gradeTypeWeightings: dto.gradeTypeWeights
-                .map((key, value) =>
-                    MapEntry(GradeTypeId(key), value.toNonNegativeWeight()))
-                .toIMap(),
-          ),
-        )
-        .toIList();
+            value: gradingSystem.toGradeResult(dto.numValue),
+            originalInput: dto.originalInput,
+            weight:
+                termDtos
+                    .firstWhereOrNull((element) => element.id == dto.termId)
+                    ?.subjects
+                    .firstWhereOrNull((element) => element.id == dto.subjectId)
+                    ?.gradeComposition
+                    .gradeWeights
+                    .map(
+                      (key, value) =>
+                          MapEntry(key, value.toNonNegativeWeight()),
+                    )[dto.id] ??
+                NonNegativeWeight.factor(1),
+          );
+        }).toIList();
 
-    final customGradeTypes = customGradeTypeDtos
-        .map((dto) => GradeType(
-              id: GradeTypeId(dto.id),
-              displayName: dto.displayName,
-            ))
-        .toIList();
+    final subjects =
+        subjectDtos.map((dto) {
+          return Subject(
+            id: SubjectId(dto.id),
+            createdOn: dto.createdOn?.toDate(),
+            design: dto.design,
+            name: dto.name,
+            abbreviation: dto.abbreviation,
+            connectedCourses:
+                dto.connectedCourses
+                    .map((cc) => cc.toConnectedCourse())
+                    .toIList(),
+          );
+        }).toIList();
+
+    final allTermSubjects =
+        termDtos
+            .expand(
+              (term) => term.subjects.map(
+                (subject) => (termSubject: subject, termId: term.id),
+              ),
+            )
+            .toIList();
+
+    final combinedTermSubjects =
+        allTermSubjects
+            .map((termSub) {
+              final subject = subjects.firstWhereOrNull(
+                (subject) => subject.id.value == termSub.termSubject.id,
+              );
+              if (subject == null) {
+                log(
+                  'No subject found for the term subject id ${termSub.termSubject.id}.',
+                );
+                return null;
+              }
+              return (subject: subject, termSubjectObj: termSub);
+            })
+            .nonNulls
+            .toIList();
+
+    final termSubjects =
+        combinedTermSubjects.map((s) {
+          var (:subject, :termSubjectObj) = s;
+          var (:termSubject, :termId) = termSubjectObj;
+
+          final subTerm = termDtos.firstWhere(
+            (term) => term.id == termSubjectObj.termId,
+          );
+          return SubjectModel(
+            id: subject.id,
+            termId: TermId(subTerm.id),
+            name: subject.name,
+            connectedCourses: subject.connectedCourses,
+            createdOn: termSubject.createdOn?.toDate(),
+            isFinalGradeTypeOverridden:
+                termSubject.finalGradeType != subTerm.finalGradeTypeId,
+            gradeTypeWeights:
+                termSubject.gradeComposition.gradeTypeWeights
+                    .map(
+                      (key, value) => MapEntry(
+                        GradeTypeId(key),
+                        value.toNonNegativeWeight(),
+                      ),
+                    )
+                    .toIMap(),
+            gradeTypeWeightsFromTerm:
+                subTerm.gradeTypeWeights
+                    .map(
+                      (key, value) => MapEntry(
+                        GradeTypeId(key),
+                        value.toNonNegativeWeight(),
+                      ),
+                    )
+                    .toIMap(),
+            weightingForTermGrade:
+                subTerm.subjectWeights[subject.id.value]
+                    ?.toNonNegativeWeight() ??
+                NonNegativeWeight.factor(1),
+            grades:
+                grades
+                    .where(
+                      (grade) =>
+                          grade.subjectId == subject.id &&
+                          grade.termId.value == termId,
+                    )
+                    .toIList(),
+            weightType: termSubject.gradeComposition.weightType,
+            gradingSystem: subTerm.gradingSystem.toGradingSystemModel(),
+            finalGradeType: GradeTypeId(termSubject.finalGradeType),
+            abbreviation: subject.abbreviation,
+            design: subject.design,
+          );
+        }).toIList();
+
+    var terms =
+        termDtos
+            .map(
+              (dto) => TermModel(
+                id: TermId(dto.id),
+                finalGradeType: GradeTypeId(dto.finalGradeTypeId),
+                createdOn: dto.createdOn?.toDate(),
+                gradingSystem: dto.gradingSystem.toGradingSystemModel(),
+                isActiveTerm: data['currentTerm'] == dto.id,
+                weightDisplayType: dto.weightDisplayType,
+                subjects:
+                    termSubjects
+                        .where((subject) => subject.termId.value == dto.id)
+                        .toIList(),
+                name: dto.displayName,
+                // Change both to num
+                gradeTypeWeights:
+                    dto.gradeTypeWeights
+                        .map(
+                          (key, value) => MapEntry(
+                            GradeTypeId(key),
+                            value.toNonNegativeWeight(),
+                          ),
+                        )
+                        .toIMap(),
+              ),
+            )
+            .toIList();
+
+    final customGradeTypes =
+        customGradeTypeDtos
+            .map(
+              (dto) => GradeType(
+                id: GradeTypeId(dto.id),
+                displayName: dto.displayName,
+              ),
+            )
+            .toIList();
 
     return (
       terms: terms,
@@ -360,24 +410,19 @@ typedef _GradeId = String;
 typedef _GradeTypeId = String;
 
 Map<String, WeightDto> _toWeightsDto(Object? data) {
-  return (data as Map)
-      .map((key, value) => MapEntry(key, WeightDto.fromData(value)));
+  return (data as Map).map(
+    (key, value) => MapEntry(key, WeightDto.fromData(value)),
+  );
 }
 
 class WeightDto {
   final num value;
   final _WeightNumberType type;
 
-  WeightDto({
-    required this.value,
-    required this.type,
-  });
+  WeightDto({required this.value, required this.type});
 
   factory WeightDto.fromWeight(Weight weight) {
-    return WeightDto(
-      value: weight.asFactor,
-      type: _WeightNumberType.factor,
-    );
+    return WeightDto(value: weight.asFactor, type: _WeightNumberType.factor);
   }
 
   factory WeightDto.fromData(Map<String, Object?> data) {
@@ -402,10 +447,7 @@ class WeightDto {
   }
 
   Map<String, Object> toData() {
-    return {
-      'value': value,
-      'type': type.name,
-    };
+    return {'value': value, 'type': type.name};
   }
 }
 
@@ -413,10 +455,7 @@ class CustomGradeTypeDto {
   final _GradeTypeId id;
   final String displayName;
 
-  CustomGradeTypeDto({
-    required this.id,
-    required this.displayName,
-  });
+  CustomGradeTypeDto({required this.id, required this.displayName});
 
   factory CustomGradeTypeDto.fromData(Map<String, Object?> data) {
     return CustomGradeTypeDto(
@@ -433,10 +472,7 @@ class CustomGradeTypeDto {
   }
 
   Map<String, Object> toData() {
-    return {
-      'id': id,
-      'displayName': displayName,
-    };
+    return {'id': id, 'displayName': displayName};
   }
 }
 
@@ -472,11 +508,16 @@ class TermDto {
       gradingSystem: term.gradingSystem.spec.gradingSystem,
       subjects: term.subjects.map(TermSubjectDto.fromSubject).toList(),
       weightDisplayType: term.weightDisplayType,
-      subjectWeights: Map.fromEntries(term.subjects.map((subject) =>
-          MapEntry(subject.id.value, subject.weightingForTermGrade.toDto()))),
-      gradeTypeWeights: term.gradeTypeWeightings
-          .map((gradeId, weight) => MapEntry(gradeId.value, weight.toDto()))
-          .unlock,
+      subjectWeights: Map.fromEntries(
+        term.subjects.map(
+          (subject) =>
+              MapEntry(subject.id.value, subject.weightingForTermGrade.toDto()),
+        ),
+      ),
+      gradeTypeWeights:
+          term.gradeTypeWeights
+              .map((gradeId, weight) => MapEntry(gradeId.value, weight.toDto()))
+              .unlock,
     );
   }
 
@@ -485,16 +526,21 @@ class TermDto {
       id: data['id'] as String,
       displayName: data['displayName'] as String,
       createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
-      gradingSystem:
-          GradingSystem.values.byName(data['gradingSystem'] as String),
+      gradingSystem: GradingSystem.values.byName(
+        data['gradingSystem'] as String,
+      ),
       subjectWeights: data['subjectWeights'].toWeightsDtoMap(),
-      weightDisplayType: data['weightDisplayType'] is String
-          ? WeightDisplayType.values.byName(data['weightDisplayType'] as String)
-          : WeightDisplayType.factor,
+      weightDisplayType:
+          data['weightDisplayType'] is String
+              ? WeightDisplayType.values.byName(
+                data['weightDisplayType'] as String,
+              )
+              : WeightDisplayType.factor,
       gradeTypeWeights: data['gradeTypeWeights'].toWeightsDtoMap(),
-      subjects: (data['subjects'] as Map)
-          .mapTo((_, sub) => TermSubjectDto.fromData(sub))
-          .toList(),
+      subjects:
+          (data['subjects'] as Map)
+              .mapTo((_, sub) => TermSubjectDto.fromData(sub))
+              .toList(),
       finalGradeTypeId: data['finalGradeType'] as String,
     );
   }
@@ -509,9 +555,10 @@ class TermDto {
       'subjectWeights': subjectWeights.toWeightDataMap(),
       'weightDisplayType': weightDisplayType.name,
       'gradeTypeWeights': gradeTypeWeights.toWeightDataMap(),
-      'subjects': subjects
-          .map((subject) => MapEntry(subject.id, subject.toData()))
-          .toMap(),
+      'subjects':
+          subjects
+              .map((subject) => MapEntry(subject.id, subject.toData()))
+              .toMap(),
       'finalGradeType': finalGradeTypeId,
     };
   }
@@ -548,8 +595,10 @@ class TermSubjectDto {
       grades: decodeList(data['grades'], (g) => g as String),
       finalGradeType: data['finalGradeType'] as String,
       gradeComposition: SubjectGradeCompositionDto.fromData(
-        decodeMap(data['gradeComposition'],
-            (key, decodedMapValue) => decodedMapValue as Object),
+        decodeMap(
+          data['gradeComposition'],
+          (key, decodedMapValue) => decodedMapValue as Object,
+        ),
       ),
       createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
     );
@@ -572,19 +621,24 @@ class SubjectGradeCompositionDto {
   final Map<_GradeTypeId, WeightDto> gradeTypeWeights;
   final Map<_GradeId, WeightDto> gradeWeights;
 
-  SubjectGradeCompositionDto(
-      {required this.weightType,
-      required this.gradeTypeWeights,
-      required this.gradeWeights});
+  SubjectGradeCompositionDto({
+    required this.weightType,
+    required this.gradeTypeWeights,
+    required this.gradeWeights,
+  });
 
   factory SubjectGradeCompositionDto.fromSubject(SubjectModel subject) {
     return SubjectGradeCompositionDto(
       weightType: subject.weightType,
-      gradeTypeWeights: subject.gradeTypeWeightings
-          .map((gradeId, weight) => MapEntry(gradeId.value, weight.toDto()))
-          .unlock,
-      gradeWeights: Map.fromEntries(subject.grades
-          .map((grade) => MapEntry(grade.id.value, grade.weight.toDto()))),
+      gradeTypeWeights:
+          subject.gradeTypeWeights
+              .map((gradeId, weight) => MapEntry(gradeId.value, weight.toDto()))
+              .unlock,
+      gradeWeights: Map.fromEntries(
+        subject.grades.map(
+          (grade) => MapEntry(grade.id.value, grade.weight.toDto()),
+        ),
+      ),
     );
   }
 
@@ -619,19 +673,20 @@ class GradeDto {
   final String? details;
   final Object originalInput;
 
-  GradeDto(
-      {required this.id,
-      required this.termId,
-      required this.subjectId,
-      required this.numValue,
-      required this.gradingSystem,
-      required this.gradeType,
-      required this.receivedAt,
-      required this.includeInGrading,
-      required this.title,
-      required this.details,
-      required this.createdOn,
-      required this.originalInput});
+  GradeDto({
+    required this.id,
+    required this.termId,
+    required this.subjectId,
+    required this.numValue,
+    required this.gradingSystem,
+    required this.gradeType,
+    required this.receivedAt,
+    required this.includeInGrading,
+    required this.title,
+    required this.details,
+    required this.createdOn,
+    required this.originalInput,
+  });
 
   factory GradeDto.fromGrade(GradeModel grade) {
     return GradeDto(
@@ -657,8 +712,9 @@ class GradeDto {
       subjectId: data['subjectId'] as String,
       numValue: data['numValue'] as num,
       originalInput: data['originalInput'] as Object,
-      gradingSystem:
-          GradingSystem.values.byName(data['gradingSystem'] as String),
+      gradingSystem: GradingSystem.values.byName(
+        data['gradingSystem'] as String,
+      ),
       gradeType: data['gradeType'] as String,
       receivedAt: Date.parse(data['receivedAt'] as String),
       includeInGrading: data['includeInGrading'] as bool,
@@ -719,22 +775,25 @@ class SubjectDto {
       name: subject.name,
       abbreviation: subject.abbreviation,
       createdOn: subject.createdOn.toTimestampOrNull(),
-      connectedCourses: subject.connectedCourses
-          .map((cc) => ConnectedCourseDto.fromConnectedCourse(cc))
-          .toIList(),
+      connectedCourses:
+          subject.connectedCourses
+              .map((cc) => ConnectedCourseDto.fromConnectedCourse(cc))
+              .toIList(),
     );
   }
 
   factory SubjectDto.fromData(Map<String, Object?> data) {
     return SubjectDto(
-        id: data['id'] as String,
-        name: data['name'] as String,
-        abbreviation: data['abbreviation'] as String,
-        design: Design.fromData(data['design']),
-        createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
-        connectedCourses: (data['connectedCourses'] as Map)
-            .mapTo((key, value) => ConnectedCourseDto.fromData(value))
-            .toIList());
+      id: data['id'] as String,
+      name: data['name'] as String,
+      abbreviation: data['abbreviation'] as String,
+      design: Design.fromData(data['design']),
+      createdOn: data['createdOn'].tryConvertToTimestampOrNull(),
+      connectedCourses:
+          (data['connectedCourses'] as Map)
+              .mapTo((key, value) => ConnectedCourseDto.fromData(value))
+              .toIList(),
+    );
   }
 
   Map<String, Object> toData() {

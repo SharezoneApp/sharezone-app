@@ -47,7 +47,7 @@ class DesktopCustomScaffold extends StatelessWidget {
               actions: appBarConfiguration.actions,
               flexibleSpace: appBarConfiguration.flexibleSpace,
             ),
-            SliverToBoxAdapter(child: body)
+            SliverToBoxAdapter(child: body),
           ],
         ),
         floatingActionButton: floatingActionButton,

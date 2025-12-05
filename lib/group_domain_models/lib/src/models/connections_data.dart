@@ -14,26 +14,23 @@ class ConnectionsData {
   final Map<String, SchoolClass>? schoolClass;
   final Map<String?, Course> courses;
 
-  const ConnectionsData._({
-    required this.schoolClass,
-    required this.courses,
-  });
+  const ConnectionsData._({required this.schoolClass, required this.courses});
 
   static ConnectionsData? fromData({required Map<String, dynamic>? data}) {
     if (data == null) {
-      return const ConnectionsData._(
-        schoolClass: null,
-        courses: {},
-      );
+      return const ConnectionsData._(schoolClass: null, courses: {});
     }
 
     Map<String, SchoolClass> schoolClasses = decodeMap(
-        data[CollectionNames.schoolClasses],
-        (key, data) => SchoolClass.fromData(data, id: key));
+      data[CollectionNames.schoolClasses],
+      (key, data) => SchoolClass.fromData(data, id: key),
+    );
     return ConnectionsData._(
       schoolClass: schoolClasses,
-      courses: decodeMap(data[CollectionNames.courses],
-          (key, data) => Course.fromData(data, id: key)),
+      courses: decodeMap(
+        data[CollectionNames.courses],
+        (key, data) => Course.fromData(data, id: key),
+      ),
     );
   }
 
@@ -44,9 +41,6 @@ class ConnectionsData {
         courseMap[course.id] = course;
       }
     }
-    return ConnectionsData._(
-      schoolClass: schoolClass,
-      courses: courseMap,
-    );
+    return ConnectionsData._(schoolClass: schoolClass, courses: courseMap);
   }
 }

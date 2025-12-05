@@ -11,7 +11,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib;
@@ -31,10 +30,14 @@ import '../../../test/pages/settings/notification_page_test.mocks.dart';
 
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
-class MockHomeworkDialogBloc extends MockPresentationBloc<
-    HomeworkDialogEvent,
-    HomeworkDialogState,
-    HomeworkDialogBlocPresentationEvent> implements HomeworkDialogBloc {}
+class MockHomeworkDialogBloc
+    extends
+        MockPresentationBloc<
+          HomeworkDialogEvent,
+          HomeworkDialogState,
+          HomeworkDialogBlocPresentationEvent
+        >
+    implements HomeworkDialogBloc {}
 
 void main() {
   group('HomeworkDialog', () {
@@ -44,8 +47,11 @@ void main() {
       homeworkDialogBloc = MockHomeworkDialogBloc();
     });
 
-    Future<void> pumpAndSettleHomeworkDialog(WidgetTester tester,
-        {required ThemeData theme, required bool isEditing}) async {
+    Future<void> pumpAndSettleHomeworkDialog(
+      WidgetTester tester, {
+      required ThemeData theme,
+      required bool isEditing,
+    }) async {
       final sub = MockSubscriptionService();
       when(sub.hasFeatureUnlocked(any)).thenReturn(true);
       await tester.pumpWidgetBuilder(
@@ -65,33 +71,35 @@ void main() {
       );
     }
 
-    testGoldens('renders empty create homework dialog as expected',
-        (tester) async {
+    testGoldens('renders empty create homework dialog as expected', (
+      tester,
+    ) async {
       whenListen(
         homeworkDialogBloc,
         Stream.value(emptyCreateHomeworkDialogState),
         initialState: emptyCreateHomeworkDialogState,
       );
 
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getLightTheme());
-
-      await multiScreenGolden(
+      await pumpAndSettleHomeworkDialog(
         tester,
-        'homework_dialog_add_empty_light',
+        isEditing: false,
+        theme: getLightTheme(),
       );
 
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getDarkTheme());
+      await multiScreenGolden(tester, 'homework_dialog_add_empty_light');
 
-      await multiScreenGolden(
+      await pumpAndSettleHomeworkDialog(
         tester,
-        'homework_dialog_add_empty_dark',
+        isEditing: false,
+        theme: getDarkTheme(),
       );
+
+      await multiScreenGolden(tester, 'homework_dialog_add_empty_dark');
     });
 
-    testGoldens('renders filled create homework dialog as expected',
-        (tester) async {
+    testGoldens('renders filled create homework dialog as expected', (
+      tester,
+    ) async {
       final state = Ready(
         title: ('S. 32 8a)', error: null),
         course: const CourseChosen(
@@ -103,7 +111,7 @@ void main() {
           Date('2023-10-12'),
           selection: DueDateSelection.date(Date('2023-10-12')),
           lessonChipsSelectable: true,
-          error: null
+          error: null,
         ),
         submissions: const SubmissionsDisabled(isChangeable: false),
         description: 'Das ist eine Beschreibung',
@@ -133,32 +141,28 @@ void main() {
         isEditing: false,
       );
 
-      whenListen(
-        homeworkDialogBloc,
-        Stream.value(state),
-        initialState: state,
-      );
+      whenListen(homeworkDialogBloc, Stream.value(state), initialState: state);
 
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getLightTheme());
-
-      await multiScreenGolden(
+      await pumpAndSettleHomeworkDialog(
         tester,
-        'homework_dialog_add_filled_1_light',
+        isEditing: false,
+        theme: getLightTheme(),
       );
 
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getDarkTheme());
+      await multiScreenGolden(tester, 'homework_dialog_add_filled_1_light');
 
-      await multiScreenGolden(
+      await pumpAndSettleHomeworkDialog(
         tester,
-        'homework_dialog_add_filled_1_dark',
+        isEditing: false,
+        theme: getDarkTheme(),
       );
+
+      await multiScreenGolden(tester, 'homework_dialog_add_filled_1_dark');
     });
 
-    testGoldens(
-        'renders homework dialog when uploading attachments as expected',
-        (tester) async {
+    testGoldens('renders homework dialog when uploading attachments as expected', (
+      tester,
+    ) async {
       final state = Ready(
         title: ('S. 32 8a)', error: null),
         course: const CourseChosen(
@@ -170,7 +174,7 @@ void main() {
           Date('2023-10-12'),
           selection: DueDateSelection.date(Date('2023-10-12')),
           lessonChipsSelectable: false,
-          error: null
+          error: null,
         ),
         submissions: const SubmissionsDisabled(isChangeable: false),
         description: 'Das ist eine Beschreibung',
@@ -200,16 +204,17 @@ void main() {
         isEditing: false,
       );
 
-      whenListen(
-        homeworkDialogBloc,
-        Stream.value(state),
-        initialState: state,
-      );
+      whenListen(homeworkDialogBloc, Stream.value(state), initialState: state);
 
-      whenListenPresentation(homeworkDialogBloc,
-          initialEvents: [const StartedUploadingAttachments()]);
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getLightTheme());
+      whenListenPresentation(
+        homeworkDialogBloc,
+        initialEvents: [const StartedUploadingAttachments()],
+      );
+      await pumpAndSettleHomeworkDialog(
+        tester,
+        isEditing: false,
+        theme: getLightTheme(),
+      );
 
       // Wait for the SnackBar to appear.
       await tester.pump(const Duration(milliseconds: 500));
@@ -226,8 +231,10 @@ void main() {
       // `whenListenPresentation` needs to be called again as internally only
       // a normal instead of a broadcast stream is used and thus it would fail
       // as a normal stream can only be listened to once.
-      whenListenPresentation(homeworkDialogBloc,
-          initialEvents: [const StartedUploadingAttachments()]);
+      whenListenPresentation(
+        homeworkDialogBloc,
+        initialEvents: [const StartedUploadingAttachments()],
+      );
 
       await pumpAndSettleHomeworkDialog(
         tester,
@@ -247,9 +254,9 @@ void main() {
         customPump: (tester) => tester.pump(),
       );
     });
-    testGoldens(
-        'renders homework dialog when uploading attachments as expected',
-        (tester) async {
+    testGoldens('renders homework dialog when uploading attachments as expected', (
+      tester,
+    ) async {
       final state = Ready(
         title: ('S. 32 8a)', error: null),
         course: const CourseChosen(
@@ -261,7 +268,7 @@ void main() {
           Date('2023-10-12'),
           selection: DueDateSelection.date(Date('2023-10-12')),
           lessonChipsSelectable: true,
-          error: null
+          error: null,
         ),
         submissions: const SubmissionsDisabled(isChangeable: false),
         description: 'Das ist eine Beschreibung',
@@ -291,18 +298,20 @@ void main() {
         isEditing: false,
       );
 
-      whenListen(
-        homeworkDialogBloc,
-        Stream.value(state),
-        initialState: state,
-      );
+      whenListen(homeworkDialogBloc, Stream.value(state), initialState: state);
 
-      whenListenPresentation(homeworkDialogBloc, initialEvents: [
-        const StartedUploadingAttachments(),
-        SavingFailed(Exception('Test Exception Message'), null)
-      ]);
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getLightTheme());
+      whenListenPresentation(
+        homeworkDialogBloc,
+        initialEvents: [
+          const StartedUploadingAttachments(),
+          SavingFailed(Exception('Test Exception Message'), null),
+        ],
+      );
+      await pumpAndSettleHomeworkDialog(
+        tester,
+        isEditing: false,
+        theme: getLightTheme(),
+      );
 
       // Wait for the SnackBar to appear.
       await tester.pump(const Duration(milliseconds: 500));
@@ -319,10 +328,13 @@ void main() {
       // `whenListenPresentation` needs to be called again as internally only
       // a normal instead of a broadcast stream is used and thus it would fail
       // as a normal stream can only be listened to once.
-      whenListenPresentation(homeworkDialogBloc, initialEvents: [
-        const StartedUploadingAttachments(),
-        SavingFailed(Exception('Test Exception Message'), null)
-      ]);
+      whenListenPresentation(
+        homeworkDialogBloc,
+        initialEvents: [
+          const StartedUploadingAttachments(),
+          SavingFailed(Exception('Test Exception Message'), null),
+        ],
+      );
 
       await pumpAndSettleHomeworkDialog(
         tester,
@@ -343,8 +355,9 @@ void main() {
       );
     });
 
-    testGoldens('renders create homework dialog with errors as expected',
-        (tester) async {
+    testGoldens('renders create homework dialog with errors as expected', (
+      tester,
+    ) async {
       final state = emptyCreateHomeworkDialogState.copyWith(
         title: ('', error: const EmptyTitleException()),
         course: const NoCourseChosen(error: NoCourseChosenException()),
@@ -352,38 +365,37 @@ void main() {
           null,
           selection: null,
           lessonChipsSelectable: false,
-          error: const NoDueDateSelectedException()
+          error: const NoDueDateSelectedException(),
         ),
       );
 
-      whenListen(
+      whenListen(homeworkDialogBloc, Stream.value(state), initialState: state);
+
+      whenListenPresentation(
         homeworkDialogBloc,
-        Stream.value(state),
-        initialState: state,
+        initialEvents: [const RequiredFieldsNotFilledOut()],
       );
 
-      whenListenPresentation(homeworkDialogBloc,
-          initialEvents: [const RequiredFieldsNotFilledOut()]);
-
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getLightTheme());
-
-      await multiScreenGolden(
+      await pumpAndSettleHomeworkDialog(
         tester,
-        'homework_dialog_with_error_light',
+        isEditing: false,
+        theme: getLightTheme(),
       );
 
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getDarkTheme());
+      await multiScreenGolden(tester, 'homework_dialog_with_error_light');
 
-      await multiScreenGolden(
+      await pumpAndSettleHomeworkDialog(
         tester,
-        'homework_dialog_with_error_dark',
+        isEditing: false,
+        theme: getDarkTheme(),
       );
+
+      await multiScreenGolden(tester, 'homework_dialog_with_error_dark');
     });
 
-    testGoldens('renders filled edit homework dialog as expected',
-        (tester) async {
+    testGoldens('renders filled edit homework dialog as expected', (
+      tester,
+    ) async {
       final state = Ready(
         title: ('AB fertig bearbeiten', error: null),
         course: const CourseChosen(
@@ -395,7 +407,7 @@ void main() {
           Date('2024-01-14'),
           selection: DueDateSelection.date(Date('2024-01-14')),
           lessonChipsSelectable: true,
-          error: null
+          error: null,
         ),
         submissions: SubmissionsEnabled(deadline: Time(hour: 16, minute: 30)),
         description: 'Bitte bearbeite das angehängte AB schriftlich fertig.',
@@ -417,27 +429,23 @@ void main() {
         isEditing: true,
       );
 
-      whenListen(
-        homeworkDialogBloc,
-        Stream.value(state),
-        initialState: state,
-      );
+      whenListen(homeworkDialogBloc, Stream.value(state), initialState: state);
 
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getLightTheme());
-
-      await multiScreenGolden(
+      await pumpAndSettleHomeworkDialog(
         tester,
-        'homework_dialog_edit_filled_1_light',
+        isEditing: false,
+        theme: getLightTheme(),
       );
 
-      await pumpAndSettleHomeworkDialog(tester,
-          isEditing: false, theme: getDarkTheme());
+      await multiScreenGolden(tester, 'homework_dialog_edit_filled_1_light');
 
-      await multiScreenGolden(
+      await pumpAndSettleHomeworkDialog(
         tester,
-        'homework_dialog_edit_filled_1_dark',
+        isEditing: false,
+        theme: getDarkTheme(),
       );
+
+      await multiScreenGolden(tester, 'homework_dialog_edit_filled_1_dark');
     });
   });
 }
@@ -448,5 +456,7 @@ void main() {
 // --update-goldens
 Future<void> generateGolden(String name) async {
   await expectLater(
-      find.byType(MaterialApp), matchesGoldenFile('goldens/golden_$name.png'));
+    find.byType(MaterialApp),
+    matchesGoldenFile('goldens/golden_$name.png'),
+  );
 }

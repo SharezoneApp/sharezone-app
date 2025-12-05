@@ -38,16 +38,18 @@ void main() {
             theme: theme,
             home: Scaffold(
               body: Center(
-                child: Builder(builder: (context) {
-                  return ElevatedButton(
-                    // @visibleForTesting is not working for our `test_goldens`
-                    // folder. Therefore we have to ignore the warning.
-                    //
-                    // ignore: invalid_use_of_visible_for_testing_member
-                    onPressed: () => selectDesign(context, null),
-                    child: const Text("Select"),
-                  );
-                }),
+                child: Builder(
+                  builder: (context) {
+                    return ElevatedButton(
+                      // @visibleForTesting is not working for our `test_goldens`
+                      // folder. Therefore we have to ignore the warning.
+                      //
+                      // ignore: invalid_use_of_visible_for_testing_member
+                      onPressed: () => selectDesign(context, null),
+                      child: const Text("Select"),
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -60,66 +62,91 @@ void main() {
 
     group('with Sharezone Plus', () {
       setUp(() {
-        when(subscriptionService
-                .hasFeatureUnlocked(SharezonePlusFeature.moreGroupColors))
-            .thenReturn(true);
+        when(
+          subscriptionService.hasFeatureUnlocked(
+            SharezonePlusFeature.moreGroupColors,
+          ),
+        ).thenReturn(true);
       });
 
-      testGoldens('displays select base color dialog as expected (light mode)',
-          (tester) async {
-        await pumpSelectDesignDialog(tester, theme: getLightTheme());
+      testGoldens(
+        'displays select base color dialog as expected (light mode)',
+        (tester) async {
+          await pumpSelectDesignDialog(tester, theme: getLightTheme());
 
-        await multiScreenGolden(tester, 'select_base_color_dialog_light');
-      });
+          await multiScreenGolden(tester, 'select_base_color_dialog_light');
+        },
+      );
 
-      testGoldens('displays select base color dialog as expected (dark mode)',
-          (tester) async {
+      testGoldens('displays select base color dialog as expected (dark mode)', (
+        tester,
+      ) async {
         await pumpSelectDesignDialog(tester, theme: getDarkTheme());
 
         await multiScreenGolden(tester, 'select_base_color_dialog_dark');
       });
 
       testGoldens(
-          'displays select a color shade dialog as expected (light mode)',
-          (tester) async {
-        await pumpSelectDesignDialog(tester, theme: getLightTheme());
+        'displays select a color shade dialog as expected (light mode)',
+        (tester) async {
+          await pumpSelectDesignDialog(tester, theme: getLightTheme());
 
-        await tester
-            .tap(find.byKey(Key('color-circle-${Colors.blue.value}')).last);
-        await tester.pumpAndSettle();
+          await tester.tap(
+            find
+                .byKey(
+                  Key(
+                    'color-circle-${Colors.blue.r}-${Colors.blue.g}-${Colors.blue.b}',
+                  ),
+                )
+                .last,
+          );
+          await tester.pumpAndSettle();
 
-        await multiScreenGolden(tester, 'select_accurate_color_dialog_light');
-      });
+          await multiScreenGolden(tester, 'select_accurate_color_dialog_light');
+        },
+      );
 
       testGoldens(
-          'displays select a color shade dialog as expected (dark mode)',
-          (tester) async {
-        await pumpSelectDesignDialog(tester, theme: getDarkTheme());
+        'displays select a color shade dialog as expected (dark mode)',
+        (tester) async {
+          await pumpSelectDesignDialog(tester, theme: getDarkTheme());
 
-        await tester
-            .tap(find.byKey(Key('color-circle-${Colors.blue.value}')).last);
-        await tester.pumpAndSettle();
+          await tester.tap(
+            find
+                .byKey(
+                  Key(
+                    'color-circle-${Colors.blue.r}-${Colors.blue.g}-${Colors.blue.b}',
+                  ),
+                )
+                .last,
+          );
+          await tester.pumpAndSettle();
 
-        await multiScreenGolden(tester, 'select_accurate_color_dialog_dark');
-      });
+          await multiScreenGolden(tester, 'select_accurate_color_dialog_dark');
+        },
+      );
     });
 
     group('without Sharezone Plus', () {
       setUp(() {
-        when(subscriptionService
-                .hasFeatureUnlocked(SharezonePlusFeature.moreGroupColors))
-            .thenReturn(false);
+        when(
+          subscriptionService.hasFeatureUnlocked(
+            SharezonePlusFeature.moreGroupColors,
+          ),
+        ).thenReturn(false);
       });
 
-      testGoldens('displays select design dialog as expected (light mode)',
-          (tester) async {
+      testGoldens('displays select design dialog as expected (light mode)', (
+        tester,
+      ) async {
         await pumpSelectDesignDialog(tester, theme: getLightTheme());
 
         await multiScreenGolden(tester, 'select_free_design_dialog_light');
       });
 
-      testGoldens('displays select design dialog as expected (dark mode)',
-          (tester) async {
+      testGoldens('displays select design dialog as expected (dark mode)', (
+        tester,
+      ) async {
         await pumpSelectDesignDialog(tester, theme: getDarkTheme());
 
         await multiScreenGolden(tester, 'select_free_design_dialog_dark');

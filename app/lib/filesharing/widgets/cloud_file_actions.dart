@@ -12,7 +12,9 @@ import 'package:sharezone/filesharing/models/sheet_option.dart';
 import 'package:sharezone/report/report_icon.dart';
 
 List<CloudFileAction> folderActions(
-    bool? isFolderDeletable, bool hasPermissionToEdit) {
+  bool? isFolderDeletable,
+  bool hasPermissionToEdit,
+) {
   return [
     if (hasPermissionToEdit)
       const CloudFileAction(
@@ -67,26 +69,30 @@ class FolderActionsColumn extends StatelessWidget {
   final bool? isFolderDeletable;
   final bool? hasPermissionsToEdit;
   final Function(BuildContext context, SheetOption? sheetOption)?
-      onSelectFolderAction;
+  onSelectFolderAction;
 
-  const FolderActionsColumn(
-      {super.key,
-      this.isFolderDeletable,
-      this.onSelectFolderAction,
-      this.hasPermissionsToEdit});
+  const FolderActionsColumn({
+    super.key,
+    this.isFolderDeletable,
+    this.onSelectFolderAction,
+    this.hasPermissionsToEdit,
+  });
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        for (final cloudFileAction
-            in folderActions(isFolderDeletable, hasPermissionsToEdit!))
+        for (final cloudFileAction in folderActions(
+          isFolderDeletable,
+          hasPermissionsToEdit!,
+        ))
           ListTile(
             title: Text(cloudFileAction.name!),
             leading: Icon(cloudFileAction.iconData),
-            onTap: () =>
-                onSelectFolderAction!(context, cloudFileAction.sheetOption),
+            onTap:
+                () =>
+                    onSelectFolderAction!(context, cloudFileAction.sheetOption),
             enabled: cloudFileAction.enabled!,
-          )
+          ),
       ],
     );
   }
@@ -95,10 +101,13 @@ class FolderActionsColumn extends StatelessWidget {
 class CloudFileActionsColumn extends StatelessWidget {
   final bool? hasPermissionToEdit;
   final Function(BuildContext context, SheetOption? sheetOption)?
-      onSelectCloudFileAction;
+  onSelectCloudFileAction;
 
-  const CloudFileActionsColumn(
-      {super.key, this.hasPermissionToEdit, this.onSelectCloudFileAction});
+  const CloudFileActionsColumn({
+    super.key,
+    this.hasPermissionToEdit,
+    this.onSelectCloudFileAction,
+  });
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -107,9 +116,12 @@ class CloudFileActionsColumn extends StatelessWidget {
           ListTile(
             title: Text(cloudFileAction.name!),
             leading: Icon(cloudFileAction.iconData),
-            onTap: () =>
-                onSelectCloudFileAction!(context, cloudFileAction.sheetOption),
-          )
+            onTap:
+                () => onSelectCloudFileAction!(
+                  context,
+                  cloudFileAction.sheetOption,
+                ),
+          ),
       ],
     );
   }

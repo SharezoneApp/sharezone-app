@@ -13,14 +13,16 @@ import 'package:rxdart/subjects.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<AppFunctionsResult<bool>> showAppFunctionStateDialog(
-    BuildContext context,
-    Future<AppFunctionsResult<bool>> appFunctionsResult) async {
+  BuildContext context,
+  Future<AppFunctionsResult<bool>> appFunctionsResult,
+) async {
   final stateContentStream = _mapAppFunctionToStateContent(appFunctionsResult);
   final stateDialog = StateDialog(stateContentStream);
   stateDialog.showDialogAutoPop(
     context,
-    future: appFunctionsResult
-        .then((result) => result.hasData && result.data == true),
+    future: appFunctionsResult.then(
+      (result) => result.hasData && result.data == true,
+    ),
     delay: const Duration(milliseconds: 350),
   );
 
@@ -30,9 +32,11 @@ Future<AppFunctionsResult<bool>> showAppFunctionStateDialog(
 }
 
 Stream<StateDialogContent> _mapAppFunctionToStateContent(
-    Future<AppFunctionsResult<bool>> appFunctionsResult) {
-  final stateContent =
-      BehaviorSubject<StateDialogContent>.seeded(stateDialogContentLoading);
+  Future<AppFunctionsResult<bool>> appFunctionsResult,
+) {
+  final stateContent = BehaviorSubject<StateDialogContent>.seeded(
+    stateDialogContentLoading,
+  );
   appFunctionsResult.then((result) {
     if (result.hasData) {
       final boolean = result.data;

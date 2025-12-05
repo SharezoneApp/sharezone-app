@@ -29,7 +29,8 @@ class EnterActivationCodeActivator {
   Future<EnterActivationCodeResult> activateCode(String activationCode) async {
     _analytics.log(EnterActivationCodeEvent(activationCode));
     final appFunctionsResult = await _appFunctions.enterActivationCode(
-        enteredActivationCode: activationCode);
+      enteredActivationCode: activationCode,
+    );
     final result = _toEnterActivationCodeResult(appFunctionsResult);
     _logResult(activationCode, result);
     return result;
@@ -40,8 +41,9 @@ class EnterActivationCodeActivator {
     if (result is FailedEnterActivationCodeResult &&
         result.enterActivationCodeException
             is UnknownEnterActivationCodeException) {
-      final unknownException = result.enterActivationCodeException
-          as UnknownEnterActivationCodeException;
+      final unknownException =
+          result.enterActivationCodeException
+              as UnknownEnterActivationCodeException;
       _crashAnalytics.recordError(
         unknownException.exception,
         StackTrace.current,
@@ -55,23 +57,28 @@ class EnterActivationCodeActivator {
   }
 
   EnterActivationCodeResult _toEnterActivationCodeResult(
-      AppFunctionsResult appFunctionsResult) {
+    AppFunctionsResult appFunctionsResult,
+  ) {
     try {
       if (appFunctionsResult.hasData) {
         return EnterActivationCodeResult.fromData(
-            appFunctionsResult.data as Map<String, dynamic>);
+          appFunctionsResult.data as Map<String, dynamic>,
+        );
       } else {
         final exception = appFunctionsResult.exception;
         if (exception is NoInternetAppFunctionsException) {
           return FailedEnterActivationCodeResult(
-              NoInternetEnterActivationCodeException());
+            NoInternetEnterActivationCodeException(),
+          );
         }
         return FailedEnterActivationCodeResult(
-            UnknownEnterActivationCodeException(exception: exception));
+          UnknownEnterActivationCodeException(exception: exception),
+        );
       }
     } catch (exception) {
       return FailedEnterActivationCodeResult(
-          UnknownEnterActivationCodeException(exception: exception));
+        UnknownEnterActivationCodeException(exception: exception),
+      );
     }
   }
 }

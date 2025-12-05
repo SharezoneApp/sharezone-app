@@ -16,7 +16,7 @@ class NewActivationCodeBloc extends BlocBase {
     'No',
     'Unlock_Darkmode',
     'Unlock_AllColors',
-    'Unlock_Referral_Features'
+    'Unlock_Referral_Features',
   ];
 
   final _codeSubject = BehaviorSubject<String>.seeded("");
@@ -43,8 +43,10 @@ class NewActivationCodeBloc extends BlocBase {
 
   Future<HttpsCallableResult> submit(BuildContext context) async {
     final activationCodeValue = _codeSubject.value;
-    final endTimeValue =
-        _endTimeSubject.value.toIso8601String().substring(0, 10);
+    final endTimeValue = _endTimeSubject.value.toIso8601String().substring(
+      0,
+      10,
+    );
     final actionsValue = _actionsSubject.value;
     final codeNameValue = _codeNameSubject.value;
     final codeDescriptionValue = _codeDescriptionSubject.value;

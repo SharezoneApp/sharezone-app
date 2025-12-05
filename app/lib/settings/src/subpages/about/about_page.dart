@@ -36,8 +36,10 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: Text(context.l10n.aboutPageTitle), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.aboutPageTitle),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: SafeArea(
@@ -80,10 +82,7 @@ class _AboutHeader extends StatelessWidget {
         ),
         Text(
           context.l10n.aboutPageHeaderSubtitle,
-          style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 15,
-          ),
+          style: const TextStyle(color: Colors.grey, fontSize: 15),
         ),
         FutureBuilder<PlatformInformationRetriever>(
           future: getPlatformInformationRetrieverWithInit(),
@@ -99,12 +98,13 @@ class _AboutHeader extends StatelessWidget {
             return Text(
               context.l10n.aboutPageVersion(version, buildNumber),
               style: TextStyle(
-                  color: Colors.grey[400],
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic),
+                color: Colors.grey[400],
+                fontSize: 14,
+                fontStyle: FontStyle.italic,
+              ),
             );
           },
-        )
+        ),
       ],
     );
   }
@@ -128,12 +128,14 @@ class _FollowUs extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 SocialButton.instagram(
-                    context, "https://sharezone.net/instagram"),
+                  context,
+                  "https://sharezone.net/instagram",
+                ),
                 SocialButton.twitter(context, "https://sharezone.net/twitter"),
                 SocialButton.discord(context, "https://sharezone.net/discord"),
                 SocialButton.github(context, "https://sharezone.net/github"),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -160,10 +162,10 @@ class _AboutSharezone extends StatelessWidget {
               MarkdownBody(
                 data: context.l10n.aboutPageAboutSectionVisitWebsite,
                 selectable: true,
-                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-                    .copyWith(
-                        a: linkStyle(context), p: _greyTextStyle(context)),
-                onTapLink: (url, _, __) => launchURL(url, context: context),
+                styleSheet: MarkdownStyleSheet.fromTheme(
+                  Theme.of(context),
+                ).copyWith(a: linkStyle(context), p: _greyTextStyle(context)),
+                onTapLink: (url, _, _) => launchURL(url, context: context),
               ),
             ],
           ),

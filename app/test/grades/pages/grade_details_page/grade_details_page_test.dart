@@ -85,8 +85,9 @@ void main() {
       await tester.tap(find.byKey(const Key('delete-grade-icon-button')));
       await tester.pumpAndSettle();
 
-      await tester.tap(find
-          .byKey(const Key('delete-grade-confirmation-dialog-delete-button')));
+      await tester.tap(
+        find.byKey(const Key('delete-grade-confirmation-dialog-delete-button')),
+      );
       await tester.pumpAndSettle();
 
       verify(controller.deleteGrade()).called(1);
@@ -98,8 +99,9 @@ void main() {
       await tester.tap(find.byKey(const Key('delete-grade-icon-button')));
       await tester.pumpAndSettle();
 
-      await tester.tap(find
-          .byKey(const Key('delete-grade-confirmation-dialog-cancel-button')));
+      await tester.tap(
+        find.byKey(const Key('delete-grade-confirmation-dialog-cancel-button')),
+      );
       await tester.pumpAndSettle();
 
       verifyNever(controller.deleteGrade());

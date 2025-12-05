@@ -87,7 +87,7 @@ final sortedHomeworksForSortByDateSubjectTitle = [
   haIntegration4,
   haIntegration5,
   haIntegration6,
-  haIntegration7
+  haIntegration7,
 ];
 final sortedHomeworksForSortBySubjectDateTitle = [
   haIntegration1,

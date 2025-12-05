@@ -62,8 +62,10 @@ void main() {
         getLessonViewWithTimeStatus(LessonTimeStatus.hasAlreadyTakenPlace),
         getLessonViewWithTimeStatus(LessonTimeStatus.hasAlreadyTakenPlace),
       ];
-      expect(() => getCurrentLessonIndex(schoolIsOver),
-          throwsA(predicate((dynamic e) => e is AllLessonsAreOverException)));
+      expect(
+        () => getCurrentLessonIndex(schoolIsOver),
+        throwsA(predicate((dynamic e) => e is AllLessonsAreOverException)),
+      );
     });
 
     test('first lesson is now', () {

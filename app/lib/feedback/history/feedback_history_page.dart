@@ -39,13 +39,14 @@ class _FeedbackHistoryPageState extends State<FeedbackHistoryPage> {
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: switch (state) {
-          FeedbackHistoryPageError(message: final message) =>
-            _Error(message: message),
+          FeedbackHistoryPageError(message: final message) => _Error(
+            message: message,
+          ),
           FeedbackHistoryPageLoading() => const _Loading(),
           FeedbackHistoryPageLoaded(feedbacks: final feedbacks) => _List(
-              feedbacks: feedbacks,
-              isLoading: false,
-            ),
+            feedbacks: feedbacks,
+            isLoading: false,
+          ),
           FeedbackHistoryPageEmpty() => const _Empty(),
         },
       ),
@@ -83,18 +84,12 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _List(
-      feedbacks: dummyFeedbacks,
-      isLoading: true,
-    );
+    return _List(feedbacks: dummyFeedbacks, isLoading: true);
   }
 }
 
 class _List extends StatelessWidget {
-  const _List({
-    required this.feedbacks,
-    required this.isLoading,
-  });
+  const _List({required this.feedbacks, required this.isLoading});
 
   final List<FeedbackView> feedbacks;
   final bool isLoading;
@@ -117,11 +112,12 @@ class _List extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FeedbackDetailsPage(
-                    feedbackId: feedbackId,
-                    onContactSupportPressed: () =>
-                        Navigator.pushNamed(context, SupportPage.tag),
-                  ),
+                  builder:
+                      (context) => FeedbackDetailsPage(
+                        feedbackId: feedbackId,
+                        onContactSupportPressed:
+                            () => Navigator.pushNamed(context, SupportPage.tag),
+                      ),
                   settings: const RouteSettings(name: FeedbackDetailsPage.tag),
                 ),
               );
@@ -150,8 +146,8 @@ class _Error extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: ErrorCard(
               message: Text(message),
-              onContactSupportPressed: () =>
-                  Navigator.pushNamed(context, SupportPage.tag),
+              onContactSupportPressed:
+                  () => Navigator.pushNamed(context, SupportPage.tag),
             ),
           ),
         ),

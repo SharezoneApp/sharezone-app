@@ -23,10 +23,7 @@ class RowSpacing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: mainAxisAlignment,
-      children: _buildList(),
-    );
+    return Row(mainAxisAlignment: mainAxisAlignment, children: _buildList());
   }
 
   List<Widget> _buildList() {

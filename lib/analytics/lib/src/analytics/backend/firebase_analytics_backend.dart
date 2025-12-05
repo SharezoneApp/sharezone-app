@@ -18,7 +18,16 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
 
   @override
   void log(String name, [Map<String, dynamic>? data]) {
-    _firebaseAnalytics.logEvent(name: name, parameters: data);
+    final converted =
+        data != null
+            // Convert from Map<String, dynamic> to Map<String, Object>
+            ? Map.fromEntries(
+              data.entries
+                  .where((entry) => entry.value is Object)
+                  .map((entry) => MapEntry(entry.key, entry.value as Object)),
+            )
+            : null;
+    _firebaseAnalytics.logEvent(name: name, parameters: converted);
     crashAnalytics.log(name);
   }
 
@@ -28,9 +37,7 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
   }
 
   @override
-  Future<void> logSignUp({
-    required String signUpMethod,
-  }) async {
+  Future<void> logSignUp({required String signUpMethod}) async {
     await _firebaseAnalytics.logSignUp(signUpMethod: signUpMethod);
     crashAnalytics.log('signUp: $signUpMethod');
   }
@@ -57,5 +64,7 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
 
 AnalyticsBackend getBackend() {
   return FirebaseAnalyticsBackend(
-      FirebaseAnalytics.instance, getCrashAnalytics());
+    FirebaseAnalytics.instance,
+    getCrashAnalytics(),
+  );
 }

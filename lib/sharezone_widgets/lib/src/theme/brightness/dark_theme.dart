@@ -14,9 +14,7 @@ const _accentColor = Colors.lightBlue;
 ///
 /// In golden tests outside of `/app`, it's recommended to override [fontFamily]
 /// to `Roboto` to because `golden_toolkit` can't load fonts of other packages.
-ThemeData getDarkTheme({
-  String? fontFamily = rubik,
-}) {
+ThemeData getDarkTheme({String? fontFamily = rubik}) {
   return ThemeData(
     // Brightness
     brightness: Brightness.dark,
@@ -26,8 +24,6 @@ ThemeData getDarkTheme({
     primaryColor: primaryColor,
     unselectedWidgetColor: _accentColor,
     cardColor: ElevationColors.dp0,
-    indicatorColor: Colors.amberAccent,
-    dialogBackgroundColor: ElevationColors.dp12,
     canvasColor: ElevationColors.dp2,
     highlightColor: PlatformCheck.isIOS ? Colors.grey[800] : null,
     splashColor: PlatformCheck.isIOS ? Colors.transparent : null,
@@ -36,7 +32,7 @@ ThemeData getDarkTheme({
     fontFamily: fontFamily,
     // Themes
     appBarTheme: const AppBarTheme(
-      color: ElevationColors.dp8,
+      backgroundColor: ElevationColors.dp8,
       foregroundColor: Colors.white,
       iconTheme: IconThemeData(color: Colors.white),
     ),
@@ -44,12 +40,13 @@ ThemeData getDarkTheme({
       backgroundColor: _accentColor,
       foregroundColor: Colors.white,
     ),
-    textTheme: const TextTheme()
-        .copyWith(headlineMedium: const TextStyle(color: Colors.white)),
+    textTheme: const TextTheme().copyWith(
+      headlineMedium: const TextStyle(color: Colors.white),
+    ),
     pageTransitionsTheme: _pageTransitionsTheme,
     snackBarTheme: _snackBarTheme,
     bottomSheetTheme: _bottomSheetTheme,
-    dialogTheme: _dialogTheme,
+    dialogTheme: _dialogTheme.copyWith(backgroundColor: ElevationColors.dp12),
     listTileTheme: ListTileThemeData(
       iconColor: const Color(0xFFC1C7CE),
       shape: listTileShape,
@@ -66,10 +63,11 @@ ThemeData getDarkTheme({
         ),
       ),
     ),
-    tabBarTheme: const TabBarTheme(labelColor: Colors.white),
+    tabBarTheme: const TabBarThemeData(labelColor: Colors.white),
     checkboxTheme: CheckboxThemeData(
-      fillColor:
-          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+      fillColor: WidgetStateProperty.resolveWith<Color?>((
+        Set<WidgetState> states,
+      ) {
         if (states.contains(WidgetState.disabled)) {
           return null;
         }
@@ -80,8 +78,9 @@ ThemeData getDarkTheme({
       }),
     ),
     radioTheme: RadioThemeData(
-      fillColor:
-          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+      fillColor: WidgetStateProperty.resolveWith<Color?>((
+        Set<WidgetState> states,
+      ) {
         if (states.contains(WidgetState.disabled)) {
           return null;
         }

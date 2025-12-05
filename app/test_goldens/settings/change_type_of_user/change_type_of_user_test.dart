@@ -19,9 +19,7 @@ import 'package:user/user.dart';
 
 import 'change_type_of_user_test.mocks.dart';
 
-@GenerateNiceMocks([
-  MockSpec<ChangeTypeOfUserController>(),
-])
+@GenerateNiceMocks([MockSpec<ChangeTypeOfUserController>()])
 void main() {
   group(ChangeTypeOfUserPage, () {
     late MockChangeTypeOfUserController controller;
@@ -56,15 +54,17 @@ void main() {
       );
     }
 
-    testGoldens('renders as expected initial state (light mode)',
-        (tester) async {
+    testGoldens('renders as expected initial state (light mode)', (
+      tester,
+    ) async {
       await pumpChangeTypeOfUserPage(tester, theme: getLightTheme());
 
       await multiScreenGolden(tester, 'change_type_of_user_page_light');
     });
 
-    testGoldens('renders as expected initial state (dark mode)',
-        (tester) async {
+    testGoldens('renders as expected initial state (dark mode)', (
+      tester,
+    ) async {
       await pumpChangeTypeOfUserPage(tester, theme: getDarkTheme());
 
       await multiScreenGolden(tester, 'change_type_of_user_page_dark');

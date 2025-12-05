@@ -11,16 +11,18 @@ description: A new Flutter package project.
 version: 1.0.0
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ^3.7.0
 
 dependencies:
-  intl: ^0.19.0
-  rxdart: ^0.27.1
+  intl: ^0.20.2
+  rxdart: ^0.28.0
   flutter:
     sdk: flutter
-  clock: ^1.1.1
+  clock: ^1.1.2
 
 dev_dependencies:
+  test: ^1.25.15
   sharezone_lints:
     path: ../sharezone_lints

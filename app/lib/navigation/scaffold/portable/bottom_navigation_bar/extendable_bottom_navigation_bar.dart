@@ -11,6 +11,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -24,7 +25,9 @@ import 'navigation_experiment/navigation_experiment_option.dart';
 part 'tutorial/bnb_tutorial_widget.dart';
 
 const _borderRadiusPanel = BorderRadius.only(
-    topRight: Radius.circular(17.5), topLeft: Radius.circular(17.5));
+  topRight: Radius.circular(17.5),
+  topLeft: Radius.circular(17.5),
+);
 
 /// A BottomNavigationBar which can be expaneded by swiping it up.
 class ExtendableBottomNavigationBar extends StatefulWidget {
@@ -78,16 +81,19 @@ class ExtendableBottomNavigationBarState
         panel: _ExtendableBottomNavigationBarContent(
           controller: controller,
           currentNavigationItem: widget.currentNavigationItem,
-          backgroundColor: Theme.of(context).isDarkTheme
-              ? ElevationColors.dp8
-              : Colors.grey[100],
+          backgroundColor:
+              Theme.of(context).isDarkTheme
+                  ? ElevationColors.dp8
+                  : Colors.grey[100],
         ),
         body: widget.page,
         borderRadius: _borderRadiusPanel,
         minHeight: _ExtendableBottomNavigationBarContent.height(context),
-        maxHeight:
-            _ExtendableBottomNavigationBarContent.expendedHeight(context),
-        bodyHeight: MediaQuery.of(context).size.height -
+        maxHeight: _ExtendableBottomNavigationBarContent.expendedHeight(
+          context,
+        ),
+        bodyHeight:
+            MediaQuery.of(context).size.height -
             _ExtendableBottomNavigationBarContent.height(context),
         controller: controller,
         boxShadow: const [BoxShadow(blurRadius: 0, color: Colors.transparent)],
@@ -121,8 +127,9 @@ class _ExtendableBottomNavigationBarContent extends StatefulWidget {
 
   static double expendedHeight(BuildContext context) {
     final textStyle = DefaultTextStyle.of(context).style;
-    final scaledFontSize =
-        MediaQuery.textScalerOf(context).scale(textStyle.fontSize ?? 14);
+    final scaledFontSize = MediaQuery.textScalerOf(
+      context,
+    ).scale(textStyle.fontSize ?? 14);
     return 190.0 +
         (context.mediaQueryViewPadding.bottom / 2) +
         (scaledFontSize * 0.25);
@@ -152,9 +159,10 @@ class _ExtendableBottomNavigationBarContentState
 
     if (!context.isDesktopModus) {
       _overlayEntry = OverlayEntry(
-        builder: (context) => _BnbTutorial(
-          animationController: widget.controller.animationController!,
-        ),
+        builder:
+            (context) => _BnbTutorial(
+              animationController: widget.controller.animationController!,
+            ),
       );
 
       Overlay.of(context).insert(_overlayEntry!);
@@ -165,62 +173,66 @@ class _ExtendableBottomNavigationBarContentState
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: widget.controller.animationController!,
-      builder: (context, _) => Material(
-        color: widget.backgroundColor,
-        borderRadius: _borderRadiusPanel,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Theme.of(context).isDarkTheme
-                ? null
-                : Border.all(
-                    width: 0.8 *
-                        (1 - widget.controller.animationController!.value),
-                    color: Colors.black.withOpacity(0.1),
-                  ),
+      builder:
+          (context, _) => Material(
+            color: widget.backgroundColor,
             borderRadius: _borderRadiusPanel,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _SwipeUpLine(controller: widget.controller),
-              FirstNavigationRow(
-                navigationItem: widget.currentNavigationItem,
-                backgroundColor: widget.backgroundColor,
-                controller: widget.controller,
+            child: Container(
+              decoration: BoxDecoration(
+                border:
+                    Theme.of(context).isDarkTheme
+                        ? null
+                        : Border.all(
+                          width:
+                              0.8 *
+                              (1 -
+                                  widget.controller.animationController!.value),
+                          color: Colors.black.withValues(alpha: 0.1),
+                        ),
+                borderRadius: _borderRadiusPanel,
               ),
-              flexibleSizedBox(),
-              SecondNavigationRow(
-                navigationItem: widget.currentNavigationItem,
-                backgroundColor: widget.backgroundColor,
-                controller: widget.controller,
-              ),
-              const SizedBox(height: 8),
-              const Divider(height: 0),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-                child: Row(
-                  children: [
-                    _FeedbackBoxChip(
-                      controller: widget.controller,
-                      currentNavigationItem: widget.currentNavigationItem,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _SwipeUpLine(controller: widget.controller),
+                  FirstNavigationRow(
+                    navigationItem: widget.currentNavigationItem,
+                    backgroundColor: widget.backgroundColor,
+                    controller: widget.controller,
+                  ),
+                  flexibleSizedBox(),
+                  SecondNavigationRow(
+                    navigationItem: widget.currentNavigationItem,
+                    backgroundColor: widget.backgroundColor,
+                    controller: widget.controller,
+                  ),
+                  const SizedBox(height: 8),
+                  const Divider(height: 0),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                    child: Row(
+                      children: [
+                        _FeedbackBoxChip(
+                          controller: widget.controller,
+                          currentNavigationItem: widget.currentNavigationItem,
+                        ),
+                        const SizedBox(width: 6),
+                        _SharezonePlusChip(
+                          controller: widget.controller,
+                          currentNavigationItem: widget.currentNavigationItem,
+                        ),
+                        const SizedBox(width: 6),
+                        _ProfileChip(
+                          controller: widget.controller,
+                          currentNavigationItem: widget.currentNavigationItem,
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 6),
-                    _SharezonePlusChip(
-                      controller: widget.controller,
-                      currentNavigationItem: widget.currentNavigationItem,
-                    ),
-                    const SizedBox(width: 6),
-                    _ProfileChip(
-                      controller: widget.controller,
-                      currentNavigationItem: widget.currentNavigationItem,
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
     );
   }
 
@@ -234,24 +246,23 @@ class _ExtendableBottomNavigationBarContentState
   /// directly below each other. Picture of the problems and the current
   /// Solution: https://bit.ly/3fW9ecw
   Widget flexibleSizedBox() => AnimatedBuilder(
-        animation: widget.controller.animationController!,
-        builder: (context, child) {
-          return SizedBox(
-            height: 8 +
-                (context.mediaQueryViewPadding.bottom *
-                    (1 - widget.controller.animationController!.value)),
-          );
-        },
+    animation: widget.controller.animationController!,
+    builder: (context, child) {
+      return SizedBox(
+        height:
+            8 +
+            (context.mediaQueryViewPadding.bottom *
+                (1 - widget.controller.animationController!.value)),
       );
+    },
+  );
 }
 
 /// A little line, which indicates that the user can swipe up
 /// the [ExtendableBottomNavigationBar]. Will also open the
 /// [ExtendableBottomNavigationBar] if tapped on.
 class _SwipeUpLine extends StatelessWidget {
-  const _SwipeUpLine({
-    this.controller,
-  });
+  const _SwipeUpLine({this.controller});
 
   /// [controller] is needed to open the [ExtendableBottomNavigationBar], if the
   /// user taps on this widget.
@@ -275,7 +286,7 @@ class _SwipeUpLine extends StatelessWidget {
               width: 30,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(30)),
-                color: Colors.grey[400]!.withOpacity(0.7),
+                color: Colors.grey[400]!.withValues(alpha: 0.7),
               ),
             ),
           ),
@@ -383,9 +394,10 @@ class _Chip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const borderRadius = BorderRadius.all(Radius.circular(50));
-    final color = Theme.of(context).isDarkTheme
-        ? Theme.of(context).primaryColor
-        : darkBlueColor;
+    final color =
+        Theme.of(context).isDarkTheme
+            ? Theme.of(context).primaryColor
+            : darkBlueColor;
     return InkWell(
       borderRadius: borderRadius,
       onTap: () async {
@@ -399,9 +411,9 @@ class _Chip extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context)
-              .primaryColor
-              .withOpacity(Theme.of(context).isDarkTheme ? 0.15 : 0.2),
+          color: Theme.of(context).primaryColor.withValues(
+            alpha: Theme.of(context).isDarkTheme ? 0.15 : 0.2,
+          ),
           borderRadius: borderRadius,
         ),
         child: Padding(
@@ -427,7 +439,7 @@ class _Chip extends StatelessWidget {
                     ),
                   ),
                 ),
-              ]
+              ],
             ],
           ),
         ),

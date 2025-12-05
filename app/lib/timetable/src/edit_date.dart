@@ -28,12 +28,7 @@ class EditDateField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 6,
-        right: 6,
-        top: 6,
-        bottom: 6,
-      ),
+      padding: const EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 6),
       child: ValueListenableBuilder<bool>(
         valueListenable: isSelected,
         builder: (context, value, _) {
@@ -50,10 +45,13 @@ class EditDateField extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: SizedBox(
                   height: 18,
-                  child: date == null
-                      ? Container()
-                      : Text(date!.parser.toYMMMMEEEEd,
-                          style: const TextStyle(fontSize: 16.0)),
+                  child:
+                      date == null
+                          ? Container()
+                          : Text(
+                            date!.parser.toYMMMMEEEEd,
+                            style: const TextStyle(fontSize: 16.0),
+                          ),
                 ),
               ),
             ),
@@ -71,10 +69,7 @@ class EditDateField extends StatelessWidget {
   }
 }
 
-Future<Date?> selectDate(
-  BuildContext context, {
-  Date? initialDate,
-}) async {
+Future<Date?> selectDate(BuildContext context, {Date? initialDate}) async {
   return showDatePicker(
     context: context,
     initialDate: initialDate?.toDateTime ?? clock.now(),

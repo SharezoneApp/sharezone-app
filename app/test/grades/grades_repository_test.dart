@@ -39,72 +39,78 @@ void main() {
       }
 
       test(
-          'A term is still saved when deleting the Grade service as long as the repository is the same',
-          () {
-        var term = termWith(name: 'term1');
-        controller.createTerm(term);
+        'A term is still saved when deleting the Grade service as long as the repository is the same',
+        () {
+          var term = termWith(name: 'term1');
+          controller.createTerm(term);
 
-        replaceGradesServiceWithSameRepository();
+          replaceGradesServiceWithSameRepository();
 
-        expect(controller.terms, hasLength(1));
-      });
+          expect(controller.terms, hasLength(1));
+        },
+      );
       test(
-          'A gradeType is still saved when deleting the Grade service as long as the repository is the same',
-          () {
-        const gradeType = GradeType(id: GradeTypeId('foo'), displayName: 'Foo');
-        controller.createCustomGradeType(gradeType);
+        'A gradeType is still saved when deleting the Grade service as long as the repository is the same',
+        () {
+          const gradeType = GradeType(
+            id: GradeTypeId('foo'),
+            displayName: 'Foo',
+          );
+          controller.createCustomGradeType(gradeType);
 
-        replaceGradesServiceWithSameRepository();
+          replaceGradesServiceWithSameRepository();
 
-        expect(controller.getPossibleGradeTypes(), contains(gradeType));
-      });
+          expect(controller.getPossibleGradeTypes(), contains(gradeType));
+        },
+      );
       test(
-          'A subject is still saved when deleting the Grade service as long as the repository is the same',
-          () {
-        var subject =
-            subjectWith(id: const SubjectId('foo'), name: 'Foo Subject');
-        controller.addSubject(subject);
+        'A subject is still saved when deleting the Grade service as long as the repository is the same',
+        () {
+          var subject = subjectWith(
+            id: const SubjectId('foo'),
+            name: 'Foo Subject',
+          );
+          controller.addSubject(subject);
 
-        replaceGradesServiceWithSameRepository();
+          replaceGradesServiceWithSameRepository();
 
-        expect(
-          controller.getSubjects(),
-          contains(
-            predicate<TestSubject>(
-              (sub) => sub.id == subject.id && sub.name == subject.name,
+          expect(
+            controller.getSubjects(),
+            contains(
+              predicate<TestSubject>(
+                (sub) => sub.id == subject.id && sub.name == subject.name,
+              ),
             ),
-          ),
-        );
-      });
+          );
+        },
+      );
       test(
-          'If the $GradesService is replaced without the same $GradesStateRepository then old values wont be there anymore',
-          () {
-        final term = termWith(
-          subjects: [
-            subjectWith(
-              id: const SubjectId('Philosophie'),
-              grades: [
-                gradeWith(
-                  id: const GradeId('grade1'),
-                  value: 4.0,
-                ),
-              ],
-            ),
-          ],
-        );
-        controller.createTerm(term);
+        'If the $GradesService is replaced without the same $GradesStateRepository then old values wont be there anymore',
+        () {
+          final term = termWith(
+            subjects: [
+              subjectWith(
+                id: const SubjectId('Philosophie'),
+                grades: [gradeWith(id: const GradeId('grade1'), value: 4.0)],
+              ),
+            ],
+          );
+          controller.createTerm(term);
 
-        // We don't reuse the repository here, so the data will be lost
-        controller.service =
-            GradesService(repository: InMemoryGradesStateRepository());
+          // We don't reuse the repository here, so the data will be lost
+          controller.service = GradesService(
+            repository: InMemoryGradesStateRepository(),
+          );
 
-        expect(controller.terms, isEmpty);
-      });
+          expect(controller.terms, isEmpty);
+        },
+      );
     });
     test('when deleting a term the currentTerm is set to null', () {
       final repository = TestFirestoreGradesStateRepository();
       final controller = GradesTestController(
-          gradesService: GradesService(repository: repository));
+        gradesService: GradesService(repository: repository),
+      );
 
       final term = termWith(name: 'term1');
       controller.createTerm(term);
@@ -116,24 +122,28 @@ void main() {
       expect(repository.data['currentTerm'], isNull);
     });
     test(
-        'if `weightDisplayType` is not in data the default ${WeightDisplayType.factor} is used',
-        () {
-      final repository = TestFirestoreGradesStateRepository();
-      final controller = GradesTestController(
-          gradesService: GradesService(repository: repository));
+      'if `weightDisplayType` is not in data the default ${WeightDisplayType.factor} is used',
+      () {
+        final repository = TestFirestoreGradesStateRepository();
+        final controller = GradesTestController(
+          gradesService: GradesService(repository: repository),
+        );
 
-      final term = termWith(id: TermId('term1'));
-      controller.createTerm(term);
+        final term = termWith(id: TermId('term1'));
+        controller.createTerm(term);
 
-      final terms = repository.data['terms'] as Map<String, Object?>;
-      final term1 = terms['term1'] as Map<String, Object?>;
-      // Make sure that the attribute actually exists
-      expect(term1.remove('weightDisplayType'), isNotNull);
-      repository.refreshStateFromUpdatedData();
+        final terms = repository.data['terms'] as Map<String, Object?>;
+        final term1 = terms['term1'] as Map<String, Object?>;
+        // Make sure that the attribute actually exists
+        expect(term1.remove('weightDisplayType'), isNotNull);
+        repository.refreshStateFromUpdatedData();
 
-      expect(repository.state.value.terms.first.weightDisplayType,
-          WeightDisplayType.factor);
-    });
+        expect(
+          repository.state.value.terms.first.weightDisplayType,
+          WeightDisplayType.factor,
+        );
+      },
+    );
     test('serializes expected data map for empty state', () {
       final res = FirestoreGradesStateRepository.toDto((
         customGradeTypes: const IListConst([]),
@@ -201,7 +211,7 @@ void main() {
               name: 'Mathe 8a',
               abbreviation: 'M',
               subjectName: 'Mathe',
-            )
+            ),
           ]),
         ),
       );
@@ -217,7 +227,7 @@ void main() {
               name: 'Englisch 8a',
               abbreviation: 'E',
               subjectName: 'Englisch',
-            )
+            ),
           ]),
         ),
       );
@@ -225,51 +235,59 @@ void main() {
       term0210
           .subject(const SubjectId('mathe'))
           .grade(const GradeId('grade-1'))
-          .create(GradeInput(
-            value: '13',
-            gradingSystem: GradingSystem.zeroToFifteenPoints,
-            type: const GradeTypeId('my-custom-grade-type'),
-            date: Date('2024-10-02'),
-            takeIntoAccount: true,
-            title: 'hallo',
-            details: 'hello',
-          ));
+          .create(
+            GradeInput(
+              value: '13',
+              gradingSystem: GradingSystem.zeroToFifteenPoints,
+              type: const GradeTypeId('my-custom-grade-type'),
+              date: Date('2024-10-02'),
+              takeIntoAccount: true,
+              title: 'hallo',
+              details: 'hello',
+            ),
+          );
       term0210
           .subject(const SubjectId('mathe'))
           .grade(const GradeId('grade-2'))
-          .create(GradeInput(
-            value: '3',
-            gradingSystem: GradingSystem.zeroToFifteenPoints,
-            type: GradeType.vocabularyTest.id,
-            date: Date('2024-10-03'),
-            takeIntoAccount: true,
-            title: 'abcdef',
-            details: 'ghijkl',
-          ));
+          .create(
+            GradeInput(
+              value: '3',
+              gradingSystem: GradingSystem.zeroToFifteenPoints,
+              type: GradeType.vocabularyTest.id,
+              date: Date('2024-10-03'),
+              takeIntoAccount: true,
+              title: 'abcdef',
+              details: 'ghijkl',
+            ),
+          );
       term0110
           .subject(const SubjectId('englisch'))
           .grade(const GradeId('grade-3'))
-          .create(GradeInput(
-            value: '2-',
-            gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-            type: const GradeTypeId('my-custom-grade-type'),
-            date: Date('2024-10-16'),
-            takeIntoAccount: false,
-            title: 'hallo',
-            details: 'ollah',
-          ));
+          .create(
+            GradeInput(
+              value: '2-',
+              gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+              type: const GradeTypeId('my-custom-grade-type'),
+              date: Date('2024-10-16'),
+              takeIntoAccount: false,
+              title: 'hallo',
+              details: 'ollah',
+            ),
+          );
       term0110
           .subject(const SubjectId('englisch'))
           .grade(const GradeId('grade-4'))
-          .create(GradeInput(
-            value: 'Sehr zufriedenstellend',
-            gradingSystem: GradingSystem.austrianBehaviouralGrades,
-            type: GradeType.oralParticipation.id,
-            date: Date('2024-10-18'),
-            takeIntoAccount: true,
-            title: 'Beep boop',
-            details: 'robot noises',
-          ));
+          .create(
+            GradeInput(
+              value: 'Sehr zufriedenstellend',
+              gradingSystem: GradingSystem.austrianBehaviouralGrades,
+              type: GradeType.oralParticipation.id,
+              date: Date('2024-10-18'),
+              takeIntoAccount: true,
+              title: 'Beep boop',
+              details: 'robot noises',
+            ),
+          );
 
       term0110
           .subject(const SubjectId('englisch'))
@@ -277,11 +295,15 @@ void main() {
       term0110.changeWeightDisplayType(WeightDisplayType.percent);
 
       term0210.changeGradeTypeWeight(
-          GradeType.vocabularyTest.id, NonNegativeWeight.factor(1.5));
+        GradeType.vocabularyTest.id,
+        NonNegativeWeight.factor(1.5),
+      );
 
       term0210.subject(const SubjectId('mathe'))
-        ..changeGradeTypeWeight(const GradeTypeId('my-custom-grade-type'),
-            NonNegativeWeight.percent(200))
+        ..changeGradeTypeWeight(
+          const GradeTypeId('my-custom-grade-type'),
+          NonNegativeWeight.percent(200),
+        )
         ..grade(GradeId('grade-1')).changeWeight(NonNegativeWeight.factor(0.5))
         ..changeWeightType(WeightType.perGrade)
         ..changeWeightForTermGrade(NonNegativeWeight.percent(250));
@@ -298,13 +320,10 @@ void main() {
             'gradingSystem': 'zeroToFifteenPoints',
             'weightDisplayType': 'factor',
             'subjectWeights': {
-              'mathe': {
-                'value': 2.5,
-                'type': 'factor',
-              }
+              'mathe': {'value': 2.5, 'type': 'factor'},
             },
             'gradeTypeWeights': {
-              'vocabulary-test': {'value': 1.5, 'type': 'factor'}
+              'vocabulary-test': {'value': 1.5, 'type': 'factor'},
             },
             'subjects': {
               'mathe': {
@@ -314,23 +333,17 @@ void main() {
                 'gradeComposition': {
                   'weightType': 'perGrade',
                   'gradeTypeWeights': {
-                    'my-custom-grade-type': {'value': 2.0, 'type': 'factor'}
+                    'my-custom-grade-type': {'value': 2.0, 'type': 'factor'},
                   },
                   'gradeWeights': {
-                    'grade-1': {
-                      'value': 0.5,
-                      'type': 'factor',
-                    },
-                    'grade-2': {
-                      'value': 1.0,
-                      'type': 'factor',
-                    },
-                  }
+                    'grade-1': {'value': 0.5, 'type': 'factor'},
+                    'grade-2': {'value': 1.0, 'type': 'factor'},
+                  },
                 },
-                'finalGradeType': 'school-report-grade'
-              }
+                'finalGradeType': 'school-report-grade',
+              },
             },
-            'finalGradeType': 'school-report-grade'
+            'finalGradeType': 'school-report-grade',
           },
           '01-10-term': {
             'id': '01-10-term',
@@ -351,21 +364,15 @@ void main() {
                   'weightType': 'inheritFromTerm',
                   'gradeTypeWeights': {},
                   'gradeWeights': {
-                    'grade-3': {
-                      'value': 1.0,
-                      'type': 'factor',
-                    },
-                    'grade-4': {
-                      'value': 1.0,
-                      'type': 'factor',
-                    },
-                  }
+                    'grade-3': {'value': 1.0, 'type': 'factor'},
+                    'grade-4': {'value': 1.0, 'type': 'factor'},
+                  },
                 },
-                'finalGradeType': 'oral-participation'
+                'finalGradeType': 'oral-participation',
               },
             },
-            'finalGradeType': 'my-custom-grade-type'
-          }
+            'finalGradeType': 'my-custom-grade-type',
+          },
         },
         'grades': {
           'grade-1': {
@@ -429,7 +436,7 @@ void main() {
           'my-custom-grade-type': {
             'id': 'my-custom-grade-type',
             'displayName': 'My Custom Grade Type',
-          }
+          },
         },
         'subjects': {
           'mathe': {
@@ -443,9 +450,9 @@ void main() {
                 'id': 'connected-mathe-course',
                 'name': 'Mathe 8a',
                 'abbreviation': 'M',
-                'subjectName': 'Mathe'
-              }
-            }
+                'subjectName': 'Mathe',
+              },
+            },
           },
           'englisch': {
             'id': 'englisch',
@@ -458,140 +465,138 @@ void main() {
                 'id': 'connected-englisch-course',
                 'name': 'Englisch 8a',
                 'abbreviation': 'E',
-                'subjectName': 'Englisch'
-              }
-            }
-          }
-        }
+                'subjectName': 'Englisch',
+              },
+            },
+          },
+        },
       });
 
       final state = repository.state.value;
 
       expect(
-          state.customGradeTypes,
-          const IListConst([
-            GradeType(
-              id: GradeTypeId('my-custom-grade-type'),
-              displayName: 'My Custom Grade Type',
-            ),
-          ]));
+        state.customGradeTypes,
+        const IListConst([
+          GradeType(
+            id: GradeTypeId('my-custom-grade-type'),
+            displayName: 'My Custom Grade Type',
+          ),
+        ]),
+      );
 
       expect(
-          state.subjects,
-          IListConst([
-            Subject(
-              id: const SubjectId('mathe'),
-              design: Design.fromData('795548'),
-              name: 'Mathe',
-              abbreviation: 'M',
-              connectedCourses: const IListConst(
-                [
-                  ConnectedCourse(
-                      id: CourseId('connected-mathe-course'),
-                      name: 'Mathe 8a',
-                      abbreviation: 'M',
-                      subjectName: 'Mathe')
-                ],
+        state.subjects,
+        IListConst([
+          Subject(
+            id: const SubjectId('mathe'),
+            design: Design.fromData('795548'),
+            name: 'Mathe',
+            abbreviation: 'M',
+            connectedCourses: const IListConst([
+              ConnectedCourse(
+                id: CourseId('connected-mathe-course'),
+                name: 'Mathe 8a',
+                abbreviation: 'M',
+                subjectName: 'Mathe',
               ),
-            ),
-            Subject(
-              id: const SubjectId('englisch'),
-              design: Design.fromData('000000'),
-              name: 'Englisch',
-              abbreviation: 'E',
-              connectedCourses: const IListConst(
-                [
-                  ConnectedCourse(
-                    id: CourseId('connected-englisch-course'),
-                    name: 'Englisch 8a',
-                    abbreviation: 'E',
-                    subjectName: 'Englisch',
-                  )
-                ],
+            ]),
+          ),
+          Subject(
+            id: const SubjectId('englisch'),
+            design: Design.fromData('000000'),
+            name: 'Englisch',
+            abbreviation: 'E',
+            connectedCourses: const IListConst([
+              ConnectedCourse(
+                id: CourseId('connected-englisch-course'),
+                name: 'Englisch 8a',
+                abbreviation: 'E',
+                subjectName: 'Englisch',
               ),
-            ),
-          ]));
+            ]),
+          ),
+        ]),
+      );
 
       final expectedTerms = [
         TermModel(
           id: const TermId('02-10-term'),
-          subjects: IListConst(
-            [
-              SubjectModel(
-                id: const SubjectId('mathe'),
-                name: 'Mathe',
-                termId: const TermId('02-10-term'),
-                gradingSystem: GradingSystemModel.zeroToFifteenPoints,
-                grades: IListConst([
-                  GradeModel(
-                    id: const GradeId('grade-1'),
-                    subjectId: const SubjectId('mathe'),
-                    termId: const TermId('02-10-term'),
-                    originalInput: '13',
-                    value: const GradeValue(
-                        asNum: 13,
-                        gradingSystem: GradingSystem.zeroToFifteenPoints,
-                        displayableGrade: null,
-                        suffix: null),
-                    gradingSystem: GradingSystemModel.zeroToFifteenPoints,
-                    gradeType: const GradeTypeId('my-custom-grade-type'),
-                    takenIntoAccount: true,
-                    weight: NonNegativeWeight.factor(0.5),
-                    date: Date('2024-10-02'),
-                    title: 'hallo',
-                    details: 'hello',
+          subjects: IListConst([
+            SubjectModel(
+              id: const SubjectId('mathe'),
+              name: 'Mathe',
+              termId: const TermId('02-10-term'),
+              gradingSystem: GradingSystemModel.zeroToFifteenPoints,
+              grades: IListConst([
+                GradeModel(
+                  id: const GradeId('grade-1'),
+                  subjectId: const SubjectId('mathe'),
+                  termId: const TermId('02-10-term'),
+                  originalInput: '13',
+                  value: const GradeValue(
+                    asNum: 13,
+                    gradingSystem: GradingSystem.zeroToFifteenPoints,
+                    displayableGrade: null,
+                    suffix: null,
                   ),
-                  GradeModel(
-                    id: const GradeId('grade-2'),
-                    subjectId: const SubjectId('mathe'),
-                    termId: const TermId('02-10-term'),
-                    originalInput: 3,
-                    value: const GradeValue(
-                      asNum: 3,
-                      gradingSystem: GradingSystem.zeroToFifteenPoints,
-                      displayableGrade: null,
-                      suffix: null,
-                    ),
-                    gradingSystem: GradingSystemModel.zeroToFifteenPoints,
-                    gradeType: const GradeTypeId('vocabulary-test'),
-                    takenIntoAccount: true,
-                    weight: NonNegativeWeight.factor(1),
-                    // weight: NonNegativeWeight.factor(0.5),
-                    // date: Date('2024-10-02'),
-                    date: Date('2024-10-03'),
-                    title: 'abcdef',
-                    details: 'ghijkl',
-                  ),
-                ]),
-                finalGradeType: const GradeTypeId('school-report-grade'),
-                isFinalGradeTypeOverridden: false,
-                weightingForTermGrade: NonNegativeWeight.factor(2.5),
-                gradeTypeWeightings: IMapConst({
-                  const GradeTypeId('my-custom-grade-type'):
-                      NonNegativeWeight.factor(2.0)
-                }),
-                gradeTypeWeightingsFromTerm: IMapConst({
-                  const GradeTypeId('vocabulary-test'):
-                      NonNegativeWeight.factor(1.5)
-                }),
-                weightType: WeightType.perGrade,
-                abbreviation: 'M',
-                design: Design.fromData('795548'),
-                connectedCourses: const IListConst(
-                  [
-                    ConnectedCourse(
-                      id: CourseId('connected-mathe-course'),
-                      name: 'Mathe 8a',
-                      abbreviation: 'M',
-                      subjectName: 'Mathe',
-                    )
-                  ],
+                  gradingSystem: GradingSystemModel.zeroToFifteenPoints,
+                  gradeType: const GradeTypeId('my-custom-grade-type'),
+                  takenIntoAccount: true,
+                  weight: NonNegativeWeight.factor(0.5),
+                  date: Date('2024-10-02'),
+                  title: 'hallo',
+                  details: 'hello',
                 ),
-              )
-            ],
-          ),
-          gradeTypeWeightings: IMapConst({
-            const GradeTypeId('vocabulary-test'): NonNegativeWeight.factor(1.5)
+                GradeModel(
+                  id: const GradeId('grade-2'),
+                  subjectId: const SubjectId('mathe'),
+                  termId: const TermId('02-10-term'),
+                  originalInput: 3,
+                  value: const GradeValue(
+                    asNum: 3,
+                    gradingSystem: GradingSystem.zeroToFifteenPoints,
+                    displayableGrade: null,
+                    suffix: null,
+                  ),
+                  gradingSystem: GradingSystemModel.zeroToFifteenPoints,
+                  gradeType: const GradeTypeId('vocabulary-test'),
+                  takenIntoAccount: true,
+                  weight: NonNegativeWeight.factor(1),
+                  // weight: NonNegativeWeight.factor(0.5),
+                  // date: Date('2024-10-02'),
+                  date: Date('2024-10-03'),
+                  title: 'abcdef',
+                  details: 'ghijkl',
+                ),
+              ]),
+              finalGradeType: const GradeTypeId('school-report-grade'),
+              isFinalGradeTypeOverridden: false,
+              weightingForTermGrade: NonNegativeWeight.factor(2.5),
+              gradeTypeWeights: IMapConst({
+                const GradeTypeId(
+                  'my-custom-grade-type',
+                ): NonNegativeWeight.factor(2.0),
+              }),
+              gradeTypeWeightsFromTerm: IMapConst({
+                const GradeTypeId('vocabulary-test'): NonNegativeWeight.factor(
+                  1.5,
+                ),
+              }),
+              weightType: WeightType.perGrade,
+              abbreviation: 'M',
+              design: Design.fromData('795548'),
+              connectedCourses: const IListConst([
+                ConnectedCourse(
+                  id: CourseId('connected-mathe-course'),
+                  name: 'Mathe 8a',
+                  abbreviation: 'M',
+                  subjectName: 'Mathe',
+                ),
+              ]),
+            ),
+          ]),
+          gradeTypeWeights: IMapConst({
+            const GradeTypeId('vocabulary-test'): NonNegativeWeight.factor(1.5),
           }),
           gradingSystem: GradingSystemModel.zeroToFifteenPoints,
           finalGradeType: const GradeTypeId('school-report-grade'),
@@ -606,73 +611,70 @@ void main() {
               name: 'Englisch',
               termId: const TermId('01-10-term'),
               gradingSystem: GradingSystemModel.oneToSixWithPlusAndMinus,
-              grades: IListConst(
-                [
-                  GradeModel(
-                    id: const GradeId('grade-3'),
-                    subjectId: const SubjectId('englisch'),
-                    termId: const TermId('01-10-term'),
-                    originalInput: '2-',
-                    value: const GradeValue(
-                      asNum: 2.25,
-                      gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
-                      displayableGrade: '2-',
-                      suffix: null,
-                    ),
-                    gradingSystem: GradingSystemModel.oneToSixWithPlusAndMinus,
-                    gradeType: const GradeTypeId('my-custom-grade-type'),
-                    takenIntoAccount: false,
-                    weight: NonNegativeWeight.factor(1),
-                    date: Date('2024-10-16'),
-                    title: 'hallo',
-                    details: 'ollah',
+              grades: IListConst([
+                GradeModel(
+                  id: const GradeId('grade-3'),
+                  subjectId: const SubjectId('englisch'),
+                  termId: const TermId('01-10-term'),
+                  originalInput: '2-',
+                  value: const GradeValue(
+                    asNum: 2.25,
+                    gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
+                    displayableGrade: '2-',
+                    suffix: null,
                   ),
-                  GradeModel(
-                    id: const GradeId('grade-4'),
-                    subjectId: const SubjectId('englisch'),
-                    termId: const TermId('01-10-term'),
-                    originalInput: 'Sehr zufriedenstellend',
-                    value: const GradeValue(
-                        asNum: 1,
-                        gradingSystem: GradingSystem.austrianBehaviouralGrades,
-                        displayableGrade: 'Sehr zufriedenstellend',
-                        suffix: null),
-                    gradingSystem: GradingSystemModel.austrianBehaviouralGrades,
-                    gradeType: const GradeTypeId('oral-participation'),
-                    takenIntoAccount: true,
-                    weight: NonNegativeWeight.factor(1),
-                    date: Date('2024-10-18'),
-                    title: 'Beep boop',
-                    details: 'robot noises',
+                  gradingSystem: GradingSystemModel.oneToSixWithPlusAndMinus,
+                  gradeType: const GradeTypeId('my-custom-grade-type'),
+                  takenIntoAccount: false,
+                  weight: NonNegativeWeight.factor(1),
+                  date: Date('2024-10-16'),
+                  title: 'hallo',
+                  details: 'ollah',
+                ),
+                GradeModel(
+                  id: const GradeId('grade-4'),
+                  subjectId: const SubjectId('englisch'),
+                  termId: const TermId('01-10-term'),
+                  originalInput: 'Sehr zufriedenstellend',
+                  value: const GradeValue(
+                    asNum: 1,
+                    gradingSystem: GradingSystem.austrianBehaviouralGrades,
+                    displayableGrade: 'Sehr zufriedenstellend',
+                    suffix: null,
                   ),
-                ],
-              ),
+                  gradingSystem: GradingSystemModel.austrianBehaviouralGrades,
+                  gradeType: const GradeTypeId('oral-participation'),
+                  takenIntoAccount: true,
+                  weight: NonNegativeWeight.factor(1),
+                  date: Date('2024-10-18'),
+                  title: 'Beep boop',
+                  details: 'robot noises',
+                ),
+              ]),
               finalGradeType: const GradeTypeId('oral-participation'),
               isFinalGradeTypeOverridden: true,
               weightingForTermGrade: NonNegativeWeight.factor(1),
-              gradeTypeWeightings: const IMapConst({}),
-              gradeTypeWeightingsFromTerm: const IMapConst({}),
+              gradeTypeWeights: const IMapConst({}),
+              gradeTypeWeightsFromTerm: const IMapConst({}),
               weightType: WeightType.inheritFromTerm,
               abbreviation: 'E',
               design: Design.fromData('000000'),
-              connectedCourses: const IListConst(
-                [
-                  ConnectedCourse(
-                    id: CourseId('connected-englisch-course'),
-                    name: 'Englisch 8a',
-                    abbreviation: 'E',
-                    subjectName: 'Englisch',
-                  )
-                ],
-              ),
-            )
+              connectedCourses: const IListConst([
+                ConnectedCourse(
+                  id: CourseId('connected-englisch-course'),
+                  name: 'Englisch 8a',
+                  abbreviation: 'E',
+                  subjectName: 'Englisch',
+                ),
+              ]),
+            ),
           ]),
-          gradeTypeWeightings: const IMapConst({}),
+          gradeTypeWeights: const IMapConst({}),
           gradingSystem: GradingSystemModel.oneToSixWithPlusAndMinus,
           finalGradeType: const GradeTypeId('my-custom-grade-type'),
           isActiveTerm: false,
           name: '01/10',
-        )
+        ),
       ];
 
       expect(state.terms.length, expectedTerms.length);
@@ -687,7 +689,7 @@ void main() {
         );
 
         expect(actual.id, expected.id);
-        expect(actual.gradeTypeWeightings, expected.gradeTypeWeightings);
+        expect(actual.gradeTypeWeights, expected.gradeTypeWeights);
         expect(actual.gradingSystem, expected.gradingSystem);
         expect(actual.finalGradeType, expected.finalGradeType);
         expect(actual.isActiveTerm, expected.isActiveTerm);
@@ -708,14 +710,19 @@ void main() {
           expect(actualSub.gradingSystem, expectedSub.gradingSystem);
           expect(actualSub.grades, expectedSub.grades);
           expect(actualSub.finalGradeType, expectedSub.finalGradeType);
-          expect(actualSub.isFinalGradeTypeOverridden,
-              expectedSub.isFinalGradeTypeOverridden);
-          expect(actualSub.weightingForTermGrade,
-              expectedSub.weightingForTermGrade);
           expect(
-              actualSub.gradeTypeWeightings, expectedSub.gradeTypeWeightings);
-          expect(actualSub.gradeTypeWeightingsFromTerm,
-              expectedSub.gradeTypeWeightingsFromTerm);
+            actualSub.isFinalGradeTypeOverridden,
+            expectedSub.isFinalGradeTypeOverridden,
+          );
+          expect(
+            actualSub.weightingForTermGrade,
+            expectedSub.weightingForTermGrade,
+          );
+          expect(actualSub.gradeTypeWeights, expectedSub.gradeTypeWeights);
+          expect(
+            actualSub.gradeTypeWeightsFromTerm,
+            expectedSub.gradeTypeWeightsFromTerm,
+          );
           expect(actualSub.weightType, expectedSub.weightType);
           expect(actualSub.abbreviation, expectedSub.abbreviation);
           expect(actualSub.design, expectedSub.design);
@@ -740,7 +747,7 @@ void main() {
             "subjectId": "JTtl5QaZi0gQJXdNLhAA",
             "gradeType": "written-exam",
             "numValue": 0.75,
-            "originalInput": "1+"
+            "originalInput": "1+",
           },
           "ireW8wfUQ5zjTWoD5ZVv": {
             "termId": "dZDMkmAlQcO4dHNGECUv",
@@ -753,7 +760,7 @@ void main() {
             "subjectId": "JTtl5QaZi0gQJXdNLhAA",
             "gradeType": "written-exam",
             "numValue": 0.75,
-            "originalInput": "1+"
+            "originalInput": "1+",
           },
           "r68OpeJ32Cb8jDtsBEq4": {
             "termId": "dZDMkmAlQcO4dHNGECUv",
@@ -766,7 +773,7 @@ void main() {
             "subjectId": "JTtl5QaZi0gQJXdNLhAA",
             "gradeType": "written-exam",
             "numValue": 0.75,
-            "originalInput": "1+"
+            "originalInput": "1+",
           },
           "DI9t96aoHreq08OnsoEH": {
             "termId": "t3hTR0qWMm9MhpU1CwUR",
@@ -779,7 +786,7 @@ void main() {
             "subjectId": "JTtl5QaZi0gQJXdNLhAA",
             "gradeType": "written-exam",
             "numValue": 0.75,
-            "originalInput": "1+"
+            "originalInput": "1+",
           },
           "6Mb4O6Mgo5h5dlgxTJ3I": {
             "termId": "t3hTR0qWMm9MhpU1CwUR",
@@ -792,8 +799,8 @@ void main() {
             "subjectId": "iJfPlj4i6UJFePj2lKWC",
             "gradeType": "written-exam",
             "numValue": 0.75,
-            "originalInput": "1+"
-          }
+            "originalInput": "1+",
+          },
         },
         "terms": {
           "t3hTR0qWMm9MhpU1CwUR": {
@@ -807,38 +814,40 @@ void main() {
                   "gradeWeights": {
                     "zodKhqqPXqlJymvAVFgB": {"type": "factor", "value": 1},
                     "DI9t96aoHreq08OnsoEH": {"type": "factor", "value": 1},
-                    "r68OpeJ32Cb8jDtsBEq4": {"type": "factor", "value": 1}
-                  }
+                    "r68OpeJ32Cb8jDtsBEq4": {"type": "factor", "value": 1},
+                  },
                 },
-                "createdOn":
-                    Timestamp.fromMillisecondsSinceEpoch(1713630098113),
+                "createdOn": Timestamp.fromMillisecondsSinceEpoch(
+                  1713630098113,
+                ),
                 "id": "JTtl5QaZi0gQJXdNLhAA",
                 "finalGradeType": "school-report-grade",
-                "grades": ["zodKhqqPXqlJymvAVFgB", "r68OpeJ32Cb8jDtsBEq4"]
+                "grades": ["zodKhqqPXqlJymvAVFgB", "r68OpeJ32Cb8jDtsBEq4"],
               },
               "iJfPlj4i6UJFePj2lKWC": {
                 "gradeComposition": {
                   "weightType": "inheritFromTerm",
                   "gradeTypeWeights": {},
                   "gradeWeights": {
-                    "6Mb4O6Mgo5h5dlgxTJ3I": {"type": "factor", "value": 1}
-                  }
+                    "6Mb4O6Mgo5h5dlgxTJ3I": {"type": "factor", "value": 1},
+                  },
                 },
-                "createdOn":
-                    Timestamp.fromMillisecondsSinceEpoch(1713620527574),
+                "createdOn": Timestamp.fromMillisecondsSinceEpoch(
+                  1713620527574,
+                ),
                 "id": "iJfPlj4i6UJFePj2lKWC",
                 "finalGradeType": "school-report-grade",
-                "grades": ["6Mb4O6Mgo5h5dlgxTJ3I"]
-              }
+                "grades": ["6Mb4O6Mgo5h5dlgxTJ3I"],
+              },
             },
             "id": "t3hTR0qWMm9MhpU1CwUR",
             "finalGradeType": "school-report-grade",
             "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713619198068),
             "subjectWeights": {
               "JTtl5QaZi0gQJXdNLhAA": {"type": "factor", "value": 1},
-              "iJfPlj4i6UJFePj2lKWC": {"type": "factor", "value": 1}
+              "iJfPlj4i6UJFePj2lKWC": {"type": "factor", "value": 1},
             },
-            "gradeTypeWeights": {}
+            "gradeTypeWeights": {},
           },
           "dZDMkmAlQcO4dHNGECUv": {
             "displayName": "123",
@@ -851,27 +860,28 @@ void main() {
                   "gradeWeights": {
                     "ireW8wfUQ5zjTWoD5ZVv": {"type": "factor", "value": 1},
                     "zodKhqqPXqlJymvAVFgB": {"type": "factor", "value": 1},
-                    "r68OpeJ32Cb8jDtsBEq4": {"type": "factor", "value": 1}
-                  }
+                    "r68OpeJ32Cb8jDtsBEq4": {"type": "factor", "value": 1},
+                  },
                 },
-                "createdOn":
-                    Timestamp.fromMillisecondsSinceEpoch(1713630128192),
+                "createdOn": Timestamp.fromMillisecondsSinceEpoch(
+                  1713630128192,
+                ),
                 "id": "JTtl5QaZi0gQJXdNLhAA",
                 "finalGradeType": "school-report-grade",
-                "grades": ["ireW8wfUQ5zjTWoD5ZVv"]
-              }
+                "grades": ["ireW8wfUQ5zjTWoD5ZVv"],
+              },
             },
             "id": "dZDMkmAlQcO4dHNGECUv",
             "finalGradeType": "school-report-grade",
             "createdOn": Timestamp.fromMillisecondsSinceEpoch(1713629975858),
             "subjectWeights": {
-              "JTtl5QaZi0gQJXdNLhAA": {"type": "factor", "value": 1}
+              "JTtl5QaZi0gQJXdNLhAA": {"type": "factor", "value": 1},
             },
             "gradeTypeWeights": {
               "oral-participation": {"type": "factor", "value": 0.5},
-              "written-exam": {"type": "factor", "value": 0.5}
-            }
-          }
+              "written-exam": {"type": "factor", "value": 0.5},
+            },
+          },
         },
         "subjects": {
           "JTtl5QaZi0gQJXdNLhAA": {
@@ -885,9 +895,9 @@ void main() {
                 "abbreviation": "D",
                 "id": "35aDFQgopZZOdhTZjxQy",
                 "name": "Deutsch",
-                "subjectName": "Deutsch"
-              }
-            }
+                "subjectName": "Deutsch",
+              },
+            },
           },
           "iJfPlj4i6UJFePj2lKWC": {
             "abbreviation": "F",
@@ -900,11 +910,11 @@ void main() {
                 "abbreviation": "F",
                 "id": "TRqJgCBJs4BEACRvv8cj",
                 "name": "Französisch",
-                "subjectName": "Französisch"
-              }
-            }
-          }
-        }
+                "subjectName": "Französisch",
+              },
+            },
+          },
+        },
       };
 
       final repo = InMemoryGradesStateRepository();
@@ -919,22 +929,24 @@ void main() {
 
       expect(controller.terms, hasLength(2));
       expect(
-          controller
-              .term(const TermId('t3hTR0qWMm9MhpU1CwUR'))
-              .subjects
-              .map((s) => s.id)
-              .toList(),
-          const [
-            SubjectId('JTtl5QaZi0gQJXdNLhAA'),
-            SubjectId('iJfPlj4i6UJFePj2lKWC')
-          ]);
+        controller
+            .term(const TermId('t3hTR0qWMm9MhpU1CwUR'))
+            .subjects
+            .map((s) => s.id)
+            .toList(),
+        const [
+          SubjectId('JTtl5QaZi0gQJXdNLhAA'),
+          SubjectId('iJfPlj4i6UJFePj2lKWC'),
+        ],
+      );
       expect(
-          controller
-              .term(const TermId('dZDMkmAlQcO4dHNGECUv'))
-              .subjects
-              .map((s) => s.id)
-              .toList(),
-          [const SubjectId('JTtl5QaZi0gQJXdNLhAA')]);
+        controller
+            .term(const TermId('dZDMkmAlQcO4dHNGECUv'))
+            .subjects
+            .map((s) => s.id)
+            .toList(),
+        [const SubjectId('JTtl5QaZi0gQJXdNLhAA')],
+      );
     });
   });
 }
@@ -945,13 +957,11 @@ class TestFirestoreGradesStateRepository extends GradesStateRepository {
   Map<String, Object?> data = {};
 
   @override
-  BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>.seeded(
-    (
-      terms: const IListConst([]),
-      customGradeTypes: const IListConst([]),
-      subjects: const IListConst([]),
-    ),
-  );
+  BehaviorSubject<GradesState> state = BehaviorSubject<GradesState>.seeded((
+    terms: const IListConst([]),
+    customGradeTypes: const IListConst([]),
+    subjects: const IListConst([]),
+  ));
 
   @override
   void updateState(GradesState state) {

@@ -63,37 +63,50 @@ Future<void> main(List<String> args) async {
         ..addCommand(ExecCommand(context))
         ..addCommand(DoStuffCommand(context))
         ..addCommand(FixCommentSpacingCommand(context))
-        ..addCommand(PickCodemagicGoldens(context))
+        ..addCommand(ReplaceGoldens(context))
         ..addCommand(PubCommand()..addSubcommand(PubGetCommand(context)))
-        ..addCommand(LicenseHeadersCommand()
-          ..addSubcommand(CheckLicenseHeadersCommand(context))
-          ..addSubcommand(AddLicenseHeadersCommand(context)))
-        ..addCommand(DeployCommand()
-          ..addSubcommand(DeployAppCommand(context)
-            ..addSubcommand(DeployAppWebCommand(context))
-            ..addSubcommand(DeployAppIosCommand(context))
-            ..addSubcommand(DeployAppMacOsCommand(context))
-            ..addSubcommand(DeployAndroidCommand(context)))
-          ..addSubcommand(DeployConsoleCommand(context))
-          ..addSubcommand(DeployWebsiteCommand(context)))
-        ..addCommand(BuildCommand()
-          ..addSubcommand(BuildAppCommand(context)
-            ..addSubcommand(BuildAppAndroidCommand(context))
-            ..addSubcommand(BuildAppMacOsCommand(context))
-            ..addSubcommand(BuildAppWebCommand(context))
-            ..addSubcommand(BuildAppIosCommand(context)))
-          ..addSubcommand(BuildConsoleCommand(context))
-          ..addSubcommand(BuildWebsiteCommand(context)))
         ..addCommand(
-            BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(context)));
+          LicenseHeadersCommand()
+            ..addSubcommand(CheckLicenseHeadersCommand(context))
+            ..addSubcommand(AddLicenseHeadersCommand(context)),
+        )
+        ..addCommand(
+          DeployCommand()
+            ..addSubcommand(
+              DeployAppCommand(context)
+                ..addSubcommand(DeployAppWebCommand(context))
+                ..addSubcommand(DeployAppIosCommand(context))
+                ..addSubcommand(DeployAppMacOsCommand(context))
+                ..addSubcommand(DeployAndroidCommand(context)),
+            )
+            ..addSubcommand(DeployConsoleCommand(context))
+            ..addSubcommand(DeployWebsiteCommand(context)),
+        )
+        ..addCommand(
+          BuildCommand()
+            ..addSubcommand(
+              BuildAppCommand(context)
+                ..addSubcommand(BuildAppAndroidCommand(context))
+                ..addSubcommand(BuildAppMacOsCommand(context))
+                ..addSubcommand(BuildAppWebCommand(context))
+                ..addSubcommand(BuildAppIosCommand(context)),
+            )
+            ..addSubcommand(BuildConsoleCommand(context))
+            ..addSubcommand(BuildWebsiteCommand(context)),
+        )
+        ..addCommand(
+          BuildRunnerCommand()..addSubcommand(BuildRunnerBuild(context)),
+        );
 
-  await commandRunner.run(args).catchError((Object e) {
-    final toolExit = e as ToolExit;
-    exit(toolExit.exitCode);
-  }, test: (Object e) => e is ToolExit)
+  await commandRunner
+      .run(args)
+      .catchError((Object e) {
+        final toolExit = e as ToolExit;
+        exit(toolExit.exitCode);
+      }, test: (Object e) => e is ToolExit)
       // Ansonsten wird die StackTrace noch zusätzlich ausgeprintet, was die Benutzung
       // unschön macht.
       .catchError((Object e) {
-    stdout.writeln(e);
-  }, test: (e) => e is UsageException);
+        stdout.writeln(e);
+      }, test: (e) => e is UsageException);
 }

@@ -8,7 +8,6 @@
 
 import 'dart:developer';
 
-import 'package:collection/collection.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:retry/retry.dart';
 import 'package:sharezone/main/sharezone.dart';
@@ -78,7 +77,9 @@ class NotificationTokenAdderApi {
   Future<void> tryAddTokenToDatabase(String token) async {
     if (isIntegrationTest) {
       // Firebase Messaging is not available in integration tests.
-      log('Skipping to add token to the database because integration test is running.');
+      log(
+        'Skipping to add token to the database because integration test is running.',
+      );
       return;
     }
 
@@ -92,6 +93,6 @@ class NotificationTokenAdderApi {
 
   Future<List<String>> getUserTokensFromDatabase() async {
     final user = await _userApi.userStream.first;
-    return user?.notificationTokens.whereNotNull().toList() ?? [];
+    return user?.notificationTokens.nonNulls.toList() ?? [];
   }
 }

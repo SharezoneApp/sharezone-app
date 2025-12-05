@@ -28,8 +28,6 @@ String getWeekDayText(WeekDay weekDay) {
       return "Samstag";
     case WeekDay.sunday:
       return "Sonntag";
-    default:
-      return "???";
   }
 }
 
@@ -44,12 +42,8 @@ Future<WeekDay?> selectWeekDay(BuildContext context, {WeekDay? selected}) {
       bool isSelected = selected == item;
       return ListTile(
         title: Text(getWeekDayText(item)),
-        trailing: isSelected
-            ? const Icon(
-                Icons.done,
-                color: Colors.green,
-              )
-            : null,
+        trailing:
+            isSelected ? const Icon(Icons.done, color: Colors.green) : null,
         onTap: () {
           Navigator.pop(context, item);
         },

@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library stub_crash_analytics;
+library;
 
 export 'src/crash_analytics.dart';
 export 'src/implementation/stub_crash_analytics.dart';

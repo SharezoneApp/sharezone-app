@@ -9,12 +9,13 @@
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:group_domain_models/group_domain_models.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:sharezone/groups/group_join/bloc/group_join_bloc.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../group_join_result_dialog.dart';
@@ -57,10 +58,12 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
             child: Theme(
               data: Theme.of(context).copyWith(
                 primaryColor: Colors.white,
-                colorScheme: Theme.of(context).isDarkTheme
-                    ? null
-                    : ColorScheme.fromSwatch()
-                        .copyWith(secondary: Colors.white),
+                colorScheme:
+                    Theme.of(context).isDarkTheme
+                        ? null
+                        : ColorScheme.fromSwatch().copyWith(
+                          secondary: Colors.white,
+                        ),
               ),
               child: TextField(
                 maxLength: 6,
@@ -79,18 +82,16 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                 decoration: InputDecoration(
                   labelText: 'Sharecode',
                   labelStyle: const TextStyle(color: Colors.white),
-                  focusedBorder: Theme.of(context)
-                      .inputDecorationTheme
-                      .focusedBorder
-                      ?.copyWith(
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
+                  focusedBorder: Theme.of(
+                    context,
+                  ).inputDecorationTheme.focusedBorder?.copyWith(
+                    borderSide: const BorderSide(color: Colors.white),
+                  ),
                   hintText: "z.B. Qb32vF",
-                  hintStyle: Theme.of(context).isDarkTheme
-                      ? null
-                      : const TextStyle(color: Colors.black54),
+                  hintStyle:
+                      Theme.of(context).isDarkTheme
+                          ? null
+                          : const TextStyle(color: Colors.black54),
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(right: 6),
                     child: IconButton(
@@ -101,16 +102,20 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
                         final qrCode = await _scanQRCode();
                         if (_isValidQrCode(qrCode)) {
                           bloc.enterValue(qrCode);
-                          final groupJoinResultDialog =
-                              GroupJoinResultDialog(bloc);
+                          final groupJoinResultDialog = GroupJoinResultDialog(
+                            bloc,
+                          );
                           if (context.mounted) {
                             groupJoinResultDialog.show(context);
                           }
                         }
                       },
-                      icon: PlatformSvg.asset(
+                      icon: SvgPicture.asset(
                         "assets/icons/qr-code.svg",
-                        color: Colors.white,
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
                         width: 32,
                       ),
                     ),
@@ -135,8 +140,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
     return showQrCodeScanner(
       context,
       title: const Text('QR-Code scannen'),
-      description:
-          const Text('Scanne einen QR-Code, um einer Gruppe beizutreten.'),
+      description: const Text(
+        'Scanne einen QR-Code, um einer Gruppe beizutreten.',
+      ),
       settings: const RouteSettings(name: 'scan-sharecode-qr-code-page'),
     );
   }
@@ -157,7 +163,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
   }
 
   Future<void> showCopySharecodeFromClipboardDialog(
-      Sharecode sharecode, FocusNode focusNode) async {
+    Sharecode sharecode,
+    FocusNode focusNode,
+  ) async {
     final bloc = BlocProvider.of<GroupJoinBloc>(context);
 
     final result = await showLeftRightAdaptiveDialog<bool>(
@@ -165,11 +173,9 @@ class _GroupJoinTextFieldState extends State<GroupJoinTextField> {
       defaultValue: false,
       title: "Sharecode einfügen",
       content: Text(
-          'Möchtest du den Sharecode "${sharecode.value}" aus deiner Zwischenablage übernehmen?'),
-      left: const AdaptiveDialogAction(
-        title: 'Nein',
-        popResult: false,
+        'Möchtest du den Sharecode "${sharecode.value}" aus deiner Zwischenablage übernehmen?',
       ),
+      left: const AdaptiveDialogAction(title: 'Nein', popResult: false),
       right: const AdaptiveDialogAction(
         title: 'Ja',
         popResult: true,

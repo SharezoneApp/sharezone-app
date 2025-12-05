@@ -47,10 +47,7 @@ class DangerSection extends StatelessWidget {
 }
 
 class _LeaveButton extends StatelessWidget {
-  const _LeaveButton({
-    required this.onPressed,
-    required this.label,
-  });
+  const _LeaveButton({required this.onPressed, required this.label});
 
   final VoidCallback? onPressed;
   final Widget label;
@@ -89,7 +86,7 @@ class DangerButtonOutlined extends StatelessWidget {
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             side: BorderSide(
-              color: Colors.red.withOpacity(0.5),
+              color: Colors.red.withValues(alpha: 0.5),
               width: 2,
             ),
             borderRadius: BorderRadius.circular(512),
@@ -133,10 +130,7 @@ class DangerButtonFilled extends StatelessWidget {
 }
 
 class _DeleteSchoolClassButton extends StatelessWidget {
-  const _DeleteSchoolClassButton({
-    this.onPressed,
-    required this.label,
-  });
+  const _DeleteSchoolClassButton({this.onPressed, required this.label});
 
   final VoidCallback? onPressed;
   final Widget label;

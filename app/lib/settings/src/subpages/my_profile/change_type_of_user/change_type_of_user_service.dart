@@ -12,14 +12,11 @@ import 'package:user/user.dart';
 class ChangeTypeOfUserService {
   final FirebaseFunctions _functions;
 
-  const ChangeTypeOfUserService({
-    required FirebaseFunctions functions,
-  }) : _functions = functions;
+  const ChangeTypeOfUserService({required FirebaseFunctions functions})
+    : _functions = functions;
 
   Future<void> changeTypeOfUser(TypeOfUser typeOfUser) async {
     final callable = _functions.httpsCallable('changeTypeOfUser');
-    await callable.call({
-      'type': typeOfUser.name,
-    });
+    await callable.call({'type': typeOfUser.name});
   }
 }

@@ -23,9 +23,10 @@ class FeedbackDrawerTile extends StatelessWidget {
       NavigationItem.feedbackBox,
       trailing: AnimatedSwap(
         duration: const Duration(milliseconds: 350),
-        child: state.hasUnreadFeedbackMessages
-            ? const Icon(Icons.brightness_1, size: 13)
-            : const SizedBox.shrink(),
+        child:
+            state.hasUnreadFeedbackMessages
+                ? const Icon(Icons.brightness_1, size: 13)
+                : const SizedBox.shrink(),
       ),
     );
   }

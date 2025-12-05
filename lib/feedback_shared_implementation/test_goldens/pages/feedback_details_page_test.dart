@@ -43,7 +43,9 @@ void main() {
     }
 
     Future<void> pushFeedbackDetailsPage(
-        WidgetTester tester, ThemeData theme) async {
+      WidgetTester tester,
+      ThemeData theme,
+    ) async {
       await tester.pumpWidgetBuilder(
         Provider<FeedbackDetailsPageControllerFactory>.value(
           value: factory,
@@ -61,17 +63,18 @@ void main() {
         setControllerState(
           const FeedbackDetailsPageLoaded(
             feedback: FeedbackView(
-                id: feedbackId,
-                createdOn: '2022-01-01',
-                rating: '4.0',
-                likes: 'Everything!',
-                // Long text to test overflow
-                dislikes:
-                    'I do not like rainy days 🌧️ Here my reasons: First, it can disrupt outdoor plans, events, and activities, leading to cancellations or the need for last-minute changes. Second, heavy rainfall can cause traffic delays and hazardous driving conditions, increasing the risk of accidents. Lastly, persistent or heavy rain can lead to flooding, causing damage to homes and infrastructure, and potentially displacing residents.',
-                heardFrom: 'Google Play Store',
-                missing: 'Nothing! 😊',
-                hasUnreadMessages: null,
-                lastMessage: null),
+              id: feedbackId,
+              createdOn: '2022-01-01',
+              rating: '4.0',
+              likes: 'Everything!',
+              // Long text to test overflow
+              dislikes:
+                  'I do not like rainy days 🌧️ Here my reasons: First, it can disrupt outdoor plans, events, and activities, leading to cancellations or the need for last-minute changes. Second, heavy rainfall can cause traffic delays and hazardous driving conditions, increasing the risk of accidents. Lastly, persistent or heavy rain can lead to flooding, causing damage to homes and infrastructure, and potentially displacing residents.',
+              heardFrom: 'Google Play Store',
+              missing: 'Nothing! 😊',
+              hasUnreadMessages: null,
+              lastMessage: null,
+            ),
             chatMessages: [
               FeedbackMessageView(
                 isMyMessage: true,
@@ -91,7 +94,9 @@ void main() {
 
       testGoldens('renders as expected (light mode)', (tester) async {
         await pushFeedbackDetailsPage(
-            tester, getLightTheme(fontFamily: roboto));
+          tester,
+          getLightTheme(fontFamily: roboto),
+        );
         await multiScreenGolden(tester, 'feedback_details_page_loaded_light');
       });
 
@@ -103,14 +108,14 @@ void main() {
 
     group('error', () {
       setUp(() {
-        setControllerState(
-          FeedbackDetailsPageError('An error occurred'),
-        );
+        setControllerState(FeedbackDetailsPageError('An error occurred'));
       });
 
       testGoldens('renders as expected (light mode)', (tester) async {
         await pushFeedbackDetailsPage(
-            tester, getLightTheme(fontFamily: roboto));
+          tester,
+          getLightTheme(fontFamily: roboto),
+        );
         await multiScreenGolden(tester, 'feedback_details_page_error_light');
       });
 
@@ -127,12 +132,14 @@ void main() {
 
       testGoldens('renders as expected (light mode)', (tester) async {
         await pushFeedbackDetailsPage(
-            tester, getLightTheme(fontFamily: roboto));
+          tester,
+          getLightTheme(fontFamily: roboto),
+        );
         await multiScreenGolden(
           tester,
           'feedback_details_page_loading_light',
-          customPump: (tester) =>
-              tester.pump(const Duration(milliseconds: 100)),
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
         );
       });
 
@@ -141,8 +148,8 @@ void main() {
         await multiScreenGolden(
           tester,
           'feedback_details_page_loading_dark',
-          customPump: (tester) =>
-              tester.pump(const Duration(milliseconds: 100)),
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
         );
       });
     });

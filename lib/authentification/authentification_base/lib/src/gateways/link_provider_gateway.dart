@@ -42,8 +42,10 @@ class LinkProviderGateway extends BlocBase {
     required String email,
     required String password,
   }) async {
-    final credential =
-        EmailAuthProvider.credential(email: email, password: password);
+    final credential = EmailAuthProvider.credential(
+      email: email,
+      password: password,
+    );
     await userGateway.linkWithCredential(credential);
     await userGateway.sendVerificationEmail();
 

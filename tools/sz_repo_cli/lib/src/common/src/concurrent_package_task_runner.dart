@@ -18,9 +18,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 class ConcurrentPackageTaskRunner {
   late DateTime Function() _getCurrentDateTime;
 
-  ConcurrentPackageTaskRunner({
-    DateTime Function()? getCurrentDateTime,
-  }) {
+  ConcurrentPackageTaskRunner({DateTime Function()? getCurrentDateTime}) {
     _getCurrentDateTime = getCurrentDateTime ?? () => clock.now();
   }
 
@@ -44,12 +42,14 @@ class ConcurrentPackageTaskRunner {
     required Duration perPackageTaskTimeout,
   }) async* {
     final concurrencyTransformer = _MaxConcurrentPackageStreamTransformer(
-        maxConcurrentItems: maxNumberOfPackagesBeingProcessedConcurrently);
+      maxConcurrentItems: maxNumberOfPackagesBeingProcessedConcurrently,
+    );
 
     final futures = <Future>[];
 
-    await for (final package
-        in packageStream.transform(concurrencyTransformer)) {
+    await for (final package in packageStream.transform(
+      concurrencyTransformer,
+    )) {
       final statusUpdater = _getStatusUpdater(package);
       yield PackageTask(package, statusUpdater.statusStream);
 
@@ -57,8 +57,12 @@ class ConcurrentPackageTaskRunner {
       final future = runTask(package)
           .timeout(
             perPackageTaskTimeout,
-            onTimeout: () =>
-                throw PackageTimeoutException(perPackageTaskTimeout, package),
+            onTimeout:
+                () =>
+                    throw PackageTimeoutException(
+                      perPackageTaskTimeout,
+                      package,
+                    ),
           )
           .then((_) => statusUpdater.success())
           .catchError((e, s) => statusUpdater.failure(error: e, stackTrace: s))
@@ -87,13 +91,13 @@ class _MaxConcurrentPackageStreamTransformer
 
   _MaxConcurrentPackageStreamTransformer._({
     required int this.maxConcurrentItems,
-  })  : noConcurrencyLimit = false,
-        assert(maxConcurrentItems != 0),
-        assert(maxConcurrentItems > 0);
+  }) : noConcurrencyLimit = false,
+       assert(maxConcurrentItems != 0),
+       assert(maxConcurrentItems > 0);
 
   _MaxConcurrentPackageStreamTransformer.noConcurrencyLimit()
-      : noConcurrencyLimit = true,
-        maxConcurrentItems = null;
+    : noConcurrencyLimit = true,
+      maxConcurrentItems = null;
 
   factory _MaxConcurrentPackageStreamTransformer({
     required int? maxConcurrentItems,
@@ -154,10 +158,7 @@ class _PackageTaskStatusUpdater {
   });
 
   void started() {
-    _running = Running.since(
-      package: package,
-      startedOn: getCurrentDateTime(),
-    );
+    _running = Running.since(package: package, startedOn: getCurrentDateTime());
     _controller.add(_running!);
   }
 
@@ -173,11 +174,13 @@ class _PackageTaskStatusUpdater {
     if (_running == null) {
       throw StateError('failure can only be called after calling running');
     }
-    _controller.add(_running!.toFailure(
-      error: error,
-      stackTrace: stackTrace,
-      now: getCurrentDateTime(),
-    ));
+    _controller.add(
+      _running!.toFailure(
+        error: error,
+        stackTrace: stackTrace,
+        now: getCurrentDateTime(),
+      ),
+    );
     _controller.close();
   }
 }
@@ -193,10 +196,7 @@ abstract class PackageTaskStatus {
   final Package package;
   final DateTime startedOn;
 
-  PackageTaskStatus({
-    required this.package,
-    required this.startedOn,
-  });
+  PackageTaskStatus({required this.package, required this.startedOn});
 
   FutureOr<T> when<T>({
     required FutureOr<T> Function(Success) success,
@@ -245,10 +245,7 @@ class Failure extends PackageTaskStatus {
 }
 
 class Running extends PackageTaskStatus {
-  Running.since({
-    required super.package,
-    required super.startedOn,
-  });
+  Running.since({required super.package, required super.startedOn});
 
   Success toSuccess({required DateTime now}) {
     return Success(
@@ -274,22 +271,23 @@ class Running extends PackageTaskStatus {
 }
 
 extension TaskStatesExtension on Stream<PackageTask> {
-  Future<List<Failure>> get allFailures => map((event) => event.status)
-      .asyncExpand((status) => status)
-      .whereType<Failure>()
-      .toList();
+  Future<List<Failure>> get allFailures =>
+      map(
+        (event) => event.status,
+      ).asyncExpand((status) => status).whereType<Failure>().toList();
 
-  Future<List<Success>> get allSuccesses => map((event) => event.status)
-      .asyncExpand((status) => status)
-      .whereType<Success>()
-      .toList();
+  Future<List<Success>> get allSuccesses =>
+      map(
+        (event) => event.status,
+      ).asyncExpand((status) => status).whereType<Success>().toList();
 }
 
 class PackageTasksStatusPresenter {
   PackageTasksStatusPresenter();
 
   void continuouslyPrintTaskStatusUpdatesToConsole(
-      Stream<PackageTask> tasksStream) {
+    Stream<PackageTask> tasksStream,
+  ) {
     tasksStream.listen((task) {
       task.status.listen((event) {
         final status = event.when(
@@ -306,7 +304,8 @@ class PackageTasksStatusPresenter {
   Future<void> printFailedTasksSummary(List<Failure> failures) async {
     for (var failure in failures) {
       stderr.writeln(
-          '⛔ [${failure.package.type.toReadableString()}] ${failure.package.name}');
+        '⛔ [${failure.package.type.toReadableString()}] ${failure.package.name}',
+      );
     }
   }
 }

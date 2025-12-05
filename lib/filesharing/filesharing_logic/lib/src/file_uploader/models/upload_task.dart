@@ -23,8 +23,5 @@ class UploadTask {
   /// await this [UploadTask] directly.
   final Stream<UploadTaskEvent> events;
 
-  const UploadTask({
-    required this.events,
-    required this.onComplete,
-  });
+  const UploadTask({required this.events, required this.onComplete});
 }

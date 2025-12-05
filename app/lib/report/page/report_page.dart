@@ -17,7 +17,9 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openReportPage(
-    BuildContext context, ReportItemReference item) async {
+  BuildContext context,
+  ReportItemReference item,
+) async {
   final result = await Navigator.push<bool>(
     context,
     IgnoreWillPopScopeWhenIosSwipeBackRoute(
@@ -79,7 +81,8 @@ class _ReportPageState extends State<ReportPage> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-                '${reportItemTypeToUiString(bloc.reportedItemType)} melden'),
+              '${reportItemTypeToUiString(bloc.reportedItemType)} melden',
+            ),
             centerTitle: true,
             actions: const [_SendButton()],
           ),
@@ -116,8 +119,9 @@ class _SendButton extends StatelessWidget {
   Future<void> _submit(BuildContext context) async {
     final bloc = BlocProvider.of<ReportPageBloc>(context);
     if (bloc.isSubmitValid()) {
-      final confirmedSendingReport =
-          await _showSendReportConfirmationDialog(context);
+      final confirmedSendingReport = await _showSendReportConfirmationDialog(
+        context,
+      );
       if (!context.mounted) return;
 
       if (confirmedSendingReport == true) {
@@ -138,17 +142,18 @@ class _SendButton extends StatelessWidget {
   }
 
   void _showMissingInformationSnackBar(BuildContext context) => showSnackSec(
-        context: context,
-        text: MissingReportInformation().toString(),
-        seconds: 5,
-      );
+    context: context,
+    text: MissingReportInformation().toString(),
+    seconds: 5,
+  );
 
   Future<bool?> _showSendReportConfirmationDialog(BuildContext context) async {
     return showLeftRightAdaptiveDialog<bool>(
       context: context,
       defaultValue: false,
       content: const Text(
-          "Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts)."),
+        "Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).",
+      ),
       right: const AdaptiveDialogAction(
         isDefaultAction: true,
         title: "Senden",
@@ -166,14 +171,18 @@ class _ReasonRadioGroup extends StatelessWidget {
       stream: bloc.reason,
       builder: (context, snapshot) {
         final currentReason = snapshot.data;
-        return Column(
-          children: <Widget>[
-            for (final reason in ReportReason.values)
-              _ReasonTile(
-                reason: reason,
-                currentReason: currentReason,
-              )
-          ],
+        return RadioGroup<ReportReason>(
+          groupValue: currentReason,
+          onChanged: (value) {
+            if (value == null) return;
+            bloc.changeReason(value);
+          },
+          child: Column(
+            children: <Widget>[
+              for (final reason in ReportReason.values)
+                _ReasonTile(reason: reason),
+            ],
+          ),
         );
       },
     );
@@ -181,24 +190,14 @@ class _ReasonRadioGroup extends StatelessWidget {
 }
 
 class _ReasonTile extends StatelessWidget {
-  const _ReasonTile({
-    required this.reason,
-    required this.currentReason,
-  });
+  const _ReasonTile({required this.reason});
 
   final ReportReason reason;
-  final ReportReason? currentReason;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<ReportPageBloc>(context);
     return RadioListTile<ReportReason>(
       value: reason,
-      groupValue: currentReason,
-      onChanged: (value) {
-        if (value == null) return;
-        bloc.changeReason(value);
-      },
       title: Text(getReportReasonUiText(reason)),
     );
   }

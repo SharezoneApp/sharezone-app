@@ -19,8 +19,10 @@ class HolidayService {
 
   HolidayService(this.api, this.cache);
 
-  Future<List<Holiday?>> load(State state,
-      {bool ignoreCachedData = false}) async {
+  Future<List<Holiday?>> load(
+    State state, {
+    bool ignoreCachedData = false,
+  }) async {
     CacheResponse? cached;
     if (!ignoreCachedData) {
       cached = _tryToloadCachedData(state);
@@ -42,7 +44,9 @@ class HolidayService {
   }
 
   Future<List<Holiday?>?> _tryCallingApi(
-      List<Holiday?>? response, State state) async {
+    List<Holiday?>? response,
+    State state,
+  ) async {
     try {
       response = await api.load(1, state);
     } on Exception catch (e) {

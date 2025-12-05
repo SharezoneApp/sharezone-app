@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library serializers;
+library;
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
@@ -31,11 +31,12 @@ part 'serializers.g.dart';
 @SerializersFor([
   Holiday,
   HolidayCacheData,
-//  State,
+  //  State,
 ])
 final Serializers serializers = _$serializers;
 
-final jsonSerializer = (serializers.toBuilder()
-      ..add(LocalDateTimeStringSerializer())
-      ..addPlugin(StandardJsonPlugin()))
-    .build();
+final jsonSerializer =
+    (serializers.toBuilder()
+          ..add(LocalDateTimeStringSerializer())
+          ..addPlugin(StandardJsonPlugin()))
+        .build();

@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library streams;
+library;
 
 export 'src/streams.dart';

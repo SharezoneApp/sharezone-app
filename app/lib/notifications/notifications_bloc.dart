@@ -30,16 +30,19 @@ class NotificationsBloc extends BlocBase {
     subscription = _userGateway.userStream.listen((user) {
       _notificationsForHomeworksSubject.sink.add(user!.reminderTime != null);
 
-      _notificationsTimeForHomeworksSubject.sink
-          .add(convertReminderTimeToTimeOfDay(user.reminderTime));
+      _notificationsTimeForHomeworksSubject.sink.add(
+        convertReminderTimeToTimeOfDay(user.reminderTime),
+      );
 
       _notificationsForBlackboardItemsSubject.sink.add(
-          user.blackboardNotifications == null ||
-              user.blackboardNotifications == true);
+        user.blackboardNotifications == null ||
+            user.blackboardNotifications == true,
+      );
 
       _notificationsForCommentsSubject.sink.add(
-          user.commentsNotifications == null ||
-              user.commentsNotifications == true);
+        user.commentsNotifications == null ||
+            user.commentsNotifications == true,
+      );
     });
   }
 
@@ -69,7 +72,8 @@ class NotificationsBloc extends BlocBase {
       _userGateway.setHomeworkReminderTime(null);
     } else {
       _userGateway.setHomeworkReminderTime(
-          _notificationsTimeForHomeworksSubject.valueOrNull ?? seedValue);
+        _notificationsTimeForHomeworksSubject.valueOrNull ?? seedValue,
+      );
     }
     return;
   }

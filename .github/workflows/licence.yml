@@ -27,25 +27,25 @@ permissions: {}
 
 jobs:
   check-files-licence-headers:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00
         with:
           go-version: "^1.13.1"
       - run: go install github.com/google/addlicense@v1.1.1
       - run: ./bin/check_license_headers.sh
 
   check-dependency-licenses:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -53,20 +53,7 @@ jobs:
       - name: Activate license_checker
         run: dart pub global activate license_checker 1.6.0
 
-      - name: Check licenses in app
+      - name: Check licenses
         run: |
-          cd app
           flutter pub get
-          lic_ck check-licenses --config ../licenses_config.yaml --problematic
-
-      - name: Check licenses in sz cli
-        run: |
-          cd tools/sz_repo_cli
-          dart pub get
-          lic_ck check-licenses --config ../../licenses_config.yaml --problematic
-
-      - name: Check licenses in website
-        run: |
-          cd website
-          flutter pub get
-          lic_ck check-licenses --config ../licenses_config.yaml --problematic
+          lic_ck check-licenses --config licenses_config.yaml --problematic

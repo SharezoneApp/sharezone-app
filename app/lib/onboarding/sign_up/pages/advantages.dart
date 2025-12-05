@@ -23,24 +23,27 @@ class _Advantages extends StatelessWidget {
             children: <Widget>[
               SizedBox(
                 height: 100,
-                child: PlatformSvg.asset(
+                child: SvgPicture.asset(
                   "assets/icons/strong.svg",
                   fit: BoxFit.fitHeight,
                 ),
               ),
               const SizedBox(height: 10),
-              const Text("Vorteile von Sharezone",
-                  style: TextStyle(fontSize: 26)),
+              const Text(
+                "Vorteile von Sharezone",
+                style: TextStyle(fontSize: 26),
+              ),
               MaxWidthConstraintBox(
                 maxWidth: 650,
                 child: Column(
                   children: AnimationConfiguration.toStaggeredList(
                     delay: const Duration(milliseconds: 100),
                     duration: const Duration(milliseconds: 1000),
-                    childAnimationBuilder: (widget) => SlideAnimation(
-                      verticalOffset: 20,
-                      child: FadeInAnimation(child: widget),
-                    ),
+                    childAnimationBuilder:
+                        (widget) => SlideAnimation(
+                          verticalOffset: 20,
+                          child: FadeInAnimation(child: widget),
+                        ),
                     children: const [
                       _AdvantageAllInOne(),
                       _AdvantageCloud(),
@@ -49,7 +52,7 @@ class _Advantages extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -68,7 +71,7 @@ class _AdvantageAllInOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return _AdvancedListTile(
       title: "All-In-One-App für die Schule",
-      leading: PlatformSvg.asset('assets/icons/smartphone.svg', height: 45),
+      leading: SvgPicture.asset('assets/icons/smartphone.svg', height: 45),
     );
   }
 }
@@ -80,7 +83,7 @@ class _AdvantageCloud extends StatelessWidget {
   Widget build(BuildContext context) {
     return _AdvancedListTile(
       title: "Schulplaner über die Cloud mit der Klasse teilen",
-      leading: PlatformSvg.asset('assets/icons/cloud.svg', height: 45),
+      leading: SvgPicture.asset('assets/icons/cloud.svg', height: 45),
     );
   }
 }
@@ -90,9 +93,9 @@ class _AdvantageSaveTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _AdvancedListTile(
-      title: "Große Zeitersparnis durch gemeinsames organisieren",
-      leading: PlatformSvg.asset('assets/icons/clock.svg', height: 45),
+    return const _AdvancedListTile(
+      title: "Große Zeitersparnis durch gemeinsames Organisieren",
+      leading: EasterEggClock(dimension: 45),
     );
   }
 }

@@ -22,21 +22,37 @@ class PushNotificationActionHandlerInstrumentationImpl
 
   @override
   void actionExecutionFailed(
-      ActionRequest actionRequest, exception, StackTrace stacktrace) {
-    _logger.warning('Executing action request $actionRequest failed.',
-        exception, stacktrace);
+    ActionRequest actionRequest,
+    exception,
+    StackTrace stacktrace,
+  ) {
+    _logger.warning(
+      'Executing action request $actionRequest failed.',
+      exception,
+      stacktrace,
+    );
   }
 
   @override
   void parsingFailedFataly(
-      PushNotification pushNotification, exception, StackTrace stacktrace) {
-    _logger.severe('Parsing notification $pushNotification failed fataly.',
-        exception, stacktrace);
+    PushNotification pushNotification,
+    exception,
+    StackTrace stacktrace,
+  ) {
+    _logger.severe(
+      'Parsing notification $pushNotification failed fataly.',
+      exception,
+      stacktrace,
+    );
   }
 
   @override
-  void parsingFailedNonFatalyOnAttribute(String attributeName,
-      {fallbackValueChosenInstead, PushNotification? notification, error}) {
+  void parsingFailedNonFatalyOnAttribute(
+    String attributeName, {
+    fallbackValueChosenInstead,
+    PushNotification? notification,
+    error,
+  }) {
     _logger.warning(
       "Parsing notificiation $notification had non-fatal failure. The attribute $attributeName couldn't be parsed, the value $fallbackValueChosenInstead will be used instead.",
       error,
@@ -50,7 +66,9 @@ class PushNotificationActionHandlerInstrumentationImpl
 
   @override
   void parsingSucceeded(
-      PushNotification pushNotification, ActionRequest actionRequest) {
+    PushNotification pushNotification,
+    ActionRequest actionRequest,
+  ) {
     _logger.fine('$pushNotification was successfully parsed to $actionRequest');
   }
 

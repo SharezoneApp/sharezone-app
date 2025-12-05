@@ -68,7 +68,9 @@ void main() {
     }
 
     Future<void> pushGradeDetailsPage(
-        WidgetTester tester, ThemeData theme) async {
+      WidgetTester tester,
+      ThemeData theme,
+    ) async {
       await tester.pumpWidgetBuilder(
         Provider<GradeDetailsPageControllerFactory>.value(
           value: controllerFactory,
@@ -113,17 +115,23 @@ void main() {
       testGoldens('renders as expected (light mode)', (tester) async {
         setLoading();
         await pushGradeDetailsPage(tester, getLightTheme());
-        await multiScreenGolden(tester, 'grade_details_page_loading_light',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'grade_details_page_loading_light',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
         setLoading();
         await pushGradeDetailsPage(tester, getDarkTheme());
-        await multiScreenGolden(tester, 'grade_details_page_loading_dark',
-            customPump: (tester) =>
-                tester.pump(const Duration(milliseconds: 100)));
+        await multiScreenGolden(
+          tester,
+          'grade_details_page_loading_dark',
+          customPump:
+              (tester) => tester.pump(const Duration(milliseconds: 100)),
+        );
       });
     });
   });

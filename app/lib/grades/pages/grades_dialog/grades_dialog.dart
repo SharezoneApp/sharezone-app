@@ -30,29 +30,26 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 part 'fields.dart';
 
 class GradesDialog extends StatelessWidget {
-  const GradesDialog({super.key});
+  const GradesDialog({super.key, this.gradeId});
 
   static const tag = 'grades-dialog';
+
+  /// The [GradeId] of the grade to edit, `null` if grade should be created.
+  final GradeId? gradeId;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<GradesDialogController>(
       create: (context) {
         final factory = context.read<GradesDialogControllerFactory>();
-        return factory.create();
+        return factory.create(gradeId);
       },
       builder: (context, _) {
         return Scaffold(
-          appBar: AppBar(
-            actions: const [_SaveButton()],
-          ),
+          appBar: AppBar(actions: const [_SaveButton()]),
           body: const SingleChildScrollView(
             padding: EdgeInsets.all(8),
-            child: SafeArea(
-              child: MaxWidthConstraintBox(
-                child: _Fields(),
-              ),
-            ),
+            child: SafeArea(child: MaxWidthConstraintBox(child: _Fields())),
           ),
         );
       },
@@ -73,16 +70,7 @@ class _SaveButton extends StatelessWidget {
 
     if (e is SaveGradeException) {
       message = switch (e) {
-        MultipleInvalidFieldsSaveGradeException() =>
-          'Folgende Felder fehlen oder sind ungültig: ${e.invalidFields.map((f) => f.toUiString()).join(', ')}.',
-        SingleInvalidFieldSaveGradeException() => switch (e.invalidField) {
-            GradingDialogFields.gradeValue =>
-              'Die Note fehlt oder ist ungültig.',
-            GradingDialogFields.title => 'Der Titel fehlt oder ist ungültig.',
-            GradingDialogFields.subject =>
-              'Bitte gib ein Fach für die Note an.',
-            GradingDialogFields.term => 'Bitte gib ein Halbjahr für die an.',
-          },
+        InvalidFieldsSaveGradeException() => _getInvalidFieldsMessage(e),
         UnknownSaveGradeException() => unknownErrorMessage,
       };
     } else {
@@ -92,10 +80,28 @@ class _SaveButton extends StatelessWidget {
     showSnackSec(context: context, text: message);
   }
 
+  String _getInvalidFieldsMessage(InvalidFieldsSaveGradeException e) {
+    assert(e.invalidFields.isNotEmpty);
+
+    if (e.invalidFields.length == 1) {
+      return switch (e.invalidFields.first) {
+        GradingDialogFields.gradeValue => 'Die Note fehlt oder ist ungültig.',
+        GradingDialogFields.title => 'Der Titel fehlt oder ist ungültig.',
+        GradingDialogFields.subject => 'Bitte gib ein Fach für die Note an.',
+        GradingDialogFields.term => 'Bitte gib ein Halbjahr für die an.',
+      };
+    }
+    final fields = e.invalidFields;
+    final fieldMessages = fields.map((f) => f.toUiString()).join(', ');
+    return 'Folgende Felder fehlen oder sind ungültig: $fieldMessages.';
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controller =
-        Provider.of<GradesDialogController>(context, listen: false);
+    final controller = Provider.of<GradesDialogController>(
+      context,
+      listen: false,
+    );
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: FilledButton(
@@ -125,10 +131,10 @@ class _Fields extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTileTheme(
       data: Theme.of(context).listTileTheme.copyWith(
-            subtitleTextStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-            ),
-          ),
+        subtitleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+        ),
+      ),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

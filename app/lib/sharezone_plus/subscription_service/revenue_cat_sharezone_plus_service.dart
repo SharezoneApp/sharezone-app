@@ -16,8 +16,9 @@ class RevenueCatPurchaseService implements PurchaseService {
     final offerings = await Purchases.getOfferings();
     final availablePackages =
         offerings.getOffering('sharezone-plus')!.availablePackages;
-    final packageToPurchase = availablePackages
-        .singleWhere((package) => package.storeProduct.identifier == '$id');
+    final packageToPurchase = availablePackages.singleWhere(
+      (package) => package.storeProduct.identifier == '$id',
+    );
     await Purchases.purchasePackage(packageToPurchase);
   }
 

@@ -31,16 +31,9 @@ class _MemberCard extends StatelessWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Image(
-                    width: 50,
-                    height: 50,
-                    image: AssetImage(avatarPath),
-                  ),
+                  Image(width: 50, height: 50, image: AssetImage(avatarPath)),
                   const SizedBox(width: 10),
-                  Text(
-                    name,
-                    style: const TextStyle(fontSize: 20),
-                  ),
+                  Text(name, style: const TextStyle(fontSize: 20)),
                 ],
               ),
               const SizedBox(height: 8),
@@ -69,9 +62,5 @@ class _MemberCard extends StatelessWidget {
 class _SocialMediaLinks {
   final String? instagram, twitter, linkedIn;
 
-  const _SocialMediaLinks({
-    this.instagram,
-    this.twitter,
-    this.linkedIn,
-  });
+  const _SocialMediaLinks({this.instagram, this.twitter, this.linkedIn});
 }

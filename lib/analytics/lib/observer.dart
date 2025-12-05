@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library observer;
+library;
 
 export 'src/analytics/analytics_navigation_observer.dart';

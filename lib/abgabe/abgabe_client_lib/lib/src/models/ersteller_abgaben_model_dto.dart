@@ -39,9 +39,12 @@ class ErstellerAbgabenModelDto {
     return ErstellerAbgabenModelDto(
       abgabeId: map['submissionId'],
       abgegebenUmIsoString: map['submittedOn'],
-      dateien: List<HochgeladeneAbgabedateiDto>.from(map['submissionFiles']
-              ?.map((x) => HochgeladeneAbgabedateiDto.fromData(x)) ??
-          {}),
+      dateien: List<HochgeladeneAbgabedateiDto>.from(
+        map['submissionFiles']?.map(
+              (x) => HochgeladeneAbgabedateiDto.fromData(x),
+            ) ??
+            {},
+      ),
     );
   }
 

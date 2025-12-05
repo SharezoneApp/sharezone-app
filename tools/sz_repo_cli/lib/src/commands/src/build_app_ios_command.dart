@@ -10,17 +10,10 @@ import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
 
-final _iosStages = [
-  'stable',
-  'beta',
-  'alpha',
-];
+final _iosStages = ['stable', 'beta', 'alpha'];
 
 /// The different flavors of the Android app.
-final _iosFlavors = [
-  'prod',
-  'dev',
-];
+final _iosFlavors = ['prod', 'dev'];
 
 class BuildAppIosCommand extends CommandBase {
   BuildAppIosCommand(super.context) {
@@ -81,33 +74,30 @@ When none is specified, the value from pubspec.yaml is used.''',
       final stage = argResults![releaseStageOptionName] as String;
       final buildNumber = argResults![buildNumberOptionName] as String?;
       final exportOptionsPlist = argResults![exportOptionsPlistName] as String?;
-      await processRunner.runCommand(
-        [
-          'flutter',
-          'build',
-          'ipa',
-          '--target',
-          'lib/main_$flavor.dart',
-          '--flavor',
-          flavor,
-          '--release',
-          '--dart-define',
-          'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
-          if (buildNumber != null) ...['--build-number', buildNumber],
-          // For Android we add the stage to the build name (using
-          // --build-name), but for iOS we can't do that because Flutter removes
-          // the stage from the build name.
-          //
-          // See:
-          //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
-          //  * https://github.com/flutter/flutter/issues/115483
-          if (exportOptionsPlist != null) ...[
-            '--export-options-plist',
-            exportOptionsPlist
-          ],
+      await processRunner.runCommand([
+        'flutter',
+        'build',
+        'ipa',
+        '--target',
+        'lib/main_$flavor.dart',
+        '--flavor',
+        flavor,
+        '--release',
+        '--dart-define',
+        'DEVELOPMENT_STAGE=${stage.toUpperCase()}',
+        if (buildNumber != null) ...['--build-number', buildNumber],
+        // For Android we add the stage to the build name (using
+        // --build-name), but for iOS we can't do that because Flutter removes
+        // the stage from the build name.
+        //
+        // See:
+        //  * https://github.com/flutter/flutter/issues/27589#issuecomment-573121390
+        //  * https://github.com/flutter/flutter/issues/115483
+        if (exportOptionsPlist != null) ...[
+          '--export-options-plist',
+          exportOptionsPlist,
         ],
-        workingDirectory: repo.sharezoneFlutterApp.location,
-      );
+      ], workingDirectory: repo.sharezoneFlutterApp.location);
     } catch (e) {
       throw Exception('Failed to build iOS app: $e');
     }

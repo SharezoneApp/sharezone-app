@@ -56,21 +56,26 @@ class PortableCustomScaffold extends StatelessWidget {
                   pinned: appBarConfiguration.pinned!,
                   title: appBarConfiguration.title,
                   centerTitle: true,
-                  leading: isOldNav
-                      ? DrawerIcon(color: appBarConfiguration.drawerIconColor)
-                      : null,
+                  leading:
+                      isOldNav
+                          ? DrawerIcon(
+                            color: appBarConfiguration.drawerIconColor,
+                          )
+                          : null,
                   actions: appBarConfiguration.actions,
                   flexibleSpace: appBarConfiguration.flexibleSpace,
                 ),
-                SliverToBoxAdapter(child: body)
+                SliverToBoxAdapter(child: body),
               ],
             ),
             floatingActionButton: floatingActionButton,
             drawer: isOldNav ? const SharezoneDrawer() : null,
-            bottomNavigationBar: isOldNav
-                ? BnbAndDrawerBottomNavigationBar(
-                    navigationItem: navigationItem)
-                : null,
+            bottomNavigationBar:
+                isOldNav
+                    ? BnbAndDrawerBottomNavigationBar(
+                      navigationItem: navigationItem,
+                    )
+                    : null,
           ),
         );
       },

@@ -39,11 +39,11 @@ jobs:
   # * https://github.com/github/docs/commit/4364076e0fb56c2579ae90cd048939eaa2c18954
   #   (workaround for required checks with path filters)
   changes:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
         id: filter
         with:
@@ -73,7 +73,7 @@ jobs:
 
   android-integration-test:
     needs: changes
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     # Don't use less than 90 minutes. Often 40 minutes are enough but sometimes
     # (~5% of the time) build takes longer and then is a long timeout needed.
@@ -82,17 +82,17 @@ jobs:
         working-directory: app
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       # Our Android configurations require Java 17.
-      - uses: actions/setup-java@8df1039502a15bceb9433410b1a100fbe190c53b
+      - uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165
         with:
           distribution: "oracle"
           java-version: "17"
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
       - uses: subosito/flutter-action@main
         with:
@@ -100,7 +100,7 @@ jobs:
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Install patrol cli
-        run: flutter pub global activate patrol_cli 3.2.0
+        run: flutter pub global activate patrol_cli 3.6.0
 
       - name: Run Flutter build
         run: |
@@ -150,7 +150,7 @@ jobs:
             --type instrumentation \
             --app build/app/outputs/apk/prod/debug/app-prod-debug.apk \
             --test build/app/outputs/apk/androidTest/prod/debug/app-prod-debug-androidTest.apk \
-            --device model=Pixel2,version=30,locale=en,orientation=portrait \
+            --device model=MediumPhone.arm,version=30,locale=en,orientation=portrait \
             --timeout 10m \
             --use-orchestrator \
             --environment-variables clearPackageData=true
@@ -173,29 +173,26 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      - uses: futureware-tech/simulator-action@bde6805eedaeaba7775a9959970edc7d8bf10c4d
+      - uses: futureware-tech/simulator-action@d7d71f46661576907b12f85b402a61b6650d0e57
         id: simulator
         with:
           model: "iPhone 16"
 
-      - name: Build app
-        working-directory: app
-        run: |
-          flutter build ipa \
-            --flavor dev \
-            -t lib/main_dev.dart \
-            --no-codesign
+      # Temporary workaround for https://github.com/actions/runner-images/issues/12758.
+      # Once the issue is fixed, we can remove this step.
+      - name: Install XCode 16
+        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
 
       - name: Run integration tests
         working-directory: app
@@ -203,11 +200,11 @@ jobs:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
           SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
-        # We use the `flutter drive` instead of the `flutter test` command
-        # because the test command times out after 12 minutes. But building the
-        # app takes more than 12 minutes... It seems so that there is no way to
-        # set the timeout (the --timeout argument has not effect). Tracking
-        # issue: https://github.com/flutter/flutter/issues/105913
+        # We use --ignore-timeouts to avoid the 12 minute timeout during the
+        # build. Flutter has a timeout of 12 minutes for the build, but building
+        # our iOS app takes longer. Using --ignore-timeouts is the current
+        # recommended workaround, see
+        # https://github.com/flutter/flutter/issues/105913#issuecomment-2770877374
         run: |
           # We need to run the integration tests with the prod flavor because
           # using not the default flavor will cause an exception when
@@ -217,27 +214,28 @@ jobs:
             --flavor prod \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
+            --ignore-timeouts \
             -d $SIMULATOR_UDID
 
   web-integration-test:
     needs: changes
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Install chromedriver
-        uses: nanasess/setup-chromedriver@42cc2998329f041de87dc3cfa33a930eacd57eaa
+        uses: nanasess/setup-chromedriver@e93e57b843c0c92788f22483f1a31af8ee48db25
 
       - name: Run integration tests
         working-directory: app
@@ -263,21 +261,21 @@ jobs:
   # macOS app.
   macos-build-test:
     needs: changes
-    runs-on: macos-14
+    runs-on: macos-15
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     defaults:
       run:
         working-directory: app
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
-      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: "3.9"
 
       - name: Install Codemagic CLI Tools
-        run: pip3 install codemagic-cli-tools==0.50.7
+        run: pip3 install codemagic-cli-tools==0.61.1
 
       - name: Setup signing
         env:
@@ -308,9 +306,9 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@60c14af316b09f8819202d845391260cf3b979c9
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
 
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
@@ -319,7 +317,7 @@ jobs:
       # XCode configured which are using the FlutterFire CLI. Without the CLI,
       # the build would fail.
       - name: Install FlutterFire CLI
-        run: flutter pub global activate flutterfire_cli 0.3.0-dev.19
+        run: flutter pub global activate flutterfire_cli 1.3.1
 
       - name: Build macOS app
         run: |

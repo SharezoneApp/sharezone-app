@@ -25,9 +25,11 @@ class DatePicker extends StatelessWidget {
 
   Future<void> _selectDate(BuildContext context) async {
     FocusScope.of(context).requestFocus(FocusNode());
-    final DateTime tomorrow =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
-            .add(const Duration(days: 1));
+    final DateTime tomorrow = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    ).add(const Duration(days: 1));
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? tomorrow,
@@ -50,16 +52,19 @@ class DatePicker extends StatelessWidget {
               _InputDropdown(
                 iconData: Icons.today,
                 labelText: labelText,
-                valueText: selectedDate != null
-                    ? DateFormat.yMMMd().format(selectedDate!)
-                    : "Datum auswählen",
+                valueText:
+                    selectedDate != null
+                        ? DateFormat.yMMMd().format(selectedDate!)
+                        : "Datum auswählen",
                 valueStyle: valueStyle,
                 padding: padding,
                 onPressed: () async {
-                  FocusScope.of(context)
-                      .requestFocus(FocusNode()); // Close keyboard
-                  await Future.delayed(const Duration(
-                      milliseconds: 150)); // Waiting for closing keyboard
+                  FocusScope.of(
+                    context,
+                  ).requestFocus(FocusNode()); // Close keyboard
+                  await Future.delayed(
+                    const Duration(milliseconds: 150),
+                  ); // Waiting for closing keyboard
                   _selectDate(context);
                 },
               ),
@@ -96,8 +101,9 @@ class _InputDropdown extends StatelessWidget {
       onTap: onPressed,
       child: InputDecorator(
         decoration: InputDecoration(
-//          labelText: labelText,
-            border: InputBorder.none),
+          //          labelText: labelText,
+          border: InputBorder.none,
+        ),
         baseStyle: valueStyle,
         child: Padding(
           padding: padding ?? const EdgeInsets.all(0),
@@ -108,34 +114,28 @@ class _InputDropdown extends StatelessWidget {
               Row(
                 children: <Widget>[
                   SizedBox(width: 4.0),
-                  Icon(
-                    iconData,
-                    color: Colors.grey[500],
-                  ),
+                  Icon(iconData, color: Colors.grey[500]),
                   SizedBox(width: 32.0),
                   labelText != null
                       ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              labelText!,
-                              style: TextStyle(fontSize: 16.0),
-                            ),
-                            Text(valueText!, style: valueStyle),
-                          ],
-                        )
-                      : Text(
-                          valueText!,
-                          style: TextStyle(fontSize: 16.0),
-                        ),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(labelText!, style: TextStyle(fontSize: 16.0)),
+                          Text(valueText!, style: valueStyle),
+                        ],
+                      )
+                      : Text(valueText!, style: TextStyle(fontSize: 16.0)),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 3),
-                child: Icon(Icons.keyboard_arrow_down,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.grey[600]
-                        : Colors.white70),
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  color:
+                      Theme.of(context).brightness == Brightness.light
+                          ? Colors.grey[600]
+                          : Colors.white70,
+                ),
               ),
             ],
           ),

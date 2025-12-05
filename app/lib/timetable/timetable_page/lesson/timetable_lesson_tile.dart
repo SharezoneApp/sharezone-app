@@ -41,16 +41,17 @@ class TimetableEntryLesson extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Material(
-        color: design?.color.withOpacity(0.2),
+        color: design?.color.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(4),
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(4)),
-          onTap: () => showLessonModelSheet(
-            context,
-            lesson,
-            date,
-            groupInfo?.design,
-          ),
+          onTap:
+              () => showLessonModelSheet(
+                context,
+                lesson,
+                date,
+                groupInfo?.design,
+              ),
           onLongPress: () => onLessonLongPress(context, lesson),
           child: Stack(
             children: [
@@ -89,9 +90,7 @@ class TimetableEntryLesson extends StatelessWidget {
               if (isCanceled)
                 Positioned.fill(
                   child: CustomPaint(
-                    painter: _StrikeThroughPainter(
-                      color: design?.color,
-                    ),
+                    painter: _StrikeThroughPainter(color: design?.color),
                   ),
                 ),
             ],
@@ -109,10 +108,11 @@ class _StrikeThroughPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color!
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
+    final paint =
+        Paint()
+          ..color = color!
+          ..strokeWidth = 2
+          ..style = PaintingStyle.stroke;
 
     canvas.drawLine(Offset(0, size.height), Offset(size.width, 0), paint);
   }
@@ -179,15 +179,12 @@ class Room extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 4),
-      child: Text(
-        room,
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
-          decoration: isStrikeThrough ? TextDecoration.lineThrough : null,
-        ),
+    return Text(
+      room,
+      style: TextStyle(
+        color: color,
+        fontSize: 12,
+        decoration: isStrikeThrough ? TextDecoration.lineThrough : null,
       ),
     );
   }

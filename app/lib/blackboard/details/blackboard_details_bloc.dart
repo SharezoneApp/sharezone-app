@@ -17,9 +17,16 @@ class BlackboardDetailsBloc extends BlocBase {
   final Stream<BlackboardView> view;
 
   BlackboardDetailsBloc(
-      this.gateway, this.itemID, this.uid, CourseGateway courseGateway)
-      : view = gateway.singleBlackboardItem(itemID).map((item) =>
-            BlackboardView.fromBlackboardItem(item, uid, courseGateway));
+    this.gateway,
+    this.itemID,
+    this.uid,
+    CourseGateway courseGateway,
+  ) : view = gateway
+          .singleBlackboardItem(itemID)
+          .map(
+            (item) =>
+                BlackboardView.fromBlackboardItem(item, uid, courseGateway),
+          );
 
   void changeReadStatus(bool newValue) =>
       gateway.changeIsBlackboardDoneTo(itemID, newValue);

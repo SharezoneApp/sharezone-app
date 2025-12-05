@@ -69,11 +69,12 @@ class Color {
   /// See also [fromRGBO], which takes the alpha value as a floating point
   /// value.
   const Color.fromARGB(int a, int r, int g, int b)
-      : value = (((a & 0xff) << 24) |
-                ((r & 0xff) << 16) |
-                ((g & 0xff) << 8) |
-                ((b & 0xff) << 0)) &
-            0xFFFFFFFF;
+    : value =
+          (((a & 0xff) << 24) |
+              ((r & 0xff) << 16) |
+              ((g & 0xff) << 8) |
+              ((b & 0xff) << 0)) &
+          0xFFFFFFFF;
 
   /// Create a color from red, green, blue, and opacity, similar to `rgba()` in CSS.
   ///
@@ -87,11 +88,12 @@ class Color {
   ///
   /// See also [fromARGB], which takes the opacity as an integer value.
   const Color.fromRGBO(int r, int g, int b, double opacity)
-      : value = ((((opacity * 0xff ~/ 1) & 0xff) << 24) |
-                ((r & 0xff) << 16) |
-                ((g & 0xff) << 8) |
-                ((b & 0xff) << 0)) &
-            0xFFFFFFFF;
+    : value =
+          ((((opacity * 0xff ~/ 1) & 0xff) << 24) |
+              ((r & 0xff) << 16) |
+              ((g & 0xff) << 8) |
+              ((b & 0xff) << 0)) &
+          0xFFFFFFFF;
 
   /// A 32 bit value representing this color.
   ///

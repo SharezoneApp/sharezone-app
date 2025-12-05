@@ -43,12 +43,20 @@ class HomeworkUserCreateSubmissionsBlocFactory extends BlocBase {
     final abgabeId = AbgabeId(AbgabezielId.homework(id), UserId(userId));
     final abgabedateiApi = abgabeHttpApi.getAbgabedateiApi();
     final headerRetriever = FirebaseAuthHeaderRetriever(authTokenRetriever);
-    final umbenenner =
-        HttpAbgabendateiUmbenenner(abgabedateiApi, abgabeId, headerRetriever);
-    final loescher =
-        HttpAbgabendateiLoescher(abgabedateiApi, abgabeId, headerRetriever);
+    final umbenenner = HttpAbgabendateiUmbenenner(
+      abgabedateiApi,
+      abgabeId,
+      headerRetriever,
+    );
+    final loescher = HttpAbgabendateiLoescher(
+      abgabedateiApi,
+      abgabeId,
+      headerRetriever,
+    );
     final veroeffentlicher = HttpAbgabeVeroeffentlicher(
-        abgabeHttpApi.getAbgabeApi(), headerRetriever);
+      abgabeHttpApi.getAbgabeApi(),
+      headerRetriever,
+    );
 
     return HomeworkUserCreateSubmissionsBloc(
       AbgabeId(AbgabezielId.homework(id), UserId(userId)),

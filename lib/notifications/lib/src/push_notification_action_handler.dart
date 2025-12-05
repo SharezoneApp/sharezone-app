@@ -140,7 +140,7 @@ class PushNotificationActionHandler {
   /// This function should not throw. If it does [handlePushNotification] will
   /// let the error go further up the call-chain.
   final FutureOr<void> Function(PushNotification notification, dynamic error)
-      onFatalParsingError;
+  onFatalParsingError;
 
   /// Creates a new [PushNotificationActionHandler] that uses the
   /// [actionRegistrations] to handle incomming [PushNotification] inside
@@ -155,8 +155,8 @@ class PushNotificationActionHandler {
     required this.onUnhandledActionType,
     required this.onFatalParsingError,
     required this.instrumentation,
-  })  : parser = PushNotificationParser(actionRegistrations, instrumentation),
-        executer = ActionExecutor(actionRegistrations) {
+  }) : parser = PushNotificationParser(actionRegistrations, instrumentation),
+       executer = ActionExecutor(actionRegistrations) {
     assert(() {
       _checkForDuplicateActionTypeRegistrations(actionRegistrations);
       return true;
@@ -198,7 +198,8 @@ class PushNotificationActionHandler {
 }
 
 void _checkForDuplicateActionTypeRegistrations(
-    List<ActionRegistration<ActionRequest>> actionRegistrations) {
+  List<ActionRegistration<ActionRequest>> actionRegistrations,
+) {
   Set<ActionRegistration> allDuplicates = {};
   for (final registration in actionRegistrations) {
     final duplicates = registration.getDuplicates(actionRegistrations);
@@ -212,12 +213,14 @@ void _checkForDuplicateActionTypeRegistrations(
 }
 
 extension on ActionRegistration {
-  bool hasIntersection(ActionRegistration other) => registerForActionTypeStrings
-      .intersection(other.registerForActionTypeStrings)
-      .isNotEmpty;
+  bool hasIntersection(ActionRegistration other) =>
+      registerForActionTypeStrings
+          .intersection(other.registerForActionTypeStrings)
+          .isNotEmpty;
 
   Set<ActionRegistration> getDuplicates(
-      List<ActionRegistration> registrations) {
+    List<ActionRegistration> registrations,
+  ) {
     Set<ActionRegistration> duplicates = {};
 
     for (var registration in registrations.where((r) => r != this)) {

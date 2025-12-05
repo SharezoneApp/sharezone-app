@@ -31,11 +31,7 @@ class ImprintPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Align(
-                    child: Headline(
-                      "Impressum",
-                    ),
-                  ),
+                  const Align(child: Headline("Impressum")),
                   const SizedBox(height: 12),
                   Theme(
                     data: ThemeData.light(),
@@ -50,7 +46,7 @@ class ImprintPage extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

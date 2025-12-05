@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library color_parser;
+library;
 
 export 'src/color_parser.dart';

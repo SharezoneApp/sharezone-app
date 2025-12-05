@@ -34,31 +34,36 @@ class GradeDetailsPageController extends ChangeNotifier {
     required this.crashAnalytics,
     required this.analytics,
   }) {
-    _gradeStreamSubscription = _getGradeStream().listen((grade) {
-      if (grade != null) {
-        state = GradeDetailsPageLoaded(
-          GradeDetailsView(
-            gradeValue: displayGrade(grade.value),
-            gradingSystem: grade.gradingSystem.displayName,
-            subjectDisplayName: _getSubjectDisplayNameOfGrade(grade.id),
-            date: DateFormat.yMd().format(grade.date.toDateTime),
-            gradeType: _getGradeTypeDisplayName(grade.gradeTypeId),
-            termDisplayName: _getTermDisplayNameOfGrade(grade.id),
-            integrateGradeIntoSubjectGrade: grade.isTakenIntoAccount,
-            title: grade.title,
-            details: grade.details,
-          ),
+    _gradeStreamSubscription = _getGradeStream().listen(
+      (grade) {
+        if (grade != null) {
+          state = GradeDetailsPageLoaded(
+            GradeDetailsView(
+              gradeValue: displayGrade(grade.value),
+              gradingSystem: grade.gradingSystem.displayName,
+              subjectDisplayName: _getSubjectDisplayNameOfGrade(grade.id),
+              date: DateFormat.yMd().format(grade.date.toDateTime),
+              gradeType: _getGradeTypeDisplayName(grade.gradeTypeId),
+              termDisplayName: _getTermDisplayNameOfGrade(grade.id),
+              integrateGradeIntoSubjectGrade: grade.isTakenIntoAccount,
+              title: grade.title,
+              details: grade.details,
+            ),
+          );
+        } else {
+          state = const GradeDetailsPageError('Grade not found');
+        }
+        notifyListeners();
+      },
+      onError: (error, stack) {
+        state = GradeDetailsPageError('$error');
+        crashAnalytics.recordError(
+          'Error while streaming a grade: $error',
+          stack,
         );
-      } else {
-        state = const GradeDetailsPageError('Grade not found');
-      }
-      notifyListeners();
-    }, onError: (error, stack) {
-      state = GradeDetailsPageError('$error');
-      crashAnalytics.recordError(
-          'Error while streaming a grade: $error', stack);
-      notifyListeners();
-    });
+        notifyListeners();
+      },
+    );
 
     _logOpenGradeDetails();
   }
@@ -66,10 +71,13 @@ class GradeDetailsPageController extends ChangeNotifier {
   Stream<GradeResult?> _getGradeStream() {
     return gradesService.terms.map((terms) {
       for (final term in terms) {
-        final grade = term.subjects
-            .map((s) => s.grades.firstWhereOrNull((grade) => grade.id == id))
-            .whereNotNull()
-            .firstOrNull;
+        final grade =
+            term.subjects
+                .map(
+                  (s) => s.grades.firstWhereOrNull((grade) => grade.id == id),
+                )
+                .nonNulls
+                .firstOrNull;
         if (grade != null) {
           return grade;
         }
@@ -94,7 +102,8 @@ class GradeDetailsPageController extends ChangeNotifier {
   String _getTermDisplayNameOfGrade(GradeId gradeId) {
     for (final term in gradesService.terms.value) {
       if (term.subjects.any(
-          (subject) => subject.grades.any((grade) => grade.id == gradeId))) {
+        (subject) => subject.grades.any((grade) => grade.id == gradeId),
+      )) {
         return term.name;
       }
     }

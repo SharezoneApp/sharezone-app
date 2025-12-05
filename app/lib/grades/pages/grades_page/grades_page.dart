@@ -88,10 +88,11 @@ class _Loaded extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: AnimationConfiguration.toStaggeredList(
                 duration: const Duration(milliseconds: 350),
-                childAnimationBuilder: (widget) => SlideAnimation(
-                  verticalOffset: 20,
-                  child: FadeInAnimation(child: widget),
-                ),
+                childAnimationBuilder:
+                    (widget) => SlideAnimation(
+                      verticalOffset: 20,
+                      child: FadeInAnimation(child: widget),
+                    ),
                 children: [
                   if (currentTerm != null)
                     _CurrentTerm(
@@ -133,10 +134,11 @@ class _Empty extends StatelessWidget {
                 children: AnimationConfiguration.toStaggeredList(
                   delay: const Duration(milliseconds: 750),
                   duration: const Duration(milliseconds: 750),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    verticalOffset: 20,
-                    child: FadeInAnimation(child: widget),
-                  ),
+                  childAnimationBuilder:
+                      (widget) => SlideAnimation(
+                        verticalOffset: 20,
+                        child: FadeInAnimation(child: widget),
+                      ),
                   children: [
                     AnimationLimiter(
                       child: Stack(
@@ -144,18 +146,18 @@ class _Empty extends StatelessWidget {
                         children: AnimationConfiguration.toStaggeredList(
                           delay: const Duration(milliseconds: 200),
                           duration: const Duration(milliseconds: 750),
-                          childAnimationBuilder: (widget) => SlideAnimation(
-                            verticalOffset: 20,
-                            child: FadeInAnimation(child: widget),
-                          ),
+                          childAnimationBuilder:
+                              (widget) => SlideAnimation(
+                                verticalOffset: 20,
+                                child: FadeInAnimation(child: widget),
+                              ),
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: CircleAvatar(
-                                backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(0.2),
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary.withValues(alpha: 0.2),
                                 radius: 150,
                               ),
                             ),
@@ -172,8 +174,9 @@ class _Empty extends StatelessWidget {
                         leading: const Icon(Icons.add_circle_outline),
                         centerTitle: true,
                         title: const Text("Note eintragen"),
-                        onTap: () =>
-                            Navigator.pushNamed(context, GradesDialog.tag),
+                        onTap:
+                            () =>
+                                Navigator.pushNamed(context, GradesDialog.tag),
                       ),
                     ),
                   ],
@@ -281,10 +284,8 @@ class _Error extends StatelessWidget {
         child: MaxWidthConstraintBox(
           child: ErrorCard(
             message: Text(state.error),
-            onContactSupportPressed: () => Navigator.pushNamed(
-              context,
-              SupportPage.tag,
-            ),
+            onContactSupportPressed:
+                () => Navigator.pushNamed(context, SupportPage.tag),
           ),
         ),
       ),
@@ -328,9 +329,7 @@ class _CurrentTerm extends StatelessWidget {
                 padding: EdgeInsets.only(left: 12),
                 child: Text(
                   'Aktuelle Noten',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
+                  style: TextStyle(color: Colors.grey),
                 ),
               ),
               for (final subject in subjects)
@@ -341,13 +340,15 @@ class _CurrentTerm extends StatelessWidget {
                     abbreviation: subject.abbreviation,
                   ),
                   title: Text(subject.displayName),
-                  trailing: Text(subject.grade,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                      )),
-                )
-            ]
+                  trailing: Text(
+                    subject.grade,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ),
+            ],
           ],
         ),
       ),

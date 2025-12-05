@@ -36,22 +36,39 @@ class FilePickerHtml extends FilePickerImplementation {
 
   Future<LocalFile?> _pickSingle() async {
     final res =
-        (await web.FilePicker.platform.pickFiles(allowMultiple: false))!;
+        (await web.FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          compressionQuality: 30,
+        ))!;
     if (res.files.isNotEmpty) {
       final file = res.files.single;
 
       return LocalFileData.fromData(
-          file.bytes!, file.path!, file.name, file.extension!);
+        file.bytes!,
+        file.path!,
+        file.name,
+        file.extension!,
+      );
     }
     return null;
   }
 
   Future<List<LocalFile>?> _pickMulti() async {
-    final res = (await web.FilePicker.platform.pickFiles(allowMultiple: true))!;
+    final res =
+        (await web.FilePicker.platform.pickFiles(
+          allowMultiple: true,
+          compressionQuality: 30,
+        ))!;
     if (res.files.isNotEmpty) {
       return res.files
-          .map((file) => LocalFileData.fromData(
-              file.bytes!, null, file.name, file.extension!))
+          .map(
+            (file) => LocalFileData.fromData(
+              file.bytes!,
+              null,
+              file.name,
+              file.extension!,
+            ),
+          )
           .toList();
     }
     return null;

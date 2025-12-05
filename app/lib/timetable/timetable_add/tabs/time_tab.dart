@@ -22,9 +22,10 @@ class _TimeTab extends StatelessWidget {
         final timeType = snapshot.data ?? TimeType.period;
         return _TimetableAddSection(
           index: index,
-          title: timeType == TimeType.period
-              ? "In der wievielten Stunde findet die neue Schulstunde statt?"
-              : "Wähle die Uhrzeit aus",
+          title:
+              timeType == TimeType.period
+                  ? "In der wievielten Stunde findet die neue Schulstunde statt?"
+                  : "Wähle die Uhrzeit aus",
           child: _SwitchTimeType(timeType: timeType),
         );
       },
@@ -67,9 +68,10 @@ class _NoteForChangingTheTimesOfTheTimetable extends StatelessWidget {
     return const Opacity(
       opacity: 0.4,
       child: Text(
-          "Du kannst die Stundenzeiten in den Einstellungen vom Stundenplan ändern.",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 12)),
+        "Du kannst die Stundenzeiten in den Einstellungen vom Stundenplan ändern.",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 12),
+      ),
     );
   }
 }
@@ -129,7 +131,7 @@ class _PeriodList extends StatelessWidget {
                         bloc.changePeriod(period);
                         navigateToNextTab(context);
                       },
-                    )
+                    ),
                 ],
               ),
             );
@@ -145,11 +147,7 @@ class _PeriodTile extends StatelessWidget {
   final VoidCallback? onTap;
   final Period? selectedPeriod;
 
-  const _PeriodTile({
-    required this.period,
-    this.onTap,
-    this.selectedPeriod,
-  });
+  const _PeriodTile({required this.period, this.onTap, this.selectedPeriod});
 
   @override
   Widget build(BuildContext context) {
@@ -160,31 +158,32 @@ class _PeriodTile extends StatelessWidget {
         width: (MediaQuery.of(context).size.width / 2) - 19,
         child: Material(
           clipBehavior: Clip.antiAlias,
-          color: (isSelected ? Colors.lightGreen : Colors.lightBlue)
-              .withOpacity(0.20),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          color: (isSelected ? Colors.lightGreen : Colors.lightBlue).withValues(
+            alpha: 0.20,
           ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: ListTile(
-              title: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      period.number.toString(),
-                      style: const TextStyle(fontSize: 26),
+            title: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    period.number.toString(),
+                    style: const TextStyle(fontSize: 26),
+                  ),
+                  const SizedBox(height: 2),
+                  Opacity(
+                    opacity: 0.7,
+                    child: Text(
+                      "${period.startTime} - ${period.endTime}",
+                      style: const TextStyle(fontSize: 12),
                     ),
-                    const SizedBox(height: 2),
-                    Opacity(
-                        opacity: 0.7,
-                        child: Text(
-                          "${period.startTime} - ${period.endTime}",
-                          style: const TextStyle(fontSize: 12),
-                        )),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              onTap: onTap),
+            ),
+            onTap: onTap,
+          ),
         ),
       ),
     );

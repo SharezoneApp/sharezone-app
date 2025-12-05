@@ -21,9 +21,10 @@ class SuccessfulEnterActivationCodeResultDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StateSheetSimpleBody(
-        title: "Erfolgreich aktiviert: ${result.codeName} 🎉",
-        iconData: Icons.done,
-        iconColor: Colors.green,
-        description: result.codeDescription);
+      title: "Erfolgreich aktiviert: ${result.codeName} 🎉",
+      iconData: Icons.done,
+      iconColor: Colors.green,
+      description: result.codeDescription,
+    );
   }
 }

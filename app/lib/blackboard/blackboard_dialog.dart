@@ -54,8 +54,11 @@ class _BlackboardDialogState extends State<BlackboardDialog> {
   void initState() {
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
-    bloc = BlackboardDialogBloc(BlackboardDialogApi(api), markdownAnalytics,
-        blackboardItem: widget.blackboardItem);
+    bloc = BlackboardDialogBloc(
+      BlackboardDialogApi(api),
+      markdownAnalytics,
+      blackboardItem: widget.blackboardItem,
+    );
     super.initState();
   }
 
@@ -159,7 +162,8 @@ class __BlackboardDialogState extends State<_BlackboardDialog> {
                         _AttachFile(),
                         getDividerOnMobile(context),
                         _TextField(
-                            initialText: widget.oldBlackboardItem?.text ?? ""),
+                          initialText: widget.oldBlackboardItem?.text ?? "",
+                        ),
                         getDividerOnMobile(context),
                         _SendNotification(editMode: editMode),
                         getDividerOnMobile(context),
@@ -193,7 +197,9 @@ class _SaveButton extends StatelessWidget {
   final bool editMode;
 
   Future<void> onPressed(
-      BuildContext context, BlackboardDialogBloc bloc) async {
+    BuildContext context,
+    BlackboardDialogBloc bloc,
+  ) async {
     final localFiles = await bloc.localFiles.first;
     final hasAttachments = localFiles.isNotEmpty;
     try {
@@ -273,9 +279,10 @@ class _AppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).isDarkTheme
-          ? Theme.of(context).appBarTheme.backgroundColor
-          : Theme.of(context).primaryColor,
+      color:
+          Theme.of(context).isDarkTheme
+              ? Theme.of(context).appBarTheme.backgroundColor
+              : Theme.of(context).primaryColor,
       elevation: 1,
       child: SafeArea(
         top: true,
@@ -315,10 +322,7 @@ class _AppBar extends StatelessWidget {
 }
 
 class _TitleField extends StatelessWidget {
-  const _TitleField({
-    required this.initialTitle,
-    required this.focusNode,
-  });
+  const _TitleField({required this.initialTitle, required this.focusNode});
 
   final FocusNode focusNode;
   final String? initialTitle;
@@ -333,50 +337,54 @@ class _TitleField extends StatelessWidget {
       child: SingleChildScrollView(
         child: StreamBuilder<String>(
           stream: bloc.title,
-          builder: (context, snapshot) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20)
-                .add(const EdgeInsets.only(top: 8)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Theme(
-                  data: Theme.of(context).copyWith(
-                    textSelectionTheme: !context.isDarkThemeEnabled
-                        ? const TextSelectionThemeData(
-                            selectionColor: Colors.white24)
-                        : null,
-                  ),
-                  child: PrefilledTextField(
-                    prefilledText: initialTitle,
-                    focusNode: focusNode,
-                    cursorColor: Colors.white,
-                    maxLines: null,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w400,
+          builder:
+              (context, snapshot) => Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ).add(const EdgeInsets.only(top: 8)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        textSelectionTheme:
+                            !context.isDarkThemeEnabled
+                                ? const TextSelectionThemeData(
+                                  selectionColor: Colors.white24,
+                                )
+                                : null,
+                      ),
+                      child: PrefilledTextField(
+                        prefilledText: initialTitle,
+                        focusNode: focusNode,
+                        cursorColor: Colors.white,
+                        maxLines: null,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: "Titel eingeben",
+                          hintStyle: TextStyle(color: Colors.white),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                          fillColor: Colors.transparent,
+                        ),
+                        onChanged: (String title) => bloc.changeTitle(title),
+                        textCapitalization: TextCapitalization.sentences,
+                      ),
                     ),
-                    decoration: const InputDecoration(
-                      hintText: "Titel eingeben",
-                      hintStyle: TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.zero,
-                      fillColor: Colors.transparent,
+                    Text(
+                      snapshot.error?.toString() ?? "",
+                      style: TextStyle(color: Colors.red[700], fontSize: 12),
                     ),
-                    onChanged: (String title) => bloc.changeTitle(title),
-                    textCapitalization: TextCapitalization.sentences,
-                  ),
+                    const SizedBox(height: 10),
+                  ],
                 ),
-                Text(
-                  snapshot.error?.toString() ?? "",
-                  style: TextStyle(color: Colors.red[700], fontSize: 12),
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
-          ),
+              ),
         ),
       ),
     );
@@ -408,9 +416,13 @@ class _PictureTile extends StatelessWidget {
   }
 
   Future<void> onLongPress(
-      BuildContext context, BlackboardDialogBloc bloc) async {
+    BuildContext context,
+    BlackboardDialogBloc bloc,
+  ) async {
     final delete = await showDialog<bool>(
-        context: context, builder: (context) => _RemovePictureDialogContent());
+      context: context,
+      builder: (context) => _RemovePictureDialogContent(),
+    );
     if (delete != null && delete) {
       bloc.changePictureURL("null");
     }
@@ -424,25 +436,27 @@ class _PictureTile extends StatelessWidget {
       child: StreamBuilder<String>(
         stream: bloc.pictureURL,
         builder: (context, snapshot) {
-          final hasData = !(!snapshot.hasData ||
-              snapshot.data == null ||
-              snapshot.data!.isEmpty ||
-              snapshot.data == "null");
+          final hasData =
+              !(!snapshot.hasData ||
+                  snapshot.data == null ||
+                  snapshot.data!.isEmpty ||
+                  snapshot.data == "null");
           return ListTile(
             onTap: () => onTap(context, bloc),
             leading: const Icon(Icons.photo),
             title: StreamBuilder<String>(
-                stream: bloc.pictureURL,
-                builder: (context, snapshot) {
-                  if (!hasData) return const Text("Titelbild auswählen");
-                  return InkWell(
-                    child: Image.asset(
-                      snapshot.data!,
-                      height: 120,
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                }),
+              stream: bloc.pictureURL,
+              builder: (context, snapshot) {
+                if (!hasData) return const Text("Titelbild auswählen");
+                return InkWell(
+                  child: Image.asset(
+                    snapshot.data!,
+                    height: 120,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              },
+            ),
             trailing: !hasData ? const Icon(Icons.keyboard_arrow_down) : null,
             onLongPress: hasData ? () => onLongPress(context, bloc) : null,
           );
@@ -481,10 +495,10 @@ class _AttachFile extends StatelessWidget {
     final bloc = BlocProvider.of<BlackboardDialogBloc>(context);
     return AttachFile(
       addLocalFileToBlocMethod: (localFile) => bloc.addLocalFile(localFile),
-      removeLocalFileFromBlocMethod: (localFile) =>
-          bloc.removeLocalFile(localFile),
-      removeCloudFileFromBlocMethod: (cloudFile) =>
-          bloc.removeCloudFile(cloudFile),
+      removeLocalFileFromBlocMethod:
+          (localFile) => bloc.removeLocalFile(localFile),
+      removeCloudFileFromBlocMethod:
+          (cloudFile) => bloc.removeCloudFile(cloudFile),
       localFilesStream: bloc.localFiles,
       cloudFilesStream: bloc.cloudFiles,
     );
@@ -507,15 +521,18 @@ class _SendNotification extends StatelessWidget {
           onTap: () => bloc.changeSendNotification(!sendNotification),
           leading: const Icon(Icons.notifications_active),
           title: Text(
-              "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen"),
+            "Kursmitglieder ${editMode ? "über die Änderungen " : ""}benachrichtigen",
+          ),
           trailing: Switch.adaptive(
             onChanged: bloc.changeSendNotification,
             value: sendNotification,
           ),
-          description: editMode
-              ? null
-              : const Text(
-                  "Sende eine Benachrichtigung an deine Kursmitglieder, dass du einen neuen Eintrag erstellt hast."),
+          description:
+              editMode
+                  ? null
+                  : const Text(
+                    "Sende eine Benachrichtigung an deine Kursmitglieder, dass du einen neuen Eintrag erstellt hast.",
+                  ),
         );
       },
     );
@@ -529,8 +546,10 @@ class _RemovePictureDialogContent extends StatelessWidget {
       contentPadding: const EdgeInsets.all(0),
       children: <Widget>[
         ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 4,
+          ),
           leading: const Icon(Icons.delete),
           title: const Text("Anhang entfernen"),
           onTap: () => Navigator.pop(context, true),

@@ -46,10 +46,7 @@ class MemberData {
     );
   }
 
-  factory MemberData.fromData(
-    Map<String, dynamic> data, {
-    required String id,
-  }) {
+  factory MemberData.fromData(Map<String, dynamic> data, {required String id}) {
     return MemberData(
       id: UserId(id),
       name: data['name'] ?? "",

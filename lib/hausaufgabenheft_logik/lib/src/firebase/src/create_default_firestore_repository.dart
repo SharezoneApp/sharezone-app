@@ -14,9 +14,10 @@ import 'firestore_teacher_and_parents_homework_page_api.dart';
 import 'teacher_homework_transformation.dart';
 
 HomeworkPageApi createDefaultFirestoreRepositories(
-    CollectionReference homeworkCollection,
-    String uid,
-    CourseDataRetreiver getCourseData) {
+  CollectionReference homeworkCollection,
+  String uid,
+  CourseDataRetreiver getCourseData,
+) {
   final studentApi = FirestoreStudentHomeworkApi(
     uid: uid,
     homeworkCollection: homeworkCollection,

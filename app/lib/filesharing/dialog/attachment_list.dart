@@ -44,12 +44,13 @@ class AttachmentStreamList extends StatelessWidget {
         builder: (context, snapshot) {
           return AnimatedSwitcher(
             duration: const Duration(milliseconds: 350),
-            child: snapshot.hasData
-                ? AttachmentList(
-                    courseID: courseID,
-                    cloudFiles: snapshot.data,
-                  )
-                : _Placeholder(initialAttachmentIDs: initialAttachmentIDs),
+            child:
+                snapshot.hasData
+                    ? AttachmentList(
+                      courseID: courseID,
+                      cloudFiles: snapshot.data,
+                    )
+                    : _Placeholder(initialAttachmentIDs: initialAttachmentIDs),
           );
         },
       ),
@@ -86,11 +87,7 @@ class _Placeholder extends StatelessWidget {
 }
 
 class AttachmentList extends StatelessWidget {
-  const AttachmentList({
-    super.key,
-    this.cloudFiles,
-    required this.courseID,
-  });
+  const AttachmentList({super.key, this.cloudFiles, required this.courseID});
 
   final List<CloudFile>? cloudFiles;
   final String courseID;
@@ -107,14 +104,15 @@ class AttachmentList extends StatelessWidget {
             cloudFile: cloudFile,
             trailing: IconButton(
               icon: const Icon(Icons.more_vert),
-              onPressed: () => showCloudFileSheet(
-                context: context,
-                cloudFile: cloudFile,
-                bloc: bloc,
-              ),
+              onPressed:
+                  () => showCloudFileSheet(
+                    context: context,
+                    cloudFile: cloudFile,
+                    bloc: bloc,
+                  ),
             ),
             onTap: () => openCloudFilePage(context, cloudFile, courseID),
-          )
+          ),
       ],
     );
   }

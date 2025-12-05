@@ -47,7 +47,8 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const GroupOnboardingTitle(
-        "Erinnerungen und Benachrichtigungen erhalten");
+      "Erinnerungen und Benachrichtigungen erhalten",
+    );
   }
 }
 
@@ -97,9 +98,7 @@ class _NotNowButton extends StatelessWidget {
           await _continue(context);
         }
       },
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.grey,
-      ),
+      style: TextButton.styleFrom(foregroundColor: Colors.grey),
       child: const Text("Nicht jetzt"),
     );
   }
@@ -109,12 +108,10 @@ class _NotNowButton extends StatelessWidget {
       context: context,
       title: 'Keine Push-Nachrichten? 🤨',
       content: const Text(
-          "Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\nSollte jemand einen Infozettel eintragen, einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, würdest du keine Push-Nachrichten erhalten."),
-      defaultValue: false,
-      right: const AdaptiveDialogAction(
-        title: 'Ja',
-        popResult: true,
+        "Bist du dir sicher, dass du keine Benachrichtigungen erhalten möchtest?\n\nSollte jemand einen Infozettel eintragen, einen Kommentar zu einer Hausaufgabe hinzufügen oder dir eine Nachricht schreiben, würdest du keine Push-Nachrichten erhalten.",
       ),
+      defaultValue: false,
+      right: const AdaptiveDialogAction(title: 'Ja', popResult: true),
     );
   }
 }

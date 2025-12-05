@@ -37,10 +37,9 @@ void openSharezonePlusPageAsFullscreenDialog(BuildContext context) {
     context,
     MaterialPageRoute(
       fullscreenDialog: true,
-      builder: ((context) => Scaffold(
-            appBar: AppBar(),
-            body: const SharezonePlusPageMain(),
-          )),
+      builder:
+          ((context) =>
+              Scaffold(appBar: AppBar(), body: const SharezonePlusPageMain())),
       settings: const RouteSettings(name: SharezonePlusPage.tag),
     ),
   );
@@ -62,9 +61,7 @@ class SharezonePlusPage extends StatelessWidget {
 
 @visibleForTesting
 class SharezonePlusPageMain extends StatelessWidget {
-  const SharezonePlusPageMain({
-    super.key,
-  });
+  const SharezonePlusPageMain({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +85,7 @@ class SharezonePlusPageMain extends StatelessWidget {
                     const SizedBox(height: 18),
                     const _CallToActionSection(),
                     const SizedBox(height: 32),
-                    const SharezonePlusFaq(
-                      showContentCreatorQuestion: true,
-                    ),
+                    const SharezonePlusFaq(showContentCreatorQuestion: true),
                     const SizedBox(height: 18),
                     const SharezonePlusSupportNote(),
                   ],
@@ -105,9 +100,7 @@ class SharezonePlusPageMain extends StatelessWidget {
 }
 
 class _Advantages extends StatelessWidget {
-  const _Advantages({
-    required this.typeOfUser,
-  });
+  const _Advantages({required this.typeOfUser});
 
   final TypeOfUser? typeOfUser;
 
@@ -139,9 +132,10 @@ class _CallToActionSection extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       // If the users plus status is still loading then we show the
       // _SubscribeSection which will show loading indicators in turn.
-      child: hasPlus ?? false
-          ? const _UnsubscribeSection()
-          : const _PurchaseSection(),
+      child:
+          hasPlus ?? false
+              ? const _UnsubscribeSection()
+              : const _PurchaseSection(),
     );
   }
 }
@@ -158,19 +152,14 @@ class _UnsubscribeSection extends StatelessWidget {
       children: [
         const SizedBox(height: 12),
         _UnsubscribeText(hasLifetime: hasLifetime),
-        if (!hasLifetime) ...const [
-          SizedBox(height: 12),
-          _UnsubscribeButton(),
-        ]
+        if (!hasLifetime) ...const [SizedBox(height: 12), _UnsubscribeButton()],
       ],
     );
   }
 }
 
 class _UnsubscribeText extends StatelessWidget {
-  const _UnsubscribeText({
-    required this.hasLifetime,
-  });
+  const _UnsubscribeText({required this.hasLifetime});
 
   final bool hasLifetime;
 
@@ -242,9 +231,7 @@ class _UnsubscribeButton extends StatelessWidget {
 }
 
 class _UnsubscribeFailure extends StatelessWidget {
-  const _UnsubscribeFailure({
-    required this.error,
-  });
+  const _UnsubscribeFailure({required this.error});
 
   final String error;
 
@@ -256,7 +243,8 @@ class _UnsubscribeFailure extends StatelessWidget {
         title: const Text('Kündigung fehlgeschlagen'),
         content: SingleChildScrollView(
           child: Text(
-              'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.\n\nFehler: $error'),
+            'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.\n\nFehler: $error',
+          ),
         ),
         actions: [
           TextButton(
@@ -283,7 +271,8 @@ class _UnsubscribeNoteDialog extends StatelessWidget {
       child: AlertDialog(
         title: const Text('Bist du dir sicher?'),
         content: const Text(
-            'Wenn du dein Sharezone-Plus Abo kündigst, verlierst du den Zugriff auf alle Plus-Funktionen.\n\nBist du sicher, dass du kündigen möchtest?'),
+          'Wenn du dein Sharezone-Plus Abo kündigst, verlierst du den Zugriff auf alle Plus-Funktionen.\n\nBist du sicher, dass du kündigen möchtest?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -314,9 +303,10 @@ class _PurchaseSection extends StatelessWidget {
     if (token == null) {
       showDialog(
         context: context,
-        builder: (context) => const BuyingFailedDialog(
-          error: 'Der Token für den Link konnte nicht geladen werden.',
-        ),
+        builder:
+            (context) => const BuyingFailedDialog(
+              error: 'Der Token für den Link konnte nicht geladen werden.',
+            ),
       );
       return;
     }
@@ -331,7 +321,9 @@ class _PurchaseSection extends StatelessWidget {
       if (PlatformCheck.isDesktopOrWeb) {
         Clipboard.setData(ClipboardData(text: url));
         showSnackSec(
-            context: context, text: 'Link in die Zwischenablage kopiert.');
+          context: context,
+          text: 'Link in die Zwischenablage kopiert.',
+        );
       } else {
         final box = context.findRenderObject() as RenderBox?;
         Share.share(
@@ -367,10 +359,10 @@ class _PurchaseSection extends StatelessWidget {
           onLetParentsBuy: () => onLetParentsBuy(context),
           showLetParentsBuyButton: controller.showLetParentsBuyButton,
           isLetParentsBuyButtonLoading: controller.isLetParentsBuyButtonLoading,
-          onPressedPrivacyPolicy: () =>
-              Navigator.pushNamed(context, PrivacyPolicyPage.tag),
-          onPressedTermsOfService: () =>
-              Navigator.pushNamed(context, TermsOfServicePage.tag),
+          onPressedPrivacyPolicy:
+              () => Navigator.pushNamed(context, PrivacyPolicyPage.tag),
+          onPressedTermsOfService:
+              () => Navigator.pushNamed(context, TermsOfServicePage.tag),
           onPurchase: () async {
             final controller = context.read<SharezonePlusPageController>();
 
@@ -480,7 +472,8 @@ class _CanceledSubscriptionNote extends StatelessWidget {
         'Du hast dein Sharezone-Plus Abo gekündigt. Du kannst deine Vorteile noch bis zum Ende des aktuellen Abrechnungszeitraums nutzen. Solltest du es dir anders überlegen, kannst du es jederzeit wieder erneut Sharezone-Plus abonnieren.',
         textAlign: TextAlign.center,
         style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+        ),
       ),
     );
   }

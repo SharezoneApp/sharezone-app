@@ -79,26 +79,30 @@ class BuySection extends StatelessWidget {
         children: [
           MaxWidthConstraintBox(
             maxWidth: 500,
-            child: Column(
-              children: [
-                _PeriodOption(
-                  name: 'Monatlich',
-                  price: monthlyPrice,
-                  period: PurchasePeriod.monthly,
-                  currentPeriod: currentPeriod,
-                  onPeriodChanged: onPeriodChanged,
-                  isLoading: isPriceLoading,
-                ),
-                const SizedBox(height: 6),
-                _PeriodOption(
-                  name: 'Lifetime (einmaliger Kauf)',
-                  price: lifetimePrice,
-                  period: PurchasePeriod.lifetime,
-                  currentPeriod: currentPeriod,
-                  onPeriodChanged: onPeriodChanged,
-                  isLoading: isPriceLoading,
-                ),
-              ],
+            child: RadioGroup(
+              groupValue: currentPeriod,
+              onChanged: (value) {
+                if (value != null && !isPriceLoading) onPeriodChanged(value);
+              },
+              child: Column(
+                children: [
+                  _PeriodOption(
+                    name: 'Monatlich',
+                    price: monthlyPrice,
+                    period: PurchasePeriod.monthly,
+                    onPeriodChanged: onPeriodChanged,
+                    isLoading: isPriceLoading,
+                  ),
+                  const SizedBox(height: 6),
+                  _PeriodOption(
+                    name: 'Lebenslang (einmaliger Kauf)',
+                    price: lifetimePrice,
+                    period: PurchasePeriod.lifetime,
+                    onPeriodChanged: onPeriodChanged,
+                    isLoading: isPriceLoading,
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -148,14 +152,13 @@ class _PurchaseButton extends StatelessWidget {
     return IgnorePointer(
       ignoring: isLoading,
       child: CallToActionButton(
-        text: isLoading
-            ? const _LoadingSpinner(color: Colors.white)
-            : Text(
-                switch (period) {
+        text:
+            isLoading
+                ? const _LoadingSpinner(color: Colors.white)
+                : Text(switch (period) {
                   PurchasePeriod.monthly => 'Abonnieren',
                   PurchasePeriod.lifetime => 'Kaufen',
-                },
-              ),
+                }),
         onPressed: onPressed,
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
@@ -178,9 +181,10 @@ class _LetParentsBuyButton extends StatelessWidget {
     return IgnorePointer(
       ignoring: isLoading,
       child: CallToActionButton(
-        text: isLoading
-            ? _LoadingSpinner(color: primaryColor)
-            : const Text('Eltern bezahlen lassen'),
+        text:
+            isLoading
+                ? _LoadingSpinner(color: primaryColor)
+                : const Text('Eltern bezahlen lassen'),
         onPressed: onPressed,
         backgroundColor: Colors.transparent,
         borderColor: primaryColor,
@@ -191,9 +195,7 @@ class _LetParentsBuyButton extends StatelessWidget {
 }
 
 class _LoadingSpinner extends StatelessWidget {
-  const _LoadingSpinner({
-    required this.color,
-  });
+  const _LoadingSpinner({required this.color});
 
   final Color color;
 
@@ -212,7 +214,6 @@ class _PeriodOption extends StatelessWidget {
     required this.name,
     required this.price,
     required this.period,
-    required this.currentPeriod,
     required this.onPeriodChanged,
     required this.isLoading,
   });
@@ -220,7 +221,6 @@ class _PeriodOption extends StatelessWidget {
   final String name;
   final String? price;
   final PurchasePeriod period;
-  final PurchasePeriod currentPeriod;
   final ValueChanged<PurchasePeriod> onPeriodChanged;
   final bool isLoading;
 
@@ -232,17 +232,13 @@ class _PeriodOption extends StatelessWidget {
         child: ListTile(
           title: Text(name),
           onTap: isLoading ? null : () => onPeriodChanged(period),
-          trailing: Radio<PurchasePeriod>(
-            groupValue: currentPeriod,
-            value: period,
-            onChanged: (v) {
-              if (v != null && !isLoading) onPeriodChanged(v);
-            },
-          ),
+          trailing: Radio<PurchasePeriod>(value: period),
           subtitle: Text(
             price ?? '...',
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
         ),
@@ -270,15 +266,15 @@ class _LegalText extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (period) {
       PurchasePeriod.monthly => _MonthlySubscriptionLegalText(
-          price: monthlyPrice,
-          onPressedTermsOfService: onPressedTermsOfService,
-          onPressedPrivacyPolicy: onPressedPrivacyPolicy,
-        ),
+        price: monthlyPrice,
+        onPressedTermsOfService: onPressedTermsOfService,
+        onPressedPrivacyPolicy: onPressedPrivacyPolicy,
+      ),
       PurchasePeriod.lifetime => _LifetimeLegalText(
-          price: lifetimePrice,
-          onPressedTermsOfService: onPressedTermsOfService,
-          onPressedPrivacyPolicy: onPressedPrivacyPolicy,
-        ),
+        price: lifetimePrice,
+        onPressedTermsOfService: onPressedTermsOfService,
+        onPressedPrivacyPolicy: onPressedPrivacyPolicy,
+      ),
     };
   }
 }
@@ -328,8 +324,7 @@ class _MonthlySubscriptionLegalText extends StatelessWidget {
       text: switch (currentPlatform) {
         Platform.android =>
           'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. $_termsOfServiceSentence',
-        Platform.iOS ||
-        Platform.macOS =>
+        Platform.iOS || Platform.macOS =>
           'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über den App Store kündigst. $_termsOfServiceSentence',
         _ =>
           'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht vor Ablauf der aktuellen Zahlungsperiode über die App kündigst. $_termsOfServiceSentence',

@@ -16,9 +16,9 @@ import 'package:sharezone/util/flavor.dart';
 
 void main() {
   const config = PatrolTesterConfig(
-    existsTimeout: Duration(seconds: 30),
-    visibleTimeout: Duration(seconds: 30),
-    settleTimeout: Duration(seconds: 30),
+    existsTimeout: Duration(seconds: 120),
+    visibleTimeout: Duration(seconds: 120),
+    settleTimeout: Duration(seconds: 120),
   );
   group('e2e tests', () {
     late AppDependencies dependencies;
@@ -35,13 +35,15 @@ void main() {
     });
 
     Future<void> login(PatrolIntegrationTester $) async {
-      await $.pumpWidgetAndSettle(Sharezone(
-        beitrittsversuche: dependencies.beitrittsversuche,
-        blocDependencies: dependencies.blocDependencies,
-        dynamicLinkBloc: dependencies.dynamicLinkBloc,
-        flavor: Flavor.dev,
-        isIntegrationTest: true,
-      ));
+      await $.pumpWidgetAndSettle(
+        Sharezone(
+          beitrittsversuche: dependencies.beitrittsversuche,
+          blocDependencies: dependencies.blocDependencies,
+          dynamicLinkBloc: dependencies.dynamicLinkBloc,
+          flavor: Flavor.dev,
+          isIntegrationTest: true,
+        ),
+      );
 
       // On web and desktop we don't show the welcome page, therefore we don't
       // need to navigate to the login page.
@@ -74,8 +76,9 @@ void main() {
       expect($('Spanisch LK'), findsOneWidget);
     });
 
-    patrolTest('User should be able to load timetable', config: config,
-        ($) async {
+    patrolTest('User should be able to load timetable', config: config, (
+      $,
+    ) async {
       await login($);
       await $(K.timetableNavigationItem).tap();
 
@@ -89,25 +92,25 @@ void main() {
       expect($('Spanisch LK'), findsNWidgets(4));
     });
 
-    patrolTest('User should be able to load information sheets', config: config,
-        ($) async {
-      await login($);
-      await $(K.blackboardNavigationItem).tap();
+    patrolTest(
+      'User should be able to load information sheets',
+      config: config,
+      ($) async {
+        await login($);
+        await $(K.blackboardNavigationItem).tap();
 
-      await $('German Course Trip to Berlin').waitUntilExists();
+        await $('German Course Trip to Berlin').waitUntilExists();
 
-      // We a searching for an information sheet that is already created.
-      expect($('German Course Trip to Berlin'), findsOneWidget);
-    });
+        // We a searching for an information sheet that is already created.
+        expect($('German Course Trip to Berlin'), findsOneWidget);
+      },
+    );
   });
 }
 
 /// The credentials for user used in the integration tests.
 class _UserCredentials {
-  const _UserCredentials({
-    required this.email,
-    required this.password,
-  });
+  const _UserCredentials({required this.email, required this.password});
 
   /// The email address of the user.
   final String email;

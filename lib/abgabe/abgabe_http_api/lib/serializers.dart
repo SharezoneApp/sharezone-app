@@ -6,7 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library serializers;
+library;
 
 import 'package:abgabe_http_api/model/datei_hinzufuegen_command_dto.dart';
 import 'package:abgabe_http_api/model/dateien_hinzufuegen_command_dto.dart';
@@ -28,26 +28,34 @@ part 'serializers.g.dart';
   InlineResponse403,
   SubmissionDto,
 ])
-
 // allow all models to be serialized within a list
-Serializers serializers = (_$serializers.toBuilder()
-      ..addBuilderFactory(
-          const FullType(BuiltList, [FullType(DateiHinzufuegenCommandDto)]),
-          () => ListBuilder<DateiHinzufuegenCommandDto>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, [FullType(DateienHinzufuegenCommandDto)]),
-          () => ListBuilder<DateienHinzufuegenCommandDto>())
-      ..addBuilderFactory(const FullType(BuiltList, [FullType(DateinameDto)]),
-          () => ListBuilder<DateinameDto>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, [FullType(InlineResponse400)]),
-          () => ListBuilder<InlineResponse400>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, [FullType(InlineResponse403)]),
-          () => ListBuilder<InlineResponse403>())
-      ..addBuilderFactory(const FullType(BuiltList, [FullType(SubmissionDto)]),
-          () => ListBuilder<SubmissionDto>()))
-    .build();
+Serializers serializers =
+    (_$serializers.toBuilder()
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(DateiHinzufuegenCommandDto)]),
+            () => ListBuilder<DateiHinzufuegenCommandDto>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(DateienHinzufuegenCommandDto)]),
+            () => ListBuilder<DateienHinzufuegenCommandDto>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(DateinameDto)]),
+            () => ListBuilder<DateinameDto>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(InlineResponse400)]),
+            () => ListBuilder<InlineResponse400>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(InlineResponse403)]),
+            () => ListBuilder<InlineResponse403>(),
+          )
+          ..addBuilderFactory(
+            const FullType(BuiltList, [FullType(SubmissionDto)]),
+            () => ListBuilder<SubmissionDto>(),
+          ))
+        .build();
 
 Serializers standardSerializers =
     (serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

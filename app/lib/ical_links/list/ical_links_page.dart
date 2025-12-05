@@ -28,12 +28,7 @@ class ICalLinksPage extends StatelessWidget {
       appBar: AppBar(title: const Text('iCal-Links')),
       body: const SingleChildScrollView(
         child: MaxWidthConstraintBox(
-          child: SafeArea(
-            child: Column(children: [
-              _Header(),
-              _Body(),
-            ]),
-          ),
+          child: SafeArea(child: Column(children: [_Header(), _Body()])),
         ),
       ),
       floatingActionButton: const _Fab(),
@@ -89,10 +84,7 @@ class _Loading extends StatelessWidget {
       url: Uri.parse('https://ical.sharezone.net/...'),
       error: null,
     );
-    return _LinkTile(
-      view: view,
-      isLoading: true,
-    );
+    return _LinkTile(view: view, isLoading: true);
   }
 }
 
@@ -105,8 +97,8 @@ class _Error extends StatelessWidget {
   Widget build(BuildContext context) {
     return ErrorCard(
       message: Text(state.message),
-      onContactSupportPressed: () =>
-          Navigator.pushNamed(context, SupportPage.tag),
+      onContactSupportPressed:
+          () => Navigator.pushNamed(context, SupportPage.tag),
     );
   }
 }
@@ -123,9 +115,7 @@ class _Loaded extends StatelessWidget {
     }
 
     return Column(
-      children: [
-        for (final view in state.views) _LinkTile(view: view),
-      ],
+      children: [for (final view in state.views) _LinkTile(view: view)],
     );
   }
 }
@@ -147,17 +137,14 @@ class _Empty extends StatelessWidget {
   }
 }
 
-enum _LinkAction {
-  delete,
-  copy,
-}
+enum _LinkAction { delete, copy }
 
 class _Header extends StatelessWidget {
   const _Header();
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary.withOpacity(0.1);
+    final color = Theme.of(context).colorScheme.primary.withValues(alpha: 0.1);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -176,7 +163,8 @@ class _Header extends StatelessWidget {
               const SizedBox(height: 16),
               ExpansionCard(
                 header: const Text(
-                    'Wie füge ich einen iCal-Link zu meinem Kalender hinzu?'),
+                  'Wie füge ich einen iCal-Link zu meinem Kalender hinzu?',
+                ),
                 body: const Text(
                   '1. Kopiere den iCal-Link\n2. Öffne deinen Kalender (z.B. Google Kalender, Apple Kalender)\n3. Füge einen neuen Kalender hinzu\n4. Wähle "Über URL hinzufügen" oder "Über das Internet hinzufügen"\n5. Füge den iCal-Link ein\n6. Fertig! Dein Stundenplan und deine Termine werden nun in deinem Kalender angezeigt.',
                 ),
@@ -192,10 +180,7 @@ class _Header extends StatelessWidget {
 }
 
 class _LinkTile extends StatelessWidget {
-  const _LinkTile({
-    required this.view,
-    this.isLoading = false,
-  });
+  const _LinkTile({required this.view, this.isLoading = false});
 
   final ICalLinkView view;
   final bool isLoading;
@@ -225,12 +210,13 @@ class _LinkTile extends StatelessWidget {
         child: ListTile(
           title: Text(view.name),
           subtitle: _Subtitle(view: view),
-          onTap: view.hasUrl
-              ? () async {
-                  await copyUrlToClipboard(context);
-                  if (context.mounted) showCopyConformationSnackBar(context);
-                }
-              : null,
+          onTap:
+              view.hasUrl
+                  ? () async {
+                    await copyUrlToClipboard(context);
+                    if (context.mounted) showCopyConformationSnackBar(context);
+                  }
+                  : null,
 
           /// More menu button with edit, delete, copy button
           trailing: PopupMenuButton<_LinkAction>(
@@ -326,9 +312,12 @@ class _Subtitle extends StatelessWidget {
             overflow: hasError ? null : TextOverflow.ellipsis,
             maxLines: hasError ? null : 1,
             style: TextStyle(
-              color: hasError
-                  ? Theme.of(context).colorScheme.error
-                  : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color:
+                  hasError
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
         ),

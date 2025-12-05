@@ -6,6 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-library null_analytics_backend;
+library;
 
 export 'src/analytics/backend/null_analytics_backend.dart';

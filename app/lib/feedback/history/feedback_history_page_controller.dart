@@ -33,18 +33,25 @@ class FeedbackHistoryPageController extends ChangeNotifier {
   });
 
   Future<void> startStreaming() async {
-    _feedbackSubscription = api.streamFeedbacks('$userId').listen((feedbacks) {
-      if (feedbacks.isEmpty) {
-        _state = FeedbackHistoryPageEmpty();
-      } else {
-        _state = FeedbackHistoryPageLoaded(feedbacks.toFeedbackViews(userId));
-      }
-      notifyListeners();
-    }, onError: (e, s) async {
-      await crashAnalytics.recordError(e, s);
-      _state = FeedbackHistoryPageError('$e');
-      notifyListeners();
-    });
+    _feedbackSubscription = api
+        .streamFeedbacks('$userId')
+        .listen(
+          (feedbacks) {
+            if (feedbacks.isEmpty) {
+              _state = FeedbackHistoryPageEmpty();
+            } else {
+              _state = FeedbackHistoryPageLoaded(
+                feedbacks.toFeedbackViews(userId),
+              );
+            }
+            notifyListeners();
+          },
+          onError: (e, s) async {
+            await crashAnalytics.recordError(e, s);
+            _state = FeedbackHistoryPageError('$e');
+            notifyListeners();
+          },
+        );
   }
 
   void logOpenedPage() {

@@ -11,8 +11,9 @@ description: A mockable platform information abstraction for Dart.
 version: 0.0.1
 publish_to: none
 
+resolution: workspace
 environment:
-  sdk: ">=3.2.3 <4.0.0"
+  sdk: ^3.7.0
 
 dependencies:
   flutter:

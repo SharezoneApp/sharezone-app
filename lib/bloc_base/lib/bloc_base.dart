@@ -9,7 +9,7 @@
 /// Support for doing something awesome.
 ///
 /// More dartdocs go here.
-library bloc_base;
+library;
 
 export 'src/bloc_base_base.dart';
 
