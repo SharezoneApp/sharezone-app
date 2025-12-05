@@ -98,7 +98,11 @@ class _NewPasswordFieldState extends State<_NewPasswordField> {
           focusNode: widget.newPasswordNode,
           onChanged: bloc.changeNewPassword,
           onEditingComplete:
-              () async => submit(context, snackBarText, changeType),
+              () async => submit(
+                context,
+                context.l10n.changePasswordPageLoadingSnackbarText,
+                changeType,
+              ),
           autofocus: false,
           autofillHints: const [AutofillHints.newPassword],
           decoration: InputDecoration(
