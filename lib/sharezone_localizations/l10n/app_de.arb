@@ -129,7 +129,7 @@
         "description": "The label for the text field which is used for the new email address"
     },
     "changeEmailAddressPagePasswordTextfieldLabel": "Passwort",
-    "@changeEmailAddressPageNewEmailTextfieldLabel": {
+    "@changeEmailAddressPagePasswordTextfieldLabel": {
         "description": "The label for the text field which is used for the password"
     },
     "changeEmailAddressPageNoteOnAutomaticSignOutSignIn": "Hinweis: Wenn deine E-Mail geändert wurde, wirst du automatisch kurz ab- und sofort wieder angemeldet - also nicht wundern 😉",
