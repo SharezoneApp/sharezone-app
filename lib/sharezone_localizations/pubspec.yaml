@@ -24,3 +24,6 @@ dependencies:
   sharezone_lints:
     path: ../sharezone_lints
   provider: ^6.1.2
+
+flutter:
+  generate: true

@@ -7,6 +7,7 @@
     "commonActionsConfirm": "Bestätigen",
     "commonActionsSave": "Speichern",
     "commonActionsClose": "Schließen",
+    "commonActionsCloseUppercase": "SCHLIESSEN",
     "commonActionsOk": "Ok",
     "commonActionsYes": "Ja",
     "commonActionsAlright": "Alles klar",
@@ -69,7 +70,7 @@
     },
     "aboutPageTeamSectionTitle": "Über uns",
     "@_CHANGE_TYPE_OF_USER_PAGE": {},
-    "changeTypeOfUserPageTitle": "Account-Type ändern",
+    "changeTypeOfUserPageTitle": "Account-Typ ändern",
     "changeTypeOfUserPageErrorDialogTitle": "Fehler",
     "changeTypeOfUserPageErrorDialogContentUnknown": "Fehler: {error}. Bitte kontaktiere den Support.",
     "@changeTypeOfUserPageErrorDialogContentUnknown": {
@@ -86,7 +87,7 @@
         "placeholders": {
             "blockedUntil": {
                 "type": "DateTime",
-                "format": "yMd"
+                "format": "yMd+jm"
             }
         }
     },
@@ -220,7 +221,7 @@
     "timetableSettingsPagePeriodsFieldTileSubtitle": "Stundenplanbeginn, Stundenlänge, etc.",
     "timetableSettingsPageIcalLinksTitleTitle": "Termine, Prüfungen, Stundenplan exportieren (iCal)",
     "timetableSettingsPageIcalLinksTitleSubtitle": "Synchronisierung mit Google Kalender, Apple Kalender usw.",
-    "timetableSettingsPageIcalLinksPlusDialogContent": "Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.",
+    "timetableSettingsPageIcalLinksPlusDialogContent": "Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim \"Zum Kalender hinzufügen\" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.",
     "timetableSettingsPageEnabledWeekDaysTileTitle": "Aktivierte Wochentage",
     "timetableSettingsPageLessonLengthTileTile": "Länge einer Stunde",
     "timetableSettingsPageLessonLengthTileSubtile": "Länge einer Stunde",

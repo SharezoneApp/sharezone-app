@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'sharezone_localizations.gen.dart';
 
 // ignore_for_file: type=lint
@@ -30,6 +30,9 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get commonActionsClose => 'Schließen';
+
+  @override
+  String get commonActionsCloseUppercase => 'SCHLIESSEN';
 
   @override
   String get commonActionsOk => 'Ok';
@@ -131,7 +134,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get aboutPageTeamSectionTitle => 'Über uns';
 
   @override
-  String get changeTypeOfUserPageTitle => 'Account-Type ändern';
+  String get changeTypeOfUserPageTitle => 'Account-Typ ändern';
 
   @override
   String get changeTypeOfUserPageErrorDialogTitle => 'Fehler';
@@ -151,11 +154,13 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String changeTypeOfUserPageErrorDialogContentChangedTypeOfUserTooOften(
-      DateTime blockedUntil) {
+    DateTime blockedUntil,
+  ) {
     final intl.DateFormat blockedUntilDateFormat =
-        intl.DateFormat.yMd(localeName);
-    final String blockedUntilString =
-        blockedUntilDateFormat.format(blockedUntil);
+        intl.DateFormat.yMd(localeName).add_jm();
+    final String blockedUntilString = blockedUntilDateFormat.format(
+      blockedUntil,
+    );
 
     return 'Du kannst nur alle 14 Tage 2x den Account-Typ ändern. Diese Limit wurde erreicht. Bitte warte bis $blockedUntilString.';
   }
@@ -501,7 +506,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String timetableSettingsPageThisWeekIs(
-      int calendar_week, String is_a_week_even, String even_or_odd_week) {
+    int calendar_week,
+    String is_a_week_even,
+    String even_or_odd_week,
+  ) {
     return 'Diese Woche ist Kalenderwoche $calendar_week. A-Wochen sind $is_a_week_even Kalenderwochen und somit ist aktuell eine $even_or_odd_week';
   }
 }

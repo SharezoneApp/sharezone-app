@@ -6,8 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'sharezone_localizations.gen.dart';
 
 // ignore_for_file: type=lint
@@ -30,6 +30,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get commonActionsClose => 'Close';
+
+  @override
+  String get commonActionsCloseUppercase => 'CLOSE';
 
   @override
   String get commonActionsOk => 'OK';
@@ -151,11 +154,13 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String changeTypeOfUserPageErrorDialogContentChangedTypeOfUserTooOften(
-      DateTime blockedUntil) {
+    DateTime blockedUntil,
+  ) {
     final intl.DateFormat blockedUntilDateFormat =
-        intl.DateFormat.yMd(localeName);
-    final String blockedUntilString =
-        blockedUntilDateFormat.format(blockedUntil);
+        intl.DateFormat.yMd(localeName).add_jm();
+    final String blockedUntilString = blockedUntilDateFormat.format(
+      blockedUntil,
+    );
 
     return 'You can only change your account type twice every 14 days. This limit has been reached. Please wait until $blockedUntilString.';
   }
@@ -500,7 +505,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String timetableSettingsPageThisWeekIs(
-      int calendar_week, String is_a_week_even, String even_or_odd_week) {
+    int calendar_week,
+    String is_a_week_even,
+    String even_or_odd_week,
+  ) {
     return 'This week is calendar week $calendar_week. A-weeks are $is_a_week_even calendar weeks and therefore it is currently a $even_or_odd_week';
   }
 }

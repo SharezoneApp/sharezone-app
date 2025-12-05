@@ -139,6 +139,12 @@ abstract class SharezoneLocalizations {
   /// **'Schließen'**
   String get commonActionsClose;
 
+  /// No description provided for @commonActionsCloseUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'SCHLIESSEN'**
+  String get commonActionsCloseUppercase;
+
   /// No description provided for @commonActionsOk.
   ///
   /// In de, this message translates to:
@@ -322,7 +328,7 @@ abstract class SharezoneLocalizations {
   /// No description provided for @changeTypeOfUserPageTitle.
   ///
   /// In de, this message translates to:
-  /// **'Account-Type ändern'**
+  /// **'Account-Typ ändern'**
   String get changeTypeOfUserPageTitle;
 
   /// No description provided for @changeTypeOfUserPageErrorDialogTitle.
@@ -354,7 +360,8 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Du kannst nur alle 14 Tage 2x den Account-Typ ändern. Diese Limit wurde erreicht. Bitte warte bis {blockedUntil}.'**
   String changeTypeOfUserPageErrorDialogContentChangedTypeOfUserTooOften(
-      DateTime blockedUntil);
+    DateTime blockedUntil,
+  );
 
   /// No description provided for @changeTypeOfUserPagePermissionNote.
   ///
@@ -440,13 +447,13 @@ abstract class SharezoneLocalizations {
   /// **'Aktuell'**
   String get changeEmailAddressPageCurrentEmailTextfieldLabel;
 
-  /// The label for the text field which is used for the password
+  /// The label for the text field which is used for the new email address
   ///
   /// In de, this message translates to:
   /// **'Neu'**
   String get changeEmailAddressPageNewEmailTextfieldLabel;
 
-  /// No description provided for @changeEmailAddressPagePasswordTextfieldLabel.
+  /// The label for the text field which is used for the password
   ///
   /// In de, this message translates to:
   /// **'Passwort'**
@@ -943,7 +950,10 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Diese Woche ist Kalenderwoche {calendar_week}. A-Wochen sind {is_a_week_even} Kalenderwochen und somit ist aktuell eine {even_or_odd_week}'**
   String timetableSettingsPageThisWeekIs(
-      int calendar_week, String is_a_week_even, String even_or_odd_week);
+    int calendar_week,
+    String is_a_week_even,
+    String even_or_odd_week,
+  );
 }
 
 class _SharezoneLocalizationsDelegate

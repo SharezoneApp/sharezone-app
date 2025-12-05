@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_controller.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -118,7 +119,7 @@ class _ErrorDialog extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text(context.l10n.commonActionsClose.toUpperCase()),
+            child: Text(context.l10n.commonActionsCloseUppercase),
           ),
           if (failure is ChangeTypeOfUserUnknownException)
             TextButton(
