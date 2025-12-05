@@ -42,7 +42,9 @@ class _MemberCard extends StatelessWidget {
                 children: <Widget>[
                   if (isNotEmptyOrNull(socialMediaLinks?.instagram))
                     SocialButton.instagram(
-                        context, socialMediaLinks!.instagram!),
+                      context,
+                      socialMediaLinks!.instagram!,
+                    ),
                   if (isNotEmptyOrNull(socialMediaLinks?.twitter))
                     SocialButton.twitter(context, socialMediaLinks!.twitter!),
                   if (isNotEmptyOrNull(socialMediaLinks?.linkedIn))
