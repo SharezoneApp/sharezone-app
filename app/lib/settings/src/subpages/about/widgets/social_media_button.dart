@@ -13,7 +13,7 @@ import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-enum SocialButtonTypes { linkedIn, instagram, twitter, discord, email }
+enum SocialButtonTypes { linkedIn, instagram, twitter, discord, email, github }
 
 class SocialButton extends StatelessWidget {
   const SocialButton({
@@ -42,7 +42,7 @@ class SocialButton extends StatelessWidget {
   SocialButton.discord(BuildContext context, this.link, {super.key})
     : tooltip = context.l10n.discord,
       svgPath = 'assets/icons/discord.svg',
-      socialButtonTypes = SocialButtonTypes.linkedIn;
+      socialButtonTypes = SocialButtonTypes.discord;
 
   SocialButton.email(BuildContext context, this.link, {super.key})
     : tooltip = context.l10n.email,
@@ -52,7 +52,7 @@ class SocialButton extends StatelessWidget {
   SocialButton.github(BuildContext context, this.link, {super.key})
     : tooltip = context.l10n.gitHub,
       svgPath = 'assets/icons/github.svg',
-      socialButtonTypes = SocialButtonTypes.linkedIn;
+      socialButtonTypes = SocialButtonTypes.github;
 
   final String link, tooltip, svgPath;
   final SocialButtonTypes socialButtonTypes;
