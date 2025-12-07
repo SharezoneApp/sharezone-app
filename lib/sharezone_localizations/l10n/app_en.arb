@@ -87,7 +87,7 @@
   "navigationExperimentOptionExtendableBnbWithMoreButton": "New Navigation - With More Button",
   "reportDescriptionHelperText": "Please describe why you want to report this content. Give us as much information as possible so we can process the case quickly and safely.",
   "reportDescriptionLabel": "Description",
-  "reportDialogContent": "We will process the case as soon as possible!\\n\\nPlease note that repeated misuse of the report system may have consequences for you (e.g. blocking your account).",
+  "reportDialogContent": "We will process the case as soon as possible!\n\nPlease note that repeated misuse of the report system may have consequences for you (e.g. blocking your account).",
   "reportDialogSendAction": "Send",
   "reportItemTypeBlackboard": "Blackboard post",
   "reportItemTypeComment": "Comment",

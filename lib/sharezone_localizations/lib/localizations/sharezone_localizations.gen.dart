@@ -636,7 +636,7 @@ abstract class SharezoneLocalizations {
   /// Content of the confirmation dialog before sending a report.
   ///
   /// In de, this message translates to:
-  /// **'Wir werden den Fall schnellstmöglich bearbeiten!\\n\\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).'**
+  /// **'Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).'**
   String get reportDialogContent;
 
   /// Label for sending a report, used for dialog action and tooltip.

@@ -329,7 +329,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get reportDialogContent =>
-      'Wir werden den Fall schnellstmöglich bearbeiten!\\n\\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).';
+      'Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).';
 
   @override
   String get reportDialogSendAction => 'Senden';

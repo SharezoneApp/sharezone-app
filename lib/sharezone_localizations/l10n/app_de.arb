@@ -160,7 +160,7 @@
   "@reportDescriptionLabel": {
     "description": "Label of the description text field on the report page."
   },
-  "reportDialogContent": "Wir werden den Fall schnellstmöglich bearbeiten!\\n\\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).",
+  "reportDialogContent": "Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).",
   "@reportDialogContent": {
     "description": "Content of the confirmation dialog before sending a report."
   },

@@ -326,7 +326,7 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get reportDialogContent =>
-      'We will process the case as soon as possible!\\n\\nPlease note that repeated misuse of the report system may have consequences for you (e.g. blocking your account).';
+      'We will process the case as soon as possible!\n\nPlease note that repeated misuse of the report system may have consequences for you (e.g. blocking your account).';
 
   @override
   String get reportDialogSendAction => 'Send';
