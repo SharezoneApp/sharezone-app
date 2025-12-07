@@ -150,10 +150,10 @@ class _GoogleButton extends StatelessWidget {
 }
 
 class _AppleButton extends StatelessWidget {
-  const _AppleButton._(this.isLong);
+  const _AppleButton._({required this.isLong});
 
-  factory _AppleButton.short() => const _AppleButton._(false);
-  factory _AppleButton.long() => const _AppleButton._(true);
+  factory _AppleButton.short() => const _AppleButton._(isLong: false);
+  factory _AppleButton.long() => const _AppleButton._(isLong: true);
 
   final bool isLong;
 
