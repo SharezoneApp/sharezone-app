@@ -232,6 +232,11 @@ class TermModel extends Equatable {
     );
   }
 
+  TermModel removeSubject(SubjectId id) {
+    if (!hasSubject(id)) return this;
+    return _copyWith(subjects: subjects.removeWhere((s) => s.id == id));
+  }
+
   GradeModel _toGradeModel(_Grade grade, {required SubjectId subjectId}) {
     final originalInput = grade.value;
     final gradingSystem = grade.gradingSystem.toGradingSystemModel();

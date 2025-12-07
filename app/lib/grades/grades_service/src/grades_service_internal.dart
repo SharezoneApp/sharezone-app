@@ -569,6 +569,19 @@ class _GradesServiceInternal {
     return getSubjects().firstWhereOrNull((subject) => subject.id == id);
   }
 
+  void deleteSubject(SubjectId id) {
+    _getSubjectOrThrow(id);
+
+    final newSubjects = _subjects.removeWhere((subject) => subject.id == id);
+    final newTerms =
+        _terms
+            .map((term) => term.hasSubject(id) ? term.removeSubject(id) : term)
+            .toIList();
+
+    final newState = _state.copyWith(subjects: newSubjects, terms: newTerms);
+    _updateState(newState);
+  }
+
   Subject _getSubjectOrThrow(SubjectId id) {
     final sub = getSubject(id);
     if (sub == null) {
