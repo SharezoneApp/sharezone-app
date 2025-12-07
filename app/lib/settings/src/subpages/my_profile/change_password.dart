@@ -27,7 +27,7 @@ class ChangePasswordPage extends StatelessWidget {
     final newPasswordNode = FocusNode();
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.changePasswordPageTitle),
+        title: Text(context.l10n.changePasswordTitle),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -38,9 +38,7 @@ class ChangePasswordPage extends StatelessWidget {
             children: <Widget>[
               ChangeDataPasswordField(
                 labelText:
-                    context
-                        .l10n
-                        .changePasswordPageCurrentPasswordTextfieldLabel,
+                    context.l10n.changePasswordCurrentPasswordTextfieldLabel,
                 autofocus: true,
                 onEditComplete:
                     () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -66,7 +64,7 @@ class _ChangePasswordFAB extends StatelessWidget {
         onPressed:
             () async => submit(
               context,
-              context.l10n.changePasswordPageLoadingSnackbarText,
+              context.l10n.changePasswordLoadingSnackbarText,
               changeType,
             ),
         tooltip: context.l10n.commonActionsSave,
@@ -100,13 +98,13 @@ class _NewPasswordFieldState extends State<_NewPasswordField> {
           onEditingComplete:
               () async => submit(
                 context,
-                context.l10n.changePasswordPageLoadingSnackbarText,
+                context.l10n.changePasswordLoadingSnackbarText,
                 changeType,
               ),
           autofocus: false,
           autofillHints: const [AutofillHints.newPassword],
           decoration: InputDecoration(
-            labelText: context.l10n.changePasswordPageNewPasswordTextfieldLabel,
+            labelText: context.l10n.changePasswordNewPasswordTextfieldLabel,
             //            icon: new Icon(Icons.vpn_key),
             errorText: snapshot.error?.toString(),
             suffixIcon: GestureDetector(
@@ -141,14 +139,10 @@ class _ResetPassword extends StatelessWidget {
             builder: (context) {
               return AlertDialog(
                 title: Text(
-                  context
-                      .l10n
-                      .changePasswordPageResetCurrentPasswordDialogTitle,
+                  context.l10n.changePasswordResetCurrentPasswordDialogTitle,
                 ),
                 content: Text(
-                  context
-                      .l10n
-                      .changePasswordPageResetCurrentPasswordDialogContent,
+                  context.l10n.changePasswordResetCurrentPasswordDialogContent,
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -174,7 +168,7 @@ class _ResetPassword extends StatelessWidget {
           if (reset != null && reset) {
             showSnack(
               context: context,
-              text: context.l10n.changePasswordPageResetCurrentPasswordLoading,
+              text: context.l10n.changePasswordResetCurrentPasswordLoading,
               withLoadingCircle: true,
               duration: const Duration(minutes: 5),
             );
@@ -185,7 +179,7 @@ class _ResetPassword extends StatelessWidget {
               message =
                   context
                       .l10n
-                      .changePasswordPageResetCurrentPasswordEmailSentConfirmation;
+                      .changePasswordResetCurrentPasswordEmailSentConfirmation;
             } on Exception catch (e, s) {
               message = handleErrorMessage(e.toString(), s);
             } finally {
@@ -193,7 +187,7 @@ class _ResetPassword extends StatelessWidget {
             }
           }
         },
-        child: Text(context.l10n.changePasswordPageResetCurrentPasswordButton),
+        child: Text(context.l10n.changePasswordResetCurrentPasswordButton),
       ),
     );
   }

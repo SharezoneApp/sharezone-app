@@ -41,7 +41,7 @@ class TimetableSettingsPage extends StatelessWidget {
       bloc: bloc,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(context.l10n.timetableSettingsPageTitle),
+          title: Text(context.l10n.timetableSettingsTitle),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -90,7 +90,7 @@ class _ABWeekField extends StatelessWidget {
         return Column(
           children: <Widget>[
             SwitchListTile.adaptive(
-              title: Text(context.l10n.timetableSettingsPageABWeekTileTitle),
+              title: Text(context.l10n.timetableSettingsABWeekTileTitle),
               value: userSettings!.isABWeekEnabled,
               onChanged: (newValue) {
                 bloc.updateSettings(
@@ -111,7 +111,7 @@ class _ABWeekField extends StatelessWidget {
                   children: <Widget>[
                     ListTile(
                       title: Text(
-                        context.l10n.timetableSettingsPageAWeeksAreEvenSwitch,
+                        context.l10n.timetableSettingsAWeeksAreEvenSwitch,
                       ),
                       trailing: Switch.adaptive(
                         value: userSettings.isAWeekEvenWeek,
@@ -124,7 +124,7 @@ class _ABWeekField extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                       child: Text(
-                        context.l10n.timetableSettingsPageThisWeekIs(
+                        context.l10n.timetableSettingsThisWeekIs(
                           getWeekNumber(clock.now()),
                           _getAWeekIsEvenOrOddName(
                             userSettings.isAWeekEvenWeek,
@@ -176,9 +176,7 @@ class _AbbreviationInTimetable extends StatelessWidget {
         if (!snapshot.hasData) return Container();
         final userSettings = snapshot.data!;
         return SwitchListTile.adaptive(
-          title: Text(
-            context.l10n.timetableSettingsPageShowLessonsAbbreviation,
-          ),
+          title: Text(context.l10n.timetableSettingsShowLessonsAbbreviation),
           value: userSettings.showAbbreviation,
           onChanged: (newValue) {
             bloc.updateSettings(
@@ -195,10 +193,8 @@ class _TimetablePeriodsField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(context.l10n.timetableSettingsPagePeriodsFieldTileTitle),
-      subtitle: Text(
-        context.l10n.timetableSettingsPagePeriodsFieldTileSubtitle,
-      ),
+      title: Text(context.l10n.timetableSettingsPeriodsFieldTileTitle),
+      subtitle: Text(context.l10n.timetableSettingsPeriodsFieldTileSubtitle),
       onTap: () => openPeriodsEditPage(context),
     );
   }
@@ -213,8 +209,8 @@ class _ICalLinks extends StatelessWidget {
       SharezonePlusFeature.iCalLinks,
     );
     return ListTile(
-      title: Text(context.l10n.timetableSettingsPageIcalLinksTitleTitle),
-      subtitle: Text(context.l10n.timetableSettingsPageIcalLinksTitleSubtitle),
+      title: Text(context.l10n.timetableSettingsIcalLinksTitleTitle),
+      subtitle: Text(context.l10n.timetableSettingsIcalLinksTitleSubtitle),
       onTap: () {
         if (isUnlocked) {
           Navigator.pushNamed(context, ICalLinksPage.tag);
@@ -224,7 +220,7 @@ class _ICalLinks extends StatelessWidget {
             navigateToPlusPage:
                 () => openSharezonePlusPageAsFullscreenDialog(context),
             description: Text(
-              context.l10n.timetableSettingsPageIcalLinksPlusDialogContent,
+              context.l10n.timetableSettingsIcalLinksPlusDialogContent,
             ),
           );
         }
@@ -238,7 +234,7 @@ class _TimetableEnabledWeekDaysField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(context.l10n.timetableSettingsPageEnabledWeekDaysTileTitle),
+      title: Text(context.l10n.timetableSettingsEnabledWeekDaysTileTitle),
       onTap: () => openWeekDaysEditPage(context),
     );
   }
@@ -280,22 +276,21 @@ class LessonsLengthField extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.timelapse),
                 title: Text(
-                  context.l10n.timetableSettingsPageLessonLengthTileTile,
+                  context.l10n.timetableSettingsLessonLengthTileTitle,
                 ),
                 mouseCursor: SystemMouseCursors.click,
                 trailing: Text(
                   lessonLength.isValid
-                      ? context.l10n
-                          .timetableSettingsPageLessonLengthTileTrailing(
-                            lessonLength.minutes,
-                          )
+                      ? context.l10n.timetableSettingsLessonLengthTileTrailing(
+                        lessonLength.minutes,
+                      )
                       : "-",
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                 child: Text(
-                  context.l10n.timetableSettingsPageLessonLengthTileSubtile,
+                  context.l10n.timetableSettingsLessonLengthTileSubtitle,
                   style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ),
@@ -323,7 +318,7 @@ class LessonsLengthField extends StatelessWidget {
     showSnack(
       context: context,
       duration: const Duration(milliseconds: 1500),
-      text: context.l10n.timetableSettingsPageLessonLengthSavedConfirmation,
+      text: context.l10n.timetableSettingsLessonLengthSavedConfirmation,
     );
   }
 }
@@ -349,7 +344,7 @@ class __NumberPickerState extends State<_NumberPicker> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(context.l10n.timetableSettingsPageLessonLengthEditDialog),
+      title: Text(context.l10n.timetableSettingsLessonLengthEditDialog),
       actions: [
         TextButton(
           child: Text(context.l10n.commonActionsCancel),
@@ -395,9 +390,7 @@ class _IsTimePickerFifeMinutesIntervalActive extends StatelessWidget {
         final isActive = snapshot.data ?? true;
         return SwitchListTile.adaptive(
           title: Text(
-            context
-                .l10n
-                .timetableSettingsPageIsFiveMinutesIntervalActiveTileTitle,
+            context.l10n.timetableSettingsIsFiveMinutesIntervalActiveTileTitle,
           ),
           value: isActive,
           onChanged: bloc.setIsTimePickerFifeMinutesIntervalActive,

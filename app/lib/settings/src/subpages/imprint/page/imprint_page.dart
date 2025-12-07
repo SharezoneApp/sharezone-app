@@ -21,7 +21,7 @@ class ImprintPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.imprintPageTitle)),
+      appBar: AppBar(title: Text(context.l10n.imprintTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: SafeArea(

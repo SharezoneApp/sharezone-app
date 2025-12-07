@@ -55,28 +55,28 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
-  String get instagram => 'Instagram';
+  String get socialInstagram => 'Instagram';
 
   @override
-  String get twitter => 'Twitter';
+  String get socialTwitter => 'Twitter';
 
   @override
-  String get linkedIn => 'LinkedIn';
+  String get socialLinkedIn => 'LinkedIn';
 
   @override
-  String get discord => 'Discord';
+  String get socialDiscord => 'Discord';
 
   @override
-  String get email => 'Email';
+  String get socialEmail => 'Email';
 
   @override
-  String get gitHub => 'GitHub';
+  String get socialGitHub => 'GitHub';
 
   @override
   String get contactSupportButton => 'Contact support';
 
   @override
-  String get languagePageTitle => 'Langauge';
+  String get languageTitle => 'Language';
 
   @override
   String get languageSystemName => 'System';
@@ -88,72 +88,72 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get languageEnName => 'English';
 
   @override
-  String get imprintPageTitle => 'Imprint';
+  String get imprintTitle => 'Imprint';
 
   @override
-  String get aboutPageTitle => 'About us';
+  String get aboutTitle => 'About us';
 
   @override
-  String get aboutPageHeaderTitle => 'Sharezone';
+  String get aboutHeaderTitle => 'Sharezone';
 
   @override
-  String get aboutPageHeaderSubtitle => 'The connected school planner';
+  String get aboutHeaderSubtitle => 'The connected school planner';
 
   @override
-  String aboutPageVersion(String? version, String? buildNumber) {
+  String aboutVersion(String? version, String? buildNumber) {
     return 'Version: $version ($buildNumber)';
   }
 
   @override
-  String get aboutPageLoadingVersion => 'Loading version...';
+  String get aboutLoadingVersion => 'Loading version...';
 
   @override
-  String get aboutPageFollowUsTitle => 'Follow us';
+  String get aboutFollowUsTitle => 'Follow us';
 
   @override
-  String get aboutPageFollowUsSubtitle =>
+  String get aboutFollowUsSubtitle =>
       'Follow us on our channels to stay up to date.';
 
   @override
-  String get aboutPageAboutSectionTitle => 'What is Sharezone?';
+  String get aboutSectionTitle => 'What is Sharezone?';
 
   @override
-  String get aboutPageAboutSectionDescription =>
+  String get aboutSectionDescription =>
       'Sharezone is a connected school planner that catapults the organization of students, teachers, and parents from the Stone Age into the digital age. The homework diary, the schedule, the file storage, and much more are shared directly with the entire class. No school registration or teacher management is required, so you can get started right away and organize your school day easily and conveniently.';
 
   @override
-  String get aboutPageAboutSectionVisitWebsite =>
+  String get aboutSectionVisitWebsite =>
       'For more information, simply visit https://www.sharezone.net.';
 
   @override
-  String aboutPageEmailCopiedConfirmation(String email_address) {
+  String aboutEmailCopiedConfirmation(String email_address) {
     return 'Email: $email_address';
   }
 
   @override
-  String get aboutPageTeamSectionTitle => 'About Us';
+  String get aboutTeamSectionTitle => 'About Us';
 
   @override
-  String get changeTypeOfUserPageTitle => 'Change Account Type';
+  String get changeTypeOfUserTitle => 'Change Account Type';
 
   @override
-  String get changeTypeOfUserPageErrorDialogTitle => 'Error';
+  String get changeTypeOfUserErrorDialogTitle => 'Error';
 
   @override
-  String changeTypeOfUserPageErrorDialogContentUnknown(Object? error) {
+  String changeTypeOfUserErrorDialogContentUnknown(Object? error) {
     return 'Error: $error. Please contact support.';
   }
 
   @override
-  String get changeTypeOfUserPageErrorDialogContentNoTypeOfUserSelected =>
+  String get changeTypeOfUserErrorDialogContentNoTypeOfUserSelected =>
       'No account type selected.';
 
   @override
-  String get changeTypeOfUserPageErrorDialogContentTypeOfUserHasNotChanged =>
+  String get changeTypeOfUserErrorDialogContentTypeOfUserHasNotChanged =>
       'The account type has not changed.';
 
   @override
-  String changeTypeOfUserPageErrorDialogContentChangedTypeOfUserTooOften(
+  String changeTypeOfUserErrorDialogContentChangedTypeOfUserTooOften(
     DateTime blockedUntil,
   ) {
     final intl.DateFormat blockedUntilDateFormat =
@@ -166,91 +166,88 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
-  String get changeTypeOfUserPagePermissionNote =>
+  String get changeTypeOfUserPermissionNote =>
       'Please note the following:\n* You can only change your account type twice within 14 days.\n* Changing the user type does not grant you any further permissions in the groups. The group permissions (\"Administrator\", \"Active Member\", \"Passive Member\") are decisive.';
 
   @override
-  String get changeTypeOfUserPageRestartAppDialogTitle => 'Restart Required';
+  String get changeTypeOfUserRestartAppDialogTitle => 'Restart Required';
 
   @override
-  String get changeTypeOfUserPageRestartAppDialogContent =>
+  String get changeTypeOfUserRestartAppDialogContent =>
       'Your account type has been changed successfully. However, the app must be restarted for the change to take effect.';
 
   @override
-  String get changePasswordPageTitle => 'Change Password';
+  String get changePasswordTitle => 'Change Password';
 
   @override
-  String get changePasswordPageCurrentPasswordTextfieldLabel =>
-      'Current Password';
+  String get changePasswordCurrentPasswordTextfieldLabel => 'Current Password';
 
   @override
-  String get changePasswordPageNewPasswordTextfieldLabel => 'New Password';
+  String get changePasswordNewPasswordTextfieldLabel => 'New Password';
 
   @override
-  String get changePasswordPageResetCurrentPasswordButton =>
+  String get changePasswordResetCurrentPasswordButton =>
       'Forgot current password?';
 
   @override
-  String get changePasswordPageResetCurrentPasswordDialogTitle =>
-      'Reset Password';
+  String get changePasswordResetCurrentPasswordDialogTitle => 'Reset Password';
 
   @override
-  String get changePasswordPageResetCurrentPasswordDialogContent =>
+  String get changePasswordResetCurrentPasswordDialogContent =>
       'Should we send you an email to reset your password?';
 
   @override
-  String get changePasswordPageResetCurrentPasswordLoading =>
+  String get changePasswordResetCurrentPasswordLoading =>
       'Preparing to send email...';
 
   @override
-  String get changePasswordPageResetCurrentPasswordEmailSentConfirmation =>
+  String get changePasswordResetCurrentPasswordEmailSentConfirmation =>
       'We\'ve sent you an email to reset your password.';
 
   @override
-  String get changePasswordPageLoadingSnackbarText =>
+  String get changePasswordLoadingSnackbarText =>
       'New password is sent to the head office...';
 
   @override
-  String get changeEmailAddressPageTitle => 'Change Email';
+  String get changeEmailAddressTitle => 'Change Email';
 
   @override
-  String get changeEmailAddressPageCurrentEmailTextfieldLabel => 'Current';
+  String get changeEmailAddressCurrentEmailTextfieldLabel => 'Current';
 
   @override
-  String get changeEmailAddressPageNewEmailTextfieldLabel => 'New';
+  String get changeEmailAddressNewEmailTextfieldLabel => 'New';
 
   @override
-  String get changeEmailAddressPagePasswordTextfieldLabel => 'Password';
+  String get changeEmailAddressPasswordTextfieldLabel => 'Password';
 
   @override
-  String get changeEmailAddressPageNoteOnAutomaticSignOutSignIn =>
+  String get changeEmailAddressNoteOnAutomaticSignOutSignIn =>
       'Note: If your email is changed, you\'ll be automatically signed out and back in - so don\'t be surprised 😉';
 
   @override
-  String get changeEmailAddressPageWhyWeNeedTheEmailInfoTitle =>
+  String get changeEmailAddressWhyWeNeedTheEmailInfoTitle =>
       'Why do we need your email?';
 
   @override
-  String get changeEmailAddressPageWhyWeNeedTheEmailInfoContent =>
+  String get changeEmailAddressWhyWeNeedTheEmailInfoContent =>
       'You need your email to log in. If you happen to forget your password, we can send you a link to reset your password to this email address. Your email address is only visible to you, and no one else.';
 
   @override
-  String get changeStatePageTitle => 'Change State';
+  String get changeStateTitle => 'Change State';
 
   @override
-  String get changeStatePageErrorLoadingState =>
+  String get changeStateErrorLoadingState =>
       'Error displaying the states. If the error persists, please contact us.';
 
   @override
-  String get changeStatePageErrorChangingState =>
-      'Error changing your state! :(';
+  String get changeStateErrorChangingState => 'Error changing your state! :(';
 
   @override
-  String get changeStatePageWhyWeNeedTheStateInfoTitle =>
+  String get changeStateWhyWeNeedTheStateInfoTitle =>
       'Why do we need your state?';
 
   @override
-  String get changeStatePageWhyWeNeedTheStateInfoContent =>
+  String get changeStateWhyWeNeedTheStateInfoContent =>
       'With the help of the state, we can calculate the remaining days until the next holidays. If you do not want to provide this information, please select \"Remain anonymous\" for the state.';
 
   @override
@@ -311,123 +308,122 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get stateNotSelected => 'Not selected';
 
   @override
-  String get myProfilePageTitle => 'My Account';
+  String get myProfileTitle => 'My Account';
 
   @override
-  String get myProfilePageNameTile => 'Name';
+  String get myProfileNameTile => 'Name';
 
   @override
-  String get myProfilePageActivationCodeTile => 'Enter Activation Code';
+  String get myProfileActivationCodeTile => 'Enter Activation Code';
 
   @override
-  String get myProfilePageEmailTile => 'Email';
+  String get myProfileEmailTile => 'Email';
 
   @override
-  String get myProfilePageEmailNotChangeable =>
+  String get myProfileEmailNotChangeable =>
       'Your account is linked to a Google account. Therefore, you cannot change your email.';
 
   @override
-  String get myProfilePageEmailAccountTypeTitle => 'Account Type';
+  String get myProfileEmailAccountTypeTitle => 'Account Type';
 
   @override
-  String get myProfilePageChangePasswordTile => 'Change Password';
+  String get myProfileChangePasswordTile => 'Change Password';
 
   @override
-  String get myProfilePageChangedPasswordConfirmation =>
+  String get myProfileChangedPasswordConfirmation =>
       'Password changed successfully.';
 
   @override
-  String get myProfilePageStateTile => 'State';
+  String get myProfileStateTile => 'State';
 
   @override
-  String get myProfilePageSignInMethodTile => 'Sign-in Method';
+  String get myProfileSignInMethodTile => 'Sign-in Method';
 
   @override
-  String get myProfilePageSignInMethodChangeNotPossibleDialogTitle =>
+  String get myProfileSignInMethodChangeNotPossibleDialogTitle =>
       'Cannot change sign-in method';
 
   @override
-  String get myProfilePageSignInMethodChangeNotPossibleDialogContent =>
+  String get myProfileSignInMethodChangeNotPossibleDialogContent =>
       'The sign-in method can currently only be set during registration. It cannot be changed later.';
 
   @override
-  String get myProfilePageSupportTeamTile => 'Support the Developers';
+  String get myProfileSupportTeamTile => 'Support the Developers';
 
   @override
-  String get myProfilePageSupportTeamDescription =>
+  String get myProfileSupportTeamDescription =>
       'By sharing anonymous user data, you help us make the app even easier and more user-friendly.';
 
   @override
-  String get myProfilePageCopyUserIdTile => 'User ID';
+  String get myProfileCopyUserIdTile => 'User ID';
 
   @override
-  String get myProfilePageCopyUserIdConfirmation => 'User ID copied.';
+  String get myProfileCopyUserIdConfirmation => 'User ID copied.';
 
   @override
-  String get myProfilePageSignOutButton => 'Sign out';
+  String get myProfileSignOutButton => 'Sign out';
 
   @override
-  String get myProfilePageDeleteAccountButton => 'Delete Account';
+  String get myProfileDeleteAccountButton => 'Delete Account';
 
   @override
-  String get myProfilePageDeleteAccountDialogTitle =>
+  String get myProfileDeleteAccountDialogTitle =>
       'If your account is deleted, all your data will be deleted. This process cannot be undone.';
 
   @override
-  String get myProfilePageDeleteAccountDialogContent =>
+  String get myProfileDeleteAccountDialogContent =>
       'Do you really want to delete your account?';
 
   @override
-  String get myProfilePageDeleteAccountDialogPleaseEnterYourPassword =>
+  String get myProfileDeleteAccountDialogPleaseEnterYourPassword =>
       'Please enter your password to delete your account.';
 
   @override
-  String get myProfilePageDeleteAccountDialogPasswordTextfieldLabel =>
-      'Password';
+  String get myProfileDeleteAccountDialogPasswordTextfieldLabel => 'Password';
 
   @override
-  String get themePageTitle => 'Appearance';
+  String get themeTitle => 'Appearance';
 
   @override
-  String get themePageLightDarkModeSectionTitle => 'Light & Dark Mode';
+  String get themeLightDarkModeSectionTitle => 'Light & Dark Mode';
 
   @override
-  String get themePageDarkMode => 'Dark Mode';
+  String get themeDarkMode => 'Dark Mode';
 
   @override
-  String get themePageLightMode => 'Light Mode';
+  String get themeLightMode => 'Light Mode';
 
   @override
-  String get themePageSystemMode => 'System';
+  String get themeSystemMode => 'System';
 
   @override
-  String get themePageRateOurAppCardTitle => 'Do you like Sharezone?';
+  String get themeRateOurAppCardTitle => 'Do you like Sharezone?';
 
   @override
-  String get themePageRateOurAppCardContent =>
+  String get themeRateOurAppCardContent =>
       'If you like Sharezone, we would really appreciate a rating! 🙏 Don\'t like something? Just contact support 👍';
 
   @override
-  String get themePageRateOurAppCardRatingsNotAvailableOnWebDialogTitle =>
+  String get themeRateOurAppCardRatingsNotAvailableOnWebDialogTitle =>
       'App rating only possible via iOS & Android!';
 
   @override
-  String get themePageRateOurAppCardRatingsNotAvailableOnWebDialogContent =>
+  String get themeRateOurAppCardRatingsNotAvailableOnWebDialogContent =>
       'The app cannot be rated via the web app. Just use your phone 👍';
 
   @override
-  String get themePageRateOurAppCardRateButton => 'Rate';
+  String get themeRateOurAppCardRateButton => 'Rate';
 
   @override
-  String get themePageNavigationExperimentSectionTitle =>
+  String get themeNavigationExperimentSectionTitle =>
       'Experiment: New Navigation';
 
   @override
-  String get themePageNavigationExperimentSectionContent =>
+  String get themeNavigationExperimentSectionContent =>
       'We are currently testing a new navigation. Please give us a short feedback via the feedback box or our Discord server on how you like the respective options.';
 
   @override
-  String themePageNavigationExperimentOptionTile(int number, String name) {
+  String themeNavigationExperimentOptionTile(int number, String name) {
     return 'Option $number: $name';
   }
 
@@ -443,68 +439,66 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'New Navigation - With More Button';
 
   @override
-  String get timetableSettingsPageTitle => 'Timetable';
+  String get timetableSettingsTitle => 'Timetable';
 
   @override
-  String get timetableSettingsPagePeriodsFieldTileTitle => 'Class Times';
+  String get timetableSettingsPeriodsFieldTileTitle => 'Class Times';
 
   @override
-  String get timetableSettingsPagePeriodsFieldTileSubtitle =>
+  String get timetableSettingsPeriodsFieldTileSubtitle =>
       'Timetable start, lesson length, etc.';
 
   @override
-  String get timetableSettingsPageIcalLinksTitleTitle =>
+  String get timetableSettingsIcalLinksTitleTitle =>
       'Export appointments, exams, timetable (iCal)';
 
   @override
-  String get timetableSettingsPageIcalLinksTitleSubtitle =>
+  String get timetableSettingsIcalLinksTitleSubtitle =>
       'Synchronization with Google Calendar, Apple Calendar etc.';
 
   @override
-  String get timetableSettingsPageIcalLinksPlusDialogContent =>
+  String get timetableSettingsIcalLinksPlusDialogContent =>
       'With an iCal link you can integrate your timetable and appointments into other calendar apps (such as Google Calendar, Apple Calendar). As soon as your timetable or appointments change, they will also be updated in your other calendar apps.\n\nUnlike the \"Add to Calendar\" button, you don\'t have to worry about updating the appointment in your calendar app if something changes in Sharezone.\n\niCal links are only visible to you and cannot be viewed by other people.\n\nPlease note that currently only appointments and exams can be exported. School lessons cannot be exported yet.';
 
   @override
-  String get timetableSettingsPageEnabledWeekDaysTileTitle =>
-      'Enabled Weekdays';
+  String get timetableSettingsEnabledWeekDaysTileTitle => 'Enabled Weekdays';
 
   @override
-  String get timetableSettingsPageLessonLengthTileTile => 'Lesson Length';
+  String get timetableSettingsLessonLengthTileTitle => 'Lesson Length';
 
   @override
-  String get timetableSettingsPageLessonLengthTileSubtile =>
-      'Length of a lesson';
+  String get timetableSettingsLessonLengthTileSubtitle => 'Length of a lesson';
 
   @override
-  String timetableSettingsPageLessonLengthTileTrailing(int length) {
+  String timetableSettingsLessonLengthTileTrailing(int length) {
     return '$length Min.';
   }
 
   @override
-  String get timetableSettingsPageLessonLengthSavedConfirmation =>
+  String get timetableSettingsLessonLengthSavedConfirmation =>
       'Lesson length has been saved.';
 
   @override
-  String get timetableSettingsPageLessonLengthEditDialog =>
+  String get timetableSettingsLessonLengthEditDialog =>
       'Select the lesson length in minutes.';
 
   @override
-  String get timetableSettingsPageIsFiveMinutesIntervalActiveTileTitle =>
+  String get timetableSettingsIsFiveMinutesIntervalActiveTileTitle =>
       'Five-minute interval for the time picker';
 
   @override
-  String get timetableSettingsPageShowLessonsAbbreviation =>
+  String get timetableSettingsShowLessonsAbbreviation =>
       'Show abbreviations in timetable';
 
   @override
-  String get timetableSettingsPageABWeekTileTitle => 'A/B Weeks';
+  String get timetableSettingsABWeekTileTitle => 'A/B Weeks';
 
   @override
-  String get timetableSettingsPageAWeeksAreEvenSwitch =>
+  String get timetableSettingsAWeeksAreEvenSwitch =>
       'A-weeks are even calendar weeks';
 
   @override
-  String timetableSettingsPageThisWeekIs(
+  String timetableSettingsThisWeekIs(
     int calendar_week,
     String is_a_week_even,
     String even_or_odd_week,

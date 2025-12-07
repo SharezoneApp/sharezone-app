@@ -54,7 +54,7 @@ class MyProfilePage extends StatelessWidget {
       bloc: bloc,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(context.l10n.myProfilePageTitle),
+          title: Text(context.l10n.myProfileTitle),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -99,7 +99,7 @@ class _NameTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.person),
-      title: Text(context.l10n.myProfilePageNameTile),
+      title: Text(context.l10n.myProfileNameTile),
       subtitle: Text(user.name),
       onTap: () => openUserEditPageIfUserIsLoaded(context, user.user),
     );
@@ -110,7 +110,7 @@ class _EnterActivationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(context.l10n.myProfilePageActivationCodeTile),
+      title: Text(context.l10n.myProfileActivationCodeTile),
       leading: const Icon(Icons.vpn_key),
       onTap: () {
         openEnterActivationCodePage(context);
@@ -129,7 +129,7 @@ class _EmailTile extends StatelessWidget {
     if (user.isAnonymous || user.provider == Provider.apple) return Container();
     return ListTile(
       leading: const Icon(Icons.email),
-      title: Text(context.l10n.myProfilePageEmailTile),
+      title: Text(context.l10n.myProfileEmailTile),
       subtitle: Text(user.email ?? '-'),
       onTap: () {
         if (user.provider == Provider.google) {
@@ -137,7 +137,7 @@ class _EmailTile extends StatelessWidget {
             context: context,
             builder:
                 (context) => AlertDialog(
-                  content: Text(context.l10n.myProfilePageEmailNotChangeable),
+                  content: Text(context.l10n.myProfileEmailNotChangeable),
                   actions: <Widget>[
                     TextButton(
                       style: TextButton.styleFrom(
@@ -167,7 +167,7 @@ class _TypeOfUserTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(context.l10n.myProfilePageEmailAccountTypeTitle),
+      title: Text(context.l10n.myProfileEmailAccountTypeTitle),
       subtitle: Text(user!.typeOfUser),
       leading: const Icon(Icons.accessibility),
       onTap: () => Navigator.pushNamed(context, ChangeTypeOfUserPage.tag),
@@ -186,7 +186,7 @@ class _PasswordTile extends StatelessWidget {
     if (provider != Provider.email) return Container();
     return ListTile(
       leading: const Icon(Icons.vpn_key),
-      title: Text(context.l10n.myProfilePageChangePasswordTile),
+      title: Text(context.l10n.myProfileChangePasswordTile),
       onTap: () async {
         bloc.changePassword(null);
         bloc.changeNewPassword(null);
@@ -199,7 +199,7 @@ class _PasswordTile extends StatelessWidget {
           showSnackSec(
             seconds: 3,
             context: context,
-            text: context.l10n.myProfilePageChangedPasswordConfirmation,
+            text: context.l10n.myProfileChangedPasswordConfirmation,
           );
         }
       },
@@ -216,7 +216,7 @@ class _StateTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.language),
-      title: Text(context.l10n.myProfilePageStateTile),
+      title: Text(context.l10n.myProfileStateTile),
       subtitle: Text(state!),
       onTap:
           () => Navigator.push(
@@ -239,7 +239,7 @@ class _ProviderTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.lock),
-      title: Text(context.l10n.myProfilePageSignInMethodTile),
+      title: Text(context.l10n.myProfileSignInMethodTile),
       subtitle: Text(providerToUiString(provider)),
       onTap: () {
         if (provider == Provider.anonymous) {
@@ -248,13 +248,9 @@ class _ProviderTile extends StatelessWidget {
           showLeftRightAdaptiveDialog(
             context: context,
             title:
-                context
-                    .l10n
-                    .myProfilePageSignInMethodChangeNotPossibleDialogTitle,
+                context.l10n.myProfileSignInMethodChangeNotPossibleDialogTitle,
             content: Text(
-              context
-                  .l10n
-                  .myProfilePageSignInMethodChangeNotPossibleDialogContent,
+              context.l10n.myProfileSignInMethodChangeNotPossibleDialogContent,
             ),
             left: AdaptiveDialogAction(
               isDefaultAction: true,
@@ -291,7 +287,7 @@ class _PrivacyOptOut extends StatelessWidget {
       builder: (context, snapshot) {
         final hasUserOptOut = snapshot;
         return ListTileWithDescription(
-          title: Text(context.l10n.myProfilePageSupportTeamTile),
+          title: Text(context.l10n.myProfileSupportTeamTile),
           leading: const Icon(Icons.security),
           onTap: () => setCollectionEnabled(!hasUserOptOut),
           trailing: Switch.adaptive(
@@ -301,7 +297,7 @@ class _PrivacyOptOut extends StatelessWidget {
           description: Padding(
             padding: const EdgeInsets.only(left: 41, right: 20),
             child: Text(
-              context.l10n.myProfilePageSupportTeamDescription,
+              context.l10n.myProfileSupportTeamDescription,
               style: const TextStyle(fontSize: 11, color: Colors.grey),
             ),
           ),
@@ -320,7 +316,7 @@ class _UserId extends StatelessWidget {
     Clipboard.setData(ClipboardData(text: userID));
     showSnack(
       context: context,
-      text: context.l10n.myProfilePageCopyUserIdConfirmation,
+      text: context.l10n.myProfileCopyUserIdConfirmation,
     );
   }
 
@@ -328,7 +324,7 @@ class _UserId extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.tag),
-      title: Text(context.l10n.myProfilePageCopyUserIdTile),
+      title: Text(context.l10n.myProfileCopyUserIdTile),
       subtitle: Text(userID),
       onTap: () => copyUserId(context),
     );
@@ -347,7 +343,7 @@ class SignOutButton extends StatelessWidget {
         key: const ValueKey('sign-out-button-E2E'),
         icon: const Icon(Icons.exit_to_app),
         onPressed: () => signOut(context, isAnonymous),
-        label: Text(context.l10n.myProfilePageSignOutButton.toUpperCase()),
+        label: Text(context.l10n.myProfileSignOutButton.toUpperCase()),
       ),
     );
   }
@@ -360,9 +356,7 @@ class _DeleteAccountButton extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: DangerButtonFilled(
         icon: const Icon(Icons.delete),
-        label: Text(
-          context.l10n.myProfilePageDeleteAccountButton.toUpperCase(),
-        ),
+        label: Text(context.l10n.myProfileDeleteAccountButton.toUpperCase()),
         onPressed:
             () => showDialog(
               context: context,
@@ -583,7 +577,7 @@ class _DeleteAccountDialogContentState
                         Text(
                           context
                               .l10n
-                              .myProfilePageDeleteAccountDialogPleaseEnterYourPassword,
+                              .myProfileDeleteAccountDialogPleaseEnterYourPassword,
                         ),
                         TextField(
                           onChanged: (s) => setState(() => password = s),
@@ -594,7 +588,7 @@ class _DeleteAccountDialogContentState
                             labelText:
                                 context
                                     .l10n
-                                    .myProfilePageDeleteAccountDialogPasswordTextfieldLabel,
+                                    .myProfileDeleteAccountDialogPasswordTextfieldLabel,
                             suffixIcon: GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -640,7 +634,7 @@ class _DeleteAccountDialogText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(context.l10n.myProfilePageDeleteAccountDialogContent);
+    return Text(context.l10n.myProfileDeleteAccountDialogContent);
   }
 }
 
@@ -649,5 +643,5 @@ class _DeleteAccountDialogTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      Text(context.l10n.myProfilePageDeleteAccountDialogTitle);
+      Text(context.l10n.myProfileDeleteAccountDialogTitle);
 }

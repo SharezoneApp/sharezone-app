@@ -34,7 +34,7 @@ class ChangeEmailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.changeEmailAddressPageTitle),
+        title: Text(context.l10n.changeEmailAddressTitle),
         centerTitle: true,
       ),
       body: ChangeEmailPageBody(),
@@ -81,14 +81,14 @@ class ChangeEmailPageBody extends StatelessWidget {
               const SizedBox(height: 8),
               ChangeDataPasswordField(
                 labelText:
-                    context.l10n.changeEmailAddressPageNewEmailTextfieldLabel,
+                    context.l10n.changeEmailAddressPasswordTextfieldLabel,
                 focusNode: passwordNode,
                 onEditComplete:
                     () async => await submit(context, snackBarText, changeType),
               ),
               const SizedBox(height: 16),
               Text(
-                context.l10n.changeEmailAddressPageNoteOnAutomaticSignOutSignIn,
+                context.l10n.changeEmailAddressNoteOnAutomaticSignOutSignIn,
                 style: const TextStyle(color: Colors.grey, fontSize: 11),
               ),
               const Divider(height: 42),
@@ -107,8 +107,8 @@ class _WhyWeNeedTheEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InfoMessage(
-      title: context.l10n.changeEmailAddressPageWhyWeNeedTheEmailInfoTitle,
-      message: context.l10n.changeEmailAddressPageWhyWeNeedTheEmailInfoContent,
+      title: context.l10n.changeEmailAddressWhyWeNeedTheEmailInfoTitle,
+      message: context.l10n.changeEmailAddressWhyWeNeedTheEmailInfoContent,
       withPrivacyStatement: true,
     );
   }
@@ -124,8 +124,7 @@ class _CurrentEmailField extends StatelessWidget {
     return TextField(
       controller: TextEditingController(text: currentEmail),
       decoration: InputDecoration(
-        labelText:
-            context.l10n.changeEmailAddressPageCurrentEmailTextfieldLabel,
+        labelText: context.l10n.changeEmailAddressCurrentEmailTextfieldLabel,
       ),
       enabled: false,
       style: const TextStyle(color: Colors.grey, fontSize: 16),
@@ -169,8 +168,7 @@ class __NewEmailFieldState extends State<_NewEmailField> {
               () => FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
-            labelText:
-                context.l10n.changeEmailAddressPageNewEmailTextfieldLabel,
+            labelText: context.l10n.changeEmailAddressNewEmailTextfieldLabel,
             errorText: snapshot.error?.toString(),
           ),
           onChanged: (newEmail) => bloc.changeEmail(newEmail.trim()),

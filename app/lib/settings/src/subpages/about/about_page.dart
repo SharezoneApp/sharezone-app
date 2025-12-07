@@ -36,10 +36,7 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.aboutPageTitle),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(context.l10n.aboutTitle), centerTitle: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: SafeArea(
@@ -72,7 +69,7 @@ class _AboutHeader extends StatelessWidget {
       avatarBackgroundColor: Colors.white,
       children: <Widget>[
         Text(
-          context.l10n.aboutPageHeaderTitle,
+          context.l10n.aboutHeaderTitle,
           style: TextStyle(
             color:
                 Theme.of(context).isDarkTheme ? Colors.white : Colors.black54,
@@ -81,14 +78,14 @@ class _AboutHeader extends StatelessWidget {
           ),
         ),
         Text(
-          context.l10n.aboutPageHeaderSubtitle,
+          context.l10n.aboutHeaderSubtitle,
           style: const TextStyle(color: Colors.grey, fontSize: 15),
         ),
         FutureBuilder<PlatformInformationRetriever>(
           future: getPlatformInformationRetrieverWithInit(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Text(context.l10n.aboutPageLoadingVersion);
+              return Text(context.l10n.aboutLoadingVersion);
             }
             if (snapshot.hasError) {
               return Text(context.l10n.commonDisplayError('${snapshot.error}'));
@@ -96,7 +93,7 @@ class _AboutHeader extends StatelessWidget {
             final buildNumber = snapshot.data?.versionNumber;
             final version = snapshot.data?.version;
             return Text(
-              context.l10n.aboutPageVersion(version, buildNumber),
+              context.l10n.aboutVersion(version, buildNumber),
               style: TextStyle(
                 color: Colors.grey[400],
                 fontSize: 14,
@@ -114,13 +111,13 @@ class _FollowUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AboutSection(
-      title: context.l10n.aboutPageFollowUsTitle,
+      title: context.l10n.aboutFollowUsTitle,
       child: CustomCard(
         padding: const EdgeInsets.all(12),
         child: Column(
           children: <Widget>[
             Text(
-              context.l10n.aboutPageFollowUsSubtitle,
+              context.l10n.aboutFollowUsSubtitle,
               style: _greyTextStyle(context),
             ),
             const SizedBox(height: 8),
@@ -147,7 +144,7 @@ class _AboutSharezone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AboutSection(
-      title: context.l10n.aboutPageAboutSectionTitle,
+      title: context.l10n.aboutSectionTitle,
       child: CustomCard(
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -155,12 +152,12 @@ class _AboutSharezone extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SelectableText(
-                context.l10n.aboutPageAboutSectionDescription,
+                context.l10n.aboutSectionDescription,
                 style: _greyTextStyle(context),
               ),
               const SizedBox(height: 8),
               MarkdownBody(
-                data: context.l10n.aboutPageAboutSectionVisitWebsite,
+                data: context.l10n.aboutSectionVisitWebsite,
                 selectable: true,
                 styleSheet: MarkdownStyleSheet.fromTheme(
                   Theme.of(context),

@@ -22,7 +22,7 @@ class ChangeStatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.changeStatePageTitle),
+        title: Text(context.l10n.changeStateTitle),
         centerTitle: true,
       ),
       body: const _ChangeStatePageBody(),
@@ -44,7 +44,7 @@ class _ChangeStatePageBody extends StatelessWidget {
           return const Center(child: AccentColorCircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return Text(context.l10n.changeStatePageErrorLoadingState);
+          return Text(context.l10n.changeStateErrorLoadingState);
         }
         final currentState = snapshot.data;
         return SingleChildScrollView(
@@ -69,7 +69,7 @@ class _ChangeStatePageBody extends StatelessWidget {
 
   void showExceptionSnackbar(BuildContext context) => showSnackSec(
     context: context,
-    text: context.l10n.changeStatePageErrorChangingState,
+    text: context.l10n.changeStateErrorChangingState,
     seconds: 3,
   );
 }
@@ -80,8 +80,8 @@ class _WhyWeNeedTheState extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       child: InfoMessage(
-        title: context.l10n.changeStatePageWhyWeNeedTheStateInfoTitle,
-        message: context.l10n.changeStatePageWhyWeNeedTheStateInfoContent,
+        title: context.l10n.changeStateWhyWeNeedTheStateInfoTitle,
+        message: context.l10n.changeStateWhyWeNeedTheStateInfoContent,
       ),
     );
   }

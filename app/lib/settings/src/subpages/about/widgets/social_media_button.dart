@@ -25,32 +25,32 @@ class SocialButton extends StatelessWidget {
   });
 
   SocialButton.instagram(BuildContext context, this.link, {super.key})
-    : tooltip = context.l10n.instagram,
+    : tooltip = context.l10n.socialInstagram,
       svgPath = 'assets/icons/instagram.svg',
       socialButtonTypes = SocialButtonTypes.instagram;
 
   SocialButton.twitter(BuildContext context, this.link, {super.key})
-    : tooltip = context.l10n.twitter,
+    : tooltip = context.l10n.socialTwitter,
       svgPath = 'assets/icons/twitter.svg',
       socialButtonTypes = SocialButtonTypes.twitter;
 
   SocialButton.linkedIn(BuildContext context, this.link, {super.key})
-    : tooltip = context.l10n.linkedIn,
+    : tooltip = context.l10n.socialLinkedIn,
       svgPath = 'assets/icons/linkedin.svg',
       socialButtonTypes = SocialButtonTypes.linkedIn;
 
   SocialButton.discord(BuildContext context, this.link, {super.key})
-    : tooltip = context.l10n.discord,
+    : tooltip = context.l10n.socialDiscord,
       svgPath = 'assets/icons/discord.svg',
       socialButtonTypes = SocialButtonTypes.discord;
 
   SocialButton.email(BuildContext context, this.link, {super.key})
-    : tooltip = context.l10n.email,
+    : tooltip = context.l10n.socialEmail,
       svgPath = 'assets/icons/email.svg',
       socialButtonTypes = SocialButtonTypes.email;
 
   SocialButton.github(BuildContext context, this.link, {super.key})
-    : tooltip = context.l10n.gitHub,
+    : tooltip = context.l10n.socialGitHub,
       svgPath = 'assets/icons/github.svg',
       socialButtonTypes = SocialButtonTypes.github;
 
@@ -68,7 +68,7 @@ class SocialButton extends StatelessWidget {
       } on Exception catch (_) {
         if (!context.mounted) return;
         showSnackSec(
-          text: context.l10n.aboutPageEmailCopiedConfirmation(link),
+          text: context.l10n.aboutEmailCopiedConfirmation(link),
           context: context,
         );
       }

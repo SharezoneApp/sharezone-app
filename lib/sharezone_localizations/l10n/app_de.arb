@@ -1,262 +1,248 @@
 {
-    "@@locale": "de",
-    "@_APP": {},
-    "appName": "Sharezone",
-    "@_COMMON": {},
-    "commonActionsCancel": "Abbrechen",
-    "commonActionsConfirm": "Bestätigen",
-    "commonActionsSave": "Speichern",
-    "commonActionsClose": "Schließen",
-    "commonActionsCloseUppercase": "SCHLIESSEN",
-    "commonActionsOk": "Ok",
-    "commonActionsYes": "Ja",
-    "commonActionsAlright": "Alles klar",
-    "commonActionsDelete": "Löschen",
-    "commonActionsContactSupport": "Support kontaktieren",
-    "commonDisplayError": "Fehler: {error}",
-    "@commonDisplayError": {
-        "placeholders": {
-            "error": {
-                "type": "String?",
-                "example": "Server ist nicht erreichbar"
-            }
-        }
-    },
-    "instagram": "Instagram",
-    "twitter": "Twitter",
-    "linkedIn": "LinkedIn",
-    "discord": "Discord",
-    "email": "E-Mail",
-    "gitHub": "GitHub",
-    "contactSupportButton": "Support kontaktieren",
-    "@_LANGUAGES": {},
-    "languagePageTitle": "Sprache",
-    "languageSystemName": "System",
-    "languageDeName": "Deutsch",
-    "languageEnName": "Englisch",
-    "@_IMPRINT_PAGE": {},
-    "imprintPageTitle": "Impressum",
-    "@_ABOUT_PAGE": {},
-    "aboutPageTitle": "Über uns",
-    "aboutPageHeaderTitle": "Sharezone",
-    "aboutPageHeaderSubtitle": "Der vernetzte Schulplaner",
-    "aboutPageVersion": "Version: {version} ({buildNumber})",
-    "@aboutPageVersion": {
-        "placeholders": {
-            "version": {
-                "type": "String?",
-                "example": "1.5.2"
-            },
-            "buildNumber": {
-                "type": "String?",
-                "example": "234"
-            }
-        }
-    },
-    "aboutPageLoadingVersion": "Version wird geladen...",
-    "aboutPageFollowUsTitle": "Folge uns",
-    "aboutPageFollowUsSubtitle": "Folge uns auf unseren Kanälen, um immer auf dem neusten Stand zu bleiben.",
-    "aboutPageAboutSectionTitle": "Was ist Sharezone?",
-    "aboutPageAboutSectionDescription": "Sharezone ist ein vernetzter Schulplaner, welcher die Organisation von Schülern, Lehrkräften und Eltern aus der Steinzeit in das digitale Zeitalter katapultiert. Das Hausaufgabenheft, der Terminplaner, die Dateiablage und vieles weitere wird direkt mit der kompletten Klasse geteilt. Dabei ist keine Registrierung der Schule und die Leitung einer Lehrkraft notwendig, so dass du direkt durchstarten und deinen Schulalltag bequem und einfach gestalten kannst.",
-    "aboutPageAboutSectionVisitWebsite": "Besuche für weitere Informationen einfach https://www.sharezone.net.",
-    "aboutPageEmailCopiedConfirmation": "E-Mail: {email_address}",
-    "@aboutPageEmailCopiedConfirmation": {
-        "placeholders": {
-            "email_address": {
-                "type": "String",
-                "example": "nils@sharezone.net"
-            }
-        }
-    },
-    "aboutPageTeamSectionTitle": "Über uns",
-    "@_CHANGE_TYPE_OF_USER_PAGE": {},
-    "changeTypeOfUserPageTitle": "Account-Typ ändern",
-    "changeTypeOfUserPageErrorDialogTitle": "Fehler",
-    "changeTypeOfUserPageErrorDialogContentUnknown": "Fehler: {error}. Bitte kontaktiere den Support.",
-    "@changeTypeOfUserPageErrorDialogContentUnknown": {
-        "placeholders": {
-            "error": {
-                "type": "Object?"
-            }
-        }
-    },
-    "changeTypeOfUserPageErrorDialogContentNoTypeOfUserSelected": "Es wurde kein Account-Typ ausgewählt.",
-    "changeTypeOfUserPageErrorDialogContentTypeOfUserHasNotChanged": "Der Account-Typ hat sich nicht geändert.",
-    "changeTypeOfUserPageErrorDialogContentChangedTypeOfUserTooOften": "Du kannst nur alle 14 Tage 2x den Account-Typ ändern. Diese Limit wurde erreicht. Bitte warte bis {blockedUntil}.",
-    "@changeTypeOfUserPageErrorDialogContentChangedTypeOfUserTooOften": {
-        "placeholders": {
-            "blockedUntil": {
-                "type": "DateTime",
-                "format": "yMd+jm"
-            }
-        }
-    },
-    "changeTypeOfUserPagePermissionNote": "Beachte die folgende Hinweise:\n* Innerhalb von 14 Tagen kannst du nur 2x den Account-Typ ändern.\n* Durch das Ändern der Nutzer erhältst du keine weiteren Berechtigungen in den Gruppen. Ausschlaggebend sind die Gruppenberechtigungen (\"Administrator\", \"Aktives Mitglied\", \"Passives Mitglied\").",
-    "changeTypeOfUserPageRestartAppDialogTitle": "Neustart erforderlich",
-    "@changeTypeOfUserPageRestartAppDialogTitle": {
-        "description": "The title of the dialog which will be displayed after a successful type of user change to explain that a restart is required."
-    },
-    "changeTypeOfUserPageRestartAppDialogContent": "Die Änderung deines Account-Typs war erfolgreich. Jedoch muss die App muss neu gestartet werden, damit die Änderung wirksam wird.",
-    "@changeTypeOfUserPageRestartAppDialogContent": {
-        "description": "The content of the dialog which will be displayed after a successful type of user change to explain that a restart is required."
-    },
-    "@_CHANGE_PASSWORD_PAGE": {},
-    "changePasswordPageTitle": "Passwort ändern",
-    "changePasswordPageCurrentPasswordTextfieldLabel": "Aktuelles Passwort",
-    "changePasswordPageNewPasswordTextfieldLabel": "Neues Passwort",
-    "changePasswordPageResetCurrentPasswordButton": "Aktuelles Passwort vergessen?",
-    "changePasswordPageResetCurrentPasswordDialogTitle": "Passwort zurücksetzen",
-    "changePasswordPageResetCurrentPasswordDialogContent": "Sollen wir dir eine E-Mail schicken, mit der du dein Passwort zurücksetzen kannst?",
-    "changePasswordPageResetCurrentPasswordLoading": "Verschicken der E-Mail wird vorbereitet...",
-    "@changePasswordPageResetCurrentPasswordLoading": {
-        "description": "Text that is displayed when the user confirmed to reset the current password"
-    },
-    "changePasswordPageResetCurrentPasswordEmailSentConfirmation": "Wir haben eine E-Mail zum Zurücksetzen deines Passworts verschickt.",
-    "@changePasswordPageResetCurrentPasswordEmailSentConfirmation": {
-        "description": "The confirmation text that an email for resetting the password has been sent"
-    },
-    "changePasswordPageLoadingSnackbarText": "Neues Password wird an die Zentrale geschickt...",
-    "@changePasswordPageLoadingSnackbarText": {
-        "description": "A text for the SnackBar widget when the user presses the change password button"
-    },
-    "@_CHANGE_EMAIL_ADDRESS_PAGE": {},
-    "changeEmailAddressPageTitle": "E-Mail ändern",
-    "changeEmailAddressPageCurrentEmailTextfieldLabel": "Aktuell",
-    "@changeEmailAddressPageCurrentEmailTextfieldLabel": {
-        "description": "The label for the text field which is used for the current email address"
-    },
-    "changeEmailAddressPageNewEmailTextfieldLabel": "Neu",
-    "@changeEmailAddressPageNewEmailTextfieldLabel": {
-        "description": "The label for the text field which is used for the new email address"
-    },
-    "changeEmailAddressPagePasswordTextfieldLabel": "Passwort",
-    "@changeEmailAddressPagePasswordTextfieldLabel": {
-        "description": "The label for the text field which is used for the password"
-    },
-    "changeEmailAddressPageNoteOnAutomaticSignOutSignIn": "Hinweis: Wenn deine E-Mail geändert wurde, wirst du automatisch kurz ab- und sofort wieder angemeldet - also nicht wundern 😉",
-    "changeEmailAddressPageWhyWeNeedTheEmailInfoTitle": "Wozu brauchen wir deine E-Mail?",
-    "changeEmailAddressPageWhyWeNeedTheEmailInfoContent": "Die E-Mail benötigst du um dich anzumelden. Solltest du zufällig mal dein Passwort vergessen haben, können wir dir an diese E-Mail-Adresse einen Link zum Zurücksetzen des Passworts schicken. Deine E-Mail Adresse ist nur für dich sichtbar, und sonst niemanden.",
-    "@_CHANGE_STATE_PAGE": {},
-    "changeStatePageTitle": "Bundesland ändern",
-    "changeStatePageErrorLoadingState": "Error beim Anzeigen der Bundesländer. Falls der Fehler besteht kontaktiere uns bitte.",
-    "changeStatePageErrorChangingState": "Fehler beim Ändern deines Bundeslandes! :(",
-    "changeStatePageWhyWeNeedTheStateInfoTitle": "Wozu brauchen wir dein Bundesland?",
-    "changeStatePageWhyWeNeedTheStateInfoContent": "Mithilfe des Bundeslandes können wir die restlichen Tage bis zu den nächsten Ferien berechnen. Wenn du diese Angabe nicht machen möchtest, dann wähle beim Bundesland bitte einfach den Eintrag \"Anonym bleiben.\" aus.",
-    "@_STATE_ENUM": {},
-    "stateBadenWuerttemberg": "Baden-Württemberg",
-    "stateBayern": "Bayern",
-    "stateBerlin": "Berlin",
-    "stateBrandenburg": "Brandenburg",
-    "stateBremen": "Bremen",
-    "stateHamburg": "Hamburg",
-    "stateHessen": "Hessen",
-    "stateMecklenburgVorpommern": "Mecklenburg-Vorpommern",
-    "stateNiedersachsen": "Niedersachsen",
-    "stateNordrheinWestfalen": "Nordrhein-Westfalen",
-    "stateRheinlandPfalz": "Rheinland-Pfalz",
-    "stateSaarland": "Saarland",
-    "stateSachsen": "Sachsen",
-    "stateSachsenAnhalt": "Sachsen-Anhalt",
-    "stateSchleswigHolstein": "Schleswig-Holstein",
-    "stateThueringen": "Thüringen",
-    "stateNotFromGermany": "Nicht aus Deutschland",
-    "stateAnonymous": "Anonym bleiben",
-    "stateNotSelected": "Nicht ausgewählt",
-    "@_MY_PROFILE_PAGE": {},
-    "myProfilePageTitle": "Mein Konto",
-    "myProfilePageNameTile": "Name",
-    "myProfilePageActivationCodeTile": "Aktivierungscode eingeben",
-    "myProfilePageEmailTile": "E-Mail",
-    "myProfilePageEmailNotChangeable": "Dein Account ist mit einem Google-Konto verbunden. Aus diesem Grund kannst du deine E-Mail nicht ändern.",
-    "myProfilePageEmailAccountTypeTitle": "Account-Typ",
-    "myProfilePageChangePasswordTile": "Passwort ändern",
-    "myProfilePageChangedPasswordConfirmation": "Das Passwort wurde erfolgreich geändert.",
-    "myProfilePageStateTile": "Bundesland",
-    "myProfilePageSignInMethodTile": "Anmeldemethode",
-    "myProfilePageSignInMethodChangeNotPossibleDialogTitle": "Anmeldemethode ändern nicht möglich",
-    "myProfilePageSignInMethodChangeNotPossibleDialogContent": "Die Anmeldemethode kann aktuell nur bei der Registrierung gesetzt werden. Später kann diese nicht mehr geändert werden.",
-    "myProfilePageSupportTeamTile": "Entwickler unterstützen",
-    "myProfilePageSupportTeamDescription": "Durch das Teilen von anonymen Nutzerdaten hilfst du uns, die App noch einfacher und benutzerfreundlicher zu machen.",
-    "myProfilePageCopyUserIdTile": "User ID",
-    "myProfilePageCopyUserIdConfirmation": "User ID wurde kopiert.",
-    "myProfilePageSignOutButton": "Abmelden",
-    "myProfilePageDeleteAccountButton": "Konto löschen",
-    "myProfilePageDeleteAccountDialogTitle": "Sollte dein Account gelöscht werden, werden alle deine Daten gelöscht. Dieser Vorgang lässt sich nicht wieder rückgängig machen.",
-    "myProfilePageDeleteAccountDialogContent": "Möchtest du deinen Account wirklich löschen?",
-    "myProfilePageDeleteAccountDialogPleaseEnterYourPassword": "Bitte gib dein Passwort ein, um deinen Account zu löschen.",
-    "myProfilePageDeleteAccountDialogPasswordTextfieldLabel": "Passwort",
-    "@_THEME_PAGE": {},
-    "themePageTitle": "Erscheinungsbild",
-    "themePageLightDarkModeSectionTitle": "Heller & Dunkler Modus",
-    "themePageDarkMode": "Dunkler Modus",
-    "themePageLightMode": "Heller Modus",
-    "themePageSystemMode": "System",
-    "themePageRateOurAppCardTitle": "Gefällt dir Sharezone?",
-    "themePageRateOurAppCardContent": "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
-    "themePageRateOurAppCardRatingsNotAvailableOnWebDialogTitle": "App-Bewertung nur über iOS & Android möglich!",
-    "themePageRateOurAppCardRatingsNotAvailableOnWebDialogContent": "Über die Web-App kann die App nicht bewertet werden. Nimm dafür einfach dein Handy 👍",
-    "themePageRateOurAppCardRateButton": "Bewerten",
-    "themePageNavigationExperimentSectionTitle": "Experiment: Neue Navigation",
-    "themePageNavigationExperimentSectionContent": "Wir testen aktuell eine neue Navigation. Bitte gib über die Feedback-Box oder unseren Discord-Server eine kurze Rückmeldung, wie du die jeweiligen Optionen findest.",
-    "themePageNavigationExperimentOptionTile": "Option {number}: {name}",
-    "@themePageNavigationExperimentOptionTile": {
-        "placeholders": {
-            "number": {
-                "type": "int",
-                "example": "1"
-            },
-            "name": {
-                "type": "String",
-                "example": "Aktuelle Navigation"
-            }
-        }
-    },
-    "@_NAVIGATION_EXPERIMENT_OPTION": {},
-    "navigationExperimentOptionDrawerAndBnb": "Aktuelle Navigation",
-    "navigationExperimentOptionExtendableBnb": "Neue Navigation - Ohne Mehr-Button",
-    "navigationExperimentOptionExtendableBnbWithMoreButton": "Neue Navigation - Mit Mehr-Button",
-    "@_TIMETABLE_SETTINGS_PAGE": {},
-    "timetableSettingsPageTitle": "Stundenplan",
-    "timetableSettingsPagePeriodsFieldTileTitle": "Stundenzeiten",
-    "timetableSettingsPagePeriodsFieldTileSubtitle": "Stundenplanbeginn, Stundenlänge, etc.",
-    "timetableSettingsPageIcalLinksTitleTitle": "Termine, Prüfungen, Stundenplan exportieren (iCal)",
-    "timetableSettingsPageIcalLinksTitleSubtitle": "Synchronisierung mit Google Kalender, Apple Kalender usw.",
-    "timetableSettingsPageIcalLinksPlusDialogContent": "Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim \"Zum Kalender hinzufügen\" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.",
-    "timetableSettingsPageEnabledWeekDaysTileTitle": "Aktivierte Wochentage",
-    "timetableSettingsPageLessonLengthTileTile": "Länge einer Stunde",
-    "timetableSettingsPageLessonLengthTileSubtile": "Länge einer Stunde",
-    "timetableSettingsPageLessonLengthTileTrailing": "{length} Min.",
-    "@timetableSettingsPageLessonLengthTileTrailing": {
-        "description": "A text that displays the length for lessons in minutes.",
-        "placeholders": {
-            "length": {
-                "type": "int",
-                "example": "45"
-            }
-        }
-    },
-    "timetableSettingsPageLessonLengthSavedConfirmation": "Länge einer Stunde wurde gespeichert.",
-    "timetableSettingsPageLessonLengthEditDialog": "Wähle die Länge der Stunde in Minuten aus.",
-    "timetableSettingsPageIsFiveMinutesIntervalActiveTileTitle": "Fünf-Minuten-Intervall beim Time-Picker",
-    "timetableSettingsPageShowLessonsAbbreviation": "Kürzel im Stundenplan anzeigen",
-    "timetableSettingsPageABWeekTileTitle": "A/B Wochen",
-    "timetableSettingsPageAWeeksAreEvenSwitch": "A-Wochen sind gerade Kalenderwochen",
-    "timetableSettingsPageThisWeekIs": "Diese Woche ist Kalenderwoche {calendar_week}. A-Wochen sind {is_a_week_even} Kalenderwochen und somit ist aktuell eine {even_or_odd_week}",
-    "@timetableSettingsPageThisWeekIs": {
-        "description": "A text that is displayed below the set if the current week is a or b week",
-        "placeholders": {
-            "calendar_week": {
-                "type": "int",
-                "example": "12"
-            },
-            "is_a_week_even": {
-                "type": "String",
-                "example": "gerade"
-            },
-            "even_or_odd_week": {
-                "type": "String",
-                "example": "A-Woche"
-            }
-        }
+  "@@locale": "de",
+  "aboutEmailCopiedConfirmation": "E-Mail: {email_address}",
+  "@aboutEmailCopiedConfirmation": {
+    "placeholders": {
+      "email_address": {
+        "example": "nils@sharezone.net",
+        "type": "String"
+      }
     }
+  },
+  "aboutFollowUsSubtitle": "Folge uns auf unseren Kanälen, um immer auf dem neusten Stand zu bleiben.",
+  "aboutFollowUsTitle": "Folge uns",
+  "aboutHeaderSubtitle": "Der vernetzte Schulplaner",
+  "aboutHeaderTitle": "Sharezone",
+  "aboutLoadingVersion": "Version wird geladen...",
+  "aboutSectionDescription": "Sharezone ist ein vernetzter Schulplaner, welcher die Organisation von Schülern, Lehrkräften und Eltern aus der Steinzeit in das digitale Zeitalter katapultiert. Das Hausaufgabenheft, der Terminplaner, die Dateiablage und vieles weitere wird direkt mit der kompletten Klasse geteilt. Dabei ist keine Registrierung der Schule und die Leitung einer Lehrkraft notwendig, so dass du direkt durchstarten und deinen Schulalltag bequem und einfach gestalten kannst.",
+  "aboutSectionTitle": "Was ist Sharezone?",
+  "aboutSectionVisitWebsite": "Besuche für weitere Informationen einfach https://www.sharezone.net.",
+  "aboutTeamSectionTitle": "Über uns",
+  "aboutTitle": "Über uns",
+  "aboutVersion": "Version: {version} ({buildNumber})",
+  "@aboutVersion": {
+    "placeholders": {
+      "buildNumber": {
+        "example": "234",
+        "type": "String?"
+      },
+      "version": {
+        "example": "1.5.2",
+        "type": "String?"
+      }
+    }
+  },
+  "appName": "Sharezone",
+  "changeEmailAddressCurrentEmailTextfieldLabel": "Aktuell",
+  "@changeEmailAddressCurrentEmailTextfieldLabel": {
+    "description": "The label for the text field which is used for the current email address"
+  },
+  "changeEmailAddressNewEmailTextfieldLabel": "Neu",
+  "@changeEmailAddressNewEmailTextfieldLabel": {
+    "description": "The label for the text field which is used for the new email address"
+  },
+  "changeEmailAddressNoteOnAutomaticSignOutSignIn": "Hinweis: Wenn deine E-Mail geändert wurde, wirst du automatisch kurz ab- und sofort wieder angemeldet - also nicht wundern 😉",
+  "changeEmailAddressPasswordTextfieldLabel": "Passwort",
+  "@changeEmailAddressPasswordTextfieldLabel": {
+    "description": "The label for the text field which is used for the password"
+  },
+  "changeEmailAddressTitle": "E-Mail ändern",
+  "changeEmailAddressWhyWeNeedTheEmailInfoContent": "Die E-Mail benötigst du um dich anzumelden. Solltest du zufällig mal dein Passwort vergessen haben, können wir dir an diese E-Mail-Adresse einen Link zum Zurücksetzen des Passworts schicken. Deine E-Mail Adresse ist nur für dich sichtbar, und sonst niemanden.",
+  "changeEmailAddressWhyWeNeedTheEmailInfoTitle": "Wozu brauchen wir deine E-Mail?",
+  "changePasswordCurrentPasswordTextfieldLabel": "Aktuelles Passwort",
+  "changePasswordLoadingSnackbarText": "Neues Password wird an die Zentrale geschickt...",
+  "@changePasswordLoadingSnackbarText": {
+    "description": "A text for the SnackBar widget when the user presses the change password button"
+  },
+  "changePasswordNewPasswordTextfieldLabel": "Neues Passwort",
+  "changePasswordResetCurrentPasswordButton": "Aktuelles Passwort vergessen?",
+  "changePasswordResetCurrentPasswordDialogContent": "Sollen wir dir eine E-Mail schicken, mit der du dein Passwort zurücksetzen kannst?",
+  "changePasswordResetCurrentPasswordDialogTitle": "Passwort zurücksetzen",
+  "changePasswordResetCurrentPasswordEmailSentConfirmation": "Wir haben eine E-Mail zum Zurücksetzen deines Passworts verschickt.",
+  "@changePasswordResetCurrentPasswordEmailSentConfirmation": {
+    "description": "The confirmation text that an email for resetting the password has been sent"
+  },
+  "changePasswordResetCurrentPasswordLoading": "Verschicken der E-Mail wird vorbereitet...",
+  "@changePasswordResetCurrentPasswordLoading": {
+    "description": "Text that is displayed when the user confirmed to reset the current password"
+  },
+  "changePasswordTitle": "Passwort ändern",
+  "changeStateErrorChangingState": "Fehler beim Ändern deines Bundeslandes! :(",
+  "changeStateErrorLoadingState": "Error beim Anzeigen der Bundesländer. Falls der Fehler besteht kontaktiere uns bitte.",
+  "changeStateTitle": "Bundesland ändern",
+  "changeStateWhyWeNeedTheStateInfoContent": "Mithilfe des Bundeslandes können wir die restlichen Tage bis zu den nächsten Ferien berechnen. Wenn du diese Angabe nicht machen möchtest, dann wähle beim Bundesland bitte einfach den Eintrag \"Anonym bleiben.\" aus.",
+  "changeStateWhyWeNeedTheStateInfoTitle": "Wozu brauchen wir dein Bundesland?",
+  "changeTypeOfUserErrorDialogContentChangedTypeOfUserTooOften": "Du kannst nur alle 14 Tage 2x den Account-Typ ändern. Diese Limit wurde erreicht. Bitte warte bis {blockedUntil}.",
+  "@changeTypeOfUserErrorDialogContentChangedTypeOfUserTooOften": {
+    "placeholders": {
+      "blockedUntil": {
+        "format": "yMd+jm",
+        "type": "DateTime"
+      }
+    }
+  },
+  "changeTypeOfUserErrorDialogContentNoTypeOfUserSelected": "Es wurde kein Account-Typ ausgewählt.",
+  "changeTypeOfUserErrorDialogContentTypeOfUserHasNotChanged": "Der Account-Typ hat sich nicht geändert.",
+  "changeTypeOfUserErrorDialogContentUnknown": "Fehler: {error}. Bitte kontaktiere den Support.",
+  "@changeTypeOfUserErrorDialogContentUnknown": {
+    "placeholders": {
+      "error": {
+        "type": "Object?"
+      }
+    }
+  },
+  "changeTypeOfUserErrorDialogTitle": "Fehler",
+  "changeTypeOfUserPermissionNote": "Beachte die folgende Hinweise:\n* Innerhalb von 14 Tagen kannst du nur 2x den Account-Typ ändern.\n* Durch das Ändern der Nutzer erhältst du keine weiteren Berechtigungen in den Gruppen. Ausschlaggebend sind die Gruppenberechtigungen (\"Administrator\", \"Aktives Mitglied\", \"Passives Mitglied\").",
+  "changeTypeOfUserRestartAppDialogContent": "Die Änderung deines Account-Typs war erfolgreich. Jedoch muss die App muss neu gestartet werden, damit die Änderung wirksam wird.",
+  "@changeTypeOfUserRestartAppDialogContent": {
+    "description": "The content of the dialog which will be displayed after a successful type of user change to explain that a restart is required."
+  },
+  "changeTypeOfUserRestartAppDialogTitle": "Neustart erforderlich",
+  "@changeTypeOfUserRestartAppDialogTitle": {
+    "description": "The title of the dialog which will be displayed after a successful type of user change to explain that a restart is required."
+  },
+  "changeTypeOfUserTitle": "Account-Typ ändern",
+  "commonActionsAlright": "Alles klar",
+  "commonActionsCancel": "Abbrechen",
+  "commonActionsClose": "Schließen",
+  "commonActionsCloseUppercase": "SCHLIESSEN",
+  "commonActionsConfirm": "Bestätigen",
+  "commonActionsContactSupport": "Support kontaktieren",
+  "commonActionsDelete": "Löschen",
+  "commonActionsOk": "Ok",
+  "commonActionsSave": "Speichern",
+  "commonActionsYes": "Ja",
+  "commonDisplayError": "Fehler: {error}",
+  "@commonDisplayError": {
+    "placeholders": {
+      "error": {
+        "example": "Server ist nicht erreichbar",
+        "type": "String?"
+      }
+    }
+  },
+  "contactSupportButton": "Support kontaktieren",
+  "imprintTitle": "Impressum",
+  "languageDeName": "Deutsch",
+  "languageEnName": "Englisch",
+  "languageSystemName": "System",
+  "languageTitle": "Sprache",
+  "myProfileActivationCodeTile": "Aktivierungscode eingeben",
+  "myProfileChangePasswordTile": "Passwort ändern",
+  "myProfileChangedPasswordConfirmation": "Das Passwort wurde erfolgreich geändert.",
+  "myProfileCopyUserIdConfirmation": "User ID wurde kopiert.",
+  "myProfileCopyUserIdTile": "User ID",
+  "myProfileDeleteAccountButton": "Konto löschen",
+  "myProfileDeleteAccountDialogContent": "Möchtest du deinen Account wirklich löschen?",
+  "myProfileDeleteAccountDialogPasswordTextfieldLabel": "Passwort",
+  "myProfileDeleteAccountDialogPleaseEnterYourPassword": "Bitte gib dein Passwort ein, um deinen Account zu löschen.",
+  "myProfileDeleteAccountDialogTitle": "Sollte dein Account gelöscht werden, werden alle deine Daten gelöscht. Dieser Vorgang lässt sich nicht wieder rückgängig machen.",
+  "myProfileEmailAccountTypeTitle": "Account-Typ",
+  "myProfileEmailNotChangeable": "Dein Account ist mit einem Google-Konto verbunden. Aus diesem Grund kannst du deine E-Mail nicht ändern.",
+  "myProfileEmailTile": "E-Mail",
+  "myProfileNameTile": "Name",
+  "myProfileSignInMethodChangeNotPossibleDialogContent": "Die Anmeldemethode kann aktuell nur bei der Registrierung gesetzt werden. Später kann diese nicht mehr geändert werden.",
+  "myProfileSignInMethodChangeNotPossibleDialogTitle": "Anmeldemethode ändern nicht möglich",
+  "myProfileSignInMethodTile": "Anmeldemethode",
+  "myProfileSignOutButton": "Abmelden",
+  "myProfileStateTile": "Bundesland",
+  "myProfileSupportTeamDescription": "Durch das Teilen von anonymen Nutzerdaten hilfst du uns, die App noch einfacher und benutzerfreundlicher zu machen.",
+  "myProfileSupportTeamTile": "Entwickler unterstützen",
+  "myProfileTitle": "Mein Konto",
+  "navigationExperimentOptionDrawerAndBnb": "Aktuelle Navigation",
+  "navigationExperimentOptionExtendableBnb": "Neue Navigation - Ohne Mehr-Button",
+  "navigationExperimentOptionExtendableBnbWithMoreButton": "Neue Navigation - Mit Mehr-Button",
+  "socialDiscord": "Discord",
+  "socialEmail": "E-Mail",
+  "socialGitHub": "GitHub",
+  "socialInstagram": "Instagram",
+  "socialLinkedIn": "LinkedIn",
+  "socialTwitter": "Twitter",
+  "stateAnonymous": "Anonym bleiben",
+  "stateBadenWuerttemberg": "Baden-Württemberg",
+  "stateBayern": "Bayern",
+  "stateBerlin": "Berlin",
+  "stateBrandenburg": "Brandenburg",
+  "stateBremen": "Bremen",
+  "stateHamburg": "Hamburg",
+  "stateHessen": "Hessen",
+  "stateMecklenburgVorpommern": "Mecklenburg-Vorpommern",
+  "stateNiedersachsen": "Niedersachsen",
+  "stateNordrheinWestfalen": "Nordrhein-Westfalen",
+  "stateNotFromGermany": "Nicht aus Deutschland",
+  "stateNotSelected": "Nicht ausgewählt",
+  "stateRheinlandPfalz": "Rheinland-Pfalz",
+  "stateSaarland": "Saarland",
+  "stateSachsen": "Sachsen",
+  "stateSachsenAnhalt": "Sachsen-Anhalt",
+  "stateSchleswigHolstein": "Schleswig-Holstein",
+  "stateThueringen": "Thüringen",
+  "themeDarkMode": "Dunkler Modus",
+  "themeLightDarkModeSectionTitle": "Heller \u0026 Dunkler Modus",
+  "themeLightMode": "Heller Modus",
+  "themeNavigationExperimentOptionTile": "Option {number}: {name}",
+  "@themeNavigationExperimentOptionTile": {
+    "placeholders": {
+      "name": {
+        "example": "Aktuelle Navigation",
+        "type": "String"
+      },
+      "number": {
+        "example": "1",
+        "type": "int"
+      }
+    }
+  },
+  "themeNavigationExperimentSectionContent": "Wir testen aktuell eine neue Navigation. Bitte gib über die Feedback-Box oder unseren Discord-Server eine kurze Rückmeldung, wie du die jeweiligen Optionen findest.",
+  "themeNavigationExperimentSectionTitle": "Experiment: Neue Navigation",
+  "themeRateOurAppCardContent": "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
+  "themeRateOurAppCardRateButton": "Bewerten",
+  "themeRateOurAppCardRatingsNotAvailableOnWebDialogContent": "Über die Web-App kann die App nicht bewertet werden. Nimm dafür einfach dein Handy 👍",
+  "themeRateOurAppCardRatingsNotAvailableOnWebDialogTitle": "App-Bewertung nur über iOS \u0026 Android möglich!",
+  "themeRateOurAppCardTitle": "Gefällt dir Sharezone?",
+  "themeSystemMode": "System",
+  "themeTitle": "Erscheinungsbild",
+  "timetableSettingsABWeekTileTitle": "A/B Wochen",
+  "timetableSettingsAWeeksAreEvenSwitch": "A-Wochen sind gerade Kalenderwochen",
+  "timetableSettingsEnabledWeekDaysTileTitle": "Aktivierte Wochentage",
+  "timetableSettingsIcalLinksPlusDialogContent": "Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim \"Zum Kalender hinzufügen\" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.",
+  "timetableSettingsIcalLinksTitleSubtitle": "Synchronisierung mit Google Kalender, Apple Kalender usw.",
+  "timetableSettingsIcalLinksTitleTitle": "Termine, Prüfungen, Stundenplan exportieren (iCal)",
+  "timetableSettingsIsFiveMinutesIntervalActiveTileTitle": "Fünf-Minuten-Intervall beim Time-Picker",
+  "timetableSettingsLessonLengthEditDialog": "Wähle die Länge der Stunde in Minuten aus.",
+  "timetableSettingsLessonLengthSavedConfirmation": "Länge einer Stunde wurde gespeichert.",
+  "timetableSettingsLessonLengthTileSubtitle": "Länge einer Stunde",
+  "timetableSettingsLessonLengthTileTitle": "Länge einer Stunde",
+  "timetableSettingsLessonLengthTileTrailing": "{length} Min.",
+  "@timetableSettingsLessonLengthTileTrailing": {
+    "description": "A text that displays the length for lessons in minutes.",
+    "placeholders": {
+      "length": {
+        "example": "45",
+        "type": "int"
+      }
+    }
+  },
+  "timetableSettingsPeriodsFieldTileSubtitle": "Stundenplanbeginn, Stundenlänge, etc.",
+  "timetableSettingsPeriodsFieldTileTitle": "Stundenzeiten",
+  "timetableSettingsShowLessonsAbbreviation": "Kürzel im Stundenplan anzeigen",
+  "timetableSettingsThisWeekIs": "Diese Woche ist Kalenderwoche {calendar_week}. A-Wochen sind {is_a_week_even} Kalenderwochen und somit ist aktuell eine {even_or_odd_week}",
+  "@timetableSettingsThisWeekIs": {
+    "description": "A text that is displayed below the set if the current week is a or b week",
+    "placeholders": {
+      "calendar_week": {
+        "example": "12",
+        "type": "int"
+      },
+      "even_or_odd_week": {
+        "example": "A-Woche",
+        "type": "String"
+      },
+      "is_a_week_even": {
+        "example": "gerade",
+        "type": "String"
+      }
+    }
+  },
+  "timetableSettingsTitle": "Stundenplan"
 }

@@ -24,7 +24,7 @@ class ChangeTypeOfUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.changeTypeOfUserPageTitle),
+        title: Text(context.l10n.changeTypeOfUserTitle),
         centerTitle: true,
       ),
       body: _Body(),
@@ -95,23 +95,21 @@ class _ErrorDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 500,
       child: AlertDialog(
-        title: Text(context.l10n.changeTypeOfUserPageErrorDialogTitle),
+        title: Text(context.l10n.changeTypeOfUserErrorDialogTitle),
         content: Text(switch (failure) {
           ChangeTypeOfUserUnknownException(error: final error) => context.l10n
-              .changeTypeOfUserPageErrorDialogContentUnknown(error),
+              .changeTypeOfUserErrorDialogContentUnknown(error),
           NoTypeOfUserSelectedException() =>
-            context
-                .l10n
-                .changeTypeOfUserPageErrorDialogContentNoTypeOfUserSelected,
+            context.l10n.changeTypeOfUserErrorDialogContentNoTypeOfUserSelected,
           TypeUserOfUserHasNotChangedException() =>
             context
                 .l10n
-                .changeTypeOfUserPageErrorDialogContentTypeOfUserHasNotChanged,
+                .changeTypeOfUserErrorDialogContentTypeOfUserHasNotChanged,
           ChangedTypeOfUserTooOftenException(
             blockedUntil: final blockedUntil,
           ) =>
             context.l10n
-                .changeTypeOfUserPageErrorDialogContentChangedTypeOfUserTooOften(
+                .changeTypeOfUserErrorDialogContentChangedTypeOfUserTooOften(
                   blockedUntil,
                 ),
         }),
@@ -177,7 +175,7 @@ class _PermissionNote extends StatelessWidget {
   Widget build(BuildContext context) {
     const textStyle = TextStyle(color: Colors.grey);
     return MarkdownBody(
-      data: context.l10n.changeTypeOfUserPagePermissionNote,
+      data: context.l10n.changeTypeOfUserPermissionNote,
       styleSheet: MarkdownStyleSheet(p: textStyle, listBullet: textStyle),
     );
   }
@@ -222,8 +220,8 @@ class _RestartAppDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: Text(context.l10n.changeTypeOfUserPageRestartAppDialogTitle),
-        content: Text(context.l10n.changeTypeOfUserPageRestartAppDialogContent),
+        title: Text(context.l10n.changeTypeOfUserRestartAppDialogTitle),
+        content: Text(context.l10n.changeTypeOfUserRestartAppDialogContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),

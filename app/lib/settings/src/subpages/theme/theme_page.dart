@@ -29,10 +29,7 @@ class ThemePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.themePageTitle),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(context.l10n.themeTitle), centerTitle: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 8),
         child: SafeArea(
@@ -52,7 +49,7 @@ class _DarkModeSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SettingsSubpageSection(
-      title: context.l10n.themePageLightDarkModeSectionTitle,
+      title: context.l10n.themeLightDarkModeSectionTitle,
       children: const [_BrightnessRadioGroup(), _RateOurApp()],
     );
   }
@@ -78,19 +75,19 @@ class _BrightnessRadioGroup extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _BrightnessRadio(
-            title: context.l10n.themePageLightMode,
+            title: context.l10n.themeLightMode,
             groupValue: themeBrightness,
             icon: const Icon(Icons.brightness_high),
             themeBrightness: ThemeBrightness.light,
           ),
           _BrightnessRadio(
-            title: context.l10n.themePageDarkMode,
+            title: context.l10n.themeDarkMode,
             groupValue: themeBrightness,
             icon: const Icon(Icons.brightness_low),
             themeBrightness: ThemeBrightness.dark,
           ),
           _BrightnessRadio(
-            title: context.l10n.themePageSystemMode,
+            title: context.l10n.themeSystemMode,
             groupValue: themeBrightness,
             icon: const Icon(Icons.settings_brightness),
             themeBrightness: ThemeBrightness.system,
@@ -133,12 +130,12 @@ class _RateOurApp extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: AnnouncementCard(
-        title: context.l10n.themePageRateOurAppCardTitle,
+        title: context.l10n.themeRateOurAppCardTitle,
         color:
             Theme.of(context).isDarkTheme
                 ? ElevationColors.dp12
                 : context.primaryColor.withValues(alpha: 0.15),
-        content: Text(context.l10n.themePageRateOurAppCardContent),
+        content: Text(context.l10n.themeRateOurAppCardContent),
         actions: const [
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -169,12 +166,12 @@ class _NewNavigationExperiment extends StatelessWidget {
     if (context.isDesktopModus) return Container();
 
     return SettingsSubpageSection(
-      title: context.l10n.themePageNavigationExperimentSectionTitle,
+      title: context.l10n.themeNavigationExperimentSectionTitle,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            context.l10n.themePageNavigationExperimentSectionContent,
+            context.l10n.themeNavigationExperimentSectionContent,
             style: const TextStyle(color: Colors.grey),
           ),
         ),
@@ -261,7 +258,7 @@ class _RateAppButton extends StatelessWidget {
       },
       elevation: 0,
       highlightElevation: 0,
-      child: Text(context.l10n.themePageRateOurAppCardRateButton.toUpperCase()),
+      child: Text(context.l10n.themeRateOurAppCardRateButton.toUpperCase()),
     );
   }
 
@@ -285,13 +282,9 @@ class _RateAppButton extends StatelessWidget {
     showLeftRightAdaptiveDialog(
       context: context,
       title:
-          context
-              .l10n
-              .themePageRateOurAppCardRatingsNotAvailableOnWebDialogTitle,
+          context.l10n.themeRateOurAppCardRatingsNotAvailableOnWebDialogTitle,
       content: Text(
-        context
-            .l10n
-            .themePageRateOurAppCardRatingsNotAvailableOnWebDialogContent,
+        context.l10n.themeRateOurAppCardRatingsNotAvailableOnWebDialogContent,
       ),
       left: AdaptiveDialogAction.ok,
     );
