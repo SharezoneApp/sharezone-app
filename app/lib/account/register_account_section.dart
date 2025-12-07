@@ -184,9 +184,10 @@ class _AppleButton extends StatelessWidget {
 }
 
 class _EmailButton extends StatelessWidget {
-  const _EmailButton._(this.isLong);
-  factory _EmailButton.short() => const _EmailButton._(false);
-  factory _EmailButton.long() => const _EmailButton._(true);
+  const _EmailButton._({required this.isLong});
+
+  factory _EmailButton.short() => const _EmailButton._(isLong: false);
+  factory _EmailButton.long() => const _EmailButton._(isLong: true);
 
   final bool isLong;
 
