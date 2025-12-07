@@ -8,10 +8,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_controller.dart';
 import 'package:sharezone/support/support_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -24,7 +24,7 @@ class ChangeTypeOfUserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Account-Typ ändern"),
+        title: Text(context.l10n.changeTypeOfUserTitle),
         centerTitle: true,
       ),
       body: _Body(),
@@ -59,7 +59,8 @@ class _SaveFab extends StatelessWidget {
       (controller) => controller.state is ChangeTypeOfUserLoading,
     );
     return FloatingActionButton.extended(
-      label: isLoading ? const _Loading() : const Text("Speichern"),
+      label:
+          isLoading ? const _Loading() : Text(context.l10n.commonActionsSave),
       mouseCursor:
           isLoading ? SystemMouseCursors.basic : SystemMouseCursors.click,
       onPressed:
@@ -94,23 +95,28 @@ class _ErrorDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 500,
       child: AlertDialog(
-        title: const Text('Fehler'),
+        title: Text(context.l10n.changeTypeOfUserErrorDialogTitle),
         content: Text(switch (failure) {
-          ChangeTypeOfUserUnknownException(error: final error) =>
-            'Fehler: $error. Bitte kontaktiere den Support.',
+          ChangeTypeOfUserUnknownException(error: final error) => context.l10n
+              .changeTypeOfUserErrorDialogContentUnknown(error),
           NoTypeOfUserSelectedException() =>
-            'Es wurde kein Account-Typ ausgewählt.',
+            context.l10n.changeTypeOfUserErrorDialogContentNoTypeOfUserSelected,
           TypeUserOfUserHasNotChangedException() =>
-            'Der Account-Typ hat sich nicht geändert.',
+            context
+                .l10n
+                .changeTypeOfUserErrorDialogContentTypeOfUserHasNotChanged,
           ChangedTypeOfUserTooOftenException(
             blockedUntil: final blockedUntil,
           ) =>
-            'Du kannst nur alle 14 Tage 2x den Account-Typ ändern. Diese Limit wurde erreicht. Bitte warte bis ${DateFormat().format(blockedUntil)}.',
+            context.l10n
+                .changeTypeOfUserErrorDialogContentChangedTypeOfUserTooOften(
+                  blockedUntil,
+                ),
         }),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('SCHLIESSEN'),
+            child: Text(context.l10n.commonActionsCloseUppercase),
           ),
           if (failure is ChangeTypeOfUserUnknownException)
             TextButton(
@@ -118,7 +124,9 @@ class _ErrorDialog extends StatelessWidget {
                   () => Navigator.of(
                     context,
                   ).pushReplacementNamed(SupportPage.tag),
-              child: const Text('SUPPORT KONTAKTIEREN'),
+              child: Text(
+                context.l10n.commonActionsContactSupport.toUpperCase(),
+              ),
             ),
         ],
       ),
@@ -167,9 +175,7 @@ class _PermissionNote extends StatelessWidget {
   Widget build(BuildContext context) {
     const textStyle = TextStyle(color: Colors.grey);
     return MarkdownBody(
-      data: '''Beachte die folgende Hinweise:
-* Innerhalb von 14 Tagen kannst du nur 2x den Account-Typ ändern.
-* Durch das Ändern der Nutzer erhältst du keine weiteren Berechtigungen in den Gruppen. Ausschlaggebend sind die Gruppenberechtigungen ("Administrator", "Aktives Mitglied", "Passives Mitglied").''',
+      data: context.l10n.changeTypeOfUserPermissionNote,
       styleSheet: MarkdownStyleSheet(p: textStyle, listBullet: textStyle),
     );
   }
@@ -214,14 +220,12 @@ class _RestartAppDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text('Neustart erforderlich'),
-        content: const Text(
-          'Die Änderung deines Account-Typs war erfolgreich. Jedoch muss die App muss neu gestartet werden, damit die Änderung wirksam wird.',
-        ),
+        title: Text(context.l10n.changeTypeOfUserRestartAppDialogTitle),
+        content: Text(context.l10n.changeTypeOfUserRestartAppDialogContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(context.l10n.commonActionsOk.toUpperCase()),
           ),
         ],
       ),

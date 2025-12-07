@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/submit_method.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -32,7 +33,10 @@ class ChangeEmailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("E-Mail ändern"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.changeEmailAddressTitle),
+        centerTitle: true,
+      ),
       body: ChangeEmailPageBody(),
       floatingActionButton: const ChangeEmailFab(),
     );
@@ -46,7 +50,7 @@ class ChangeEmailFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => submit(context, snackBarText, changeType),
-      tooltip: "Speichern",
+      tooltip: context.l10n.commonActionsSave,
       child: const Icon(Icons.check),
     );
   }
@@ -76,9 +80,16 @@ class ChangeEmailPageBody extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ChangeDataPasswordField(
+                labelText:
+                    context.l10n.changeEmailAddressPasswordTextfieldLabel,
                 focusNode: passwordNode,
                 onEditComplete:
                     () async => await submit(context, snackBarText, changeType),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                context.l10n.changeEmailAddressNoteOnAutomaticSignOutSignIn,
+                style: const TextStyle(color: Colors.grey, fontSize: 11),
               ),
               const Divider(height: 42),
               const _WhyWeNeedTheEmail(),
@@ -95,12 +106,9 @@ class _WhyWeNeedTheEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const InfoMessage(
-      title: "Wozu brauchen wir deine E-Mail?",
-      message:
-          "Die E-Mail benötigst du um dich anzumelden. Solltest du zufällig mal dein Passwort vergessen haben, "
-          "können wir dir an diese E-Mail-Adresse einen Link zum Zurücksetzen des Passworts schicken. Deine E-Mail Adresse "
-          "ist nur für dich sichtbar, und sonst niemanden.",
+    return InfoMessage(
+      title: context.l10n.changeEmailAddressWhyWeNeedTheEmailInfoTitle,
+      message: context.l10n.changeEmailAddressWhyWeNeedTheEmailInfoContent,
       withPrivacyStatement: true,
     );
   }
@@ -115,7 +123,9 @@ class _CurrentEmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: TextEditingController(text: currentEmail),
-      decoration: const InputDecoration(labelText: "Aktuell"),
+      decoration: InputDecoration(
+        labelText: context.l10n.changeEmailAddressCurrentEmailTextfieldLabel,
+      ),
       enabled: false,
       style: const TextStyle(color: Colors.grey, fontSize: 16),
     );
@@ -158,7 +168,7 @@ class __NewEmailFieldState extends State<_NewEmailField> {
               () => FocusManager.instance.primaryFocus?.unfocus(),
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
-            labelText: "Neu",
+            labelText: context.l10n.changeEmailAddressNewEmailTextfieldLabel,
             errorText: snapshot.error?.toString(),
           ),
           onChanged: (newEmail) => bloc.changeEmail(newEmail.trim()),

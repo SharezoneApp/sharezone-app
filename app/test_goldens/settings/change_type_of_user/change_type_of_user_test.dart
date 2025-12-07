@@ -16,7 +16,9 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/c
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../../flutter_test_config.dart';
 import 'change_type_of_user_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<ChangeTypeOfUserController>()])
@@ -50,7 +52,11 @@ void main() {
           ],
           child: const ChangeTypeOfUserPage(),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 
