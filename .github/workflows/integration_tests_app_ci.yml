@@ -115,6 +115,11 @@ jobs:
             --flavor prod \
             --config-only
 
+      - name: Delete build folder
+        # Remove build folder to avoid disk space issues, see:
+        # https://github.com/SharezoneApp/sharezone-app/issues/1984
+        run: rm -rf build
+
       - name: Build Instrumentation Test
         run: |
           patrol build android \
