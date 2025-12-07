@@ -60,10 +60,34 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   }
 
   @override
+  String get accountEditProfileTooltip => 'Profil bearbeiten';
+
+  @override
+  String get accountLinkAppleConfirmation =>
+      'Dein Account wurde mit einem Apple-Konto verknüpft.';
+
+  @override
+  String get accountLinkGoogleConfirmation =>
+      'Dein Account wurde mit einem Google-Konto verknüpft.';
+
+  @override
+  String get accountPageTitle => 'Profil';
+
+  @override
+  String get accountPageWebLoginTooltip => 'QR-Code Login für die Web-App';
+
+  @override
+  String get accountStateTitle => 'Bundesland';
+
+  @override
   String get appName => 'Sharezone';
 
   @override
   String get changeEmailAddressCurrentEmailTextfieldLabel => 'Aktuell';
+
+  @override
+  String get changeEmailAddressIdenticalError =>
+      'Die eingegebene E-Mail ist identisch mit der alten! 🙈';
 
   @override
   String get changeEmailAddressNewEmailTextfieldLabel => 'Neu';
@@ -321,6 +345,66 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Neue Navigation - Mit Mehr-Button';
 
   @override
+  String get registerAccountAgeNoticeText =>
+      'Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.';
+
+  @override
+  String get registerAccountAnonymousInfoTitle =>
+      'Du bist nur anonym angemeldet!';
+
+  @override
+  String get registerAccountAppleButtonLong => 'Mit Apple anmelden';
+
+  @override
+  String get registerAccountAppleButtonShort => 'Apple';
+
+  @override
+  String get registerAccountBenefitBackupSubtitle =>
+      'Weiterhin Zugriff auf die Daten bei Verlust des Smartphones';
+
+  @override
+  String get registerAccountBenefitBackupTitle => 'Automatisches Backup';
+
+  @override
+  String get registerAccountBenefitMultiDeviceSubtitle =>
+      'Daten werden zwischen mehreren Geräten synchronisiert';
+
+  @override
+  String get registerAccountBenefitMultiDeviceTitle =>
+      'Nutzung auf mehreren Geräten';
+
+  @override
+  String get registerAccountBenefitsIntro =>
+      'Übertrage jetzt deinen Account auf ein richtiges Konto, um von folgenden Vorteilen zu profitieren:';
+
+  @override
+  String get registerAccountEmailAlreadyUsedContent =>
+      'So wie es aussieht, hast du versehentlich einen zweiten Sharezone-Account erstellt. Lösche einfach diesen Account und melde dich mit deinem richtigen Account an.\n\nFür den Fall, dass du nicht genau weißt, wie das funktioniert, haben wir für dich eine Anleitung vorbereitet :)';
+
+  @override
+  String get registerAccountEmailAlreadyUsedTitle =>
+      'Diese E-Mail wird schon verwendet!';
+
+  @override
+  String get registerAccountEmailButtonLong => 'Mit E-Mail anmelden';
+
+  @override
+  String get registerAccountEmailButtonShort => 'E-Mail';
+
+  @override
+  String get registerAccountEmailLinkConfirmation =>
+      'Dein Account wurde mit einem E-Mail-Konto verknüpft.';
+
+  @override
+  String get registerAccountGoogleButtonLong => 'Mit Google anmelden';
+
+  @override
+  String get registerAccountGoogleButtonShort => 'Google';
+
+  @override
+  String get registerAccountShowInstructionAction => 'Anleitung zeigen';
+
+  @override
   String get socialDiscord => 'Discord';
 
   @override
@@ -509,4 +593,40 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get timetableSettingsTitle => 'Stundenplan';
+
+  @override
+  String get useAccountInstructionsAppBarTitle => 'Anleitung';
+
+  @override
+  String get useAccountInstructionsHeadline =>
+      'Wie nutze ich Sharezone auf mehreren Geräten?';
+
+  @override
+  String get useAccountInstructionsStep =>
+      '1. Gehe zurück zu deinem Profil\n2. Melde dich über das Sign-Out-Icon rechts oben ab.\n3. Bestätige, dass dabei dein Konto gelöscht wird.\n4. Klicke unten auf den Button \"Du hast schon ein Konto? Dann...\"\n5. Melde dich an.';
+
+  @override
+  String get useAccountInstructionsStepsTitle => 'Schritte:';
+
+  @override
+  String get useAccountInstructionsVideoTitle => 'Video:';
+
+  @override
+  String get userEditLoadingUserSnackbar =>
+      'Informationen werden geladen! Warte kurz.';
+
+  @override
+  String get userEditNameChangedConfirmation =>
+      'Dein Name wurde erfolgreich umbenannt.';
+
+  @override
+  String get userEditPageTitle => 'Name bearbeiten';
+
+  @override
+  String get userEditSubmitFailed =>
+      'Der Vorgang konnte nicht korrekt abgeschlossen werden. Bitte kontaktiere den Support!';
+
+  @override
+  String get userEditSubmittingSnackbar =>
+      'Daten werden nach Frankfurt transportiert...';
 }
