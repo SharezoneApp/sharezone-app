@@ -10,9 +10,11 @@ import 'package:file/file.dart';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
-/// Returns `true` if there are git changes in the given directory. Otherwise
-/// returns `false`.
-Future<bool> hasGitChanges(
+/// Checks if there are git changes in the given directory.
+///
+/// Returns a tuple where the first element is `true` if there are git changes
+/// and the second element is the git diff.
+Future<(bool, String)> hasGitChanges(
   ProcessRunner processRunner,
   Directory workingDirectory,
 ) async {
@@ -20,6 +22,7 @@ Future<bool> hasGitChanges(
     'git',
     'diff',
     '--exit-code',
-  ], workingDirectory: workingDirectory);
-  return result.exitCode != 0;
+    workingDirectory.path,
+  ], failOk: true);
+  return (result.exitCode != 0, result.stdout);
 }

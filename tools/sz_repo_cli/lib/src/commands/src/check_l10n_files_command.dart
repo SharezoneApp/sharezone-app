@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
 import 'package:sz_repo_cli/src/common/src/git_utils.dart';
@@ -24,10 +25,20 @@ class CheckL10nFilesCommand extends CommandBase {
   @override
   Future<void> run() async {
     await processRunner.runCommand(['sz', 'l10n', 'generate']);
-    if (await hasGitChanges(processRunner, repo.location)) {
-      throw Exception(
-        'Localization files are not up to date. Run `sz l10n` to update them.',
+
+    final l10nPackageDirectory = repo.location.childDirectory(
+      'lib/sharezone_localizations',
+    );
+
+    final (hasChanges, diffs) = await hasGitChanges(
+      processRunner,
+      l10nPackageDirectory,
+    );
+    if (hasChanges) {
+      stdout.write(
+        'Localization files are not up to date. Run `sz l10n generate` to update them.\n\n$diffs',
       );
+      exitCode = 1;
     }
   }
 }
