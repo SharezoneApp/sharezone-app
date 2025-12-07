@@ -18,7 +18,8 @@ class CheckL10nFilesCommand extends CommandBase {
   String get name => 'check';
 
   @override
-  String get description => 'Checks if the localization files are up to date.';
+  String get description =>
+      'Checks if the localization files are up to date. This command is intended to be used in CI.';
 
   @override
   Future<void> run() async {
