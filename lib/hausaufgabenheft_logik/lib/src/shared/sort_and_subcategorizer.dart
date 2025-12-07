@@ -23,6 +23,7 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
     return switch (sort) {
       SmallestDateSubjectAndTitleSort() => _subcategorizeByDate(sorted),
       SubjectSmallestDateAndTitleSort() => _subcategorizeBySubject(sorted),
+      WeekdayDateSubjectAndTitleSort() => _subcategorizeByWeekday(sorted),
     };
   }
 
@@ -77,5 +78,29 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
       );
     }
     return homeworkSections;
+  }
+
+  IList<HomeworkSectionView<T>> _subcategorizeByWeekday(IList<T> homeworks) {
+    final Map<int, List<T>> map = {for (var i = 1; i <= 7; i++) i: <T>[]};
+    for (final hw in homeworks) {
+      map[hw.todoDate.weekday]!.add(hw);
+    }
+    const titles = {
+      1: 'Montag',
+      2: 'Dienstag',
+      3: 'Mittwoch',
+      4: 'Donnerstag',
+      5: 'Freitag',
+      6: 'Samstag',
+      7: 'Sonntag',
+    };
+    final sections = <HomeworkSectionView<T>>[];
+    for (var i = 1; i <= 7; i++) {
+      final list = map[i]!;
+      if (list.isNotEmpty) {
+        sections.add(HomeworkSectionView(titles[i]!, list.toIList()));
+      }
+    }
+    return sections.toIList();
   }
 }

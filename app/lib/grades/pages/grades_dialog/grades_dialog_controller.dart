@@ -110,6 +110,9 @@ class GradesDialogController extends ChangeNotifier {
                   design: s.design,
                 ),
               )
+              .sorted(
+                (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+              )
               .toIList(),
       selectedDate: _date,
       selectedGradingType: _gradeType,

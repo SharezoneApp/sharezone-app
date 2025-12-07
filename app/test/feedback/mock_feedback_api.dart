@@ -59,6 +59,7 @@ class MockFeedbackApi extends FeedbackApi {
   Future<List<UserFeedback>> getFeedbacksForSupportTeam({
     DateTime? startAfter,
     int limit = 0,
+    SupportFeedbackFilter filter = SupportFeedbackFilter.all,
   }) {
     throw UnimplementedError();
   }

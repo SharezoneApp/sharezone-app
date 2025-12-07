@@ -96,12 +96,14 @@ class MockFeedbackApi extends _i1.Mock implements _i3.FeedbackApi {
   @override
   _i4.Future<List<_i5.UserFeedback>> getFeedbacksForSupportTeam({
     DateTime? startAfter,
-    int? limit = 0,
+    int limit = 0,
+    _i3.SupportFeedbackFilter filter = _i3.SupportFeedbackFilter.all,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#getFeedbacksForSupportTeam, [], {
               #startAfter: startAfter,
               #limit: limit,
+              #filter: filter,
             }),
             returnValue: _i4.Future<List<_i5.UserFeedback>>.value(
               <_i5.UserFeedback>[],

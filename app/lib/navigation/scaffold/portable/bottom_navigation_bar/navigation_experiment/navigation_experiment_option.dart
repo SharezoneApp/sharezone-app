@@ -6,6 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
 enum NavigationExperimentOption {
   /// Current Navigation (Drawer + BNB)
   drawerAndBnb,
@@ -19,14 +22,14 @@ enum NavigationExperimentOption {
 }
 
 extension ToReadableString on NavigationExperimentOption {
-  String toReadableString() {
-    switch (this) {
-      case NavigationExperimentOption.drawerAndBnb:
-        return 'Aktuelle Navigation';
-      case NavigationExperimentOption.extendableBnb:
-        return 'Neue Navigation - Ohne Mehr-Button';
-      case NavigationExperimentOption.extendableBnbWithMoreButton:
-        return 'Neue Navigation - Mit Mehr-Button';
-    }
+  String getDisplayName(BuildContext context) {
+    return switch (this) {
+      NavigationExperimentOption.drawerAndBnb =>
+        context.l10n.navigationExperimentOptionDrawerAndBnb,
+      NavigationExperimentOption.extendableBnb =>
+        context.l10n.navigationExperimentOptionExtendableBnb,
+      NavigationExperimentOption.extendableBnbWithMoreButton =>
+        context.l10n.navigationExperimentOptionExtendableBnbWithMoreButton,
+    };
   }
 }

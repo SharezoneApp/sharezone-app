@@ -22,7 +22,9 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../flutter_test_config.dart';
 import 'timetable_settings_page_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -63,7 +65,11 @@ void main() {
             child: (_) => const TimetableSettingsPage(),
           ),
         ),
-        wrapper: materialAppWrapper(theme: themeData),
+        wrapper: materialAppWrapper(
+          theme: themeData,
+          localeOverrides: defaultLocales,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+        ),
       );
     }
 

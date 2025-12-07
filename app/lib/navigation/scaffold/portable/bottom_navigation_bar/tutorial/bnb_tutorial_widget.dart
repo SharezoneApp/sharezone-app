@@ -245,7 +245,7 @@ class _MovingFinger extends StatelessWidget {
                 (context, anim, child) => Transform.translate(
                   offset: Offset(0, anim.value),
                   child: ExcludeSemantics(
-                    child: PlatformSvg.asset(
+                    child: SvgPicture.asset(
                       'assets/icons/finger.svg',
                       height: 50,
                     ),

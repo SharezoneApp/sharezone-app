@@ -33,6 +33,7 @@ class MobileFilePicker extends FilePickerImplementation {
     final files = (await mobile_file_picker.FilePicker.platform.pickFiles(
       type: type,
       allowMultiple: false,
+      compressionQuality: 30,
     ));
     return files?.files.firstOrNull;
   }

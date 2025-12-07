@@ -10,6 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -20,7 +21,10 @@ class ChangeStatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Bundesland ändern"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.changeStateTitle),
+        centerTitle: true,
+      ),
       body: const _ChangeStatePageBody(),
     );
   }
@@ -40,9 +44,7 @@ class _ChangeStatePageBody extends StatelessWidget {
           return const Center(child: AccentColorCircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return const Text(
-            "Error beim Anzeigen der Bundesländer. Falls der Fehler besteht kontaktiere uns bitte.",
-          );
+          return Text(context.l10n.changeStateErrorLoadingState);
         }
         final currentState = snapshot.data;
         return SingleChildScrollView(
@@ -67,7 +69,7 @@ class _ChangeStatePageBody extends StatelessWidget {
 
   void showExceptionSnackbar(BuildContext context) => showSnackSec(
     context: context,
-    text: "Fehler beim Ändern deines Bundeslandes!:(",
+    text: context.l10n.changeStateErrorChangingState,
     seconds: 3,
   );
 }
@@ -75,13 +77,11 @@ class _ChangeStatePageBody extends StatelessWidget {
 class _WhyWeNeedTheState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       child: InfoMessage(
-        title: "Wozu brauchen wir dein Bundesland?",
-        message:
-            "Mithilfe des Bundeslandes können wir die restlichen Tage bis zu den nächsten Ferien berechnen. Wenn du diese "
-            "Angabe nicht machen möchtest, dann wähle beim Bundesland bitte einfach den Eintrag \"Anonym bleiben.\" aus.",
+        title: context.l10n.changeStateWhyWeNeedTheStateInfoTitle,
+        message: context.l10n.changeStateWhyWeNeedTheStateInfoContent,
       ),
     );
   }
@@ -94,54 +94,49 @@ class _StateRadioGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        _StateListTile(StateEnum.badenWuerttemberg, initialState: initialState),
-        _StateListTile(StateEnum.bayern, initialState: initialState),
-        _StateListTile(StateEnum.berlin, initialState: initialState),
-        _StateListTile(StateEnum.brandenburg, initialState: initialState),
-        _StateListTile(StateEnum.bremen, initialState: initialState),
-        _StateListTile(StateEnum.hamburg, initialState: initialState),
-        _StateListTile(StateEnum.hessen, initialState: initialState),
-        _StateListTile(
-          StateEnum.mecklenburgVorpommern,
-          initialState: initialState,
-        ),
-        _StateListTile(StateEnum.niedersachsen, initialState: initialState),
-        _StateListTile(
-          StateEnum.nordrheinWestfalen,
-          initialState: initialState,
-        ),
-        _StateListTile(StateEnum.rheinlandPfalz, initialState: initialState),
-        _StateListTile(StateEnum.saarland, initialState: initialState),
-        _StateListTile(StateEnum.sachsen, initialState: initialState),
-        _StateListTile(StateEnum.sachsenAnhalt, initialState: initialState),
-        _StateListTile(StateEnum.schleswigHolstein, initialState: initialState),
-        _StateListTile(StateEnum.thueringen, initialState: initialState),
-        _StateListTile(StateEnum.notFromGermany, initialState: initialState),
-        _StateListTile(StateEnum.anonymous, initialState: initialState),
-      ],
-    );
-  }
-}
-
-class _StateListTile extends StatelessWidget {
-  const _StateListTile(this.state, {this.initialState});
-
-  final StateEnum state;
-  final StateEnum? initialState;
-
-  @override
-  Widget build(BuildContext context) {
     final bloc = BlocProvider.of<HolidayBloc>(context);
-    return RadioListTile(
-      title: Text(stateEnumToString[state]!),
-      value: state,
+    return RadioGroup(
       groupValue: initialState,
       onChanged: (StateEnum? newState) {
         bloc.changeState(newState);
         savedChangesSnackBar(context);
       },
+      child: const Column(
+        children: <Widget>[
+          _StateListTile(StateEnum.badenWuerttemberg),
+          _StateListTile(StateEnum.bayern),
+          _StateListTile(StateEnum.berlin),
+          _StateListTile(StateEnum.brandenburg),
+          _StateListTile(StateEnum.bremen),
+          _StateListTile(StateEnum.hamburg),
+          _StateListTile(StateEnum.hessen),
+          _StateListTile(StateEnum.mecklenburgVorpommern),
+          _StateListTile(StateEnum.niedersachsen),
+          _StateListTile(StateEnum.nordrheinWestfalen),
+          _StateListTile(StateEnum.rheinlandPfalz),
+          _StateListTile(StateEnum.saarland),
+          _StateListTile(StateEnum.sachsen),
+          _StateListTile(StateEnum.sachsenAnhalt),
+          _StateListTile(StateEnum.schleswigHolstein),
+          _StateListTile(StateEnum.thueringen),
+          _StateListTile(StateEnum.notFromGermany),
+          _StateListTile(StateEnum.anonymous),
+        ],
+      ),
+    );
+  }
+}
+
+class _StateListTile extends StatelessWidget {
+  const _StateListTile(this.state);
+
+  final StateEnum state;
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioListTile(
+      title: Text(state.getDisplayName(context)),
+      value: state,
     );
   }
 }

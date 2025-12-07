@@ -7,7 +7,8 @@
             "namespace": "android_app",
             "package_name": "de.codingbrain.sharezone",
             "sha256_cert_fingerprints": [
-                "F2:7D:E4:D5:90:A2:22:8F:C5:BD:56:8B:83:AE:E1:63:57:5E:5F:CF:01:EA:D4:8C:E5:3B:7B:89:06:BB:8A:51"
+                "F2:7D:E4:D5:90:A2:22:8F:C5:BD:56:8B:83:AE:E1:63:57:5E:5F:CF:01:EA:D4:8C:E5:3B:7B:89:06:BB:8A:51",
+                "CC:CC:8D:1D:0E:F4:54:94:FD:E5:C8:01:52:8D:B9:B9:DA:D2:DB:10:75:81:93:D5:11:60:B0:63:1F:7E:1E:D2"
             ]
         }
     }

@@ -171,11 +171,18 @@ class _ReasonRadioGroup extends StatelessWidget {
       stream: bloc.reason,
       builder: (context, snapshot) {
         final currentReason = snapshot.data;
-        return Column(
-          children: <Widget>[
-            for (final reason in ReportReason.values)
-              _ReasonTile(reason: reason, currentReason: currentReason),
-          ],
+        return RadioGroup<ReportReason>(
+          groupValue: currentReason,
+          onChanged: (value) {
+            if (value == null) return;
+            bloc.changeReason(value);
+          },
+          child: Column(
+            children: <Widget>[
+              for (final reason in ReportReason.values)
+                _ReasonTile(reason: reason),
+            ],
+          ),
         );
       },
     );
@@ -183,21 +190,14 @@ class _ReasonRadioGroup extends StatelessWidget {
 }
 
 class _ReasonTile extends StatelessWidget {
-  const _ReasonTile({required this.reason, required this.currentReason});
+  const _ReasonTile({required this.reason});
 
   final ReportReason reason;
-  final ReportReason? currentReason;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<ReportPageBloc>(context);
     return RadioListTile<ReportReason>(
       value: reason,
-      groupValue: currentReason,
-      onChanged: (value) {
-        if (value == null) return;
-        bloc.changeReason(value);
-      },
       title: Text(getReportReasonUiText(reason)),
     );
   }

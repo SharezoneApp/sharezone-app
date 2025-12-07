@@ -6,17 +6,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:developer';
-
 import 'package:app_functions/app_functions.dart';
 import 'package:app_functions/app_functions_ui.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
+import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone/groups/src/pages/course/course_details/course_details_bloc.dart';
 import 'package:sharezone/groups/src/widgets/member_list.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:helper_functions/helper_functions.dart';
 
 Future<void> showCourseMemberOptionsSheet({
   required BuildContext context,
@@ -55,9 +53,10 @@ class _CourseMemberOptionsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<CourseDetailsBloc>(context);
     final api = BlocProvider.of<SharezoneContext>(context).api;
+
     return StreamBuilder<bool>(
-      initialData: bloc.requestAdminPermission(),
-      stream: bloc.requestAdminPermissionStream(),
+      initialData: bloc.hasAdminPermission(),
+      stream: bloc.hasAdminPermissionStream(),
       builder: (context, snapshot) {
         final isAdmin = snapshot.data ?? false;
         return StreamBuilder<MemberData>(
@@ -89,23 +88,10 @@ class _CourseMemberOptionsSheet extends StatelessWidget {
                       if (!isAdmin) _NoPermissions(),
                       if (isOnlyAdmin) _OnlyAdminHint(),
                       if (membersDataList.length == 1) _AloneInCourse(),
-                      _RoleTile(
-                        memberData: memberData,
-                        role: MemberRole.admin,
-                        description: "Schreib- und Leserechte & Verwaltung",
+                      _PermissionRadioGroup(
                         enabled: enabled,
-                      ),
-                      _RoleTile(
+                        courseID: courseID,
                         memberData: memberData,
-                        role: MemberRole.creator,
-                        description: "Schreib- und Leserechte",
-                        enabled: enabled,
-                      ),
-                      _RoleTile(
-                        memberData: memberData,
-                        role: MemberRole.standard,
-                        description: "Leserechte",
-                        enabled: enabled,
                       ),
                       const Divider(height: 0),
                       Padding(
@@ -126,6 +112,56 @@ class _CourseMemberOptionsSheet extends StatelessWidget {
           },
         );
       },
+    );
+  }
+}
+
+class _PermissionRadioGroup extends StatelessWidget {
+  const _PermissionRadioGroup({
+    required this.enabled,
+    required this.memberData,
+    required this.courseID,
+  });
+
+  final bool enabled;
+  final MemberData memberData;
+  final String courseID;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<CourseDetailsBloc>(context);
+    return RadioGroup<MemberRole>(
+      groupValue:
+          memberData.role == MemberRole.owner
+              ? MemberRole.admin
+              : memberData.role,
+      onChanged: (newRole) {
+        if (newRole == null) return;
+        Future<AppFunctionsResult<bool>> updateFuture = bloc.updateMemberRole(
+          memberData.id,
+          newRole,
+        );
+        showAppFunctionStateDialog(context, updateFuture);
+      },
+      child: Column(
+        children: [
+          _RoleTile(
+            role: MemberRole.admin,
+            description: "Schreib- und Leserechte & Verwaltung",
+            enabled: enabled,
+          ),
+          _RoleTile(
+            role: MemberRole.creator,
+            description: "Schreib- und Leserechte",
+            enabled: enabled,
+          ),
+          _RoleTile(
+            role: MemberRole.standard,
+            description: "Leserechte",
+            enabled: enabled,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -224,7 +260,6 @@ class _KickUser extends StatelessWidget {
 class _RoleTile extends StatelessWidget {
   const _RoleTile({
     required this.role,
-    required this.memberData,
     this.description,
     required this.enabled,
   });
@@ -232,29 +267,14 @@ class _RoleTile extends StatelessWidget {
   final bool enabled;
   final MemberRole role;
   final String? description;
-  final MemberData memberData;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CourseDetailsBloc>(context);
     return RadioListTile<MemberRole>(
       title: Text(memberRoleAsString[role]!),
       subtitle: !isEmptyOrNull(description) ? Text(description!) : null,
-      groupValue:
-          memberData.role == MemberRole.owner
-              ? MemberRole.admin
-              : memberData.role,
       value: role,
-      onChanged:
-          enabled
-              ? (newRole) {
-                if (newRole == null) return;
-                log("PERMISSION ACCEPTED");
-                Future<AppFunctionsResult<bool>> updateFuture = bloc
-                    .updateMemberRole(memberData.id, newRole);
-                showAppFunctionStateDialog(context, updateFuture);
-              }
-              : null,
+      enabled: enabled,
     );
   }
 }

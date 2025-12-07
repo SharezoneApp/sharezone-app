@@ -11,8 +11,9 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:file/file.dart';
 import 'package:process_runner/process_runner.dart';
-import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 import 'package:sz_repo_cli/src/common/src/apple_track.dart';
+import 'package:sz_repo_cli/src/common/src/emoji_regex.dart';
+import 'package:sz_repo_cli/src/common/src/process_runner_utils.dart';
 import 'package:sz_repo_cli/src/common/src/sharezone_repo.dart';
 import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
@@ -168,6 +169,7 @@ Future<void> publishToAppStoreConnect(
   String? whatsNew,
 }) async {
   final track = _getAppleTrack(stage: stage, stageToTracks: stageToTracks);
+  final sanitizedWhatsNew = whatsNew == null ? null : _removeEmojis(whatsNew);
 
   await processRunner.run([
     'app-store-connect',
@@ -178,7 +180,7 @@ Future<void> publishToAppStoreConnect(
     // The app version will be automatically released right after it has
     // been approved by App Review.
     'AFTER_APPROVAL',
-    if (whatsNew != null) ...['--whats-new', whatsNew],
+    if (sanitizedWhatsNew != null) ...['--whats-new', sanitizedWhatsNew],
     if (track is AppStoreTrack) ...['--app-store'],
     if (track is TestFlightTrack) ...[
       '--beta-group',
@@ -221,6 +223,13 @@ AppleTrack _getAppleTrack({
     throw Exception('Unknown track for stage: $stage');
   }
   return track;
+}
+
+/// Removes emojis from changelog because Apple does not allow them.
+///
+/// For more details: https://github.com/SharezoneApp/sharezone-app/issues/399.
+String _removeEmojis(String input) {
+  return input.replaceAll(emojiRegex(), '');
 }
 
 Future<void> throwIfCodemagicCliToolsAreNotInstalled(

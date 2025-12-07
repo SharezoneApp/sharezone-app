@@ -297,6 +297,17 @@ void main() {
         find.text(SortButton.sortBySubjectSortButtonUiString),
         findsOneWidget,
       );
+
+      homeworkPageBloc.emitNewState(
+        _openHomeworksWith(HomeworkSort.weekdayDateSubjectAndTitle),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text(SortButton.sortByWeekdaySortButtonUiString),
+        findsOneWidget,
+      );
     });
 
     Future<void> scrollDownToEndOfArchivedHomeworkList(WidgetTester tester) {
@@ -415,6 +426,12 @@ void main() {
         await tester.pump();
 
         await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.text(SortButton.sortBySubjectSortButtonUiString).last,
+        );
+        await tester.pumpAndSettle();
 
         expect(
           homeworkPageBloc.receivedEvents
@@ -426,7 +443,7 @@ void main() {
     );
 
     testWidgets(
-      'pressing sort button changes sorting to date sort when current sort is subject sort',
+      'pressing sort by weekday button changes sorting to weekday sort',
       (tester) async {
         homeworkPageBloc = createBloc();
 
@@ -443,12 +460,83 @@ void main() {
         await tester.pump();
 
         await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.text(SortButton.sortByWeekdaySortButtonUiString).last,
+        );
+        await tester.pumpAndSettle();
 
         expect(
           homeworkPageBloc.receivedEvents
               .whereType<OpenHwSortingChanged>()
               .single,
-          OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle),
+          OpenHwSortingChanged(HomeworkSort.weekdayDateSubjectAndTitle),
+        );
+      },
+    );
+
+    testWidgets('pressing sort by date button changes sorting to date sort', (
+      tester,
+    ) async {
+      homeworkPageBloc = createBloc();
+
+      await pumpHomeworkPage(
+        tester,
+        bloc: homeworkPageBloc,
+        initialTab: HomeworkTab.open,
+      );
+
+      homeworkPageBloc.emitNewState(
+        _openHomeworksWith(HomeworkSort.weekdayDateSubjectAndTitle),
+      );
+
+      await tester.pump();
+
+      await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text(SortButton.sortByDateSortButtonUiString).last);
+      await tester.pumpAndSettle();
+
+      expect(
+        homeworkPageBloc.receivedEvents
+            .whereType<OpenHwSortingChanged>()
+            .single,
+        OpenHwSortingChanged(HomeworkSort.smallestDateSubjectAndTitle),
+      );
+    });
+
+    testWidgets(
+      'pressing sort by subject button changes sorting to subject sort',
+      (tester) async {
+        homeworkPageBloc = createBloc();
+
+        await pumpHomeworkPage(
+          tester,
+          bloc: homeworkPageBloc,
+          initialTab: HomeworkTab.open,
+        );
+
+        homeworkPageBloc.emitNewState(
+          _openHomeworksWith(HomeworkSort.weekdayDateSubjectAndTitle),
+        );
+
+        await tester.pump();
+
+        await tester.tap(_finders.openHomeworkTab.bnbSortButton);
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.text(SortButton.sortBySubjectSortButtonUiString).last,
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          homeworkPageBloc.receivedEvents
+              .whereType<OpenHwSortingChanged>()
+              .single,
+          OpenHwSortingChanged(HomeworkSort.subjectSmallestDateAndTitleSort),
         );
       },
     );
@@ -567,7 +655,7 @@ class _HomeworkPageFinders {
 
 class _OpenHomeworkTabFinders {
   Finder get homeworkList => find.byType(TeacherAndParentOpenHomeworkList);
-  Finder get bnbSortButton => find.byType(SortButton);
+  Finder get bnbSortButton => find.byKey(const Key('change_homework_sorting'));
   Finder get noHomeworkPlaceholder =>
   // Widget is private. Not sure if this is the best way or if we should make
   // the Widget public and use the type directly.
