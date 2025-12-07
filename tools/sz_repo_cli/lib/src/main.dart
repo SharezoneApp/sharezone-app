@@ -23,6 +23,7 @@ import 'package:sz_repo_cli/src/commands/src/build_console_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_runner_build_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_runner_command.dart';
 import 'package:sz_repo_cli/src/commands/src/build_website_command.dart';
+import 'package:sz_repo_cli/src/commands/src/check_l10n_files_command.dart';
 import 'package:sz_repo_cli/src/commands/src/check_license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_app_android_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_app_command.dart';
@@ -31,8 +32,8 @@ import 'package:sz_repo_cli/src/commands/src/deploy_app_macos_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_console_command.dart';
 import 'package:sz_repo_cli/src/commands/src/deploy_website_command.dart';
 import 'package:sz_repo_cli/src/commands/src/format_command.dart';
-import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
 import 'package:sz_repo_cli/src/commands/src/l10n_command.dart';
+import 'package:sz_repo_cli/src/commands/src/license_headers_command.dart';
 
 import 'commands/commands.dart';
 import 'common/common.dart';
@@ -61,7 +62,11 @@ Future<void> main(List<String> args) async {
         ..addCommand(AnalyzeCommand(context))
         ..addCommand(TestCommand(context))
         ..addCommand(FormatCommand(context))
-        ..addCommand(L10nCommand(context))
+        ..addCommand(
+          L10nCommand()
+            ..addSubcommand(GenerateL10nFilesCommand(context))
+            ..addSubcommand(CheckL10nFilesCommand(context)),
+        )
         ..addCommand(ExecCommand(context))
         ..addCommand(DoStuffCommand(context))
         ..addCommand(FixCommentSpacingCommand(context))
