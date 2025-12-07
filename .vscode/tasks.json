@@ -21,7 +21,9 @@
         {
             "label": "Add license header to files",
             "type": "shell",
-            "command": "sz lh add",
+            // Using bin/sz instead of sz so that it also work if a developer
+            // has not added the sz binary to their PATH.
+            "command": "bin/sz lh add",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
