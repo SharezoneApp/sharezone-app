@@ -1,0 +1,5 @@
+code_review:
+  pull_request_opened:
+    # We think that the summary is too verbose and doesn't add much value.
+    # Therefore, we disable it.
+    summary: false
