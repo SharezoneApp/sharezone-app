@@ -113,9 +113,9 @@ class _SignInMethods extends StatelessWidget {
 }
 
 class _GoogleButton extends StatelessWidget {
-  const _GoogleButton._(this.isLong);
-  factory _GoogleButton.short() => const _GoogleButton._(false);
-  factory _GoogleButton.long() => const _GoogleButton._(true);
+  const _GoogleButton._({required this.isLong});
+  factory _GoogleButton.short() => const _GoogleButton._(isLong: false);
+  factory _GoogleButton.long() => const _GoogleButton._(isLong: true);
 
   final bool isLong;
 
