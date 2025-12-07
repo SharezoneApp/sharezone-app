@@ -17,6 +17,15 @@
                 "cwd": "${workspaceFolder}/lib/sharezone_localizations"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Add license header to files",
+            "type": "shell",
+            "command": "sz lh add",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         }
     ]
 }
