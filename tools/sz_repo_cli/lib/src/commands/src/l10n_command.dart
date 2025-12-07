@@ -28,7 +28,6 @@ class L10nCommand extends CommandBase {
         .childDirectory('sharezone_localizations');
 
     await processRunner.runCommand([
-      'fvm',
       'flutter',
       'gen-l10n',
     ], workingDirectory: l10nDir);
