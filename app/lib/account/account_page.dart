@@ -22,6 +22,7 @@ import 'package:sharezone/settings/src/subpages/my_profile/my_profile_page.dart'
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'account_page_bloc_factory.dart';
 
@@ -63,7 +64,7 @@ class _AccountPageState extends State<AccountPage> {
               navigationItem: NavigationItem.accountPage,
               scaffoldKey: scaffoldKey,
               appBarConfiguration: AppBarConfiguration(
-                title: "Profil",
+                title: context.l10n.accountPageTitle,
                 actions: <Widget>[
                   if (!PlatformCheck.isDesktopOrWeb) _WebIcon(),
                 ],
@@ -106,7 +107,7 @@ class _WebIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'QR-Code Login für die Web-App',
+      tooltip: context.l10n.accountPageWebLoginTooltip,
       icon: const Icon(Icons.desktop_mac),
       onPressed: () => Navigator.pushNamed(context, WebAppSettingsPage.tag),
     );
@@ -126,8 +127,8 @@ class _SecondaryInformationCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             ListTile(
-              title: const Text("Bundesland"),
-              subtitle: Text(user.state!),
+              title: Text(context.l10n.accountStateTitle),
+              subtitle: Text(user.state.getDisplayName(context)),
               onTap: () => Navigator.pushNamed(context, ChangeStatePage.tag),
             ),
           ],
@@ -179,7 +180,7 @@ class _EditProfilButton extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: IconButton(
-            tooltip: 'Profil bearbeiten',
+            tooltip: context.l10n.accountEditProfileTooltip,
             icon: const Icon(Icons.edit),
             color: Colors.grey,
             onPressed: () => Navigator.pushNamed(context, MyProfilePage.tag),
