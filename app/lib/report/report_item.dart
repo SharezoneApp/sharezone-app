@@ -21,29 +21,6 @@ enum ReportedItemType {
   comment,
 }
 
-String reportItemTypeToUiString(ReportedItemType type) {
-  switch (type) {
-    case ReportedItemType.blackboard:
-      return 'Infozettel';
-    case ReportedItemType.homework:
-      return 'Hausaufgabe';
-    case ReportedItemType.event:
-      return 'Termin / Prüfung';
-    case ReportedItemType.lesson:
-      return 'Stunde';
-    case ReportedItemType.file:
-      return 'Datei';
-    case ReportedItemType.user:
-      return 'Nutzer';
-    case ReportedItemType.course:
-      return 'Kurs';
-    case ReportedItemType.schoolClass:
-      return 'Schulklasse';
-    case ReportedItemType.comment:
-      return 'Kommentar';
-  }
-}
-
 class ReportItemReference {
   final String path;
 
