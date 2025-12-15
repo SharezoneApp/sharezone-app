@@ -181,6 +181,42 @@ abstract class SharezoneLocalizations {
   /// **'Version: {version} ({buildNumber})'**
   String aboutVersion(String? buildNumber, String? version);
 
+  /// Tooltip for the edit profile button on the account page.
+  ///
+  /// In de, this message translates to:
+  /// **'Profil bearbeiten'**
+  String get accountEditProfileTooltip;
+
+  /// Snackbar text when linking an account with Apple succeeded.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Account wurde mit einem Apple-Konto verknüpft.'**
+  String get accountLinkAppleConfirmation;
+
+  /// Snackbar text when linking an account with Google succeeded.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Account wurde mit einem Google-Konto verknüpft.'**
+  String get accountLinkGoogleConfirmation;
+
+  /// Title for the account page app bar.
+  ///
+  /// In de, this message translates to:
+  /// **'Profil'**
+  String get accountPageTitle;
+
+  /// Tooltip for the QR code web login button in the account page app bar.
+  ///
+  /// In de, this message translates to:
+  /// **'QR-Code Login für die Web-App'**
+  String get accountPageWebLoginTooltip;
+
+  /// Title for the tile that shows the user's state on the account page.
+  ///
+  /// In de, this message translates to:
+  /// **'Bundesland'**
+  String get accountStateTitle;
+
   /// No description provided for @appName.
   ///
   /// In de, this message translates to:
@@ -192,6 +228,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Aktuell'**
   String get changeEmailAddressCurrentEmailTextfieldLabel;
+
+  /// Error message when the new email matches the current one.
+  ///
+  /// In de, this message translates to:
+  /// **'Die eingegebene E-Mail ist identisch mit der alten! 🙈'**
+  String get changeEmailAddressIdenticalError;
 
   /// The label for the text field which is used for the new email address
   ///
@@ -621,6 +663,108 @@ abstract class SharezoneLocalizations {
   /// **'Neue Navigation - Mit Mehr-Button'**
   String get navigationExperimentOptionExtendableBnbWithMoreButton;
 
+  /// Legal notice shown below the sign-in methods for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.'**
+  String get registerAccountAgeNoticeText;
+
+  /// Banner text indicating the user is only signed in anonymously.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist nur anonym angemeldet!'**
+  String get registerAccountAnonymousInfoTitle;
+
+  /// Label for the long Apple sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Apple anmelden'**
+  String get registerAccountAppleButtonLong;
+
+  /// Label for the short Apple sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Apple'**
+  String get registerAccountAppleButtonShort;
+
+  /// Subtitle describing the backup benefit for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiterhin Zugriff auf die Daten bei Verlust des Smartphones'**
+  String get registerAccountBenefitBackupSubtitle;
+
+  /// Title for the backup benefit list tile for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Automatisches Backup'**
+  String get registerAccountBenefitBackupTitle;
+
+  /// Subtitle describing the multi-device benefit for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Daten werden zwischen mehreren Geräten synchronisiert'**
+  String get registerAccountBenefitMultiDeviceSubtitle;
+
+  /// Title for the multi-device benefit list tile for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Nutzung auf mehreren Geräten'**
+  String get registerAccountBenefitMultiDeviceTitle;
+
+  /// Intro text for the benefits of creating an account.
+  ///
+  /// In de, this message translates to:
+  /// **'Übertrage jetzt deinen Account auf ein richtiges Konto, um von folgenden Vorteilen zu profitieren:'**
+  String get registerAccountBenefitsIntro;
+
+  /// Dialog content explaining what to do when the email is already in use during linking.
+  ///
+  /// In de, this message translates to:
+  /// **'So wie es aussieht, hast du versehentlich einen zweiten Sharezone-Account erstellt. Lösche einfach diesen Account und melde dich mit deinem richtigen Account an.\n\nFür den Fall, dass du nicht genau weißt, wie das funktioniert, haben wir für dich eine Anleitung vorbereitet :)'**
+  String get registerAccountEmailAlreadyUsedContent;
+
+  /// Dialog title when the email is already in use during linking.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese E-Mail wird schon verwendet!'**
+  String get registerAccountEmailAlreadyUsedTitle;
+
+  /// Label for the long email sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit E-Mail anmelden'**
+  String get registerAccountEmailButtonLong;
+
+  /// Label for the short email sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail'**
+  String get registerAccountEmailButtonShort;
+
+  /// Snackbar text when an email account link succeeds.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Account wurde mit einem E-Mail-Konto verknüpft.'**
+  String get registerAccountEmailLinkConfirmation;
+
+  /// Label for the long Google sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Google anmelden'**
+  String get registerAccountGoogleButtonLong;
+
+  /// Label for the short Google sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Google'**
+  String get registerAccountGoogleButtonShort;
+
+  /// Label for the dialog action that opens the instructions for using multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Anleitung zeigen'**
+  String get registerAccountShowInstructionAction;
+
   /// No description provided for @socialDiscord.
   ///
   /// In de, this message translates to:
@@ -954,6 +1098,66 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Stundenplan'**
   String get timetableSettingsTitle;
+
+  /// App bar title for the instructions on using multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Anleitung'**
+  String get useAccountInstructionsAppBarTitle;
+
+  /// Headline question for using Sharezone on multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie nutze ich Sharezone auf mehreren Geräten?'**
+  String get useAccountInstructionsHeadline;
+
+  /// No description provided for @useAccountInstructionsStep.
+  ///
+  /// In de, this message translates to:
+  /// **'1. Gehe zurück zu deinem Profil\n2. Melde dich über das Sign-Out-Icon rechts oben ab.\n3. Bestätige, dass dabei dein Konto gelöscht wird.\n4. Klicke unten auf den Button \"Du hast schon ein Konto? Dann...\"\n5. Melde dich an.'**
+  String get useAccountInstructionsStep;
+
+  /// Title above the list of steps for using multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Schritte:'**
+  String get useAccountInstructionsStepsTitle;
+
+  /// Title above the explanatory video for using multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Video:'**
+  String get useAccountInstructionsVideoTitle;
+
+  /// Snackbar text while waiting for the user data to load before opening the edit screen.
+  ///
+  /// In de, this message translates to:
+  /// **'Informationen werden geladen! Warte kurz.'**
+  String get userEditLoadingUserSnackbar;
+
+  /// Snackbar text confirming that the user's name was changed.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Name wurde erfolgreich umbenannt.'**
+  String get userEditNameChangedConfirmation;
+
+  /// Title for the edit name page.
+  ///
+  /// In de, this message translates to:
+  /// **'Name bearbeiten'**
+  String get userEditPageTitle;
+
+  /// Error snackbar text when saving the edited name failed.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Vorgang konnte nicht korrekt abgeschlossen werden. Bitte kontaktiere den Support!'**
+  String get userEditSubmitFailed;
+
+  /// Loading snackbar text shown while the edit form submits.
+  ///
+  /// In de, this message translates to:
+  /// **'Daten werden nach Frankfurt transportiert...'**
+  String get userEditSubmittingSnackbar;
 }
 
 class _SharezoneLocalizationsDelegate
