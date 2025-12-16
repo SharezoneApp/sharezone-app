@@ -14,7 +14,7 @@ import 'package:sz_repo_cli/src/common/common.dart';
 ///
 /// Returns a tuple where the first element is `true` if there are git changes
 /// and the second element is the git diff.
-Future<(bool, String)> hasGitChanges(
+Future<({bool hasChanges, String diffs})> hasGitChanges(
   ProcessRunner processRunner,
   Directory workingDirectory,
 ) async {
@@ -24,5 +24,5 @@ Future<(bool, String)> hasGitChanges(
     '--exit-code',
     workingDirectory.path,
   ], failOk: true);
-  return (result.exitCode != 0, result.stdout);
+  return (hasChanges: result.exitCode != 0, diffs: result.stdout);
 }

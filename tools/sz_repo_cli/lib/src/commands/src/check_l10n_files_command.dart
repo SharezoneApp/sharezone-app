@@ -30,7 +30,7 @@ class CheckL10nFilesCommand extends CommandBase {
       'lib/sharezone_localizations',
     );
 
-    final (hasChanges, diffs) = await hasGitChanges(
+    final (:hasChanges, :diffs) = await hasGitChanges(
       processRunner,
       l10nPackageDirectory,
     );
