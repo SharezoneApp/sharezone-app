@@ -35,6 +35,7 @@ dependencies:
   flutter:
     sdk: flutter
   clock: ^1.1.2
+  url_launcher: ^6.3.1
   flutter_markdown:
     git:
       url: https://github.com/SharezoneApp/packages
