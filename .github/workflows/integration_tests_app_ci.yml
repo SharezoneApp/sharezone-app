@@ -82,6 +82,7 @@ jobs:
         working-directory: app
     timeout-minutes: 90
     steps:
+      # test
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       # Our Android configurations require Java 17.
