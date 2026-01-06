@@ -12,11 +12,12 @@ import 'package:authentification_qrcode/authentification_qrcode.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
-import 'package:sharezone_utils/launch_link.dart';
+import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
+import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class WebAppSettingsPage extends StatelessWidget {
@@ -71,7 +72,7 @@ class _Header extends StatelessWidget {
         child: SizedBox(
           width: 65,
           height: 65,
-          child: PlatformSvg.asset("assets/icons/desktop.svg"),
+          child: SvgPicture.asset("assets/icons/desktop.svg"),
         ),
       ),
       children: <Widget>[
@@ -115,11 +116,14 @@ class _ScanQrCode extends StatelessWidget {
     return Column(
       children: <Widget>[
         CustomCardListTile(
-          icon: PlatformSvg.asset(
+          icon: SvgPicture.asset(
             'assets/icons/qr-code.svg',
             height: 24,
             width: 24,
-            color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
+              BlendMode.srcIn,
+            ),
           ),
           title: "QR-Code scannen",
           onTap: () async {

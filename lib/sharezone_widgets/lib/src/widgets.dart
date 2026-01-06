@@ -12,6 +12,7 @@ import 'dart:developer';
 import 'package:build_context/build_context.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -185,7 +186,7 @@ class SharezoneLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: 'sharezone-logo',
-      child: PlatformSvg.asset(
+      child: SvgPicture.asset(
         getLogoPath()!,
         height: height,
         width: width,
@@ -499,12 +500,13 @@ class CardListTile extends StatelessWidget {
     this.leading,
     this.title,
     this.subtitle,
+    this.trailing,
     this.onTap,
     this.centerTitle = false,
     this.maxWidth = 550,
   });
 
-  final Widget? leading, title, subtitle;
+  final Widget? leading, title, subtitle, trailing;
   final VoidCallback? onTap;
   final bool centerTitle;
   final double maxWidth;
@@ -566,6 +568,7 @@ class CardListTile extends StatelessWidget {
                   ],
                 ),
               ),
+              if (trailing != null) trailing!,
             ],
           ),
         ),

@@ -6,6 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
 enum StateEnum {
   // Caution! If adding value it also has to be added in many other places.
   badenWuerttemberg,
@@ -26,7 +29,32 @@ enum StateEnum {
   thueringen,
   notFromGermany,
   anonymous,
-  notSelected,
+  notSelected;
+
+  String getDisplayName(BuildContext context) {
+    return switch (this) {
+      StateEnum.badenWuerttemberg => context.l10n.stateBadenWuerttemberg,
+      StateEnum.bayern => context.l10n.stateBayern,
+      StateEnum.berlin => context.l10n.stateBerlin,
+      StateEnum.brandenburg => context.l10n.stateBrandenburg,
+      StateEnum.bremen => context.l10n.stateBremen,
+      StateEnum.hamburg => context.l10n.stateHamburg,
+      StateEnum.hessen => context.l10n.stateHessen,
+      StateEnum.mecklenburgVorpommern =>
+        context.l10n.stateMecklenburgVorpommern,
+      StateEnum.niedersachsen => context.l10n.stateNiedersachsen,
+      StateEnum.nordrheinWestfalen => context.l10n.stateNordrheinWestfalen,
+      StateEnum.rheinlandPfalz => context.l10n.stateRheinlandPfalz,
+      StateEnum.saarland => context.l10n.stateSaarland,
+      StateEnum.sachsen => context.l10n.stateSachsen,
+      StateEnum.sachsenAnhalt => context.l10n.stateSachsenAnhalt,
+      StateEnum.schleswigHolstein => context.l10n.stateSchleswigHolstein,
+      StateEnum.thueringen => context.l10n.stateThueringen,
+      StateEnum.notFromGermany => context.l10n.stateNotFromGermany,
+      StateEnum.anonymous => context.l10n.stateAnonymous,
+      StateEnum.notSelected => context.l10n.stateNotSelected,
+    };
+  }
 }
 
 const Map<StateEnum, String> stateEnumToString = {

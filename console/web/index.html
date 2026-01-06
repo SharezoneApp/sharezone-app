@@ -33,6 +33,20 @@
 </head>
 
 <body>
+    <!-- pdfx requires pdfjs; otherwise, you cannot open the console, even
+    though we do not use the pdfx dependency in the console. If it's not needed
+    anymore, feel free to try removing this in the future (remove it, run the
+    console and see if it works). -->
+    <script src='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs' type='module'></script>
+    <script type='module'>
+        var { pdfjsLib } = globalThis;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.mjs';
+
+        var pdfRenderOptions = {
+            cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/cmaps/',
+            cMapPacked: true,
+        }
+    </script>
     <noscript>
         We're sorry but the Sharezone console doesn't work properly without JavaScript enabled. Please enable it to
         continue.

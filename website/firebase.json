@@ -40,6 +40,11 @@
         "type": 302
       },
       {
+        "source": "/x",
+        "destination": "https://x.com/SharezoneApp",
+        "type": 302
+      },
+      {
         "source": "/discord",
         "destination": "https://discord.gg/8JJ4tBa",
         "type": 302

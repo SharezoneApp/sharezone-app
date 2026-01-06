@@ -117,20 +117,8 @@ class _WritePermissionSheet extends StatelessWidget {
                     ],
                   ),
                 ),
-                _WritePermissionTile(
-                  writePermission: WritePermission.everyone,
+                _PermissionRadioGroup(
                   currentPermission: currentPermission,
-                  title: "Alle",
-                  subtitle:
-                      'Jeder erhält die Rolle ”aktives Mitglied (Lese- und Schreibrechte)"',
-                  onChange: onChange,
-                ),
-                _WritePermissionTile(
-                  writePermission: WritePermission.onlyAdmins,
-                  currentPermission: currentPermission,
-                  title: "Nur Admins",
-                  subtitle:
-                      'Alle, außer die Admins, erhalten die Rolle "passives Mitglied (Nur Leserechte)"',
                   onChange: onChange,
                 ),
                 const SizedBox(height: 16),
@@ -139,6 +127,48 @@ class _WritePermissionSheet extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _PermissionRadioGroup extends StatelessWidget {
+  const _PermissionRadioGroup({
+    required this.currentPermission,
+    required this.onChange,
+  });
+
+  final WritePermission currentPermission;
+  final FutureBoolValueChanged<WritePermission> onChange;
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioGroup(
+      groupValue: currentPermission,
+      onChanged: (newPermission) {
+        if (newPermission == null) return;
+        Future<bool> kickUser = onChange(newPermission);
+        showSimpleStateDialog(context, kickUser);
+      },
+      child: Column(
+        children: [
+          _WritePermissionTile(
+            writePermission: WritePermission.everyone,
+            currentPermission: currentPermission,
+            title: "Alle",
+            subtitle:
+                'Jeder erhält die Rolle ”aktives Mitglied (Lese- und Schreibrechte)"',
+            onChange: onChange,
+          ),
+          _WritePermissionTile(
+            writePermission: WritePermission.onlyAdmins,
+            currentPermission: currentPermission,
+            title: "Nur Admins",
+            subtitle:
+                'Alle, außer die Admins, erhalten die Rolle "passives Mitglied (Nur Leserechte)"',
+            onChange: onChange,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -164,12 +194,7 @@ class _WritePermissionTile extends StatelessWidget {
       child: RadioListTile<WritePermission>(
         title: Text(title),
         subtitle: !isEmptyOrNull(subtitle) ? Text(subtitle!) : null,
-        groupValue: currentPermission,
         value: writePermission,
-        onChanged: (newPermission) {
-          Future<bool> kickUser = onChange(writePermission);
-          showSimpleStateDialog(context, kickUser);
-        },
       ),
     );
   }

@@ -9,12 +9,16 @@
 inputs:
   nixpkgs:
     url: github:cachix/devenv-nixpkgs/rolling
-  nixpkgs-unstable:
-    url: github:NixOS/nixpkgs/nixpkgs-unstable
+  # Used to select the same version of Flutter as used in `.fvmrc`.
+  # Search here for a commit that updates Flutter to the desired version:
+  # https://github.com/NixOS/nixpkgs/commits/nixos-unstable/pkgs/development/compilers/flutter
+  nixpkgs-flutter:
+    url: github:NixOS/nixpkgs/master
 
 # If you're using non-OSS software, you can set allowUnfree to true.
 # We need it for the Android SDK and Google Chrome
 allowUnfree: true
+clean.enabled: true
 # If you're willing to use a package that's vulnerable
 # permittedInsecurePackages:
 #  - "openssl-1.1.1w"

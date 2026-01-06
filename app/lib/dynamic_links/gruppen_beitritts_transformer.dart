@@ -46,6 +46,11 @@ class GruppenBeitrittsversuchFilterBloc implements BlocBase {
   ) async {
     {
       if (link.typ == matchingLinkType) {
+        final codeString = link.zusatzinformationen[sharecodeKey];
+        if (codeString == null || codeString.isEmpty) {
+          log("Kein Sharecode im Link vorhanden: $link");
+          return null;
+        }
         final sharecode = Sharecode(link.zusatzinformationen[sharecodeKey]!);
         final schonBeigetreten = await istGruppeBereitsBeigetreten(sharecode);
         if (!schonBeigetreten) {

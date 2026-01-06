@@ -206,8 +206,10 @@ class _FeatureCard extends StatefulWidget {
 class __FeatureCardState extends State<_FeatureCard> {
   // Please use 0.0 instead of 0. You will get a .toDouble() issue, if you
   // use 0 instead of 0.0
-  final nonHoverTransform = Matrix4.identity()..translate(0.0, 0, 0.0);
-  final hoverTransform = Matrix4.identity()..translate(10.0, 0.0, 0.0);
+  final nonHoverTransform =
+      Matrix4.identity()..translateByDouble(0.0, 0.0, 0.0, 1.0);
+  final hoverTransform =
+      Matrix4.identity()..translateByDouble(10.0, 0.0, 0.0, 1.0);
 
   bool showIcon = true;
 

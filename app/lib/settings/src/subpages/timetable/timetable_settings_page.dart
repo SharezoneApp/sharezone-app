@@ -25,6 +25,7 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
 import 'package:sharezone/timetable/src/models/lesson_length/lesson_length.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -39,7 +40,10 @@ class TimetableSettingsPage extends StatelessWidget {
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
-        appBar: AppBar(title: const Text("Stundenplan"), centerTitle: true),
+        appBar: AppBar(
+          title: Text(context.l10n.timetableSettingsTitle),
+          centerTitle: true,
+        ),
         body: SingleChildScrollView(
           child: SafeArea(
             child: MaxWidthConstraintBox(
@@ -86,7 +90,7 @@ class _ABWeekField extends StatelessWidget {
         return Column(
           children: <Widget>[
             SwitchListTile.adaptive(
-              title: const Text("A/B Wochen"),
+              title: Text(context.l10n.timetableSettingsABWeekTileTitle),
               value: userSettings!.isABWeekEnabled,
               onChanged: (newValue) {
                 bloc.updateSettings(
@@ -106,7 +110,9 @@ class _ABWeekField extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     ListTile(
-                      title: const Text("A-Wochen sind gerade Kalenderwochen"),
+                      title: Text(
+                        context.l10n.timetableSettingsAWeeksAreEvenSwitch,
+                      ),
                       trailing: Switch.adaptive(
                         value: userSettings.isAWeekEvenWeek,
                         onChanged:
@@ -118,7 +124,13 @@ class _ABWeekField extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                       child: Text(
-                        "Diese Woche ist Kalenderwoche ${getWeekNumber(clock.now()).toString()}. A-Wochen sind ${_getAWeekIsEvenOrOddName(userSettings.isAWeekEvenWeek)} Kalenderwochen und somit ist aktuell eine ${_getCurrentWeekTypeName(userSettings.isAWeekEvenWeek)}.",
+                        context.l10n.timetableSettingsThisWeekIs(
+                          getWeekNumber(clock.now()),
+                          _getAWeekIsEvenOrOddName(
+                            userSettings.isAWeekEvenWeek,
+                          ),
+                          _getCurrentWeekTypeName(userSettings.isAWeekEvenWeek),
+                        ),
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontSize: 12,
@@ -164,7 +176,7 @@ class _AbbreviationInTimetable extends StatelessWidget {
         if (!snapshot.hasData) return Container();
         final userSettings = snapshot.data!;
         return SwitchListTile.adaptive(
-          title: const Text("Kürzel im Stundenplan anzeigen"),
+          title: Text(context.l10n.timetableSettingsShowLessonsAbbreviation),
           value: userSettings.showAbbreviation,
           onChanged: (newValue) {
             bloc.updateSettings(
@@ -181,8 +193,8 @@ class _TimetablePeriodsField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Text("Stundenzeiten"),
-      subtitle: const Text("Stundenplanbeginn, Stundenlänge, etc."),
+      title: Text(context.l10n.timetableSettingsPeriodsFieldTileTitle),
+      subtitle: Text(context.l10n.timetableSettingsPeriodsFieldTileSubtitle),
       onTap: () => openPeriodsEditPage(context),
     );
   }
@@ -197,10 +209,8 @@ class _ICalLinks extends StatelessWidget {
       SharezonePlusFeature.iCalLinks,
     );
     return ListTile(
-      title: const Text("Termine, Prüfungen, Stundenplan exportieren (iCal)"),
-      subtitle: const Text(
-        "Synchronisierung mit Google Kalender, Apple Kalender usw.",
-      ),
+      title: Text(context.l10n.timetableSettingsIcalLinksTitleTitle),
+      subtitle: Text(context.l10n.timetableSettingsIcalLinksTitleSubtitle),
       onTap: () {
         if (isUnlocked) {
           Navigator.pushNamed(context, ICalLinksPage.tag);
@@ -209,8 +219,8 @@ class _ICalLinks extends StatelessWidget {
             context: context,
             navigateToPlusPage:
                 () => openSharezonePlusPageAsFullscreenDialog(context),
-            description: const Text(
-              'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim "Zum Kalender hinzufügen" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.',
+            description: Text(
+              context.l10n.timetableSettingsIcalLinksPlusDialogContent,
             ),
           );
         }
@@ -224,7 +234,7 @@ class _TimetableEnabledWeekDaysField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Text("Aktivierte Wochentage"),
+      title: Text(context.l10n.timetableSettingsEnabledWeekDaysTileTitle),
       onTap: () => openWeekDaysEditPage(context),
     );
   }
@@ -265,17 +275,23 @@ class LessonsLengthField extends StatelessWidget {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.timelapse),
-                title: const Text("Länge einer Stunde"),
+                title: Text(
+                  context.l10n.timetableSettingsLessonLengthTileTitle,
+                ),
                 mouseCursor: SystemMouseCursors.click,
                 trailing: Text(
-                  lessonLength.isValid ? "${lessonLength.minutes} Min." : "-",
+                  lessonLength.isValid
+                      ? context.l10n.timetableSettingsLessonLengthTileTrailing(
+                        lessonLength.minutes,
+                      )
+                      : "-",
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                 child: Text(
-                  "Solltest du eine neue Schulstunde eintragen, wird beim Eintragen der Startzeit automatisch die Endzeit basierend auf der Länge der Stunde berechnet.",
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  context.l10n.timetableSettingsLessonLengthTileSubtitle,
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ),
             ],
@@ -302,7 +318,7 @@ class LessonsLengthField extends StatelessWidget {
     showSnack(
       context: context,
       duration: const Duration(milliseconds: 1500),
-      text: 'Länge einer Stunde wurde gespeichert.',
+      text: context.l10n.timetableSettingsLessonLengthSavedConfirmation,
     );
   }
 }
@@ -328,16 +344,16 @@ class __NumberPickerState extends State<_NumberPicker> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Wähle die Länge der Stunde in Minuten aus.'),
+      title: Text(context.l10n.timetableSettingsLessonLengthEditDialog),
       actions: [
         TextButton(
-          child: const Text('Abbrechen'),
+          child: Text(context.l10n.commonActionsCancel),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         TextButton(
-          child: const Text('Bestätigen'),
+          child: Text(context.l10n.commonActionsConfirm),
           onPressed: () {
             Navigator.pop(context, value);
           },
@@ -373,7 +389,9 @@ class _IsTimePickerFifeMinutesIntervalActive extends StatelessWidget {
       builder: (context, snapshot) {
         final isActive = snapshot.data ?? true;
         return SwitchListTile.adaptive(
-          title: const Text("Fünf-Minuten-Intervall beim Time-Picker"),
+          title: Text(
+            context.l10n.timetableSettingsIsFiveMinutesIntervalActiveTileTitle,
+          ),
           value: isActive,
           onChanged: bloc.setIsTimePickerFifeMinutesIntervalActive,
         );

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:sharezone/widgets/svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // Karte mit CircleAvatar und dahinter eine Karte
@@ -122,7 +122,12 @@ class AvatarCard extends StatelessWidget {
   Widget svg() {
     return InkWell(
       onTap: onTapImage,
-      child: SvgWidget(assetName: svgPath!, size: svgSize),
+      child: SvgPicture.asset(
+        svgPath!,
+        width: svgSize.width,
+        height: svgSize.height,
+        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+      ),
     );
   }
 
