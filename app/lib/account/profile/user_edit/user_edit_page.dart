@@ -15,6 +15,7 @@ import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 Future<void> openUserEditPageIfUserIsLoaded(
   BuildContext context,
@@ -38,7 +39,7 @@ Future<void> openUserEditPageIfUserIsLoaded(
 void _showLoadingUserSnackBar(BuildContext context) {
   showSnackSec(
     context: context,
-    text: "Informationen werden geladen! Warte kurz.",
+    text: context.l10n.userEditLoadingUserSnackbar,
     seconds: 2,
   );
 }
@@ -47,7 +48,7 @@ void _showConfirmationSnackbar(BuildContext context) {
   showSnackSec(
     context: context,
     seconds: 2,
-    text: "Dein Name wurde erfolgreich umbenannt.",
+    text: context.l10n.userEditNameChangedConfirmation,
   );
 }
 
@@ -62,7 +63,7 @@ Future<void> _submit(
     key: scaffoldKey,
     seconds: 60,
     withLoadingCircle: true,
-    text: "Daten werden nach Frankfurt transportiert...",
+    text: context.l10n.userEditSubmittingSnackbar,
     behavior: SnackBarBehavior.fixed,
   );
   try {
@@ -75,8 +76,7 @@ Future<void> _submit(
         context: context,
         key: scaffoldKey,
         behavior: SnackBarBehavior.fixed,
-        text:
-            'Der Vorgang konnte nicht korrekt abgeschlossen werden. Bitte kontaktiere den Support!',
+        text: context.l10n.userEditSubmitFailed,
       );
     }
   } on Exception catch (e, s) {
@@ -143,7 +143,7 @@ class _UserEditPageState extends State<UserEditPage> {
         child: Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
-            title: const Text("Name bearbeiten"),
+            title: Text(context.l10n.userEditPageTitle),
             centerTitle: true,
           ),
           body: SingleChildScrollView(
@@ -183,7 +183,7 @@ class _UserEditPageFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
-      label: const Text("Speichern"),
+      label: Text(context.l10n.commonActionsSave),
       onPressed: () => _submit(context),
       icon: const Icon(Icons.check),
     );

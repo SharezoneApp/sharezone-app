@@ -85,10 +85,7 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
     final String? password = _passwordSubject.valueOrNull;
 
     if (newEmail == currentEmail) {
-      throw IdenticalEmailException(
-        "Die eingegebene E-Mail ist doch identisch mit der alten?! 🙈",
-        currentEmail,
-      );
+      throw const IdenticalEmailException();
     } else {
       if (!isEmptyOrNull(newEmail) &&
           AuthentificationValidators.isEmailValid(newEmail!)) {
@@ -187,19 +184,10 @@ class ChangeDataBloc extends BlocBase with AuthentificationValidators {
 }
 
 class IdenticalEmailException implements Exception {
-  final String? message;
-  final String? email;
-
-  IdenticalEmailException([this.message, this.email]);
+  const IdenticalEmailException();
 
   @override
-  String toString() {
-    String message = "IdenticalEmailException";
-    if (email != null || email != "") {
-      message += ": $email is the same as before.";
-    }
-    return message;
-  }
+  String toString() => "IdenticalEmailException";
 }
 
 class NewPasswordIsMissingException implements Exception {
