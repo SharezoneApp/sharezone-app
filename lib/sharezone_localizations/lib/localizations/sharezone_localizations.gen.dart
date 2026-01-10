@@ -621,6 +621,132 @@ abstract class SharezoneLocalizations {
   /// **'Neue Navigation - Mit Mehr-Button'**
   String get navigationExperimentOptionExtendableBnbWithMoreButton;
 
+  /// Helper text shown above the description field on the report page.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte beschreibe uns, warum du diesen Inhalt melden möchtest. Gib uns dabei möglichst viele Informationen, damit wir den Fall schnell und sicher bearbeiten können.'**
+  String get reportDescriptionHelperText;
+
+  /// Label of the description text field on the report page.
+  ///
+  /// In de, this message translates to:
+  /// **'Beschreibung'**
+  String get reportDescriptionLabel;
+
+  /// Content of the confirmation dialog before sending a report.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).'**
+  String get reportDialogContent;
+
+  /// Label for sending a report, used for dialog action and tooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Senden'**
+  String get reportDialogSendAction;
+
+  /// Label for the reported item type blackboard/notice.
+  ///
+  /// In de, this message translates to:
+  /// **'Infozettel'**
+  String get reportItemTypeBlackboard;
+
+  /// Label for the reported item type comment.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommentar'**
+  String get reportItemTypeComment;
+
+  /// Label for the reported item type course.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs'**
+  String get reportItemTypeCourse;
+
+  /// Label for the reported item type event or exam.
+  ///
+  /// In de, this message translates to:
+  /// **'Termin / Prüfung'**
+  String get reportItemTypeEvent;
+
+  /// Label for the reported item type file.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei'**
+  String get reportItemTypeFile;
+
+  /// Label for the reported item type homework.
+  ///
+  /// In de, this message translates to:
+  /// **'Hausaufgabe'**
+  String get reportItemTypeHomework;
+
+  /// Label for the reported item type lesson.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunde'**
+  String get reportItemTypeLesson;
+
+  /// Label for the reported item type school class.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulklasse'**
+  String get reportItemTypeSchoolClass;
+
+  /// Label for the reported item type user.
+  ///
+  /// In de, this message translates to:
+  /// **'Nutzer'**
+  String get reportItemTypeUser;
+
+  /// Error message shown when required report information is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte einen Grund und eine Beschreibung an.'**
+  String get reportMissingInformation;
+
+  /// Title for the report page and tooltip when reporting an item.
+  ///
+  /// In de, this message translates to:
+  /// **'{itemType} melden'**
+  String reportPageTitle(String itemType);
+
+  /// Reason option for bullying.
+  ///
+  /// In de, this message translates to:
+  /// **'Mobbing'**
+  String get reportReasonBullying;
+
+  /// Reason option for illegal content.
+  ///
+  /// In de, this message translates to:
+  /// **'Rechtswidrige Inhalte'**
+  String get reportReasonIllegalContent;
+
+  /// Reason option for other reasons.
+  ///
+  /// In de, this message translates to:
+  /// **'Sonstiges'**
+  String get reportReasonOther;
+
+  /// Reason option for pornographic content.
+  ///
+  /// In de, this message translates to:
+  /// **'Pornografische Inhalte'**
+  String get reportReasonPornographicContent;
+
+  /// Reason option for spam.
+  ///
+  /// In de, this message translates to:
+  /// **'Spam'**
+  String get reportReasonSpam;
+
+  /// Reason option for violent or repulsive content.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewaltsame oder abstoßende Inhalte'**
+  String get reportReasonViolentContent;
+
   /// No description provided for @socialDiscord.
   ///
   /// In de, this message translates to:
