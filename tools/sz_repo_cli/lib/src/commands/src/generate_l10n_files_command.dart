@@ -60,9 +60,9 @@ class GenerateL10nFilesCommand extends CommandBase {
   Future<void> _sortArbFiles(Directory l10nDir) async {
     final arbFilesDir = l10nDir.childDirectory('l10n');
 
-    final arbFiles = arbFilesDir.listSync().whereType<File>().where(
+    final arbFiles = await arbFilesDir.list().whereType<File>().where(
       (file) => file.path.endsWith('.arb'),
-    );
+    ).toList();
     await Future.wait([
       for (final arbFile in arbFiles)
         processRunner.runCommand(['arbsort', arbFile.path]),
