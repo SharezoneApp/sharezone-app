@@ -7,7 +7,7 @@ part of 'datei_hinzufuegen_command_dto.dart';
 // **************************************************************************
 
 Serializer<DateiHinzufuegenCommandDto> _$dateiHinzufuegenCommandDtoSerializer =
-    new _$DateiHinzufuegenCommandDtoSerializer();
+    _$DateiHinzufuegenCommandDtoSerializer();
 
 class _$DateiHinzufuegenCommandDtoSerializer
     implements StructuredSerializer<DateiHinzufuegenCommandDto> {
@@ -41,7 +41,7 @@ class _$DateiHinzufuegenCommandDtoSerializer
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new DateiHinzufuegenCommandDtoBuilder();
+    final result = DateiHinzufuegenCommandDtoBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -80,22 +80,10 @@ class _$DateiHinzufuegenCommandDto extends DateiHinzufuegenCommandDto {
 
   factory _$DateiHinzufuegenCommandDto([
     void Function(DateiHinzufuegenCommandDtoBuilder)? updates,
-  ]) => (new DateiHinzufuegenCommandDtoBuilder()..update(updates))._build();
+  ]) => (DateiHinzufuegenCommandDtoBuilder()..update(updates))._build();
 
   _$DateiHinzufuegenCommandDto._({required this.id, required this.name})
-    : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-      id,
-      r'DateiHinzufuegenCommandDto',
-      'id',
-    );
-    BuiltValueNullFieldError.checkNotNull(
-      name,
-      r'DateiHinzufuegenCommandDto',
-      'name',
-    );
-  }
-
+    : super._();
   @override
   DateiHinzufuegenCommandDto rebuild(
     void Function(DateiHinzufuegenCommandDtoBuilder) updates,
@@ -103,7 +91,7 @@ class _$DateiHinzufuegenCommandDto extends DateiHinzufuegenCommandDto {
 
   @override
   DateiHinzufuegenCommandDtoBuilder toBuilder() =>
-      new DateiHinzufuegenCommandDtoBuilder()..replace(this);
+      DateiHinzufuegenCommandDtoBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -158,7 +146,6 @@ class DateiHinzufuegenCommandDtoBuilder
 
   @override
   void replace(DateiHinzufuegenCommandDto other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DateiHinzufuegenCommandDto;
   }
 
@@ -173,7 +160,7 @@ class DateiHinzufuegenCommandDtoBuilder
   _$DateiHinzufuegenCommandDto _build() {
     final _$result =
         _$v ??
-        new _$DateiHinzufuegenCommandDto._(
+        _$DateiHinzufuegenCommandDto._(
           id: BuiltValueNullFieldError.checkNotNull(
             id,
             r'DateiHinzufuegenCommandDto',
