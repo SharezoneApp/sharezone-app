@@ -173,11 +173,16 @@ class SharezoneAppFunctions {
 
   Future<AppFunctionsResult<Map<String, dynamic>>> loadHolidays({
     required String stateCode,
+    required String countryIsoCode,
     required String year,
   }) {
     return _appFunctions.callCloudFunction(
       functionName: 'loadHolidays',
-      parameters: {'stateCode': stateCode, 'year': year},
+      parameters: {
+        'stateCode': stateCode,
+        'countryIsoCode': countryIsoCode,
+        'year': year,
+      },
     );
   }
 }

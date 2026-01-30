@@ -21,6 +21,7 @@ import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
+import 'package:sharezone/account/select_state_dialog.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
 import 'package:sharezone/groups/src/widgets/danger_section.dart';
 import 'package:sharezone/main/application_bloc.dart';
@@ -28,7 +29,6 @@ import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.da
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
-import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
@@ -218,14 +218,7 @@ class _StateTile extends StatelessWidget {
       leading: const Icon(Icons.language),
       title: Text(context.l10n.myProfileStateTile),
       subtitle: Text(state!),
-      onTap:
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ChangeStatePage(),
-              settings: const RouteSettings(name: ChangeStatePage.tag),
-            ),
-          ),
+      onTap: () => showStateSelectionDialog(context),
     );
   }
 }
