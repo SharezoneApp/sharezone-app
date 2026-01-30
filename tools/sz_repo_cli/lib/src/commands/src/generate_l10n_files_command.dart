@@ -46,7 +46,7 @@ class GenerateL10nFilesCommand extends CommandBase {
       processRunner,
       command: 'arbsort',
       instructionsToInstall:
-          'Run "brew tap leancodepl/arbsort && brew install arbsort" to install arbsort',
+          'Install arbsort via Homebrew ("brew tap leancodepl/arbsort && brew install arbsort") or Go ("go install github.com/leancodepl/arbsort@latest")',
     );
   }
 
