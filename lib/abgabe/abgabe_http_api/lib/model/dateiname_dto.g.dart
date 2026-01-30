@@ -6,8 +6,7 @@ part of 'dateiname_dto.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<DateinameDto> _$dateinameDtoSerializer =
-    new _$DateinameDtoSerializer();
+Serializer<DateinameDto> _$dateinameDtoSerializer = _$DateinameDtoSerializer();
 
 class _$DateinameDtoSerializer implements StructuredSerializer<DateinameDto> {
   @override
@@ -35,7 +34,7 @@ class _$DateinameDtoSerializer implements StructuredSerializer<DateinameDto> {
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new DateinameDtoBuilder();
+    final result = DateinameDtoBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -63,18 +62,15 @@ class _$DateinameDto extends DateinameDto {
   final String name;
 
   factory _$DateinameDto([void Function(DateinameDtoBuilder)? updates]) =>
-      (new DateinameDtoBuilder()..update(updates))._build();
+      (DateinameDtoBuilder()..update(updates))._build();
 
-  _$DateinameDto._({required this.name}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, r'DateinameDto', 'name');
-  }
-
+  _$DateinameDto._({required this.name}) : super._();
   @override
   DateinameDto rebuild(void Function(DateinameDtoBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  DateinameDtoBuilder toBuilder() => new DateinameDtoBuilder()..replace(this);
+  DateinameDtoBuilder toBuilder() => DateinameDtoBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -118,7 +114,6 @@ class DateinameDtoBuilder
 
   @override
   void replace(DateinameDto other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DateinameDto;
   }
 
@@ -133,7 +128,7 @@ class DateinameDtoBuilder
   _$DateinameDto _build() {
     final _$result =
         _$v ??
-        new _$DateinameDto._(
+        _$DateinameDto._(
           name: BuiltValueNullFieldError.checkNotNull(
             name,
             r'DateinameDto',
