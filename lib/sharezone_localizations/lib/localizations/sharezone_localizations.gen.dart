@@ -181,6 +181,42 @@ abstract class SharezoneLocalizations {
   /// **'Version: {version} ({buildNumber})'**
   String aboutVersion(String? buildNumber, String? version);
 
+  /// Tooltip for the edit profile button on the account page.
+  ///
+  /// In de, this message translates to:
+  /// **'Profil bearbeiten'**
+  String get accountEditProfileTooltip;
+
+  /// Snackbar text when linking an account with Apple succeeded.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Account wurde mit einem Apple-Konto verknüpft.'**
+  String get accountLinkAppleConfirmation;
+
+  /// Snackbar text when linking an account with Google succeeded.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Account wurde mit einem Google-Konto verknüpft.'**
+  String get accountLinkGoogleConfirmation;
+
+  /// Title for the account page app bar.
+  ///
+  /// In de, this message translates to:
+  /// **'Profil'**
+  String get accountPageTitle;
+
+  /// Tooltip for the QR code web login button in the account page app bar.
+  ///
+  /// In de, this message translates to:
+  /// **'QR-Code Login für die Web-App'**
+  String get accountPageWebLoginTooltip;
+
+  /// Title for the tile that shows the user's state on the account page.
+  ///
+  /// In de, this message translates to:
+  /// **'Bundesland'**
+  String get accountStateTitle;
+
   /// No description provided for @appName.
   ///
   /// In de, this message translates to:
@@ -192,6 +228,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Aktuell'**
   String get changeEmailAddressCurrentEmailTextfieldLabel;
+
+  /// Error message when the new email matches the current one.
+  ///
+  /// In de, this message translates to:
+  /// **'Die eingegebene E-Mail ist identisch mit der alten! 🙈'**
+  String get changeEmailAddressIdenticalError;
 
   /// The label for the text field which is used for the new email address
   ///
@@ -1230,6 +1272,66 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Stundenplan'**
   String get timetableSettingsTitle;
+
+  /// App bar title for the instructions on using multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Anleitung'**
+  String get useAccountInstructionsAppBarTitle;
+
+  /// Headline question for using Sharezone on multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie nutze ich Sharezone auf mehreren Geräten?'**
+  String get useAccountInstructionsHeadline;
+
+  /// No description provided for @useAccountInstructionsStep.
+  ///
+  /// In de, this message translates to:
+  /// **'1. Gehe zurück zu deinem Profil\n2. Melde dich über das Sign-Out-Icon rechts oben ab.\n3. Bestätige, dass dabei dein Konto gelöscht wird.\n4. Klicke unten auf den Button \"Du hast schon ein Konto? Dann...\"\n5. Melde dich an.'**
+  String get useAccountInstructionsStep;
+
+  /// Title above the list of steps for using multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Schritte:'**
+  String get useAccountInstructionsStepsTitle;
+
+  /// Title above the explanatory video for using multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Video:'**
+  String get useAccountInstructionsVideoTitle;
+
+  /// Snackbar text while waiting for the user data to load before opening the edit screen.
+  ///
+  /// In de, this message translates to:
+  /// **'Informationen werden geladen! Warte kurz.'**
+  String get userEditLoadingUserSnackbar;
+
+  /// Snackbar text confirming that the user's name was changed.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Name wurde erfolgreich umbenannt.'**
+  String get userEditNameChangedConfirmation;
+
+  /// Title for the edit name page.
+  ///
+  /// In de, this message translates to:
+  /// **'Name bearbeiten'**
+  String get userEditPageTitle;
+
+  /// Error snackbar text when saving the edited name failed.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Vorgang konnte nicht korrekt abgeschlossen werden. Bitte kontaktiere den Support!'**
+  String get userEditSubmitFailed;
+
+  /// Loading snackbar text shown while the edit form submits.
+  ///
+  /// In de, this message translates to:
+  /// **'Daten werden nach Frankfurt transportiert...'**
+  String get userEditSubmittingSnackbar;
 }
 
 class _SharezoneLocalizationsDelegate

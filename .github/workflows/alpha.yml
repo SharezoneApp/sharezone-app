@@ -221,7 +221,7 @@ jobs:
             --release-notes "$LAST_COMMIT_MESSAGE"
 
   deploy-alpha-ios-app:
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -247,11 +247,6 @@ jobs:
 
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(pwd)/bin >> $GITHUB_PATH
-
-      # Temporary workaround for https://github.com/actions/runner-images/issues/12758.
-      # Once the issue is fixed, we can remove this step.
-      - name: Install XCode 16
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
 
       - name: Deploy iOS alpha to TestFlight
         env:
@@ -289,7 +284,7 @@ jobs:
             --export-options-plist=$HOME/export_options.plist
 
   deploy-alpha-macos-app:
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8

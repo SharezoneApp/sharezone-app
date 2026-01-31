@@ -60,10 +60,34 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
+  String get accountEditProfileTooltip => 'Edit profile';
+
+  @override
+  String get accountLinkAppleConfirmation =>
+      'Your account has been linked to an Apple account.';
+
+  @override
+  String get accountLinkGoogleConfirmation =>
+      'Your account has been linked to a Google account.';
+
+  @override
+  String get accountPageTitle => 'Profile';
+
+  @override
+  String get accountPageWebLoginTooltip => 'QR code login for the web app';
+
+  @override
+  String get accountStateTitle => 'State';
+
+  @override
   String get appName => 'Sharezone';
 
   @override
   String get changeEmailAddressCurrentEmailTextfieldLabel => 'Current';
+
+  @override
+  String get changeEmailAddressIdenticalError =>
+      'The email you entered is identical to the old one! 🙈';
 
   @override
   String get changeEmailAddressNewEmailTextfieldLabel => 'New';
@@ -646,4 +670,38 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get timetableSettingsTitle => 'Timetable';
+
+  @override
+  String get useAccountInstructionsAppBarTitle => 'Instructions';
+
+  @override
+  String get useAccountInstructionsHeadline =>
+      'How do I use Sharezone on multiple devices?';
+
+  @override
+  String get useAccountInstructionsStep =>
+      '1. Go back to your profile\n2. Sign out using the sign-out icon at the top right.\n3. Confirm that your account will be deleted in the process.\n4. Tap the button \"Already have an account? Then...\" at the bottom.\n5. Sign in.';
+
+  @override
+  String get useAccountInstructionsStepsTitle => 'Steps:';
+
+  @override
+  String get useAccountInstructionsVideoTitle => 'Video:';
+
+  @override
+  String get userEditLoadingUserSnackbar => 'Loading information! Please wait.';
+
+  @override
+  String get userEditNameChangedConfirmation =>
+      'Your name has been successfully changed.';
+
+  @override
+  String get userEditPageTitle => 'Edit name';
+
+  @override
+  String get userEditSubmitFailed =>
+      'The process could not be completed correctly. Please contact support!';
+
+  @override
+  String get userEditSubmittingSnackbar => 'Data is being sent to Frankfurt...';
 }

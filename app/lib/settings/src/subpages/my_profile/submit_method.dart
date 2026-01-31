@@ -13,6 +13,7 @@ import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:build_context/build_context.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 enum ChangeType { email, password }
 
@@ -41,10 +42,10 @@ Future<void> submit(
       if (!context.mounted) return;
       Navigator.pop(context, true);
     }
-  } on IdenticalEmailException catch (e) {
+  } on IdenticalEmailException catch (_) {
     if (!context.mounted) return;
     showSnackSec(
-      text: e.message,
+      text: context.l10n.changeEmailAddressIdenticalError,
       context: context,
       behavior: SnackBarBehavior.fixed,
     );

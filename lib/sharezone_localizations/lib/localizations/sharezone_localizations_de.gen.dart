@@ -60,10 +60,34 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   }
 
   @override
+  String get accountEditProfileTooltip => 'Profil bearbeiten';
+
+  @override
+  String get accountLinkAppleConfirmation =>
+      'Dein Account wurde mit einem Apple-Konto verknüpft.';
+
+  @override
+  String get accountLinkGoogleConfirmation =>
+      'Dein Account wurde mit einem Google-Konto verknüpft.';
+
+  @override
+  String get accountPageTitle => 'Profil';
+
+  @override
+  String get accountPageWebLoginTooltip => 'QR-Code Login für die Web-App';
+
+  @override
+  String get accountStateTitle => 'Bundesland';
+
+  @override
   String get appName => 'Sharezone';
 
   @override
   String get changeEmailAddressCurrentEmailTextfieldLabel => 'Aktuell';
+
+  @override
+  String get changeEmailAddressIdenticalError =>
+      'Die eingegebene E-Mail ist identisch mit der alten! 🙈';
 
   @override
   String get changeEmailAddressNewEmailTextfieldLabel => 'Neu';
@@ -649,4 +673,40 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get timetableSettingsTitle => 'Stundenplan';
+
+  @override
+  String get useAccountInstructionsAppBarTitle => 'Anleitung';
+
+  @override
+  String get useAccountInstructionsHeadline =>
+      'Wie nutze ich Sharezone auf mehreren Geräten?';
+
+  @override
+  String get useAccountInstructionsStep =>
+      '1. Gehe zurück zu deinem Profil\n2. Melde dich über das Sign-Out-Icon rechts oben ab.\n3. Bestätige, dass dabei dein Konto gelöscht wird.\n4. Klicke unten auf den Button \"Du hast schon ein Konto? Dann...\"\n5. Melde dich an.';
+
+  @override
+  String get useAccountInstructionsStepsTitle => 'Schritte:';
+
+  @override
+  String get useAccountInstructionsVideoTitle => 'Video:';
+
+  @override
+  String get userEditLoadingUserSnackbar =>
+      'Informationen werden geladen! Warte kurz.';
+
+  @override
+  String get userEditNameChangedConfirmation =>
+      'Dein Name wurde erfolgreich umbenannt.';
+
+  @override
+  String get userEditPageTitle => 'Name bearbeiten';
+
+  @override
+  String get userEditSubmitFailed =>
+      'Der Vorgang konnte nicht korrekt abgeschlossen werden. Bitte kontaktiere den Support!';
+
+  @override
+  String get userEditSubmittingSnackbar =>
+      'Daten werden nach Frankfurt transportiert...';
 }
