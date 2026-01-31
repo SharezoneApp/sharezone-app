@@ -224,3 +224,18 @@ fvm flutter test app/test_goldens/grades/pages/grades_page/grades_page_test.dart
 ### Executing integration tests
 
 Please see [app/integration_test/README.md](./app/integration_test/README.md) for detailed instructions on how to run integration tests.
+
+## Internationalization (i18n / l10n)
+
+We organize our multi-language support in the `lib/sharezone_localizations` package.
+
+### Adding new strings
+
+1. Add the new string to `lib/sharezone_localizations/l10n/app_de.arb`. This is our default language.
+2. Add the new string to `lib/sharezone_localizations/l10n/app_en.arb`.
+3. Run `sz l10n generate` to generate the Dart files for the new string.
+
+### Use new strings
+
+1. Add `import 'package:sharezone_localizations/sharezone_localizations.dart';` to the file where you want to use the new string.
+2. Use the new string like this: `context.l10n.your_new_string`.
