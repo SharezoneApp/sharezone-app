@@ -230,6 +230,10 @@ jobs:
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
+      - uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00
+        with:
+          go-version: "^1.13.1"
+
       # The "sz l10n check" command requires arbsort to be installed.
       - name: Install arbsort
         run: go install github.com/leancodepl/arbsort@v0.1.0
