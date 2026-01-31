@@ -34,6 +34,8 @@ dependencies:
   cloud_firestore: ^6.0.2
   cloud_firestore_helper:
     path: ../cloud_firestore_helper
+  sharezone_localizations:
+    path: ../sharezone_localizations
   flutter_markdown:
     git:
       url: https://github.com/SharezoneApp/packages

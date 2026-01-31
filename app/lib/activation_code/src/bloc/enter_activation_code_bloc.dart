@@ -16,6 +16,7 @@ import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone/l10n/feature_flag_l10n.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../models/enter_activation_code_result.dart';
 import 'enter_activation_code_activator.dart';
@@ -88,12 +89,12 @@ class EnterActivationCodeBloc extends BlocBase {
     // In case you are in A/B test group, you can't deactivate the ads by
     // entering 'ads' in the activation code field.
     if (_lastEnteredValue?.trim().toLowerCase() == 'ads') {
-      _toggleAds();
+      _toggleAds(context);
       return;
     }
 
     if (_lastEnteredValue?.trim().toLowerCase() == 'l10n') {
-      _togglel10nFeatureFlag();
+      _togglel10nFeatureFlag(context);
       return;
     }
 
@@ -103,26 +104,42 @@ class EnterActivationCodeBloc extends BlocBase {
     _changeEnterActivationCodeResult(enterActivationCodeResult);
   }
 
-  void _toggleAds() {
+  void _toggleAds(BuildContext context) {
     final currentValue = keyValueStore.getBool('show-ads') ?? false;
     keyValueStore.setBool('show-ads', !currentValue);
+    final l10n = context.l10n;
+    final stateLabel =
+        !currentValue
+            ? l10n.activationCodeToggleEnabled
+            : l10n.activationCodeToggleDisabled;
 
     _changeEnterActivationCodeResult(
       SuccessfulEnterActivationCodeResult(
         'ads',
-        'Ads wurden ${!currentValue ? 'aktiviert' : 'deaktiviert'}. Starte die App neu, um die Änderungen zu sehen.',
+        l10n.activationCodeToggleResult(
+          l10n.activationCodeFeatureAdsLabel,
+          stateLabel,
+        ),
       ),
     );
   }
 
-  void _togglel10nFeatureFlag() {
+  void _togglel10nFeatureFlag(BuildContext context) {
     final currentValue = featureFlagl10n.isl10nEnabled;
     featureFlagl10n.toggle();
+    final l10n = context.l10n;
+    final stateLabel =
+        !currentValue
+            ? l10n.activationCodeToggleEnabled
+            : l10n.activationCodeToggleDisabled;
 
     _changeEnterActivationCodeResult(
       SuccessfulEnterActivationCodeResult(
         'l10n',
-        'l10n wurde ${!currentValue ? 'aktiviert' : 'deaktiviert'}. Starte die App neu, um die Änderungen zu sehen.',
+        l10n.activationCodeToggleResult(
+          l10n.activationCodeFeatureL10nLabel,
+          stateLabel,
+        ),
       ),
     );
   }
@@ -131,9 +148,9 @@ class EnterActivationCodeBloc extends BlocBase {
     await Future.wait([keyValueStore.clear()]);
 
     _changeEnterActivationCodeResult(
-      const SuccessfulEnterActivationCodeResult(
+      SuccessfulEnterActivationCodeResult(
         'clear',
-        'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.',
+        context.l10n.activationCodeCacheCleared,
       ),
     );
   }

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:legal/legal.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/sharezone_plus/sharezone_plus_page.dart';
 import 'package:sharezone_website/support_page.dart';
 // ignore: depend_on_referenced_packages
@@ -84,7 +85,10 @@ class MyApp extends StatelessWidget {
       create: (BuildContext context) => ThemeSettings(),
       child: MaterialApp.router(
         routerConfig: _router,
-        title: 'Sharezone - Vernetzter Schulplaner',
+        onGenerateTitle: (context) => context.l10n.websiteAppTitle,
+        localizationsDelegates:
+            SharezoneLocalizations.localizationsDelegates,
+        supportedLocales: SharezoneLocalizations.supportedLocales,
         theme: getLightTheme(),
       ),
     );

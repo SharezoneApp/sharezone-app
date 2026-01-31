@@ -18,6 +18,22 @@
   "accountPageTitle": "Profile",
   "accountPageWebLoginTooltip": "QR code login for the web app",
   "accountStateTitle": "State",
+  "activationCodeCacheCleared": "Cache cleared. You may need to restart the app to see the changes.",
+  "activationCodeFeatureAdsLabel": "Ads",
+  "activationCodeFeatureL10nLabel": "l10n",
+  "activationCodeToggleDisabled": "disabled",
+  "activationCodeToggleEnabled": "enabled",
+  "activationCodeToggleResult": "{feature} was {state}. Restart the app to see the changes.",
+  "@activationCodeToggleResult": {
+    "placeholders": {
+      "feature": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
   "appName": "Sharezone",
   "changeEmailAddressCurrentEmailTextfieldLabel": "Current",
   "changeEmailAddressIdenticalError": "The email you entered is identical to the old one! 🙈",
@@ -62,6 +78,21 @@
   "commonActionsYes": "Yes",
   "commonDisplayError": "Error: {error}",
   "contactSupportButton": "Contact support",
+  "feedbackDetailsCommentsTitle": "Comments:",
+  "feedbackDetailsLoadingHeardFrom": "Friend",
+  "feedbackDetailsLoadingMissing": "Great app!",
+  "feedbackDetailsPageTitle": "Feedback details",
+  "feedbackDetailsResponseHint": "Write a reply...",
+  "feedbackDetailsSendError": "Failed to send the message: {error}",
+  "@feedbackDetailsSendError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackNewLineHint": "Shift + Enter for a new line",
+  "feedbackSendTooltip": "Send (Enter)",
   "imprintTitle": "Imprint",
   "languageDeName": "German",
   "languageEnName": "English",
@@ -194,5 +225,122 @@
   "userEditNameChangedConfirmation": "Your name has been successfully changed.",
   "userEditPageTitle": "Edit name",
   "userEditSubmitFailed": "The process could not be completed correctly. Please contact support!",
-  "userEditSubmittingSnackbar": "Data is being sent to Frankfurt..."
+  "userEditSubmittingSnackbar": "Data is being sent to Frankfurt...",
+  "websiteAllInOneFeatureImageLabel": "An image of the {feature} feature",
+  "@websiteAllInOneFeatureImageLabel": {
+    "placeholders": {
+      "feature": {
+        "type": "String"
+      }
+    }
+  },
+  "websiteAllInOneHeadline": "Everything in one place",
+  "websiteAllPlatformsHeadline": "Available on all devices.",
+  "websiteAllPlatformsSubline": "Sharezone works on all systems, so you can access your data anytime.",
+  "websiteAppTitle": "Sharezone - Connected school planner",
+  "websiteDataProtectionAesTitle": "AES 256-bit server-side encryption",
+  "websiteDataProtectionHeadline": "Secure \u0026 GDPR compliant",
+  "websiteDataProtectionIsoTitle": "ISO27001, ISO27012 \u0026 ISO27018 certified*",
+  "websiteDataProtectionServerLocationSubtitle": "Except for the authentication server\n(EU standard contractual clauses)",
+  "websiteDataProtectionServerLocationTitle": "Server location: Frankfurt (Germany)",
+  "websiteDataProtectionSocSubtitle": "* Certification by our hosting provider",
+  "websiteDataProtectionSocTitle": "SOC1, SOC2, \u0026 SOC3 certified*",
+  "websiteDataProtectionTlsTitle": "TLS encryption in transit",
+  "websiteFeatureAlwaysAvailableBulletpointMultiDevice": "Use on multiple devices",
+  "websiteFeatureAlwaysAvailableBulletpointOffline": "Add items offline",
+  "websiteFeatureAlwaysAvailableTitle": "Always available",
+  "websiteFeatureEventsBulletpointAtAGlance": "Exams and events at a glance",
+  "websiteFeatureEventsTitle": "Events",
+  "websiteFeatureFileStorageBulletpointShareMaterials": "Share learning materials",
+  "websiteFeatureFileStorageBulletpointUnlimitedStorage": "Optional: unlimited \nstorage",
+  "websiteFeatureFileStorageTitle": "File storage",
+  "websiteFeatureGradesBulletpointMultipleSystems": "Multiple grading systems",
+  "websiteFeatureGradesBulletpointSaveGrades": "Save your grades in Sharezone",
+  "websiteFeatureGradesTitle": "Grading system",
+  "websiteFeatureNoticesBulletpointComments": "With comments",
+  "websiteFeatureNoticesBulletpointNotifications": "With notifications",
+  "websiteFeatureNoticesBulletpointReadReceipt": "With read confirmation",
+  "websiteFeatureNoticesTitle": "Notices",
+  "websiteFeatureNotificationsBulletpointAlwaysInformed": "Always informed",
+  "websiteFeatureNotificationsBulletpointCustomizable": "Customizable",
+  "websiteFeatureNotificationsBulletpointQuietHours": "With quiet hours",
+  "websiteFeatureNotificationsTitle": "Notifications",
+  "websiteFeatureOverviewTitle": "Overview",
+  "websiteFeatureTasksBulletpointComments": "With comments",
+  "websiteFeatureTasksBulletpointReminder": "With reminders",
+  "websiteFeatureTasksBulletpointSubmissions": "With submissions",
+  "websiteFeatureTasksTitle": "Tasks",
+  "websiteFeatureTimetableBulletpointAbWeeks": "With A/B weeks",
+  "websiteFeatureTimetableBulletpointWeekdays": "Customize weekdays",
+  "websiteFeatureTimetableTitle": "Timetable",
+  "websiteFooterCommunityDiscord": "Discord",
+  "websiteFooterCommunitySubtitle": "Join our community and bring your ideas to Sharezone.",
+  "websiteFooterCommunityTicketSystem": "Ticket system",
+  "websiteFooterCommunityTitle": "Sharezone community",
+  "websiteFooterDownloadAndroid": "Android",
+  "websiteFooterDownloadIos": "iOS",
+  "websiteFooterDownloadMacos": "macOS",
+  "websiteFooterDownloadTitle": "Downloads",
+  "websiteFooterHelpSupport": "Support",
+  "websiteFooterHelpTitle": "Help",
+  "websiteFooterHelpVideos": "Explainer videos",
+  "websiteFooterLegalImprint": "Imprint",
+  "websiteFooterLegalPrivacy": "Privacy policy",
+  "websiteFooterLegalTerms": "Terms of service",
+  "websiteFooterLegalTitle": "Legal",
+  "websiteFooterLinksDocs": "Documentation",
+  "websiteFooterLinksTitle": "Links",
+  "websiteLaunchUrlFailed": "Link could not be opened.",
+  "websiteNavDocs": "Docs",
+  "websiteNavHome": "Home",
+  "websiteNavPlus": "Plus",
+  "websiteNavSupport": "Support",
+  "websiteNavWebApp": "Web app",
+  "websiteSharezonePlusAdvantagesTitle": "Benefits of Sharezone Plus",
+  "websiteSharezonePlusCustomerPortalContent": "To authenticate, please use the email address you used for the purchase.",
+  "websiteSharezonePlusCustomerPortalOpen": "Go to customer portal",
+  "websiteSharezonePlusCustomerPortalTitle": "Customer portal",
+  "websiteSharezonePlusLoadError": "Error: {error}",
+  "@websiteSharezonePlusLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "websiteSharezonePlusLoadingName": "Loading...",
+  "websiteSharezonePlusManageSubscriptionText": "Already have a subscription? Click [here](https://billing.stripe.com/p/login/eVa7uh3DvbMfbTy144) to manage it (e.g. cancel, change payment method, etc.).",
+  "websiteSharezonePlusPurchaseDialogContent": "To buy Sharezone Plus for your own account, you need to purchase Sharezone Plus through the web app.\n\nIf you want to buy Sharezone Plus as a parent for your child, open the link you received from your child.\n\nIf you have any questions, feel free to email us at [plus@sharezone.net](mailto:plus@sharezone.net).",
+  "websiteSharezonePlusPurchaseDialogTitle": "Buy Sharezone Plus",
+  "websiteSharezonePlusPurchaseDialogToWebApp": "Go to web app",
+  "websiteSharezonePlusPurchaseForTitle": "Buy Sharezone Plus for",
+  "websiteSharezonePlusSuccessMessage": "You successfully purchased Sharezone Plus for your child.\nThank you for your support!",
+  "websiteSharezonePlusSuccessSupport": "If you have questions, you can always reach our [Support](/support).",
+  "websiteStoreAppStoreName": "App Store",
+  "websiteStorePlayStoreName": "Play Store",
+  "websiteSupportEmailCopy": "Email: {email}",
+  "@websiteSupportEmailCopy": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "websiteSupportEmailLabel": "Email",
+  "websiteSupportEmailSubject": "I need your help! 😭",
+  "websiteSupportPageBody": "Contact us through a channel of your choice and we'll help you as quickly as possible 😉\n\nPlease note that it can sometimes take longer for us to respond (1-2 weeks).",
+  "websiteSupportPageHeadline": "Need help?",
+  "websiteSupportSectionButton": "Contact support",
+  "websiteSupportSectionHeadline": "We’ve got your back.",
+  "websiteSupportSectionSubline": "Our support is available any time—no matter the hour or day.",
+  "websiteUserCounterLabel": "registered users",
+  "websiteUserCounterSemanticLabel": "user counter",
+  "websiteUspCommunityButton": "Go to the Sharezone community",
+  "websiteUspHeadline": "Truly helpful.",
+  "websiteUspSublineDetails": "We know which solutions are needed and what really helps to make everyday school life easier.\nWhere we don't know yet, we work with agile methods and the Sharezone community to find the best solution.",
+  "websiteUspSublineIntro": "Sharezone was born from real classroom problems.",
+  "websiteWelcomeDescription": "Sharezone is a connected school planner to stay organized together. Entered content like homework is shared instantly with everyone else, saving time and nerves.",
+  "websiteWelcomeDescriptionSemanticLabel": "Description of the Sharezone app",
+  "websiteWelcomeHeadline": "Simple. Secure. Stable.",
+  "websiteWelcomeHeadlineSemanticLabel": "Headline of the Sharezone app"
 }

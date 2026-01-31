@@ -1284,6 +1284,666 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Daten werden nach Frankfurt transportiert...'**
   String get userEditSubmittingSnackbar;
+
+  /// No description provided for @activationCodeCacheCleared.
+  ///
+  /// In de, this message translates to:
+  /// **'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.'**
+  String get activationCodeCacheCleared;
+
+  /// No description provided for @activationCodeFeatureAdsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Ads'**
+  String get activationCodeFeatureAdsLabel;
+
+  /// No description provided for @activationCodeFeatureL10nLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'l10n'**
+  String get activationCodeFeatureL10nLabel;
+
+  /// No description provided for @activationCodeToggleDisabled.
+  ///
+  /// In de, this message translates to:
+  /// **'deaktiviert'**
+  String get activationCodeToggleDisabled;
+
+  /// No description provided for @activationCodeToggleEnabled.
+  ///
+  /// In de, this message translates to:
+  /// **'aktiviert'**
+  String get activationCodeToggleEnabled;
+
+  /// No description provided for @activationCodeToggleResult.
+  ///
+  /// In de, this message translates to:
+  /// **'{feature} wurde {state}. Starte die App neu, um die Änderungen zu sehen.'**
+  String activationCodeToggleResult(String feature, String state);
+
+  /// No description provided for @feedbackDetailsCommentsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommentare:'**
+  String get feedbackDetailsCommentsTitle;
+
+  /// No description provided for @feedbackDetailsLoadingHeardFrom.
+  ///
+  /// In de, this message translates to:
+  /// **'Freund'**
+  String get feedbackDetailsLoadingHeardFrom;
+
+  /// No description provided for @feedbackDetailsLoadingMissing.
+  ///
+  /// In de, this message translates to:
+  /// **'Tolle App!'**
+  String get feedbackDetailsLoadingMissing;
+
+  /// No description provided for @feedbackDetailsPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Feedback-Details'**
+  String get feedbackDetailsPageTitle;
+
+  /// No description provided for @feedbackDetailsResponseHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort schreiben...'**
+  String get feedbackDetailsResponseHint;
+
+  /// No description provided for @feedbackDetailsSendError.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler beim Senden der Nachricht: {error}'**
+  String feedbackDetailsSendError(String error);
+
+  /// No description provided for @feedbackNewLineHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Shift + Enter für neue Zeile'**
+  String get feedbackNewLineHint;
+
+  /// No description provided for @feedbackSendTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Senden (Enter)'**
+  String get feedbackSendTooltip;
+
+  /// No description provided for @websiteAllInOneFeatureImageLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Bild der Funktion {feature}'**
+  String websiteAllInOneFeatureImageLabel(String feature);
+
+  /// No description provided for @websiteAllInOneHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Alles an einem Ort'**
+  String get websiteAllInOneHeadline;
+
+  /// No description provided for @websiteAllPlatformsHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Auf allen Geräten verfügbar.'**
+  String get websiteAllPlatformsHeadline;
+
+  /// No description provided for @websiteAllPlatformsSubline.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone funktioniert auf allen Systemen. Somit kannst Du jederzeit auf deine Daten zugreifen.'**
+  String get websiteAllPlatformsSubline;
+
+  /// No description provided for @websiteAppTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone - Vernetzter Schulplaner'**
+  String get websiteAppTitle;
+
+  /// No description provided for @websiteDataProtectionAesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'AES 256-Bit serverseitige Verschlüsselung'**
+  String get websiteDataProtectionAesTitle;
+
+  /// No description provided for @websiteDataProtectionHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Sicher & DSGVO-konform'**
+  String get websiteDataProtectionHeadline;
+
+  /// No description provided for @websiteDataProtectionIsoTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'ISO27001, ISO27012 & ISO27018 zertifiziert*'**
+  String get websiteDataProtectionIsoTitle;
+
+  /// No description provided for @websiteDataProtectionServerLocationSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Ausnahme des Authentifizierungsserver\n(EU-Standardvertragsklauseln)'**
+  String get websiteDataProtectionServerLocationSubtitle;
+
+  /// No description provided for @websiteDataProtectionServerLocationTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Standort der Server: Frankfurt (Deutschland)'**
+  String get websiteDataProtectionServerLocationTitle;
+
+  /// No description provided for @websiteDataProtectionSocSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'* Zertifizierung von unserem Hosting-Anbieter'**
+  String get websiteDataProtectionSocSubtitle;
+
+  /// No description provided for @websiteDataProtectionSocTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'SOC1, SOC2, & SOC3 zertifiziert*'**
+  String get websiteDataProtectionSocTitle;
+
+  /// No description provided for @websiteDataProtectionTlsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'TLS-Verschlüsselung bei der Übertragung'**
+  String get websiteDataProtectionTlsTitle;
+
+  /// No description provided for @websiteFeatureAlwaysAvailableBulletpointMultiDevice.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit mehreren Geräten nutzbar'**
+  String get websiteFeatureAlwaysAvailableBulletpointMultiDevice;
+
+  /// No description provided for @websiteFeatureAlwaysAvailableBulletpointOffline.
+  ///
+  /// In de, this message translates to:
+  /// **'Offline Inhalte eintragen'**
+  String get websiteFeatureAlwaysAvailableBulletpointOffline;
+
+  /// No description provided for @websiteFeatureAlwaysAvailableTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Immer verfügbar'**
+  String get websiteFeatureAlwaysAvailableTitle;
+
+  /// No description provided for @websiteFeatureEventsBulletpointAtAGlance.
+  ///
+  /// In de, this message translates to:
+  /// **'Prüfungen und Termine auf einen Blick'**
+  String get websiteFeatureEventsBulletpointAtAGlance;
+
+  /// No description provided for @websiteFeatureEventsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Termine'**
+  String get websiteFeatureEventsTitle;
+
+  /// No description provided for @websiteFeatureFileStorageBulletpointShareMaterials.
+  ///
+  /// In de, this message translates to:
+  /// **'Arbeitsmaterialien teilen'**
+  String get websiteFeatureFileStorageBulletpointShareMaterials;
+
+  /// No description provided for @websiteFeatureFileStorageBulletpointUnlimitedStorage.
+  ///
+  /// In de, this message translates to:
+  /// **'Optional: Unbegrenzter \nSpeicherplatz'**
+  String get websiteFeatureFileStorageBulletpointUnlimitedStorage;
+
+  /// No description provided for @websiteFeatureFileStorageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Dateiablage'**
+  String get websiteFeatureFileStorageTitle;
+
+  /// No description provided for @websiteFeatureGradesBulletpointMultipleSystems.
+  ///
+  /// In de, this message translates to:
+  /// **'Verschiedene Notensysteme'**
+  String get websiteFeatureGradesBulletpointMultipleSystems;
+
+  /// No description provided for @websiteFeatureGradesBulletpointSaveGrades.
+  ///
+  /// In de, this message translates to:
+  /// **'Speichere deine Noten in Sharezone'**
+  String get websiteFeatureGradesBulletpointSaveGrades;
+
+  /// No description provided for @websiteFeatureGradesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Notensystem'**
+  String get websiteFeatureGradesTitle;
+
+  /// No description provided for @websiteFeatureNoticesBulletpointComments.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Kommentarfunktion'**
+  String get websiteFeatureNoticesBulletpointComments;
+
+  /// No description provided for @websiteFeatureNoticesBulletpointNotifications.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Notifications'**
+  String get websiteFeatureNoticesBulletpointNotifications;
+
+  /// No description provided for @websiteFeatureNoticesBulletpointReadReceipt.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Lesebestätigung'**
+  String get websiteFeatureNoticesBulletpointReadReceipt;
+
+  /// No description provided for @websiteFeatureNoticesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Infozettel'**
+  String get websiteFeatureNoticesTitle;
+
+  /// No description provided for @websiteFeatureNotificationsBulletpointAlwaysInformed.
+  ///
+  /// In de, this message translates to:
+  /// **'Immer informiert'**
+  String get websiteFeatureNotificationsBulletpointAlwaysInformed;
+
+  /// No description provided for @websiteFeatureNotificationsBulletpointCustomizable.
+  ///
+  /// In de, this message translates to:
+  /// **'Individuell einstellbar'**
+  String get websiteFeatureNotificationsBulletpointCustomizable;
+
+  /// No description provided for @websiteFeatureNotificationsBulletpointQuietHours.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Ruhemodus'**
+  String get websiteFeatureNotificationsBulletpointQuietHours;
+
+  /// No description provided for @websiteFeatureNotificationsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Notifications'**
+  String get websiteFeatureNotificationsTitle;
+
+  /// No description provided for @websiteFeatureOverviewTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Übersicht'**
+  String get websiteFeatureOverviewTitle;
+
+  /// No description provided for @websiteFeatureTasksBulletpointComments.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Kommentarfunktion'**
+  String get websiteFeatureTasksBulletpointComments;
+
+  /// No description provided for @websiteFeatureTasksBulletpointReminder.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Erinnerungsfunktion'**
+  String get websiteFeatureTasksBulletpointReminder;
+
+  /// No description provided for @websiteFeatureTasksBulletpointSubmissions.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Abgabefunktion'**
+  String get websiteFeatureTasksBulletpointSubmissions;
+
+  /// No description provided for @websiteFeatureTasksTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Aufgaben'**
+  String get websiteFeatureTasksTitle;
+
+  /// No description provided for @websiteFeatureTimetableBulletpointAbWeeks.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit A/B Wochen'**
+  String get websiteFeatureTimetableBulletpointAbWeeks;
+
+  /// No description provided for @websiteFeatureTimetableBulletpointWeekdays.
+  ///
+  /// In de, this message translates to:
+  /// **'Wochentage individuell einstellbar'**
+  String get websiteFeatureTimetableBulletpointWeekdays;
+
+  /// No description provided for @websiteFeatureTimetableTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Stundenplan'**
+  String get websiteFeatureTimetableTitle;
+
+  /// No description provided for @websiteFooterCommunityDiscord.
+  ///
+  /// In de, this message translates to:
+  /// **'Discord'**
+  String get websiteFooterCommunityDiscord;
+
+  /// No description provided for @websiteFooterCommunitySubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Werde jetzt ein Teil unserer Community und bringe deine eigenen Ideen bei Sharezone ein.'**
+  String get websiteFooterCommunitySubtitle;
+
+  /// No description provided for @websiteFooterCommunityTicketSystem.
+  ///
+  /// In de, this message translates to:
+  /// **'Ticketsystem'**
+  String get websiteFooterCommunityTicketSystem;
+
+  /// No description provided for @websiteFooterCommunityTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone-Community'**
+  String get websiteFooterCommunityTitle;
+
+  /// No description provided for @websiteFooterDownloadAndroid.
+  ///
+  /// In de, this message translates to:
+  /// **'Android'**
+  String get websiteFooterDownloadAndroid;
+
+  /// No description provided for @websiteFooterDownloadIos.
+  ///
+  /// In de, this message translates to:
+  /// **'iOS'**
+  String get websiteFooterDownloadIos;
+
+  /// No description provided for @websiteFooterDownloadMacos.
+  ///
+  /// In de, this message translates to:
+  /// **'macOS'**
+  String get websiteFooterDownloadMacos;
+
+  /// No description provided for @websiteFooterDownloadTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Downloads'**
+  String get websiteFooterDownloadTitle;
+
+  /// No description provided for @websiteFooterHelpSupport.
+  ///
+  /// In de, this message translates to:
+  /// **'Support'**
+  String get websiteFooterHelpSupport;
+
+  /// No description provided for @websiteFooterHelpTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Hilfe'**
+  String get websiteFooterHelpTitle;
+
+  /// No description provided for @websiteFooterHelpVideos.
+  ///
+  /// In de, this message translates to:
+  /// **'Erklärvideos'**
+  String get websiteFooterHelpVideos;
+
+  /// No description provided for @websiteFooterLegalImprint.
+  ///
+  /// In de, this message translates to:
+  /// **'Impressum'**
+  String get websiteFooterLegalImprint;
+
+  /// No description provided for @websiteFooterLegalPrivacy.
+  ///
+  /// In de, this message translates to:
+  /// **'Datenschutzerklärung'**
+  String get websiteFooterLegalPrivacy;
+
+  /// No description provided for @websiteFooterLegalTerms.
+  ///
+  /// In de, this message translates to:
+  /// **'Allgemeine Nutzungsbedingungen (ANB)'**
+  String get websiteFooterLegalTerms;
+
+  /// No description provided for @websiteFooterLegalTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Rechtliches'**
+  String get websiteFooterLegalTitle;
+
+  /// No description provided for @websiteFooterLinksDocs.
+  ///
+  /// In de, this message translates to:
+  /// **'Dokumentation'**
+  String get websiteFooterLinksDocs;
+
+  /// No description provided for @websiteFooterLinksTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Links'**
+  String get websiteFooterLinksTitle;
+
+  /// No description provided for @websiteLaunchUrlFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Link konnte nicht geöffnet werden!'**
+  String get websiteLaunchUrlFailed;
+
+  /// No description provided for @websiteNavDocs.
+  ///
+  /// In de, this message translates to:
+  /// **'Docs'**
+  String get websiteNavDocs;
+
+  /// No description provided for @websiteNavHome.
+  ///
+  /// In de, this message translates to:
+  /// **'Hauptseite'**
+  String get websiteNavHome;
+
+  /// No description provided for @websiteNavPlus.
+  ///
+  /// In de, this message translates to:
+  /// **'Plus'**
+  String get websiteNavPlus;
+
+  /// No description provided for @websiteNavSupport.
+  ///
+  /// In de, this message translates to:
+  /// **'Support'**
+  String get websiteNavSupport;
+
+  /// No description provided for @websiteNavWebApp.
+  ///
+  /// In de, this message translates to:
+  /// **'Web-App'**
+  String get websiteNavWebApp;
+
+  /// No description provided for @websiteSharezonePlusAdvantagesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vorteile von Sharezone Plus'**
+  String get websiteSharezonePlusAdvantagesTitle;
+
+  /// No description provided for @websiteSharezonePlusCustomerPortalContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Um dich zu authentifizieren, nutze bitte die E-Mail-Adresse, die du bei der Bestellung verwendet hast.'**
+  String get websiteSharezonePlusCustomerPortalContent;
+
+  /// No description provided for @websiteSharezonePlusCustomerPortalOpen.
+  ///
+  /// In de, this message translates to:
+  /// **'Zum Kundenportal'**
+  String get websiteSharezonePlusCustomerPortalOpen;
+
+  /// No description provided for @websiteSharezonePlusCustomerPortalTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kundenportal'**
+  String get websiteSharezonePlusCustomerPortalTitle;
+
+  /// No description provided for @websiteSharezonePlusLoadError.
+  ///
+  /// In de, this message translates to:
+  /// **'Error: {error}'**
+  String websiteSharezonePlusLoadError(String error);
+
+  /// No description provided for @websiteSharezonePlusLoadingName.
+  ///
+  /// In de, this message translates to:
+  /// **'Lädt...'**
+  String get websiteSharezonePlusLoadingName;
+
+  /// No description provided for @websiteSharezonePlusManageSubscriptionText.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast bereits ein Abo? Klicke [hier](https://billing.stripe.com/p/login/eVa7uh3DvbMfbTy144) um es zu verwalten (z.B. Kündigen, Zahlungsmethode ändern, etc.).'**
+  String get websiteSharezonePlusManageSubscriptionText;
+
+  /// No description provided for @websiteSharezonePlusPurchaseDialogContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Um Sharezone Plus für deinen eigenen Account zu erwerben, musst du Sharezone Plus über die Web-App kaufen.\n\nFalls du Sharezone Plus als Elternteil für dein Kind kaufen möchtest, musst du den Link öffnen, den du von deinem Kind erhalten hast.\n\nSolltest du Fragen haben, kannst du uns gerne eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net) schreiben.'**
+  String get websiteSharezonePlusPurchaseDialogContent;
+
+  /// No description provided for @websiteSharezonePlusPurchaseDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone Plus kaufen'**
+  String get websiteSharezonePlusPurchaseDialogTitle;
+
+  /// No description provided for @websiteSharezonePlusPurchaseDialogToWebApp.
+  ///
+  /// In de, this message translates to:
+  /// **'Zur Web-App'**
+  String get websiteSharezonePlusPurchaseDialogToWebApp;
+
+  /// No description provided for @websiteSharezonePlusPurchaseForTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone Plus kaufen für'**
+  String get websiteSharezonePlusPurchaseForTitle;
+
+  /// No description provided for @websiteSharezonePlusSuccessMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast Sharezone Plus erfolgreich für dein Kind erworben.\nVielen Dank für deine Unterstützung!'**
+  String get websiteSharezonePlusSuccessMessage;
+
+  /// No description provided for @websiteSharezonePlusSuccessSupport.
+  ///
+  /// In de, this message translates to:
+  /// **'Solltest du Fragen haben, kannst du dich jederzeit an unseren [Support](/support) wenden.'**
+  String get websiteSharezonePlusSuccessSupport;
+
+  /// No description provided for @websiteStoreAppStoreName.
+  ///
+  /// In de, this message translates to:
+  /// **'AppStore'**
+  String get websiteStoreAppStoreName;
+
+  /// No description provided for @websiteStorePlayStoreName.
+  ///
+  /// In de, this message translates to:
+  /// **'PlayStore'**
+  String get websiteStorePlayStoreName;
+
+  /// No description provided for @websiteSupportEmailCopy.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail: {email}'**
+  String websiteSupportEmailCopy(String email);
+
+  /// No description provided for @websiteSupportEmailLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail'**
+  String get websiteSupportEmailLabel;
+
+  /// No description provided for @websiteSupportEmailSubject.
+  ///
+  /// In de, this message translates to:
+  /// **'Ich brauche eure Hilfe! 😭'**
+  String get websiteSupportEmailSubject;
+
+  /// No description provided for @websiteSupportPageBody.
+  ///
+  /// In de, this message translates to:
+  /// **'Kontaktiere uns einfach über einen Kanal deiner Wahl und wir werden dir schnellstmöglich weiterhelfen 😉\n\nBitte beachte, dass es manchmal länger dauern kann, bis wir antworten (1-2 Wochen).'**
+  String get websiteSupportPageBody;
+
+  /// No description provided for @websiteSupportPageHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Du brauchst Hilfe?'**
+  String get websiteSupportPageHeadline;
+
+  /// No description provided for @websiteSupportSectionButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Support kontaktieren'**
+  String get websiteSupportSectionButton;
+
+  /// No description provided for @websiteSupportSectionHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Nie im Stich gelassen.'**
+  String get websiteSupportSectionHeadline;
+
+  /// No description provided for @websiteSupportSectionSubline.
+  ///
+  /// In de, this message translates to:
+  /// **'Unser Support ist für Dich jederzeit erreichbar. Egal welche Uhrzeit. Egal welcher Wochentag.'**
+  String get websiteSupportSectionSubline;
+
+  /// No description provided for @websiteUserCounterLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'registrierte Nutzer'**
+  String get websiteUserCounterLabel;
+
+  /// No description provided for @websiteUserCounterSemanticLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'user counter'**
+  String get websiteUserCounterSemanticLabel;
+
+  /// No description provided for @websiteWelcomeDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.'**
+  String get websiteWelcomeDescription;
+
+  /// No description provided for @websiteWelcomeDescriptionSemanticLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Beschreibung der Sharezone App'**
+  String get websiteWelcomeDescriptionSemanticLabel;
+
+  /// No description provided for @websiteWelcomeHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Simpel. Sicher. Stabil.'**
+  String get websiteWelcomeHeadline;
+
+  /// No description provided for @websiteWelcomeHeadlineSemanticLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Überschrift der Sharezone App'**
+  String get websiteWelcomeHeadlineSemanticLabel;
+
+  /// No description provided for @websiteUspCommunityButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Zur Sharezone-Community'**
+  String get websiteUspCommunityButton;
+
+  /// No description provided for @websiteUspHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Wirklich hilfreich.'**
+  String get websiteUspHeadline;
+
+  /// No description provided for @websiteUspSublineDetails.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir wissen, was für Lösungen nötig sind und was wirklich hilft, um den Schulalltag einfach zu machen.\nWo wir es nicht wissen, versuchen wir, mit agiler Arbeit und der Sharezone-Community die beste Lösung zu finden.'**
+  String get websiteUspSublineDetails;
+
+  /// No description provided for @websiteUspSublineIntro.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone ist aus den realen Problemen des Unterrichts entstanden.'**
+  String get websiteUspSublineIntro;
 }
 
 class _SharezoneLocalizationsDelegate

@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/widgets/check_tile.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
 import 'package:sharezone_website/widgets/headline.dart';
@@ -22,25 +23,31 @@ class DataProtection extends StatelessWidget {
       key: const ValueKey('privacy'),
       child: ImageText(
         desktopSpacing: 32,
-        body: const Column(
+        body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Headline("Sicher & DSGVO-konform"),
-            SizedBox(height: 24),
+            Headline(context.l10n.websiteDataProtectionHeadline),
+            const SizedBox(height: 24),
             ColumnSpacing(
               spacing: 12,
               children: [
                 CheckTile(
-                  title: "Standort der Server: Frankfurt (Deutschland)",
+                  title: context.l10n.websiteDataProtectionServerLocationTitle,
                   subtitle:
-                      "Mit Ausnahme des Authentifizierungsserver\n(EU-Standardvertragsklauseln)",
+                      context.l10n.websiteDataProtectionServerLocationSubtitle,
                 ),
-                CheckTile(title: "TLS-Verschlüsselung bei der Übertragung"),
-                CheckTile(title: "AES 256-Bit serverseitige Verschlüsselung"),
-                CheckTile(title: "ISO27001, ISO27012 & ISO27018 zertifiziert*"),
                 CheckTile(
-                  title: "SOC1, SOC2, & SOC3 zertifiziert*",
-                  subtitle: "* Zertifizierung von unserem Hosting-Anbieter",
+                  title: context.l10n.websiteDataProtectionTlsTitle,
+                ),
+                CheckTile(
+                  title: context.l10n.websiteDataProtectionAesTitle,
+                ),
+                CheckTile(
+                  title: context.l10n.websiteDataProtectionIsoTitle,
+                ),
+                CheckTile(
+                  title: context.l10n.websiteDataProtectionSocTitle,
+                  subtitle: context.l10n.websiteDataProtectionSocSubtitle,
                 ),
               ],
             ),

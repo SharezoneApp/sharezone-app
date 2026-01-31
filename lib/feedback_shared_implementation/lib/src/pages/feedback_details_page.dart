@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class FeedbackDetailsPage extends StatefulWidget {
@@ -75,7 +76,7 @@ class _FeedbackDetailsPageState extends State<FeedbackDetailsPage> {
     return ChangeNotifierProvider.value(
       value: controller,
       child: Scaffold(
-        appBar: AppBar(title: const Text('Feedback-Details')),
+        appBar: AppBar(title: Text(context.l10n.feedbackDetailsPageTitle)),
         body: SingleChildScrollView(
           controller: scrollController,
           child: SafeArea(
@@ -130,15 +131,15 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _Items(
+    return _Items(
       feedback: FeedbackView(
         id: FeedbackId('1'),
         createdOn: '2022-01-01',
         rating: '5',
         likes: '10',
         dislikes: '2',
-        missing: 'Great app!',
-        heardFrom: 'Friend',
+        missing: context.l10n.feedbackDetailsLoadingMissing,
+        heardFrom: context.l10n.feedbackDetailsLoadingHeardFrom,
         lastMessage: null,
         hasUnreadMessages: null,
       ),
@@ -222,7 +223,10 @@ class _Messages extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Kommentare:', style: TextStyle(fontSize: 18)),
+              Text(
+                context.l10n.feedbackDetailsCommentsTitle,
+                style: const TextStyle(fontSize: 18),
+              ),
               const SizedBox(height: 12),
               for (final message in messages!)
                 if (message.isMyMessage)
@@ -356,7 +360,7 @@ class _WriteResponseFieldState extends State<_WriteResponseField> {
       if (!mounted) return;
       showSnackSec(
         context: context,
-        text: 'Fehler beim Senden der Nachricht: $e',
+        text: context.l10n.feedbackDetailsSendError('$e'),
       );
     }
   }
@@ -387,8 +391,9 @@ class _WriteResponseFieldState extends State<_WriteResponseField> {
                             children: [
                               TextField(
                                 controller: textEditingController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Antwort schreiben...',
+                                decoration: InputDecoration(
+                                  hintText:
+                                      context.l10n.feedbackDetailsResponseHint,
                                 ),
                                 focusNode: focusNode,
                                 onChanged: (value) {
@@ -435,7 +440,7 @@ class _SendMessageButton extends StatelessWidget {
         duration: const Duration(milliseconds: 350),
         child: IconButton.filled(
           key: ValueKey(isEnabled),
-          tooltip: 'Senden (Enter)',
+          tooltip: context.l10n.feedbackSendTooltip,
           icon: const Icon(Icons.send),
           onPressed: isEnabled ? () => onPressed!() : null,
         ),
@@ -452,7 +457,7 @@ class _NewLineHint extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 4),
       child: Text(
-        'Shift + Enter für neue Zeile',
+        context.l10n.feedbackNewLineHint,
         style: TextStyle(
           fontSize: 11,
           color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),

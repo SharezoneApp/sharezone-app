@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
@@ -27,6 +28,9 @@ Future<void> launchUrl(
     if (context == null) return;
     if (!context.mounted) return;
 
-    showSnackSec(context: context, text: 'Link konnte nicht geöffnet werden!');
+    showSnackSec(
+      context: context,
+      text: context.l10n.websiteLaunchUrlFailed,
+    );
   }
 }

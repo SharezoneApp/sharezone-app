@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:go_router/go_router.dart';
 import 'package:legal/legal.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_website/flavor.dart';
 import 'package:sharezone_website/page.dart';
@@ -70,6 +71,7 @@ class SharezonePlusPage extends StatelessWidget {
     return FutureBuilder<UserData?>(
       future: fetchUserData(urlToken),
       builder: (context, snapshot) {
+        final l10n = context.l10n;
         final data = snapshot.data;
         var purchasePeriod = PurchasePeriod.monthly;
         var isPurchaseButtonLoading = false;
@@ -83,7 +85,12 @@ class SharezonePlusPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 50),
-                    if (snapshot.hasError) Text('Error: ${snapshot.error}'),
+                    if (snapshot.hasError)
+                      Text(
+                        l10n.websiteSharezonePlusLoadError(
+                          '${snapshot.error}',
+                        ),
+                      ),
                     if (hasToken)
                       DecoratedBox(
                         decoration: BoxDecoration(
@@ -93,9 +100,9 @@ class SharezonePlusPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
-                              'Sharezone Plus kaufen für',
-                              style: TextStyle(fontSize: 26),
+                            Text(
+                              l10n.websiteSharezonePlusPurchaseForTitle,
+                              style: const TextStyle(fontSize: 26),
                             ),
                             const SizedBox(height: 6),
                             Row(
@@ -109,7 +116,8 @@ class SharezonePlusPage extends StatelessWidget {
                                 const SizedBox(width: 12),
                                 Flexible(
                                   child: Text(
-                                    data?.username ?? 'Lädt...',
+                                    data?.username ??
+                                        l10n.websiteSharezonePlusLoadingName,
                                     style: const TextStyle(fontSize: 20),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -173,9 +181,9 @@ class SharezonePlusPage extends StatelessWidget {
                         ),
                       ),
                     const SizedBox(height: 25),
-                    const Text(
-                      'Vorteile von Sharezone Plus',
-                      style: TextStyle(fontSize: 23),
+                    Text(
+                      l10n.websiteSharezonePlusAdvantagesTitle,
+                      style: const TextStyle(fontSize: 23),
                     ),
                     const SizedBox(height: 18),
                     const SharezonePlusAdvantages(
@@ -231,13 +239,13 @@ class _BuyDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: AlertDialog(
-        title: const Text('Sharezone Plus kaufen'),
+        title: Text(l10n.websiteSharezonePlusPurchaseDialogTitle),
         content: MarkdownBody(
-          data:
-              'Um Sharezone Plus für deinen eigenen Account zu erwerben, musst du Sharezone Plus über die Web-App kaufen.\n\nFalls du Sharezone Plus als Elternteil für dein Kind kaufen möchtest, musst du den Link öffnen, den du von deinem Kind erhalten hast.\n\nSolltest du Fragen haben, kannst du uns gerne eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net) schreiben.',
+          data: l10n.websiteSharezonePlusPurchaseDialogContent,
           onTapLink: (text, href, title) async {
             if (href == null) return;
             await launchUrl(href);
@@ -246,10 +254,10 @@ class _BuyDialog extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen'),
+            child: Text(l10n.commonActionsCancel),
           ),
           FilledButton(
-            child: const Text('Zur Web-App'),
+            child: Text(l10n.websiteSharezonePlusPurchaseDialogToWebApp),
             onPressed: () => launchUrl('https://web.sharezone.net'),
           ),
         ],
@@ -266,8 +274,7 @@ class _ManageSubscriptionText extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: MarkdownBody(
-        data:
-            'Du hast bereits ein Abo? Klicke [hier](https://billing.stripe.com/p/login/eVa7uh3DvbMfbTy144) um es zu verwalten (z.B. Kündigen, Zahlungsmethode ändern, etc.).',
+        data: context.l10n.websiteSharezonePlusManageSubscriptionText,
         styleSheet: MarkdownStyleSheet(
           a: TextStyle(
             color: Theme.of(context).primaryColor,
@@ -294,22 +301,23 @@ class _CustomerPortalDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: AlertDialog(
-        title: const Text('Kundenportal'),
-        content: const SingleChildScrollView(
+        title: Text(l10n.websiteSharezonePlusCustomerPortalTitle),
+        content: SingleChildScrollView(
           child: Text(
-            'Um dich zu authentifizieren, nutze bitte die E-Mail-Adresse, die du bei der Bestellung verwendet hast.',
+            l10n.websiteSharezonePlusCustomerPortalContent,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen'),
+            child: Text(l10n.commonActionsCancel),
           ),
           FilledButton(
-            child: const Text('Zum Kundenportal'),
+            child: Text(l10n.websiteSharezonePlusCustomerPortalOpen),
             onPressed: () async {
               await launchUrl(url);
               if (context.mounted) {

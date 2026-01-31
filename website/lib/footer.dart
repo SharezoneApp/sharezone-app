@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:legal/legal.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/legal/imprint_page.dart';
 import 'package:sharezone_website/support_page.dart';
 import 'package:sharezone_website/utils.dart';
@@ -144,13 +145,19 @@ class _FooterDesktop extends StatelessWidget {
 class _FooterCommunity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return _FooterSection(
-      title: "Sharezone-Community",
-      subtitle:
-          "Werde jetzt ein Teil unserer Community und bringe deine eigenen Ideen bei Sharezone ein.",
+      title: l10n.websiteFooterCommunityTitle,
+      subtitle: l10n.websiteFooterCommunitySubtitle,
       links: [
-        _FooterAction("Discord", link: "https://sharezone.net/discord"),
-        _FooterAction("Ticketsystem", link: "https://sharezone.net/tickets"),
+        _FooterAction(
+          l10n.websiteFooterCommunityDiscord,
+          link: "https://sharezone.net/discord",
+        ),
+        _FooterAction(
+          l10n.websiteFooterCommunityTicketSystem,
+          link: "https://sharezone.net/tickets",
+        ),
       ],
     );
   }
@@ -159,11 +166,15 @@ class _FooterCommunity extends StatelessWidget {
 class _FooterHelp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return _FooterSection(
-      title: "Hilfe",
+      title: l10n.websiteFooterHelpTitle,
       links: [
-        _FooterAction("Support", tag: SupportPage.tag),
-        _FooterAction("Erklärvideos", link: "https://sharezone.net/youtube"),
+        _FooterAction(l10n.websiteFooterHelpSupport, tag: SupportPage.tag),
+        _FooterAction(
+          l10n.websiteFooterHelpVideos,
+          link: "https://sharezone.net/youtube",
+        ),
       ],
     );
   }
@@ -172,12 +183,22 @@ class _FooterHelp extends StatelessWidget {
 class _FooterDownlaod extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return _FooterSection(
-      title: "Downloads",
+      title: l10n.websiteFooterDownloadTitle,
       links: [
-        _FooterAction("Android", link: "https://sharezone.net/android"),
-        _FooterAction("iOS", link: "https://sharezone.net/ios"),
-        _FooterAction("macOS", link: "https://sharezone.net/macos"),
+        _FooterAction(
+          l10n.websiteFooterDownloadAndroid,
+          link: "https://sharezone.net/android",
+        ),
+        _FooterAction(
+          l10n.websiteFooterDownloadIos,
+          link: "https://sharezone.net/ios",
+        ),
+        _FooterAction(
+          l10n.websiteFooterDownloadMacos,
+          link: "https://sharezone.net/macos",
+        ),
       ],
     );
   }
@@ -186,15 +207,19 @@ class _FooterDownlaod extends StatelessWidget {
 class _FooterLegal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return _FooterSection(
-      title: "Rechtliches",
+      title: l10n.websiteFooterLegalTitle,
       links: [
-        _FooterAction("Impressum", tag: ImprintPage.tag),
+        _FooterAction(l10n.websiteFooterLegalImprint, tag: ImprintPage.tag),
         _FooterAction(
-          "Allgemeine Nutzungsbedingungen (ANB)",
+          l10n.websiteFooterLegalTerms,
           tag: TermsOfServicePage.tag,
         ),
-        _FooterAction("Datenschutzerklärung", tag: PrivacyPolicyPage.tag),
+        _FooterAction(
+          l10n.websiteFooterLegalPrivacy,
+          tag: PrivacyPolicyPage.tag,
+        ),
       ],
     );
   }
@@ -203,10 +228,14 @@ class _FooterLegal extends StatelessWidget {
 class _FooterNavLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return _FooterSection(
-      title: "Links",
+      title: l10n.websiteFooterLinksTitle,
       links: [
-        _FooterAction("Dokumentation", link: "https://docs.sharezone.net"),
+        _FooterAction(
+          l10n.websiteFooterLinksDocs,
+          link: "https://docs.sharezone.net",
+        ),
       ],
     );
   }

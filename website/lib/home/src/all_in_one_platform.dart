@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/row_spacing.dart';
@@ -29,12 +30,93 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final leftFeatures = [
+      FeatureData(
+        id: "aufgaben",
+        title: l10n.websiteFeatureTasksTitle,
+        bulletpoints: [
+          l10n.websiteFeatureTasksBulletpointReminder,
+          l10n.websiteFeatureTasksBulletpointComments,
+          l10n.websiteFeatureTasksBulletpointSubmissions,
+        ],
+      ),
+      FeatureData(
+        id: "infozettel",
+        title: l10n.websiteFeatureNoticesTitle,
+        bulletpoints: [
+          l10n.websiteFeatureNoticesBulletpointReadReceipt,
+          l10n.websiteFeatureNoticesBulletpointComments,
+          l10n.websiteFeatureNoticesBulletpointNotifications,
+        ],
+      ),
+      FeatureData(
+        id: "dateiablage",
+        title: l10n.websiteFeatureFileStorageTitle,
+        bulletpoints: [
+          l10n.websiteFeatureFileStorageBulletpointShareMaterials,
+          l10n.websiteFeatureFileStorageBulletpointUnlimitedStorage,
+        ],
+      ),
+      FeatureData(
+        id: "termine",
+        title: l10n.websiteFeatureEventsTitle,
+        bulletpoints: [
+          l10n.websiteFeatureEventsBulletpointAtAGlance,
+        ],
+      ),
+    ];
+    final rightFeatures = [
+      FeatureData(
+        id: "notensystem",
+        title: l10n.websiteFeatureGradesTitle,
+        bulletpoints: [
+          l10n.websiteFeatureGradesBulletpointSaveGrades,
+          l10n.websiteFeatureGradesBulletpointMultipleSystems,
+        ],
+        height: 60,
+      ),
+      FeatureData(
+        id: "immer verfügbar",
+        title: l10n.websiteFeatureAlwaysAvailableTitle,
+        bulletpoints: [
+          l10n.websiteFeatureAlwaysAvailableBulletpointOffline,
+          l10n.websiteFeatureAlwaysAvailableBulletpointMultiDevice,
+        ],
+        leaveDefaultPicture: true,
+        height: 60,
+      ),
+      FeatureData(
+        id: "stundenplan",
+        title: l10n.websiteFeatureTimetableTitle,
+        bulletpoints: [
+          l10n.websiteFeatureTimetableBulletpointAbWeeks,
+          l10n.websiteFeatureTimetableBulletpointWeekdays,
+        ],
+      ),
+      FeatureData(
+        id: "notifications",
+        title: l10n.websiteFeatureNotificationsTitle,
+        bulletpoints: [
+          l10n.websiteFeatureNotificationsBulletpointQuietHours,
+          l10n.websiteFeatureNotificationsBulletpointAlwaysInformed,
+          l10n.websiteFeatureNotificationsBulletpointCustomizable,
+        ],
+      ),
+    ];
+    final featureTitlesById = <String, String>{
+      defaultFeature: l10n.websiteFeatureOverviewTitle,
+      for (final feature in [...leftFeatures, ...rightFeatures])
+        feature.id: feature.title,
+    };
+    final currentFeatureTitle =
+        featureTitlesById[currentFeature] ?? currentFeature;
     return RepaintBoundary(
       key: const ValueKey('all-in-one-place'),
       child: Section(
         child: Column(
           children: [
-            const Headline("Alles an einem Ort"),
+            Headline(l10n.websiteAllInOneHeadline),
             const SizedBox(height: 12),
             RowSpacing(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -46,35 +128,8 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                     child: ColumnSpacing(
                       spacing: 10,
                       children: [
-                        feature(
-                          "Aufgaben",
-                          bulletpoints: [
-                            "Mit Erinnerungsfunktion",
-                            "Mit Kommentarfunktion",
-                            "Mit Abgabefunktion",
-                          ],
-                        ),
-                        feature(
-                          "Infozettel",
-                          bulletpoints: [
-                            "Mit Lesebestätigung",
-                            "Mit Kommentarfunktion",
-                            "Mit Notifications",
-                          ],
-                        ),
-                        feature(
-                          "Dateiablage",
-                          bulletpoints: [
-                            "Arbeitsmaterialien teilen",
-                            "Optional: Unbegrenzter \nSpeicherplatz",
-                          ],
-                        ),
-                        feature(
-                          "Termine",
-                          bulletpoints: [
-                            "Prüfungen und Termine auf einen Blick",
-                          ],
-                        ),
+                        for (final featureData in leftFeatures)
+                          feature(featureData),
                       ],
                     ),
                   ),
@@ -95,9 +150,11 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                       key: ValueKey(currentFeature),
                       width: 350,
                       child: Image.asset(
-                        "assets/features/${currentFeature.toLowerCase()}.png",
+                        "assets/features/${currentFeature}.png",
                         height: 650,
-                        semanticLabel: currentFeature,
+                        semanticLabel: l10n.websiteAllInOneFeatureImageLabel(
+                          currentFeatureTitle,
+                        ),
                       ),
                     ),
                   ),
@@ -107,38 +164,8 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                     child: ColumnSpacing(
                       spacing: 10,
                       children: [
-                        feature(
-                          "Notensystem",
-                          bulletpoints: [
-                            "Speichere deine Noten in Sharezone",
-                            "Verschiedene Notensysteme",
-                          ],
-                          height: 60,
-                        ),
-                        feature(
-                          "Immer verfügbar",
-                          bulletpoints: [
-                            "Offline Inhalte eintragen",
-                            "Mit mehreren Geräten nutzbar",
-                          ],
-                          leaveDefaultPicture: true,
-                          height: 60,
-                        ),
-                        feature(
-                          "Stundenplan",
-                          bulletpoints: [
-                            "Mit A/B Wochen",
-                            "Wochentage individuell einstellbar",
-                          ],
-                        ),
-                        feature(
-                          "Notifications",
-                          bulletpoints: [
-                            "Mit Ruhemodus",
-                            "Immer informiert",
-                            "Individuell einstellbar",
-                          ],
-                        ),
+                        for (final featureData in rightFeatures)
+                          feature(featureData),
                       ],
                     ),
                   ),
@@ -151,31 +178,31 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
     );
   }
 
-  Widget feature(
-    String title, {
-    List<String> bulletpoints = const [],
-    String? subtitle,
-    double? height,
-
-    /// Don't change phone mockup picture if true
-    bool leaveDefaultPicture = false,
-  }) {
+  Widget feature(FeatureData featureData) {
     return MouseRegion(
       onHover:
           (event) =>
           // If we don't call setState when [leaveDefaultPicture] is `true`
           // then the text in the [_FeatureCard] won't be drawn somehow.
-          setState(() => leaveDefaultPicture ? (_) {} : currentFeature = title),
+          setState(
+            () =>
+                featureData.leaveDefaultPicture
+                    ? (_) {}
+                    : currentFeature = featureData.id,
+          ),
       onExit: (event) => setState(() => currentFeature = defaultFeature),
       child: _FeatureCard(
-        title: title,
-        subtitle: subtitle,
-        bulletpoints: bulletpoints,
-        height: height,
+        title: featureData.title,
+        iconAssetName: featureData.id,
+        iconSemanticLabel: context.l10n.websiteAllInOneFeatureImageLabel(
+          featureData.title,
+        ),
+        bulletpoints: featureData.bulletpoints,
+        height: featureData.height,
         onTap: (title) {
           setState(() {
-            if (!leaveDefaultPicture) {
-              currentFeature = title;
+            if (!featureData.leaveDefaultPicture) {
+              currentFeature = featureData.id;
             }
           });
         },
@@ -184,9 +211,27 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
   }
 }
 
+class FeatureData {
+  const FeatureData({
+    required this.id,
+    required this.title,
+    this.bulletpoints = const [],
+    this.height,
+    this.leaveDefaultPicture = false,
+  });
+
+  final String id;
+  final String title;
+  final List<String> bulletpoints;
+  final double? height;
+  final bool leaveDefaultPicture;
+}
+
 class _FeatureCard extends StatefulWidget {
   const _FeatureCard({
     required this.title,
+    required this.iconAssetName,
+    required this.iconSemanticLabel,
     this.subtitle,
     this.onTap,
     this.bulletpoints = const [],
@@ -194,6 +239,8 @@ class _FeatureCard extends StatefulWidget {
   });
 
   final String title;
+  final String iconAssetName;
+  final String iconSemanticLabel;
   final String? subtitle;
   final List<String> bulletpoints;
   final ValueChanged<String>? onTap;
@@ -234,9 +281,9 @@ class __FeatureCardState extends State<_FeatureCard> {
                           padding: const EdgeInsets.only(bottom: 7),
                           child: Semantics(
                             image: true,
-                            label: 'An image of the ${widget.title} feature',
+                            label: widget.iconSemanticLabel,
                             child: SvgPicture.asset(
-                              "assets/icons/${widget.title.toLowerCase()}.svg",
+                              "assets/icons/${widget.iconAssetName}.svg",
                               height: widget.height ?? 45,
                             ),
                           ),

@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/sharezone_plus/sharezone_plus_page.dart';
 import 'package:sharezone_website/support_page.dart';
 import 'package:sharezone_website/utils.dart';
@@ -41,22 +42,22 @@ class PageTemplate extends StatelessWidget {
                     children: [
                       ListTile(
                         leading: const Icon(Icons.home),
-                        title: const Text("Hauptseite"),
+                        title: Text(context.l10n.websiteNavHome),
                         onTap: () => context.go('/'),
                       ),
                       ListTile(
                         leading: const Icon(Icons.home),
-                        title: const Text("Plus"),
+                        title: Text(context.l10n.websiteNavPlus),
                         onTap: () => context.go('/plus'),
                       ),
                       ListTile(
                         leading: const Icon(Icons.question_answer),
-                        title: const Text("Docs"),
+                        title: Text(context.l10n.websiteNavDocs),
                         onTap: () => launchUrl("https://docs.sharezone.net"),
                       ),
                       ListTile(
                         leading: const Icon(Icons.help),
-                        title: const Text("Support"),
+                        title: Text(context.l10n.websiteNavSupport),
                         onTap: () => context.go('/$SupportPage.tag'),
                       ),
                     ],
@@ -139,19 +140,19 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                           Padding(
                             padding: const EdgeInsets.only(right: 30),
                             child: TransparentButton(
-                              child: const Text("Plus"),
+                              child: Text(context.l10n.websiteNavPlus),
                               onTap:
                                   () => context.go('/${SharezonePlusPage.tag}'),
                             ),
                           ),
                           TransparentButton(
-                            child: const Text("Support"),
+                            child: Text(context.l10n.websiteNavSupport),
                             onTap: () => context.go('/${SupportPage.tag}'),
                           ),
                           const SizedBox(width: 30),
                           TransparentButton.openLink(
                             link: "https://docs.sharezone.net",
-                            child: const Text("Docs"),
+                            child: Text(context.l10n.websiteNavDocs),
                           ),
                           const SizedBox(width: 30),
                         ],
@@ -186,13 +187,13 @@ class _GoWebAppButton extends StatelessWidget {
           child: Material(
             borderRadius: borderRaius,
             color: Theme.of(context).primaryColor,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Web-App",
-                  style: TextStyle(color: Colors.white, fontSize: 22),
+                  context.l10n.websiteNavWebApp,
+                  style: const TextStyle(color: Colors.white, fontSize: 22),
                 ),
               ),
             ),
