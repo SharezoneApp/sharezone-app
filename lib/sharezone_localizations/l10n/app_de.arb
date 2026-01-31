@@ -248,6 +248,96 @@
   "@registerAccountShowInstructionAction": {
     "description": "Label for the dialog action that opens the instructions for using multiple devices."
   },
+  "reportDescriptionHelperText": "Bitte beschreibe uns, warum du diesen Inhalt melden möchtest. Gib uns dabei möglichst viele Informationen, damit wir den Fall schnell und sicher bearbeiten können.",
+  "@reportDescriptionHelperText": {
+    "description": "Helper text shown above the description field on the report page."
+  },
+  "reportDescriptionLabel": "Beschreibung",
+  "@reportDescriptionLabel": {
+    "description": "Label of the description text field on the report page."
+  },
+  "reportDialogContent": "Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).",
+  "@reportDialogContent": {
+    "description": "Content of the confirmation dialog before sending a report."
+  },
+  "reportDialogSendAction": "Senden",
+  "@reportDialogSendAction": {
+    "description": "Label for sending a report, used for dialog action and tooltip."
+  },
+  "reportItemTypeBlackboard": "Infozettel",
+  "@reportItemTypeBlackboard": {
+    "description": "Label for the reported item type blackboard/notice."
+  },
+  "reportItemTypeComment": "Kommentar",
+  "@reportItemTypeComment": {
+    "description": "Label for the reported item type comment."
+  },
+  "reportItemTypeCourse": "Kurs",
+  "@reportItemTypeCourse": {
+    "description": "Label for the reported item type course."
+  },
+  "reportItemTypeEvent": "Termin / Prüfung",
+  "@reportItemTypeEvent": {
+    "description": "Label for the reported item type event or exam."
+  },
+  "reportItemTypeFile": "Datei",
+  "@reportItemTypeFile": {
+    "description": "Label for the reported item type file."
+  },
+  "reportItemTypeHomework": "Hausaufgabe",
+  "@reportItemTypeHomework": {
+    "description": "Label for the reported item type homework."
+  },
+  "reportItemTypeLesson": "Stunde",
+  "@reportItemTypeLesson": {
+    "description": "Label for the reported item type lesson."
+  },
+  "reportItemTypeSchoolClass": "Schulklasse",
+  "@reportItemTypeSchoolClass": {
+    "description": "Label for the reported item type school class."
+  },
+  "reportItemTypeUser": "Nutzer",
+  "@reportItemTypeUser": {
+    "description": "Label for the reported item type user."
+  },
+  "reportMissingInformation": "Bitte einen Grund und eine Beschreibung an.",
+  "@reportMissingInformation": {
+    "description": "Error message shown when required report information is missing."
+  },
+  "reportPageTitle": "{itemType} melden",
+  "@reportPageTitle": {
+    "description": "Title for the report page and tooltip when reporting an item.",
+    "placeholders": {
+      "itemType": {
+        "description": "The localized item type that is being reported.",
+        "type": "String"
+      }
+    }
+  },
+  "reportReasonBullying": "Mobbing",
+  "@reportReasonBullying": {
+    "description": "Reason option for bullying."
+  },
+  "reportReasonIllegalContent": "Rechtswidrige Inhalte",
+  "@reportReasonIllegalContent": {
+    "description": "Reason option for illegal content."
+  },
+  "reportReasonOther": "Sonstiges",
+  "@reportReasonOther": {
+    "description": "Reason option for other reasons."
+  },
+  "reportReasonPornographicContent": "Pornografische Inhalte",
+  "@reportReasonPornographicContent": {
+    "description": "Reason option for pornographic content."
+  },
+  "reportReasonSpam": "Spam",
+  "@reportReasonSpam": {
+    "description": "Reason option for spam."
+  },
+  "reportReasonViolentContent": "Gewaltsame oder abstoßende Inhalte",
+  "@reportReasonViolentContent": {
+    "description": "Reason option for violent or repulsive content."
+  },
   "socialDiscord": "Discord",
   "socialEmail": "E-Mail",
   "socialGitHub": "GitHub",

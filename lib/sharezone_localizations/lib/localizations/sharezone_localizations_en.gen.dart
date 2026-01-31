@@ -1,4 +1,4 @@
-// Copyright (c) 2025 Sharezone UG (haftungsbeschränkt)
+// Copyright (c) 2026 Sharezone UG (haftungsbeschränkt)
 // Licensed under the EUPL-1.2-or-later.
 //
 // You may obtain a copy of the Licence at:
@@ -400,6 +400,74 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get registerAccountShowInstructionAction => 'Show instructions';
+
+  @override
+  String get reportDescriptionHelperText =>
+      'Please describe why you want to report this content. Give us as much information as possible so we can process the case quickly and safely.';
+
+  @override
+  String get reportDescriptionLabel => 'Description';
+
+  @override
+  String get reportDialogContent =>
+      'We will process the case as soon as possible!\n\nPlease note that repeated misuse of the report system may have consequences for you (e.g. blocking your account).';
+
+  @override
+  String get reportDialogSendAction => 'Send';
+
+  @override
+  String get reportItemTypeBlackboard => 'Blackboard post';
+
+  @override
+  String get reportItemTypeComment => 'Comment';
+
+  @override
+  String get reportItemTypeCourse => 'Course';
+
+  @override
+  String get reportItemTypeEvent => 'Event / Exam';
+
+  @override
+  String get reportItemTypeFile => 'File';
+
+  @override
+  String get reportItemTypeHomework => 'Homework';
+
+  @override
+  String get reportItemTypeLesson => 'Lesson';
+
+  @override
+  String get reportItemTypeSchoolClass => 'School class';
+
+  @override
+  String get reportItemTypeUser => 'User';
+
+  @override
+  String get reportMissingInformation =>
+      'Please provide a reason and a description.';
+
+  @override
+  String reportPageTitle(String itemType) {
+    return 'Report $itemType';
+  }
+
+  @override
+  String get reportReasonBullying => 'Bullying';
+
+  @override
+  String get reportReasonIllegalContent => 'Illegal content';
+
+  @override
+  String get reportReasonOther => 'Other';
+
+  @override
+  String get reportReasonPornographicContent => 'Pornographic content';
+
+  @override
+  String get reportReasonSpam => 'Spam';
+
+  @override
+  String get reportReasonViolentContent => 'Violent or repulsive content';
 
   @override
   String get socialDiscord => 'Discord';

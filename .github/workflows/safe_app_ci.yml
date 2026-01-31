@@ -167,7 +167,7 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     # Due to https://github.com/flutter/flutter/issues/111739 our golden tests
     # require macOS arm64. Therefore, we need to use macos-15.
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
@@ -207,3 +207,28 @@ jobs:
           # folders. Since golden tests run in several different places (e.g. /app,
           # or packages in /lib) the failures folder will be spread in different places.
           path: "**/failures/*.png"
+
+  check-l10n-files:
+    needs: changes
+    runs-on: ubuntu-24.04
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+
+      - name: Set Flutter version from FVM config file to environment variables
+        id: fvm-config-action
+        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
+
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+
+      - name: Activate sz_repo_cli package
+        run: flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+      - run: echo $(realpath ./bin) >> $GITHUB_PATH
+
+      - name: Checks if the localization files are up to date.
+        run: sz l10n check

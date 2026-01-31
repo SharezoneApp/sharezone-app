@@ -6,11 +6,12 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum ReportReason {
-  spam,
-  bullying,
-  pornographicContent,
-  violentContent,
-  illegalContent,
-  other,
+import 'package:args/command_runner.dart';
+
+class L10nCommand extends Command {
+  @override
+  String get description => 'Generates and checks localization files.';
+
+  @override
+  String get name => 'l10n';
 }
