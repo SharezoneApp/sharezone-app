@@ -531,6 +531,30 @@ abstract class SharezoneLocalizations {
   /// **'Support kontaktieren'**
   String get contactSupportButton;
 
+  /// No description provided for @countryAustria.
+  ///
+  /// In de, this message translates to:
+  /// **'Österreich'**
+  String get countryAustria;
+
+  /// No description provided for @countryGermany.
+  ///
+  /// In de, this message translates to:
+  /// **'Deutschland'**
+  String get countryGermany;
+
+  /// No description provided for @countrySwitzerland.
+  ///
+  /// In de, this message translates to:
+  /// **'Schweiz'**
+  String get countrySwitzerland;
+
+  /// No description provided for @dashboardSelectStateButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Bundesland / Kanton auswählen'**
+  String get dashboardSelectStateButton;
+
   /// No description provided for @feedbackDetailsCommentsTitle.
   ///
   /// In de, this message translates to:
@@ -578,30 +602,6 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Senden (Enter)'**
   String get feedbackSendTooltip;
-
-  /// No description provided for @countryAustria.
-  ///
-  /// In de, this message translates to:
-  /// **'Österreich'**
-  String get countryAustria;
-
-  /// No description provided for @countryGermany.
-  ///
-  /// In de, this message translates to:
-  /// **'Deutschland'**
-  String get countryGermany;
-
-  /// No description provided for @countrySwitzerland.
-  ///
-  /// In de, this message translates to:
-  /// **'Schweiz'**
-  String get countrySwitzerland;
-
-  /// No description provided for @dashboardSelectStateButton.
-  ///
-  /// In de, this message translates to:
-  /// **'Bundesland / Kanton auswählen'**
-  String get dashboardSelectStateButton;
 
   /// No description provided for @imprintTitle.
   ///

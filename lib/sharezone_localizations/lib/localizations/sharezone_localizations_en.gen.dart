@@ -269,6 +269,18 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get contactSupportButton => 'Contact support';
 
   @override
+  String get countryAustria => 'Austria';
+
+  @override
+  String get countryGermany => 'Germany';
+
+  @override
+  String get countrySwitzerland => 'Switzerland';
+
+  @override
+  String get dashboardSelectStateButton => 'Select state / canton';
+
+  @override
   String get feedbackDetailsCommentsTitle => 'Comments:';
 
   @override
@@ -293,18 +305,6 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get feedbackSendTooltip => 'Send (Enter)';
-
-  @override
-  String get countryAustria => 'Austria';
-
-  @override
-  String get countryGermany => 'Germany';
-
-  @override
-  String get countrySwitzerland => 'Switzerland';
-
-  @override
-  String get dashboardSelectStateButton => 'Select state / canton';
 
   @override
   String get imprintTitle => 'Imprint';
