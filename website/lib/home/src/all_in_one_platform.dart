@@ -148,7 +148,7 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
                       key: ValueKey(currentFeature),
                       width: 350,
                       child: Image.asset(
-                        "assets/features/${currentFeature}.png",
+                        "assets/features/$currentFeature.png",
                         height: 650,
                         semanticLabel: l10n.websiteAllInOneFeatureImageLabel(
                           currentFeatureTitle,

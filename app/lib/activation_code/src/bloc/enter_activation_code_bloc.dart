@@ -139,6 +139,8 @@ class EnterActivationCodeBloc extends BlocBase {
   Future<void> _clearCache(BuildContext context) async {
     await Future.wait([keyValueStore.clear()]);
 
+    if (!context.mounted) return;
+
     _changeEnterActivationCodeResult(
       SuccessfulEnterActivationCodeResult(
         'clear',

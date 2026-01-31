@@ -133,7 +133,7 @@ class _Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return _Items(
       feedback: FeedbackView(
-        id: FeedbackId('1'),
+        id: const FeedbackId('1'),
         createdOn: '2022-01-01',
         rating: '5',
         likes: '10',
