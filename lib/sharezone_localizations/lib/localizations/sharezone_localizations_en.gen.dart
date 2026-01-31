@@ -183,7 +183,7 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get commonActionBack => 'Back';
 
   @override
-  String get commonActionChange => 'Ändern';
+  String get commonActionChange => 'Change';
 
   @override
   String get commonActionsAlright => 'Alright';
@@ -336,6 +336,11 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'New Navigation - With More Button';
 
   @override
+  String selectStateDialogConfirmationSnackBar(String region) {
+    return 'Selected $region';
+  }
+
+  @override
   String get selectStateDialogSelectBundesland => 'Select state';
 
   @override
@@ -347,11 +352,6 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get selectStateDialogStayAnonymous =>
       'I would like to remain anonymous';
-
-  @override
-  String selectStateDialogConfirmationSnackBar(String region) {
-    return 'Selected $region';
-  }
 
   @override
   String get socialDiscord => 'Discord';

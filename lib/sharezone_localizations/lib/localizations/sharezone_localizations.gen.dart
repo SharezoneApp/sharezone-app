@@ -657,6 +657,12 @@ abstract class SharezoneLocalizations {
   /// **'Neue Navigation - Mit Mehr-Button'**
   String get navigationExperimentOptionExtendableBnbWithMoreButton;
 
+  /// No description provided for @selectStateDialogConfirmationSnackBar.
+  ///
+  /// In de, this message translates to:
+  /// **'Region {region} ausgewählt'**
+  String selectStateDialogConfirmationSnackBar(String region);
+
   /// No description provided for @selectStateDialogSelectBundesland.
   ///
   /// In de, this message translates to:
@@ -680,12 +686,6 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Ich möchte anonym bleiben'**
   String get selectStateDialogStayAnonymous;
-
-  /// No description provided for @selectStateDialogConfirmationSnackBar.
-  ///
-  /// In de, this message translates to:
-  /// **'Region {region} ausgewählt'**
-  String selectStateDialogConfirmationSnackBar(String region);
 
   /// No description provided for @socialDiscord.
   ///

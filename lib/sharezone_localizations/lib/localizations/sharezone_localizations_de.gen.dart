@@ -339,6 +339,11 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Neue Navigation - Mit Mehr-Button';
 
   @override
+  String selectStateDialogConfirmationSnackBar(String region) {
+    return 'Region $region ausgewählt';
+  }
+
+  @override
   String get selectStateDialogSelectBundesland => 'Bundesland auswählen';
 
   @override
@@ -349,11 +354,6 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get selectStateDialogStayAnonymous => 'Ich möchte anonym bleiben';
-
-  @override
-  String selectStateDialogConfirmationSnackBar(String region) {
-    return 'Region $region ausgewählt';
-  }
 
   @override
   String get socialDiscord => 'Discord';
