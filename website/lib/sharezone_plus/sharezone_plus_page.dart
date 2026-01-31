@@ -87,9 +87,7 @@ class SharezonePlusPage extends StatelessWidget {
                     const SizedBox(height: 50),
                     if (snapshot.hasError)
                       Text(
-                        l10n.websiteSharezonePlusLoadError(
-                          '${snapshot.error}',
-                        ),
+                        l10n.websiteSharezonePlusLoadError('${snapshot.error}'),
                       ),
                     if (hasToken)
                       DecoratedBox(
@@ -307,9 +305,7 @@ class _CustomerPortalDialog extends StatelessWidget {
       child: AlertDialog(
         title: Text(l10n.websiteSharezonePlusCustomerPortalTitle),
         content: SingleChildScrollView(
-          child: Text(
-            l10n.websiteSharezonePlusCustomerPortalContent,
-          ),
+          child: Text(l10n.websiteSharezonePlusCustomerPortalContent),
         ),
         actions: [
           TextButton(

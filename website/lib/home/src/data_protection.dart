@@ -36,15 +36,9 @@ class DataProtection extends StatelessWidget {
                   subtitle:
                       context.l10n.websiteDataProtectionServerLocationSubtitle,
                 ),
-                CheckTile(
-                  title: context.l10n.websiteDataProtectionTlsTitle,
-                ),
-                CheckTile(
-                  title: context.l10n.websiteDataProtectionAesTitle,
-                ),
-                CheckTile(
-                  title: context.l10n.websiteDataProtectionIsoTitle,
-                ),
+                CheckTile(title: context.l10n.websiteDataProtectionTlsTitle),
+                CheckTile(title: context.l10n.websiteDataProtectionAesTitle),
+                CheckTile(title: context.l10n.websiteDataProtectionIsoTitle),
                 CheckTile(
                   title: context.l10n.websiteDataProtectionSocTitle,
                   subtitle: context.l10n.websiteDataProtectionSocSubtitle,
