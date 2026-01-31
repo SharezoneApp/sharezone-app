@@ -119,12 +119,12 @@ class _CountrySelectionList extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
+            key: const ValueKey(StateEnum.anonymous),
             leading: const Icon(Icons.account_circle),
             title: Text(context.l10n.selectStateDialogStayAnonymous),
             onTap: () {
-              BlocProvider.of<HolidayBloc>(
-                context,
-              ).changeState(StateEnum.anonymous);
+              final bloc = BlocProvider.of<HolidayBloc>(context);
+              bloc.changeState(StateEnum.anonymous);
               Navigator.of(context).pop();
             },
           ),

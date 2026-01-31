@@ -36,6 +36,22 @@ void main() {
       verify(bloc.changeState(state)).called(1);
     });
 
+    testWidgets("passes 'stay anonymous' to business logic when selected", (
+      tester,
+    ) async {
+      await tester.pumpScene(bloc);
+
+      await tester.tap(find.text("Button"));
+      await tester.pump();
+
+      const state = StateEnum.anonymous;
+      await tester.ensureVisible(find.byKey(const ValueKey(state)));
+      await tester.tap(find.byKey(const ValueKey(state)));
+      await tester.pump();
+
+      verify(bloc.changeState(state)).called(1);
+    });
+
     testWidgets("goes back to country selection when pressing back", (
       tester,
     ) async {
