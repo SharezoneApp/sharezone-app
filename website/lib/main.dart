@@ -83,13 +83,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ThemeSettings>(
       create: (BuildContext context) => ThemeSettings(),
-      child: MaterialApp.router(
-        routerConfig: _router,
-        onGenerateTitle: (context) => context.l10n.websiteAppTitle,
-        localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
-        supportedLocales: SharezoneLocalizations.supportedLocales,
-        locale: _localeFromRouter(),
-        theme: getLightTheme(),
+      child: ValueListenableBuilder<RouteInformation>(
+        valueListenable: _router.routeInformationProvider,
+        builder: (context, routeInformation, _) {
+          final uri = routeInformation.uri;
+          return MaterialApp.router(
+            routerConfig: _router,
+            onGenerateTitle: (context) => context.l10n.websiteAppTitle,
+            localizationsDelegates:
+                SharezoneLocalizations.localizationsDelegates,
+            supportedLocales: SharezoneLocalizations.supportedLocales,
+            locale: _localeFromUri(uri),
+            theme: getLightTheme(),
+          );
+        },
       ),
     );
   }
@@ -111,8 +118,7 @@ class FadeTransiationsBuilder extends PageTransitionsBuilder {
   }
 }
 
-Locale? _localeFromRouter() {
-  final uri = Uri.parse(_router.state.uri.toString());
+Locale? _localeFromUri(Uri uri) {
   final langParam = uri.queryParameters['lang'];
   if (langParam == null || langParam.isEmpty) {
     return null;
