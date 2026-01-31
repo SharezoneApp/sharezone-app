@@ -86,9 +86,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: _router,
         onGenerateTitle: (context) => context.l10n.websiteAppTitle,
-        localizationsDelegates:
-            SharezoneLocalizations.localizationsDelegates,
+        localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
         supportedLocales: SharezoneLocalizations.supportedLocales,
+        locale: _localeFromRouter(),
         theme: getLightTheme(),
       ),
     );
@@ -109,4 +109,18 @@ class FadeTransiationsBuilder extends PageTransitionsBuilder {
   ) {
     return FadeTransition(opacity: animation, child: child);
   }
+}
+
+Locale? _localeFromRouter() {
+  final uri = Uri.parse(_router.state.uri.toString());
+  final langParam = uri.queryParameters['lang'];
+  if (langParam == null || langParam.isEmpty) {
+    return null;
+  }
+
+  final appLocale = AppLocale.fromLanguageTag(langParam);
+  if (appLocale.isSystem()) {
+    return null;
+  }
+  return appLocale.toLocale();
 }

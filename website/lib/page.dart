@@ -43,12 +43,12 @@ class PageTemplate extends StatelessWidget {
                       ListTile(
                         leading: const Icon(Icons.home),
                         title: Text(context.l10n.websiteNavHome),
-                        onTap: () => context.go('/'),
+                        onTap: () => goWithLang(context, '/'),
                       ),
                       ListTile(
                         leading: const Icon(Icons.home),
                         title: Text(context.l10n.websiteNavPlus),
-                        onTap: () => context.go('/plus'),
+                        onTap: () => goWithLang(context, '/plus'),
                       ),
                       ListTile(
                         leading: const Icon(Icons.question_answer),
@@ -58,7 +58,7 @@ class PageTemplate extends StatelessWidget {
                       ListTile(
                         leading: const Icon(Icons.help),
                         title: Text(context.l10n.websiteNavSupport),
-                        onTap: () => context.go('/$SupportPage.tag'),
+                        onTap: () => goWithLang(context, '/$SupportPage.tag'),
                       ),
                     ],
                   ),
@@ -125,7 +125,7 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                     )
                   else
                     TransparentButton(
-                      onTap: () => context.go('/'),
+                      onTap: () => goWithLang(context, '/'),
                       child: const SharezoneLogo(
                         logoColor: LogoColor.blueShort,
                         height: 50,
@@ -142,12 +142,17 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                             child: TransparentButton(
                               child: Text(context.l10n.websiteNavPlus),
                               onTap:
-                                  () => context.go('/${SharezonePlusPage.tag}'),
+                                  () => goWithLang(
+                                    context,
+                                    '/${SharezonePlusPage.tag}',
+                                  ),
                             ),
                           ),
                           TransparentButton(
                             child: Text(context.l10n.websiteNavSupport),
-                            onTap: () => context.go('/${SupportPage.tag}'),
+                            onTap:
+                                () =>
+                                    goWithLang(context, '/${SupportPage.tag}'),
                           ),
                           const SizedBox(width: 30),
                           TransparentButton.openLink(
@@ -157,6 +162,8 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                           const SizedBox(width: 30),
                         ],
                         _GoWebAppButton(),
+                        const SizedBox(width: 8),
+                        const _LanguageSelector(),
                       ],
                     ),
                   ),
@@ -202,4 +209,79 @@ class _GoWebAppButton extends StatelessWidget {
       ),
     );
   }
+}
+
+class _LanguageSelector extends StatelessWidget {
+  const _LanguageSelector();
+
+  @override
+  Widget build(BuildContext context) {
+    final currentLocale = _currentAppLocale(context);
+    return PopupMenuButton<AppLocale>(
+      initialValue: currentLocale,
+      onSelected: (locale) => _setLocale(context, locale),
+      itemBuilder: (context) {
+        return [
+          for (final locale in _availableLocales())
+            PopupMenuItem(
+              value: locale,
+              child: Text(locale.getTranslatedName(context)),
+            ),
+        ];
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: const Color(0xFFDDDDDD)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.language, size: 18),
+            const SizedBox(width: 6),
+            Text(
+              _languageLabel(context, currentLocale),
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(width: 2),
+            const Icon(Icons.expand_more, size: 18),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+AppLocale _currentAppLocale(BuildContext context) {
+  final uri = Uri.parse(GoRouter.of(context).state.uri.toString());
+  final langParam = uri.queryParameters['lang'];
+  if (langParam == null || langParam.isEmpty) {
+    return AppLocale.system;
+  }
+  return AppLocale.fromLanguageTag(langParam);
+}
+
+List<AppLocale> _availableLocales() {
+  return const [AppLocale.system, AppLocale.en, AppLocale.de];
+}
+
+String _languageLabel(BuildContext context, AppLocale locale) {
+  if (locale.isSystem()) {
+    final resolvedCode = Localizations.localeOf(context).languageCode;
+    return resolvedCode.toUpperCase();
+  }
+  return locale.toLocale().languageCode.toUpperCase();
+}
+
+void _setLocale(BuildContext context, AppLocale locale) {
+  final currentUri = Uri.parse(GoRouter.of(context).state.uri.toString());
+  final updatedQuery = Map<String, String>.from(currentUri.queryParameters);
+  if (locale.isSystem()) {
+    updatedQuery.remove('lang');
+  } else {
+    updatedQuery['lang'] = locale.name;
+  }
+  final updatedUri = currentUri.replace(queryParameters: updatedQuery);
+  context.go(updatedUri.toString());
 }
