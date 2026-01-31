@@ -268,9 +268,6 @@ extension HolidayStateCountry on StateEnum {
         return null;
     }
   }
-
-  bool get isSelectable =>
-      this != StateEnum.anonymous && this != StateEnum.notSelected;
 }
 
 const List<StateEnum> germanyStates = [
