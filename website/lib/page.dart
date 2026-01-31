@@ -105,6 +105,7 @@ const _kAppBarHeight = 80.0;
 class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
+    final isSmallDevice = MediaQuery.of(context).size.width < 780;
     // Disable selection to prevent showing a selection mouse pointer.
     return SelectionContainer.disabled(
       child: Align(
@@ -118,7 +119,7 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (isPhone(context))
+                  if (isSmallDevice)
                     IconButton(
                       icon: const Icon(Icons.menu),
                       onPressed: () => Scaffold.of(context).openDrawer(),
@@ -136,7 +137,7 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if (!isPhone(context)) ...[
+                        if (!isSmallDevice) ...[
                           Padding(
                             padding: const EdgeInsets.only(right: 30),
                             child: TransparentButton(
