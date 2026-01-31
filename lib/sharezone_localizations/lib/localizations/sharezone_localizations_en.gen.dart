@@ -360,11 +360,6 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'New Navigation - With More Button';
 
   @override
-  String selectStateDialogConfirmationSnackBar(Object region) {
-    return 'Selected $region';
-  }
-
-  @override
   String get registerAccountAgeNoticeText =>
       'Sign up now and transfer your data! For data protection reasons, registration is only permitted from the age of 16.';
 
@@ -475,19 +470,6 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
-  String get selectStateDialogSelectBundesland => 'Select state';
-
-  @override
-  String get selectStateDialogSelectCanton => 'Select canton';
-
-  @override
-  String get selectStateDialogSelectCountryTitle => 'Select country';
-
-  @override
-  String get selectStateDialogStayAnonymous =>
-      'I would like to remain anonymous';
-
-  @override
   String get reportReasonBullying => 'Bullying';
 
   @override
@@ -504,6 +486,24 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get reportReasonViolentContent => 'Violent or repulsive content';
+
+  @override
+  String selectStateDialogConfirmationSnackBar(Object region) {
+    return 'Selected $region';
+  }
+
+  @override
+  String get selectStateDialogSelectBundesland => 'Select state';
+
+  @override
+  String get selectStateDialogSelectCanton => 'Select canton';
+
+  @override
+  String get selectStateDialogSelectCountryTitle => 'Select country';
+
+  @override
+  String get selectStateDialogStayAnonymous =>
+      'I would like to remain anonymous';
 
   @override
   String get socialDiscord => 'Discord';

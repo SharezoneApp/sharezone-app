@@ -699,12 +699,6 @@ abstract class SharezoneLocalizations {
   /// **'Neue Navigation - Mit Mehr-Button'**
   String get navigationExperimentOptionExtendableBnbWithMoreButton;
 
-  /// No description provided for @selectStateDialogConfirmationSnackBar.
-  ///
-  /// In de, this message translates to:
-  /// **'Region {region} ausgewählt'**
-  String selectStateDialogConfirmationSnackBar(Object region);
-
   /// Legal notice shown below the sign-in methods for anonymous users.
   ///
   /// In de, this message translates to:
@@ -897,30 +891,6 @@ abstract class SharezoneLocalizations {
   /// **'{itemType} melden'**
   String reportPageTitle(String itemType);
 
-  /// No description provided for @selectStateDialogSelectBundesland.
-  ///
-  /// In de, this message translates to:
-  /// **'Bundesland auswählen'**
-  String get selectStateDialogSelectBundesland;
-
-  /// No description provided for @selectStateDialogSelectCanton.
-  ///
-  /// In de, this message translates to:
-  /// **'Kanton auswählen'**
-  String get selectStateDialogSelectCanton;
-
-  /// No description provided for @selectStateDialogSelectCountryTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Land auswählen'**
-  String get selectStateDialogSelectCountryTitle;
-
-  /// No description provided for @selectStateDialogStayAnonymous.
-  ///
-  /// In de, this message translates to:
-  /// **'Ich möchte anonym bleiben'**
-  String get selectStateDialogStayAnonymous;
-
   /// Reason option for bullying.
   ///
   /// In de, this message translates to:
@@ -956,6 +926,36 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Gewaltsame oder abstoßende Inhalte'**
   String get reportReasonViolentContent;
+
+  /// No description provided for @selectStateDialogConfirmationSnackBar.
+  ///
+  /// In de, this message translates to:
+  /// **'Region {region} ausgewählt'**
+  String selectStateDialogConfirmationSnackBar(Object region);
+
+  /// No description provided for @selectStateDialogSelectBundesland.
+  ///
+  /// In de, this message translates to:
+  /// **'Bundesland auswählen'**
+  String get selectStateDialogSelectBundesland;
+
+  /// No description provided for @selectStateDialogSelectCanton.
+  ///
+  /// In de, this message translates to:
+  /// **'Kanton auswählen'**
+  String get selectStateDialogSelectCanton;
+
+  /// No description provided for @selectStateDialogSelectCountryTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Land auswählen'**
+  String get selectStateDialogSelectCountryTitle;
+
+  /// No description provided for @selectStateDialogStayAnonymous.
+  ///
+  /// In de, this message translates to:
+  /// **'Ich möchte anonym bleiben'**
+  String get selectStateDialogStayAnonymous;
 
   /// No description provided for @socialDiscord.
   ///

@@ -363,11 +363,6 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Neue Navigation - Mit Mehr-Button';
 
   @override
-  String selectStateDialogConfirmationSnackBar(Object region) {
-    return 'Region $region ausgewählt';
-  }
-
-  @override
   String get registerAccountAgeNoticeText =>
       'Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.';
 
@@ -478,18 +473,6 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   }
 
   @override
-  String get selectStateDialogSelectBundesland => 'Bundesland auswählen';
-
-  @override
-  String get selectStateDialogSelectCanton => 'Kanton auswählen';
-
-  @override
-  String get selectStateDialogSelectCountryTitle => 'Land auswählen';
-
-  @override
-  String get selectStateDialogStayAnonymous => 'Ich möchte anonym bleiben';
-
-  @override
   String get reportReasonBullying => 'Mobbing';
 
   @override
@@ -506,6 +489,23 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get reportReasonViolentContent => 'Gewaltsame oder abstoßende Inhalte';
+
+  @override
+  String selectStateDialogConfirmationSnackBar(Object region) {
+    return 'Region $region ausgewählt';
+  }
+
+  @override
+  String get selectStateDialogSelectBundesland => 'Bundesland auswählen';
+
+  @override
+  String get selectStateDialogSelectCanton => 'Kanton auswählen';
+
+  @override
+  String get selectStateDialogSelectCountryTitle => 'Land auswählen';
+
+  @override
+  String get selectStateDialogStayAnonymous => 'Ich möchte anonym bleiben';
 
   @override
   String get socialDiscord => 'Discord';
