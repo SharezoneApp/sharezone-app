@@ -108,17 +108,13 @@ class EnterActivationCodeBloc extends BlocBase {
     final currentValue = keyValueStore.getBool('show-ads') ?? false;
     keyValueStore.setBool('show-ads', !currentValue);
     final l10n = context.l10n;
-    final stateLabel =
-        !currentValue
-            ? l10n.activationCodeToggleEnabled
-            : l10n.activationCodeToggleDisabled;
 
     _changeEnterActivationCodeResult(
       SuccessfulEnterActivationCodeResult(
         'ads',
         l10n.activationCodeToggleResult(
           l10n.activationCodeFeatureAdsLabel,
-          stateLabel,
+          _getStateLabel(context, currentValue),
         ),
       ),
     );
@@ -128,17 +124,13 @@ class EnterActivationCodeBloc extends BlocBase {
     final currentValue = featureFlagl10n.isl10nEnabled;
     featureFlagl10n.toggle();
     final l10n = context.l10n;
-    final stateLabel =
-        !currentValue
-            ? l10n.activationCodeToggleEnabled
-            : l10n.activationCodeToggleDisabled;
 
     _changeEnterActivationCodeResult(
       SuccessfulEnterActivationCodeResult(
         'l10n',
         l10n.activationCodeToggleResult(
           l10n.activationCodeFeatureL10nLabel,
-          stateLabel,
+          _getStateLabel(context, currentValue),
         ),
       ),
     );
@@ -157,6 +149,13 @@ class EnterActivationCodeBloc extends BlocBase {
 
   Future<EnterActivationCodeResult> _runAppFunction(String value) {
     return enterActivationCodeFunction.activateCode(value);
+  }
+
+  String _getStateLabel(BuildContext context, bool currentValue) {
+    final l10n = context.l10n;
+    return !currentValue
+        ? l10n.activationCodeToggleEnabled
+        : l10n.activationCodeToggleDisabled;
   }
 
   @override
