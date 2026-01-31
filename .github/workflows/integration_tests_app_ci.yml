@@ -187,7 +187,7 @@ jobs:
       - uses: futureware-tech/simulator-action@d7d71f46661576907b12f85b402a61b6650d0e57
         id: simulator
         with:
-          model: "iPhone 16"
+          model: "iPhone 17"
 
       - name: Run integration tests
         working-directory: app
