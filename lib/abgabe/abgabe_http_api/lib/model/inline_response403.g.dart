@@ -7,7 +7,7 @@ part of 'inline_response403.dart';
 // **************************************************************************
 
 Serializer<InlineResponse403> _$inlineResponse403Serializer =
-    new _$InlineResponse403Serializer();
+    _$InlineResponse403Serializer();
 
 class _$InlineResponse403Serializer
     implements StructuredSerializer<InlineResponse403> {
@@ -44,7 +44,7 @@ class _$InlineResponse403Serializer
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new InlineResponse403Builder();
+    final result = InlineResponse403Builder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -83,21 +83,16 @@ class _$InlineResponse403 extends InlineResponse403 {
 
   factory _$InlineResponse403([
     void Function(InlineResponse403Builder)? updates,
-  ]) => (new InlineResponse403Builder()..update(updates))._build();
+  ]) => (InlineResponse403Builder()..update(updates))._build();
 
-  _$InlineResponse403._({required this.error, required this.scope})
-    : super._() {
-    BuiltValueNullFieldError.checkNotNull(error, r'InlineResponse403', 'error');
-    BuiltValueNullFieldError.checkNotNull(scope, r'InlineResponse403', 'scope');
-  }
-
+  _$InlineResponse403._({required this.error, required this.scope}) : super._();
   @override
   InlineResponse403 rebuild(void Function(InlineResponse403Builder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   InlineResponse403Builder toBuilder() =>
-      new InlineResponse403Builder()..replace(this);
+      InlineResponse403Builder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -151,7 +146,6 @@ class InlineResponse403Builder
 
   @override
   void replace(InlineResponse403 other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$InlineResponse403;
   }
 
@@ -166,7 +160,7 @@ class InlineResponse403Builder
   _$InlineResponse403 _build() {
     final _$result =
         _$v ??
-        new _$InlineResponse403._(
+        _$InlineResponse403._(
           error: BuiltValueNullFieldError.checkNotNull(
             error,
             r'InlineResponse403',

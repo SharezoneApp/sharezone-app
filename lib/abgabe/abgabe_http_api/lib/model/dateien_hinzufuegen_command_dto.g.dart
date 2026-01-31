@@ -8,7 +8,7 @@ part of 'dateien_hinzufuegen_command_dto.dart';
 
 Serializer<DateienHinzufuegenCommandDto>
 _$dateienHinzufuegenCommandDtoSerializer =
-    new _$DateienHinzufuegenCommandDtoSerializer();
+    _$DateienHinzufuegenCommandDtoSerializer();
 
 class _$DateienHinzufuegenCommandDtoSerializer
     implements StructuredSerializer<DateienHinzufuegenCommandDto> {
@@ -45,7 +45,7 @@ class _$DateienHinzufuegenCommandDtoSerializer
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new DateienHinzufuegenCommandDtoBuilder();
+    final result = DateienHinzufuegenCommandDtoBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -77,17 +77,10 @@ class _$DateienHinzufuegenCommandDto extends DateienHinzufuegenCommandDto {
 
   factory _$DateienHinzufuegenCommandDto([
     void Function(DateienHinzufuegenCommandDtoBuilder)? updates,
-  ]) => (new DateienHinzufuegenCommandDtoBuilder()..update(updates))._build();
+  ]) => (DateienHinzufuegenCommandDtoBuilder()..update(updates))._build();
 
   _$DateienHinzufuegenCommandDto._({required this.hinzufuegenCommands})
-    : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-      hinzufuegenCommands,
-      r'DateienHinzufuegenCommandDto',
-      'hinzufuegenCommands',
-    );
-  }
-
+    : super._();
   @override
   DateienHinzufuegenCommandDto rebuild(
     void Function(DateienHinzufuegenCommandDtoBuilder) updates,
@@ -95,7 +88,7 @@ class _$DateienHinzufuegenCommandDto extends DateienHinzufuegenCommandDto {
 
   @override
   DateienHinzufuegenCommandDtoBuilder toBuilder() =>
-      new DateienHinzufuegenCommandDtoBuilder()..replace(this);
+      DateienHinzufuegenCommandDtoBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -129,8 +122,7 @@ class DateienHinzufuegenCommandDtoBuilder
 
   ListBuilder<DateiHinzufuegenCommandDto>? _hinzufuegenCommands;
   ListBuilder<DateiHinzufuegenCommandDto> get hinzufuegenCommands =>
-      _$this._hinzufuegenCommands ??=
-          new ListBuilder<DateiHinzufuegenCommandDto>();
+      _$this._hinzufuegenCommands ??= ListBuilder<DateiHinzufuegenCommandDto>();
   set hinzufuegenCommands(
     ListBuilder<DateiHinzufuegenCommandDto>? hinzufuegenCommands,
   ) => _$this._hinzufuegenCommands = hinzufuegenCommands;
@@ -148,7 +140,6 @@ class DateienHinzufuegenCommandDtoBuilder
 
   @override
   void replace(DateienHinzufuegenCommandDto other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DateienHinzufuegenCommandDto;
   }
 
@@ -165,7 +156,7 @@ class DateienHinzufuegenCommandDtoBuilder
     try {
       _$result =
           _$v ??
-          new _$DateienHinzufuegenCommandDto._(
+          _$DateienHinzufuegenCommandDto._(
             hinzufuegenCommands: hinzufuegenCommands.build(),
           );
     } catch (_) {
@@ -174,7 +165,7 @@ class DateienHinzufuegenCommandDtoBuilder
         _$failedField = 'hinzufuegenCommands';
         hinzufuegenCommands.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
           r'DateienHinzufuegenCommandDto',
           _$failedField,
           e.toString(),
