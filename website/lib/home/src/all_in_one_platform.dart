@@ -61,9 +61,7 @@ class AllInOnePlaceState extends State<AllInOnePlace> {
       FeatureData(
         id: "termine",
         title: l10n.websiteFeatureEventsTitle,
-        bulletpoints: [
-          l10n.websiteFeatureEventsBulletpointAtAGlance,
-        ],
+        bulletpoints: [l10n.websiteFeatureEventsBulletpointAtAGlance],
       ),
     ];
     final rightFeatures = [
@@ -232,7 +230,6 @@ class _FeatureCard extends StatefulWidget {
     required this.title,
     required this.iconAssetName,
     required this.iconSemanticLabel,
-    this.subtitle,
     this.onTap,
     this.bulletpoints = const [],
     this.height,
@@ -241,7 +238,6 @@ class _FeatureCard extends StatefulWidget {
   final String title;
   final String iconAssetName;
   final String iconSemanticLabel;
-  final String? subtitle;
   final List<String> bulletpoints;
   final ValueChanged<String>? onTap;
   final double? height;
@@ -320,15 +316,6 @@ class __FeatureCardState extends State<_FeatureCard> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    if (widget.subtitle != null)
-                      Text(
-                        widget.subtitle!,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                        ),
-                      ),
                   ],
                 ),
               ),
