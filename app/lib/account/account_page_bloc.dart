@@ -44,7 +44,7 @@ class AccountPageBloc extends BlocBase {
   }
 
   Future<LinkAction?> linkWithGoogleAndHandleExceptions() async {
-    var confirmed = false;
+    bool confirmed = false;
     try {
       confirmed = await linkProviderGateway.linkUserWithGoogle();
     } on Exception catch (e, s) {
@@ -62,7 +62,7 @@ class AccountPageBloc extends BlocBase {
   }
 
   Future<LinkAction?> linkWithAppleAndHandleExceptions() async {
-    var confirmed = false;
+    bool confirmed = false;
     try {
       confirmed = await linkProviderGateway.linkUserWithApple();
     } on Exception catch (e, s) {
