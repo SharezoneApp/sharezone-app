@@ -321,6 +321,74 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Neue Navigation - Mit Mehr-Button';
 
   @override
+  String get reportDescriptionHelperText =>
+      'Bitte beschreibe uns, warum du diesen Inhalt melden möchtest. Gib uns dabei möglichst viele Informationen, damit wir den Fall schnell und sicher bearbeiten können.';
+
+  @override
+  String get reportDescriptionLabel => 'Beschreibung';
+
+  @override
+  String get reportDialogContent =>
+      'Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).';
+
+  @override
+  String get reportDialogSendAction => 'Senden';
+
+  @override
+  String get reportItemTypeBlackboard => 'Infozettel';
+
+  @override
+  String get reportItemTypeComment => 'Kommentar';
+
+  @override
+  String get reportItemTypeCourse => 'Kurs';
+
+  @override
+  String get reportItemTypeEvent => 'Termin / Prüfung';
+
+  @override
+  String get reportItemTypeFile => 'Datei';
+
+  @override
+  String get reportItemTypeHomework => 'Hausaufgabe';
+
+  @override
+  String get reportItemTypeLesson => 'Stunde';
+
+  @override
+  String get reportItemTypeSchoolClass => 'Schulklasse';
+
+  @override
+  String get reportItemTypeUser => 'Nutzer';
+
+  @override
+  String get reportMissingInformation =>
+      'Bitte einen Grund und eine Beschreibung an.';
+
+  @override
+  String reportPageTitle(String itemType) {
+    return '$itemType melden';
+  }
+
+  @override
+  String get reportReasonBullying => 'Mobbing';
+
+  @override
+  String get reportReasonIllegalContent => 'Rechtswidrige Inhalte';
+
+  @override
+  String get reportReasonOther => 'Sonstiges';
+
+  @override
+  String get reportReasonPornographicContent => 'Pornografische Inhalte';
+
+  @override
+  String get reportReasonSpam => 'Spam';
+
+  @override
+  String get reportReasonViolentContent => 'Gewaltsame oder abstoßende Inhalte';
+
+  @override
   String get socialDiscord => 'Discord';
 
   @override
