@@ -12,15 +12,13 @@ import 'package:user/user.dart';
 void main() {
   group('Holiday state mapping', () {
     test('holidayStatesByCountry is complete and consistent', () {
-      final mappedStates = holidayStatesByCountry.values
-          .expand((states) => states)
-          .toList();
+      final mappedStates =
+          holidayStatesByCountry.values.expand((states) => states).toList();
 
       expect(mappedStates.toSet().length, mappedStates.length);
 
-      final statesWithCountry = StateEnum.values
-          .where((state) => state.country != null)
-          .toSet();
+      final statesWithCountry =
+          StateEnum.values.where((state) => state.country != null).toSet();
       expect(mappedStates.toSet(), statesWithCountry);
     });
 

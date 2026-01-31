@@ -13,9 +13,8 @@ import 'package:user/user.dart';
 void main() {
   group('toStateOrThrow', () {
     test('supports every state that maps to a country', () {
-      final supportedStates = StateEnum.values
-          .where((state) => state.country != null)
-          .toList();
+      final supportedStates =
+          StateEnum.values.where((state) => state.country != null).toList();
 
       for (final state in supportedStates) {
         expect(
