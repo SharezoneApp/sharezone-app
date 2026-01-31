@@ -207,6 +207,12 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get changeTypeOfUserTitle => 'Account-Typ ändern';
 
   @override
+  String get commonActionBack => 'Zurück';
+
+  @override
+  String get commonActionChange => 'Ändern';
+
+  @override
   String get commonActionsAlright => 'Alles klar';
 
   @override
@@ -243,6 +249,18 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get contactSupportButton => 'Support kontaktieren';
+
+  @override
+  String get countryAustria => 'Österreich';
+
+  @override
+  String get countryGermany => 'Deutschland';
+
+  @override
+  String get countrySwitzerland => 'Schweiz';
+
+  @override
+  String get dashboardSelectStateButton => 'Bundesland / Kanton auswählen';
 
   @override
   String get imprintTitle => 'Impressum';
@@ -473,6 +491,23 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get reportReasonViolentContent => 'Gewaltsame oder abstoßende Inhalte';
 
   @override
+  String selectStateDialogConfirmationSnackBar(Object region) {
+    return 'Region $region ausgewählt';
+  }
+
+  @override
+  String get selectStateDialogSelectBundesland => 'Bundesland auswählen';
+
+  @override
+  String get selectStateDialogSelectCanton => 'Kanton auswählen';
+
+  @override
+  String get selectStateDialogSelectCountryTitle => 'Land auswählen';
+
+  @override
+  String get selectStateDialogStayAnonymous => 'Ich möchte anonym bleiben';
+
+  @override
   String get socialDiscord => 'Discord';
 
   @override
@@ -491,10 +526,25 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get socialTwitter => 'Twitter';
 
   @override
+  String get stateAargau => 'Aargau';
+
+  @override
   String get stateAnonymous => 'Anonym bleiben';
 
   @override
+  String get stateAppenzellAusserrhoden => 'Appenzell Ausserrhoden';
+
+  @override
+  String get stateAppenzellInnerrhoden => 'Appenzell Innerrhoden';
+
+  @override
   String get stateBadenWuerttemberg => 'Baden-Württemberg';
+
+  @override
+  String get stateBaselLandschaft => 'Basel-Landschaft';
+
+  @override
+  String get stateBaselStadt => 'Basel-Stadt';
 
   @override
   String get stateBayern => 'Bayern';
@@ -503,10 +553,28 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get stateBerlin => 'Berlin';
 
   @override
+  String get stateBern => 'Bern';
+
+  @override
   String get stateBrandenburg => 'Brandenburg';
 
   @override
   String get stateBremen => 'Bremen';
+
+  @override
+  String get stateBurgenland => 'Burgenland';
+
+  @override
+  String get stateFribourg => 'Freiburg';
+
+  @override
+  String get stateGeneva => 'Genf';
+
+  @override
+  String get stateGlarus => 'Glarus';
+
+  @override
+  String get stateGraubuenden => 'Graubünden';
 
   @override
   String get stateHamburg => 'Hamburg';
@@ -515,7 +583,25 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get stateHessen => 'Hessen';
 
   @override
+  String get stateJura => 'Jura';
+
+  @override
+  String get stateKaernten => 'Kärnten';
+
+  @override
+  String get stateLuzern => 'Luzern';
+
+  @override
   String get stateMecklenburgVorpommern => 'Mecklenburg-Vorpommern';
+
+  @override
+  String get stateNeuchatel => 'Neuenburg';
+
+  @override
+  String get stateNidwalden => 'Nidwalden';
+
+  @override
+  String get stateNiederoesterreich => 'Niederösterreich';
 
   @override
   String get stateNiedersachsen => 'Niedersachsen';
@@ -530,6 +616,12 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get stateNotSelected => 'Nicht ausgewählt';
 
   @override
+  String get stateOberoesterreich => 'Oberösterreich';
+
+  @override
+  String get stateObwalden => 'Obwalden';
+
+  @override
   String get stateRheinlandPfalz => 'Rheinland-Pfalz';
 
   @override
@@ -542,10 +634,58 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get stateSachsenAnhalt => 'Sachsen-Anhalt';
 
   @override
+  String get stateSalzburg => 'Salzburg';
+
+  @override
+  String get stateSchaffhausen => 'Schaffhausen';
+
+  @override
   String get stateSchleswigHolstein => 'Schleswig-Holstein';
 
   @override
+  String get stateSchwyz => 'Schwyz';
+
+  @override
+  String get stateSolothurn => 'Solothurn';
+
+  @override
+  String get stateStGallen => 'St. Gallen';
+
+  @override
+  String get stateSteiermark => 'Steiermark';
+
+  @override
   String get stateThueringen => 'Thüringen';
+
+  @override
+  String get stateThurgau => 'Thurgau';
+
+  @override
+  String get stateTicino => 'Tessin';
+
+  @override
+  String get stateTirol => 'Tirol';
+
+  @override
+  String get stateUri => 'Uri';
+
+  @override
+  String get stateValais => 'Wallis';
+
+  @override
+  String get stateVaud => 'Waadt';
+
+  @override
+  String get stateVorarlberg => 'Vorarlberg';
+
+  @override
+  String get stateWien => 'Wien';
+
+  @override
+  String get stateZug => 'Zug';
+
+  @override
+  String get stateZurich => 'Zürich';
 
   @override
   String get themeDarkMode => 'Dunkler Modus';

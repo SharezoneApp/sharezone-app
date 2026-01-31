@@ -515,11 +515,13 @@ class MockSharezoneAppFunctions extends _i1.Mock
   @override
   _i4.Future<_i2.AppFunctionsResult<Map<String, dynamic>>> loadHolidays({
     required String? stateCode,
+    required String? countryIsoCode,
     required String? year,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#loadHolidays, [], {
               #stateCode: stateCode,
+              #countryIsoCode: countryIsoCode,
               #year: year,
             }),
             returnValue:
@@ -528,6 +530,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
                     this,
                     Invocation.method(#loadHolidays, [], {
                       #stateCode: stateCode,
+                      #countryIsoCode: countryIsoCode,
                       #year: year,
                     }),
                   ),
@@ -538,6 +541,7 @@ class MockSharezoneAppFunctions extends _i1.Mock
                     this,
                     Invocation.method(#loadHolidays, [], {
                       #stateCode: stateCode,
+                      #countryIsoCode: countryIsoCode,
                       #year: year,
                     }),
                   ),
