@@ -19,12 +19,14 @@ Future<void> showStateSelectionDialog(BuildContext context) async {
   }
 }
 
-void _showSelectedStateSnackBar(BuildContext context, StateEnum? state) {
+void _showSelectedStateSnackBar(BuildContext context, StateEnum state) {
   showSnackSec(
     context: context,
     seconds: 5,
     behavior: SnackBarBehavior.fixed,
-    text: "Region ${stateEnumToString[state]} ausgewählt",
+    text: context.l10n.selectStateDialogConfirmationSnackBar(
+      state.getDisplayName(context),
+    ),
   );
 }
 

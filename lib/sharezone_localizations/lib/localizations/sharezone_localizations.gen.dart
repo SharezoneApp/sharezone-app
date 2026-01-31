@@ -681,6 +681,12 @@ abstract class SharezoneLocalizations {
   /// **'Ich möchte anonym bleiben'**
   String get selectStateDialogStayAnonymous;
 
+  /// No description provided for @selectStateDialogConfirmationSnackBar.
+  ///
+  /// In de, this message translates to:
+  /// **'Region {region} ausgewählt'**
+  String selectStateDialogConfirmationSnackBar(String region);
+
   /// No description provided for @socialDiscord.
   ///
   /// In de, this message translates to:

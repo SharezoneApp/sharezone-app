@@ -158,6 +158,15 @@
   "navigationExperimentOptionDrawerAndBnb": "Aktuelle Navigation",
   "navigationExperimentOptionExtendableBnb": "Neue Navigation - Ohne Mehr-Button",
   "navigationExperimentOptionExtendableBnbWithMoreButton": "Neue Navigation - Mit Mehr-Button",
+  "selectStateDialogConfirmationSnackBar": "Region {region} ausgewählt",
+  "@selectStateDialogConfirmationSnackBar": {
+    "placeholders": {
+      "region": {
+        "example": "Berlin",
+        "type": "String"
+      }
+    }
+  },
   "selectStateDialogSelectBundesland": "Bundesland auswählen",
   "selectStateDialogSelectCanton": "Kanton auswählen",
   "selectStateDialogSelectCountryTitle": "Land auswählen",

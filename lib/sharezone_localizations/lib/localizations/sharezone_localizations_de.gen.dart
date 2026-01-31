@@ -351,6 +351,11 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get selectStateDialogStayAnonymous => 'Ich möchte anonym bleiben';
 
   @override
+  String selectStateDialogConfirmationSnackBar(String region) {
+    return 'Region $region ausgewählt';
+  }
+
+  @override
   String get socialDiscord => 'Discord';
 
   @override

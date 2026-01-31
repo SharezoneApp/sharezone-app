@@ -91,6 +91,7 @@
   "navigationExperimentOptionDrawerAndBnb": "Current Navigation",
   "navigationExperimentOptionExtendableBnb": "New Navigation - Without More Button",
   "navigationExperimentOptionExtendableBnbWithMoreButton": "New Navigation - With More Button",
+  "selectStateDialogConfirmationSnackBar": "Selected {region}",
   "selectStateDialogSelectBundesland": "Select state",
   "selectStateDialogSelectCanton": "Select canton",
   "selectStateDialogSelectCountryTitle": "Select country",
