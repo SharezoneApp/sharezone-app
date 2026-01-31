@@ -230,5 +230,11 @@ jobs:
       # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
       - run: echo $(realpath ./bin) >> $GITHUB_PATH
 
+      # The "sz l10n check" command requires arbsort to be installed.
+      - name: Install arbsort
+        run: |
+          brew tap leancodepl/arbsort
+          brew install arbsort
+
       - name: Checks if the localization files are up to date.
         run: sz l10n check
