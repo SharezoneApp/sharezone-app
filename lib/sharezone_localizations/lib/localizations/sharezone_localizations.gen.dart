@@ -703,7 +703,199 @@ abstract class SharezoneLocalizations {
   ///
   /// In de, this message translates to:
   /// **'Region {region} ausgewählt'**
-  String selectStateDialogConfirmationSnackBar(String region);
+  String selectStateDialogConfirmationSnackBar(Object region);
+
+  /// Legal notice shown below the sign-in methods for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.'**
+  String get registerAccountAgeNoticeText;
+
+  /// Banner text indicating the user is only signed in anonymously.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist nur anonym angemeldet!'**
+  String get registerAccountAnonymousInfoTitle;
+
+  /// Label for the long Apple sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Apple anmelden'**
+  String get registerAccountAppleButtonLong;
+
+  /// Label for the short Apple sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Apple'**
+  String get registerAccountAppleButtonShort;
+
+  /// Subtitle describing the backup benefit for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiterhin Zugriff auf die Daten bei Verlust des Smartphones'**
+  String get registerAccountBenefitBackupSubtitle;
+
+  /// Title for the backup benefit list tile for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Automatisches Backup'**
+  String get registerAccountBenefitBackupTitle;
+
+  /// Subtitle describing the multi-device benefit for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Daten werden zwischen mehreren Geräten synchronisiert'**
+  String get registerAccountBenefitMultiDeviceSubtitle;
+
+  /// Title for the multi-device benefit list tile for anonymous users.
+  ///
+  /// In de, this message translates to:
+  /// **'Nutzung auf mehreren Geräten'**
+  String get registerAccountBenefitMultiDeviceTitle;
+
+  /// Intro text for the benefits of creating an account.
+  ///
+  /// In de, this message translates to:
+  /// **'Übertrage jetzt deinen Account auf ein richtiges Konto, um von folgenden Vorteilen zu profitieren:'**
+  String get registerAccountBenefitsIntro;
+
+  /// Dialog content explaining what to do when the email is already in use during linking.
+  ///
+  /// In de, this message translates to:
+  /// **'So wie es aussieht, hast du versehentlich einen zweiten Sharezone-Account erstellt. Lösche einfach diesen Account und melde dich mit deinem richtigen Account an.\n\nFür den Fall, dass du nicht genau weißt, wie das funktioniert, haben wir für dich eine Anleitung vorbereitet :)'**
+  String get registerAccountEmailAlreadyUsedContent;
+
+  /// Dialog title when the email is already in use during linking.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese E-Mail wird schon verwendet!'**
+  String get registerAccountEmailAlreadyUsedTitle;
+
+  /// Label for the long email sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit E-Mail anmelden'**
+  String get registerAccountEmailButtonLong;
+
+  /// Label for the short email sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail'**
+  String get registerAccountEmailButtonShort;
+
+  /// Snackbar text when an email account link succeeds.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Account wurde mit einem E-Mail-Konto verknüpft.'**
+  String get registerAccountEmailLinkConfirmation;
+
+  /// Label for the long Google sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Google anmelden'**
+  String get registerAccountGoogleButtonLong;
+
+  /// Label for the short Google sign-in button.
+  ///
+  /// In de, this message translates to:
+  /// **'Google'**
+  String get registerAccountGoogleButtonShort;
+
+  /// Label for the dialog action that opens the instructions for using multiple devices.
+  ///
+  /// In de, this message translates to:
+  /// **'Anleitung zeigen'**
+  String get registerAccountShowInstructionAction;
+
+  /// Helper text shown above the description field on the report page.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte beschreibe uns, warum du diesen Inhalt melden möchtest. Gib uns dabei möglichst viele Informationen, damit wir den Fall schnell und sicher bearbeiten können.'**
+  String get reportDescriptionHelperText;
+
+  /// Label of the description text field on the report page.
+  ///
+  /// In de, this message translates to:
+  /// **'Beschreibung'**
+  String get reportDescriptionLabel;
+
+  /// Content of the confirmation dialog before sending a report.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).'**
+  String get reportDialogContent;
+
+  /// Label for sending a report, used for dialog action and tooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Senden'**
+  String get reportDialogSendAction;
+
+  /// Label for the reported item type blackboard/notice.
+  ///
+  /// In de, this message translates to:
+  /// **'Infozettel'**
+  String get reportItemTypeBlackboard;
+
+  /// Label for the reported item type comment.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommentar'**
+  String get reportItemTypeComment;
+
+  /// Label for the reported item type course.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs'**
+  String get reportItemTypeCourse;
+
+  /// Label for the reported item type event or exam.
+  ///
+  /// In de, this message translates to:
+  /// **'Termin / Prüfung'**
+  String get reportItemTypeEvent;
+
+  /// Label for the reported item type file.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei'**
+  String get reportItemTypeFile;
+
+  /// Label for the reported item type homework.
+  ///
+  /// In de, this message translates to:
+  /// **'Hausaufgabe'**
+  String get reportItemTypeHomework;
+
+  /// Label for the reported item type lesson.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunde'**
+  String get reportItemTypeLesson;
+
+  /// Label for the reported item type school class.
+  ///
+  /// In de, this message translates to:
+  /// **'Schulklasse'**
+  String get reportItemTypeSchoolClass;
+
+  /// Label for the reported item type user.
+  ///
+  /// In de, this message translates to:
+  /// **'Nutzer'**
+  String get reportItemTypeUser;
+
+  /// Error message shown when required report information is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte einen Grund und eine Beschreibung an.'**
+  String get reportMissingInformation;
+
+  /// Title for the report page and tooltip when reporting an item.
+  ///
+  /// In de, this message translates to:
+  /// **'{itemType} melden'**
+  String reportPageTitle(String itemType);
 
   /// No description provided for @selectStateDialogSelectBundesland.
   ///
@@ -728,6 +920,42 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Ich möchte anonym bleiben'**
   String get selectStateDialogStayAnonymous;
+
+  /// Reason option for bullying.
+  ///
+  /// In de, this message translates to:
+  /// **'Mobbing'**
+  String get reportReasonBullying;
+
+  /// Reason option for illegal content.
+  ///
+  /// In de, this message translates to:
+  /// **'Rechtswidrige Inhalte'**
+  String get reportReasonIllegalContent;
+
+  /// Reason option for other reasons.
+  ///
+  /// In de, this message translates to:
+  /// **'Sonstiges'**
+  String get reportReasonOther;
+
+  /// Reason option for pornographic content.
+  ///
+  /// In de, this message translates to:
+  /// **'Pornografische Inhalte'**
+  String get reportReasonPornographicContent;
+
+  /// Reason option for spam.
+  ///
+  /// In de, this message translates to:
+  /// **'Spam'**
+  String get reportReasonSpam;
+
+  /// Reason option for violent or repulsive content.
+  ///
+  /// In de, this message translates to:
+  /// **'Gewaltsame oder abstoßende Inhalte'**
+  String get reportReasonViolentContent;
 
   /// No description provided for @socialDiscord.
   ///

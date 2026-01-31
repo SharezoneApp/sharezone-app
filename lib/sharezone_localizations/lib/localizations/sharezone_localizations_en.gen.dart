@@ -360,8 +360,118 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'New Navigation - With More Button';
 
   @override
-  String selectStateDialogConfirmationSnackBar(String region) {
+  String selectStateDialogConfirmationSnackBar(Object region) {
     return 'Selected $region';
+  }
+
+  @override
+  String get registerAccountAgeNoticeText =>
+      'Sign up now and transfer your data! For data protection reasons, registration is only permitted from the age of 16.';
+
+  @override
+  String get registerAccountAnonymousInfoTitle =>
+      'You\'re only signed in anonymously!';
+
+  @override
+  String get registerAccountAppleButtonLong => 'Sign in with Apple';
+
+  @override
+  String get registerAccountAppleButtonShort => 'Apple';
+
+  @override
+  String get registerAccountBenefitBackupSubtitle =>
+      'Keep access to your data if you lose your smartphone.';
+
+  @override
+  String get registerAccountBenefitBackupTitle => 'Automatic backup';
+
+  @override
+  String get registerAccountBenefitMultiDeviceSubtitle =>
+      'Data is synchronized across multiple devices.';
+
+  @override
+  String get registerAccountBenefitMultiDeviceTitle =>
+      'Use on multiple devices';
+
+  @override
+  String get registerAccountBenefitsIntro =>
+      'Transfer your account to a real one now to benefit from the following advantages:';
+
+  @override
+  String get registerAccountEmailAlreadyUsedContent =>
+      'It looks like you accidentally created a second Sharezone account. Simply delete this account and sign in with your real account.\n\nIf you\'re not sure how that works, we\'ve prepared instructions for you :)';
+
+  @override
+  String get registerAccountEmailAlreadyUsedTitle =>
+      'This email is already in use!';
+
+  @override
+  String get registerAccountEmailButtonLong => 'Sign in with email';
+
+  @override
+  String get registerAccountEmailButtonShort => 'Email';
+
+  @override
+  String get registerAccountEmailLinkConfirmation =>
+      'Your account has been linked to an email account.';
+
+  @override
+  String get registerAccountGoogleButtonLong => 'Sign in with Google';
+
+  @override
+  String get registerAccountGoogleButtonShort => 'Google';
+
+  @override
+  String get registerAccountShowInstructionAction => 'Show instructions';
+
+  @override
+  String get reportDescriptionHelperText =>
+      'Please describe why you want to report this content. Give us as much information as possible so we can process the case quickly and safely.';
+
+  @override
+  String get reportDescriptionLabel => 'Description';
+
+  @override
+  String get reportDialogContent =>
+      'We will process the case as soon as possible!\n\nPlease note that repeated misuse of the report system may have consequences for you (e.g. blocking your account).';
+
+  @override
+  String get reportDialogSendAction => 'Send';
+
+  @override
+  String get reportItemTypeBlackboard => 'Blackboard post';
+
+  @override
+  String get reportItemTypeComment => 'Comment';
+
+  @override
+  String get reportItemTypeCourse => 'Course';
+
+  @override
+  String get reportItemTypeEvent => 'Event / Exam';
+
+  @override
+  String get reportItemTypeFile => 'File';
+
+  @override
+  String get reportItemTypeHomework => 'Homework';
+
+  @override
+  String get reportItemTypeLesson => 'Lesson';
+
+  @override
+  String get reportItemTypeSchoolClass => 'School class';
+
+  @override
+  String get reportItemTypeUser => 'User';
+
+  @override
+  String get reportMissingInformation =>
+      'Please provide a reason and a description.';
+
+  @override
+  String reportPageTitle(String itemType) {
+    return 'Report $itemType';
   }
 
   @override
@@ -376,6 +486,24 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get selectStateDialogStayAnonymous =>
       'I would like to remain anonymous';
+
+  @override
+  String get reportReasonBullying => 'Bullying';
+
+  @override
+  String get reportReasonIllegalContent => 'Illegal content';
+
+  @override
+  String get reportReasonOther => 'Other';
+
+  @override
+  String get reportReasonPornographicContent => 'Pornographic content';
+
+  @override
+  String get reportReasonSpam => 'Spam';
+
+  @override
+  String get reportReasonViolentContent => 'Violent or repulsive content';
 
   @override
   String get socialDiscord => 'Discord';

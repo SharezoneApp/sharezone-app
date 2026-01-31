@@ -186,14 +186,6 @@
   "navigationExperimentOptionDrawerAndBnb": "Aktuelle Navigation",
   "navigationExperimentOptionExtendableBnb": "Neue Navigation - Ohne Mehr-Button",
   "navigationExperimentOptionExtendableBnbWithMoreButton": "Neue Navigation - Mit Mehr-Button",
-  "selectStateDialogConfirmationSnackBar": "Region {region} ausgewählt",
-  "@selectStateDialogConfirmationSnackBar": {
-    "placeholders": {
-      "region": {
-        "example": "Berlin"
-      }
-    }
-  },
   "registerAccountAgeNoticeText": "Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.",
   "@registerAccountAgeNoticeText": {
     "description": "Legal notice shown below the sign-in methods for anonymous users."
@@ -328,10 +320,6 @@
       }
     }
   },
-  "selectStateDialogSelectBundesland": "Bundesland auswählen",
-  "selectStateDialogSelectCanton": "Kanton auswählen",
-  "selectStateDialogSelectCountryTitle": "Land auswählen",
-  "selectStateDialogStayAnonymous": "Ich möchte anonym bleiben",
   "reportReasonBullying": "Mobbing",
   "@reportReasonBullying": {
     "description": "Reason option for bullying."
@@ -356,6 +344,18 @@
   "@reportReasonViolentContent": {
     "description": "Reason option for violent or repulsive content."
   },
+  "selectStateDialogConfirmationSnackBar": "Region {region} ausgewählt",
+  "@selectStateDialogConfirmationSnackBar": {
+    "placeholders": {
+      "region": {
+        "example": "Berlin"
+      }
+    }
+  },
+  "selectStateDialogSelectBundesland": "Bundesland auswählen",
+  "selectStateDialogSelectCanton": "Kanton auswählen",
+  "selectStateDialogSelectCountryTitle": "Land auswählen",
+  "selectStateDialogStayAnonymous": "Ich möchte anonym bleiben",
   "socialDiscord": "Discord",
   "socialEmail": "E-Mail",
   "socialGitHub": "GitHub",
