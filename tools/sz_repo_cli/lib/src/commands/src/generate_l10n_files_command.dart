@@ -8,7 +8,9 @@
 
 import 'dart:async';
 
+import 'package:file/file.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
+import 'package:sz_repo_cli/src/common/src/throw_if_command_is_not_installed.dart';
 
 /// Generates localization files and adds license headers.
 class GenerateL10nFilesCommand extends CommandBase {
@@ -26,14 +28,48 @@ class GenerateL10nFilesCommand extends CommandBase {
 
   @override
   Future<void> run() async {
+    _throwIfArbsortIsNotInstalled();
+
     final l10nDir = repo.location
         .childDirectory('lib')
         .childDirectory('sharezone_localizations');
 
+    await _generateL10nFiles(l10nDir);
+    await Future.wait([
+      _sortArbFiles(l10nDir), //
+      _addLicenseHeader(l10nDir),
+    ]);
+  }
+
+  void _throwIfArbsortIsNotInstalled() {
+    throwIfCommandIsNotInstalled(
+      processRunner,
+      command: 'arbsort',
+      instructionsToInstall:
+          'Install arbsort via Homebrew ("brew tap leancodepl/arbsort && brew install arbsort") or Go ("go install github.com/leancodepl/arbsort@latest")',
+    );
+  }
+
+  Future<void> _generateL10nFiles(Directory l10nDir) async {
     await processRunner.runCommand([
       'flutter',
       'gen-l10n',
     ], workingDirectory: l10nDir);
+  }
+
+  Future<void> _sortArbFiles(Directory l10nDir) async {
+    final arbFilesDir = l10nDir.childDirectory('l10n');
+
+    final arbFiles = arbFilesDir.listSync().whereType<File>().where(
+      (file) => file.path.endsWith('.arb'),
+    );
+    await Future.wait([
+      for (final arbFile in arbFiles)
+        processRunner.runCommand(['arbsort', arbFile.path]),
+    ]);
+  }
+
+  Future<void> _addLicenseHeader(Directory l10nDir) async {
     await processRunner.runCommand([
       'addlicense',
       '-c',
