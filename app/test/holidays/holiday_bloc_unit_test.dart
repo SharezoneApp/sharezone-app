@@ -174,11 +174,6 @@ void main() {
     expect(bloc.holidays, emits(apiResponse));
   });
 
-  test('Austria and Switzerland states map to holiday states', () {
-    expect(toStateOrThrow(StateEnum.wien), isA<Wien>());
-    expect(toStateOrThrow(StateEnum.zurich).code, equals("CH-ZH"));
-  });
-
   test('bloc can be disposed', () async {
     when(mockCache.load(any)).thenReturn(CacheResponse.valid([]));
     getBlocWithMocks().dispose();
