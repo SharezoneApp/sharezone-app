@@ -44,7 +44,7 @@ class AccountPageBloc extends BlocBase {
   }
 
   Future<LinkAction?> linkWithGoogleAndHandleExceptions() async {
-    bool? confirmed;
+    bool confirmed = false;
     try {
       confirmed = await linkProviderGateway.linkUserWithGoogle();
     } on Exception catch (e, s) {
@@ -54,14 +54,15 @@ class AccountPageBloc extends BlocBase {
         return LinkAction.credentialAlreadyInUse;
       }
       _showErrorSnackBar(e, s);
+      return null;
     }
 
-    if (confirmed != null && confirmed) _showGoogleSignInConfirmation();
+    if (confirmed) return LinkAction.finished;
     return null;
   }
 
   Future<LinkAction?> linkWithAppleAndHandleExceptions() async {
-    bool? confirmed;
+    bool confirmed = false;
     try {
       confirmed = await linkProviderGateway.linkUserWithApple();
     } on Exception catch (e, s) {
@@ -71,24 +72,11 @@ class AccountPageBloc extends BlocBase {
         return LinkAction.credentialAlreadyInUse;
       }
       _showErrorSnackBar(e, s);
+      return null;
     }
 
-    if (confirmed != null && confirmed) _showAppleSignInConfirmation();
+    if (confirmed) return LinkAction.finished;
     return null;
-  }
-
-  void _showGoogleSignInConfirmation() {
-    showSnackSec(
-      key: globalKey,
-      text: "Dein Account wurde mit einem Google-Konto verknüpft.",
-    );
-  }
-
-  void _showAppleSignInConfirmation() {
-    showSnackSec(
-      key: globalKey,
-      text: "Dein Account wurde mit einem Apple-Konto verknüpft.",
-    );
   }
 
   void _showErrorSnackBar(Exception e, StackTrace s) {

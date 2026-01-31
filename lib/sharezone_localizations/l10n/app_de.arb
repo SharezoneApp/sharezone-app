@@ -32,10 +32,38 @@
       }
     }
   },
+  "accountEditProfileTooltip": "Profil bearbeiten",
+  "@accountEditProfileTooltip": {
+    "description": "Tooltip for the edit profile button on the account page."
+  },
+  "accountLinkAppleConfirmation": "Dein Account wurde mit einem Apple-Konto verknüpft.",
+  "@accountLinkAppleConfirmation": {
+    "description": "Snackbar text when linking an account with Apple succeeded."
+  },
+  "accountLinkGoogleConfirmation": "Dein Account wurde mit einem Google-Konto verknüpft.",
+  "@accountLinkGoogleConfirmation": {
+    "description": "Snackbar text when linking an account with Google succeeded."
+  },
+  "accountPageTitle": "Profil",
+  "@accountPageTitle": {
+    "description": "Title for the account page app bar."
+  },
+  "accountPageWebLoginTooltip": "QR-Code Login für die Web-App",
+  "@accountPageWebLoginTooltip": {
+    "description": "Tooltip for the QR code web login button in the account page app bar."
+  },
+  "accountStateTitle": "Bundesland",
+  "@accountStateTitle": {
+    "description": "Title for the tile that shows the user's state on the account page."
+  },
   "appName": "Sharezone",
   "changeEmailAddressCurrentEmailTextfieldLabel": "Aktuell",
   "@changeEmailAddressCurrentEmailTextfieldLabel": {
     "description": "The label for the text field which is used for the current email address"
+  },
+  "changeEmailAddressIdenticalError": "Die eingegebene E-Mail ist identisch mit der alten! 🙈",
+  "@changeEmailAddressIdenticalError": {
+    "description": "Error message when the new email matches the current one."
   },
   "changeEmailAddressNewEmailTextfieldLabel": "Neu",
   "@changeEmailAddressNewEmailTextfieldLabel": {
@@ -152,6 +180,74 @@
   "navigationExperimentOptionDrawerAndBnb": "Aktuelle Navigation",
   "navigationExperimentOptionExtendableBnb": "Neue Navigation - Ohne Mehr-Button",
   "navigationExperimentOptionExtendableBnbWithMoreButton": "Neue Navigation - Mit Mehr-Button",
+  "registerAccountAgeNoticeText": "Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.",
+  "@registerAccountAgeNoticeText": {
+    "description": "Legal notice shown below the sign-in methods for anonymous users."
+  },
+  "registerAccountAnonymousInfoTitle": "Du bist nur anonym angemeldet!",
+  "@registerAccountAnonymousInfoTitle": {
+    "description": "Banner text indicating the user is only signed in anonymously."
+  },
+  "registerAccountAppleButtonLong": "Mit Apple anmelden",
+  "@registerAccountAppleButtonLong": {
+    "description": "Label for the long Apple sign-in button."
+  },
+  "registerAccountAppleButtonShort": "Apple",
+  "@registerAccountAppleButtonShort": {
+    "description": "Label for the short Apple sign-in button."
+  },
+  "registerAccountBenefitBackupSubtitle": "Weiterhin Zugriff auf die Daten bei Verlust des Smartphones",
+  "@registerAccountBenefitBackupSubtitle": {
+    "description": "Subtitle describing the backup benefit for anonymous users."
+  },
+  "registerAccountBenefitBackupTitle": "Automatisches Backup",
+  "@registerAccountBenefitBackupTitle": {
+    "description": "Title for the backup benefit list tile for anonymous users."
+  },
+  "registerAccountBenefitMultiDeviceSubtitle": "Daten werden zwischen mehreren Geräten synchronisiert",
+  "@registerAccountBenefitMultiDeviceSubtitle": {
+    "description": "Subtitle describing the multi-device benefit for anonymous users."
+  },
+  "registerAccountBenefitMultiDeviceTitle": "Nutzung auf mehreren Geräten",
+  "@registerAccountBenefitMultiDeviceTitle": {
+    "description": "Title for the multi-device benefit list tile for anonymous users."
+  },
+  "registerAccountBenefitsIntro": "Übertrage jetzt deinen Account auf ein richtiges Konto, um von folgenden Vorteilen zu profitieren:",
+  "@registerAccountBenefitsIntro": {
+    "description": "Intro text for the benefits of creating an account."
+  },
+  "registerAccountEmailAlreadyUsedContent": "So wie es aussieht, hast du versehentlich einen zweiten Sharezone-Account erstellt. Lösche einfach diesen Account und melde dich mit deinem richtigen Account an.\n\nFür den Fall, dass du nicht genau weißt, wie das funktioniert, haben wir für dich eine Anleitung vorbereitet :)",
+  "@registerAccountEmailAlreadyUsedContent": {
+    "description": "Dialog content explaining what to do when the email is already in use during linking."
+  },
+  "registerAccountEmailAlreadyUsedTitle": "Diese E-Mail wird schon verwendet!",
+  "@registerAccountEmailAlreadyUsedTitle": {
+    "description": "Dialog title when the email is already in use during linking."
+  },
+  "registerAccountEmailButtonLong": "Mit E-Mail anmelden",
+  "@registerAccountEmailButtonLong": {
+    "description": "Label for the long email sign-in button."
+  },
+  "registerAccountEmailButtonShort": "E-Mail",
+  "@registerAccountEmailButtonShort": {
+    "description": "Label for the short email sign-in button."
+  },
+  "registerAccountEmailLinkConfirmation": "Dein Account wurde mit einem E-Mail-Konto verknüpft.",
+  "@registerAccountEmailLinkConfirmation": {
+    "description": "Snackbar text when an email account link succeeds."
+  },
+  "registerAccountGoogleButtonLong": "Mit Google anmelden",
+  "@registerAccountGoogleButtonLong": {
+    "description": "Label for the long Google sign-in button."
+  },
+  "registerAccountGoogleButtonShort": "Google",
+  "@registerAccountGoogleButtonShort": {
+    "description": "Label for the short Google sign-in button."
+  },
+  "registerAccountShowInstructionAction": "Anleitung zeigen",
+  "@registerAccountShowInstructionAction": {
+    "description": "Label for the dialog action that opens the instructions for using multiple devices."
+  },
   "reportDescriptionHelperText": "Bitte beschreibe uns, warum du diesen Inhalt melden möchtest. Gib uns dabei möglichst viele Informationen, damit wir den Fall schnell und sicher bearbeiten können.",
   "@reportDescriptionHelperText": {
     "description": "Helper text shown above the description field on the report page."
@@ -334,5 +430,42 @@
       }
     }
   },
-  "timetableSettingsTitle": "Stundenplan"
+  "timetableSettingsTitle": "Stundenplan",
+  "useAccountInstructionsAppBarTitle": "Anleitung",
+  "@useAccountInstructionsAppBarTitle": {
+    "description": "App bar title for the instructions on using multiple devices."
+  },
+  "useAccountInstructionsHeadline": "Wie nutze ich Sharezone auf mehreren Geräten?",
+  "@useAccountInstructionsHeadline": {
+    "description": "Headline question for using Sharezone on multiple devices."
+  },
+  "useAccountInstructionsStep": "1. Gehe zurück zu deinem Profil\n2. Melde dich über das Sign-Out-Icon rechts oben ab.\n3. Bestätige, dass dabei dein Konto gelöscht wird.\n4. Klicke unten auf den Button \"Du hast schon ein Konto? Dann...\"\n5. Melde dich an.",
+  "useAccountInstructionsStepsTitle": "Schritte:",
+  "@useAccountInstructionsStepsTitle": {
+    "description": "Title above the list of steps for using multiple devices."
+  },
+  "useAccountInstructionsVideoTitle": "Video:",
+  "@useAccountInstructionsVideoTitle": {
+    "description": "Title above the explanatory video for using multiple devices."
+  },
+  "userEditLoadingUserSnackbar": "Informationen werden geladen! Warte kurz.",
+  "@userEditLoadingUserSnackbar": {
+    "description": "Snackbar text while waiting for the user data to load before opening the edit screen."
+  },
+  "userEditNameChangedConfirmation": "Dein Name wurde erfolgreich umbenannt.",
+  "@userEditNameChangedConfirmation": {
+    "description": "Snackbar text confirming that the user's name was changed."
+  },
+  "userEditPageTitle": "Name bearbeiten",
+  "@userEditPageTitle": {
+    "description": "Title for the edit name page."
+  },
+  "userEditSubmitFailed": "Der Vorgang konnte nicht korrekt abgeschlossen werden. Bitte kontaktiere den Support!",
+  "@userEditSubmitFailed": {
+    "description": "Error snackbar text when saving the edited name failed."
+  },
+  "userEditSubmittingSnackbar": "Daten werden nach Frankfurt transportiert...",
+  "@userEditSubmittingSnackbar": {
+    "description": "Loading snackbar text shown while the edit form submits."
+  }
 }
