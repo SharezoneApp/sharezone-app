@@ -232,9 +232,7 @@ jobs:
 
       # The "sz l10n check" command requires arbsort to be installed.
       - name: Install arbsort
-        run: |
-          brew tap leancodepl/arbsort
-          brew install arbsort
+        run: go install github.com/leancodepl/arbsort@v0.1.0
 
       - name: Checks if the localization files are up to date.
         run: sz l10n check
