@@ -13,8 +13,10 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+import '../flutter_test_config.dart';
 import 'feedback_details_page_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -54,7 +56,11 @@ void main() {
             onContactSupportPressed: null,
           ),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

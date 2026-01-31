@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/image_text.dart';
 import 'package:sharezone_website/widgets/section_action_button.dart';
@@ -42,17 +43,13 @@ class _UspText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Headline("Wirklich hilfreich."),
-          const Subline(
-            "Sharezone ist aus den realen Problemen des Unterrichts entstanden.",
-          ),
+          Headline(context.l10n.websiteUspHeadline),
+          Subline(context.l10n.websiteUspSublineIntro),
           const SizedBox(height: 10),
-          const Subline(
-            "Wir wissen, was für Lösungen nötig sind und was wirklich hilft, um den Schulalltag einfach zu machen.\nWo wir es nicht wissen, versuchen wir, mit agiler Arbeit und der Sharezone-Community die beste Lösung zu finden.",
-          ),
+          Subline(context.l10n.websiteUspSublineDetails),
           const SizedBox(height: 25),
           SectionActionButton.openLink(
-            text: "Zur Sharezone-Community",
+            text: context.l10n.websiteUspCommunityButton,
             link: "https://sharezone.net/discord",
           ),
         ],

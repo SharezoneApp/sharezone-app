@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/image_text.dart';
 import 'package:sharezone_website/widgets/subline.dart';
@@ -41,11 +42,9 @@ class _AllPlatformsText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Headline("Auf allen Geräten verfügbar."),
+          Headline(context.l10n.websiteAllPlatformsHeadline),
           const SizedBox(height: 16),
-          const Subline(
-            "Sharezone funktioniert auf allen Systemen. Somit kannst Du jederzeit auf deine Daten zugreifen.",
-          ),
+          Subline(context.l10n.websiteAllPlatformsSubline),
           const SizedBox(height: 16),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,

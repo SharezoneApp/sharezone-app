@@ -35,6 +35,8 @@ dependencies:
     path: ../lib/legal
   sharezone_plus_page_ui:
     path: ../lib/sharezone_plus/sharezone_plus_page_ui
+  sharezone_localizations:
+    path: ../lib/sharezone_localizations
   sharezone_widgets:
     path: ../lib/sharezone_widgets
   url_launcher: ^6.3.1

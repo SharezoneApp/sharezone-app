@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/page.dart';
 import 'package:sharezone_website/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -55,15 +56,18 @@ class _Header extends StatelessWidget {
           child: SvgPicture.asset('assets/icons/confused.svg'),
         ),
       ),
-      children: const <Widget>[
-        Text('Du brauchst Hilfe?', style: TextStyle(fontSize: 26)),
-        SizedBox(height: 4),
+      children: <Widget>[
+        Text(
+          context.l10n.websiteSupportPageHeadline,
+          style: const TextStyle(fontSize: 26),
+        ),
+        const SizedBox(height: 4),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
-            'Kontaktiere uns einfach über einen Kanal deiner Wahl und wir werden dir schnellstmöglich weiterhelfen 😉\n\nBitte beachte, dass es manchmal länger dauern kann, bis wir antworten (1-2 Wochen).',
+            context.l10n.websiteSupportPageBody,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: Colors.grey),
+            style: const TextStyle(fontSize: 14, color: Colors.grey),
           ),
         ),
       ],
@@ -103,16 +107,20 @@ class _EmailTile extends StatelessWidget {
         theme: SvgTheme(currentColor: Theme.of(context).primaryColor),
       ),
       title: 'support@sharezone.net',
-      subtitle: 'E-Mail',
+      subtitle: context.l10n.websiteSupportEmailLabel,
       onPressed: () async {
+        final subject = context.l10n.websiteSupportEmailSubject;
         final uri = Uri.parse(
-          'mailto:support@sharezone.net?subject=Ich brauche eure Hilfe! 😭',
+          'mailto:support@sharezone.net?subject=${Uri.encodeComponent(subject)}',
         );
         try {
           await launchUrl(uri);
         } catch (e) {
           if (!context.mounted) return;
-          showSnackSec(context: context, text: 'E-Mail: support@sharezone.net');
+          showSnackSec(
+            context: context,
+            text: context.l10n.websiteSupportEmailCopy('support@sharezone.net'),
+          );
         }
       },
     );
