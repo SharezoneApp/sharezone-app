@@ -290,6 +290,7 @@
   "websiteFooterLegalTitle": "Legal",
   "websiteFooterLinksDocs": "Documentation",
   "websiteFooterLinksTitle": "Links",
+  "websiteLanguageSelectorTooltip": "Select language",
   "websiteLaunchUrlFailed": "Link could not be opened.",
   "websiteNavDocs": "Docs",
   "websiteNavHome": "Home",

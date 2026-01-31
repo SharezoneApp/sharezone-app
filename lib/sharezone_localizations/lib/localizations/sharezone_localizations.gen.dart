@@ -217,6 +217,48 @@ abstract class SharezoneLocalizations {
   /// **'Bundesland'**
   String get accountStateTitle;
 
+  /// No description provided for @activationCodeCacheCleared.
+  ///
+  /// In de, this message translates to:
+  /// **'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.'**
+  String get activationCodeCacheCleared;
+
+  /// No description provided for @activationCodeFeatureAdsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Ads'**
+  String get activationCodeFeatureAdsLabel;
+
+  /// No description provided for @activationCodeFeatureL10nLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'l10n'**
+  String get activationCodeFeatureL10nLabel;
+
+  /// No description provided for @activationCodeToggleDisabled.
+  ///
+  /// In de, this message translates to:
+  /// **'deaktiviert'**
+  String get activationCodeToggleDisabled;
+
+  /// No description provided for @activationCodeToggleEnabled.
+  ///
+  /// In de, this message translates to:
+  /// **'aktiviert'**
+  String get activationCodeToggleEnabled;
+
+  /// No description provided for @activationCodeToggleResult.
+  ///
+  /// In de, this message translates to:
+  /// **'{feature} wurde {state}. Starte die App neu, um die Änderungen zu sehen.'**
+  String activationCodeToggleResult(String feature, String state);
+
+  /// No description provided for @websiteLanguageSelectorTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Sprache auswählen'**
+  String get websiteLanguageSelectorTooltip;
+
   /// No description provided for @appName.
   ///
   /// In de, this message translates to:
@@ -482,6 +524,54 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Support kontaktieren'**
   String get contactSupportButton;
+
+  /// No description provided for @feedbackDetailsCommentsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommentare:'**
+  String get feedbackDetailsCommentsTitle;
+
+  /// No description provided for @feedbackDetailsLoadingHeardFrom.
+  ///
+  /// In de, this message translates to:
+  /// **'Freund'**
+  String get feedbackDetailsLoadingHeardFrom;
+
+  /// No description provided for @feedbackDetailsLoadingMissing.
+  ///
+  /// In de, this message translates to:
+  /// **'Tolle App!'**
+  String get feedbackDetailsLoadingMissing;
+
+  /// No description provided for @feedbackDetailsPageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Feedback-Details'**
+  String get feedbackDetailsPageTitle;
+
+  /// No description provided for @feedbackDetailsResponseHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Antwort schreiben...'**
+  String get feedbackDetailsResponseHint;
+
+  /// No description provided for @feedbackDetailsSendError.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler beim Senden der Nachricht: {error}'**
+  String feedbackDetailsSendError(String error);
+
+  /// No description provided for @feedbackNewLineHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Shift + Enter für neue Zeile'**
+  String get feedbackNewLineHint;
+
+  /// No description provided for @feedbackSendTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Senden (Enter)'**
+  String get feedbackSendTooltip;
 
   /// No description provided for @imprintTitle.
   ///
@@ -1285,90 +1375,6 @@ abstract class SharezoneLocalizations {
   /// **'Daten werden nach Frankfurt transportiert...'**
   String get userEditSubmittingSnackbar;
 
-  /// No description provided for @activationCodeCacheCleared.
-  ///
-  /// In de, this message translates to:
-  /// **'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.'**
-  String get activationCodeCacheCleared;
-
-  /// No description provided for @activationCodeFeatureAdsLabel.
-  ///
-  /// In de, this message translates to:
-  /// **'Ads'**
-  String get activationCodeFeatureAdsLabel;
-
-  /// No description provided for @activationCodeFeatureL10nLabel.
-  ///
-  /// In de, this message translates to:
-  /// **'l10n'**
-  String get activationCodeFeatureL10nLabel;
-
-  /// No description provided for @activationCodeToggleDisabled.
-  ///
-  /// In de, this message translates to:
-  /// **'deaktiviert'**
-  String get activationCodeToggleDisabled;
-
-  /// No description provided for @activationCodeToggleEnabled.
-  ///
-  /// In de, this message translates to:
-  /// **'aktiviert'**
-  String get activationCodeToggleEnabled;
-
-  /// No description provided for @activationCodeToggleResult.
-  ///
-  /// In de, this message translates to:
-  /// **'{feature} wurde {state}. Starte die App neu, um die Änderungen zu sehen.'**
-  String activationCodeToggleResult(String feature, String state);
-
-  /// No description provided for @feedbackDetailsCommentsTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Kommentare:'**
-  String get feedbackDetailsCommentsTitle;
-
-  /// No description provided for @feedbackDetailsLoadingHeardFrom.
-  ///
-  /// In de, this message translates to:
-  /// **'Freund'**
-  String get feedbackDetailsLoadingHeardFrom;
-
-  /// No description provided for @feedbackDetailsLoadingMissing.
-  ///
-  /// In de, this message translates to:
-  /// **'Tolle App!'**
-  String get feedbackDetailsLoadingMissing;
-
-  /// No description provided for @feedbackDetailsPageTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Feedback-Details'**
-  String get feedbackDetailsPageTitle;
-
-  /// No description provided for @feedbackDetailsResponseHint.
-  ///
-  /// In de, this message translates to:
-  /// **'Antwort schreiben...'**
-  String get feedbackDetailsResponseHint;
-
-  /// No description provided for @feedbackDetailsSendError.
-  ///
-  /// In de, this message translates to:
-  /// **'Fehler beim Senden der Nachricht: {error}'**
-  String feedbackDetailsSendError(String error);
-
-  /// No description provided for @feedbackNewLineHint.
-  ///
-  /// In de, this message translates to:
-  /// **'Shift + Enter für neue Zeile'**
-  String get feedbackNewLineHint;
-
-  /// No description provided for @feedbackSendTooltip.
-  ///
-  /// In de, this message translates to:
-  /// **'Senden (Enter)'**
-  String get feedbackSendTooltip;
-
   /// No description provided for @websiteAllInOneFeatureImageLabel.
   ///
   /// In de, this message translates to:
@@ -1897,30 +1903,6 @@ abstract class SharezoneLocalizations {
   /// **'user counter'**
   String get websiteUserCounterSemanticLabel;
 
-  /// No description provided for @websiteWelcomeDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.'**
-  String get websiteWelcomeDescription;
-
-  /// No description provided for @websiteWelcomeDescriptionSemanticLabel.
-  ///
-  /// In de, this message translates to:
-  /// **'Beschreibung der Sharezone App'**
-  String get websiteWelcomeDescriptionSemanticLabel;
-
-  /// No description provided for @websiteWelcomeHeadline.
-  ///
-  /// In de, this message translates to:
-  /// **'Simpel. Sicher. Stabil.'**
-  String get websiteWelcomeHeadline;
-
-  /// No description provided for @websiteWelcomeHeadlineSemanticLabel.
-  ///
-  /// In de, this message translates to:
-  /// **'Überschrift der Sharezone App'**
-  String get websiteWelcomeHeadlineSemanticLabel;
-
   /// No description provided for @websiteUspCommunityButton.
   ///
   /// In de, this message translates to:
@@ -1944,6 +1926,30 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Sharezone ist aus den realen Problemen des Unterrichts entstanden.'**
   String get websiteUspSublineIntro;
+
+  /// No description provided for @websiteWelcomeDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.'**
+  String get websiteWelcomeDescription;
+
+  /// No description provided for @websiteWelcomeDescriptionSemanticLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Beschreibung der Sharezone App'**
+  String get websiteWelcomeDescriptionSemanticLabel;
+
+  /// No description provided for @websiteWelcomeHeadline.
+  ///
+  /// In de, this message translates to:
+  /// **'Simpel. Sicher. Stabil.'**
+  String get websiteWelcomeHeadline;
+
+  /// No description provided for @websiteWelcomeHeadlineSemanticLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Überschrift der Sharezone App'**
+  String get websiteWelcomeHeadlineSemanticLabel;
 }
 
 class _SharezoneLocalizationsDelegate

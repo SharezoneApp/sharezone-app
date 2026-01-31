@@ -218,6 +218,8 @@ class _LanguageSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentLocale = _currentAppLocale(context);
     return PopupMenuButton<AppLocale>(
+      tooltip: context.l10n.websiteLanguageSelectorTooltip,
+      borderRadius: BorderRadius.circular(30),
       initialValue: currentLocale,
       onSelected: (locale) => _setLocale(context, locale),
       itemBuilder: (context) {
@@ -225,7 +227,9 @@ class _LanguageSelector extends StatelessWidget {
           for (final locale in _availableLocales())
             PopupMenuItem(
               value: locale,
-              child: Text(locale.getTranslatedName(context)),
+              child: Text(
+                '${locale.getTextEmoji()} ${locale.getTranslatedName(context)}',
+              ),
             ),
         ];
       },

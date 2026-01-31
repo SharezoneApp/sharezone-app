@@ -80,6 +80,30 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get accountStateTitle => 'Bundesland';
 
   @override
+  String get activationCodeCacheCleared =>
+      'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.';
+
+  @override
+  String get activationCodeFeatureAdsLabel => 'Ads';
+
+  @override
+  String get activationCodeFeatureL10nLabel => 'l10n';
+
+  @override
+  String get activationCodeToggleDisabled => 'deaktiviert';
+
+  @override
+  String get activationCodeToggleEnabled => 'aktiviert';
+
+  @override
+  String activationCodeToggleResult(String feature, String state) {
+    return '$feature wurde $state. Starte die App neu, um die Änderungen zu sehen.';
+  }
+
+  @override
+  String get websiteLanguageSelectorTooltip => 'Sprache auswählen';
+
+  @override
   String get appName => 'Sharezone';
 
   @override
@@ -243,6 +267,32 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get contactSupportButton => 'Support kontaktieren';
+
+  @override
+  String get feedbackDetailsCommentsTitle => 'Kommentare:';
+
+  @override
+  String get feedbackDetailsLoadingHeardFrom => 'Freund';
+
+  @override
+  String get feedbackDetailsLoadingMissing => 'Tolle App!';
+
+  @override
+  String get feedbackDetailsPageTitle => 'Feedback-Details';
+
+  @override
+  String get feedbackDetailsResponseHint => 'Antwort schreiben...';
+
+  @override
+  String feedbackDetailsSendError(String error) {
+    return 'Fehler beim Senden der Nachricht: $error';
+  }
+
+  @override
+  String get feedbackNewLineHint => 'Shift + Enter für neue Zeile';
+
+  @override
+  String get feedbackSendTooltip => 'Senden (Enter)';
 
   @override
   String get imprintTitle => 'Impressum';
@@ -699,53 +749,6 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Daten werden nach Frankfurt transportiert...';
 
   @override
-  String get activationCodeCacheCleared =>
-      'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.';
-
-  @override
-  String get activationCodeFeatureAdsLabel => 'Ads';
-
-  @override
-  String get activationCodeFeatureL10nLabel => 'l10n';
-
-  @override
-  String get activationCodeToggleDisabled => 'deaktiviert';
-
-  @override
-  String get activationCodeToggleEnabled => 'aktiviert';
-
-  @override
-  String activationCodeToggleResult(String feature, String state) {
-    return '$feature wurde $state. Starte die App neu, um die Änderungen zu sehen.';
-  }
-
-  @override
-  String get feedbackDetailsCommentsTitle => 'Kommentare:';
-
-  @override
-  String get feedbackDetailsLoadingHeardFrom => 'Freund';
-
-  @override
-  String get feedbackDetailsLoadingMissing => 'Tolle App!';
-
-  @override
-  String get feedbackDetailsPageTitle => 'Feedback-Details';
-
-  @override
-  String get feedbackDetailsResponseHint => 'Antwort schreiben...';
-
-  @override
-  String feedbackDetailsSendError(String error) {
-    return 'Fehler beim Senden der Nachricht: $error';
-  }
-
-  @override
-  String get feedbackNewLineHint => 'Shift + Enter für neue Zeile';
-
-  @override
-  String get feedbackSendTooltip => 'Senden (Enter)';
-
-  @override
   String websiteAllInOneFeatureImageLabel(String feature) {
     return 'Ein Bild der Funktion $feature';
   }
@@ -1049,6 +1052,20 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get websiteUserCounterSemanticLabel => 'user counter';
 
   @override
+  String get websiteUspCommunityButton => 'Zur Sharezone-Community';
+
+  @override
+  String get websiteUspHeadline => 'Wirklich hilfreich.';
+
+  @override
+  String get websiteUspSublineDetails =>
+      'Wir wissen, was für Lösungen nötig sind und was wirklich hilft, um den Schulalltag einfach zu machen.\nWo wir es nicht wissen, versuchen wir, mit agiler Arbeit und der Sharezone-Community die beste Lösung zu finden.';
+
+  @override
+  String get websiteUspSublineIntro =>
+      'Sharezone ist aus den realen Problemen des Unterrichts entstanden.';
+
+  @override
   String get websiteWelcomeDescription =>
       'Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.';
 
@@ -1062,18 +1079,4 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get websiteWelcomeHeadlineSemanticLabel =>
       'Überschrift der Sharezone App';
-
-  @override
-  String get websiteUspCommunityButton => 'Zur Sharezone-Community';
-
-  @override
-  String get websiteUspHeadline => 'Wirklich hilfreich.';
-
-  @override
-  String get websiteUspSublineDetails =>
-      'Wir wissen, was für Lösungen nötig sind und was wirklich hilft, um den Schulalltag einfach zu machen.\nWo wir es nicht wissen, versuchen wir, mit agiler Arbeit und der Sharezone-Community die beste Lösung zu finden.';
-
-  @override
-  String get websiteUspSublineIntro =>
-      'Sharezone ist aus den realen Problemen des Unterrichts entstanden.';
 }

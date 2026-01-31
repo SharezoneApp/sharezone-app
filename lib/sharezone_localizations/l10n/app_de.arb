@@ -563,6 +563,7 @@
   "websiteFooterLegalTitle": "Rechtliches",
   "websiteFooterLinksDocs": "Dokumentation",
   "websiteFooterLinksTitle": "Links",
+  "websiteLanguageSelectorTooltip": "Sprache auswählen",
   "websiteLaunchUrlFailed": "Link konnte nicht geöffnet werden!",
   "websiteNavDocs": "Docs",
   "websiteNavHome": "Hauptseite",
