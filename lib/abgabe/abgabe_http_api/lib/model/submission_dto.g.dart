@@ -7,7 +7,7 @@ part of 'submission_dto.dart';
 // **************************************************************************
 
 Serializer<SubmissionDto> _$submissionDtoSerializer =
-    new _$SubmissionDtoSerializer();
+    _$SubmissionDtoSerializer();
 
 class _$SubmissionDtoSerializer implements StructuredSerializer<SubmissionDto> {
   @override
@@ -38,7 +38,7 @@ class _$SubmissionDtoSerializer implements StructuredSerializer<SubmissionDto> {
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new SubmissionDtoBuilder();
+    final result = SubmissionDtoBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -66,22 +66,15 @@ class _$SubmissionDto extends SubmissionDto {
   final bool published;
 
   factory _$SubmissionDto([void Function(SubmissionDtoBuilder)? updates]) =>
-      (new SubmissionDtoBuilder()..update(updates))._build();
+      (SubmissionDtoBuilder()..update(updates))._build();
 
-  _$SubmissionDto._({required this.published}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-      published,
-      r'SubmissionDto',
-      'published',
-    );
-  }
-
+  _$SubmissionDto._({required this.published}) : super._();
   @override
   SubmissionDto rebuild(void Function(SubmissionDtoBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  SubmissionDtoBuilder toBuilder() => new SubmissionDtoBuilder()..replace(this);
+  SubmissionDtoBuilder toBuilder() => SubmissionDtoBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -125,7 +118,6 @@ class SubmissionDtoBuilder
 
   @override
   void replace(SubmissionDto other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$SubmissionDto;
   }
 
@@ -140,7 +132,7 @@ class SubmissionDtoBuilder
   _$SubmissionDto _build() {
     final _$result =
         _$v ??
-        new _$SubmissionDto._(
+        _$SubmissionDto._(
           published: BuiltValueNullFieldError.checkNotNull(
             published,
             r'SubmissionDto',

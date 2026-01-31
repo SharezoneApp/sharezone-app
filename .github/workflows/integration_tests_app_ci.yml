@@ -169,7 +169,7 @@ jobs:
 
   ios-integration-test:
     needs: changes
-    runs-on: macos-15
+    runs-on: macos-26
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     steps:
@@ -187,12 +187,7 @@ jobs:
       - uses: futureware-tech/simulator-action@d7d71f46661576907b12f85b402a61b6650d0e57
         id: simulator
         with:
-          model: "iPhone 16"
-
-      # Temporary workaround for https://github.com/actions/runner-images/issues/12758.
-      # Once the issue is fixed, we can remove this step.
-      - name: Install XCode 16
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
+          model: "iPhone 17"
 
       - name: Run integration tests
         working-directory: app
@@ -261,7 +256,7 @@ jobs:
   # macOS app.
   macos-build-test:
     needs: changes
-    runs-on: macos-15
+    runs-on: macos-26
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     timeout-minutes: 60
     defaults:

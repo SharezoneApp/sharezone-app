@@ -36,7 +36,7 @@ dependencies:
     path: ../sharezone_widgets
   sharezone_utils:
     path: ../sharezone_utils
-  mockito: ^5.4.5
+  mockito: ^5.5.0
   equatable: ^2.0.7
   scrollable_positioned_list: ^0.3.8
   common_domain_models:
