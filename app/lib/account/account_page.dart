@@ -12,12 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone/account/account_page_bloc.dart';
 import 'package:sharezone/account/register_account_section.dart';
+import 'package:sharezone/account/select_state_dialog.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/overview/views/user_view.dart';
-import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_page.dart';
 import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
@@ -127,9 +127,9 @@ class _SecondaryInformationCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             ListTile(
+              onTap: () => showStateSelectionDialog(context),
               title: Text(context.l10n.accountStateTitle),
               subtitle: Text(user.state.getDisplayName(context)),
-              onTap: () => Navigator.pushNamed(context, ChangeStatePage.tag),
             ),
           ],
         ),

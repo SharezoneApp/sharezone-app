@@ -39,7 +39,7 @@ void main() {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
         functionName: "loadHolidays",
-        parameters: {"stateCode": "NW", "year": "2018"},
+        parameters: {"stateCode": "NW", "countryIsoCode": "DE", "year": "2018"},
       ),
     ).thenAnswer(
       (_) => Future.value(
@@ -56,7 +56,7 @@ void main() {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
         functionName: "loadHolidays",
-        parameters: {"stateCode": "NW", "year": "2018"},
+        parameters: {"stateCode": "NW", "countryIsoCode": "DE", "year": "2018"},
       ),
     ).thenAnswer(
       (_) => Future.value(
@@ -81,7 +81,7 @@ void main() {
     when(
       functions.callCloudFunction<Map<String, dynamic>>(
         functionName: "loadHolidays",
-        parameters: {"stateCode": "NW", "year": "2018"},
+        parameters: {"stateCode": "NW", "countryIsoCode": "DE", "year": "2018"},
       ),
     ).thenAnswer(
       (_) => Future.value(
@@ -102,7 +102,11 @@ void main() {
     int expectedYear = dateTime.year;
 
     when(
-      szAppFunction.loadHolidays(stateCode: "NW", year: '$expectedYear'),
+      szAppFunction.loadHolidays(
+        stateCode: "NW",
+        countryIsoCode: "DE",
+        year: '$expectedYear',
+      ),
     ).thenAnswer(
       (_) => Future.value(
         AppFunctionsResult<Map<String, dynamic>>.data(
@@ -115,7 +119,13 @@ void main() {
 
     await api.load(0, state);
 
-    verify(szAppFunction.loadHolidays(stateCode: "NW", year: '$expectedYear'));
+    verify(
+      szAppFunction.loadHolidays(
+        stateCode: "NW",
+        countryIsoCode: "DE",
+        year: '$expectedYear',
+      ),
+    );
   });
 
   void expectToThrowAssertionErrorForInvalidYearInAdvance(int year) {

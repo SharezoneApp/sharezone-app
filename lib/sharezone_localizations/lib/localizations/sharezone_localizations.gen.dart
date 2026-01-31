@@ -253,12 +253,6 @@ abstract class SharezoneLocalizations {
   /// **'{feature} wurde {state}. Starte die App neu, um die Änderungen zu sehen.'**
   String activationCodeToggleResult(String feature, String state);
 
-  /// No description provided for @websiteLanguageSelectorTooltip.
-  ///
-  /// In de, this message translates to:
-  /// **'Sprache auswählen'**
-  String get websiteLanguageSelectorTooltip;
-
   /// No description provided for @appName.
   ///
   /// In de, this message translates to:
@@ -453,6 +447,18 @@ abstract class SharezoneLocalizations {
   /// **'Account-Typ ändern'**
   String get changeTypeOfUserTitle;
 
+  /// No description provided for @commonActionBack.
+  ///
+  /// In de, this message translates to:
+  /// **'Zurück'**
+  String get commonActionBack;
+
+  /// No description provided for @commonActionChange.
+  ///
+  /// In de, this message translates to:
+  /// **'Ändern'**
+  String get commonActionChange;
+
   /// No description provided for @commonActionsAlright.
   ///
   /// In de, this message translates to:
@@ -572,6 +578,30 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Senden (Enter)'**
   String get feedbackSendTooltip;
+
+  /// No description provided for @countryAustria.
+  ///
+  /// In de, this message translates to:
+  /// **'Österreich'**
+  String get countryAustria;
+
+  /// No description provided for @countryGermany.
+  ///
+  /// In de, this message translates to:
+  /// **'Deutschland'**
+  String get countryGermany;
+
+  /// No description provided for @countrySwitzerland.
+  ///
+  /// In de, this message translates to:
+  /// **'Schweiz'**
+  String get countrySwitzerland;
+
+  /// No description provided for @dashboardSelectStateButton.
+  ///
+  /// In de, this message translates to:
+  /// **'Bundesland / Kanton auswählen'**
+  String get dashboardSelectStateButton;
 
   /// No description provided for @imprintTitle.
   ///
@@ -981,6 +1011,36 @@ abstract class SharezoneLocalizations {
   /// **'Gewaltsame oder abstoßende Inhalte'**
   String get reportReasonViolentContent;
 
+  /// No description provided for @selectStateDialogConfirmationSnackBar.
+  ///
+  /// In de, this message translates to:
+  /// **'Region {region} ausgewählt'**
+  String selectStateDialogConfirmationSnackBar(Object region);
+
+  /// No description provided for @selectStateDialogSelectBundesland.
+  ///
+  /// In de, this message translates to:
+  /// **'Bundesland auswählen'**
+  String get selectStateDialogSelectBundesland;
+
+  /// No description provided for @selectStateDialogSelectCanton.
+  ///
+  /// In de, this message translates to:
+  /// **'Kanton auswählen'**
+  String get selectStateDialogSelectCanton;
+
+  /// No description provided for @selectStateDialogSelectCountryTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Land auswählen'**
+  String get selectStateDialogSelectCountryTitle;
+
+  /// No description provided for @selectStateDialogStayAnonymous.
+  ///
+  /// In de, this message translates to:
+  /// **'Ich möchte anonym bleiben'**
+  String get selectStateDialogStayAnonymous;
+
   /// No description provided for @socialDiscord.
   ///
   /// In de, this message translates to:
@@ -1017,17 +1077,47 @@ abstract class SharezoneLocalizations {
   /// **'Twitter'**
   String get socialTwitter;
 
+  /// No description provided for @stateAargau.
+  ///
+  /// In de, this message translates to:
+  /// **'Aargau'**
+  String get stateAargau;
+
   /// No description provided for @stateAnonymous.
   ///
   /// In de, this message translates to:
   /// **'Anonym bleiben'**
   String get stateAnonymous;
 
+  /// No description provided for @stateAppenzellAusserrhoden.
+  ///
+  /// In de, this message translates to:
+  /// **'Appenzell Ausserrhoden'**
+  String get stateAppenzellAusserrhoden;
+
+  /// No description provided for @stateAppenzellInnerrhoden.
+  ///
+  /// In de, this message translates to:
+  /// **'Appenzell Innerrhoden'**
+  String get stateAppenzellInnerrhoden;
+
   /// No description provided for @stateBadenWuerttemberg.
   ///
   /// In de, this message translates to:
   /// **'Baden-Württemberg'**
   String get stateBadenWuerttemberg;
+
+  /// No description provided for @stateBaselLandschaft.
+  ///
+  /// In de, this message translates to:
+  /// **'Basel-Landschaft'**
+  String get stateBaselLandschaft;
+
+  /// No description provided for @stateBaselStadt.
+  ///
+  /// In de, this message translates to:
+  /// **'Basel-Stadt'**
+  String get stateBaselStadt;
 
   /// No description provided for @stateBayern.
   ///
@@ -1041,6 +1131,12 @@ abstract class SharezoneLocalizations {
   /// **'Berlin'**
   String get stateBerlin;
 
+  /// No description provided for @stateBern.
+  ///
+  /// In de, this message translates to:
+  /// **'Bern'**
+  String get stateBern;
+
   /// No description provided for @stateBrandenburg.
   ///
   /// In de, this message translates to:
@@ -1052,6 +1148,36 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Bremen'**
   String get stateBremen;
+
+  /// No description provided for @stateBurgenland.
+  ///
+  /// In de, this message translates to:
+  /// **'Burgenland'**
+  String get stateBurgenland;
+
+  /// No description provided for @stateFribourg.
+  ///
+  /// In de, this message translates to:
+  /// **'Freiburg'**
+  String get stateFribourg;
+
+  /// No description provided for @stateGeneva.
+  ///
+  /// In de, this message translates to:
+  /// **'Genf'**
+  String get stateGeneva;
+
+  /// No description provided for @stateGlarus.
+  ///
+  /// In de, this message translates to:
+  /// **'Glarus'**
+  String get stateGlarus;
+
+  /// No description provided for @stateGraubuenden.
+  ///
+  /// In de, this message translates to:
+  /// **'Graubünden'**
+  String get stateGraubuenden;
 
   /// No description provided for @stateHamburg.
   ///
@@ -1065,11 +1191,47 @@ abstract class SharezoneLocalizations {
   /// **'Hessen'**
   String get stateHessen;
 
+  /// No description provided for @stateJura.
+  ///
+  /// In de, this message translates to:
+  /// **'Jura'**
+  String get stateJura;
+
+  /// No description provided for @stateKaernten.
+  ///
+  /// In de, this message translates to:
+  /// **'Kärnten'**
+  String get stateKaernten;
+
+  /// No description provided for @stateLuzern.
+  ///
+  /// In de, this message translates to:
+  /// **'Luzern'**
+  String get stateLuzern;
+
   /// No description provided for @stateMecklenburgVorpommern.
   ///
   /// In de, this message translates to:
   /// **'Mecklenburg-Vorpommern'**
   String get stateMecklenburgVorpommern;
+
+  /// No description provided for @stateNeuchatel.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuenburg'**
+  String get stateNeuchatel;
+
+  /// No description provided for @stateNidwalden.
+  ///
+  /// In de, this message translates to:
+  /// **'Nidwalden'**
+  String get stateNidwalden;
+
+  /// No description provided for @stateNiederoesterreich.
+  ///
+  /// In de, this message translates to:
+  /// **'Niederösterreich'**
+  String get stateNiederoesterreich;
 
   /// No description provided for @stateNiedersachsen.
   ///
@@ -1095,6 +1257,18 @@ abstract class SharezoneLocalizations {
   /// **'Nicht ausgewählt'**
   String get stateNotSelected;
 
+  /// No description provided for @stateOberoesterreich.
+  ///
+  /// In de, this message translates to:
+  /// **'Oberösterreich'**
+  String get stateOberoesterreich;
+
+  /// No description provided for @stateObwalden.
+  ///
+  /// In de, this message translates to:
+  /// **'Obwalden'**
+  String get stateObwalden;
+
   /// No description provided for @stateRheinlandPfalz.
   ///
   /// In de, this message translates to:
@@ -1119,17 +1293,113 @@ abstract class SharezoneLocalizations {
   /// **'Sachsen-Anhalt'**
   String get stateSachsenAnhalt;
 
+  /// No description provided for @stateSalzburg.
+  ///
+  /// In de, this message translates to:
+  /// **'Salzburg'**
+  String get stateSalzburg;
+
+  /// No description provided for @stateSchaffhausen.
+  ///
+  /// In de, this message translates to:
+  /// **'Schaffhausen'**
+  String get stateSchaffhausen;
+
   /// No description provided for @stateSchleswigHolstein.
   ///
   /// In de, this message translates to:
   /// **'Schleswig-Holstein'**
   String get stateSchleswigHolstein;
 
+  /// No description provided for @stateSchwyz.
+  ///
+  /// In de, this message translates to:
+  /// **'Schwyz'**
+  String get stateSchwyz;
+
+  /// No description provided for @stateSolothurn.
+  ///
+  /// In de, this message translates to:
+  /// **'Solothurn'**
+  String get stateSolothurn;
+
+  /// No description provided for @stateStGallen.
+  ///
+  /// In de, this message translates to:
+  /// **'St. Gallen'**
+  String get stateStGallen;
+
+  /// No description provided for @stateSteiermark.
+  ///
+  /// In de, this message translates to:
+  /// **'Steiermark'**
+  String get stateSteiermark;
+
   /// No description provided for @stateThueringen.
   ///
   /// In de, this message translates to:
   /// **'Thüringen'**
   String get stateThueringen;
+
+  /// No description provided for @stateThurgau.
+  ///
+  /// In de, this message translates to:
+  /// **'Thurgau'**
+  String get stateThurgau;
+
+  /// No description provided for @stateTicino.
+  ///
+  /// In de, this message translates to:
+  /// **'Tessin'**
+  String get stateTicino;
+
+  /// No description provided for @stateTirol.
+  ///
+  /// In de, this message translates to:
+  /// **'Tirol'**
+  String get stateTirol;
+
+  /// No description provided for @stateUri.
+  ///
+  /// In de, this message translates to:
+  /// **'Uri'**
+  String get stateUri;
+
+  /// No description provided for @stateValais.
+  ///
+  /// In de, this message translates to:
+  /// **'Wallis'**
+  String get stateValais;
+
+  /// No description provided for @stateVaud.
+  ///
+  /// In de, this message translates to:
+  /// **'Waadt'**
+  String get stateVaud;
+
+  /// No description provided for @stateVorarlberg.
+  ///
+  /// In de, this message translates to:
+  /// **'Vorarlberg'**
+  String get stateVorarlberg;
+
+  /// No description provided for @stateWien.
+  ///
+  /// In de, this message translates to:
+  /// **'Wien'**
+  String get stateWien;
+
+  /// No description provided for @stateZug.
+  ///
+  /// In de, this message translates to:
+  /// **'Zug'**
+  String get stateZug;
+
+  /// No description provided for @stateZurich.
+  ///
+  /// In de, this message translates to:
+  /// **'Zürich'**
+  String get stateZurich;
 
   /// No description provided for @themeDarkMode.
   ///
@@ -1716,6 +1986,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Links'**
   String get websiteFooterLinksTitle;
+
+  /// No description provided for @websiteLanguageSelectorTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Sprache auswählen'**
+  String get websiteLanguageSelectorTooltip;
 
   /// No description provided for @websiteLaunchUrlFailed.
   ///
