@@ -37,8 +37,8 @@ LessonView _buildLessonView(
   final locationSubstitution =
       lesson.getSubstitutionFor(date).getLocationChangedSubstitution();
   return LessonView(
-    start: lesson.startTime.toString(),
-    end: lesson.endTime.toString(),
+    start: lesson.startTime,
+    end: lesson.endTime,
     lesson: lesson,
     room: locationSubstitution?.newLocation ?? lesson.place,
     design: groupInfo?.design ?? Design.standard(),
