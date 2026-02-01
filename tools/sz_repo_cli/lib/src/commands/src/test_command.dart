@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:math';
 
 import 'package:process_runner/process_runner.dart';
@@ -91,13 +92,18 @@ If not passed, do not randomize test case execution order.''',
 
   @override
   Future<void> runTaskForPackage(Package package) {
-    return runTests(
-      processRunner,
-      package,
-      excludeGoldens: argResults!['exclude-goldens'] as bool,
-      onlyGoldens: argResults!['only-goldens'] as bool,
-      updateGoldens: argResults!['update-goldens'] as bool,
-      testRandomizeOrderingSeed: _testRandomizeOrderingSeed,
+    return Isolate.run(
+      () => _runTestsInIsolate(
+        _TestIsolatePayload(
+          packagePayload: packageToPayload(package),
+          repoRoot: repo.location.path,
+          verbose: isVerbose,
+          excludeGoldens: argResults!['exclude-goldens'] as bool,
+          onlyGoldens: argResults!['only-goldens'] as bool,
+          updateGoldens: argResults!['update-goldens'] as bool,
+          testRandomizeOrderingSeed: _testRandomizeOrderingSeed,
+        ),
+      ),
     );
   }
 }
@@ -210,4 +216,41 @@ Future<void> _runTestsFlutter(
     '$testRandomizeOrderingSeed',
     '--dart-define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
   ], workingDirectory: package.location);
+}
+
+class _TestIsolatePayload {
+  final Map<String, Object?> packagePayload;
+  final String repoRoot;
+  final bool verbose;
+  final bool excludeGoldens;
+  final bool onlyGoldens;
+  final bool updateGoldens;
+  final int testRandomizeOrderingSeed;
+
+  const _TestIsolatePayload({
+    required this.packagePayload,
+    required this.repoRoot,
+    required this.verbose,
+    required this.excludeGoldens,
+    required this.onlyGoldens,
+    required this.updateGoldens,
+    required this.testRandomizeOrderingSeed,
+  });
+}
+
+Future<void> _runTestsInIsolate(_TestIsolatePayload payload) async {
+  isVerbose = payload.verbose;
+  final processRunner = ProcessRunner(
+    defaultWorkingDirectory: Directory(payload.repoRoot),
+    printOutputDefault: payload.verbose,
+  );
+  final package = packageFromPayload(payload.packagePayload);
+  await runTests(
+    processRunner,
+    package,
+    excludeGoldens: payload.excludeGoldens,
+    onlyGoldens: payload.onlyGoldens,
+    updateGoldens: payload.updateGoldens,
+    testRandomizeOrderingSeed: payload.testRandomizeOrderingSeed,
+  );
 }

@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+import 'dart:io';
+import 'dart:isolate';
 
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/commands/src/format_command.dart';
@@ -30,8 +32,15 @@ class AnalyzeCommand extends ConcurrentCommand {
   Duration get defaultPackageTimeout => const Duration(minutes: 5);
 
   @override
-  Future<void> runTaskForPackage(Package package) =>
-      analyzePackage(processRunner, package);
+  Future<void> runTaskForPackage(Package package) => Isolate.run(
+    () => _analyzeInIsolate(
+      _AnalyzeIsolatePayload(
+        packagePayload: packageToPayload(package),
+        repoRoot: repo.location.path,
+        verbose: isVerbose,
+      ),
+    ),
+  );
 }
 
 Future<void> analyzePackage(
@@ -66,4 +75,26 @@ Future<void> _checkForCommentsWithBadSpacing(
     );
   }
   return;
+}
+
+class _AnalyzeIsolatePayload {
+  final Map<String, Object?> packagePayload;
+  final String repoRoot;
+  final bool verbose;
+
+  const _AnalyzeIsolatePayload({
+    required this.packagePayload,
+    required this.repoRoot,
+    required this.verbose,
+  });
+}
+
+Future<void> _analyzeInIsolate(_AnalyzeIsolatePayload payload) async {
+  isVerbose = payload.verbose;
+  final processRunner = ProcessRunner(
+    defaultWorkingDirectory: Directory(payload.repoRoot),
+    printOutputDefault: payload.verbose,
+  );
+  final package = packageFromPayload(payload.packagePayload);
+  await analyzePackage(processRunner, package);
 }

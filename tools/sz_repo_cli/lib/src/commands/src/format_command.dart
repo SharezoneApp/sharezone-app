@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
@@ -37,8 +38,15 @@ class FormatCommand extends ConcurrentCommand {
   }
 
   @override
-  Future<void> runTaskForPackage(Package package) async =>
-      await formatCode(processRunner, package);
+  Future<void> runTaskForPackage(Package package) => Isolate.run(
+    () => _formatInIsolate(
+      _FormatIsolatePayload(
+        packagePayload: packageToPayload(package),
+        repoRoot: repo.location.path,
+        verbose: isVerbose,
+      ),
+    ),
+  );
 
   Future<void> _throwIfPrettierIsNotInstalled() async {
     await throwIfCommandIsNotInstalled(
@@ -93,10 +101,33 @@ Future<void> formatCode(
   /// Useful for code analysis in CI.
   bool throwIfCodeChanged = false,
 }) {
-  return processRunner.runCommand([
-    'dart',
-    'format',
-    if (throwIfCodeChanged) '--set-exit-if-changed',
-    '.',
-  ], workingDirectory: package.location);
+  final args = <String>['dart', 'format'];
+  if (throwIfCodeChanged) {
+    args.addAll(['--output=none', '--set-exit-if-changed']);
+  }
+  args.add('.');
+
+  return processRunner.runCommand(args, workingDirectory: package.location);
+}
+
+class _FormatIsolatePayload {
+  final Map<String, Object?> packagePayload;
+  final String repoRoot;
+  final bool verbose;
+
+  const _FormatIsolatePayload({
+    required this.packagePayload,
+    required this.repoRoot,
+    required this.verbose,
+  });
+}
+
+Future<void> _formatInIsolate(_FormatIsolatePayload payload) async {
+  isVerbose = payload.verbose;
+  final processRunner = ProcessRunner(
+    defaultWorkingDirectory: Directory(payload.repoRoot),
+    printOutputDefault: payload.verbose,
+  );
+  final package = packageFromPayload(payload.packagePayload);
+  await formatCode(processRunner, package);
 }
