@@ -23,13 +23,16 @@ StudentHomeworkPageBloc createStudentHomeworkPageBloc(
   final getCurrentDateTime =
       dependencies.getCurrentDateTime ?? () => clock.now();
   getCurrentDate() => Date.fromDateTime(getCurrentDateTime());
+  final l10n = dependencies.localizations;
 
   final viewFactory = StudentHomeworkViewFactory(
     defaultColorValue: config.defaultCourseColorValue,
+    l10n: l10n,
   );
   final sortAndSubcategorizer =
       HomeworkSortAndSubcategorizer<StudentHomeworkReadModel>(
         getCurrentDate: getCurrentDate,
+        l10n: l10n,
       );
   final openHomeworkListViewFactory = StudentOpenHomeworkListViewFactory(
     sortAndSubcategorizer,

@@ -187,6 +187,53 @@
   },
   "feedbackNewLineHint": "Shift + Enter für neue Zeile",
   "feedbackSendTooltip": "Senden (Enter)",
+  "homeworkDueDateWithTime": "{date} - {time} Uhr",
+  "@homeworkDueDateWithTime": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "homeworkSectionInTwoDays": "Übermorgen",
+  "homeworkSectionLater": "Später",
+  "homeworkSectionOverdue": "Überfällig",
+  "homeworkSectionToday": "Heute",
+  "homeworkSectionTomorrow": "Morgen",
+  "homeworkStudentDueDate": "{weekday}, {day}. {month} {year}",
+  "@homeworkStudentDueDate": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "month": {
+        "type": "String"
+      },
+      "weekday": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "homeworkTeacherDueDate": "{day}. {month} {year}",
+  "@homeworkTeacherDueDate": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "month": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
   "imprintTitle": "Impressum",
   "languageDeName": "Deutsch",
   "languageEnName": "Englisch",
