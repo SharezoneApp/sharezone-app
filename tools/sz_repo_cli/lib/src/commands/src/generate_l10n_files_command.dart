@@ -34,11 +34,17 @@ class GenerateL10nFilesCommand extends CommandBase {
         .childDirectory('lib')
         .childDirectory('sharezone_localizations');
 
+    // First, we have to sort the arb files. We can't do it at end because this
+    // require re-running the "flutter gen-l10n" again (this command applies the
+    // sorting of the arb files).
+    await _sortArbFiles(l10nDir);
+
+    // Then, we generate the l10n files.
     await _generateL10nFiles(l10nDir);
-    await Future.wait([
-      _sortArbFiles(l10nDir), //
-      _addLicenseHeader(l10nDir),
-    ]);
+
+    // Because "flutter gen-l10n" removes the license header, we have to add
+    // them again.
+    await _addLicenseHeader(l10nDir);
   }
 
   void _throwIfArbsortIsNotInstalled() {
