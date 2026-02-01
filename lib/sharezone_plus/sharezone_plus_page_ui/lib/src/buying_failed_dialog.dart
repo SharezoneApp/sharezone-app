@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone_plus_page_ui/src/styled_markdown_text.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,25 +23,24 @@ class BuyingFailedDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text("Kaufen fehlgeschlagen"),
+        title: Text(context.l10n.sharezonePlusBuyingFailedTitle),
         content: SingleChildScrollView(
           child: StyledMarkdownText(
-            text:
-                "Der Kauf von Sharezone Plus ist fehlgeschlagen. Bitte versuche es später erneut.\n\nFehler: $error\n\nBei Fragen wende dich an [plus@sharezone.net](mailto:plus@sharezone.net).",
+            text: context.l10n.sharezonePlusBuyingFailedContent(error),
             alignment: WrapAlignment.start,
           ),
         ),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("OK"),
+            child: Text(context.l10n.commonActionsOk),
           ),
           FilledButton(
             onPressed: () async {
               const email = 'plus@sharezone.net';
               await launchUrl(Uri.parse('mailto:$email'));
             },
-            child: const Text('Support kontaktieren'),
+            child: Text(context.l10n.commonActionsContactSupport),
           ),
         ],
       ),

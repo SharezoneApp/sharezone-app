@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone_plus_page_ui/src/styled_markdown_text.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 /// A dialog that is shown when the user tries to buy Sharezone Plus but the
@@ -20,10 +21,9 @@ class BuyingDisabledDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text("Kaufen deaktiviert"),
-        content: const StyledMarkdownText(
-          text:
-              "Der Kauf von Sharezone Plus ist aktuell deaktiviert. Bitte versuche es später erneut.\n\nAuf unserem [Discord](https://sharezone.net/discord) halten wir dich auf dem Laufenden.",
+        title: Text(context.l10n.sharezonePlusBuyingDisabledTitle),
+        content: StyledMarkdownText(
+          text: context.l10n.sharezonePlusBuyingDisabledContent,
           alignment: WrapAlignment.start,
         ),
         actions: <Widget>[
@@ -32,7 +32,7 @@ class BuyingDisabledDialog extends StatelessWidget {
               foregroundColor: Theme.of(context).primaryColor,
             ),
             onPressed: () => Navigator.pop(context),
-            child: const Text("OK"),
+            child: Text(context.l10n.commonActionsOk),
           ),
         ],
       ),
