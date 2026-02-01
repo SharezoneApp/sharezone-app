@@ -24,16 +24,6 @@
   "activationCodeToggleDisabled": "disabled",
   "activationCodeToggleEnabled": "enabled",
   "activationCodeToggleResult": "{feature} was {state}. Restart the app to see the changes.",
-  "@activationCodeToggleResult": {
-    "placeholders": {
-      "feature": {
-        "type": "String"
-      },
-      "state": {
-        "type": "String"
-      }
-    }
-  },
   "appName": "Sharezone",
   "changeEmailAddressCurrentEmailTextfieldLabel": "Current",
   "changeEmailAddressIdenticalError": "The email you entered is identical to the old one! 🙈",
@@ -90,13 +80,6 @@
   "feedbackDetailsPageTitle": "Feedback details",
   "feedbackDetailsResponseHint": "Write a reply...",
   "feedbackDetailsSendError": "Failed to send the message: {error}",
-  "@feedbackDetailsSendError": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
   "feedbackNewLineHint": "Shift + Enter for a new line",
   "feedbackSendTooltip": "Send (Enter)",
   "imprintTitle": "Imprint",
@@ -208,38 +191,17 @@
   "sharezonePlusBuyingDisabledContent": "The purchase of Sharezone Plus is currently disabled. Please try again later.\n\nWe will keep you updated on our [Discord](https://sharezone.net/discord).",
   "sharezonePlusBuyingDisabledTitle": "Purchasing disabled",
   "sharezonePlusBuyingFailedContent": "The purchase of Sharezone Plus failed. Please try again later.\n\nError: {error}\n\nIf you have questions, contact [plus@sharezone.net](mailto:plus@sharezone.net).",
-  "@sharezonePlusBuyingFailedContent": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
   "sharezonePlusBuyingFailedTitle": "Purchase failed",
   "sharezonePlusCancelAction": "Cancel",
   "sharezonePlusCancelConfirmAction": "Cancel",
   "sharezonePlusCancelConfirmationContent": "If you cancel your Sharezone Plus subscription, you will lose access to all Plus features.\n\nAre you sure you want to cancel?",
   "sharezonePlusCancelConfirmationTitle": "Are you sure?",
   "sharezonePlusCancelFailedContent": "An error occurred. Please try again later.\n\nError: {error}",
-  "@sharezonePlusCancelFailedContent": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
   "sharezonePlusCancelFailedTitle": "Cancellation failed",
   "sharezonePlusCanceledSubscriptionNote": "You have canceled your Sharezone Plus subscription. You can still use your benefits until the end of the current billing period. If you change your mind, you can subscribe to Sharezone Plus again at any time.",
   "sharezonePlusFaqContentCreatorContent": "Yes, as a content creator you can receive Sharezone Plus (lifetime) for free.\n\nHere's how it works:\n1. Create a creative TikTok, YouTube Short, or Instagram Reel where you mention or present Sharezone.\n2. Make sure your video gets more than 10,000 views.\n3. Send us the link to your video at plus@sharezone.net.\n\nThere are no limits to your creativity. Please read our conditions for the content creator program: https://sharezone.net/content-creator-programm.",
   "sharezonePlusFaqContentCreatorTitle": "Is there a content creator program?",
   "sharezonePlusFaqEmailSnackBar": "Email: {email}",
-  "@sharezonePlusFaqEmailSnackBar": {
-    "placeholders": {
-      "email": {
-        "type": "String"
-      }
-    }
-  },
   "sharezonePlusFaqFamilyLicenseContent": "Yes, for families with multiple children we offer special conditions. Just send us an email at [plus@sharezone.net](mailto:plus@sharezone.net) to learn more.",
   "sharezonePlusFaqFamilyLicenseTitle": "Are there special offers for families?",
   "sharezonePlusFaqGroupMembersContent": "If you subscribe to Sharezone Plus, only your account gets Sharezone Plus. Your group members do not receive Sharezone Plus.\n\nHowever, there are individual features from which your group members also benefit. For example, if you change a group's course color to a color that is only available with Sharezone Plus, this color will also be used for your group members.",
@@ -254,37 +216,9 @@
   "sharezonePlusFaqWhoIsBehindTitle": "Who is behind Sharezone?",
   "sharezonePlusFeatureUnavailable": "This feature is only available with \"Sharezone Plus\".",
   "sharezonePlusLegalTextLifetime": "One-time payment of {price} (no subscription). By purchasing, you confirm that you have read the [Terms](https://sharezone.net/terms-of-service). We process your data in accordance with our [Privacy Policy](https://sharezone.net/privacy-policy)",
-  "@sharezonePlusLegalTextLifetime": {
-    "placeholders": {
-      "price": {
-        "type": "String"
-      }
-    }
-  },
   "sharezonePlusLegalTextMonthlyAndroid": "Your subscription ({price}/month) can be canceled monthly. It will automatically renew unless you cancel at least 24 hours before the end of the current billing period via Google Play. By purchasing, you confirm that you have read the [Terms](https://sharezone.net/terms-of-service). We process your data in accordance with our [Privacy Policy](https://sharezone.net/privacy-policy)",
-  "@sharezonePlusLegalTextMonthlyAndroid": {
-    "placeholders": {
-      "price": {
-        "type": "String"
-      }
-    }
-  },
   "sharezonePlusLegalTextMonthlyApple": "Your subscription ({price}/month) can be canceled monthly. It will automatically renew unless you cancel at least 24 hours before the end of the current billing period via the App Store. By purchasing, you confirm that you have read the [Terms](https://sharezone.net/terms-of-service). We process your data in accordance with our [Privacy Policy](https://sharezone.net/privacy-policy)",
-  "@sharezonePlusLegalTextMonthlyApple": {
-    "placeholders": {
-      "price": {
-        "type": "String"
-      }
-    }
-  },
   "sharezonePlusLegalTextMonthlyOther": "Your subscription ({price}/month) can be canceled monthly. It will automatically renew unless you cancel before the end of the current billing period via the app. By purchasing, you confirm that you have read the [Terms](https://sharezone.net/terms-of-service). We process your data in accordance with our [Privacy Policy](https://sharezone.net/privacy-policy)",
-  "@sharezonePlusLegalTextMonthlyOther": {
-    "placeholders": {
-      "price": {
-        "type": "String"
-      }
-    }
-  },
   "sharezonePlusLetParentsBuyAction": "Let parents pay",
   "sharezonePlusLetParentsBuyContent": "You can send your parents a link so they can buy Sharezone Plus for you.\n\nThe link is only valid for you and contains the connection to your account.",
   "sharezonePlusLetParentsBuyTitle": "Let parents pay",
@@ -399,13 +333,6 @@
   "userEditSubmitFailed": "The process could not be completed correctly. Please contact support!",
   "userEditSubmittingSnackbar": "Data is being sent to Frankfurt...",
   "websiteAllInOneFeatureImageLabel": "An image of the {feature} feature",
-  "@websiteAllInOneFeatureImageLabel": {
-    "placeholders": {
-      "feature": {
-        "type": "String"
-      }
-    }
-  },
   "websiteAllInOneHeadline": "Everything in one place",
   "websiteAllPlatformsHeadline": "Available on all devices.",
   "websiteAllPlatformsSubline": "Sharezone works on all systems, so you can access your data anytime.",
@@ -474,13 +401,6 @@
   "websiteSharezonePlusCustomerPortalOpen": "Go to customer portal",
   "websiteSharezonePlusCustomerPortalTitle": "Customer portal",
   "websiteSharezonePlusLoadError": "Error: {error}",
-  "@websiteSharezonePlusLoadError": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
   "websiteSharezonePlusLoadingName": "Loading...",
   "websiteSharezonePlusManageSubscriptionText": "Already have a subscription? Click [here](https://billing.stripe.com/p/login/eVa7uh3DvbMfbTy144) to manage it (e.g. cancel, change payment method, etc.).",
   "websiteSharezonePlusPurchaseDialogContent": "To buy Sharezone Plus for your own account, you need to purchase Sharezone Plus through the web app.\n\nIf you want to buy Sharezone Plus as a parent for your child, open the link you received from your child.\n\nIf you have any questions, feel free to email us at [plus@sharezone.net](mailto:plus@sharezone.net).",
@@ -492,13 +412,6 @@
   "websiteStoreAppStoreName": "App Store",
   "websiteStorePlayStoreName": "Play Store",
   "websiteSupportEmailCopy": "Email: {email}",
-  "@websiteSupportEmailCopy": {
-    "placeholders": {
-      "email": {
-        "type": "String"
-      }
-    }
-  },
   "websiteSupportEmailLabel": "Email",
   "websiteSupportEmailSubject": "I need your help! 😭",
   "websiteSupportPageBody": "Contact us through a channel of your choice and we'll help you as quickly as possible 😉\n\nPlease note that it can sometimes take longer for us to respond (1-2 weeks).",
