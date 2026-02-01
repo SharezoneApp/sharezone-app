@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../privacy_policy_src.dart';
 import 'ui.dart';
@@ -16,16 +17,19 @@ class MainContentWide extends StatelessWidget {
   const MainContentWide({
     required this.privacyPolicy,
     this.showBackButton = true,
-    this.headingText = 'Datenschutzerklärung',
+    this.headingText,
     super.key,
   });
 
   final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
-  final String headingText;
+  final String? headingText;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final resolvedHeadingText = headingText ?? l10n.legalPrivacyPolicyTitle;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -65,7 +69,9 @@ class MainContentWide extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          PrivacyPolicyHeading(headingText: headingText),
+                          PrivacyPolicyHeading(
+                            headingText: resolvedHeadingText,
+                          ),
                           if (privacyPolicy.hasNotYetEnteredIntoForce)
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -113,7 +119,7 @@ class _TableOfContentsDesktop extends StatelessWidget {
       children: [
         const SizedBox(height: 50),
         Text(
-          'Inhaltsverzeichnis',
+          l10n.legalTableOfContents,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleLarge,
         ),
@@ -124,7 +130,7 @@ class _TableOfContentsDesktop extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Weitere Optionen',
+                l10n.legalMoreOptions,
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.start,
               ),

@@ -6,7 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../privacy_policy_src.dart';
 
@@ -53,20 +55,40 @@ class PrivacyPolicyEndSection {
     required this.generateMarkdown,
   });
 
-  factory PrivacyPolicyEndSection.metadata() {
+  factory PrivacyPolicyEndSection.metadata({Locale? locale}) {
+    final resolvedLocale = _resolveLocale(locale);
+    final localizations = lookupSharezoneLocalizations(resolvedLocale);
+    final dateFormat = DateFormat.yMd(resolvedLocale.toString());
     return PrivacyPolicyEndSection(
-      sectionName: 'Metadaten',
+      sectionName: localizations.legalMetadataTitle,
       generateMarkdown:
           (privacyPolicy) => '''
 
 
 ---
 
-##### Metadaten
-Version: v${privacyPolicy.version}
+##### ${localizations.legalMetadataTitle}
+${localizations.legalMetadataVersion(privacyPolicy.version)}
 
-Zuletzt aktualisiert: ${DateFormat('dd.MM.yyyy').format(privacyPolicy.lastChanged)}
+${localizations.legalMetadataLastUpdated(dateFormat.format(privacyPolicy.lastChanged))}
 ''',
     );
   }
+}
+
+Locale _resolveLocale(Locale? locale) {
+  if (locale != null) {
+    return locale;
+  }
+
+  final rawLocale = Intl.getCurrentLocale();
+  final normalized = rawLocale.replaceAll('-', '_');
+  final parts = normalized.split('_');
+  if (parts.isEmpty || parts.first.isEmpty) {
+    return const Locale('de');
+  }
+  if (parts.length == 1) {
+    return Locale(parts.first);
+  }
+  return Locale(parts.first, parts[1]);
 }

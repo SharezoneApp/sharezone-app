@@ -87,6 +87,40 @@
   "languageEnName": "English",
   "languageSystemName": "System",
   "languageTitle": "Language",
+  "legalChangeAppearance": "Change appearance",
+  "legalDownloadAsPdf": "Download as PDF",
+  "legalMetadataLastUpdated": "Last updated: {date}",
+  "@legalMetadataLastUpdated": {
+    "description": "Label for the last updated date in legal documents.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMetadataTitle": "Metadata",
+  "legalMetadataVersion": "Version: v{version}",
+  "@legalMetadataVersion": {
+    "description": "Label for the metadata version in legal documents.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMoreOptions": "More options",
+  "legalPrivacyPolicyEffectiveDate": "This updated privacy policy takes effect on {date}.",
+  "@legalPrivacyPolicyEffectiveDate": {
+    "description": "Shown under the privacy policy heading with the effective date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalPrivacyPolicyTitle": "Privacy Policy",
+  "legalTableOfContents": "Table of contents",
+  "legalTermsOfServiceTitle": "Terms of Service",
   "myProfileActivationCodeTile": "Enter Activation Code",
   "myProfileChangePasswordTile": "Change Password",
   "myProfileChangedPasswordConfirmation": "Password changed successfully.",

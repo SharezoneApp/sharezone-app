@@ -1231,6 +1231,42 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'TLS-Verschlüsselung bei der Übertragung';
 
   @override
+  String get legalPrivacyPolicyTitle => 'Datenschutzerklärung';
+
+  @override
+  String get legalTermsOfServiceTitle => 'Allgemeine Nutzungsbedingungen';
+
+  @override
+  String get legalTableOfContents => 'Inhaltsverzeichnis';
+
+  @override
+  String get legalMoreOptions => 'Weitere Optionen';
+
+  @override
+  String get legalChangeAppearance => 'Darstellung ändern';
+
+  @override
+  String get legalDownloadAsPdf => 'Als PDF herunterladen';
+
+  @override
+  String legalPrivacyPolicyEffectiveDate(String date) {
+    return 'Diese aktualisierte Datenschutzerklärung tritt am $date in Kraft.';
+  }
+
+  @override
+  String get legalMetadataTitle => 'Metadaten';
+
+  @override
+  String legalMetadataVersion(String version) {
+    return 'Version: v$version';
+  }
+
+  @override
+  String legalMetadataLastUpdated(String date) {
+    return 'Zuletzt aktualisiert: $date';
+  }
+
+  @override
   String get websiteFeatureAlwaysAvailableBulletpointMultiDevice =>
       'Mit mehreren Geräten nutzbar';
 

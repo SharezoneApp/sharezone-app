@@ -2185,6 +2185,66 @@ abstract class SharezoneLocalizations {
   /// **'TLS-Verschlüsselung bei der Übertragung'**
   String get websiteDataProtectionTlsTitle;
 
+  /// No description provided for @legalPrivacyPolicyTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datenschutzerklärung'**
+  String get legalPrivacyPolicyTitle;
+
+  /// No description provided for @legalTermsOfServiceTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Allgemeine Nutzungsbedingungen'**
+  String get legalTermsOfServiceTitle;
+
+  /// No description provided for @legalTableOfContents.
+  ///
+  /// In de, this message translates to:
+  /// **'Inhaltsverzeichnis'**
+  String get legalTableOfContents;
+
+  /// No description provided for @legalMoreOptions.
+  ///
+  /// In de, this message translates to:
+  /// **'Weitere Optionen'**
+  String get legalMoreOptions;
+
+  /// No description provided for @legalChangeAppearance.
+  ///
+  /// In de, this message translates to:
+  /// **'Darstellung ändern'**
+  String get legalChangeAppearance;
+
+  /// No description provided for @legalDownloadAsPdf.
+  ///
+  /// In de, this message translates to:
+  /// **'Als PDF herunterladen'**
+  String get legalDownloadAsPdf;
+
+  /// Shown under the privacy policy heading with the effective date.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese aktualisierte Datenschutzerklärung tritt am {date} in Kraft.'**
+  String legalPrivacyPolicyEffectiveDate(String date);
+
+  /// No description provided for @legalMetadataTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Metadaten'**
+  String get legalMetadataTitle;
+
+  /// Label for the metadata version in legal documents.
+  ///
+  /// In de, this message translates to:
+  /// **'Version: v{version}'**
+  String legalMetadataVersion(String version);
+
+  /// Label for the last updated date in legal documents.
+  ///
+  /// In de, this message translates to:
+  /// **'Zuletzt aktualisiert: {date}'**
+  String legalMetadataLastUpdated(String date);
+
   /// No description provided for @websiteFeatureAlwaysAvailableBulletpointMultiDevice.
   ///
   /// In de, this message translates to:

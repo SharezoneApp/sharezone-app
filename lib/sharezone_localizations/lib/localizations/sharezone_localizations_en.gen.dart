@@ -1220,6 +1220,42 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get websiteDataProtectionTlsTitle => 'TLS encryption in transit';
 
   @override
+  String get legalPrivacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get legalTermsOfServiceTitle => 'Terms of Service';
+
+  @override
+  String get legalTableOfContents => 'Table of contents';
+
+  @override
+  String get legalMoreOptions => 'More options';
+
+  @override
+  String get legalChangeAppearance => 'Change appearance';
+
+  @override
+  String get legalDownloadAsPdf => 'Download as PDF';
+
+  @override
+  String legalPrivacyPolicyEffectiveDate(String date) {
+    return 'This updated privacy policy takes effect on $date.';
+  }
+
+  @override
+  String get legalMetadataTitle => 'Metadata';
+
+  @override
+  String legalMetadataVersion(String version) {
+    return 'Version: v$version';
+  }
+
+  @override
+  String legalMetadataLastUpdated(String date) {
+    return 'Last updated: $date';
+  }
+
+  @override
   String get websiteFeatureAlwaysAvailableBulletpointMultiDevice =>
       'Use on multiple devices';
 
