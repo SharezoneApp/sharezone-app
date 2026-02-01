@@ -51,6 +51,8 @@ fvm flutter run --target lib/main_dev.dart
 
 Use the Playwright Skill to use the web app.
 
+This command runs the app in development mode. Keep in mind that the app will not use our production backend. Instead, it will use the hosted development backend.
+
 ## Tests
 
 Make sure your changes are tested. Write helpful and meaningful tests. Do not write useless tests.
