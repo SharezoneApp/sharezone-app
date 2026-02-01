@@ -150,7 +150,9 @@ class _SchoolClassLicense extends StatelessWidget {
           } on Exception catch (_) {
             if (!context.mounted) return;
             showSnackSec(
-              text: context.l10n.sharezonePlusFaqEmailSnackBar('plus@sharezone.net'),
+              text: context.l10n.sharezonePlusFaqEmailSnackBar(
+                'plus@sharezone.net',
+              ),
               context: context,
             );
           }
@@ -185,7 +187,9 @@ class _FamilyLicense extends StatelessWidget {
           } on Exception catch (_) {
             if (!context.mounted) return;
             showSnackSec(
-              text: context.l10n.sharezonePlusFaqEmailSnackBar('plus@sharezone.net'),
+              text: context.l10n.sharezonePlusFaqEmailSnackBar(
+                'plus@sharezone.net',
+              ),
               context: context,
             );
           }
@@ -220,7 +224,9 @@ class _ContentCreator extends StatelessWidget {
           } on Exception catch (_) {
             if (!context.mounted) return;
             showSnackSec(
-              text: context.l10n.sharezonePlusFaqEmailSnackBar('plus@sharezone.net'),
+              text: context.l10n.sharezonePlusFaqEmailSnackBar(
+                'plus@sharezone.net',
+              ),
               context: context,
             );
           }

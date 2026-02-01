@@ -68,7 +68,9 @@ class _RemoveAds extends StatelessWidget {
       },
       icon: const Icon(Icons.block),
       title: Text(context.l10n.sharezonePlusAdvantageRemoveAdsTitle),
-      description: Text(context.l10n.sharezonePlusAdvantageRemoveAdsDescription),
+      description: Text(
+        context.l10n.sharezonePlusAdvantageRemoveAdsDescription,
+      ),
     );
   }
 }
@@ -104,7 +106,9 @@ class _MoreColors extends StatelessWidget {
       },
       icon: const Icon(Icons.color_lens),
       title: Text(context.l10n.sharezonePlusAdvantageMoreColorsTitle),
-      description: Text(context.l10n.sharezonePlusAdvantageMoreColorsDescription),
+      description: Text(
+        context.l10n.sharezonePlusAdvantageMoreColorsDescription,
+      ),
     );
   }
 }
@@ -182,7 +186,9 @@ class _PastEvents extends StatelessWidget {
       },
       icon: const Icon(Icons.history),
       title: Text(context.l10n.sharezonePlusAdvantagePastEventsTitle),
-      description: Text(context.l10n.sharezonePlusAdvantagePastEventsDescription),
+      description: Text(
+        context.l10n.sharezonePlusAdvantagePastEventsDescription,
+      ),
     );
   }
 }

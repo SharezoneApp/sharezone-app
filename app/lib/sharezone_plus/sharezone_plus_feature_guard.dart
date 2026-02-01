@@ -83,9 +83,7 @@ class _DefaultNotSubscribedFallbackPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(context.l10n.sharezonePlusFeatureUnavailable),
-      ),
+      body: Center(child: Text(context.l10n.sharezonePlusFeatureUnavailable)),
     );
   }
 }

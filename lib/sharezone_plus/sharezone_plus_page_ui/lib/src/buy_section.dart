@@ -321,12 +321,12 @@ class _MonthlySubscriptionLegalText extends StatelessWidget {
     final price = this.price ?? '...';
     return StyledMarkdownText(
       text: switch (currentPlatform) {
-        Platform.android =>
-          context.l10n.sharezonePlusLegalTextMonthlyAndroid(price),
-        Platform.iOS || Platform.macOS =>
-          context.l10n.sharezonePlusLegalTextMonthlyApple(price),
-        _ =>
-          context.l10n.sharezonePlusLegalTextMonthlyOther(price),
+        Platform.android => context.l10n.sharezonePlusLegalTextMonthlyAndroid(
+          price,
+        ),
+        Platform.iOS || Platform.macOS => context.l10n
+            .sharezonePlusLegalTextMonthlyApple(price),
+        _ => context.l10n.sharezonePlusLegalTextMonthlyOther(price),
       },
       onPressedPrivacyPolicy: onPressedPrivacyPolicy,
       onPressedTermsOfService: onPressedTermsOfService,

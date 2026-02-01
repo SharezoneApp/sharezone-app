@@ -243,9 +243,7 @@ class _UnsubscribeFailure extends StatelessWidget {
       child: AlertDialog(
         title: Text(context.l10n.sharezonePlusCancelFailedTitle),
         content: SingleChildScrollView(
-          child: Text(
-            context.l10n.sharezonePlusCancelFailedContent(error),
-          ),
+          child: Text(context.l10n.sharezonePlusCancelFailedContent(error)),
         ),
         actions: [
           TextButton(
@@ -299,16 +297,16 @@ class _PurchaseSection extends StatelessWidget {
       return;
     }
 
-        if (token == null) {
-          showDialog(
-            context: context,
-            builder:
-                (context) => BuyingFailedDialog(
-                  error: context.l10n.sharezonePlusLinkTokenLoadFailed,
-                ),
-          );
-          return;
-        }
+    if (token == null) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => BuyingFailedDialog(
+              error: context.l10n.sharezonePlusLinkTokenLoadFailed,
+            ),
+      );
+      return;
+    }
 
     final shouldShare = await showDialog<bool>(
       context: context,
@@ -317,13 +315,13 @@ class _PurchaseSection extends StatelessWidget {
 
     if (shouldShare == true && context.mounted) {
       final url = 'https://sharezone.net/plus?token=$token';
-        if (PlatformCheck.isDesktopOrWeb) {
-          Clipboard.setData(ClipboardData(text: url));
-          showSnackSec(
-            context: context,
-            text: context.l10n.sharezonePlusLinkCopiedToClipboard,
-          );
-        } else {
+      if (PlatformCheck.isDesktopOrWeb) {
+        Clipboard.setData(ClipboardData(text: url));
+        showSnackSec(
+          context: context,
+          text: context.l10n.sharezonePlusLinkCopiedToClipboard,
+        );
+      } else {
         final box = context.findRenderObject() as RenderBox?;
         Share.share(
           url,
