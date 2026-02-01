@@ -64,7 +64,7 @@ dependencies:
   design:
     path: ../lib/design
   diacritic: ^0.1.6
-  dio: ^5.8.0+1
+  dio: ^5.9.1
   equatable: ^2.0.7
   fast_immutable_collections: ^11.0.4
   feedback_shared_implementation:

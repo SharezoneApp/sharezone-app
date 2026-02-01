@@ -17,7 +17,7 @@ environment:
   flutter: ">=3.16.3"
 
 dependencies:
-  dio: ^5.8.0+1
+  dio: ^5.9.1
   flutter:
     sdk: flutter
   # See 'app/pubspec.yaml' why we use a custom version of flutter_markdown.
