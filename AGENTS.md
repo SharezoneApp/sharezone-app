@@ -1,3 +1,7 @@
 # Agents
 
-Please read our [`./CONTRIBUTING.md`](./CONTRIBUTING.md) file. You can find information on how to run our app, how to run the tests, how to add multi-language strings, and so on.
+Please refer to our [contribution guidelines](./CONTRIBUTING.md) for information on topics such as:
+
+- How to run the app
+- How to run tests
+- How to add multi-language strings
