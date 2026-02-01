@@ -9,6 +9,7 @@ We love that you are interested in contributing to Sharezone 💙 There are many
 - [How to set up your development environment](#how-to-set-up-your-development-environment)
 - [Running the app](#running-the-app)
 - [Tests](#tests)
+- [Internationalization (i18n / l10n)](#internationalization-i18n--l10n)
 
 If you have any questions, please join our [Discord](https://sharezone.net/discord).
 
