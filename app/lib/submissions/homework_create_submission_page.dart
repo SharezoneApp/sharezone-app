@@ -582,7 +582,7 @@ class _NoFilesUploaded extends StatelessWidget {
         riveAnimationName: 'Writing',
         rivePath: 'assets/flare/submissions_empty_state.flr',
         title: context.l10n.submissionsCreateEmptyStateTitle,
-        iconSize: Size(400, 200),
+        iconSize: const Size(400, 200),
       ),
     );
   }
