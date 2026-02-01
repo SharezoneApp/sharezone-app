@@ -10,6 +10,7 @@
 /build
 /captures
 GeneratedPluginRegistrant.java
+.kotlin/
 
 # Eclipse-specific files and directories
 app/.project
