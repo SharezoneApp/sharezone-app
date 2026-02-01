@@ -5,6 +5,7 @@ Besides the standard code review patterns (Correctness, Efficiency, Maintainabil
 ## Markdown
 
 * If a table of contents is present, it should be updated if the file structure changed.
+* When `README.md`, `CONTRIBUTING.md` or `AGENTS.md` are updated, make sure the content is up-to-date across all three files.
 
 ## Dart
 
