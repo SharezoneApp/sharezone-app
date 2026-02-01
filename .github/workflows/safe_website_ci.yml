@@ -101,7 +101,7 @@ jobs:
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
+        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
 
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
