@@ -1041,6 +1041,468 @@ abstract class SharezoneLocalizations {
   /// **'Ich möchte anonym bleiben'**
   String get selectStateDialogStayAnonymous;
 
+  /// No description provided for @sharezonePlusAdvantageAddToCalendarDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.'**
+  String get sharezonePlusAdvantageAddToCalendarDescription;
+
+  /// No description provided for @sharezonePlusAdvantageAddToCalendarTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Termine zum lokalen Kalender hinzufügen'**
+  String get sharezonePlusAdvantageAddToCalendarTitle;
+
+  /// No description provided for @sharezonePlusAdvantageDiscordDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Erhalte den Discord Sharezone Plus Rang auf unserem [Discord-Server](https://sharezone.net/discord). Dieser Rang zeigt, dass du Sharezone Plus hast und gibt dir Zugriff auf einen exklusive Channel nur für Sharezone Plus Nutzer.'**
+  String get sharezonePlusAdvantageDiscordDescription;
+
+  /// No description provided for @sharezonePlusAdvantageDiscordTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Discord Sharezone Plus Rang'**
+  String get sharezonePlusAdvantageDiscordTitle;
+
+  /// No description provided for @sharezonePlusAdvantageGradesDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Speichere deine Schulnoten mit Sharezone Plus und behalte den Überblick über deine Leistungen. Schriftliche Prüfungen, mündliche Mitarbeit, Halbjahresnoten - alles an einem Ort.'**
+  String get sharezonePlusAdvantageGradesDescription;
+
+  /// No description provided for @sharezonePlusAdvantageGradesTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Noten'**
+  String get sharezonePlusAdvantageGradesTitle;
+
+  /// No description provided for @sharezonePlusAdvantageHomeworkReminderDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr. Dieses Feature ist nur für Schüler*innen verfügbar.'**
+  String get sharezonePlusAdvantageHomeworkReminderDescription;
+
+  /// No description provided for @sharezonePlusAdvantageHomeworkReminderTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Individuelle Uhrzeit für Hausaufgaben-Erinnerungen'**
+  String get sharezonePlusAdvantageHomeworkReminderTitle;
+
+  /// No description provided for @sharezonePlusAdvantageIcalDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim \"Zum Kalender hinzufügen\" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.'**
+  String get sharezonePlusAdvantageIcalDescription;
+
+  /// No description provided for @sharezonePlusAdvantageIcalTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Stundenplan exportieren (iCal)'**
+  String get sharezonePlusAdvantageIcalTitle;
+
+  /// No description provided for @sharezonePlusAdvantageMoreColorsDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone Plus bietet dir über 200 (statt 19) Farben für deine Gruppen. Setzt du mit Sharezone Plus eine Farbe für deine Gruppe, so können auch deine Gruppenmitglieder diese Farbe sehen.'**
+  String get sharezonePlusAdvantageMoreColorsDescription;
+
+  /// No description provided for @sharezonePlusAdvantageMoreColorsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Mehr Farben für die Gruppen'**
+  String get sharezonePlusAdvantageMoreColorsTitle;
+
+  /// No description provided for @sharezonePlusAdvantageOpenSourceDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)'**
+  String get sharezonePlusAdvantageOpenSourceDescription;
+
+  /// No description provided for @sharezonePlusAdvantageOpenSourceTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Unterstützung von Open-Source'**
+  String get sharezonePlusAdvantageOpenSourceTitle;
+
+  /// No description provided for @sharezonePlusAdvantagePastEventsDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus kannst du alle vergangenen Termine, wie z.B. Prüfungen, einsehen.'**
+  String get sharezonePlusAdvantagePastEventsDescription;
+
+  /// No description provided for @sharezonePlusAdvantagePastEventsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vergangene Termine einsehen'**
+  String get sharezonePlusAdvantagePastEventsTitle;
+
+  /// No description provided for @sharezonePlusAdvantagePremiumSupportDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus erhältst du Zugriff auf unseren Premium Support:\n- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)\n- Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)'**
+  String get sharezonePlusAdvantagePremiumSupportDescription;
+
+  /// No description provided for @sharezonePlusAdvantagePremiumSupportTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Premium Support'**
+  String get sharezonePlusAdvantagePremiumSupportTitle;
+
+  /// No description provided for @sharezonePlusAdvantageQuickDueDateDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus kannst du das Fälligkeitsdatum einer Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.'**
+  String get sharezonePlusAdvantageQuickDueDateDescription;
+
+  /// No description provided for @sharezonePlusAdvantageQuickDueDateTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Schnellauswahl für Fälligkeitsdatum'**
+  String get sharezonePlusAdvantageQuickDueDateTitle;
+
+  /// No description provided for @sharezonePlusAdvantageReadByDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.'**
+  String get sharezonePlusAdvantageReadByDescription;
+
+  /// No description provided for @sharezonePlusAdvantageReadByTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gelesen-Status bei Infozetteln'**
+  String get sharezonePlusAdvantageReadByTitle;
+
+  /// No description provided for @sharezonePlusAdvantageRemoveAdsDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Genieße Sharezone komplett werbefrei.\n\nHinweis: Wir testen derzeit die Anzeige von Werbung. Es ist möglich, dass wir in Zukunft die Werbung wieder für alle Nutzer entfernen.'**
+  String get sharezonePlusAdvantageRemoveAdsDescription;
+
+  /// No description provided for @sharezonePlusAdvantageRemoveAdsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Werbung entfernen'**
+  String get sharezonePlusAdvantageRemoveAdsTitle;
+
+  /// No description provided for @sharezonePlusAdvantageStorageDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Sharezone Plus erhältst du 30 GB Speicherplatz (statt 100 MB) für deine Dateien & Anhänge (bei Hausaufgaben & Infozetteln). Dies entspricht ca. 15.000 Fotos (2 MB pro Bild).\n\nDie Begrenzung gilt nicht für Dateien, die als Abgabe bei Hausaufgaben hochgeladen wird.'**
+  String get sharezonePlusAdvantageStorageDescription;
+
+  /// No description provided for @sharezonePlusAdvantageStorageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'30 GB Speicherplatz'**
+  String get sharezonePlusAdvantageStorageTitle;
+
+  /// No description provided for @sharezonePlusAdvantageSubstitutionsDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Schalte mit Sharezone Plus den Vertretungsplan frei:\n* Entfall einer Schulstunden markieren\n* Raumänderungen\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern). Ebenfalls können Kursmitglieder mit nur einem 1-Klick über die Änderung informiert werden. \n\nBeachte, dass der Vertretungsplan manuell eingetragen werden muss und nicht automatisch importiert wird.'**
+  String get sharezonePlusAdvantageSubstitutionsDescription;
+
+  /// No description provided for @sharezonePlusAdvantageSubstitutionsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Vertretungsplan'**
+  String get sharezonePlusAdvantageSubstitutionsTitle;
+
+  /// No description provided for @sharezonePlusAdvantageTeacherTimetableDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Trage den Name der Lehrkraft zur jeweiligen Schulstunde im Stundenplan ein. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt.'**
+  String get sharezonePlusAdvantageTeacherTimetableDescription;
+
+  /// No description provided for @sharezonePlusAdvantageTeacherTimetableTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Lehrkraft im Stundenplan'**
+  String get sharezonePlusAdvantageTeacherTimetableTitle;
+
+  /// No description provided for @sharezonePlusAdvantageTimetableByClassDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.'**
+  String get sharezonePlusAdvantageTimetableByClassDescription;
+
+  /// No description provided for @sharezonePlusAdvantageTimetableByClassTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Stundenplan nach Klasse auswählen'**
+  String get sharezonePlusAdvantageTimetableByClassTitle;
+
+  /// No description provided for @sharezonePlusBuyAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Kaufen'**
+  String get sharezonePlusBuyAction;
+
+  /// No description provided for @sharezonePlusBuyingDisabledContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Kauf von Sharezone Plus ist aktuell deaktiviert. Bitte versuche es später erneut.\n\nAuf unserem [Discord](https://sharezone.net/discord) halten wir dich auf dem Laufenden.'**
+  String get sharezonePlusBuyingDisabledContent;
+
+  /// No description provided for @sharezonePlusBuyingDisabledTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kaufen deaktiviert'**
+  String get sharezonePlusBuyingDisabledTitle;
+
+  /// No description provided for @sharezonePlusBuyingFailedContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Kauf von Sharezone Plus ist fehlgeschlagen. Bitte versuche es später erneut.\n\nFehler: {error}\n\nBei Fragen wende dich an [plus@sharezone.net](mailto:plus@sharezone.net).'**
+  String sharezonePlusBuyingFailedContent(String error);
+
+  /// No description provided for @sharezonePlusBuyingFailedTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kaufen fehlgeschlagen'**
+  String get sharezonePlusBuyingFailedTitle;
+
+  /// No description provided for @sharezonePlusCancelAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Kündigen'**
+  String get sharezonePlusCancelAction;
+
+  /// No description provided for @sharezonePlusCancelConfirmAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Kündigen'**
+  String get sharezonePlusCancelConfirmAction;
+
+  /// No description provided for @sharezonePlusCancelConfirmationContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Wenn du dein Sharezone-Plus Abo kündigst, verlierst du den Zugriff auf alle Plus-Funktionen.\n\nBist du sicher, dass du kündigen möchtest?'**
+  String get sharezonePlusCancelConfirmationContent;
+
+  /// No description provided for @sharezonePlusCancelConfirmationTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Bist du dir sicher?'**
+  String get sharezonePlusCancelConfirmationTitle;
+
+  /// No description provided for @sharezonePlusCancelFailedContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.\n\nFehler: {error}'**
+  String sharezonePlusCancelFailedContent(String error);
+
+  /// No description provided for @sharezonePlusCancelFailedTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kündigung fehlgeschlagen'**
+  String get sharezonePlusCancelFailedTitle;
+
+  /// No description provided for @sharezonePlusCanceledSubscriptionNote.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast dein Sharezone-Plus Abo gekündigt. Du kannst deine Vorteile noch bis zum Ende des aktuellen Abrechnungszeitraums nutzen. Solltest du es dir anders überlegen, kannst du es jederzeit wieder erneut Sharezone-Plus abonnieren.'**
+  String get sharezonePlusCanceledSubscriptionNote;
+
+  /// No description provided for @sharezonePlusFaqContentCreatorContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Ja, als Content Creator kannst du Sharezone Plus (Lifetime) kostenlos erhalten.\n\nSo funktioniert es:\n1. Erstelle ein kreatives TikTok, YouTube Short oder Instagram Reel, in dem du Sharezone erwähnst oder vorstellst.\n2. Sorge dafür, dass dein Video mehr als 10.000 Aufrufe erzielt.\n3. Schick uns den Link zu deinem Video an plus@sharezone.net.\n\nDeiner Kreativität sind keine Grenzen gesetzt. Bitte beachte unsere Bedingungen für das Content Creator Programm: https://sharezone.net/content-creator-programm.'**
+  String get sharezonePlusFaqContentCreatorContent;
+
+  /// No description provided for @sharezonePlusFaqContentCreatorTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gibt es ein Content Creator Programm?'**
+  String get sharezonePlusFaqContentCreatorTitle;
+
+  /// No description provided for @sharezonePlusFaqEmailSnackBar.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail: {email}'**
+  String sharezonePlusFaqEmailSnackBar(String email);
+
+  /// No description provided for @sharezonePlusFaqFamilyLicenseContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Ja, für Familien mit mehreren Kindern bieten wir besondere Konditionen an. Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net), um mehr zu erfahren.'**
+  String get sharezonePlusFaqFamilyLicenseContent;
+
+  /// No description provided for @sharezonePlusFaqFamilyLicenseTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gibt es spezielle Angebote für Familien?'**
+  String get sharezonePlusFaqFamilyLicenseTitle;
+
+  /// No description provided for @sharezonePlusFaqGroupMembersContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Wenn du Sharezone Plus abonnierst, erhält nur dein Account Sharezone Plus. Deine Gruppenmitglieder erhalten Sharezone Plus nicht.\n\nJedoch gibt es einzelne Features, von denen auch deine Gruppenmitglieder profitieren. Solltest du beispielsweise eine die Kursfarbe von einer Gruppe zu einer Farbe ändern, die nur mit Sharezone Plus verfügbar ist, so wird diese Farbe auch für deine Gruppenmitglieder verwendet.'**
+  String get sharezonePlusFaqGroupMembersContent;
+
+  /// No description provided for @sharezonePlusFaqGroupMembersTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Erhalten auch Gruppenmitglieder Sharezone Plus?'**
+  String get sharezonePlusFaqGroupMembersTitle;
+
+  /// No description provided for @sharezonePlusFaqOpenSourceContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Ja, Sharezone ist Open-Source im Frontend. Du kannst den Quellcode auf GitHub einsehen:'**
+  String get sharezonePlusFaqOpenSourceContent;
+
+  /// No description provided for @sharezonePlusFaqOpenSourceTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ist der Quellcode von Sharezone öffentlich?'**
+  String get sharezonePlusFaqOpenSourceTitle;
+
+  /// No description provided for @sharezonePlusFaqSchoolLicenseContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist interessiert an einer Lizenz für deine gesamte Klasse? Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net).'**
+  String get sharezonePlusFaqSchoolLicenseContent;
+
+  /// No description provided for @sharezonePlusFaqSchoolLicenseTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Gibt es spezielle Angebote für Schulklassen?'**
+  String get sharezonePlusFaqSchoolLicenseTitle;
+
+  /// No description provided for @sharezonePlusFaqStorageContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Nein, der Speicherplatz von 30 GB mit Sharezone Plus gilt nur für deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest beispielsweise 5 GB in den Deutsch-Kurs hochladen, 15 GB in den Mathe-Kurs und hättest noch weitere 10 GB für alle Kurse zur Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen Speicherplatz.'**
+  String get sharezonePlusFaqStorageContent;
+
+  /// No description provided for @sharezonePlusFaqStorageTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Erhält der gesamte Kurs 30 GB Speicherplatz?'**
+  String get sharezonePlusFaqStorageTitle;
+
+  /// No description provided for @sharezonePlusFaqWhoIsBehindContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone wird aktuell von Jonas und Nils entwickelt. Aus unserer persönlichen Frustration über die Organisation des Schulalltags während der Schulzeit entstand die Idee für Sharezone. Es ist unsere Vision, den Schulalltag für alle einfacher und übersichtlicher zu gestalten.'**
+  String get sharezonePlusFaqWhoIsBehindContent;
+
+  /// No description provided for @sharezonePlusFaqWhoIsBehindTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Wer steht hinter Sharezone?'**
+  String get sharezonePlusFaqWhoIsBehindTitle;
+
+  /// No description provided for @sharezonePlusFeatureUnavailable.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieses Feature ist nur mit \"Sharezone Plus\" verfügbar.'**
+  String get sharezonePlusFeatureUnavailable;
+
+  /// No description provided for @sharezonePlusLegalTextLifetime.
+  ///
+  /// In de, this message translates to:
+  /// **'Einmalige Zahlung von {price} (kein Abo o. ä.). Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)'**
+  String sharezonePlusLegalTextLifetime(String price);
+
+  /// No description provided for @sharezonePlusLegalTextMonthlyAndroid.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Abo ({price}/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)'**
+  String sharezonePlusLegalTextMonthlyAndroid(String price);
+
+  /// No description provided for @sharezonePlusLegalTextMonthlyApple.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Abo ({price}/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über den App Store kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)'**
+  String sharezonePlusLegalTextMonthlyApple(String price);
+
+  /// No description provided for @sharezonePlusLegalTextMonthlyOther.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Abo ({price}/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht vor Ablauf der aktuellen Zahlungsperiode über die App kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)'**
+  String sharezonePlusLegalTextMonthlyOther(String price);
+
+  /// No description provided for @sharezonePlusLetParentsBuyAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Eltern bezahlen lassen'**
+  String get sharezonePlusLetParentsBuyAction;
+
+  /// No description provided for @sharezonePlusLetParentsBuyContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Du kannst deinen Eltern einen Link schicken, damit sie Sharezone-Plus für dich kaufen können.\n\nDer Link ist nur für dich gültig und enthält die Verbindung zu deinem Account.'**
+  String get sharezonePlusLetParentsBuyContent;
+
+  /// No description provided for @sharezonePlusLetParentsBuyTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Eltern bezahlen lassen'**
+  String get sharezonePlusLetParentsBuyTitle;
+
+  /// No description provided for @sharezonePlusLinkCopiedToClipboard.
+  ///
+  /// In de, this message translates to:
+  /// **'Link in die Zwischenablage kopiert.'**
+  String get sharezonePlusLinkCopiedToClipboard;
+
+  /// No description provided for @sharezonePlusLinkTokenLoadFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Token für den Link konnte nicht geladen werden.'**
+  String get sharezonePlusLinkTokenLoadFailed;
+
+  /// No description provided for @sharezonePlusPurchasePeriodLifetime.
+  ///
+  /// In de, this message translates to:
+  /// **'Lebenslang (einmaliger Kauf)'**
+  String get sharezonePlusPurchasePeriodLifetime;
+
+  /// No description provided for @sharezonePlusPurchasePeriodMonthly.
+  ///
+  /// In de, this message translates to:
+  /// **'Monatlich'**
+  String get sharezonePlusPurchasePeriodMonthly;
+
+  /// No description provided for @sharezonePlusShareLinkAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Link teilen'**
+  String get sharezonePlusShareLinkAction;
+
+  /// No description provided for @sharezonePlusSubscribeAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Abonnieren'**
+  String get sharezonePlusSubscribeAction;
+
+  /// No description provided for @sharezonePlusTestFlightContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast Sharezone über TestFlight installiert. Apple erlaubt keine In-App-Käufe über TestFlight.\n\nUm Sharezone-Plus zu kaufen, lade bitte die App aus dem App Store herunter. Dort kannst du Sharezone-Plus kaufen.\n\nDanach kannst du die App wieder über TestFlight installieren.'**
+  String get sharezonePlusTestFlightContent;
+
+  /// No description provided for @sharezonePlusTestFlightTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'TestFlight'**
+  String get sharezonePlusTestFlightTitle;
+
+  /// No description provided for @sharezonePlusUnsubscribeActiveText.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.'**
+  String get sharezonePlusUnsubscribeActiveText;
+
+  /// No description provided for @sharezonePlusUnsubscribeLifetimeText.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!'**
+  String get sharezonePlusUnsubscribeLifetimeText;
+
   /// No description provided for @socialDiscord.
   ///
   /// In de, this message translates to:
@@ -2226,468 +2688,6 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Überschrift der Sharezone App'**
   String get websiteWelcomeHeadlineSemanticLabel;
-
-  /// No description provided for @sharezonePlusFeatureUnavailable.
-  ///
-  /// In de, this message translates to:
-  /// **'Dieses Feature ist nur mit \"Sharezone Plus\" verfügbar.'**
-  String get sharezonePlusFeatureUnavailable;
-
-  /// No description provided for @sharezonePlusUnsubscribeLifetimeText.
-  ///
-  /// In de, this message translates to:
-  /// **'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!'**
-  String get sharezonePlusUnsubscribeLifetimeText;
-
-  /// No description provided for @sharezonePlusUnsubscribeActiveText.
-  ///
-  /// In de, this message translates to:
-  /// **'Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.'**
-  String get sharezonePlusUnsubscribeActiveText;
-
-  /// No description provided for @sharezonePlusCancelAction.
-  ///
-  /// In de, this message translates to:
-  /// **'Kündigen'**
-  String get sharezonePlusCancelAction;
-
-  /// No description provided for @sharezonePlusCancelFailedTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Kündigung fehlgeschlagen'**
-  String get sharezonePlusCancelFailedTitle;
-
-  /// No description provided for @sharezonePlusCancelFailedContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.\n\nFehler: {error}'**
-  String sharezonePlusCancelFailedContent(String error);
-
-  /// No description provided for @sharezonePlusCancelConfirmationTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Bist du dir sicher?'**
-  String get sharezonePlusCancelConfirmationTitle;
-
-  /// No description provided for @sharezonePlusCancelConfirmationContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Wenn du dein Sharezone-Plus Abo kündigst, verlierst du den Zugriff auf alle Plus-Funktionen.\n\nBist du sicher, dass du kündigen möchtest?'**
-  String get sharezonePlusCancelConfirmationContent;
-
-  /// No description provided for @sharezonePlusCancelConfirmAction.
-  ///
-  /// In de, this message translates to:
-  /// **'Kündigen'**
-  String get sharezonePlusCancelConfirmAction;
-
-  /// No description provided for @sharezonePlusLinkTokenLoadFailed.
-  ///
-  /// In de, this message translates to:
-  /// **'Der Token für den Link konnte nicht geladen werden.'**
-  String get sharezonePlusLinkTokenLoadFailed;
-
-  /// No description provided for @sharezonePlusLinkCopiedToClipboard.
-  ///
-  /// In de, this message translates to:
-  /// **'Link in die Zwischenablage kopiert.'**
-  String get sharezonePlusLinkCopiedToClipboard;
-
-  /// No description provided for @sharezonePlusTestFlightTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'TestFlight'**
-  String get sharezonePlusTestFlightTitle;
-
-  /// No description provided for @sharezonePlusTestFlightContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Du hast Sharezone über TestFlight installiert. Apple erlaubt keine In-App-Käufe über TestFlight.\n\nUm Sharezone-Plus zu kaufen, lade bitte die App aus dem App Store herunter. Dort kannst du Sharezone-Plus kaufen.\n\nDanach kannst du die App wieder über TestFlight installieren.'**
-  String get sharezonePlusTestFlightContent;
-
-  /// No description provided for @sharezonePlusLetParentsBuyTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Eltern bezahlen lassen'**
-  String get sharezonePlusLetParentsBuyTitle;
-
-  /// No description provided for @sharezonePlusLetParentsBuyContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Du kannst deinen Eltern einen Link schicken, damit sie Sharezone-Plus für dich kaufen können.\n\nDer Link ist nur für dich gültig und enthält die Verbindung zu deinem Account.'**
-  String get sharezonePlusLetParentsBuyContent;
-
-  /// No description provided for @sharezonePlusShareLinkAction.
-  ///
-  /// In de, this message translates to:
-  /// **'Link teilen'**
-  String get sharezonePlusShareLinkAction;
-
-  /// No description provided for @sharezonePlusCanceledSubscriptionNote.
-  ///
-  /// In de, this message translates to:
-  /// **'Du hast dein Sharezone-Plus Abo gekündigt. Du kannst deine Vorteile noch bis zum Ende des aktuellen Abrechnungszeitraums nutzen. Solltest du es dir anders überlegen, kannst du es jederzeit wieder erneut Sharezone-Plus abonnieren.'**
-  String get sharezonePlusCanceledSubscriptionNote;
-
-  /// No description provided for @sharezonePlusPurchasePeriodMonthly.
-  ///
-  /// In de, this message translates to:
-  /// **'Monatlich'**
-  String get sharezonePlusPurchasePeriodMonthly;
-
-  /// No description provided for @sharezonePlusPurchasePeriodLifetime.
-  ///
-  /// In de, this message translates to:
-  /// **'Lebenslang (einmaliger Kauf)'**
-  String get sharezonePlusPurchasePeriodLifetime;
-
-  /// No description provided for @sharezonePlusSubscribeAction.
-  ///
-  /// In de, this message translates to:
-  /// **'Abonnieren'**
-  String get sharezonePlusSubscribeAction;
-
-  /// No description provided for @sharezonePlusBuyAction.
-  ///
-  /// In de, this message translates to:
-  /// **'Kaufen'**
-  String get sharezonePlusBuyAction;
-
-  /// No description provided for @sharezonePlusLetParentsBuyAction.
-  ///
-  /// In de, this message translates to:
-  /// **'Eltern bezahlen lassen'**
-  String get sharezonePlusLetParentsBuyAction;
-
-  /// No description provided for @sharezonePlusLegalTextLifetime.
-  ///
-  /// In de, this message translates to:
-  /// **'Einmalige Zahlung von {price} (kein Abo o. ä.). Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)'**
-  String sharezonePlusLegalTextLifetime(String price);
-
-  /// No description provided for @sharezonePlusLegalTextMonthlyAndroid.
-  ///
-  /// In de, this message translates to:
-  /// **'Dein Abo ({price}/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)'**
-  String sharezonePlusLegalTextMonthlyAndroid(String price);
-
-  /// No description provided for @sharezonePlusLegalTextMonthlyApple.
-  ///
-  /// In de, this message translates to:
-  /// **'Dein Abo ({price}/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über den App Store kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)'**
-  String sharezonePlusLegalTextMonthlyApple(String price);
-
-  /// No description provided for @sharezonePlusLegalTextMonthlyOther.
-  ///
-  /// In de, this message translates to:
-  /// **'Dein Abo ({price}/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht vor Ablauf der aktuellen Zahlungsperiode über die App kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)'**
-  String sharezonePlusLegalTextMonthlyOther(String price);
-
-  /// No description provided for @sharezonePlusBuyingFailedTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Kaufen fehlgeschlagen'**
-  String get sharezonePlusBuyingFailedTitle;
-
-  /// No description provided for @sharezonePlusBuyingFailedContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Der Kauf von Sharezone Plus ist fehlgeschlagen. Bitte versuche es später erneut.\n\nFehler: {error}\n\nBei Fragen wende dich an [plus@sharezone.net](mailto:plus@sharezone.net).'**
-  String sharezonePlusBuyingFailedContent(String error);
-
-  /// No description provided for @sharezonePlusBuyingDisabledTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Kaufen deaktiviert'**
-  String get sharezonePlusBuyingDisabledTitle;
-
-  /// No description provided for @sharezonePlusBuyingDisabledContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Der Kauf von Sharezone Plus ist aktuell deaktiviert. Bitte versuche es später erneut.\n\nAuf unserem [Discord](https://sharezone.net/discord) halten wir dich auf dem Laufenden.'**
-  String get sharezonePlusBuyingDisabledContent;
-
-  /// No description provided for @sharezonePlusAdvantageRemoveAdsTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Werbung entfernen'**
-  String get sharezonePlusAdvantageRemoveAdsTitle;
-
-  /// No description provided for @sharezonePlusAdvantageRemoveAdsDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Genieße Sharezone komplett werbefrei.\n\nHinweis: Wir testen derzeit die Anzeige von Werbung. Es ist möglich, dass wir in Zukunft die Werbung wieder für alle Nutzer entfernen.'**
-  String get sharezonePlusAdvantageRemoveAdsDescription;
-
-  /// No description provided for @sharezonePlusAdvantageGradesTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Noten'**
-  String get sharezonePlusAdvantageGradesTitle;
-
-  /// No description provided for @sharezonePlusAdvantageGradesDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Speichere deine Schulnoten mit Sharezone Plus und behalte den Überblick über deine Leistungen. Schriftliche Prüfungen, mündliche Mitarbeit, Halbjahresnoten - alles an einem Ort.'**
-  String get sharezonePlusAdvantageGradesDescription;
-
-  /// No description provided for @sharezonePlusAdvantageMoreColorsTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Mehr Farben für die Gruppen'**
-  String get sharezonePlusAdvantageMoreColorsTitle;
-
-  /// No description provided for @sharezonePlusAdvantageMoreColorsDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Sharezone Plus bietet dir über 200 (statt 19) Farben für deine Gruppen. Setzt du mit Sharezone Plus eine Farbe für deine Gruppe, so können auch deine Gruppenmitglieder diese Farbe sehen.'**
-  String get sharezonePlusAdvantageMoreColorsDescription;
-
-  /// No description provided for @sharezonePlusAdvantageTimetableByClassTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Stundenplan nach Klasse auswählen'**
-  String get sharezonePlusAdvantageTimetableByClassTitle;
-
-  /// No description provided for @sharezonePlusAdvantageTimetableByClassDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.'**
-  String get sharezonePlusAdvantageTimetableByClassDescription;
-
-  /// No description provided for @sharezonePlusAdvantageSubstitutionsTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Vertretungsplan'**
-  String get sharezonePlusAdvantageSubstitutionsTitle;
-
-  /// No description provided for @sharezonePlusAdvantageSubstitutionsDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Schalte mit Sharezone Plus den Vertretungsplan frei:\n* Entfall einer Schulstunden markieren\n* Raumänderungen\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern). Ebenfalls können Kursmitglieder mit nur einem 1-Klick über die Änderung informiert werden. \n\nBeachte, dass der Vertretungsplan manuell eingetragen werden muss und nicht automatisch importiert wird.'**
-  String get sharezonePlusAdvantageSubstitutionsDescription;
-
-  /// No description provided for @sharezonePlusAdvantageTeacherTimetableTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Lehrkraft im Stundenplan'**
-  String get sharezonePlusAdvantageTeacherTimetableTitle;
-
-  /// No description provided for @sharezonePlusAdvantageTeacherTimetableDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Trage den Name der Lehrkraft zur jeweiligen Schulstunde im Stundenplan ein. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt.'**
-  String get sharezonePlusAdvantageTeacherTimetableDescription;
-
-  /// No description provided for @sharezonePlusAdvantagePastEventsTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Vergangene Termine einsehen'**
-  String get sharezonePlusAdvantagePastEventsTitle;
-
-  /// No description provided for @sharezonePlusAdvantagePastEventsDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Mit Sharezone Plus kannst du alle vergangenen Termine, wie z.B. Prüfungen, einsehen.'**
-  String get sharezonePlusAdvantagePastEventsDescription;
-
-  /// No description provided for @sharezonePlusAdvantageAddToCalendarTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Termine zum lokalen Kalender hinzufügen'**
-  String get sharezonePlusAdvantageAddToCalendarTitle;
-
-  /// No description provided for @sharezonePlusAdvantageAddToCalendarDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.'**
-  String get sharezonePlusAdvantageAddToCalendarDescription;
-
-  /// No description provided for @sharezonePlusAdvantageIcalTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Stundenplan exportieren (iCal)'**
-  String get sharezonePlusAdvantageIcalTitle;
-
-  /// No description provided for @sharezonePlusAdvantageIcalDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim \"Zum Kalender hinzufügen\" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.'**
-  String get sharezonePlusAdvantageIcalDescription;
-
-  /// No description provided for @sharezonePlusAdvantageStorageTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'30 GB Speicherplatz'**
-  String get sharezonePlusAdvantageStorageTitle;
-
-  /// No description provided for @sharezonePlusAdvantageStorageDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Mit Sharezone Plus erhältst du 30 GB Speicherplatz (statt 100 MB) für deine Dateien & Anhänge (bei Hausaufgaben & Infozetteln). Dies entspricht ca. 15.000 Fotos (2 MB pro Bild).\n\nDie Begrenzung gilt nicht für Dateien, die als Abgabe bei Hausaufgaben hochgeladen wird.'**
-  String get sharezonePlusAdvantageStorageDescription;
-
-  /// No description provided for @sharezonePlusAdvantagePremiumSupportTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Premium Support'**
-  String get sharezonePlusAdvantagePremiumSupportTitle;
-
-  /// No description provided for @sharezonePlusAdvantagePremiumSupportDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Mit Sharezone Plus erhältst du Zugriff auf unseren Premium Support:\n- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)\n- Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)'**
-  String get sharezonePlusAdvantagePremiumSupportDescription;
-
-  /// No description provided for @sharezonePlusAdvantageHomeworkReminderTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Individuelle Uhrzeit für Hausaufgaben-Erinnerungen'**
-  String get sharezonePlusAdvantageHomeworkReminderTitle;
-
-  /// No description provided for @sharezonePlusAdvantageHomeworkReminderDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr. Dieses Feature ist nur für Schüler*innen verfügbar.'**
-  String get sharezonePlusAdvantageHomeworkReminderDescription;
-
-  /// No description provided for @sharezonePlusAdvantageReadByTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Gelesen-Status bei Infozetteln'**
-  String get sharezonePlusAdvantageReadByTitle;
-
-  /// No description provided for @sharezonePlusAdvantageReadByDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.'**
-  String get sharezonePlusAdvantageReadByDescription;
-
-  /// No description provided for @sharezonePlusAdvantageDiscordTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Discord Sharezone Plus Rang'**
-  String get sharezonePlusAdvantageDiscordTitle;
-
-  /// No description provided for @sharezonePlusAdvantageDiscordDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Erhalte den Discord Sharezone Plus Rang auf unserem [Discord-Server](https://sharezone.net/discord). Dieser Rang zeigt, dass du Sharezone Plus hast und gibt dir Zugriff auf einen exklusive Channel nur für Sharezone Plus Nutzer.'**
-  String get sharezonePlusAdvantageDiscordDescription;
-
-  /// No description provided for @sharezonePlusAdvantageOpenSourceTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Unterstützung von Open-Source'**
-  String get sharezonePlusAdvantageOpenSourceTitle;
-
-  /// No description provided for @sharezonePlusAdvantageOpenSourceDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)'**
-  String get sharezonePlusAdvantageOpenSourceDescription;
-
-  /// No description provided for @sharezonePlusAdvantageQuickDueDateTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Schnellauswahl für Fälligkeitsdatum'**
-  String get sharezonePlusAdvantageQuickDueDateTitle;
-
-  /// No description provided for @sharezonePlusAdvantageQuickDueDateDescription.
-  ///
-  /// In de, this message translates to:
-  /// **'Mit Sharezone Plus kannst du das Fälligkeitsdatum einer Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.'**
-  String get sharezonePlusAdvantageQuickDueDateDescription;
-
-  /// No description provided for @sharezonePlusFaqWhoIsBehindTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Wer steht hinter Sharezone?'**
-  String get sharezonePlusFaqWhoIsBehindTitle;
-
-  /// No description provided for @sharezonePlusFaqWhoIsBehindContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Sharezone wird aktuell von Jonas und Nils entwickelt. Aus unserer persönlichen Frustration über die Organisation des Schulalltags während der Schulzeit entstand die Idee für Sharezone. Es ist unsere Vision, den Schulalltag für alle einfacher und übersichtlicher zu gestalten.'**
-  String get sharezonePlusFaqWhoIsBehindContent;
-
-  /// No description provided for @sharezonePlusFaqOpenSourceTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Ist der Quellcode von Sharezone öffentlich?'**
-  String get sharezonePlusFaqOpenSourceTitle;
-
-  /// No description provided for @sharezonePlusFaqOpenSourceContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Ja, Sharezone ist Open-Source im Frontend. Du kannst den Quellcode auf GitHub einsehen:'**
-  String get sharezonePlusFaqOpenSourceContent;
-
-  /// No description provided for @sharezonePlusFaqGroupMembersTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Erhalten auch Gruppenmitglieder Sharezone Plus?'**
-  String get sharezonePlusFaqGroupMembersTitle;
-
-  /// No description provided for @sharezonePlusFaqGroupMembersContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Wenn du Sharezone Plus abonnierst, erhält nur dein Account Sharezone Plus. Deine Gruppenmitglieder erhalten Sharezone Plus nicht.\n\nJedoch gibt es einzelne Features, von denen auch deine Gruppenmitglieder profitieren. Solltest du beispielsweise eine die Kursfarbe von einer Gruppe zu einer Farbe ändern, die nur mit Sharezone Plus verfügbar ist, so wird diese Farbe auch für deine Gruppenmitglieder verwendet.'**
-  String get sharezonePlusFaqGroupMembersContent;
-
-  /// No description provided for @sharezonePlusFaqStorageTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Erhält der gesamte Kurs 30 GB Speicherplatz?'**
-  String get sharezonePlusFaqStorageTitle;
-
-  /// No description provided for @sharezonePlusFaqStorageContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Nein, der Speicherplatz von 30 GB mit Sharezone Plus gilt nur für deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest beispielsweise 5 GB in den Deutsch-Kurs hochladen, 15 GB in den Mathe-Kurs und hättest noch weitere 10 GB für alle Kurse zur Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen Speicherplatz.'**
-  String get sharezonePlusFaqStorageContent;
-
-  /// No description provided for @sharezonePlusFaqSchoolLicenseTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Gibt es spezielle Angebote für Schulklassen?'**
-  String get sharezonePlusFaqSchoolLicenseTitle;
-
-  /// No description provided for @sharezonePlusFaqSchoolLicenseContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Du bist interessiert an einer Lizenz für deine gesamte Klasse? Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net).'**
-  String get sharezonePlusFaqSchoolLicenseContent;
-
-  /// No description provided for @sharezonePlusFaqFamilyLicenseTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Gibt es spezielle Angebote für Familien?'**
-  String get sharezonePlusFaqFamilyLicenseTitle;
-
-  /// No description provided for @sharezonePlusFaqFamilyLicenseContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Ja, für Familien mit mehreren Kindern bieten wir besondere Konditionen an. Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net), um mehr zu erfahren.'**
-  String get sharezonePlusFaqFamilyLicenseContent;
-
-  /// No description provided for @sharezonePlusFaqContentCreatorTitle.
-  ///
-  /// In de, this message translates to:
-  /// **'Gibt es ein Content Creator Programm?'**
-  String get sharezonePlusFaqContentCreatorTitle;
-
-  /// No description provided for @sharezonePlusFaqContentCreatorContent.
-  ///
-  /// In de, this message translates to:
-  /// **'Ja, als Content Creator kannst du Sharezone Plus (Lifetime) kostenlos erhalten.\n\nSo funktioniert es:\n1. Erstelle ein kreatives TikTok, YouTube Short oder Instagram Reel, in dem du Sharezone erwähnst oder vorstellst.\n2. Sorge dafür, dass dein Video mehr als 10.000 Aufrufe erzielt.\n3. Schick uns den Link zu deinem Video an plus@sharezone.net.\n\nDeiner Kreativität sind keine Grenzen gesetzt. Bitte beachte unsere Bedingungen für das Content Creator Programm: https://sharezone.net/content-creator-programm.'**
-  String get sharezonePlusFaqContentCreatorContent;
-
-  /// No description provided for @sharezonePlusFaqEmailSnackBar.
-  ///
-  /// In de, this message translates to:
-  /// **'E-Mail: {email}'**
-  String sharezonePlusFaqEmailSnackBar(String email);
 }
 
 class _SharezoneLocalizationsDelegate
