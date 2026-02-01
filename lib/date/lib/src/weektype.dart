@@ -9,16 +9,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 
-enum WeekType { always, a, b }
+enum WeekType {
+  always,
+  a,
+  b;
 
-String weekTypeEnumToLocalizedString(BuildContext context, WeekType weekType) {
-  final l10n = context.l10n;
-  switch (weekType) {
-    case WeekType.always:
-      return l10n.dateWeekTypeAlways;
-    case WeekType.a:
-      return l10n.dateWeekTypeA;
-    case WeekType.b:
-      return l10n.dateWeekTypeB;
+  String toLocalizedString(BuildContext context) {
+    final l10n = context.l10n;
+    return switch (this) {
+      WeekType.always => l10n.dateWeekTypeAlways,
+      WeekType.a => l10n.dateWeekTypeA,
+      WeekType.b => l10n.dateWeekTypeB,
+    };
   }
 }

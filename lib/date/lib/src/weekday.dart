@@ -9,24 +9,25 @@
 import 'package:flutter/widgets.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 
-enum WeekDay { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
+enum WeekDay {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday;
 
-String weekDayEnumToLocalizedString(BuildContext context, WeekDay weekDay) {
-  final l10n = context.l10n;
-  switch (weekDay) {
-    case WeekDay.monday:
-      return l10n.dateWeekdayMonday;
-    case WeekDay.tuesday:
-      return l10n.dateWeekdayTuesday;
-    case WeekDay.wednesday:
-      return l10n.dateWeekdayWednesday;
-    case WeekDay.thursday:
-      return l10n.dateWeekdayThursday;
-    case WeekDay.friday:
-      return l10n.dateWeekdayFriday;
-    case WeekDay.saturday:
-      return l10n.dateWeekdaySaturday;
-    case WeekDay.sunday:
-      return l10n.dateWeekdaySunday;
+  String toLocalizedString(BuildContext context) {
+    final l10n = context.l10n;
+    return switch (this) {
+      WeekDay.monday => l10n.dateWeekdayMonday,
+      WeekDay.tuesday => l10n.dateWeekdayTuesday,
+      WeekDay.wednesday => l10n.dateWeekdayWednesday,
+      WeekDay.thursday => l10n.dateWeekdayThursday,
+      WeekDay.friday => l10n.dateWeekdayFriday,
+      WeekDay.saturday => l10n.dateWeekdaySaturday,
+      WeekDay.sunday => l10n.dateWeekdaySunday,
+    };
   }
 }

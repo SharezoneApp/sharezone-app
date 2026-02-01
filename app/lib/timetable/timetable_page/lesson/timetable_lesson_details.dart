@@ -9,7 +9,6 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
-import 'package:date/weekday.dart';
 import 'package:design/design.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -431,7 +430,7 @@ class _LessonBasicSection extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.event),
           title: Text(
-            "Wochentag: ${weekDayEnumToLocalizedString(context, lesson.weekday)}",
+            "Wochentag: ${lesson.weekday.toLocalizedString(context)}",
           ),
         ),
         if (isABWeekEnabled)
