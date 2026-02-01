@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:legal/legal.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/page.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/section.dart';
@@ -31,7 +32,7 @@ class ImprintPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Align(child: Headline("Impressum")),
+                  Align(child: Headline(context.l10n.imprintTitle)),
                   const SizedBox(height: 12),
                   Theme(
                     data: ThemeData.light(),
