@@ -49,7 +49,11 @@ fvm flutter run --flavor dev --target lib/main_dev.dart
 fvm flutter run --target lib/main_dev.dart
 ```
 
+Use the Playwright Skill to use the web app.
+
 ## Tests
+
+Make sure your changes are tested. Write helpful and meaningful tests. Do not write useless tests.
 
 We use several types of tests to ensure the quality and stability of Sharezone:
 
