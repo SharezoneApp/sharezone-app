@@ -26,6 +26,9 @@ go install github.com/leancodepl/arbsort@v0.1.0
 # Install addlicense
 go install github.com/google/addlicense@v1.1.1
 
+# Install Prettier
+npm install --global prettier@3.0.1
+
 # Install Sharezone Repo CLI
 flutter pub global activate --source path "/workspace/sharezone-app/tools/sz_repo_cli/"
 echo 'export PATH="/workspace/sharezone-app/bin:$PATH"' >> ~/.bash_profile
