@@ -80,6 +80,27 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get accountStateTitle => 'Bundesland';
 
   @override
+  String get activationCodeCacheCleared =>
+      'Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.';
+
+  @override
+  String get activationCodeFeatureAdsLabel => 'Ads';
+
+  @override
+  String get activationCodeFeatureL10nLabel => 'l10n';
+
+  @override
+  String get activationCodeToggleDisabled => 'deaktiviert';
+
+  @override
+  String get activationCodeToggleEnabled => 'aktiviert';
+
+  @override
+  String activationCodeToggleResult(String feature, String state) {
+    return '$feature wurde $state. Starte die App neu, um die Änderungen zu sehen.';
+  }
+
+  @override
   String get appName => 'Sharezone';
 
   @override
@@ -261,6 +282,32 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get dashboardSelectStateButton => 'Bundesland / Kanton auswählen';
+
+  @override
+  String get feedbackDetailsCommentsTitle => 'Kommentare:';
+
+  @override
+  String get feedbackDetailsLoadingHeardFrom => 'Freund';
+
+  @override
+  String get feedbackDetailsLoadingMissing => 'Tolle App!';
+
+  @override
+  String get feedbackDetailsPageTitle => 'Feedback-Details';
+
+  @override
+  String get feedbackDetailsResponseHint => 'Antwort schreiben...';
+
+  @override
+  String feedbackDetailsSendError(String error) {
+    return 'Fehler beim Senden der Nachricht: $error';
+  }
+
+  @override
+  String get feedbackNewLineHint => 'Shift + Enter für neue Zeile';
+
+  @override
+  String get feedbackSendTooltip => 'Senden (Enter)';
 
   @override
   String get imprintTitle => 'Impressum';
@@ -506,6 +553,302 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get selectStateDialogStayAnonymous => 'Ich möchte anonym bleiben';
+
+  @override
+  String get sharezonePlusAdvantageAddToCalendarDescription =>
+      'Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android & iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.';
+
+  @override
+  String get sharezonePlusAdvantageAddToCalendarTitle =>
+      'Termine zum lokalen Kalender hinzufügen';
+
+  @override
+  String get sharezonePlusAdvantageDiscordDescription =>
+      'Erhalte den Discord Sharezone Plus Rang auf unserem [Discord-Server](https://sharezone.net/discord). Dieser Rang zeigt, dass du Sharezone Plus hast und gibt dir Zugriff auf einen exklusive Channel nur für Sharezone Plus Nutzer.';
+
+  @override
+  String get sharezonePlusAdvantageDiscordTitle =>
+      'Discord Sharezone Plus Rang';
+
+  @override
+  String get sharezonePlusAdvantageGradesDescription =>
+      'Speichere deine Schulnoten mit Sharezone Plus und behalte den Überblick über deine Leistungen. Schriftliche Prüfungen, mündliche Mitarbeit, Halbjahresnoten - alles an einem Ort.';
+
+  @override
+  String get sharezonePlusAdvantageGradesTitle => 'Noten';
+
+  @override
+  String get sharezonePlusAdvantageHomeworkReminderDescription =>
+      'Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr. Dieses Feature ist nur für Schüler*innen verfügbar.';
+
+  @override
+  String get sharezonePlusAdvantageHomeworkReminderTitle =>
+      'Individuelle Uhrzeit für Hausaufgaben-Erinnerungen';
+
+  @override
+  String get sharezonePlusAdvantageIcalDescription =>
+      'Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim \"Zum Kalender hinzufügen\" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.';
+
+  @override
+  String get sharezonePlusAdvantageIcalTitle =>
+      'Stundenplan exportieren (iCal)';
+
+  @override
+  String get sharezonePlusAdvantageMoreColorsDescription =>
+      'Sharezone Plus bietet dir über 200 (statt 19) Farben für deine Gruppen. Setzt du mit Sharezone Plus eine Farbe für deine Gruppe, so können auch deine Gruppenmitglieder diese Farbe sehen.';
+
+  @override
+  String get sharezonePlusAdvantageMoreColorsTitle =>
+      'Mehr Farben für die Gruppen';
+
+  @override
+  String get sharezonePlusAdvantageOpenSourceDescription =>
+      'Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)';
+
+  @override
+  String get sharezonePlusAdvantageOpenSourceTitle =>
+      'Unterstützung von Open-Source';
+
+  @override
+  String get sharezonePlusAdvantagePastEventsDescription =>
+      'Mit Sharezone Plus kannst du alle vergangenen Termine, wie z.B. Prüfungen, einsehen.';
+
+  @override
+  String get sharezonePlusAdvantagePastEventsTitle =>
+      'Vergangene Termine einsehen';
+
+  @override
+  String get sharezonePlusAdvantagePremiumSupportDescription =>
+      'Mit Sharezone Plus erhältst du Zugriff auf unseren Premium Support:\n- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)\n- Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)';
+
+  @override
+  String get sharezonePlusAdvantagePremiumSupportTitle => 'Premium Support';
+
+  @override
+  String get sharezonePlusAdvantageQuickDueDateDescription =>
+      'Mit Sharezone Plus kannst du das Fälligkeitsdatum einer Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.';
+
+  @override
+  String get sharezonePlusAdvantageQuickDueDateTitle =>
+      'Schnellauswahl für Fälligkeitsdatum';
+
+  @override
+  String get sharezonePlusAdvantageReadByDescription =>
+      'Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.';
+
+  @override
+  String get sharezonePlusAdvantageReadByTitle =>
+      'Gelesen-Status bei Infozetteln';
+
+  @override
+  String get sharezonePlusAdvantageRemoveAdsDescription =>
+      'Genieße Sharezone komplett werbefrei.\n\nHinweis: Wir testen derzeit die Anzeige von Werbung. Es ist möglich, dass wir in Zukunft die Werbung wieder für alle Nutzer entfernen.';
+
+  @override
+  String get sharezonePlusAdvantageRemoveAdsTitle => 'Werbung entfernen';
+
+  @override
+  String get sharezonePlusAdvantageStorageDescription =>
+      'Mit Sharezone Plus erhältst du 30 GB Speicherplatz (statt 100 MB) für deine Dateien & Anhänge (bei Hausaufgaben & Infozetteln). Dies entspricht ca. 15.000 Fotos (2 MB pro Bild).\n\nDie Begrenzung gilt nicht für Dateien, die als Abgabe bei Hausaufgaben hochgeladen wird.';
+
+  @override
+  String get sharezonePlusAdvantageStorageTitle => '30 GB Speicherplatz';
+
+  @override
+  String get sharezonePlusAdvantageSubstitutionsDescription =>
+      'Schalte mit Sharezone Plus den Vertretungsplan frei:\n* Entfall einer Schulstunden markieren\n* Raumänderungen\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern). Ebenfalls können Kursmitglieder mit nur einem 1-Klick über die Änderung informiert werden. \n\nBeachte, dass der Vertretungsplan manuell eingetragen werden muss und nicht automatisch importiert wird.';
+
+  @override
+  String get sharezonePlusAdvantageSubstitutionsTitle => 'Vertretungsplan';
+
+  @override
+  String get sharezonePlusAdvantageTeacherTimetableDescription =>
+      'Trage den Name der Lehrkraft zur jeweiligen Schulstunde im Stundenplan ein. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt.';
+
+  @override
+  String get sharezonePlusAdvantageTeacherTimetableTitle =>
+      'Lehrkraft im Stundenplan';
+
+  @override
+  String get sharezonePlusAdvantageTimetableByClassDescription =>
+      'Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.';
+
+  @override
+  String get sharezonePlusAdvantageTimetableByClassTitle =>
+      'Stundenplan nach Klasse auswählen';
+
+  @override
+  String get sharezonePlusBuyAction => 'Kaufen';
+
+  @override
+  String get sharezonePlusBuyingDisabledContent =>
+      'Der Kauf von Sharezone Plus ist aktuell deaktiviert. Bitte versuche es später erneut.\n\nAuf unserem [Discord](https://sharezone.net/discord) halten wir dich auf dem Laufenden.';
+
+  @override
+  String get sharezonePlusBuyingDisabledTitle => 'Kaufen deaktiviert';
+
+  @override
+  String sharezonePlusBuyingFailedContent(String error) {
+    return 'Der Kauf von Sharezone Plus ist fehlgeschlagen. Bitte versuche es später erneut.\n\nFehler: $error\n\nBei Fragen wende dich an [plus@sharezone.net](mailto:plus@sharezone.net).';
+  }
+
+  @override
+  String get sharezonePlusBuyingFailedTitle => 'Kaufen fehlgeschlagen';
+
+  @override
+  String get sharezonePlusCancelAction => 'Kündigen';
+
+  @override
+  String get sharezonePlusCancelConfirmAction => 'Kündigen';
+
+  @override
+  String get sharezonePlusCancelConfirmationContent =>
+      'Wenn du dein Sharezone-Plus Abo kündigst, verlierst du den Zugriff auf alle Plus-Funktionen.\n\nBist du sicher, dass du kündigen möchtest?';
+
+  @override
+  String get sharezonePlusCancelConfirmationTitle => 'Bist du dir sicher?';
+
+  @override
+  String sharezonePlusCancelFailedContent(String error) {
+    return 'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.\n\nFehler: $error';
+  }
+
+  @override
+  String get sharezonePlusCancelFailedTitle => 'Kündigung fehlgeschlagen';
+
+  @override
+  String get sharezonePlusCanceledSubscriptionNote =>
+      'Du hast dein Sharezone-Plus Abo gekündigt. Du kannst deine Vorteile noch bis zum Ende des aktuellen Abrechnungszeitraums nutzen. Solltest du es dir anders überlegen, kannst du es jederzeit wieder erneut Sharezone-Plus abonnieren.';
+
+  @override
+  String get sharezonePlusFaqContentCreatorContent =>
+      'Ja, als Content Creator kannst du Sharezone Plus (Lifetime) kostenlos erhalten.\n\nSo funktioniert es:\n1. Erstelle ein kreatives TikTok, YouTube Short oder Instagram Reel, in dem du Sharezone erwähnst oder vorstellst.\n2. Sorge dafür, dass dein Video mehr als 10.000 Aufrufe erzielt.\n3. Schick uns den Link zu deinem Video an plus@sharezone.net.\n\nDeiner Kreativität sind keine Grenzen gesetzt. Bitte beachte unsere Bedingungen für das Content Creator Programm: https://sharezone.net/content-creator-programm.';
+
+  @override
+  String get sharezonePlusFaqContentCreatorTitle =>
+      'Gibt es ein Content Creator Programm?';
+
+  @override
+  String sharezonePlusFaqEmailSnackBar(String email) {
+    return 'E-Mail: $email';
+  }
+
+  @override
+  String get sharezonePlusFaqFamilyLicenseContent =>
+      'Ja, für Familien mit mehreren Kindern bieten wir besondere Konditionen an. Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net), um mehr zu erfahren.';
+
+  @override
+  String get sharezonePlusFaqFamilyLicenseTitle =>
+      'Gibt es spezielle Angebote für Familien?';
+
+  @override
+  String get sharezonePlusFaqGroupMembersContent =>
+      'Wenn du Sharezone Plus abonnierst, erhält nur dein Account Sharezone Plus. Deine Gruppenmitglieder erhalten Sharezone Plus nicht.\n\nJedoch gibt es einzelne Features, von denen auch deine Gruppenmitglieder profitieren. Solltest du beispielsweise eine die Kursfarbe von einer Gruppe zu einer Farbe ändern, die nur mit Sharezone Plus verfügbar ist, so wird diese Farbe auch für deine Gruppenmitglieder verwendet.';
+
+  @override
+  String get sharezonePlusFaqGroupMembersTitle =>
+      'Erhalten auch Gruppenmitglieder Sharezone Plus?';
+
+  @override
+  String get sharezonePlusFaqOpenSourceContent =>
+      'Ja, Sharezone ist Open-Source im Frontend. Du kannst den Quellcode auf GitHub einsehen:';
+
+  @override
+  String get sharezonePlusFaqOpenSourceTitle =>
+      'Ist der Quellcode von Sharezone öffentlich?';
+
+  @override
+  String get sharezonePlusFaqSchoolLicenseContent =>
+      'Du bist interessiert an einer Lizenz für deine gesamte Klasse? Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net).';
+
+  @override
+  String get sharezonePlusFaqSchoolLicenseTitle =>
+      'Gibt es spezielle Angebote für Schulklassen?';
+
+  @override
+  String get sharezonePlusFaqStorageContent =>
+      'Nein, der Speicherplatz von 30 GB mit Sharezone Plus gilt nur für deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest beispielsweise 5 GB in den Deutsch-Kurs hochladen, 15 GB in den Mathe-Kurs und hättest noch weitere 10 GB für alle Kurse zur Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen Speicherplatz.';
+
+  @override
+  String get sharezonePlusFaqStorageTitle =>
+      'Erhält der gesamte Kurs 30 GB Speicherplatz?';
+
+  @override
+  String get sharezonePlusFaqWhoIsBehindContent =>
+      'Sharezone wird aktuell von Jonas und Nils entwickelt. Aus unserer persönlichen Frustration über die Organisation des Schulalltags während der Schulzeit entstand die Idee für Sharezone. Es ist unsere Vision, den Schulalltag für alle einfacher und übersichtlicher zu gestalten.';
+
+  @override
+  String get sharezonePlusFaqWhoIsBehindTitle => 'Wer steht hinter Sharezone?';
+
+  @override
+  String get sharezonePlusFeatureUnavailable =>
+      'Dieses Feature ist nur mit \"Sharezone Plus\" verfügbar.';
+
+  @override
+  String sharezonePlusLegalTextLifetime(String price) {
+    return 'Einmalige Zahlung von $price (kein Abo o. ä.). Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)';
+  }
+
+  @override
+  String sharezonePlusLegalTextMonthlyAndroid(String price) {
+    return 'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)';
+  }
+
+  @override
+  String sharezonePlusLegalTextMonthlyApple(String price) {
+    return 'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über den App Store kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)';
+  }
+
+  @override
+  String sharezonePlusLegalTextMonthlyOther(String price) {
+    return 'Dein Abo ($price/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht vor Ablauf der aktuellen Zahlungsperiode über die App kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)';
+  }
+
+  @override
+  String get sharezonePlusLetParentsBuyAction => 'Eltern bezahlen lassen';
+
+  @override
+  String get sharezonePlusLetParentsBuyContent =>
+      'Du kannst deinen Eltern einen Link schicken, damit sie Sharezone-Plus für dich kaufen können.\n\nDer Link ist nur für dich gültig und enthält die Verbindung zu deinem Account.';
+
+  @override
+  String get sharezonePlusLetParentsBuyTitle => 'Eltern bezahlen lassen';
+
+  @override
+  String get sharezonePlusLinkCopiedToClipboard =>
+      'Link in die Zwischenablage kopiert.';
+
+  @override
+  String get sharezonePlusLinkTokenLoadFailed =>
+      'Der Token für den Link konnte nicht geladen werden.';
+
+  @override
+  String get sharezonePlusPurchasePeriodLifetime =>
+      'Lebenslang (einmaliger Kauf)';
+
+  @override
+  String get sharezonePlusPurchasePeriodMonthly => 'Monatlich';
+
+  @override
+  String get sharezonePlusShareLinkAction => 'Link teilen';
+
+  @override
+  String get sharezonePlusSubscribeAction => 'Abonnieren';
+
+  @override
+  String get sharezonePlusTestFlightContent =>
+      'Du hast Sharezone über TestFlight installiert. Apple erlaubt keine In-App-Käufe über TestFlight.\n\nUm Sharezone-Plus zu kaufen, lade bitte die App aus dem App Store herunter. Dort kannst du Sharezone-Plus kaufen.\n\nDanach kannst du die App wieder über TestFlight installieren.';
+
+  @override
+  String get sharezonePlusTestFlightTitle => 'TestFlight';
+
+  @override
+  String get sharezonePlusUnsubscribeActiveText =>
+      'Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.';
+
+  @override
+  String get sharezonePlusUnsubscribeLifetimeText =>
+      'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!';
 
   @override
   String get socialDiscord => 'Discord';
@@ -837,4 +1180,339 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get userEditSubmittingSnackbar =>
       'Daten werden nach Frankfurt transportiert...';
+
+  @override
+  String websiteAllInOneFeatureImageLabel(String feature) {
+    return 'Ein Bild der Funktion $feature';
+  }
+
+  @override
+  String get websiteAllInOneHeadline => 'Alles an einem Ort';
+
+  @override
+  String get websiteAllPlatformsHeadline => 'Auf allen Geräten verfügbar.';
+
+  @override
+  String get websiteAllPlatformsSubline =>
+      'Sharezone funktioniert auf allen Systemen. Somit kannst Du jederzeit auf deine Daten zugreifen.';
+
+  @override
+  String get websiteAppTitle => 'Sharezone - Vernetzter Schulplaner';
+
+  @override
+  String get websiteDataProtectionAesTitle =>
+      'AES 256-Bit serverseitige Verschlüsselung';
+
+  @override
+  String get websiteDataProtectionHeadline => 'Sicher & DSGVO-konform';
+
+  @override
+  String get websiteDataProtectionIsoTitle =>
+      'ISO27001, ISO27012 & ISO27018 zertifiziert*';
+
+  @override
+  String get websiteDataProtectionServerLocationSubtitle =>
+      'Mit Ausnahme des Authentifizierungsserver\n(EU-Standardvertragsklauseln)';
+
+  @override
+  String get websiteDataProtectionServerLocationTitle =>
+      'Standort der Server: Frankfurt (Deutschland)';
+
+  @override
+  String get websiteDataProtectionSocSubtitle =>
+      '* Zertifizierung von unserem Hosting-Anbieter';
+
+  @override
+  String get websiteDataProtectionSocTitle =>
+      'SOC1, SOC2, & SOC3 zertifiziert*';
+
+  @override
+  String get websiteDataProtectionTlsTitle =>
+      'TLS-Verschlüsselung bei der Übertragung';
+
+  @override
+  String get websiteFeatureAlwaysAvailableBulletpointMultiDevice =>
+      'Mit mehreren Geräten nutzbar';
+
+  @override
+  String get websiteFeatureAlwaysAvailableBulletpointOffline =>
+      'Offline Inhalte eintragen';
+
+  @override
+  String get websiteFeatureAlwaysAvailableTitle => 'Immer verfügbar';
+
+  @override
+  String get websiteFeatureEventsBulletpointAtAGlance =>
+      'Prüfungen und Termine auf einen Blick';
+
+  @override
+  String get websiteFeatureEventsTitle => 'Termine';
+
+  @override
+  String get websiteFeatureFileStorageBulletpointShareMaterials =>
+      'Arbeitsmaterialien teilen';
+
+  @override
+  String get websiteFeatureFileStorageBulletpointUnlimitedStorage =>
+      'Optional: Unbegrenzter \nSpeicherplatz';
+
+  @override
+  String get websiteFeatureFileStorageTitle => 'Dateiablage';
+
+  @override
+  String get websiteFeatureGradesBulletpointMultipleSystems =>
+      'Verschiedene Notensysteme';
+
+  @override
+  String get websiteFeatureGradesBulletpointSaveGrades =>
+      'Speichere deine Noten in Sharezone';
+
+  @override
+  String get websiteFeatureGradesTitle => 'Notensystem';
+
+  @override
+  String get websiteFeatureNoticesBulletpointComments =>
+      'Mit Kommentarfunktion';
+
+  @override
+  String get websiteFeatureNoticesBulletpointNotifications =>
+      'Mit Notifications';
+
+  @override
+  String get websiteFeatureNoticesBulletpointReadReceipt =>
+      'Mit Lesebestätigung';
+
+  @override
+  String get websiteFeatureNoticesTitle => 'Infozettel';
+
+  @override
+  String get websiteFeatureNotificationsBulletpointAlwaysInformed =>
+      'Immer informiert';
+
+  @override
+  String get websiteFeatureNotificationsBulletpointCustomizable =>
+      'Individuell einstellbar';
+
+  @override
+  String get websiteFeatureNotificationsBulletpointQuietHours =>
+      'Mit Ruhemodus';
+
+  @override
+  String get websiteFeatureNotificationsTitle => 'Notifications';
+
+  @override
+  String get websiteFeatureOverviewTitle => 'Übersicht';
+
+  @override
+  String get websiteFeatureTasksBulletpointComments => 'Mit Kommentarfunktion';
+
+  @override
+  String get websiteFeatureTasksBulletpointReminder =>
+      'Mit Erinnerungsfunktion';
+
+  @override
+  String get websiteFeatureTasksBulletpointSubmissions => 'Mit Abgabefunktion';
+
+  @override
+  String get websiteFeatureTasksTitle => 'Aufgaben';
+
+  @override
+  String get websiteFeatureTimetableBulletpointAbWeeks => 'Mit A/B Wochen';
+
+  @override
+  String get websiteFeatureTimetableBulletpointWeekdays =>
+      'Wochentage individuell einstellbar';
+
+  @override
+  String get websiteFeatureTimetableTitle => 'Stundenplan';
+
+  @override
+  String get websiteFooterCommunityDiscord => 'Discord';
+
+  @override
+  String get websiteFooterCommunitySubtitle =>
+      'Werde jetzt ein Teil unserer Community und bringe deine eigenen Ideen bei Sharezone ein.';
+
+  @override
+  String get websiteFooterCommunityTicketSystem => 'Ticketsystem';
+
+  @override
+  String get websiteFooterCommunityTitle => 'Sharezone-Community';
+
+  @override
+  String get websiteFooterDownloadAndroid => 'Android';
+
+  @override
+  String get websiteFooterDownloadIos => 'iOS';
+
+  @override
+  String get websiteFooterDownloadMacos => 'macOS';
+
+  @override
+  String get websiteFooterDownloadTitle => 'Downloads';
+
+  @override
+  String get websiteFooterHelpSupport => 'Support';
+
+  @override
+  String get websiteFooterHelpTitle => 'Hilfe';
+
+  @override
+  String get websiteFooterHelpVideos => 'Erklärvideos';
+
+  @override
+  String get websiteFooterLegalImprint => 'Impressum';
+
+  @override
+  String get websiteFooterLegalPrivacy => 'Datenschutzerklärung';
+
+  @override
+  String get websiteFooterLegalTerms => 'Allgemeine Nutzungsbedingungen (ANB)';
+
+  @override
+  String get websiteFooterLegalTitle => 'Rechtliches';
+
+  @override
+  String get websiteFooterLinksDocs => 'Dokumentation';
+
+  @override
+  String get websiteFooterLinksTitle => 'Links';
+
+  @override
+  String get websiteLanguageSelectorTooltip => 'Sprache auswählen';
+
+  @override
+  String get websiteLaunchUrlFailed => 'Link konnte nicht geöffnet werden!';
+
+  @override
+  String get websiteNavDocs => 'Docs';
+
+  @override
+  String get websiteNavHome => 'Hauptseite';
+
+  @override
+  String get websiteNavPlus => 'Plus';
+
+  @override
+  String get websiteNavSupport => 'Support';
+
+  @override
+  String get websiteNavWebApp => 'Web-App';
+
+  @override
+  String get websiteSharezonePlusAdvantagesTitle =>
+      'Vorteile von Sharezone Plus';
+
+  @override
+  String get websiteSharezonePlusCustomerPortalContent =>
+      'Um dich zu authentifizieren, nutze bitte die E-Mail-Adresse, die du bei der Bestellung verwendet hast.';
+
+  @override
+  String get websiteSharezonePlusCustomerPortalOpen => 'Zum Kundenportal';
+
+  @override
+  String get websiteSharezonePlusCustomerPortalTitle => 'Kundenportal';
+
+  @override
+  String websiteSharezonePlusLoadError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get websiteSharezonePlusLoadingName => 'Lädt...';
+
+  @override
+  String get websiteSharezonePlusManageSubscriptionText =>
+      'Du hast bereits ein Abo? Klicke [hier](https://billing.stripe.com/p/login/eVa7uh3DvbMfbTy144) um es zu verwalten (z.B. Kündigen, Zahlungsmethode ändern, etc.).';
+
+  @override
+  String get websiteSharezonePlusPurchaseDialogContent =>
+      'Um Sharezone Plus für deinen eigenen Account zu erwerben, musst du Sharezone Plus über die Web-App kaufen.\n\nFalls du Sharezone Plus als Elternteil für dein Kind kaufen möchtest, musst du den Link öffnen, den du von deinem Kind erhalten hast.\n\nSolltest du Fragen haben, kannst du uns gerne eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net) schreiben.';
+
+  @override
+  String get websiteSharezonePlusPurchaseDialogTitle => 'Sharezone Plus kaufen';
+
+  @override
+  String get websiteSharezonePlusPurchaseDialogToWebApp => 'Zur Web-App';
+
+  @override
+  String get websiteSharezonePlusPurchaseForTitle =>
+      'Sharezone Plus kaufen für';
+
+  @override
+  String get websiteSharezonePlusSuccessMessage =>
+      'Du hast Sharezone Plus erfolgreich für dein Kind erworben.\nVielen Dank für deine Unterstützung!';
+
+  @override
+  String get websiteSharezonePlusSuccessSupport =>
+      'Solltest du Fragen haben, kannst du dich jederzeit an unseren [Support](/support) wenden.';
+
+  @override
+  String get websiteStoreAppStoreName => 'AppStore';
+
+  @override
+  String get websiteStorePlayStoreName => 'PlayStore';
+
+  @override
+  String websiteSupportEmailCopy(String email) {
+    return 'E-Mail: $email';
+  }
+
+  @override
+  String get websiteSupportEmailLabel => 'E-Mail';
+
+  @override
+  String get websiteSupportEmailSubject => 'Ich brauche eure Hilfe! 😭';
+
+  @override
+  String get websiteSupportPageBody =>
+      'Kontaktiere uns einfach über einen Kanal deiner Wahl und wir werden dir schnellstmöglich weiterhelfen 😉\n\nBitte beachte, dass es manchmal länger dauern kann, bis wir antworten (1-2 Wochen).';
+
+  @override
+  String get websiteSupportPageHeadline => 'Du brauchst Hilfe?';
+
+  @override
+  String get websiteSupportSectionButton => 'Support kontaktieren';
+
+  @override
+  String get websiteSupportSectionHeadline => 'Nie im Stich gelassen.';
+
+  @override
+  String get websiteSupportSectionSubline =>
+      'Unser Support ist für Dich jederzeit erreichbar. Egal welche Uhrzeit. Egal welcher Wochentag.';
+
+  @override
+  String get websiteUserCounterLabel => 'registrierte Nutzer';
+
+  @override
+  String get websiteUserCounterSemanticLabel => 'user counter';
+
+  @override
+  String get websiteUspCommunityButton => 'Zur Sharezone-Community';
+
+  @override
+  String get websiteUspHeadline => 'Wirklich hilfreich.';
+
+  @override
+  String get websiteUspSublineDetails =>
+      'Wir wissen, was für Lösungen nötig sind und was wirklich hilft, um den Schulalltag einfach zu machen.\nWo wir es nicht wissen, versuchen wir, mit agiler Arbeit und der Sharezone-Community die beste Lösung zu finden.';
+
+  @override
+  String get websiteUspSublineIntro =>
+      'Sharezone ist aus den realen Problemen des Unterrichts entstanden.';
+
+  @override
+  String get websiteWelcomeDescription =>
+      'Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.';
+
+  @override
+  String get websiteWelcomeDescriptionSemanticLabel =>
+      'Beschreibung der Sharezone App';
+
+  @override
+  String get websiteWelcomeHeadline => 'Simpel. Sicher. Stabil.';
+
+  @override
+  String get websiteWelcomeHeadlineSemanticLabel =>
+      'Überschrift der Sharezone App';
 }
