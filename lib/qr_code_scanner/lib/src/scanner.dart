@@ -126,7 +126,7 @@ class _Error extends StatelessWidget {
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 220),
           child: Text(
-            '$couldNotStartQrScannerMessage\n\n${exception.errorDetails?.message} (${exception.errorDetails?.message}, ${exception.errorCode})',
+            '$couldNotStartQrScannerMessage\n\n${exception.errorDetails?.message} (${exception.errorCode})',
             style: TextStyle(
               color: Theme.of(context).colorScheme.error,
               fontSize: 12,
