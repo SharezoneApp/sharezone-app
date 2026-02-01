@@ -87,6 +87,11 @@
   "languageEnName": "English",
   "languageSystemName": "System",
   "languageTitle": "Language",
+  "memberRoleAdmin": "Admin",
+  "memberRoleCreator": "Active Member (Write and read permissions)",
+  "memberRoleNone": "None",
+  "memberRoleOwner": "Owner",
+  "memberRoleStandard": "Passive Member (Read-only permissions)",
   "myProfileActivationCodeTile": "Enter Activation Code",
   "myProfileChangePasswordTile": "Change Password",
   "myProfileChangedPasswordConfirmation": "Password changed successfully.",
@@ -428,5 +433,7 @@
   "websiteWelcomeDescription": "Sharezone is a connected school planner to stay organized together. Entered content like homework is shared instantly with everyone else, saving time and nerves.",
   "websiteWelcomeDescriptionSemanticLabel": "Description of the Sharezone app",
   "websiteWelcomeHeadline": "Simple. Secure. Stable.",
-  "websiteWelcomeHeadlineSemanticLabel": "Headline of the Sharezone app"
+  "websiteWelcomeHeadlineSemanticLabel": "Headline of the Sharezone app",
+  "writePermissionEveryone": "Everyone",
+  "writePermissionOnlyAdmins": "Only admins"
 }
