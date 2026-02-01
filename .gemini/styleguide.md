@@ -4,8 +4,8 @@ Besides the standard code review patterns (Correctness, Efficiency, Maintainabil
 
 ## Markdown
 
-* If a table of contents is present, it should be updated if the file structure changed.
-* When `README.md`, `CONTRIBUTING.md` or `AGENTS.md` are updated, make sure the content is up-to-date across all three files.
+- If a table of contents is present, it should be updated if the file structure changed.
+- When `README.md`, `CONTRIBUTING.md` or `AGENTS.md` are updated, make sure the content is up-to-date across all three files.
 
 ## Dart
 
@@ -225,8 +225,8 @@ PREFER sorting the `build` method of a widget as the last method.
 
 ## Docs
 
-* When adding or changing a feature in the app, make sure the docs in `docs/` are up to date.
+- When adding or changing a feature in the app, make sure the docs in `docs/` are up to date.
 
 ## Further Instructions
 
-* When updating code in `tools/sz_repo_cli`, make sure that descriptions of commands are up to date.
+- When updating code in `tools/sz_repo_cli`, make sure that descriptions of commands are up to date.
