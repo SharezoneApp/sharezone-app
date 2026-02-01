@@ -172,6 +172,132 @@
   "selectStateDialogSelectCanton": "Select canton",
   "selectStateDialogSelectCountryTitle": "Select country",
   "selectStateDialogStayAnonymous": "I would like to remain anonymous",
+  "sharezonePlusAdvantageAddToCalendarDescription": "Add an event to your local calendar with a single tap (e.g., Apple or Google Calendar).\n\nNote that the feature is only available on Android \u0026 iOS. The event in your calendar does not automatically update when it is changed in Sharezone.",
+  "sharezonePlusAdvantageAddToCalendarTitle": "Add events to local calendar",
+  "sharezonePlusAdvantageDiscordDescription": "Get the Discord Sharezone Plus role on our [Discord server](https://sharezone.net/discord). This role shows that you have Sharezone Plus and gives you access to an exclusive channel for Sharezone Plus users.",
+  "sharezonePlusAdvantageDiscordTitle": "Discord Sharezone Plus role",
+  "sharezonePlusAdvantageGradesDescription": "Store your school grades with Sharezone Plus and keep track of your performance. Written exams, oral participation, term grades — all in one place.",
+  "sharezonePlusAdvantageGradesTitle": "Grades",
+  "sharezonePlusAdvantageHomeworkReminderDescription": "With Sharezone Plus you can set the day-before homework reminder in 30-minute increments, e.g., 15:00 or 15:30. This feature is only available for students.",
+  "sharezonePlusAdvantageHomeworkReminderTitle": "Custom homework reminder time",
+  "sharezonePlusAdvantageIcalDescription": "With an iCal link, you can integrate your timetable and events into other calendar apps (such as Google Calendar or Apple Calendar). As soon as your timetable or events change, they are also updated in your other calendar apps.\n\nUnlike the \"Add to calendar\" button, you don't have to update the event in your calendar app when something changes in Sharezone.\n\niCal links are only visible to you and cannot be viewed by others.\n\nPlease note that currently only events and exams can be exported. Lessons cannot be exported yet.",
+  "sharezonePlusAdvantageIcalTitle": "Export timetable (iCal)",
+  "sharezonePlusAdvantageMoreColorsDescription": "Sharezone Plus gives you over 200 (instead of 19) colors for your groups. If you set a group color with Sharezone Plus, your group members can see it as well.",
+  "sharezonePlusAdvantageMoreColorsTitle": "More colors for groups",
+  "sharezonePlusAdvantageOpenSourceDescription": "Sharezone is open source on the frontend. That means anyone can view and even improve Sharezone's source code. We believe open source is the future and want Sharezone to become a showcase project.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)",
+  "sharezonePlusAdvantageOpenSourceTitle": "Support open source",
+  "sharezonePlusAdvantagePastEventsDescription": "With Sharezone Plus you can view all past events, such as exams.",
+  "sharezonePlusAdvantagePastEventsTitle": "View past events",
+  "sharezonePlusAdvantagePremiumSupportDescription": "With Sharezone Plus you get access to our premium support:\n- A response by email within a few hours (instead of up to 2 weeks)\n- Video-call support by appointment (allows screen sharing)",
+  "sharezonePlusAdvantagePremiumSupportTitle": "Premium support",
+  "sharezonePlusAdvantageQuickDueDateDescription": "With Sharezone Plus you can set a homework due date with a single tap to the next school day or any future period.",
+  "sharezonePlusAdvantageQuickDueDateTitle": "Quick due-date selection",
+  "sharezonePlusAdvantageReadByDescription": "Get a list of all group members and their read status for each information sheet, ensuring important information has reached everyone.",
+  "sharezonePlusAdvantageReadByTitle": "Read status for information sheets",
+  "sharezonePlusAdvantageRemoveAdsDescription": "Enjoy Sharezone completely ad-free.\n\nNote: We are currently testing ads. It's possible that we remove ads for all users again in the future.",
+  "sharezonePlusAdvantageRemoveAdsTitle": "Remove ads",
+  "sharezonePlusAdvantageStorageDescription": "With Sharezone Plus you get 30 GB of storage (instead of 100 MB) for your files \u0026 attachments (homework \u0026 information sheets). This corresponds to about 15,000 photos (2 MB per image).\n\nThe limit does not apply to files uploaded as homework submissions.",
+  "sharezonePlusAdvantageStorageTitle": "30 GB storage",
+  "sharezonePlusAdvantageSubstitutionsDescription": "Unlock the substitution schedule with Sharezone Plus:\n* Mark cancelled lessons\n* Room changes\n\nEven course members without Sharezone Plus can view the substitution schedule (but not edit it). Course members can also be informed about changes with a single click.\n\nNote that the substitution schedule has to be entered manually and is not imported automatically.",
+  "sharezonePlusAdvantageSubstitutionsTitle": "Substitution schedule",
+  "sharezonePlusAdvantageTeacherTimetableDescription": "Enter the teacher's name for each lesson in the timetable. For course members without Sharezone Plus, the teacher is shown as well.",
+  "sharezonePlusAdvantageTeacherTimetableTitle": "Teacher in timetable",
+  "sharezonePlusAdvantageTimetableByClassDescription": "In multiple classes? With Sharezone Plus you can choose a timetable for each class individually, so you always see the correct timetable.",
+  "sharezonePlusAdvantageTimetableByClassTitle": "Select timetable by class",
+  "sharezonePlusBuyAction": "Buy",
+  "sharezonePlusBuyingDisabledContent": "The purchase of Sharezone Plus is currently disabled. Please try again later.\n\nWe will keep you updated on our [Discord](https://sharezone.net/discord).",
+  "sharezonePlusBuyingDisabledTitle": "Purchasing disabled",
+  "sharezonePlusBuyingFailedContent": "The purchase of Sharezone Plus failed. Please try again later.\n\nError: {error}\n\nIf you have questions, contact [plus@sharezone.net](mailto:plus@sharezone.net).",
+  "@sharezonePlusBuyingFailedContent": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusBuyingFailedTitle": "Purchase failed",
+  "sharezonePlusCancelAction": "Cancel",
+  "sharezonePlusCancelConfirmAction": "Cancel",
+  "sharezonePlusCancelConfirmationContent": "If you cancel your Sharezone Plus subscription, you will lose access to all Plus features.\n\nAre you sure you want to cancel?",
+  "sharezonePlusCancelConfirmationTitle": "Are you sure?",
+  "sharezonePlusCancelFailedContent": "An error occurred. Please try again later.\n\nError: {error}",
+  "@sharezonePlusCancelFailedContent": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusCancelFailedTitle": "Cancellation failed",
+  "sharezonePlusCanceledSubscriptionNote": "You have canceled your Sharezone Plus subscription. You can still use your benefits until the end of the current billing period. If you change your mind, you can subscribe to Sharezone Plus again at any time.",
+  "sharezonePlusFaqContentCreatorContent": "Yes, as a content creator you can receive Sharezone Plus (lifetime) for free.\n\nHere's how it works:\n1. Create a creative TikTok, YouTube Short, or Instagram Reel where you mention or present Sharezone.\n2. Make sure your video gets more than 10,000 views.\n3. Send us the link to your video at plus@sharezone.net.\n\nThere are no limits to your creativity. Please read our conditions for the content creator program: https://sharezone.net/content-creator-programm.",
+  "sharezonePlusFaqContentCreatorTitle": "Is there a content creator program?",
+  "sharezonePlusFaqEmailSnackBar": "Email: {email}",
+  "@sharezonePlusFaqEmailSnackBar": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusFaqFamilyLicenseContent": "Yes, for families with multiple children we offer special conditions. Just send us an email at [plus@sharezone.net](mailto:plus@sharezone.net) to learn more.",
+  "sharezonePlusFaqFamilyLicenseTitle": "Are there special offers for families?",
+  "sharezonePlusFaqGroupMembersContent": "If you subscribe to Sharezone Plus, only your account gets Sharezone Plus. Your group members do not receive Sharezone Plus.\n\nHowever, there are individual features from which your group members also benefit. For example, if you change a group's course color to a color that is only available with Sharezone Plus, this color will also be used for your group members.",
+  "sharezonePlusFaqGroupMembersTitle": "Do group members also get Sharezone Plus?",
+  "sharezonePlusFaqOpenSourceContent": "Yes, Sharezone is open source on the frontend. You can view the source code on GitHub:",
+  "sharezonePlusFaqOpenSourceTitle": "Is Sharezone's source code public?",
+  "sharezonePlusFaqSchoolLicenseContent": "Interested in a license for your entire class? Just send us an email at [plus@sharezone.net](mailto:plus@sharezone.net).",
+  "sharezonePlusFaqSchoolLicenseTitle": "Are there special offers for school classes?",
+  "sharezonePlusFaqStorageContent": "No, the 30 GB of storage with Sharezone Plus only applies to your account and applies across all your courses.\n\nFor example, you could upload 5 GB in the German course, 15 GB in the math course, and would still have another 10 GB available across all courses.\n\nYour group members do not receive additional storage.",
+  "sharezonePlusFaqStorageTitle": "Does the whole course get 30 GB of storage?",
+  "sharezonePlusFaqWhoIsBehindContent": "Sharezone is currently developed by Jonas and Nils. The idea for Sharezone emerged from our personal frustration with organizing everyday school life during our school days. Our vision is to make school life easier and more organized for everyone.",
+  "sharezonePlusFaqWhoIsBehindTitle": "Who is behind Sharezone?",
+  "sharezonePlusFeatureUnavailable": "This feature is only available with \"Sharezone Plus\".",
+  "sharezonePlusLegalTextLifetime": "One-time payment of {price} (no subscription). By purchasing, you confirm that you have read the [Terms](https://sharezone.net/terms-of-service). We process your data in accordance with our [Privacy Policy](https://sharezone.net/privacy-policy)",
+  "@sharezonePlusLegalTextLifetime": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusLegalTextMonthlyAndroid": "Your subscription ({price}/month) can be canceled monthly. It will automatically renew unless you cancel at least 24 hours before the end of the current billing period via Google Play. By purchasing, you confirm that you have read the [Terms](https://sharezone.net/terms-of-service). We process your data in accordance with our [Privacy Policy](https://sharezone.net/privacy-policy)",
+  "@sharezonePlusLegalTextMonthlyAndroid": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusLegalTextMonthlyApple": "Your subscription ({price}/month) can be canceled monthly. It will automatically renew unless you cancel at least 24 hours before the end of the current billing period via the App Store. By purchasing, you confirm that you have read the [Terms](https://sharezone.net/terms-of-service). We process your data in accordance with our [Privacy Policy](https://sharezone.net/privacy-policy)",
+  "@sharezonePlusLegalTextMonthlyApple": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusLegalTextMonthlyOther": "Your subscription ({price}/month) can be canceled monthly. It will automatically renew unless you cancel before the end of the current billing period via the app. By purchasing, you confirm that you have read the [Terms](https://sharezone.net/terms-of-service). We process your data in accordance with our [Privacy Policy](https://sharezone.net/privacy-policy)",
+  "@sharezonePlusLegalTextMonthlyOther": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusLetParentsBuyAction": "Let parents pay",
+  "sharezonePlusLetParentsBuyContent": "You can send your parents a link so they can buy Sharezone Plus for you.\n\nThe link is only valid for you and contains the connection to your account.",
+  "sharezonePlusLetParentsBuyTitle": "Let parents pay",
+  "sharezonePlusLinkCopiedToClipboard": "Link copied to clipboard.",
+  "sharezonePlusLinkTokenLoadFailed": "The token for the link could not be loaded.",
+  "sharezonePlusPurchasePeriodLifetime": "Lifetime (one-time purchase)",
+  "sharezonePlusPurchasePeriodMonthly": "Monthly",
+  "sharezonePlusShareLinkAction": "Share link",
+  "sharezonePlusSubscribeAction": "Subscribe",
+  "sharezonePlusTestFlightContent": "You installed Sharezone via TestFlight. Apple does not allow in-app purchases via TestFlight.\n\nTo buy Sharezone Plus, please download the app from the App Store. There you can purchase Sharezone Plus.\n\nAfterwards, you can reinstall the app via TestFlight.",
+  "sharezonePlusTestFlightTitle": "TestFlight",
+  "sharezonePlusUnsubscribeActiveText": "You currently have a Sharezone Plus subscription. If you're not satisfied, we'd love to hear your [feedback](#feedback)! Of course, you can cancel the subscription at any time.",
+  "sharezonePlusUnsubscribeLifetimeText": "You have Sharezone Plus for life. If you're not satisfied, we'd love to hear your [feedback](#feedback)!",
   "socialDiscord": "Discord",
   "socialEmail": "Email",
   "socialGitHub": "GitHub",

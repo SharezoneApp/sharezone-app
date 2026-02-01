@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 
@@ -81,9 +82,9 @@ class _DefaultNotSubscribedFallbackPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Dieses Feature ist nur mit "Sharezone Plus" verfügbar.'),
+        child: Text(context.l10n.sharezonePlusFeatureUnavailable),
       ),
     );
   }

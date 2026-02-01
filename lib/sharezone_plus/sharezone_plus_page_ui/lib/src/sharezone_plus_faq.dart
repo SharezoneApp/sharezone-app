@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -50,14 +51,8 @@ class _WhoIsBehindSharezone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Wer steht hinter Sharezone?'),
-      body: const Text(
-        'Sharezone wird aktuell von Jonas und Nils entwickelt. Aus unserer '
-        'persönlichen Frustration über die Organisation des Schulalltags '
-        'während der Schulzeit entstand die Idee für Sharezone. Es ist '
-        'unsere Vision, den Schulalltag für alle einfacher und übersichtlicher '
-        'zu gestalten.',
-      ),
+      header: Text(context.l10n.sharezonePlusFaqWhoIsBehindTitle),
+      body: Text(context.l10n.sharezonePlusFaqWhoIsBehindContent),
       backgroundColor: Theme.of(
         context,
       ).colorScheme.primary.withValues(alpha: 0.2),
@@ -71,14 +66,11 @@ class _IsSharezoneOpenSource extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Ist der Quellcode von Sharezone öffentlich?'),
+      header: Text(context.l10n.sharezonePlusFaqOpenSourceTitle),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Ja, Sharezone ist Open-Source im Frontend. Du kannst den '
-            'Quellcode auf GitHub einsehen:',
-          ),
+          Text(context.l10n.sharezonePlusFaqOpenSourceContent),
           const SizedBox(height: 12),
           Link(
             uri: Uri.parse('https://sharezone.net/github'),
@@ -112,16 +104,8 @@ class _DoAlsoGroupMemberGetPlus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Erhalten auch Gruppenmitglieder Sharezone Plus?'),
-      body: const Text(
-        'Wenn du Sharezone Plus abonnierst, erhält nur dein Account '
-        'Sharezone Plus. Deine Gruppenmitglieder erhalten Sharezone Plus '
-        'nicht.\n\nJedoch gibt es einzelne Features, von denen auch deine '
-        'Gruppenmitglieder profitieren. Solltest du beispielsweise eine '
-        'die Kursfarbe von einer Gruppe zu einer Farbe ändern, die nur mit '
-        'Sharezone Plus verfügbar ist, so wird diese Farbe auch für deine '
-        'Gruppenmitglieder verwendet.',
-      ),
+      header: Text(context.l10n.sharezonePlusFaqGroupMembersTitle),
+      body: Text(context.l10n.sharezonePlusFaqGroupMembersContent),
       backgroundColor: Theme.of(
         context,
       ).colorScheme.primary.withValues(alpha: 0.2),
@@ -135,15 +119,8 @@ class _DoesTheFileStorageLimitAlsoForGroups extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Erhält der gesamte Kurs 30 GB Speicherplatz?'),
-      body: const Text(
-        'Nein, der Speicherplatz von 30 GB mit Sharezone Plus gilt nur für '
-        'deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest '
-        'beispielsweise 5 GB in den Deutsch-Kurs hochladen, 15 GB in den '
-        'Mathe-Kurs und hättest noch weitere 10 GB für alle Kurse zur '
-        'Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen '
-        'Speicherplatz.',
-      ),
+      header: Text(context.l10n.sharezonePlusFaqStorageTitle),
+      body: Text(context.l10n.sharezonePlusFaqStorageContent),
       backgroundColor: Theme.of(
         context,
       ).colorScheme.primary.withValues(alpha: 0.2),
@@ -157,11 +134,9 @@ class _SchoolClassLicense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Gibt es spezielle Angebote für Schulklassen?'),
+      header: Text(context.l10n.sharezonePlusFaqSchoolLicenseTitle),
       body: MarkdownBody(
-        data:
-            'Du bist interessiert an einer Lizenz für deine gesamte Klasse? Schreib'
-            ' uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net).',
+        data: context.l10n.sharezonePlusFaqSchoolLicenseContent,
         styleSheet: MarkdownStyleSheet(
           a: TextStyle(
             color: Theme.of(context).primaryColor,
@@ -174,7 +149,10 @@ class _SchoolClassLicense extends StatelessWidget {
             await launchUrl(uri);
           } on Exception catch (_) {
             if (!context.mounted) return;
-            showSnackSec(text: 'E-Mail: plus@sharezone.net', context: context);
+            showSnackSec(
+              text: context.l10n.sharezonePlusFaqEmailSnackBar('plus@sharezone.net'),
+              context: context,
+            );
           }
         },
       ),
@@ -191,10 +169,9 @@ class _FamilyLicense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Gibt es spezielle Angebote für Familien?'),
+      header: Text(context.l10n.sharezonePlusFaqFamilyLicenseTitle),
       body: MarkdownBody(
-        data:
-            'Ja, für Familien mit mehreren Kindern bieten wir besondere Konditionen an. Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net), um mehr zu erfahren.',
+        data: context.l10n.sharezonePlusFaqFamilyLicenseContent,
         styleSheet: MarkdownStyleSheet(
           a: TextStyle(
             color: Theme.of(context).primaryColor,
@@ -207,7 +184,10 @@ class _FamilyLicense extends StatelessWidget {
             await launchUrl(uri);
           } on Exception catch (_) {
             if (!context.mounted) return;
-            showSnackSec(text: 'E-Mail: plus@sharezone.net', context: context);
+            showSnackSec(
+              text: context.l10n.sharezonePlusFaqEmailSnackBar('plus@sharezone.net'),
+              context: context,
+            );
           }
         },
       ),
@@ -224,17 +204,9 @@ class _ContentCreator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionCard(
-      header: const Text('Gibt es ein Content Creator Programm?'),
+      header: Text(context.l10n.sharezonePlusFaqContentCreatorTitle),
       body: MarkdownBody(
-        data:
-            '''Ja, als Content Creator kannst du Sharezone Plus (Lifetime) kostenlos erhalten.
-
-So funktioniert es:
-1. Erstelle ein kreatives TikTok, YouTube Short oder Instagram Reel, in dem du Sharezone erwähnst oder vorstellst.
-2. Sorge dafür, dass dein Video mehr als 10.000 Aufrufe erzielt.
-3. Schick uns den Link zu deinem Video an plus@sharezone.net.
-
-Deiner Kreativität sind keine Grenzen gesetzt. Bitte beachte unsere Bedingungen für das Content Creator Programm: https://sharezone.net/content-creator-programm.''',
+        data: context.l10n.sharezonePlusFaqContentCreatorContent,
         styleSheet: MarkdownStyleSheet(
           a: TextStyle(
             color: Theme.of(context).primaryColor,
@@ -247,7 +219,10 @@ Deiner Kreativität sind keine Grenzen gesetzt. Bitte beachte unsere Bedingungen
             await launchUrl(uri);
           } on Exception catch (_) {
             if (!context.mounted) return;
-            showSnackSec(text: 'E-Mail: plus@sharezone.net', context: context);
+            showSnackSec(
+              text: context.l10n.sharezonePlusFaqEmailSnackBar('plus@sharezone.net'),
+              context: context,
+            );
           }
         },
       ),
