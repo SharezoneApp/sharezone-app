@@ -31,7 +31,7 @@ class WritePermissions extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: const Text("Schreibrechte"),
-      subtitle: Text(writePermissionAsUiString(initialWritePermission)),
+      subtitle: Text(initialWritePermission.toLocalizedString(context)),
       onTap:
           () => showWritePermissionOptionsSheet(
             context: context,

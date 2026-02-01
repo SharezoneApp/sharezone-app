@@ -325,6 +325,21 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get languageTitle => 'Sprache';
 
   @override
+  String get memberRoleAdmin => 'Admin';
+
+  @override
+  String get memberRoleCreator => 'Aktives Mitglied (Schreib- und Leserechte)';
+
+  @override
+  String get memberRoleNone => 'Nichts';
+
+  @override
+  String get memberRoleOwner => 'Besitzer';
+
+  @override
+  String get memberRoleStandard => 'Passives Mitglied (Nur Leserechte)';
+
+  @override
   String get myProfileActivationCodeTile => 'Aktivierungscode eingeben';
 
   @override
@@ -1515,4 +1530,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get websiteWelcomeHeadlineSemanticLabel =>
       'Überschrift der Sharezone App';
+
+  @override
+  String get writePermissionEveryone => 'Alle';
+
+  @override
+  String get writePermissionOnlyAdmins => 'Nur Admins';
 }

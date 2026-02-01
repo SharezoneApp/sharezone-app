@@ -633,6 +633,36 @@ abstract class SharezoneLocalizations {
   /// **'Sprache'**
   String get languageTitle;
 
+  /// No description provided for @memberRoleAdmin.
+  ///
+  /// In de, this message translates to:
+  /// **'Admin'**
+  String get memberRoleAdmin;
+
+  /// No description provided for @memberRoleCreator.
+  ///
+  /// In de, this message translates to:
+  /// **'Aktives Mitglied (Schreib- und Leserechte)'**
+  String get memberRoleCreator;
+
+  /// No description provided for @memberRoleNone.
+  ///
+  /// In de, this message translates to:
+  /// **'Nichts'**
+  String get memberRoleNone;
+
+  /// No description provided for @memberRoleOwner.
+  ///
+  /// In de, this message translates to:
+  /// **'Besitzer'**
+  String get memberRoleOwner;
+
+  /// No description provided for @memberRoleStandard.
+  ///
+  /// In de, this message translates to:
+  /// **'Passives Mitglied (Nur Leserechte)'**
+  String get memberRoleStandard;
+
   /// No description provided for @myProfileActivationCodeTile.
   ///
   /// In de, this message translates to:
@@ -2688,6 +2718,18 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Überschrift der Sharezone App'**
   String get websiteWelcomeHeadlineSemanticLabel;
+
+  /// No description provided for @writePermissionEveryone.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle'**
+  String get writePermissionEveryone;
+
+  /// No description provided for @writePermissionOnlyAdmins.
+  ///
+  /// In de, this message translates to:
+  /// **'Nur Admins'**
+  String get writePermissionOnlyAdmins;
 }
 
 class _SharezoneLocalizationsDelegate
