@@ -15,4 +15,5 @@
 ## How to upgrade Android Gradle plugin
 
 1. Go to `app/android/settings.gradle`
-2. Change the version of `com.android.application`
+2. Change the version of `com.android.application`.
+3. Ensure your Gradle version is compatible with the new AGP version. You can find the compatibility table in the [Android Gradle plugin release notes](https://developer.android.com/build/releases/gradle-plugin#compatibility-table).
