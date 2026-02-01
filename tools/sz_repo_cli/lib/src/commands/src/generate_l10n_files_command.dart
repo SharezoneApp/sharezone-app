@@ -34,9 +34,9 @@ class GenerateL10nFilesCommand extends CommandBase {
         .childDirectory('lib')
         .childDirectory('sharezone_localizations');
 
-    // First, we have to sort the arb files. We can't do it at end because this
-    // require re-running the "flutter gen-l10n" again (this command applies the
-    // sorting of the arb files).
+// First, we sort the arb files. This must be done before generating the
+// localization files, as `flutter gen-l10n` uses the sorted arb files for
+// generation.
     await _sortArbFiles(l10nDir);
 
     // Then, we generate the l10n files.
