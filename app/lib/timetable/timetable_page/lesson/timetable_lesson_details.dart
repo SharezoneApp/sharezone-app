@@ -431,7 +431,7 @@ class _LessonBasicSection extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.event),
           title: Text(
-            "Wochentag: ${weekDayEnumToGermanString(lesson.weekday)}",
+            "Wochentag: ${weekDayEnumToLocalizedString(context, lesson.weekday)}",
           ),
         ),
         if (isABWeekEnabled)

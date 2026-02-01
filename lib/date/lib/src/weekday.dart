@@ -6,23 +6,27 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
 enum WeekDay { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
 
-String weekDayEnumToGermanString(WeekDay weekDay) {
+String weekDayEnumToLocalizedString(BuildContext context, WeekDay weekDay) {
+  final l10n = context.l10n;
   switch (weekDay) {
     case WeekDay.monday:
-      return 'Montag';
+      return l10n.dateWeekdayMonday;
     case WeekDay.tuesday:
-      return 'Dienstag';
+      return l10n.dateWeekdayTuesday;
     case WeekDay.wednesday:
-      return 'Mittwoch';
+      return l10n.dateWeekdayWednesday;
     case WeekDay.thursday:
-      return 'Donnerstag';
+      return l10n.dateWeekdayThursday;
     case WeekDay.friday:
-      return 'Freitag';
+      return l10n.dateWeekdayFriday;
     case WeekDay.saturday:
-      return 'Samstag';
+      return l10n.dateWeekdaySaturday;
     case WeekDay.sunday:
-      return 'Sonntag';
+      return l10n.dateWeekdaySunday;
   }
 }

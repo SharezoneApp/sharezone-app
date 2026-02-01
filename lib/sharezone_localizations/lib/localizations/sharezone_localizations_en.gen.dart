@@ -281,6 +281,39 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get dashboardSelectStateButton => 'Select state / canton';
 
   @override
+  String get dateWeekTypeA => 'Week A';
+
+  @override
+  String get dateWeekTypeAlways => 'Every week';
+
+  @override
+  String get dateWeekTypeB => 'Week B';
+
+  @override
+  String get dateWeekdayFriday => 'Friday';
+
+  @override
+  String get dateWeekdayMonday => 'Monday';
+
+  @override
+  String get dateWeekdaySaturday => 'Saturday';
+
+  @override
+  String get dateWeekdaySunday => 'Sunday';
+
+  @override
+  String get dateWeekdayThursday => 'Thursday';
+
+  @override
+  String get dateWeekdayTuesday => 'Tuesday';
+
+  @override
+  String get dateWeekdayWednesday => 'Wednesday';
+
+  @override
+  String get dateYesterday => 'Yesterday';
+
+  @override
   String get feedbackDetailsCommentsTitle => 'Comments:';
 
   @override

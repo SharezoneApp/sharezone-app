@@ -172,6 +172,50 @@
   "countryGermany": "Deutschland",
   "countrySwitzerland": "Schweiz",
   "dashboardSelectStateButton": "Bundesland / Kanton auswählen",
+  "dateWeekTypeA": "A-Woche",
+  "@dateWeekTypeA": {
+    "description": "Week type for lessons that occur on week A."
+  },
+  "dateWeekTypeAlways": "Immer",
+  "@dateWeekTypeAlways": {
+    "description": "Week type for lessons that occur every week."
+  },
+  "dateWeekTypeB": "B-Woche",
+  "@dateWeekTypeB": {
+    "description": "Week type for lessons that occur on week B."
+  },
+  "dateWeekdayFriday": "Freitag",
+  "@dateWeekdayFriday": {
+    "description": "Weekday name for Friday."
+  },
+  "dateWeekdayMonday": "Montag",
+  "@dateWeekdayMonday": {
+    "description": "Weekday name for Monday."
+  },
+  "dateWeekdaySaturday": "Samstag",
+  "@dateWeekdaySaturday": {
+    "description": "Weekday name for Saturday."
+  },
+  "dateWeekdaySunday": "Sonntag",
+  "@dateWeekdaySunday": {
+    "description": "Weekday name for Sunday."
+  },
+  "dateWeekdayThursday": "Donnerstag",
+  "@dateWeekdayThursday": {
+    "description": "Weekday name for Thursday."
+  },
+  "dateWeekdayTuesday": "Dienstag",
+  "@dateWeekdayTuesday": {
+    "description": "Weekday name for Tuesday."
+  },
+  "dateWeekdayWednesday": "Mittwoch",
+  "@dateWeekdayWednesday": {
+    "description": "Weekday name for Wednesday."
+  },
+  "dateYesterday": "Gestern",
+  "@dateYesterday": {
+    "description": "Label for yesterday in fuzzy date strings."
+  },
   "feedbackDetailsCommentsTitle": "Kommentare:",
   "feedbackDetailsLoadingHeardFrom": "Freund",
   "feedbackDetailsLoadingMissing": "Tolle App!",

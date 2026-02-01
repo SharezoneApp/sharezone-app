@@ -6,15 +6,19 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
 enum WeekType { always, a, b }
 
-String weekTypeEnumToGermanString(WeekType weekType) {
+String weekTypeEnumToLocalizedString(BuildContext context, WeekType weekType) {
+  final l10n = context.l10n;
   switch (weekType) {
     case WeekType.always:
-      return 'Immer';
+      return l10n.dateWeekTypeAlways;
     case WeekType.a:
-      return 'A-Woche';
+      return l10n.dateWeekTypeA;
     case WeekType.b:
-      return 'B-Woche';
+      return l10n.dateWeekTypeB;
   }
 }
