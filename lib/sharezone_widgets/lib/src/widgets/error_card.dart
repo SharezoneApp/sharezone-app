@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class ErrorCard extends StatelessWidget {
@@ -56,8 +57,8 @@ class ErrorCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Es ist ein Fehler aufgetreten!',
+                          Text(
+                            context.l10n.sharezoneWidgetsErrorCardTitle,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -102,7 +103,7 @@ class _RetryButton extends StatelessWidget {
     return _ErrorActionButtons(
       key: const Key('retry-button'),
       onPressed: onPressed,
-      child: const Text('ERNEUT VERSUCHEN'),
+      child: Text(context.l10n.sharezoneWidgetsErrorCardRetry),
     );
   }
 }
@@ -117,7 +118,7 @@ class _ContactSupport extends StatelessWidget {
     return _ErrorActionButtons(
       key: const Key('contact-support-button'),
       onPressed: onPressed,
-      child: const Text('SUPPORT KONTAKTIEREN'),
+      child: Text(context.l10n.sharezoneWidgetsErrorCardContactSupport),
     );
   }
 }

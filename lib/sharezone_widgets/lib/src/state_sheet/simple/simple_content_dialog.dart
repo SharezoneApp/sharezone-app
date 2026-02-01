@@ -6,25 +6,25 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-const stateDialogContentLoading = StateDialogContent(
-  title: 'Bitte warten...',
-  body: StateDialogLoadingBody(),
-);
+StateDialogContent stateDialogContentLoading(BuildContext context) =>
+    StateDialogContent(
+      title: context.l10n.commonLoadingPleaseWait,
+      body: const StateDialogLoadingBody(),
+    );
 
-final stateDialogContentSuccessfull = StateDialogContent.fromSimpleData(
-  SimpleData.successful(),
-);
+StateDialogContent stateDialogContentSuccessfull(BuildContext context) =>
+    StateDialogContent.fromSimpleData(SimpleData.successful(context));
 
-final stateDialogContentFailed = StateDialogContent.fromSimpleData(
-  SimpleData.failed(),
-);
+StateDialogContent stateDialogContentFailed(BuildContext context) =>
+    StateDialogContent.fromSimpleData(SimpleData.failed(context));
 
-final stateDialogContentUnknownException = StateDialogContent.fromSimpleData(
-  SimpleData.unkonwnException(),
-);
+StateDialogContent stateDialogContentUnknownException(BuildContext context) =>
+    StateDialogContent.fromSimpleData(SimpleData.unkonwnException(context));
 
-final stateDialogContentNoInternetException = StateDialogContent.fromSimpleData(
-  SimpleData.noInternet(),
-);
+StateDialogContent stateDialogContentNoInternetException(
+  BuildContext context,
+) => StateDialogContent.fromSimpleData(SimpleData.noInternet(context));

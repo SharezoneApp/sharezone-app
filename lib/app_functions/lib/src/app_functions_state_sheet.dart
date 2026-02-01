@@ -16,7 +16,10 @@ Future<AppFunctionsResult<bool>> showAppFunctionStateSheet(
   BuildContext context,
   Future<AppFunctionsResult<bool>> appFunctionsResult,
 ) async {
-  final stateContentStream = _mapAppFunctionToStateContent(appFunctionsResult);
+  final stateContentStream = _mapAppFunctionToStateContent(
+    context,
+    appFunctionsResult,
+  );
   final stateSheet = StateSheet(stateContentStream);
   stateSheet.showSheetAutoPop(
     context,
@@ -32,25 +35,26 @@ Future<AppFunctionsResult<bool>> showAppFunctionStateSheet(
 }
 
 Stream<StateSheetContent> _mapAppFunctionToStateContent(
+  BuildContext context,
   Future<AppFunctionsResult<bool>> appFunctionsResult,
 ) {
   final stateContent = BehaviorSubject<StateSheetContent>.seeded(
-    stateSheetContentLoading,
+    stateSheetContentLoading(),
   );
   appFunctionsResult.then((result) {
     if (result.hasData) {
       final boolean = result.data;
       if (boolean == true) {
-        stateContent.add(stateSheetContentSuccessfull);
+        stateContent.add(stateSheetContentSuccessfull(context));
       } else {
-        stateContent.add(stateSheetContentFailed);
+        stateContent.add(stateSheetContentFailed(context));
       }
     } else {
       final exception = result.exception;
       if (exception is NoInternetAppFunctionsException) {
-        stateContent.add(stateSheetContentNoInternetException);
+        stateContent.add(stateSheetContentNoInternetException(context));
       } else {
-        stateContent.add(stateSheetContentUnknownException);
+        stateContent.add(stateSheetContentUnknownException(context));
       }
     }
   });

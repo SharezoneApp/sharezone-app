@@ -528,7 +528,7 @@ class _DeleteIcon extends StatelessWidget {
               content: Text(
                 'Möchtest du die Datei "${view.name}" wirklich entfernen?',
               ),
-              right: AdaptiveDialogAction.delete,
+              right: AdaptiveDialogAction.delete(context),
               defaultValue: false,
             ))!;
 

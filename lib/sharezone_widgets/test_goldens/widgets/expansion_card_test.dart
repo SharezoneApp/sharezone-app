@@ -9,9 +9,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
+  Widget wrapWithApp(Widget child) {
+    return MaterialApp(
+      localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+      supportedLocales: SharezoneLocalizations.supportedLocales,
+      locale: const Locale('de'),
+      home: child,
+    );
+  }
+
   group(ExpansionCard, () {
     testGoldens('renders collapsed as expected', (tester) async {
       const widget = Column(
@@ -27,7 +37,7 @@ void main() {
         ],
       );
 
-      await tester.pumpWidgetBuilder(widget);
+      await tester.pumpWidgetBuilder(widget, wrapper: wrapWithApp);
 
       await screenMatchesGolden(tester, 'expansion_card_collapsed');
     });
@@ -48,7 +58,7 @@ void main() {
         ],
       );
 
-      await tester.pumpWidgetBuilder(widget);
+      await tester.pumpWidgetBuilder(widget, wrapper: wrapWithApp);
 
       await tester.tap(find.byType(ExpansionCard));
       await tester.pumpAndSettle();

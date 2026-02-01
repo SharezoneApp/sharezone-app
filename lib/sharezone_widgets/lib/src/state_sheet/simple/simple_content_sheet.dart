@@ -6,24 +6,20 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/material.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-const stateSheetContentLoading = StateSheetContent(
-  body: StateSheetLoadingBody(),
-);
+StateSheetContent stateSheetContentLoading() =>
+    const StateSheetContent(body: StateSheetLoadingBody());
 
-final stateSheetContentSuccessfull = StateSheetContent.fromSimpleData(
-  SimpleData.successful(),
-);
+StateSheetContent stateSheetContentSuccessfull(BuildContext context) =>
+    StateSheetContent.fromSimpleData(SimpleData.successful(context));
 
-final stateSheetContentFailed = StateSheetContent.fromSimpleData(
-  SimpleData.failed(),
-);
+StateSheetContent stateSheetContentFailed(BuildContext context) =>
+    StateSheetContent.fromSimpleData(SimpleData.failed(context));
 
-final stateSheetContentUnknownException = StateSheetContent.fromSimpleData(
-  SimpleData.unkonwnException(),
-);
+StateSheetContent stateSheetContentUnknownException(BuildContext context) =>
+    StateSheetContent.fromSimpleData(SimpleData.unkonwnException(context));
 
-final stateSheetContentNoInternetException = StateSheetContent.fromSimpleData(
-  SimpleData.noInternet(),
-);
+StateSheetContent stateSheetContentNoInternetException(BuildContext context) =>
+    StateSheetContent.fromSimpleData(SimpleData.noInternet(context));

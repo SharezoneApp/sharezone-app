@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/src/dialog_wrapper.dart';
 
 import '../adaptive_dialog_action.dart';
@@ -112,7 +113,7 @@ class _ColumnActionsDialogCupertino<T> extends StatelessWidget {
         CupertinoDialogAction(
           isDestructiveAction: true,
           onPressed: () => Navigator.pop(context),
-          child: const Text("Abbrechen"),
+          child: Text(context.l10n.commonActionsCancel),
         ),
       ],
     );

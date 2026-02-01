@@ -9,9 +9,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
+  Widget wrapWithApp(Widget child, {ThemeData? theme}) {
+    return MaterialApp(
+      theme: theme,
+      localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+      supportedLocales: SharezoneLocalizations.supportedLocales,
+      locale: const Locale('de'),
+      home: child,
+    );
+  }
+
   group(CardListTile, () {
     Future<void> pushTile(
       WidgetTester tester, {
@@ -35,7 +46,7 @@ void main() {
             ],
           ),
         ),
-        wrapper: materialAppWrapper(theme: themeData),
+        wrapper: (child) => wrapWithApp(child, theme: themeData),
       );
     }
 

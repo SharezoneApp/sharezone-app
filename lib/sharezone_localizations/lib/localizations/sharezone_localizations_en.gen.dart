@@ -237,6 +237,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get commonActionsCancel => 'Cancel';
 
   @override
+  String get commonActionsCancelUppercase => 'CANCEL';
+
+  @override
   String get commonActionsClose => 'Close';
 
   @override
@@ -246,10 +249,19 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get commonActionsConfirm => 'Confirm';
 
   @override
+  String get commonActionsContinue => 'Continue';
+
+  @override
   String get commonActionsContactSupport => 'Contact support';
 
   @override
   String get commonActionsDelete => 'Delete';
+
+  @override
+  String get commonActionsDeleteUppercase => 'DELETE';
+
+  @override
+  String get commonActionsLeave => 'Leave';
 
   @override
   String get commonActionsOk => 'OK';
@@ -259,6 +271,143 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get commonActionsYes => 'Yes';
+
+  @override
+  String get commonLoadingPleaseWait => 'Please wait...';
+
+  @override
+  String get commonStatusFailed => 'Failed';
+
+  @override
+  String get commonStatusNoInternetDescription =>
+      'Please check the internet connection.';
+
+  @override
+  String get commonStatusNoInternetTitle => 'Error: No internet connection';
+
+  @override
+  String get commonStatusSuccessful => 'Successful';
+
+  @override
+  String get commonStatusUnknownErrorDescription =>
+      'An unknown error occurred! 😭';
+
+  @override
+  String get commonStatusUnknownErrorTitle => 'Unknown error';
+
+  @override
+  String get commonTitleNote => 'Note';
+
+  @override
+  String get sharezoneWidgetsCenteredErrorMessage =>
+      'Unfortunately, an error occurred while loading 😖\nPlease try again later.';
+
+  @override
+  String get sharezoneWidgetsCourseTileNoCourseSelected => 'No course selected';
+
+  @override
+  String get sharezoneWidgetsCourseTileTitle => 'Course';
+
+  @override
+  String get sharezoneWidgetsDatePickerSelectDate => 'Select date';
+
+  @override
+  String get sharezoneWidgetsErrorCardContactSupport => 'CONTACT SUPPORT';
+
+  @override
+  String get sharezoneWidgetsErrorCardRetry => 'TRY AGAIN';
+
+  @override
+  String get sharezoneWidgetsErrorCardTitle => 'An error occurred!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormConfirm => 'YES, LEAVE!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptFull =>
+      'Do you really want to end the input? The data will not be saved!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptNot => 'not';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptPrefix =>
+      'Do you really want to end the input? The data will ';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptSuffix => ' be saved!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormStay => 'NO!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormTitle => 'Leave input?';
+
+  @override
+  String get sharezoneWidgetsLeaveOrSaveFormPrompt =>
+      'Do you want to leave or save the input? If you leave the input, the data will not be saved';
+
+  @override
+  String get sharezoneWidgetsLeaveOrSaveFormTitle => 'Leave or save?';
+
+  @override
+  String get sharezoneWidgetsLoadingEncryptedTransfer =>
+      'Data is being transferred in encrypted form...';
+
+  @override
+  String get sharezoneWidgetsLocationHint => 'Location/Room';
+
+  @override
+  String get sharezoneWidgetsLogoSemanticsLabel =>
+      'Sharezone logo: A blue notebook icon with a cloud, with Sharezone written to the right.';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportBold => '**bold**';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportItalic => '*italic*';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportLabel => 'Markdown: ';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportSeparator => ', ';
+
+  @override
+  String sharezoneWidgetsNotAllowedCharactersError(String characters) {
+    return 'The following characters are not allowed: $characters';
+  }
+
+  @override
+  String get sharezoneWidgetsOverlayCardCloseSemantics => 'Close the card';
+
+  @override
+  String get sharezoneWidgetsSnackbarComingSoon =>
+      'This feature will be available soon! 😊';
+
+  @override
+  String get sharezoneWidgetsSnackbarDataArrivalConfirmed =>
+      'Data arrival confirmed';
+
+  @override
+  String get sharezoneWidgetsSnackbarLoginDataEncrypted =>
+      'Login data is being transferred in encrypted form...';
+
+  @override
+  String get sharezoneWidgetsSnackbarPatience =>
+      'Please wait! Data is still loading...';
+
+  @override
+  String get sharezoneWidgetsSnackbarSaved =>
+      'Changes have been saved successfully';
+
+  @override
+  String get sharezoneWidgetsSnackbarSendingDataToFrankfurt =>
+      'Data is being transported to Frankfurt...';
+
+  @override
+  String get sharezoneWidgetsTextFieldCannotBeEmptyError =>
+      'The text field must not be empty!';
 
   @override
   String commonDisplayError(String? error) {

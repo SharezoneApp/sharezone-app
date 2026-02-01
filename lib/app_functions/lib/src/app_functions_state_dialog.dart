@@ -16,7 +16,10 @@ Future<AppFunctionsResult<bool>> showAppFunctionStateDialog(
   BuildContext context,
   Future<AppFunctionsResult<bool>> appFunctionsResult,
 ) async {
-  final stateContentStream = _mapAppFunctionToStateContent(appFunctionsResult);
+  final stateContentStream = _mapAppFunctionToStateContent(
+    context,
+    appFunctionsResult,
+  );
   final stateDialog = StateDialog(stateContentStream);
   stateDialog.showDialogAutoPop(
     context,
@@ -32,25 +35,26 @@ Future<AppFunctionsResult<bool>> showAppFunctionStateDialog(
 }
 
 Stream<StateDialogContent> _mapAppFunctionToStateContent(
+  BuildContext context,
   Future<AppFunctionsResult<bool>> appFunctionsResult,
 ) {
   final stateContent = BehaviorSubject<StateDialogContent>.seeded(
-    stateDialogContentLoading,
+    stateDialogContentLoading(context),
   );
   appFunctionsResult.then((result) {
     if (result.hasData) {
       final boolean = result.data;
       if (boolean == true) {
-        stateContent.add(stateDialogContentSuccessfull);
+        stateContent.add(stateDialogContentSuccessfull(context));
       } else {
-        stateContent.add(stateDialogContentFailed);
+        stateContent.add(stateDialogContentFailed(context));
       }
     } else {
       final exception = result.exception;
       if (exception is NoInternetAppFunctionsException) {
-        stateContent.add(stateDialogContentNoInternetException);
+        stateContent.add(stateDialogContentNoInternetException(context));
       } else {
-        stateContent.add(stateDialogContentUnknownException);
+        stateContent.add(stateDialogContentUnknownException(context));
       }
     }
   });

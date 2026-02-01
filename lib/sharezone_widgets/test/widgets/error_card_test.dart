@@ -8,16 +8,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
+  Widget buildApp(Widget child) {
+    return MaterialApp(
+      localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+      supportedLocales: SharezoneLocalizations.supportedLocales,
+      locale: const Locale('de'),
+      home: child,
+    );
+  }
+
   group(ErrorCard, () {
     testWidgets('Does not show Wrap widget if all callbacks are null', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(body: ErrorCard(message: Text('Test Message'))),
+        buildApp(
+          const Scaffold(body: ErrorCard(message: Text('Test Message'))),
         ),
       );
 
@@ -28,8 +38,8 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
+        buildApp(
+          Scaffold(
             body: ErrorCard(
               message: const Text('Test Message'),
               onContactSupportPressed: () {},
@@ -45,8 +55,8 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
+        buildApp(
+          Scaffold(
             body: ErrorCard(
               message: const Text('Test Message'),
               onRetryPressed: () {},
@@ -64,8 +74,8 @@ void main() {
       bool wasCalled = false;
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
+        buildApp(
+          Scaffold(
             body: ErrorCard(
               message: const Text('Test Message'),
               onRetryPressed: () {
@@ -84,8 +94,8 @@ void main() {
       'Does not show contact support button if onContactSupportPressed is null',
       (WidgetTester tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
+          buildApp(
+            Scaffold(
               body: ErrorCard(
                 message: const Text('Test Message'),
                 onRetryPressed: () {},
@@ -102,8 +112,8 @@ void main() {
       'Does show contact support button if onContactSupportPressed is not null',
       (WidgetTester tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
+          buildApp(
+            Scaffold(
               body: ErrorCard(
                 message: const Text('Test Message'),
                 onContactSupportPressed: () {},
@@ -122,8 +132,8 @@ void main() {
         bool wasCalled = false;
 
         await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
+          buildApp(
+            Scaffold(
               body: ErrorCard(
                 message: const Text('Test Message'),
                 onContactSupportPressed: () {
