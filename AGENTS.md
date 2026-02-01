@@ -25,6 +25,8 @@ With Sharezone pupils, teachers and even parents can use the following features 
 - **tools/sz_repo_cli/**: Our custom `sz` Dart CLI used by developers and CI/CD pipelines.
   Helps with tasks like testing, analyzing, building, deploying etc.
 
+This repository doesn't contain the backend code.
+
 ## Running the app
 
 After you have set up your development environment, you can run the app.
