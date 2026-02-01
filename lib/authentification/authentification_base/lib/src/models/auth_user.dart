@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 enum Provider { email, google, anonymous, apple }
 
@@ -51,15 +52,15 @@ class AuthUser {
   }
 }
 
-String providerToUiString(Provider provider) {
+String providerToUiString(Provider provider, SharezoneLocalizations l10n) {
   switch (provider) {
     case Provider.anonymous:
-      return 'Anonyme Anmeldung';
+      return l10n.authProviderAnonymous;
     case Provider.google:
-      return 'Google Sign In';
+      return l10n.authProviderGoogle;
     case Provider.apple:
-      return 'Apple Sign In';
+      return l10n.authProviderApple;
     case Provider.email:
-      return 'E-Mail und Passwort';
+      return l10n.authProviderEmailPassword;
   }
 }

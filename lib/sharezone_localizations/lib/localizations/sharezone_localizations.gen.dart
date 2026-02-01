@@ -2688,6 +2688,60 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Überschrift der Sharezone App'**
   String get websiteWelcomeHeadlineSemanticLabel;
+
+  /// No description provided for @authInvalidEmail.
+  ///
+  /// In de, this message translates to:
+  /// **'Gib eine gültige E-Mail ein'**
+  String get authInvalidEmail;
+
+  /// No description provided for @authInvalidPassword.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein'**
+  String get authInvalidPassword;
+
+  /// No description provided for @authInvalidName.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungültiger Name'**
+  String get authInvalidName;
+
+  /// No description provided for @authProviderAnonymous.
+  ///
+  /// In de, this message translates to:
+  /// **'Anonyme Anmeldung'**
+  String get authProviderAnonymous;
+
+  /// No description provided for @authProviderGoogle.
+  ///
+  /// In de, this message translates to:
+  /// **'Google Sign In'**
+  String get authProviderGoogle;
+
+  /// No description provided for @authProviderApple.
+  ///
+  /// In de, this message translates to:
+  /// **'Apple Sign In'**
+  String get authProviderApple;
+
+  /// No description provided for @authProviderEmailPassword.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail und Passwort'**
+  String get authProviderEmailPassword;
+
+  /// No description provided for @authAnonymousUserName.
+  ///
+  /// In de, this message translates to:
+  /// **'Anonymer {animal}'**
+  String authAnonymousUserName(String animal);
+
+  /// No description provided for @authAnonymousAnimalNames.
+  ///
+  /// In de, this message translates to:
+  /// **'Löwe, Tiger, Vogel, Pinguin, Dalmatiner, Gepard, Lachs, Elefant, Affe, Stier, Gorilla, Bär, Eisbär, Papagei, Braunbär, Wolf, Schäferhund, Kampfhund, Dobermann, Panda, Wal, Hai, Pottwal, Blauwal, Buckelwal, Riesenhai, Fisch, Aal, Seelachs, Hecht, Zander, Karpfen, Krapfen, Barsch, Biber, Fuchs, Alligator, Leopard, Hamster'**
+  String get authAnonymousAnimalNames;
 }
 
 class _SharezoneLocalizationsDelegate

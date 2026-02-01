@@ -18,6 +18,7 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart' hide VerticalDivider;
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';
@@ -41,6 +42,9 @@ class SignInWithQrCodePage extends StatelessWidget {
               ),
               loginAnalytics: LoginAnalytics(Analytics(getBackend())),
               crashAnalytics: getCrashAnalytics(),
+              validationMessages: AuthentificationValidationMessages.fromL10n(
+                context.l10n,
+              ),
             ),
             child: _InnerSignInWithQrCodePage(),
           );

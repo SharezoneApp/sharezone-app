@@ -21,6 +21,7 @@ import 'package:sharezone/onboarding/group_onboarding/widgets/bottom_bar_button.
 import 'package:sharezone/onboarding/sign_up/widgets/easter_egg_clock.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -220,7 +221,7 @@ class _SignUpButtonState extends State<_SignUpButton> {
                 final bloc = BlocProvider.of<RegistrationBloc>(context);
                 try {
                   setState(() => isLoading = true);
-                  await bloc.signUp();
+                  await bloc.signUp(context.l10n);
                   if (!context.mounted) return;
                   Navigator.popUntil(context, ModalRoute.withName('/'));
                 } catch (e, s) {

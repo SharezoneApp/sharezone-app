@@ -233,7 +233,7 @@ class _ProviderTile extends StatelessWidget {
     return ListTile(
       leading: const Icon(Icons.lock),
       title: Text(context.l10n.myProfileSignInMethodTile),
-      subtitle: Text(providerToUiString(provider)),
+      subtitle: Text(providerToUiString(provider, context.l10n)),
       onTap: () {
         if (provider == Provider.anonymous) {
           Navigator.pushNamed(context, AccountPage.tag);

@@ -37,6 +37,8 @@ dependencies:
   google_sign_in: ^6.2.2
   meta: ^1.16.0
   rxdart: ^0.28.0
+  sharezone_localizations:
+    path: ../../sharezone_localizations
 
 dev_dependencies:
   flutter_test:

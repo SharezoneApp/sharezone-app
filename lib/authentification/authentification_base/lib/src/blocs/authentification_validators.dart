@@ -8,22 +8,48 @@
 
 import 'dart:async';
 
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
+class AuthentificationValidationMessages {
+  final String invalidEmail;
+  final String invalidPassword;
+  final String invalidName;
+
+  const AuthentificationValidationMessages({
+    required this.invalidEmail,
+    required this.invalidPassword,
+    required this.invalidName,
+  });
+
+  factory AuthentificationValidationMessages.fromL10n(
+    SharezoneLocalizations l10n,
+  ) {
+    return AuthentificationValidationMessages(
+      invalidEmail: l10n.authInvalidEmail,
+      invalidPassword: l10n.authInvalidPassword,
+      invalidName: l10n.authInvalidName,
+    );
+  }
+}
+
 mixin AuthentificationValidators {
+  AuthentificationValidationMessages get validationMessages;
   static const int minNameSize = 2;
   static const int maxNameSize = 48;
   static RegExp charactersNotAllowedInNames = RegExp(
     r"^[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=,]{1,48}$",
   );
 
-  final validateEmail = StreamTransformer<String, String>.fromHandlers(
-    handleData: (email, sink) {
-      if (isEmailValid(email)) {
-        sink.add(email);
-      } else {
-        sink.addError('Gib eine gültige E-Mail ein');
-      }
-    },
-  );
+  StreamTransformer<String, String> get validateEmail =>
+      StreamTransformer<String, String>.fromHandlers(
+        handleData: (email, sink) {
+          if (isEmailValid(email)) {
+            sink.add(email);
+          } else {
+            sink.addError(validationMessages.invalidEmail);
+          }
+        },
+      );
 
   /// Eine valide E-Mail sollte ein "@" und ein "." enthalten,
   /// sowie keine deutschen Umlaute beinhalten.
@@ -52,29 +78,31 @@ mixin AuthentificationValidators {
   // Advice: Check in the end, when submitting a form if the passwords are REALLY
   // the same!
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  final validatePassword = StreamTransformer<String?, String?>.fromHandlers(
-    handleData: (password, sink) {
-      if (password == null) {
-        return;
-      }
+  StreamTransformer<String?, String?> get validatePassword =>
+      StreamTransformer<String?, String?>.fromHandlers(
+        handleData: (password, sink) {
+          if (password == null) {
+            return;
+          }
 
-      if (isPasswordValid(password)) {
-        sink.add(password);
-      } else {
-        sink.addError('Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein');
-      }
-    },
-  );
+          if (isPasswordValid(password)) {
+            sink.add(password);
+          } else {
+            sink.addError(validationMessages.invalidPassword);
+          }
+        },
+      );
 
-  final validateName = StreamTransformer<String, String>.fromHandlers(
-    handleData: (name, sink) {
-      if (isNameValid(name)) {
-        sink.add(name);
-      } else {
-        sink.addError("Ungültiger Name");
-      }
-    },
-  );
+  StreamTransformer<String, String> get validateName =>
+      StreamTransformer<String, String>.fromHandlers(
+        handleData: (name, sink) {
+          if (isNameValid(name)) {
+            sink.add(name);
+          } else {
+            sink.addError(validationMessages.invalidName);
+          }
+        },
+      );
 
   static bool isNameValid(String? name) {
     if (name == null) return false;

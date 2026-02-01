@@ -15,6 +15,7 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:clock/clock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:user/user.dart';
 
 class RegistrationEvent {
@@ -50,7 +51,10 @@ class RegistrationGateway extends BlocBase {
     userCollection.doc(user.id).set(data, SetOptions(merge: true));
   }
 
-  Future<AppUser> registerUser(TypeOfUser typeOfUser) async {
+  Future<AppUser> registerUser(
+    TypeOfUser typeOfUser, {
+    required SharezoneLocalizations l10n,
+  }) async {
     User? fbUser = _auth.currentUser;
     bool anonymousLogin = false;
 
@@ -62,7 +66,9 @@ class RegistrationGateway extends BlocBase {
     final userID = fbUser!.uid;
 
     final user = AppUser.create(id: userID).copyWith(
-      name: fbUser.displayName ?? "Anonymer ${_getRandomAnimalName()}",
+      name:
+          fbUser.displayName ??
+          l10n.authAnonymousUserName(_getRandomAnimalName(l10n)),
       typeOfUser: typeOfUser,
       state: StateEnum.notSelected,
       referralScore: 0,
@@ -89,51 +95,20 @@ class RegistrationGateway extends BlocBase {
     _registrationEventController.add(RegistrationEvent(newUserId: uid));
   }
 
-  String _getRandomAnimalName() =>
-      randomNames[Random().nextInt(randomNames.length)];
+  String _getRandomAnimalName(SharezoneLocalizations l10n) {
+    final animalNames = _parseAnonymousAnimalNames(l10n);
+    if (animalNames.isEmpty) return '';
+    return animalNames[Random().nextInt(animalNames.length)];
+  }
+
+  List<String> _parseAnonymousAnimalNames(SharezoneLocalizations l10n) {
+    return l10n.authAnonymousAnimalNames
+        .split(',')
+        .map((animal) => animal.trim())
+        .where((animal) => animal.isNotEmpty)
+        .toList();
+  }
 
   @override
   void dispose() {}
 }
-
-const randomNames = <String>[
-  "Löwe",
-  "Tiger",
-  "Vogel",
-  "Pinguin",
-  "Dalmatiner",
-  "Gepard",
-  "Lachs",
-  "Elefant",
-  "Affe",
-  "Stier",
-  "Gorilla",
-  "Bär",
-  "Eisbär",
-  "Papagei",
-  "Braunbär",
-  "Wolf",
-  "Schäferhund",
-  "Kampfhund",
-  "Dobermann",
-  "Panda",
-  "Wal",
-  "Hai",
-  "Pottwal",
-  "Blauwal",
-  "Buckelwal",
-  "Riesenhai",
-  "Fisch",
-  "Aal",
-  "Seelachs",
-  "Hecht",
-  "Zander",
-  "Karpfen",
-  "Krapfen",
-  "Barsch",
-  "Biber",
-  "Fuchs",
-  "Alligator",
-  "Leopard",
-  "Hamster",
-];

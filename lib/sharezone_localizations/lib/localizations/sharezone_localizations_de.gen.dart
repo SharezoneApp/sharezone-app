@@ -1515,4 +1515,35 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get websiteWelcomeHeadlineSemanticLabel =>
       'Überschrift der Sharezone App';
+
+  @override
+  String get authInvalidEmail => 'Gib eine gültige E-Mail ein';
+
+  @override
+  String get authInvalidPassword =>
+      'Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein';
+
+  @override
+  String get authInvalidName => 'Ungültiger Name';
+
+  @override
+  String get authProviderAnonymous => 'Anonyme Anmeldung';
+
+  @override
+  String get authProviderGoogle => 'Google Sign In';
+
+  @override
+  String get authProviderApple => 'Apple Sign In';
+
+  @override
+  String get authProviderEmailPassword => 'E-Mail und Passwort';
+
+  @override
+  String authAnonymousUserName(String animal) {
+    return 'Anonymer $animal';
+  }
+
+  @override
+  String get authAnonymousAnimalNames =>
+      'Löwe, Tiger, Vogel, Pinguin, Dalmatiner, Gepard, Lachs, Elefant, Affe, Stier, Gorilla, Bär, Eisbär, Papagei, Braunbär, Wolf, Schäferhund, Kampfhund, Dobermann, Panda, Wal, Hai, Pottwal, Blauwal, Buckelwal, Riesenhai, Fisch, Aal, Seelachs, Hecht, Zander, Karpfen, Krapfen, Barsch, Biber, Fuchs, Alligator, Leopard, Hamster';
 }

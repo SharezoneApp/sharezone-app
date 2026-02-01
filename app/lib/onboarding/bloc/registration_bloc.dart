@@ -9,6 +9,7 @@
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:user/user.dart';
 
 class RegistrationBloc extends BlocBase {
@@ -21,10 +22,10 @@ class RegistrationBloc extends BlocBase {
 
   Function(TypeOfUser) get setTypeOfUser => (userType) => typeOfUser = userType;
 
-  Future<void> signUp() async {
+  Future<void> signUp(SharezoneLocalizations l10n) async {
     _signUpBloc.setTypeOfUser(typeOfUser!);
     _signUpBloc.setSignedUp(true);
-    await _gateway.registerUser(typeOfUser!);
+    await _gateway.registerUser(typeOfUser!, l10n: l10n);
   }
 
   @override

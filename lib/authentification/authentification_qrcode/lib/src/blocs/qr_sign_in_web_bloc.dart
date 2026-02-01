@@ -41,6 +41,7 @@ class QrSignInWebBloc extends BlocBase {
   final LoginAnalytics loginAnalytics;
   final CrashAnalytics crashAnalytics;
   final QrCodeUserAuthenticator qrSignInLogic;
+  final AuthentificationValidationMessages validationMessages;
   final _qrSignInStateSubject = BehaviorSubject<QrSignInState>.seeded(
     QrCodeIsGenerating(),
   );
@@ -52,6 +53,7 @@ class QrSignInWebBloc extends BlocBase {
     this.qrSignInLogic,
     this.loginAnalytics,
     this.crashAnalytics,
+    this.validationMessages,
   ) {
     _initializeAuthentification();
   }
@@ -80,7 +82,10 @@ class QrSignInWebBloc extends BlocBase {
   }
 
   Future<void> _signInWithCustomToken(String customToken) {
-    final loginBloc = LoginBloc(loginAnalytics);
+    final loginBloc = LoginBloc(
+      loginAnalytics,
+      validationMessages: validationMessages,
+    );
     return loginBloc.loginWithCustomTokenFromQrCodeSignIn(customToken);
   }
 
@@ -89,11 +94,13 @@ class QrSignInWebBloc extends BlocBase {
     required SharezoneAppFunctions appFunctions,
     required LoginAnalytics loginAnalytics,
     required CrashAnalytics crashAnalytics,
+    required AuthentificationValidationMessages validationMessages,
   }) {
     return QrSignInWebBloc._(
       QrCodeUserAuthenticator(firestore, appFunctions),
       loginAnalytics,
       crashAnalytics,
+      validationMessages,
     );
   }
 

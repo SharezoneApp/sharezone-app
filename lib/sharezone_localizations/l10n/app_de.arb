@@ -73,6 +73,22 @@
     }
   },
   "appName": "Sharezone",
+  "authAnonymousAnimalNames": "Löwe, Tiger, Vogel, Pinguin, Dalmatiner, Gepard, Lachs, Elefant, Affe, Stier, Gorilla, Bär, Eisbär, Papagei, Braunbär, Wolf, Schäferhund, Kampfhund, Dobermann, Panda, Wal, Hai, Pottwal, Blauwal, Buckelwal, Riesenhai, Fisch, Aal, Seelachs, Hecht, Zander, Karpfen, Krapfen, Barsch, Biber, Fuchs, Alligator, Leopard, Hamster",
+  "authAnonymousUserName": "Anonymer {animal}",
+  "@authAnonymousUserName": {
+    "placeholders": {
+      "animal": {
+        "type": "String"
+      }
+    }
+  },
+  "authInvalidEmail": "Gib eine gültige E-Mail ein",
+  "authInvalidName": "Ungültiger Name",
+  "authInvalidPassword": "Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein",
+  "authProviderAnonymous": "Anonyme Anmeldung",
+  "authProviderApple": "Apple Sign In",
+  "authProviderEmailPassword": "E-Mail und Passwort",
+  "authProviderGoogle": "Google Sign In",
   "changeEmailAddressCurrentEmailTextfieldLabel": "Aktuell",
   "@changeEmailAddressCurrentEmailTextfieldLabel": {
     "description": "The label for the text field which is used for the current email address"

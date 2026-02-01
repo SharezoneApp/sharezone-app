@@ -21,11 +21,13 @@ import 'authentification_validators.dart';
 
 class LoginBloc extends BlocBase with AuthentificationValidators {
   final LoginAnalytics _analytics;
+  @override
+  final AuthentificationValidationMessages validationMessages;
 
   final _emailSubject = BehaviorSubject<String>();
   final _passwordSubject = BehaviorSubject<String?>();
 
-  LoginBloc(this._analytics);
+  LoginBloc(this._analytics, {required this.validationMessages});
 
   Stream<String> get email => _emailSubject.stream.transform(validateEmail);
   Stream<String?> get password =>

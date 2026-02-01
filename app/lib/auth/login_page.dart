@@ -22,6 +22,7 @@ import 'package:sharezone/keys.dart';
 import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'email_and_password_link_page.dart';
@@ -98,7 +99,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     final analytics = LoginAnalytics(Analytics(getBackend()));
-    bloc = LoginBloc(analytics);
+    bloc = LoginBloc(
+      analytics,
+      validationMessages: AuthentificationValidationMessages.fromL10n(
+        context.l10n,
+      ),
+    );
     super.initState();
     showTipCardIfIsAvailable(context);
   }
