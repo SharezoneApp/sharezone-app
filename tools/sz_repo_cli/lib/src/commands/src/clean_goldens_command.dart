@@ -54,7 +54,7 @@ class CleanGoldensCommand extends ConcurrentCommand {
 
       try {
         await dir.delete(recursive: true);
-        stdout.writeln('✅ Deleted: ${dir.path}');
+        stdout.writeln('🗑️ Deleted: ${dir.path}');
       } catch (e) {
         stderr.writeln('❌ Failed to delete ${dir.path}: $e');
       }
