@@ -14,6 +14,8 @@ export 'src/exec_command.dart';
 export 'src/fix_comment_spacing_command.dart' show FixCommentSpacingCommand;
 export 'src/generate_l10n_files_command.dart';
 export 'src/pick_codemagic_goldens_command.dart';
+export 'src/build_command.dart';
+export 'src/clean_goldens_command.dart';
 export 'src/pub_command.dart';
 export 'src/pub_get_command.dart' show PubGetCommand;
 export 'src/test_command.dart';
