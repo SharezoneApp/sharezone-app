@@ -16,6 +16,7 @@ import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'open_submission_file.dart';
@@ -114,16 +115,24 @@ class _HomeworkUserCreateSubmissionPageState
                                   SubmitDialogOption
                                 >(
                                   context: context,
-                                  title: 'Wirklich Abgeben?',
-                                  content: const Text(
-                                    'Nach der Abgabe kannst du keine Datei mehr löschen. Du kannst aber noch neue Dateien hinzufügen und alte Dateien umbenennen.',
+                                  title:
+                                      context
+                                          .l10n
+                                          .submissionsCreateSubmitDialogTitle,
+                                  content: Text(
+                                    context
+                                        .l10n
+                                        .submissionsCreateSubmitDialogContent,
                                   ),
-                                  right: const AdaptiveDialogAction(
-                                    title: 'Abgeben',
+                                  right: AdaptiveDialogAction(
+                                    title:
+                                        context
+                                            .l10n
+                                            .submissionsCreateSubmitAction,
                                     popResult: SubmitDialogOption.submit,
                                   ),
-                                  left: const AdaptiveDialogAction(
-                                    title: 'Abbrechen',
+                                  left: AdaptiveDialogAction(
+                                    title: context.l10n.commonActionsCancel,
                                     popResult: SubmitDialogOption.cancel,
                                   ),
                                 );
@@ -138,7 +147,10 @@ class _HomeworkUserCreateSubmissionPageState
                                 }
                               }
                               : null,
-                      child: Text('Abgeben'.toUpperCase()),
+                      child: Text(
+                        context.l10n.submissionsCreateSubmitAction
+                            .toUpperCase(),
+                      ),
                     ),
                 ],
                 centerTitle: true,
@@ -182,9 +194,9 @@ class _SubmissionReceivedInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AnnouncementCard(
+    return AnnouncementCard(
       color: Colors.lightGreen,
-      title: 'Abgabe erfolgreich abgegeben!',
+      title: context.l10n.submissionsCreateSubmittedTitle,
     );
   }
 }
@@ -234,11 +246,9 @@ class _AfterDeadlineCanStillBeSubmitted extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AnnouncementCard(
-      title: 'Abgabefrist verpasst? Du kannst trotzdem abgeben!',
-      content: Text(
-        'Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)',
-      ),
+    return AnnouncementCard(
+      title: context.l10n.submissionsCreateAfterDeadlineTitle,
+      content: Text(context.l10n.submissionsCreateAfterDeadlineContent),
     );
   }
 }
@@ -250,9 +260,12 @@ class _AddFileFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
       onPressed: () => _showFilePickerDialog(context),
-      label: const Text('Datei hinzufügen', style: TextStyle(fontSize: 16)),
+      label: Text(
+        context.l10n.submissionsCreateAddFile,
+        style: const TextStyle(fontSize: 16),
+      ),
       backgroundColor: Colors.blue,
-      tooltip: 'Datei hinzufügen',
+      tooltip: context.l10n.submissionsCreateAddFile,
     );
   }
 
@@ -273,25 +286,26 @@ class _AddFileFab extends StatelessWidget {
                 try {
                   bloc.addSubmissionFiles(localFiles);
                 } on FileConversionException catch (e) {
+                  final l10n = context.l10n;
                   String msg;
                   if (e.files.length == 1) {
-                    msg =
-                        'Die gewählte Datei "${e.files.first.getName()}" scheint invalide zu sein.';
+                    msg = l10n.submissionsCreateFileInvalidSingle(
+                      e.files.first.getName(),
+                    );
                   } else {
                     final names = e.files.map((e) => e.getName()).join(', ');
-                    msg =
-                        'Die gewählte Dateien "$names" scheinen invalide zu sein.';
+                    msg = l10n.submissionsCreateFileInvalidMultiple(names);
                   }
                   showLeftRightAdaptiveDialog(
                     context: context,
-                    title: 'Fehler',
+                    title: l10n.submissionsCreateFileInvalidDialogTitle,
                     content: Text(
-                      '$msg.\nBitte kontaktiere den Support unter support@sharezone.net!',
+                      l10n.submissionsCreateFileInvalidDialogContent(msg),
                     ),
                     left: AdaptiveDialogAction(
                       isDefaultAction: true,
                       onPressed: () => Navigator.pop(context),
-                      title: 'Ok',
+                      title: l10n.commonActionsOk,
                     ),
                   );
                 }
@@ -407,7 +421,7 @@ class _RenameFile extends StatelessWidget {
               ),
         );
       },
-      tooltip: 'Umbenennen',
+      tooltip: context.l10n.submissionsCreateRenameTooltip,
     );
   }
 }
@@ -441,8 +455,9 @@ class __RenameDialogState extends State<_RenameDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return AlertDialog(
-      title: const Text('Datei umbenennen'),
+      title: Text(l10n.submissionsCreateRenameDialogTitle),
       content: PrefilledTextField(
         prefilledText: widget.view.basename,
         decoration: InputDecoration(
@@ -473,7 +488,7 @@ class __RenameDialogState extends State<_RenameDialog> {
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: const Text("UMBENENNEN"),
+          child: Text(l10n.submissionsCreateRenameActionUppercase),
         ),
       ],
     );
@@ -498,11 +513,11 @@ class __RenameDialogState extends State<_RenameDialog> {
   String? getErrorText() {
     switch (error) {
       case _RenameError.tooLong:
-        return 'Der Name ist zu lang!';
+        return context.l10n.submissionsCreateRenameErrorTooLong;
       case _RenameError.alreadyExits:
-        return 'Dieser Dateiname existiert bereits!';
+        return context.l10n.submissionsCreateRenameErrorAlreadyExists;
       case _RenameError.isEmpty:
-        return 'Der Name darf nicht leer sein!';
+        return context.l10n.submissionsCreateRenameErrorEmpty;
       case null:
         return null;
     }
@@ -524,9 +539,9 @@ class _DeleteIcon extends StatelessWidget {
         final confirmed =
             (await showLeftRightAdaptiveDialog<bool>(
               context: context,
-              title: 'Datei entfernen',
+              title: context.l10n.submissionsCreateRemoveFileTitle,
               content: Text(
-                'Möchtest du die Datei "${view.name}" wirklich entfernen?',
+                context.l10n.submissionsCreateRemoveFileContent(view.name),
               ),
               right: AdaptiveDialogAction.delete,
               defaultValue: false,
@@ -539,7 +554,7 @@ class _DeleteIcon extends StatelessWidget {
           bloc.removeSubmissionFile(view.id);
         }
       },
-      tooltip: 'Datei entfernen',
+      tooltip: context.l10n.submissionsCreateRemoveFileTooltip,
     );
   }
 }
@@ -562,13 +577,12 @@ class _NoFilesUploaded extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.16),
-      child: const PlaceholderModel(
+      child: PlaceholderModel(
         animateSVG: false,
         riveAnimationName: 'Writing',
         rivePath: 'assets/flare/submissions_empty_state.flr',
-        title:
-            'Lade jetzt Dateien hoch, die du für die Hausaufgabe abgeben willst!',
-        iconSize: Size(400, 200),
+        title: context.l10n.submissionsCreateEmptyStateTitle,
+        iconSize: const Size(400, 200),
       ),
     );
   }
@@ -580,13 +594,11 @@ Future<bool?> warnUserAboutUploadingFilesForm(BuildContext context) async {
 
   return await showLeftRightAdaptiveDialog<bool>(
         context: context,
-        title: 'Dateien am hochladen!',
-        content: const Text(
-          'Wenn du den Dialog verlässt wird der Hochladevorgang für noch nicht hochgeladene Dateien abgebrochen.',
-        ),
+        title: context.l10n.submissionsCreateUploadInProgressTitle,
+        content: Text(context.l10n.submissionsCreateUploadInProgressContent),
         defaultValue: false,
-        right: const AdaptiveDialogAction(
-          title: "Verlassen",
+        right: AdaptiveDialogAction(
+          title: context.l10n.submissionsCreateLeaveAction,
           isDefaultAction: true,
           popResult: true,
         ),
@@ -600,14 +612,11 @@ Future<bool?> warnUserAboutNotSubmittedForm(BuildContext context) async {
 
   return await showLeftRightAdaptiveDialog<bool>(
         context: context,
-        title: 'Abgabe nicht abgegeben!',
-        content: const Text(
-          'Dein Lehrer wird deine Abgabe nicht sehen können, bis du diese abgibst.\n\n'
-          'Deine bisher hochgeladenen Dateien bleiben trotzdem für dich gespeichert.',
-        ),
+        title: context.l10n.submissionsCreateNotSubmittedTitle,
+        content: Text(context.l10n.submissionsCreateNotSubmittedContent),
         defaultValue: false,
-        right: const AdaptiveDialogAction(
-          title: "Verlassen",
+        right: AdaptiveDialogAction(
+          title: context.l10n.submissionsCreateLeaveAction,
           isDefaultAction: true,
           popResult: true,
         ),
