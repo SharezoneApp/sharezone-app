@@ -361,7 +361,7 @@
   "submissionsCreateAddFile": "Add file",
   "submissionsCreateAfterDeadlineContent": "You can still submit now, but the teacher will decide how to handle it ;)",
   "submissionsCreateAfterDeadlineTitle": "Missed the deadline? You can still submit!",
-  "submissionsCreateEmptyStateTitle": "Upload files now that you want to submit for the homework!",
+  "submissionsCreateEmptyStateTitle": "Upload files that you want to submit for the homework!",
   "submissionsCreateFileInvalidDialogContent": "{message}\nPlease contact support at support@sharezone.net!",
   "submissionsCreateFileInvalidDialogTitle": "Error",
   "submissionsCreateFileInvalidMultiple": "The selected files \"{fileNames}\" seem to be invalid.",

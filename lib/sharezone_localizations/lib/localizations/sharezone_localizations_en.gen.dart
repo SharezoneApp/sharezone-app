@@ -1037,7 +1037,7 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get submissionsCreateEmptyStateTitle =>
-      'Upload files now that you want to submit for the homework!';
+      'Upload files that you want to submit for the homework!';
 
   @override
   String submissionsCreateFileInvalidDialogContent(String message) {
