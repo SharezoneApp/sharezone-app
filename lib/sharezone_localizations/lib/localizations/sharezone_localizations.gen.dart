@@ -555,6 +555,72 @@ abstract class SharezoneLocalizations {
   /// **'Bundesland / Kanton auswählen'**
   String get dashboardSelectStateButton;
 
+  /// Week type for lessons that occur on week A.
+  ///
+  /// In de, this message translates to:
+  /// **'A-Woche'**
+  String get dateWeekTypeA;
+
+  /// Week type for lessons that occur every week.
+  ///
+  /// In de, this message translates to:
+  /// **'Immer'**
+  String get dateWeekTypeAlways;
+
+  /// Week type for lessons that occur on week B.
+  ///
+  /// In de, this message translates to:
+  /// **'B-Woche'**
+  String get dateWeekTypeB;
+
+  /// Weekday name for Friday.
+  ///
+  /// In de, this message translates to:
+  /// **'Freitag'**
+  String get dateWeekdayFriday;
+
+  /// Weekday name for Monday.
+  ///
+  /// In de, this message translates to:
+  /// **'Montag'**
+  String get dateWeekdayMonday;
+
+  /// Weekday name for Saturday.
+  ///
+  /// In de, this message translates to:
+  /// **'Samstag'**
+  String get dateWeekdaySaturday;
+
+  /// Weekday name for Sunday.
+  ///
+  /// In de, this message translates to:
+  /// **'Sonntag'**
+  String get dateWeekdaySunday;
+
+  /// Weekday name for Thursday.
+  ///
+  /// In de, this message translates to:
+  /// **'Donnerstag'**
+  String get dateWeekdayThursday;
+
+  /// Weekday name for Tuesday.
+  ///
+  /// In de, this message translates to:
+  /// **'Dienstag'**
+  String get dateWeekdayTuesday;
+
+  /// Weekday name for Wednesday.
+  ///
+  /// In de, this message translates to:
+  /// **'Mittwoch'**
+  String get dateWeekdayWednesday;
+
+  /// Label for yesterday in fuzzy date strings.
+  ///
+  /// In de, this message translates to:
+  /// **'Gestern'**
+  String get dateYesterday;
+
   /// No description provided for @feedbackDetailsCommentsTitle.
   ///
   /// In de, this message translates to:
