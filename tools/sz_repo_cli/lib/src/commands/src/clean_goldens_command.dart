@@ -40,10 +40,6 @@ class CleanGoldensCommand extends ConcurrentCommand {
       path.join(package.location.path, 'test_goldens'),
     );
 
-    if (!await testGoldensDir.exists()) {
-      return;
-    }
-
     final failuresDirs = await _findAllFailuresDirs(testGoldensDir);
 
     if (failuresDirs.isEmpty) {
