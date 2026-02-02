@@ -32,7 +32,6 @@ DON'T use block comments for documentation.
 #### Doc comments
 
 DO use `///` doc comments to document members and types.
-PREFER writing doc comments for public APIs.
 CONSIDER writing a library-level doc comment.
 CONSIDER writing doc comments for private APIs.
 DO start doc comments with a single-sentence summary.

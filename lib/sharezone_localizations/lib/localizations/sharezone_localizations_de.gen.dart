@@ -325,6 +325,57 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get languageTitle => 'Sprache';
 
   @override
+  String get legalChangeAppearance => 'Darstellung ändern';
+
+  @override
+  String get legalDownloadAsPdf => 'Als PDF herunterladen';
+
+  @override
+  String legalMetadataLastUpdated(String date) {
+    return 'Zuletzt aktualisiert: $date';
+  }
+
+  @override
+  String get legalMetadataTitle => 'Metadaten';
+
+  @override
+  String legalMetadataVersion(String version) {
+    return 'Version: v$version';
+  }
+
+  @override
+  String get legalMoreOptions => 'Weitere Optionen';
+
+  @override
+  String legalPrivacyPolicyEffectiveDate(String date) {
+    return 'Diese aktualisierte Datenschutzerklärung tritt am $date in Kraft.';
+  }
+
+  @override
+  String get legalPrivacyPolicyTitle => 'Datenschutzerklärung';
+
+  @override
+  String get legalTableOfContents => 'Inhaltsverzeichnis';
+
+  @override
+  String get legalTermsOfServiceTitle => 'Allgemeine Nutzungsbedingungen';
+
+  @override
+  String get memberRoleAdmin => 'Admin';
+
+  @override
+  String get memberRoleCreator => 'Aktives Mitglied (Schreib- und Leserechte)';
+
+  @override
+  String get memberRoleNone => 'Nichts';
+
+  @override
+  String get memberRoleOwner => 'Besitzer';
+
+  @override
+  String get memberRoleStandard => 'Passives Mitglied (Nur Leserechte)';
+
+  @override
   String get myProfileActivationCodeTile => 'Aktivierungscode eingeben';
 
   @override
@@ -1031,6 +1082,116 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get stateZurich => 'Zürich';
 
   @override
+  String get submissionsCreateAddFile => 'Datei hinzufügen';
+
+  @override
+  String get submissionsCreateAfterDeadlineContent =>
+      'Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)';
+
+  @override
+  String get submissionsCreateAfterDeadlineTitle =>
+      'Abgabefrist verpasst? Du kannst trotzdem abgeben!';
+
+  @override
+  String get submissionsCreateEmptyStateTitle =>
+      'Lade jetzt Dateien hoch, die du für die Hausaufgabe abgeben willst!';
+
+  @override
+  String submissionsCreateFileInvalidDialogContent(String message) {
+    return '$message\nBitte kontaktiere den Support unter support@sharezone.net!';
+  }
+
+  @override
+  String get submissionsCreateFileInvalidDialogTitle => 'Fehler';
+
+  @override
+  String submissionsCreateFileInvalidMultiple(String fileNames) {
+    return 'Die gewählten Dateien \"$fileNames\" scheinen invalide zu sein.';
+  }
+
+  @override
+  String submissionsCreateFileInvalidSingle(String fileName) {
+    return 'Die gewählte Datei \"$fileName\" scheint invalide zu sein.';
+  }
+
+  @override
+  String get submissionsCreateLeaveAction => 'Verlassen';
+
+  @override
+  String get submissionsCreateNotSubmittedContent =>
+      'Dein Lehrer wird deine Abgabe nicht sehen können, bis du diese abgibst.\n\nDeine bisher hochgeladenen Dateien bleiben trotzdem für dich gespeichert.';
+
+  @override
+  String get submissionsCreateNotSubmittedTitle => 'Abgabe nicht abgegeben!';
+
+  @override
+  String submissionsCreateRemoveFileContent(String fileName) {
+    return 'Möchtest du die Datei \"$fileName\" wirklich entfernen?';
+  }
+
+  @override
+  String get submissionsCreateRemoveFileTitle => 'Datei entfernen';
+
+  @override
+  String get submissionsCreateRemoveFileTooltip => 'Datei entfernen';
+
+  @override
+  String get submissionsCreateRenameActionUppercase => 'UMBENENNEN';
+
+  @override
+  String get submissionsCreateRenameDialogTitle => 'Datei umbenennen';
+
+  @override
+  String get submissionsCreateRenameErrorAlreadyExists =>
+      'Dieser Dateiname existiert bereits!';
+
+  @override
+  String get submissionsCreateRenameErrorEmpty =>
+      'Der Name darf nicht leer sein!';
+
+  @override
+  String get submissionsCreateRenameErrorTooLong => 'Der Name ist zu lang!';
+
+  @override
+  String get submissionsCreateRenameTooltip => 'Umbenennen';
+
+  @override
+  String get submissionsCreateSubmitAction => 'Abgeben';
+
+  @override
+  String get submissionsCreateSubmitDialogContent =>
+      'Nach der Abgabe kannst du keine Datei mehr löschen. Du kannst aber noch neue Dateien hinzufügen und alte Dateien umbenennen.';
+
+  @override
+  String get submissionsCreateSubmitDialogTitle => 'Wirklich Abgeben?';
+
+  @override
+  String get submissionsCreateSubmittedTitle => 'Abgabe erfolgreich abgegeben!';
+
+  @override
+  String get submissionsCreateUploadInProgressContent =>
+      'Wenn du den Dialog verlässt wird der Hochladevorgang für noch nicht hochgeladene Dateien abgebrochen.';
+
+  @override
+  String get submissionsCreateUploadInProgressTitle => 'Dateien am hochladen!';
+
+  @override
+  String get submissionsListAfterDeadlineSection => 'Zu spät abgegeben 🕐';
+
+  @override
+  String get submissionsListEditedSuffix => ' (nachträglich bearbeitet)';
+
+  @override
+  String get submissionsListMissingSection => 'Nicht abgegeben 😭';
+
+  @override
+  String get submissionsListNoMembersPlaceholder =>
+      'Vergessen Teilnehmer in den Kurs einzuladen?';
+
+  @override
+  String get submissionsListTitle => 'Abgaben';
+
+  @override
   String get themeDarkMode => 'Dunkler Modus';
 
   @override
@@ -1229,42 +1390,6 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get websiteDataProtectionTlsTitle =>
       'TLS-Verschlüsselung bei der Übertragung';
-
-  @override
-  String get legalPrivacyPolicyTitle => 'Datenschutzerklärung';
-
-  @override
-  String get legalTermsOfServiceTitle => 'Allgemeine Nutzungsbedingungen';
-
-  @override
-  String get legalTableOfContents => 'Inhaltsverzeichnis';
-
-  @override
-  String get legalMoreOptions => 'Weitere Optionen';
-
-  @override
-  String get legalChangeAppearance => 'Darstellung ändern';
-
-  @override
-  String get legalDownloadAsPdf => 'Als PDF herunterladen';
-
-  @override
-  String legalPrivacyPolicyEffectiveDate(String date) {
-    return 'Diese aktualisierte Datenschutzerklärung tritt am $date in Kraft.';
-  }
-
-  @override
-  String get legalMetadataTitle => 'Metadaten';
-
-  @override
-  String legalMetadataVersion(String version) {
-    return 'Version: v$version';
-  }
-
-  @override
-  String legalMetadataLastUpdated(String date) {
-    return 'Zuletzt aktualisiert: $date';
-  }
 
   @override
   String get websiteFeatureAlwaysAvailableBulletpointMultiDevice =>
@@ -1551,4 +1676,10 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get websiteWelcomeHeadlineSemanticLabel =>
       'Überschrift der Sharezone App';
+
+  @override
+  String get writePermissionEveryone => 'Alle';
+
+  @override
+  String get writePermissionOnlyAdmins => 'Nur Admins';
 }

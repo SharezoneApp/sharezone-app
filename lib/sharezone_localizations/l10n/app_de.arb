@@ -226,6 +226,11 @@
   "legalPrivacyPolicyTitle": "Datenschutzerklärung",
   "legalTableOfContents": "Inhaltsverzeichnis",
   "legalTermsOfServiceTitle": "Allgemeine Nutzungsbedingungen",
+  "memberRoleAdmin": "Admin",
+  "memberRoleCreator": "Aktives Mitglied (Schreib- und Leserechte)",
+  "memberRoleNone": "Nichts",
+  "memberRoleOwner": "Besitzer",
+  "memberRoleStandard": "Passives Mitglied (Nur Leserechte)",
   "myProfileActivationCodeTile": "Aktivierungscode eingeben",
   "myProfileChangePasswordTile": "Passwort ändern",
   "myProfileChangedPasswordConfirmation": "Das Passwort wurde erfolgreich geändert.",
@@ -607,6 +612,65 @@
   "stateWien": "Wien",
   "stateZug": "Zug",
   "stateZurich": "Zürich",
+  "submissionsCreateAddFile": "Datei hinzufügen",
+  "submissionsCreateAfterDeadlineContent": "Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)",
+  "submissionsCreateAfterDeadlineTitle": "Abgabefrist verpasst? Du kannst trotzdem abgeben!",
+  "submissionsCreateEmptyStateTitle": "Lade jetzt Dateien hoch, die du für die Hausaufgabe abgeben willst!",
+  "submissionsCreateFileInvalidDialogContent": "{message}\nBitte kontaktiere den Support unter support@sharezone.net!",
+  "@submissionsCreateFileInvalidDialogContent": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateFileInvalidDialogTitle": "Fehler",
+  "submissionsCreateFileInvalidMultiple": "Die gewählten Dateien \"{fileNames}\" scheinen invalide zu sein.",
+  "@submissionsCreateFileInvalidMultiple": {
+    "placeholders": {
+      "fileNames": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateFileInvalidSingle": "Die gewählte Datei \"{fileName}\" scheint invalide zu sein.",
+  "@submissionsCreateFileInvalidSingle": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateLeaveAction": "Verlassen",
+  "submissionsCreateNotSubmittedContent": "Dein Lehrer wird deine Abgabe nicht sehen können, bis du diese abgibst.\n\nDeine bisher hochgeladenen Dateien bleiben trotzdem für dich gespeichert.",
+  "submissionsCreateNotSubmittedTitle": "Abgabe nicht abgegeben!",
+  "submissionsCreateRemoveFileContent": "Möchtest du die Datei \"{fileName}\" wirklich entfernen?",
+  "@submissionsCreateRemoveFileContent": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateRemoveFileTitle": "Datei entfernen",
+  "submissionsCreateRemoveFileTooltip": "Datei entfernen",
+  "submissionsCreateRenameActionUppercase": "UMBENENNEN",
+  "submissionsCreateRenameDialogTitle": "Datei umbenennen",
+  "submissionsCreateRenameErrorAlreadyExists": "Dieser Dateiname existiert bereits!",
+  "submissionsCreateRenameErrorEmpty": "Der Name darf nicht leer sein!",
+  "submissionsCreateRenameErrorTooLong": "Der Name ist zu lang!",
+  "submissionsCreateRenameTooltip": "Umbenennen",
+  "submissionsCreateSubmitAction": "Abgeben",
+  "submissionsCreateSubmitDialogContent": "Nach der Abgabe kannst du keine Datei mehr löschen. Du kannst aber noch neue Dateien hinzufügen und alte Dateien umbenennen.",
+  "submissionsCreateSubmitDialogTitle": "Wirklich Abgeben?",
+  "submissionsCreateSubmittedTitle": "Abgabe erfolgreich abgegeben!",
+  "submissionsCreateUploadInProgressContent": "Wenn du den Dialog verlässt wird der Hochladevorgang für noch nicht hochgeladene Dateien abgebrochen.",
+  "submissionsCreateUploadInProgressTitle": "Dateien am hochladen!",
+  "submissionsListAfterDeadlineSection": "Zu spät abgegeben 🕐",
+  "submissionsListEditedSuffix": " (nachträglich bearbeitet)",
+  "submissionsListMissingSection": "Nicht abgegeben 😭",
+  "submissionsListNoMembersPlaceholder": "Vergessen Teilnehmer in den Kurs einzuladen?",
+  "submissionsListTitle": "Abgaben",
   "themeDarkMode": "Dunkler Modus",
   "themeLightDarkModeSectionTitle": "Heller \u0026 Dunkler Modus",
   "themeLightMode": "Heller Modus",
@@ -829,5 +893,7 @@
   "websiteWelcomeDescription": "Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.",
   "websiteWelcomeDescriptionSemanticLabel": "Beschreibung der Sharezone App",
   "websiteWelcomeHeadline": "Simpel. Sicher. Stabil.",
-  "websiteWelcomeHeadlineSemanticLabel": "Überschrift der Sharezone App"
+  "websiteWelcomeHeadlineSemanticLabel": "Überschrift der Sharezone App",
+  "writePermissionEveryone": "Alle",
+  "writePermissionOnlyAdmins": "Nur Admins"
 }
