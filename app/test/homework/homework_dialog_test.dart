@@ -49,6 +49,7 @@ import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculat
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:test_randomness/test_randomness.dart';
 import 'package:user/user.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_bloc_test.dart';
@@ -379,6 +380,9 @@ void main() {
               ],
               child:
                   (context) => MaterialApp(
+                    locale: const Locale('de'),
+                    localizationsDelegates:
+                        SharezoneLocalizations.localizationsDelegates,
                     home: Scaffold(
                       body: HomeworkDialog(
                         homeworkDialogApi: homeworkDialogApi,

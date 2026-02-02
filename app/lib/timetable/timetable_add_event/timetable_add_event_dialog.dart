@@ -540,7 +540,7 @@ class _DateAndTimeTile extends StatelessWidget {
             onTimeChanged(Time(hour: picked.hour, minute: picked.minute));
           }
         },
-        child: Text(time.toString()),
+        child: Text(time.format(context)),
       ),
       onTap:
           isDatePickingEnabled

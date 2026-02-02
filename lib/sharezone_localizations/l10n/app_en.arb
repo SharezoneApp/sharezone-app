@@ -86,6 +86,17 @@
   "countryGermany": "Germany",
   "countrySwitzerland": "Switzerland",
   "dashboardSelectStateButton": "Select state / canton",
+  "dateWeekTypeA": "Week A",
+  "dateWeekTypeAlways": "Every week",
+  "dateWeekTypeB": "Week B",
+  "dateWeekdayFriday": "Friday",
+  "dateWeekdayMonday": "Monday",
+  "dateWeekdaySaturday": "Saturday",
+  "dateWeekdaySunday": "Sunday",
+  "dateWeekdayThursday": "Thursday",
+  "dateWeekdayTuesday": "Tuesday",
+  "dateWeekdayWednesday": "Wednesday",
+  "dateYesterday": "Yesterday",
   "feedbackDetailsCommentsTitle": "Comments:",
   "feedbackDetailsLoadingHeardFrom": "Friend",
   "feedbackDetailsLoadingMissing": "Great app!",
@@ -99,6 +110,45 @@
   "languageEnName": "English",
   "languageSystemName": "System",
   "languageTitle": "Language",
+  "legalChangeAppearance": "Change appearance",
+  "legalDownloadAsPdf": "Download as PDF",
+  "legalMetadataLastUpdated": "Last updated: {date}",
+  "@legalMetadataLastUpdated": {
+    "description": "Label for the last updated date in legal documents.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMetadataTitle": "Metadata",
+  "legalMetadataVersion": "Version: v{version}",
+  "@legalMetadataVersion": {
+    "description": "Label for the metadata version in legal documents.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMoreOptions": "More options",
+  "legalPrivacyPolicyEffectiveDate": "This updated privacy policy takes effect on {date}.",
+  "@legalPrivacyPolicyEffectiveDate": {
+    "description": "Shown under the privacy policy heading with the effective date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalPrivacyPolicyTitle": "Privacy Policy",
+  "legalTableOfContents": "Table of contents",
+  "legalTermsOfServiceTitle": "Terms of Service",
+  "memberRoleAdmin": "Admin",
+  "memberRoleCreator": "Active Member (Write and read permissions)",
+  "memberRoleNone": "None",
+  "memberRoleOwner": "Owner",
+  "memberRoleStandard": "Passive Member (Read-only permissions)",
   "myProfileActivationCodeTile": "Enter Activation Code",
   "myProfileChangePasswordTile": "Change Password",
   "myProfileChangedPasswordConfirmation": "Password changed successfully.",
@@ -344,6 +394,37 @@
   "stateWien": "Vienna",
   "stateZug": "Zug",
   "stateZurich": "Zurich",
+  "submissionsCreateAddFile": "Add file",
+  "submissionsCreateAfterDeadlineContent": "You can still submit now, but the teacher will decide how to handle it ;)",
+  "submissionsCreateAfterDeadlineTitle": "Missed the deadline? You can still submit!",
+  "submissionsCreateEmptyStateTitle": "Upload files that you want to submit for the homework!",
+  "submissionsCreateFileInvalidDialogContent": "{message}\nPlease contact support at support@sharezone.net!",
+  "submissionsCreateFileInvalidDialogTitle": "Error",
+  "submissionsCreateFileInvalidMultiple": "The selected files \"{fileNames}\" seem to be invalid.",
+  "submissionsCreateFileInvalidSingle": "The selected file \"{fileName}\" seems to be invalid.",
+  "submissionsCreateLeaveAction": "Leave",
+  "submissionsCreateNotSubmittedContent": "Your teacher won't see your submission until you submit it.\n\nYour uploaded files will still stay saved for you.",
+  "submissionsCreateNotSubmittedTitle": "Submission not sent!",
+  "submissionsCreateRemoveFileContent": "Do you really want to remove the file \"{fileName}\"?",
+  "submissionsCreateRemoveFileTitle": "Remove file",
+  "submissionsCreateRemoveFileTooltip": "Remove file",
+  "submissionsCreateRenameActionUppercase": "RENAME",
+  "submissionsCreateRenameDialogTitle": "Rename file",
+  "submissionsCreateRenameErrorAlreadyExists": "This file name already exists!",
+  "submissionsCreateRenameErrorEmpty": "The name must not be empty!",
+  "submissionsCreateRenameErrorTooLong": "The name is too long!",
+  "submissionsCreateRenameTooltip": "Rename",
+  "submissionsCreateSubmitAction": "Submit",
+  "submissionsCreateSubmitDialogContent": "After submitting, you can no longer delete files. You can still add new files and rename existing ones.",
+  "submissionsCreateSubmitDialogTitle": "Really submit?",
+  "submissionsCreateSubmittedTitle": "Submission sent successfully!",
+  "submissionsCreateUploadInProgressContent": "If you leave this dialog, uploads for files that haven't finished will be cancelled.",
+  "submissionsCreateUploadInProgressTitle": "Files are uploading!",
+  "submissionsListAfterDeadlineSection": "Submitted late 🕐",
+  "submissionsListEditedSuffix": " (edited afterwards)",
+  "submissionsListMissingSection": "Not submitted 😭",
+  "submissionsListNoMembersPlaceholder": "Forgot to invite participants to the course?",
+  "submissionsListTitle": "Submissions",
   "themeDarkMode": "Dark Mode",
   "themeLightDarkModeSectionTitle": "Light \u0026 Dark Mode",
   "themeLightMode": "Light Mode",
@@ -480,5 +561,7 @@
   "websiteWelcomeDescription": "Sharezone is a connected school planner to stay organized together. Entered content like homework is shared instantly with everyone else, saving time and nerves.",
   "websiteWelcomeDescriptionSemanticLabel": "Description of the Sharezone app",
   "websiteWelcomeHeadline": "Simple. Secure. Stable.",
-  "websiteWelcomeHeadlineSemanticLabel": "Headline of the Sharezone app"
+  "websiteWelcomeHeadlineSemanticLabel": "Headline of the Sharezone app",
+  "writePermissionEveryone": "Everyone",
+  "writePermissionOnlyAdmins": "Only admins"
 }

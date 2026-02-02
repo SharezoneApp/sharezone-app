@@ -184,6 +184,50 @@
   "countryGermany": "Deutschland",
   "countrySwitzerland": "Schweiz",
   "dashboardSelectStateButton": "Bundesland / Kanton auswählen",
+  "dateWeekTypeA": "A-Woche",
+  "@dateWeekTypeA": {
+    "description": "Week type for lessons that occur on week A."
+  },
+  "dateWeekTypeAlways": "Immer",
+  "@dateWeekTypeAlways": {
+    "description": "Week type for lessons that occur every week."
+  },
+  "dateWeekTypeB": "B-Woche",
+  "@dateWeekTypeB": {
+    "description": "Week type for lessons that occur on week B."
+  },
+  "dateWeekdayFriday": "Freitag",
+  "@dateWeekdayFriday": {
+    "description": "Weekday name for Friday."
+  },
+  "dateWeekdayMonday": "Montag",
+  "@dateWeekdayMonday": {
+    "description": "Weekday name for Monday."
+  },
+  "dateWeekdaySaturday": "Samstag",
+  "@dateWeekdaySaturday": {
+    "description": "Weekday name for Saturday."
+  },
+  "dateWeekdaySunday": "Sonntag",
+  "@dateWeekdaySunday": {
+    "description": "Weekday name for Sunday."
+  },
+  "dateWeekdayThursday": "Donnerstag",
+  "@dateWeekdayThursday": {
+    "description": "Weekday name for Thursday."
+  },
+  "dateWeekdayTuesday": "Dienstag",
+  "@dateWeekdayTuesday": {
+    "description": "Weekday name for Tuesday."
+  },
+  "dateWeekdayWednesday": "Mittwoch",
+  "@dateWeekdayWednesday": {
+    "description": "Weekday name for Wednesday."
+  },
+  "dateYesterday": "Gestern",
+  "@dateYesterday": {
+    "description": "Label for yesterday in fuzzy date strings."
+  },
   "feedbackDetailsCommentsTitle": "Kommentare:",
   "feedbackDetailsLoadingHeardFrom": "Freund",
   "feedbackDetailsLoadingMissing": "Tolle App!",
@@ -204,6 +248,45 @@
   "languageEnName": "Englisch",
   "languageSystemName": "System",
   "languageTitle": "Sprache",
+  "legalChangeAppearance": "Darstellung ändern",
+  "legalDownloadAsPdf": "Als PDF herunterladen",
+  "legalMetadataLastUpdated": "Zuletzt aktualisiert: {date}",
+  "@legalMetadataLastUpdated": {
+    "description": "Label for the last updated date in legal documents.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMetadataTitle": "Metadaten",
+  "legalMetadataVersion": "Version: v{version}",
+  "@legalMetadataVersion": {
+    "description": "Label for the metadata version in legal documents.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMoreOptions": "Weitere Optionen",
+  "legalPrivacyPolicyEffectiveDate": "Diese aktualisierte Datenschutzerklärung tritt am {date} in Kraft.",
+  "@legalPrivacyPolicyEffectiveDate": {
+    "description": "Shown under the privacy policy heading with the effective date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalPrivacyPolicyTitle": "Datenschutzerklärung",
+  "legalTableOfContents": "Inhaltsverzeichnis",
+  "legalTermsOfServiceTitle": "Allgemeine Nutzungsbedingungen",
+  "memberRoleAdmin": "Admin",
+  "memberRoleCreator": "Aktives Mitglied (Schreib- und Leserechte)",
+  "memberRoleNone": "Nichts",
+  "memberRoleOwner": "Besitzer",
+  "memberRoleStandard": "Passives Mitglied (Nur Leserechte)",
   "myProfileActivationCodeTile": "Aktivierungscode eingeben",
   "myProfileChangePasswordTile": "Passwort ändern",
   "myProfileChangedPasswordConfirmation": "Das Passwort wurde erfolgreich geändert.",
@@ -625,6 +708,65 @@
   "stateWien": "Wien",
   "stateZug": "Zug",
   "stateZurich": "Zürich",
+  "submissionsCreateAddFile": "Datei hinzufügen",
+  "submissionsCreateAfterDeadlineContent": "Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)",
+  "submissionsCreateAfterDeadlineTitle": "Abgabefrist verpasst? Du kannst trotzdem abgeben!",
+  "submissionsCreateEmptyStateTitle": "Lade jetzt Dateien hoch, die du für die Hausaufgabe abgeben willst!",
+  "submissionsCreateFileInvalidDialogContent": "{message}\nBitte kontaktiere den Support unter support@sharezone.net!",
+  "@submissionsCreateFileInvalidDialogContent": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateFileInvalidDialogTitle": "Fehler",
+  "submissionsCreateFileInvalidMultiple": "Die gewählten Dateien \"{fileNames}\" scheinen invalide zu sein.",
+  "@submissionsCreateFileInvalidMultiple": {
+    "placeholders": {
+      "fileNames": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateFileInvalidSingle": "Die gewählte Datei \"{fileName}\" scheint invalide zu sein.",
+  "@submissionsCreateFileInvalidSingle": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateLeaveAction": "Verlassen",
+  "submissionsCreateNotSubmittedContent": "Dein Lehrer wird deine Abgabe nicht sehen können, bis du diese abgibst.\n\nDeine bisher hochgeladenen Dateien bleiben trotzdem für dich gespeichert.",
+  "submissionsCreateNotSubmittedTitle": "Abgabe nicht abgegeben!",
+  "submissionsCreateRemoveFileContent": "Möchtest du die Datei \"{fileName}\" wirklich entfernen?",
+  "@submissionsCreateRemoveFileContent": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateRemoveFileTitle": "Datei entfernen",
+  "submissionsCreateRemoveFileTooltip": "Datei entfernen",
+  "submissionsCreateRenameActionUppercase": "UMBENENNEN",
+  "submissionsCreateRenameDialogTitle": "Datei umbenennen",
+  "submissionsCreateRenameErrorAlreadyExists": "Dieser Dateiname existiert bereits!",
+  "submissionsCreateRenameErrorEmpty": "Der Name darf nicht leer sein!",
+  "submissionsCreateRenameErrorTooLong": "Der Name ist zu lang!",
+  "submissionsCreateRenameTooltip": "Umbenennen",
+  "submissionsCreateSubmitAction": "Abgeben",
+  "submissionsCreateSubmitDialogContent": "Nach der Abgabe kannst du keine Datei mehr löschen. Du kannst aber noch neue Dateien hinzufügen und alte Dateien umbenennen.",
+  "submissionsCreateSubmitDialogTitle": "Wirklich Abgeben?",
+  "submissionsCreateSubmittedTitle": "Abgabe erfolgreich abgegeben!",
+  "submissionsCreateUploadInProgressContent": "Wenn du den Dialog verlässt wird der Hochladevorgang für noch nicht hochgeladene Dateien abgebrochen.",
+  "submissionsCreateUploadInProgressTitle": "Dateien am hochladen!",
+  "submissionsListAfterDeadlineSection": "Zu spät abgegeben 🕐",
+  "submissionsListEditedSuffix": " (nachträglich bearbeitet)",
+  "submissionsListMissingSection": "Nicht abgegeben 😭",
+  "submissionsListNoMembersPlaceholder": "Vergessen Teilnehmer in den Kurs einzuladen?",
+  "submissionsListTitle": "Abgaben",
   "themeDarkMode": "Dunkler Modus",
   "themeLightDarkModeSectionTitle": "Heller \u0026 Dunkler Modus",
   "themeLightMode": "Heller Modus",
@@ -847,5 +989,7 @@
   "websiteWelcomeDescription": "Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.",
   "websiteWelcomeDescriptionSemanticLabel": "Beschreibung der Sharezone App",
   "websiteWelcomeHeadline": "Simpel. Sicher. Stabil.",
-  "websiteWelcomeHeadlineSemanticLabel": "Überschrift der Sharezone App"
+  "websiteWelcomeHeadlineSemanticLabel": "Überschrift der Sharezone App",
+  "writePermissionEveryone": "Alle",
+  "writePermissionOnlyAdmins": "Nur Admins"
 }

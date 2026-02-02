@@ -198,7 +198,7 @@ class _TimetableStart extends StatelessWidget {
         final time = snapshot.data ?? Time(hour: 7, minute: 30);
         return ListTile(
           title: const Text("Stundenplanbeginn"),
-          subtitle: Text(time.toString()),
+          subtitle: Text(time.format(context)),
           onTap: () async {
             final newTime = await selectTime(
               context,
@@ -268,7 +268,7 @@ class _PeriodTile extends StatelessWidget {
                             }
                           },
                           child: Text(
-                            period.startTime.toString(),
+                            period.startTime.format(context),
                             style: style,
                           ),
                         ),
@@ -283,7 +283,10 @@ class _PeriodTile extends StatelessWidget {
                               bloc.editPeriodEndTime(period.number, newTime);
                             }
                           },
-                          child: Text(period.endTime.toString(), style: style),
+                          child: Text(
+                            period.endTime.format(context),
+                            style: style,
+                          ),
                         ),
                       ],
                     ),
