@@ -14,7 +14,7 @@ Future<bool> showSimpleStateSheet(
   BuildContext context,
   Future<bool> future,
 ) async {
-  final stateContentStream = _mapFutureToStateContent(future);
+  final stateContentStream = _mapFutureToStateContent(context, future);
   final stateDialog = StateSheet(stateContentStream);
   stateDialog.showSheet(context);
 
@@ -23,15 +23,19 @@ Future<bool> showSimpleStateSheet(
   });
 }
 
-Stream<StateSheetContent> _mapFutureToStateContent(Future<bool> future) {
+Stream<StateSheetContent> _mapFutureToStateContent(
+  BuildContext context,
+  Future<bool> future,
+) {
   final stateContent = BehaviorSubject<StateSheetContent>.seeded(
-    stateSheetContentLoading,
+    stateSheetContentLoading(),
   );
   future.then((result) {
+    if (!context.mounted) return;
     if (result == true) {
-      stateContent.add(stateSheetContentSuccessfull);
+      stateContent.add(stateSheetContentSuccessful(context));
     } else {
-      stateContent.add(stateSheetContentFailed);
+      stateContent.add(stateSheetContentFailed(context));
     }
   });
   return stateContent;
