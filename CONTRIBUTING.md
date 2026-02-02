@@ -233,7 +233,7 @@ We organize our multi-language support in the `lib/sharezone_localizations` pack
 ### Adding new strings
 
 1. Add the new string to `lib/sharezone_localizations/l10n/app_de.arb`. This is our default language.
-2. Add the new string to `lib/sharezone_localizations/l10n/app_en.arb`.
+2. Add the new string to `lib/sharezone_localizations/l10n/app_en.arb`. Metadata (e.g. `@your_new_string`) should only be added to the German file.
 3. Run `sz l10n generate` to generate the Dart files for the new string.
 
 ### Use new strings

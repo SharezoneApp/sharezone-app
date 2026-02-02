@@ -14,3 +14,10 @@ code_review:
     # We think that the summary is too verbose and doesn't add much value.
     # Therefore, we disable it.
     summary: false
+ignore_patterns:
+  # Ignore generated files
+  - "*.g.dart"
+  - "*.gen.dart"
+  # Dependencies
+  - "pubspec.lock"
+  - "*.lock"

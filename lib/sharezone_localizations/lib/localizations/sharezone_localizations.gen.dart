@@ -699,6 +699,36 @@ abstract class SharezoneLocalizations {
   /// **'Sprache'**
   String get languageTitle;
 
+  /// No description provided for @memberRoleAdmin.
+  ///
+  /// In de, this message translates to:
+  /// **'Admin'**
+  String get memberRoleAdmin;
+
+  /// No description provided for @memberRoleCreator.
+  ///
+  /// In de, this message translates to:
+  /// **'Aktives Mitglied (Schreib- und Leserechte)'**
+  String get memberRoleCreator;
+
+  /// No description provided for @memberRoleNone.
+  ///
+  /// In de, this message translates to:
+  /// **'Nichts'**
+  String get memberRoleNone;
+
+  /// No description provided for @memberRoleOwner.
+  ///
+  /// In de, this message translates to:
+  /// **'Besitzer'**
+  String get memberRoleOwner;
+
+  /// No description provided for @memberRoleStandard.
+  ///
+  /// In de, this message translates to:
+  /// **'Passives Mitglied (Nur Leserechte)'**
+  String get memberRoleStandard;
+
   /// No description provided for @myProfileActivationCodeTile.
   ///
   /// In de, this message translates to:
@@ -1929,6 +1959,192 @@ abstract class SharezoneLocalizations {
   /// **'Zürich'**
   String get stateZurich;
 
+  /// No description provided for @submissionsCreateAddFile.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei hinzufügen'**
+  String get submissionsCreateAddFile;
+
+  /// No description provided for @submissionsCreateAfterDeadlineContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)'**
+  String get submissionsCreateAfterDeadlineContent;
+
+  /// No description provided for @submissionsCreateAfterDeadlineTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgabefrist verpasst? Du kannst trotzdem abgeben!'**
+  String get submissionsCreateAfterDeadlineTitle;
+
+  /// No description provided for @submissionsCreateEmptyStateTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Lade jetzt Dateien hoch, die du für die Hausaufgabe abgeben willst!'**
+  String get submissionsCreateEmptyStateTitle;
+
+  /// No description provided for @submissionsCreateFileInvalidDialogContent.
+  ///
+  /// In de, this message translates to:
+  /// **'{message}\nBitte kontaktiere den Support unter support@sharezone.net!'**
+  String submissionsCreateFileInvalidDialogContent(String message);
+
+  /// No description provided for @submissionsCreateFileInvalidDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler'**
+  String get submissionsCreateFileInvalidDialogTitle;
+
+  /// No description provided for @submissionsCreateFileInvalidMultiple.
+  ///
+  /// In de, this message translates to:
+  /// **'Die gewählten Dateien \"{fileNames}\" scheinen invalide zu sein.'**
+  String submissionsCreateFileInvalidMultiple(String fileNames);
+
+  /// No description provided for @submissionsCreateFileInvalidSingle.
+  ///
+  /// In de, this message translates to:
+  /// **'Die gewählte Datei \"{fileName}\" scheint invalide zu sein.'**
+  String submissionsCreateFileInvalidSingle(String fileName);
+
+  /// No description provided for @submissionsCreateLeaveAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Verlassen'**
+  String get submissionsCreateLeaveAction;
+
+  /// No description provided for @submissionsCreateNotSubmittedContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Lehrer wird deine Abgabe nicht sehen können, bis du diese abgibst.\n\nDeine bisher hochgeladenen Dateien bleiben trotzdem für dich gespeichert.'**
+  String get submissionsCreateNotSubmittedContent;
+
+  /// No description provided for @submissionsCreateNotSubmittedTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgabe nicht abgegeben!'**
+  String get submissionsCreateNotSubmittedTitle;
+
+  /// No description provided for @submissionsCreateRemoveFileContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du die Datei \"{fileName}\" wirklich entfernen?'**
+  String submissionsCreateRemoveFileContent(String fileName);
+
+  /// No description provided for @submissionsCreateRemoveFileTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei entfernen'**
+  String get submissionsCreateRemoveFileTitle;
+
+  /// No description provided for @submissionsCreateRemoveFileTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei entfernen'**
+  String get submissionsCreateRemoveFileTooltip;
+
+  /// No description provided for @submissionsCreateRenameActionUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'UMBENENNEN'**
+  String get submissionsCreateRenameActionUppercase;
+
+  /// No description provided for @submissionsCreateRenameDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei umbenennen'**
+  String get submissionsCreateRenameDialogTitle;
+
+  /// No description provided for @submissionsCreateRenameErrorAlreadyExists.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Dateiname existiert bereits!'**
+  String get submissionsCreateRenameErrorAlreadyExists;
+
+  /// No description provided for @submissionsCreateRenameErrorEmpty.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Name darf nicht leer sein!'**
+  String get submissionsCreateRenameErrorEmpty;
+
+  /// No description provided for @submissionsCreateRenameErrorTooLong.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Name ist zu lang!'**
+  String get submissionsCreateRenameErrorTooLong;
+
+  /// No description provided for @submissionsCreateRenameTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Umbenennen'**
+  String get submissionsCreateRenameTooltip;
+
+  /// No description provided for @submissionsCreateSubmitAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgeben'**
+  String get submissionsCreateSubmitAction;
+
+  /// No description provided for @submissionsCreateSubmitDialogContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Nach der Abgabe kannst du keine Datei mehr löschen. Du kannst aber noch neue Dateien hinzufügen und alte Dateien umbenennen.'**
+  String get submissionsCreateSubmitDialogContent;
+
+  /// No description provided for @submissionsCreateSubmitDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Wirklich Abgeben?'**
+  String get submissionsCreateSubmitDialogTitle;
+
+  /// No description provided for @submissionsCreateSubmittedTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgabe erfolgreich abgegeben!'**
+  String get submissionsCreateSubmittedTitle;
+
+  /// No description provided for @submissionsCreateUploadInProgressContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Wenn du den Dialog verlässt wird der Hochladevorgang für noch nicht hochgeladene Dateien abgebrochen.'**
+  String get submissionsCreateUploadInProgressContent;
+
+  /// No description provided for @submissionsCreateUploadInProgressTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Dateien am hochladen!'**
+  String get submissionsCreateUploadInProgressTitle;
+
+  /// No description provided for @submissionsListAfterDeadlineSection.
+  ///
+  /// In de, this message translates to:
+  /// **'Zu spät abgegeben 🕐'**
+  String get submissionsListAfterDeadlineSection;
+
+  /// No description provided for @submissionsListEditedSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **' (nachträglich bearbeitet)'**
+  String get submissionsListEditedSuffix;
+
+  /// No description provided for @submissionsListMissingSection.
+  ///
+  /// In de, this message translates to:
+  /// **'Nicht abgegeben 😭'**
+  String get submissionsListMissingSection;
+
+  /// No description provided for @submissionsListNoMembersPlaceholder.
+  ///
+  /// In de, this message translates to:
+  /// **'Vergessen Teilnehmer in den Kurs einzuladen?'**
+  String get submissionsListNoMembersPlaceholder;
+
+  /// No description provided for @submissionsListTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgaben'**
+  String get submissionsListTitle;
+
   /// No description provided for @themeDarkMode.
   ///
   /// In de, this message translates to:
@@ -2754,6 +2970,18 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Überschrift der Sharezone App'**
   String get websiteWelcomeHeadlineSemanticLabel;
+
+  /// No description provided for @writePermissionEveryone.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle'**
+  String get writePermissionEveryone;
+
+  /// No description provided for @writePermissionOnlyAdmins.
+  ///
+  /// In de, this message translates to:
+  /// **'Nur Admins'**
+  String get writePermissionOnlyAdmins;
 }
 
 class _SharezoneLocalizationsDelegate
