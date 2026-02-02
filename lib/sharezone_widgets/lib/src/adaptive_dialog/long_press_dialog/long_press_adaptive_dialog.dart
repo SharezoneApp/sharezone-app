@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<T?> showLongPressAdaptiveDialog<T>({
@@ -89,7 +90,7 @@ class _LongPressDialogCupertino<T> extends StatelessWidget {
               )
               .toList(),
       cancelButton: CupertinoActionSheetAction(
-        child: const Text("Abbrechen"),
+        child: Text(context.l10n.commonActionsCancel),
         onPressed: () => Navigator.pop(context),
       ),
     );

@@ -190,7 +190,7 @@ class Comment extends StatelessWidget {
   Future<void> deleteComment(BuildContext context) async {
     final result = await showLeftRightAdaptiveDialog<bool>(
       context: context,
-      right: AdaptiveDialogAction.delete,
+      right: AdaptiveDialogAction.delete(context),
       defaultValue: false,
       content: const Text(
         "Möchtest du wirklich den Kommentar für alle löschen?",

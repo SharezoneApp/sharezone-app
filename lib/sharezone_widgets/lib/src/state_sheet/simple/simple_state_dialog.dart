@@ -14,7 +14,7 @@ Future<bool> showSimpleStateDialog(
   BuildContext context,
   Future<bool> future,
 ) async {
-  final stateContentStream = _mapFutureToStateContent(future);
+  final stateContentStream = _mapFutureToStateContent(context, future);
   final stateDialog = StateDialog(stateContentStream);
   stateDialog.showDialogAutoPop(
     context,
@@ -27,15 +27,20 @@ Future<bool> showSimpleStateDialog(
   });
 }
 
-Stream<StateDialogContent> _mapFutureToStateContent(Future<bool> future) {
+Stream<StateDialogContent> _mapFutureToStateContent(
+  BuildContext context,
+  Future<bool> future,
+) {
   final stateContent = BehaviorSubject<StateDialogContent>.seeded(
-    stateDialogContentLoading,
+    stateDialogContentLoading(context),
   );
   future.then((result) {
+    if (!context.mounted) return;
+
     if (result == true) {
-      stateContent.add(stateDialogContentSuccessfull);
+      stateContent.add(stateDialogContentSuccessful(context));
     } else {
-      stateContent.add(stateDialogContentFailed);
+      stateContent.add(stateDialogContentFailed(context));
     }
   });
   return stateContent;
