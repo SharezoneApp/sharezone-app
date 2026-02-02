@@ -1040,6 +1040,115 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get stateZurich => 'Zurich';
 
   @override
+  String get submissionsCreateAddFile => 'Add file';
+
+  @override
+  String get submissionsCreateAfterDeadlineContent =>
+      'You can still submit now, but the teacher will decide how to handle it ;)';
+
+  @override
+  String get submissionsCreateAfterDeadlineTitle =>
+      'Missed the deadline? You can still submit!';
+
+  @override
+  String get submissionsCreateEmptyStateTitle =>
+      'Upload files that you want to submit for the homework!';
+
+  @override
+  String submissionsCreateFileInvalidDialogContent(String message) {
+    return '$message\nPlease contact support at support@sharezone.net!';
+  }
+
+  @override
+  String get submissionsCreateFileInvalidDialogTitle => 'Error';
+
+  @override
+  String submissionsCreateFileInvalidMultiple(String fileNames) {
+    return 'The selected files \"$fileNames\" seem to be invalid.';
+  }
+
+  @override
+  String submissionsCreateFileInvalidSingle(String fileName) {
+    return 'The selected file \"$fileName\" seems to be invalid.';
+  }
+
+  @override
+  String get submissionsCreateLeaveAction => 'Leave';
+
+  @override
+  String get submissionsCreateNotSubmittedContent =>
+      'Your teacher won\'t see your submission until you submit it.\n\nYour uploaded files will still stay saved for you.';
+
+  @override
+  String get submissionsCreateNotSubmittedTitle => 'Submission not sent!';
+
+  @override
+  String submissionsCreateRemoveFileContent(String fileName) {
+    return 'Do you really want to remove the file \"$fileName\"?';
+  }
+
+  @override
+  String get submissionsCreateRemoveFileTitle => 'Remove file';
+
+  @override
+  String get submissionsCreateRemoveFileTooltip => 'Remove file';
+
+  @override
+  String get submissionsCreateRenameActionUppercase => 'RENAME';
+
+  @override
+  String get submissionsCreateRenameDialogTitle => 'Rename file';
+
+  @override
+  String get submissionsCreateRenameErrorAlreadyExists =>
+      'This file name already exists!';
+
+  @override
+  String get submissionsCreateRenameErrorEmpty => 'The name must not be empty!';
+
+  @override
+  String get submissionsCreateRenameErrorTooLong => 'The name is too long!';
+
+  @override
+  String get submissionsCreateRenameTooltip => 'Rename';
+
+  @override
+  String get submissionsCreateSubmitAction => 'Submit';
+
+  @override
+  String get submissionsCreateSubmitDialogContent =>
+      'After submitting, you can no longer delete files. You can still add new files and rename existing ones.';
+
+  @override
+  String get submissionsCreateSubmitDialogTitle => 'Really submit?';
+
+  @override
+  String get submissionsCreateSubmittedTitle => 'Submission sent successfully!';
+
+  @override
+  String get submissionsCreateUploadInProgressContent =>
+      'If you leave this dialog, uploads for files that haven\'t finished will be cancelled.';
+
+  @override
+  String get submissionsCreateUploadInProgressTitle => 'Files are uploading!';
+
+  @override
+  String get submissionsListAfterDeadlineSection => 'Submitted late 🕐';
+
+  @override
+  String get submissionsListEditedSuffix => ' (edited afterwards)';
+
+  @override
+  String get submissionsListMissingSection => 'Not submitted 😭';
+
+  @override
+  String get submissionsListNoMembersPlaceholder =>
+      'Forgot to invite participants to the course?';
+
+  @override
+  String get submissionsListTitle => 'Submissions';
+
+  @override
   String get themeDarkMode => 'Dark Mode';
 
   @override
