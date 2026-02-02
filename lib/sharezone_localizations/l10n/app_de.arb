@@ -236,6 +236,40 @@
   "languageEnName": "Englisch",
   "languageSystemName": "System",
   "languageTitle": "Sprache",
+  "legalChangeAppearance": "Darstellung ändern",
+  "legalDownloadAsPdf": "Als PDF herunterladen",
+  "legalMetadataLastUpdated": "Zuletzt aktualisiert: {date}",
+  "@legalMetadataLastUpdated": {
+    "description": "Label for the last updated date in legal documents.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMetadataTitle": "Metadaten",
+  "legalMetadataVersion": "Version: v{version}",
+  "@legalMetadataVersion": {
+    "description": "Label for the metadata version in legal documents.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMoreOptions": "Weitere Optionen",
+  "legalPrivacyPolicyEffectiveDate": "Diese aktualisierte Datenschutzerklärung tritt am {date} in Kraft.",
+  "@legalPrivacyPolicyEffectiveDate": {
+    "description": "Shown under the privacy policy heading with the effective date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalPrivacyPolicyTitle": "Datenschutzerklärung",
+  "legalTableOfContents": "Inhaltsverzeichnis",
+  "legalTermsOfServiceTitle": "Allgemeine Nutzungsbedingungen",
   "memberRoleAdmin": "Admin",
   "memberRoleCreator": "Aktives Mitglied (Schreib- und Leserechte)",
   "memberRoleNone": "Nichts",

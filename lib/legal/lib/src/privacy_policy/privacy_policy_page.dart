@@ -10,6 +10,7 @@ import 'package:analytics/analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'src/privacy_policy_src.dart';
 
@@ -33,33 +34,44 @@ class PrivacyPolicyPage extends StatelessWidget {
   PrivacyPolicyPage({
     super.key,
     PrivacyPolicy? privacyPolicy,
-    PrivacyPolicyPageConfig? config,
+    this.config,
     this.showBackButton = true,
-    this.headingText = 'Datenschutzerklärung',
+    this.headingText,
   }) : privacyPolicy = privacyPolicy ?? v2PrivacyPolicy,
-       config = config ?? PrivacyPolicyPageConfig(),
        anchorController = AnchorController();
 
   final PrivacyPolicy privacyPolicy;
-  final PrivacyPolicyPageConfig config;
+  final PrivacyPolicyPageConfig? config;
   final AnchorController anchorController;
   final bool showBackButton;
-  final String headingText;
+  final String? headingText;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final resolvedConfig =
+        config ??
+        PrivacyPolicyPageConfig(
+          endSection: PrivacyPolicyEndSection.metadata(
+            locale: Localizations.localeOf(context),
+          ),
+        );
+    final resolvedHeadingText = headingText ?? l10n.legalPrivacyPolicyTitle;
+
     return Provider(
       create:
           (context) => PrivacyPolicyPageDependencyFactory(
             anchorController: anchorController,
-            config: config,
+            config: resolvedConfig,
             privacyPolicy: privacyPolicy,
           ),
       builder:
           (context, _) => MultiProvider(
             providers: [
               Provider(create: (context) => anchorController),
-              Provider<PrivacyPolicyPageConfig>(create: (context) => config),
+              Provider<PrivacyPolicyPageConfig>(
+                create: (context) => resolvedConfig,
+              ),
               ChangeNotifierProvider<PrivacyPolicyThemeSettings>(
                 create: (context) {
                   final themeSettings = Provider.of<ThemeSettings>(
@@ -69,7 +81,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                   return _createPrivacyPolicyThemeSettings(
                     context,
                     themeSettings,
-                    config,
+                    resolvedConfig,
                   );
                 },
               ),
@@ -116,7 +128,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                               return MainContentWide(
                                 privacyPolicy: privacyPolicy,
                                 showBackButton: showBackButton,
-                                headingText: headingText,
+                                headingText: resolvedHeadingText,
                               );
                             } else if (constraints.maxWidth > 500 &&
                                 constraints.maxHeight > 400) {
@@ -127,7 +139,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                               return MainContentNarrow(
                                 privacyPolicy: privacyPolicy,
                                 showBackButton: showBackButton,
-                                headingText: headingText,
+                                headingText: resolvedHeadingText,
                               );
                             } else {
                               tocController.changeExpansionBehavior(
@@ -137,7 +149,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                               return MainContentMobile(
                                 privacyPolicy: privacyPolicy,
                                 showBackButton: showBackButton,
-                                headingText: headingText,
+                                headingText: resolvedHeadingText,
                               );
                             }
                           },
