@@ -181,7 +181,11 @@ class _ResetPassword extends StatelessWidget {
                       .l10n
                       .changePasswordResetCurrentPasswordEmailSentConfirmation;
             } on Exception catch (e, s) {
-              message = handleErrorMessage(e.toString(), s);
+              message = handleErrorMessage(
+                l10n: context.l10n,
+                error: e,
+                stackTrace: s,
+              );
             } finally {
               showSnackSec(context: context, text: message);
             }

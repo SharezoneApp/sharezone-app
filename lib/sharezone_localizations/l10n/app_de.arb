@@ -73,6 +73,14 @@
     }
   },
   "appName": "Sharezone",
+  "blackboardErrorCourseMissing": "Bitte gib einen Kurs an!",
+  "@blackboardErrorCourseMissing": {
+    "description": "Error message shown when a blackboard entry is missing a course."
+  },
+  "blackboardErrorTitleMissing": "Bitte gib einen Titel für den Eintrag an!",
+  "@blackboardErrorTitleMissing": {
+    "description": "Error message shown when a blackboard entry title is missing."
+  },
   "changeEmailAddressCurrentEmailTextfieldLabel": "Aktuell",
   "@changeEmailAddressCurrentEmailTextfieldLabel": {
     "description": "The label for the text field which is used for the current email address"
@@ -166,6 +174,115 @@
         "type": "String?"
       }
     }
+  },
+  "commonErrorCourseSubjectMissing": "Bitte gib ein Fach an!",
+  "@commonErrorCourseSubjectMissing": {
+    "description": "Error message shown when the course subject is missing."
+  },
+  "commonErrorCredentialAlreadyInUse": "Es existiert bereits ein Nutzer mit dieser Anmeldemethode!",
+  "@commonErrorCredentialAlreadyInUse": {
+    "description": "Error message shown when the credential is already in use."
+  },
+  "commonErrorDateMissing": "Bitte gib ein Datum an!",
+  "@commonErrorDateMissing": {
+    "description": "Error message shown when a date is missing."
+  },
+  "commonErrorEmailAlreadyInUse": "Diese E-Mail Adresse wird bereits von einem anderen Nutzer verwendet.",
+  "@commonErrorEmailAlreadyInUse": {
+    "description": "Error message shown when an email is already in use."
+  },
+  "commonErrorEmailInvalidFormat": "Die E-Mail hat ein ungültiges Format.",
+  "@commonErrorEmailInvalidFormat": {
+    "description": "Error message shown when an email has an invalid format."
+  },
+  "commonErrorEmailMissing": "Bitte gib deine E-Mail an.",
+  "@commonErrorEmailMissing": {
+    "description": "Error message shown when the email field is missing."
+  },
+  "commonErrorIncorrectData": "Bitte gib die Daten korrekt an!",
+  "@commonErrorIncorrectData": {
+    "description": "Error message shown when provided data is invalid."
+  },
+  "commonErrorIncorrectSharecode": "Ungültiger Sharecode!",
+  "@commonErrorIncorrectSharecode": {
+    "description": "Error message shown when a share code is invalid."
+  },
+  "commonErrorInvalidInput": "Bitte überprüfe deine Eingabe!",
+  "@commonErrorInvalidInput": {
+    "description": "Generic error message shown when the user input is invalid."
+  },
+  "commonErrorKeychainSignInFailed": "Es gab einen Fehler beim Anmelden. Um diesen zu beheben, wähle die Option 'Immer erlauben' bei der Passworteingabe bei dem Dialog für den macOS-Schlüsselbund (Keychain) aus.",
+  "@commonErrorKeychainSignInFailed": {
+    "description": "Error message shown when macOS Keychain sign-in fails."
+  },
+  "commonErrorNameMissing": "Bitte gib einen Namen an!",
+  "@commonErrorNameMissing": {
+    "description": "Error message shown when a name is missing."
+  },
+  "commonErrorNameTooShort": "Bitte gib einen Namen an, der mehr als ein Zeichen hat.",
+  "@commonErrorNameTooShort": {
+    "description": "Error message shown when a name is too short."
+  },
+  "commonErrorNameUnchanged": "Dieser Name ist doch der gleiche wie vorher 😅",
+  "@commonErrorNameUnchanged": {
+    "description": "Error message shown when the name has not changed."
+  },
+  "commonErrorNetworkRequestFailed": "Es gab einen Netzwerkfehler, weil keine stabile Internetverbindung besteht.",
+  "@commonErrorNetworkRequestFailed": {
+    "description": "Error message shown when a network request failed."
+  },
+  "commonErrorNewPasswordMissing": "Oh, du hast vergessen dein neues Passwort einzugeben 😬",
+  "@commonErrorNewPasswordMissing": {
+    "description": "Error message shown when the new password field is missing."
+  },
+  "commonErrorNoGoogleAccountSelected": "Bitte wähle einen Account aus.",
+  "@commonErrorNoGoogleAccountSelected": {
+    "description": "Error message shown when no Google account was selected."
+  },
+  "commonErrorNoInternetAccess": "Dein Gerät hat leider keinen Zugang zum Internet...",
+  "@commonErrorNoInternetAccess": {
+    "description": "Error message shown when there is no internet connection."
+  },
+  "commonErrorPasswordMissing": "Bitte gib dein Passwort an.",
+  "@commonErrorPasswordMissing": {
+    "description": "Error message shown when the password field is missing."
+  },
+  "commonErrorSameNameAsBefore": "Das ist doch der selbe Name wie vorher 🙈",
+  "@commonErrorSameNameAsBefore": {
+    "description": "Error message shown when the entered name matches the previous one."
+  },
+  "commonErrorTitleMissing": "Bitte gib einen Titel an!",
+  "@commonErrorTitleMissing": {
+    "description": "Error message shown when a title is missing."
+  },
+  "commonErrorTooManyRequests": "Wir haben alle Anfragen von diesem Gerät aufgrund ungewöhnlicher Aktivitäten blockiert. Versuchen Sie es später noch einmal.",
+  "@commonErrorTooManyRequests": {
+    "description": "Error message shown when too many requests were made."
+  },
+  "commonErrorUnknown": "Es ist ein unbekannter Fehler ({error}) aufgetreten! Bitte kontaktiere den Support.",
+  "@commonErrorUnknown": {
+    "description": "Fallback error message for unknown errors.",
+    "placeholders": {
+      "error": {
+        "example": "SomeException"
+      }
+    }
+  },
+  "commonErrorUserDisabled": "Dieser Account wurde von einem Administrator deaktiviert",
+  "@commonErrorUserDisabled": {
+    "description": "Error message shown when the account is disabled."
+  },
+  "commonErrorUserNotFound": "Es wurde kein Nutzer mit dieser E-Mail Adresse gefunden... Inaktive Nutzer werden nach 2 Jahren gelöscht.",
+  "@commonErrorUserNotFound": {
+    "description": "Error message shown when no user is found for the email address."
+  },
+  "commonErrorWeakPassword": "Dieses Passwort ist zu schwach. Bitte wähle eine stärkeres Passwort.",
+  "@commonErrorWeakPassword": {
+    "description": "Error message shown when the password is too weak."
+  },
+  "commonErrorWrongPassword": "Das eingegebene Passwort ist falsch.",
+  "@commonErrorWrongPassword": {
+    "description": "Error message shown when the entered password is incorrect."
   },
   "contactSupportButton": "Support kontaktieren",
   "countryAustria": "Österreich",
@@ -603,6 +720,46 @@
   "themeRateOurAppCardTitle": "Gefällt dir Sharezone?",
   "themeSystemMode": "System",
   "themeTitle": "Erscheinungsbild",
+  "timetableErrorEndTimeBeforeNextLessonStart": "Die Endzeit ist vor der Startzeit der nächsten Stunde!",
+  "@timetableErrorEndTimeBeforeNextLessonStart": {
+    "description": "Error message shown when the end time is before the next lesson's start time."
+  },
+  "timetableErrorEndTimeBeforePreviousLessonEnd": "Die Endzeit ist vor der Endzeit der vorherigen Stunde!",
+  "@timetableErrorEndTimeBeforePreviousLessonEnd": {
+    "description": "Error message shown when the end time is before the previous lesson's end time."
+  },
+  "timetableErrorEndTimeBeforeStartTime": "Die Endzeit der Stunde ist vor der Startzeit!",
+  "@timetableErrorEndTimeBeforeStartTime": {
+    "description": "Error message shown when the end time is before the start time."
+  },
+  "timetableErrorEndTimeMissing": "Bitte gibt eine Endzeit an!",
+  "@timetableErrorEndTimeMissing": {
+    "description": "Error message shown when the end time is missing."
+  },
+  "timetableErrorInvalidPeriodsOverlap": "Bitte gib korrekte Zeiten. Die Stunden dürfen sich nicht überschneiden!",
+  "@timetableErrorInvalidPeriodsOverlap": {
+    "description": "Error message shown when lesson periods overlap or are invalid."
+  },
+  "timetableErrorStartTimeBeforeNextLessonStart": "Die Startzeit ist vor der Startzeit der nächsten Stunde!",
+  "@timetableErrorStartTimeBeforeNextLessonStart": {
+    "description": "Error message shown when the start time is before the next lesson's start time."
+  },
+  "timetableErrorStartTimeBeforePreviousLessonEnd": "Die Startzeit ist vor der Endzeit der vorherigen Stunde!",
+  "@timetableErrorStartTimeBeforePreviousLessonEnd": {
+    "description": "Error message shown when the start time is before the previous lesson's end time."
+  },
+  "timetableErrorStartTimeEqualsEndTime": "Die Startzeit und die Endzeit darf nicht gleich sein!",
+  "@timetableErrorStartTimeEqualsEndTime": {
+    "description": "Error message shown when start and end time are the same."
+  },
+  "timetableErrorStartTimeMissing": "Bitte gibt eine Startzeit an!",
+  "@timetableErrorStartTimeMissing": {
+    "description": "Error message shown when the start time is missing."
+  },
+  "timetableErrorWeekdayMissing": "Bitte gib einen Wochentag an!",
+  "@timetableErrorWeekdayMissing": {
+    "description": "Error message shown when no weekday is selected."
+  },
   "timetableSettingsABWeekTileTitle": "A/B Wochen",
   "timetableSettingsAWeeksAreEvenSwitch": "A-Wochen sind gerade Kalenderwochen",
   "timetableSettingsEnabledWeekDaysTileTitle": "Aktivierte Wochentage",

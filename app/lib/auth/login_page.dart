@@ -23,6 +23,7 @@ import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'email_and_password_link_page.dart';
 import 'login_button.dart';
@@ -39,7 +40,7 @@ Future<void> handleGoogleSignInSubmit(BuildContext context) async {
       showSnackSec(
         context: context,
         seconds: 4,
-        text: handleErrorMessage(e.toString(), s),
+        text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
       );
     }
   }
@@ -55,7 +56,7 @@ Future<void> handleAppleSignInSubmit(BuildContext context) async {
       showSnackSec(
         context: context,
         seconds: 4,
-        text: handleErrorMessage(e.toString(), s),
+        text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
       );
     }
   }
@@ -196,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
       if (context.mounted) {
         setState(() => isLoading = false);
         showSnackSec(
-          text: handleErrorMessage(e.toString(), s),
+          text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
           context: context,
         );
       }

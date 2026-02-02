@@ -18,6 +18,7 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 part 'src/dialog/select_design_dialog.dart';
 part 'src/dialog/select_type_dialog.dart';
@@ -85,7 +86,14 @@ Future<void> editCourseDesign(BuildContext context, String courseId) async {
               text: "Farbe konnte nicht geändert werden.",
             );
           } catch (e, s) {
-            showSnackSec(context: context, text: handleErrorMessage('$e', s));
+            showSnackSec(
+              context: context,
+              text: handleErrorMessage(
+                l10n: context.l10n,
+                error: e,
+                stackTrace: s,
+              ),
+            );
           }
         }
       }

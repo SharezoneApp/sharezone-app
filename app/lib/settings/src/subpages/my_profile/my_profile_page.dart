@@ -451,7 +451,7 @@ class _DeleteAccountDialogContentState
     } on Exception catch (e, s) {
       setState(() {
         isLoading = false;
-        error = handleErrorMessage(e.toString(), s);
+        error = handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s);
       });
     }
   }

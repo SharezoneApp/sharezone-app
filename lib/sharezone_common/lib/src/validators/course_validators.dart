@@ -7,18 +7,24 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
 import '../validator.dart';
 
 mixin CourseValidators {
-  final validateSubject = StreamTransformer<String, String>.fromHandlers(
-    handleData: (name, sink) {
-      if (NotEmptyOrNullValidator(name).isValid()) {
-        sink.add(name);
-      } else {
-        sink.addError(TextValidationException(emptySubjectUserMessage));
-      }
-    },
-  );
+  SharezoneLocalizations get l10n;
 
-  static const emptySubjectUserMessage = "Bitte gib ein Fach an!";
+  late final StreamTransformer<String, String> validateSubject =
+      StreamTransformer<String, String>.fromHandlers(
+        handleData: (name, sink) {
+          if (NotEmptyOrNullValidator(name).isValid()) {
+            sink.add(name);
+          } else {
+            sink.addError(
+              TextValidationException(l10n.commonErrorCourseSubjectMissing),
+            );
+          }
+        },
+      );
 }

@@ -15,6 +15,7 @@ import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc
     as _i5;
 import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart'
     as _i7;
+import 'package:sharezone_localizations/sharezone_localizations.dart' as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -53,16 +54,28 @@ class _FakeCourseId_2 extends _i1.SmartFake implements _i4.CourseId {
 class MockCourseCreateBlocFactory extends _i1.Mock
     implements _i5.CourseCreateBlocFactory {
   @override
-  _i2.CourseCreateBloc create({_i4.SchoolClassId? schoolClassId}) =>
+  _i2.CourseCreateBloc create({
+    required _i9.SharezoneLocalizations l10n,
+    _i4.SchoolClassId? schoolClassId,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#create, [], {#schoolClassId: schoolClassId}),
+            Invocation.method(#create, [], {
+              #l10n: l10n,
+              #schoolClassId: schoolClassId,
+            }),
             returnValue: _FakeCourseCreateBloc_0(
               this,
-              Invocation.method(#create, [], {#schoolClassId: schoolClassId}),
+              Invocation.method(#create, [], {
+                #l10n: l10n,
+                #schoolClassId: schoolClassId,
+              }),
             ),
             returnValueForMissingStub: _FakeCourseCreateBloc_0(
               this,
-              Invocation.method(#create, [], {#schoolClassId: schoolClassId}),
+              Invocation.method(#create, [], {
+                #l10n: l10n,
+                #schoolClassId: schoolClassId,
+              }),
             ),
           )
           as _i2.CourseCreateBloc);
