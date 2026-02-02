@@ -16,7 +16,7 @@ StateDialogContent stateDialogContentLoading(BuildContext context) =>
       body: const StateDialogLoadingBody(),
     );
 
-StateDialogContent stateDialogContentSuccessfull(BuildContext context) =>
+StateDialogContent stateDialogContentSuccessful(BuildContext context) =>
     StateDialogContent.fromSimpleData(SimpleData.successful(context));
 
 StateDialogContent stateDialogContentFailed(BuildContext context) =>

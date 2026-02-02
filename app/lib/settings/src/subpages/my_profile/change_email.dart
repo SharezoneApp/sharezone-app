@@ -199,7 +199,7 @@ class VerifyEmailAddressDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return LeftAndRightAdaptiveDialog(
       title: "Neue E-Mail Adresse bestätigen",
-      content: Text.rich(
+      content: const Text.rich(
         TextSpan(
           text:
               'Wir haben dir einen Link geschickt. Bitte klicke jetzt auf den Link, um deine E-Mail zu bestätigen. Prüfe auch deinen Spam-Ordner.\n\n',
@@ -245,7 +245,7 @@ class _ReAuthenticationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return LeftAndRightAdaptiveDialog(
       title: "Re-Authentifizierung",
-      content: Text(
+      content: const Text(
         '''Nach der Änderung der E-Mail-Adresse musst du abgemeldet und wieder angemeldet werden. Danach kannst du die App wie gewohnt weiter nutzen.
 
 Klicke auf "Weiter" um eine Abmeldung und eine Anmeldung von Sharezone durchzuführen.

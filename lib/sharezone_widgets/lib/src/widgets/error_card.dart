@@ -59,7 +59,7 @@ class ErrorCard extends StatelessWidget {
                         children: [
                           Text(
                             context.l10n.sharezoneWidgetsErrorCardTitle,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),

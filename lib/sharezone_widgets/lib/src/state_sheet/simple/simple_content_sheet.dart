@@ -12,7 +12,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 StateSheetContent stateSheetContentLoading() =>
     const StateSheetContent(body: StateSheetLoadingBody());
 
-StateSheetContent stateSheetContentSuccessfull(BuildContext context) =>
+StateSheetContent stateSheetContentSuccessful(BuildContext context) =>
     StateSheetContent.fromSimpleData(SimpleData.successful(context));
 
 StateSheetContent stateSheetContentFailed(BuildContext context) =>

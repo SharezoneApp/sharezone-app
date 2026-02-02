@@ -43,13 +43,15 @@ Stream<StateSheetContent> _mapAppFunctionToStateContent(
   );
   appFunctionsResult.then((result) {
     if (result.hasData) {
+      if (!context.mounted) return;
       final boolean = result.data;
       if (boolean == true) {
-        stateContent.add(stateSheetContentSuccessfull(context));
+        stateContent.add(stateSheetContentSuccessful(context));
       } else {
         stateContent.add(stateSheetContentFailed(context));
       }
     } else {
+      if (!context.mounted) return;
       final exception = result.exception;
       if (exception is NoInternetAppFunctionsException) {
         stateContent.add(stateSheetContentNoInternetException(context));

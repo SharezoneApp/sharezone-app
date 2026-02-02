@@ -31,8 +31,9 @@ Stream<StateSheetContent> _mapFutureToStateContent(
     stateSheetContentLoading(),
   );
   future.then((result) {
+    if (!context.mounted) return;
     if (result == true) {
-      stateContent.add(stateSheetContentSuccessfull(context));
+      stateContent.add(stateSheetContentSuccessful(context));
     } else {
       stateContent.add(stateSheetContentFailed(context));
     }

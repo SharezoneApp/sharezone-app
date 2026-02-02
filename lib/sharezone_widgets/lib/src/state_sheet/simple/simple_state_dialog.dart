@@ -35,8 +35,10 @@ Stream<StateDialogContent> _mapFutureToStateContent(
     stateDialogContentLoading(context),
   );
   future.then((result) {
+    if (!context.mounted) return;
+
     if (result == true) {
-      stateContent.add(stateDialogContentSuccessfull(context));
+      stateContent.add(stateDialogContentSuccessful(context));
     } else {
       stateContent.add(stateDialogContentFailed(context));
     }

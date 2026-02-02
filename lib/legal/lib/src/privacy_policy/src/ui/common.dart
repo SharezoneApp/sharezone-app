@@ -309,7 +309,10 @@ class OpenTocBottomSheetButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          children: [Text(l10n.legalTableOfContents), Icon(Icons.expand_less)],
+          children: [
+            Text(l10n.legalTableOfContents),
+            const Icon(Icons.expand_less),
+          ],
         ),
       ),
     );

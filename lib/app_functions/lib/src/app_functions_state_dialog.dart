@@ -43,14 +43,16 @@ Stream<StateDialogContent> _mapAppFunctionToStateContent(
   );
   appFunctionsResult.then((result) {
     if (result.hasData) {
+      if (!context.mounted) return;
       final boolean = result.data;
       if (boolean == true) {
-        stateContent.add(stateDialogContentSuccessfull(context));
+        stateContent.add(stateDialogContentSuccessful(context));
       } else {
         stateContent.add(stateDialogContentFailed(context));
       }
     } else {
       final exception = result.exception;
+      if (!context.mounted) return;
       if (exception is NoInternetAppFunctionsException) {
         stateContent.add(stateDialogContentNoInternetException(context));
       } else {
