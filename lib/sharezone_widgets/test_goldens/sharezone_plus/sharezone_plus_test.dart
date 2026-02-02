@@ -12,17 +12,9 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-void main() {
-  Widget wrapWithApp(Widget child, {ThemeData? theme}) {
-    return MaterialApp(
-      theme: theme,
-      localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
-      supportedLocales: SharezoneLocalizations.supportedLocales,
-      locale: const Locale('de'),
-      home: child,
-    );
-  }
+import '../flutter_test_config.dart';
 
+void main() {
   group('Sharezone Plus Widgets', () {
     group(SharezonePlusChip, () {
       Future<void> pumpSharezonePlusChip(
@@ -31,7 +23,11 @@ void main() {
       }) async {
         await tester.pumpWidgetBuilder(
           const Center(child: SharezonePlusChip()),
-          wrapper: (child) => wrapWithApp(child, theme: theme),
+          wrapper: materialAppWrapper(
+            theme: theme,
+            localizations: SharezoneLocalizations.localizationsDelegates,
+            localeOverrides: defaultLocales,
+          ),
         );
       }
 
@@ -69,7 +65,11 @@ void main() {
               onLearnMorePressed: () {},
             ),
           ),
-          wrapper: (child) => wrapWithApp(child, theme: theme),
+          wrapper: materialAppWrapper(
+            theme: theme,
+            localizations: SharezoneLocalizations.localizationsDelegates,
+            localeOverrides: defaultLocales,
+          ),
         );
       }
 
