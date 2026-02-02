@@ -30,6 +30,9 @@ class AnalyzeCommand extends ConcurrentCommand {
   Duration get defaultPackageTimeout => const Duration(minutes: 5);
 
   @override
+  bool get useGitWorktrees => true;
+
+  @override
   Future<void> runTaskForPackage(Package package) =>
       analyzePackage(processRunner, package);
 }

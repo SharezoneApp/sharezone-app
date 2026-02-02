@@ -1,11 +1,3 @@
-// Copyright (c) 2026 Sharezone UG (haftungsbeschränkt)
-// Licensed under the EUPL-1.2-or-later.
-//
-// You may obtain a copy of the Licence at:
-// https://joinup.ec.europa.eu/software/page/eupl
-//
-// SPDX-License-Identifier: EUPL-1.2
-
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'sharezone_localizations.gen.dart';

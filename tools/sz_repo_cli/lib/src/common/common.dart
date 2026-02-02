@@ -21,6 +21,7 @@ export 'src/merge_with_value_stream_extension.dart';
 export 'src/package.dart';
 export 'src/package_timeout_exception.dart';
 export 'src/process_runner_utils.dart';
+export 'src/git_utils.dart';
 export 'src/shared_args.dart';
 export 'src/sharezone_repo.dart';
 export 'src/to_utf8_string_extension.dart';

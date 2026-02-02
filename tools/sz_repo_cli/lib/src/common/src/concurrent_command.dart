@@ -7,9 +7,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:clock/clock.dart';
+import 'package:file/file.dart' as file;
+import 'package:path/path.dart' as path;
+import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 /// Run a task via [runTaskForPackage] for many [Package] concurrently.
@@ -55,6 +58,12 @@ abstract class ConcurrentCommand extends CommandBase {
   Future<void> runSetup() async {
     return;
   }
+
+  /// Whether to run each package task inside a dedicated git worktree.
+  ///
+  /// This avoids Flutter command contention between packages, but should only
+  /// be enabled for commands that do not need to modify the main working tree.
+  bool get useGitWorktrees => false;
 
   /// The Task to run for each [Package].
   ///
@@ -110,11 +119,33 @@ abstract class ConcurrentCommand extends CommandBase {
       getCurrentDateTime: () => clock.now(),
     );
 
+    GitWorktreeManager? worktreeManager;
+    if (useGitWorktrees) {
+      final manager = GitWorktreeManager(
+        repo: repo,
+        processRunner: processRunner,
+        fileSystem: fileSystem,
+      );
+      final canUseWorktrees = await manager.canUseWorktrees();
+      if (canUseWorktrees) {
+        await manager.ensureRepoFlutterSdkInstalled();
+        worktreeManager = manager;
+      }
+    }
+
     final res =
         taskRunner
             .runTaskForPackages(
               packageStream: packagesToProcess,
-              runTask: (runTaskForPackage),
+              runTask: (package) async {
+                if (worktreeManager == null) {
+                  return runTaskForPackage(package);
+                }
+                return worktreeManager.runInWorktree(
+                  package,
+                  runTaskForPackage,
+                );
+              },
               maxNumberOfPackagesBeingProcessedConcurrently:
                   maxNumberOfPackagesBeingProcessedConcurrently,
               perPackageTaskTimeout: argResults!.packageTimeoutDuration,
@@ -127,12 +158,126 @@ abstract class ConcurrentCommand extends CommandBase {
     final failures = await res.allFailures;
 
     if (failures.isNotEmpty) {
-      stderr.writeln('There were failures. See above for more information.');
+      io.stderr.writeln('There were failures. See above for more information.');
       await presenter.printFailedTasksSummary(failures);
-      exit(1);
+      io.exit(1);
     } else {
-      stdout.writeln('Task was successfully executed for all packages!');
-      exit(0);
+      io.stdout.writeln('Task was successfully executed for all packages!');
+      io.exit(0);
     }
+  }
+}
+
+class GitWorktreeManager {
+  GitWorktreeManager({
+    required this.repo,
+    required this.processRunner,
+    required this.fileSystem,
+  }) {
+    _worktreesRoot = fileSystem.directory(
+      path.join(io.Directory.systemTemp.path, 'sz_repo_cli_worktrees'),
+    );
+  }
+
+  final SharezoneRepo repo;
+  final ProcessRunner processRunner;
+  final file.FileSystem fileSystem;
+  late final file.Directory _worktreesRoot;
+
+  Future<bool> canUseWorktrees() async {
+    final changes = await hasGitChanges(processRunner, repo.location);
+    if (changes.hasChanges) {
+      io.stderr.writeln(
+        '⚠️  Skipping worktrees because the repo has uncommitted changes.\n'
+        '    Commit or stash changes to enable worktree-based concurrency.',
+      );
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> ensureRepoFlutterSdkInstalled() async {
+    final flutterSdkDir = repo.location
+        .childDirectory('.fvm')
+        .childDirectory('flutter_sdk');
+    if (!flutterSdkDir.existsSync()) {
+      await processRunner.runCommand([
+        'fvm',
+        'install',
+      ], workingDirectory: repo.location);
+    }
+  }
+
+  Future<void> runInWorktree(
+    Package package,
+    Future<void> Function(Package package) runTaskForPackage,
+  ) async {
+    await _worktreesRoot.create(recursive: true);
+
+    final worktreePath = path.join(
+      _worktreesRoot.path,
+      '${package.name}-${DateTime.now().microsecondsSinceEpoch}-${io.pid}',
+    );
+
+    await processRunner.runCommand([
+      'git',
+      'worktree',
+      'add',
+      '--detach',
+      worktreePath,
+    ], workingDirectory: repo.location);
+
+    final worktreeRoot = fileSystem.directory(worktreePath);
+    try {
+      await _ensureWorktreeFlutterSdk(worktreeRoot);
+
+      final relativePackagePath = path.relative(
+        package.location.path,
+        from: repo.location.path,
+      );
+      final worktreePackageDir = worktreeRoot.childDirectory(
+        relativePackagePath,
+      );
+      final worktreePackage = Package.fromDirectory(worktreePackageDir);
+      await runTaskForPackage(worktreePackage);
+    } finally {
+      try {
+        await processRunner.runCommand(
+          ['git', 'worktree', 'remove', '--force', worktreePath],
+          workingDirectory: repo.location,
+          failOk: true,
+        );
+      } catch (e) {
+        io.stderr.writeln('⚠️  Failed to remove worktree $worktreePath: $e');
+      }
+    }
+  }
+
+  Future<void> _ensureWorktreeFlutterSdk(file.Directory worktreeRoot) async {
+    final worktreeFvmDir = worktreeRoot.childDirectory('.fvm');
+    final worktreeFlutterSdk = worktreeFvmDir.childDirectory('flutter_sdk');
+    if (worktreeFlutterSdk.existsSync()) {
+      return;
+    }
+
+    final repoFlutterSdk = repo.location
+        .childDirectory('.fvm')
+        .childDirectory('flutter_sdk');
+    if (repoFlutterSdk.existsSync()) {
+      await worktreeFvmDir.create(recursive: true);
+      try {
+        io.Link(
+          worktreeFlutterSdk.path,
+        ).createSync(repoFlutterSdk.path, recursive: true);
+        return;
+      } catch (_) {
+        // Fall back to `fvm install` if linking fails.
+      }
+    }
+
+    await processRunner.runCommand([
+      'fvm',
+      'install',
+    ], workingDirectory: worktreeRoot);
   }
 }

@@ -10,7 +10,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:sz_repo_cli/src/common/common.dart';
-import 'package:sz_repo_cli/src/common/src/git_utils.dart';
 
 class CheckL10nFilesCommand extends CommandBase {
   CheckL10nFilesCommand(super.context);

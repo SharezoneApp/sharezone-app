@@ -63,6 +63,9 @@ If not passed, do not randomize test case execution order.''',
   Duration get defaultPackageTimeout => const Duration(minutes: 10);
 
   @override
+  bool get useGitWorktrees => true;
+
+  @override
   Stream<Package> get packagesToProcess {
     if (argResults!['only-goldens'] as bool) {
       return super.packagesToProcess.where(
