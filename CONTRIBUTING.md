@@ -54,11 +54,12 @@ In case you don't want to build the Android app, you can skip this step.
 
 We have written our own CLI to manage our repository. Common use cases for the CLI are:
 
-- Run all tests for all packages inside this repository (`sz test`)
 - Analyze all packages inside this repository (`sz analyze`)
+- Clean up files of failed golden tests (`sz clean-goldens`)
+- Format all packages inside this repository (`sz format`)
 - Add license headers to all files (`sz lh add`)
 - Generate localization files (`sz l10n generate`)
-- Clean up files of failed golden tests (`sz clean-goldens`)
+- Run all tests for all packages inside this repository (`sz test`)
 
 #### macOS
 
