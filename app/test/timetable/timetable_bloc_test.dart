@@ -75,6 +75,7 @@ void main() {
         latestEditor: '',
         sendNotification: false,
         title: 'title',
+        attachments: const [],
       );
     }
 

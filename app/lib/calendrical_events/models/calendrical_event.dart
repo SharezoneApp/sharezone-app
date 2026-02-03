@@ -48,6 +48,7 @@ class CalendricalEvent {
   final Time startTime, endTime;
   final String title;
   final String? detail, place;
+  final List<String> attachments;
   final bool sendNotification;
   final String? latestEditor;
 
@@ -64,6 +65,7 @@ class CalendricalEvent {
     required this.title,
     required this.detail,
     required this.place,
+    required this.attachments,
     required this.sendNotification,
     required this.latestEditor,
   });
@@ -85,6 +87,11 @@ class CalendricalEvent {
       eventType: EventType.fromString(data['eventType'] as String),
       detail: data['detail'] as String?,
       place: data['place'] as String?,
+      attachments:
+          (data['attachments'] as List<dynamic>?)
+              ?.whereType<String>()
+              .toList() ??
+          const [],
       sendNotification: (data['sendNotification'] as bool?) ?? false,
       latestEditor: data['latestEditor'] as String?,
     );
@@ -103,6 +110,7 @@ class CalendricalEvent {
       'title': title,
       'detail': detail,
       'place': place,
+      'attachments': attachments,
       'sendNotification': sendNotification,
       'latestEditor': latestEditor,
     };
@@ -120,6 +128,7 @@ class CalendricalEvent {
     String? title,
     String? detail,
     String? place,
+    List<String>? attachments,
     bool? sendNotification,
     String? latestEditor,
   }) {
@@ -136,6 +145,7 @@ class CalendricalEvent {
       title: title ?? this.title,
       detail: detail ?? this.detail,
       place: place ?? this.place,
+      attachments: attachments ?? this.attachments,
       sendNotification: sendNotification ?? this.sendNotification,
       latestEditor: latestEditor ?? this.latestEditor,
     );

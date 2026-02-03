@@ -9,6 +9,8 @@
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:files_basics/local_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:time/time.dart';
@@ -93,6 +95,20 @@ class AddEventDialogController extends ChangeNotifier {
     notifyListeners();
   }
 
+  final List<LocalFile> _localFiles = [];
+
+  List<LocalFile> get localFiles => List.unmodifiable(_localFiles);
+
+  void addLocalFiles(List<LocalFile> files) {
+    _localFiles.addAll(files);
+    notifyListeners();
+  }
+
+  void removeLocalFile(LocalFile file) {
+    _localFiles.remove(file);
+    notifyListeners();
+  }
+
   Future<bool> createEvent() async {
     bool hasError = false;
     if (title.isEmpty) {
@@ -123,6 +139,7 @@ class AddEventDialogController extends ChangeNotifier {
         location: location,
         notifyCourseMembers: notifyCourseMembers,
         eventType: isExam ? EventType.exam : EventType.event,
+        localFiles: localFiles.toIList(),
       ),
     );
 

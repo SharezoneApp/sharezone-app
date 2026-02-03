@@ -13,6 +13,7 @@ import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
+import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/timetable/src/edit_date.dart';
@@ -27,10 +28,10 @@ import 'package:time/time.dart';
 
 import 'timetable_event_edit_bloc.dart';
 
-void _submit(BuildContext context) {
+Future<void> _submit(BuildContext context) async {
   final bloc = BlocProvider.of<TimetableEditEventBloc>(context);
   try {
-    bloc.submit();
+    await bloc.submit();
     Navigator.pop(context, true);
   } on Exception catch (e, s) {
     log('$e', error: e, stackTrace: s);
@@ -63,11 +64,14 @@ class _TimetableEditEventPageState extends State<TimetableEditEventPage> {
   @override
   void initState() {
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
+    final api = BlocProvider.of<SharezoneContext>(context).api;
     bloc = TimetableEditEventBloc(
       initialEvent: widget.initialEvent,
       gateway: widget.timetableGateway,
       connectionsGateway: widget.connectionsGateway,
       markdownAnalytics: markdownAnalytics,
+      fileSharingGateway: api.fileSharing,
+      userGateway: api.user,
     );
     super.initState();
   }
@@ -128,6 +132,8 @@ class _TimetableEditEventPage extends StatelessWidget {
                   const Divider(),
                   _DetailField(initialEvent),
                   const Divider(height: 32),
+                  const _AttachmentsField(),
+                  const Divider(),
                   _RoomField(initialEvent),
                   const Divider(),
                 ],
@@ -376,6 +382,28 @@ class _DetailField extends StatelessWidget {
             labelText: isExam ? "Themen der Prüfung" : "Details",
           ),
           onChanged: bloc.changeDetail,
+        ),
+      ),
+    );
+  }
+}
+
+class _AttachmentsField extends StatelessWidget {
+  const _AttachmentsField();
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TimetableEditEventBloc>(context);
+    return MaxWidthConstraintBox(
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: AttachFile(
+          localFilesStream: bloc.localFiles,
+          cloudFilesStream: bloc.cloudFiles,
+          addLocalFileToBlocMethod: bloc.addLocalFiles,
+          removeLocalFileFromBlocMethod: bloc.removeLocalFile,
+          removeCloudFileFromBlocMethod: bloc.removeCloudFile,
         ),
       ),
     );

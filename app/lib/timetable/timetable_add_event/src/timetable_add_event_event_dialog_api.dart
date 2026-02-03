@@ -9,6 +9,9 @@
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:files_basics/local_file.dart';
+import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/util/api.dart';
@@ -27,6 +30,14 @@ class EventDialogApi {
   }
 
   Future<void> createEvent(CreateEventCommand command) async {
+    final authorName = (await _api.user.userStream.first)?.name ?? "-";
+    final authorID = _api.uID;
+    final attachments = await _api.fileSharing.uploadAttachments(
+      command.localFiles,
+      command.courseId.value,
+      authorID,
+      authorName,
+    );
     final event = CalendricalEvent(
       // The 'createdOn' field will be added in the gateway because we use
       // serverTimestamp().
@@ -42,11 +53,18 @@ class EventDialogApi {
       authorID: 'temp', // WILL BE ADDED IN THE GATEWAY!
       title: command.title,
       detail: command.description,
+      attachments: attachments,
       sendNotification: command.notifyCourseMembers,
       latestEditor: _api.memberID,
     );
 
-    _api.timetable.createEvent(event);
+    final eventId = await _api.timetable.createEvent(event);
+    for (final attachment in attachments) {
+      await _api.fileSharing.addReferenceData(
+        attachment,
+        ReferenceData(type: ReferenceType.event, id: eventId),
+      );
+    }
   }
 }
 
@@ -60,6 +78,7 @@ class CreateEventCommand extends Equatable {
   final String location;
   final bool notifyCourseMembers;
   final EventType eventType;
+  final IList<LocalFile> localFiles;
 
   @override
   List<Object?> get props => [
@@ -72,6 +91,7 @@ class CreateEventCommand extends Equatable {
     location,
     notifyCourseMembers,
     eventType,
+    localFiles,
   ];
 
   const CreateEventCommand({
@@ -84,5 +104,6 @@ class CreateEventCommand extends Equatable {
     required this.location,
     required this.notifyCourseMembers,
     required this.eventType,
+    required this.localFiles,
   });
 }

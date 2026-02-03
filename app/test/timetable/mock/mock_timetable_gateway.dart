@@ -20,9 +20,9 @@ class MockTimetableGateway implements TimetableGateway {
   final _eventsSubject = BehaviorSubject.seeded(<CalendricalEvent>[]);
 
   @override
-  Future<bool> createEvent(CalendricalEvent event) async {
+  Future<String> createEvent(CalendricalEvent event) async {
     _eventsSubject.sink.add(_eventsSubject.value..add(event));
-    return true;
+    return event.eventID;
   }
 
   @override

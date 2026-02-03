@@ -178,6 +178,7 @@ class _SharezonePlusAd extends StatelessWidget {
         groupType: GroupType.course,
         latestEditor: null,
         place: null,
+        attachments: const [],
         sendNotification: false,
         startTime: Time(hour: 10, minute: 0),
       ),
