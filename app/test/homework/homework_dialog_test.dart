@@ -380,7 +380,8 @@ void main() {
               ],
               child:
                   (context) => MaterialApp(
-                    locale: const Locale('de'),
+                    locale: const Locale('de', 'DE'),
+                    supportedLocales: const [Locale('de', 'DE')],
                     localizationsDelegates:
                         SharezoneLocalizations.localizationsDelegates,
                     home: Scaffold(
