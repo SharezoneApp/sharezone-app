@@ -1,4 +1,3 @@
-#!/bin/bash
 # Copyright (c) 2023 Sharezone UG (haftungsbeschränkt)
 # Licensed under the EUPL-1.2-or-later.
 #
@@ -9,8 +8,6 @@
 
 # A script to setup the Codex Cloud Environment
 # (https://developers.openai.com/codex/cloud/environments).
-
-set -e # Exit on error
 
 # Install Flutter & Dart
 curl -fsSL https://fvm.app/install.sh | bash
@@ -32,3 +29,6 @@ npm install --global prettier@3.0.1
 # Install Sharezone Repo CLI
 flutter pub global activate --source path "/workspace/sharezone-app/tools/sz_repo_cli/"
 echo 'export PATH="/workspace/sharezone-app/bin:$PATH"' >> ~/.bash_profile
+
+# Install Dart/Flutter dependencies
+flutter pub get
