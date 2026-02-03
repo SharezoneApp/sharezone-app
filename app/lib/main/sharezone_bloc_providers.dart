@@ -21,6 +21,7 @@ import 'package:crash_analytics/crash_analytics.dart';
 import 'package:dio/dio.dart';
 import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:filesharing_logic/file_uploader.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/account/account_page_bloc_factory.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/type_of_user_bloc.dart';
@@ -243,6 +245,31 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       (courseId) => getCourseData(api, courseId.value),
     );
 
+    final timetableBloc = TimetableBloc(
+      api.schoolClassGateway,
+      api.user,
+      api.timetable,
+      api.course,
+      SchoolClassFilterAnalytics(analytics),
+    );
+
+    final homeworkCourseFilterStream = timetableBloc.schoolClassFilterView
+        .map((view) => view.selectedSchoolClass?.id)
+        .distinct()
+        .switchMap((selectedClassId) {
+          if (selectedClassId == null) {
+            return Stream.value(ISet<CourseId>());
+          }
+          return api.schoolClassGateway
+              .streamCoursesID('$selectedClassId')
+              .map((courseIds) {
+                return courseIds
+                    .map((courseId) => CourseId(courseId))
+                    .toISet();
+              });
+        })
+        .shareReplay(maxSize: 1);
+
     final config = HausaufgabenheftConfig(
       // ignore: deprecated_member_use
       defaultCourseColorValue: Colors.lightBlue.value,
@@ -267,6 +294,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       api: homeworkApi,
       keyValueStore: widget.blocDependencies.keyValueStore,
       localizations: context.l10n,
+      courseFilterStream: homeworkCourseFilterStream,
     );
     final homeworkPageBloc = createStudentHomeworkPageBloc(
       dependencies,
@@ -282,14 +310,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     // Not sure if we need to call both, but without .close the linter complains
     _disposeCallbacks.add(teacherHomeworkBloc.dispose);
     _disposeCallbacks.add(teacherHomeworkBloc.close);
-
-    final timetableBloc = TimetableBloc(
-      api.schoolClassGateway,
-      api.user,
-      api.timetable,
-      api.course,
-      SchoolClassFilterAnalytics(analytics),
-    );
 
     final markdownAnalytics = MarkdownAnalytics(Analytics(getBackend()));
 

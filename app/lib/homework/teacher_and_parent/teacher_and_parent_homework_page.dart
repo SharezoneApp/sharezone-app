@@ -18,6 +18,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
+import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/teacher_and_parent_src.dart';
@@ -52,22 +53,30 @@ class TeacherAndParentHomeworkPage extends StatelessWidget {
             body: const TeacherHomeworkBody(),
             navigationItem: NavigationItem.homework,
             bottomBarConfiguration: BottomBarConfiguration(
-              bottomBar: AnimatedTabVisibility(
-                visibleInTabIndicies: const [0],
-                // Else the Sort shown in the button and the current sort
-                // could get out of order
-                maintainState: true,
-                child: HomeworkBottomActionBar(
-                  currentHomeworkSortStream: bloc.stream
-                      .whereType<Success>()
-                      .map((s) => s.open.sorting),
-                  backgroundColor: bottomBarBackgroundColor,
-                  showOverflowMenu: false,
-                  // Not visible since we don't show the overflow menu
-                  onCompletedAllOverdue: () => throw UnimplementedError(),
-                  onSortingChanged:
-                      (newSort) => bloc.add(OpenHwSortingChanged(newSort)),
-                ),
+              bottomBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SchoolClassFilterBottomBar(
+                    backgroundColor: bottomBarBackgroundColor,
+                  ),
+                  AnimatedTabVisibility(
+                    visibleInTabIndicies: const [0],
+                    // Else the Sort shown in the button and the current sort
+                    // could get out of order
+                    maintainState: true,
+                    child: HomeworkBottomActionBar(
+                      currentHomeworkSortStream: bloc.stream
+                          .whereType<Success>()
+                          .map((s) => s.open.sorting),
+                      backgroundColor: bottomBarBackgroundColor,
+                      showOverflowMenu: false,
+                      // Not visible since we don't show the overflow menu
+                      onCompletedAllOverdue: () => throw UnimplementedError(),
+                      onSortingChanged:
+                          (newSort) => bloc.add(OpenHwSortingChanged(newSort)),
+                    ),
+                  ),
+                ],
               ),
             ),
             floatingActionButton: const BottomOfScrollViewInvisibility(

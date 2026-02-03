@@ -12,11 +12,16 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:clock/clock.dart';
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:common_domain_models/src/ids/homework_id.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart'
+    as teacher;
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:hausaufgabenheft_logik/src/shared/color.dart';
+import 'package:hausaufgabenheft_logik/src/shared/models/models.dart'
+    as hw_models;
 import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
@@ -122,6 +127,81 @@ void main() {
         );
       },
     );
+
+    test('Filters open and completed homeworks by course', () async {
+      final courseFilter = BehaviorSubject<ISet<CourseId>>.seeded(
+        ISet([const CourseId('course-a')]),
+      );
+      addTearDown(courseFilter.close);
+
+      bloc = createBloc(
+        repository,
+        keyValueStore: kvs,
+        l10n: l10n,
+        courseFilterStream: courseFilter.stream,
+      );
+
+      await addToRepository([
+        createHomework(
+          id: 'open-a',
+          title: 'Open A',
+          courseId: const CourseId('course-a'),
+        ),
+        createHomework(
+          id: 'open-b',
+          title: 'Open B',
+          courseId: const CourseId('course-b'),
+        ),
+        createHomework(
+          id: 'done-a',
+          title: 'Done A',
+          courseId: const CourseId('course-a'),
+          done: true,
+        ),
+        createHomework(
+          id: 'done-b',
+          title: 'Done B',
+          courseId: const CourseId('course-b'),
+          done: true,
+        ),
+      ]);
+
+      bloc.add(LoadHomeworks());
+
+      Success filtered = await bloc.stream.whereType<Success>().first;
+      final filteredOpenTitles =
+          filtered.open.orderedHomeworks.map((hw) => hw.title).toList();
+      final filteredCompletedTitles =
+          filtered.completed.orderedHomeworks.map((hw) => hw.title).toList();
+      expect(filteredOpenTitles, ['Open A']);
+      expect(filteredCompletedTitles, ['Done A']);
+
+      final unfilteredFuture = bloc.stream.whereType<Success>().firstWhere((
+        state,
+      ) {
+        final openTitles =
+            state.open.orderedHomeworks.map((hw) => hw.title).toList();
+        final completedTitles =
+            state.completed.orderedHomeworks.map((hw) => hw.title).toList();
+        return openTitles.length == 2 && completedTitles.length == 2;
+      });
+
+      courseFilter.add(ISet());
+
+      Success unfiltered = await unfilteredFuture;
+      final unfilteredOpenTitles =
+          unfiltered.open.orderedHomeworks.map((hw) => hw.title).toList();
+      final unfilteredCompletedTitles =
+          unfiltered.completed.orderedHomeworks.map((hw) => hw.title).toList();
+      expect(
+        unfilteredOpenTitles,
+        unorderedEquals(['Open A', 'Open B']),
+      );
+      expect(
+        unfilteredCompletedTitles,
+        unorderedEquals(['Done A', 'Done B']),
+      );
+    });
 
     test(
       'THEN the homeworks should be sorted after the last chosen Sorting from the cache',
@@ -606,10 +686,113 @@ void main() {
       );
     });
   });
+
+  group('GIVEN a Teacher or Parent on the homework page', () {
+    late teacher.TeacherAndParentHomeworkPageBloc bloc;
+    late InMemoryHomeworkRepository<TeacherHomeworkReadModel> repository;
+    final l10n = lookupSharezoneLocalizations(const Locale('de', 'DE'));
+
+    setUp(() {
+      repository = InMemoryHomeworkRepository<TeacherHomeworkReadModel>();
+    });
+
+    Future addToRepository(List<TeacherHomeworkReadModel> homeworks) async {
+      for (var homework in homeworks) {
+        await repository.add(homework);
+      }
+    }
+
+    test('Filters open and archived homeworks by course', () async {
+      final courseFilter = BehaviorSubject<ISet<CourseId>>.seeded(
+        ISet([const CourseId('course-a')]),
+      );
+      addTearDown(courseFilter.close);
+
+      bloc = createTeacherBloc(
+        repository,
+        l10n: l10n,
+        courseFilterStream: courseFilter.stream,
+      );
+
+      await addToRepository([
+        createTeacherHomework(
+          id: 'open-a',
+          title: 'Open A',
+          courseId: const CourseId('course-a'),
+        ),
+        createTeacherHomework(
+          id: 'open-b',
+          title: 'Open B',
+          courseId: const CourseId('course-b'),
+        ),
+        createTeacherHomework(
+          id: 'archived-a',
+          title: 'Archived A',
+          courseId: const CourseId('course-a'),
+          status: ArchivalStatus.archived,
+        ),
+        createTeacherHomework(
+          id: 'archived-b',
+          title: 'Archived B',
+          courseId: const CourseId('course-b'),
+          status: ArchivalStatus.archived,
+        ),
+      ]);
+
+      bloc.add(teacher.LoadHomeworks());
+
+      teacher.Success filtered =
+          await bloc.stream.whereType<teacher.Success>().first;
+      final filteredOpenTitles =
+          filtered.open.orderedHomeworks.map((hw) => hw.title).toList();
+      final filteredArchivedTitles =
+          filtered.archived.orderedHomeworks.map((hw) => hw.title).toList();
+      expect(filteredOpenTitles, ['Open A']);
+      expect(filteredArchivedTitles, ['Archived A']);
+
+      final unfilteredFuture = bloc.stream
+          .whereType<teacher.Success>()
+          .firstWhere((state) {
+            final openTitles =
+                state.open.orderedHomeworks.map((hw) => hw.title).toList();
+            final archivedTitles =
+                state.archived.orderedHomeworks.map((hw) => hw.title).toList();
+            return openTitles.length == 2 && archivedTitles.length == 2;
+          });
+
+      courseFilter.add(ISet());
+
+      teacher.Success unfiltered = await unfilteredFuture;
+      final unfilteredOpenTitles =
+          unfiltered.open.orderedHomeworks.map((hw) => hw.title).toList();
+      final unfilteredArchivedTitles =
+          unfiltered.archived.orderedHomeworks.map((hw) => hw.title).toList();
+      expect(
+        unfilteredOpenTitles,
+        unorderedEquals(['Open A', 'Open B']),
+      );
+      expect(
+        unfilteredArchivedTitles,
+        unorderedEquals(['Archived A', 'Archived B']),
+      );
+    });
+  });
 }
 
 extension on StudentOpenHomeworkListView {
   List<StudentHomeworkView> get orderedHomeworks {
+    final listOfListOfHomeworks =
+        sections.map((s) => s.homeworks.toList()).toList();
+    if (listOfListOfHomeworks.isEmpty) return [];
+    if (listOfListOfHomeworks.length == 1) {
+      return listOfListOfHomeworks.single.toList();
+    }
+    return listOfListOfHomeworks.reduce((l1, l2) => [...l1, ...l2]).toList();
+  }
+}
+
+extension on teacher.TeacherAndParentOpenHomeworkListView {
+  List<teacher.TeacherAndParentHomeworkView> get orderedHomeworks {
     final listOfListOfHomeworks =
         sections.map((s) => s.homeworks.toList()).toList();
     if (listOfListOfHomeworks.isEmpty) return [];
@@ -627,6 +810,7 @@ StudentHomeworkPageBloc createBloc(
   DateTime Function()? getCurrentDateTime,
   KeyValueStore? keyValueStore,
   SharezoneLocalizations? l10n,
+  Stream<ISet<CourseId>>? courseFilterStream,
 }) {
   return createStudentHomeworkPageBloc(
     HausaufgabenheftDependencies(
@@ -640,6 +824,37 @@ StudentHomeworkPageBloc createBloc(
       localizations:
           l10n ?? lookupSharezoneLocalizations(const Locale('de', 'DE')),
       getCurrentDateTime: getCurrentDateTime,
+      courseFilterStream: courseFilterStream,
+    ),
+    HausaufgabenheftConfig(
+      defaultCourseColorValue: const Color.fromRGBO(255, 255, 255, 1).value,
+      nrOfInitialCompletedHomeworksToLoad: nrOfInitialCompletedHomeworksToLoad,
+    ),
+  );
+}
+
+teacher.TeacherAndParentHomeworkPageBloc createTeacherBloc(
+  InMemoryHomeworkRepository<TeacherHomeworkReadModel> repository, {
+  int nrOfInitialCompletedHomeworksToLoad = 1000,
+  DateTime Function()? getCurrentDateTime,
+  SharezoneLocalizations? l10n,
+  Stream<ISet<CourseId>>? courseFilterStream,
+}) {
+  return teacher.createTeacherAndParentHomeworkPageBloc(
+    HausaufgabenheftDependencies(
+      api: HomeworkPageApi(
+        students: InMemoryStudentHomeworkPageApi(
+          repo: InMemoryHomeworkRepository<StudentHomeworkReadModel>(),
+        ),
+        teachersAndParents: InMemoryTeacherAndParentHomeworkPageApi(
+          repo: repository,
+        ),
+      ),
+      keyValueStore: InMemoryKeyValueStore(),
+      localizations:
+          l10n ?? lookupSharezoneLocalizations(const Locale('de', 'DE')),
+      getCurrentDateTime: getCurrentDateTime,
+      courseFilterStream: courseFilterStream,
     ),
     HausaufgabenheftConfig(
       defaultCourseColorValue: const Color.fromRGBO(255, 255, 255, 1).value,
@@ -652,6 +867,28 @@ InMemoryHomeworkRepository<StudentHomeworkReadModel> createRepositoy() =>
     InMemoryHomeworkRepository<StudentHomeworkReadModel>();
 
 Date dateFromDay(int day) => Date(year: 2019, month: 1, day: day);
+
+TeacherHomeworkReadModel createTeacherHomework({
+  required String id,
+  required String title,
+  CourseId courseId = const CourseId('testCourseId'),
+  ArchivalStatus status = ArchivalStatus.open,
+}) {
+  return TeacherHomeworkReadModel(
+    id: HomeworkId(id),
+    courseId: courseId,
+    todoDate: dateFromDay(1).asDateTime(),
+    subject: hw_models.Subject('Subject', abbreviation: 'Sub'),
+    title: hw_models.Title(title),
+    withSubmissions: false,
+    status: status,
+    nrOfStudentsCompleted: 0,
+    canViewCompletions: true,
+    canViewSubmissions: true,
+    canDeleteForEveryone: true,
+    canEditForEveryone: true,
+  );
+}
 
 class VerboseBlocObserver extends BlocObserver {
   @override

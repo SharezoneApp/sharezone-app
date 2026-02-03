@@ -19,13 +19,14 @@ StudentHomeworkReadModel createHomework({
   String id = 'willBeRandom',
   bool done = false,
   bool withSubmissions = false,
+  CourseId courseId = const CourseId('testCourseId'),
   Color? subjectColor,
   String abbreviation = 'Abb',
 }) {
   id = id == 'willBeRandom' ? randomAlphaNumeric(5) : id;
   return StudentHomeworkReadModel(
     id: HomeworkId(id),
-    courseId: const CourseId('testCourseId'),
+    courseId: courseId,
     todoDate: todoDate.asDateTime(),
     subject: Subject(subject, color: subjectColor, abbreviation: abbreviation),
     title: Title(title),

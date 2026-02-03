@@ -44,6 +44,7 @@ StudentHomeworkPageBloc createStudentHomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,
     viewFactory: viewFactory,
     homeworkApi: dependencies.api.students,
+    courseFilterStream: dependencies.courseFilterStream,
     numberOfInitialCompletedHomeworksToLoad:
         config.nrOfInitialCompletedHomeworksToLoad,
     homeworkSortingCache: HomeworkSortingCache(dependencies.keyValueStore),

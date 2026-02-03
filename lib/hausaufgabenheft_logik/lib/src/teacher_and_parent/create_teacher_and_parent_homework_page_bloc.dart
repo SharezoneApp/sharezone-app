@@ -43,6 +43,7 @@ TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
     openHomeworkListViewFactory: openHomeworkListViewFactory,
     viewFactory: viewFactory,
     homeworkApi: dependencies.api.teachersAndParents,
+    courseFilterStream: dependencies.courseFilterStream,
     numberOfInitialCompletedHomeworksToLoad:
         config.nrOfInitialCompletedHomeworksToLoad,
     homeworkSortingCache: HomeworkSortingCache(dependencies.keyValueStore),

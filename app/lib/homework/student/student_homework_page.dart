@@ -22,6 +22,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/bottom_bar_configuration.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
+import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'src/completed_homework_list.dart';
@@ -76,6 +77,9 @@ class StudentHomeworkPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   AdBanner(adUnitId: getAdUnitId(context)),
+                  SchoolClassFilterBottomBar(
+                    backgroundColor: bottomBarBackgroundColor,
+                  ),
                   AnimatedTabVisibility(
                     visibleInTabIndicies: const [0],
                     // Else the Sort shown in the button and the current sort
