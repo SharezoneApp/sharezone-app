@@ -450,6 +450,8 @@
   "timetableSettingsLessonLengthTileSubtitle": "Length of a lesson",
   "timetableSettingsLessonLengthTileTitle": "Lesson Length",
   "timetableSettingsLessonLengthTileTrailing": "{length} Min.",
+  "timetableSettingsOpenUpcomingWeekOnNonSchoolDaysSubtitle": "If there are no enabled weekdays left in the current week, the timetable opens the next week.",
+  "timetableSettingsOpenUpcomingWeekOnNonSchoolDaysTitle": "Open upcoming week on non-school days",
   "timetableSettingsPeriodsFieldTileSubtitle": "Timetable start, lesson length, etc.",
   "timetableSettingsPeriodsFieldTileTitle": "Class Times",
   "timetableSettingsShowLessonsAbbreviation": "Show abbreviations in timetable",

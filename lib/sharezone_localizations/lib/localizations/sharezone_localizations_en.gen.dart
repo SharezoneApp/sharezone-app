@@ -1458,6 +1458,14 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
+  String get timetableSettingsOpenUpcomingWeekOnNonSchoolDaysSubtitle =>
+      'If there are no enabled weekdays left in the current week, the timetable opens the next week.';
+
+  @override
+  String get timetableSettingsOpenUpcomingWeekOnNonSchoolDaysTitle =>
+      'Open upcoming week on non-school days';
+
+  @override
   String get timetableSettingsPeriodsFieldTileSubtitle =>
       'Timetable start, lesson length, etc.';
 

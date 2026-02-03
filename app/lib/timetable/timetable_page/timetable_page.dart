@@ -9,6 +9,7 @@
 import 'dart:math';
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:date/date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -49,10 +50,9 @@ class TimetablePage extends StatelessWidget {
   static const tag = "timetable-page";
   static const days = 5;
 
-  final today = TimetableDateHelper.dateBeginThisWeek();
   static const timetableScale = 1.00;
 
-  TimetablePage({super.key});
+  const TimetablePage({super.key});
 
   String getAdUnitId(BuildContext context) {
     if (kDebugMode) {
@@ -143,8 +143,8 @@ class _SettingsIcon extends StatelessWidget {
   }
 }
 
-class TimeTableUnit extends StatelessWidget {
-  TimeTableUnit({
+class TimeTableUnit extends StatefulWidget {
+  const TimeTableUnit({
     super.key,
     required this.groupInfos,
     required this.lessons,
@@ -155,55 +155,102 @@ class TimeTableUnit extends StatelessWidget {
   final List<Lesson> lessons;
   final TimetableConfig timetableConfig;
 
-  final today = TimetableDateHelper.dateBeginThisWeek();
+  @override
+  State<TimeTableUnit> createState() => _TimeTableUnitState();
+}
+
+class _TimeTableUnitState extends State<TimeTableUnit> {
+  late final Date _today = Date.today();
+  late final Date _startOfCurrentWeek = TimetableDateHelper.dateBeginThisWeek(
+    today: _today,
+  );
+  late final Date _endOfCurrentWeek = TimetableDateHelper.dateAddDays(
+    _startOfCurrentWeek,
+    6,
+  );
+  final PageController _pageController = PageController();
+  bool _initialWeekResolved = false;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<TimetableBloc>(context);
+    return StreamBuilder<List<CalendricalEvent>>(
+      stream: bloc.events(_startOfCurrentWeek, endDate: _endOfCurrentWeek),
+      builder: (context, snapshot) {
+        final events = snapshot.data;
+        if (!_initialWeekResolved && events != null) {
+          _initialWeekResolved = true;
+          final shouldOpenUpcomingWeek =
+              TimetableDateHelper.shouldOpenUpcomingWeek(
+                today: _today,
+                enabledWeekDays: widget.timetableConfig.getEnabledWeekDays(),
+                isFeatureEnabled:
+                    widget.timetableConfig.openUpcomingWeekOnNonSchoolDays(),
+                eventDatesInCurrentWeek: events.map((event) => event.date),
+              );
+          if (shouldOpenUpcomingWeek) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
+              _pageController.jumpToPage(1);
+            });
+          }
+        }
 
-    return PageView.builder(
-      // Users expect to be able to drag the timetable horizontally to the
-      // next/previous week via mouse as this is old behavior.
-      //
-      // Flutter had this as a default until they made a breaking change (
-      // disable dragging as a default for desktops with mice). So this is a
-      // workaround to explicitly re-enable this behavior. See:
-      // https://docs.flutter.dev/release/breaking-changes/default-scroll-behavior-drag
-      //
-      // In the future we might add explicit buttons to go forward or backwards
-      // a week in the timetable - in this case desktop might remove this
-      // behavior.
-      scrollBehavior: ScrollConfiguration.of(context).copyWith(
-        dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
-      ),
-      itemBuilder: (context, index) {
-        final startOfWeek = TimetableDateHelper.dateAddWeeks(today, index);
-        final endDate = TimetableDateHelper.dateAddDays(startOfWeek, 6);
-        final daysList = TimetableDateHelper.generateDaysList(
-          startOfWeek,
-          endDate,
-          timetableConfig.getEnabledWeekDays(),
-        );
-
-        final filteredLessonsList = getFilteredLessonList(
-          lessons,
-          timetableConfig.getWeekType(daysList.first),
-        );
-        return StreamBuilder<List<CalendricalEvent>>(
-          stream: bloc.events(startOfWeek, endDate: endDate),
-          builder: (context, snapshot) {
-            final events = snapshot.data ?? <CalendricalEvent>[];
-            final builder = TimetableBuilder(
-              filteredLessonsList,
-              daysList,
-              events,
-              groupInfos,
+        return PageView.builder(
+          // Users expect to be able to drag the timetable horizontally to the
+          // next/previous week via mouse as this is old behavior.
+          //
+          // Flutter had this as a default until they made a breaking change (
+          // disable dragging as a default for desktops with mice). So this is a
+          // workaround to explicitly re-enable this behavior. See:
+          // https://docs.flutter.dev/release/breaking-changes/default-scroll-behavior-drag
+          //
+          // In the future we might add explicit buttons to go forward or
+          // backwards a week in the timetable - in this case desktop might
+          // remove this behavior.
+          scrollBehavior: ScrollConfiguration.of(context).copyWith(
+            dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+          ),
+          controller: _pageController,
+          itemBuilder: (context, index) {
+            final startOfWeek = TimetableDateHelper.dateAddWeeks(
+              _startOfCurrentWeek,
+              index,
             );
-            return TimetableWeekView(
-              dates: daysList,
-              elements: [...builder.buildElements()],
-              config: timetableConfig,
-              periods: timetableConfig.getPeriods(),
+            final endDate = TimetableDateHelper.dateAddDays(startOfWeek, 6);
+            final daysList = TimetableDateHelper.generateDaysList(
+              startOfWeek,
+              endDate,
+              widget.timetableConfig.getEnabledWeekDays(),
+            );
+
+            final filteredLessonsList = getFilteredLessonList(
+              widget.lessons,
+              widget.timetableConfig.getWeekType(daysList.first),
+            );
+            return StreamBuilder<List<CalendricalEvent>>(
+              stream: bloc.events(startOfWeek, endDate: endDate),
+              builder: (context, snapshot) {
+                final events = snapshot.data ?? <CalendricalEvent>[];
+                final builder = TimetableBuilder(
+                  filteredLessonsList,
+                  daysList,
+                  events,
+                  widget.groupInfos,
+                );
+                return TimetableWeekView(
+                  dates: daysList,
+                  elements: [...builder.buildElements()],
+                  config: widget.timetableConfig,
+                  periods: widget.timetableConfig.getPeriods(),
+                );
+              },
             );
           },
         );
