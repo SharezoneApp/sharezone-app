@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 /// Ein Datenobjekt für Widgets wie zum Beispiel [StateDialogSimpleBody] oder [StateSheetSimpleBody].
 class SimpleData {
@@ -22,37 +23,37 @@ class SimpleData {
     this.iconColor,
   });
 
-  factory SimpleData.successful() {
-    return const SimpleData(
-      title: "Erfolgreich",
+  static SimpleData successful(BuildContext context) {
+    return SimpleData(
+      title: context.l10n.commonStatusSuccessful,
       iconData: Icons.done,
       iconColor: Colors.green,
     );
   }
 
-  factory SimpleData.failed() {
-    return const SimpleData(
-      title: "Fehlgeschlagen",
+  static SimpleData failed(BuildContext context) {
+    return SimpleData(
+      title: context.l10n.commonStatusFailed,
       iconData: Icons.error_outline,
       iconColor: Colors.red,
     );
   }
 
-  factory SimpleData.unkonwnException() {
-    return const SimpleData(
-      title: 'Unbekannter Fehler',
+  static SimpleData unkonwnException(BuildContext context) {
+    return SimpleData(
+      title: context.l10n.commonStatusUnknownErrorTitle,
       iconData: Icons.error_outline,
       iconColor: Colors.red,
-      description: "Ein unbekannter Fehler ist aufgetreten! 😭",
+      description: context.l10n.commonStatusUnknownErrorDescription,
     );
   }
 
-  factory SimpleData.noInternet() {
-    return const SimpleData(
-      title: 'Fehler: Keine Internetverbindung',
+  static SimpleData noInternet(BuildContext context) {
+    return SimpleData(
+      title: context.l10n.commonStatusNoInternetTitle,
       iconData: Icons.error_outline,
       iconColor: Colors.red,
-      description: "Bitte überprüfen Sie die Internetverbindung.",
+      description: context.l10n.commonStatusNoInternetDescription,
     );
   }
 }

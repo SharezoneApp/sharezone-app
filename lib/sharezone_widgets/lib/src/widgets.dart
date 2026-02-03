@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:intl/intl.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 export 'prefilled_text_field.dart';
@@ -90,7 +91,7 @@ class DatePicker extends StatelessWidget {
       valueText:
           selectedDate != null
               ? DateFormat('E, MMM d, yy').format(selectedDate!)
-              : "Datum auswählen",
+              : context.l10n.sharezoneWidgetsDatePickerSelectDate,
       padding: padding,
       onPressed: () async {
         FocusManager.instance.primaryFocus?.unfocus(); // Close keyboard
@@ -137,7 +138,7 @@ class CancelButton extends StatelessWidget {
         foregroundColor: Theme.of(context).primaryColor,
       ),
       onPressed: () => Navigator.pop(context),
-      child: const Text("ABBRECHEN"),
+      child: Text(context.l10n.commonActionsCancelUppercase),
     );
   }
 }
@@ -152,7 +153,7 @@ class DeleteButtonWithPoppingTrue extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(foregroundColor: textColor ?? Colors.red),
       onPressed: () => Navigator.pop(context, true),
-      child: const Text("LÖSCHEN"),
+      child: Text(context.l10n.commonActionsDeleteUppercase),
     );
   }
 }
@@ -190,8 +191,7 @@ class SharezoneLogo extends StatelessWidget {
         getLogoPath()!,
         height: height,
         width: width,
-        semanticsLabel:
-            'Logo von Sharezone: Ein blaues Heft-Icon mit einer Wolke, rechts daneben steht Sharezone.',
+        semanticsLabel: context.l10n.sharezoneWidgetsLogoSemanticsLabel,
       ),
     );
   }
@@ -612,10 +612,8 @@ class ShowCenteredError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log(error!);
-    return const Center(
-      child: Text(
-        "Es gab leider einen Fehler beim Laden 😖\nVersuche es später einfach nochmal.",
-      ),
+    return Center(
+      child: Text(context.l10n.sharezoneWidgetsCenteredErrorMessage),
     );
   }
 }
@@ -646,7 +644,7 @@ class CloseIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'Schließen',
+      tooltip: context.l10n.commonActionsClose,
       icon: const Icon(Icons.close),
       color: color ?? Theme.of(context).appBarTheme.iconTheme!.color,
       onPressed: () => Navigator.pop(context),
@@ -754,13 +752,11 @@ Future<bool> warnUserAboutLeavingForm(BuildContext context) async {
   // ignore: use_build_context_synchronously
   return await showLeftRightAdaptiveDialog<bool>(
         context: context,
-        title: 'Eingabe verlassen?',
-        content: const Text(
-          'Möchtest du die Eingabe wirklich beenden? Die Daten werden nicht gespeichert!',
-        ),
+        title: context.l10n.sharezoneWidgetsLeaveFormTitle,
+        content: Text(context.l10n.sharezoneWidgetsLeaveFormPromptFull),
         defaultValue: false,
-        right: const AdaptiveDialogAction(
-          title: "Verlassen",
+        right: AdaptiveDialogAction(
+          title: context.l10n.commonActionsLeave,
           isDefaultAction: true,
           popResult: true,
         ),
@@ -777,15 +773,19 @@ Future<bool> warnUserAboutLeavingOrSavingForm(
 
   // ignore: use_build_context_synchronously
   final result = await showLeftRightAdaptiveDialog<bool>(
-    title: 'Verlassen oder Speichern?',
+    title: context.l10n.sharezoneWidgetsLeaveOrSaveFormTitle,
     defaultValue: null,
-    content: const Text(
-      'Möchtest du die Eingabe verlassen oder speichern? Verlässt du die Eingabe, werden die Daten nicht gespeichert',
-    ),
+    content: Text(context.l10n.sharezoneWidgetsLeaveOrSaveFormPrompt),
     context: context,
     withCancelButtonOnIOS: true,
-    left: const AdaptiveDialogAction(title: "Verlassen", popResult: false),
-    right: const AdaptiveDialogAction(title: "Speichern", popResult: true),
+    left: AdaptiveDialogAction(
+      title: context.l10n.commonActionsLeave,
+      popResult: false,
+    ),
+    right: AdaptiveDialogAction(
+      title: context.l10n.commonActionsSave,
+      popResult: true,
+    ),
   );
 
   if (result == null) {

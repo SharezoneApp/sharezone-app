@@ -29,7 +29,7 @@ workflows:
     name: App Preview
     max_build_duration: 75
     environment:
-      xcode: 15.4
+      xcode: 26.2
       # Our Android app uses Java 17.
       java: 17
       groups:

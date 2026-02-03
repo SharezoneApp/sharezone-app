@@ -271,7 +271,7 @@ class _RoleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RadioListTile<MemberRole>(
-      title: Text(memberRoleAsString[role]!),
+      title: Text(role.toLocalizedString(context)),
       subtitle: !isEmptyOrNull(description) ? Text(description!) : null,
       value: role,
       enabled: enabled,

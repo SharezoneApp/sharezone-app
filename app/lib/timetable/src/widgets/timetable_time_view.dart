@@ -131,7 +131,7 @@ class _PeriodTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              period.startTime.toString(),
+              period.startTime.format(context),
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 11, color: Colors.grey),
             ),
@@ -145,7 +145,7 @@ class _PeriodTile extends StatelessWidget {
               ),
             ),
             Text(
-              period.endTime.toString(),
+              period.endTime.format(context),
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 11, color: Colors.grey),
             ),
@@ -174,7 +174,7 @@ class _HourTile extends StatelessWidget {
         ),
       ),
       child: Text(
-        hour.toString(),
+        hour.format(context),
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 11, color: Colors.grey),
       ),

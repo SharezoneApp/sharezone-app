@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class AdaptiveDialogAction<T> {
   final Key? key;
@@ -42,38 +43,43 @@ class AdaptiveDialogAction<T> {
     this.key,
   });
 
-  static const AdaptiveDialogAction<bool> delete = AdaptiveDialogAction(
-    title: "Löschen",
-    popResult: true,
-    isDefaultAction: true,
-    isDestructiveAction: true,
-    textColor: Colors.red,
-  );
+  static AdaptiveDialogAction<bool> delete(BuildContext context) =>
+      AdaptiveDialogAction(
+        title: context.l10n.commonActionsDelete,
+        popResult: true,
+        isDefaultAction: true,
+        isDestructiveAction: true,
+        textColor: Colors.red,
+      );
 
-  static const AdaptiveDialogAction<bool> cancel = AdaptiveDialogAction(
-    title: "Abbrechen",
-    popResult: false,
-  );
+  static AdaptiveDialogAction<bool> cancel(BuildContext context) =>
+      AdaptiveDialogAction(
+        title: context.l10n.commonActionsCancel,
+        popResult: false,
+      );
 
-  static const AdaptiveDialogAction<bool> leave = AdaptiveDialogAction(
-    title: "Verlassen",
-    textColor: Colors.red,
-    isDefaultAction: true,
-    isDestructiveAction: true,
-    popResult: true,
-  );
+  static AdaptiveDialogAction<bool> leave(BuildContext context) =>
+      AdaptiveDialogAction(
+        title: context.l10n.commonActionsLeave,
+        textColor: Colors.red,
+        isDefaultAction: true,
+        isDestructiveAction: true,
+        popResult: true,
+      );
 
-  static const AdaptiveDialogAction<bool> continue_ = AdaptiveDialogAction(
-    title: "Weiter",
-    textColor: Colors.red,
-    isDefaultAction: true,
-    isDestructiveAction: false,
-    popResult: true,
-  );
+  static AdaptiveDialogAction<bool> continue_(BuildContext context) =>
+      AdaptiveDialogAction(
+        title: context.l10n.commonActionsContinue,
+        textColor: Colors.red,
+        isDefaultAction: true,
+        isDestructiveAction: false,
+        popResult: true,
+      );
 
-  static const AdaptiveDialogAction<bool> ok = AdaptiveDialogAction(
-    title: "Ok",
-    isDefaultAction: true,
-    popResult: false,
-  );
+  static AdaptiveDialogAction<bool> ok(BuildContext context) =>
+      AdaptiveDialogAction(
+        title: context.l10n.commonActionsOk,
+        isDefaultAction: true,
+        popResult: false,
+      );
 }

@@ -18,7 +18,9 @@ import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_pa
 import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page_controller.dart';
 import 'package:sharezone/grades/pages/subject_settings_page/subject_settings_page_view.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../../../flutter_test_config.dart';
 import 'subject_settings_page_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<SubjectSettingsPageController>()])
@@ -83,7 +85,11 @@ void main() {
             subjectId: subjectId,
           ),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

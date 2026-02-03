@@ -104,6 +104,37 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get appName => 'Sharezone';
 
   @override
+  String get authAnonymousAnimalNames =>
+      'Löwe, Tiger, Vogel, Pinguin, Dalmatiner, Gepard, Lachs, Elefant, Affe, Stier, Gorilla, Bär, Eisbär, Papagei, Braunbär, Wolf, Schäferhund, Kampfhund, Dobermann, Panda, Wal, Hai, Pottwal, Blauwal, Buckelwal, Riesenhai, Fisch, Aal, Seelachs, Hecht, Zander, Karpfen, Krapfen, Barsch, Biber, Fuchs, Alligator, Leopard, Hamster';
+
+  @override
+  String authAnonymousUserName(String animal) {
+    return 'Anonymer $animal';
+  }
+
+  @override
+  String get authInvalidEmail => 'Gib eine gültige E-Mail ein';
+
+  @override
+  String get authInvalidName => 'Ungültiger Name';
+
+  @override
+  String get authInvalidPassword =>
+      'Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein';
+
+  @override
+  String get authProviderAnonymous => 'Anonyme Anmeldung';
+
+  @override
+  String get authProviderApple => 'Apple Sign In';
+
+  @override
+  String get authProviderEmailPassword => 'E-Mail und Passwort';
+
+  @override
+  String get authProviderGoogle => 'Google Sign In';
+
+  @override
   String get changeEmailAddressCurrentEmailTextfieldLabel => 'Aktuell';
 
   @override
@@ -240,6 +271,9 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get commonActionsCancel => 'Abbrechen';
 
   @override
+  String get commonActionsCancelUppercase => 'ABBRECHEN';
+
+  @override
   String get commonActionsClose => 'Schließen';
 
   @override
@@ -252,7 +286,16 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get commonActionsContactSupport => 'Support kontaktieren';
 
   @override
+  String get commonActionsContinue => 'Weiter';
+
+  @override
   String get commonActionsDelete => 'Löschen';
+
+  @override
+  String get commonActionsDeleteUppercase => 'LÖSCHEN';
+
+  @override
+  String get commonActionsLeave => 'Verlassen';
 
   @override
   String get commonActionsOk => 'Ok';
@@ -269,6 +312,32 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   }
 
   @override
+  String get commonLoadingPleaseWait => 'Bitte warten...';
+
+  @override
+  String get commonStatusFailed => 'Fehlgeschlagen';
+
+  @override
+  String get commonStatusNoInternetDescription =>
+      'Bitte überprüfen Sie die Internetverbindung.';
+
+  @override
+  String get commonStatusNoInternetTitle => 'Fehler: Keine Internetverbindung';
+
+  @override
+  String get commonStatusSuccessful => 'Erfolgreich';
+
+  @override
+  String get commonStatusUnknownErrorDescription =>
+      'Ein unbekannter Fehler ist aufgetreten! 😭';
+
+  @override
+  String get commonStatusUnknownErrorTitle => 'Unbekannter Fehler';
+
+  @override
+  String get commonTitleNote => 'Hinweis';
+
+  @override
   String get contactSupportButton => 'Support kontaktieren';
 
   @override
@@ -282,6 +351,39 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get dashboardSelectStateButton => 'Bundesland / Kanton auswählen';
+
+  @override
+  String get dateWeekTypeA => 'A-Woche';
+
+  @override
+  String get dateWeekTypeAlways => 'Immer';
+
+  @override
+  String get dateWeekTypeB => 'B-Woche';
+
+  @override
+  String get dateWeekdayFriday => 'Freitag';
+
+  @override
+  String get dateWeekdayMonday => 'Montag';
+
+  @override
+  String get dateWeekdaySaturday => 'Samstag';
+
+  @override
+  String get dateWeekdaySunday => 'Sonntag';
+
+  @override
+  String get dateWeekdayThursday => 'Donnerstag';
+
+  @override
+  String get dateWeekdayTuesday => 'Dienstag';
+
+  @override
+  String get dateWeekdayWednesday => 'Mittwoch';
+
+  @override
+  String get dateYesterday => 'Gestern';
 
   @override
   String get feedbackDetailsCommentsTitle => 'Kommentare:';
@@ -310,6 +412,41 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get feedbackSendTooltip => 'Senden (Enter)';
 
   @override
+  String homeworkDueDateWithTime(String date, String time) {
+    return '$date - $time Uhr';
+  }
+
+  @override
+  String get homeworkSectionInTwoDays => 'Übermorgen';
+
+  @override
+  String get homeworkSectionLater => 'Später';
+
+  @override
+  String get homeworkSectionOverdue => 'Überfällig';
+
+  @override
+  String get homeworkSectionToday => 'Heute';
+
+  @override
+  String get homeworkSectionTomorrow => 'Morgen';
+
+  @override
+  String homeworkStudentDueDate(
+    String day,
+    String month,
+    String weekday,
+    String year,
+  ) {
+    return '$weekday, $day. $month $year';
+  }
+
+  @override
+  String homeworkTeacherDueDate(String day, String month, String year) {
+    return '$day. $month $year';
+  }
+
+  @override
   String get imprintTitle => 'Impressum';
 
   @override
@@ -323,6 +460,57 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get languageTitle => 'Sprache';
+
+  @override
+  String get legalChangeAppearance => 'Darstellung ändern';
+
+  @override
+  String get legalDownloadAsPdf => 'Als PDF herunterladen';
+
+  @override
+  String legalMetadataLastUpdated(String date) {
+    return 'Zuletzt aktualisiert: $date';
+  }
+
+  @override
+  String get legalMetadataTitle => 'Metadaten';
+
+  @override
+  String legalMetadataVersion(String version) {
+    return 'Version: v$version';
+  }
+
+  @override
+  String get legalMoreOptions => 'Weitere Optionen';
+
+  @override
+  String legalPrivacyPolicyEffectiveDate(String date) {
+    return 'Diese aktualisierte Datenschutzerklärung tritt am $date in Kraft.';
+  }
+
+  @override
+  String get legalPrivacyPolicyTitle => 'Datenschutzerklärung';
+
+  @override
+  String get legalTableOfContents => 'Inhaltsverzeichnis';
+
+  @override
+  String get legalTermsOfServiceTitle => 'Allgemeine Nutzungsbedingungen';
+
+  @override
+  String get memberRoleAdmin => 'Admin';
+
+  @override
+  String get memberRoleCreator => 'Aktives Mitglied (Schreib- und Leserechte)';
+
+  @override
+  String get memberRoleNone => 'Nichts';
+
+  @override
+  String get memberRoleOwner => 'Besitzer';
+
+  @override
+  String get memberRoleStandard => 'Passives Mitglied (Nur Leserechte)';
 
   @override
   String get myProfileActivationCodeTile => 'Aktivierungscode eingeben';
@@ -851,6 +1039,119 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!';
 
   @override
+  String get sharezoneWidgetsCenteredErrorMessage =>
+      'Es gab leider einen Fehler beim Laden 😖\nVersuche es später einfach nochmal.';
+
+  @override
+  String get sharezoneWidgetsCourseTileNoCourseSelected =>
+      'Keinen Kurs ausgewählt';
+
+  @override
+  String get sharezoneWidgetsCourseTileTitle => 'Kurs';
+
+  @override
+  String get sharezoneWidgetsDatePickerSelectDate => 'Datum auswählen';
+
+  @override
+  String get sharezoneWidgetsErrorCardContactSupport => 'SUPPORT KONTAKTIEREN';
+
+  @override
+  String get sharezoneWidgetsErrorCardRetry => 'ERNEUT VERSUCHEN';
+
+  @override
+  String get sharezoneWidgetsErrorCardTitle => 'Es ist ein Fehler aufgetreten!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormConfirm => 'JA, VERLASSEN!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptFull =>
+      'Möchtest du die Eingabe wirklich beenden? Die Daten werden nicht gespeichert!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptNot => 'nicht';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptPrefix =>
+      'Möchtest du die Eingabe wirklich beenden? Die Daten werden ';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptSuffix => ' gespeichert!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormStay => 'NEIN!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormTitle => 'Eingabe verlassen?';
+
+  @override
+  String get sharezoneWidgetsLeaveOrSaveFormPrompt =>
+      'Möchtest du die Eingabe verlassen oder speichern? Verlässt du die Eingabe, werden die Daten nicht gespeichert';
+
+  @override
+  String get sharezoneWidgetsLeaveOrSaveFormTitle =>
+      'Verlassen oder Speichern?';
+
+  @override
+  String get sharezoneWidgetsLoadingEncryptedTransfer =>
+      'Daten werden verschlüsselt übertragen...';
+
+  @override
+  String get sharezoneWidgetsLocationHint => 'Ort/Raum';
+
+  @override
+  String get sharezoneWidgetsLogoSemanticsLabel =>
+      'Logo von Sharezone: Ein blaues Heft-Icon mit einer Wolke, rechts daneben steht Sharezone.';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportBold => '**fett**';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportItalic => '*kursiv*';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportLabel => 'Markdown: ';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportSeparator => ', ';
+
+  @override
+  String sharezoneWidgetsNotAllowedCharactersError(String characters) {
+    return 'Folgende Zeichen sind nicht erlaubt: $characters';
+  }
+
+  @override
+  String get sharezoneWidgetsOverlayCardCloseSemantics => 'Schließe die Karte';
+
+  @override
+  String get sharezoneWidgetsSnackbarComingSoon =>
+      'Diese Funktion ist bald verfügbar! 😊';
+
+  @override
+  String get sharezoneWidgetsSnackbarDataArrivalConfirmed =>
+      'Ankunft der Daten bestätigt';
+
+  @override
+  String get sharezoneWidgetsSnackbarLoginDataEncrypted =>
+      'Anmeldedaten werden verschlüsselt übertragen...';
+
+  @override
+  String get sharezoneWidgetsSnackbarPatience =>
+      'Geduld! Daten werden noch geladen...';
+
+  @override
+  String get sharezoneWidgetsSnackbarSaved =>
+      'Änderung wurde erfolgreich gespeichert';
+
+  @override
+  String get sharezoneWidgetsSnackbarSendingDataToFrankfurt =>
+      'Daten werden nach Frankfurt transportiert...';
+
+  @override
+  String get sharezoneWidgetsTextFieldCannotBeEmptyError =>
+      'Das Textfeld darf nicht leer sein!';
+
+  @override
   String get socialDiscord => 'Discord';
 
   @override
@@ -1029,6 +1330,116 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get stateZurich => 'Zürich';
+
+  @override
+  String get submissionsCreateAddFile => 'Datei hinzufügen';
+
+  @override
+  String get submissionsCreateAfterDeadlineContent =>
+      'Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)';
+
+  @override
+  String get submissionsCreateAfterDeadlineTitle =>
+      'Abgabefrist verpasst? Du kannst trotzdem abgeben!';
+
+  @override
+  String get submissionsCreateEmptyStateTitle =>
+      'Lade jetzt Dateien hoch, die du für die Hausaufgabe abgeben willst!';
+
+  @override
+  String submissionsCreateFileInvalidDialogContent(String message) {
+    return '$message\nBitte kontaktiere den Support unter support@sharezone.net!';
+  }
+
+  @override
+  String get submissionsCreateFileInvalidDialogTitle => 'Fehler';
+
+  @override
+  String submissionsCreateFileInvalidMultiple(String fileNames) {
+    return 'Die gewählten Dateien \"$fileNames\" scheinen invalide zu sein.';
+  }
+
+  @override
+  String submissionsCreateFileInvalidSingle(String fileName) {
+    return 'Die gewählte Datei \"$fileName\" scheint invalide zu sein.';
+  }
+
+  @override
+  String get submissionsCreateLeaveAction => 'Verlassen';
+
+  @override
+  String get submissionsCreateNotSubmittedContent =>
+      'Dein Lehrer wird deine Abgabe nicht sehen können, bis du diese abgibst.\n\nDeine bisher hochgeladenen Dateien bleiben trotzdem für dich gespeichert.';
+
+  @override
+  String get submissionsCreateNotSubmittedTitle => 'Abgabe nicht abgegeben!';
+
+  @override
+  String submissionsCreateRemoveFileContent(String fileName) {
+    return 'Möchtest du die Datei \"$fileName\" wirklich entfernen?';
+  }
+
+  @override
+  String get submissionsCreateRemoveFileTitle => 'Datei entfernen';
+
+  @override
+  String get submissionsCreateRemoveFileTooltip => 'Datei entfernen';
+
+  @override
+  String get submissionsCreateRenameActionUppercase => 'UMBENENNEN';
+
+  @override
+  String get submissionsCreateRenameDialogTitle => 'Datei umbenennen';
+
+  @override
+  String get submissionsCreateRenameErrorAlreadyExists =>
+      'Dieser Dateiname existiert bereits!';
+
+  @override
+  String get submissionsCreateRenameErrorEmpty =>
+      'Der Name darf nicht leer sein!';
+
+  @override
+  String get submissionsCreateRenameErrorTooLong => 'Der Name ist zu lang!';
+
+  @override
+  String get submissionsCreateRenameTooltip => 'Umbenennen';
+
+  @override
+  String get submissionsCreateSubmitAction => 'Abgeben';
+
+  @override
+  String get submissionsCreateSubmitDialogContent =>
+      'Nach der Abgabe kannst du keine Datei mehr löschen. Du kannst aber noch neue Dateien hinzufügen und alte Dateien umbenennen.';
+
+  @override
+  String get submissionsCreateSubmitDialogTitle => 'Wirklich Abgeben?';
+
+  @override
+  String get submissionsCreateSubmittedTitle => 'Abgabe erfolgreich abgegeben!';
+
+  @override
+  String get submissionsCreateUploadInProgressContent =>
+      'Wenn du den Dialog verlässt wird der Hochladevorgang für noch nicht hochgeladene Dateien abgebrochen.';
+
+  @override
+  String get submissionsCreateUploadInProgressTitle => 'Dateien am hochladen!';
+
+  @override
+  String get submissionsListAfterDeadlineSection => 'Zu spät abgegeben 🕐';
+
+  @override
+  String get submissionsListEditedSuffix => ' (nachträglich bearbeitet)';
+
+  @override
+  String get submissionsListMissingSection => 'Nicht abgegeben 😭';
+
+  @override
+  String get submissionsListNoMembersPlaceholder =>
+      'Vergessen Teilnehmer in den Kurs einzuladen?';
+
+  @override
+  String get submissionsListTitle => 'Abgaben';
 
   @override
   String get themeDarkMode => 'Dunkler Modus';
@@ -1517,33 +1928,8 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Überschrift der Sharezone App';
 
   @override
-  String get authInvalidEmail => 'Gib eine gültige E-Mail ein';
+  String get writePermissionEveryone => 'Alle';
 
   @override
-  String get authInvalidPassword =>
-      'Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein';
-
-  @override
-  String get authInvalidName => 'Ungültiger Name';
-
-  @override
-  String get authProviderAnonymous => 'Anonyme Anmeldung';
-
-  @override
-  String get authProviderGoogle => 'Google Sign In';
-
-  @override
-  String get authProviderApple => 'Apple Sign In';
-
-  @override
-  String get authProviderEmailPassword => 'E-Mail und Passwort';
-
-  @override
-  String authAnonymousUserName(String animal) {
-    return 'Anonymer $animal';
-  }
-
-  @override
-  String get authAnonymousAnimalNames =>
-      'Löwe, Tiger, Vogel, Pinguin, Dalmatiner, Gepard, Lachs, Elefant, Affe, Stier, Gorilla, Bär, Eisbär, Papagei, Braunbär, Wolf, Schäferhund, Kampfhund, Dobermann, Panda, Wal, Hai, Pottwal, Blauwal, Buckelwal, Riesenhai, Fisch, Aal, Seelachs, Hecht, Zander, Karpfen, Krapfen, Barsch, Biber, Fuchs, Alligator, Leopard, Hamster';
+  String get writePermissionOnlyAdmins => 'Nur Admins';
 }

@@ -34,7 +34,7 @@ Future<bool?> showDeleteEventConfirmationDialog(BuildContext context) async {
   return await showLeftRightAdaptiveDialog<bool>(
     defaultValue: false,
     context: context,
-    right: AdaptiveDialogAction.delete,
+    right: AdaptiveDialogAction.delete(context),
     content:
         !ThemePlatform.isCupertino
             ? const Text("Möchtest du wirklich diesen Termin löschen?")
