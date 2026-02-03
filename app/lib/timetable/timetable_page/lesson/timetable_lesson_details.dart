@@ -24,6 +24,7 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
+import 'package:sharezone/timetable/src/lesson_delete_all_suggestion.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/src/models/substitution.dart';
 import 'package:sharezone/timetable/src/models/substitution_id.dart';
@@ -274,6 +275,7 @@ Future<void> _deleteLessonAndShowConfirmationSnackbar(
   final timetableGateway =
       BlocProvider.of<SharezoneContext>(context).api.timetable;
   timetableGateway.deleteLesson(lesson);
+  LessonDeleteAllSuggestion.recordLessonDeletion(context);
 
   await waitingForPopAnimation();
   if (!context.mounted) return;

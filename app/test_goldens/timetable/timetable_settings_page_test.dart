@@ -36,7 +36,6 @@ import 'timetable_settings_page_test.mocks.dart';
 void main() {
   group(TimetableSettingsPage, () {
     late UserSettingsBloc userSettingsBloc;
-
     setUp(() {
       userSettingsBloc = MockUserSettingsBloc();
 

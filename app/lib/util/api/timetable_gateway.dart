@@ -42,6 +42,28 @@ class TimetableGateway {
     return references.lessons.doc(lesson.lessonID).delete().then((_) => true);
   }
 
+  Future<bool> deleteLessons(List<Lesson> lessons) async {
+    final lessonIds =
+        lessons.map((lesson) => lesson.lessonID).whereType<String>().toList();
+    if (lessonIds.isEmpty) return true;
+
+    const maxBatchSize = 450;
+    int startIndex = 0;
+    while (startIndex < lessonIds.length) {
+      final endIndex = (startIndex + maxBatchSize < lessonIds.length)
+          ? startIndex + maxBatchSize
+          : lessonIds.length;
+      final batch = references.firestore.batch();
+      for (final lessonId in lessonIds.sublist(startIndex, endIndex)) {
+        batch.delete(references.lessons.doc(lessonId));
+      }
+      await batch.commit();
+      startIndex = endIndex;
+    }
+
+    return true;
+  }
+
   Future<bool> createEvent(CalendricalEvent event) {
     String eventID = references.events.doc().id;
     Map<String, dynamic> data =

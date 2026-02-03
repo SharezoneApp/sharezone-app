@@ -1413,11 +1413,43 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get themeTitle => 'Appearance';
 
   @override
+  String timetableDeleteAllDialogDeleteCountdown(int seconds) {
+    return 'Delete ($seconds)';
+  }
+
+  @override
+  String get timetableDeleteAllSuggestionAction => 'Delete timetable';
+
+  @override
+  String get timetableDeleteAllSuggestionBody =>
+      'Do you want to delete your entire timetable? Click here to use the feature.';
+
+  @override
+  String get timetableDeleteAllSuggestionTitle => 'Delete entire timetable?';
+
+  @override
   String get timetableSettingsABWeekTileTitle => 'A/B Weeks';
 
   @override
   String get timetableSettingsAWeeksAreEvenSwitch =>
       'A-weeks are even calendar weeks';
+
+  @override
+  String get timetableSettingsDeleteAllLessonsConfirmation =>
+      'Lessons deleted.';
+
+  @override
+  String timetableSettingsDeleteAllLessonsDialogBody(int count) {
+    return 'This will delete $count lessons from groups where you have write access. This cannot be undone.';
+  }
+
+  @override
+  String get timetableSettingsDeleteAllLessonsDialogTitle =>
+      'Delete all lessons?';
+
+  @override
+  String get timetableSettingsDeleteAllLessonsSubtitleNoAccess =>
+      'No lessons with write access.';
 
   @override
   String get timetableSettingsEnabledWeekDaysTileTitle => 'Enabled Weekdays';

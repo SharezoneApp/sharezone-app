@@ -45,8 +45,37 @@ class MockTimetableGateway implements TimetableGateway {
   }
 
   @override
-  Future<bool> deleteLesson(Lesson lesson) {
-    throw UnimplementedError();
+  Future<bool> deleteLesson(Lesson lesson) async {
+    final lessons = _lessonsSubject.valueOrNull ?? [];
+    final updatedLessons =
+        lessons
+            .where(
+              (existingLesson) =>
+                  existingLesson.lessonID != lesson.lessonID &&
+                  existingLesson != lesson,
+            )
+            .toList();
+    _lessonsSubject.sink.add(updatedLessons);
+    return true;
+  }
+
+  @override
+  Future<bool> deleteLessons(List<Lesson> lessons) async {
+    final ids = lessons.map((lesson) => lesson.lessonID).whereType<String>();
+    final idSet = ids.toSet();
+    final lessonsWithoutId =
+        lessons.where((lesson) => lesson.lessonID == null).toSet();
+    final updatedLessons =
+        _lessonsSubject.valueOrNull
+            ?.where(
+              (lesson) =>
+                  !idSet.contains(lesson.lessonID) &&
+                  !lessonsWithoutId.contains(lesson),
+            )
+            .toList() ??
+        [];
+    _lessonsSubject.sink.add(updatedLessons);
+    return true;
   }
 
   @override

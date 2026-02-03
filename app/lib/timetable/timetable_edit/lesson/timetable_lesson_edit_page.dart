@@ -22,6 +22,7 @@ import 'package:sharezone/timetable/src/edit_period.dart';
 import 'package:sharezone/timetable/src/edit_time.dart';
 import 'package:sharezone/timetable/src/edit_weekday.dart';
 import 'package:sharezone/timetable/src/edit_weektype.dart';
+import 'package:sharezone/timetable/src/lesson_delete_all_suggestion.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
 import 'package:sharezone/timetable/timetable_page/lesson/timetable_lesson_details.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
@@ -204,6 +205,9 @@ class _CourseField extends StatelessWidget {
                               await showDeleteLessonConfirmationDialog(context);
                           if (confirmed == true && context.mounted) {
                             timetableGateway.deleteLesson(initialLesson);
+                            LessonDeleteAllSuggestion.recordLessonDeletion(
+                              context,
+                            );
                             Navigator.pop(context);
                           }
                         },
