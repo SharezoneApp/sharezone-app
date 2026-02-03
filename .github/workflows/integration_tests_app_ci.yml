@@ -229,25 +229,17 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      - name: Install chromedriver
-        uses: nanasess/setup-chromedriver@e93e57b843c0c92788f22483f1a31af8ee48db25
-
       - name: Run integration tests
         working-directory: app
         env:
           USER_1_EMAIL: ${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }}
           USER_1_PASSWORD: ${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }}
-        # We use the `flutter drive` command because `flutter test` is not
-        # available for the web yet.
         run: |
-          chromedriver --port=4444 &
-          flutter drive \
-            --driver=test_driver/integration_test.dart \
-            --target=integration_test/integration_test_old.dart \
-            --flavor dev \
+          patrol test \
+            --device chrome \
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
-            -d web-server
+            -t patrol_test/app_test.dart
 
   # At the moment, Flutter Integration Tests are not working with GitHub Actions
   # and Flutter +3.7 (see https://github.com/flutter/flutter/issues/118469).

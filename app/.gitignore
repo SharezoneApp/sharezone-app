@@ -41,6 +41,10 @@
 # future, feel free to remove this line.
 patrol_test/test_bundle.dart
 
+# Used for Patrol Web
+playwright-report/
+test-results/
+
 # Symbolication related
 app.*.symbols
 
