@@ -107,16 +107,9 @@ class UrlLauncherExtended {
     String? subject,
     String? body,
   }) async {
-    // Avoid parameter injection like
-    // victim@example.com?cc=attacker@example.com.
-    final safeAddress =
-        address.contains('?')
-            ? address.substring(0, address.indexOf('?'))
-            : address;
-
     final uri = Uri(
       scheme: 'mailto',
-      path: safeAddress,
+      path: address,
       queryParameters: {
         if (subject != null) 'subject': subject,
         if (body != null) 'body': body,
