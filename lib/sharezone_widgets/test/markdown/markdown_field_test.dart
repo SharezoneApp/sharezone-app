@@ -18,7 +18,7 @@ void main() {
       localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
       supportedLocales: SharezoneLocalizations.supportedLocales,
       locale: const Locale('de'),
-      home: child,
+      home: Scaffold(body: child),
     );
   }
 
