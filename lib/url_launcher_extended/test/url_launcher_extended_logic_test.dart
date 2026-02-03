@@ -1,3 +1,11 @@
+// Copyright (c) 2025 Sharezone UG (haftungsbeschränkt)
+// Licensed under the EUPL-1.2-or-later.
+//
+// You may obtain a copy of the Licence at:
+// https://joinup.ec.europa.eu/software/page/eupl
+//
+// SPDX-License-Identifier: EUPL-1.2
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:url_launcher_extended/url_launcher_extended.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
@@ -30,9 +38,9 @@ void main() {
     });
 
     test('tryLaunchMailOrThrow handles parameter injection', () async {
-      final address = "support@example.com";
-      final subject = "Hello & World";
-      final body = "Content & body=injection";
+      const address = "support@example.com";
+      const subject = "Hello & World";
+      const body = "Content & body=injection";
 
       await urlLauncher.tryLaunchMailOrThrow(
         address,
