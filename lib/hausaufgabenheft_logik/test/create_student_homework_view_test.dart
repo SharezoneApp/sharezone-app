@@ -6,12 +6,14 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:ui';
+
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 import 'package:hausaufgabenheft_logik/src/shared/models/homework.dart';
 import 'package:hausaufgabenheft_logik/src/shared/models/models.dart';
-import 'package:hausaufgabenheft_logik/src/shared/color.dart';
-import 'package:hausaufgabenheft_logik/src/student/views/student_homework_view_factory.dart';
 import 'package:hausaufgabenheft_logik/src/student/views/student_homework_view.dart';
+import 'package:hausaufgabenheft_logik/src/student/views/student_homework_view_factory.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
@@ -26,7 +28,7 @@ void main() {
 
   group('StudentViewFactory', () {
     late StudentHomeworkViewFactory viewFactory;
-    final l10n = SharezoneLocalizationsDe();
+    final l10n = lookupSharezoneLocalizations(const Locale('de', 'DE'));
     const defaultColor = Color.fromRGBO(255, 255, 255, 1);
     const currentDate = Date(year: 2018, month: 12, day: 03);
 

@@ -8,6 +8,7 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:clock/clock.dart';
@@ -15,13 +16,13 @@ import 'package:common_domain_models/src/ids/homework_id.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
-import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
 import 'package:hausaufgabenheft_logik/src/shared/color.dart';
+import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:test/test.dart';
 
 import 'create_homework_util.dart';
@@ -38,7 +39,7 @@ void main() {
     late InMemoryHomeworkRepository<StudentHomeworkReadModel> repository;
     late HomeworkSortingCache homeworkSortingCache;
     late KeyValueStore kvs;
-    final l10n = SharezoneLocalizationsDe();
+    final l10n = lookupSharezoneLocalizations(const Locale('de', 'DE'));
 
     setUp(() {
       repository = createRepositoy();
@@ -636,7 +637,8 @@ StudentHomeworkPageBloc createBloc(
         ),
       ),
       keyValueStore: keyValueStore ?? InMemoryKeyValueStore(),
-      localizations: l10n ?? SharezoneLocalizationsDe(),
+      localizations:
+          l10n ?? lookupSharezoneLocalizations(const Locale('de', 'DE')),
       getCurrentDateTime: getCurrentDateTime,
     ),
     HausaufgabenheftConfig(
