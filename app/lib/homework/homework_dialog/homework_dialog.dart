@@ -50,6 +50,8 @@ class HomeworkDialog extends StatefulWidget {
     this.nextLessonCalculator,
     this.nextSchooldayCalculator,
     this.showDueDateSelectionChips = true,
+    this.initialCourseId,
+    this.initialDueDate,
   });
 
   static const tag = "homework-dialog";
@@ -59,6 +61,8 @@ class HomeworkDialog extends StatefulWidget {
   final NextLessonCalculator? nextLessonCalculator;
   final NextSchooldayCalculator? nextSchooldayCalculator;
   final bool showDueDateSelectionChips;
+  final CourseId? initialCourseId;
+  final Date? initialDueDate;
 
   @override
   State createState() => _HomeworkDialogState();
@@ -108,6 +112,8 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
               nextSchooldayCalculator: nextSchooldayCalculator,
               markdownAnalytics: markdownAnalytics,
               analytics: analytics,
+              initialCourseId: widget.initialCourseId,
+              initialDueDate: widget.initialDueDate,
             );
             return value;
           });
@@ -119,6 +125,8 @@ class _HomeworkDialogState extends State<HomeworkDialog> {
         nextSchooldayCalculator: nextSchooldayCalculator,
         markdownAnalytics: markdownAnalytics,
         analytics: analytics,
+        initialCourseId: widget.initialCourseId,
+        initialDueDate: widget.initialDueDate,
       );
     }
   }
