@@ -30,9 +30,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
   final UserEditBlocGateway userEditBlocGateway;
   final String initialName;
 
-  final LinkProviderAnalytics _analytics = LinkProviderAnalytics(
-    Analytics(getBackend()),
-  );
+  final LinkProviderAnalytics _analytics;
 
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String?>();
@@ -50,8 +48,11 @@ class EmailAndPasswordLinkBloc extends BlocBase
     this.linkProviderGateway,
     this.userEditBlocGateway,
     this.initialName,
-    this.scaffoldMessengerKey,
-  ) {
+    this.scaffoldMessengerKey, {
+    Analytics? analytics,
+  }) : _analytics = LinkProviderAnalytics(
+          analytics ?? Analytics(getBackend()),
+        ) {
     _nameController.sink.add(initialName);
   }
 

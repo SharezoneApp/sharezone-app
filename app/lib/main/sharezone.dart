@@ -57,6 +57,7 @@ class Sharezone extends StatefulWidget {
   final Stream<Beitrittsversuch?> beitrittsversuche;
   final Flavor flavor;
   final bool isIntegrationTest;
+  final Analytics? analytics;
 
   const Sharezone({
     super.key,
@@ -65,9 +66,8 @@ class Sharezone extends StatefulWidget {
     required this.beitrittsversuche,
     required this.flavor,
     this.isIntegrationTest = false,
+    this.analytics,
   });
-
-  static Analytics analytics = Analytics(getBackend());
 
   @override
   State createState() => _SharezoneState();
@@ -78,12 +78,14 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   late StreamSubscription<AuthUser?> authSubscription;
   late StreamingKeyValueStore streamingKeyValueStore;
   late FeatureFlagl10n featureFlagl10n;
+  late Analytics _analytics;
 
   @override
   void initState() {
     super.initState();
 
     isIntegrationTest = widget.isIntegrationTest;
+    _analytics = widget.analytics ?? widget.blocDependencies.analytics;
     signUpBloc = SignUpBloc();
 
     // You have to wait a little moment (1000 milliseconds), to
@@ -107,7 +109,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   }
 
   void logAppOpen() {
-    Sharezone.analytics.log(NamedAnalyticsEvent(name: 'app_open'));
+    _analytics.log(NamedAnalyticsEvent(name: 'app_open'));
   }
 
   @override
@@ -178,13 +180,13 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                                         snapshot.data;
                                     return SharezoneApp(
                                       widget.blocDependencies,
-                                      Sharezone.analytics,
+                                      _analytics,
                                       widget.beitrittsversuche,
                                     );
                                   }
                                   return AuthApp(
                                     blocDependencies: widget.blocDependencies,
-                                    analytics: Sharezone.analytics,
+                                    analytics: _analytics,
                                   );
                                 },
                               ),

@@ -28,6 +28,7 @@ class SignInWithQrCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final analytics = context.read<Analytics>();
     return Scaffold(
       body: Builder(
         builder: (context) {
@@ -39,7 +40,7 @@ class SignInWithQrCodePage extends StatelessWidget {
                   FirebaseFunctions.instanceFor(region: 'europe-west1'),
                 ),
               ),
-              loginAnalytics: LoginAnalytics(Analytics(getBackend())),
+              loginAnalytics: LoginAnalytics(analytics),
               crashAnalytics: getCrashAnalytics(),
             ),
             child: _InnerSignInWithQrCodePage(),

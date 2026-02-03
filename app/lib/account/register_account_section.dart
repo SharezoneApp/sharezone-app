@@ -287,10 +287,9 @@ Future<void> showCredentialAlreadyInUseDialog(BuildContext context) async {
   );
 
   if (showInstruction != null && showInstruction && context.mounted) {
-    final LinkProviderAnalytics analytics = LinkProviderAnalytics(
-      Analytics(getBackend()),
-    );
-    analytics.logShowedUseMultipleDevicesInstruction();
+    final analytics = BlocProvider.of<SharezoneContext>(context).analytics;
+    final linkProviderAnalytics = LinkProviderAnalytics(analytics);
+    linkProviderAnalytics.logShowedUseMultipleDevicesInstruction();
     Navigator.pushNamed(context, UseAccountOnMultipleDevicesInstructions.tag);
   }
 }

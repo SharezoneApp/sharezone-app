@@ -172,13 +172,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
   void initState() {
     super.initState();
 
-    final analyticsBackend =
-        kDebugMode
-            ?
-            // LoggingAnalyticsBackend()
-            NullAnalyticsBackend()
-            : getBackend();
-    analytics = Analytics(analyticsBackend);
+    analytics = widget.blocDependencies.analytics;
 
     // Muss in die initState, weil ansonsten der Bloc die Daten resettet,
     // wenn das Handy gedreht wird und dadurch die build Methode dieses Widgets
@@ -291,7 +285,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       SchoolClassFilterAnalytics(analytics),
     );
 
-    final markdownAnalytics = MarkdownAnalytics(Analytics(getBackend()));
+    final markdownAnalytics = MarkdownAnalytics(analytics);
 
     var abgabenGateway = FirestoreAbgabeGateway(
       firestore: firestore,
@@ -604,7 +598,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<AccountPageBlocFactory>(
-        bloc: AccountPageBlocFactory(api.user),
+        bloc: AccountPageBlocFactory(api.user, analytics),
       ),
       BlocProvider<BlackboardAnalytics>(bloc: BlackboardAnalytics(analytics)),
       BlocProvider<NavigationExperimentCache>(
@@ -722,7 +716,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           CommentsGateway(api.references.firestore),
           api.user.userStream,
           CommentViewFactory(courseGateway: api.course, uid: api.uID),
-          CommentsAnalytics(Analytics(getBackend())),
+          CommentsAnalytics(analytics),
         ),
       ),
       BlocProvider<HomeworkDetailsViewFactory>(
@@ -760,7 +754,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
             api.schoolClassGateway,
             api.connectionsGateway,
           ),
-          CourseCreateAnalytics(Analytics(getBackend())),
+          CourseCreateAnalytics(analytics),
         ),
       ),
     ];

@@ -128,12 +128,14 @@ Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
   final keyValueStore = FlutterKeyValueStore(
     pluginInitializations.sharedPreferences,
   );
+  final analytics = Analytics(getBackend());
   final registrationGateway = RegistrationGateway(
     references.users,
     firebaseDependencies.auth!,
+    analytics: analytics,
   );
   final blocDependencies = BlocDependencies(
-    analytics: Analytics(getBackend()),
+    analytics: analytics,
     firestore: firebaseDependencies.firestore!,
     keyValueStore: keyValueStore,
     sharedPreferences: pluginInitializations.sharedPreferences,
@@ -164,8 +166,6 @@ Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
 
   // ignore:close_sinks
   final beitrittsversuche = runBeitrittsVersuche();
-
-  final analytics = Analytics(getBackend());
 
   UserGateway? userGateway;
   SharezoneGateway? sharezoneGateway;

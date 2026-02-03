@@ -18,9 +18,14 @@ import 'user_gateway_authentifcation.dart';
 class LinkProviderGateway extends BlocBase {
   final UserGatewayAuthentifcation userGateway;
 
-  final _analytics = LinkProviderAnalytics(Analytics(getBackend()));
+  final LinkProviderAnalytics _analytics;
 
-  LinkProviderGateway(this.userGateway);
+  LinkProviderGateway(
+    this.userGateway, {
+    Analytics? analytics,
+  }) : _analytics = LinkProviderAnalytics(
+          analytics ?? Analytics(getBackend()),
+        );
 
   Future<bool> linkUserWithGoogle() async {
     final userCredential = await GoogleSignInLogic().linkWithGoogle();

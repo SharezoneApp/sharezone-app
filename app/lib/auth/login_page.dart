@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    final analytics = LoginAnalytics(Analytics(getBackend()));
+    final analytics = LoginAnalytics(context.read<Analytics>());
     bloc = LoginBloc(analytics);
     super.initState();
     showTipCardIfIsAvailable(context);
