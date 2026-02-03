@@ -570,6 +570,11 @@
   "websiteWelcomeDescriptionSemanticLabel": "Description of the Sharezone app",
   "websiteWelcomeHeadline": "Simple. Secure. Stable.",
   "websiteWelcomeHeadlineSemanticLabel": "Headline of the Sharezone app",
+  "blackboardTitleImagePlusDialogTitle": "Custom title image",
+  "blackboardTitleImagePlusDialogDescription": "With Sharezone Plus you can upload your own images as title images for information sheets.",
+  "blackboardTitleImageSelectCourseFirst": "Please select a course before uploading a title image.",
+  "blackboardTitleImageUploading": "Uploading title image...",
+  "blackboardTitleImageUploadFailed": "The title image could not be uploaded. Please try again.",
   "writePermissionEveryone": "Everyone",
   "writePermissionOnlyAdmins": "Only admins"
 }

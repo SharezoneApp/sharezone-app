@@ -72,6 +72,7 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
   Stream<List<LocalFile>> get localFiles => _localFilesSubject;
   Stream<List<CloudFile>> get cloudFiles => _cloudFilesSubject;
   Stream<bool> get sendNotification => _sendNotificationSubject;
+  Course? get currentCourse => _courseSegmentSubject.valueOrNull;
 
   Function(String) get changeTitle => _titleSubject.sink.add;
   Function(Course) get changeCourseSegment => _courseSegmentSubject.sink.add;

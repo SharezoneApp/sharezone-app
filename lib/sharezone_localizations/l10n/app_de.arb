@@ -1037,6 +1037,26 @@
   "websiteWelcomeDescriptionSemanticLabel": "Beschreibung der Sharezone App",
   "websiteWelcomeHeadline": "Simpel. Sicher. Stabil.",
   "websiteWelcomeHeadlineSemanticLabel": "Überschrift der Sharezone App",
+  "blackboardTitleImagePlusDialogTitle": "Eigenes Titelbild",
+  "@blackboardTitleImagePlusDialogTitle": {
+    "description": "Title for the Sharezone Plus dialog that explains the title image upload for information sheets."
+  },
+  "blackboardTitleImagePlusDialogDescription": "Mit Sharezone Plus kannst du eigene Bilder als Titelbild für Infozettel hochladen.",
+  "@blackboardTitleImagePlusDialogDescription": {
+    "description": "Description for the Sharezone Plus dialog that explains the title image upload for information sheets."
+  },
+  "blackboardTitleImageSelectCourseFirst": "Bitte wähle zuerst einen Kurs aus, bevor du ein Titelbild hochlädst.",
+  "@blackboardTitleImageSelectCourseFirst": {
+    "description": "Message shown when a user tries to upload a title image without selecting a course."
+  },
+  "blackboardTitleImageUploading": "Titelbild wird hochgeladen...",
+  "@blackboardTitleImageUploading": {
+    "description": "Loading text shown while the title image is uploading."
+  },
+  "blackboardTitleImageUploadFailed": "Titelbild konnte nicht hochgeladen werden. Bitte versuche es erneut.",
+  "@blackboardTitleImageUploadFailed": {
+    "description": "Error message shown when the title image upload fails."
+  },
   "writePermissionEveryone": "Alle",
   "writePermissionOnlyAdmins": "Nur Admins"
 }
