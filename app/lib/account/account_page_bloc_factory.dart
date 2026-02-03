@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification_gateways.dart';
 import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +15,21 @@ import 'package:sharezone/util/api/user_api.dart';
 
 class AccountPageBlocFactory extends BlocBase {
   final UserGateway _userGateway;
+  final Analytics _analytics;
 
-  AccountPageBlocFactory(this._userGateway);
+  AccountPageBlocFactory(this._userGateway, this._analytics);
 
   AccountPageBloc create(
     GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey,
   ) {
     return AccountPageBloc(
       globalKey: scaffoldMessengerKey,
-      linkProviderGateway: LinkProviderGateway(_userGateway),
+      linkProviderGateway: LinkProviderGateway(
+        _userGateway,
+        analytics: _analytics,
+      ),
       userGateway: _userGateway,
+      analytics: _analytics,
     );
   }
 

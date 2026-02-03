@@ -31,17 +31,20 @@ class RegistrationEvent {
 class RegistrationGateway extends BlocBase {
   final CollectionReference userCollection;
   final FirebaseAuth _auth;
-  final RegistrationAnalytics _analytics =
-      RegistrationAnalyticsAnalyticsWithInternalFirebaseEvents(
-        Analytics(getBackend()),
-      );
+  final RegistrationAnalytics _analytics;
 
   final _registrationEventController =
       StreamController<RegistrationEvent>.broadcast();
   Stream<RegistrationEvent> get registrationEvents =>
       _registrationEventController.stream;
 
-  RegistrationGateway(this.userCollection, this._auth);
+  RegistrationGateway(
+    this.userCollection,
+    this._auth, {
+    required Analytics analytics,
+  }) : _analytics = RegistrationAnalyticsAnalyticsWithInternalFirebaseEvents(
+         analytics,
+       );
 
   void _addUserToFirestore(AppUser user) {
     final data = user.toEditJson();

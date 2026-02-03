@@ -288,7 +288,7 @@ Future<void> showCredentialAlreadyInUseDialog(BuildContext context) async {
 
   if (showInstruction != null && showInstruction && context.mounted) {
     final LinkProviderAnalytics analytics = LinkProviderAnalytics(
-      Analytics(getBackend()),
+      AnalyticsProvider.ofOrNullObject(context),
     );
     analytics.logShowedUseMultipleDevicesInstruction();
     Navigator.pushNamed(context, UseAccountOnMultipleDevicesInstructions.tag);

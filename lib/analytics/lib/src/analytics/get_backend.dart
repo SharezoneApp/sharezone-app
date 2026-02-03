@@ -6,10 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'analytics.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
+import 'analytics.dart';
 import 'backend/firebase_analytics_backend.dart' as implementation;
 
-AnalyticsBackend getBackend() {
-  return implementation.getBackend();
+AnalyticsBackend getBackend({FirebaseAnalytics? firebaseAnalytics}) {
+  return implementation.getBackend(
+    firebaseAnalytics: firebaseAnalytics ?? FirebaseAnalytics.instance,
+  );
 }

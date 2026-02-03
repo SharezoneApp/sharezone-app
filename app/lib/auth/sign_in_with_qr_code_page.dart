@@ -39,7 +39,9 @@ class SignInWithQrCodePage extends StatelessWidget {
                   FirebaseFunctions.instanceFor(region: 'europe-west1'),
                 ),
               ),
-              loginAnalytics: LoginAnalytics(Analytics(getBackend())),
+              loginAnalytics: LoginAnalytics(
+                AnalyticsProvider.ofOrNullObject(context),
+              ),
               crashAnalytics: getCrashAnalytics(),
             ),
             child: _InnerSignInWithQrCodePage(),
