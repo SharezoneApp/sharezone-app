@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import '../privacy_policy_src.dart';
 
 import 'ui.dart';
@@ -15,20 +16,23 @@ class MainContentMobile extends StatelessWidget {
   const MainContentMobile({
     required this.privacyPolicy,
     this.showBackButton = true,
-    this.headingText = 'Datenschutzerklärung',
+    this.headingText,
     super.key,
   });
 
   final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
-  final String headingText;
+  final String? headingText;
 
   @override
   Widget build(BuildContext context) {
+    final resolvedHeadingText =
+        headingText ?? context.l10n.legalPrivacyPolicyTitle;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: showBackButton,
-        title: Text(headingText),
+        title: Text(resolvedHeadingText),
         actions: [
           IconButton(
             onPressed: () {

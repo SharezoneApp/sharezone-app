@@ -21,6 +21,8 @@ dependencies:
   flutter:
     sdk: flutter
   clock: ^1.1.2
+  sharezone_localizations:
+    path: ../sharezone_localizations
 
 dev_dependencies:
   test: ^1.25.15

@@ -1,0 +1,15 @@
+// https://github.com/google-gemini/gemini-cli/blob/main/docs/get-started/configuration.md#example-settingsjson
+{
+    "context": {
+        // We don't use GEMINI.md. Instead we use the
+        // [AGENTS.md](https://agents.md/) format.
+        //
+        // With "/memory list" in the Gemini CLI you can see which memories are
+        // used.
+        "fileName": "AGENTS.md"
+    },
+    "privacy": {
+        // Too afraid to accidentally share confidential data.
+        "usageStatisticsEnabled": false
+    }
+}

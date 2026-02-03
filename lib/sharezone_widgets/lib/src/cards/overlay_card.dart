@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class OverlayCard extends StatelessWidget {
@@ -110,14 +111,14 @@ class _Close extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: 'Schließe die Karte',
+      label: context.l10n.sharezoneWidgetsOverlayCardCloseSemantics,
       button: true,
       enabled: true,
       onTap: onClose,
       child: TextButton(
         onPressed: onClose,
         style: TextButton.styleFrom(foregroundColor: Colors.grey),
-        child: const Text("SCHLIESSEN"),
+        child: Text(context.l10n.commonActionsCloseUppercase),
       ),
     );
   }

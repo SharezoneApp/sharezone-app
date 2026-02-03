@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'date.dart';
 
@@ -18,7 +19,7 @@ String getFuzzyDateTimeString(BuildContext context, DateTime dateTime) {
   } else {
     final dateYesterday = dateToday.addDays(-1);
     if (dateOfDateTime.isSameDay(dateYesterday)) {
-      return 'Gestern';
+      return context.l10n.dateYesterday;
     } else {
       if (dateOfDateTime.year == dateToday.year) {
         return dateOfDateTime.parser.toMMMEd;

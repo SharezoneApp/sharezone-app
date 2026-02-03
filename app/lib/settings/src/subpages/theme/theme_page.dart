@@ -286,7 +286,7 @@ class _RateAppButton extends StatelessWidget {
       content: Text(
         context.l10n.themeRateOurAppCardRatingsNotAvailableOnWebDialogContent,
       ),
-      left: AdaptiveDialogAction.ok,
+      left: AdaptiveDialogAction.ok(context),
     );
   }
 }

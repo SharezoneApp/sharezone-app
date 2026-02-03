@@ -237,6 +237,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get commonActionsCancel => 'Cancel';
 
   @override
+  String get commonActionsCancelUppercase => 'CANCEL';
+
+  @override
   String get commonActionsClose => 'Close';
 
   @override
@@ -249,7 +252,16 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get commonActionsContactSupport => 'Contact support';
 
   @override
+  String get commonActionsContinue => 'Continue';
+
+  @override
   String get commonActionsDelete => 'Delete';
+
+  @override
+  String get commonActionsDeleteUppercase => 'DELETE';
+
+  @override
+  String get commonActionsLeave => 'Leave';
 
   @override
   String get commonActionsOk => 'OK';
@@ -266,6 +278,32 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
+  String get commonLoadingPleaseWait => 'Please wait...';
+
+  @override
+  String get commonStatusFailed => 'Failed';
+
+  @override
+  String get commonStatusNoInternetDescription =>
+      'Please check the internet connection.';
+
+  @override
+  String get commonStatusNoInternetTitle => 'Error: No internet connection';
+
+  @override
+  String get commonStatusSuccessful => 'Successful';
+
+  @override
+  String get commonStatusUnknownErrorDescription =>
+      'An unknown error occurred! 😭';
+
+  @override
+  String get commonStatusUnknownErrorTitle => 'Unknown error';
+
+  @override
+  String get commonTitleNote => 'Note';
+
+  @override
   String get contactSupportButton => 'Contact support';
 
   @override
@@ -279,6 +317,39 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get dashboardSelectStateButton => 'Select state / canton';
+
+  @override
+  String get dateWeekTypeA => 'Week A';
+
+  @override
+  String get dateWeekTypeAlways => 'Every week';
+
+  @override
+  String get dateWeekTypeB => 'Week B';
+
+  @override
+  String get dateWeekdayFriday => 'Friday';
+
+  @override
+  String get dateWeekdayMonday => 'Monday';
+
+  @override
+  String get dateWeekdaySaturday => 'Saturday';
+
+  @override
+  String get dateWeekdaySunday => 'Sunday';
+
+  @override
+  String get dateWeekdayThursday => 'Thursday';
+
+  @override
+  String get dateWeekdayTuesday => 'Tuesday';
+
+  @override
+  String get dateWeekdayWednesday => 'Wednesday';
+
+  @override
+  String get dateYesterday => 'Yesterday';
 
   @override
   String get feedbackDetailsCommentsTitle => 'Comments:';
@@ -355,6 +426,42 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get languageTitle => 'Language';
+
+  @override
+  String get legalChangeAppearance => 'Change appearance';
+
+  @override
+  String get legalDownloadAsPdf => 'Download as PDF';
+
+  @override
+  String legalMetadataLastUpdated(String date) {
+    return 'Last updated: $date';
+  }
+
+  @override
+  String get legalMetadataTitle => 'Metadata';
+
+  @override
+  String legalMetadataVersion(String version) {
+    return 'Version: v$version';
+  }
+
+  @override
+  String get legalMoreOptions => 'More options';
+
+  @override
+  String legalPrivacyPolicyEffectiveDate(String date) {
+    return 'This updated privacy policy takes effect on $date.';
+  }
+
+  @override
+  String get legalPrivacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get legalTableOfContents => 'Table of contents';
+
+  @override
+  String get legalTermsOfServiceTitle => 'Terms of Service';
 
   @override
   String get memberRoleAdmin => 'Admin';
@@ -895,6 +1002,117 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'You have Sharezone Plus for life. If you\'re not satisfied, we\'d love to hear your [feedback](#feedback)!';
 
   @override
+  String get sharezoneWidgetsCenteredErrorMessage =>
+      'Unfortunately, an error occurred while loading 😖\nPlease try again later.';
+
+  @override
+  String get sharezoneWidgetsCourseTileNoCourseSelected => 'No course selected';
+
+  @override
+  String get sharezoneWidgetsCourseTileTitle => 'Course';
+
+  @override
+  String get sharezoneWidgetsDatePickerSelectDate => 'Select date';
+
+  @override
+  String get sharezoneWidgetsErrorCardContactSupport => 'CONTACT SUPPORT';
+
+  @override
+  String get sharezoneWidgetsErrorCardRetry => 'TRY AGAIN';
+
+  @override
+  String get sharezoneWidgetsErrorCardTitle => 'An error occurred!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormConfirm => 'YES, LEAVE!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptFull =>
+      'Do you really want to end the input? The data will not be saved!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptNot => 'not';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptPrefix =>
+      'Do you really want to end the input? The data will ';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptSuffix => ' be saved!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormStay => 'NO!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormTitle => 'Leave input?';
+
+  @override
+  String get sharezoneWidgetsLeaveOrSaveFormPrompt =>
+      'Do you want to leave or save the input? If you leave the input, the data will not be saved';
+
+  @override
+  String get sharezoneWidgetsLeaveOrSaveFormTitle => 'Leave or save?';
+
+  @override
+  String get sharezoneWidgetsLoadingEncryptedTransfer =>
+      'Data is being transferred in encrypted form...';
+
+  @override
+  String get sharezoneWidgetsLocationHint => 'Location/Room';
+
+  @override
+  String get sharezoneWidgetsLogoSemanticsLabel =>
+      'Sharezone logo: A blue notebook icon with a cloud, with Sharezone written to the right.';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportBold => '**bold**';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportItalic => '*italic*';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportLabel => 'Markdown: ';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportSeparator => ', ';
+
+  @override
+  String sharezoneWidgetsNotAllowedCharactersError(String characters) {
+    return 'The following characters are not allowed: $characters';
+  }
+
+  @override
+  String get sharezoneWidgetsOverlayCardCloseSemantics => 'Close the card';
+
+  @override
+  String get sharezoneWidgetsSnackbarComingSoon =>
+      'This feature will be available soon! 😊';
+
+  @override
+  String get sharezoneWidgetsSnackbarDataArrivalConfirmed =>
+      'Data arrival confirmed';
+
+  @override
+  String get sharezoneWidgetsSnackbarLoginDataEncrypted =>
+      'Login data is being transferred in encrypted form...';
+
+  @override
+  String get sharezoneWidgetsSnackbarPatience =>
+      'Please wait! Data is still loading...';
+
+  @override
+  String get sharezoneWidgetsSnackbarSaved =>
+      'Changes have been saved successfully';
+
+  @override
+  String get sharezoneWidgetsSnackbarSendingDataToFrankfurt =>
+      'Data is being transported to Frankfurt...';
+
+  @override
+  String get sharezoneWidgetsTextFieldCannotBeEmptyError =>
+      'The text field must not be empty!';
+
+  @override
   String get socialDiscord => 'Discord';
 
   @override
@@ -1073,6 +1291,115 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get stateZurich => 'Zurich';
+
+  @override
+  String get submissionsCreateAddFile => 'Add file';
+
+  @override
+  String get submissionsCreateAfterDeadlineContent =>
+      'You can still submit now, but the teacher will decide how to handle it ;)';
+
+  @override
+  String get submissionsCreateAfterDeadlineTitle =>
+      'Missed the deadline? You can still submit!';
+
+  @override
+  String get submissionsCreateEmptyStateTitle =>
+      'Upload files that you want to submit for the homework!';
+
+  @override
+  String submissionsCreateFileInvalidDialogContent(String message) {
+    return '$message\nPlease contact support at support@sharezone.net!';
+  }
+
+  @override
+  String get submissionsCreateFileInvalidDialogTitle => 'Error';
+
+  @override
+  String submissionsCreateFileInvalidMultiple(String fileNames) {
+    return 'The selected files \"$fileNames\" seem to be invalid.';
+  }
+
+  @override
+  String submissionsCreateFileInvalidSingle(String fileName) {
+    return 'The selected file \"$fileName\" seems to be invalid.';
+  }
+
+  @override
+  String get submissionsCreateLeaveAction => 'Leave';
+
+  @override
+  String get submissionsCreateNotSubmittedContent =>
+      'Your teacher won\'t see your submission until you submit it.\n\nYour uploaded files will still stay saved for you.';
+
+  @override
+  String get submissionsCreateNotSubmittedTitle => 'Submission not sent!';
+
+  @override
+  String submissionsCreateRemoveFileContent(String fileName) {
+    return 'Do you really want to remove the file \"$fileName\"?';
+  }
+
+  @override
+  String get submissionsCreateRemoveFileTitle => 'Remove file';
+
+  @override
+  String get submissionsCreateRemoveFileTooltip => 'Remove file';
+
+  @override
+  String get submissionsCreateRenameActionUppercase => 'RENAME';
+
+  @override
+  String get submissionsCreateRenameDialogTitle => 'Rename file';
+
+  @override
+  String get submissionsCreateRenameErrorAlreadyExists =>
+      'This file name already exists!';
+
+  @override
+  String get submissionsCreateRenameErrorEmpty => 'The name must not be empty!';
+
+  @override
+  String get submissionsCreateRenameErrorTooLong => 'The name is too long!';
+
+  @override
+  String get submissionsCreateRenameTooltip => 'Rename';
+
+  @override
+  String get submissionsCreateSubmitAction => 'Submit';
+
+  @override
+  String get submissionsCreateSubmitDialogContent =>
+      'After submitting, you can no longer delete files. You can still add new files and rename existing ones.';
+
+  @override
+  String get submissionsCreateSubmitDialogTitle => 'Really submit?';
+
+  @override
+  String get submissionsCreateSubmittedTitle => 'Submission sent successfully!';
+
+  @override
+  String get submissionsCreateUploadInProgressContent =>
+      'If you leave this dialog, uploads for files that haven\'t finished will be cancelled.';
+
+  @override
+  String get submissionsCreateUploadInProgressTitle => 'Files are uploading!';
+
+  @override
+  String get submissionsListAfterDeadlineSection => 'Submitted late 🕐';
+
+  @override
+  String get submissionsListEditedSuffix => ' (edited afterwards)';
+
+  @override
+  String get submissionsListMissingSection => 'Not submitted 😭';
+
+  @override
+  String get submissionsListNoMembersPlaceholder =>
+      'Forgot to invite participants to the course?';
+
+  @override
+  String get submissionsListTitle => 'Submissions';
 
   @override
   String get themeDarkMode => 'Dark Mode';

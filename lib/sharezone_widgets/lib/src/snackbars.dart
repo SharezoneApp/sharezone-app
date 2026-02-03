@@ -9,14 +9,26 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+
+SharezoneLocalizations? _resolveLocalizations({
+  BuildContext? context,
+  GlobalKey<ScaffoldMessengerState>? key,
+}) {
+  final resolvedContext = context ?? key?.currentContext;
+  return resolvedContext != null
+      ? SharezoneLocalizations.of(resolvedContext)
+      : null;
+}
 
 void snackbarSoon({
   BuildContext? context,
   GlobalKey<ScaffoldMessengerState>? key,
 }) {
+  final l10n = _resolveLocalizations(context: context, key: key);
   showSnackSec(
-    text: "Diese Funktion ist bald verfügbar! 😊",
+    text: l10n?.sharezoneWidgetsSnackbarComingSoon,
     seconds: 3,
     context: context,
     key: key,
@@ -32,10 +44,11 @@ void showDataArrivalConfirmedSnackbar({
   BuildContext? context,
   SnackBarBehavior behavior = SnackBarBehavior.fixed,
 }) {
+  final l10n = _resolveLocalizations(context: context, key: key);
   showSnack(
     context: context,
     key: key,
-    text: "Ankunft der Daten bestätigt",
+    text: l10n?.sharezoneWidgetsSnackbarDataArrivalConfirmed,
     duration: const Duration(milliseconds: 1500),
     behavior: behavior,
   );
@@ -50,14 +63,14 @@ void sendDataToFrankfurtSnackBar(
     seconds: 3600,
     withLoadingCircle: true,
     behavior: behavior,
-    text: "Daten werden nach Frankfurt transportiert...",
+    text: context.l10n.sharezoneWidgetsSnackbarSendingDataToFrankfurt,
   );
 }
 
 void sendLoginDataEncryptedSnackBar(BuildContext context) {
   showSnackSec(
     context: context,
-    text: "Anmeldedaten werden verschlüsselt übertragen...",
+    text: context.l10n.sharezoneWidgetsSnackbarLoginDataEncrypted,
     seconds: 120,
     withLoadingCircle: true,
   );
@@ -69,7 +82,7 @@ void savedChangesSnackBar(
 }) {
   showSnack(
     context: context,
-    text: 'Änderung wurde erfolgreich gespeichert',
+    text: context.l10n.sharezoneWidgetsSnackbarSaved,
     duration: duration,
   );
 }
@@ -78,7 +91,7 @@ void patienceSnackBar(BuildContext context) {
   showSnackSec(
     context: context,
     seconds: 2,
-    text: "Geduld! Daten werden noch geladen...",
+    text: context.l10n.sharezoneWidgetsSnackbarPatience,
   );
 }
 

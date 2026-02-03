@@ -471,6 +471,12 @@ abstract class SharezoneLocalizations {
   /// **'Abbrechen'**
   String get commonActionsCancel;
 
+  /// No description provided for @commonActionsCancelUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'ABBRECHEN'**
+  String get commonActionsCancelUppercase;
+
   /// No description provided for @commonActionsClose.
   ///
   /// In de, this message translates to:
@@ -495,11 +501,29 @@ abstract class SharezoneLocalizations {
   /// **'Support kontaktieren'**
   String get commonActionsContactSupport;
 
+  /// No description provided for @commonActionsContinue.
+  ///
+  /// In de, this message translates to:
+  /// **'Weiter'**
+  String get commonActionsContinue;
+
   /// No description provided for @commonActionsDelete.
   ///
   /// In de, this message translates to:
   /// **'Löschen'**
   String get commonActionsDelete;
+
+  /// No description provided for @commonActionsDeleteUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'LÖSCHEN'**
+  String get commonActionsDeleteUppercase;
+
+  /// No description provided for @commonActionsLeave.
+  ///
+  /// In de, this message translates to:
+  /// **'Verlassen'**
+  String get commonActionsLeave;
 
   /// No description provided for @commonActionsOk.
   ///
@@ -524,6 +548,54 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Fehler: {error}'**
   String commonDisplayError(String? error);
+
+  /// No description provided for @commonLoadingPleaseWait.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte warten...'**
+  String get commonLoadingPleaseWait;
+
+  /// No description provided for @commonStatusFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehlgeschlagen'**
+  String get commonStatusFailed;
+
+  /// No description provided for @commonStatusNoInternetDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte überprüfen Sie die Internetverbindung.'**
+  String get commonStatusNoInternetDescription;
+
+  /// No description provided for @commonStatusNoInternetTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler: Keine Internetverbindung'**
+  String get commonStatusNoInternetTitle;
+
+  /// No description provided for @commonStatusSuccessful.
+  ///
+  /// In de, this message translates to:
+  /// **'Erfolgreich'**
+  String get commonStatusSuccessful;
+
+  /// No description provided for @commonStatusUnknownErrorDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein unbekannter Fehler ist aufgetreten! 😭'**
+  String get commonStatusUnknownErrorDescription;
+
+  /// No description provided for @commonStatusUnknownErrorTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Unbekannter Fehler'**
+  String get commonStatusUnknownErrorTitle;
+
+  /// No description provided for @commonTitleNote.
+  ///
+  /// In de, this message translates to:
+  /// **'Hinweis'**
+  String get commonTitleNote;
 
   /// No description provided for @contactSupportButton.
   ///
@@ -554,6 +626,72 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Bundesland / Kanton auswählen'**
   String get dashboardSelectStateButton;
+
+  /// Week type for lessons that occur on week A.
+  ///
+  /// In de, this message translates to:
+  /// **'A-Woche'**
+  String get dateWeekTypeA;
+
+  /// Week type for lessons that occur every week.
+  ///
+  /// In de, this message translates to:
+  /// **'Immer'**
+  String get dateWeekTypeAlways;
+
+  /// Week type for lessons that occur on week B.
+  ///
+  /// In de, this message translates to:
+  /// **'B-Woche'**
+  String get dateWeekTypeB;
+
+  /// Weekday name for Friday.
+  ///
+  /// In de, this message translates to:
+  /// **'Freitag'**
+  String get dateWeekdayFriday;
+
+  /// Weekday name for Monday.
+  ///
+  /// In de, this message translates to:
+  /// **'Montag'**
+  String get dateWeekdayMonday;
+
+  /// Weekday name for Saturday.
+  ///
+  /// In de, this message translates to:
+  /// **'Samstag'**
+  String get dateWeekdaySaturday;
+
+  /// Weekday name for Sunday.
+  ///
+  /// In de, this message translates to:
+  /// **'Sonntag'**
+  String get dateWeekdaySunday;
+
+  /// Weekday name for Thursday.
+  ///
+  /// In de, this message translates to:
+  /// **'Donnerstag'**
+  String get dateWeekdayThursday;
+
+  /// Weekday name for Tuesday.
+  ///
+  /// In de, this message translates to:
+  /// **'Dienstag'**
+  String get dateWeekdayTuesday;
+
+  /// Weekday name for Wednesday.
+  ///
+  /// In de, this message translates to:
+  /// **'Mittwoch'**
+  String get dateWeekdayWednesday;
+
+  /// Label for yesterday in fuzzy date strings.
+  ///
+  /// In de, this message translates to:
+  /// **'Gestern'**
+  String get dateYesterday;
 
   /// No description provided for @feedbackDetailsCommentsTitle.
   ///
@@ -685,6 +823,66 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Sprache'**
   String get languageTitle;
+
+  /// No description provided for @legalChangeAppearance.
+  ///
+  /// In de, this message translates to:
+  /// **'Darstellung ändern'**
+  String get legalChangeAppearance;
+
+  /// No description provided for @legalDownloadAsPdf.
+  ///
+  /// In de, this message translates to:
+  /// **'Als PDF herunterladen'**
+  String get legalDownloadAsPdf;
+
+  /// Label for the last updated date in legal documents.
+  ///
+  /// In de, this message translates to:
+  /// **'Zuletzt aktualisiert: {date}'**
+  String legalMetadataLastUpdated(String date);
+
+  /// No description provided for @legalMetadataTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Metadaten'**
+  String get legalMetadataTitle;
+
+  /// Label for the metadata version in legal documents.
+  ///
+  /// In de, this message translates to:
+  /// **'Version: v{version}'**
+  String legalMetadataVersion(String version);
+
+  /// No description provided for @legalMoreOptions.
+  ///
+  /// In de, this message translates to:
+  /// **'Weitere Optionen'**
+  String get legalMoreOptions;
+
+  /// Shown under the privacy policy heading with the effective date.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese aktualisierte Datenschutzerklärung tritt am {date} in Kraft.'**
+  String legalPrivacyPolicyEffectiveDate(String date);
+
+  /// No description provided for @legalPrivacyPolicyTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datenschutzerklärung'**
+  String get legalPrivacyPolicyTitle;
+
+  /// No description provided for @legalTableOfContents.
+  ///
+  /// In de, this message translates to:
+  /// **'Inhaltsverzeichnis'**
+  String get legalTableOfContents;
+
+  /// No description provided for @legalTermsOfServiceTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Allgemeine Nutzungsbedingungen'**
+  String get legalTermsOfServiceTitle;
 
   /// No description provided for @memberRoleAdmin.
   ///
@@ -1586,6 +1784,198 @@ abstract class SharezoneLocalizations {
   /// **'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!'**
   String get sharezonePlusUnsubscribeLifetimeText;
 
+  /// No description provided for @sharezoneWidgetsCenteredErrorMessage.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gab leider einen Fehler beim Laden 😖\nVersuche es später einfach nochmal.'**
+  String get sharezoneWidgetsCenteredErrorMessage;
+
+  /// No description provided for @sharezoneWidgetsCourseTileNoCourseSelected.
+  ///
+  /// In de, this message translates to:
+  /// **'Keinen Kurs ausgewählt'**
+  String get sharezoneWidgetsCourseTileNoCourseSelected;
+
+  /// No description provided for @sharezoneWidgetsCourseTileTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kurs'**
+  String get sharezoneWidgetsCourseTileTitle;
+
+  /// No description provided for @sharezoneWidgetsDatePickerSelectDate.
+  ///
+  /// In de, this message translates to:
+  /// **'Datum auswählen'**
+  String get sharezoneWidgetsDatePickerSelectDate;
+
+  /// No description provided for @sharezoneWidgetsErrorCardContactSupport.
+  ///
+  /// In de, this message translates to:
+  /// **'SUPPORT KONTAKTIEREN'**
+  String get sharezoneWidgetsErrorCardContactSupport;
+
+  /// No description provided for @sharezoneWidgetsErrorCardRetry.
+  ///
+  /// In de, this message translates to:
+  /// **'ERNEUT VERSUCHEN'**
+  String get sharezoneWidgetsErrorCardRetry;
+
+  /// No description provided for @sharezoneWidgetsErrorCardTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Es ist ein Fehler aufgetreten!'**
+  String get sharezoneWidgetsErrorCardTitle;
+
+  /// No description provided for @sharezoneWidgetsLeaveFormConfirm.
+  ///
+  /// In de, this message translates to:
+  /// **'JA, VERLASSEN!'**
+  String get sharezoneWidgetsLeaveFormConfirm;
+
+  /// No description provided for @sharezoneWidgetsLeaveFormPromptFull.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du die Eingabe wirklich beenden? Die Daten werden nicht gespeichert!'**
+  String get sharezoneWidgetsLeaveFormPromptFull;
+
+  /// No description provided for @sharezoneWidgetsLeaveFormPromptNot.
+  ///
+  /// In de, this message translates to:
+  /// **'nicht'**
+  String get sharezoneWidgetsLeaveFormPromptNot;
+
+  /// No description provided for @sharezoneWidgetsLeaveFormPromptPrefix.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du die Eingabe wirklich beenden? Die Daten werden '**
+  String get sharezoneWidgetsLeaveFormPromptPrefix;
+
+  /// No description provided for @sharezoneWidgetsLeaveFormPromptSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **' gespeichert!'**
+  String get sharezoneWidgetsLeaveFormPromptSuffix;
+
+  /// No description provided for @sharezoneWidgetsLeaveFormStay.
+  ///
+  /// In de, this message translates to:
+  /// **'NEIN!'**
+  String get sharezoneWidgetsLeaveFormStay;
+
+  /// No description provided for @sharezoneWidgetsLeaveFormTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Eingabe verlassen?'**
+  String get sharezoneWidgetsLeaveFormTitle;
+
+  /// No description provided for @sharezoneWidgetsLeaveOrSaveFormPrompt.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du die Eingabe verlassen oder speichern? Verlässt du die Eingabe, werden die Daten nicht gespeichert'**
+  String get sharezoneWidgetsLeaveOrSaveFormPrompt;
+
+  /// No description provided for @sharezoneWidgetsLeaveOrSaveFormTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Verlassen oder Speichern?'**
+  String get sharezoneWidgetsLeaveOrSaveFormTitle;
+
+  /// No description provided for @sharezoneWidgetsLoadingEncryptedTransfer.
+  ///
+  /// In de, this message translates to:
+  /// **'Daten werden verschlüsselt übertragen...'**
+  String get sharezoneWidgetsLoadingEncryptedTransfer;
+
+  /// No description provided for @sharezoneWidgetsLocationHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Ort/Raum'**
+  String get sharezoneWidgetsLocationHint;
+
+  /// No description provided for @sharezoneWidgetsLogoSemanticsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Logo von Sharezone: Ein blaues Heft-Icon mit einer Wolke, rechts daneben steht Sharezone.'**
+  String get sharezoneWidgetsLogoSemanticsLabel;
+
+  /// No description provided for @sharezoneWidgetsMarkdownSupportBold.
+  ///
+  /// In de, this message translates to:
+  /// **'**fett**'**
+  String get sharezoneWidgetsMarkdownSupportBold;
+
+  /// No description provided for @sharezoneWidgetsMarkdownSupportItalic.
+  ///
+  /// In de, this message translates to:
+  /// **'*kursiv*'**
+  String get sharezoneWidgetsMarkdownSupportItalic;
+
+  /// No description provided for @sharezoneWidgetsMarkdownSupportLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Markdown: '**
+  String get sharezoneWidgetsMarkdownSupportLabel;
+
+  /// No description provided for @sharezoneWidgetsMarkdownSupportSeparator.
+  ///
+  /// In de, this message translates to:
+  /// **', '**
+  String get sharezoneWidgetsMarkdownSupportSeparator;
+
+  /// No description provided for @sharezoneWidgetsNotAllowedCharactersError.
+  ///
+  /// In de, this message translates to:
+  /// **'Folgende Zeichen sind nicht erlaubt: {characters}'**
+  String sharezoneWidgetsNotAllowedCharactersError(String characters);
+
+  /// No description provided for @sharezoneWidgetsOverlayCardCloseSemantics.
+  ///
+  /// In de, this message translates to:
+  /// **'Schließe die Karte'**
+  String get sharezoneWidgetsOverlayCardCloseSemantics;
+
+  /// No description provided for @sharezoneWidgetsSnackbarComingSoon.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Funktion ist bald verfügbar! 😊'**
+  String get sharezoneWidgetsSnackbarComingSoon;
+
+  /// No description provided for @sharezoneWidgetsSnackbarDataArrivalConfirmed.
+  ///
+  /// In de, this message translates to:
+  /// **'Ankunft der Daten bestätigt'**
+  String get sharezoneWidgetsSnackbarDataArrivalConfirmed;
+
+  /// No description provided for @sharezoneWidgetsSnackbarLoginDataEncrypted.
+  ///
+  /// In de, this message translates to:
+  /// **'Anmeldedaten werden verschlüsselt übertragen...'**
+  String get sharezoneWidgetsSnackbarLoginDataEncrypted;
+
+  /// No description provided for @sharezoneWidgetsSnackbarPatience.
+  ///
+  /// In de, this message translates to:
+  /// **'Geduld! Daten werden noch geladen...'**
+  String get sharezoneWidgetsSnackbarPatience;
+
+  /// No description provided for @sharezoneWidgetsSnackbarSaved.
+  ///
+  /// In de, this message translates to:
+  /// **'Änderung wurde erfolgreich gespeichert'**
+  String get sharezoneWidgetsSnackbarSaved;
+
+  /// No description provided for @sharezoneWidgetsSnackbarSendingDataToFrankfurt.
+  ///
+  /// In de, this message translates to:
+  /// **'Daten werden nach Frankfurt transportiert...'**
+  String get sharezoneWidgetsSnackbarSendingDataToFrankfurt;
+
+  /// No description provided for @sharezoneWidgetsTextFieldCannotBeEmptyError.
+  ///
+  /// In de, this message translates to:
+  /// **'Das Textfeld darf nicht leer sein!'**
+  String get sharezoneWidgetsTextFieldCannotBeEmptyError;
+
   /// No description provided for @socialDiscord.
   ///
   /// In de, this message translates to:
@@ -1945,6 +2335,192 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Zürich'**
   String get stateZurich;
+
+  /// No description provided for @submissionsCreateAddFile.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei hinzufügen'**
+  String get submissionsCreateAddFile;
+
+  /// No description provided for @submissionsCreateAfterDeadlineContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)'**
+  String get submissionsCreateAfterDeadlineContent;
+
+  /// No description provided for @submissionsCreateAfterDeadlineTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgabefrist verpasst? Du kannst trotzdem abgeben!'**
+  String get submissionsCreateAfterDeadlineTitle;
+
+  /// No description provided for @submissionsCreateEmptyStateTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Lade jetzt Dateien hoch, die du für die Hausaufgabe abgeben willst!'**
+  String get submissionsCreateEmptyStateTitle;
+
+  /// No description provided for @submissionsCreateFileInvalidDialogContent.
+  ///
+  /// In de, this message translates to:
+  /// **'{message}\nBitte kontaktiere den Support unter support@sharezone.net!'**
+  String submissionsCreateFileInvalidDialogContent(String message);
+
+  /// No description provided for @submissionsCreateFileInvalidDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler'**
+  String get submissionsCreateFileInvalidDialogTitle;
+
+  /// No description provided for @submissionsCreateFileInvalidMultiple.
+  ///
+  /// In de, this message translates to:
+  /// **'Die gewählten Dateien \"{fileNames}\" scheinen invalide zu sein.'**
+  String submissionsCreateFileInvalidMultiple(String fileNames);
+
+  /// No description provided for @submissionsCreateFileInvalidSingle.
+  ///
+  /// In de, this message translates to:
+  /// **'Die gewählte Datei \"{fileName}\" scheint invalide zu sein.'**
+  String submissionsCreateFileInvalidSingle(String fileName);
+
+  /// No description provided for @submissionsCreateLeaveAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Verlassen'**
+  String get submissionsCreateLeaveAction;
+
+  /// No description provided for @submissionsCreateNotSubmittedContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Lehrer wird deine Abgabe nicht sehen können, bis du diese abgibst.\n\nDeine bisher hochgeladenen Dateien bleiben trotzdem für dich gespeichert.'**
+  String get submissionsCreateNotSubmittedContent;
+
+  /// No description provided for @submissionsCreateNotSubmittedTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgabe nicht abgegeben!'**
+  String get submissionsCreateNotSubmittedTitle;
+
+  /// No description provided for @submissionsCreateRemoveFileContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du die Datei \"{fileName}\" wirklich entfernen?'**
+  String submissionsCreateRemoveFileContent(String fileName);
+
+  /// No description provided for @submissionsCreateRemoveFileTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei entfernen'**
+  String get submissionsCreateRemoveFileTitle;
+
+  /// No description provided for @submissionsCreateRemoveFileTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei entfernen'**
+  String get submissionsCreateRemoveFileTooltip;
+
+  /// No description provided for @submissionsCreateRenameActionUppercase.
+  ///
+  /// In de, this message translates to:
+  /// **'UMBENENNEN'**
+  String get submissionsCreateRenameActionUppercase;
+
+  /// No description provided for @submissionsCreateRenameDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Datei umbenennen'**
+  String get submissionsCreateRenameDialogTitle;
+
+  /// No description provided for @submissionsCreateRenameErrorAlreadyExists.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Dateiname existiert bereits!'**
+  String get submissionsCreateRenameErrorAlreadyExists;
+
+  /// No description provided for @submissionsCreateRenameErrorEmpty.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Name darf nicht leer sein!'**
+  String get submissionsCreateRenameErrorEmpty;
+
+  /// No description provided for @submissionsCreateRenameErrorTooLong.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Name ist zu lang!'**
+  String get submissionsCreateRenameErrorTooLong;
+
+  /// No description provided for @submissionsCreateRenameTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Umbenennen'**
+  String get submissionsCreateRenameTooltip;
+
+  /// No description provided for @submissionsCreateSubmitAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgeben'**
+  String get submissionsCreateSubmitAction;
+
+  /// No description provided for @submissionsCreateSubmitDialogContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Nach der Abgabe kannst du keine Datei mehr löschen. Du kannst aber noch neue Dateien hinzufügen und alte Dateien umbenennen.'**
+  String get submissionsCreateSubmitDialogContent;
+
+  /// No description provided for @submissionsCreateSubmitDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Wirklich Abgeben?'**
+  String get submissionsCreateSubmitDialogTitle;
+
+  /// No description provided for @submissionsCreateSubmittedTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgabe erfolgreich abgegeben!'**
+  String get submissionsCreateSubmittedTitle;
+
+  /// No description provided for @submissionsCreateUploadInProgressContent.
+  ///
+  /// In de, this message translates to:
+  /// **'Wenn du den Dialog verlässt wird der Hochladevorgang für noch nicht hochgeladene Dateien abgebrochen.'**
+  String get submissionsCreateUploadInProgressContent;
+
+  /// No description provided for @submissionsCreateUploadInProgressTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Dateien am hochladen!'**
+  String get submissionsCreateUploadInProgressTitle;
+
+  /// No description provided for @submissionsListAfterDeadlineSection.
+  ///
+  /// In de, this message translates to:
+  /// **'Zu spät abgegeben 🕐'**
+  String get submissionsListAfterDeadlineSection;
+
+  /// No description provided for @submissionsListEditedSuffix.
+  ///
+  /// In de, this message translates to:
+  /// **' (nachträglich bearbeitet)'**
+  String get submissionsListEditedSuffix;
+
+  /// No description provided for @submissionsListMissingSection.
+  ///
+  /// In de, this message translates to:
+  /// **'Nicht abgegeben 😭'**
+  String get submissionsListMissingSection;
+
+  /// No description provided for @submissionsListNoMembersPlaceholder.
+  ///
+  /// In de, this message translates to:
+  /// **'Vergessen Teilnehmer in den Kurs einzuladen?'**
+  String get submissionsListNoMembersPlaceholder;
+
+  /// No description provided for @submissionsListTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Abgaben'**
+  String get submissionsListTitle;
 
   /// No description provided for @themeDarkMode.
   ///

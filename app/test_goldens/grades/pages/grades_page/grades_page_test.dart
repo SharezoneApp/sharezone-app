@@ -21,7 +21,9 @@ import 'package:sharezone/grades/pages/grades_page/grades_page.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../../../flutter_test_config.dart';
 import 'grades_page_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<GradesPageController>()])
@@ -141,7 +143,11 @@ void main() {
           value: controller,
           child: const GradesPageBody(),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 
