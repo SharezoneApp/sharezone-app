@@ -22,7 +22,7 @@ class TestUrlLauncherExtended extends UrlLauncherExtended {
 }
 
 void main() {
-  group('UrlLauncherExtended', () {
+  group(UrlLauncherExtended, () {
     late TestUrlLauncherExtended urlLauncher;
 
     setUp(() {
@@ -30,9 +30,9 @@ void main() {
     });
 
     test('tryLaunchMailOrThrow handles parameter injection', () async {
-      final address = "support@example.com";
-      final subject = "Hello & World";
-      final body = "Content & body=injection";
+      const address = "support@example.com?cc=attacker@example.com";
+      const subject = "Hello & World";
+      const body = "Content & body=injection";
 
       await urlLauncher.tryLaunchMailOrThrow(
         address,
@@ -42,7 +42,7 @@ void main() {
 
       final uri = urlLauncher.capturedUri!;
       expect(uri.scheme, 'mailto');
-      expect(uri.path, address);
+      expect(uri.path, 'support@example.com');
 
       // Check that parameters are correctly encoded and not injected
       expect(uri.queryParameters['subject'], subject);
@@ -50,7 +50,11 @@ void main() {
 
       // The raw query should contain encoded values
       // & should be %26
-      expect(uri.query.contains('Hello+%26+World') || uri.query.contains('Hello%20%26%20World'), true);
+      expect(
+        uri.query.contains('Hello+%26+World') ||
+            uri.query.contains('Hello%20%26%20World'),
+        true,
+      );
     });
   });
 }
