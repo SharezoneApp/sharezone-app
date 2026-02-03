@@ -35,7 +35,7 @@ void main() {
     late StreamController<AppLifecycleState> lifecycleChanges;
     late LastOnlineReporter lastOnlineReporter;
     late MockCrashAnalytics crashAnalytics;
-    const debounceTime = Duration(minutes: 10);
+    const debounceTime = Duration(seconds: 10);
 
     setUp(() {
       crashAnalytics = MockCrashAnalytics();
@@ -45,7 +45,7 @@ void main() {
         backend.reportCurrentlyOnline,
         lifecycleChanges.stream,
         crashAnalytics,
-        debounceTime: const Duration(seconds: 10),
+        debounceTime: debounceTime,
       );
     });
 
@@ -69,9 +69,10 @@ void main() {
       await Future.delayed(Duration.zero);
       expect(backend.reportedOnlineToBackend, 1);
     });
-    test('debounces AppLifecycleState', () async {
-      FakeAsync().run((fakeAsync) async {
+    test('debounces AppLifecycleState', () {
+      FakeAsync().run((fakeAsync) {
         lastOnlineReporter.startReporting();
+        fakeAsync.flushMicrotasks();
 
         /// These should be debounced (ignored) as when creating the class (or in
         /// the test case calling [lastOnlineReporter.startReporting] it reports
@@ -79,33 +80,31 @@ void main() {
         lifecycleChanges.add(AppLifecycleState.detached);
         lifecycleChanges.add(AppLifecycleState.resumed);
 
-        await pumpEventQueue();
         expect(backend.reportedOnlineToBackend, 1);
 
         /// We wait for the debounce time to elapse.
         fakeAsync.elapse(debounceTime);
+        fakeAsync.flushMicrotasks();
 
-        // This should now be reported as the debounce time elapsed.
-        lifecycleChanges.add(AppLifecycleState.detached);
-
-        await pumpEventQueue();
+        // The debounced lifecycle events should now be reported.
         expect(backend.reportedOnlineToBackend, 2);
       });
     });
-    test('calls CrashAnalytics when reporting to Backend throws', () async {
-      FakeAsync().run((fakeAsync) async {
+    test('calls CrashAnalytics when reporting to Backend throws', () {
+      FakeAsync().run((fakeAsync) {
+        backend.shouldThrow = true;
         lastOnlineReporter.startReporting();
-        await pumpEventQueue();
+        fakeAsync.flushMicrotasks();
         expect(crashAnalytics.logCalledLog, true);
       });
     });
 
     test('cancels AppLifecycleState change stream when disposed', () {
-      FakeAsync().run((fakeAsync) async {
+      FakeAsync().run((fakeAsync) {
         lastOnlineReporter.startReporting();
-        await pumpEventQueue();
+        expect(lifecycleChanges.hasListener, true);
         lastOnlineReporter.dispose();
-        expect(lifecycleChanges.isClosed, true);
+        expect(lifecycleChanges.hasListener, false);
       });
     });
   });
