@@ -92,22 +92,27 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   LoginBloc? _bloc;
   bool isLoading = false;
+  bool _isInitialized = false;
 
   final passwordFocusNode = FocusNode();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_bloc == null) {
+    if (!_isInitialized) {
       final analytics = LoginAnalytics(context.read<Analytics>());
       _bloc = LoginBloc(analytics);
+      _isInitialized = true;
     }
   }
 
   @override
   void initState() {
     super.initState();
-    // Defer the tip card initialization until after the first frame
+    // Defer the tip card initialization until after the first frame to ensure
+    // the context is fully available. This is necessary because
+    // showTipCardIfIsAvailable accesses context, which should not be done
+    // synchronously in initState.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         showTipCardIfIsAvailable(context);
