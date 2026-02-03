@@ -22,13 +22,16 @@ TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
   final getCurrentDateTime =
       dependencies.getCurrentDateTime ?? () => clock.now();
   getCurrentDate() => Date.fromDateTime(getCurrentDateTime());
+  final l10n = dependencies.localizations;
 
   final viewFactory = TeacherAndParentHomeworkViewFactory(
     defaultColorValue: config.defaultCourseColorValue,
+    l10n: l10n,
   );
   final sortAndSubcategorizer =
       HomeworkSortAndSubcategorizer<TeacherHomeworkReadModel>(
         getCurrentDate: getCurrentDate,
+        l10n: l10n,
       );
   final openHomeworkListViewFactory =
       TeacherAndParentOpenHomeworkListViewFactory(
