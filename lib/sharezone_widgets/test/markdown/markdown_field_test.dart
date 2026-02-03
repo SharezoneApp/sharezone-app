@@ -8,28 +8,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 void main() {
-  Widget wrapWithApp(Widget child) {
-    return MaterialApp(
-      localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
-      supportedLocales: SharezoneLocalizations.supportedLocales,
-      locale: const Locale('de'),
-      home: child,
-    );
-  }
-
   group(MarkdownField, () {
     testWidgets('should not display markdown helper text when not focused', (
       tester,
     ) async {
-      await tester.pumpWidgetBuilder(
-        MarkdownField(onChanged: (_) {}),
-        wrapper: wrapWithApp,
-      );
+      await tester.pumpScene(tester);
 
       expect(find.byType(MarkdownSupport), findsNothing);
     });
@@ -37,10 +24,7 @@ void main() {
     testWidgets('should display markdown helper text when focused', (
       tester,
     ) async {
-      await tester.pumpWidgetBuilder(
-        MarkdownField(onChanged: (_) {}),
-        wrapper: wrapWithApp,
-      );
+      await tester.pumpScene(tester);
 
       await tester.tap(find.byType(PrefilledTextField));
       await tester.pump();
@@ -48,4 +32,16 @@ void main() {
       expect(find.byType(MarkdownSupport), findsOneWidget);
     });
   });
+}
+
+extension on WidgetTester {
+  Future<void> pumpScene(WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+        supportedLocales: [const Locale('de', 'DE')],
+        home: Scaffold(body: MarkdownField(onChanged: (_) {})),
+      ),
+    );
+  }
 }
