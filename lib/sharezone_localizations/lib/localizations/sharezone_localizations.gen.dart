@@ -782,9 +782,9 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'{weekday}, {day}. {month} {year}'**
   String homeworkStudentDueDate(
-    String weekday,
     String day,
     String month,
+    String weekday,
     String year,
   );
 

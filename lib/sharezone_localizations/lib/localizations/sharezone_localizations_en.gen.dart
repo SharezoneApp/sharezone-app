@@ -399,9 +399,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String homeworkStudentDueDate(
-    String weekday,
     String day,
     String month,
+    String weekday,
     String year,
   ) {
     return '$weekday, $month $day, $year';
