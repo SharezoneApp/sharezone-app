@@ -121,7 +121,7 @@ jobs:
             --flavor prod \
             --dart-define USER_1_EMAIL=${{ secrets.INTEGRATION_TEST_USER_1_EMAIL }} \
             --dart-define USER_1_PASSWORD=${{ secrets.INTEGRATION_TEST_USER_1_PASSWORD }} \
-            -t integration_test/app_test.dart
+            -t patrol_test/app_test.dart
 
       - name: Setup credentials
         env:
