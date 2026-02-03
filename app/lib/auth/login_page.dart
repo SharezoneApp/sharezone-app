@@ -90,17 +90,28 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late LoginBloc bloc;
+  LoginBloc? _bloc;
   bool isLoading = false;
 
   final passwordFocusNode = FocusNode();
 
+  LoginBloc get bloc {
+    if (_bloc == null) {
+      final analytics = LoginAnalytics(context.read<Analytics>());
+      _bloc = LoginBloc(analytics);
+    }
+    return _bloc!;
+  }
+
   @override
   void initState() {
-    final analytics = LoginAnalytics(context.read<Analytics>());
-    bloc = LoginBloc(analytics);
     super.initState();
-    showTipCardIfIsAvailable(context);
+    // Defer the tip card initialization until after the first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        showTipCardIfIsAvailable(context);
+      }
+    });
   }
 
   @override
