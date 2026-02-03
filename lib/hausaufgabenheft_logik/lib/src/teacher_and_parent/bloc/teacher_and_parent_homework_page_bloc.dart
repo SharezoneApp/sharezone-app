@@ -10,6 +10,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_base/bloc_base.dart' as bloc_base;
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart'
     hide Uninitialized, LoadHomeworks, OpenHwSortingChanged, Success, Sort;
@@ -34,6 +35,7 @@ class TeacherAndParentHomeworkPageBloc
   final TeacherAndParentHomeworkViewFactory _viewFactory;
   final TeacherAndParentOpenHomeworkListViewFactory
   _openHomeworkListViewFactory;
+  final Stream<ISet<CourseId>> _courseFilterStream;
   final _currentSortStream = BehaviorSubject<Sort<BaseHomeworkReadModel>>();
   LazyLoadingController<TeacherHomeworkReadModel>? _lazyLoadingController;
 
@@ -48,11 +50,16 @@ class TeacherAndParentHomeworkPageBloc
     openHomeworkListViewFactory,
     required this.numberOfInitialCompletedHomeworksToLoad,
     required DateTime Function() getCurrentDateTime,
+    Stream<ISet<CourseId>>? courseFilterStream,
   }) : _homeworkApi = homeworkApi,
        _openHomeworkListViewFactory = openHomeworkListViewFactory,
        _homeworkSortingCache = homeworkSortingCache,
        _viewFactory = viewFactory,
        _getCurrentDateTime = getCurrentDateTime,
+       _courseFilterStream =
+           (courseFilterStream ?? Stream.value(ISet<CourseId>())).startWith(
+             ISet<CourseId>(),
+           ),
        super(Uninitialized()) {
     on<LoadHomeworks>((event, emit) {
       _mapLoadHomeworksToState();
@@ -86,20 +93,27 @@ class TeacherAndParentHomeworkPageBloc
           numberOfInitialCompletedHomeworksToLoad,
         );
 
-    _combineLatestSubscription = Rx.combineLatest3<
+    _combineLatestSubscription = Rx.combineLatest4<
       IList<TeacherHomeworkReadModel>,
       Sort<BaseHomeworkReadModel>,
       LazyLoadingResult<TeacherHomeworkReadModel>,
+      ISet<CourseId>,
       Success
     >(
       _homeworkApi.openHomeworks,
       _currentSortStream,
       _lazyLoadingController!.results,
-      (openHws, sort, lazyCompletedHwsRes) {
-        final open = _openHomeworkListViewFactory.create(openHws, sort);
+      _courseFilterStream,
+      (openHws, sort, lazyCompletedHwsRes, courseFilter) {
+        final filteredOpen = _filterByCourse(openHws, courseFilter);
+        final filteredArchived = _filterByCourse(
+          lazyCompletedHwsRes.homeworks,
+          courseFilter,
+        );
+        final open = _openHomeworkListViewFactory.create(filteredOpen, sort);
 
         final archived = LazyLoadingHomeworkListView(
-          lazyCompletedHwsRes.homeworks.map(_viewFactory.createFrom).toIList(),
+          filteredArchived.map(_viewFactory.createFrom).toIList(),
           loadedAllHomeworks: !lazyCompletedHwsRes.moreHomeworkAvailable,
         );
 
@@ -110,6 +124,18 @@ class TeacherAndParentHomeworkPageBloc
         add(_Yield(s));
       }
     });
+  }
+
+  IList<T> _filterByCourse<T extends BaseHomeworkReadModel>(
+    IList<T> homeworks,
+    ISet<CourseId> courseFilter,
+  ) {
+    if (courseFilter.isEmpty) {
+      return homeworks;
+    }
+    return homeworks
+        .where((homework) => courseFilter.contains(homework.courseId))
+        .toIList();
   }
 
   void _mapAdvanceArchivedHomeworks(AdvanceArchivedHomeworks event) async {
