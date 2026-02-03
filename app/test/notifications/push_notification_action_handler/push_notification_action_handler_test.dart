@@ -535,7 +535,7 @@ void main() {
                 errorDialogInvocation!.errorReason,
                 NotificationHandlerErrorReason.fatalParsingError,
               );
-              expect(errorDialogInvocation.errorOrNull, isNotNull);
+              expect(errorDialogInvocation.error, isNotNull);
               expect(errorDialogInvocation.notification, isNotNull);
             },
           );
@@ -560,7 +560,7 @@ void main() {
             );
             // If we know that its an unknown type it isn't an unexpected case.
             // We don't need an error.
-            expect(errorDialogInvocation.errorOrNull, isNull);
+            expect(errorDialogInvocation.error, isNull);
             expect(errorDialogInvocation.notification, isNotNull);
           },
         );

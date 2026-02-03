@@ -127,10 +127,10 @@ class FirestoreGradesStateRepository extends GradesStateRepository {
   }
 
   static Map<String, Object?> toDto(GradesState state) {
-    final currentTermOrNull =
+    final currentTermId =
         state.terms.firstWhereOrNull((term) => term.isActiveTerm)?.id.value;
     return {
-      'currentTerm': currentTermOrNull,
+      'currentTerm': currentTermId,
       'terms':
           state.terms
               .map(

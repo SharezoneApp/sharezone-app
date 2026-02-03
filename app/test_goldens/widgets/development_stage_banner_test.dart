@@ -15,7 +15,7 @@ import 'package:sharezone/widgets/development_stage_banner.dart';
 void main() {
   group('$DevelopmentStageBanner', () {
     testGoldens('displays the banner at the correct position', (tester) async {
-      kDevelopmentStageOrNull = 'alpha';
+      kDevelopmentStage = 'alpha';
 
       await tester.pumpWidgetBuilder(
         const DevelopmentStageBanner(
@@ -33,7 +33,7 @@ void main() {
       tester,
     ) async {
       for (var stage in ['alpha', 'beta', 'preview']) {
-        kDevelopmentStageOrNull = stage;
+        kDevelopmentStage = stage;
 
         await tester.pumpWidget(
           const Directionality(
@@ -59,7 +59,7 @@ void main() {
       tester,
     ) async {
       for (var stage in ['stable', null]) {
-        kDevelopmentStageOrNull = stage;
+        kDevelopmentStage = stage;
 
         await tester.pumpWidget(
           const Directionality(

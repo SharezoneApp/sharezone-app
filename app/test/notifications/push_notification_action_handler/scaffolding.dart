@@ -136,7 +136,7 @@ class TestHandlerFor {
 
     for (final notification in generateNotifications()) {
       final result = handlePushNotification(notification);
-      final actionRequest = result.actionRequestOrNull;
+      final actionRequest = result.actionRequest;
       if (actionRequest == null) {
         throw StateError(
           "The actionRequest was null. This shouldn't happen as we expect a successful execution here. The handler result was: $result.",
@@ -182,7 +182,7 @@ class TestHandlerFor {
         );
       }
 
-      final actionRequest = result.actionRequestOrNull;
+      final actionRequest = result.actionRequest;
       if (actionRequest == null) {
         throw StateError(
           "The actionRequest was null. This shouldn't happen as we expect a successful execution here. The handler result was: $result.",
@@ -210,13 +210,13 @@ class TestHandlerFor {
         testRegistrations: addRegistrations,
       );
 
-      if (result.fatalParsingExceptionOrNull == null) {
+      if (result.fatalParsingException == null) {
         throw StateError(
           "The fatal parsing exception was null. This shouldn't happen as we expect a fatal error here. The handler result was: $result.",
         );
       }
 
-      resultsInFatalParsingError(result.fatalParsingExceptionOrNull);
+      resultsInFatalParsingError(result.fatalParsingException);
     }
   }
 
@@ -232,13 +232,13 @@ class TestHandlerFor {
         testRegistrations: addRegistrations,
       );
 
-      if (result.showErrorDialogExceptionOrNull == null) {
+      if (result.showErrorDialogException == null) {
         throw StateError(
           "The fatal parsing exception was null. This shouldn't happen as we expect a fatal error here. The handler result was: $result.",
         );
       }
 
-      shouldShowErrorDialog(result.showErrorDialogExceptionOrNull);
+      shouldShowErrorDialog(result.showErrorDialogException);
     }
   }
 }
@@ -247,10 +247,10 @@ class TestHandlerFor {
 /// In this way all side-effects are contained in this class which makes it more
 /// accessible.
 class PushHandlerInvocationResult {
-  final ActionRequest? actionRequestOrNull;
+  final ActionRequest? actionRequest;
   final PushNotification? notification;
   final List<NonFatalParsingException>? nonFatalParsingExceptions;
-  final FatalParsingError? fatalParsingExceptionOrNull;
+  final FatalParsingError? fatalParsingException;
   final TestInstrumentation? instrumentation;
 
   /// This should only be used for [TestHandlerFor.errorDialog].
@@ -261,20 +261,20 @@ class PushHandlerInvocationResult {
   ///
   /// As all other test scaffolds in [TestHandlerFor] are concerned with the
   /// generic logic ("inner layer") they shouldn't use this.
-  final ShowErrorDialogInvocation? showErrorDialogExceptionOrNull;
+  final ShowErrorDialogInvocation? showErrorDialogException;
 
   PushHandlerInvocationResult({
-    this.actionRequestOrNull,
+    this.actionRequest,
     this.notification,
     this.nonFatalParsingExceptions,
-    this.fatalParsingExceptionOrNull,
-    this.showErrorDialogExceptionOrNull,
+    this.fatalParsingException,
+    this.showErrorDialogException,
     this.instrumentation,
   });
 
   @override
   String toString() {
-    return 'PushHandlerInvocationResult(actionRequestOrNull: $actionRequestOrNull, notification: $notification, nonFatalParsingExceptions: $nonFatalParsingExceptions, fatalParsingExceptionOrNull: $fatalParsingExceptionOrNull, showErrorDialogExceptionOrNull: $showErrorDialogExceptionOrNull)';
+    return 'PushHandlerInvocationResult(actionRequest: $actionRequest, notification: $notification, nonFatalParsingExceptions: $nonFatalParsingExceptions, fatalParsingException: $fatalParsingException, showErrorDialogException: $showErrorDialogException)';
   }
 }
 
@@ -313,24 +313,24 @@ PushHandlerInvocationResult handlePushNotification(
   handler.handlePushNotification(pushNotification);
 
   return PushHandlerInvocationResult(
-    actionRequestOrNull: actionRequest,
+    actionRequest: actionRequest,
     notification: pushNotification,
-    showErrorDialogExceptionOrNull: showErrorDialogException,
+    showErrorDialogException: showErrorDialogException,
     instrumentation: instrumentation,
     nonFatalParsingExceptions: instrumentation.nonFatalParsingExceptions,
-    fatalParsingExceptionOrNull: instrumentation.fatalParsingError,
+    fatalParsingException: instrumentation.fatalParsingError,
   );
 }
 
 class ShowErrorDialogInvocation implements Exception {
   final PushNotification notification;
   final NotificationHandlerErrorReason errorReason;
-  final dynamic errorOrNull;
+  final dynamic error;
 
   ShowErrorDialogInvocation(
     this.notification,
     this.errorReason,
-    this.errorOrNull,
+    this.error,
   );
 }
 

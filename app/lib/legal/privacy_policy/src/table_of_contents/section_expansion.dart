@@ -54,13 +54,12 @@ abstract class ExpansionBehavior {
     assert(before.isExpandable);
     assert(after.isExpandable);
     assert(
-      before.expansionStateOrNull!.isExpanded ==
-          after.expansionStateOrNull!.isExpanded,
+      before.expansionState!.isExpanded == after.expansionState!.isExpanded,
       "expansionState hasn't changed already (since this method is responsible for changing it)",
     );
     assert(
-      before.expansionStateOrNull!.expansionMode ==
-          after.expansionStateOrNull!.expansionMode,
+      before.expansionState!.expansionMode ==
+          after.expansionState!.expansionMode,
       "expansionState hasn't changed already (since this method is responsible for changing it)",
     );
 
@@ -73,12 +72,12 @@ abstract class ExpansionBehavior {
     // If a new Enum value is introduced it should be checked that all usages
     // of the enum are accounted for in the subclasses.
     assert(
-      before.expansionStateOrNull!.expansionMode == ExpansionMode.forced ||
-          before.expansionStateOrNull!.expansionMode == ExpansionMode.automatic,
+      before.expansionState!.expansionMode == ExpansionMode.forced ||
+          before.expansionState!.expansionMode == ExpansionMode.automatic,
     );
     assert(
-      after.expansionStateOrNull!.expansionMode == ExpansionMode.forced ||
-          after.expansionStateOrNull!.expansionMode == ExpansionMode.automatic,
+      after.expansionState!.expansionMode == ExpansionMode.forced ||
+          after.expansionState!.expansionMode == ExpansionMode.automatic,
     );
   }
 }
@@ -99,7 +98,7 @@ class _AlwaysCloseAgainExpansionBehavior extends ExpansionBehavior {
     // Automatic default behavior:
     // - Expand if the section or a subsection is currently read.
     // - Collapse if the section or a subsection is not currently read.
-    return before.expansionStateOrNull!.copyWith(
+    return before.expansionState!.copyWith(
       isExpanded: after.isThisOrASubsectionCurrentlyRead,
     );
   }
@@ -125,7 +124,7 @@ class _LeaveManuallyOpenedSectionsOpenExpansionBehavior
   }) {
     ExpansionBehavior.assertValid(before: before, after: after);
 
-    final oldExpansionState = before.expansionStateOrNull!;
+    final oldExpansionState = before.expansionState!;
     final expansionMode = oldExpansionState.expansionMode;
     final wasExpanded = oldExpansionState.isExpanded;
     final wasCollapsed = !wasExpanded;

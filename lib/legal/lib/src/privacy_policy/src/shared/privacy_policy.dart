@@ -18,10 +18,10 @@ class PrivacyPolicy {
   final String version;
   final Uri downloadUrl;
   final DateTime lastChanged;
-  final DateTime? entersIntoForceOnOrNull;
+  final DateTime? entersIntoForceOn;
   bool get hasNotYetEnteredIntoForce =>
-      entersIntoForceOnOrNull != null &&
-      entersIntoForceOnOrNull!.isAfter(const Clock().now());
+      entersIntoForceOn != null &&
+      entersIntoForceOn!.isAfter(const Clock().now());
 
   const PrivacyPolicy({
     required this.markdownText,
@@ -29,7 +29,7 @@ class PrivacyPolicy {
     required this.downloadUrl,
     required this.version,
     required this.lastChanged,
-    this.entersIntoForceOnOrNull,
+    this.entersIntoForceOn,
   });
 
   @override
@@ -43,7 +43,7 @@ class PrivacyPolicy {
         other.version == version &&
         other.downloadUrl == downloadUrl &&
         other.lastChanged == lastChanged &&
-        other.entersIntoForceOnOrNull == entersIntoForceOnOrNull;
+        other.entersIntoForceOn == entersIntoForceOn;
   }
 
   @override
@@ -53,6 +53,6 @@ class PrivacyPolicy {
         version.hashCode ^
         downloadUrl.hashCode ^
         lastChanged.hashCode ^
-        entersIntoForceOnOrNull.hashCode;
+        entersIntoForceOn.hashCode;
   }
 }

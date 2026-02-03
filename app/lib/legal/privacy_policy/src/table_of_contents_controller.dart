@@ -28,10 +28,10 @@ class TableOfContentsController extends ChangeNotifier {
 
     _updateViews();
 
-    currentlyReadingController.currentlyReadDocumentSectionOrNull.addListener(
+    currentlyReadingController.currentlyReadDocumentSection.addListener(
       () {
         final currentlyReadSection =
-            currentlyReadingController.currentlyReadDocumentSectionOrNull.value;
+            currentlyReadingController.currentlyReadDocumentSection.value;
         _tableOfContents = _tableOfContents.changeCurrentlyReadSectionTo(
           currentlyReadSection,
         );
@@ -57,13 +57,13 @@ class TableOfContentsController extends ChangeNotifier {
                             id: sub.id,
                             title: sub.sectionName,
                             subsections: IList(const []),
-                            expansionStateOrNull: null,
+                            expansionState: null,
                             isThisCurrentlyRead: false,
                           ),
                         )
                         .toIList(),
                 isThisCurrentlyRead: false,
-                expansionStateOrNull:
+                expansionState:
                     e.subsections.isNotEmpty
                         ? TocSectionExpansionState(
                           expansionBehavior: initialExpansionBehavior,

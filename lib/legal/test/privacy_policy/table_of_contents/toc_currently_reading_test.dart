@@ -620,9 +620,9 @@ class TestCurrentlyReadingController {
   late TableOfContentsController _tableOfContentsController;
 
   String? get currentlyReadSection =>
-      currentlyReadDocumentSectionOrNull.value?.toString();
+      currentlyReadDocumentSection.value?.toString();
 
-  ValueListenable<DocumentSectionId?> get currentlyReadDocumentSectionOrNull =>
+  ValueListenable<DocumentSectionId?> get currentlyReadDocumentSection =>
       _currentlyRead;
 
   DocumentSectionId? _getCurrentlyHighlighted() {

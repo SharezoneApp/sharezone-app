@@ -66,11 +66,11 @@ class QRCodeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final joinLinkIsEmptyOrNull =
+    final joinLinkIsEmpty =
         groupInfo.joinLink == null || groupInfo.joinLink!.isEmpty;
-    final publicKeyIsEmptyOrNull =
+    final publicKeyIsEmpty =
         groupInfo.sharecode == null || groupInfo.sharecode!.isEmpty;
-    final isEnabled = !(joinLinkIsEmptyOrNull && publicKeyIsEmptyOrNull);
+    final isEnabled = !(joinLinkIsEmpty && publicKeyIsEmpty);
     return Expanded(
       child: GrayShimmer(
         enabled: !isEnabled,
