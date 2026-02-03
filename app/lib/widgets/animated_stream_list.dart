@@ -17,7 +17,7 @@ typedef SharezoneAnimatedStreamListItemBuilder<T> =
       Animation<double> animation,
     );
 
-class SharezoneAnimatedStreamList<E> extends StatelessWidget {
+class SharezoneAnimatedStreamList<E> extends StatefulWidget {
   const SharezoneAnimatedStreamList({
     super.key,
     required this.listStream,
@@ -44,26 +44,49 @@ class SharezoneAnimatedStreamList<E> extends StatelessWidget {
   final SharezoneAnimatedStreamListItemBuilder<E> itemRemovedBuilder;
 
   @override
+  State<SharezoneAnimatedStreamList<E>> createState() =>
+      _SharezoneAnimatedStreamListState<E>();
+}
+
+class _SharezoneAnimatedStreamListState<E>
+    extends State<SharezoneAnimatedStreamList<E>> {
+  late Future<List<E>> _initialListFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialListFuture = widget.listStream.first;
+  }
+
+  @override
+  void didUpdateWidget(SharezoneAnimatedStreamList<E> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.listStream != oldWidget.listStream) {
+      _initialListFuture = widget.listStream.first;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<E>>(
-      initialData: initialList,
-      future: listStream.first,
+      initialData: widget.initialList,
+      future: _initialListFuture,
       builder: (context, future) {
-        if (!future.hasData) return emptyListWidget;
+        if (!future.hasData) return widget.emptyListWidget;
         return StreamBuilder<bool>(
-          stream: isListEmptyStream,
+          stream: widget.isListEmptyStream,
           builder: (context, snapshot) {
             final streamListEmpty = snapshot.data ?? true;
-            if (streamListEmpty) return emptyListWidget;
+            if (streamListEmpty) return widget.emptyListWidget;
             return SizedBox(
-              height: height,
+              height: widget.height,
               child: AnimatedStreamList<E>(
                 initialList: future.data,
-                padding: padding,
-                streamList: listStream,
-                scrollDirection: scrollDirection,
-                itemBuilder: itemBuilder,
-                itemRemovedBuilder: itemRemovedBuilder,
+                padding: widget.padding,
+                streamList: widget.listStream,
+                scrollDirection: widget.scrollDirection,
+                itemBuilder: widget.itemBuilder,
+                itemRemovedBuilder: widget.itemRemovedBuilder,
               ),
             );
           },
