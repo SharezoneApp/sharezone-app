@@ -95,12 +95,13 @@ class _LoginPageState extends State<LoginPage> {
 
   final passwordFocusNode = FocusNode();
 
-  LoginBloc get bloc {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     if (_bloc == null) {
       final analytics = LoginAnalytics(context.read<Analytics>());
       _bloc = LoginBloc(analytics);
     }
-    return _bloc!;
   }
 
   @override
@@ -119,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
     final flavor = context.read<Flavor>();
     final showDebugLogins = kDebugMode && flavor == Flavor.dev;
     return BlocProvider(
-      bloc: bloc,
+      bloc: _bloc!,
       child: Scaffold(
         body: Builder(
           builder:
