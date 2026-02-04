@@ -22,6 +22,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_page.dart';
+import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
@@ -143,7 +144,10 @@ class _HomeworkDetailsBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _CourseTile(courseName: view.courseName),
-          _TodoUntil(todoUntil: view.todoUntil),
+          _TodoUntil(
+            todoUntil: view.todoUntil,
+            withSubmissions: view.withSubmissions,
+          ),
           _HomeworkDescription(description: view.description),
           _HomeworkPrivateTile(isPrivate: view.isPrivate),
           _HomeworkAuthorTile(authorName: view.authorName),
@@ -542,13 +546,17 @@ class _HomeworkDescription extends StatelessWidget {
 }
 
 class _TodoUntil extends StatelessWidget {
-  const _TodoUntil({this.todoUntil});
+  const _TodoUntil({required this.todoUntil, required this.withSubmissions});
 
-  final String? todoUntil;
+  final DateTime todoUntil;
+  final bool withSubmissions;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(leading: const Icon(Icons.today), title: Text(todoUntil!));
+    return ListTile(
+      leading: const Icon(Icons.today),
+      title: Text(formatHomeworkTodoDate(context, todoUntil, withSubmissions)),
+    );
   }
 }
 
