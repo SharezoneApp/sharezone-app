@@ -35,7 +35,7 @@ void main() {
     final launcher = TestUrlLauncherExtended();
 
     // Malicious subject attempting to inject a CC header
-    final subject = 'Hello&cc=hacker@example.com';
+    const subject = 'Hello&cc=hacker@example.com';
 
     await launcher.tryLaunchMailOrThrow(
       'user@example.com',
@@ -44,9 +44,6 @@ void main() {
     );
 
     final uri = launcher.lastLaunchedUri!;
-
-    print('Generated URI: $uri');
-    print('Query Parameters: ${uri.queryParameters}');
 
     // The injected parameters should NOT be parsed as separate query keys.
     expect(
