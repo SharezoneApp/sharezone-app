@@ -243,6 +243,22 @@
   },
   "feedbackNewLineHint": "Shift + Enter für neue Zeile",
   "feedbackSendTooltip": "Senden (Enter)",
+  "homeworkSectionDayAfterTomorrow": "Übermorgen",
+  "homeworkSectionLater": "Später",
+  "homeworkSectionOverdue": "Überfällig",
+  "homeworkSectionToday": "Heute",
+  "homeworkSectionTomorrow": "Morgen",
+  "homeworkTodoDateTime": "{date} - {time} Uhr",
+  "@homeworkTodoDateTime": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "imprintTitle": "Impressum",
   "languageDeName": "Deutsch",
   "languageEnName": "Englisch",

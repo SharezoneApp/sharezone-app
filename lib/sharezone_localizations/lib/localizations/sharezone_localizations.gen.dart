@@ -741,6 +741,42 @@ abstract class SharezoneLocalizations {
   /// **'Senden (Enter)'**
   String get feedbackSendTooltip;
 
+  /// No description provided for @homeworkSectionDayAfterTomorrow.
+  ///
+  /// In de, this message translates to:
+  /// **'Übermorgen'**
+  String get homeworkSectionDayAfterTomorrow;
+
+  /// No description provided for @homeworkSectionLater.
+  ///
+  /// In de, this message translates to:
+  /// **'Später'**
+  String get homeworkSectionLater;
+
+  /// No description provided for @homeworkSectionOverdue.
+  ///
+  /// In de, this message translates to:
+  /// **'Überfällig'**
+  String get homeworkSectionOverdue;
+
+  /// No description provided for @homeworkSectionToday.
+  ///
+  /// In de, this message translates to:
+  /// **'Heute'**
+  String get homeworkSectionToday;
+
+  /// No description provided for @homeworkSectionTomorrow.
+  ///
+  /// In de, this message translates to:
+  /// **'Morgen'**
+  String get homeworkSectionTomorrow;
+
+  /// No description provided for @homeworkTodoDateTime.
+  ///
+  /// In de, this message translates to:
+  /// **'{date} - {time} Uhr'**
+  String homeworkTodoDateTime(String date, String time);
+
   /// No description provided for @imprintTitle.
   ///
   /// In de, this message translates to:

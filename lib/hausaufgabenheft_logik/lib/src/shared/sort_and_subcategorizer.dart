@@ -49,11 +49,26 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
             .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
             .toIList();
 
-    final overdueSec = HomeworkSectionView('Überfällig', overdueHomework);
-    final todaySec = HomeworkSectionView('Heute', todayHomework);
-    final tomorrowSec = HomeworkSectionView('Morgen', tomorrowHomework);
-    final inTwoDaysSec = HomeworkSectionView('Übermorgen', in2DaysHomework);
-    final afterTwoDaysSec = HomeworkSectionView('Später', futureHomework);
+    final overdueSec = HomeworkSectionView.date(
+      HomeworkDateSection.overdue,
+      overdueHomework,
+    );
+    final todaySec = HomeworkSectionView.date(
+      HomeworkDateSection.today,
+      todayHomework,
+    );
+    final tomorrowSec = HomeworkSectionView.date(
+      HomeworkDateSection.tomorrow,
+      tomorrowHomework,
+    );
+    final inTwoDaysSec = HomeworkSectionView.date(
+      HomeworkDateSection.dayAfterTomorrow,
+      in2DaysHomework,
+    );
+    final afterTwoDaysSec = HomeworkSectionView.date(
+      HomeworkDateSection.later,
+      futureHomework,
+    );
 
     final sections = [
       overdueSec,
@@ -74,7 +89,7 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
           homeworks.where((h) => h.subject == subject).toIList();
 
       homeworkSections = homeworkSections.add(
-        HomeworkSectionView(subject.name, homeworksWithSubject),
+        HomeworkSectionView.subject(subject.name, homeworksWithSubject),
       );
     }
     return homeworkSections;
@@ -85,20 +100,11 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
     for (final hw in homeworks) {
       map[hw.todoDate.weekday]!.add(hw);
     }
-    const titles = {
-      1: 'Montag',
-      2: 'Dienstag',
-      3: 'Mittwoch',
-      4: 'Donnerstag',
-      5: 'Freitag',
-      6: 'Samstag',
-      7: 'Sonntag',
-    };
     final sections = <HomeworkSectionView<T>>[];
     for (var i = 1; i <= 7; i++) {
       final list = map[i]!;
       if (list.isNotEmpty) {
-        sections.add(HomeworkSectionView(titles[i]!, list.toIList()));
+        sections.add(HomeworkSectionView.weekday(i, list.toIList()));
       }
     }
     return sections.toIList();

@@ -37,10 +37,7 @@ class TeacherAndParentHomeworkViewFactory {
       title: homework.title.value,
       subject: homework.subject.name,
       abbreviation: homework.subject.abbreviation,
-      todoDate: _getLocaleDateString(
-        Date.fromDateTime(homework.todoDate),
-        time: _getTime(homework.withSubmissions, homework.todoDate),
-      ),
+      todoDate: homework.todoDate,
       withSubmissions: homework.withSubmissions,
       nrOfStudentsCompletedOrSubmitted: homework.nrOfStudentsCompleted,
       canViewCompletionOrSubmissionList:
@@ -52,41 +49,5 @@ class TeacherAndParentHomeworkViewFactory {
       canDeleteForEveryone: false,
       canEditForEveryone: false,
     );
-  }
-
-  String _getLocaleDateString(Date date, {String? time}) {
-    final months = {
-      1: 'Januar',
-      2: 'Februar',
-      3: 'März',
-      4: 'April',
-      5: 'Mai',
-      6: 'Juni',
-      7: 'Juli',
-      8: 'August',
-      9: 'September',
-      10: 'Oktober',
-      11: 'November',
-      12: 'Dezember',
-    };
-    assert(months.containsKey(date.month));
-
-    final day = date.day.toString();
-    final month = months[date.month];
-    final year = date.year.toString();
-
-    final dateString = '$day. $month $year';
-    if (time == null) return dateString;
-    return '$dateString - $time Uhr';
-  }
-
-  String? _getTime(bool withSubmissions, DateTime dateTime) {
-    if (!withSubmissions) return null;
-    return '${dateTime.hour}:${_getMinute(dateTime.minute)}';
-  }
-
-  String _getMinute(int minute) {
-    if (minute >= 10) return minute.toString();
-    return '0$minute';
   }
 }
