@@ -8,8 +8,6 @@
 
 import 'package:hausaufgabenheft_logik/src/shared/models/models.dart';
 import 'package:hausaufgabenheft_logik/src/shared/color.dart';
-import 'package:intl/intl.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../../../hausaufgabenheft_logik_lehrer.dart';
 
@@ -20,12 +18,10 @@ class TeacherAndParentHomeworkViewFactory {
   /// E.g. "0xFF03A9F4" for light blue.
   final int defaultColorValue;
   final Color defaultColor;
-  final SharezoneLocalizations l10n;
 
   TeacherAndParentHomeworkViewFactory({
     Date Function()? getCurrentDate,
     required this.defaultColorValue,
-    required this.l10n,
   }) : defaultColor = Color(defaultColorValue) {
     if (getCurrentDate == null) {
       _getCurrentDate = () => Date.now();
@@ -59,19 +55,38 @@ class TeacherAndParentHomeworkViewFactory {
   }
 
   String _getLocaleDateString(Date date, {String? time}) {
-    final dateTime = date.asDateTime();
-    final localeName = l10n.localeName;
+    final months = {
+      1: 'Januar',
+      2: 'Februar',
+      3: 'März',
+      4: 'April',
+      5: 'Mai',
+      6: 'Juni',
+      7: 'Juli',
+      8: 'August',
+      9: 'September',
+      10: 'Oktober',
+      11: 'November',
+      12: 'Dezember',
+    };
+    assert(months.containsKey(date.month));
+
     final day = date.day.toString();
-    final month = DateFormat.MMMM(localeName).format(dateTime);
+    final month = months[date.month];
     final year = date.year.toString();
 
-    final dateString = l10n.homeworkTeacherDueDate(day, month, year);
+    final dateString = '$day. $month $year';
     if (time == null) return dateString;
-    return l10n.homeworkDueDateWithTime(dateString, time);
+    return '$dateString - $time Uhr';
   }
 
   String? _getTime(bool withSubmissions, DateTime dateTime) {
     if (!withSubmissions) return null;
-    return DateFormat.jm(l10n.localeName).format(dateTime);
+    return '${dateTime.hour}:${_getMinute(dateTime.minute)}';
+  }
+
+  String _getMinute(int minute) {
+    if (minute >= 10) return minute.toString();
+    return '0$minute';
   }
 }

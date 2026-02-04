@@ -6,29 +6,19 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'dart:ui';
-
 import 'package:common_domain_models/common_domain_models.dart';
-import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 import 'package:hausaufgabenheft_logik/src/shared/models/homework.dart';
 import 'package:hausaufgabenheft_logik/src/shared/models/models.dart';
-import 'package:hausaufgabenheft_logik/src/student/views/student_homework_view.dart';
+import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 import 'package:hausaufgabenheft_logik/src/student/views/student_homework_view_factory.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
+import 'package:hausaufgabenheft_logik/src/student/views/student_homework_view.dart';
 import 'package:test/test.dart';
 
 import 'create_homework_util.dart';
 
 void main() {
-  setUpAll(() async {
-    await initializeDateFormatting('de');
-  });
-
   group('StudentViewFactory', () {
     late StudentHomeworkViewFactory viewFactory;
-    final l10n = lookupSharezoneLocalizations(const Locale('de', 'DE'));
     const defaultColor = Color.fromRGBO(255, 255, 255, 1);
     const currentDate = Date(year: 2018, month: 12, day: 03);
 
@@ -36,7 +26,6 @@ void main() {
       viewFactory = StudentHomeworkViewFactory(
         defaultColorValue: defaultColor.value,
         getCurrentDate: () => currentDate,
-        l10n: l10n,
       );
     });
 
@@ -59,10 +48,7 @@ void main() {
         colorDate: false,
         subjectColor: white,
         subject: 'Mathematik',
-        todoDate: _formatStudentDate(
-          l10n,
-          const Date(year: 2019, month: 1, day: 28),
-        ),
+        todoDate: 'Mo, 28. Jan 19',
         withSubmissions: false,
         title: 'S. 35 6a) und 8c)',
       );
@@ -101,10 +87,7 @@ void main() {
 
       final view = viewFactory.createFrom(hw);
 
-      expect(
-        view.todoDate,
-        _formatStudentDate(l10n, const Date(year: 2018, month: 12, day: 03)),
-      );
+      expect(view.todoDate, 'Mo, 3. Dez 18');
     });
 
     test(
@@ -150,15 +133,4 @@ void main() {
       expect(view.subjectColor, defaultColor);
     });
   });
-}
-
-String _formatStudentDate(SharezoneLocalizations l10n, Date date) {
-  final dateTime = date.asDateTime();
-  final localeName = l10n.localeName;
-  final weekday = DateFormat.E(localeName).format(dateTime);
-  final day = date.day.toString();
-  final month = DateFormat.MMM(localeName).format(dateTime);
-  final yearSuffix = (date.year % 100).toString().padLeft(2, '0');
-
-  return l10n.homeworkStudentDueDate(weekday, day, month, yearSuffix);
 }

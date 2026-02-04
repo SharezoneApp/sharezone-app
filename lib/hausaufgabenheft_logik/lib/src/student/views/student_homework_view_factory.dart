@@ -10,8 +10,6 @@ import 'package:hausaufgabenheft_logik/src/shared/models/homework.dart';
 import 'package:hausaufgabenheft_logik/src/shared/models/models.dart';
 import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 import 'package:hausaufgabenheft_logik/src/student/views/student_homework_view.dart';
-import 'package:intl/intl.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class StudentHomeworkViewFactory {
   late Date Function() _getCurrentDate;
@@ -20,12 +18,10 @@ class StudentHomeworkViewFactory {
   /// E.g. "0xFF03A9F4" for light blue.
   final int defaultColorValue;
   final Color defaultColor;
-  final SharezoneLocalizations l10n;
 
   StudentHomeworkViewFactory({
     Date Function()? getCurrentDate,
     required this.defaultColorValue,
-    required this.l10n,
   }) : defaultColor = Color(defaultColorValue) {
     if (getCurrentDate == null) {
       _getCurrentDate = () => Date.now();
@@ -53,25 +49,50 @@ class StudentHomeworkViewFactory {
   }
 
   String _getLocaleDateString(Date date, {String? time}) {
-    final dateTime = date.asDateTime();
-    final localeName = l10n.localeName;
-    final weekday = DateFormat.E(localeName).format(dateTime);
-    final day = date.day.toString();
-    final month = DateFormat.MMM(localeName).format(dateTime);
-    final yearSuffix = (date.year % 100).toString().padLeft(2, '0');
+    final months = {
+      1: 'Jan',
+      2: 'Feb',
+      3: 'Mär',
+      4: 'Apr',
+      5: 'Mai',
+      6: 'Jun',
+      7: 'Jul',
+      8: 'Aug',
+      9: 'Sep',
+      10: 'Okt',
+      11: 'Nov',
+      12: 'Dez',
+    };
+    assert(months.containsKey(date.month));
 
-    final dateString = l10n.homeworkStudentDueDate(
-      weekday,
-      day,
-      month,
-      yearSuffix,
-    );
+    final day = date.day.toString();
+    final month = months[date.month];
+    // The year suffix is the last two digits of the year, e.g. 2019 -> 19
+    final yearSuffix = date.year.toString().substring(2);
+
+    final weekdays = {
+      1: 'Mo',
+      2: 'Di',
+      3: 'Mi',
+      4: 'Do',
+      5: 'Fr',
+      6: 'Sa',
+      7: 'So',
+    };
+    final weekday = weekdays[date.asDateTime().weekday];
+
+    final dateString = '$weekday, $day. $month $yearSuffix';
     if (time == null) return dateString;
-    return l10n.homeworkDueDateWithTime(dateString, time);
+    return '$dateString - $time Uhr';
   }
 
   String? _getTime(bool withSubmissions, DateTime dateTime) {
     if (!withSubmissions) return null;
-    return DateFormat.jm(l10n.localeName).format(dateTime);
+    return '${dateTime.hour}:${_getMinute(dateTime.minute)}';
+  }
+
+  String _getMinute(int minute) {
+    if (minute >= 10) return minute.toString();
+    return '0$minute';
   }
 }
