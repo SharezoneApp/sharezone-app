@@ -251,6 +251,7 @@ jobs:
             --dart-define=USER_1_EMAIL=$USER_1_EMAIL \
             --dart-define=USER_1_PASSWORD=$USER_1_PASSWORD \
             -t patrol_test/app_test.dart \
+            --web-headless true \
             --verbose
 
   # At the moment, Flutter Integration Tests are not working with GitHub Actions
