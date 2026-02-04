@@ -8,7 +8,6 @@
 
 import 'dart:async';
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:clock/clock.dart';
@@ -16,35 +15,28 @@ import 'package:common_domain_models/src/ids/homework_id.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
-import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:hausaufgabenheft_logik/src/shared/color.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:test/test.dart';
 
 import 'create_homework_util.dart';
 import 'in_memory_repo/in_memory_homework_repository.dart';
 
 void main() {
-  setUpAll(() async {
-    await initializeDateFormatting('de');
-  });
-
   Bloc.observer = VerboseBlocObserver();
   group('GIVEN a Student with Homework WHEN he opens the homework page', () {
     late StudentHomeworkPageBloc bloc;
     late InMemoryHomeworkRepository<StudentHomeworkReadModel> repository;
     late HomeworkSortingCache homeworkSortingCache;
     late KeyValueStore kvs;
-    final l10n = lookupSharezoneLocalizations(const Locale('de', 'DE'));
 
     setUp(() {
       repository = createRepositoy();
       kvs = InMemoryKeyValueStore();
-      bloc = createBloc(repository, keyValueStore: kvs, l10n: l10n);
+      bloc = createBloc(repository, keyValueStore: kvs);
       homeworkSortingCache = HomeworkSortingCache(kvs);
     });
 
@@ -69,7 +61,6 @@ void main() {
           repository,
           keyValueStore: kvs,
           getCurrentDateTime: () => DateTime(2023, 10, 31),
-          l10n: l10n,
         );
         await addToRepository([
           createHomework(
@@ -81,7 +72,7 @@ void main() {
         bloc.add(LoadHomeworks());
 
         Success success = await bloc.stream.whereType<Success>().first;
-        expect(success.open.sections.first.title, l10n.homeworkSectionTomorrow);
+        expect(success.open.sections.first.title, 'Morgen');
       },
     );
 
@@ -90,7 +81,7 @@ void main() {
       () async {
         await addToRepository([createHomework(id: 'hw')]);
 
-        bloc = createBloc(repository, keyValueStore: kvs, l10n: l10n);
+        bloc = createBloc(repository, keyValueStore: kvs);
         bloc.add(LoadHomeworks());
         await pumpEventQueue();
 
@@ -224,11 +215,7 @@ void main() {
       'THEN he should see all open homework subcategorized by passed, today, tomorrow, in 2 days and in further future',
       () async {
         final now = DateTime(2019, 01, 2);
-        bloc = createBloc(
-          repository,
-          getCurrentDateTime: () => now,
-          l10n: l10n,
-        );
+        bloc = createBloc(repository, getCurrentDateTime: () => now);
 
         final old = createHomework(title: '1', todoDate: dateFromDay(1));
         final old2 = createHomework(title: '2', todoDate: dateFromDay(1));
@@ -474,7 +461,7 @@ void main() {
 
       setUp(() {
         repository = createRepositoy();
-        bloc = createBloc(repository, l10n: l10n);
+        bloc = createBloc(repository);
       });
 
       List<StudentHomeworkReadModel> generateCompleted(
@@ -492,11 +479,7 @@ void main() {
       test(
         'The bloc should give the appropiate status that not all completed homeworks were loaded yet if that is the case',
         () async {
-          bloc = createBloc(
-            repository,
-            nrOfInitialCompletedHomeworksToLoad: 8,
-            l10n: l10n,
-          );
+          bloc = createBloc(repository, nrOfInitialCompletedHomeworksToLoad: 8);
           final completedHomeworks = generateCompleted(20);
           await addToRepository(completedHomeworks, repository);
 
@@ -509,11 +492,7 @@ void main() {
       test(
         'all completed loaded is true when nrOfInitialCompletedHomeworksToLoad is the bigger as the given homeworks by the repository',
         () async {
-          bloc = createBloc(
-            repository,
-            nrOfInitialCompletedHomeworksToLoad: 7,
-            l10n: l10n,
-          );
+          bloc = createBloc(repository, nrOfInitialCompletedHomeworksToLoad: 7);
           final completedHomeworks = generateCompleted(6);
           await addToRepository(completedHomeworks, repository);
 
@@ -529,7 +508,6 @@ void main() {
           bloc = createBloc(
             repository,
             nrOfInitialCompletedHomeworksToLoad: 10,
-            l10n: l10n,
           );
           final completedHomeworks = generateCompleted(20);
           await addToRepository(completedHomeworks, repository);
@@ -574,11 +552,7 @@ void main() {
           );
           final alphabet = alphabetString.split('');
 
-          bloc = createBloc(
-            repository,
-            nrOfInitialCompletedHomeworksToLoad: 5,
-            l10n: l10n,
-          );
+          bloc = createBloc(repository, nrOfInitialCompletedHomeworksToLoad: 5);
           final completedHomeworks = generateCompleted(
             20,
             getTitle: (index) => alphabet[index],
@@ -626,7 +600,6 @@ StudentHomeworkPageBloc createBloc(
   int nrOfInitialCompletedHomeworksToLoad = 1000,
   DateTime Function()? getCurrentDateTime,
   KeyValueStore? keyValueStore,
-  SharezoneLocalizations? l10n,
 }) {
   return createStudentHomeworkPageBloc(
     HausaufgabenheftDependencies(
@@ -637,8 +610,6 @@ StudentHomeworkPageBloc createBloc(
         ),
       ),
       keyValueStore: keyValueStore ?? InMemoryKeyValueStore(),
-      localizations:
-          l10n ?? lookupSharezoneLocalizations(const Locale('de', 'DE')),
       getCurrentDateTime: getCurrentDateTime,
     ),
     HausaufgabenheftConfig(

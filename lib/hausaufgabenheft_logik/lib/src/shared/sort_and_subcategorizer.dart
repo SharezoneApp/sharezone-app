@@ -8,17 +8,11 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:intl/intl.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
   final Date Function() getCurrentDate;
-  final SharezoneLocalizations l10n;
 
-  HomeworkSortAndSubcategorizer({
-    required this.getCurrentDate,
-    required this.l10n,
-  });
+  HomeworkSortAndSubcategorizer({required this.getCurrentDate});
 
   IList<HomeworkSectionView<T>> sortAndSubcategorize(
     IList<T> homeworks,
@@ -55,26 +49,11 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
             .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
             .toIList();
 
-    final overdueSec = HomeworkSectionView(
-      l10n.homeworkSectionOverdue,
-      overdueHomework,
-    );
-    final todaySec = HomeworkSectionView(
-      l10n.homeworkSectionToday,
-      todayHomework,
-    );
-    final tomorrowSec = HomeworkSectionView(
-      l10n.homeworkSectionTomorrow,
-      tomorrowHomework,
-    );
-    final inTwoDaysSec = HomeworkSectionView(
-      l10n.homeworkSectionInTwoDays,
-      in2DaysHomework,
-    );
-    final afterTwoDaysSec = HomeworkSectionView(
-      l10n.homeworkSectionLater,
-      futureHomework,
-    );
+    final overdueSec = HomeworkSectionView('Überfällig', overdueHomework);
+    final todaySec = HomeworkSectionView('Heute', todayHomework);
+    final tomorrowSec = HomeworkSectionView('Morgen', tomorrowHomework);
+    final inTwoDaysSec = HomeworkSectionView('Übermorgen', in2DaysHomework);
+    final afterTwoDaysSec = HomeworkSectionView('Später', futureHomework);
 
     final sections = [
       overdueSec,
@@ -106,19 +85,22 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
     for (final hw in homeworks) {
       map[hw.todoDate.weekday]!.add(hw);
     }
+    const titles = {
+      1: 'Montag',
+      2: 'Dienstag',
+      3: 'Mittwoch',
+      4: 'Donnerstag',
+      5: 'Freitag',
+      6: 'Samstag',
+      7: 'Sonntag',
+    };
     final sections = <HomeworkSectionView<T>>[];
     for (var i = 1; i <= 7; i++) {
       final list = map[i]!;
       if (list.isNotEmpty) {
-        sections.add(HomeworkSectionView(_weekdayLabel(i), list.toIList()));
+        sections.add(HomeworkSectionView(titles[i]!, list.toIList()));
       }
     }
     return sections.toIList();
-  }
-
-  String _weekdayLabel(int weekday) {
-    final monday = DateTime(2024, 1, 1);
-    final date = monday.add(Duration(days: weekday - 1));
-    return DateFormat.EEEE(l10n.localeName).format(date);
   }
 }
