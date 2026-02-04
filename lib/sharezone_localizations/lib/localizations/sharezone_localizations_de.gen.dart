@@ -381,6 +381,26 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get feedbackSendTooltip => 'Senden (Enter)';
 
   @override
+  String get homeworkSectionDayAfterTomorrow => 'Übermorgen';
+
+  @override
+  String get homeworkSectionLater => 'Später';
+
+  @override
+  String get homeworkSectionOverdue => 'Überfällig';
+
+  @override
+  String get homeworkSectionToday => 'Heute';
+
+  @override
+  String get homeworkSectionTomorrow => 'Morgen';
+
+  @override
+  String homeworkTodoDateTime(String date, String time) {
+    return '$date - $time Uhr';
+  }
+
+  @override
   String get imprintTitle => 'Impressum';
 
   @override
