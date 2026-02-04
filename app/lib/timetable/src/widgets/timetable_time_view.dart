@@ -129,19 +129,18 @@ class _PeriodTile extends StatelessWidget {
       child: Center(
         child: DefaultTextStyle.merge(
           style: const TextStyle(height: 0.8),
+          textAlign: TextAlign.center,
+          maxLines: 1,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 period.startTime.format(context),
-                textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 10, color: Colors.grey),
-                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
                 period.number.toString(),
-                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 12.5,
                   fontWeight: FontWeight.w700,
@@ -150,9 +149,7 @@ class _PeriodTile extends StatelessWidget {
               ),
               Text(
                 period.endTime.format(context),
-                textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 10, color: Colors.grey),
-                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
