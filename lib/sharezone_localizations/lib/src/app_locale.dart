@@ -46,6 +46,14 @@ enum AppLocale {
     };
   }
 
+  String getTextEmoji() {
+    return switch (this) {
+      system => '🌐',
+      en => '🇬🇧',
+      de => '🇩🇪',
+    };
+  }
+
   /// The system-reported default locale of the device.
   static Locale getSystemLocale() {
     return PlatformDispatcher.instance.locale;

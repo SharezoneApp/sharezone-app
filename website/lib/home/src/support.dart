@@ -8,7 +8,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+import 'package:sharezone_website/utils.dart';
 import 'package:sharezone_website/widgets/headline.dart';
 import 'package:sharezone_website/widgets/image_text.dart';
 import 'package:sharezone_website/widgets/section_action_button.dart';
@@ -33,15 +34,13 @@ class Support extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Headline("Nie im Stich gelassen."),
+            Headline(context.l10n.websiteSupportSectionHeadline),
             const SizedBox(height: 20),
-            const Subline(
-              "Unser Support ist für Dich jederzeit erreichbar. Egal welche Uhrzeit. Egal welcher Wochentag.",
-            ),
+            Subline(context.l10n.websiteSupportSectionSubline),
             const SizedBox(height: 20),
             SectionActionButton(
-              text: "Support kontaktieren",
-              onTap: () => context.go('/${SupportPage.tag}'),
+              text: context.l10n.websiteSupportSectionButton,
+              onTap: () => goWithLang(context, '/${SupportPage.tag}'),
             ),
           ],
         ),

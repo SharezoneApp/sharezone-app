@@ -41,8 +41,8 @@ Future<bool?> _showConfirmDeletingDialog(BuildContext context) async {
     content: const Text(
       "Möchtest du wirklich diesen Eintrag für den kompletten Kurs löschen?",
     ),
-    left: AdaptiveDialogAction.cancel,
-    right: AdaptiveDialogAction.delete,
+    left: AdaptiveDialogAction.cancel(context),
+    right: AdaptiveDialogAction.delete(context),
   );
 }
 

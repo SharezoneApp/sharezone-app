@@ -7,12 +7,12 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers =
-    (new Serializers().toBuilder()
+    (Serializers().toBuilder()
           ..add(Holiday.serializer)
           ..add(HolidayCacheData.serializer)
           ..addBuilderFactory(
             const FullType(BuiltList, const [const FullType(Holiday)]),
-            () => new ListBuilder<Holiday>(),
+            () => ListBuilder<Holiday>(),
           ))
         .build();
 

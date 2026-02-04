@@ -7,8 +7,8 @@ part of 'holiday.dart';
 // **************************************************************************
 
 Serializer<HolidayCacheData> _$holidayCacheDataSerializer =
-    new _$HolidayCacheDataSerializer();
-Serializer<Holiday> _$holidaySerializer = new _$HolidaySerializer();
+    _$HolidayCacheDataSerializer();
+Serializer<Holiday> _$holidaySerializer = _$HolidaySerializer();
 
 class _$HolidayCacheDataSerializer
     implements StructuredSerializer<HolidayCacheData> {
@@ -47,7 +47,7 @@ class _$HolidayCacheDataSerializer
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new HolidayCacheDataBuilder();
+    final result = HolidayCacheDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -126,7 +126,7 @@ class _$HolidaySerializer implements StructuredSerializer<Holiday> {
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new HolidayBuilder();
+    final result = HolidayBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -197,25 +197,17 @@ class _$HolidayCacheData extends HolidayCacheData {
 
   factory _$HolidayCacheData([
     void Function(HolidayCacheDataBuilder)? updates,
-  ]) => (new HolidayCacheDataBuilder()..update(updates))._build();
+  ]) => (HolidayCacheDataBuilder()..update(updates))._build();
 
   _$HolidayCacheData._({required this.saved, required this.holidays})
-    : super._() {
-    BuiltValueNullFieldError.checkNotNull(saved, r'HolidayCacheData', 'saved');
-    BuiltValueNullFieldError.checkNotNull(
-      holidays,
-      r'HolidayCacheData',
-      'holidays',
-    );
-  }
-
+    : super._();
   @override
   HolidayCacheData rebuild(void Function(HolidayCacheDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   HolidayCacheDataBuilder toBuilder() =>
-      new HolidayCacheDataBuilder()..replace(this);
+      HolidayCacheDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -253,7 +245,7 @@ class HolidayCacheDataBuilder
 
   ListBuilder<Holiday>? _holidays;
   ListBuilder<Holiday> get holidays =>
-      _$this._holidays ??= new ListBuilder<Holiday>();
+      _$this._holidays ??= ListBuilder<Holiday>();
   set holidays(ListBuilder<Holiday>? holidays) => _$this._holidays = holidays;
 
   HolidayCacheDataBuilder();
@@ -270,7 +262,6 @@ class HolidayCacheDataBuilder
 
   @override
   void replace(HolidayCacheData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$HolidayCacheData;
   }
 
@@ -287,7 +278,7 @@ class HolidayCacheDataBuilder
     try {
       _$result =
           _$v ??
-          new _$HolidayCacheData._(
+          _$HolidayCacheData._(
             saved: BuiltValueNullFieldError.checkNotNull(
               saved,
               r'HolidayCacheData',
@@ -301,7 +292,7 @@ class HolidayCacheDataBuilder
         _$failedField = 'holidays';
         holidays.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
           r'HolidayCacheData',
           _$failedField,
           e.toString(),
@@ -329,7 +320,7 @@ class _$Holiday extends Holiday {
   final String slug;
 
   factory _$Holiday([void Function(HolidayBuilder)? updates]) =>
-      (new HolidayBuilder()..update(updates))._build();
+      (HolidayBuilder()..update(updates))._build();
 
   _$Holiday._({
     required this.start,
@@ -338,21 +329,13 @@ class _$Holiday extends Holiday {
     required this.stateCode,
     required this.name,
     required this.slug,
-  }) : super._() {
-    BuiltValueNullFieldError.checkNotNull(start, r'Holiday', 'start');
-    BuiltValueNullFieldError.checkNotNull(end, r'Holiday', 'end');
-    BuiltValueNullFieldError.checkNotNull(year, r'Holiday', 'year');
-    BuiltValueNullFieldError.checkNotNull(stateCode, r'Holiday', 'stateCode');
-    BuiltValueNullFieldError.checkNotNull(name, r'Holiday', 'name');
-    BuiltValueNullFieldError.checkNotNull(slug, r'Holiday', 'slug');
-  }
-
+  }) : super._();
   @override
   Holiday rebuild(void Function(HolidayBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  HolidayBuilder toBuilder() => new HolidayBuilder()..replace(this);
+  HolidayBuilder toBuilder() => HolidayBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -437,7 +420,6 @@ class HolidayBuilder implements Builder<Holiday, HolidayBuilder> {
 
   @override
   void replace(Holiday other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Holiday;
   }
 
@@ -452,7 +434,7 @@ class HolidayBuilder implements Builder<Holiday, HolidayBuilder> {
   _$Holiday _build() {
     final _$result =
         _$v ??
-        new _$Holiday._(
+        _$Holiday._(
           start: BuiltValueNullFieldError.checkNotNull(
             start,
             r'Holiday',

@@ -52,7 +52,11 @@ abstract class HolidayApiClient {
   /// TH	Thüringen
   ///
   /// API Documentation/Information: https://www.ferien-api.de/
-  Future<List<dynamic>> getHolidayAPIResponse(int year, String stateCode);
+  Future<List<dynamic>> getHolidayAPIResponse(
+    int year,
+    String stateCode,
+    String countryIsoCode,
+  );
 }
 
 /// Is used as a successor to [HttpHolidayApiClient] as the
@@ -67,9 +71,14 @@ class CloudFunctionHolidayApiClient extends HolidayApiClient {
   CloudFunctionHolidayApiClient(this.functions);
 
   @override
-  Future<List> getHolidayAPIResponse(int year, String stateCode) async {
+  Future<List> getHolidayAPIResponse(
+    int year,
+    String stateCode,
+    String countryIsoCode,
+  ) async {
     final result = await functions.loadHolidays(
       stateCode: stateCode,
+      countryIsoCode: countryIsoCode,
       year: '$year',
     );
     if (result.hasException) {
@@ -147,13 +156,21 @@ class HolidayApi {
   }
 
   Future<List<Holiday>> _loadHolidaysForYear(int year, State state) async {
+    final countryIsoCode = _resolveCountryIsoCode(state.code);
     List jsonHolidayList = await apiClient.getHolidayAPIResponse(
       year,
       state.code,
+      countryIsoCode,
     );
     List<Holiday> holidayList = _deserializeHolidaysFromJSON(jsonHolidayList);
     removePassedHolidays(holidayList);
     return holidayList;
+  }
+
+  String _resolveCountryIsoCode(String stateCode) {
+    if (stateCode.startsWith("AT-")) return "AT";
+    if (stateCode.startsWith("CH-")) return "CH";
+    return "DE";
   }
 
   void removePassedHolidays(List<Holiday> holidayList) {

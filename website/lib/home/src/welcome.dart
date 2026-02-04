@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/widgets/section.dart';
 
 import '../home_page.dart';
@@ -38,9 +39,9 @@ class Welcome extends StatelessWidget {
                   children: <Widget>[
                     Semantics(
                       header: true,
-                      label: 'Headline of the sharezone app',
+                      label: context.l10n.websiteWelcomeHeadlineSemanticLabel,
                       child: Text(
-                        "Simpel. Sicher. Stabil.",
+                        context.l10n.websiteWelcomeHeadline,
                         style: TextStyle(
                           fontSize: isTablet(context) ? 64 : 85,
                           fontWeight: FontWeight.w700,
@@ -51,9 +52,10 @@ class Welcome extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Semantics(
-                      label: 'A description of the sharezone app',
+                      label:
+                          context.l10n.websiteWelcomeDescriptionSemanticLabel,
                       child: Text(
-                        "Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.",
+                        context.l10n.websiteWelcomeDescription,
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: isTablet(context) ? 20 : 26,

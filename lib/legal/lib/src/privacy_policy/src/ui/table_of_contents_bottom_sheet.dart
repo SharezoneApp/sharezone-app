@@ -10,6 +10,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../privacy_policy_src.dart';
@@ -62,6 +63,8 @@ class __TableOfContentsBottomSheetState
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BottomSheet(
       constraints: const BoxConstraints(maxHeight: 600),
       enableDrag: true,
@@ -81,7 +84,7 @@ class __TableOfContentsBottomSheetState
                         vertical: 8.0,
                       ).add(const EdgeInsets.only(left: 20)),
                       child: Text(
-                        'Inhaltsverzeichnis',
+                        l10n.legalTableOfContents,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
