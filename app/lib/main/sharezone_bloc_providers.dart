@@ -78,7 +78,6 @@ import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc
 import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_gateway.dart';
 import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
 import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
 import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller_factory.dart';
@@ -266,7 +265,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final dependencies = HausaufgabenheftDependencies(
       api: homeworkApi,
       keyValueStore: widget.blocDependencies.keyValueStore,
-      localizations: context.l10n,
     );
     final homeworkPageBloc = createStudentHomeworkPageBloc(
       dependencies,
