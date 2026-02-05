@@ -1,0 +1,3 @@
+## 2025-02-18 - Date Parsing & Formatting Bottlenecks
+**Learning:** `DateFormat` creation from `package:intl` is expensive (30-270ms for 10k ops). Caching formatters keyed by locale provides significant speedup. However, the `Date` class wraps an ISO string and re-parses it via `DateTime.parse` on every `toDateTime` call (which is used by `DateParser` getters). This parsing cost (~200ms for 10k ops) often dominates the formatting cost, limiting the impact of formatter caching alone.
+**Action:** Always cache `DateFormat` instances. For `Date` heavy usage, consider caching the parsed `DateTime` within the `Date` object or avoiding repeated `toDateTime` calls.

@@ -121,28 +121,68 @@ class DateParser {
 
   const DateParser(this._date);
 
+  /// Cache DateFormat instances to avoid expensive recreation.
+  /// We key by Intl.defaultLocale to support runtime language changes.
+  static final _yMMMEdCache = <String?, DateFormat>{};
+  static final _yMMMdCache = <String?, DateFormat>{};
+  static final _MMMEdCache = <String?, DateFormat>{};
+  static final _yMMMMEEEEdCache = <String?, DateFormat>{};
+  static final _MMMCache = <String?, DateFormat>{};
+
   String get toYMMMEd {
-    return DateFormat.yMMMEd().format(_date.toDateTime);
+    final locale = Intl.defaultLocale;
+    final formatter = _yMMMEdCache.putIfAbsent(
+      locale,
+      () => DateFormat.yMMMEd(locale),
+    );
+    return formatter.format(_date.toDateTime);
   }
 
   String get toYMMMd {
-    return DateFormat.yMMMd().format(_date.toDateTime);
+    final locale = Intl.defaultLocale;
+    final formatter = _yMMMdCache.putIfAbsent(
+      locale,
+      () => DateFormat.yMMMd(locale),
+    );
+    return formatter.format(_date.toDateTime);
   }
 
   String get toMMMEd {
-    return DateFormat.MMMEd().format(_date.toDateTime);
+    final locale = Intl.defaultLocale;
+    final formatter = _MMMEdCache.putIfAbsent(
+      locale,
+      () => DateFormat.MMMEd(locale),
+    );
+    return formatter.format(_date.toDateTime);
   }
 
   String get toYMMMMEEEEd {
-    return DateFormat.yMMMMEEEEd().format(_date.toDateTime);
+    final locale = Intl.defaultLocale;
+    final formatter = _yMMMMEEEEdCache.putIfAbsent(
+      locale,
+      () => DateFormat.yMMMMEEEEd(locale),
+    );
+    return formatter.format(_date.toDateTime);
   }
 
   String get toMMM {
-    return DateFormat.MMM().format(_date.toDateTime);
+    final locale = Intl.defaultLocale;
+    final formatter = _MMMCache.putIfAbsent(
+      locale,
+      () => DateFormat.MMM(locale),
+    );
+    return formatter.format(_date.toDateTime);
   }
 }
 
+final _weekNumberDateFormatCache = <String?, DateFormat>{};
+
 int getWeekNumber(DateTime date) {
-  final dayOfYear = int.parse(DateFormat("D").format(date));
+  final locale = Intl.defaultLocale;
+  final formatter = _weekNumberDateFormatCache.putIfAbsent(
+    locale,
+    () => DateFormat("D", locale),
+  );
+  final dayOfYear = int.parse(formatter.format(date));
   return ((dayOfYear - date.weekday + 10) / 7).floor();
 }
