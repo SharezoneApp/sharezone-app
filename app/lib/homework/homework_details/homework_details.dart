@@ -22,6 +22,7 @@ import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_page.dart';
+import 'package:sharezone/homework/shared/shared.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
@@ -40,7 +41,7 @@ import '../../submissions/homework_create_submission_page.dart';
 void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
   showLeftRightAdaptiveDialog(
     context: context,
-    left: AdaptiveDialogAction.ok,
+    left: AdaptiveDialogAction.ok(context),
     title: 'Keine Berechtigung',
     content: const Text(
       'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Abgabe anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um die Abgabe der anderen Mitschüler anzuschauen.',
@@ -51,7 +52,7 @@ void showTeacherMustBeAdminDialogToViewSubmissions(BuildContext context) {
 void showTeacherMustBeAdminDialogToViewCompletionList(BuildContext context) {
   showLeftRightAdaptiveDialog(
     context: context,
-    left: AdaptiveDialogAction.ok,
+    left: AdaptiveDialogAction.ok(context),
     title: 'Keine Berechtigung',
     content: const Text(
       'Eine Lehrkraft darf aus Sicherheitsgründen nur mit Admin-Rechten in der jeweiligen Gruppe die Erledigt-Liste anschauen.\n\nAnsonsten könnte jeder Schüler einen neuen Account als Lehrkraft erstellen und der Gruppe beitreten, um einzusehen, welche Mitschüler die Hausaufgaben bereits erledigt haben.',
@@ -143,7 +144,10 @@ class _HomeworkDetailsBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _CourseTile(courseName: view.courseName),
-          _TodoUntil(todoUntil: view.todoUntil),
+          _TodoUntil(
+            todoUntil: view.todoUntil,
+            withSubmissions: view.withSubmissions,
+          ),
           _HomeworkDescription(description: view.description),
           _HomeworkPrivateTile(isPrivate: view.isPrivate),
           _HomeworkAuthorTile(authorName: view.authorName),
@@ -542,13 +546,17 @@ class _HomeworkDescription extends StatelessWidget {
 }
 
 class _TodoUntil extends StatelessWidget {
-  const _TodoUntil({this.todoUntil});
+  const _TodoUntil({required this.todoUntil, required this.withSubmissions});
 
-  final String? todoUntil;
+  final DateTime todoUntil;
+  final bool withSubmissions;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(leading: const Icon(Icons.today), title: Text(todoUntil!));
+    return ListTile(
+      leading: const Icon(Icons.today),
+      title: Text(formatHomeworkTodoDate(context, todoUntil, withSubmissions)),
+    );
   }
 }
 

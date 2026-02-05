@@ -97,12 +97,12 @@ void main() {
       void setup() {
         gradesTestController.createTerm(
           termWith(
-            id: TermId('term-125'),
+            id: const TermId('term-125'),
             name: '1/25',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             subjects: [
               subjectWith(
-                id: SubjectId('deutsch'),
+                id: const SubjectId('deutsch'),
                 name: 'Deutsch',
                 grades: [gradeWith()],
               ),
@@ -112,7 +112,7 @@ void main() {
       }
 
       Future<void> setData(WidgetTester tester) async {
-        controller.setTerm(TermId('term-125'));
+        controller.setTerm(const TermId('term-125'));
         // Idk why this doesn't work :(
         // I don't know how to fix it right now
         // controller.setSubject(SubjectId('deutsch'));
@@ -146,16 +146,16 @@ void main() {
       void createExistingGrade() {
         gradesTestController.createTerm(
           termWith(
-            id: TermId('term-225'),
+            id: const TermId('term-225'),
             name: '2/25',
             gradingSystem: GradingSystem.zeroToFifteenPoints,
             subjects: [
               subjectWith(
-                id: SubjectId('maths'),
+                id: const SubjectId('maths'),
                 name: 'Mathe',
                 grades: [
                   gradeWith(
-                    id: GradeId('grade1'),
+                    id: const GradeId('grade1'),
                     title: 'Graphen analysieren',
                     gradingSystem: GradingSystem.oneToSixWithPlusAndMinus,
                     includeInGradeCalculations: false,
@@ -173,14 +173,14 @@ void main() {
 
       testGoldens('renders as expected (light mode)', (tester) async {
         createExistingGrade();
-        controller = createController(gradeId: GradeId('grade1'));
+        controller = createController(gradeId: const GradeId('grade1'));
         await pushGradeDetailsPage(tester, getLightTheme());
         await multiScreenGolden(tester, 'grade_dialog_edit_light');
       });
 
       testGoldens('renders as expected (dark mode)', (tester) async {
         createExistingGrade();
-        controller = createController(gradeId: GradeId('grade1'));
+        controller = createController(gradeId: const GradeId('grade1'));
         await pushGradeDetailsPage(tester, getDarkTheme());
         await multiScreenGolden(tester, 'grade_dialog_edit_dark');
       });

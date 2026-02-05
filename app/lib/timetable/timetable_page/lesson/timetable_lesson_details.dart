@@ -9,7 +9,6 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
-import 'package:date/weekday.dart';
 import 'package:design/design.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
 import 'package:sharezone/report/page/report_page.dart';
-import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
@@ -78,11 +76,6 @@ Future<void> onLessonLongPress(BuildContext context, Lesson lesson) async {
         title: "Farbe ändern",
         popResult: _LessonLongPressResult.changeDesign,
         icon: Icon(Icons.color_lens),
-      ),
-      const LongPress(
-        icon: reportIcon,
-        title: "Melden",
-        popResult: _LessonLongPressResult.report,
       ),
       if (hasPermissionsToManageLessons) ...const [
         LongPress(
@@ -345,10 +338,6 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const _ChangeColorIcon(),
-              ReportIcon(
-                item: ReportItemReference.lesson(lesson.lessonID!),
-                color: getIconGrey(context),
-              ),
               if (hasPermissionsToManageLessons) ...const [
                 _EditIcon(),
                 DeleteIcon(),
@@ -431,7 +420,7 @@ class _LessonBasicSection extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.event),
           title: Text(
-            "Wochentag: ${weekDayEnumToGermanString(lesson.weekday)}",
+            "Wochentag: ${lesson.weekday.toLocalizedString(context)}",
           ),
         ),
         if (isABWeekEnabled)

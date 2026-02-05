@@ -7,7 +7,7 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers =
-    (new Serializers().toBuilder()
+    (Serializers().toBuilder()
           ..add(DateiHinzufuegenCommandDto.serializer)
           ..add(DateienHinzufuegenCommandDto.serializer)
           ..add(DateinameDto.serializer)
@@ -18,7 +18,7 @@ Serializers _$serializers =
             const FullType(BuiltList, const [
               const FullType(DateiHinzufuegenCommandDto),
             ]),
-            () => new ListBuilder<DateiHinzufuegenCommandDto>(),
+            () => ListBuilder<DateiHinzufuegenCommandDto>(),
           ))
         .build();
 

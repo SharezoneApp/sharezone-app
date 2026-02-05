@@ -33,31 +33,26 @@ class OnboardingNavigator extends BlocBase {
   ///
   /// Hat der Nutzer sich gerade nicht registriert ([signedUp == false]), so soll kein
   /// GroupOnboarding angezeigt werden.
-  Stream<OnboardingStatus> get status => CombineLatestStream.combine2<
-    bool,
-    Beitrittsversuch?,
-    OnboardingStatus
-  >(
-    _signedUpBloc.signedUp,
-    // CombineLatestStream: Beide Streams müssen jemals einen Wert ausgegeben
-    // haben, damit der Code ausgeführt wird. Aus diesem Grund wird startWith verwendet.
-    _beitrittsversucheStream.startWith(null),
-    (hasSignedUp, beitrittsversuche) {
-      final usedJoinLink = beitrittsversuche?.sharecode != null;
+  Stream<OnboardingStatus> get status =>
+      CombineLatestStream.combine2<bool, Beitrittsversuch?, OnboardingStatus>(
+        _signedUpBloc.signedUp,
+        _beitrittsversucheStream,
+        (hasSignedUp, beitrittsversuche) {
+          final usedJoinLink = beitrittsversuche?.sharecode != null;
 
-      if (usedJoinLink && hasSignedUp) {
-        if (PlatformCheck.isIOS) {
-          return OnboardingStatus.onlyNameAndTurnOfNotifactions;
-        } else {
-          return OnboardingStatus.onlyName;
-        }
-      }
+          if (usedJoinLink && hasSignedUp) {
+            if (PlatformCheck.isIOS) {
+              return OnboardingStatus.onlyNameAndTurnOfNotifactions;
+            } else {
+              return OnboardingStatus.onlyName;
+            }
+          }
 
-      if (!usedJoinLink && hasSignedUp) return OnboardingStatus.full;
+          if (!usedJoinLink && hasSignedUp) return OnboardingStatus.full;
 
-      return OnboardingStatus.none;
-    },
-  );
+          return OnboardingStatus.none;
+        },
+      );
 
   /// Dieser Stream ist eine Vereinfachung von [status], wodurch in der UI beim
   /// [GroupOnboardingListener] einfach gehört werden kann, ob ein GroupOnboarding

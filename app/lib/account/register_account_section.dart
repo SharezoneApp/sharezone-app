@@ -17,6 +17,7 @@ import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'account_page_bloc.dart';
 
@@ -36,40 +37,38 @@ class RegisterAccountSection extends StatelessWidget {
               color: Colors.orange.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Text(
-              "Du bist nur anonym angemeldet!",
-              style: TextStyle(color: Colors.orange, fontSize: 18),
+            child: Text(
+              context.l10n.registerAccountAnonymousInfoTitle,
+              style: const TextStyle(color: Colors.orange, fontSize: 18),
             ),
           ),
           const SizedBox(height: 12),
-          const Text(
-            "Übertrage jetzt deinen Account auf ein richtiges Konto, um von folgenden Vorteilen zu profitieren:",
+          Text(
+            context.l10n.registerAccountBenefitsIntro,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey, fontSize: 12),
+            style: const TextStyle(color: Colors.grey, fontSize: 12),
           ),
           const SizedBox(height: 12),
-          const ListTile(
-            contentPadding: EdgeInsets.only(left: 12),
-            leading: Icon(Icons.check, color: Color(0xFF41d876)),
-            title: Text("Automatisches Backup"),
-            subtitle: Text(
-              "Weiterhin Zugriff auf die Daten bei Verlust des Smartphones",
-            ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 12),
+            leading: const Icon(Icons.check, color: Color(0xFF41d876)),
+            title: Text(context.l10n.registerAccountBenefitBackupTitle),
+            subtitle: Text(context.l10n.registerAccountBenefitBackupSubtitle),
           ),
           const SizedBox(height: 6),
-          const ListTile(
-            contentPadding: EdgeInsets.only(left: 12),
-            leading: Icon(Icons.check, color: Color(0xFF41d876)),
-            title: Text("Nutzung auf mehreren Geräten"),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 12),
+            leading: const Icon(Icons.check, color: Color(0xFF41d876)),
+            title: Text(context.l10n.registerAccountBenefitMultiDeviceTitle),
             subtitle: Text(
-              "Daten werden zwischen mehreren Geräten synchronisiert",
+              context.l10n.registerAccountBenefitMultiDeviceSubtitle,
             ),
           ),
           const SizedBox(height: 16),
           _SignInMethods(),
           const SizedBox(height: 8),
           Text(
-            "Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.",
+            context.l10n.registerAccountAgeNoticeText,
             style: TextStyle(
               color:
                   Theme.of(context).isDarkTheme
@@ -114,15 +113,19 @@ class _SignInMethods extends StatelessWidget {
 }
 
 class _GoogleButton extends StatelessWidget {
-  const _GoogleButton._(this.title);
-  factory _GoogleButton.short() => const _GoogleButton._('Google');
-  factory _GoogleButton.long() => const _GoogleButton._('Mit Google anmelden');
+  const _GoogleButton._({required this.isLong});
+  factory _GoogleButton.short() => const _GoogleButton._(isLong: false);
+  factory _GoogleButton.long() => const _GoogleButton._(isLong: true);
 
-  final String title;
+  final bool isLong;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<AccountPageBloc>(context);
+    final title =
+        isLong
+            ? context.l10n.registerAccountGoogleButtonLong
+            : context.l10n.registerAccountGoogleButtonShort;
     return _SignUpButton(
       icon: Image.asset(
         "assets/logo/google-favicon.png",
@@ -132,8 +135,14 @@ class _GoogleButton extends StatelessWidget {
       name: title,
       onTap: () async {
         final result = await bloc.linkWithGoogleAndHandleExceptions();
-        if (result == LinkAction.credentialAlreadyInUse && context.mounted) {
-          showCredentialAlreadyInUseDialog(context);
+        if (!context.mounted) return;
+        if (result == LinkAction.credentialAlreadyInUse) {
+          await showCredentialAlreadyInUseDialog(context);
+        } else if (result == LinkAction.finished) {
+          showSnackSec(
+            context: context,
+            text: context.l10n.accountLinkGoogleConfirmation,
+          );
         }
       },
     );
@@ -141,23 +150,33 @@ class _GoogleButton extends StatelessWidget {
 }
 
 class _AppleButton extends StatelessWidget {
-  const _AppleButton._(this.title);
+  const _AppleButton._({required this.isLong});
 
-  factory _AppleButton.short() => const _AppleButton._('Apple');
-  factory _AppleButton.long() => const _AppleButton._('Mit Apple anmelden');
+  factory _AppleButton.short() => const _AppleButton._(isLong: false);
+  factory _AppleButton.long() => const _AppleButton._(isLong: true);
 
-  final String title;
+  final bool isLong;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<AccountPageBloc>(context);
+    final title =
+        isLong
+            ? context.l10n.registerAccountAppleButtonLong
+            : context.l10n.registerAccountAppleButtonShort;
     return _SignUpButton(
       icon: Icon(FontAwesomeIcons.apple, color: Colors.grey[700]),
       name: title,
       onTap: () async {
         final result = await bloc.linkWithAppleAndHandleExceptions();
-        if (result == LinkAction.credentialAlreadyInUse && context.mounted) {
-          showCredentialAlreadyInUseDialog(context);
+        if (!context.mounted) return;
+        if (result == LinkAction.credentialAlreadyInUse) {
+          await showCredentialAlreadyInUseDialog(context);
+        } else if (result == LinkAction.finished) {
+          showSnackSec(
+            context: context,
+            text: context.l10n.accountLinkAppleConfirmation,
+          );
         }
       },
     );
@@ -165,15 +184,20 @@ class _AppleButton extends StatelessWidget {
 }
 
 class _EmailButton extends StatelessWidget {
-  const _EmailButton._(this.title);
-  factory _EmailButton.short() => const _EmailButton._('E-Mail');
-  factory _EmailButton.long() => const _EmailButton._('Mit E-Mail anmelden');
+  const _EmailButton._({required this.isLong});
 
-  final String title;
+  factory _EmailButton.short() => const _EmailButton._(isLong: false);
+  factory _EmailButton.long() => const _EmailButton._(isLong: true);
+
+  final bool isLong;
 
   @override
   Widget build(BuildContext context) {
     final userGateway = BlocProvider.of<SharezoneContext>(context).api.user;
+    final title =
+        isLong
+            ? context.l10n.registerAccountEmailButtonLong
+            : context.l10n.registerAccountEmailButtonShort;
     return StreamBuilder<AppUser?>(
       stream: userGateway.userStream,
       builder: (context, snapshot) {
@@ -202,7 +226,7 @@ class _EmailButton extends StatelessWidget {
   void _showConfirmationSnackBar(BuildContext context) {
     showSnackSec(
       context: context,
-      text: "Dein Account mit einer E-Mail Konto verknüpft.",
+      text: context.l10n.registerAccountEmailLinkConfirmation,
     );
   }
 }
@@ -250,18 +274,16 @@ class _SignUpButton extends StatelessWidget {
 Future<void> showCredentialAlreadyInUseDialog(BuildContext context) async {
   final showInstruction = await showLeftRightAdaptiveDialog<bool>(
     context: context,
-    left: const AdaptiveDialogAction<bool>(
+    left: AdaptiveDialogAction<bool>(
       popResult: false,
-      title: "Schließen",
+      title: context.l10n.commonActionsClose,
     ),
-    right: const AdaptiveDialogAction<bool>(
+    right: AdaptiveDialogAction<bool>(
       popResult: true,
-      title: "Anleitung zeigen",
+      title: context.l10n.registerAccountShowInstructionAction,
     ),
-    title: "Diese E-Mail wird schon verwendet!",
-    content: const Text(
-      "So wie es aussieht, hast du versehentlich einen zweiten Sharezone-Account erstellt. Lösche einfach diesen Account und melde dich mit deinem richtigen Account an.\n\nFür den Fall, dass du nicht genau weißt, wie das funktioniert, haben wir für dich eine Anleitung vorbereitet :)",
-    ),
+    title: context.l10n.registerAccountEmailAlreadyUsedTitle,
+    content: Text(context.l10n.registerAccountEmailAlreadyUsedContent),
   );
 
   if (showInstruction != null && showInstruction && context.mounted) {

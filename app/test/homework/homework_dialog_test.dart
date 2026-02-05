@@ -16,7 +16,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:date/weekday.dart';
-import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/foundation.dart';
@@ -50,6 +49,7 @@ import 'package:sharezone/util/next_schoolday_calculator/next_schoolday_calculat
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:test_randomness/test_randomness.dart';
 import 'package:user/user.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../analytics/analytics_test.dart';
 import 'homework_dialog_bloc_test.dart';
@@ -380,6 +380,10 @@ void main() {
               ],
               child:
                   (context) => MaterialApp(
+                    locale: const Locale('de', 'DE'),
+                    supportedLocales: const [Locale('de', 'DE')],
+                    localizationsDelegates:
+                        SharezoneLocalizations.localizationsDelegates,
                     home: Scaffold(
                       body: HomeworkDialog(
                         homeworkDialogApi: homeworkDialogApi,

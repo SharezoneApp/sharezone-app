@@ -37,13 +37,21 @@ import '../firebase_options_dev.g.dart' as fb_dev;
 import '../firebase_options_prod.g.dart' as fb_prod;
 
 BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
+  // We seed with `null` because `.first` is used on this stream. Without a seed,
+  // `await stream.first` would hang indefinitely if no value is ever added.
+  //
   // ignore:close_sinks
   BehaviorSubject<Beitrittsversuch?> beitrittsversuche =
-      BehaviorSubject<Beitrittsversuch?>();
+      BehaviorSubject<Beitrittsversuch?>.seeded(null);
 
   beitrittsversuche.listen(
     (beitrittsversuch) => log("Neuer beitrittsversuch: $beitrittsversuch"),
-    onError: (e) => log("Error beim Beitreten über Dynamic Link: $e", error: e),
+    onError:
+        (e, s) => log(
+          "Error beim Beitreten über Dynamic Link: $e $s",
+          error: e,
+          stackTrace: s,
+        ),
     cancelOnError: false,
   );
   return beitrittsversuche;
@@ -52,7 +60,7 @@ BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
 DynamicLinkBloc runDynamicLinkBloc(
   PluginInitializations pluginInitializations,
 ) {
-  final dynamicLinkBloc = DynamicLinkBloc(pluginInitializations.dynamicLinks);
+  final dynamicLinkBloc = DynamicLinkBloc(pluginInitializations.appLinks);
   dynamicLinkBloc.initialisere();
 
   dynamicLinkBloc.einkommendeLinks.listen(

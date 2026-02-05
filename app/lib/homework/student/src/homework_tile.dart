@@ -78,7 +78,11 @@ class _HomeworkTileState extends State<HomeworkTile> {
       courseName: widget.homework.subject,
       courseAbbreviation: widget.homework.abbreviation,
       courseColor: Color(widget.homework.subjectColor.value),
-      todoDate: widget.homework.todoDate,
+      todoDate: formatHomeworkTodoDate(
+        context,
+        widget.homework.todoDate,
+        widget.homework.withSubmissions,
+      ),
       todoDateColor:
           widget.homework.colorDate
               ? Colors.redAccent

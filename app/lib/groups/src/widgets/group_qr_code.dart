@@ -8,6 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
@@ -23,7 +24,10 @@ class GroupQrCode extends StatelessWidget {
     return QrImageView(
       backgroundColor: Colors.white,
       data: groupInfo.joinLink ?? groupInfo.sharecode ?? "",
-      version: 3,
+      // See https://www.qrcode.com/en/about/version.html for more information
+      // about QR code versions.
+      version: 5, // 37x37 modules
+      errorCorrectionLevel: QrErrorCorrectLevel.M, // ~15% error correction
     );
   }
 }
@@ -71,9 +75,9 @@ class QRCodeButton extends StatelessWidget {
       child: GrayShimmer(
         enabled: !isEnabled,
         child: CircularButton(
-          icon: PlatformSvg.asset(
+          icon: SvgPicture.asset(
             "assets/icons/qr-code.svg",
-            color: color,
+            colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
             width: 23.5,
             height: 23.5,
           ),

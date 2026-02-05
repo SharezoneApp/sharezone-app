@@ -6,46 +6,20 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-{ pkgs, inputs, lib, ... }:
-
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 let
-  androidenv = android-pkgs.androidenv.override {
-    # Seems to only work when androidenv.buildApp is used 
-    # afterwards (we don't).
-    # We accept the licenses below via extraLicenses.
-    licenseAccepted = true;
-  };
-  android-comp = androidenv.composeAndroidPackages {
-    buildToolsVersions = [ "34.0.0" ];
-    # We probably don't need all of those?
-    # These were copied from another devenv.nix from GitHub.
-    platformVersions = [ "29" "30" "31" "33" "34" ];
-
-    # The `licenseAccepted = true;` seems to only work when androidenv.buildApp
-    # is used. Since Flutter doesn't use that it doesn't work.
-    # Therefore we can manually accept the different licenses here.
-    # Copied from: https://github.com/NixOS/nixpkgs/issues/267263#issuecomment-1833769682
-    extraLicenses = [
-      "android-googletv-license"
-      "android-sdk-arm-dbt-license"
-      "android-sdk-license"
-      "android-sdk-preview-license"
-      "google-gdk-license"
-      "intel-android-extra-license"
-      "intel-android-sysimage-license"
-      "mips-android-sysimage-license"
-    ];
-  };
-  android-pkgs = if pkgs.stdenv.system == "aarch64-darwin" then pkgs.pkgsx86_64Darwin else pkgs;
-  android-sdk = android-comp.androidsdk;
-  android-sdk-root = "${android-sdk}/libexec/android-sdk";
+  # Used so that we can select a specific version of Flutter
+  pkgs-flutter = import inputs.nixpkgs-flutter { system = pkgs.stdenv.system; };
 in
 {
 
   env = {
-    ANDROID_HOME = "${android-sdk-root}";
-    ANDROID_SDK_ROOT = "${android-sdk-root}";
-    CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
+    CHROME_EXECUTABLE = "${pkgs.chromium}/bin/chromium";
   };
 
   # https://devenv.sh/packages/
@@ -53,13 +27,12 @@ in
     pkgs.git
     pkgs.nixpkgs-fmt
 
-    android-sdk
-
     # Running `fvm flutter` -> 'Missing "unzip" tool. Unable to extract Dart SDK.'
     pkgs.unzip
 
     # For Flutter Web development
-    pkgs.google-chrome
+    # pkgs.google-chrome lead to long local builds that don't happen with pkgs.chromium.
+    pkgs.chromium
 
     # Used by sharezone developers / sz cli
     pkgs.addlicense
@@ -68,24 +41,13 @@ in
   ];
 
   enterShell = ''
-    # Make pub cache work so that we can execute
-    # e.g. `dart pub global activate fvm`
-    export PATH="$PATH":"$HOME/.pub-cache/bin"
+    export ANDROID_HOME=$(which android | sed -E 's/(.*libexec\/android-sdk).*/\1/')
+    export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 
     # Make sz cli work
     export PATH="$PATH":"$DEVENV_ROOT/bin"
 
-    if ! command -v fvm &> /dev/null
-    then
-        echo "fvm could not be found. Installing FVM via dart pub global."
-        dart pub global activate fvm
-        # fvm install will fail getting dependencies if we dont
-        # cd to app. Using && will only change it for the fvm
-        # install command
-        cd app && fvm install
-    fi
-
-    fvm flutter config --android-sdk ${android-sdk-root}
+    flutter config --android-sdk $ANDROID_HOME
 
     # When running e.g. `sz pub get -c 0` the analytics
     # will cause the task to fail (maybe because so many signals
@@ -93,23 +55,52 @@ in
     # so that they can not fail because of this reason.
     dart --disable-analytics &
     flutter --disable-analytics
-    
+
     # We get the package in the sz cli folder so that one can
     # start running e.g. `sz pub get` right away. Without this 
     # one would first have to run pub get in the sz cli folder 
     # manually.
-    fvm dart pub get --directory ./tools/sz_repo_cli
+    dart pub get --directory ./tools/sz_repo_cli
   '';
 
-  languages = {
-    # Needed for Android SDK
-    java = {
-      enable = true;
-      jdk.package = pkgs.jdk17;
-    };
+  # Create an Android emulator named "android-simple"
+  scripts.create-emulator.exec = ''
+    avdmanager create avd -n android-simple -k "system-images;android-34;google_apis_playstore;x86_64" --device "pixel_6_pro"
+  '';
 
-    # Use this so that we can run "dart pub global activate fvm"
-    dart.enable = true;
+  android = {
+    enable = true;
+    # Otherwise we get:
+    #    FAILURE: Build failed with an exception.
+    #    * Where:
+    #    Build file '/home/jsan/development/projects/sharezone-app/app/android/build.gradle' line: 13
+    #
+    #    * What went wrong:
+    #    A problem occurred evaluating root project 'android'.
+    #    > A problem occurred configuring project ':app'.
+    #       > com.android.builder.sdk.InstallFailedException: Failed to install the following SDK components:
+    #             ndk;26.3.11579264 NDK (Side by side) 26.3.11579264
+    #         The SDK directory is not writable (/nix/store/iqrggkmmq55v3db7ns5rmr62x8bq0ymz-androidsdk/libexec/android-sdk)
+    ndk = {
+      enable = true;
+      version = [ "27.0.12077973" ];
+    };
+    # > Failed to install the following SDK components:
+    #  build-tools;34.0.0 Android SDK Build-Tools 34
+    buildTools.version = [ "34.0.0" ];
+    # > Failed to install the following SDK components:
+    #   platforms;android-31 Android SDK Platform 31 (etc. for 33, 34, 35)
+    platforms.version = [
+      "31"
+      "33"
+      "34"
+      "35"
+      "36"
+    ];
+    flutter = {
+      enable = true;
+      package = pkgs-flutter.flutter;
+    };
   };
 
   # See full reference at https://devenv.sh/reference/options/

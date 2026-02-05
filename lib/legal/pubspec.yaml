@@ -32,20 +32,22 @@ dependencies:
     path: ../analytics
   key_value_store:
     path: ../key_value_store
+  sharezone_localizations:
+    path: ../sharezone_localizations
   sharezone_widgets:
     path: ../sharezone_widgets
   sharezone_utils:
     path: ../sharezone_utils
-  mockito: ^5.4.5
+  mockito: ^5.5.0
   equatable: ^2.0.7
   scrollable_positioned_list: ^0.3.8
   common_domain_models:
     path: ../common_domain_models
   clock: ^1.1.2
-  fast_immutable_collections: ^11.0.3
+  fast_immutable_collections: ^11.0.4
   url_launcher: ^6.3.1
   collection: ^1.19.1
-  intl: ^0.19.0
+  intl: ^0.20.2
   diacritic: ^0.1.6
   provider: ^6.1.2
   markdown: ^7.3.0

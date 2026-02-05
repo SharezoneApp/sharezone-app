@@ -24,14 +24,16 @@ dependencies:
     path: ../helper_functions
   build_context:
     path: ../build_context
-  flutter_svg: ^2.0.17
+  flutter_svg: ^2.2.1
   flutter_staggered_animations: ^1.1.1
   flare_flutter: ^3.0.2
-  intl: ^0.19.0
+  intl: ^0.20.2
   platform_check:
     path: ../platform_check
   shimmer: ^3.0.0
   rxdart: ^0.28.0
+  sharezone_localizations:
+    path: ../sharezone_localizations
   flutter:
     sdk: flutter
   clock: ^1.1.2

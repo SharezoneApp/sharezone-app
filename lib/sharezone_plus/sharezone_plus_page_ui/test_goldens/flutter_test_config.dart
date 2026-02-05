@@ -12,6 +12,10 @@ import 'dart:ui';
 
 import 'package:golden_toolkit/golden_toolkit.dart';
 
+// Since our main target group is German speakers, we generate goldens for the
+// German locale only.
+const defaultLocales = [Locale('de', 'DE')];
+
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   const Device phoneLandscape = Device(
     name: 'phone_landscape',

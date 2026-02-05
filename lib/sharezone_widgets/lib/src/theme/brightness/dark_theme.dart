@@ -24,7 +24,6 @@ ThemeData getDarkTheme({String? fontFamily = rubik}) {
     primaryColor: primaryColor,
     unselectedWidgetColor: _accentColor,
     cardColor: ElevationColors.dp0,
-    indicatorColor: Colors.amberAccent,
     canvasColor: ElevationColors.dp2,
     highlightColor: PlatformCheck.isIOS ? Colors.grey[800] : null,
     splashColor: PlatformCheck.isIOS ? Colors.transparent : null,
@@ -33,7 +32,7 @@ ThemeData getDarkTheme({String? fontFamily = rubik}) {
     fontFamily: fontFamily,
     // Themes
     appBarTheme: const AppBarTheme(
-      color: ElevationColors.dp8,
+      backgroundColor: ElevationColors.dp8,
       foregroundColor: Colors.white,
       iconTheme: IconThemeData(color: Colors.white),
     ),
@@ -64,7 +63,7 @@ ThemeData getDarkTheme({String? fontFamily = rubik}) {
         ),
       ),
     ),
-    tabBarTheme: const TabBarTheme(labelColor: Colors.white),
+    tabBarTheme: const TabBarThemeData(labelColor: Colors.white),
     checkboxTheme: CheckboxThemeData(
       fillColor: WidgetStateProperty.resolveWith<Color?>((
         Set<WidgetState> states,

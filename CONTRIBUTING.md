@@ -7,6 +7,9 @@ _Note: The `CONTRIBUTING.md` is in the process of being made. See [#28](https://
 We love that you are interested in contributing to Sharezone 💙 There are many ways to contribute, and we appreciate all of them. This document gives a rough overview of how you can contribute to Sharezone and which steps you need to follow to set up the development environment.
 
 - [How to set up your development environment](#how-to-set-up-your-development-environment)
+- [Running the app](#running-the-app)
+- [Tests](#tests)
+- [Internationalization (i18n / l10n)](#internationalization-i18n--l10n)
 
 If you have any questions, please join our [Discord](https://sharezone.net/discord).
 
@@ -51,9 +54,12 @@ In case you don't want to build the Android app, you can skip this step.
 
 We have written our own CLI to manage our repository. Common use cases for the CLI are:
 
-- Get all Flutter/Dart packages for all packages inside this repository (`sz pub get`)
-- Run all tests for all packages inside this repository (`sz test`)
 - Analyze all packages inside this repository (`sz analyze`)
+- Clean up files of failed golden tests (`sz clean-goldens`)
+- Format all packages inside this repository (`sz format`)
+- Add license headers to all files (`sz lh add`)
+- Generate localization files (`sz l10n generate`)
+- Run all tests for all packages inside this repository (`sz test`)
 
 #### macOS
 
@@ -89,19 +95,19 @@ git clone https://github.com/SharezoneApp/sharezone-app.git
 
 After cloning the repository, we recommend executing the following steps:
 
-1. Get all dependencies with `sz pub get`
+1. Get all dependencies with `fvm flutter pub get`
 
 ### Flutter Version Management (FVM)
 
-We use [FVM](https://fvm.app) to have a consistent Flutter version across the developers and our CI/CD. You find in `.fvm/fvm_config.json` the Flutter, which we currently using.
+We use [FVM](https://fvm.app) to have a consistent Flutter version across the developers and our CI/CD. You find in `.fvmrc` the Flutter, which we currently using.
 
 To install & use FVM, follow the following steps:
 
 1. Install FVM by running `dart pub global activate fvm` or using the other installation methods (see [FVM docs](https://fvm.app/docs/getting_started/installation))
 2. Navigate to the root of the repository
-3. Run `fvm install` (This installs the Flutter version from `.fvm/fvm_config.json`)
+3. Run `fvm install` (This installs the Flutter version from `.fvmrc`)
 
-When you are using VS Code, no further steps should be necessary, because we included the `.vscode/setting.json` to git. However, when you are using Android Studio, you need to configure your IDE to use the Flutter version of FVM. Follow the [official documentation](https://fvm.app/docs/getting_started/configuration#android-studio) to configure Android Studio.
+When you are using VS Code, no further steps should be necessary. However, when you are using Android Studio, you need to configure your IDE to use the Flutter version of FVM. Follow the [official documentation](https://fvm.app/docs/getting_started/configuration#android-studio) to configure Android Studio.
 
 ### FlutterFire CLI
 
@@ -110,7 +116,7 @@ If you want to use build the macOS app, you need to install the [FlutterFire CLI
 To install the FlutterFire CLI, execute the following command:
 
 ```sh
-fvm flutter pub global activate flutterfire_cli 0.3.0-dev.19
+fvm flutter pub global activate flutterfire_cli 1.3.1
 ```
 
 Make sure, you have the 0.3.0-dev.19 version or higher installed. You can check the version by running `flutterfire --version`.
@@ -140,3 +146,100 @@ fvm flutter run --target lib/main_dev.dart
 ```
 
 This command runs the app in the development mode. Keep in mind that the app will not use our production backend. Instead, it will use the development backend. This means that you can't use the app with your production account. You need to create a new account on the development backend.
+
+## Tests
+
+We use several types of tests to ensure the quality and stability of Sharezone:
+
+- [Unit Tests](https://docs.flutter.dev/cookbook/testing/unit/introduction): Verify the logic of individual functions or classes in isolation.
+- [Widget Tests](https://docs.flutter.dev/cookbook/testing/widget/introduction): Test widgets’ UI and interaction behavior without running the full app.
+- [Golden Tests](https://api.flutter.dev/flutter/flutter_test/matchesGoldenFile.html): Compare rendered widgets to “golden” reference images to detect unintended visual changes.
+- [Integration Tests](https://docs.flutter.dev/cookbook/testing/integration/introduction): Run the app on a device or emulator to test end-to-end flows.
+
+### Executing all tests
+
+You execute all tests (except integration tests) with the following command:
+
+```sh
+sz test
+```
+
+> [!NOTE]
+> This command is relatively slow because it runs **all** tests across all packages. During development, you may want to only run a subset of tests to speed things up.
+
+### Executing unit & widget tests
+
+To run all unit and widget tests, use:
+
+```sh
+sz test --exclude-goldens
+```
+
+You can also run tests for a specific directory or file:
+
+```sh
+# Run all unit & widget tests in the app directory
+fvm flutter test app/test/
+
+# Run only tests for the "grades" feature
+fvm flutter test app/test/grades
+
+# Run a single test file
+fvm flutter test app/test/grades/grades_service_test.dart
+```
+
+### Executing golden tests
+
+To run only golden tests, execute:
+
+```sh
+sz test --only-goldens
+```
+
+You can also limit golden tests to specific directories or files:
+
+```sh
+# Run all golden tests for the app
+fvm flutter test app/test_goldens/
+
+# Run golden tests for the "grades" feature
+fvm flutter test app/test_goldens/grades
+
+# Run a single golden test file
+fvm flutter test app/test_goldens/grades/pages/grades_page/grades_page_test.dart
+```
+
+> [!WARNING]
+> Golden tests currently only pass on macOS due to rendering differences across platforms. See [Known Issues](#known-issues) for details.
+
+To generate (or update) golden files, use:
+
+```sh
+# Generate golden files for all tests:
+sz test --update-goldens
+
+# Generate golden files for a directory, e.g. "grades"
+fvm flutter test app/test_goldens/grades --update-goldens
+
+# Generate golden files for a single file, e.g. grade_page_test.dart
+fvm flutter test app/test_goldens/grades/pages/grades_page/grades_page_test.dart --update-goldens
+```
+
+### Executing integration tests
+
+Please see [app/integration_test/README.md](./app/integration_test/README.md) for detailed instructions on how to run integration tests.
+
+## Internationalization (i18n / l10n)
+
+We organize our multi-language support in the `lib/sharezone_localizations` package.
+
+### Adding new strings
+
+1. Add the new string to `lib/sharezone_localizations/l10n/app_de.arb`. This is our default language.
+2. Add the new string to `lib/sharezone_localizations/l10n/app_en.arb`. Metadata (e.g. `@your_new_string`) should only be added to the German file.
+3. Run `sz l10n generate` to generate the Dart files for the new string.
+
+### Use new strings
+
+1. Add `import 'package:sharezone_localizations/sharezone_localizations.dart';` to the file where you want to use the new string.
+2. Use the new string like this: `context.l10n.your_new_string`.

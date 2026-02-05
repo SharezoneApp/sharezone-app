@@ -21,7 +21,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'upload_file_dialog.dart';
 
-enum _FABAddOption { newFolder, camera, upload, gallery }
+enum _FABAddOption { newFolder, camera, upload, gallery, video }
 
 class FileSharingPageFAB extends StatelessWidget {
   const FileSharingPageFAB({super.key, this.groupState});
@@ -143,6 +143,22 @@ class FileSharingPageFAB extends StatelessWidget {
             }
           }
           break;
+        case _FABAddOption.video:
+          final video = await FilePicker().pickFileVideo();
+          if (video == null) return;
+
+          final creatorName = (await api.user.userStream.first)!.name;
+          final taskAsFuture = api.fileSharing.fileUploader.uploadFile(
+            courseID: courseID,
+            path: path,
+            localFile: video,
+            creatorID: api.uID,
+            creatorName: creatorName,
+          );
+          if (!context.mounted) return;
+
+          await showUploadFileDialog(context: context, task: taskAsFuture);
+          break;
       }
     }
   }
@@ -223,7 +239,7 @@ class __FABModalBottomSheetContentState
       child: const Stack(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 130),
+            padding: EdgeInsets.only(left: 205),
             child: ModalBottomSheetBigIconButton<_FABAddOption>(
               title: "Bilder",
               iconData: Icons.photo,
@@ -231,8 +247,14 @@ class __FABModalBottomSheetContentState
               tooltip: "Bilder",
             ),
           ),
+          ModalBottomSheetBigIconButton<_FABAddOption>(
+            title: "Videos",
+            iconData: Icons.movie,
+            popValue: _FABAddOption.video,
+            tooltip: "Videos",
+          ),
           Padding(
-            padding: EdgeInsets.only(left: 130),
+            padding: EdgeInsets.only(right: 205),
             child: ModalBottomSheetBigIconButton<_FABAddOption>(
               title: "Dateien",
               iconData: Icons.insert_drive_file,

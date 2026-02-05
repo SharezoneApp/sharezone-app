@@ -17,8 +17,9 @@ class WebFileDownloader extends FileDownloader {
   Future<LocalFile> downloadFileFromURL(
     String url,
     String filename,
-    String id,
-  ) async {
+    String id, {
+    bool rename = true,
+  }) async {
     final response = await http.get(Uri.parse(url));
     return LocalFileData.fromData(response.bodyBytes, url, filename, null);
   }

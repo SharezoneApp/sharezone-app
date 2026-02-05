@@ -88,4 +88,4 @@ final inputDecorationTheme = InputDecorationTheme(
   errorStyle: const TextStyle(color: _errorCode),
 );
 
-const _dialogTheme = DialogTheme(shape: _roundedShape);
+const _dialogTheme = DialogThemeData(shape: _roundedShape);

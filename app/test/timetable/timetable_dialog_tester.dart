@@ -19,7 +19,9 @@ import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/timetable/timetable_add_event/src/timetable_add_event_dialog_src.dart';
 import 'package:sharezone/timetable/timetable_add_event/timetable_add_event_dialog.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../../test_goldens/flutter_test_config.dart';
 import '../homework/homework_dialog_test.mocks.dart';
 import 'timetable_dialog_test.mocks.dart';
 
@@ -89,7 +91,11 @@ class TimetableDialogTester {
               titleFocusNode: titleFocusNode,
             ),
       ),
-      wrapper: materialAppWrapper(theme: theme),
+      wrapper: materialAppWrapper(
+        theme: theme,
+        localizations: SharezoneLocalizations.localizationsDelegates,
+        localeOverrides: defaultLocales,
+      ),
     );
 
     await tester.pumpAndSettle(

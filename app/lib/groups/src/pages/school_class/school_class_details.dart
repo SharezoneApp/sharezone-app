@@ -66,7 +66,7 @@ Future<bool?> showLeaveSchoolClassDialog(BuildContext context) async {
               "Möchtest du möchtest du wirklich Schulklasse verlassen?",
             )
             : null,
-    right: AdaptiveDialogAction.leave,
+    right: AdaptiveDialogAction.leave(context),
   );
 }
 

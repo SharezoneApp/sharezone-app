@@ -16,37 +16,50 @@ class CardWithIconAndText extends StatelessWidget {
     this.text,
     this.onTap,
     this.trailing,
+    this.height = 60,
+    this.bottom,
   });
 
   final Widget? icon, trailing;
   final String? text;
   final VoidCallback? onTap;
+  final double height;
+  final Widget? bottom;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: SizedBox(
-        height: 60,
+        height: height,
         child: Padding(
           padding: const EdgeInsets.only(right: 8),
           child: CustomCard(
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 8, 0, 8),
-              child: Row(
-                children: <Widget>[
-                  icon!,
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      text!,
-                      style: const TextStyle(fontSize: 16, height: 1.3),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
+              padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: <Widget>[
+                      icon!,
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          text!,
+                          style: const TextStyle(fontSize: 16, height: 1.3),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                      if (trailing != null)
+                        trailing!
+                      else
+                        const SizedBox(width: 8),
+                    ],
                   ),
-                  if (trailing != null) trailing! else const SizedBox(width: 8),
+                  if (bottom != null) bottom!,
                 ],
               ),
             ),

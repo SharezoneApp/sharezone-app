@@ -11,7 +11,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' as bloc_lib;
@@ -19,15 +18,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
+import 'package:sharezone/homework/homework_dialog/homework_dialog_bloc.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
 import '../../../test/homework/homework_dialog_bloc_test.dart';
 import '../../../test/homework/homework_dialog_test.dart';
 import '../../../test/pages/settings/notification_page_test.mocks.dart';
+import '../../flutter_test_config.dart';
 
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
@@ -68,7 +69,11 @@ void main() {
             ),
           ),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

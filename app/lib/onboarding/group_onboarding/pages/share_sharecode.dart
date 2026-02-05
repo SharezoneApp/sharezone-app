@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 
 import 'package:sharezone/groups/src/widgets/group_qr_code.dart';
@@ -53,7 +54,7 @@ class GroupOnboardingShareSharecode extends StatelessWidget {
 class _Icon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PlatformSvg.asset('assets/icons/teamwork.svg', height: 120);
+    return SvgPicture.asset('assets/icons/teamwork.svg', height: 120);
   }
 }
 

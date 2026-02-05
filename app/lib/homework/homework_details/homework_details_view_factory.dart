@@ -10,7 +10,6 @@ import 'package:bloc_base/bloc_base.dart';
 
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:intl/intl.dart';
 import 'package:sharezone/filesharing/file_sharing_api.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view.dart';
 import 'package:sharezone/submissions/submission_permissions.dart';
@@ -75,7 +74,7 @@ class HomeworkDetailsViewFactory implements BlocBase {
       isDone: homework.forUsers[uid]! || hasSubmitted,
       authorName: homework.authorName ?? "-",
       courseName: homework.courseName,
-      todoUntil: _formatTodoUntil(homework.todoUntil, homework.withSubmissions),
+      todoUntil: homework.todoUntil,
       id: homework.id,
       title: homework.title,
       description: homework.description,
@@ -114,17 +113,6 @@ class HomeworkDetailsViewFactory implements BlocBase {
 
   bool _isAuthor(String authorID) {
     return authorID == uid;
-  }
-
-  static String _formatTodoUntil(DateTime todoUntil, bool withSubmissions) {
-    final dateString = DateFormat.yMMMd().format(todoUntil);
-    if (!withSubmissions) return dateString;
-    return '$dateString - ${todoUntil.hour}:${_getMinute(todoUntil.minute)} Uhr';
-  }
-
-  static String _getMinute(int minute) {
-    if (minute >= 10) return minute.toString();
-    return '0$minute';
   }
 
   @override

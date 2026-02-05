@@ -11,6 +11,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
+import 'flutter_test_config.dart';
 
 void main() {
   group('sharezone_plus_page_ui', () {
@@ -40,7 +43,11 @@ void main() {
               isHomeworkReminderFeatureVisible: true,
             ),
           ),
-          wrapper: materialAppWrapper(theme: theme),
+          wrapper: materialAppWrapper(
+            theme: theme,
+            localeOverrides: defaultLocales,
+            localizations: SharezoneLocalizations.localizationsDelegates,
+          ),
         );
       }
 
@@ -91,7 +98,11 @@ void main() {
       ) async {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(child: SharezonePlusFaq()),
-          wrapper: materialAppWrapper(theme: getDarkTheme(fontFamily: roboto)),
+          wrapper: materialAppWrapper(
+            theme: getDarkTheme(fontFamily: roboto),
+            localeOverrides: defaultLocales,
+            localizations: SharezoneLocalizations.localizationsDelegates,
+          ),
         );
 
         await tapEveryExpansionCard(tester);
@@ -109,7 +120,11 @@ void main() {
       ) async {
         await tester.pumpWidgetBuilder(
           const SingleChildScrollView(child: SharezonePlusFaq()),
-          wrapper: materialAppWrapper(theme: getLightTheme(fontFamily: roboto)),
+          wrapper: materialAppWrapper(
+            theme: getLightTheme(fontFamily: roboto),
+            localeOverrides: defaultLocales,
+            localizations: SharezoneLocalizations.localizationsDelegates,
+          ),
         );
 
         await tapEveryExpansionCard(tester);

@@ -21,7 +21,7 @@ dependencies:
   built_value: ^8.9.3
   key_value_store:
     path: ../key_value_store
-  cloud_functions: ^5.3.3
+  cloud_functions: ^6.0.2
   app_functions:
     path: ../app_functions
   clock: ^1.1.2
@@ -36,8 +36,8 @@ dev_dependencies:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  mockito: ^5.4.5
+  mockito: ^5.5.0
   build_runner: ^2.4.14
-  built_value_generator: ^8.9.3
+  built_value_generator: ^8.9.5
   sharezone_lints:
     path: ../sharezone_lints

@@ -16,7 +16,9 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/feedback/history/feedback_history_page.dart';
 import 'package:sharezone/feedback/history/feedback_history_page_controller.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../../flutter_test_config.dart';
 import 'feedback_history_page_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<FeedbackHistoryPageController>()])
@@ -77,7 +79,11 @@ void main() {
           value: controller,
           child: const FeedbackHistoryPage(),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localeOverrides: defaultLocales,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+        ),
       );
     }
 

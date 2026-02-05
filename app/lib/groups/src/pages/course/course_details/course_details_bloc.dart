@@ -73,10 +73,10 @@ class CourseDetailsBloc extends BlocBase {
   SplittedMemberList sortMembers(List<MemberData> members) =>
       createSplittedMemberList(members);
 
-  bool requestAdminPermission() =>
+  bool hasAdminPermission() =>
       initialData.myRole.hasPermission(GroupPermission.administration);
 
-  Stream<bool> requestAdminPermissionStream() => course.map(
+  Stream<bool> hasAdminPermissionStream() => course.map(
     (course) => course!.myRole.hasPermission(GroupPermission.administration),
   );
 

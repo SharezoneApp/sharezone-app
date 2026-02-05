@@ -8,7 +8,6 @@
 
 import 'dart:developer';
 
-import 'package:files_basics/files_models.dart';
 import 'package:files_basics/local_file.dart';
 import 'package:files_usecases/file_compression.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
