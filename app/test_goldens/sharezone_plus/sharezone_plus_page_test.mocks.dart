@@ -64,6 +64,7 @@ import 'package:user/user.dart' as _i19;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeGlobalKey_0<T extends _i1.State<_i1.StatefulWidget>>
     extends _i2.SmartFake
@@ -192,6 +193,24 @@ class _FakeFirebaseFunctions_20 extends _i2.SmartFake
 class MockSharezonePlusPageController extends _i2.Mock
     implements _i23.SharezonePlusPageController {
   @override
+  bool get isCancelled =>
+      (super.noSuchMethod(
+            Invocation.getter(#isCancelled),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
+
+  @override
+  bool get hasLifetime =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasLifetime),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
+
+  @override
   bool get isPurchaseButtonLoading =>
       (super.noSuchMethod(
             Invocation.getter(#isPurchaseButtonLoading),
@@ -228,66 +247,40 @@ class MockSharezonePlusPageController extends _i2.Mock
           as _i24.PurchasePeriod);
 
   @override
-  bool get isCancelled =>
-      (super.noSuchMethod(
-            Invocation.getter(#isCancelled),
-            returnValue: false,
-            returnValueForMissingStub: false,
-          )
-          as bool);
-
-  @override
-  bool get hasLifetime =>
-      (super.noSuchMethod(
-            Invocation.getter(#hasLifetime),
-            returnValue: false,
-            returnValueForMissingStub: false,
-          )
-          as bool);
-
-  @override
-  set monthlySubscriptionPrice(String? _monthlySubscriptionPrice) =>
-      super.noSuchMethod(
-        Invocation.setter(#monthlySubscriptionPrice, _monthlySubscriptionPrice),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  set lifetimePrice(String? _lifetimePrice) => super.noSuchMethod(
-    Invocation.setter(#lifetimePrice, _lifetimePrice),
+  set monthlySubscriptionPrice(String? value) => super.noSuchMethod(
+    Invocation.setter(#monthlySubscriptionPrice, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set isPurchaseButtonLoading(bool? _isPurchaseButtonLoading) =>
-      super.noSuchMethod(
-        Invocation.setter(#isPurchaseButtonLoading, _isPurchaseButtonLoading),
-        returnValueForMissingStub: null,
-      );
+  set lifetimePrice(String? value) => super.noSuchMethod(
+    Invocation.setter(#lifetimePrice, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  set showLetParentsBuyButton(bool? _showLetParentsBuyButton) =>
-      super.noSuchMethod(
-        Invocation.setter(#showLetParentsBuyButton, _showLetParentsBuyButton),
-        returnValueForMissingStub: null,
-      );
+  set isPurchaseButtonLoading(bool? value) => super.noSuchMethod(
+    Invocation.setter(#isPurchaseButtonLoading, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  set isLetParentsBuyButtonLoading(bool? _isLetParentsBuyButtonLoading) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #isLetParentsBuyButtonLoading,
-          _isLetParentsBuyButtonLoading,
-        ),
-        returnValueForMissingStub: null,
-      );
+  set showLetParentsBuyButton(bool? value) => super.noSuchMethod(
+    Invocation.setter(#showLetParentsBuyButton, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  set selectedPurchasePeriod(_i24.PurchasePeriod? _selectedPurchasePeriod) =>
-      super.noSuchMethod(
-        Invocation.setter(#selectedPurchasePeriod, _selectedPurchasePeriod),
-        returnValueForMissingStub: null,
-      );
+  set isLetParentsBuyButtonLoading(bool? value) => super.noSuchMethod(
+    Invocation.setter(#isLetParentsBuyButtonLoading, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set selectedPurchasePeriod(_i24.PurchasePeriod? value) => super.noSuchMethod(
+    Invocation.setter(#selectedPurchasePeriod, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool get hasListeners =>
@@ -1215,9 +1208,9 @@ class MockSubscriptionService extends _i2.Mock
 
   @override
   set sharezonePlusStatusStream(
-    _i25.Stream<_i19.SharezonePlusStatus?>? _sharezonePlusStatusStream,
+    _i25.Stream<_i19.SharezonePlusStatus?>? value,
   ) => super.noSuchMethod(
-    Invocation.setter(#sharezonePlusStatusStream, _sharezonePlusStatusStream),
+    Invocation.setter(#sharezonePlusStatusStream, value),
     returnValueForMissingStub: null,
   );
 

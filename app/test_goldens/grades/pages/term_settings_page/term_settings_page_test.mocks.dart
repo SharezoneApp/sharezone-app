@@ -32,6 +32,7 @@ import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_vie
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeGradesService_0 extends _i1.SmartFake implements _i2.GradesService {
   _FakeGradesService_0(Object parent, Invocation parentInvocation)
@@ -43,22 +44,22 @@ class _FakeTermRef_1 extends _i1.SmartFake implements _i2.TermRef {
     : super(parent, parentInvocation);
 }
 
-class _FakeGradeType_2 extends _i1.SmartFake implements _i2.GradeType {
-  _FakeGradeType_2(Object parent, Invocation parentInvocation)
+class _FakeTermId_2 extends _i1.SmartFake implements _i2.TermId {
+  _FakeTermId_2(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeIList_3<T> extends _i1.SmartFake implements _i3.IList<T> {
-  _FakeIList_3(Object parent, Invocation parentInvocation)
+class _FakeGradeType_3 extends _i1.SmartFake implements _i2.GradeType {
+  _FakeGradeType_3(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeIList_4<T> extends _i1.SmartFake implements _i3.IList<T> {
+  _FakeIList_4(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 
   @override
   String toString([bool? prettyPrint]) => super.toString();
-}
-
-class _FakeTermId_4 extends _i1.SmartFake implements _i2.TermId {
-  _FakeTermId_4(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
 }
 
 class _FakeTermSettingsPageView_5 extends _i1.SmartFake
@@ -106,6 +107,18 @@ class MockTermSettingsPageController extends _i1.Mock
           as _i2.TermRef);
 
   @override
+  _i2.TermId get termId =>
+      (super.noSuchMethod(
+            Invocation.getter(#termId),
+            returnValue: _FakeTermId_2(this, Invocation.getter(#termId)),
+            returnValueForMissingStub: _FakeTermId_2(
+              this,
+              Invocation.getter(#termId),
+            ),
+          )
+          as _i2.TermId);
+
+  @override
   _i6.Stream<List<_i7.Course>> get coursesStream =>
       (super.noSuchMethod(
             Invocation.getter(#coursesStream),
@@ -149,11 +162,11 @@ class MockTermSettingsPageController extends _i1.Mock
   _i2.GradeType get finalGradeType =>
       (super.noSuchMethod(
             Invocation.getter(#finalGradeType),
-            returnValue: _FakeGradeType_2(
+            returnValue: _FakeGradeType_3(
               this,
               Invocation.getter(#finalGradeType),
             ),
-            returnValueForMissingStub: _FakeGradeType_2(
+            returnValueForMissingStub: _FakeGradeType_3(
               this,
               Invocation.getter(#finalGradeType),
             ),
@@ -173,11 +186,11 @@ class MockTermSettingsPageController extends _i1.Mock
   _i3.IList<_i7.Course> get courses =>
       (super.noSuchMethod(
             Invocation.getter(#courses),
-            returnValue: _FakeIList_3<_i7.Course>(
+            returnValue: _FakeIList_4<_i7.Course>(
               this,
               Invocation.getter(#courses),
             ),
-            returnValueForMissingStub: _FakeIList_3<_i7.Course>(
+            returnValueForMissingStub: _FakeIList_4<_i7.Course>(
               this,
               Invocation.getter(#courses),
             ),
@@ -200,18 +213,6 @@ class MockTermSettingsPageController extends _i1.Mock
           as _i5.TermSettingsState);
 
   @override
-  _i2.TermId get termId =>
-      (super.noSuchMethod(
-            Invocation.getter(#termId),
-            returnValue: _FakeTermId_4(this, Invocation.getter(#termId)),
-            returnValueForMissingStub: _FakeTermId_4(
-              this,
-              Invocation.getter(#termId),
-            ),
-          )
-          as _i2.TermId);
-
-  @override
   _i4.TermSettingsPageView get view =>
       (super.noSuchMethod(
             Invocation.getter(#view),
@@ -227,45 +228,44 @@ class MockTermSettingsPageController extends _i1.Mock
           as _i4.TermSettingsPageView);
 
   @override
-  set name(String? _name) => super.noSuchMethod(
-    Invocation.setter(#name, _name),
+  set name(String? value) => super.noSuchMethod(
+    Invocation.setter(#name, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set isActiveTerm(bool? _isActiveTerm) => super.noSuchMethod(
-    Invocation.setter(#isActiveTerm, _isActiveTerm),
+  set isActiveTerm(bool? value) => super.noSuchMethod(
+    Invocation.setter(#isActiveTerm, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set gradingSystem(_i2.GradingSystem? _gradingSystem) => super.noSuchMethod(
-    Invocation.setter(#gradingSystem, _gradingSystem),
+  set gradingSystem(_i2.GradingSystem? value) => super.noSuchMethod(
+    Invocation.setter(#gradingSystem, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set finalGradeType(_i2.GradeType? _finalGradeType) => super.noSuchMethod(
-    Invocation.setter(#finalGradeType, _finalGradeType),
+  set finalGradeType(_i2.GradeType? value) => super.noSuchMethod(
+    Invocation.setter(#finalGradeType, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set weightDisplayType(_i2.WeightDisplayType? _weightDisplayType) =>
-      super.noSuchMethod(
-        Invocation.setter(#weightDisplayType, _weightDisplayType),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  set courses(_i3.IList<_i7.Course>? _courses) => super.noSuchMethod(
-    Invocation.setter(#courses, _courses),
+  set weightDisplayType(_i2.WeightDisplayType? value) => super.noSuchMethod(
+    Invocation.setter(#weightDisplayType, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set state(_i5.TermSettingsState? _state) => super.noSuchMethod(
-    Invocation.setter(#state, _state),
+  set courses(_i3.IList<_i7.Course>? value) => super.noSuchMethod(
+    Invocation.setter(#courses, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set state(_i5.TermSettingsState? value) => super.noSuchMethod(
+    Invocation.setter(#state, value),
     returnValueForMissingStub: null,
   );
 
