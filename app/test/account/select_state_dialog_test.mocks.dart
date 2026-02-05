@@ -23,6 +23,7 @@ import 'package:user/user.dart' as _i5;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeHolidayService_0 extends _i1.SmartFake
     implements _i2.HolidayService {
@@ -56,6 +57,15 @@ class MockHolidayBloc extends _i1.Mock implements _i3.HolidayBloc {
           as _i2.HolidayService);
 
   @override
+  _i4.Stream<List<_i2.Holiday?>> get holidays =>
+      (super.noSuchMethod(
+            Invocation.getter(#holidays),
+            returnValue: _i4.Stream<List<_i2.Holiday?>>.empty(),
+            returnValueForMissingStub: _i4.Stream<List<_i2.Holiday?>>.empty(),
+          )
+          as _i4.Stream<List<_i2.Holiday?>>);
+
+  @override
   _i3.HolidayStateGateway get stateGateway =>
       (super.noSuchMethod(
             Invocation.getter(#stateGateway),
@@ -69,15 +79,6 @@ class MockHolidayBloc extends _i1.Mock implements _i3.HolidayBloc {
             ),
           )
           as _i3.HolidayStateGateway);
-
-  @override
-  _i4.Stream<List<_i2.Holiday?>> get holidays =>
-      (super.noSuchMethod(
-            Invocation.getter(#holidays),
-            returnValue: _i4.Stream<List<_i2.Holiday?>>.empty(),
-            returnValueForMissingStub: _i4.Stream<List<_i2.Holiday?>>.empty(),
-          )
-          as _i4.Stream<List<_i2.Holiday?>>);
 
   @override
   _i4.Stream<_i5.StateEnum?> get userState =>
@@ -108,11 +109,10 @@ class MockHolidayBloc extends _i1.Mock implements _i3.HolidayBloc {
           as _i4.Future<void> Function(_i5.StateEnum?));
 
   @override
-  set getCurrentTime(DateTime Function()? _getCurrentTime) =>
-      super.noSuchMethod(
-        Invocation.setter(#getCurrentTime, _getCurrentTime),
-        returnValueForMissingStub: null,
-      );
+  set getCurrentTime(DateTime Function()? value) => super.noSuchMethod(
+    Invocation.setter(#getCurrentTime, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void dispose() => super.noSuchMethod(

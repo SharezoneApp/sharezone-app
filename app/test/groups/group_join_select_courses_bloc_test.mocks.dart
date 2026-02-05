@@ -30,6 +30,7 @@ import 'package:sharezone_common/references.dart' as _i3;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeDataCollectionPackage_0<T> extends _i1.SmartFake
     implements _i2.DataCollectionPackage<T> {
@@ -114,19 +115,17 @@ class MockConnectionsGateway extends _i1.Mock
           as String);
 
   @override
-  set joinedCoursesPackage(
-    _i2.DataCollectionPackage<_i4.Course>? _joinedCoursesPackage,
-  ) => super.noSuchMethod(
-    Invocation.setter(#joinedCoursesPackage, _joinedCoursesPackage),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  set newJoinedCourses(List<_i4.Course>? _newJoinedCourses) =>
+  set joinedCoursesPackage(_i2.DataCollectionPackage<_i4.Course>? value) =>
       super.noSuchMethod(
-        Invocation.setter(#newJoinedCourses, _newJoinedCourses),
+        Invocation.setter(#joinedCoursesPackage, value),
         returnValueForMissingStub: null,
       );
+
+  @override
+  set newJoinedCourses(List<_i4.Course>? value) => super.noSuchMethod(
+    Invocation.setter(#newJoinedCourses, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i8.Stream<_i4.ConnectionsData?> streamConnectionsData() =>
@@ -356,8 +355,8 @@ class MockConnectionsGateway extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockCrashAnalytics extends _i1.Mock implements _i10.CrashAnalytics {
   @override
-  set enableInDevMode(bool? _enableInDevMode) => super.noSuchMethod(
-    Invocation.setter(#enableInDevMode, _enableInDevMode),
+  set enableInDevMode(bool? value) => super.noSuchMethod(
+    Invocation.setter(#enableInDevMode, value),
     returnValueForMissingStub: null,
   );
 
