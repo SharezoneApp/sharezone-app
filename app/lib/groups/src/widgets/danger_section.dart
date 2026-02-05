@@ -79,7 +79,10 @@ class DangerButtonOutlined extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: FilledButton.icon(
-        icon: icon,
+        icon: IconTheme(
+          data: const IconThemeData(color: Colors.red),
+          child: icon,
+        ),
         style: FilledButton.styleFrom(
           shadowColor: Colors.transparent,
           foregroundColor: Colors.red,
