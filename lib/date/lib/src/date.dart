@@ -125,9 +125,9 @@ class DateParser {
   /// We key by Intl.defaultLocale to support runtime language changes.
   static final _yMMMEdCache = <String?, DateFormat>{};
   static final _yMMMdCache = <String?, DateFormat>{};
-  static final _MMMEdCache = <String?, DateFormat>{};
+  static final _mmmEdCache = <String?, DateFormat>{};
   static final _yMMMMEEEEdCache = <String?, DateFormat>{};
-  static final _MMMCache = <String?, DateFormat>{};
+  static final _mmmCache = <String?, DateFormat>{};
 
   String get toYMMMEd {
     final locale = Intl.defaultLocale;
@@ -149,7 +149,7 @@ class DateParser {
 
   String get toMMMEd {
     final locale = Intl.defaultLocale;
-    final formatter = _MMMEdCache.putIfAbsent(
+    final formatter = _mmmEdCache.putIfAbsent(
       locale,
       () => DateFormat.MMMEd(locale),
     );
@@ -167,7 +167,7 @@ class DateParser {
 
   String get toMMM {
     final locale = Intl.defaultLocale;
-    final formatter = _MMMCache.putIfAbsent(
+    final formatter = _mmmCache.putIfAbsent(
       locale,
       () => DateFormat.MMM(locale),
     );
