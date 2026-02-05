@@ -19,9 +19,10 @@
         {
             "label": "Add license header to files",
             "type": "shell",
-            // Using bin/sz instead of sz so that it also work if a developer
-            // has not added the sz binary to their PATH.
-            "command": "bin/sz lh add",
+            // This command will not work on Windows, as it uses bash-specific
+            // features. If you are on Windows, you either need to use WSL or
+            // run "sz license-headers add" instead.
+            "command": "bin/add_license_headers.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
