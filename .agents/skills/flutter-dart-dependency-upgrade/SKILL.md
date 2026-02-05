@@ -18,16 +18,7 @@ Safely upgrade Flutter/Dart dependencies across the repository, regenerate all d
 
 This skill is intended for **maintenance workflows**, not for normal feature development.
 
-Activate this skill only when:
-
-- Running a **manual dependency maintenance task**
-- Executing a **scheduled / periodic dependency upgrade** (e.g. weekly or monthly)
-- Resolving accumulated dependency drift across Flutter, generated code, and native iOS/macOS tooling
-
-Do **not** use this skill during routine development or feature work, as it:
-- Modifies lockfiles and generated artifacts
-- Can trigger wide-reaching native dependency changes
-- Is designed to be run in controlled, low-frequency maintenance windows
+Activate this skill only when the user asks for "Upgrade my Flutter dependencies" or similar
 
 ---
 
@@ -64,8 +55,8 @@ sz l10n generate
 Run CocoaPods for both platforms:
 
 ```bash
-cd app/ios && pod install
-cd ../macos && pod install
+pod install --project-directory=app/ios
+pod install --project-directory=app/macos
 ```
 
 ---
@@ -113,15 +104,14 @@ pod 'FirebaseFirestore',
 3. Remove existing lockfiles:
 
 ```bash
-cd app/ios && rm -f Podfile.lock
-cd ../macos && rm -f Podfile.lock
+rm -f app/ios/Podfile.lock app/macos/Podfile.lock
 ```
 
 4. Reinstall CocoaPods:
 
 ```bash
-cd app/ios && pod install
-cd ../macos && pod install
+pod install --project-directory=app/ios
+pod install --project-directory=app/macos
 ```
 
 Success is indicated by:
