@@ -23,8 +23,6 @@ import 'package:sharezone/groups/src/widgets/danger_section.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone/groups/src/widgets/member_section.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
-import 'package:sharezone/report/report_icon.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -86,7 +84,6 @@ class SchoolClassDetailsPage extends StatelessWidget {
         title: Text(schoolClass.name),
         centerTitle: true,
         actions: <Widget>[
-          ReportIcon(item: ReportItemReference.schoolClass(schoolClass.id)),
           if (isAdmin) _EditIcon(schoolClass: schoolClass),
         ],
       ),

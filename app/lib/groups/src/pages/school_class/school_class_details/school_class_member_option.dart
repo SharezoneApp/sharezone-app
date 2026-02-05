@@ -81,7 +81,7 @@ class _SchoolClassMemberOptionsSheet extends StatelessWidget {
               return SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    MemberTile(memberData: memberData, withReportOption: true),
+                    MemberTile(memberData: memberData),
                     const Divider(height: 0),
                     if (!isAdmin) _NoPermissions(),
                     if (isOnlyAdmin && membersDataList.length >= 2)

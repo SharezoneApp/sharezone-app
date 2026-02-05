@@ -101,8 +101,6 @@ import 'package:sharezone/onboarding/bloc/registration_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/analytics/group_onboarding_analytics.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/group_onboarding_bloc.dart';
 import 'package:sharezone/onboarding/group_onboarding/logic/signed_up_bloc.dart';
-import 'package:sharezone/report/report_factory.dart';
-import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/settings/src/bloc/user_settings_bloc.dart';
 import 'package:sharezone/settings/src/bloc/user_tips_bloc.dart';
 import 'package:sharezone/settings/src/subpages/imprint/analytics/imprint_analytics.dart';
@@ -703,15 +701,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           widget.blocDependencies.registrationGateway,
           signUpBloc,
         ),
-      ),
-      BlocProvider<ReportFactory>(
-        bloc: ReportFactory(
-          uid: api.uID,
-          firestore: widget.blocDependencies.firestore,
-        ),
-      ),
-      BlocProvider<ReportGateway>(
-        bloc: ReportGateway(widget.blocDependencies.firestore),
       ),
       BlocProvider<FeedbackBloc>(bloc: feedbackBloc),
       BlocProvider<MarkdownAnalytics>(bloc: markdownAnalytics),

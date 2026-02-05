@@ -18,8 +18,6 @@ import 'package:sharezone/comments/comments_gateway.dart';
 import 'package:sharezone/comments/widgets/comment_section_builder.dart';
 import 'package:sharezone/filesharing/dialog/attachment_list.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/report/report_icon.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -44,7 +42,6 @@ void onEdit(BuildContext context, BlackboardItem blackboardItem) {
 }
 
 List<Widget> _actions(BlackboardView view) => [
-  ReportIcon(item: ReportItemReference.blackboard(view.id)),
   if (view.hasPermissionToEdit) ...[
     _EditIcon(view: view),
     _DeleteIcon(view: view),

@@ -102,14 +102,6 @@ class CommentsBloc extends BlocBase {
     await _gateway.changeRating(uid, commentLocation, oldStatus, newStatus);
   }
 
-  // Damit es von außen für Reportsystem zugreifbar ist.
-  CommentLocation getCommentLocation(String commentId) {
-    return CommentLocation.fromCommentsLocation(
-      commentsLocation: _commentsLocation,
-      commentId: commentId,
-    );
-  }
-
   Future<void> _deleteComment(String commentId) async {
     final loc = CommentLocation.fromCommentsLocation(
       commentId: commentId,

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:sharezone/comments/comment_view.dart';
-import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -28,7 +27,6 @@ class Comment extends StatelessWidget {
   final CommentStatus status;
   final RatingCallback onRated;
   final VoidCallback onDelete;
-  final VoidCallback onReport;
 
   const Comment({
     super.key,
@@ -40,7 +38,6 @@ class Comment extends StatelessWidget {
     this.status = CommentStatus.notRated,
     this.hasPermissionsToMangeComments = false,
     required this.onRated,
-    required this.onReport,
     required this.onDelete,
   });
 
@@ -49,7 +46,6 @@ class Comment extends StatelessWidget {
     super.key,
     required this.onRated,
     required this.onDelete,
-    required this.onReport,
   }) : avatarText = comment.avatarAbbreviation,
        userComment = comment.content,
        userName = comment.userName,
@@ -180,9 +176,6 @@ class Comment extends StatelessWidget {
       case _CommentSheetAction.delete:
         deleteComment(context);
         break;
-      case _CommentSheetAction.report:
-        onReport();
-        break;
       default:
     }
   }
@@ -232,7 +225,7 @@ class _Avatar extends StatelessWidget {
   }
 }
 
-enum _CommentSheetAction { copy, report, delete }
+enum _CommentSheetAction { copy, delete }
 
 class _CommentSheet extends StatelessWidget {
   const _CommentSheet({
@@ -281,11 +274,6 @@ class _CommentSheet extends StatelessWidget {
             title: const Text("Text kopieren"),
             leading: const Icon(Icons.content_copy),
             onTap: () => Navigator.pop(context, _CommentSheetAction.copy),
-          ),
-          ListTile(
-            title: const Text("Kommentar melden"),
-            leading: reportIcon,
-            onTap: () => Navigator.pop(context, _CommentSheetAction.report),
           ),
           if (hasPermissionsToMangeComments)
             ListTile(

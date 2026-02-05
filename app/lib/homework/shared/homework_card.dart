@@ -25,16 +25,13 @@ import 'package:sharezone/homework/shared/delete_homework.dart';
 import 'package:sharezone/homework/shared/homework_permissions.dart';
 import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/report/page/report_page.dart';
-import 'package:sharezone/report/report_icon.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
-enum _HomeworkTileLongPressModelSheetOption { delete, edit, done, report }
+enum _HomeworkTileLongPressModelSheetOption { delete, edit, done }
 
 class HomeworkCard extends StatelessWidget {
   const HomeworkCard({
@@ -105,11 +102,6 @@ class HomeworkCard extends StatelessWidget {
                     icon: Icon(Icons.done),
                     popResult: _HomeworkTileLongPressModelSheetOption.done,
                   ),
-                const LongPress(
-                  title: "Melden",
-                  popResult: _HomeworkTileLongPressModelSheetOption.report,
-                  icon: reportIcon,
-                ),
                 if (detailsView.hasPermission) ...[
                   const LongPress(
                     title: 'Bearbeiten',
@@ -151,12 +143,6 @@ class HomeworkCard extends StatelessWidget {
                 homework!,
                 popTwice: false,
               );
-              break;
-            case _HomeworkTileLongPressModelSheetOption.report:
-              _logHomeworkReportViaCardLongPress(analytics);
-              final reportItem = ReportItemReference.homework(homework!.id);
-              if (!context.mounted) return;
-              openReportPage(context, reportItem);
               break;
             case null:
               break;
@@ -405,10 +391,6 @@ void _logHomeworkEditViaCardLongPress(Analytics analytics) {
   analytics.log(const AnalyticsEvent("homework_edit_via_card_long_press"));
 }
 
-void _logHomeworkReportViaCardLongPress(Analytics analytics) {
-  analytics.log(const AnalyticsEvent("homework_report_via_card_long_press"));
-}
-
 Future showLongPressIfUserHasPermissions(
   BuildContext context,
   void Function(bool newHomeworkStatus)? setHomeworkStatus,
@@ -437,11 +419,6 @@ Future showLongPressIfUserHasPermissions(
         icon: Icon(Icons.done),
         popResult: _HomeworkTileLongPressModelSheetOption.done,
       ),
-    const LongPress(
-      title: "Melden",
-      popResult: _HomeworkTileLongPressModelSheetOption.report,
-      icon: reportIcon,
-    ),
     if (hasPermission) ...[
       const LongPress(
         title: 'Bearbeiten',
@@ -486,12 +463,6 @@ Future showLongPressIfUserHasPermissions(
         homeworkView.homework,
         popTwice: false,
       );
-      break;
-    case _HomeworkTileLongPressModelSheetOption.report:
-      _logHomeworkReportViaCardLongPress(analytics);
-      final reportItem = ReportItemReference.homework(homeworkView.homework.id);
-      if (!context.mounted) return;
-      await openReportPage(context, reportItem);
       break;
     case null:
       break;

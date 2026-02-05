@@ -15,8 +15,6 @@ import 'package:sharezone/filesharing/models/sheet_option.dart';
 import 'package:sharezone/filesharing/widgets/download_unknown_file_type_dialog_content.dart';
 import 'package:sharezone/filesharing/widgets/move_file_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/report/page/report_page.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -77,9 +75,6 @@ Future<void> selectCloudFileAction({
       break;
     case SheetOption.moveFile:
       openMoveFilePage(context: context, cloudFile: cloudFile);
-      break;
-    case SheetOption.report:
-      openReportPage(context, ReportItemReference.file(cloudFile.id!));
       break;
     case SheetOption.delete:
       showDeleteDialog(

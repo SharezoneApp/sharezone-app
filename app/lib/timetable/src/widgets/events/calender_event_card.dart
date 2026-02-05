@@ -11,9 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/report/page/report_page.dart';
-import 'package:sharezone/report/report_icon.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/timetable/src/widgets/events/event_view.dart';
 import 'package:sharezone/timetable/timetable_page/timetable_event_details.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -123,11 +120,6 @@ Future<void> onEventLongPress(
         popResult: _EventLongPressResult.changeDesign,
         icon: Icon(Icons.color_lens),
       ),
-      const LongPress(
-        title: "Melden",
-        popResult: _EventLongPressResult.report,
-        icon: reportIcon,
-      ),
       if (hasPermissionsToManageEvents) ...const [
         LongPress(
           title: "Bearbeiten",
@@ -154,12 +146,9 @@ Future<void> onEventLongPress(
     case _EventLongPressResult.delete:
       deleteEvent(context, event);
       break;
-    case _EventLongPressResult.report:
-      openReportPage(context, ReportItemReference.event(event.eventID));
-      break;
     case null:
       break;
   }
 }
 
-enum _EventLongPressResult { changeDesign, edit, delete, report }
+enum _EventLongPressResult { changeDesign, edit, delete }

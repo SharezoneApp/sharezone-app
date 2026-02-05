@@ -33,11 +33,6 @@ class IncorrectPeriods implements Exception {
       "Bitte gib korrekte Zeiten. Die Stunden dürfen sich nicht überschneiden!";
 }
 
-class MissingReportInformation implements Exception {
-  @override
-  String toString() => "Bitte einen Grund und eine Beschreibung an.";
-}
-
 class IncorrectDataException implements Exception {
   @override
   String toString() {

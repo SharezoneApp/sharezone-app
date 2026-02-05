@@ -99,7 +99,6 @@ class CollectionNames {
   static const planners = 'Planners';
   static const lessons = 'Lessons';
   static const events = 'Events';
-  static const reports = 'Reports';
   static const files = 'Files';
   static const fileSharing = 'FileSharing';
   static const blackboard = 'Blackboard';

@@ -17,8 +17,6 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
-import 'package:sharezone/report/page/report_page.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/src/bloc/timetable_bloc.dart';
@@ -49,7 +47,7 @@ enum _LessonDialogAction {
   showTeachersPlusDialog,
 }
 
-enum _LessonLongPressResult { edit, delete, changeDesign, report }
+enum _LessonLongPressResult { edit, delete, changeDesign }
 
 Future<bool?> showDeleteLessonConfirmationDialog(BuildContext context) async {
   if (ThemePlatform.isCupertino) {
@@ -102,9 +100,6 @@ Future<void> onLessonLongPress(BuildContext context, Lesson lesson) async {
       break;
     case _LessonLongPressResult.delete:
       _deleteLesson(context, lesson);
-      break;
-    case _LessonLongPressResult.report:
-      openReportPage(context, ReportItemReference.lesson(lesson.lessonID!));
       break;
     case null:
       break;

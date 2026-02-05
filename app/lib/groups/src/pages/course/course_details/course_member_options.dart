@@ -82,7 +82,6 @@ class _CourseMemberOptionsSheet extends StatelessWidget {
                     children: <Widget>[
                       MemberTile(
                         memberData: memberData,
-                        withReportOption: true,
                       ),
                       const Divider(height: 0),
                       if (!isAdmin) _NoPermissions(),

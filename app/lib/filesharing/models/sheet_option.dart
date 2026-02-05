@@ -6,4 +6,4 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum SheetOption { download, rename, moveFile, delete, report }
+enum SheetOption { download, rename, moveFile, delete }

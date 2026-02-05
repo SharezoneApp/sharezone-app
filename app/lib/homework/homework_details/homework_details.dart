@@ -23,8 +23,6 @@ import 'package:sharezone/homework/homework_details/homework_details_view_factor
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/homework/homework_page.dart';
 import 'package:sharezone/homework/shared/shared.dart';
-import 'package:sharezone/report/report_icon.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/submissions/homework_list_submissions_page.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/homework/shared/delete_homework.dart';
@@ -184,7 +182,6 @@ class HomeworkTitleAppBar extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.white),
         elevation: 1,
         actions: <Widget>[
-          ReportIcon(item: ReportItemReference.homework(view!.id)),
           if (view!.hasPermission) ...[
             _EditIcon(homework: view!.homework),
             _DeleteIcon(homework: view!.homework),

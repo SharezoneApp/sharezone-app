@@ -9,7 +9,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/models/cloud_file_action.dart';
 import 'package:sharezone/filesharing/models/sheet_option.dart';
-import 'package:sharezone/report/report_icon.dart';
 
 List<CloudFileAction> folderActions(
   bool? isFolderDeletable,
@@ -51,11 +50,6 @@ List<CloudFileAction> cloudFileActions(bool hasPermissionToEdit) {
         iconData: Icons.input,
         sheetOption: SheetOption.moveFile,
       ),
-    CloudFileAction(
-      name: "Melden",
-      iconData: reportIcon.icon,
-      sheetOption: SheetOption.report,
-    ),
     if (hasPermissionToEdit)
       const CloudFileAction(
         name: "Löschen",

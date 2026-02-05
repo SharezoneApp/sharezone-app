@@ -34,8 +34,6 @@ String? handleErrorMessage(String? error, StackTrace s) {
       return blackboard_validators.BlackboardValidators.emptyCourseUserMessage;
     } else if (error == "InvalidStartTimeException") {
       return "Bitte gibt eine Startzeit an!";
-    } else if (error == MissingReportInformation().toString()) {
-      return MissingReportInformation().toString();
       // } else if (error == MissingFiles().toString()) {
       //   return MissingFiles().toString();
     } else if (error == NameIsMissingException().toString()) {

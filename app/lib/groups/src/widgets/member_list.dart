@@ -10,8 +10,6 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/report/report_icon.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
@@ -125,12 +123,10 @@ class MemberTile extends StatelessWidget {
     required this.memberData,
     this.onTap,
     this.onLongPress,
-    this.withReportOption = false,
   });
 
   final MemberData memberData;
   final VoidCallback? onTap, onLongPress;
-  final bool withReportOption;
 
   @override
   Widget build(BuildContext context) {
@@ -150,14 +146,6 @@ class MemberTile extends StatelessWidget {
       trailing:
           memberData.id.toString() == api.uID
               ? const Chip(label: Text("Du"))
-              : withReportOption
-              ? ReportIcon(
-                item: ReportItemReference.user(memberData.id.toString()),
-                color:
-                    Theme.of(context).isDarkTheme
-                        ? Colors.grey
-                        : Colors.grey[600],
-              )
               : null,
     );
   }

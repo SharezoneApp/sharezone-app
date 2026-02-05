@@ -12,8 +12,6 @@ import 'package:sharezone/comments/comment_view.dart';
 import 'package:sharezone/comments/comments_bloc.dart';
 import 'package:sharezone/comments/widgets/comment_widget.dart';
 import 'package:sharezone/comments/widgets/user_comment_field.dart';
-import 'package:sharezone/report/page/report_page.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CommentSection extends StatelessWidget {
@@ -72,11 +70,6 @@ class CommentSection extends StatelessWidget {
             RateCommentEvent(commentId: comment.id, status: commentStatus),
           ),
       onDelete: () => bloc.deleteComment(comment.id),
-      onReport:
-          () => openReportPage(
-            context,
-            ReportItemReference.comment(bloc.getCommentLocation(comment.id)),
-          ),
     );
   }
 }

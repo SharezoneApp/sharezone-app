@@ -23,8 +23,6 @@ import 'package:sharezone/groups/src/pages/course/group_help.dart';
 import 'package:sharezone/groups/src/widgets/group_share.dart';
 import 'package:sharezone/groups/src/widgets/member_section.dart';
 import 'package:sharezone/groups/src/widgets/sharecode_text.dart';
-import 'package:sharezone/report/report_icon.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -152,7 +150,6 @@ class _CourseDetailsPage extends StatelessWidget {
             title: Text(course.name),
             actions: <Widget>[
               _ChangeColorIcon(courseID: course.id),
-              ReportIcon(item: ReportItemReference.course(course.id)),
               if (isAdmin) _EditIcon(course: course),
             ],
           ),

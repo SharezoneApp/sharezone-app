@@ -17,9 +17,6 @@ import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
 import 'package:sharezone/main/application_bloc.dart';
-import 'package:sharezone/report/page/report_page.dart';
-import 'package:sharezone/report/report_icon.dart';
-import 'package:sharezone/report/report_item.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/timetable_edit/event/timetable_event_edit_page.dart';
@@ -28,7 +25,7 @@ import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-enum _EventModelSheetAction { edit, delete, report }
+enum _EventModelSheetAction { edit, delete }
 
 Future<bool?> showDeleteEventConfirmationDialog(BuildContext context) async {
   return await showLeftRightAdaptiveDialog<bool>(
@@ -68,9 +65,6 @@ Future<void> showTimetableEventDetails(
       break;
     case _EventModelSheetAction.edit:
       openTimetableEventEditPage(context, event);
-      break;
-    case _EventModelSheetAction.report:
-      openReportPage(context, ReportItemReference.event(event.eventID));
       break;
     case null:
       break;
@@ -158,10 +152,6 @@ class _TimetableEventDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          ReportIcon(
-            item: ReportItemReference.event(event.eventID),
-            tooltip: '${isExam ? 'Prüfung' : 'Termin'} melden',
-          ),
           if (hasPermissionsToManageLessons) ...const [
             _EditIcon(),
             _DeleteIcon(),
