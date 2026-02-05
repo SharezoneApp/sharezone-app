@@ -29,6 +29,7 @@ import 'package:sharezone/groups/src/pages/course/create/models/course_template.
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeCourseCreateBloc_0 extends _i1.SmartFake
     implements _i2.CourseCreateBloc {
@@ -134,14 +135,14 @@ class MockCourseCreateBloc extends _i1.Mock implements _i2.CourseCreateBloc {
           as dynamic Function(String));
 
   @override
-  set schoolClassId(_i4.SchoolClassId? _schoolClassId) => super.noSuchMethod(
-    Invocation.setter(#schoolClassId, _schoolClassId),
+  set schoolClassId(_i4.SchoolClassId? value) => super.noSuchMethod(
+    Invocation.setter(#schoolClassId, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set initialCourse(_i6.Course? _initialCourse) => super.noSuchMethod(
-    Invocation.setter(#initialCourse, _initialCourse),
+  set initialCourse(_i6.Course? value) => super.noSuchMethod(
+    Invocation.setter(#initialCourse, value),
     returnValueForMissingStub: null,
   );
 
