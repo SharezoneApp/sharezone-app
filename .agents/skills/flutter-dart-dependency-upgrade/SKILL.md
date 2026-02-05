@@ -158,19 +158,19 @@ Both commands must complete without errors.
 
 ## Checklist
 
-* [ ] `fvm flutter pub upgrade`
-* [ ] `sz build_runner build`
-* [ ] `sz l10n generate`
-* [ ] `pod install` (iOS)
-* [ ] `pod install` (macOS)
-* [ ] Firebase SDK versions aligned in both Podfiles
-* [ ] `sz format`
-* [ ] `sz analyze`
-* [ ] `sz test`
+- [ ] `fvm flutter pub upgrade`
+- [ ] `sz build_runner build`
+- [ ] `sz l10n generate`
+- [ ] `pod install` (iOS)
+- [ ] `pod install` (macOS)
+- [ ] Firebase SDK versions aligned in both Podfiles
+- [ ] `sz format`
+- [ ] `sz analyze`
+- [ ] `sz test`
 
 ---
 
 ## Notes
 
-* If CocoaPods reports a **minimum deployment target** error, the required Firebase SDK may exceed the current iOS/macOS deployment target. Update the deployment target consistently across Podfiles and Xcode project settings before retrying.
-* Always update **both** iOS and macOS Podfiles to the same Firebase SDK version.
+- If CocoaPods reports a **minimum deployment target** error, the required Firebase SDK may exceed the current iOS/macOS deployment target. Update the deployment target consistently across Podfiles and Xcode project settings before retrying.
+- Always update **both** iOS and macOS Podfiles to the same Firebase SDK version.
