@@ -72,6 +72,7 @@ jobs:
               # We only build and deploy a new version, when a user relevant files
               # changed.
               - "docs/**"
+              - "*.md"
               # We trigger also this workflow, if this workflow is changed, so that new
               # changes will be applied.
               - ".github/workflows/safe_docs_ci.yml"
