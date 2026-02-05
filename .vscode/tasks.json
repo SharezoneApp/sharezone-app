@@ -19,14 +19,16 @@
         {
             "label": "Add license header to files",
             "type": "shell",
-            // This command will not work on Windows, as it uses bash-specific
-            // features. If you are on Windows, you either need to use WSL or
-            // run "sz license-headers add" instead.
             "command": "bin/add_license_headers.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": []
+            // The command above will not work on Windows, as it uses
+            // bash-specific features. For this reason, we override the command
+            // for Windows and fallback to the Sharezone Repo CLI.
+            "windows": {
+                "command": "sz lh add"
+            }
         }
     ]
 }
