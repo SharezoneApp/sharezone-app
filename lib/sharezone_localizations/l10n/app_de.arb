@@ -73,6 +73,20 @@
     }
   },
   "appName": "Sharezone",
+  "authAnonymousDisplayName": "Anonymer {animalName}",
+  "@authAnonymousDisplayName": {
+    "description": "Display name template for users without a chosen name.",
+    "placeholders": {
+      "animalName": {}
+    }
+  },
+  "authProviderAnonymous": "Anonyme Anmeldung",
+  "authProviderApple": "Apple Sign In",
+  "authProviderEmailAndPassword": "E-Mail und Passwort",
+  "authProviderGoogle": "Google Sign In",
+  "authValidationInvalidEmail": "Gib eine gueltige E-Mail ein",
+  "authValidationInvalidName": "Ungueltiger Name",
+  "authValidationInvalidPasswordTooShort": "Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein",
   "changeEmailAddressCurrentEmailTextfieldLabel": "Aktuell",
   "@changeEmailAddressCurrentEmailTextfieldLabel": {
     "description": "The label for the text field which is used for the current email address"

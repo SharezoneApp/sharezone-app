@@ -24,6 +24,7 @@ import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+import 'authentification_localization_mapper.dart';
 import 'email_and_password_link_page.dart';
 import 'login_button.dart';
 import 'reset_pw_page.dart';
@@ -403,7 +404,10 @@ class EmailLoginField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'E-Mail',
             icon: const Icon(Icons.email),
-            errorText: snapshot.error?.toString(),
+            errorText: mapAuthentificationValidationErrorMessage(
+              context,
+              snapshot.error,
+            ),
             border: const OutlineInputBorder(),
           ),
         );
@@ -458,7 +462,10 @@ class _PasswordFieldState extends State<PasswordField> {
             decoration: InputDecoration(
               labelText: 'Passwort',
               icon: const Icon(Icons.vpn_key),
-              errorText: snapshot.error?.toString(),
+              errorText: mapAuthentificationValidationErrorMessage(
+                context,
+                snapshot.error,
+              ),
               border: const OutlineInputBorder(),
               suffixIcon: IconButton(
                 tooltip:

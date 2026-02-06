@@ -18,6 +18,7 @@ import 'package:sharezone/auth/auth.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
+import 'authentification_localization_mapper.dart';
 import 'login_page.dart';
 
 Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
@@ -231,7 +232,10 @@ class NameField extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Nickname',
                 icon: withIcon ? const Icon(Icons.person) : null,
-                errorText: snapshot.error?.toString(),
+                errorText: mapAuthentificationValidationErrorMessage(
+                  context,
+                  snapshot.error,
+                ),
                 border: const OutlineInputBorder(),
               ),
               textCapitalization: TextCapitalization.sentences,

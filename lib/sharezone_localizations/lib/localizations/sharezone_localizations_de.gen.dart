@@ -104,6 +104,33 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get appName => 'Sharezone';
 
   @override
+  String authAnonymousDisplayName(Object animalName) {
+    return 'Anonymer $animalName';
+  }
+
+  @override
+  String get authProviderAnonymous => 'Anonyme Anmeldung';
+
+  @override
+  String get authProviderApple => 'Apple Sign In';
+
+  @override
+  String get authProviderEmailAndPassword => 'E-Mail und Passwort';
+
+  @override
+  String get authProviderGoogle => 'Google Sign In';
+
+  @override
+  String get authValidationInvalidEmail => 'Gib eine gueltige E-Mail ein';
+
+  @override
+  String get authValidationInvalidName => 'Ungueltiger Name';
+
+  @override
+  String get authValidationInvalidPasswordTooShort =>
+      'Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein';
+
+  @override
   String get changeEmailAddressCurrentEmailTextfieldLabel => 'Aktuell';
 
   @override
