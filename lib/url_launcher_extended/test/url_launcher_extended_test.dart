@@ -34,9 +34,9 @@ void main() {
   group('UrlLauncherExtended', () {
     test('tryLaunchMailOrThrow encodes parameters correctly', () async {
       final launcher = TestUrlLauncherExtended();
-      final address = 'test@example.com';
-      final subject = 'Hello & Welcome';
-      final body = 'Line 1\nLine 2';
+      const address = 'test@example.com';
+      const subject = 'Hello & Welcome';
+      const body = 'Line 1\nLine 2';
 
       await launcher.tryLaunchMailOrThrow(
         address,
@@ -56,9 +56,9 @@ void main() {
 
     test('tryLaunchMailOrThrow prevents parameter injection', () async {
       final launcher = TestUrlLauncherExtended();
-      final address = 'test@example.com';
+      const address = 'test@example.com';
       // This subject attempts to inject a new body parameter
-      final maliciousSubject = 'Hello&body=HACKED';
+      const maliciousSubject = 'Hello&body=HACKED';
 
       await launcher.tryLaunchMailOrThrow(address, subject: maliciousSubject);
 
