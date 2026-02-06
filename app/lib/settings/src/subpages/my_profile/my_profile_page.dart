@@ -36,6 +36,7 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
+import 'package:user/user.dart';
 
 import 'user_view.dart';
 
@@ -161,15 +162,15 @@ class _EmailTile extends StatelessWidget {
 }
 
 class _TypeOfUserTile extends StatelessWidget {
-  const _TypeOfUserTile({this.user});
+  const _TypeOfUserTile({required this.user});
 
-  final UserView? user;
+  final UserView user;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(context.l10n.myProfileEmailAccountTypeTitle),
-      subtitle: Text(user!.typeOfUser),
+      subtitle: Text(user.typeOfUser.toLocalizedString(context)),
       leading: const Icon(Icons.accessibility),
       onTap: () => Navigator.pushNamed(context, ChangeTypeOfUserPage.tag),
     );

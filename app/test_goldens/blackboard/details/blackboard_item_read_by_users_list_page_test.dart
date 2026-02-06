@@ -43,7 +43,7 @@ void main() {
           UserView(
             uid: "user$i",
             hasRead: random.nextBool(),
-            typeOfUser: TypeOfUser.student.toLocalizedString(),
+            typeOfUser: TypeOfUser.student,
             name: 'User $i',
           ),
       ];

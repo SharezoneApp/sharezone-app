@@ -204,7 +204,7 @@ class _ChangeTypeOfUser extends StatelessWidget {
           ])
             RadioListTile<TypeOfUser>(
               value: typeOfUser,
-              title: Text(typeOfUser.toLocalizedString()),
+              title: Text(typeOfUser.toLocalizedString(context)),
             ),
         ],
       ),

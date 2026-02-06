@@ -102,7 +102,7 @@ UserView _createMockView(int number, String name, {bool hasRead = false}) {
   return UserView(
     uid: "user$number",
     hasRead: hasRead,
-    typeOfUser: TypeOfUser.student.toLocalizedString(),
+    typeOfUser: TypeOfUser.student,
     name: name,
   );
 }
@@ -227,7 +227,7 @@ class _UserTile extends StatelessWidget {
       child: ListTile(
         key: ValueKey('${view.uid}${view.hasRead}'),
         title: Text(view.name),
-        subtitle: Text(view.typeOfUser),
+        subtitle: Text(view.typeOfUser.toLocalizedString(context)),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
           child: Text(

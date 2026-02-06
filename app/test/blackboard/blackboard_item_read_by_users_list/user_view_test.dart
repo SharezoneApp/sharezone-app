@@ -72,6 +72,6 @@ UserView _createMockView(String name, TypeOfUser typeOfUser) {
     uid: "uid",
     hasRead: false,
     name: name,
-    typeOfUser: typeOfUser.toLocalizedString(),
+    typeOfUser: typeOfUser,
   );
 }
