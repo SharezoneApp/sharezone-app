@@ -869,7 +869,7 @@
   "@typeOfUserParent": {
     "description": "Label for the type of user parent."
   },
-  "typeOfUserStudent": "Schüler:in",
+  "typeOfUserStudent": "Schüler*in",
   "@typeOfUserStudent": {
     "description": "Label for the type of user student."
   },

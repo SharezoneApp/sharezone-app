@@ -2746,7 +2746,7 @@ abstract class SharezoneLocalizations {
   /// Label for the type of user student.
   ///
   /// In de, this message translates to:
-  /// **'Schüler:in'**
+  /// **'Schüler*in'**
   String get typeOfUserStudent;
 
   /// Label for the type of user teacher.

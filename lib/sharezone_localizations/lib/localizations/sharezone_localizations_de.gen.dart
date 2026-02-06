@@ -1541,7 +1541,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get typeOfUserParent => 'Elternteil';
 
   @override
-  String get typeOfUserStudent => 'Schüler:in';
+  String get typeOfUserStudent => 'Schüler*in';
 
   @override
   String get typeOfUserTeacher => 'Lehrkraft';
