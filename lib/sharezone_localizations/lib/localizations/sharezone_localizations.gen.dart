@@ -1032,7 +1032,7 @@ abstract class SharezoneLocalizations {
   /// No description provided for @launchMarkdownLinkWithWarningCouldNotOpenLink.
   ///
   /// In de, this message translates to:
-  /// **'Link konnte nicht geöffnet werden!'**
+  /// **'Der Link konnte nicht geöffnet werden!'**
   String get launchMarkdownLinkWithWarningCouldNotOpenLink;
 
   /// No description provided for @launchMarkdownLinkWithWarningDialogTitle.

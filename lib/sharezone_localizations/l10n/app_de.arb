@@ -396,7 +396,7 @@
   "languageSystemName": "System",
   "languageTitle": "Sprache",
   "launchMarkdownLinkWithWarningActualLink": "Tatsächliche Adresse",
-  "launchMarkdownLinkWithWarningCouldNotOpenLink": "Link konnte nicht geöffnet werden!",
+  "launchMarkdownLinkWithWarningCouldNotOpenLink": "Der Link konnte nicht geöffnet werden!",
   "launchMarkdownLinkWithWarningDialogTitle": "Link überprüfen",
   "launchMarkdownLinkWithWarningDisplayedText": "Angezeigter Text",
   "launchMarkdownLinkWithWarningDoNotAskAgain": "Beim nächsten Mal nicht mehr nachfragen.",

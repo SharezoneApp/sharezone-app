@@ -549,7 +549,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get launchMarkdownLinkWithWarningCouldNotOpenLink =>
-      'Link konnte nicht geöffnet werden!';
+      'Der Link konnte nicht geöffnet werden!';
 
   @override
   String get launchMarkdownLinkWithWarningDialogTitle => 'Link überprüfen';
