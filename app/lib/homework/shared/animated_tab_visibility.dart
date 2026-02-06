@@ -89,26 +89,55 @@ class AnimatedTabVisibility extends StatefulWidget {
 
 class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
   late bool isVisible;
-  late TabController tabController;
-
-  /// [true] if the [build] function has not been run yet.
-  late bool isFirstBuild;
+  TabController? _tabController;
 
   @override
   void initState() {
     super.initState();
     isVisible = false;
-    isFirstBuild = true;
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    tabController = widget.tabController ?? DefaultTabController.of(context);
+    _updateController();
+  }
+
+  @override
+  void didUpdateWidget(AnimatedTabVisibility oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.tabController != oldWidget.tabController) {
+      _updateController();
+    }
+    // Also check if visibleInTabIndicies changed, but _animateVisibilityIfNecessary uses the current widget properties anyway.
+    // However, if only visibleInTabIndicies changes, we might need to update visibility.
+    if (widget.visibleInTabIndicies != oldWidget.visibleInTabIndicies) {
+      _animateVisibilityIfNecessary();
+    }
+  }
+
+  void _updateController() {
+    final newController =
+        widget.tabController ?? DefaultTabController.of(context);
+
+    if (newController != _tabController) {
+      _tabController?.removeListener(_animateVisibilityIfNecessary);
+      _tabController = newController;
+      _tabController!.addListener(_animateVisibilityIfNecessary);
+      _animateVisibilityIfNecessary();
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController?.removeListener(_animateVisibilityIfNecessary);
+    super.dispose();
   }
 
   bool _shouldChildBeVisible() {
-    return widget.visibleInTabIndicies.contains(tabController.index);
+    final controller = _tabController;
+    if (controller == null) return false;
+    return widget.visibleInTabIndicies.contains(controller.index);
   }
 
   void _animateVisibilityIfNecessary() {
@@ -122,19 +151,6 @@ class _AnimatedTabVisibilityState extends State<AnimatedTabVisibility> {
 
   @override
   Widget build(BuildContext context) {
-    tabController.addListener(() {
-      _animateVisibilityIfNecessary();
-    });
-
-    /// As [tabController.addListener] won't be triggerd on the first build
-    /// but only when the index changes, we check it here one time manually.
-    /// [isFirstBuild] is used so that when `setState` is called by
-    /// [tabController.addListener] we don't call `setState` again.
-    if (isFirstBuild) {
-      isFirstBuild = false;
-      _animateVisibilityIfNecessary();
-    }
-
     return AnimatedVisibility(
       visible: isVisible,
       maintainState: widget.maintainState,
