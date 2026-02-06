@@ -541,6 +541,35 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get languageTitle => 'Language';
 
   @override
+  String get launchMarkdownLinkWithWarningActualLink => 'Tatsächliche Adresse';
+
+  @override
+  String get launchMarkdownLinkWithWarningCouldNotOpenLink =>
+      'Link konnte nicht geöffnet werden!';
+
+  @override
+  String get launchMarkdownLinkWithWarningDialogTitle => 'Link überprüfen';
+
+  @override
+  String get launchMarkdownLinkWithWarningDisplayedText => 'Angezeigter Text';
+
+  @override
+  String get launchMarkdownLinkWithWarningDoNotAskAgain =>
+      'Beim nächsten Mal nicht mehr nachfragen.';
+
+  @override
+  String get launchMarkdownLinkWithWarningLinkTextDoesNotMatch =>
+      'Der Link-Text stimmt nicht mit der tatsächlichen Adresse überein.';
+
+  @override
+  String get launchMarkdownLinkWithWarningOpenLink => 'Link öffnen';
+
+  @override
+  String launchMarkdownLinkWithWarningTrustDomain(String domain) {
+    return 'Domain $domain vertrauen';
+  }
+
+  @override
   String get legalChangeAppearance => 'Change appearance';
 
   @override

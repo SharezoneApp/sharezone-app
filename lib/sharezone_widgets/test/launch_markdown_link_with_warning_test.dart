@@ -15,6 +15,7 @@ import 'package:sharezone_widgets/src/launch_markdown_link_with_warning.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 // ignore: depend_on_referenced_packages
 import 'package:url_launcher_platform_interface/link.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 void main() {
   late UrlLauncherPlatform originalLauncher;
@@ -329,6 +330,8 @@ Future<BuildContext> _pumpTestHost(WidgetTester tester) async {
 
   await tester.pumpWidget(
     MaterialApp(
+      localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+      supportedLocales: const [Locale('de')],
       home: Scaffold(
         body: Builder(
           builder: (context) {

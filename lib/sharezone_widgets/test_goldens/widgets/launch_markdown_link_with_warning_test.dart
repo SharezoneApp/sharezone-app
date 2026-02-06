@@ -10,11 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 // ignore: depend_on_referenced_packages
-import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
-// ignore: depend_on_referenced_packages
 import 'package:url_launcher_platform_interface/link.dart';
+// ignore: depend_on_referenced_packages
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
+
+import '../flutter_test_config.dart';
 
 void main() {
   group('launchSafeLink dialog', () {
@@ -32,20 +35,8 @@ void main() {
     });
 
     testGoldens('renders mismatch dialog in light mode', (tester) async {
-      final theme = getLightTheme(fontFamily: roboto);
-      final store = InMemoryKeyValueStore();
-      late BuildContext context;
-
-      await tester.pumpWidgetBuilder(
-        Scaffold(
-          body: Builder(
-            builder: (ctx) {
-              context = ctx;
-              return const SizedBox.shrink();
-            },
-          ),
-        ),
-        wrapper: materialAppWrapper(theme: theme),
+      final context = await tester.pumpScene(
+        theme: getLightTheme(fontFamily: roboto),
       );
 
       if (!context.mounted) {
@@ -56,7 +47,7 @@ void main() {
         text: 'https://google.com',
         href: 'https://evil-google.com',
         context: context,
-        keyValueStore: store,
+        keyValueStore: InMemoryKeyValueStore(),
       );
 
       await tester.pump();
@@ -65,20 +56,8 @@ void main() {
     });
 
     testGoldens('renders mismatch dialog in dark mode', (tester) async {
-      final theme = getDarkTheme(fontFamily: roboto);
-      final store = InMemoryKeyValueStore();
-      late BuildContext context;
-
-      await tester.pumpWidgetBuilder(
-        Scaffold(
-          body: Builder(
-            builder: (ctx) {
-              context = ctx;
-              return const SizedBox.shrink();
-            },
-          ),
-        ),
-        wrapper: materialAppWrapper(theme: theme),
+      final context = await tester.pumpScene(
+        theme: getDarkTheme(fontFamily: roboto),
       );
 
       if (!context.mounted) {
@@ -89,7 +68,7 @@ void main() {
         text: 'https://google.com',
         href: 'https://evil-google.com',
         context: context,
-        keyValueStore: store,
+        keyValueStore: InMemoryKeyValueStore(),
       );
 
       await tester.pump();
@@ -97,6 +76,28 @@ void main() {
       await screenMatchesGolden(tester, 'launch_safe_link_dialog_dark');
     });
   });
+}
+
+extension on WidgetTester {
+  Future<BuildContext> pumpScene({required ThemeData theme}) async {
+    late BuildContext context;
+    await pumpWidgetBuilder(
+      Scaffold(
+        body: Builder(
+          builder: (ctx) {
+            context = ctx;
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+      wrapper: materialAppWrapper(
+        theme: theme,
+        localeOverrides: defaultLocales,
+        localizations: SharezoneLocalizations.localizationsDelegates,
+      ),
+    );
+    return context;
+  }
 }
 
 class _GoldenFakeUrlLauncher extends UrlLauncherPlatform {

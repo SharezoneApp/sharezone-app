@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'dialog_wrapper.dart';
 import 'snackbars.dart';
@@ -34,7 +35,7 @@ Future<void> launchMarkdownLinkWithWarning({
   if (sanitizedHref.isEmpty) {
     showSnackSec(
       context: context,
-      text: 'Der Link konnte nicht geöffnet werden!',
+      text: context.l10n.launchMarkdownLinkWithWarningCouldNotOpenLink,
     );
     return;
   }
@@ -43,7 +44,7 @@ Future<void> launchMarkdownLinkWithWarning({
   if (uri == null || (!uri.hasScheme && !uri.hasAuthority)) {
     showSnackSec(
       context: context,
-      text: 'Der Link konnte nicht geöffnet werden!',
+      text: context.l10n.launchMarkdownLinkWithWarningCouldNotOpenLink,
     );
     return;
   }
@@ -78,7 +79,7 @@ Future<void> launchMarkdownLinkWithWarning({
   if (!didLaunch && context.mounted) {
     showSnackSec(
       context: context,
-      text: 'Der Link konnte nicht geöffnet werden!',
+      text: context.l10n.launchMarkdownLinkWithWarningCouldNotOpenLink,
     );
   }
 }
@@ -100,21 +101,29 @@ Future<_LinkDialogResult?> _showLinkNotMatchingWarningDialog({
             final ThemeData theme = Theme.of(builderContext);
 
             return AlertDialog(
-              title: const Text('Link überprüfen'),
+              title: Text(
+                context.l10n.launchMarkdownLinkWithWarningDialogTitle,
+              ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'Der Link-Text stimmt nicht mit der tatsächlichen Adresse überein.',
+                  Text(
+                    context
+                        .l10n
+                        .launchMarkdownLinkWithWarningLinkTextDoesNotMatch,
                   ),
                   const SizedBox(height: 12),
                   _LinkPreview(
-                    label: 'Angezeigter Text',
+                    label:
+                        context.l10n.launchMarkdownLinkWithWarningDisplayedText,
                     value: displayText.isEmpty ? '-' : displayText,
                   ),
                   const SizedBox(height: 8),
-                  _LinkPreview(label: 'Tatsächliche Adresse', value: href),
+                  _LinkPreview(
+                    label: context.l10n.launchMarkdownLinkWithWarningActualLink,
+                    value: href,
+                  ),
                   if (domain != null && domain.isNotEmpty) ...[
                     const SizedBox(height: 12),
                     CheckboxListTile(
@@ -125,9 +134,13 @@ Future<_LinkDialogResult?> _showLinkNotMatchingWarningDialog({
                           (value) => setState(
                             () => dontWarnAgainForDomain = value ?? false,
                           ),
-                      title: Text('Domain $domain vertrauen'),
-                      subtitle: const Text(
-                        'Beim nächsten Mal nicht mehr nachfragen.',
+                      title: Text(
+                        context.l10n.launchMarkdownLinkWithWarningTrustDomain(
+                          domain,
+                        ),
+                      ),
+                      subtitle: Text(
+                        context.l10n.launchMarkdownLinkWithWarningDoNotAskAgain,
                       ),
                     ),
                   ],
@@ -142,7 +155,10 @@ Future<_LinkDialogResult?> _showLinkNotMatchingWarningDialog({
                           dontWarnAgainForDomain: false,
                         ),
                       ),
-                  child: Text('Abbrechen', style: theme.textTheme.labelLarge),
+                  child: Text(
+                    context.l10n.commonActionsCancel,
+                    style: theme.textTheme.labelLarge,
+                  ),
                 ),
                 FilledButton(
                   onPressed:
@@ -152,7 +168,9 @@ Future<_LinkDialogResult?> _showLinkNotMatchingWarningDialog({
                           dontWarnAgainForDomain: dontWarnAgainForDomain,
                         ),
                       ),
-                  child: const Text('Link öffnen'),
+                  child: Text(
+                    context.l10n.launchMarkdownLinkWithWarningOpenLink,
+                  ),
                 ),
               ],
             );

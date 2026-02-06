@@ -1023,6 +1023,54 @@ abstract class SharezoneLocalizations {
   /// **'Sprache'**
   String get languageTitle;
 
+  /// No description provided for @launchMarkdownLinkWithWarningActualLink.
+  ///
+  /// In de, this message translates to:
+  /// **'Tatsächliche Adresse'**
+  String get launchMarkdownLinkWithWarningActualLink;
+
+  /// No description provided for @launchMarkdownLinkWithWarningCouldNotOpenLink.
+  ///
+  /// In de, this message translates to:
+  /// **'Link konnte nicht geöffnet werden!'**
+  String get launchMarkdownLinkWithWarningCouldNotOpenLink;
+
+  /// No description provided for @launchMarkdownLinkWithWarningDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Link überprüfen'**
+  String get launchMarkdownLinkWithWarningDialogTitle;
+
+  /// No description provided for @launchMarkdownLinkWithWarningDisplayedText.
+  ///
+  /// In de, this message translates to:
+  /// **'Angezeigter Text'**
+  String get launchMarkdownLinkWithWarningDisplayedText;
+
+  /// No description provided for @launchMarkdownLinkWithWarningDoNotAskAgain.
+  ///
+  /// In de, this message translates to:
+  /// **'Beim nächsten Mal nicht mehr nachfragen.'**
+  String get launchMarkdownLinkWithWarningDoNotAskAgain;
+
+  /// No description provided for @launchMarkdownLinkWithWarningLinkTextDoesNotMatch.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Link-Text stimmt nicht mit der tatsächlichen Adresse überein.'**
+  String get launchMarkdownLinkWithWarningLinkTextDoesNotMatch;
+
+  /// No description provided for @launchMarkdownLinkWithWarningOpenLink.
+  ///
+  /// In de, this message translates to:
+  /// **'Link öffnen'**
+  String get launchMarkdownLinkWithWarningOpenLink;
+
+  /// Text for the checkbox to trust a domain
+  ///
+  /// In de, this message translates to:
+  /// **'Domain {domain} vertrauen'**
+  String launchMarkdownLinkWithWarningTrustDomain(String domain);
+
   /// No description provided for @legalChangeAppearance.
   ///
   /// In de, this message translates to:
