@@ -9,13 +9,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sharezone_widgets/src/launch_markdown_link_with_warning.dart';
 // ignore: depend_on_referenced_packages
-import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
-// ignore: depend_on_referenced_packages
 import 'package:url_launcher_platform_interface/link.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
+// ignore: depend_on_referenced_packages
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 void main() {
   late UrlLauncherPlatform originalLauncher;
@@ -275,7 +275,7 @@ void main() {
       expect(trailingDot, isNotNull);
       expect(trailingDot!.hasScheme, isFalse);
 
-      final protocolRelative = toLaunchableUri('//example.com');
+      final protocolRelative = toLaunchableUri('// example.com');
       expect(protocolRelative, isNotNull);
       expect(protocolRelative!.hasScheme, isFalse);
       expect(protocolRelative.hasAuthority, isTrue);
