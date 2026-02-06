@@ -7,23 +7,27 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import '../privacy_policy_src.dart';
 import 'ui.dart';
 
 class MainContentNarrow extends StatelessWidget {
   const MainContentNarrow({
     required this.privacyPolicy,
-    this.headingText = 'Datenschutzerklärung',
+    this.headingText,
     this.showBackButton = true,
     super.key,
   });
 
   final PrivacyPolicy privacyPolicy;
   final bool showBackButton;
-  final String headingText;
+  final String? headingText;
 
   @override
   Widget build(BuildContext context) {
+    final resolvedHeadingText =
+        headingText ?? context.l10n.legalPrivacyPolicyTitle;
+
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 800),
@@ -40,7 +44,7 @@ class MainContentNarrow extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        PrivacyPolicyHeading(headingText: headingText),
+                        PrivacyPolicyHeading(headingText: resolvedHeadingText),
                         if (privacyPolicy.hasNotYetEnteredIntoForce)
                           Padding(
                             padding: const EdgeInsets.symmetric(

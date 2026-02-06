@@ -6,20 +6,20 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:in_app_review/in_app_review.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_cache.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/navigation_experiment/navigation_experiment_option.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_bloc.dart';
 import 'package:sharezone/settings/src/widgets/settings_subpage_settings.dart';
+import 'package:sharezone/support/support_page.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-
-import '../../../../support/support_page.dart';
 
 class ThemePage extends StatelessWidget {
   static const tag = 'theme-page';
@@ -29,7 +29,7 @@ class ThemePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Erscheinungsbild"), centerTitle: true),
+      appBar: AppBar(title: Text(context.l10n.themeTitle), centerTitle: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 8),
         child: SafeArea(
@@ -48,9 +48,9 @@ class ThemePage extends StatelessWidget {
 class _DarkModeSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const SettingsSubpageSection(
-      title: "Light & Dark Mode",
-      children: [_BrightnessRadioGroup(), _RateOurApp()],
+    return SettingsSubpageSection(
+      title: context.l10n.themeLightDarkModeSectionTitle,
+      children: const [_BrightnessRadioGroup(), _RateOurApp()],
     );
   }
 }
@@ -75,19 +75,19 @@ class _BrightnessRadioGroup extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _BrightnessRadio(
-            title: "Heller Modus",
+            title: context.l10n.themeLightMode,
             groupValue: themeBrightness,
             icon: const Icon(Icons.brightness_high),
             themeBrightness: ThemeBrightness.light,
           ),
           _BrightnessRadio(
-            title: "Dunkler Modus",
+            title: context.l10n.themeDarkMode,
             groupValue: themeBrightness,
             icon: const Icon(Icons.brightness_low),
             themeBrightness: ThemeBrightness.dark,
           ),
           _BrightnessRadio(
-            title: "System",
+            title: context.l10n.themeSystemMode,
             groupValue: themeBrightness,
             icon: const Icon(Icons.settings_brightness),
             themeBrightness: ThemeBrightness.system,
@@ -130,14 +130,12 @@ class _RateOurApp extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12),
       child: AnnouncementCard(
-        title: "Gefällt dir Sharezone?",
+        title: context.l10n.themeRateOurAppCardTitle,
         color:
             Theme.of(context).isDarkTheme
                 ? ElevationColors.dp12
                 : context.primaryColor.withValues(alpha: 0.15),
-        content: const Text(
-          "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
-        ),
+        content: Text(context.l10n.themeRateOurAppCardContent),
         actions: const [
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -167,17 +165,17 @@ class _NewNavigationExperiment extends StatelessWidget {
     // nichts passiert.
     if (context.isDesktopModus) return Container();
 
-    return const SettingsSubpageSection(
-      title: "Experiment: Neue Navigation",
+    return SettingsSubpageSection(
+      title: context.l10n.themeNavigationExperimentSectionTitle,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            "Wir testen aktuell eine neue Navigation. Bitte gib über die Feedback-Box oder unseren Discord-Server eine kurze Rückmeldung, wie du die jeweiligen Optionen findest.",
-            style: TextStyle(color: Colors.grey),
+            context.l10n.themeNavigationExperimentSectionContent,
+            style: const TextStyle(color: Colors.grey),
           ),
         ),
-        _NavigationRadioGroup(),
+        const _NavigationRadioGroup(),
       ],
     );
   }
@@ -260,7 +258,7 @@ class _RateAppButton extends StatelessWidget {
       },
       elevation: 0,
       highlightElevation: 0,
-      child: Text("Bewerten".toUpperCase()),
+      child: Text(context.l10n.themeRateOurAppCardRateButton.toUpperCase()),
     );
   }
 
@@ -283,11 +281,12 @@ class _RateAppButton extends StatelessWidget {
   void _showAppRatingIsNotAvailableOnWeb(BuildContext context) {
     showLeftRightAdaptiveDialog(
       context: context,
-      title: 'App-Bewertung nur über iOS & Android möglich!',
-      content: const Text(
-        'Über die Web-App kann die App nicht bewertet werden. Nimm dafür einfach dein Handy 👍',
+      title:
+          context.l10n.themeRateOurAppCardRatingsNotAvailableOnWebDialogTitle,
+      content: Text(
+        context.l10n.themeRateOurAppCardRatingsNotAvailableOnWebDialogContent,
       ),
-      left: AdaptiveDialogAction.ok,
+      left: AdaptiveDialogAction.ok(context),
     );
   }
 }
@@ -307,7 +306,7 @@ class _NavigationRadioTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return MergeSemantics(
       child: ListTile(
-        title: Text('Option $number: ${option.toReadableString()}'),
+        title: Text('Option $number: ${option.getDisplayName(context)}'),
         onTap: () => onTap(option),
         trailing: Radio(value: option),
       ),
@@ -326,7 +325,7 @@ class _ContactSupportButton extends StatelessWidget {
         foregroundColor:
             Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[600],
       ),
-      child: Text("Support kontaktieren".toUpperCase()),
+      child: Text(context.l10n.contactSupportButton.toUpperCase()),
     );
   }
 }

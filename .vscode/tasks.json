@@ -7,16 +7,35 @@
             // This task generates the l10n files for the
             // sharezone_localizations.
             //
-            // FVM is required to run this task.
+            // FVM & arbsort is required to run this task.
             "label": "Generate l10n for sharezone_localizations",
             "type": "shell",
-            // Additionally, we add the license header again (the "flutter
-            // gen-l10n" always removes the license header).
-            "command": "fvm flutter gen-l10n && addlicense -c \"Sharezone UG (haftungsbeschränkt)\" -f ../../header_template.txt .",
+            "command": "bin/sz l10n generate",
             "options": {
-                "cwd": "${workspaceFolder}/lib/sharezone_localizations"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Add license header to files",
+            "type": "shell",
+            // We don't use the Sharezone Repo CLI (`sz lh add`) because just
+            // using bash commands is way faster.
+            //
+            // Bash script: 0.23s
+            // Sharezone Repo CLI: 1.49s
+            //
+            // See https://github.com/SharezoneApp/sharezone-app/pull/2157
+            "command": "bin/add_license_headers.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            // The command above will not work on Windows, as it uses
+            // bash-specific features. For this reason, we override the command
+            // for Windows and fallback to the Sharezone Repo CLI.
+            "windows": {
+                "command": "sz lh add"
+            }
         }
     ]
 }

@@ -43,6 +43,7 @@ void main() {
     verify(
       szAppFunctions.loadHolidays(
         stateCode: anyNamed('stateCode'),
+        countryIsoCode: anyNamed('countryIsoCode'),
         year: anyNamed('year'),
       ),
     ).called(4); // For each State 2018 and 2019
@@ -57,6 +58,7 @@ void main() {
     verifyNever(
       szAppFunctions.loadHolidays(
         stateCode: anyNamed('stateCode'),
+        countryIsoCode: anyNamed('countryIsoCode'),
         year: anyNamed('year'),
       ),
     ); // No calls added
@@ -122,7 +124,11 @@ void setCfResponse(
   String jsonResponse,
 ) {
   when(
-    szAppFunctions.loadHolidays(stateCode: stateCode, year: year),
+    szAppFunctions.loadHolidays(
+      stateCode: stateCode,
+      countryIsoCode: "DE",
+      year: year,
+    ),
   ).thenAnswer(
     (_) => Future.value(
       AppFunctionsResult<Map<String, dynamic>>.data({

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:legal/legal.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 
 class ImprintPage extends StatelessWidget {
@@ -20,7 +21,7 @@ class ImprintPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Impressum")),
+      appBar: AppBar(title: Text(context.l10n.imprintTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: SafeArea(

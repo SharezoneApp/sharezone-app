@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:video_player/video_player.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class UseAccountOnMultipleDevicesInstructions extends StatelessWidget {
   static const tag = "use-account-on-multiple-devices-instruction-page";
@@ -19,7 +20,10 @@ class UseAccountOnMultipleDevicesInstructions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Anleitung"), centerTitle: true),
+      appBar: AppBar(
+        title: Text(context.l10n.useAccountInstructionsAppBarTitle),
+        centerTitle: true,
+      ),
       body: DefaultTextStyle(
         textAlign: TextAlign.center,
         style: TextStyle(
@@ -62,10 +66,10 @@ class UseAccountOnMultipleDevicesInstructions extends StatelessWidget {
 class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Text(
-        "Wie nutze ich Sharezone auf mehreren Geräten?",
-        style: TextStyle(fontSize: 18),
+        context.l10n.useAccountInstructionsHeadline,
+        style: const TextStyle(fontSize: 18),
       ),
     );
   }
@@ -76,14 +80,11 @@ class _Steps extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Schritte:", style: Theme.of(context).textTheme.headlineSmall),
-        const Text("1. Gehe zurück zu deinem Profil"),
-        const Text("2. Melde dich über das Sign-Out-Icon rechts oben ab."),
-        const Text("3. Bestätige, dass dabei dein Konto gelöscht wird."),
-        const Text(
-          "4. Klicke unten auf den Button \"Du hast schon ein Konto? Dann...\"",
+        Text(
+          context.l10n.useAccountInstructionsStepsTitle,
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        const Text("5. Melde dich an."),
+        Text(context.l10n.useAccountInstructionsStep),
       ],
     );
   }
@@ -115,7 +116,10 @@ class __ExplainingVideoState extends State<_ExplainingVideo> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text("Video:", style: Theme.of(context).textTheme.headlineSmall),
+        Text(
+          context.l10n.useAccountInstructionsVideoTitle,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
         FutureBuilder(
           future: _initializeVideoPlayerFuture,
           builder: (context, snapshot) {

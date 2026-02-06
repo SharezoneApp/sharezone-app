@@ -81,9 +81,6 @@ export 'src/state_sheet/simple/simple_content_sheet.dart';
 export 'src/state_sheet/simple/simple_state_dialog.dart';
 export 'src/state_sheet/simple/simple_state_sheet.dart';
 
-// svg
-export 'src/svg.dart';
-
 // theme
 export 'src/theme/theme.dart';
 export 'src/theme/platform.dart';

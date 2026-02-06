@@ -24,8 +24,10 @@ extension SortWith<
 }
 
 /// Sorts the homeworks firstly by date (earliest date first).
+///
 /// If they have the same date, they will be sorted alphabetically by subject.
-/// If they have the same date and subject, they will be sorted alphabetically by title.
+/// If they have the same date and subject, they will be sorted alphabetically
+/// by title.
 class SmallestDateSubjectAndTitleSort extends Sort<BaseHomeworkReadModel> {
   late Date Function() getCurrentDate;
 
@@ -75,4 +77,29 @@ class SubjectSmallestDateAndTitleSort extends Sort<BaseHomeworkReadModel> {
 
   @override
   int get hashCode => 1337;
+}
+
+/// Sorts the homeworks firstly by weekday (Monday to Sunday).
+/// If they have the same weekday, they will be sorted by date (earliest date
+/// first). If they have the same weekday and date, they will be sorted
+/// alphabetically by subject and finally by title.
+class WeekdayDateSubjectAndTitleSort extends Sort<BaseHomeworkReadModel> {
+  @override
+  IList<T> sort<T extends BaseHomeworkReadModel>(IList<T> list) {
+    return sortWithOperations<T>(
+      list,
+      IListConst<ComparisonResult Function(T, T)>([
+        weekdaySort,
+        dateSort,
+        subjectSort,
+        titleSort,
+      ]),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) => true;
+
+  @override
+  int get hashCode => 42;
 }

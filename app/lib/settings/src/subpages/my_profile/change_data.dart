@@ -9,6 +9,7 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone/auth/authentification_localization_mapper.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
 
@@ -71,8 +72,8 @@ class ChangeDataPasswordField extends StatefulWidget {
   const ChangeDataPasswordField({
     super.key,
     required this.onEditComplete,
+    required this.labelText,
     this.focusNode,
-    this.labelText = "Passwort",
     this.autofocus = false,
   });
 
@@ -102,7 +103,10 @@ class _ChangeDataPasswordFieldState extends State<ChangeDataPasswordField> {
           autofillHints: const [AutofillHints.password],
           decoration: InputDecoration(
             labelText: widget.labelText,
-            errorText: snapshot.error?.toString(),
+            errorText: mapAuthentificationValidationErrorMessage(
+              context,
+              snapshot.error,
+            ),
             suffixIcon: GestureDetector(
               onTap: () => setState(() => _obscureText = !_obscureText),
               child: Icon(

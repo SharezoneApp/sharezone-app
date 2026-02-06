@@ -137,3 +137,213 @@ class Thueringen extends State {
   @override
   String get code => "TH";
 }
+
+class Burgenland extends State {
+  const Burgenland();
+  @override
+  String get code => "AT-BL";
+}
+
+class Kaernten extends State {
+  const Kaernten();
+  @override
+  String get code => "AT-KÄ";
+}
+
+class Niederoesterreich extends State {
+  const Niederoesterreich();
+  @override
+  String get code => "AT-NÖ";
+}
+
+class Oberoesterreich extends State {
+  const Oberoesterreich();
+  @override
+  String get code => "AT-OÖ";
+}
+
+class Salzburg extends State {
+  const Salzburg();
+  @override
+  String get code => "AT-SB";
+}
+
+class Steiermark extends State {
+  const Steiermark();
+  @override
+  String get code => "AT-SM";
+}
+
+class Tirol extends State {
+  const Tirol();
+  @override
+  String get code => "AT-TI";
+}
+
+class Vorarlberg extends State {
+  const Vorarlberg();
+  @override
+  String get code => "AT-VA";
+}
+
+class Wien extends State {
+  const Wien();
+  @override
+  String get code => "AT-WI";
+}
+
+class Aargau extends State {
+  const Aargau();
+  @override
+  String get code => "CH-AG";
+}
+
+class AppenzellAusserrhoden extends State {
+  const AppenzellAusserrhoden();
+  @override
+  String get code => "CH-AR";
+}
+
+class AppenzellInnerrhoden extends State {
+  const AppenzellInnerrhoden();
+  @override
+  String get code => "CH-AI";
+}
+
+class BaselLandschaft extends State {
+  const BaselLandschaft();
+  @override
+  String get code => "CH-BL";
+}
+
+class BaselStadt extends State {
+  const BaselStadt();
+  @override
+  String get code => "CH-BS";
+}
+
+class Bern extends State {
+  const Bern();
+  @override
+  String get code => "CH-BE";
+}
+
+class Fribourg extends State {
+  const Fribourg();
+  @override
+  String get code => "CH-FR";
+}
+
+class Geneva extends State {
+  const Geneva();
+  @override
+  String get code => "CH-GE";
+}
+
+class Glarus extends State {
+  const Glarus();
+  @override
+  String get code => "CH-GL";
+}
+
+class Graubuenden extends State {
+  const Graubuenden();
+  @override
+  String get code => "CH-GR";
+}
+
+class Jura extends State {
+  const Jura();
+  @override
+  String get code => "CH-JU";
+}
+
+class Luzern extends State {
+  const Luzern();
+  @override
+  String get code => "CH-LU";
+}
+
+class Neuchatel extends State {
+  const Neuchatel();
+  @override
+  String get code => "CH-NE";
+}
+
+class Nidwalden extends State {
+  const Nidwalden();
+  @override
+  String get code => "CH-NW";
+}
+
+class Obwalden extends State {
+  const Obwalden();
+  @override
+  String get code => "CH-OW";
+}
+
+class Schaffhausen extends State {
+  const Schaffhausen();
+  @override
+  String get code => "CH-SH";
+}
+
+class Schwyz extends State {
+  const Schwyz();
+  @override
+  String get code => "CH-SZ";
+}
+
+class Solothurn extends State {
+  const Solothurn();
+  @override
+  String get code => "CH-SO";
+}
+
+class StGallen extends State {
+  const StGallen();
+  @override
+  String get code => "CH-SG";
+}
+
+class Thurgau extends State {
+  const Thurgau();
+  @override
+  String get code => "CH-TG";
+}
+
+class Ticino extends State {
+  const Ticino();
+  @override
+  String get code => "CH-TI";
+}
+
+class Uri extends State {
+  const Uri();
+  @override
+  String get code => "CH-UR";
+}
+
+class Valais extends State {
+  const Valais();
+  @override
+  String get code => "CH-VS";
+}
+
+class Vaud extends State {
+  const Vaud();
+  @override
+  String get code => "CH-VD";
+}
+
+class Zug extends State {
+  const Zug();
+  @override
+  String get code => "CH-ZG";
+}
+
+class Zurich extends State {
+  const Zurich();
+  @override
+  String get code => "CH-ZH";
+}

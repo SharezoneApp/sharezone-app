@@ -9,6 +9,7 @@ We love that you are interested in contributing to Sharezone 💙 There are many
 - [How to set up your development environment](#how-to-set-up-your-development-environment)
 - [Running the app](#running-the-app)
 - [Tests](#tests)
+- [Internationalization (i18n / l10n)](#internationalization-i18n--l10n)
 
 If you have any questions, please join our [Discord](https://sharezone.net/discord).
 
@@ -53,9 +54,12 @@ In case you don't want to build the Android app, you can skip this step.
 
 We have written our own CLI to manage our repository. Common use cases for the CLI are:
 
-- Get all Flutter/Dart packages for all packages inside this repository (`sz pub get`)
-- Run all tests for all packages inside this repository (`sz test`)
 - Analyze all packages inside this repository (`sz analyze`)
+- Clean up files of failed golden tests (`sz clean-goldens`)
+- Format all packages inside this repository (`sz format`)
+- Add license headers to all files (`sz lh add`)
+- Generate localization files (`sz l10n generate`)
+- Run all tests for all packages inside this repository (`sz test`)
 
 #### macOS
 
@@ -91,7 +95,7 @@ git clone https://github.com/SharezoneApp/sharezone-app.git
 
 After cloning the repository, we recommend executing the following steps:
 
-1. Get all dependencies with `sz pub get`
+1. Get all dependencies with `fvm flutter pub get`
 
 ### Flutter Version Management (FVM)
 
@@ -224,3 +228,18 @@ fvm flutter test app/test_goldens/grades/pages/grades_page/grades_page_test.dart
 ### Executing integration tests
 
 Please see [app/integration_test/README.md](./app/integration_test/README.md) for detailed instructions on how to run integration tests.
+
+## Internationalization (i18n / l10n)
+
+We organize our multi-language support in the `lib/sharezone_localizations` package.
+
+### Adding new strings
+
+1. Add the new string to `lib/sharezone_localizations/l10n/app_de.arb`. This is our default language.
+2. Add the new string to `lib/sharezone_localizations/l10n/app_en.arb`. Metadata (e.g. `@your_new_string`) should only be added to the German file.
+3. Run `sz l10n generate` to generate the Dart files for the new string.
+
+### Use new strings
+
+1. Add `import 'package:sharezone_localizations/sharezone_localizations.dart';` to the file where you want to use the new string.
+2. Use the new string like this: `context.l10n.your_new_string`.

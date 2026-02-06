@@ -8,6 +8,7 @@
 
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -110,9 +111,9 @@ class _HowToJoinAGroupState extends State<_HowToJoinAGroup> {
               title: "Sharecode mit einem QR-Code scannen",
               icon: Padding(
                 padding: const EdgeInsets.only(left: 2),
-                child: PlatformSvg.asset(
+                child: SvgPicture.asset(
                   "assets/icons/qr-code.svg",
-                  color: _svgColor,
+                  colorFilter: ColorFilter.mode(_svgColor!, BlendMode.srcIn),
                   width: 20,
                   height: 20,
                 ),

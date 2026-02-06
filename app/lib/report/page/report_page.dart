@@ -12,8 +12,10 @@ import 'package:sharezone/report/page/report_page_bloc.dart';
 import 'package:sharezone/report/report_factory.dart';
 import 'package:sharezone/report/report_gateway.dart';
 import 'package:sharezone/report/report_item.dart';
+import 'package:sharezone/report/report_localizations.dart';
 import 'package:sharezone/report/report_reason.dart';
 import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openReportPage(
@@ -59,6 +61,10 @@ class _ReportPageState extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final reportedItemTypeLabel = l10n.reportItemTypeLabel(
+      bloc.reportedItemType,
+    );
     return BlocProvider(
       bloc: bloc,
       child: PopScope<Object?>(
@@ -80,9 +86,7 @@ class _ReportPageState extends State<ReportPage> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: Text(
-              '${reportItemTypeToUiString(bloc.reportedItemType)} melden',
-            ),
+            title: Text(l10n.reportPageTitle(reportedItemTypeLabel)),
             centerTitle: true,
             actions: const [_SendButton()],
           ),
@@ -110,7 +114,7 @@ class _SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'Senden',
+      tooltip: context.l10n.reportDialogSendAction,
       icon: const Icon(Icons.send),
       onPressed: () => _submit(context),
     );
@@ -132,7 +136,11 @@ class _SendButton extends StatelessWidget {
           showSnackSec(
             context: context,
             seconds: 5,
-            text: handleErrorMessage(e.toString(), s),
+            text: handleErrorMessage(
+              l10n: context.l10n,
+              error: e,
+              stackTrace: s,
+            ),
           );
         }
       }
@@ -143,7 +151,7 @@ class _SendButton extends StatelessWidget {
 
   void _showMissingInformationSnackBar(BuildContext context) => showSnackSec(
     context: context,
-    text: MissingReportInformation().toString(),
+    text: context.l10n.reportMissingInformation,
     seconds: 5,
   );
 
@@ -151,12 +159,10 @@ class _SendButton extends StatelessWidget {
     return showLeftRightAdaptiveDialog<bool>(
       context: context,
       defaultValue: false,
-      content: const Text(
-        "Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).",
-      ),
-      right: const AdaptiveDialogAction(
+      content: Text(context.l10n.reportDialogContent),
+      right: AdaptiveDialogAction(
         isDefaultAction: true,
-        title: "Senden",
+        title: context.l10n.reportDialogSendAction,
         popResult: true,
       ),
     );
@@ -198,7 +204,7 @@ class _ReasonTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return RadioListTile<ReportReason>(
       value: reason,
-      title: Text(getReportReasonUiText(reason)),
+      title: Text(context.l10n.reportReasonLabel(reason)),
     );
   }
 }
@@ -211,16 +217,16 @@ class _DescriptionField extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: Column(
         children: <Widget>[
-          const Text(
-            "Bitte beschreibe uns, warum du diesen Inhalt melden möchtest. Gib uns dabei möglichst viele Informationen, damit wir den Fall schnell und sicher bearbeiten können.",
-            style: TextStyle(fontSize: 12),
+          Text(
+            context.l10n.reportDescriptionHelperText,
+            style: const TextStyle(fontSize: 12),
           ),
           const SizedBox(height: 12),
           TextField(
-            decoration: const InputDecoration(
-              labelText: 'Beschreibung',
-              icon: Icon(Icons.short_text),
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: context.l10n.reportDescriptionLabel,
+              icon: const Icon(Icons.short_text),
+              border: const OutlineInputBorder(),
             ),
             textInputAction: TextInputAction.newline,
             maxLines: null,

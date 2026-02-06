@@ -7,11 +7,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/sharezone_plus/sharezone_plus_page.dart';
 import 'package:sharezone_website/support_page.dart';
 import 'package:sharezone_website/utils.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
+import 'package:sharezone_website/widgets/language_selector.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart'
     hide SharezoneLogo, LogoColor;
 
@@ -41,23 +42,23 @@ class PageTemplate extends StatelessWidget {
                     children: [
                       ListTile(
                         leading: const Icon(Icons.home),
-                        title: const Text("Hauptseite"),
-                        onTap: () => context.go('/'),
+                        title: Text(context.l10n.websiteNavHome),
+                        onTap: () => goWithLang(context, '/'),
                       ),
                       ListTile(
                         leading: const Icon(Icons.home),
-                        title: const Text("Plus"),
-                        onTap: () => context.go('/plus'),
+                        title: Text(context.l10n.websiteNavPlus),
+                        onTap: () => goWithLang(context, '/plus'),
                       ),
                       ListTile(
                         leading: const Icon(Icons.question_answer),
-                        title: const Text("Docs"),
+                        title: Text(context.l10n.websiteNavDocs),
                         onTap: () => launchUrl("https://docs.sharezone.net"),
                       ),
                       ListTile(
                         leading: const Icon(Icons.help),
-                        title: const Text("Support"),
-                        onTap: () => context.go('/$SupportPage.tag'),
+                        title: Text(context.l10n.websiteNavSupport),
+                        onTap: () => goWithLang(context, '/$SupportPage.tag'),
                       ),
                     ],
                   ),
@@ -104,6 +105,7 @@ const _kAppBarHeight = 80.0;
 class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
+    final isSmallDevice = MediaQuery.of(context).size.width < 780;
     // Disable selection to prevent showing a selection mouse pointer.
     return SelectionContainer.disabled(
       child: Align(
@@ -117,14 +119,14 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (isPhone(context))
+                  if (isSmallDevice)
                     IconButton(
                       icon: const Icon(Icons.menu),
                       onPressed: () => Scaffold.of(context).openDrawer(),
                     )
                   else
                     TransparentButton(
-                      onTap: () => context.go('/'),
+                      onTap: () => goWithLang(context, '/'),
                       child: const SharezoneLogo(
                         logoColor: LogoColor.blueShort,
                         height: 50,
@@ -135,27 +137,34 @@ class _AppBarTitle extends StatelessWidget implements PreferredSizeWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if (!isPhone(context)) ...[
+                        if (!isSmallDevice) ...[
                           Padding(
                             padding: const EdgeInsets.only(right: 30),
                             child: TransparentButton(
-                              child: const Text("Plus"),
+                              child: Text(context.l10n.websiteNavPlus),
                               onTap:
-                                  () => context.go('/${SharezonePlusPage.tag}'),
+                                  () => goWithLang(
+                                    context,
+                                    '/${SharezonePlusPage.tag}',
+                                  ),
                             ),
                           ),
                           TransparentButton(
-                            child: const Text("Support"),
-                            onTap: () => context.go('/${SupportPage.tag}'),
+                            child: Text(context.l10n.websiteNavSupport),
+                            onTap:
+                                () =>
+                                    goWithLang(context, '/${SupportPage.tag}'),
                           ),
                           const SizedBox(width: 30),
                           TransparentButton.openLink(
                             link: "https://docs.sharezone.net",
-                            child: const Text("Docs"),
+                            child: Text(context.l10n.websiteNavDocs),
                           ),
                           const SizedBox(width: 30),
                         ],
                         _GoWebAppButton(),
+                        const SizedBox(width: 8),
+                        const LanguageSelector(),
                       ],
                     ),
                   ),
@@ -186,13 +195,13 @@ class _GoWebAppButton extends StatelessWidget {
           child: Material(
             borderRadius: borderRaius,
             color: Theme.of(context).primaryColor,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Web-App",
-                  style: TextStyle(color: Colors.white, fontSize: 22),
+                  context.l10n.websiteNavWebApp,
+                  style: const TextStyle(color: Colors.white, fontSize: 22),
                 ),
               ),
             ),

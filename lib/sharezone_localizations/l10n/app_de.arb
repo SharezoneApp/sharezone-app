@@ -1,13 +1,1182 @@
 {
-    "@@locale": "de",
-    "@_APP": {},
-    "appName": "Sharezone",
-    "@_COMMON": {},
-    "commonActionsCancel": "Abbrechen",
-    "commonActionsConfirm": "Bestätigen",
-    "@_LANGUAGES": {},
-    "languagePageTitle": "Sprache",
-    "languageSystemName": "System",
-    "languageDeName": "Deutsch",
-    "languageEnName": "Englisch"
+  "@@locale": "de",
+  "aboutEmailCopiedConfirmation": "E-Mail: {email_address}",
+  "@aboutEmailCopiedConfirmation": {
+    "placeholders": {
+      "email_address": {
+        "example": "nils@sharezone.net",
+        "type": "String"
+      }
+    }
+  },
+  "aboutFollowUsSubtitle": "Folge uns auf unseren Kanälen, um immer auf dem neusten Stand zu bleiben.",
+  "aboutFollowUsTitle": "Folge uns",
+  "aboutHeaderSubtitle": "Der vernetzte Schulplaner",
+  "aboutHeaderTitle": "Sharezone",
+  "aboutLoadingVersion": "Version wird geladen...",
+  "aboutSectionDescription": "Sharezone ist ein vernetzter Schulplaner, welcher die Organisation von Schülern, Lehrkräften und Eltern aus der Steinzeit in das digitale Zeitalter katapultiert. Das Hausaufgabenheft, der Terminplaner, die Dateiablage und vieles weitere wird direkt mit der kompletten Klasse geteilt. Dabei ist keine Registrierung der Schule und die Leitung einer Lehrkraft notwendig, so dass du direkt durchstarten und deinen Schulalltag bequem und einfach gestalten kannst.",
+  "aboutSectionTitle": "Was ist Sharezone?",
+  "aboutSectionVisitWebsite": "Besuche für weitere Informationen einfach https://www.sharezone.net.",
+  "aboutTeamSectionTitle": "Über uns",
+  "aboutTitle": "Über uns",
+  "aboutVersion": "Version: {version} ({buildNumber})",
+  "@aboutVersion": {
+    "placeholders": {
+      "buildNumber": {
+        "example": "234",
+        "type": "String?"
+      },
+      "version": {
+        "example": "1.5.2",
+        "type": "String?"
+      }
+    }
+  },
+  "accountEditProfileTooltip": "Profil bearbeiten",
+  "@accountEditProfileTooltip": {
+    "description": "Tooltip for the edit profile button on the account page."
+  },
+  "accountLinkAppleConfirmation": "Dein Account wurde mit einem Apple-Konto verknüpft.",
+  "@accountLinkAppleConfirmation": {
+    "description": "Snackbar text when linking an account with Apple succeeded."
+  },
+  "accountLinkGoogleConfirmation": "Dein Account wurde mit einem Google-Konto verknüpft.",
+  "@accountLinkGoogleConfirmation": {
+    "description": "Snackbar text when linking an account with Google succeeded."
+  },
+  "accountPageTitle": "Profil",
+  "@accountPageTitle": {
+    "description": "Title for the account page app bar."
+  },
+  "accountPageWebLoginTooltip": "QR-Code Login für die Web-App",
+  "@accountPageWebLoginTooltip": {
+    "description": "Tooltip for the QR code web login button in the account page app bar."
+  },
+  "accountStateTitle": "Bundesland",
+  "@accountStateTitle": {
+    "description": "Title for the tile that shows the user's state on the account page."
+  },
+  "activationCodeCacheCleared": "Cache geleert. Möglicherweise ist ein App-Neustart notwendig, um die Änderungen zu sehen.",
+  "activationCodeFeatureAdsLabel": "Ads",
+  "activationCodeFeatureL10nLabel": "l10n",
+  "activationCodeToggleDisabled": "deaktiviert",
+  "activationCodeToggleEnabled": "aktiviert",
+  "activationCodeToggleResult": "{feature} wurde {state}. Starte die App neu, um die Änderungen zu sehen.",
+  "@activationCodeToggleResult": {
+    "placeholders": {
+      "feature": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "appName": "Sharezone",
+  "authAnonymousDisplayName": "Anonymer {animalName}",
+  "@authAnonymousDisplayName": {
+    "description": "Display name template for users without a chosen name.",
+    "placeholders": {
+      "animalName": {}
+    }
+  },
+  "authProviderAnonymous": "Anonyme Anmeldung",
+  "authProviderApple": "Apple Sign In",
+  "authProviderEmailAndPassword": "E-Mail und Passwort",
+  "authProviderGoogle": "Google Sign In",
+  "authValidationInvalidEmail": "Gib eine gueltige E-Mail ein",
+  "authValidationInvalidName": "Ungueltiger Name",
+  "authValidationInvalidPasswordTooShort": "Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein",
+  "blackboardErrorCourseMissing": "Bitte gib einen Kurs an!",
+  "@blackboardErrorCourseMissing": {
+    "description": "Error message shown when a blackboard entry is missing a course."
+  },
+  "blackboardErrorTitleMissing": "Bitte gib einen Titel für den Eintrag an!",
+  "@blackboardErrorTitleMissing": {
+    "description": "Error message shown when a blackboard entry title is missing."
+  },
+  "changeEmailAddressCurrentEmailTextfieldLabel": "Aktuell",
+  "@changeEmailAddressCurrentEmailTextfieldLabel": {
+    "description": "The label for the text field which is used for the current email address"
+  },
+  "changeEmailAddressIdenticalError": "Die eingegebene E-Mail ist identisch mit der alten! 🙈",
+  "@changeEmailAddressIdenticalError": {
+    "description": "Error message when the new email matches the current one."
+  },
+  "changeEmailAddressNewEmailTextfieldLabel": "Neu",
+  "@changeEmailAddressNewEmailTextfieldLabel": {
+    "description": "The label for the text field which is used for the new email address"
+  },
+  "changeEmailAddressNoteOnAutomaticSignOutSignIn": "Hinweis: Wenn deine E-Mail geändert wurde, wirst du automatisch kurz ab- und sofort wieder angemeldet - also nicht wundern 😉",
+  "changeEmailAddressPasswordTextfieldLabel": "Passwort",
+  "@changeEmailAddressPasswordTextfieldLabel": {
+    "description": "The label for the text field which is used for the password"
+  },
+  "changeEmailAddressTitle": "E-Mail ändern",
+  "changeEmailAddressWhyWeNeedTheEmailInfoContent": "Die E-Mail benötigst du um dich anzumelden. Solltest du zufällig mal dein Passwort vergessen haben, können wir dir an diese E-Mail-Adresse einen Link zum Zurücksetzen des Passworts schicken. Deine E-Mail Adresse ist nur für dich sichtbar, und sonst niemanden.",
+  "changeEmailAddressWhyWeNeedTheEmailInfoTitle": "Wozu brauchen wir deine E-Mail?",
+  "changePasswordCurrentPasswordTextfieldLabel": "Aktuelles Passwort",
+  "changePasswordLoadingSnackbarText": "Neues Password wird an die Zentrale geschickt...",
+  "@changePasswordLoadingSnackbarText": {
+    "description": "A text for the SnackBar widget when the user presses the change password button"
+  },
+  "changePasswordNewPasswordTextfieldLabel": "Neues Passwort",
+  "changePasswordResetCurrentPasswordButton": "Aktuelles Passwort vergessen?",
+  "changePasswordResetCurrentPasswordDialogContent": "Sollen wir dir eine E-Mail schicken, mit der du dein Passwort zurücksetzen kannst?",
+  "changePasswordResetCurrentPasswordDialogTitle": "Passwort zurücksetzen",
+  "changePasswordResetCurrentPasswordEmailSentConfirmation": "Wir haben eine E-Mail zum Zurücksetzen deines Passworts verschickt.",
+  "@changePasswordResetCurrentPasswordEmailSentConfirmation": {
+    "description": "The confirmation text that an email for resetting the password has been sent"
+  },
+  "changePasswordResetCurrentPasswordLoading": "Verschicken der E-Mail wird vorbereitet...",
+  "@changePasswordResetCurrentPasswordLoading": {
+    "description": "Text that is displayed when the user confirmed to reset the current password"
+  },
+  "changePasswordTitle": "Passwort ändern",
+  "changeStateErrorChangingState": "Fehler beim Ändern deines Bundeslandes! :(",
+  "changeStateErrorLoadingState": "Error beim Anzeigen der Bundesländer. Falls der Fehler besteht kontaktiere uns bitte.",
+  "changeStateTitle": "Bundesland ändern",
+  "changeStateWhyWeNeedTheStateInfoContent": "Mithilfe des Bundeslandes können wir die restlichen Tage bis zu den nächsten Ferien berechnen. Wenn du diese Angabe nicht machen möchtest, dann wähle beim Bundesland bitte einfach den Eintrag \"Anonym bleiben.\" aus.",
+  "changeStateWhyWeNeedTheStateInfoTitle": "Wozu brauchen wir dein Bundesland?",
+  "changeTypeOfUserErrorDialogContentChangedTypeOfUserTooOften": "Du kannst nur alle 14 Tage 2x den Account-Typ ändern. Diese Limit wurde erreicht. Bitte warte bis {blockedUntil}.",
+  "@changeTypeOfUserErrorDialogContentChangedTypeOfUserTooOften": {
+    "placeholders": {
+      "blockedUntil": {
+        "format": "yMd+jm",
+        "type": "DateTime"
+      }
+    }
+  },
+  "changeTypeOfUserErrorDialogContentNoTypeOfUserSelected": "Es wurde kein Account-Typ ausgewählt.",
+  "changeTypeOfUserErrorDialogContentTypeOfUserHasNotChanged": "Der Account-Typ hat sich nicht geändert.",
+  "changeTypeOfUserErrorDialogContentUnknown": "Fehler: {error}. Bitte kontaktiere den Support.",
+  "@changeTypeOfUserErrorDialogContentUnknown": {
+    "placeholders": {
+      "error": {
+        "type": "Object?"
+      }
+    }
+  },
+  "changeTypeOfUserErrorDialogTitle": "Fehler",
+  "changeTypeOfUserPermissionNote": "Beachte die folgende Hinweise:\n* Innerhalb von 14 Tagen kannst du nur 2x den Account-Typ ändern.\n* Durch das Ändern der Nutzer erhältst du keine weiteren Berechtigungen in den Gruppen. Ausschlaggebend sind die Gruppenberechtigungen (\"Administrator\", \"Aktives Mitglied\", \"Passives Mitglied\").",
+  "changeTypeOfUserRestartAppDialogContent": "Die Änderung deines Account-Typs war erfolgreich. Jedoch muss die App muss neu gestartet werden, damit die Änderung wirksam wird.",
+  "@changeTypeOfUserRestartAppDialogContent": {
+    "description": "The content of the dialog which will be displayed after a successful type of user change to explain that a restart is required."
+  },
+  "changeTypeOfUserRestartAppDialogTitle": "Neustart erforderlich",
+  "@changeTypeOfUserRestartAppDialogTitle": {
+    "description": "The title of the dialog which will be displayed after a successful type of user change to explain that a restart is required."
+  },
+  "changeTypeOfUserTitle": "Account-Typ ändern",
+  "commonActionBack": "Zurück",
+  "commonActionChange": "Ändern",
+  "commonActionsAlright": "Alles klar",
+  "commonActionsCancel": "Abbrechen",
+  "commonActionsCancelUppercase": "ABBRECHEN",
+  "commonActionsClose": "Schließen",
+  "commonActionsCloseUppercase": "SCHLIESSEN",
+  "commonActionsConfirm": "Bestätigen",
+  "commonActionsContactSupport": "Support kontaktieren",
+  "commonActionsContinue": "Weiter",
+  "commonActionsDelete": "Löschen",
+  "commonActionsDeleteUppercase": "LÖSCHEN",
+  "commonActionsLeave": "Verlassen",
+  "commonActionsOk": "Ok",
+  "commonActionsSave": "Speichern",
+  "commonActionsYes": "Ja",
+  "commonDisplayError": "Fehler: {error}",
+  "@commonDisplayError": {
+    "placeholders": {
+      "error": {
+        "example": "Server ist nicht erreichbar",
+        "type": "String?"
+      }
+    }
+  },
+  "commonErrorCourseSubjectMissing": "Bitte gib ein Fach an!",
+  "@commonErrorCourseSubjectMissing": {
+    "description": "Error message shown when the course subject is missing."
+  },
+  "commonErrorCredentialAlreadyInUse": "Es existiert bereits ein Nutzer mit dieser Anmeldemethode!",
+  "@commonErrorCredentialAlreadyInUse": {
+    "description": "Error message shown when the credential is already in use."
+  },
+  "commonErrorDateMissing": "Bitte gib ein Datum an!",
+  "@commonErrorDateMissing": {
+    "description": "Error message shown when a date is missing."
+  },
+  "commonErrorEmailAlreadyInUse": "Diese E-Mail Adresse wird bereits von einem anderen Nutzer verwendet.",
+  "@commonErrorEmailAlreadyInUse": {
+    "description": "Error message shown when an email is already in use."
+  },
+  "commonErrorEmailInvalidFormat": "Die E-Mail hat ein ungültiges Format.",
+  "@commonErrorEmailInvalidFormat": {
+    "description": "Error message shown when an email has an invalid format."
+  },
+  "commonErrorEmailMissing": "Bitte gib deine E-Mail an.",
+  "@commonErrorEmailMissing": {
+    "description": "Error message shown when the email field is missing."
+  },
+  "commonErrorIncorrectData": "Bitte gib die Daten korrekt an!",
+  "@commonErrorIncorrectData": {
+    "description": "Error message shown when provided data is invalid."
+  },
+  "commonErrorIncorrectSharecode": "Ungültiger Sharecode!",
+  "@commonErrorIncorrectSharecode": {
+    "description": "Error message shown when a share code is invalid."
+  },
+  "commonErrorInvalidInput": "Bitte überprüfe deine Eingabe!",
+  "@commonErrorInvalidInput": {
+    "description": "Generic error message shown when the user input is invalid."
+  },
+  "commonErrorKeychainSignInFailed": "Es gab einen Fehler beim Anmelden. Um diesen zu beheben, wähle die Option 'Immer erlauben' bei der Passworteingabe bei dem Dialog für den macOS-Schlüsselbund (Keychain) aus.",
+  "@commonErrorKeychainSignInFailed": {
+    "description": "Error message shown when macOS Keychain sign-in fails."
+  },
+  "commonErrorNameMissing": "Bitte gib einen Namen an!",
+  "@commonErrorNameMissing": {
+    "description": "Error message shown when a name is missing."
+  },
+  "commonErrorNameTooShort": "Bitte gib einen Namen an, der mehr als ein Zeichen hat.",
+  "@commonErrorNameTooShort": {
+    "description": "Error message shown when a name is too short."
+  },
+  "commonErrorNameUnchanged": "Dieser Name ist doch der gleiche wie vorher 😅",
+  "@commonErrorNameUnchanged": {
+    "description": "Error message shown when the name has not changed."
+  },
+  "commonErrorNetworkRequestFailed": "Es gab einen Netzwerkfehler, weil keine stabile Internetverbindung besteht.",
+  "@commonErrorNetworkRequestFailed": {
+    "description": "Error message shown when a network request failed."
+  },
+  "commonErrorNewPasswordMissing": "Oh, du hast vergessen dein neues Passwort einzugeben 😬",
+  "@commonErrorNewPasswordMissing": {
+    "description": "Error message shown when the new password field is missing."
+  },
+  "commonErrorNoGoogleAccountSelected": "Bitte wähle einen Account aus.",
+  "@commonErrorNoGoogleAccountSelected": {
+    "description": "Error message shown when no Google account was selected."
+  },
+  "commonErrorNoInternetAccess": "Dein Gerät hat leider keinen Zugang zum Internet...",
+  "@commonErrorNoInternetAccess": {
+    "description": "Error message shown when there is no internet connection."
+  },
+  "commonErrorPasswordMissing": "Bitte gib dein Passwort an.",
+  "@commonErrorPasswordMissing": {
+    "description": "Error message shown when the password field is missing."
+  },
+  "commonErrorSameNameAsBefore": "Das ist doch der selbe Name wie vorher 🙈",
+  "@commonErrorSameNameAsBefore": {
+    "description": "Error message shown when the entered name matches the previous one."
+  },
+  "commonErrorTitleMissing": "Bitte gib einen Titel an!",
+  "@commonErrorTitleMissing": {
+    "description": "Error message shown when a title is missing."
+  },
+  "commonErrorTooManyRequests": "Wir haben alle Anfragen von diesem Gerät aufgrund ungewöhnlicher Aktivitäten blockiert. Versuchen Sie es später noch einmal.",
+  "@commonErrorTooManyRequests": {
+    "description": "Error message shown when too many requests were made."
+  },
+  "commonErrorUnknown": "Es ist ein unbekannter Fehler ({error}) aufgetreten! Bitte kontaktiere den Support.",
+  "@commonErrorUnknown": {
+    "description": "Fallback error message for unknown errors.",
+    "placeholders": {
+      "error": {
+        "example": "SomeException"
+      }
+    }
+  },
+  "commonErrorUserDisabled": "Dieser Account wurde von einem Administrator deaktiviert",
+  "@commonErrorUserDisabled": {
+    "description": "Error message shown when the account is disabled."
+  },
+  "commonErrorUserNotFound": "Es wurde kein Nutzer mit dieser E-Mail Adresse gefunden... Inaktive Nutzer werden nach 2 Jahren gelöscht.",
+  "@commonErrorUserNotFound": {
+    "description": "Error message shown when no user is found for the email address."
+  },
+  "commonErrorWeakPassword": "Dieses Passwort ist zu schwach. Bitte wähle eine stärkeres Passwort.",
+  "@commonErrorWeakPassword": {
+    "description": "Error message shown when the password is too weak."
+  },
+  "commonErrorWrongPassword": "Das eingegebene Passwort ist falsch.",
+  "@commonErrorWrongPassword": {
+    "description": "Error message shown when the entered password is incorrect."
+  },
+  "commonLoadingPleaseWait": "Bitte warten...",
+  "commonStatusFailed": "Fehlgeschlagen",
+  "commonStatusNoInternetDescription": "Bitte überprüfen Sie die Internetverbindung.",
+  "commonStatusNoInternetTitle": "Fehler: Keine Internetverbindung",
+  "commonStatusSuccessful": "Erfolgreich",
+  "commonStatusUnknownErrorDescription": "Ein unbekannter Fehler ist aufgetreten! 😭",
+  "commonStatusUnknownErrorTitle": "Unbekannter Fehler",
+  "commonTitleNote": "Hinweis",
+  "contactSupportButton": "Support kontaktieren",
+  "countryAustria": "Österreich",
+  "countryGermany": "Deutschland",
+  "countrySwitzerland": "Schweiz",
+  "dashboardSelectStateButton": "Bundesland / Kanton auswählen",
+  "dateWeekTypeA": "A-Woche",
+  "@dateWeekTypeA": {
+    "description": "Week type for lessons that occur on week A."
+  },
+  "dateWeekTypeAlways": "Immer",
+  "@dateWeekTypeAlways": {
+    "description": "Week type for lessons that occur every week."
+  },
+  "dateWeekTypeB": "B-Woche",
+  "@dateWeekTypeB": {
+    "description": "Week type for lessons that occur on week B."
+  },
+  "dateWeekdayFriday": "Freitag",
+  "@dateWeekdayFriday": {
+    "description": "Weekday name for Friday."
+  },
+  "dateWeekdayMonday": "Montag",
+  "@dateWeekdayMonday": {
+    "description": "Weekday name for Monday."
+  },
+  "dateWeekdaySaturday": "Samstag",
+  "@dateWeekdaySaturday": {
+    "description": "Weekday name for Saturday."
+  },
+  "dateWeekdaySunday": "Sonntag",
+  "@dateWeekdaySunday": {
+    "description": "Weekday name for Sunday."
+  },
+  "dateWeekdayThursday": "Donnerstag",
+  "@dateWeekdayThursday": {
+    "description": "Weekday name for Thursday."
+  },
+  "dateWeekdayTuesday": "Dienstag",
+  "@dateWeekdayTuesday": {
+    "description": "Weekday name for Tuesday."
+  },
+  "dateWeekdayWednesday": "Mittwoch",
+  "@dateWeekdayWednesday": {
+    "description": "Weekday name for Wednesday."
+  },
+  "dateYesterday": "Gestern",
+  "@dateYesterday": {
+    "description": "Label for yesterday in fuzzy date strings."
+  },
+  "feedbackDetailsCommentsTitle": "Kommentare:",
+  "feedbackDetailsLoadingHeardFrom": "Freund",
+  "feedbackDetailsLoadingMissing": "Tolle App!",
+  "feedbackDetailsPageTitle": "Feedback-Details",
+  "feedbackDetailsResponseHint": "Antwort schreiben...",
+  "feedbackDetailsSendError": "Fehler beim Senden der Nachricht: {error}",
+  "@feedbackDetailsSendError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackNewLineHint": "Shift + Enter für neue Zeile",
+  "feedbackSendTooltip": "Senden (Enter)",
+  "homeworkSectionDayAfterTomorrow": "Übermorgen",
+  "homeworkSectionLater": "Später",
+  "homeworkSectionOverdue": "Überfällig",
+  "homeworkSectionToday": "Heute",
+  "homeworkSectionTomorrow": "Morgen",
+  "homeworkTodoDateTime": "{date} - {time} Uhr",
+  "@homeworkTodoDateTime": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "imprintTitle": "Impressum",
+  "languageDeName": "Deutsch",
+  "languageEnName": "Englisch",
+  "languageSystemName": "System",
+  "languageTitle": "Sprache",
+  "legalChangeAppearance": "Darstellung ändern",
+  "legalDownloadAsPdf": "Als PDF herunterladen",
+  "legalMetadataLastUpdated": "Zuletzt aktualisiert: {date}",
+  "@legalMetadataLastUpdated": {
+    "description": "Label for the last updated date in legal documents.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMetadataTitle": "Metadaten",
+  "legalMetadataVersion": "Version: v{version}",
+  "@legalMetadataVersion": {
+    "description": "Label for the metadata version in legal documents.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "legalMoreOptions": "Weitere Optionen",
+  "legalPrivacyPolicyEffectiveDate": "Diese aktualisierte Datenschutzerklärung tritt am {date} in Kraft.",
+  "@legalPrivacyPolicyEffectiveDate": {
+    "description": "Shown under the privacy policy heading with the effective date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalPrivacyPolicyTitle": "Datenschutzerklärung",
+  "legalTableOfContents": "Inhaltsverzeichnis",
+  "legalTermsOfServiceTitle": "Allgemeine Nutzungsbedingungen",
+  "memberRoleAdmin": "Admin",
+  "memberRoleCreator": "Aktives Mitglied (Schreib- und Leserechte)",
+  "memberRoleNone": "Nichts",
+  "memberRoleOwner": "Besitzer",
+  "memberRoleStandard": "Passives Mitglied (Nur Leserechte)",
+  "myProfileActivationCodeTile": "Aktivierungscode eingeben",
+  "myProfileChangePasswordTile": "Passwort ändern",
+  "myProfileChangedPasswordConfirmation": "Das Passwort wurde erfolgreich geändert.",
+  "myProfileCopyUserIdConfirmation": "User ID wurde kopiert.",
+  "myProfileCopyUserIdTile": "User ID",
+  "myProfileDeleteAccountButton": "Konto löschen",
+  "myProfileDeleteAccountDialogContent": "Möchtest du deinen Account wirklich löschen?",
+  "myProfileDeleteAccountDialogPasswordTextfieldLabel": "Passwort",
+  "myProfileDeleteAccountDialogPleaseEnterYourPassword": "Bitte gib dein Passwort ein, um deinen Account zu löschen.",
+  "myProfileDeleteAccountDialogTitle": "Sollte dein Account gelöscht werden, werden alle deine Daten gelöscht. Dieser Vorgang lässt sich nicht wieder rückgängig machen.",
+  "myProfileEmailAccountTypeTitle": "Account-Typ",
+  "myProfileEmailNotChangeable": "Dein Account ist mit einem Google-Konto verbunden. Aus diesem Grund kannst du deine E-Mail nicht ändern.",
+  "myProfileEmailTile": "E-Mail",
+  "myProfileNameTile": "Name",
+  "myProfileSignInMethodChangeNotPossibleDialogContent": "Die Anmeldemethode kann aktuell nur bei der Registrierung gesetzt werden. Später kann diese nicht mehr geändert werden.",
+  "myProfileSignInMethodChangeNotPossibleDialogTitle": "Anmeldemethode ändern nicht möglich",
+  "myProfileSignInMethodTile": "Anmeldemethode",
+  "myProfileSignOutButton": "Abmelden",
+  "myProfileStateTile": "Bundesland",
+  "myProfileSupportTeamDescription": "Durch das Teilen von anonymen Nutzerdaten hilfst du uns, die App noch einfacher und benutzerfreundlicher zu machen.",
+  "myProfileSupportTeamTile": "Entwickler unterstützen",
+  "myProfileTitle": "Mein Konto",
+  "navigationExperimentOptionDrawerAndBnb": "Aktuelle Navigation",
+  "navigationExperimentOptionExtendableBnb": "Neue Navigation - Ohne Mehr-Button",
+  "navigationExperimentOptionExtendableBnbWithMoreButton": "Neue Navigation - Mit Mehr-Button",
+  "registerAccountAgeNoticeText": "Melde dich jetzt an und übertrage deine Daten! Die Anmeldung ist aus datenschutzrechtlichen Gründen erst ab 16 Jahren erlaubt.",
+  "@registerAccountAgeNoticeText": {
+    "description": "Legal notice shown below the sign-in methods for anonymous users."
+  },
+  "registerAccountAnonymousInfoTitle": "Du bist nur anonym angemeldet!",
+  "@registerAccountAnonymousInfoTitle": {
+    "description": "Banner text indicating the user is only signed in anonymously."
+  },
+  "registerAccountAppleButtonLong": "Mit Apple anmelden",
+  "@registerAccountAppleButtonLong": {
+    "description": "Label for the long Apple sign-in button."
+  },
+  "registerAccountAppleButtonShort": "Apple",
+  "@registerAccountAppleButtonShort": {
+    "description": "Label for the short Apple sign-in button."
+  },
+  "registerAccountBenefitBackupSubtitle": "Weiterhin Zugriff auf die Daten bei Verlust des Smartphones",
+  "@registerAccountBenefitBackupSubtitle": {
+    "description": "Subtitle describing the backup benefit for anonymous users."
+  },
+  "registerAccountBenefitBackupTitle": "Automatisches Backup",
+  "@registerAccountBenefitBackupTitle": {
+    "description": "Title for the backup benefit list tile for anonymous users."
+  },
+  "registerAccountBenefitMultiDeviceSubtitle": "Daten werden zwischen mehreren Geräten synchronisiert",
+  "@registerAccountBenefitMultiDeviceSubtitle": {
+    "description": "Subtitle describing the multi-device benefit for anonymous users."
+  },
+  "registerAccountBenefitMultiDeviceTitle": "Nutzung auf mehreren Geräten",
+  "@registerAccountBenefitMultiDeviceTitle": {
+    "description": "Title for the multi-device benefit list tile for anonymous users."
+  },
+  "registerAccountBenefitsIntro": "Übertrage jetzt deinen Account auf ein richtiges Konto, um von folgenden Vorteilen zu profitieren:",
+  "@registerAccountBenefitsIntro": {
+    "description": "Intro text for the benefits of creating an account."
+  },
+  "registerAccountEmailAlreadyUsedContent": "So wie es aussieht, hast du versehentlich einen zweiten Sharezone-Account erstellt. Lösche einfach diesen Account und melde dich mit deinem richtigen Account an.\n\nFür den Fall, dass du nicht genau weißt, wie das funktioniert, haben wir für dich eine Anleitung vorbereitet :)",
+  "@registerAccountEmailAlreadyUsedContent": {
+    "description": "Dialog content explaining what to do when the email is already in use during linking."
+  },
+  "registerAccountEmailAlreadyUsedTitle": "Diese E-Mail wird schon verwendet!",
+  "@registerAccountEmailAlreadyUsedTitle": {
+    "description": "Dialog title when the email is already in use during linking."
+  },
+  "registerAccountEmailButtonLong": "Mit E-Mail anmelden",
+  "@registerAccountEmailButtonLong": {
+    "description": "Label for the long email sign-in button."
+  },
+  "registerAccountEmailButtonShort": "E-Mail",
+  "@registerAccountEmailButtonShort": {
+    "description": "Label for the short email sign-in button."
+  },
+  "registerAccountEmailLinkConfirmation": "Dein Account wurde mit einem E-Mail-Konto verknüpft.",
+  "@registerAccountEmailLinkConfirmation": {
+    "description": "Snackbar text when an email account link succeeds."
+  },
+  "registerAccountGoogleButtonLong": "Mit Google anmelden",
+  "@registerAccountGoogleButtonLong": {
+    "description": "Label for the long Google sign-in button."
+  },
+  "registerAccountGoogleButtonShort": "Google",
+  "@registerAccountGoogleButtonShort": {
+    "description": "Label for the short Google sign-in button."
+  },
+  "registerAccountShowInstructionAction": "Anleitung zeigen",
+  "@registerAccountShowInstructionAction": {
+    "description": "Label for the dialog action that opens the instructions for using multiple devices."
+  },
+  "reportDescriptionHelperText": "Bitte beschreibe uns, warum du diesen Inhalt melden möchtest. Gib uns dabei möglichst viele Informationen, damit wir den Fall schnell und sicher bearbeiten können.",
+  "@reportDescriptionHelperText": {
+    "description": "Helper text shown above the description field on the report page."
+  },
+  "reportDescriptionLabel": "Beschreibung",
+  "@reportDescriptionLabel": {
+    "description": "Label of the description text field on the report page."
+  },
+  "reportDialogContent": "Wir werden den Fall schnellstmöglich bearbeiten!\n\nBitte beachte, dass ein mehrfacher Missbrauch des Report-Systems Konsequenzen für dich haben kann (z.B. Sperrung deines Accounts).",
+  "@reportDialogContent": {
+    "description": "Content of the confirmation dialog before sending a report."
+  },
+  "reportDialogSendAction": "Senden",
+  "@reportDialogSendAction": {
+    "description": "Label for sending a report, used for dialog action and tooltip."
+  },
+  "reportItemTypeBlackboard": "Infozettel",
+  "@reportItemTypeBlackboard": {
+    "description": "Label for the reported item type blackboard/notice."
+  },
+  "reportItemTypeComment": "Kommentar",
+  "@reportItemTypeComment": {
+    "description": "Label for the reported item type comment."
+  },
+  "reportItemTypeCourse": "Kurs",
+  "@reportItemTypeCourse": {
+    "description": "Label for the reported item type course."
+  },
+  "reportItemTypeEvent": "Termin / Prüfung",
+  "@reportItemTypeEvent": {
+    "description": "Label for the reported item type event or exam."
+  },
+  "reportItemTypeFile": "Datei",
+  "@reportItemTypeFile": {
+    "description": "Label for the reported item type file."
+  },
+  "reportItemTypeHomework": "Hausaufgabe",
+  "@reportItemTypeHomework": {
+    "description": "Label for the reported item type homework."
+  },
+  "reportItemTypeLesson": "Stunde",
+  "@reportItemTypeLesson": {
+    "description": "Label for the reported item type lesson."
+  },
+  "reportItemTypeSchoolClass": "Schulklasse",
+  "@reportItemTypeSchoolClass": {
+    "description": "Label for the reported item type school class."
+  },
+  "reportItemTypeUser": "Nutzer",
+  "@reportItemTypeUser": {
+    "description": "Label for the reported item type user."
+  },
+  "reportMissingInformation": "Bitte einen Grund und eine Beschreibung an.",
+  "@reportMissingInformation": {
+    "description": "Error message shown when required report information is missing."
+  },
+  "reportPageTitle": "{itemType} melden",
+  "@reportPageTitle": {
+    "description": "Title for the report page and tooltip when reporting an item.",
+    "placeholders": {
+      "itemType": {
+        "description": "The localized item type that is being reported.",
+        "type": "String"
+      }
+    }
+  },
+  "reportReasonBullying": "Mobbing",
+  "@reportReasonBullying": {
+    "description": "Reason option for bullying."
+  },
+  "reportReasonIllegalContent": "Rechtswidrige Inhalte",
+  "@reportReasonIllegalContent": {
+    "description": "Reason option for illegal content."
+  },
+  "reportReasonOther": "Sonstiges",
+  "@reportReasonOther": {
+    "description": "Reason option for other reasons."
+  },
+  "reportReasonPornographicContent": "Pornografische Inhalte",
+  "@reportReasonPornographicContent": {
+    "description": "Reason option for pornographic content."
+  },
+  "reportReasonSpam": "Spam",
+  "@reportReasonSpam": {
+    "description": "Reason option for spam."
+  },
+  "reportReasonViolentContent": "Gewaltsame oder abstoßende Inhalte",
+  "@reportReasonViolentContent": {
+    "description": "Reason option for violent or repulsive content."
+  },
+  "selectStateDialogConfirmationSnackBar": "Region {region} ausgewählt",
+  "@selectStateDialogConfirmationSnackBar": {
+    "placeholders": {
+      "region": {
+        "example": "Berlin"
+      }
+    }
+  },
+  "selectStateDialogSelectBundesland": "Bundesland auswählen",
+  "selectStateDialogSelectCanton": "Kanton auswählen",
+  "selectStateDialogSelectCountryTitle": "Land auswählen",
+  "selectStateDialogStayAnonymous": "Ich möchte anonym bleiben",
+  "sharezonePlusAdvantageAddToCalendarDescription": "Füge mit nur einem Klick einen Termin zu deinem lokalen Kalender hinzu (z.B. Apple oder Google Kalender).\n\nBeachte, dass die Funktion nur auf Android \u0026 iOS verfügbar ist. Zudem aktualisiert sich der Termin in deinem Kalender nicht automatisch, wenn dieser in Sharezone geändert wird.",
+  "sharezonePlusAdvantageAddToCalendarTitle": "Termine zum lokalen Kalender hinzufügen",
+  "sharezonePlusAdvantageDiscordDescription": "Erhalte den Discord Sharezone Plus Rang auf unserem [Discord-Server](https://sharezone.net/discord). Dieser Rang zeigt, dass du Sharezone Plus hast und gibt dir Zugriff auf einen exklusive Channel nur für Sharezone Plus Nutzer.",
+  "sharezonePlusAdvantageDiscordTitle": "Discord Sharezone Plus Rang",
+  "sharezonePlusAdvantageGradesDescription": "Speichere deine Schulnoten mit Sharezone Plus und behalte den Überblick über deine Leistungen. Schriftliche Prüfungen, mündliche Mitarbeit, Halbjahresnoten - alles an einem Ort.",
+  "sharezonePlusAdvantageGradesTitle": "Noten",
+  "sharezonePlusAdvantageHomeworkReminderDescription": "Mit Sharezone Plus kannst du die Erinnerung am Vortag für die Hausaufgaben individuell im 30-Minuten-Tack einstellen, z.B. 15:00 oder 15:30 Uhr. Dieses Feature ist nur für Schüler*innen verfügbar.",
+  "sharezonePlusAdvantageHomeworkReminderTitle": "Individuelle Uhrzeit für Hausaufgaben-Erinnerungen",
+  "sharezonePlusAdvantageIcalDescription": "Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim \"Zum Kalender hinzufügen\" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.",
+  "sharezonePlusAdvantageIcalTitle": "Stundenplan exportieren (iCal)",
+  "sharezonePlusAdvantageMoreColorsDescription": "Sharezone Plus bietet dir über 200 (statt 19) Farben für deine Gruppen. Setzt du mit Sharezone Plus eine Farbe für deine Gruppe, so können auch deine Gruppenmitglieder diese Farbe sehen.",
+  "sharezonePlusAdvantageMoreColorsTitle": "Mehr Farben für die Gruppen",
+  "sharezonePlusAdvantageOpenSourceDescription": "Sharezone ist Open-Source im Frontend. Das bedeutet, dass jeder den Quellcode von Sharezone einsehen und sogar verbessern kann. Wir glauben, dass Open-Source die Zukunft ist und wollen Sharezone zu einem Vorzeigeprojekt machen.\n\nGitHub: [https://github.com/SharezoneApp/sharezone-app](https://sharezone.net/github)",
+  "sharezonePlusAdvantageOpenSourceTitle": "Unterstützung von Open-Source",
+  "sharezonePlusAdvantagePastEventsDescription": "Mit Sharezone Plus kannst du alle vergangenen Termine, wie z.B. Prüfungen, einsehen.",
+  "sharezonePlusAdvantagePastEventsTitle": "Vergangene Termine einsehen",
+  "sharezonePlusAdvantagePremiumSupportDescription": "Mit Sharezone Plus erhältst du Zugriff auf unseren Premium Support:\n- Innerhalb von wenigen Stunden eine Rückmeldung per E-Mail (anstatt bis zu 2 Wochen)\n- Videocall-Support nach Terminvereinbarung (ermöglicht das Teilen des Bildschirms)",
+  "sharezonePlusAdvantagePremiumSupportTitle": "Premium Support",
+  "sharezonePlusAdvantageQuickDueDateDescription": "Mit Sharezone Plus kannst du das Fälligkeitsdatum einer Hausaufgaben mit nur einem Fingertipp auf den nächsten Schultag oder eine beliebige Stunde in der Zukunft setzen.",
+  "sharezonePlusAdvantageQuickDueDateTitle": "Schnellauswahl für Fälligkeitsdatum",
+  "sharezonePlusAdvantageReadByDescription": "Erhalte eine Liste mit allen Gruppenmitgliedern samt Lesestatus für jeden Infozettel - und stelle somit sicher, dass wichtige Informationen bei allen Mitgliedern angekommen sind.",
+  "sharezonePlusAdvantageReadByTitle": "Gelesen-Status bei Infozetteln",
+  "sharezonePlusAdvantageRemoveAdsDescription": "Genieße Sharezone komplett werbefrei.\n\nHinweis: Wir testen derzeit die Anzeige von Werbung. Es ist möglich, dass wir in Zukunft die Werbung wieder für alle Nutzer entfernen.",
+  "sharezonePlusAdvantageRemoveAdsTitle": "Werbung entfernen",
+  "sharezonePlusAdvantageStorageDescription": "Mit Sharezone Plus erhältst du 30 GB Speicherplatz (statt 100 MB) für deine Dateien \u0026 Anhänge (bei Hausaufgaben \u0026 Infozetteln). Dies entspricht ca. 15.000 Fotos (2 MB pro Bild).\n\nDie Begrenzung gilt nicht für Dateien, die als Abgabe bei Hausaufgaben hochgeladen wird.",
+  "sharezonePlusAdvantageStorageTitle": "30 GB Speicherplatz",
+  "sharezonePlusAdvantageSubstitutionsDescription": "Schalte mit Sharezone Plus den Vertretungsplan frei:\n* Entfall einer Schulstunden markieren\n* Raumänderungen\n\nSogar Kursmitglieder ohne Sharezone Plus können den Vertretungsplan einsehen (jedoch nicht ändern). Ebenfalls können Kursmitglieder mit nur einem 1-Klick über die Änderung informiert werden. \n\nBeachte, dass der Vertretungsplan manuell eingetragen werden muss und nicht automatisch importiert wird.",
+  "sharezonePlusAdvantageSubstitutionsTitle": "Vertretungsplan",
+  "sharezonePlusAdvantageTeacherTimetableDescription": "Trage den Name der Lehrkraft zur jeweiligen Schulstunde im Stundenplan ein. Für Kursmitglieder ohne Sharezone Plus wird die Lehrkraft ebenfalls angezeigt.",
+  "sharezonePlusAdvantageTeacherTimetableTitle": "Lehrkraft im Stundenplan",
+  "sharezonePlusAdvantageTimetableByClassDescription": "Du bist in mehreren Klassen? Mit Sharezone Plus kannst du den Stundenplan für jede Klasse einzeln auswählen. So siehst du immer den richtigen Stundenplan.",
+  "sharezonePlusAdvantageTimetableByClassTitle": "Stundenplan nach Klasse auswählen",
+  "sharezonePlusBuyAction": "Kaufen",
+  "sharezonePlusBuyingDisabledContent": "Der Kauf von Sharezone Plus ist aktuell deaktiviert. Bitte versuche es später erneut.\n\nAuf unserem [Discord](https://sharezone.net/discord) halten wir dich auf dem Laufenden.",
+  "sharezonePlusBuyingDisabledTitle": "Kaufen deaktiviert",
+  "sharezonePlusBuyingFailedContent": "Der Kauf von Sharezone Plus ist fehlgeschlagen. Bitte versuche es später erneut.\n\nFehler: {error}\n\nBei Fragen wende dich an [plus@sharezone.net](mailto:plus@sharezone.net).",
+  "@sharezonePlusBuyingFailedContent": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusBuyingFailedTitle": "Kaufen fehlgeschlagen",
+  "sharezonePlusCancelAction": "Kündigen",
+  "sharezonePlusCancelConfirmAction": "Kündigen",
+  "sharezonePlusCancelConfirmationContent": "Wenn du dein Sharezone-Plus Abo kündigst, verlierst du den Zugriff auf alle Plus-Funktionen.\n\nBist du sicher, dass du kündigen möchtest?",
+  "sharezonePlusCancelConfirmationTitle": "Bist du dir sicher?",
+  "sharezonePlusCancelFailedContent": "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.\n\nFehler: {error}",
+  "@sharezonePlusCancelFailedContent": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusCancelFailedTitle": "Kündigung fehlgeschlagen",
+  "sharezonePlusCanceledSubscriptionNote": "Du hast dein Sharezone-Plus Abo gekündigt. Du kannst deine Vorteile noch bis zum Ende des aktuellen Abrechnungszeitraums nutzen. Solltest du es dir anders überlegen, kannst du es jederzeit wieder erneut Sharezone-Plus abonnieren.",
+  "sharezonePlusFaqContentCreatorContent": "Ja, als Content Creator kannst du Sharezone Plus (Lifetime) kostenlos erhalten.\n\nSo funktioniert es:\n1. Erstelle ein kreatives TikTok, YouTube Short oder Instagram Reel, in dem du Sharezone erwähnst oder vorstellst.\n2. Sorge dafür, dass dein Video mehr als 10.000 Aufrufe erzielt.\n3. Schick uns den Link zu deinem Video an plus@sharezone.net.\n\nDeiner Kreativität sind keine Grenzen gesetzt. Bitte beachte unsere Bedingungen für das Content Creator Programm: https://sharezone.net/content-creator-programm.",
+  "sharezonePlusFaqContentCreatorTitle": "Gibt es ein Content Creator Programm?",
+  "sharezonePlusFaqEmailSnackBar": "E-Mail: {email}",
+  "@sharezonePlusFaqEmailSnackBar": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusFaqFamilyLicenseContent": "Ja, für Familien mit mehreren Kindern bieten wir besondere Konditionen an. Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net), um mehr zu erfahren.",
+  "sharezonePlusFaqFamilyLicenseTitle": "Gibt es spezielle Angebote für Familien?",
+  "sharezonePlusFaqGroupMembersContent": "Wenn du Sharezone Plus abonnierst, erhält nur dein Account Sharezone Plus. Deine Gruppenmitglieder erhalten Sharezone Plus nicht.\n\nJedoch gibt es einzelne Features, von denen auch deine Gruppenmitglieder profitieren. Solltest du beispielsweise eine die Kursfarbe von einer Gruppe zu einer Farbe ändern, die nur mit Sharezone Plus verfügbar ist, so wird diese Farbe auch für deine Gruppenmitglieder verwendet.",
+  "sharezonePlusFaqGroupMembersTitle": "Erhalten auch Gruppenmitglieder Sharezone Plus?",
+  "sharezonePlusFaqOpenSourceContent": "Ja, Sharezone ist Open-Source im Frontend. Du kannst den Quellcode auf GitHub einsehen:",
+  "sharezonePlusFaqOpenSourceTitle": "Ist der Quellcode von Sharezone öffentlich?",
+  "sharezonePlusFaqSchoolLicenseContent": "Du bist interessiert an einer Lizenz für deine gesamte Klasse? Schreib uns einfach eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net).",
+  "sharezonePlusFaqSchoolLicenseTitle": "Gibt es spezielle Angebote für Schulklassen?",
+  "sharezonePlusFaqStorageContent": "Nein, der Speicherplatz von 30 GB mit Sharezone Plus gilt nur für deinen Account und gilt über alle deine Kurse hinweg.\n\nDu könntest beispielsweise 5 GB in den Deutsch-Kurs hochladen, 15 GB in den Mathe-Kurs und hättest noch weitere 10 GB für alle Kurse zur Verfügung.\n\nDeine Gruppenmitglieder erhalten keinen zusätzlichen Speicherplatz.",
+  "sharezonePlusFaqStorageTitle": "Erhält der gesamte Kurs 30 GB Speicherplatz?",
+  "sharezonePlusFaqWhoIsBehindContent": "Sharezone wird aktuell von Jonas und Nils entwickelt. Aus unserer persönlichen Frustration über die Organisation des Schulalltags während der Schulzeit entstand die Idee für Sharezone. Es ist unsere Vision, den Schulalltag für alle einfacher und übersichtlicher zu gestalten.",
+  "sharezonePlusFaqWhoIsBehindTitle": "Wer steht hinter Sharezone?",
+  "sharezonePlusFeatureUnavailable": "Dieses Feature ist nur mit \"Sharezone Plus\" verfügbar.",
+  "sharezonePlusLegalTextLifetime": "Einmalige Zahlung von {price} (kein Abo o. ä.). Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)",
+  "@sharezonePlusLegalTextLifetime": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusLegalTextMonthlyAndroid": "Dein Abo ({price}/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über Google Play kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)",
+  "@sharezonePlusLegalTextMonthlyAndroid": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusLegalTextMonthlyApple": "Dein Abo ({price}/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht mindestens 24 Stunden vor Ablauf der aktuellen Zahlungsperiode über den App Store kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)",
+  "@sharezonePlusLegalTextMonthlyApple": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusLegalTextMonthlyOther": "Dein Abo ({price}/Monat) ist monatlich kündbar. Es wird automatisch verlängert, wenn du es nicht vor Ablauf der aktuellen Zahlungsperiode über die App kündigst. Durch den Kauf bestätigst du, dass du die [ANBs](https://sharezone.net/terms-of-service) gelesen hast. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy)",
+  "@sharezonePlusLegalTextMonthlyOther": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "sharezonePlusLetParentsBuyAction": "Eltern bezahlen lassen",
+  "sharezonePlusLetParentsBuyContent": "Du kannst deinen Eltern einen Link schicken, damit sie Sharezone-Plus für dich kaufen können.\n\nDer Link ist nur für dich gültig und enthält die Verbindung zu deinem Account.",
+  "sharezonePlusLetParentsBuyTitle": "Eltern bezahlen lassen",
+  "sharezonePlusLinkCopiedToClipboard": "Link in die Zwischenablage kopiert.",
+  "sharezonePlusLinkTokenLoadFailed": "Der Token für den Link konnte nicht geladen werden.",
+  "sharezonePlusPurchasePeriodLifetime": "Lebenslang (einmaliger Kauf)",
+  "sharezonePlusPurchasePeriodMonthly": "Monatlich",
+  "sharezonePlusShareLinkAction": "Link teilen",
+  "sharezonePlusSubscribeAction": "Abonnieren",
+  "sharezonePlusTestFlightContent": "Du hast Sharezone über TestFlight installiert. Apple erlaubt keine In-App-Käufe über TestFlight.\n\nUm Sharezone-Plus zu kaufen, lade bitte die App aus dem App Store herunter. Dort kannst du Sharezone-Plus kaufen.\n\nDanach kannst du die App wieder über TestFlight installieren.",
+  "sharezonePlusTestFlightTitle": "TestFlight",
+  "sharezonePlusUnsubscribeActiveText": "Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.",
+  "sharezonePlusUnsubscribeLifetimeText": "Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!",
+  "sharezoneWidgetsCenteredErrorMessage": "Es gab leider einen Fehler beim Laden 😖\nVersuche es später einfach nochmal.",
+  "sharezoneWidgetsCourseTileNoCourseSelected": "Keinen Kurs ausgewählt",
+  "sharezoneWidgetsCourseTileTitle": "Kurs",
+  "sharezoneWidgetsDatePickerSelectDate": "Datum auswählen",
+  "sharezoneWidgetsErrorCardContactSupport": "SUPPORT KONTAKTIEREN",
+  "sharezoneWidgetsErrorCardRetry": "ERNEUT VERSUCHEN",
+  "sharezoneWidgetsErrorCardTitle": "Es ist ein Fehler aufgetreten!",
+  "sharezoneWidgetsLeaveFormConfirm": "JA, VERLASSEN!",
+  "sharezoneWidgetsLeaveFormPromptFull": "Möchtest du die Eingabe wirklich beenden? Die Daten werden nicht gespeichert!",
+  "sharezoneWidgetsLeaveFormPromptNot": "nicht",
+  "sharezoneWidgetsLeaveFormPromptPrefix": "Möchtest du die Eingabe wirklich beenden? Die Daten werden ",
+  "sharezoneWidgetsLeaveFormPromptSuffix": " gespeichert!",
+  "sharezoneWidgetsLeaveFormStay": "NEIN!",
+  "sharezoneWidgetsLeaveFormTitle": "Eingabe verlassen?",
+  "sharezoneWidgetsLeaveOrSaveFormPrompt": "Möchtest du die Eingabe verlassen oder speichern? Verlässt du die Eingabe, werden die Daten nicht gespeichert",
+  "sharezoneWidgetsLeaveOrSaveFormTitle": "Verlassen oder Speichern?",
+  "sharezoneWidgetsLoadingEncryptedTransfer": "Daten werden verschlüsselt übertragen...",
+  "sharezoneWidgetsLocationHint": "Ort/Raum",
+  "sharezoneWidgetsLogoSemanticsLabel": "Logo von Sharezone: Ein blaues Heft-Icon mit einer Wolke, rechts daneben steht Sharezone.",
+  "sharezoneWidgetsMarkdownSupportBold": "**fett**",
+  "sharezoneWidgetsMarkdownSupportItalic": "*kursiv*",
+  "sharezoneWidgetsMarkdownSupportLabel": "Markdown: ",
+  "sharezoneWidgetsMarkdownSupportSeparator": ", ",
+  "sharezoneWidgetsNotAllowedCharactersError": "Folgende Zeichen sind nicht erlaubt: {characters}",
+  "@sharezoneWidgetsNotAllowedCharactersError": {
+    "placeholders": {
+      "characters": {
+        "example": "/",
+        "type": "String"
+      }
+    }
+  },
+  "sharezoneWidgetsOverlayCardCloseSemantics": "Schließe die Karte",
+  "sharezoneWidgetsSnackbarComingSoon": "Diese Funktion ist bald verfügbar! 😊",
+  "sharezoneWidgetsSnackbarDataArrivalConfirmed": "Ankunft der Daten bestätigt",
+  "sharezoneWidgetsSnackbarLoginDataEncrypted": "Anmeldedaten werden verschlüsselt übertragen...",
+  "sharezoneWidgetsSnackbarPatience": "Geduld! Daten werden noch geladen...",
+  "sharezoneWidgetsSnackbarSaved": "Änderung wurde erfolgreich gespeichert",
+  "sharezoneWidgetsSnackbarSendingDataToFrankfurt": "Daten werden nach Frankfurt transportiert...",
+  "sharezoneWidgetsTextFieldCannotBeEmptyError": "Das Textfeld darf nicht leer sein!",
+  "socialDiscord": "Discord",
+  "socialEmail": "E-Mail",
+  "socialGitHub": "GitHub",
+  "socialInstagram": "Instagram",
+  "socialLinkedIn": "LinkedIn",
+  "socialTwitter": "Twitter",
+  "stateAargau": "Aargau",
+  "stateAnonymous": "Anonym bleiben",
+  "stateAppenzellAusserrhoden": "Appenzell Ausserrhoden",
+  "stateAppenzellInnerrhoden": "Appenzell Innerrhoden",
+  "stateBadenWuerttemberg": "Baden-Württemberg",
+  "stateBaselLandschaft": "Basel-Landschaft",
+  "stateBaselStadt": "Basel-Stadt",
+  "stateBayern": "Bayern",
+  "stateBerlin": "Berlin",
+  "stateBern": "Bern",
+  "stateBrandenburg": "Brandenburg",
+  "stateBremen": "Bremen",
+  "stateBurgenland": "Burgenland",
+  "stateFribourg": "Freiburg",
+  "stateGeneva": "Genf",
+  "stateGlarus": "Glarus",
+  "stateGraubuenden": "Graubünden",
+  "stateHamburg": "Hamburg",
+  "stateHessen": "Hessen",
+  "stateJura": "Jura",
+  "stateKaernten": "Kärnten",
+  "stateLuzern": "Luzern",
+  "stateMecklenburgVorpommern": "Mecklenburg-Vorpommern",
+  "stateNeuchatel": "Neuenburg",
+  "stateNidwalden": "Nidwalden",
+  "stateNiederoesterreich": "Niederösterreich",
+  "stateNiedersachsen": "Niedersachsen",
+  "stateNordrheinWestfalen": "Nordrhein-Westfalen",
+  "stateNotFromGermany": "Nicht aus Deutschland",
+  "stateNotSelected": "Nicht ausgewählt",
+  "stateOberoesterreich": "Oberösterreich",
+  "stateObwalden": "Obwalden",
+  "stateRheinlandPfalz": "Rheinland-Pfalz",
+  "stateSaarland": "Saarland",
+  "stateSachsen": "Sachsen",
+  "stateSachsenAnhalt": "Sachsen-Anhalt",
+  "stateSalzburg": "Salzburg",
+  "stateSchaffhausen": "Schaffhausen",
+  "stateSchleswigHolstein": "Schleswig-Holstein",
+  "stateSchwyz": "Schwyz",
+  "stateSolothurn": "Solothurn",
+  "stateStGallen": "St. Gallen",
+  "stateSteiermark": "Steiermark",
+  "stateThueringen": "Thüringen",
+  "stateThurgau": "Thurgau",
+  "stateTicino": "Tessin",
+  "stateTirol": "Tirol",
+  "stateUri": "Uri",
+  "stateValais": "Wallis",
+  "stateVaud": "Waadt",
+  "stateVorarlberg": "Vorarlberg",
+  "stateWien": "Wien",
+  "stateZug": "Zug",
+  "stateZurich": "Zürich",
+  "submissionsCreateAddFile": "Datei hinzufügen",
+  "submissionsCreateAfterDeadlineContent": "Du kannst jetzt trotzdem noch abgeben, aber die Lehrkraft muss entscheiden wie sie damit umgeht ;)",
+  "submissionsCreateAfterDeadlineTitle": "Abgabefrist verpasst? Du kannst trotzdem abgeben!",
+  "submissionsCreateEmptyStateTitle": "Lade jetzt Dateien hoch, die du für die Hausaufgabe abgeben willst!",
+  "submissionsCreateFileInvalidDialogContent": "{message}\nBitte kontaktiere den Support unter support@sharezone.net!",
+  "@submissionsCreateFileInvalidDialogContent": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateFileInvalidDialogTitle": "Fehler",
+  "submissionsCreateFileInvalidMultiple": "Die gewählten Dateien \"{fileNames}\" scheinen invalide zu sein.",
+  "@submissionsCreateFileInvalidMultiple": {
+    "placeholders": {
+      "fileNames": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateFileInvalidSingle": "Die gewählte Datei \"{fileName}\" scheint invalide zu sein.",
+  "@submissionsCreateFileInvalidSingle": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateLeaveAction": "Verlassen",
+  "submissionsCreateNotSubmittedContent": "Dein Lehrer wird deine Abgabe nicht sehen können, bis du diese abgibst.\n\nDeine bisher hochgeladenen Dateien bleiben trotzdem für dich gespeichert.",
+  "submissionsCreateNotSubmittedTitle": "Abgabe nicht abgegeben!",
+  "submissionsCreateRemoveFileContent": "Möchtest du die Datei \"{fileName}\" wirklich entfernen?",
+  "@submissionsCreateRemoveFileContent": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "submissionsCreateRemoveFileTitle": "Datei entfernen",
+  "submissionsCreateRemoveFileTooltip": "Datei entfernen",
+  "submissionsCreateRenameActionUppercase": "UMBENENNEN",
+  "submissionsCreateRenameDialogTitle": "Datei umbenennen",
+  "submissionsCreateRenameErrorAlreadyExists": "Dieser Dateiname existiert bereits!",
+  "submissionsCreateRenameErrorEmpty": "Der Name darf nicht leer sein!",
+  "submissionsCreateRenameErrorTooLong": "Der Name ist zu lang!",
+  "submissionsCreateRenameTooltip": "Umbenennen",
+  "submissionsCreateSubmitAction": "Abgeben",
+  "submissionsCreateSubmitDialogContent": "Nach der Abgabe kannst du keine Datei mehr löschen. Du kannst aber noch neue Dateien hinzufügen und alte Dateien umbenennen.",
+  "submissionsCreateSubmitDialogTitle": "Wirklich Abgeben?",
+  "submissionsCreateSubmittedTitle": "Abgabe erfolgreich abgegeben!",
+  "submissionsCreateUploadInProgressContent": "Wenn du den Dialog verlässt wird der Hochladevorgang für noch nicht hochgeladene Dateien abgebrochen.",
+  "submissionsCreateUploadInProgressTitle": "Dateien am hochladen!",
+  "submissionsListAfterDeadlineSection": "Zu spät abgegeben 🕐",
+  "submissionsListEditedSuffix": " (nachträglich bearbeitet)",
+  "submissionsListMissingSection": "Nicht abgegeben 😭",
+  "submissionsListNoMembersPlaceholder": "Vergessen Teilnehmer in den Kurs einzuladen?",
+  "submissionsListTitle": "Abgaben",
+  "themeDarkMode": "Dunkler Modus",
+  "themeLightDarkModeSectionTitle": "Heller \u0026 Dunkler Modus",
+  "themeLightMode": "Heller Modus",
+  "themeNavigationExperimentOptionTile": "Option {number}: {name}",
+  "@themeNavigationExperimentOptionTile": {
+    "placeholders": {
+      "name": {
+        "example": "Aktuelle Navigation",
+        "type": "String"
+      },
+      "number": {
+        "example": "1",
+        "type": "int"
+      }
+    }
+  },
+  "themeNavigationExperimentSectionContent": "Wir testen aktuell eine neue Navigation. Bitte gib über die Feedback-Box oder unseren Discord-Server eine kurze Rückmeldung, wie du die jeweiligen Optionen findest.",
+  "themeNavigationExperimentSectionTitle": "Experiment: Neue Navigation",
+  "themeRateOurAppCardContent": "Falls dir Sharezone gefällt, würden wir uns über eine Bewertung sehr freuen! 🙏  Dir gefällt etwas nicht? Kontaktiere einfach den Support 👍",
+  "themeRateOurAppCardRateButton": "Bewerten",
+  "themeRateOurAppCardRatingsNotAvailableOnWebDialogContent": "Über die Web-App kann die App nicht bewertet werden. Nimm dafür einfach dein Handy 👍",
+  "themeRateOurAppCardRatingsNotAvailableOnWebDialogTitle": "App-Bewertung nur über iOS \u0026 Android möglich!",
+  "themeRateOurAppCardTitle": "Gefällt dir Sharezone?",
+  "themeSystemMode": "System",
+  "themeTitle": "Erscheinungsbild",
+  "timetableErrorEndTimeBeforeNextLessonStart": "Die Endzeit ist vor der Startzeit der nächsten Stunde!",
+  "@timetableErrorEndTimeBeforeNextLessonStart": {
+    "description": "Error message shown when the end time is before the next lesson's start time."
+  },
+  "timetableErrorEndTimeBeforePreviousLessonEnd": "Die Endzeit ist vor der Endzeit der vorherigen Stunde!",
+  "@timetableErrorEndTimeBeforePreviousLessonEnd": {
+    "description": "Error message shown when the end time is before the previous lesson's end time."
+  },
+  "timetableErrorEndTimeBeforeStartTime": "Die Endzeit der Stunde ist vor der Startzeit!",
+  "@timetableErrorEndTimeBeforeStartTime": {
+    "description": "Error message shown when the end time is before the start time."
+  },
+  "timetableErrorEndTimeMissing": "Bitte gibt eine Endzeit an!",
+  "@timetableErrorEndTimeMissing": {
+    "description": "Error message shown when the end time is missing."
+  },
+  "timetableErrorInvalidPeriodsOverlap": "Bitte gib korrekte Zeiten. Die Stunden dürfen sich nicht überschneiden!",
+  "@timetableErrorInvalidPeriodsOverlap": {
+    "description": "Error message shown when lesson periods overlap or are invalid."
+  },
+  "timetableErrorStartTimeBeforeNextLessonStart": "Die Startzeit ist vor der Startzeit der nächsten Stunde!",
+  "@timetableErrorStartTimeBeforeNextLessonStart": {
+    "description": "Error message shown when the start time is before the next lesson's start time."
+  },
+  "timetableErrorStartTimeBeforePreviousLessonEnd": "Die Startzeit ist vor der Endzeit der vorherigen Stunde!",
+  "@timetableErrorStartTimeBeforePreviousLessonEnd": {
+    "description": "Error message shown when the start time is before the previous lesson's end time."
+  },
+  "timetableErrorStartTimeEqualsEndTime": "Die Startzeit und die Endzeit darf nicht gleich sein!",
+  "@timetableErrorStartTimeEqualsEndTime": {
+    "description": "Error message shown when start and end time are the same."
+  },
+  "timetableErrorStartTimeMissing": "Bitte gibt eine Startzeit an!",
+  "@timetableErrorStartTimeMissing": {
+    "description": "Error message shown when the start time is missing."
+  },
+  "timetableErrorWeekdayMissing": "Bitte gib einen Wochentag an!",
+  "@timetableErrorWeekdayMissing": {
+    "description": "Error message shown when no weekday is selected."
+  },
+  "timetableSettingsABWeekTileTitle": "A/B Wochen",
+  "timetableSettingsAWeeksAreEvenSwitch": "A-Wochen sind gerade Kalenderwochen",
+  "timetableSettingsEnabledWeekDaysTileTitle": "Aktivierte Wochentage",
+  "timetableSettingsIcalLinksPlusDialogContent": "Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim \"Zum Kalender hinzufügen\" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.",
+  "timetableSettingsIcalLinksTitleSubtitle": "Synchronisierung mit Google Kalender, Apple Kalender usw.",
+  "timetableSettingsIcalLinksTitleTitle": "Termine, Prüfungen, Stundenplan exportieren (iCal)",
+  "timetableSettingsIsFiveMinutesIntervalActiveTileTitle": "Fünf-Minuten-Intervall beim Time-Picker",
+  "timetableSettingsLessonLengthEditDialog": "Wähle die Länge der Stunde in Minuten aus.",
+  "timetableSettingsLessonLengthSavedConfirmation": "Länge einer Stunde wurde gespeichert.",
+  "timetableSettingsLessonLengthTileSubtitle": "Länge einer Stunde",
+  "timetableSettingsLessonLengthTileTitle": "Länge einer Stunde",
+  "timetableSettingsLessonLengthTileTrailing": "{length} Min.",
+  "@timetableSettingsLessonLengthTileTrailing": {
+    "description": "A text that displays the length for lessons in minutes.",
+    "placeholders": {
+      "length": {
+        "example": "45",
+        "type": "int"
+      }
+    }
+  },
+  "timetableSettingsPeriodsFieldTileSubtitle": "Stundenplanbeginn, Stundenlänge, etc.",
+  "timetableSettingsPeriodsFieldTileTitle": "Stundenzeiten",
+  "timetableSettingsShowLessonsAbbreviation": "Kürzel im Stundenplan anzeigen",
+  "timetableSettingsThisWeekIs": "Diese Woche ist Kalenderwoche {calendar_week}. A-Wochen sind {is_a_week_even} Kalenderwochen und somit ist aktuell eine {even_or_odd_week}",
+  "@timetableSettingsThisWeekIs": {
+    "description": "A text that is displayed below the set if the current week is a or b week",
+    "placeholders": {
+      "calendar_week": {
+        "example": "12",
+        "type": "int"
+      },
+      "even_or_odd_week": {
+        "example": "A-Woche",
+        "type": "String"
+      },
+      "is_a_week_even": {
+        "example": "gerade",
+        "type": "String"
+      }
+    }
+  },
+  "timetableSettingsTitle": "Stundenplan",
+  "useAccountInstructionsAppBarTitle": "Anleitung",
+  "@useAccountInstructionsAppBarTitle": {
+    "description": "App bar title for the instructions on using multiple devices."
+  },
+  "useAccountInstructionsHeadline": "Wie nutze ich Sharezone auf mehreren Geräten?",
+  "@useAccountInstructionsHeadline": {
+    "description": "Headline question for using Sharezone on multiple devices."
+  },
+  "useAccountInstructionsStep": "1. Gehe zurück zu deinem Profil\n2. Melde dich über das Sign-Out-Icon rechts oben ab.\n3. Bestätige, dass dabei dein Konto gelöscht wird.\n4. Klicke unten auf den Button \"Du hast schon ein Konto? Dann...\"\n5. Melde dich an.",
+  "useAccountInstructionsStepsTitle": "Schritte:",
+  "@useAccountInstructionsStepsTitle": {
+    "description": "Title above the list of steps for using multiple devices."
+  },
+  "useAccountInstructionsVideoTitle": "Video:",
+  "@useAccountInstructionsVideoTitle": {
+    "description": "Title above the explanatory video for using multiple devices."
+  },
+  "userEditLoadingUserSnackbar": "Informationen werden geladen! Warte kurz.",
+  "@userEditLoadingUserSnackbar": {
+    "description": "Snackbar text while waiting for the user data to load before opening the edit screen."
+  },
+  "userEditNameChangedConfirmation": "Dein Name wurde erfolgreich umbenannt.",
+  "@userEditNameChangedConfirmation": {
+    "description": "Snackbar text confirming that the user's name was changed."
+  },
+  "userEditPageTitle": "Name bearbeiten",
+  "@userEditPageTitle": {
+    "description": "Title for the edit name page."
+  },
+  "userEditSubmitFailed": "Der Vorgang konnte nicht korrekt abgeschlossen werden. Bitte kontaktiere den Support!",
+  "@userEditSubmitFailed": {
+    "description": "Error snackbar text when saving the edited name failed."
+  },
+  "userEditSubmittingSnackbar": "Daten werden nach Frankfurt transportiert...",
+  "@userEditSubmittingSnackbar": {
+    "description": "Loading snackbar text shown while the edit form submits."
+  },
+  "websiteAllInOneFeatureImageLabel": "Ein Bild der Funktion {feature}",
+  "@websiteAllInOneFeatureImageLabel": {
+    "placeholders": {
+      "feature": {
+        "type": "String"
+      }
+    }
+  },
+  "websiteAllInOneHeadline": "Alles an einem Ort",
+  "websiteAllPlatformsHeadline": "Auf allen Geräten verfügbar.",
+  "websiteAllPlatformsSubline": "Sharezone funktioniert auf allen Systemen. Somit kannst Du jederzeit auf deine Daten zugreifen.",
+  "websiteAppTitle": "Sharezone - Vernetzter Schulplaner",
+  "websiteDataProtectionAesTitle": "AES 256-Bit serverseitige Verschlüsselung",
+  "websiteDataProtectionHeadline": "Sicher \u0026 DSGVO-konform",
+  "websiteDataProtectionIsoTitle": "ISO27001, ISO27012 \u0026 ISO27018 zertifiziert*",
+  "websiteDataProtectionServerLocationSubtitle": "Mit Ausnahme des Authentifizierungsserver\n(EU-Standardvertragsklauseln)",
+  "websiteDataProtectionServerLocationTitle": "Standort der Server: Frankfurt (Deutschland)",
+  "websiteDataProtectionSocSubtitle": "* Zertifizierung von unserem Hosting-Anbieter",
+  "websiteDataProtectionSocTitle": "SOC1, SOC2, \u0026 SOC3 zertifiziert*",
+  "websiteDataProtectionTlsTitle": "TLS-Verschlüsselung bei der Übertragung",
+  "websiteFeatureAlwaysAvailableBulletpointMultiDevice": "Mit mehreren Geräten nutzbar",
+  "websiteFeatureAlwaysAvailableBulletpointOffline": "Offline Inhalte eintragen",
+  "websiteFeatureAlwaysAvailableTitle": "Immer verfügbar",
+  "websiteFeatureEventsBulletpointAtAGlance": "Prüfungen und Termine auf einen Blick",
+  "websiteFeatureEventsTitle": "Termine",
+  "websiteFeatureFileStorageBulletpointShareMaterials": "Arbeitsmaterialien teilen",
+  "websiteFeatureFileStorageBulletpointUnlimitedStorage": "Optional: Unbegrenzter \nSpeicherplatz",
+  "websiteFeatureFileStorageTitle": "Dateiablage",
+  "websiteFeatureGradesBulletpointMultipleSystems": "Verschiedene Notensysteme",
+  "websiteFeatureGradesBulletpointSaveGrades": "Speichere deine Noten in Sharezone",
+  "websiteFeatureGradesTitle": "Notensystem",
+  "websiteFeatureNoticesBulletpointComments": "Mit Kommentarfunktion",
+  "websiteFeatureNoticesBulletpointNotifications": "Mit Notifications",
+  "websiteFeatureNoticesBulletpointReadReceipt": "Mit Lesebestätigung",
+  "websiteFeatureNoticesTitle": "Infozettel",
+  "websiteFeatureNotificationsBulletpointAlwaysInformed": "Immer informiert",
+  "websiteFeatureNotificationsBulletpointCustomizable": "Individuell einstellbar",
+  "websiteFeatureNotificationsBulletpointQuietHours": "Mit Ruhemodus",
+  "websiteFeatureNotificationsTitle": "Notifications",
+  "websiteFeatureOverviewTitle": "Übersicht",
+  "websiteFeatureTasksBulletpointComments": "Mit Kommentarfunktion",
+  "websiteFeatureTasksBulletpointReminder": "Mit Erinnerungsfunktion",
+  "websiteFeatureTasksBulletpointSubmissions": "Mit Abgabefunktion",
+  "websiteFeatureTasksTitle": "Aufgaben",
+  "websiteFeatureTimetableBulletpointAbWeeks": "Mit A/B Wochen",
+  "websiteFeatureTimetableBulletpointWeekdays": "Wochentage individuell einstellbar",
+  "websiteFeatureTimetableTitle": "Stundenplan",
+  "websiteFooterCommunityDiscord": "Discord",
+  "websiteFooterCommunitySubtitle": "Werde jetzt ein Teil unserer Community und bringe deine eigenen Ideen bei Sharezone ein.",
+  "websiteFooterCommunityTicketSystem": "Ticketsystem",
+  "websiteFooterCommunityTitle": "Sharezone-Community",
+  "websiteFooterDownloadAndroid": "Android",
+  "websiteFooterDownloadIos": "iOS",
+  "websiteFooterDownloadMacos": "macOS",
+  "websiteFooterDownloadTitle": "Downloads",
+  "websiteFooterHelpSupport": "Support",
+  "websiteFooterHelpTitle": "Hilfe",
+  "websiteFooterHelpVideos": "Erklärvideos",
+  "websiteFooterLegalImprint": "Impressum",
+  "websiteFooterLegalPrivacy": "Datenschutzerklärung",
+  "websiteFooterLegalTerms": "Allgemeine Nutzungsbedingungen (ANB)",
+  "websiteFooterLegalTitle": "Rechtliches",
+  "websiteFooterLinksDocs": "Dokumentation",
+  "websiteFooterLinksTitle": "Links",
+  "websiteLanguageSelectorTooltip": "Sprache auswählen",
+  "websiteLaunchUrlFailed": "Link konnte nicht geöffnet werden!",
+  "websiteNavDocs": "Docs",
+  "websiteNavHome": "Hauptseite",
+  "websiteNavPlus": "Plus",
+  "websiteNavSupport": "Support",
+  "websiteNavWebApp": "Web-App",
+  "websiteSharezonePlusAdvantagesTitle": "Vorteile von Sharezone Plus",
+  "websiteSharezonePlusCustomerPortalContent": "Um dich zu authentifizieren, nutze bitte die E-Mail-Adresse, die du bei der Bestellung verwendet hast.",
+  "websiteSharezonePlusCustomerPortalOpen": "Zum Kundenportal",
+  "websiteSharezonePlusCustomerPortalTitle": "Kundenportal",
+  "websiteSharezonePlusLoadError": "Error: {error}",
+  "@websiteSharezonePlusLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "websiteSharezonePlusLoadingName": "Lädt...",
+  "websiteSharezonePlusManageSubscriptionText": "Du hast bereits ein Abo? Klicke [hier](https://billing.stripe.com/p/login/eVa7uh3DvbMfbTy144) um es zu verwalten (z.B. Kündigen, Zahlungsmethode ändern, etc.).",
+  "websiteSharezonePlusPurchaseDialogContent": "Um Sharezone Plus für deinen eigenen Account zu erwerben, musst du Sharezone Plus über die Web-App kaufen.\n\nFalls du Sharezone Plus als Elternteil für dein Kind kaufen möchtest, musst du den Link öffnen, den du von deinem Kind erhalten hast.\n\nSolltest du Fragen haben, kannst du uns gerne eine E-Mail an [plus@sharezone.net](mailto:plus@sharezone.net) schreiben.",
+  "websiteSharezonePlusPurchaseDialogTitle": "Sharezone Plus kaufen",
+  "websiteSharezonePlusPurchaseDialogToWebApp": "Zur Web-App",
+  "websiteSharezonePlusPurchaseForTitle": "Sharezone Plus kaufen für",
+  "websiteSharezonePlusSuccessMessage": "Du hast Sharezone Plus erfolgreich für dein Kind erworben.\nVielen Dank für deine Unterstützung!",
+  "websiteSharezonePlusSuccessSupport": "Solltest du Fragen haben, kannst du dich jederzeit an unseren [Support](/support) wenden.",
+  "websiteStoreAppStoreName": "AppStore",
+  "websiteStorePlayStoreName": "PlayStore",
+  "websiteSupportEmailCopy": "E-Mail: {email}",
+  "@websiteSupportEmailCopy": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "websiteSupportEmailLabel": "E-Mail",
+  "websiteSupportEmailSubject": "Ich brauche eure Hilfe! 😭",
+  "websiteSupportPageBody": "Kontaktiere uns einfach über einen Kanal deiner Wahl und wir werden dir schnellstmöglich weiterhelfen 😉\n\nBitte beachte, dass es manchmal länger dauern kann, bis wir antworten (1-2 Wochen).",
+  "websiteSupportPageHeadline": "Du brauchst Hilfe?",
+  "websiteSupportSectionButton": "Support kontaktieren",
+  "websiteSupportSectionHeadline": "Nie im Stich gelassen.",
+  "websiteSupportSectionSubline": "Unser Support ist für Dich jederzeit erreichbar. Egal welche Uhrzeit. Egal welcher Wochentag.",
+  "websiteUserCounterLabel": "registrierte Nutzer",
+  "websiteUserCounterSemanticLabel": "user counter",
+  "websiteUspCommunityButton": "Zur Sharezone-Community",
+  "websiteUspHeadline": "Wirklich hilfreich.",
+  "websiteUspSublineDetails": "Wir wissen, was für Lösungen nötig sind und was wirklich hilft, um den Schulalltag einfach zu machen.\nWo wir es nicht wissen, versuchen wir, mit agiler Arbeit und der Sharezone-Community die beste Lösung zu finden.",
+  "websiteUspSublineIntro": "Sharezone ist aus den realen Problemen des Unterrichts entstanden.",
+  "websiteWelcomeDescription": "Sharezone ist ein vernetzter Schulplaner, um sich gemeinsam zu organisieren. Eingetragene Inhalte, wie z.B. Hausaufgaben, werden blitzschnell mit allen anderen geteilt. So bleiben viele Nerven und viel Zeit erspart.",
+  "websiteWelcomeDescriptionSemanticLabel": "Beschreibung der Sharezone App",
+  "websiteWelcomeHeadline": "Simpel. Sicher. Stabil.",
+  "websiteWelcomeHeadlineSemanticLabel": "Überschrift der Sharezone App",
+  "writePermissionEveryone": "Alle",
+  "writePermissionOnlyAdmins": "Nur Admins"
 }

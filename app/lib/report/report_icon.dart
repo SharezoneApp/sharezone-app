@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report.dart';
 import 'package:sharezone/report/report_item.dart';
+import 'package:sharezone/report/report_localizations.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 /// Ist als Variable gespeichert, damit das Icon einfach und schnell
 /// überall in der App ausgetauscht werden kann.
@@ -24,10 +26,12 @@ class ReportIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final reportedItemType = ReportItem(item.path).type;
     return IconButton(
       tooltip:
           tooltip ??
-          '${reportItemTypeToUiString(ReportItem(item.path).type)} melden',
+          l10n.reportPageTitle(l10n.reportItemTypeLabel(reportedItemType)),
       icon: reportIcon,
       onPressed: () => openReportPage(context, item),
       color: color,

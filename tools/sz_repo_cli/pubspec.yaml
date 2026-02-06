@@ -32,7 +32,7 @@ dependencies:
   union: ^0.0.4-nullsafety.1
   console: ^4.1.0
   rxdart: ^0.28.0
-  process: ^5.0.3
+  process: ^5.0.5
   process_runner: ^4.2.0
   file: ^7.0.1
   clock: ^1.1.2

@@ -21,17 +21,19 @@ import 'package:provider/provider.dart' as pv;
 import 'package:sharezone/account/account_page.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
+import 'package:sharezone/account/select_state_dialog.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
+import 'package:sharezone/auth/authentification_localization_mapper.dart';
 import 'package:sharezone/groups/src/widgets/danger_section.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
-import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
@@ -52,7 +54,10 @@ class MyProfilePage extends StatelessWidget {
     return BlocProvider(
       bloc: bloc,
       child: Scaffold(
-        appBar: AppBar(title: const Text("Mein Konto"), centerTitle: true),
+        appBar: AppBar(
+          title: Text(context.l10n.myProfileTitle),
+          centerTitle: true,
+        ),
         body: SingleChildScrollView(
           child: SafeArea(
             child: MaxWidthConstraintBox(
@@ -95,7 +100,7 @@ class _NameTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.person),
-      title: const Text("Name"),
+      title: Text(context.l10n.myProfileNameTile),
       subtitle: Text(user.name),
       onTap: () => openUserEditPageIfUserIsLoaded(context, user.user),
     );
@@ -106,7 +111,7 @@ class _EnterActivationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Text("Aktivierungscode eingeben"),
+      title: Text(context.l10n.myProfileActivationCodeTile),
       leading: const Icon(Icons.vpn_key),
       onTap: () {
         openEnterActivationCodePage(context);
@@ -125,7 +130,7 @@ class _EmailTile extends StatelessWidget {
     if (user.isAnonymous || user.provider == Provider.apple) return Container();
     return ListTile(
       leading: const Icon(Icons.email),
-      title: const Text("E-Mail"),
+      title: Text(context.l10n.myProfileEmailTile),
       subtitle: Text(user.email ?? '-'),
       onTap: () {
         if (user.provider == Provider.google) {
@@ -133,16 +138,16 @@ class _EmailTile extends StatelessWidget {
             context: context,
             builder:
                 (context) => AlertDialog(
-                  content: const Text(
-                    "Dein Account ist mit einem Google-Konto verbunden. Aus diesem Grund kannst du deine E-Mail nicht ändern.",
-                  ),
+                  content: Text(context.l10n.myProfileEmailNotChangeable),
                   actions: <Widget>[
                     TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).primaryColor,
                       ),
                       onPressed: () => Navigator.pop(context),
-                      child: const Text("ALLES KLAR"),
+                      child: Text(
+                        context.l10n.commonActionsAlright.toUpperCase(),
+                      ),
                     ),
                   ],
                 ),
@@ -163,7 +168,7 @@ class _TypeOfUserTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Text("Account-Typ"),
+      title: Text(context.l10n.myProfileEmailAccountTypeTitle),
       subtitle: Text(user!.typeOfUser),
       leading: const Icon(Icons.accessibility),
       onTap: () => Navigator.pushNamed(context, ChangeTypeOfUserPage.tag),
@@ -182,7 +187,7 @@ class _PasswordTile extends StatelessWidget {
     if (provider != Provider.email) return Container();
     return ListTile(
       leading: const Icon(Icons.vpn_key),
-      title: const Text("Passwort ändern"),
+      title: Text(context.l10n.myProfileChangePasswordTile),
       onTap: () async {
         bloc.changePassword(null);
         bloc.changeNewPassword(null);
@@ -195,7 +200,7 @@ class _PasswordTile extends StatelessWidget {
           showSnackSec(
             seconds: 3,
             context: context,
-            text: "Das Passwort wurde erfolgreich geändert.",
+            text: context.l10n.myProfileChangedPasswordConfirmation,
           );
         }
       },
@@ -212,16 +217,9 @@ class _StateTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.language),
-      title: const Text("Bundesland"),
+      title: Text(context.l10n.myProfileStateTile),
       subtitle: Text(state!),
-      onTap:
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ChangeStatePage(),
-              settings: const RouteSettings(name: ChangeStatePage.tag),
-            ),
-          ),
+      onTap: () => showStateSelectionDialog(context),
     );
   }
 }
@@ -235,21 +233,22 @@ class _ProviderTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.lock),
-      title: const Text("Anmeldemethode"),
-      subtitle: Text(providerToUiString(provider)),
+      title: Text(context.l10n.myProfileSignInMethodTile),
+      subtitle: Text(mapAuthProviderName(context, provider)),
       onTap: () {
         if (provider == Provider.anonymous) {
           Navigator.pushNamed(context, AccountPage.tag);
         } else {
           showLeftRightAdaptiveDialog(
             context: context,
-            title: 'Anmeldemethode ändern nicht möglich',
-            content: const Text(
-              "Die Anmeldemethode kann aktuell nur bei der Registrierung gesetzt werden. Später kann diese nicht mehr geändert werden.",
+            title:
+                context.l10n.myProfileSignInMethodChangeNotPossibleDialogTitle,
+            content: Text(
+              context.l10n.myProfileSignInMethodChangeNotPossibleDialogContent,
             ),
-            left: const AdaptiveDialogAction(
+            left: AdaptiveDialogAction(
               isDefaultAction: true,
-              title: 'Ok',
+              title: context.l10n.commonActionsOk,
             ),
           );
         }
@@ -282,18 +281,18 @@ class _PrivacyOptOut extends StatelessWidget {
       builder: (context, snapshot) {
         final hasUserOptOut = snapshot;
         return ListTileWithDescription(
-          title: const Text("Entwickler unterstützen"),
+          title: Text(context.l10n.myProfileSupportTeamTile),
           leading: const Icon(Icons.security),
           onTap: () => setCollectionEnabled(!hasUserOptOut),
           trailing: Switch.adaptive(
             value: hasUserOptOut,
             onChanged: (isEnabled) => setCollectionEnabled(isEnabled),
           ),
-          description: const Padding(
-            padding: EdgeInsets.only(left: 41, right: 20),
+          description: Padding(
+            padding: const EdgeInsets.only(left: 41, right: 20),
             child: Text(
-              "Durch das Teilen von anonymen Nutzerdaten hilfst du uns, die App noch einfacher und benutzerfreundlicher zu machen.",
-              style: TextStyle(fontSize: 11, color: Colors.grey),
+              context.l10n.myProfileSupportTeamDescription,
+              style: const TextStyle(fontSize: 11, color: Colors.grey),
             ),
           ),
         );
@@ -309,14 +308,17 @@ class _UserId extends StatelessWidget {
 
   void copyUserId(BuildContext context) {
     Clipboard.setData(ClipboardData(text: userID));
-    showSnack(context: context, text: 'User ID wurde kopiert');
+    showSnack(
+      context: context,
+      text: context.l10n.myProfileCopyUserIdConfirmation,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.tag),
-      title: const Text("User ID"),
+      title: Text(context.l10n.myProfileCopyUserIdTile),
       subtitle: Text(userID),
       onTap: () => copyUserId(context),
     );
@@ -335,7 +337,7 @@ class SignOutButton extends StatelessWidget {
         key: const ValueKey('sign-out-button-E2E'),
         icon: const Icon(Icons.exit_to_app),
         onPressed: () => signOut(context, isAnonymous),
-        label: Text("Abmelden".toUpperCase()),
+        label: Text(context.l10n.myProfileSignOutButton.toUpperCase()),
       ),
     );
   }
@@ -348,7 +350,7 @@ class _DeleteAccountButton extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: DangerButtonFilled(
         icon: const Icon(Icons.delete),
-        label: Text("Konto löschen".toUpperCase()),
+        label: Text(context.l10n.myProfileDeleteAccountButton.toUpperCase()),
         onPressed:
             () => showDialog(
               context: context,
@@ -394,7 +396,7 @@ class _DeleteAccountDialogContentState
                 : !isStringNullOrEmpty(password)
                 ? () => tryToDeleteUser(context)
                 : null,
-        child: const Text("LÖSCHEN"),
+        child: Text(context.l10n.commonActionsDelete.toUpperCase()),
       ),
     ];
   }
@@ -450,7 +452,7 @@ class _DeleteAccountDialogContentState
     } on Exception catch (e, s) {
       setState(() {
         isLoading = false;
-        error = handleErrorMessage(e.toString(), s);
+        error = handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s);
       });
     }
   }
@@ -518,7 +520,7 @@ class _DeleteAccountDialogContentState
         ),
         actions: <Widget>[
           CupertinoDialogAction(
-            child: const Text("Abbrechen"),
+            child: Text(context.l10n.commonActionsCancel),
             onPressed: () => Navigator.pop(context),
           ),
           if (isLoading)
@@ -538,7 +540,7 @@ class _DeleteAccountDialogContentState
               isDefaultAction: true,
               isDestructiveAction: true,
               onPressed: () => tryToDeleteUser(context),
-              child: const Text("Löschen"),
+              child: Text(context.l10n.commonActionsDelete),
             ),
         ],
       );
@@ -566,8 +568,10 @@ class _DeleteAccountDialogContentState
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         const SizedBox(height: 16),
-                        const Text(
-                          "Bitte gib dein Passwort ein, um deinen Account zu löschen.",
+                        Text(
+                          context
+                              .l10n
+                              .myProfileDeleteAccountDialogPleaseEnterYourPassword,
                         ),
                         TextField(
                           onChanged: (s) => setState(() => password = s),
@@ -575,7 +579,10 @@ class _DeleteAccountDialogContentState
                               () async => tryToDeleteUser(context),
                           autofocus: false,
                           decoration: InputDecoration(
-                            labelText: 'Passwort',
+                            labelText:
+                                context
+                                    .l10n
+                                    .myProfileDeleteAccountDialogPasswordTextfieldLabel,
                             suffixIcon: GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -621,9 +628,7 @@ class _DeleteAccountDialogText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      "Sollte dein Account gelöscht werden, werden alle deine Daten gelöscht. Dieser Vorgang lässt sich nicht wieder rückgängig machen.",
-    );
+    return Text(context.l10n.myProfileDeleteAccountDialogContent);
   }
 }
 
@@ -632,5 +637,5 @@ class _DeleteAccountDialogTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      const Text("Möchtest du deinen Account wirklich löschen?");
+      Text(context.l10n.myProfileDeleteAccountDialogTitle);
 }

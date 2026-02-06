@@ -72,7 +72,9 @@ void main() {
         bloc.add(LoadHomeworks());
 
         Success success = await bloc.stream.whereType<Success>().first;
-        expect(success.open.sections.first.title, 'Morgen');
+        final section = success.open.sections.first;
+        expect(section.type, HomeworkSectionType.date);
+        expect(section.dateSection, HomeworkDateSection.tomorrow);
       },
     );
 

@@ -23,6 +23,7 @@ class Scanner extends StatefulWidget {
     this.onDetect,
     this.description,
     this.mockController,
+    this.couldNotStartQrScannerMessage = 'Could not start the QR code scanner.',
   });
 
   /// A callback that is called when a code is detected.
@@ -38,6 +39,9 @@ class Scanner extends StatefulWidget {
   ///
   /// Is primarily used for testing to mock the scanner.
   final MobileScannerController? mockController;
+
+  /// A general error message like "Couldn't start QR scanner".
+  final String couldNotStartQrScannerMessage;
 
   @override
   State<Scanner> createState() => _ScannerState();
@@ -81,7 +85,10 @@ class _ScannerState extends State<Scanner> {
       controller: controller,
       fit: BoxFit.cover,
       errorBuilder: (context, exception) {
-        return _Error(exception: exception);
+        return _Error(
+          exception: exception,
+          couldNotStartQrScannerMessage: widget.couldNotStartQrScannerMessage,
+        );
       },
       // The overlay (including controls like torch and text) that is
       // displayed above the camera view of the scanner.
@@ -98,9 +105,13 @@ class _ScannerState extends State<Scanner> {
 }
 
 class _Error extends StatelessWidget {
-  const _Error({required this.exception});
+  const _Error({
+    required this.exception,
+    required this.couldNotStartQrScannerMessage,
+  });
 
   final MobileScannerException exception;
+  final String couldNotStartQrScannerMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +126,7 @@ class _Error extends StatelessWidget {
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 220),
           child: Text(
-            'QR-Code-Scanner konnte nicht gestartet werden: ${exception.errorDetails?.message} (${exception.errorDetails?.message}, ${exception.errorCode})',
+            '$couldNotStartQrScannerMessage\n\n${exception.errorDetails?.message} (${exception.errorCode})',
             style: TextStyle(
               color: Theme.of(context).colorScheme.error,
               fontSize: 12,
