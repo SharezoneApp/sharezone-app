@@ -259,6 +259,54 @@ abstract class SharezoneLocalizations {
   /// **'Sharezone'**
   String get appName;
 
+  /// Display name template for users without a chosen name.
+  ///
+  /// In de, this message translates to:
+  /// **'Anonymer {animalName}'**
+  String authAnonymousDisplayName(Object animalName);
+
+  /// No description provided for @authProviderAnonymous.
+  ///
+  /// In de, this message translates to:
+  /// **'Anonyme Anmeldung'**
+  String get authProviderAnonymous;
+
+  /// No description provided for @authProviderApple.
+  ///
+  /// In de, this message translates to:
+  /// **'Apple Sign In'**
+  String get authProviderApple;
+
+  /// No description provided for @authProviderEmailAndPassword.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail und Passwort'**
+  String get authProviderEmailAndPassword;
+
+  /// No description provided for @authProviderGoogle.
+  ///
+  /// In de, this message translates to:
+  /// **'Google Sign In'**
+  String get authProviderGoogle;
+
+  /// No description provided for @authValidationInvalidEmail.
+  ///
+  /// In de, this message translates to:
+  /// **'Gib eine gueltige E-Mail ein'**
+  String get authValidationInvalidEmail;
+
+  /// No description provided for @authValidationInvalidName.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungueltiger Name'**
+  String get authValidationInvalidName;
+
+  /// No description provided for @authValidationInvalidPasswordTooShort.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein'**
+  String get authValidationInvalidPasswordTooShort;
+
   /// The label for the text field which is used for the current email address
   ///
   /// In de, this message translates to:
