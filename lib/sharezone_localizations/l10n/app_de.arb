@@ -395,6 +395,22 @@
   "languageEnName": "Englisch",
   "languageSystemName": "System",
   "languageTitle": "Sprache",
+  "launchMarkdownLinkWithWarningActualLink": "Tatsächliche Adresse",
+  "launchMarkdownLinkWithWarningCouldNotOpenLink": "Der Link konnte nicht geöffnet werden!",
+  "launchMarkdownLinkWithWarningDialogTitle": "Link überprüfen",
+  "launchMarkdownLinkWithWarningDisplayedText": "Angezeigter Text",
+  "launchMarkdownLinkWithWarningDoNotAskAgain": "Beim nächsten Mal nicht mehr nachfragen.",
+  "launchMarkdownLinkWithWarningLinkTextDoesNotMatch": "Der Link-Text stimmt nicht mit der tatsächlichen Adresse überein.",
+  "launchMarkdownLinkWithWarningOpenLink": "Link öffnen",
+  "launchMarkdownLinkWithWarningTrustDomain": "Domain {domain} vertrauen",
+  "@launchMarkdownLinkWithWarningTrustDomain": {
+    "description": "Text for the checkbox to trust a domain",
+    "placeholders": {
+      "domain": {
+        "type": "String"
+      }
+    }
+  },
   "legalChangeAppearance": "Darstellung ändern",
   "legalDownloadAsPdf": "Als PDF herunterladen",
   "legalMetadataLastUpdated": "Zuletzt aktualisiert: {date}",
