@@ -9,6 +9,7 @@
 import 'package:bloc_base/bloc_base.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../gateway/course_create_gateway.dart';
 import 'course_create_bloc.dart';
@@ -19,8 +20,16 @@ class CourseCreateBlocFactory implements BlocBase {
 
   CourseCreateBlocFactory(this._api, this._analytics);
 
-  CourseCreateBloc create({SchoolClassId? schoolClassId}) {
-    return CourseCreateBloc(_api, _analytics, schoolClassId: schoolClassId);
+  CourseCreateBloc create({
+    required SharezoneLocalizations l10n,
+    SchoolClassId? schoolClassId,
+  }) {
+    return CourseCreateBloc(
+      _api,
+      _analytics,
+      l10n: l10n,
+      schoolClassId: schoolClassId,
+    );
   }
 
   @override

@@ -19,8 +19,12 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/blackboard_validators.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_common/validators.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
+  @override
+  final SharezoneLocalizations l10n;
+
   List<CloudFile> initialCloudFiles = [];
   final _titleSubject = BehaviorSubject<String>();
   final _courseSegmentSubject = BehaviorSubject<Course>();
@@ -38,6 +42,7 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
   BlackboardDialogBloc(
     this.api,
     this._markdownAnalytics, {
+    required this.l10n,
     BlackboardItem? blackboardItem,
   }) : initialBlackboardItem = blackboardItem {
     if (blackboardItem != null) {
@@ -114,7 +119,7 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
     final validatorTitle = NotEmptyOrNullValidator(_titleSubject.valueOrNull);
     if (!validatorTitle.isValid()) {
       _titleSubject.addError(
-        TextValidationException(BlackboardValidators.emptyTitleUserMessage),
+        TextValidationException(l10n.blackboardErrorTitleMissing),
       );
       throw InvalidTitleException();
     }
@@ -122,7 +127,7 @@ class BlackboardDialogBloc extends BlocBase with BlackboardValidators {
     final validatorCourse = NotNullValidator(_courseSegmentSubject.valueOrNull);
     if (!validatorCourse.isValid()) {
       _courseSegmentSubject.addError(
-        TextValidationException(BlackboardValidators.emptyCourseUserMessage),
+        TextValidationException(l10n.blackboardErrorCourseMissing),
       );
       throw InvalidCourseException();
     }
