@@ -18,6 +18,7 @@ ignore_patterns:
   # Ignore generated files
   - "*.g.dart"
   - "*.gen.dart"
+  - "*.mocks.dart"
   # Dependencies
   - "pubspec.lock"
   - "*.lock"

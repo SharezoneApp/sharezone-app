@@ -18,6 +18,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone/account/name_generator.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
@@ -131,6 +132,7 @@ Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
   final registrationGateway = RegistrationGateway(
     references.users,
     firebaseDependencies.auth!,
+    anonymousUserNameBuilder: buildAnonymousUserName,
   );
   final blocDependencies = BlocDependencies(
     analytics: Analytics(getBackend()),

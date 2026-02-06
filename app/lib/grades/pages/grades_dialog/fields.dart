@@ -187,7 +187,7 @@ class _Subject extends StatelessWidget {
                   "Lösche diese Note und erstelle sie erneut, um ein anderes Fach auszuwählen.",
                 ),
                 left: null,
-                right: AdaptiveDialogAction.ok,
+                right: AdaptiveDialogAction.ok(context),
               )
               : () async {
                 final res = await showDialog<SubjectId?>(
@@ -415,7 +415,7 @@ class _Term extends StatelessWidget {
                     "Lösche diese Note und erstelle sie erneut, um ein anderes Halbjahr auszuwählen.",
                   ),
                   left: null,
-                  right: AdaptiveDialogAction.ok,
+                  right: AdaptiveDialogAction.ok(context),
                 );
               }
               : () async {

@@ -17,6 +17,7 @@ import 'package:rxdart/subjects.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+import 'authentification_localization_mapper.dart';
 import 'email_and_password_link_page.dart';
 import 'login_button.dart';
 
@@ -143,7 +144,10 @@ class _EmailField extends StatelessWidget {
             decoration: InputDecoration(
               labelText: "E-Mail Adresse deines Kontos",
               icon: const Icon(Icons.mail),
-              errorText: snapshot.error?.toString(),
+              errorText: mapAuthentificationValidationErrorMessage(
+                context,
+                snapshot.error,
+              ),
               border: const OutlineInputBorder(),
             ),
             textInputAction: TextInputAction.done,

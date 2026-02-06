@@ -233,7 +233,7 @@ class HomeworkDialogMainState extends State<HomeworkDialogMain> {
                 'Hausaufgabe konnte nicht gespeichert werden.\n\n$error\n\nFalls der Fehler weiterhin auftritt, kontaktiere bitte den Support.',
               ),
               left: null,
-              right: AdaptiveDialogAction.ok,
+              right: AdaptiveDialogAction.ok(context),
               context: context,
             );
         }
@@ -1268,7 +1268,7 @@ class _SubmissionsSwitchBase extends StatelessWidget {
                     trailing: Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: Text(
-                        time.toString(),
+                        time?.format(context) ?? '',
                         style: const TextStyle(fontSize: 14),
                       ),
                     ),

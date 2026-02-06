@@ -9,11 +9,14 @@
 import 'package:date/date.dart';
 import 'package:design/design.dart';
 import 'package:sharezone/timetable/src/models/lesson.dart';
+import 'package:time/time.dart';
 
 enum LessonTimeStatus { hasAlreadyTakenPlace, isNow, isYetToCome }
 
 class LessonView {
-  final String start, end, abbreviation;
+  final Time start;
+  final Time end;
+  final String abbreviation;
   final String? room, periodNumber;
   final Design design;
   final Lesson lesson;

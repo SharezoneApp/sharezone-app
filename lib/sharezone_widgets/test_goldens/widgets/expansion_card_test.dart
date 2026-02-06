@@ -9,7 +9,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+
+import '../flutter_test_config.dart';
 
 void main() {
   group(ExpansionCard, () {
@@ -27,7 +30,13 @@ void main() {
         ],
       );
 
-      await tester.pumpWidgetBuilder(widget);
+      await tester.pumpWidgetBuilder(
+        widget,
+        wrapper: materialAppWrapper(
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
+      );
 
       await screenMatchesGolden(tester, 'expansion_card_collapsed');
     });
@@ -48,7 +57,13 @@ void main() {
         ],
       );
 
-      await tester.pumpWidgetBuilder(widget);
+      await tester.pumpWidgetBuilder(
+        widget,
+        wrapper: materialAppWrapper(
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
+      );
 
       await tester.tap(find.byType(ExpansionCard));
       await tester.pumpAndSettle();

@@ -11,6 +11,7 @@ import 'package:analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/l10n/feature_flag_l10n.dart';
 import 'package:sharezone/main/bloc_dependencies.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -36,6 +37,7 @@ class SharezoneMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeSettings = context.watch<ThemeSettings>();
     final localProvider = context.watch<AppLocaleProvider>();
+    final featureFlagL10n = context.watch<FeatureFlagl10n>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: PlatformCheck.isWeb ? "Sharezone Web-App" : "Sharezone",
@@ -48,8 +50,14 @@ class SharezoneMaterialApp extends StatelessWidget {
       ),
       themeMode: _getThemeMode(themeSettings.themeBrightness),
       localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
-      supportedLocales: SharezoneLocalizations.supportedLocales,
-      locale: localProvider.locale.toLocale(),
+      supportedLocales:
+          featureFlagL10n.isl10nEnabled
+              ? SharezoneLocalizations.supportedLocales
+              : [const Locale('de', 'DE')],
+      locale:
+          featureFlagL10n.isl10nEnabled
+              ? localProvider.locale.toLocale()
+              : const Locale('de', 'DE'),
       navigatorObservers: <NavigatorObserver>[
         AnalyticsNavigationObserver(analytics: analytics),
       ],

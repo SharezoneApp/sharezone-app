@@ -13,6 +13,7 @@ export 'glowing_overscroll_color_changer.dart';
 export 'handle_homework_tile_long_press.dart';
 export 'homework_fab.dart';
 export 'homework_list_section.dart';
+export 'homework_localizations.dart';
 export 'homework_tab_bar.dart';
 export 'lazy_loading_homework_list.dart';
 export 'placeholder_templates.dart';

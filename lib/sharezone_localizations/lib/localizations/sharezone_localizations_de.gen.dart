@@ -247,6 +247,9 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get commonActionsCancel => 'Abbrechen';
 
   @override
+  String get commonActionsCancelUppercase => 'ABBRECHEN';
+
+  @override
   String get commonActionsClose => 'Schließen';
 
   @override
@@ -259,7 +262,16 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get commonActionsContactSupport => 'Support kontaktieren';
 
   @override
+  String get commonActionsContinue => 'Weiter';
+
+  @override
   String get commonActionsDelete => 'Löschen';
+
+  @override
+  String get commonActionsDeleteUppercase => 'LÖSCHEN';
+
+  @override
+  String get commonActionsLeave => 'Verlassen';
 
   @override
   String get commonActionsOk => 'Ok';
@@ -386,6 +398,39 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get dashboardSelectStateButton => 'Bundesland / Kanton auswählen';
 
   @override
+  String get dateWeekTypeA => 'A-Woche';
+
+  @override
+  String get dateWeekTypeAlways => 'Immer';
+
+  @override
+  String get dateWeekTypeB => 'B-Woche';
+
+  @override
+  String get dateWeekdayFriday => 'Freitag';
+
+  @override
+  String get dateWeekdayMonday => 'Montag';
+
+  @override
+  String get dateWeekdaySaturday => 'Samstag';
+
+  @override
+  String get dateWeekdaySunday => 'Sonntag';
+
+  @override
+  String get dateWeekdayThursday => 'Donnerstag';
+
+  @override
+  String get dateWeekdayTuesday => 'Dienstag';
+
+  @override
+  String get dateWeekdayWednesday => 'Mittwoch';
+
+  @override
+  String get dateYesterday => 'Gestern';
+
+  @override
   String get feedbackDetailsCommentsTitle => 'Kommentare:';
 
   @override
@@ -412,6 +457,26 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get feedbackSendTooltip => 'Senden (Enter)';
 
   @override
+  String get homeworkSectionDayAfterTomorrow => 'Übermorgen';
+
+  @override
+  String get homeworkSectionLater => 'Später';
+
+  @override
+  String get homeworkSectionOverdue => 'Überfällig';
+
+  @override
+  String get homeworkSectionToday => 'Heute';
+
+  @override
+  String get homeworkSectionTomorrow => 'Morgen';
+
+  @override
+  String homeworkTodoDateTime(String date, String time) {
+    return '$date - $time Uhr';
+  }
+
+  @override
   String get imprintTitle => 'Impressum';
 
   @override
@@ -425,6 +490,42 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get languageTitle => 'Sprache';
+
+  @override
+  String get legalChangeAppearance => 'Darstellung ändern';
+
+  @override
+  String get legalDownloadAsPdf => 'Als PDF herunterladen';
+
+  @override
+  String legalMetadataLastUpdated(String date) {
+    return 'Zuletzt aktualisiert: $date';
+  }
+
+  @override
+  String get legalMetadataTitle => 'Metadaten';
+
+  @override
+  String legalMetadataVersion(String version) {
+    return 'Version: v$version';
+  }
+
+  @override
+  String get legalMoreOptions => 'Weitere Optionen';
+
+  @override
+  String legalPrivacyPolicyEffectiveDate(String date) {
+    return 'Diese aktualisierte Datenschutzerklärung tritt am $date in Kraft.';
+  }
+
+  @override
+  String get legalPrivacyPolicyTitle => 'Datenschutzerklärung';
+
+  @override
+  String get legalTableOfContents => 'Inhaltsverzeichnis';
+
+  @override
+  String get legalTermsOfServiceTitle => 'Allgemeine Nutzungsbedingungen';
 
   @override
   String get memberRoleAdmin => 'Admin';
@@ -966,6 +1067,119 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get sharezonePlusUnsubscribeLifetimeText =>
       'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!';
+
+  @override
+  String get sharezoneWidgetsCenteredErrorMessage =>
+      'Es gab leider einen Fehler beim Laden 😖\nVersuche es später einfach nochmal.';
+
+  @override
+  String get sharezoneWidgetsCourseTileNoCourseSelected =>
+      'Keinen Kurs ausgewählt';
+
+  @override
+  String get sharezoneWidgetsCourseTileTitle => 'Kurs';
+
+  @override
+  String get sharezoneWidgetsDatePickerSelectDate => 'Datum auswählen';
+
+  @override
+  String get sharezoneWidgetsErrorCardContactSupport => 'SUPPORT KONTAKTIEREN';
+
+  @override
+  String get sharezoneWidgetsErrorCardRetry => 'ERNEUT VERSUCHEN';
+
+  @override
+  String get sharezoneWidgetsErrorCardTitle => 'Es ist ein Fehler aufgetreten!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormConfirm => 'JA, VERLASSEN!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptFull =>
+      'Möchtest du die Eingabe wirklich beenden? Die Daten werden nicht gespeichert!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptNot => 'nicht';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptPrefix =>
+      'Möchtest du die Eingabe wirklich beenden? Die Daten werden ';
+
+  @override
+  String get sharezoneWidgetsLeaveFormPromptSuffix => ' gespeichert!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormStay => 'NEIN!';
+
+  @override
+  String get sharezoneWidgetsLeaveFormTitle => 'Eingabe verlassen?';
+
+  @override
+  String get sharezoneWidgetsLeaveOrSaveFormPrompt =>
+      'Möchtest du die Eingabe verlassen oder speichern? Verlässt du die Eingabe, werden die Daten nicht gespeichert';
+
+  @override
+  String get sharezoneWidgetsLeaveOrSaveFormTitle =>
+      'Verlassen oder Speichern?';
+
+  @override
+  String get sharezoneWidgetsLoadingEncryptedTransfer =>
+      'Daten werden verschlüsselt übertragen...';
+
+  @override
+  String get sharezoneWidgetsLocationHint => 'Ort/Raum';
+
+  @override
+  String get sharezoneWidgetsLogoSemanticsLabel =>
+      'Logo von Sharezone: Ein blaues Heft-Icon mit einer Wolke, rechts daneben steht Sharezone.';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportBold => '**fett**';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportItalic => '*kursiv*';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportLabel => 'Markdown: ';
+
+  @override
+  String get sharezoneWidgetsMarkdownSupportSeparator => ', ';
+
+  @override
+  String sharezoneWidgetsNotAllowedCharactersError(String characters) {
+    return 'Folgende Zeichen sind nicht erlaubt: $characters';
+  }
+
+  @override
+  String get sharezoneWidgetsOverlayCardCloseSemantics => 'Schließe die Karte';
+
+  @override
+  String get sharezoneWidgetsSnackbarComingSoon =>
+      'Diese Funktion ist bald verfügbar! 😊';
+
+  @override
+  String get sharezoneWidgetsSnackbarDataArrivalConfirmed =>
+      'Ankunft der Daten bestätigt';
+
+  @override
+  String get sharezoneWidgetsSnackbarLoginDataEncrypted =>
+      'Anmeldedaten werden verschlüsselt übertragen...';
+
+  @override
+  String get sharezoneWidgetsSnackbarPatience =>
+      'Geduld! Daten werden noch geladen...';
+
+  @override
+  String get sharezoneWidgetsSnackbarSaved =>
+      'Änderung wurde erfolgreich gespeichert';
+
+  @override
+  String get sharezoneWidgetsSnackbarSendingDataToFrankfurt =>
+      'Daten werden nach Frankfurt transportiert...';
+
+  @override
+  String get sharezoneWidgetsTextFieldCannotBeEmptyError =>
+      'Das Textfeld darf nicht leer sein!';
 
   @override
   String get socialDiscord => 'Discord';

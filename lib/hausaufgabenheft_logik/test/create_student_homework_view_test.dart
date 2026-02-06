@@ -48,7 +48,7 @@ void main() {
         colorDate: false,
         subjectColor: white,
         subject: 'Mathematik',
-        todoDate: 'Mo, 28. Jan 19',
+        todoDate: const Date(year: 2019, month: 1, day: 28).asDateTime(),
         withSubmissions: false,
         title: 'S. 35 6a) und 8c)',
       );
@@ -80,14 +80,17 @@ void main() {
       expect(view.subject, 'Mathe');
     });
 
-    test('formates date correct', () {
+    test('uses todoDate from homework', () {
       final hw = createHomework(
         todoDate: const Date(year: 2018, month: 12, day: 03),
       );
 
       final view = viewFactory.createFrom(hw);
 
-      expect(view.todoDate, 'Mo, 3. Dez 18');
+      expect(
+        view.todoDate,
+        const Date(year: 2018, month: 12, day: 03).asDateTime(),
+      );
     });
 
     test(

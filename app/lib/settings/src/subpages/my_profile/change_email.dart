@@ -8,6 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone/auth/authentification_localization_mapper.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
@@ -169,7 +170,10 @@ class __NewEmailFieldState extends State<_NewEmailField> {
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: context.l10n.changeEmailAddressNewEmailTextfieldLabel,
-            errorText: snapshot.error?.toString(),
+            errorText: mapAuthentificationValidationErrorMessage(
+              context,
+              snapshot.error,
+            ),
           ),
           onChanged: (newEmail) => bloc.changeEmail(newEmail.trim()),
         );
@@ -197,9 +201,9 @@ class VerifyEmailAddressDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LeftAndRightAdaptiveDialog(
+    return LeftAndRightAdaptiveDialog(
       title: "Neue E-Mail Adresse bestätigen",
-      content: Text.rich(
+      content: const Text.rich(
         TextSpan(
           text:
               'Wir haben dir einen Link geschickt. Bitte klicke jetzt auf den Link, um deine E-Mail zu bestätigen. Prüfe auch deinen Spam-Ordner.\n\n',
@@ -215,8 +219,8 @@ class VerifyEmailAddressDialog extends StatelessWidget {
           ],
         ),
       ),
-      left: AdaptiveDialogAction.cancel,
-      right: AdaptiveDialogAction.continue_,
+      left: AdaptiveDialogAction.cancel(context),
+      right: AdaptiveDialogAction.continue_(context),
     );
   }
 }
@@ -243,17 +247,17 @@ class _ReAuthenticationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LeftAndRightAdaptiveDialog(
+    return LeftAndRightAdaptiveDialog(
       title: "Re-Authentifizierung",
-      content: Text(
+      content: const Text(
         '''Nach der Änderung der E-Mail-Adresse musst du abgemeldet und wieder angemeldet werden. Danach kannst du die App wie gewohnt weiter nutzen.
 
 Klicke auf "Weiter" um eine Abmeldung und eine Anmeldung von Sharezone durchzuführen.
 
 Es kann sein, dass die Anmeldung nicht funktioniert (z.B. weil die E-Mail-Adresse noch nicht bestätigt wurde). Führe in diesem Fall die Anmeldung selbständig durch.''',
       ),
-      left: AdaptiveDialogAction.cancel,
-      right: AdaptiveDialogAction.continue_,
+      left: AdaptiveDialogAction.cancel(context),
+      right: AdaptiveDialogAction.continue_(context),
     );
   }
 }

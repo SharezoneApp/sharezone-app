@@ -20,8 +20,8 @@ import 'package:time/time.dart';
 void main() {
   LessonView getLessonViewWithTimeStatus(LessonTimeStatus timeline) {
     return LessonView(
-      start: "8:00",
-      end: "9:00",
+      start: const Time.parse("8:00"),
+      end: const Time.parse("9:00"),
       room: "100",
       abbreviation: "D",
       design: Design.standard(),

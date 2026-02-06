@@ -6,10 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+
+import '../flutter_test_config.dart';
 
 void main() {
   group(MarkdownSupport, () {
@@ -20,7 +23,11 @@ void main() {
     testGoldens('renders as expected (dark mode)', (tester) async {
       await tester.pumpWidgetBuilder(
         const Center(child: MarkdownSupport()),
-        wrapper: materialAppWrapper(theme: getDarkTheme(fontFamily: roboto)),
+        wrapper: materialAppWrapper(
+          theme: getDarkTheme(fontFamily: roboto),
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
 
       await screenMatchesGolden(tester, 'markdown_support_dark');
@@ -29,7 +36,11 @@ void main() {
     testGoldens('renders as expected (light mode)', (tester) async {
       await tester.pumpWidgetBuilder(
         const Center(child: MarkdownSupport()),
-        wrapper: materialAppWrapper(theme: getLightTheme(fontFamily: roboto)),
+        wrapper: materialAppWrapper(
+          theme: getLightTheme(fontFamily: roboto),
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
 
       await screenMatchesGolden(tester, 'markdown_support_light');
@@ -38,7 +49,11 @@ void main() {
     testGoldens('should break lines as expected', (tester) async {
       await tester.pumpWidgetBuilder(
         const Center(child: SizedBox(width: 100, child: MarkdownSupport())),
-        wrapper: materialAppWrapper(theme: getLightTheme(fontFamily: roboto)),
+        wrapper: materialAppWrapper(
+          theme: getLightTheme(fontFamily: roboto),
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
 
       await screenMatchesGolden(tester, 'markdown_support_lines');

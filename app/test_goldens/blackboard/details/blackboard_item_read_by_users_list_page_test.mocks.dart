@@ -28,6 +28,7 @@ import 'package:user/user.dart' as _i7;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeFirebaseFunctions_0 extends _i1.SmartFake
     implements _i2.FirebaseFunctions {
@@ -96,12 +97,11 @@ class MockSubscriptionService extends _i1.Mock
           as _i4.Stream<_i7.SharezonePlusStatus?>);
 
   @override
-  set sharezonePlusStatusStream(
-    _i4.Stream<_i7.SharezonePlusStatus?>? _sharezonePlusStatusStream,
-  ) => super.noSuchMethod(
-    Invocation.setter(#sharezonePlusStatusStream, _sharezonePlusStatusStream),
-    returnValueForMissingStub: null,
-  );
+  set sharezonePlusStatusStream(_i4.Stream<_i7.SharezonePlusStatus?>? value) =>
+      super.noSuchMethod(
+        Invocation.setter(#sharezonePlusStatusStream, value),
+        returnValueForMissingStub: null,
+      );
 
   @override
   bool isSubscriptionActive([_i7.AppUser? appUser]) =>

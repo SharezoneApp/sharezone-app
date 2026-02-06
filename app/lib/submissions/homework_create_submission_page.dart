@@ -543,7 +543,7 @@ class _DeleteIcon extends StatelessWidget {
               content: Text(
                 context.l10n.submissionsCreateRemoveFileContent(view.name),
               ),
-              right: AdaptiveDialogAction.delete,
+              right: AdaptiveDialogAction.delete(context),
               defaultValue: false,
             ))!;
 
