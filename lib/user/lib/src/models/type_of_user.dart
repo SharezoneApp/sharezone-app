@@ -6,6 +6,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
 enum TypeOfUser { student, teacher, parent, unknown }
 
 extension TypeOfUserExtension on TypeOfUser {
@@ -13,16 +16,12 @@ extension TypeOfUserExtension on TypeOfUser {
   bool get isParent => this == TypeOfUser.parent;
   bool get isStudent => this == TypeOfUser.student;
 
-  String toReadableString() {
-    switch (this) {
-      case TypeOfUser.student:
-        return 'Schüler*in';
-      case TypeOfUser.teacher:
-        return 'Lehrkraft';
-      case TypeOfUser.parent:
-        return 'Elternteil';
-      case TypeOfUser.unknown:
-        return 'Unbekannt';
-    }
+  String toLocalizedString(BuildContext context) {
+    return switch (this) {
+      TypeOfUser.student => context.l10n.typeOfUserStudent,
+      TypeOfUser.teacher => context.l10n.typeOfUserTeacher,
+      TypeOfUser.parent => context.l10n.typeOfUserParent,
+      TypeOfUser.unknown => context.l10n.typeOfUserUnknown,
+    };
   }
 }

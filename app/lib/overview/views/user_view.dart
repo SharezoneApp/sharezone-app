@@ -14,7 +14,7 @@ class UserView {
   final String name;
   final String abbreviation;
   final String? email;
-  final String userType;
+  final TypeOfUser userType;
   final StateEnum state;
   final bool isAnonymous;
   final Provider? provider;
@@ -40,7 +40,7 @@ class UserView {
       name = user.name,
       abbreviation = user.abbreviation,
       email = authUser?.email,
-      userType = user.typeOfUser.toReadableString(),
+      userType = user.typeOfUser,
       isAnonymous = authUser?.isAnonymous ?? false,
       state = user.state,
       provider = authUser?.provider;
@@ -50,7 +50,7 @@ class UserView {
       name = "",
       abbreviation = "",
       email = "",
-      userType = "",
+      userType = TypeOfUser.student,
       state = StateEnum.notSelected,
       isAnonymous = false,
       provider = null,
