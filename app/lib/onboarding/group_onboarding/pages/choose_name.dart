@@ -21,6 +21,7 @@ import 'package:sharezone/account/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:user/user.dart';
 
 import 'is_it_first_person_using_sharezone.dart';
@@ -158,7 +159,7 @@ class __TextFieldSubmitButtonState extends State<_TextFieldSubmitButton> {
         setState(() => isLoading = false);
         if (!context.mounted) return;
         showSnackSec(
-          text: handleErrorMessage(e.toString(), s),
+          text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
           context: context,
         );
       }

@@ -21,11 +21,15 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_common/validators.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../gateway/course_create_gateway.dart';
 import '../models/user_input.dart';
 
 class CourseCreateBloc extends BlocBase with CourseValidators {
+  @override
+  final SharezoneLocalizations l10n;
+
   final CourseCreateAnalytics _analytics;
   final CourseCreateGateway _gateway;
 
@@ -41,7 +45,12 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
 
   Course? initialCourse;
 
-  CourseCreateBloc(this._gateway, this._analytics, {this.schoolClassId});
+  CourseCreateBloc(
+    this._gateway,
+    this._analytics, {
+    required this.l10n,
+    this.schoolClassId,
+  });
 
   void loadAdminSchoolClasses() {
     final initialData = _gateway.getCurrentSchoolClasses();
@@ -110,7 +119,7 @@ class CourseCreateBloc extends BlocBase with CourseValidators {
     final validator = NotEmptyOrNullValidator(_subjectSubject.valueOrNull);
     if (!validator.isValid()) {
       _subjectSubject.addError(
-        TextValidationException(CourseValidators.emptySubjectUserMessage),
+        TextValidationException(l10n.commonErrorCourseSubjectMissing),
       );
       throw InvalidInputException();
     }

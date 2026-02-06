@@ -131,6 +131,13 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein';
 
   @override
+  String get blackboardErrorCourseMissing => 'Bitte gib einen Kurs an!';
+
+  @override
+  String get blackboardErrorTitleMissing =>
+      'Bitte gib einen Titel für den Eintrag an!';
+
+  @override
   String get changeEmailAddressCurrentEmailTextfieldLabel => 'Aktuell';
 
   @override
@@ -306,6 +313,101 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String commonDisplayError(String? error) {
     return 'Fehler: $error';
   }
+
+  @override
+  String get commonErrorCourseSubjectMissing => 'Bitte gib ein Fach an!';
+
+  @override
+  String get commonErrorCredentialAlreadyInUse =>
+      'Es existiert bereits ein Nutzer mit dieser Anmeldemethode!';
+
+  @override
+  String get commonErrorDateMissing => 'Bitte gib ein Datum an!';
+
+  @override
+  String get commonErrorEmailAlreadyInUse =>
+      'Diese E-Mail Adresse wird bereits von einem anderen Nutzer verwendet.';
+
+  @override
+  String get commonErrorEmailInvalidFormat =>
+      'Die E-Mail hat ein ungültiges Format.';
+
+  @override
+  String get commonErrorEmailMissing => 'Bitte gib deine E-Mail an.';
+
+  @override
+  String get commonErrorIncorrectData => 'Bitte gib die Daten korrekt an!';
+
+  @override
+  String get commonErrorIncorrectSharecode => 'Ungültiger Sharecode!';
+
+  @override
+  String get commonErrorInvalidInput => 'Bitte überprüfe deine Eingabe!';
+
+  @override
+  String get commonErrorKeychainSignInFailed =>
+      'Es gab einen Fehler beim Anmelden. Um diesen zu beheben, wähle die Option \'Immer erlauben\' bei der Passworteingabe bei dem Dialog für den macOS-Schlüsselbund (Keychain) aus.';
+
+  @override
+  String get commonErrorNameMissing => 'Bitte gib einen Namen an!';
+
+  @override
+  String get commonErrorNameTooShort =>
+      'Bitte gib einen Namen an, der mehr als ein Zeichen hat.';
+
+  @override
+  String get commonErrorNameUnchanged =>
+      'Dieser Name ist doch der gleiche wie vorher 😅';
+
+  @override
+  String get commonErrorNetworkRequestFailed =>
+      'Es gab einen Netzwerkfehler, weil keine stabile Internetverbindung besteht.';
+
+  @override
+  String get commonErrorNewPasswordMissing =>
+      'Oh, du hast vergessen dein neues Passwort einzugeben 😬';
+
+  @override
+  String get commonErrorNoGoogleAccountSelected =>
+      'Bitte wähle einen Account aus.';
+
+  @override
+  String get commonErrorNoInternetAccess =>
+      'Dein Gerät hat leider keinen Zugang zum Internet...';
+
+  @override
+  String get commonErrorPasswordMissing => 'Bitte gib dein Passwort an.';
+
+  @override
+  String get commonErrorSameNameAsBefore =>
+      'Das ist doch der selbe Name wie vorher 🙈';
+
+  @override
+  String get commonErrorTitleMissing => 'Bitte gib einen Titel an!';
+
+  @override
+  String get commonErrorTooManyRequests =>
+      'Wir haben alle Anfragen von diesem Gerät aufgrund ungewöhnlicher Aktivitäten blockiert. Versuchen Sie es später noch einmal.';
+
+  @override
+  String commonErrorUnknown(Object error) {
+    return 'Es ist ein unbekannter Fehler ($error) aufgetreten! Bitte kontaktiere den Support.';
+  }
+
+  @override
+  String get commonErrorUserDisabled =>
+      'Dieser Account wurde von einem Administrator deaktiviert';
+
+  @override
+  String get commonErrorUserNotFound =>
+      'Es wurde kein Nutzer mit dieser E-Mail Adresse gefunden... Inaktive Nutzer werden nach 2 Jahren gelöscht.';
+
+  @override
+  String get commonErrorWeakPassword =>
+      'Dieses Passwort ist zu schwach. Bitte wähle eine stärkeres Passwort.';
+
+  @override
+  String get commonErrorWrongPassword => 'Das eingegebene Passwort ist falsch.';
 
   @override
   String get commonLoadingPleaseWait => 'Bitte warten...';
@@ -1467,6 +1569,43 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get themeTitle => 'Erscheinungsbild';
+
+  @override
+  String get timetableErrorEndTimeBeforeNextLessonStart =>
+      'Die Endzeit ist vor der Startzeit der nächsten Stunde!';
+
+  @override
+  String get timetableErrorEndTimeBeforePreviousLessonEnd =>
+      'Die Endzeit ist vor der Endzeit der vorherigen Stunde!';
+
+  @override
+  String get timetableErrorEndTimeBeforeStartTime =>
+      'Die Endzeit der Stunde ist vor der Startzeit!';
+
+  @override
+  String get timetableErrorEndTimeMissing => 'Bitte gibt eine Endzeit an!';
+
+  @override
+  String get timetableErrorInvalidPeriodsOverlap =>
+      'Bitte gib korrekte Zeiten. Die Stunden dürfen sich nicht überschneiden!';
+
+  @override
+  String get timetableErrorStartTimeBeforeNextLessonStart =>
+      'Die Startzeit ist vor der Startzeit der nächsten Stunde!';
+
+  @override
+  String get timetableErrorStartTimeBeforePreviousLessonEnd =>
+      'Die Startzeit ist vor der Endzeit der vorherigen Stunde!';
+
+  @override
+  String get timetableErrorStartTimeEqualsEndTime =>
+      'Die Startzeit und die Endzeit darf nicht gleich sein!';
+
+  @override
+  String get timetableErrorStartTimeMissing => 'Bitte gibt eine Startzeit an!';
+
+  @override
+  String get timetableErrorWeekdayMissing => 'Bitte gib einen Wochentag an!';
 
   @override
   String get timetableSettingsABWeekTileTitle => 'A/B Wochen';

@@ -39,12 +39,15 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
   late AccountPageBloc bloc;
+  bool _didInit = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didInit) return;
     final blocFactory = BlocProvider.of<AccountPageBlocFactory>(context);
-    bloc = blocFactory.create(scaffoldKey);
+    bloc = blocFactory.create(scaffoldKey, context.l10n);
+    _didInit = true;
   }
 
   @override

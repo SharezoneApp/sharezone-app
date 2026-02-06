@@ -307,6 +307,18 @@ abstract class SharezoneLocalizations {
   /// **'Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein'**
   String get authValidationInvalidPasswordTooShort;
 
+  /// Error message shown when a blackboard entry is missing a course.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Kurs an!'**
+  String get blackboardErrorCourseMissing;
+
+  /// Error message shown when a blackboard entry title is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Titel für den Eintrag an!'**
+  String get blackboardErrorTitleMissing;
+
   /// The label for the text field which is used for the current email address
   ///
   /// In de, this message translates to:
@@ -596,6 +608,162 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Fehler: {error}'**
   String commonDisplayError(String? error);
+
+  /// Error message shown when the course subject is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib ein Fach an!'**
+  String get commonErrorCourseSubjectMissing;
+
+  /// Error message shown when the credential is already in use.
+  ///
+  /// In de, this message translates to:
+  /// **'Es existiert bereits ein Nutzer mit dieser Anmeldemethode!'**
+  String get commonErrorCredentialAlreadyInUse;
+
+  /// Error message shown when a date is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib ein Datum an!'**
+  String get commonErrorDateMissing;
+
+  /// Error message shown when an email is already in use.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese E-Mail Adresse wird bereits von einem anderen Nutzer verwendet.'**
+  String get commonErrorEmailAlreadyInUse;
+
+  /// Error message shown when an email has an invalid format.
+  ///
+  /// In de, this message translates to:
+  /// **'Die E-Mail hat ein ungültiges Format.'**
+  String get commonErrorEmailInvalidFormat;
+
+  /// Error message shown when the email field is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib deine E-Mail an.'**
+  String get commonErrorEmailMissing;
+
+  /// Error message shown when provided data is invalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib die Daten korrekt an!'**
+  String get commonErrorIncorrectData;
+
+  /// Error message shown when a share code is invalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungültiger Sharecode!'**
+  String get commonErrorIncorrectSharecode;
+
+  /// Generic error message shown when the user input is invalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte überprüfe deine Eingabe!'**
+  String get commonErrorInvalidInput;
+
+  /// Error message shown when macOS Keychain sign-in fails.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gab einen Fehler beim Anmelden. Um diesen zu beheben, wähle die Option \'Immer erlauben\' bei der Passworteingabe bei dem Dialog für den macOS-Schlüsselbund (Keychain) aus.'**
+  String get commonErrorKeychainSignInFailed;
+
+  /// Error message shown when a name is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Namen an!'**
+  String get commonErrorNameMissing;
+
+  /// Error message shown when a name is too short.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Namen an, der mehr als ein Zeichen hat.'**
+  String get commonErrorNameTooShort;
+
+  /// Error message shown when the name has not changed.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Name ist doch der gleiche wie vorher 😅'**
+  String get commonErrorNameUnchanged;
+
+  /// Error message shown when a network request failed.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gab einen Netzwerkfehler, weil keine stabile Internetverbindung besteht.'**
+  String get commonErrorNetworkRequestFailed;
+
+  /// Error message shown when the new password field is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Oh, du hast vergessen dein neues Passwort einzugeben 😬'**
+  String get commonErrorNewPasswordMissing;
+
+  /// Error message shown when no Google account was selected.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte wähle einen Account aus.'**
+  String get commonErrorNoGoogleAccountSelected;
+
+  /// Error message shown when there is no internet connection.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Gerät hat leider keinen Zugang zum Internet...'**
+  String get commonErrorNoInternetAccess;
+
+  /// Error message shown when the password field is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib dein Passwort an.'**
+  String get commonErrorPasswordMissing;
+
+  /// Error message shown when the entered name matches the previous one.
+  ///
+  /// In de, this message translates to:
+  /// **'Das ist doch der selbe Name wie vorher 🙈'**
+  String get commonErrorSameNameAsBefore;
+
+  /// Error message shown when a title is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Titel an!'**
+  String get commonErrorTitleMissing;
+
+  /// Error message shown when too many requests were made.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir haben alle Anfragen von diesem Gerät aufgrund ungewöhnlicher Aktivitäten blockiert. Versuchen Sie es später noch einmal.'**
+  String get commonErrorTooManyRequests;
+
+  /// Fallback error message for unknown errors.
+  ///
+  /// In de, this message translates to:
+  /// **'Es ist ein unbekannter Fehler ({error}) aufgetreten! Bitte kontaktiere den Support.'**
+  String commonErrorUnknown(Object error);
+
+  /// Error message shown when the account is disabled.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Account wurde von einem Administrator deaktiviert'**
+  String get commonErrorUserDisabled;
+
+  /// Error message shown when no user is found for the email address.
+  ///
+  /// In de, this message translates to:
+  /// **'Es wurde kein Nutzer mit dieser E-Mail Adresse gefunden... Inaktive Nutzer werden nach 2 Jahren gelöscht.'**
+  String get commonErrorUserNotFound;
+
+  /// Error message shown when the password is too weak.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieses Passwort ist zu schwach. Bitte wähle eine stärkeres Passwort.'**
+  String get commonErrorWeakPassword;
+
+  /// Error message shown when the entered password is incorrect.
+  ///
+  /// In de, this message translates to:
+  /// **'Das eingegebene Passwort ist falsch.'**
+  String get commonErrorWrongPassword;
 
   /// No description provided for @commonLoadingPleaseWait.
   ///
@@ -2630,6 +2798,66 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Erscheinungsbild'**
   String get themeTitle;
+
+  /// Error message shown when the end time is before the next lesson's start time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Endzeit ist vor der Startzeit der nächsten Stunde!'**
+  String get timetableErrorEndTimeBeforeNextLessonStart;
+
+  /// Error message shown when the end time is before the previous lesson's end time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Endzeit ist vor der Endzeit der vorherigen Stunde!'**
+  String get timetableErrorEndTimeBeforePreviousLessonEnd;
+
+  /// Error message shown when the end time is before the start time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Endzeit der Stunde ist vor der Startzeit!'**
+  String get timetableErrorEndTimeBeforeStartTime;
+
+  /// Error message shown when the end time is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gibt eine Endzeit an!'**
+  String get timetableErrorEndTimeMissing;
+
+  /// Error message shown when lesson periods overlap or are invalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib korrekte Zeiten. Die Stunden dürfen sich nicht überschneiden!'**
+  String get timetableErrorInvalidPeriodsOverlap;
+
+  /// Error message shown when the start time is before the next lesson's start time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Startzeit ist vor der Startzeit der nächsten Stunde!'**
+  String get timetableErrorStartTimeBeforeNextLessonStart;
+
+  /// Error message shown when the start time is before the previous lesson's end time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Startzeit ist vor der Endzeit der vorherigen Stunde!'**
+  String get timetableErrorStartTimeBeforePreviousLessonEnd;
+
+  /// Error message shown when start and end time are the same.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Startzeit und die Endzeit darf nicht gleich sein!'**
+  String get timetableErrorStartTimeEqualsEndTime;
+
+  /// Error message shown when the start time is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gibt eine Startzeit an!'**
+  String get timetableErrorStartTimeMissing;
+
+  /// Error message shown when no weekday is selected.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Wochentag an!'**
+  String get timetableErrorWeekdayMissing;
 
   /// No description provided for @timetableSettingsABWeekTileTitle.
   ///
