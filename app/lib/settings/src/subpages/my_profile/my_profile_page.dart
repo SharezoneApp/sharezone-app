@@ -23,6 +23,7 @@ import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
 import 'package:sharezone/account/select_state_dialog.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
+import 'package:sharezone/auth/authentification_localization_mapper.dart';
 import 'package:sharezone/groups/src/widgets/danger_section.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
@@ -233,7 +234,7 @@ class _ProviderTile extends StatelessWidget {
     return ListTile(
       leading: const Icon(Icons.lock),
       title: Text(context.l10n.myProfileSignInMethodTile),
-      subtitle: Text(providerToUiString(provider)),
+      subtitle: Text(mapAuthProviderName(context, provider)),
       onTap: () {
         if (provider == Provider.anonymous) {
           Navigator.pushNamed(context, AccountPage.tag);
@@ -451,7 +452,7 @@ class _DeleteAccountDialogContentState
     } on Exception catch (e, s) {
       setState(() {
         isLoading = false;
-        error = handleErrorMessage(e.toString(), s);
+        error = handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s);
       });
     }
   }

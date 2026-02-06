@@ -19,7 +19,7 @@ class StudentHomeworkView {
   /// "completed" even though he did not submit a submission.
   final bool isCompleted;
   final String subject;
-  final String todoDate;
+  final DateTime todoDate;
   final String title;
   final bool withSubmissions;
   final Color subjectColor;

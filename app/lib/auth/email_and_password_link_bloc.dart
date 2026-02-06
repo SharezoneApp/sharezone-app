@@ -19,12 +19,14 @@ import 'package:sharezone/account/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 // * Using a shortcut getter method on the class to create simpler and friendlier API for the class to provide access of a particular function on StreamController
 // * Mixin can only be used on a class that extends from a base class, therefore, we are adding Bloc class that extends from the Object class
 // NOTE: Or you can write "class Bloc extends Validators" since we don't really need to extend Bloc from a base class
 class EmailAndPasswordLinkBloc extends BlocBase
     with AuthentificationValidators {
+  final SharezoneLocalizations l10n;
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
   final LinkProviderGateway linkProviderGateway;
   final UserEditBlocGateway userEditBlocGateway;
@@ -51,6 +53,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
     this.userEditBlocGateway,
     this.initialName,
     this.scaffoldMessengerKey,
+    this.l10n,
   ) {
     _nameController.sink.add(initialName);
   }
@@ -98,7 +101,7 @@ class EmailAndPasswordLinkBloc extends BlocBase
   void _showErrorSnackBar(Exception e, StackTrace s) {
     showSnackSec(
       key: scaffoldMessengerKey,
-      text: handleErrorMessage(e.toString(), s),
+      text: handleErrorMessage(l10n: l10n, error: e, stackTrace: s),
       seconds: 4,
     );
   }

@@ -18,10 +18,12 @@ import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_utils/streams.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 enum LinkAction { credentialAlreadyInUse, finished }
 
 class AccountPageBloc extends BlocBase {
+  final SharezoneLocalizations l10n;
   final GlobalKey<ScaffoldMessengerState> globalKey;
   final LinkProviderGateway linkProviderGateway;
   final UserGateway userGateway;
@@ -34,6 +36,7 @@ class AccountPageBloc extends BlocBase {
     required this.userGateway,
     required this.linkProviderGateway,
     required this.globalKey,
+    required this.l10n,
   }) {
     final userStream = userGateway.userStream;
     final authUserStream = userGateway.authUserStream;
@@ -82,7 +85,7 @@ class AccountPageBloc extends BlocBase {
   void _showErrorSnackBar(Exception e, StackTrace s) {
     showSnackSec(
       key: globalKey,
-      text: handleErrorMessage(e.toString(), s),
+      text: handleErrorMessage(l10n: l10n, error: e, stackTrace: s),
       seconds: 4,
     );
   }

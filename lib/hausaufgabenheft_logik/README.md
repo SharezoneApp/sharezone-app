@@ -29,9 +29,9 @@ Beispielcode:
         nrOfInitialCompletedHomeworksToLoad: 8);
     ///Die Klassen von firebase_hausaufgabenheft_logik, die die Logik an Firebase anbinden.
     final dependencies = HausaufgabenheftDependencies(
-        api: homeworkApi,
-        keyValueStore: keyValueStore,
-        localizations: context.l10n);
+        firestoreHomeworkRepository,
+        _homeworkCompletionDispatcher,
+        firestoreHomeworkRepository.getCurrentOpenOverdueHomeworkIds);
     final homeworkPageBloc = createHomeworkPageBloc(dependencies, config);
 ```
 

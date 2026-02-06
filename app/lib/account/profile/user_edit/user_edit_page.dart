@@ -81,7 +81,7 @@ Future<void> _submit(
     }
   } on Exception catch (e, s) {
     showSnackSec(
-      text: handleErrorMessage(e.toString(), s),
+      text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
       context: context,
       behavior: SnackBarBehavior.fixed,
       key: scaffoldKey,

@@ -12,11 +12,19 @@ import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_g
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_validators.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/validators.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class SchoolClassEditBloc extends BlocBase with SchoolClassValidators {
-  SchoolClassEditBloc({required this.gateway, required this.currentName}) {
+  SchoolClassEditBloc({
+    required this.gateway,
+    required this.currentName,
+    required this.l10n,
+  }) {
     _nameSubject.sink.add(currentName);
   }
+
+  @override
+  final SharezoneLocalizations l10n;
 
   final SchoolClassEditGateway gateway;
   final String currentName;
@@ -39,11 +47,11 @@ class SchoolClassEditBloc extends BlocBase with SchoolClassValidators {
     final newName = _nameSubject.valueOrNull;
     final validator = NotEmptyOrNullValidator(newName);
     if (!validator.isValid()) {
-      _nameSubject.addError(EmptyNameException().toString());
+      _nameSubject.addError(l10n.commonErrorNameMissing);
       throw EmptyNameException();
     } else {
       if (currentName == newName) {
-        _nameSubject.addError(SameNameException().toString());
+        _nameSubject.addError(l10n.commonErrorNameUnchanged);
         throw SameNameException();
       } else {
         return true;

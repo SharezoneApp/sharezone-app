@@ -15,8 +15,8 @@ import 'package:sharezone/groups/src/pages/course/create/analytics/course_create
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/create/models/user_input.dart';
 import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_gateway.dart';
-import 'package:sharezone_common/course_validators.dart';
 import 'package:sharezone_common/validators.dart';
+import 'package:sharezone_localizations/localizations/sharezone_localizations_de.gen.dart';
 
 import '../analytics/analytics_test.dart';
 import 'course_create_bloc_test.mocks.dart';
@@ -30,7 +30,11 @@ void main() {
   setUp(() {
     analytics = CourseCreateAnalytics(Analytics(LocalAnalyticsBackend()));
     gateway = MockCourseCreateGateway();
-    bloc = CourseCreateBloc(gateway, analytics);
+    bloc = CourseCreateBloc(
+      gateway,
+      analytics,
+      l10n: SharezoneLocalizationsDe(),
+    );
   });
 
   test(
@@ -47,7 +51,11 @@ void main() {
   );
 
   test("If submit is called then the CourseCreateApi is used", () async {
-    final bloc = CourseCreateBloc(gateway, analytics);
+    final bloc = CourseCreateBloc(
+      gateway,
+      analytics,
+      l10n: SharezoneLocalizationsDe(),
+    );
     _createValidInput(bloc);
     bloc.submitCourse();
 
@@ -76,13 +84,17 @@ void main() {
       }
       expect(
         validationException.message,
-        CourseValidators.emptySubjectUserMessage,
+        SharezoneLocalizationsDe().commonErrorCourseSubjectMissing,
       );
     },
   );
 
   test("If the user gives a course name then it will be used", () async {
-    final bloc = CourseCreateBloc(gateway, analytics);
+    final bloc = CourseCreateBloc(
+      gateway,
+      analytics,
+      l10n: SharezoneLocalizationsDe(),
+    );
     _createValidInput(bloc);
     bloc.changeName("Mathematik LK Q1");
     bloc.submitCourse();
@@ -94,7 +106,11 @@ void main() {
   test(
     "If the user doesn't give a course name then the subjec will be used as course name ",
     () async {
-      final bloc = CourseCreateBloc(gateway, analytics);
+      final bloc = CourseCreateBloc(
+        gateway,
+        analytics,
+        l10n: SharezoneLocalizationsDe(),
+      );
       bloc.changeSubject("Subject");
       bloc.submitCourse();
       List apiArguments = verify(gateway.createCourse(captureAny)).captured;

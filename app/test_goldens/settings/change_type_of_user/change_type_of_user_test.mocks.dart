@@ -30,6 +30,7 @@ import 'package:user/user.dart' as _i7;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeUserId_0 extends _i1.SmartFake implements _i2.UserId {
   _FakeUserId_0(Object parent, Invocation parentInvocation)
@@ -112,24 +113,22 @@ class MockChangeTypeOfUserController extends _i1.Mock
           as _i5.ChangeTypeOfUserState);
 
   @override
-  set state(_i5.ChangeTypeOfUserState? _state) => super.noSuchMethod(
-    Invocation.setter(#state, _state),
+  set state(_i5.ChangeTypeOfUserState? value) => super.noSuchMethod(
+    Invocation.setter(#state, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set initialTypeOfUser(_i7.TypeOfUser? _initialTypeOfUser) =>
-      super.noSuchMethod(
-        Invocation.setter(#initialTypeOfUser, _initialTypeOfUser),
-        returnValueForMissingStub: null,
-      );
+  set initialTypeOfUser(_i7.TypeOfUser? value) => super.noSuchMethod(
+    Invocation.setter(#initialTypeOfUser, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  set selectedTypeOfUser(_i7.TypeOfUser? _selectedTypeOfUser) =>
-      super.noSuchMethod(
-        Invocation.setter(#selectedTypeOfUser, _selectedTypeOfUser),
-        returnValueForMissingStub: null,
-      );
+  set selectedTypeOfUser(_i7.TypeOfUser? value) => super.noSuchMethod(
+    Invocation.setter(#selectedTypeOfUser, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool get hasListeners =>

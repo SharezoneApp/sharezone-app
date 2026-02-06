@@ -54,7 +54,7 @@ class OpenHomeworkList extends StatelessWidget {
           if (showCompleteAllOverdueCard) const MarkOverdueHomeworkPrompt(),
           for (final section in homeworkListView.sections)
             HomeworkListSection(
-              title: section.title,
+              title: homeworkSectionTitle(context, section),
               children: [
                 for (final hw in section.homeworks)
                   HomeworkTile(

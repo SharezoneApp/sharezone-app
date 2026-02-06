@@ -8,6 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone/auth/authentification_localization_mapper.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
@@ -169,7 +170,10 @@ class __NewEmailFieldState extends State<_NewEmailField> {
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: context.l10n.changeEmailAddressNewEmailTextfieldLabel,
-            errorText: snapshot.error?.toString(),
+            errorText: mapAuthentificationValidationErrorMessage(
+              context,
+              snapshot.error,
+            ),
           ),
           onChanged: (newEmail) => bloc.changeEmail(newEmail.trim()),
         );
