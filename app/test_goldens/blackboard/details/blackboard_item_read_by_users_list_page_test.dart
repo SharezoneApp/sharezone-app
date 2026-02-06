@@ -19,9 +19,11 @@ import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/
 import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/blackboard_item_read_by_users_list_page.dart';
 import 'package:sharezone/blackboard/details/blackboard_item_read_by_users_list/user_view.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
 
+import '../../flutter_test_config.dart';
 import 'blackboard_item_read_by_users_list_page_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -68,7 +70,11 @@ void main() {
             ),
           ),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 
