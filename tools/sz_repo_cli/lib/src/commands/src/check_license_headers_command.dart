@@ -52,6 +52,14 @@ Future<ProcessRunnerResult> runLicenseHeaderCommand(
   required String commandKey,
   required SharezoneRepo repo,
 }) {
+  if (Platform.isMacOS || Platform.isLinux) {
+    // Our shell scripts for `addlicense` use some optimizations that are not
+    // available on Windows.
+    return processRunner.run([
+      'bin/$commandKey.sh',
+    ], workingDirectory: repo.location);
+  }
+
   return runSourceOfTruthCommand(
     processRunner,
     commandKey: commandKey,
