@@ -63,7 +63,7 @@ void main() {
     );
   });
 
-  test('Normal usage works correctly', () async {
+  test('Normal usage with body & subject works correctly', () async {
     final launcher = TestUrlLauncherExtended();
 
     await launcher.tryLaunchMailOrThrow(
@@ -78,5 +78,18 @@ void main() {
     expect(uri.path, equals('user@example.com'));
     expect(uri.queryParameters['subject'], equals('Hello World'));
     expect(uri.queryParameters['body'], equals('This is a body'));
+  });
+
+  test('Normal usage with only subject works correctly', () async {
+    final launcher = TestUrlLauncherExtended();
+
+    await launcher.tryLaunchMailOrThrow('user@example.com');
+
+    final uri = launcher.lastLaunchedUri!;
+
+    expect(uri.scheme, equals('mailto'));
+    expect(uri.path, equals('user@example.com'));
+    expect(uri.queryParameters['subject'], isNull);
+    expect(uri.queryParameters['body'], isNull);
   });
 }

@@ -88,6 +88,20 @@ class UrlLauncherExtended {
     return url_launcher.canLaunchUrl(url);
   }
 
+  /// Encodes the given parameters into a query string.
+  ///
+  /// [Uri.queryParameters] constructor should be avoid due to [a
+  /// bug](https://github.com/dart-lang/sdk/issues/43838) in Dart. See
+  /// https://pub.dev/packages/url_launcher#encoding-urls.
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map(
+          (entry) =>
+              '${Uri.encodeComponent(entry.key)}=${Uri.encodeComponent(entry.value)}',
+        )
+        .join('&');
+  }
+
   /// Create email draft to the default email app by converting the parameters
   /// into an uri, like
   /// "mailto:smith@example.com?subject=Example+Subject+%26+Symbols+are+allowed%21"
@@ -107,14 +121,13 @@ class UrlLauncherExtended {
     String? subject,
     String? body,
   }) async {
-    final queryParameters = <String, String>{};
-    if (subject != null) queryParameters['subject'] = subject;
-    if (body != null) queryParameters['body'] = body;
-
     final uri = Uri(
       scheme: 'mailto',
       path: address,
-      queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
+      query: encodeQueryParameters({
+        if (subject != null) 'subject': subject,
+        if (body != null) 'body': body,
+      }),
     );
 
     final canLaunch = await canLaunchUrl(uri);
