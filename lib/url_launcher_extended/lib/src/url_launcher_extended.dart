@@ -93,7 +93,7 @@ class UrlLauncherExtended {
   /// [Uri.queryParameters] constructor should be avoid due to [a
   /// bug](https://github.com/dart-lang/sdk/issues/43838) in Dart. See
   /// https://pub.dev/packages/url_launcher#encoding-urls.
-  String? encodeQueryParameters(Map<String, String> params) {
+  String? _encodeQueryParameters(Map<String, String> params) {
     return params.entries
         .map(
           (entry) =>
@@ -124,7 +124,7 @@ class UrlLauncherExtended {
     final uri = Uri(
       scheme: 'mailto',
       path: address,
-      query: encodeQueryParameters({
+      query: _encodeQueryParameters({
         if (subject != null) 'subject': subject,
         if (body != null) 'body': body,
       }),
