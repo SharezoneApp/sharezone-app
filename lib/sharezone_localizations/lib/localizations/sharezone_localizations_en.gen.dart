@@ -104,6 +104,33 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get appName => 'Sharezone';
 
   @override
+  String authAnonymousDisplayName(Object animalName) {
+    return 'Anonymous $animalName';
+  }
+
+  @override
+  String get authProviderAnonymous => 'Anonymous sign in';
+
+  @override
+  String get authProviderApple => 'Apple Sign In';
+
+  @override
+  String get authProviderEmailAndPassword => 'Email and password';
+
+  @override
+  String get authProviderGoogle => 'Google Sign In';
+
+  @override
+  String get authValidationInvalidEmail => 'Please enter a valid email';
+
+  @override
+  String get authValidationInvalidName => 'Invalid name';
+
+  @override
+  String get authValidationInvalidPasswordTooShort =>
+      'Invalid password, please enter more than 8 characters';
+
+  @override
   String get blackboardErrorCourseMissing => 'Please select a course.';
 
   @override
@@ -377,6 +404,32 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get commonErrorWrongPassword =>
       'The password you entered is incorrect.';
+
+  @override
+  String get commonLoadingPleaseWait => 'Please wait...';
+
+  @override
+  String get commonStatusFailed => 'Failed';
+
+  @override
+  String get commonStatusNoInternetDescription =>
+      'Please check the internet connection.';
+
+  @override
+  String get commonStatusNoInternetTitle => 'Error: No internet connection';
+
+  @override
+  String get commonStatusSuccessful => 'Successful';
+
+  @override
+  String get commonStatusUnknownErrorDescription =>
+      'An unknown error occurred! 😭';
+
+  @override
+  String get commonStatusUnknownErrorTitle => 'Unknown error';
+
+  @override
+  String get commonTitleNote => 'Note';
 
   @override
   String get contactSupportButton => 'Contact support';

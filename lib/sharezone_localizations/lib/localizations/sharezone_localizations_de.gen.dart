@@ -104,6 +104,33 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get appName => 'Sharezone';
 
   @override
+  String authAnonymousDisplayName(Object animalName) {
+    return 'Anonymer $animalName';
+  }
+
+  @override
+  String get authProviderAnonymous => 'Anonyme Anmeldung';
+
+  @override
+  String get authProviderApple => 'Apple Sign In';
+
+  @override
+  String get authProviderEmailAndPassword => 'E-Mail und Passwort';
+
+  @override
+  String get authProviderGoogle => 'Google Sign In';
+
+  @override
+  String get authValidationInvalidEmail => 'Gib eine gueltige E-Mail ein';
+
+  @override
+  String get authValidationInvalidName => 'Ungueltiger Name';
+
+  @override
+  String get authValidationInvalidPasswordTooShort =>
+      'Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein';
+
+  @override
   String get blackboardErrorCourseMissing => 'Bitte gib einen Kurs an!';
 
   @override
@@ -381,6 +408,32 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get commonErrorWrongPassword => 'Das eingegebene Passwort ist falsch.';
+
+  @override
+  String get commonLoadingPleaseWait => 'Bitte warten...';
+
+  @override
+  String get commonStatusFailed => 'Fehlgeschlagen';
+
+  @override
+  String get commonStatusNoInternetDescription =>
+      'Bitte überprüfen Sie die Internetverbindung.';
+
+  @override
+  String get commonStatusNoInternetTitle => 'Fehler: Keine Internetverbindung';
+
+  @override
+  String get commonStatusSuccessful => 'Erfolgreich';
+
+  @override
+  String get commonStatusUnknownErrorDescription =>
+      'Ein unbekannter Fehler ist aufgetreten! 😭';
+
+  @override
+  String get commonStatusUnknownErrorTitle => 'Unbekannter Fehler';
+
+  @override
+  String get commonTitleNote => 'Hinweis';
 
   @override
   String get contactSupportButton => 'Support kontaktieren';

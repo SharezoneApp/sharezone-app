@@ -73,14 +73,6 @@
     }
   },
   "appName": "Sharezone",
-  "blackboardErrorCourseMissing": "Bitte gib einen Kurs an!",
-  "@blackboardErrorCourseMissing": {
-    "description": "Error message shown when a blackboard entry is missing a course."
-  },
-  "blackboardErrorTitleMissing": "Bitte gib einen Titel für den Eintrag an!",
-  "@blackboardErrorTitleMissing": {
-    "description": "Error message shown when a blackboard entry title is missing."
-  },
   "authAnonymousDisplayName": "Anonymer {animalName}",
   "@authAnonymousDisplayName": {
     "description": "Display name template for users without a chosen name.",
@@ -95,6 +87,14 @@
   "authValidationInvalidEmail": "Gib eine gueltige E-Mail ein",
   "authValidationInvalidName": "Ungueltiger Name",
   "authValidationInvalidPasswordTooShort": "Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein",
+  "blackboardErrorCourseMissing": "Bitte gib einen Kurs an!",
+  "@blackboardErrorCourseMissing": {
+    "description": "Error message shown when a blackboard entry is missing a course."
+  },
+  "blackboardErrorTitleMissing": "Bitte gib einen Titel für den Eintrag an!",
+  "@blackboardErrorTitleMissing": {
+    "description": "Error message shown when a blackboard entry title is missing."
+  },
   "changeEmailAddressCurrentEmailTextfieldLabel": "Aktuell",
   "@changeEmailAddressCurrentEmailTextfieldLabel": {
     "description": "The label for the text field which is used for the current email address"

@@ -259,6 +259,54 @@ abstract class SharezoneLocalizations {
   /// **'Sharezone'**
   String get appName;
 
+  /// Display name template for users without a chosen name.
+  ///
+  /// In de, this message translates to:
+  /// **'Anonymer {animalName}'**
+  String authAnonymousDisplayName(Object animalName);
+
+  /// No description provided for @authProviderAnonymous.
+  ///
+  /// In de, this message translates to:
+  /// **'Anonyme Anmeldung'**
+  String get authProviderAnonymous;
+
+  /// No description provided for @authProviderApple.
+  ///
+  /// In de, this message translates to:
+  /// **'Apple Sign In'**
+  String get authProviderApple;
+
+  /// No description provided for @authProviderEmailAndPassword.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail und Passwort'**
+  String get authProviderEmailAndPassword;
+
+  /// No description provided for @authProviderGoogle.
+  ///
+  /// In de, this message translates to:
+  /// **'Google Sign In'**
+  String get authProviderGoogle;
+
+  /// No description provided for @authValidationInvalidEmail.
+  ///
+  /// In de, this message translates to:
+  /// **'Gib eine gueltige E-Mail ein'**
+  String get authValidationInvalidEmail;
+
+  /// No description provided for @authValidationInvalidName.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungueltiger Name'**
+  String get authValidationInvalidName;
+
+  /// No description provided for @authValidationInvalidPasswordTooShort.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein'**
+  String get authValidationInvalidPasswordTooShort;
+
   /// Error message shown when a blackboard entry is missing a course.
   ///
   /// In de, this message translates to:
@@ -716,6 +764,54 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Das eingegebene Passwort ist falsch.'**
   String get commonErrorWrongPassword;
+
+  /// No description provided for @commonLoadingPleaseWait.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte warten...'**
+  String get commonLoadingPleaseWait;
+
+  /// No description provided for @commonStatusFailed.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehlgeschlagen'**
+  String get commonStatusFailed;
+
+  /// No description provided for @commonStatusNoInternetDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte überprüfen Sie die Internetverbindung.'**
+  String get commonStatusNoInternetDescription;
+
+  /// No description provided for @commonStatusNoInternetTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Fehler: Keine Internetverbindung'**
+  String get commonStatusNoInternetTitle;
+
+  /// No description provided for @commonStatusSuccessful.
+  ///
+  /// In de, this message translates to:
+  /// **'Erfolgreich'**
+  String get commonStatusSuccessful;
+
+  /// No description provided for @commonStatusUnknownErrorDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein unbekannter Fehler ist aufgetreten! 😭'**
+  String get commonStatusUnknownErrorDescription;
+
+  /// No description provided for @commonStatusUnknownErrorTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Unbekannter Fehler'**
+  String get commonStatusUnknownErrorTitle;
+
+  /// No description provided for @commonTitleNote.
+  ///
+  /// In de, this message translates to:
+  /// **'Hinweis'**
+  String get commonTitleNote;
 
   /// No description provided for @contactSupportButton.
   ///
