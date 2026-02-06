@@ -865,6 +865,22 @@
     }
   },
   "timetableSettingsTitle": "Stundenplan",
+  "typeOfUserParent": "Elternteil",
+  "@typeOfUserParent": {
+    "description": "Label for the type of user parent."
+  },
+  "typeOfUserStudent": "Schüler:in",
+  "@typeOfUserStudent": {
+    "description": "Label for the type of user student."
+  },
+  "typeOfUserTeacher": "Lehrkraft",
+  "@typeOfUserTeacher": {
+    "description": "Label for the type of user teacher."
+  },
+  "typeOfUserUnknown": "Unbekannt",
+  "@typeOfUserUnknown": {
+    "description": "Label for the type of user unknown."
+  },
   "useAccountInstructionsAppBarTitle": "Anleitung",
   "@useAccountInstructionsAppBarTitle": {
     "description": "App bar title for the instructions on using multiple devices."

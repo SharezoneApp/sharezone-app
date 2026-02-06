@@ -37,7 +37,7 @@ class UserView {
       name = user.name,
       email = authUser.email,
       state = stateEnumToString[user.state],
-      typeOfUser = user.typeOfUser.toReadableString(),
+      typeOfUser = user.typeOfUser.toLocalizedString(),
       isAnonymous = authUser.isAnonymous,
       provider = authUser.provider;
 

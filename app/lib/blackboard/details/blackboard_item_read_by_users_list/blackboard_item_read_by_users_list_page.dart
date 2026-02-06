@@ -102,7 +102,7 @@ UserView _createMockView(int number, String name, {bool hasRead = false}) {
   return UserView(
     uid: "user$number",
     hasRead: hasRead,
-    typeOfUser: TypeOfUser.student.toReadableString(),
+    typeOfUser: TypeOfUser.student.toLocalizedString(),
     name: name,
   );
 }

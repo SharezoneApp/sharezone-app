@@ -67,7 +67,7 @@ extension on MemberData {
       uid: '$id',
       name: name,
       hasRead: hasRead,
-      typeOfUser: typeOfUser.toReadableString(),
+      typeOfUser: typeOfUser.toLocalizedString(),
     );
   }
 }
@@ -79,7 +79,7 @@ extension ImprovedSorting on List<UserView> {
     TypeOfUser typeOfUser,
   ) {
     return where(
-        (user) => user.typeOfUser == typeOfUser.toReadableString(),
+        (user) => user.typeOfUser == typeOfUser.toLocalizedString(),
       ).toList()
       ..sort((a, b) => a.name.compareTo(b.name));
   }

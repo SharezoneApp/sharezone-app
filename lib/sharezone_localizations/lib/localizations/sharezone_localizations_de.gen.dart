@@ -1538,6 +1538,18 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get timetableSettingsTitle => 'Stundenplan';
 
   @override
+  String get typeOfUserParent => 'Elternteil';
+
+  @override
+  String get typeOfUserStudent => 'Schüler:in';
+
+  @override
+  String get typeOfUserTeacher => 'Lehrkraft';
+
+  @override
+  String get typeOfUserUnknown => 'Unbekannt';
+
+  @override
   String get useAccountInstructionsAppBarTitle => 'Anleitung';
 
   @override

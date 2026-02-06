@@ -1528,6 +1528,18 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get timetableSettingsTitle => 'Timetable';
 
   @override
+  String get typeOfUserParent => 'Parent';
+
+  @override
+  String get typeOfUserStudent => 'Student';
+
+  @override
+  String get typeOfUserTeacher => 'Teacher';
+
+  @override
+  String get typeOfUserUnknown => 'Unknown';
+
+  @override
   String get useAccountInstructionsAppBarTitle => 'Instructions';
 
   @override

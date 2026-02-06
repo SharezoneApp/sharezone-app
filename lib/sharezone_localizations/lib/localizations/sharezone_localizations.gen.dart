@@ -2737,6 +2737,30 @@ abstract class SharezoneLocalizations {
   /// **'Stundenplan'**
   String get timetableSettingsTitle;
 
+  /// Label for the type of user parent.
+  ///
+  /// In de, this message translates to:
+  /// **'Elternteil'**
+  String get typeOfUserParent;
+
+  /// Label for the type of user student.
+  ///
+  /// In de, this message translates to:
+  /// **'Schüler:in'**
+  String get typeOfUserStudent;
+
+  /// Label for the type of user teacher.
+  ///
+  /// In de, this message translates to:
+  /// **'Lehrkraft'**
+  String get typeOfUserTeacher;
+
+  /// Label for the type of user unknown.
+  ///
+  /// In de, this message translates to:
+  /// **'Unbekannt'**
+  String get typeOfUserUnknown;
+
   /// App bar title for the instructions on using multiple devices.
   ///
   /// In de, this message translates to:
