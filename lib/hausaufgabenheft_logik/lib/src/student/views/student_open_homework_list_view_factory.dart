@@ -35,8 +35,7 @@ class StudentOpenHomeworkListViewFactory {
     final views =
         sortedAndSubcategorized
             .map(
-              (section) => HomeworkSectionView(
-                section.title,
+              (section) => section.mapHomeworks(
                 section.homeworks
                     .map((hw) => _viewFactory.createFrom(hw))
                     .toIList(),

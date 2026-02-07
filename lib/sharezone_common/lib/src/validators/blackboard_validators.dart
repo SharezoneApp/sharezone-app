@@ -7,20 +7,26 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
+
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+
 import '../validator.dart';
 
 mixin BlackboardValidators {
-  final validateTitle = StreamTransformer<String, String>.fromHandlers(
-    handleData: (title, sink) {
-      if (NotEmptyOrNullValidator(title).isValid()) {
-        sink.add(title);
-      } else {
-        sink.addError(TextValidationException(emptyTitleUserMessage));
-      }
-    },
-  );
+  SharezoneLocalizations get l10n;
 
-  static const emptyTitleUserMessage =
-      "Bitte gib einen Titel für den Eintrag an!";
-  static const emptyCourseUserMessage = "Bitte gib einen Kurs an!";
+  late final StreamTransformer<String, String> validateTitle =
+      StreamTransformer<String, String>.fromHandlers(
+        handleData: (title, sink) {
+          if (NotEmptyOrNullValidator(title).isValid()) {
+            sink.add(title);
+          } else {
+            sink.addError(
+              TextValidationException(l10n.blackboardErrorTitleMissing),
+            );
+          }
+        },
+      );
+
+  String get emptyCourseUserMessage => l10n.blackboardErrorCourseMissing;
 }

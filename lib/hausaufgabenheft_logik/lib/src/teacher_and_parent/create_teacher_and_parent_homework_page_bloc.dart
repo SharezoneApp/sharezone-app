@@ -11,7 +11,6 @@ import 'package:hausaufgabenheft_logik/src/shared/sort_and_subcategorizer.dart';
 import 'package:hausaufgabenheft_logik/src/shared/setup/config.dart';
 import 'package:hausaufgabenheft_logik/src/shared/setup/dependencies.dart';
 import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
-
 import '../../hausaufgabenheft_logik_lehrer.dart';
 import '../shared/models/date.dart';
 

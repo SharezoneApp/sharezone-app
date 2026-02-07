@@ -62,9 +62,12 @@ class FirebaseAnalyticsBackend extends AnalyticsBackend {
       _firebaseAnalytics.setUserProperty(name: name, value: value);
 }
 
-AnalyticsBackend getBackend() {
+AnalyticsBackend getBackend({
+  required FirebaseAnalytics firebaseAnalytics,
+  CrashAnalytics? crashAnalytics,
+}) {
   return FirebaseAnalyticsBackend(
-    FirebaseAnalytics.instance,
-    getCrashAnalytics(),
+    firebaseAnalytics,
+    crashAnalytics ?? getCrashAnalytics(),
   );
 }

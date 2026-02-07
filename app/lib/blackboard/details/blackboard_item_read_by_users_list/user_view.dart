@@ -12,7 +12,7 @@ class UserView {
   final String uid;
   final String name;
   final String abbreviation;
-  final String typeOfUser;
+  final TypeOfUser typeOfUser;
   final bool hasRead;
 
   UserView({

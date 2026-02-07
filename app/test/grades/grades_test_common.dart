@@ -167,6 +167,10 @@ testController.term(TermId('foo')).subject(SubjectId('maths')).name;
     );
   }
 
+  GradeRef grade(GradeId id) {
+    return service.grade(id);
+  }
+
   List<TermResult> get terms => service.terms.value.toList(growable: false);
 
   TermResult term(TermId id) {
@@ -375,6 +379,10 @@ testController.term(TermId('foo')).subject(SubjectId('maths')).name;
     for (var e in subjectWeights.entries) {
       service.term(termId).subject(e.key).changeWeightForTermGrade(e.value);
     }
+  }
+
+  void deleteSubject(SubjectId id) {
+    service.deleteSubject(id);
   }
 }
 

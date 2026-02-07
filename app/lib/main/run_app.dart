@@ -8,16 +8,21 @@
 
 import 'dart:async';
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:analytics/analytics.dart';
+import 'package:analytics/null_analytics_backend.dart'
+    show NullAnalyticsBackend;
 import 'package:app_functions/app_functions.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone/account/name_generator.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
@@ -27,7 +32,6 @@ import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
-import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
 import 'package:sharezone_common/references.dart';
@@ -78,6 +82,7 @@ Future<void> runFlutterApp({required Flavor flavor}) async {
       blocDependencies: dependencies.blocDependencies,
       dynamicLinkBloc: dependencies.dynamicLinkBloc,
       flavor: flavor,
+      analytics: dependencies.blocDependencies.analytics,
     ),
   );
 
@@ -116,6 +121,14 @@ Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
   final pluginInitializations = await runPluginInitializations(flavor: flavor);
 
   final firebaseDependencies = FirebaseDependencies.get();
+  final firebaseAnalytics = FirebaseAnalytics.instance;
+  final analyticsBackend =
+      kDebugMode
+          ?
+          // LoggingAnalyticsBackend()
+          NullAnalyticsBackend()
+          : getBackend(firebaseAnalytics: firebaseAnalytics);
+  final analytics = Analytics(analyticsBackend);
   final firebaseFunctions = FirebaseFunctions.instanceFor(
     region: 'europe-west1',
   );
@@ -131,9 +144,11 @@ Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
   final registrationGateway = RegistrationGateway(
     references.users,
     firebaseDependencies.auth!,
+    analytics: analytics,
+    anonymousUserNameBuilder: buildAnonymousUserName,
   );
   final blocDependencies = BlocDependencies(
-    analytics: Analytics(getBackend()),
+    analytics: analytics,
     firestore: firebaseDependencies.firestore!,
     keyValueStore: keyValueStore,
     sharedPreferences: pluginInitializations.sharedPreferences,
@@ -164,8 +179,6 @@ Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
 
   // ignore:close_sinks
   final beitrittsversuche = runBeitrittsVersuche();
-
-  final analytics = Analytics(getBackend());
 
   UserGateway? userGateway;
   SharezoneGateway? sharezoneGateway;

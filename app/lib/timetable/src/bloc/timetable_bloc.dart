@@ -310,6 +310,10 @@ class TimetableConfig {
     return _getUserSettings().showAbbreviation;
   }
 
+  bool openUpcomingWeekOnNonSchoolDays() {
+    return _getUserSettings().openUpcomingWeekOnNonSchoolDays;
+  }
+
   Time getTimetableStartTime() {
     return _getUserSettings().timetableStartTime;
   }

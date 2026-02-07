@@ -56,6 +56,7 @@ class Sharezone extends StatefulWidget {
   final DynamicLinkBloc dynamicLinkBloc;
   final Stream<Beitrittsversuch?> beitrittsversuche;
   final Flavor flavor;
+  final Analytics analytics;
   final bool isIntegrationTest;
 
   const Sharezone({
@@ -64,10 +65,9 @@ class Sharezone extends StatefulWidget {
     required this.dynamicLinkBloc,
     required this.beitrittsversuche,
     required this.flavor,
+    required this.analytics,
     this.isIntegrationTest = false,
   });
-
-  static Analytics analytics = Analytics(getBackend());
 
   @override
   State createState() => _SharezoneState();
@@ -107,7 +107,7 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
   }
 
   void logAppOpen() {
-    Sharezone.analytics.log(NamedAnalyticsEvent(name: 'app_open'));
+    widget.analytics.log(NamedAnalyticsEvent(name: 'app_open'));
   }
 
   @override
@@ -178,13 +178,13 @@ class _SharezoneState extends State<Sharezone> with WidgetsBindingObserver {
                                         snapshot.data;
                                     return SharezoneApp(
                                       widget.blocDependencies,
-                                      Sharezone.analytics,
+                                      widget.analytics,
                                       widget.beitrittsversuche,
                                     );
                                   }
                                   return AuthApp(
                                     blocDependencies: widget.blocDependencies,
-                                    analytics: Sharezone.analytics,
+                                    analytics: widget.analytics,
                                   );
                                 },
                               ),

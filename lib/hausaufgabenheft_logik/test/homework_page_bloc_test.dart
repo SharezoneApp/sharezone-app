@@ -15,9 +15,8 @@ import 'package:common_domain_models/src/ids/homework_id.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
-import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
 import 'package:hausaufgabenheft_logik/src/shared/color.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
@@ -72,7 +71,9 @@ void main() {
         bloc.add(LoadHomeworks());
 
         Success success = await bloc.stream.whereType<Success>().first;
-        expect(success.open.sections.first.title, 'Morgen');
+        final section = success.open.sections.first;
+        expect(section.type, HomeworkSectionType.date);
+        expect(section.dateSection, HomeworkDateSection.tomorrow);
       },
     );
 

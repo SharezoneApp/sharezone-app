@@ -16,7 +16,7 @@ class HomeworkDetailsView {
 
   final String courseName;
   final String title;
-  final String todoUntil;
+  final DateTime todoUntil;
   final String authorName;
   final String description;
   final bool isPrivate;
@@ -80,7 +80,7 @@ class HomeworkDetailsView {
     bool? isDone,
     String? courseName,
     String? title,
-    String? todoUntil,
+    DateTime? todoUntil,
     String? authorName,
     bool? hasAttachments,
     Stream<List<CloudFile>>? attachmentStream,

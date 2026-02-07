@@ -29,6 +29,7 @@ import 'package:streaming_shared_preferences/streaming_shared_preferences.dart'
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeSharezoneGateway_0 extends _i1.SmartFake
     implements _i2.SharezoneGateway {
@@ -174,8 +175,8 @@ class MockFeatureFlagl10n extends _i1.Mock implements _i9.FeatureFlagl10n {
           as bool);
 
   @override
-  set isl10nEnabled(bool? _isl10nEnabled) => super.noSuchMethod(
-    Invocation.setter(#isl10nEnabled, _isl10nEnabled),
+  set isl10nEnabled(bool? value) => super.noSuchMethod(
+    Invocation.setter(#isl10nEnabled, value),
     returnValueForMissingStub: null,
   );
 

@@ -20,7 +20,7 @@ class TeacherAndParentHomeworkView {
   /// submissions being submitted.
   final int nrOfStudentsCompletedOrSubmitted;
   final String subject;
-  final String todoDate;
+  final DateTime todoDate;
   final String title;
   final bool withSubmissions;
   final Color subjectColor;

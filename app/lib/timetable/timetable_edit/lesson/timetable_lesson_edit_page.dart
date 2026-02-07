@@ -30,6 +30,7 @@ import 'package:sharezone/util/api/connections_gateway.dart';
 import 'package:sharezone/util/api/timetable_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -43,7 +44,10 @@ void _submit(BuildContext context) {
   } on Exception catch (e, s) {
     log('$e', error: e, stackTrace: s);
 
-    showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
+    showSnackSec(
+      text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
+      context: context,
+    );
   }
 }
 

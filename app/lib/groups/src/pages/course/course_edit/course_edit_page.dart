@@ -16,6 +16,7 @@ import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/course_edit_bloc.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 Future<void> openCourseEditPage(BuildContext context, Course course) async {
   final successful = await Navigator.push<bool>(
@@ -61,7 +62,10 @@ Future<void> submit(BuildContext context) async {
   } on Exception catch (e, s) {
     log('$e', error: e, stackTrace: s);
     if (!context.mounted) return;
-    showSnackSec(text: handleErrorMessage(e.toString(), s), context: context);
+    showSnackSec(
+      text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
+      context: context,
+    );
   }
 }
 
@@ -77,9 +81,12 @@ class CourseEditPage extends StatefulWidget {
 
 class _CourseEditPageState extends State<CourseEditPage> {
   late CourseEditPageBloc bloc;
+  bool _didInit = false;
 
   @override
-  void initState() {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didInit) return;
     final api = BlocProvider.of<SharezoneContext>(context).api;
     bloc = CourseEditPageBloc(
       subject: widget.course.subject,
@@ -87,8 +94,9 @@ class _CourseEditPageState extends State<CourseEditPage> {
       courseName: widget.course.name,
       design: widget.course.design!,
       gateway: CourseEditBlocGateway(api.course, widget.course),
+      l10n: context.l10n,
     );
-    super.initState();
+    _didInit = true;
   }
 
   @override

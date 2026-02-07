@@ -62,6 +62,7 @@ class _AuthAppState extends State<AuthApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider.value(value: widget.analytics),
         ChangeNotifierProvider(
           create:
               (context) => SupportPageController(

@@ -14,7 +14,6 @@ import 'dart:convert';
 import 'package:analytics/analytics.dart';
 import 'package:analytics/null_analytics_backend.dart';
 import 'package:flutter/material.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
 
 /// [ThemeBrightness] adds a "system" value that is missing in the Flutter
