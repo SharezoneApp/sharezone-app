@@ -15,6 +15,7 @@ import 'package:sharezone/grades/pages/subjects_page/subjects_page.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller_factory.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:common_domain_models/common_domain_models.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../../grades_test_common.dart';
 
@@ -65,7 +66,12 @@ void main() {
             gradesService: service,
             coursesStream: () => Stream.value([]),
           ),
-          child: const MaterialApp(home: SubjectsPage()),
+          child: const MaterialApp(
+            home: SubjectsPage(),
+            supportedLocales: [Locale('de')],
+            localizationsDelegates:
+                SharezoneLocalizations.localizationsDelegates,
+          ),
         ),
       );
 
