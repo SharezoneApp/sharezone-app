@@ -15,6 +15,7 @@ import 'package:date/date.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
@@ -104,7 +105,9 @@ class _TimetableAddEventDialogState extends State<TimetableAddEventDialog> {
   }
 
   bool hasModifiedData() {
-    return controller.title.isNotEmpty || controller.description.isNotEmpty;
+    return controller.title.isNotEmpty ||
+        controller.description.isNotEmpty ||
+        controller.localFiles.isNotEmpty;
   }
 
   @override
@@ -152,6 +155,8 @@ class _TimetableAddEventDialogState extends State<TimetableAddEventDialog> {
                           const _DateAndTimePicker(),
                           const _MobileDivider(),
                           _DescriptionField(isExam: widget.isExam),
+                          const _MobileDivider(),
+                          const _Attachments(),
                           const _MobileDivider(),
                           const _Location(),
                           const _MobileDivider(),
@@ -582,6 +587,28 @@ class _DescriptionField extends StatelessWidget {
               .description = newDescription;
         },
         prefilledDescription: '',
+      ),
+    );
+  }
+}
+
+class _Attachments extends StatelessWidget {
+  const _Attachments();
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Provider.of<AddEventDialogController>(context);
+    return MaxWidthConstraintBox(
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: AttachFileBase(
+          onLocalFilesAdded: controller.addLocalFiles,
+          onLocalFileRemoved: controller.removeLocalFile,
+          onCloudFileRemoved: (_) {},
+          cloudFiles: const [],
+          localFiles: controller.localFiles,
+        ),
       ),
     );
   }

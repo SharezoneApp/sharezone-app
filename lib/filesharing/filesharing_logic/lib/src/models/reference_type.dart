@@ -6,4 +6,4 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum ReferenceType { homework, blackboard }
+enum ReferenceType { homework, blackboard, event }

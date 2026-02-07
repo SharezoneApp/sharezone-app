@@ -10,6 +10,7 @@ import 'package:add_2_calendar/add_2_calendar.dart' as add_2_calendar;
 import 'package:analytics/analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:design/design.dart';
+import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -17,6 +18,7 @@ import 'package:key_value_store/key_value_store.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
+import 'package:sharezone/filesharing/dialog/attachment_list.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_icon.dart';
@@ -123,6 +125,16 @@ Future<void> _deleteEventAndShowConfirmationSnackbar(
 ) async {
   final timetableGateway =
       BlocProvider.of<SharezoneContext>(context).api.timetable;
+  final fileSharingGateway =
+      BlocProvider.of<SharezoneContext>(context).api.fileSharing;
+  if (event.attachments.isNotEmpty) {
+    for (final attachment in event.attachments) {
+      await fileSharingGateway.removeReferenceData(
+        attachment,
+        ReferenceData(type: ReferenceType.event, id: event.eventID),
+      );
+    }
+  }
   timetableGateway.deleteEvent(event);
 
   await waitingForPopAnimation();
@@ -154,6 +166,7 @@ class _TimetableEventDetailsPage extends StatelessWidget {
     );
     final isExam = event.eventType == EventType.exam;
     final theme = Theme.of(context);
+    final fileSharingGateway = api.fileSharing;
 
     return Scaffold(
       appBar: AppBar(
@@ -232,6 +245,24 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                       ).copyWith(a: linkStyle(context)),
                     ),
                   ),
+                if (event.attachments.isNotEmpty) ...[
+                  ListTile(
+                    leading: const Icon(Icons.attach_file),
+                    title: Text('Anhänge: ${event.attachments.length}'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: AttachmentStreamList(
+                      cloudFileStream: fileSharingGateway.cloudFilesGateway
+                          .filesStreamAttachment(
+                            event.groupID,
+                            event.eventID,
+                          ),
+                      courseID: event.groupID,
+                      initialAttachmentIDs: event.attachments,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

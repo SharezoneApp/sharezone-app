@@ -42,7 +42,7 @@ class TimetableGateway {
     return references.lessons.doc(lesson.lessonID).delete().then((_) => true);
   }
 
-  Future<bool> createEvent(CalendricalEvent event) {
+  Future<String> createEvent(CalendricalEvent event) {
     String eventID = references.events.doc().id;
     Map<String, dynamic> data =
         event.copyWith(eventID: eventID, authorID: memberID).toJson();
@@ -51,7 +51,7 @@ class TimetableGateway {
     return references.events
         .doc(eventID)
         .set(data, SetOptions(merge: true))
-        .then((_) => true);
+        .then((_) => eventID);
   }
 
   Future<bool> editEvent(CalendricalEvent event) {

@@ -9,6 +9,7 @@
 import 'package:clock/clock.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:date/date.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -86,6 +87,7 @@ void main() {
           location: 'Sportplatz',
           notifyCourseMembers: false,
           eventType: isExam ? EventType.exam : EventType.event,
+          localFiles: IList(),
         ),
       );
     }
