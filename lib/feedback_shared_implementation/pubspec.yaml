@@ -36,6 +36,8 @@ dependencies:
     path: ../cloud_firestore_helper
   sharezone_localizations:
     path: ../sharezone_localizations
+  key_value_store:
+    path: ../key_value_store
   flutter_markdown:
     git:
       url: https://github.com/SharezoneApp/packages

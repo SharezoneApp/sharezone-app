@@ -15,10 +15,10 @@ import 'package:feedback_shared_implementation/src/pages/feedback_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:url_launcher_extended/url_launcher_extended.dart';
 
 class FeedbackDetailsPage extends StatefulWidget {
   const FeedbackDetailsPage({
@@ -516,21 +516,13 @@ class _ChatBubble extends StatelessWidget {
                   data: text,
                   selectable: true,
                   softLineBreak: true,
-                  onTapLink: (text, href, title) async {
-                    if (href == null) return;
-                    try {
-                      await UrlLauncherExtended().tryLaunchOrThrow(
-                        Uri.parse(href),
-                      );
-                    } on Exception {
-                      if (context.mounted) {
-                        showSnackSec(
-                          context: context,
-                          text: 'Fehler beim Öffnen des Links.',
-                        );
-                      }
-                    }
-                  },
+                  onTapLink:
+                      (text, href, _) => launchMarkdownLinkWithWarning(
+                        href: href ?? text,
+                        text: text,
+                        keyValueStore: context.read<KeyValueStore>(),
+                        context: context,
+                      ),
                 ),
                 const SizedBox(height: 4),
                 Text(
