@@ -1654,7 +1654,7 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String timetableSettingsDeleteAllLessonsDialogBody(int count) {
-    return 'This will delete $count lessons from groups where you have write access. This cannot be undone.';
+    return 'This will delete $count lessons from groups where you have write access. These hours will also be deleted for your group members. This cannot be undone.';
   }
 
   @override

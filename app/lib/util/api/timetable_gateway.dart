@@ -45,10 +45,10 @@ class TimetableGateway {
   }
 
   void deleteLessons(List<Lesson> lessons) {
-    final lessonIds =
-        lessons.map((lesson) => lesson.lessonID).whereType<String>().toList();
+    for (final lesson in lessons) {
+      final lessonId = lesson.lessonID;
+      if (lessonId == null) continue;
 
-    for (final lessonId in lessonIds) {
       // To support offline deletion, we don't await the deletion.
       unawaited(references.lessons.doc(lessonId).delete());
     }

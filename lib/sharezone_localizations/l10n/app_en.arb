@@ -497,7 +497,7 @@
   "timetableSettingsABWeekTileTitle": "A/B Weeks",
   "timetableSettingsAWeeksAreEvenSwitch": "A-weeks are even calendar weeks",
   "timetableSettingsDeleteAllLessonsConfirmation": "Lessons deleted.",
-  "timetableSettingsDeleteAllLessonsDialogBody": "This will delete {count} lessons from groups where you have write access. This cannot be undone.",
+  "timetableSettingsDeleteAllLessonsDialogBody": "This will delete {count} lessons from groups where you have write access. These hours will also be deleted for your group members. This cannot be undone.",
   "timetableSettingsDeleteAllLessonsDialogTitle": "Delete all lessons?",
   "timetableSettingsDeleteAllLessonsSubtitleNoAccess": "No lessons with write access.",
   "timetableSettingsEnabledWeekDaysTileTitle": "Enabled Weekdays",

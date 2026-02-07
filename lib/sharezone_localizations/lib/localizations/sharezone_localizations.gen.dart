@@ -2952,7 +2952,7 @@ abstract class SharezoneLocalizations {
   /// Confirmation dialog body for deleting all lessons.
   ///
   /// In de, this message translates to:
-  /// **'Damit werden {count} Stunden aus Gruppen gelöscht, für die du Schreibrechte hast. Das kann nicht rückgängig gemacht werden.'**
+  /// **'Damit werden {count} Stunden aus Gruppen gelöscht, für die du Schreibrechte hast. Diese Stunden werden auch für deine Gruppenmitglieder gelöscht. Das kann nicht rückgängig gemacht werden.'**
   String timetableSettingsDeleteAllLessonsDialogBody(int count);
 
   /// Confirmation dialog title for deleting all lessons.

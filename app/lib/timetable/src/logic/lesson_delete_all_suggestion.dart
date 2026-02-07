@@ -21,7 +21,7 @@ import 'package:sharezone_widgets/sharezone_widgets.dart';
 class LessonDeleteAllSuggestion {
   static const Duration _window = Duration(seconds: 90);
   static const Duration _cooldown = Duration(seconds: 90);
-  static const int _threshold = 3;
+  static const int _threshold = 2;
 
   static final List<DateTime> _recentDeletes = <DateTime>[];
   static DateTime? _lastShownAt;
@@ -45,7 +45,9 @@ class LessonDeleteAllSuggestion {
       (overlayContext) => OverlayCard(
         title: Text(overlayContext.l10n.timetableDeleteAllSuggestionTitle),
         content: Text(overlayContext.l10n.timetableDeleteAllSuggestionBody),
-        actionText: overlayContext.l10n.timetableDeleteAllSuggestionAction,
+        actionText:
+            overlayContext.l10n.timetableDeleteAllSuggestionAction
+                .toUpperCase(),
         onAction: () async {
           OverlaySupportEntry.of(overlayContext)!.dismiss();
           await _confirmDeleteAllLessons(overlayContext);
@@ -80,7 +82,7 @@ class LessonDeleteAllSuggestion {
       deletableLessonsCount: deletableLessons.length,
     );
 
-    if (confirmed == true && context.mounted) {
+    if (confirmed == true) {
       api.timetable.deleteLessons(deletableLessons);
       if (!context.mounted) return;
       showSnackSec(

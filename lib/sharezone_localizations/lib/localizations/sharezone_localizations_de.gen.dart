@@ -1665,7 +1665,7 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String timetableSettingsDeleteAllLessonsDialogBody(int count) {
-    return 'Damit werden $count Stunden aus Gruppen gelöscht, für die du Schreibrechte hast. Das kann nicht rückgängig gemacht werden.';
+    return 'Damit werden $count Stunden aus Gruppen gelöscht, für die du Schreibrechte hast. Diese Stunden werden auch für deine Gruppenmitglieder gelöscht. Das kann nicht rückgängig gemacht werden.';
   }
 
   @override

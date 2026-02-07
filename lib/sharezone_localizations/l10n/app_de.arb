@@ -1023,7 +1023,7 @@
   "@timetableSettingsDeleteAllLessonsConfirmation": {
     "description": "Snackbar confirmation after deleting all lessons."
   },
-  "timetableSettingsDeleteAllLessonsDialogBody": "Damit werden {count} Stunden aus Gruppen gelöscht, für die du Schreibrechte hast. Das kann nicht rückgängig gemacht werden.",
+  "timetableSettingsDeleteAllLessonsDialogBody": "Damit werden {count} Stunden aus Gruppen gelöscht, für die du Schreibrechte hast. Diese Stunden werden auch für deine Gruppenmitglieder gelöscht. Das kann nicht rückgängig gemacht werden.",
   "@timetableSettingsDeleteAllLessonsDialogBody": {
     "description": "Confirmation dialog body for deleting all lessons.",
     "placeholders": {
