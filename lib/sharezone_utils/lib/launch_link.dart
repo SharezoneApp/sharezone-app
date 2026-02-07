@@ -13,8 +13,21 @@ import 'package:url_launcher/url_launcher.dart';
 /// Hpyerlink fürs Web
 Future<void> launchURL(String url, {BuildContext? context}) async {
   try {
+    final uri = Uri.parse(url);
+
+    // [Sentinel] Security: Only allow safe schemes
+    if (![
+      'http',
+      'https',
+      'mailto',
+      'tel',
+      'sms',
+    ].contains(uri.scheme.toLowerCase())) {
+      throw Exception("Insecure scheme: ${uri.scheme}");
+    }
+
     await launchUrl(
-      Uri.parse(url),
+      uri,
       // We are not using [LaunchMode.platformDefault] because this opens by
       // default the link in an in-app webview on iOS and Android, which is not
       // what we want. This prevents opening the apps of the links, e.g.
@@ -29,7 +42,7 @@ Future<void> launchURL(String url, {BuildContext? context}) async {
         text: "Der Link konnte nicht geöffnet werden!",
       );
     } else {
-      throw Exception("Could not launchUrl $url");
+      throw Exception("Could not launchUrl $url. Error: $e");
     }
   }
 }
