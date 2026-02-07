@@ -6,8 +6,6 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:design/design.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 
@@ -77,14 +75,14 @@ void main() {
       );
 
       expect(
-        service.getSubjects().any((subject) => subject.id == subject1Id),
+        testController.getSubjects().any((subject) => subject.id == subject1Id),
         isTrue,
       );
 
-      service.deleteSubject(subject1Id);
+      testController.deleteSubject(subject1Id);
 
       expect(
-        service.getSubjects().any((subject) => subject.id == subject1Id),
+        testController.getSubjects().any((subject) => subject.id == subject1Id),
         isFalse,
       );
 
@@ -95,46 +93,44 @@ void main() {
       ]);
       expect(testController.term(term2Id).subjects, isEmpty);
       expect(
-        () => service.grade(grade1Id),
+        () => testController.grade(grade1Id).get(),
         throwsA(isA<GradeNotFoundException>()),
       );
       expect(
-        () => service.grade(grade2Id),
+        () => testController.grade(grade2Id).get(),
         throwsA(isA<GradeNotFoundException>()),
       );
       // Grade 3 should not be deleted because it's part of subject
       // 'subject-do-not-delete'
-      expect(service.grade(grade3Id).get(), isNotNull);
+      expect(testController.grade(grade3Id).get(), isNotNull);
     });
 
     test('deleteSubject succeeds even if subject not part of any term', () {
       const orphanSubjectId = SubjectId('subject-orphan');
-      service.addSubject(
-        SubjectInput(
-          name: 'Physik',
-          abbreviation: 'PH',
-          design: Design.standard(),
-          connectedCourses: const IListConst([]),
-        ),
-        id: orphanSubjectId,
+      testController.addSubject(
+        subjectWith(id: orphanSubjectId, name: 'Physik'),
       );
 
       expect(
-        service.getSubjects().any((subject) => subject.id == orphanSubjectId),
+        testController.getSubjects().any(
+          (subject) => subject.id == orphanSubjectId,
+        ),
         isTrue,
       );
 
-      service.deleteSubject(orphanSubjectId);
+      testController.deleteSubject(orphanSubjectId);
 
       expect(
-        service.getSubjects().any((subject) => subject.id == orphanSubjectId),
+        testController.getSubjects().any(
+          (subject) => subject.id == orphanSubjectId,
+        ),
         isFalse,
       );
     });
 
     test('deleteSubject throws if subject does not exist', () {
       expect(
-        () => service.deleteSubject(const SubjectId('unknown')),
+        () => testController.deleteSubject(const SubjectId('unknown')),
         throwsA(isA<SubjectNotFoundException>()),
       );
     });
