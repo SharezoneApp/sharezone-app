@@ -27,6 +27,7 @@ import 'package:user/user.dart' as _i8;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeStreamSubscription_0<T> extends _i1.SmartFake
     implements _i2.StreamSubscription<T> {
@@ -138,9 +139,9 @@ class MockNotificationsBloc extends _i1.Mock implements _i3.NotificationsBloc {
           as dynamic Function(_i5.TimeOfDay));
 
   @override
-  set subscription(_i2.StreamSubscription<dynamic>? _subscription) =>
+  set subscription(_i2.StreamSubscription<dynamic>? value) =>
       super.noSuchMethod(
-        Invocation.setter(#subscription, _subscription),
+        Invocation.setter(#subscription, value),
         returnValueForMissingStub: null,
       );
 
@@ -227,12 +228,11 @@ class MockSubscriptionService extends _i1.Mock
           as _i2.Stream<_i8.SharezonePlusStatus?>);
 
   @override
-  set sharezonePlusStatusStream(
-    _i2.Stream<_i8.SharezonePlusStatus?>? _sharezonePlusStatusStream,
-  ) => super.noSuchMethod(
-    Invocation.setter(#sharezonePlusStatusStream, _sharezonePlusStatusStream),
-    returnValueForMissingStub: null,
-  );
+  set sharezonePlusStatusStream(_i2.Stream<_i8.SharezonePlusStatus?>? value) =>
+      super.noSuchMethod(
+        Invocation.setter(#sharezonePlusStatusStream, value),
+        returnValueForMissingStub: null,
+      );
 
   @override
   bool isSubscriptionActive([_i8.AppUser? appUser]) =>

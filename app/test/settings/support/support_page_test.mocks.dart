@@ -24,6 +24,7 @@ import 'package:sharezone/support/support_page_controller.dart' as _i2;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 /// A class which mocks [SupportPageController].
 ///
@@ -31,18 +32,18 @@ import 'package:sharezone/support/support_page_controller.dart' as _i2;
 class MockSupportPageController extends _i1.Mock
     implements _i2.SupportPageController {
   @override
-  bool get isUserInGroupOnboarding =>
+  bool get hasPlusSupportUnlocked =>
       (super.noSuchMethod(
-            Invocation.getter(#isUserInGroupOnboarding),
+            Invocation.getter(#hasPlusSupportUnlocked),
             returnValue: false,
             returnValueForMissingStub: false,
           )
           as bool);
 
   @override
-  bool get hasPlusSupportUnlocked =>
+  bool get isUserInGroupOnboarding =>
       (super.noSuchMethod(
-            Invocation.getter(#hasPlusSupportUnlocked),
+            Invocation.getter(#isUserInGroupOnboarding),
             returnValue: false,
             returnValueForMissingStub: false,
           )
@@ -58,27 +59,26 @@ class MockSupportPageController extends _i1.Mock
           as bool);
 
   @override
-  set isUserInGroupOnboarding(bool? _isUserInGroupOnboarding) =>
-      super.noSuchMethod(
-        Invocation.setter(#isUserInGroupOnboarding, _isUserInGroupOnboarding),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  set userId(_i3.UserId? _userId) => super.noSuchMethod(
-    Invocation.setter(#userId, _userId),
+  set isUserInGroupOnboarding(bool? value) => super.noSuchMethod(
+    Invocation.setter(#isUserInGroupOnboarding, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set userEmail(String? _userEmail) => super.noSuchMethod(
-    Invocation.setter(#userEmail, _userEmail),
+  set userId(_i3.UserId? value) => super.noSuchMethod(
+    Invocation.setter(#userId, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set userName(String? _userName) => super.noSuchMethod(
-    Invocation.setter(#userName, _userName),
+  set userEmail(String? value) => super.noSuchMethod(
+    Invocation.setter(#userEmail, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set userName(String? value) => super.noSuchMethod(
+    Invocation.setter(#userName, value),
     returnValueForMissingStub: null,
   );
 

@@ -19,13 +19,23 @@
         {
             "label": "Add license header to files",
             "type": "shell",
-            // Using bin/sz instead of sz so that it also work if a developer
-            // has not added the sz binary to their PATH.
-            "command": "bin/sz lh add",
+            // We don't use the Sharezone Repo CLI (`sz lh add`) because just
+            // using bash commands is way faster.
+            //
+            // Bash script: 0.23s
+            // Sharezone Repo CLI: 1.49s
+            //
+            // See https://github.com/SharezoneApp/sharezone-app/pull/2157
+            "command": "bin/add_license_headers.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": []
+            // The command above will not work on Windows, as it uses
+            // bash-specific features. For this reason, we override the command
+            // for Windows and fallback to the Sharezone Repo CLI.
+            "windows": {
+                "command": "sz lh add"
+            }
         }
     ]
 }

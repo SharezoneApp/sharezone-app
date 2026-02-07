@@ -33,6 +33,11 @@ dependencies:
     path: ../lib/common_domain_models
   sharezone_widgets:
     path: ../lib/sharezone_widgets
+  sharezone_localizations:
+    path: ../lib/sharezone_localizations
+  key_value_store:
+    path: ../lib/key_value_store
+  shared_preferences: ^2.5.2
 
 dev_dependencies:
   flutter_test:

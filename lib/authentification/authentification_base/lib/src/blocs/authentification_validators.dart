@@ -8,6 +8,12 @@
 
 import 'dart:async';
 
+enum AuthentificationValidationError {
+  invalidEmail,
+  invalidPasswordTooShort,
+  invalidName,
+}
+
 mixin AuthentificationValidators {
   static const int minNameSize = 2;
   static const int maxNameSize = 48;
@@ -20,7 +26,7 @@ mixin AuthentificationValidators {
       if (isEmailValid(email)) {
         sink.add(email);
       } else {
-        sink.addError('Gib eine gültige E-Mail ein');
+        sink.addError(AuthentificationValidationError.invalidEmail);
       }
     },
   );
@@ -61,7 +67,7 @@ mixin AuthentificationValidators {
       if (isPasswordValid(password)) {
         sink.add(password);
       } else {
-        sink.addError('Ungültiges Passwort, bitte gib mehr als 8 Zeichen ein');
+        sink.addError(AuthentificationValidationError.invalidPasswordTooShort);
       }
     },
   );
@@ -71,7 +77,7 @@ mixin AuthentificationValidators {
       if (isNameValid(name)) {
         sink.add(name);
       } else {
-        sink.addError("Ungültiger Name");
+        sink.addError(AuthentificationValidationError.invalidName);
       }
     },
   );

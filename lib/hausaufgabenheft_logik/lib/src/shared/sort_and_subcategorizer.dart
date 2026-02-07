@@ -8,17 +8,11 @@
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
-import 'package:intl/intl.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
   final Date Function() getCurrentDate;
-  final SharezoneLocalizations l10n;
 
-  HomeworkSortAndSubcategorizer({
-    required this.getCurrentDate,
-    required this.l10n,
-  });
+  HomeworkSortAndSubcategorizer({required this.getCurrentDate});
 
   IList<HomeworkSectionView<T>> sortAndSubcategorize(
     IList<T> homeworks,
@@ -55,24 +49,24 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
             .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
             .toIList();
 
-    final overdueSec = HomeworkSectionView(
-      l10n.homeworkSectionOverdue,
+    final overdueSec = HomeworkSectionView.date(
+      HomeworkDateSection.overdue,
       overdueHomework,
     );
-    final todaySec = HomeworkSectionView(
-      l10n.homeworkSectionToday,
+    final todaySec = HomeworkSectionView.date(
+      HomeworkDateSection.today,
       todayHomework,
     );
-    final tomorrowSec = HomeworkSectionView(
-      l10n.homeworkSectionTomorrow,
+    final tomorrowSec = HomeworkSectionView.date(
+      HomeworkDateSection.tomorrow,
       tomorrowHomework,
     );
-    final inTwoDaysSec = HomeworkSectionView(
-      l10n.homeworkSectionInTwoDays,
+    final inTwoDaysSec = HomeworkSectionView.date(
+      HomeworkDateSection.dayAfterTomorrow,
       in2DaysHomework,
     );
-    final afterTwoDaysSec = HomeworkSectionView(
-      l10n.homeworkSectionLater,
+    final afterTwoDaysSec = HomeworkSectionView.date(
+      HomeworkDateSection.later,
       futureHomework,
     );
 
@@ -95,7 +89,7 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
           homeworks.where((h) => h.subject == subject).toIList();
 
       homeworkSections = homeworkSections.add(
-        HomeworkSectionView(subject.name, homeworksWithSubject),
+        HomeworkSectionView.subject(subject.name, homeworksWithSubject),
       );
     }
     return homeworkSections;
@@ -110,15 +104,9 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
     for (var i = 1; i <= 7; i++) {
       final list = map[i]!;
       if (list.isNotEmpty) {
-        sections.add(HomeworkSectionView(_weekdayLabel(i), list.toIList()));
+        sections.add(HomeworkSectionView.weekday(i, list.toIList()));
       }
     }
     return sections.toIList();
-  }
-
-  String _weekdayLabel(int weekday) {
-    final monday = DateTime(2024, 1, 1);
-    final date = monday.add(Duration(days: weekday - 1));
-    return DateFormat.EEEE(l10n.localeName).format(date);
   }
 }

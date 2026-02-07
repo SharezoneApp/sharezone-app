@@ -28,7 +28,7 @@ dependencies:
       ref: 2f680bb80119f6fd037a7bda0984bc811b5dccb8
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.2.1
-  go_router: ^14.8.0
+  go_router: ^17.1.0
   number_slide_animation: ^0.2.1
   provider: ^6.1.2
   legal:

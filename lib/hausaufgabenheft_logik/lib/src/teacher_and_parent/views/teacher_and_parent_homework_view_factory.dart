@@ -8,8 +8,6 @@
 
 import 'package:hausaufgabenheft_logik/src/shared/models/models.dart';
 import 'package:hausaufgabenheft_logik/src/shared/color.dart';
-import 'package:intl/intl.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import '../../../hausaufgabenheft_logik_lehrer.dart';
 
@@ -20,12 +18,10 @@ class TeacherAndParentHomeworkViewFactory {
   /// E.g. "0xFF03A9F4" for light blue.
   final int defaultColorValue;
   final Color defaultColor;
-  final SharezoneLocalizations l10n;
 
   TeacherAndParentHomeworkViewFactory({
     Date Function()? getCurrentDate,
     required this.defaultColorValue,
-    required this.l10n,
   }) : defaultColor = Color(defaultColorValue) {
     if (getCurrentDate == null) {
       _getCurrentDate = () => Date.now();
@@ -41,10 +37,7 @@ class TeacherAndParentHomeworkViewFactory {
       title: homework.title.value,
       subject: homework.subject.name,
       abbreviation: homework.subject.abbreviation,
-      todoDate: _getLocaleDateString(
-        Date.fromDateTime(homework.todoDate),
-        time: _getTime(homework.withSubmissions, homework.todoDate),
-      ),
+      todoDate: homework.todoDate,
       withSubmissions: homework.withSubmissions,
       nrOfStudentsCompletedOrSubmitted: homework.nrOfStudentsCompleted,
       canViewCompletionOrSubmissionList:
@@ -56,22 +49,5 @@ class TeacherAndParentHomeworkViewFactory {
       canDeleteForEveryone: false,
       canEditForEveryone: false,
     );
-  }
-
-  String _getLocaleDateString(Date date, {String? time}) {
-    final dateTime = date.asDateTime();
-    final localeName = l10n.localeName;
-    final day = date.day.toString();
-    final month = DateFormat.MMMM(localeName).format(dateTime);
-    final year = date.year.toString();
-
-    final dateString = l10n.homeworkTeacherDueDate(day, month, year);
-    if (time == null) return dateString;
-    return l10n.homeworkDueDateWithTime(dateString, time);
-  }
-
-  String? _getTime(bool withSubmissions, DateTime dateTime) {
-    if (!withSubmissions) return null;
-    return DateFormat.jm(l10n.localeName).format(dateTime);
   }
 }

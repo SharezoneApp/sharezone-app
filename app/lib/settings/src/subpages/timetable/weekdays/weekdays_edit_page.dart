@@ -15,6 +15,7 @@ import 'package:sharezone/timetable/src/edit_weekday.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:user/user.dart';
 
 void _showConfirmSnackBarOfSavingEnabledWeekDays(BuildContext context) {
@@ -54,7 +55,7 @@ Future<void> _submit(
       showSnackSec(
         context: context,
         key: scaffoldKey,
-        text: handleErrorMessage(e.toString(), s),
+        text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
         seconds: 4,
       );
     }

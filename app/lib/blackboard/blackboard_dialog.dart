@@ -24,6 +24,7 @@ import 'package:sharezone/markdown/markdown_analytics.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'details/blackboard_details.dart';
 
@@ -49,17 +50,21 @@ class BlackboardDialog extends StatefulWidget {
 
 class _BlackboardDialogState extends State<BlackboardDialog> {
   late BlackboardDialogBloc bloc;
+  bool _didInit = false;
 
   @override
-  void initState() {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didInit) return;
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final markdownAnalytics = BlocProvider.of<MarkdownAnalytics>(context);
     bloc = BlackboardDialogBloc(
       BlackboardDialogApi(api),
       markdownAnalytics,
+      l10n: context.l10n,
       blackboardItem: widget.blackboardItem,
     );
-    super.initState();
+    _didInit = true;
   }
 
   @override
@@ -238,7 +243,7 @@ class _SaveButton extends StatelessWidget {
     } on Exception catch (e, s) {
       if (context.mounted) {
         showSnackSec(
-          text: handleErrorMessage(e.toString(), s),
+          text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
           context: context,
           seconds: 5,
         );

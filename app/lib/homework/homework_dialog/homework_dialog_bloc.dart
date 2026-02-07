@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:analytics/analytics.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_presentation/bloc_presentation.dart';
@@ -323,6 +325,19 @@ class _LoadedHomeworkData extends HomeworkDialogEvent {
   List<Object?> get props => [];
 }
 
+class _InitialSelectionApplied extends HomeworkDialogEvent {
+  final HomeworkDto homework;
+  final _DateSelection dateSelection;
+
+  const _InitialSelectionApplied({
+    required this.homework,
+    required this.dateSelection,
+  });
+
+  @override
+  List<Object?> get props => [homework, dateSelection];
+}
+
 sealed class HomeworkDialogBlocPresentationEvent extends Equatable {
   const HomeworkDialogBlocPresentationEvent();
 }
@@ -464,6 +479,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
   late final IList<CloudFile> _initialAttachments;
   late final bool isEditing;
 
+  HomeworkDto _initialCreateHomework = _kNoDataChangedHomework;
   _DateSelection _initialDateSelection = _DateSelection.noSelection;
   _DateSelection _dateSelection = _DateSelection.noSelection;
 
@@ -505,6 +521,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required this.nextSchooldayCalculator,
     Clock? clockOverride,
     HomeworkId? homeworkId,
+    CourseId? initialCourseId,
+    Date? initialDueDate,
   }) : super(
          homeworkId != null
              ? LoadingHomework(homeworkId, isEditing: true)
@@ -515,8 +533,17 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       _loadExistingData(homeworkId!);
     } else {
       _homework = _kNoDataChangedHomework;
+      _initialCreateHomework = _homework;
       _initialAttachments = IList();
       finishedInitializing = true;
+      if (initialCourseId != null || initialDueDate != null) {
+        unawaited(
+          _applyInitialSelection(
+            initialCourseId: initialCourseId,
+            initialDueDate: initialDueDate,
+          ),
+        );
+      }
     }
 
     on<_LoadedHomeworkData>((event, emit) {
@@ -540,6 +567,13 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
       _cloudFiles = _initialAttachments;
       finishedInitializing = true;
 
+      emit(_getNewState());
+    });
+    on<_InitialSelectionApplied>((event, emit) {
+      _homework = event.homework;
+      _dateSelection = event.dateSelection;
+      _initialCreateHomework = _homework;
+      _initialDateSelection = _dateSelection;
       emit(_getNewState());
     });
     on<Save>((event, emit) async {
@@ -807,7 +841,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     final didHomeworkChange =
         isEditing
             ? _initialHomework != _homework
-            : _homework != _kNoDataChangedHomework;
+            : _homework != _initialCreateHomework;
 
     final didDueDateChange = _dateSelection != _initialDateSelection;
     final didFilesChange = _initialAttachments != _cloudFiles;
@@ -894,6 +928,60 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         ) !=
         null;
     add(_LoadedHomeworkData());
+  }
+
+  Future<void> _applyInitialSelection({
+    required CourseId? initialCourseId,
+    required Date? initialDueDate,
+  }) async {
+    Course? course;
+    Date? newLessonDate;
+
+    if (initialCourseId != null) {
+      course = await api.loadCourse(initialCourseId);
+      _homework = _homework.copyWith(
+        courseID: course.id,
+        courseName: course.name,
+      );
+
+      newLessonDate = await nextLessonCalculator.tryCalculateXNextLesson(
+        course.id,
+        inLessons: 1,
+      );
+      _hasLessons[course.id] = newLessonDate != null;
+    }
+
+    if (initialDueDate != null) {
+      _dateSelection = _dateSelection.copyWith(
+        dueDate: initialDueDate,
+        dueDateSelection: DateDueDateSelection(initialDueDate),
+      );
+    } else if (course != null) {
+      newLessonDate ??= await nextLessonCalculator.tryCalculateXNextLesson(
+        course.id,
+        inLessons: 1,
+      );
+      final nextSchoolDay =
+          await nextSchooldayCalculator.tryCalculateNextSchoolday();
+      if (newLessonDate != null) {
+        _dateSelection = _dateSelection.copyWith(
+          dueDate: newLessonDate,
+          dueDateSelection: const DueDateSelection.inXLessons(1),
+        );
+      } else {
+        _dateSelection = _dateSelection.copyWith(
+          dueDate: nextSchoolDay,
+          dueDateSelection: const NextSchooldayDueDateSelection(),
+        );
+      }
+    }
+
+    add(
+      _InitialSelectionApplied(
+        homework: _homework,
+        dateSelection: _dateSelection,
+      ),
+    );
   }
 }
 
