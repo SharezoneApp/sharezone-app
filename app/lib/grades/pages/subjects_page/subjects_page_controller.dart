@@ -101,17 +101,15 @@ class SubjectsPageController extends ChangeNotifier {
   SubjectsPageView _buildView() {
     final gradeSubjects = gradesService.getSubjects();
     final gradeTypes = gradesService.getPossibleGradeTypes();
-    final gradeTypeNames = gradeTypes.fold<Map<GradeTypeId, String>>({}, (
-      acc,
-      gradeType,
-    ) {
-      final name =
-          gradeType.displayName ??
-          gradeType.predefinedType?.toUiString() ??
-          'Unbekannt';
-      acc[gradeType.id] = name;
-      return acc;
-    });
+    final gradeTypeNames =
+        gradeTypes.map((gradeType) {
+          final gradeTypeDisplayName =
+              gradeType.displayName ??
+              gradeType.predefinedType?.toUiString() ??
+              'Unbekannt';
+
+          return MapEntry(gradeType.id, gradeTypeDisplayName);
+        }).toMap();
 
     final gradeSubjectNames = gradeSubjects.map((s) => s.name).toSet();
 
