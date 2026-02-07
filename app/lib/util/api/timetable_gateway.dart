@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date/date.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
@@ -42,26 +44,14 @@ class TimetableGateway {
     return references.lessons.doc(lesson.lessonID).delete().then((_) => true);
   }
 
-  Future<bool> deleteLessons(List<Lesson> lessons) async {
+  void deleteLessons(List<Lesson> lessons) {
     final lessonIds =
         lessons.map((lesson) => lesson.lessonID).whereType<String>().toList();
-    if (lessonIds.isEmpty) return true;
 
-    const maxBatchSize = 450;
-    int startIndex = 0;
-    while (startIndex < lessonIds.length) {
-      final endIndex = (startIndex + maxBatchSize < lessonIds.length)
-          ? startIndex + maxBatchSize
-          : lessonIds.length;
-      final batch = references.firestore.batch();
-      for (final lessonId in lessonIds.sublist(startIndex, endIndex)) {
-        batch.delete(references.lessons.doc(lessonId));
-      }
-      await batch.commit();
-      startIndex = endIndex;
+    for (final lessonId in lessonIds) {
+      // To support offline deletion, we don't await the deletion.
+      unawaited(references.lessons.doc(lessonId).delete());
     }
-
-    return true;
   }
 
   Future<bool> createEvent(CalendricalEvent event) {

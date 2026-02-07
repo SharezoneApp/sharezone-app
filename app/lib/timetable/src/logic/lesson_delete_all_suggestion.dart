@@ -81,7 +81,7 @@ class LessonDeleteAllSuggestion {
     );
 
     if (confirmed == true && context.mounted) {
-      await api.timetable.deleteLessons(deletableLessons);
+      api.timetable.deleteLessons(deletableLessons);
       if (!context.mounted) return;
       showSnackSec(
         text: context.l10n.timetableSettingsDeleteAllLessonsConfirmation,

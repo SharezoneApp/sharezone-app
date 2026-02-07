@@ -60,7 +60,7 @@ class MockTimetableGateway implements TimetableGateway {
   }
 
   @override
-  Future<bool> deleteLessons(List<Lesson> lessons) async {
+  void deleteLessons(List<Lesson> lessons) {
     final ids = lessons.map((lesson) => lesson.lessonID).whereType<String>();
     final idSet = ids.toSet();
     final lessonsWithoutId =
@@ -75,7 +75,6 @@ class MockTimetableGateway implements TimetableGateway {
             .toList() ??
         [];
     _lessonsSubject.sink.add(updatedLessons);
-    return true;
   }
 
   @override
