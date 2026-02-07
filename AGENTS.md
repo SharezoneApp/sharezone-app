@@ -2,24 +2,14 @@
 
 ## Project Overview
 
-Sharezone is a collaborative school organization app for iOS, Android, macOS and web.
-With Sharezone pupils, teachers and even parents can use the following features together as a class:
-
-- Homework diary
-- Timetable
-- Calendar
-- Information sheets
-- Files
-- Grades (not shared with the class)
+Sharezone is a collaborative school organization app for iOS, Android, macOS and web built with Flutter.
 
 ## Repository Overview
 
-- **.github/**: Our fully automated CI/CD pipeline using GitHub Actions and `codemagic-cli-tools`.
-  Used to publish alpha, beta, and stable versions to Google Play Store (Android), App Store (iOS, macOS), TestFlight (iOS, macOS), and Firebase Hosting (Web).
-- **app/**: The main "Sharezone" app, created with Flutter.
+- **.github/**: Our automated CI/CD pipeline
+- **app/**: The main "Sharezone" app
 - **lib/**: A place for our internal Dart/Flutter packages. Used to modularize and share code between app, website and admin console.
 - **docs/**: Our end user documentation https://docs.sharezone.net, built with Nextra.
-  Is currently pretty sparse, but we are working on improving it.
 - **website/**: Our sharezone.net website (not the web app) built with Flutter.
 - **console/**: Our admin console used by the Sharezone team for support / administrative tasks. Also built with Flutter.
 - **tools/sz_repo_cli/**: Our custom `sz` Dart CLI used by developers and CI/CD pipelines.
@@ -29,42 +19,25 @@ This repository doesn't contain the backend code.
 
 ## Running the app
 
-After you have set up your development environment, you can run the app.
-
-First change the working directory to the `app` folder by running:
-
-```sh
-cd app
-```
-
-To run the app, you can then execute the following command:
-
 ### Android, iOS & macOS
 
 ```sh
+cd app
 fvm flutter run --flavor dev --target lib/main_dev.dart
 ```
 
 ### Web
 
 ```sh
+cd app
 fvm flutter run --target lib/main_dev.dart
 ```
 
-Use the Playwright Skill to use the web app.
-
-This command runs the app in development mode. Keep in mind that the app will not use our production backend. Instead, it will use the hosted development backend.
+This will use our hosted development backend.
 
 ## Tests
 
 Make sure your changes are tested. Write helpful and meaningful tests. Do not write useless tests.
-
-We use several types of tests to ensure the quality and stability of Sharezone:
-
-- Unit Tests: Verify the logic of individual functions or classes in isolation.
-- Widget Tests: Test widgets’ UI and interaction behavior without running the full app.
-- Golden Tests: Compare rendered widgets to “golden” reference images to detect unintended visual changes.
-- Integration Tests: Run the app on a device or emulator to test end-to-end flows.
 
 ### Executing all tests
 
@@ -85,14 +58,11 @@ To run all unit and widget tests, use:
 sz test --exclude-goldens
 ```
 
-You can also run tests for a specific directory or file:
+You can also run tests for a specific directory or file (helpful for debugging):
 
 ```sh
 # Run all unit & widget tests in the app directory
 fvm flutter test app/test/
-
-# Run only tests for the "grades" feature
-fvm flutter test app/test/grades
 
 # Run a single test file
 fvm flutter test app/test/grades/grades_service_test.dart
@@ -109,39 +79,24 @@ sz test --only-goldens
 You can also limit golden tests to specific directories or files:
 
 ```sh
-# Run all golden tests for the app
-fvm flutter test app/test_goldens/
+# IMPORTANT: Navigate to the directory where the test_goldens directory is located.
+cd app # or ./lib/sharezone_widgets, ./lib/feedback_shared_implementation, etc.
 
-# Run golden tests for the "grades" feature
-fvm flutter test app/test_goldens/grades
-
-# Run a single golden test file
-fvm flutter test app/test_goldens/grades/pages/grades_page/grades_page_test.dart
+# Run a single golden test file or directory
+fvm flutter test test_goldens/grades/pages/grades_page/grades_page_test.dart
 ```
 
-> [!WARNING]
-> Golden tests currently only pass on macOS due to rendering differences across platforms. Run `sz test --exclude-goldens` on other platforms.
+> [!NOTE]
+> Golden tests currently only work on macOS due to rendering differences across platforms. On other platforms, the golden tests will be skipped.
 
 To generate (or update) golden files, use:
 
 ```sh
 # Generate golden files for all tests:
-sz test --update-goldens
-
-# Generate golden files for a directory, e.g. "grades"
-fvm flutter test app/test_goldens/grades --update-goldens
-
-# Generate golden files for a single file, e.g. grade_page_test.dart
-fvm flutter test app/test_goldens/grades/pages/grades_page/grades_page_test.dart --update-goldens
+sz test --update-goldens --only-goldens
 ```
 
-### Executing integration tests
-
-Please see [app/integration_test/README.md](./app/integration_test/README.md) for detailed instructions on how to run integration tests.
-
 ## Formatting
-
-To format the code, run:
 
 ```sh
 sz format
@@ -162,10 +117,12 @@ We organize our multi-language support in the `lib/sharezone_localizations` pack
 1. Add `import 'package:sharezone_localizations/sharezone_localizations.dart';` to the file where you want to use the new string.
 2. Use the new string like this: `context.l10n.your_new_string`.
 
+Do not add `SharezoneLocalizations` to business logic. Only use it in the UI.
+
 ## Style Guide
 
-Please refer to our [style guide](./.gemini/styleguide.md) for information on topics such as:
+Follow the Effective Dart style guide.
 
-- Markdown style
-- Dart style
-- Flutter style
+Do not use `SharezoneContext` for new code. This is legacy code.
+For new features, we use `Provider` for state management. `BlocProvider` is legacy code.
+Keep business logic out of the UI. Use `Provider` for state management.
