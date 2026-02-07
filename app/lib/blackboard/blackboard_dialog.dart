@@ -16,6 +16,7 @@ import 'package:sharezone/blackboard/blackboard_card.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_page.dart';
 import 'package:sharezone/blackboard/blackboard_picture.dart';
+import 'package:sharezone/blackboard/blackboard_picture_utils.dart';
 import 'package:sharezone/blackboard/blocs/blackboard_dialog_bloc.dart';
 import 'package:sharezone/filesharing/dialog/attach_file.dart';
 import 'package:sharezone/filesharing/dialog/course_tile.dart';
@@ -414,8 +415,13 @@ class _CourseTile extends StatelessWidget {
 
 class _PictureTile extends StatelessWidget {
   Future<void> onTap(BuildContext context, BlackboardDialogBloc bloc) async {
+    final courseId = bloc.currentCourse?.id;
     final path =
-        await Navigator.pushNamed(context, BlackboardDialogChoosePicture.tag)
+        await Navigator.pushNamed(
+          context,
+          BlackboardDialogChoosePicture.tag,
+          arguments: BlackboardDialogChoosePictureArgs(courseId: courseId),
+        )
             as String?;
     if (path != null) bloc.changePictureURL(path);
   }
@@ -454,8 +460,8 @@ class _PictureTile extends StatelessWidget {
               builder: (context, snapshot) {
                 if (!hasData) return const Text("Titelbild auswählen");
                 return InkWell(
-                  child: Image.asset(
-                    snapshot.data!,
+                  child: Image(
+                    image: getBlackboardPictureProvider(snapshot.data!),
                     height: 120,
                     fit: BoxFit.cover,
                   ),
