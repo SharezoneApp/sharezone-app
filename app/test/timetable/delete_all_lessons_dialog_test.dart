@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sharezone/timetable/src/lesson_delete_all_suggestion.dart';
+import 'package:sharezone/timetable/src/lesson_delete_all_suggestion_dialog.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 void main() {
@@ -42,15 +42,9 @@ void main() {
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
-      final deleteButtonFinder = find.widgetWithText(
-        TextButton,
-        'DELETE (10)',
-      );
+      final deleteButtonFinder = find.widgetWithText(TextButton, 'DELETE (10)');
       expect(deleteButtonFinder, findsOneWidget);
-      expect(
-        tester.widget<TextButton>(deleteButtonFinder).onPressed,
-        isNull,
-      );
+      expect(tester.widget<TextButton>(deleteButtonFinder).onPressed, isNull);
 
       await tester.pump(const Duration(seconds: 1));
       expect(find.text('DELETE (9)'), findsOneWidget);
@@ -69,4 +63,3 @@ void main() {
     },
   );
 }
-
