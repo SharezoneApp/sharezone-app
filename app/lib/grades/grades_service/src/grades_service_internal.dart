@@ -221,9 +221,9 @@ class _GradesServiceInternal {
   void deleteTerm(TermId id) {
     IList<TermModel> newTerms = _terms;
 
-    final termOrNull = newTerms.firstWhereOrNull((term) => term.id == id);
-    if (termOrNull != null) {
-      newTerms = _terms.remove(termOrNull);
+    final term = newTerms.firstWhereOrNull((term) => term.id == id);
+    if (term != null) {
+      newTerms = _terms.remove(term);
       _updateTerms(newTerms);
       return;
     }

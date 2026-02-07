@@ -79,7 +79,7 @@ class GradingSystemModel extends Equatable {
       return asNum;
     }
 
-    final asSpecialGrade = spec.specialDisplayableGradeToNumOrNull?.call(grade);
+    final asSpecialGrade = spec.specialDisplayableGradeToNum?.call(grade);
     if (asSpecialGrade != null) {
       return asSpecialGrade;
     }
@@ -93,7 +93,7 @@ class GradingSystemModel extends Equatable {
     return GradeValue(
       asNum: grade,
       gradingSystem: toGradingSystem(),
-      displayableGrade: spec.getSpecialDisplayableGradeOrNull?.call(grade),
+      displayableGrade: spec.getSpecialDisplayableGrade?.call(grade),
       suffix: spec == zeroToHundredPercentWithDecimalsSpec ? '%' : null,
     );
   }
@@ -142,8 +142,8 @@ extension HasDecimals on num {
 class GradingSystemSpec extends Equatable {
   final GradingSystem gradingSystem;
   final PossibleGradesResult possibleGrades;
-  final num? Function(String grade)? specialDisplayableGradeToNumOrNull;
-  final String? Function(num grade)? getSpecialDisplayableGradeOrNull;
+  final num? Function(String grade)? specialDisplayableGradeToNum;
+  final String? Function(num grade)? getSpecialDisplayableGrade;
 
   @override
   List<Object?> get props => [gradingSystem, possibleGrades];
@@ -151,8 +151,8 @@ class GradingSystemSpec extends Equatable {
   const GradingSystemSpec({
     required this.gradingSystem,
     required this.possibleGrades,
-    this.specialDisplayableGradeToNumOrNull,
-    this.getSpecialDisplayableGradeOrNull,
+    this.specialDisplayableGradeToNum,
+    this.getSpecialDisplayableGrade,
   });
 
   /// Creates a [GradingSystemSpec] for a non-numerical grading system.
@@ -169,10 +169,10 @@ class GradingSystemSpec extends Equatable {
       possibleGrades: NonNumericalPossibleGradesResult(
         specialGrades.keys.toIList(),
       ),
-      specialDisplayableGradeToNumOrNull: (grade) {
+      specialDisplayableGradeToNum: (grade) {
         return specialGrades[grade];
       },
-      getSpecialDisplayableGradeOrNull: (grade) {
+      getSpecialDisplayableGrade: (grade) {
         return specialGrades.entries
             .firstWhereOrNull((entry) => entry.value == grade)
             ?.key;
@@ -187,12 +187,12 @@ class GradingSystemSpec extends Equatable {
     return GradingSystemSpec(
       gradingSystem: gradingSystem,
       possibleGrades: possibleGrades,
-      getSpecialDisplayableGradeOrNull:
+      getSpecialDisplayableGrade:
           (grade) =>
               possibleGrades.specialGrades.entries
                   .firstWhereOrNull((entry) => entry.value == grade)
                   ?.key,
-      specialDisplayableGradeToNumOrNull:
+      specialDisplayableGradeToNum:
           (grade) => possibleGrades.specialGrades[grade],
     );
   }

@@ -166,8 +166,8 @@ class SharezonePlusPageController extends ChangeNotifier {
 
   bool _isTestFlightUser() {
     final isAlphaOrBeta =
-        kDevelopmentStageOrNull?.toLowerCase() == 'alpha' ||
-        kDevelopmentStageOrNull?.toLowerCase() == 'beta';
+        kDevelopmentStage?.toLowerCase() == 'alpha' ||
+        kDevelopmentStage?.toLowerCase() == 'beta';
     return isAlphaOrBeta && PlatformCheck.isMacOsOrIOS;
   }
 

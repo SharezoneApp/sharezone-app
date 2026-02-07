@@ -106,8 +106,8 @@ class DeployConsoleCommand extends CommandBase {
   }
 
   String? _parseDeployMessage(ArgResults argResults) {
-    final overriddenDeployMessageOrNull =
+    final overriddenDeployMessage =
         argResults[firebaseDeployMessageOptionName] as String?;
-    return overriddenDeployMessageOrNull;
+    return overriddenDeployMessage;
   }
 }

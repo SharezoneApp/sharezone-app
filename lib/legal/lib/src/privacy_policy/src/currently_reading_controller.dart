@@ -24,7 +24,7 @@ class CurrentlyReadingController {
   final _currentlyReadingHeadingNotifier = ValueNotifier<DocumentSectionId?>(
     null,
   );
-  ValueListenable<DocumentSectionId?> get currentlyReadDocumentSectionOrNull =>
+  ValueListenable<DocumentSectionId?> get currentlyReadDocumentSection =>
       _currentlyReadingHeadingNotifier;
 
   late _CurrentlyReadingState _currentState;
@@ -62,7 +62,7 @@ class CurrentlyReadingController {
       );
 
       _currentlyReadingHeadingNotifier.value =
-          _currentState.currentlyReadSectionOrNull;
+          _currentState.currentlyReadSection;
     });
   }
 }
@@ -146,14 +146,14 @@ class _CurrentlyReadingState {
          return viewportContainsOnlyKnownHeadings;
        }());
 
-  DocumentSectionId? _currentlyReadSectionOrNull;
+  DocumentSectionId? _currentlyReadSection;
   bool _isCached = false;
-  DocumentSectionId? get currentlyReadSectionOrNull {
+  DocumentSectionId? get currentlyReadSection {
     if (!_isCached) {
-      _currentlyReadSectionOrNull = _computeCurrentlyRead();
+      _currentlyReadSection = _computeCurrentlyRead();
       _isCached = true;
     }
-    return _currentlyReadSectionOrNull;
+    return _currentlyReadSection;
   }
 
   DocumentSectionId? _computeCurrentlyRead() {
@@ -264,7 +264,7 @@ class _CurrentlyReadingState {
     // # Baz
     // [...]
     // <-- Bottom of page -->
-    return viewport.closestPastThresholdOrNull.documentSectionId;
+    return viewport.closestPastThreshold.documentSectionId;
   }
 
   int _indexOf(DocumentSectionHeadingPosition headerPosition) {
@@ -361,7 +361,7 @@ class _Viewport {
   bool get headingsVisible => !noHeadingsVisible;
   bool get noHeadingsVisible => sortedHeadingPositions.isEmpty;
 
-  DocumentSectionHeadingPosition get closestPastThresholdOrNull {
+  DocumentSectionHeadingPosition get closestPastThreshold {
     return sectionsInThreshold.last;
   }
 
