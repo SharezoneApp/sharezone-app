@@ -9,11 +9,9 @@
 import 'dart:async';
 
 import 'package:process_runner/process_runner.dart';
-import 'package:sz_repo_cli/src/commands/src/format_command.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
 import 'fix_comment_spacing_command.dart';
-import 'pub_get_command.dart';
 
 class AnalyzeCommand extends ConcurrentCommand {
   AnalyzeCommand(super.context);
@@ -38,10 +36,10 @@ Future<void> analyzePackage(
   ProcessRunner processRunner,
   Package package,
 ) async {
-  await getPackage(processRunner, package);
-  await _runDartAnalyze(processRunner, package);
-  await formatCode(processRunner, package, throwIfCodeChanged: true);
-  await _checkForCommentsWithBadSpacing(processRunner, package);
+  await Future.wait([
+    _runDartAnalyze(processRunner, package),
+    _checkForCommentsWithBadSpacing(processRunner, package),
+  ]);
 }
 
 Future<void> _runDartAnalyze(

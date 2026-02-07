@@ -9,9 +9,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:key_value_store/key_value_store.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/comments/comment_view.dart';
 import 'package:sharezone/report/report_icon.dart';
-import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../misc.dart';
@@ -87,7 +88,13 @@ class Comment extends StatelessWidget {
                     styleSheet: MarkdownStyleSheet.fromTheme(
                       Theme.of(context),
                     ).copyWith(a: linkStyle(context, 14)),
-                    onTapLink: (url, _, _) => launchURL(url, context: context),
+                    onTapLink:
+                        (url, href, _) => launchMarkdownLinkWithWarning(
+                          href: href ?? url,
+                          text: url,
+                          keyValueStore: context.read<KeyValueStore>(),
+                          context: context,
+                        ),
                   ),
                   const SizedBox(height: 4),
                   Row(
@@ -190,7 +197,7 @@ class Comment extends StatelessWidget {
   Future<void> deleteComment(BuildContext context) async {
     final result = await showLeftRightAdaptiveDialog<bool>(
       context: context,
-      right: AdaptiveDialogAction.delete,
+      right: AdaptiveDialogAction.delete(context),
       defaultValue: false,
       content: const Text(
         "Möchtest du wirklich den Kommentar für alle löschen?",

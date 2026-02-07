@@ -24,18 +24,18 @@ void main() {
     test('$GradeRef.get does not throw if not existing', () {
       testController.createTerm(
         termWith(
-          id: TermId('term1'),
+          id: const TermId('term1'),
           subjects: [
-            subjectWith(id: SubjectId('subject1'), grades: [gradeWith()]),
+            subjectWith(id: const SubjectId('subject1'), grades: [gradeWith()]),
           ],
         ),
       );
 
       expect(
         service
-            .term(TermId('term1'))
-            .subject(SubjectId('subject1'))
-            .grade(GradeId('not-existing'))
+            .term(const TermId('term1'))
+            .subject(const SubjectId('subject1'))
+            .grade(const GradeId('not-existing'))
             .get(),
         isNull,
       );

@@ -29,7 +29,7 @@ Future<bool?> showCourseLeaveDialog(
     context: context,
     right:
         isLastMember
-            ? AdaptiveDialogAction.delete
+            ? AdaptiveDialogAction.delete(context)
             : const AdaptiveDialogAction(
               title: "Verlassen",
               isDefaultAction: true,
@@ -51,7 +51,7 @@ Future<bool?> showDeleteCourseDialog(
 ) async {
   return await showLeftRightAdaptiveDialog<bool>(
     context: context,
-    right: AdaptiveDialogAction.delete,
+    right: AdaptiveDialogAction.delete(context),
     defaultValue: false,
     title: "Kurs löschen?",
     content: Text(

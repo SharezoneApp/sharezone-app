@@ -32,8 +32,10 @@ class FormatCommand extends ConcurrentCommand {
   Future<void> runSetup() async {
     await _throwIfPrettierIsNotInstalled();
 
-    await _formatActionFiles(repo: repo);
-    await _formatMarkdownFiles(repo: repo);
+    await Future.wait([
+      _formatActionFiles(repo: repo),
+      _formatMarkdownFiles(repo: repo),
+    ]);
   }
 
   @override

@@ -11,31 +11,37 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:quiver/core.dart';
-import 'package:sharezone_common/blackboard_validators.dart'
-    as blackboard_validators;
-import 'package:sharezone_common/course_validators.dart' as course_validators;
+import 'package:sharezone_localizations/sharezone_localizations.dart';
+import 'package:sharezone_common/validators.dart';
 
 part 'handle_error_message.dart';
 
 class IncorrectSharecode implements Exception {
+  static const code = "IncorrectSharecode";
+
   @override
-  String toString() => "Ungültiger Sharecode!";
+  String toString() => code;
 }
 
 class SameNameAsBefore implements Exception {
+  static const code = "SameNameAsBefore";
+
   @override
-  String toString() => "Das ist doch der selbe Name wie vorher 🙈";
+  String toString() => code;
 }
 
 class IncorrectPeriods implements Exception {
+  static const code = "IncorrectPeriods";
+
   @override
-  String toString() =>
-      "Bitte gib korrekte Zeiten. Die Stunden dürfen sich nicht überschneiden!";
+  String toString() => code;
 }
 
 class MissingReportInformation implements Exception {
+  static const code = "MissingReportInformation";
+
   @override
-  String toString() => "Bitte einen Grund und eine Beschreibung an.";
+  String toString() => code;
 }
 
 class IncorrectDataException implements Exception {
@@ -102,9 +108,11 @@ class SubjectIsMissingException implements Exception {
 }
 
 class NameIsMissingException implements Exception {
+  static const code = "NameIsMissingException";
+
   @override
   String toString() {
-    return "Bitte gib einen Namen an, der mehr als ein Zeichen hat.";
+    return code;
   }
 }
 
@@ -178,18 +186,24 @@ class InvalidWeekDayException implements Exception {
 }
 
 class EmptyNameException implements Exception {
+  static const code = "EmptyNameException";
+
   @override
-  String toString() => "Bitte gib einen Namen an!";
+  String toString() => code;
 }
 
 class SameNameException implements Exception {
+  static const code = "SameNameException";
+
   @override
-  String toString() => "Dieser Name ist doch der gleiche wie vorher 😅";
+  String toString() => code;
 }
 
 class InvalidInputException implements Exception {
+  static const code = "InvalidInputException";
+
   @override
-  String toString() => "Bitte überprüfe deine Eingabe!";
+  String toString() => code;
 }
 
 /// Exeption thrown when trying to deserialize a [FirestoreDocument] into a another
@@ -260,7 +274,7 @@ InternalException mapExceptionIntoInternalException(Exception e) {
 /// interalExepetion.message() aufgerufen werden kann und die passende
 /// Fehlermeldung ausgegeben wird.
 abstract class InternalException implements Exception {
-  String get message;
+  String message(SharezoneLocalizations l10n);
 }
 
 class UnknownInternalException implements InternalException {
@@ -269,7 +283,7 @@ class UnknownInternalException implements InternalException {
   UnknownInternalException(this.exception);
 
   @override
-  String get message => exception.toString();
+  String message(SharezoneLocalizations l10n) => exception.toString();
 }
 
 abstract class FirebaseException implements InternalException {
@@ -282,8 +296,8 @@ class FirebaseCredentialAlreadyInUseException implements FirebaseException {
   String get code => "credential-already-in-use";
 
   @override
-  String get message =>
-      "Es existiert bereits ein Nutzer mit dieser Anmeldemethode!";
+  String message(SharezoneLocalizations l10n) =>
+      l10n.commonErrorCredentialAlreadyInUse;
 }
 
 class FirebaseEmailAlreadyInUseException implements FirebaseException {
@@ -291,6 +305,6 @@ class FirebaseEmailAlreadyInUseException implements FirebaseException {
   String get code => "email-already-in-use";
 
   @override
-  String get message =>
-      "Diese E-Mail Adresse wird bereits von einem anderen Nutzer verwendet.";
+  String message(SharezoneLocalizations l10n) =>
+      l10n.commonErrorEmailAlreadyInUse;
 }

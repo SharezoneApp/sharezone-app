@@ -50,16 +50,3 @@ class AuthUser {
     }
   }
 }
-
-String providerToUiString(Provider provider) {
-  switch (provider) {
-    case Provider.anonymous:
-      return 'Anonyme Anmeldung';
-    case Provider.google:
-      return 'Google Sign In';
-    case Provider.apple:
-      return 'Apple Sign In';
-    case Provider.email:
-      return 'E-Mail und Passwort';
-  }
-}

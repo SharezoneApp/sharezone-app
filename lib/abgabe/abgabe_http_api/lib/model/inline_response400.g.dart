@@ -7,7 +7,7 @@ part of 'inline_response400.dart';
 // **************************************************************************
 
 Serializer<InlineResponse400> _$inlineResponse400Serializer =
-    new _$InlineResponse400Serializer();
+    _$InlineResponse400Serializer();
 
 class _$InlineResponse400Serializer
     implements StructuredSerializer<InlineResponse400> {
@@ -39,7 +39,7 @@ class _$InlineResponse400Serializer
     Iterable<Object?> serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = new InlineResponse400Builder();
+    final result = InlineResponse400Builder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -68,19 +68,16 @@ class _$InlineResponse400 extends InlineResponse400 {
 
   factory _$InlineResponse400([
     void Function(InlineResponse400Builder)? updates,
-  ]) => (new InlineResponse400Builder()..update(updates))._build();
+  ]) => (InlineResponse400Builder()..update(updates))._build();
 
-  _$InlineResponse400._({required this.error}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(error, r'InlineResponse400', 'error');
-  }
-
+  _$InlineResponse400._({required this.error}) : super._();
   @override
   InlineResponse400 rebuild(void Function(InlineResponse400Builder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   InlineResponse400Builder toBuilder() =>
-      new InlineResponse400Builder()..replace(this);
+      InlineResponse400Builder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -124,7 +121,6 @@ class InlineResponse400Builder
 
   @override
   void replace(InlineResponse400 other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$InlineResponse400;
   }
 
@@ -139,7 +135,7 @@ class InlineResponse400Builder
   _$InlineResponse400 _build() {
     final _$result =
         _$v ??
-        new _$InlineResponse400._(
+        _$InlineResponse400._(
           error: BuiltValueNullFieldError.checkNotNull(
             error,
             r'InlineResponse400',

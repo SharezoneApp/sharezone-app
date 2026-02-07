@@ -6,12 +6,23 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum MemberRole { owner, admin, creator, standard, none }
+import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
-const Map<MemberRole, String> memberRoleAsString = {
-  MemberRole.admin: "Admin",
-  MemberRole.creator: "Aktives Mitglied (Schreib- und Leserechte)",
-  MemberRole.standard: "Passives Mitglied (Nur Leserechte)",
-  MemberRole.owner: "Besitzer",
-  MemberRole.none: "Nichts",
-};
+enum MemberRole {
+  owner,
+  admin,
+  creator,
+  standard,
+  none;
+
+  String toLocalizedString(BuildContext context) {
+    return switch (this) {
+      MemberRole.admin => context.l10n.memberRoleAdmin,
+      MemberRole.creator => context.l10n.memberRoleCreator,
+      MemberRole.standard => context.l10n.memberRoleStandard,
+      MemberRole.owner => context.l10n.memberRoleOwner,
+      MemberRole.none => context.l10n.memberRoleNone,
+    };
+  }
+}

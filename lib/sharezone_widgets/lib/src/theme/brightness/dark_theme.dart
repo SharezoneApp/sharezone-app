@@ -32,7 +32,7 @@ ThemeData getDarkTheme({String? fontFamily = rubik}) {
     fontFamily: fontFamily,
     // Themes
     appBarTheme: const AppBarTheme(
-      color: ElevationColors.dp8,
+      backgroundColor: ElevationColors.dp8,
       foregroundColor: Colors.white,
       iconTheme: IconThemeData(color: Colors.white),
     ),

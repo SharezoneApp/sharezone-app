@@ -138,9 +138,10 @@ class _LessonNumber extends StatelessWidget {
 }
 
 class _Time extends StatelessWidget {
-  const _Time({this.start, this.end});
+  const _Time({required this.start, required this.end});
 
-  final String? start, end;
+  final Time start;
+  final Time end;
 
   @override
   Widget build(BuildContext context) {
@@ -148,11 +149,11 @@ class _Time extends StatelessWidget {
     final textStyle = TextStyle(fontSize: 11, color: textColor);
     return Column(
       children: <Widget>[
-        Text(start ?? "10:00", style: textStyle),
+        Text(start.format(context), style: textStyle),
         const SizedBox(height: 2.5),
         Container(width: 8.5, height: 1.25, color: Colors.grey[300]),
         const SizedBox(height: 2.5),
-        Text(end ?? "-", style: textStyle),
+        Text(end.format(context), style: textStyle),
       ],
     );
   }

@@ -15,6 +15,7 @@ import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc
 import 'package:sharezone/groups/src/pages/course/create/models/course_template.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 Future<(CourseId, CourseName)?> openCourseCreatePage(
   BuildContext context, {
@@ -48,7 +49,10 @@ Future<void> submit(BuildContext context) async {
     }
   } catch (e, s) {
     if (context.mounted) {
-      showSnackSec(context: context, text: handleErrorMessage(e.toString(), s));
+      showSnackSec(
+        context: context,
+        text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
+      );
     }
   }
 }
@@ -67,19 +71,22 @@ class _CourseCreatePage extends StatefulWidget {
 
 class _CourseCreatePageState extends State<_CourseCreatePage> {
   late CourseCreateBloc bloc;
+  bool _didInit = false;
 
   final abbreviationNode = FocusNode();
   final nameNode = FocusNode();
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didInit) return;
     bloc = BlocProvider.of<CourseCreateBlocFactory>(
       context,
-    ).create(schoolClassId: widget.schoolClassId);
+    ).create(l10n: context.l10n, schoolClassId: widget.schoolClassId);
     if (widget.template != null) {
       bloc.setInitialTemplate(widget.template!);
     }
+    _didInit = true;
   }
 
   @override

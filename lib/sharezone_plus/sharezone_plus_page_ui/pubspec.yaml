@@ -29,6 +29,8 @@ dependencies:
     path: ../../platform_check
   sharezone_widgets:
     path: ../../sharezone_widgets
+  sharezone_localizations:
+    path: ../../sharezone_localizations
   url_launcher: ^6.3.1
 
 dev_dependencies:

@@ -11,6 +11,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sharezone/auth/login_page.dart';
 import 'package:sharezone/keys.dart';
 import 'package:sharezone/legal/privacy_policy/privacy_policy_page.dart';
@@ -21,6 +22,7 @@ import 'package:sharezone/onboarding/sign_up/widgets/easter_egg_clock.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:user/user.dart';
 
 part 'pages/advantages.dart';
@@ -105,7 +107,7 @@ class _AdvancedListTile extends StatelessWidget {
     String? subtitle,
   }) {
     return _AdvancedListTile(
-      leading: PlatformSvg.asset("assets/icons/correct.svg", height: 40),
+      leading: SvgPicture.asset("assets/icons/correct.svg", height: 40),
       title: title,
       subtitle: subtitle,
     );
@@ -225,7 +227,11 @@ class _SignUpButtonState extends State<_SignUpButton> {
                 } catch (e, s) {
                   setState(() => isLoading = false);
                   showSnackSec(
-                    text: handleErrorMessage(e.toString(), s),
+                    text: handleErrorMessage(
+                      l10n: context.l10n,
+                      error: e,
+                      stackTrace: s,
+                    ),
                     context: context,
                   );
                 }

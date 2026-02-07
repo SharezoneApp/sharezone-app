@@ -10,6 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:build_context/build_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
@@ -84,7 +85,7 @@ class _Header extends StatelessWidget {
         child: SizedBox(
           width: 70,
           height: 70,
-          child: PlatformSvg.asset('assets/icons/confused.svg'),
+          child: SvgPicture.asset('assets/icons/confused.svg'),
         ),
       ),
       children: const <Widget>[
@@ -209,9 +210,9 @@ class _FreeEmailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         'assets/icons/email.svg',
-        color: context.primaryColor,
+        colorFilter: ColorFilter.mode(context.primaryColor, BlendMode.srcIn),
         semanticsLabel: 'E-Mail Icon',
       ),
       title: 'E-Mail',
@@ -236,9 +237,9 @@ class _PlusEmailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         'assets/icons/email.svg',
-        color: context.primaryColor,
+        colorFilter: ColorFilter.mode(context.primaryColor, BlendMode.srcIn),
         semanticsLabel: 'E-Mail Icon',
       ),
       title: 'E-Mail',
@@ -339,9 +340,9 @@ class _DiscordTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _SupportCard(
-      icon: PlatformSvg.asset(
+      icon: SvgPicture.asset(
         'assets/icons/discord.svg',
-        color: context.primaryColor,
+        colorFilter: ColorFilter.mode(context.primaryColor, BlendMode.srcIn),
         semanticsLabel: 'Discord Icon',
       ),
       title: 'Discord',

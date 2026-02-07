@@ -30,11 +30,11 @@ dependencies:
     path: ../../sharezone_utils
   sharezone_widgets:
     path: ../../sharezone_widgets
-  file_picker: ^9.0.0
+  file_picker: ^10.3.3
   chewie: ^1.10.0
   flutter_cache_manager: ^3.4.1
   flutter_image_compress: ^2.3.0
-  image_picker: ^1.1.2
+  image_picker: ^1.2.1
   mime: ^2.0.0
   # For Flutter 3.16 we need the fix from
   # https://github.com/ScerIO/packages.flutter/commit/8b105a7dfc6b90220c1d79fcb805fb764cab00c5.

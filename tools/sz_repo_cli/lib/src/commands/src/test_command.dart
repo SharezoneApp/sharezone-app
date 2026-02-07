@@ -13,8 +13,6 @@ import 'dart:math';
 import 'package:process_runner/process_runner.dart';
 import 'package:sz_repo_cli/src/common/common.dart';
 
-import 'pub_get_command.dart';
-
 class TestCommand extends ConcurrentCommand {
   TestCommand(super.context) {
     argParser.addFlag(
@@ -144,8 +142,6 @@ Future<void> _runTestsDart(
     return;
   }
 
-  await getPackage(processRunner, package);
-
   await processRunner.runCommand([
     'dart',
     '--define=TEST_RANDOMNESS_SEED=$testRandomizeOrderingSeed',
@@ -195,9 +191,6 @@ Future<void> _runTestsFlutter(
     ], workingDirectory: package.location);
     return;
   }
-
-  /// Flutter test lässt automatisch flutter pub get laufen.
-  /// Deswegen muss nicht erst noch [getPackages] aufgerufen werden.
 
   await processRunner.runCommand([
     'flutter',

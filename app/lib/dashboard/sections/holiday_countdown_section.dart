@@ -31,7 +31,7 @@ class HolidayCountdownSection extends StatelessWidget {
                   if (!snapshot.hasData) return Container(height: 50);
                   final hasUserSelectedState = snapshot.data!;
                   if (hasUserSelectedState) return const _HolidayCounter();
-                  return const _SelectStateDropdown();
+                  return const _SelectStateDialog();
                 },
               ),
             ),
@@ -163,65 +163,35 @@ class _HolidayText extends StatelessWidget {
   }
 }
 
-class _SelectStateDropdown extends StatelessWidget {
-  const _SelectStateDropdown();
+class _SelectStateDialog extends StatelessWidget {
+  const _SelectStateDialog();
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HolidayBloc>(context);
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Column(
         children: <Widget>[
           const SizedBox(height: 4),
-          DropdownButton<StateEnum>(
-            hint: const Text("Bundesland auswählen"),
-            isDense: true,
-            isExpanded: true,
-            items:
-                StateEnum.values
-                    .sublist(0, StateEnum.values.length - 1)
-                    .map(
-                      (state) => DropdownMenuItem(
-                        value: state,
-                        child: Text(stateEnumToString[state]!),
-                      ),
-                    )
-                    .toList(),
-            onChanged: (state) {
-              showSelectedStateSnackBar(context, state);
-              bloc.changeState(state);
-            },
+          MaxWidthConstraintBox(
+            maxWidth: 500,
+            child: SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () => showStateSelectionDialog(context),
+                child: Text(
+                  context.l10n.dashboardSelectStateButton,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 16),
           const Text(
-            "Durch das Auswählen eines Bundeslandes können wir berechnen, wie lange du dich noch in der Schule quälen musst, bis endlich die Ferien sind 😉",
+            "Durch das Auswählen deiner Region können wir berechnen, wie lange du dich noch in der Schule quälen musst, bis endlich die Ferien sind 😉",
             style: TextStyle(color: Colors.grey, fontSize: 12),
           ),
         ],
-      ),
-    );
-  }
-
-  /// [navigationBloc] wird benötigt, da nicht mehr mit dem Context
-  /// navigiert werden kann. Das [_SelectStateDropdown] Widget verschwindet
-  /// sofort, sobald der Nutzer ein Bundesland auswählt, womit auch der
-  /// Context ungültig wird. Würde man nun über den Context navigieren,
-  /// so würde es zu einer Fehlermeldung kommen.
-  void showSelectedStateSnackBar(BuildContext context, StateEnum? state) {
-    final navigationService = BlocProvider.of<NavigationService>(context);
-    showSnackSec(
-      context: context,
-      seconds: 5,
-      behavior: SnackBarBehavior.fixed,
-      text: "Bundesland ${stateEnumToString[state]} ausgewählt",
-      action: SnackBarAction(
-        label: "Ändern".toUpperCase(),
-        onPressed:
-            () => navigationService.pushWidget(
-              const ChangeStatePage(),
-              name: ChangeStatePage.tag,
-            ),
       ),
     );
   }

@@ -18,6 +18,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone/account/name_generator.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
@@ -37,9 +38,12 @@ import '../firebase_options_dev.g.dart' as fb_dev;
 import '../firebase_options_prod.g.dart' as fb_prod;
 
 BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
+  // We seed with `null` because `.first` is used on this stream. Without a seed,
+  // `await stream.first` would hang indefinitely if no value is ever added.
+  //
   // ignore:close_sinks
   BehaviorSubject<Beitrittsversuch?> beitrittsversuche =
-      BehaviorSubject<Beitrittsversuch?>();
+      BehaviorSubject<Beitrittsversuch?>.seeded(null);
 
   beitrittsversuche.listen(
     (beitrittsversuch) => log("Neuer beitrittsversuch: $beitrittsversuch"),
@@ -128,6 +132,7 @@ Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
   final registrationGateway = RegistrationGateway(
     references.users,
     firebaseDependencies.auth!,
+    anonymousUserNameBuilder: buildAnonymousUserName,
   );
   final blocDependencies = BlocDependencies(
     analytics: Analytics(getBackend()),

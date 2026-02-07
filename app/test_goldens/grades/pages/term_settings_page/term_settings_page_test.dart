@@ -21,8 +21,10 @@ import 'package:sharezone/grades/pages/term_settings_page/term_settings_page.dar
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_view.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
+import '../../../flutter_test_config.dart';
 import 'term_settings_page_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -83,7 +85,11 @@ void main() {
           ],
           child: const TermSettingsPage(termId: termId),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

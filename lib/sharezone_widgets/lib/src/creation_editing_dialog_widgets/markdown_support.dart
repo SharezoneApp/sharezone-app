@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class MarkdownSupport extends StatelessWidget {
   const MarkdownSupport({super.key});
@@ -14,18 +15,18 @@ class MarkdownSupport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const style = TextStyle(color: Colors.grey, fontSize: 14);
-    return const Text.rich(
+    return Text.rich(
       TextSpan(
         children: <TextSpan>[
-          TextSpan(text: "Markdown: "),
+          TextSpan(text: context.l10n.sharezoneWidgetsMarkdownSupportLabel),
           TextSpan(
-            text: "**fett**",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            text: context.l10n.sharezoneWidgetsMarkdownSupportBold,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          TextSpan(text: ", "),
+          TextSpan(text: context.l10n.sharezoneWidgetsMarkdownSupportSeparator),
           TextSpan(
-            text: "*kursiv*",
-            style: TextStyle(fontStyle: FontStyle.italic),
+            text: context.l10n.sharezoneWidgetsMarkdownSupportItalic,
+            style: const TextStyle(fontStyle: FontStyle.italic),
           ),
         ],
         style: style,

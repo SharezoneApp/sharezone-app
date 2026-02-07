@@ -21,7 +21,7 @@ dependencies:
   retry: ^3.1.2
   sharezone_utils:
     path: ../sharezone_utils
-  firebase_remote_config: ^5.4.1
+  firebase_remote_config: ^6.0.2
 
 dev_dependencies:
   flutter_test:

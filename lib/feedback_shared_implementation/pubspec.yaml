@@ -31,9 +31,11 @@ dependencies:
     path: ../sharezone_widgets
   helper_functions:
     path: ../helper_functions
-  cloud_firestore: ^5.6.4
+  cloud_firestore: ^6.0.2
   cloud_firestore_helper:
     path: ../cloud_firestore_helper
+  sharezone_localizations:
+    path: ../sharezone_localizations
   flutter_markdown:
     git:
       url: https://github.com/SharezoneApp/packages
@@ -47,7 +49,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   golden_toolkit: ^0.15.0
-  mockito: ^5.4.5
+  mockito: ^5.5.0
   sharezone_lints:
     path: ../sharezone_lints
 

@@ -6,13 +6,17 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-enum WritePermission { everyone, onlyAdmins }
+import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
-String writePermissionAsUiString(WritePermission writePermission) {
-  switch (writePermission) {
-    case WritePermission.everyone:
-      return 'Alle';
-    case WritePermission.onlyAdmins:
-      return 'Nur Admins';
+enum WritePermission {
+  everyone,
+  onlyAdmins;
+
+  String toLocalizedString(BuildContext context) {
+    return switch (this) {
+      WritePermission.everyone => context.l10n.writePermissionEveryone,
+      WritePermission.onlyAdmins => context.l10n.writePermissionOnlyAdmins,
+    };
   }
 }

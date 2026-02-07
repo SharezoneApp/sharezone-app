@@ -32,7 +32,9 @@ import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../flutter_test_config.dart';
 import 'sharezone_plus_page_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -132,7 +134,11 @@ void main() {
             child: (context) => const SharezonePlusPage(),
           ),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localeOverrides: defaultLocales,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+        ),
       );
     }
 

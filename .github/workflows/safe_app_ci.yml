@@ -64,8 +64,8 @@ jobs:
     outputs:
       changesFound: ${{ steps.filter.outputs.changesFound }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: AurorNZ/paths-filter@3b1f3abc3371cca888d8eb03dfa70bc8a9867629
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: AurorNZ/paths-filter@c9dd42e99db87803313ff6f4b1150cc9f6c836af
         id: filter
         with:
           filters: |
@@ -98,11 +98,11 @@ jobs:
     # In this case the analyze pipeline would fail, thus we won't run it.
     if: ${{ github.event.pull_request.draft == false && needs.changes.outputs.changesFound == 'true' }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
+        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
 
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
@@ -132,11 +132,11 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
+        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
 
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
@@ -167,13 +167,13 @@ jobs:
     if: ${{ needs.changes.outputs.changesFound == 'true' }}
     # Due to https://github.com/flutter/flutter/issues/111739 our golden tests
     # require macOS arm64. Therefore, we need to use macos-15.
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Set Flutter version from FVM config file to environment variables
         id: fvm-config-action
-        uses: kuhnroyal/flutter-fvm-config-action@0b792d004e2dfeda282a7af5c0609703658a9f8b
+        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
 
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
@@ -200,10 +200,47 @@ jobs:
       # this workflows finished.
       - name: Upload failed golden tests
         if: failure()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: failed-golden-tests
           # When golden test fail then the results are stored in "failures"
           # folders. Since golden tests run in several different places (e.g. /app,
           # or packages in /lib) the failures folder will be spread in different places.
           path: "**/failures/*.png"
+
+  check-l10n-files:
+    needs: changes
+    runs-on: ubuntu-24.04
+    if: ${{ needs.changes.outputs.changesFound == 'true' }}
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+
+      - name: Set Flutter version from FVM config file to environment variables
+        id: fvm-config-action
+        uses: kuhnroyal/flutter-fvm-config-action@fcdb62b682dade6f0d9e0c6eae6acc647ca8c31d
+
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+
+      - name: Activate sz_repo_cli package
+        run: flutter pub global activate --source path "$CI_CD_DART_SCRIPTS_PACKAGE_PATH"
+
+      # So we can just use "sz COMMAND" instead of "dart ../path/to/script.dart ..."
+      - run: echo $(realpath ./bin) >> $GITHUB_PATH
+
+      - uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5
+        with:
+          go-version: "^1.13.1"
+
+      # The "sz l10n check" command requires arbsort to be installed.
+      - name: Install "arbsort"
+        run: go install github.com/leancodepl/arbsort@v0.1.0
+
+      # The "sz l10n check" command requires addlicense to be installed.
+      - name: Install "addlicense"
+        run: go install github.com/google/addlicense@v1.1.1
+
+      - name: Checks if the localization files are up to date.
+        run: sz l10n check
