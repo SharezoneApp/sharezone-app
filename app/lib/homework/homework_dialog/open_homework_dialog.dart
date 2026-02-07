@@ -6,15 +6,17 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:common_domain_models/common_domain_models.dart';
-
+import 'package:date/date.dart';
 import 'package:flutter/material.dart';
-import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart';
+import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
   BuildContext context, {
   HomeworkDto? homework,
+  CourseId? initialCourseId,
+  Date? initialDueDate,
 }) async {
   final successful = await Navigator.push<bool>(
     context,
@@ -22,6 +24,8 @@ Future<void> openHomeworkDialogAndShowConfirmationIfSuccessful(
       builder:
           (context) => HomeworkDialog(
             id: homework?.id != null ? HomeworkId(homework!.id) : null,
+            initialCourseId: initialCourseId,
+            initialDueDate: initialDueDate,
           ),
       settings: const RouteSettings(name: HomeworkDialog.tag),
     ),

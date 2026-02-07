@@ -8,6 +8,7 @@
 
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone/auth/authentification_localization_mapper.dart';
 import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/submit_method.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_data.dart';
@@ -106,7 +107,10 @@ class _NewPasswordFieldState extends State<_NewPasswordField> {
           decoration: InputDecoration(
             labelText: context.l10n.changePasswordNewPasswordTextfieldLabel,
             //            icon: new Icon(Icons.vpn_key),
-            errorText: snapshot.error?.toString(),
+            errorText: mapAuthentificationValidationErrorMessage(
+              context,
+              snapshot.error,
+            ),
             suffixIcon: GestureDetector(
               onTap: () {
                 setState(() {
@@ -181,7 +185,11 @@ class _ResetPassword extends StatelessWidget {
                       .l10n
                       .changePasswordResetCurrentPasswordEmailSentConfirmation;
             } on Exception catch (e, s) {
-              message = handleErrorMessage(e.toString(), s);
+              message = handleErrorMessage(
+                l10n: context.l10n,
+                error: e,
+                stackTrace: s,
+              );
             } finally {
               showSnackSec(context: context, text: message);
             }

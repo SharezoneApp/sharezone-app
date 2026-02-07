@@ -26,6 +26,8 @@ import 'package:sharezone/feedback/history/feedback_history_page.dart';
 import 'package:sharezone/filesharing/file_sharing_page.dart';
 import 'package:sharezone/grades/pages/create_term_page/create_term_page.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
+import 'package:sharezone/grades/pages/grades_settings_page/grades_settings_page.dart';
+import 'package:sharezone/grades/pages/subjects_page/subjects_page.dart';
 import 'package:sharezone/groups/group_join/bloc/group_join_function.dart';
 import 'package:sharezone/groups/src/pages/course/create/pages/course_template_page.dart';
 import 'package:sharezone/groups/src/pages/course/group_help.dart';
@@ -208,6 +210,8 @@ class _SharezoneAppState extends State<SharezoneApp>
                 ICalLinksPage.tag: (context) => const ICalLinksPage(),
                 ICalLinksDialog.tag: (context) => const ICalLinksDialog(),
                 CreateTermPage.tag: (context) => const CreateTermPage(),
+                GradesSettingsPage.tag: (context) => const GradesSettingsPage(),
+                SubjectsPage.tag: (context) => const SubjectsPage(),
                 GradesDialog.tag: (context) {
                   if (ModalRoute.of(context)!.settings.arguments case {
                     'gradeId': String id,

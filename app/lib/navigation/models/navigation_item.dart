@@ -192,7 +192,7 @@ extension NavigationItemExtension on NavigationItem {
       case NavigationItem.homework:
         return const HomeworkPage();
       case NavigationItem.timetable:
-        return TimetablePage();
+        return const TimetablePage();
       case NavigationItem.blackboard:
         return const BlackboardPage();
       case NavigationItem.grades:

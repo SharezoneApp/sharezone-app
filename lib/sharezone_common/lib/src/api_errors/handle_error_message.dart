@@ -10,96 +10,131 @@ part of 'api_errors.dart';
 
 /// [s]: StrackTrace wird ebenfalls übergeben, damit bei einem unbekannten
 /// Fehler dieser direkt mit dem StackTrace gemeldet werde kann.
-String? handleErrorMessage(String? error, StackTrace s) {
-  if (error != null) {
-    if (error == IncorrectDataException().toString()) {
-      return "Bitte gib die Daten korrekt an!";
-    } else if (error == "EmailIsMissingException") {
-      return "Bitte gib deine E-Mail an.";
-    } else if (error == "PasswordIsMissingException") {
-      return "Bitte gib dein Passwort an.";
-    } else if (error == "NoGoogleSignAccountSelected") {
-      return "Bitte wähle einen Account aus.";
-    } else if (error == "NoInternetAccess") {
-      return "Dein Gerät hat leider keinen Zugang zum Internet...";
-    } else if (error == "NewPasswordIsMissingException") {
-      return "Oh, du hast vergessen dein neues Passwort einzugeben 😬";
-    } else if (error.contains("wrong-password")) {
-      return "Das eingegebene Passwort ist falsch.";
-    } else if (error == "SubjectIsMissingException") {
-      return course_validators.CourseValidators.emptySubjectUserMessage;
-    } else if (error == "InvalidTitleException") {
-      return blackboard_validators.BlackboardValidators.emptyTitleUserMessage;
-    } else if (error == "InvalidCourseException") {
-      return blackboard_validators.BlackboardValidators.emptyCourseUserMessage;
-    } else if (error == "InvalidStartTimeException") {
-      return "Bitte gibt eine Startzeit an!";
-    } else if (error == MissingReportInformation().toString()) {
-      return MissingReportInformation().toString();
-      // } else if (error == MissingFiles().toString()) {
-      //   return MissingFiles().toString();
-    } else if (error == NameIsMissingException().toString()) {
-      return NameIsMissingException().toString();
-    } else if (error == EmptyNameException().toString()) {
-      return EmptyNameException().toString();
-    } else if (error == SameNameAsBefore().toString()) {
-      return SameNameAsBefore().toString();
-    } else if (error == InvalidInputException().toString()) {
-      return InvalidInputException().toString();
-    } else if (error == SameNameException().toString()) {
-      return SameNameException().toString();
-    } else if (error == IncorrectPeriods().toString()) {
-      return IncorrectPeriods().toString();
-    } else if (error == "InvalidEndTimeException") {
-      return "Bitte gibt eine Endzeit an!";
-    } else if (error == EndTimeIsBeforeStartTimeException().toString()) {
-      return "Die Endzeit der Stunde ist vor der Startzeit!";
-    } else if (error ==
-        StartTimeIsBeforeStartTimeOfNextLessonException().toString()) {
-      return "Die Startzeit ist vor der Startzeit der nächsten Stunde!";
-    } else if (error == StartTimeEndTimeIsEqualException().toString()) {
-      return "Die Startzeit und die Endzeit darf nicht gleich sein!";
-    } else if (error ==
-        StartTimeIsBeforeEndTimeOfPreviousLessonException().toString()) {
-      return "Die Startzeit ist vor der Endzeit der vorherigen Stunde!";
-    } else if (error ==
-        EndTimeIsBeforeStartTimeOfNextLessonException().toString()) {
-      return "Die Endzeit ist vor der Startzeit der nächsten Stunde!";
-    } else if (error ==
-        EndTimeIsBeforeEndTimeOfPreviousLessonException().toString()) {
-      return "Die Endzeit ist vor der Endzeit der vorherigen Stunde!";
-    } else if (error == "InvalidWeekDayException") {
-      return "Bitte gib einen Wochentag an!";
-    } else if (error == "InvalidDateException") {
-      return "Bitte gib ein Datum an!";
-    } else if (error == "InvalidTitleSubject") {
-      return "Bitte gib einen Titel an!";
-    } else if (error.contains("invalid-email")) {
-      return "Die E-Mail hat ein ungültiges Format.";
-    } else if (error.contains("email-already-in-use")) {
-      return "Diese E-Mail Adresse wird bereits von einem anderen Nutzer verwendet.";
-    } else if (error.contains("user-disabled")) {
-      return "Dieser Account wurde von einem Administrator deaktiviert";
-    } else if (error.contains("too-many-requests")) {
-      return "Wir haben alle Anfragen von diesem Gerät aufgrund ungewöhnlicher Aktivitäten blockiert. Versuchen Sie es später noch einmal.";
-    } else if (error.contains("user-not-found")) {
-      return "Es wurde kein Nutzer mit dieser E-Mail Adresse gefunden... Inaktive Nutzer werden nach 2 Jahren gelöscht.";
-    } else if (error.contains("network-request-failed")) {
-      return "Es gab einen Netzwerkfehler, weil keine stabile Internetverbindung besteht.";
-    } else if (error.contains("weak-password")) {
-      return "Dieses Passwort ist zu schwach. Bitte wähle eine stärkeres Passwort.";
-    } else if (error.contains(
-      "sign_in_failed, com.google.GlDSignIn, keychain error",
-    )) {
-      // See https://github.com/SharezoneApp/sharezone-app/issues/1724
-      return "Es gab einen Fehler beim Anmelden. Um diesen zu beheben, wähle die Option 'Immer erlauben' bei der Passworteingabe bei dem Dialog für den macOS-Schlüsselbund (Keychain) aus.";
-    }
+String? handleErrorMessage({
+  required SharezoneLocalizations l10n,
+  required Object? error,
+  required StackTrace stackTrace,
+}) {
+  if (error == null) return null;
 
-    recordError(error, s);
-    return "Es ist ein unbekannter Fehler ($error) aufgetreten! Bitte kontaktiere den Support.";
+  if (error is TextValidationException && error.message != null) {
+    return error.message;
   }
-  return null;
+
+  final errorString = error.toString();
+
+  if (error is IncorrectDataException ||
+      errorString == IncorrectDataException().toString()) {
+    return l10n.commonErrorIncorrectData;
+  } else if (error is EmailIsMissingException ||
+      errorString == EmailIsMissingException().toString()) {
+    return l10n.commonErrorEmailMissing;
+  } else if (error is PasswordIsMissingException ||
+      errorString == PasswordIsMissingException().toString()) {
+    return l10n.commonErrorPasswordMissing;
+  } else if (error is NoGoogleSignAccountSelected ||
+      errorString == NoGoogleSignAccountSelected().toString()) {
+    return l10n.commonErrorNoGoogleAccountSelected;
+  } else if (error is NoInternetAccess ||
+      errorString == NoInternetAccess().toString()) {
+    return l10n.commonErrorNoInternetAccess;
+  } else if (errorString == "NewPasswordIsMissingException") {
+    return l10n.commonErrorNewPasswordMissing;
+  } else if (errorString.contains("wrong-password")) {
+    return l10n.commonErrorWrongPassword;
+  } else if (error is SubjectIsMissingException ||
+      errorString == SubjectIsMissingException().toString()) {
+    return l10n.commonErrorCourseSubjectMissing;
+  } else if (error is InvalidTitleException ||
+      errorString == InvalidTitleException().toString()) {
+    return l10n.blackboardErrorTitleMissing;
+  } else if (error is InvalidCourseException ||
+      errorString == InvalidCourseException().toString()) {
+    return l10n.blackboardErrorCourseMissing;
+  } else if (error is InvalidStartTimeException ||
+      errorString == InvalidStartTimeException().toString()) {
+    return l10n.timetableErrorStartTimeMissing;
+  } else if (error is MissingReportInformation ||
+      errorString == MissingReportInformation.code) {
+    return l10n.reportMissingInformation;
+  } else if (error is NameIsMissingException ||
+      errorString == NameIsMissingException.code) {
+    return l10n.commonErrorNameTooShort;
+  } else if (error is EmptyNameException ||
+      errorString == EmptyNameException.code) {
+    return l10n.commonErrorNameMissing;
+  } else if (error is SameNameAsBefore ||
+      errorString == SameNameAsBefore.code) {
+    return l10n.commonErrorSameNameAsBefore;
+  } else if (error is InvalidInputException ||
+      errorString == InvalidInputException.code) {
+    return l10n.commonErrorInvalidInput;
+  } else if (error is SameNameException ||
+      errorString == SameNameException.code) {
+    return l10n.commonErrorNameUnchanged;
+  } else if (error is IncorrectPeriods ||
+      errorString == IncorrectPeriods.code) {
+    return l10n.timetableErrorInvalidPeriodsOverlap;
+  } else if (error is InvalidEndTimeException ||
+      errorString == InvalidEndTimeException().toString()) {
+    return l10n.timetableErrorEndTimeMissing;
+  } else if (error is EndTimeIsBeforeStartTimeException ||
+      errorString == EndTimeIsBeforeStartTimeException().toString()) {
+    return l10n.timetableErrorEndTimeBeforeStartTime;
+  } else if (error is StartTimeIsBeforeStartTimeOfNextLessonException ||
+      errorString ==
+          StartTimeIsBeforeStartTimeOfNextLessonException().toString()) {
+    return l10n.timetableErrorStartTimeBeforeNextLessonStart;
+  } else if (error is StartTimeEndTimeIsEqualException ||
+      errorString == StartTimeEndTimeIsEqualException().toString()) {
+    return l10n.timetableErrorStartTimeEqualsEndTime;
+  } else if (error is StartTimeIsBeforeEndTimeOfPreviousLessonException ||
+      errorString ==
+          StartTimeIsBeforeEndTimeOfPreviousLessonException().toString()) {
+    return l10n.timetableErrorStartTimeBeforePreviousLessonEnd;
+  } else if (error is EndTimeIsBeforeStartTimeOfNextLessonException ||
+      errorString ==
+          EndTimeIsBeforeStartTimeOfNextLessonException().toString()) {
+    return l10n.timetableErrorEndTimeBeforeNextLessonStart;
+  } else if (error is EndTimeIsBeforeEndTimeOfPreviousLessonException ||
+      errorString ==
+          EndTimeIsBeforeEndTimeOfPreviousLessonException().toString()) {
+    return l10n.timetableErrorEndTimeBeforePreviousLessonEnd;
+  } else if (error is InvalidWeekDayException ||
+      errorString == InvalidWeekDayException().toString()) {
+    return l10n.timetableErrorWeekdayMissing;
+  } else if (error is InvalidDateException ||
+      errorString == InvalidDateException().toString()) {
+    return l10n.commonErrorDateMissing;
+  } else if (errorString == "InvalidTitleSubject") {
+    return l10n.commonErrorTitleMissing;
+  } else if (errorString.contains("invalid-email")) {
+    return l10n.commonErrorEmailInvalidFormat;
+  } else if (errorString.contains("email-already-in-use")) {
+    return l10n.commonErrorEmailAlreadyInUse;
+  } else if (errorString.contains("user-disabled")) {
+    return l10n.commonErrorUserDisabled;
+  } else if (errorString.contains("too-many-requests")) {
+    return l10n.commonErrorTooManyRequests;
+  } else if (errorString.contains("user-not-found")) {
+    return l10n.commonErrorUserNotFound;
+  } else if (errorString.contains("network-request-failed")) {
+    return l10n.commonErrorNetworkRequestFailed;
+  } else if (errorString.contains("weak-password")) {
+    return l10n.commonErrorWeakPassword;
+  } else if (errorString.contains(
+    "sign_in_failed, com.google.GlDSignIn, keychain error",
+  )) {
+    // See https://github.com/SharezoneApp/sharezone-app/issues/1724
+    return l10n.commonErrorKeychainSignInFailed;
+  } else if (error is IncorrectSharecode ||
+      errorString == IncorrectSharecode.code) {
+    return l10n.commonErrorIncorrectSharecode;
+  }
+
+  recordError(error, stackTrace);
+  return l10n.commonErrorUnknown(errorString);
 }
 
-void recordError(String e, StackTrace s) =>
-    getCrashAnalytics().recordError(e, s);
+void recordError(Object e, StackTrace s) =>
+    getCrashAnalytics().recordError(e.toString(), s);

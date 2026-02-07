@@ -97,9 +97,9 @@ class _TableOfContentsTestController {
 
 class MockCurrentlyReadingController implements CurrentlyReadingController {
   @override
-  final ValueNotifier<DocumentSectionId?> currentlyReadDocumentSectionOrNull;
+  final ValueNotifier<DocumentSectionId?> currentlyReadDocumentSection;
 
-  MockCurrentlyReadingController(this.currentlyReadDocumentSectionOrNull);
+  MockCurrentlyReadingController(this.currentlyReadDocumentSection);
 }
 
 class _TocState extends Equatable {

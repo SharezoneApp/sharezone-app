@@ -225,7 +225,7 @@ class _TypeOfUserTileNew extends StatelessWidget {
         return ListTile(
           leading: SvgPicture.asset(iconSvgPath, width: 45, height: 45),
           title: Text(
-            typeOfUser.toReadableString(),
+            typeOfUser.toLocalizedString(context),
             textAlign: TextAlign.center,
           ),
         );
@@ -236,7 +236,7 @@ class _TypeOfUserTileNew extends StatelessWidget {
           SvgPicture.asset(iconSvgPath, width: 60, height: 60),
           const SizedBox(height: 8),
           Text(
-            typeOfUser.toReadableString(),
+            typeOfUser.toLocalizedString(context),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 16),
           ),

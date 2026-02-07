@@ -31,7 +31,7 @@ class TeacherAndParentOpenHomeworkList extends StatelessWidget {
         children: [
           for (final section in homeworkListView.sections)
             HomeworkListSection(
-              title: section.title,
+              title: homeworkSectionTitle(context, section),
               children: [
                 for (final hw in section.homeworks)
                   TeacherAndParentHomeworkTile(

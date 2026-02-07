@@ -58,7 +58,8 @@ PushNotificationActionHandler setupPushNotificationActionHandler({
   required ActionRequestExecutorFunc<ShowTimetableEventRequest>
   showTimetableEvent,
 
-  /// [errorOrNull] is non-null if [NotificationHandlerErrorReason] == [NotificationHandlerErrorReason.fatalParsingError]
+  /// [errorOrNull] is non-null if [NotificationHandlerErrorReason] ==
+  /// [NotificationHandlerErrorReason.fatalParsingError]
   required void Function(
     PushNotification,
     NotificationHandlerErrorReason,

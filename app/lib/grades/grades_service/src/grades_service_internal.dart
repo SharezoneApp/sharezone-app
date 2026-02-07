@@ -221,9 +221,9 @@ class _GradesServiceInternal {
   void deleteTerm(TermId id) {
     IList<TermModel> newTerms = _terms;
 
-    final termOrNull = newTerms.firstWhereOrNull((term) => term.id == id);
-    if (termOrNull != null) {
-      newTerms = _terms.remove(termOrNull);
+    final term = newTerms.firstWhereOrNull((term) => term.id == id);
+    if (term != null) {
+      newTerms = _terms.remove(term);
       _updateTerms(newTerms);
       return;
     }
@@ -567,6 +567,19 @@ class _GradesServiceInternal {
 
   Subject? getSubject(SubjectId id) {
     return getSubjects().firstWhereOrNull((subject) => subject.id == id);
+  }
+
+  void deleteSubject(SubjectId id) {
+    _getSubjectOrThrow(id);
+
+    final newSubjects = _subjects.removeWhere((subject) => subject.id == id);
+    final newTerms =
+        _terms
+            .map((term) => term.hasSubject(id) ? term.removeSubject(id) : term)
+            .toIList();
+
+    final newState = _state.copyWith(subjects: newSubjects, terms: newTerms);
+    _updateState(newState);
   }
 
   Subject _getSubjectOrThrow(SubjectId id) {

@@ -52,7 +52,7 @@ Future<void> submit(
   } on Exception catch (e, s) {
     if (!context.mounted) return;
     showSnackSec(
-      text: handleErrorMessage(e.toString(), s),
+      text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
       behavior: SnackBarBehavior.fixed,
       context: context,
     );

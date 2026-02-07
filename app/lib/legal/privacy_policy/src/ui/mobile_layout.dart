@@ -54,7 +54,7 @@ class MainContentMobile extends StatelessWidget {
                   horizontal: 20,
                 ),
                 child: PrivacyPolicySubheading(
-                  entersIntoForceOn: privacyPolicy.entersIntoForceOnOrNull,
+                  entersIntoForceOn: privacyPolicy.entersIntoForceOn,
                 ),
               ),
             const Divider(height: 0, thickness: .5),

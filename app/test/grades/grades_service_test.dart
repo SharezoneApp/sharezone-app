@@ -40,5 +40,99 @@ void main() {
         isNull,
       );
     });
+
+    test('deleteSubject removes subject and grades from all terms', () {
+      const term1Id = TermId('term-1');
+      const term2Id = TermId('term-2');
+      const subject1Id = SubjectId('subject-1');
+      const subjectDoNotDeleteId = SubjectId('subject-do-not-delete');
+      const grade1Id = GradeId('grade-1');
+      const grade2Id = GradeId('grade-2');
+      const grade3Id = GradeId('grade-3');
+
+      testController.addSubject(
+        subjectWith(id: subject1Id, name: 'Mathematik'),
+      );
+      testController.addSubject(
+        subjectWith(id: subjectDoNotDeleteId, name: 'Physik'),
+      );
+      testController.createTerm(termWith(id: term1Id));
+      testController.createTerm(termWith(id: term2Id));
+      testController.addGrade(
+        subjectId: subject1Id,
+        termId: term1Id,
+        value: gradeWith(id: grade1Id, title: 'Klausur 1'),
+      );
+      testController.addGrade(
+        subjectId: subject1Id,
+        termId: term2Id,
+        value: gradeWith(id: grade2Id, title: 'Klausur 2'),
+      );
+      testController.addGrade(
+        subjectId: subjectDoNotDeleteId,
+        termId: term1Id,
+        value: gradeWith(id: grade3Id, title: 'Klausur 3'),
+      );
+
+      expect(
+        testController.getSubjects().any((subject) => subject.id == subject1Id),
+        isTrue,
+      );
+
+      testController.deleteSubject(subject1Id);
+
+      expect(
+        testController.getSubjects().any((subject) => subject.id == subject1Id),
+        isFalse,
+      );
+
+      expect(testController.term(term1Id).subjects.map((s) => s.id), [
+        // Subject 'subject-do-not-delete' should not be deleted and should
+        // still be part of term 1
+        subjectDoNotDeleteId,
+      ]);
+      expect(testController.term(term2Id).subjects, isEmpty);
+      expect(
+        () => testController.grade(grade1Id).get(),
+        throwsA(isA<GradeNotFoundException>()),
+      );
+      expect(
+        () => testController.grade(grade2Id).get(),
+        throwsA(isA<GradeNotFoundException>()),
+      );
+      // Grade 3 should not be deleted because it's part of subject
+      // 'subject-do-not-delete'
+      expect(testController.grade(grade3Id).get(), isNotNull);
+    });
+
+    test('deleteSubject succeeds even if subject not part of any term', () {
+      const orphanSubjectId = SubjectId('subject-orphan');
+      testController.addSubject(
+        subjectWith(id: orphanSubjectId, name: 'Physik'),
+      );
+
+      expect(
+        testController.getSubjects().any(
+          (subject) => subject.id == orphanSubjectId,
+        ),
+        isTrue,
+      );
+
+      testController.deleteSubject(orphanSubjectId);
+
+      expect(
+        testController.getSubjects().any(
+          (subject) => subject.id == orphanSubjectId,
+        ),
+        isFalse,
+      );
+    });
+
+    test('deleteSubject throws if subject does not exist', () {
+      expect(
+        () => testController.deleteSubject(const SubjectId('unknown')),
+        throwsA(isA<SubjectNotFoundException>()),
+      );
+    });
   });
 }

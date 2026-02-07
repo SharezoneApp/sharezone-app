@@ -17,7 +17,7 @@ class UserView {
   final String name;
   final String? email;
   final String? state;
-  final String typeOfUser;
+  final TypeOfUser typeOfUser;
   final bool isAnonymous;
   final Provider provider;
 
@@ -37,7 +37,7 @@ class UserView {
       name = user.name,
       email = authUser.email,
       state = stateEnumToString[user.state],
-      typeOfUser = user.typeOfUser.toReadableString(),
+      typeOfUser = user.typeOfUser,
       isAnonymous = authUser.isAnonymous,
       provider = authUser.provider;
 
@@ -47,7 +47,7 @@ class UserView {
       user: AppUser.create(id: ""),
       email: "",
       name: "",
-      typeOfUser: "",
+      typeOfUser: TypeOfUser.student,
       isAnonymous: true,
       provider: Provider.anonymous,
       state: "",

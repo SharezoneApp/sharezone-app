@@ -23,7 +23,9 @@ import 'package:sharezone/onboarding/sign_up/sign_up_page.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import 'authentification_localization_mapper.dart';
 import 'email_and_password_link_page.dart';
 import 'login_button.dart';
 import 'reset_pw_page.dart';
@@ -39,7 +41,7 @@ Future<void> handleGoogleSignInSubmit(BuildContext context) async {
       showSnackSec(
         context: context,
         seconds: 4,
-        text: handleErrorMessage(e.toString(), s),
+        text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
       );
     }
   }
@@ -55,7 +57,7 @@ Future<void> handleAppleSignInSubmit(BuildContext context) async {
       showSnackSec(
         context: context,
         seconds: 4,
-        text: handleErrorMessage(e.toString(), s),
+        text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
       );
     }
   }
@@ -97,8 +99,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    final analytics = LoginAnalytics(Analytics(getBackend()));
-    bloc = LoginBloc(analytics);
+    bloc = LoginBloc(LoginAnalytics(context.read<Analytics>()));
     super.initState();
     showTipCardIfIsAvailable(context);
   }
@@ -196,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
       if (context.mounted) {
         setState(() => isLoading = false);
         showSnackSec(
-          text: handleErrorMessage(e.toString(), s),
+          text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
           context: context,
         );
       }
@@ -403,7 +404,10 @@ class EmailLoginField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'E-Mail',
             icon: const Icon(Icons.email),
-            errorText: snapshot.error?.toString(),
+            errorText: mapAuthentificationValidationErrorMessage(
+              context,
+              snapshot.error,
+            ),
             border: const OutlineInputBorder(),
           ),
         );
@@ -458,7 +462,10 @@ class _PasswordFieldState extends State<PasswordField> {
             decoration: InputDecoration(
               labelText: 'Passwort',
               icon: const Icon(Icons.vpn_key),
-              errorText: snapshot.error?.toString(),
+              errorText: mapAuthentificationValidationErrorMessage(
+                context,
+                snapshot.error,
+              ),
               border: const OutlineInputBorder(),
               suffixIcon: IconButton(
                 tooltip:

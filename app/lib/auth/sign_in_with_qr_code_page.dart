@@ -16,6 +16,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:crash_analytics/crash_analytics.dart';
 import 'package:flutter/material.dart' hide VerticalDivider;
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sharezone/groups/src/widgets/contact_support.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -39,7 +40,7 @@ class SignInWithQrCodePage extends StatelessWidget {
                   FirebaseFunctions.instanceFor(region: 'europe-west1'),
                 ),
               ),
-              loginAnalytics: LoginAnalytics(Analytics(getBackend())),
+              loginAnalytics: LoginAnalytics(context.read<Analytics>()),
               crashAnalytics: getCrashAnalytics(),
             ),
             child: _InnerSignInWithQrCodePage(),

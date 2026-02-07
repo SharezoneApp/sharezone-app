@@ -49,7 +49,7 @@ class MainContentNarrow extends StatelessWidget {
                             ),
                             child: PrivacyPolicySubheading(
                               entersIntoForceOn:
-                                  privacyPolicy.entersIntoForceOnOrNull,
+                                  privacyPolicy.entersIntoForceOn,
                             ),
                           ),
                         const SizedBox(height: 3),

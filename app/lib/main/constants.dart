@@ -7,11 +7,11 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 // Can be overridden for testing purposes.
-String? kDevelopmentStageOrNull =
-    kDevelopmentStage == "" ? null : kDevelopmentStage;
-const kDevelopmentStage = String.fromEnvironment('DEVELOPMENT_STAGE');
+String? kDevelopmentStage =
+    kDevelopmentStageRaw == "" ? null : kDevelopmentStageRaw;
+const kDevelopmentStageRaw = String.fromEnvironment('DEVELOPMENT_STAGE');
 
-const isBetaStage = kDevelopmentStage == 'BETA';
-const isAlphaStage = kDevelopmentStage == 'ALPHA';
-const isPreviewStage = kDevelopmentStage == 'PREVIEW';
-const isStableStage = kDevelopmentStage == 'STABLE';
+const isBetaStage = kDevelopmentStageRaw == 'BETA';
+const isAlphaStage = kDevelopmentStageRaw == 'ALPHA';
+const isPreviewStage = kDevelopmentStageRaw == 'PREVIEW';
+const isStableStage = kDevelopmentStageRaw == 'STABLE';

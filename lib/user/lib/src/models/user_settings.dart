@@ -18,12 +18,14 @@ final defaultTimetableStartTime = Time(hour: 7, minute: 30);
 const defaultPeriods = standardPeriods;
 const defaultEnabledWeekDays = EnabledWeekDays.standard;
 const defaultShowAbbreviation = true;
+const defaultOpenUpcomingWeekOnNonSchoolDays = true;
 
 class UserSettings {
   final Time timetableStartTime;
   final bool isABWeekEnabled;
   final bool isAWeekEvenWeek;
   final bool showAbbreviation;
+  final bool openUpcomingWeekOnNonSchoolDays;
   final Periods periods;
   final EnabledWeekDays enabledWeekDays;
 
@@ -33,6 +35,7 @@ class UserSettings {
     required this.timetableStartTime,
     required this.periods,
     required this.showAbbreviation,
+    required this.openUpcomingWeekOnNonSchoolDays,
     required this.enabledWeekDays,
   });
 
@@ -42,6 +45,7 @@ class UserSettings {
       isAWeekEvenWeek: defaultIsAWeekEvenWeek,
       timetableStartTime: defaultTimetableStartTime,
       showAbbreviation: defaultShowAbbreviation,
+      openUpcomingWeekOnNonSchoolDays: defaultOpenUpcomingWeekOnNonSchoolDays,
       periods: defaultPeriods,
       enabledWeekDays: defaultEnabledWeekDays,
     );
@@ -60,6 +64,9 @@ class UserSettings {
                 : defaultTimetableStartTime,
         periods: Periods.fromData(data['periods']),
         showAbbreviation: data['showAbbreviation'] ?? defaultShowAbbreviation,
+        openUpcomingWeekOnNonSchoolDays:
+            data['openUpcomingWeekOnNonSchoolDays'] ??
+            defaultOpenUpcomingWeekOnNonSchoolDays,
         enabledWeekDays: EnabledWeekDays.fromData(data['enabledWeekDays']),
       );
     }
@@ -72,6 +79,7 @@ class UserSettings {
       'timetableStartTime': timetableStartTime.time,
       'periods': periods.toJson(),
       'showAbbreviation': showAbbreviation,
+      'openUpcomingWeekOnNonSchoolDays': openUpcomingWeekOnNonSchoolDays,
       'enabledWeekDays': enabledWeekDays.toJson(),
     };
   }
@@ -80,6 +88,7 @@ class UserSettings {
     bool? isABWeekEnabled,
     bool? isAWeekEvenWeek,
     bool? showAbbreviation,
+    bool? openUpcomingWeekOnNonSchoolDays,
     Time? timetableStartTime,
     Periods? periods,
     EnabledWeekDays? enabledWeekDays,
@@ -90,6 +99,9 @@ class UserSettings {
       timetableStartTime: timetableStartTime ?? this.timetableStartTime,
       periods: periods ?? this.periods,
       showAbbreviation: showAbbreviation ?? this.showAbbreviation,
+      openUpcomingWeekOnNonSchoolDays:
+          openUpcomingWeekOnNonSchoolDays ??
+          this.openUpcomingWeekOnNonSchoolDays,
       enabledWeekDays: enabledWeekDays ?? this.enabledWeekDays,
     );
   }

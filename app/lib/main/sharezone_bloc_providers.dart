@@ -9,8 +9,6 @@
 import 'package:abgabe_client_lib/abgabe_client_lib.dart';
 import 'package:abgabe_http_api/api.dart';
 import 'package:analytics/analytics.dart';
-import 'package:analytics/null_analytics_backend.dart'
-    show NullAnalyticsBackend;
 import 'package:authentification_base/authentification.dart' as auth;
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -22,7 +20,6 @@ import 'package:dio/dio.dart';
 import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:filesharing_logic/file_uploader.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -30,7 +27,6 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
 import 'package:http/http.dart' as http;
-import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -72,13 +68,13 @@ import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_fa
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
+import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller_factory.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
 import 'package:sharezone/groups/src/pages/course/create/gateway/course_create_gateway.dart';
 import 'package:sharezone/homework/analytics/homework_analytics.dart';
 import 'package:sharezone/homework/homework_details/homework_details_view_factory.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/homework/student/src/mark_overdue_homework_prompt.dart';
 import 'package:sharezone/homework/teacher_and_parent/homework_done_by_users_list/homework_completion_user_list_bloc_factory.dart';
 import 'package:sharezone/ical_links/dialog/ical_links_dialog_controller_factory.dart';
@@ -126,7 +122,6 @@ import 'package:sharezone/timetable/timetable_page/lesson/substitution_controlle
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
-import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/firebase_auth_token_retreiver_impl.dart';
 import 'package:sharezone/util/navigation_service.dart';
@@ -172,13 +167,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
   void initState() {
     super.initState();
 
-    final analyticsBackend =
-        kDebugMode
-            ?
-            // LoggingAnalyticsBackend()
-            NullAnalyticsBackend()
-            : getBackend();
-    analytics = Analytics(analyticsBackend);
+    analytics = widget.blocDependencies.analytics;
 
     // Muss in die initState, weil ansonsten der Bloc die Daten resettet,
     // wenn das Handy gedreht wird und dadurch die build Methode dieses Widgets
@@ -266,7 +255,6 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
     final dependencies = HausaufgabenheftDependencies(
       api: homeworkApi,
       keyValueStore: widget.blocDependencies.keyValueStore,
-      localizations: context.l10n,
     );
     final homeworkPageBloc = createStudentHomeworkPageBloc(
       dependencies,
@@ -291,7 +279,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       SchoolClassFilterAnalytics(analytics),
     );
 
-    final markdownAnalytics = MarkdownAnalytics(Analytics(getBackend()));
+    final markdownAnalytics = MarkdownAnalytics(analytics);
 
     var abgabenGateway = FirestoreAbgabeGateway(
       firestore: firestore,
@@ -524,6 +512,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       ),
       Provider(
         create:
+            (context) => SubjectsPageControllerFactory(
+              gradesService: gradesService,
+              coursesStream: () => api.course.streamCourses(),
+            ),
+      ),
+      Provider(
+        create:
             (context) => SubstitutionController(
               gateway: api.timetable,
               analytics: analytics,
@@ -604,7 +599,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<AccountPageBlocFactory>(
-        bloc: AccountPageBlocFactory(api.user),
+        bloc: AccountPageBlocFactory(api.user, analytics),
       ),
       BlocProvider<BlackboardAnalytics>(bloc: BlackboardAnalytics(analytics)),
       BlocProvider<NavigationExperimentCache>(
@@ -722,7 +717,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           CommentsGateway(api.references.firestore),
           api.user.userStream,
           CommentViewFactory(courseGateway: api.course, uid: api.uID),
-          CommentsAnalytics(Analytics(getBackend())),
+          CommentsAnalytics(analytics),
         ),
       ),
       BlocProvider<HomeworkDetailsViewFactory>(
@@ -760,7 +755,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
             api.schoolClassGateway,
             api.connectionsGateway,
           ),
-          CourseCreateAnalytics(Analytics(getBackend())),
+          CourseCreateAnalytics(analytics),
         ),
       ),
     ];

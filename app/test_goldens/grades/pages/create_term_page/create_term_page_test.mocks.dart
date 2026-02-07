@@ -31,6 +31,7 @@ import 'package:sharezone/grades/models/term_id.dart' as _i6;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeBehaviorSubject_0<T> extends _i1.SmartFake
     implements _i2.BehaviorSubject<T> {
@@ -277,8 +278,8 @@ class MockGradesService extends _i1.Mock implements _i3.GradesService {
 /// See the documentation for Mockito's code generation for more information.
 class MockCrashAnalytics extends _i1.Mock implements _i9.CrashAnalytics {
   @override
-  set enableInDevMode(bool? _enableInDevMode) => super.noSuchMethod(
-    Invocation.setter(#enableInDevMode, _enableInDevMode),
+  set enableInDevMode(bool? value) => super.noSuchMethod(
+    Invocation.setter(#enableInDevMode, value),
     returnValueForMissingStub: null,
   );
 

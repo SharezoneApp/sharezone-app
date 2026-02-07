@@ -104,6 +104,40 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get appName => 'Sharezone';
 
   @override
+  String authAnonymousDisplayName(Object animalName) {
+    return 'Anonymous $animalName';
+  }
+
+  @override
+  String get authProviderAnonymous => 'Anonymous sign in';
+
+  @override
+  String get authProviderApple => 'Apple Sign In';
+
+  @override
+  String get authProviderEmailAndPassword => 'Email and password';
+
+  @override
+  String get authProviderGoogle => 'Google Sign In';
+
+  @override
+  String get authValidationInvalidEmail => 'Please enter a valid email';
+
+  @override
+  String get authValidationInvalidName => 'Invalid name';
+
+  @override
+  String get authValidationInvalidPasswordTooShort =>
+      'Invalid password, please enter more than 8 characters';
+
+  @override
+  String get blackboardErrorCourseMissing => 'Please select a course.';
+
+  @override
+  String get blackboardErrorTitleMissing =>
+      'Please enter a title for the entry.';
+
+  @override
   String get changeEmailAddressCurrentEmailTextfieldLabel => 'Current';
 
   @override
@@ -278,6 +312,100 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
+  String get commonErrorCourseSubjectMissing => 'Please enter a subject.';
+
+  @override
+  String get commonErrorCredentialAlreadyInUse =>
+      'An account with this sign-in method already exists!';
+
+  @override
+  String get commonErrorDateMissing => 'Please enter a date!';
+
+  @override
+  String get commonErrorEmailAlreadyInUse =>
+      'This email address is already used by another user.';
+
+  @override
+  String get commonErrorEmailInvalidFormat =>
+      'The email address has an invalid format.';
+
+  @override
+  String get commonErrorEmailMissing => 'Please enter your email.';
+
+  @override
+  String get commonErrorIncorrectData => 'Please enter the data correctly!';
+
+  @override
+  String get commonErrorIncorrectSharecode => 'Invalid share code!';
+
+  @override
+  String get commonErrorInvalidInput => 'Please check your input!';
+
+  @override
+  String get commonErrorKeychainSignInFailed =>
+      'There was an error signing in. To fix this, choose \'Always Allow\' in the macOS Keychain password dialog.';
+
+  @override
+  String get commonErrorNameMissing => 'Please enter a name!';
+
+  @override
+  String get commonErrorNameTooShort =>
+      'Please enter a name with more than one character.';
+
+  @override
+  String get commonErrorNameUnchanged => 'That\'s the same name as before 😅';
+
+  @override
+  String get commonErrorNetworkRequestFailed =>
+      'A network error occurred because there is no stable internet connection.';
+
+  @override
+  String get commonErrorNewPasswordMissing =>
+      'Oops, you forgot to enter your new password 😬';
+
+  @override
+  String get commonErrorNoGoogleAccountSelected => 'Please select an account.';
+
+  @override
+  String get commonErrorNoInternetAccess =>
+      'Your device has no internet access...';
+
+  @override
+  String get commonErrorPasswordMissing => 'Please enter your password.';
+
+  @override
+  String get commonErrorSameNameAsBefore =>
+      'That\'s the same name as before 🙈';
+
+  @override
+  String get commonErrorTitleMissing => 'Please enter a title!';
+
+  @override
+  String get commonErrorTooManyRequests =>
+      'We have blocked requests from this device due to unusual activity. Please try again later.';
+
+  @override
+  String commonErrorUnknown(Object error) {
+    return 'An unknown error occurred ($error)! Please contact support.';
+  }
+
+  @override
+  String get commonErrorUserDisabled =>
+      'This account has been disabled by an administrator.';
+
+  @override
+  String get commonErrorUserNotFound =>
+      'No user was found with this email address... Inactive users are deleted after 2 years.';
+
+  @override
+  String get commonErrorWeakPassword =>
+      'This password is too weak. Please choose a stronger password.';
+
+  @override
+  String get commonErrorWrongPassword =>
+      'The password you entered is incorrect.';
+
+  @override
   String get commonLoadingPleaseWait => 'Please wait...';
 
   @override
@@ -378,12 +506,7 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get feedbackSendTooltip => 'Send (Enter)';
 
   @override
-  String homeworkDueDateWithTime(String date, String time) {
-    return '$date - $time';
-  }
-
-  @override
-  String get homeworkSectionInTwoDays => 'In two days';
+  String get homeworkSectionDayAfterTomorrow => 'Day after tomorrow';
 
   @override
   String get homeworkSectionLater => 'Later';
@@ -398,18 +521,8 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get homeworkSectionTomorrow => 'Tomorrow';
 
   @override
-  String homeworkStudentDueDate(
-    String day,
-    String month,
-    String weekday,
-    String year,
-  ) {
-    return '$weekday, $month $day, $year';
-  }
-
-  @override
-  String homeworkTeacherDueDate(String day, String month, String year) {
-    return '$month $day, $year';
+  String homeworkTodoDateTime(String date, String time) {
+    return '$date - $time';
   }
 
   @override
@@ -426,6 +539,35 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get languageTitle => 'Language';
+
+  @override
+  String get launchMarkdownLinkWithWarningActualLink => 'Tatsächliche Adresse';
+
+  @override
+  String get launchMarkdownLinkWithWarningCouldNotOpenLink =>
+      'Der Link konnte nicht geöffnet werden!';
+
+  @override
+  String get launchMarkdownLinkWithWarningDialogTitle => 'Link überprüfen';
+
+  @override
+  String get launchMarkdownLinkWithWarningDisplayedText => 'Angezeigter Text';
+
+  @override
+  String get launchMarkdownLinkWithWarningDoNotAskAgain =>
+      'Beim nächsten Mal nicht mehr nachfragen.';
+
+  @override
+  String get launchMarkdownLinkWithWarningLinkTextDoesNotMatch =>
+      'Der Link-Text stimmt nicht mit der tatsächlichen Adresse überein.';
+
+  @override
+  String get launchMarkdownLinkWithWarningOpenLink => 'Link öffnen';
+
+  @override
+  String launchMarkdownLinkWithWarningTrustDomain(String domain) {
+    return 'Domain $domain vertrauen';
+  }
 
   @override
   String get legalChangeAppearance => 'Change appearance';
@@ -1448,6 +1590,43 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get themeTitle => 'Appearance';
 
   @override
+  String get timetableErrorEndTimeBeforeNextLessonStart =>
+      'The end time is before the start time of the next lesson!';
+
+  @override
+  String get timetableErrorEndTimeBeforePreviousLessonEnd =>
+      'The end time is before the end time of the previous lesson!';
+
+  @override
+  String get timetableErrorEndTimeBeforeStartTime =>
+      'The lesson\'s end time is before the start time!';
+
+  @override
+  String get timetableErrorEndTimeMissing => 'Please enter an end time!';
+
+  @override
+  String get timetableErrorInvalidPeriodsOverlap =>
+      'Please enter valid times. Lessons must not overlap!';
+
+  @override
+  String get timetableErrorStartTimeBeforeNextLessonStart =>
+      'The start time is before the start time of the next lesson!';
+
+  @override
+  String get timetableErrorStartTimeBeforePreviousLessonEnd =>
+      'The start time is before the end time of the previous lesson!';
+
+  @override
+  String get timetableErrorStartTimeEqualsEndTime =>
+      'Start time and end time must not be the same!';
+
+  @override
+  String get timetableErrorStartTimeMissing => 'Please enter a start time!';
+
+  @override
+  String get timetableErrorWeekdayMissing => 'Please select a weekday!';
+
+  @override
   String get timetableSettingsABWeekTileTitle => 'A/B Weeks';
 
   @override
@@ -1493,6 +1672,14 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   }
 
   @override
+  String get timetableSettingsOpenUpcomingWeekOnNonSchoolDaysSubtitle =>
+      'If there are no enabled weekdays left in the current week, the timetable opens the next week.';
+
+  @override
+  String get timetableSettingsOpenUpcomingWeekOnNonSchoolDaysTitle =>
+      'Open upcoming week on non-school days';
+
+  @override
   String get timetableSettingsPeriodsFieldTileSubtitle =>
       'Timetable start, lesson length, etc.';
 
@@ -1514,6 +1701,18 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get timetableSettingsTitle => 'Timetable';
+
+  @override
+  String get typeOfUserParent => 'Parent';
+
+  @override
+  String get typeOfUserStudent => 'Student';
+
+  @override
+  String get typeOfUserTeacher => 'Teacher';
+
+  @override
+  String get typeOfUserUnknown => 'Unknown';
 
   @override
   String get useAccountInstructionsAppBarTitle => 'Instructions';

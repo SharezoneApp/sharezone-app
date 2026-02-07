@@ -15,6 +15,7 @@ import 'package:feedback_shared_implementation/src/pages/feedback_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -511,7 +512,18 @@ class _ChatBubble extends StatelessWidget {
                       ? CrossAxisAlignment.end
                       : CrossAxisAlignment.start,
               children: [
-                MarkdownBody(data: text, selectable: true, softLineBreak: true),
+                MarkdownBody(
+                  data: text,
+                  selectable: true,
+                  softLineBreak: true,
+                  onTapLink:
+                      (text, href, _) => launchMarkdownLinkWithWarning(
+                        href: href ?? text,
+                        text: text,
+                        keyValueStore: context.read<KeyValueStore>(),
+                        context: context,
+                      ),
+                ),
                 const SizedBox(height: 4),
                 Text(
                   sentAt,

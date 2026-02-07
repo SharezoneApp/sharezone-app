@@ -11,7 +11,6 @@ import 'package:hausaufgabenheft_logik/src/shared/sort_and_subcategorizer.dart';
 import 'package:hausaufgabenheft_logik/src/shared/setup/config.dart';
 import 'package:hausaufgabenheft_logik/src/shared/setup/dependencies.dart';
 import 'package:hausaufgabenheft_logik/src/shared/homework_sorting_cache.dart';
-
 import '../../hausaufgabenheft_logik_lehrer.dart';
 import '../shared/models/date.dart';
 
@@ -22,16 +21,13 @@ TeacherAndParentHomeworkPageBloc createTeacherAndParentHomeworkPageBloc(
   final getCurrentDateTime =
       dependencies.getCurrentDateTime ?? () => clock.now();
   getCurrentDate() => Date.fromDateTime(getCurrentDateTime());
-  final l10n = dependencies.localizations;
 
   final viewFactory = TeacherAndParentHomeworkViewFactory(
     defaultColorValue: config.defaultCourseColorValue,
-    l10n: l10n,
   );
   final sortAndSubcategorizer =
       HomeworkSortAndSubcategorizer<TeacherHomeworkReadModel>(
         getCurrentDate: getCurrentDate,
-        l10n: l10n,
       );
   final openHomeworkListViewFactory =
       TeacherAndParentOpenHomeworkListViewFactory(
