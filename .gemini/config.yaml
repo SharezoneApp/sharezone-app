@@ -19,6 +19,7 @@ ignore_patterns:
   - "*.g.dart"
   - "*.gen.dart"
   - "*.mocks.dart"
+  - "GeneratedPluginRegistrant.swift"
   # Dependencies
   - "pubspec.lock"
   - "*.lock"
