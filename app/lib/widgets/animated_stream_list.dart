@@ -58,7 +58,6 @@ class SharezoneAnimatedStreamList<E> extends StatelessWidget {
 
         final list = listSnap.data;
 
-        // If you prefer "loading" instead of empty while waiting for first data:
         if (list == null) return emptyListWidget;
 
         return StreamBuilder<bool>(
