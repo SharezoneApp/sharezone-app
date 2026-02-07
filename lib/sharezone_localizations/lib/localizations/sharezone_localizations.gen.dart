@@ -259,6 +259,66 @@ abstract class SharezoneLocalizations {
   /// **'Sharezone'**
   String get appName;
 
+  /// Display name template for users without a chosen name.
+  ///
+  /// In de, this message translates to:
+  /// **'Anonymer {animalName}'**
+  String authAnonymousDisplayName(Object animalName);
+
+  /// No description provided for @authProviderAnonymous.
+  ///
+  /// In de, this message translates to:
+  /// **'Anonyme Anmeldung'**
+  String get authProviderAnonymous;
+
+  /// No description provided for @authProviderApple.
+  ///
+  /// In de, this message translates to:
+  /// **'Apple Sign In'**
+  String get authProviderApple;
+
+  /// No description provided for @authProviderEmailAndPassword.
+  ///
+  /// In de, this message translates to:
+  /// **'E-Mail und Passwort'**
+  String get authProviderEmailAndPassword;
+
+  /// No description provided for @authProviderGoogle.
+  ///
+  /// In de, this message translates to:
+  /// **'Google Sign In'**
+  String get authProviderGoogle;
+
+  /// No description provided for @authValidationInvalidEmail.
+  ///
+  /// In de, this message translates to:
+  /// **'Gib eine gueltige E-Mail ein'**
+  String get authValidationInvalidEmail;
+
+  /// No description provided for @authValidationInvalidName.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungueltiger Name'**
+  String get authValidationInvalidName;
+
+  /// No description provided for @authValidationInvalidPasswordTooShort.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungueltiges Passwort, bitte gib mehr als 8 Zeichen ein'**
+  String get authValidationInvalidPasswordTooShort;
+
+  /// Error message shown when a blackboard entry is missing a course.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Kurs an!'**
+  String get blackboardErrorCourseMissing;
+
+  /// Error message shown when a blackboard entry title is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Titel für den Eintrag an!'**
+  String get blackboardErrorTitleMissing;
+
   /// The label for the text field which is used for the current email address
   ///
   /// In de, this message translates to:
@@ -549,6 +609,162 @@ abstract class SharezoneLocalizations {
   /// **'Fehler: {error}'**
   String commonDisplayError(String? error);
 
+  /// Error message shown when the course subject is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib ein Fach an!'**
+  String get commonErrorCourseSubjectMissing;
+
+  /// Error message shown when the credential is already in use.
+  ///
+  /// In de, this message translates to:
+  /// **'Es existiert bereits ein Nutzer mit dieser Anmeldemethode!'**
+  String get commonErrorCredentialAlreadyInUse;
+
+  /// Error message shown when a date is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib ein Datum an!'**
+  String get commonErrorDateMissing;
+
+  /// Error message shown when an email is already in use.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese E-Mail Adresse wird bereits von einem anderen Nutzer verwendet.'**
+  String get commonErrorEmailAlreadyInUse;
+
+  /// Error message shown when an email has an invalid format.
+  ///
+  /// In de, this message translates to:
+  /// **'Die E-Mail hat ein ungültiges Format.'**
+  String get commonErrorEmailInvalidFormat;
+
+  /// Error message shown when the email field is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib deine E-Mail an.'**
+  String get commonErrorEmailMissing;
+
+  /// Error message shown when provided data is invalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib die Daten korrekt an!'**
+  String get commonErrorIncorrectData;
+
+  /// Error message shown when a share code is invalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungültiger Sharecode!'**
+  String get commonErrorIncorrectSharecode;
+
+  /// Generic error message shown when the user input is invalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte überprüfe deine Eingabe!'**
+  String get commonErrorInvalidInput;
+
+  /// Error message shown when macOS Keychain sign-in fails.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gab einen Fehler beim Anmelden. Um diesen zu beheben, wähle die Option \'Immer erlauben\' bei der Passworteingabe bei dem Dialog für den macOS-Schlüsselbund (Keychain) aus.'**
+  String get commonErrorKeychainSignInFailed;
+
+  /// Error message shown when a name is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Namen an!'**
+  String get commonErrorNameMissing;
+
+  /// Error message shown when a name is too short.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Namen an, der mehr als ein Zeichen hat.'**
+  String get commonErrorNameTooShort;
+
+  /// Error message shown when the name has not changed.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Name ist doch der gleiche wie vorher 😅'**
+  String get commonErrorNameUnchanged;
+
+  /// Error message shown when a network request failed.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gab einen Netzwerkfehler, weil keine stabile Internetverbindung besteht.'**
+  String get commonErrorNetworkRequestFailed;
+
+  /// Error message shown when the new password field is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Oh, du hast vergessen dein neues Passwort einzugeben 😬'**
+  String get commonErrorNewPasswordMissing;
+
+  /// Error message shown when no Google account was selected.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte wähle einen Account aus.'**
+  String get commonErrorNoGoogleAccountSelected;
+
+  /// Error message shown when there is no internet connection.
+  ///
+  /// In de, this message translates to:
+  /// **'Dein Gerät hat leider keinen Zugang zum Internet...'**
+  String get commonErrorNoInternetAccess;
+
+  /// Error message shown when the password field is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib dein Passwort an.'**
+  String get commonErrorPasswordMissing;
+
+  /// Error message shown when the entered name matches the previous one.
+  ///
+  /// In de, this message translates to:
+  /// **'Das ist doch der selbe Name wie vorher 🙈'**
+  String get commonErrorSameNameAsBefore;
+
+  /// Error message shown when a title is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Titel an!'**
+  String get commonErrorTitleMissing;
+
+  /// Error message shown when too many requests were made.
+  ///
+  /// In de, this message translates to:
+  /// **'Wir haben alle Anfragen von diesem Gerät aufgrund ungewöhnlicher Aktivitäten blockiert. Versuchen Sie es später noch einmal.'**
+  String get commonErrorTooManyRequests;
+
+  /// Fallback error message for unknown errors.
+  ///
+  /// In de, this message translates to:
+  /// **'Es ist ein unbekannter Fehler ({error}) aufgetreten! Bitte kontaktiere den Support.'**
+  String commonErrorUnknown(Object error);
+
+  /// Error message shown when the account is disabled.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieser Account wurde von einem Administrator deaktiviert'**
+  String get commonErrorUserDisabled;
+
+  /// Error message shown when no user is found for the email address.
+  ///
+  /// In de, this message translates to:
+  /// **'Es wurde kein Nutzer mit dieser E-Mail Adresse gefunden... Inaktive Nutzer werden nach 2 Jahren gelöscht.'**
+  String get commonErrorUserNotFound;
+
+  /// Error message shown when the password is too weak.
+  ///
+  /// In de, this message translates to:
+  /// **'Dieses Passwort ist zu schwach. Bitte wähle eine stärkeres Passwort.'**
+  String get commonErrorWeakPassword;
+
+  /// Error message shown when the entered password is incorrect.
+  ///
+  /// In de, this message translates to:
+  /// **'Das eingegebene Passwort ist falsch.'**
+  String get commonErrorWrongPassword;
+
   /// No description provided for @commonLoadingPleaseWait.
   ///
   /// In de, this message translates to:
@@ -741,17 +957,11 @@ abstract class SharezoneLocalizations {
   /// **'Senden (Enter)'**
   String get feedbackSendTooltip;
 
-  /// No description provided for @homeworkDueDateWithTime.
-  ///
-  /// In de, this message translates to:
-  /// **'{date} - {time} Uhr'**
-  String homeworkDueDateWithTime(String date, String time);
-
-  /// No description provided for @homeworkSectionInTwoDays.
+  /// No description provided for @homeworkSectionDayAfterTomorrow.
   ///
   /// In de, this message translates to:
   /// **'Übermorgen'**
-  String get homeworkSectionInTwoDays;
+  String get homeworkSectionDayAfterTomorrow;
 
   /// No description provided for @homeworkSectionLater.
   ///
@@ -777,22 +987,11 @@ abstract class SharezoneLocalizations {
   /// **'Morgen'**
   String get homeworkSectionTomorrow;
 
-  /// No description provided for @homeworkStudentDueDate.
+  /// No description provided for @homeworkTodoDateTime.
   ///
   /// In de, this message translates to:
-  /// **'{weekday}, {day}. {month} {year}'**
-  String homeworkStudentDueDate(
-    String day,
-    String month,
-    String weekday,
-    String year,
-  );
-
-  /// No description provided for @homeworkTeacherDueDate.
-  ///
-  /// In de, this message translates to:
-  /// **'{day}. {month} {year}'**
-  String homeworkTeacherDueDate(String day, String month, String year);
+  /// **'{date} - {time} Uhr'**
+  String homeworkTodoDateTime(String date, String time);
 
   /// No description provided for @imprintTitle.
   ///
@@ -823,6 +1022,54 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Sprache'**
   String get languageTitle;
+
+  /// No description provided for @launchMarkdownLinkWithWarningActualLink.
+  ///
+  /// In de, this message translates to:
+  /// **'Tatsächliche Adresse'**
+  String get launchMarkdownLinkWithWarningActualLink;
+
+  /// No description provided for @launchMarkdownLinkWithWarningCouldNotOpenLink.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Link konnte nicht geöffnet werden!'**
+  String get launchMarkdownLinkWithWarningCouldNotOpenLink;
+
+  /// No description provided for @launchMarkdownLinkWithWarningDialogTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Link überprüfen'**
+  String get launchMarkdownLinkWithWarningDialogTitle;
+
+  /// No description provided for @launchMarkdownLinkWithWarningDisplayedText.
+  ///
+  /// In de, this message translates to:
+  /// **'Angezeigter Text'**
+  String get launchMarkdownLinkWithWarningDisplayedText;
+
+  /// No description provided for @launchMarkdownLinkWithWarningDoNotAskAgain.
+  ///
+  /// In de, this message translates to:
+  /// **'Beim nächsten Mal nicht mehr nachfragen.'**
+  String get launchMarkdownLinkWithWarningDoNotAskAgain;
+
+  /// No description provided for @launchMarkdownLinkWithWarningLinkTextDoesNotMatch.
+  ///
+  /// In de, this message translates to:
+  /// **'Der Link-Text stimmt nicht mit der tatsächlichen Adresse überein.'**
+  String get launchMarkdownLinkWithWarningLinkTextDoesNotMatch;
+
+  /// No description provided for @launchMarkdownLinkWithWarningOpenLink.
+  ///
+  /// In de, this message translates to:
+  /// **'Link öffnen'**
+  String get launchMarkdownLinkWithWarningOpenLink;
+
+  /// Text for the checkbox to trust a domain
+  ///
+  /// In de, this message translates to:
+  /// **'Domain {domain} vertrauen'**
+  String launchMarkdownLinkWithWarningTrustDomain(String domain);
 
   /// No description provided for @legalChangeAppearance.
   ///
@@ -2600,6 +2847,66 @@ abstract class SharezoneLocalizations {
   /// **'Erscheinungsbild'**
   String get themeTitle;
 
+  /// Error message shown when the end time is before the next lesson's start time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Endzeit ist vor der Startzeit der nächsten Stunde!'**
+  String get timetableErrorEndTimeBeforeNextLessonStart;
+
+  /// Error message shown when the end time is before the previous lesson's end time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Endzeit ist vor der Endzeit der vorherigen Stunde!'**
+  String get timetableErrorEndTimeBeforePreviousLessonEnd;
+
+  /// Error message shown when the end time is before the start time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Endzeit der Stunde ist vor der Startzeit!'**
+  String get timetableErrorEndTimeBeforeStartTime;
+
+  /// Error message shown when the end time is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gibt eine Endzeit an!'**
+  String get timetableErrorEndTimeMissing;
+
+  /// Error message shown when lesson periods overlap or are invalid.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib korrekte Zeiten. Die Stunden dürfen sich nicht überschneiden!'**
+  String get timetableErrorInvalidPeriodsOverlap;
+
+  /// Error message shown when the start time is before the next lesson's start time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Startzeit ist vor der Startzeit der nächsten Stunde!'**
+  String get timetableErrorStartTimeBeforeNextLessonStart;
+
+  /// Error message shown when the start time is before the previous lesson's end time.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Startzeit ist vor der Endzeit der vorherigen Stunde!'**
+  String get timetableErrorStartTimeBeforePreviousLessonEnd;
+
+  /// Error message shown when start and end time are the same.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Startzeit und die Endzeit darf nicht gleich sein!'**
+  String get timetableErrorStartTimeEqualsEndTime;
+
+  /// Error message shown when the start time is missing.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gibt eine Startzeit an!'**
+  String get timetableErrorStartTimeMissing;
+
+  /// Error message shown when no weekday is selected.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte gib einen Wochentag an!'**
+  String get timetableErrorWeekdayMissing;
+
   /// No description provided for @timetableSettingsABWeekTileTitle.
   ///
   /// In de, this message translates to:
@@ -2705,6 +3012,30 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Stundenplan'**
   String get timetableSettingsTitle;
+
+  /// Label for the type of user parent.
+  ///
+  /// In de, this message translates to:
+  /// **'Elternteil'**
+  String get typeOfUserParent;
+
+  /// Label for the type of user student.
+  ///
+  /// In de, this message translates to:
+  /// **'Schüler*in'**
+  String get typeOfUserStudent;
+
+  /// Label for the type of user teacher.
+  ///
+  /// In de, this message translates to:
+  /// **'Lehrkraft'**
+  String get typeOfUserTeacher;
+
+  /// Label for the type of user unknown.
+  ///
+  /// In de, this message translates to:
+  /// **'Unbekannt'**
+  String get typeOfUserUnknown;
 
   /// App bar title for the instructions on using multiple devices.
   ///

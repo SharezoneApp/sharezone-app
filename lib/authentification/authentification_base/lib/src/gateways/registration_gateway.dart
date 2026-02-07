@@ -7,7 +7,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification_analytics.dart';
@@ -28,10 +27,13 @@ class RegistrationEvent {
   }
 }
 
+typedef AnonymousUserNameBuilder = String Function();
+
 class RegistrationGateway extends BlocBase {
   final CollectionReference userCollection;
   final FirebaseAuth _auth;
   final RegistrationAnalytics _analytics;
+  final AnonymousUserNameBuilder _anonymousUserNameBuilder;
 
   final _registrationEventController =
       StreamController<RegistrationEvent>.broadcast();
@@ -42,9 +44,11 @@ class RegistrationGateway extends BlocBase {
     this.userCollection,
     this._auth, {
     required Analytics analytics,
+    required AnonymousUserNameBuilder anonymousUserNameBuilder,
   }) : _analytics = RegistrationAnalyticsAnalyticsWithInternalFirebaseEvents(
          analytics,
-       );
+       ),
+       _anonymousUserNameBuilder = anonymousUserNameBuilder;
 
   void _addUserToFirestore(AppUser user) {
     final data = user.toEditJson();
@@ -65,7 +69,7 @@ class RegistrationGateway extends BlocBase {
     final userID = fbUser!.uid;
 
     final user = AppUser.create(id: userID).copyWith(
-      name: fbUser.displayName ?? "Anonymer ${_getRandomAnimalName()}",
+      name: fbUser.displayName ?? _anonymousUserNameBuilder(),
       typeOfUser: typeOfUser,
       state: StateEnum.notSelected,
       referralScore: 0,
@@ -92,51 +96,6 @@ class RegistrationGateway extends BlocBase {
     _registrationEventController.add(RegistrationEvent(newUserId: uid));
   }
 
-  String _getRandomAnimalName() =>
-      randomNames[Random().nextInt(randomNames.length)];
-
   @override
   void dispose() {}
 }
-
-const randomNames = <String>[
-  "Löwe",
-  "Tiger",
-  "Vogel",
-  "Pinguin",
-  "Dalmatiner",
-  "Gepard",
-  "Lachs",
-  "Elefant",
-  "Affe",
-  "Stier",
-  "Gorilla",
-  "Bär",
-  "Eisbär",
-  "Papagei",
-  "Braunbär",
-  "Wolf",
-  "Schäferhund",
-  "Kampfhund",
-  "Dobermann",
-  "Panda",
-  "Wal",
-  "Hai",
-  "Pottwal",
-  "Blauwal",
-  "Buckelwal",
-  "Riesenhai",
-  "Fisch",
-  "Aal",
-  "Seelachs",
-  "Hecht",
-  "Zander",
-  "Karpfen",
-  "Krapfen",
-  "Barsch",
-  "Biber",
-  "Fuchs",
-  "Alligator",
-  "Leopard",
-  "Hamster",
-];

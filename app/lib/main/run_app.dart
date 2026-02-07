@@ -20,8 +20,10 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:sharezone/account/name_generator.dart';
 import 'package:sharezone/dynamic_links/beitrittsversuch.dart';
 import 'package:sharezone/dynamic_links/dynamic_link_bloc.dart';
 import 'package:sharezone/dynamic_links/gruppen_beitritts_transformer.dart';
@@ -31,7 +33,6 @@ import 'package:sharezone/main/plugin_initializations.dart';
 import 'package:sharezone/main/sharezone.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
-import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/flavor.dart';
 import 'package:sharezone_common/firebase_dependencies.dart';
 import 'package:sharezone_common/references.dart';
@@ -145,6 +146,7 @@ Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
     references.users,
     firebaseDependencies.auth!,
     analytics: analytics,
+    anonymousUserNameBuilder: buildAnonymousUserName,
   );
   final blocDependencies = BlocDependencies(
     analytics: analytics,

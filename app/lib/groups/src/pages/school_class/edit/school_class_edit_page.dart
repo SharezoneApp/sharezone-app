@@ -14,6 +14,7 @@ import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_b
 import 'package:sharezone/groups/src/pages/school_class/edit/school_class_edit_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 Future<void> openSchoolClassEditPage(
   BuildContext context,
@@ -54,7 +55,7 @@ Future<void> _submit(BuildContext context) async {
       showSnackSec(
         context: context,
         seconds: 4,
-        text: handleErrorMessage(e.toString(), s),
+        text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
       );
     }
   }
@@ -72,16 +73,20 @@ class SchoolClassEditPage extends StatefulWidget {
 
 class _SchoolClassEditPageState extends State<SchoolClassEditPage> {
   late SchoolClassEditBloc bloc;
+  bool _didInit = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didInit) return;
     final schoolClassGateway =
         BlocProvider.of<SharezoneContext>(context).api.schoolClassGateway;
     bloc = SchoolClassEditBloc(
       gateway: SchoolClassEditGateway(schoolClassGateway, widget.schoolClass),
       currentName: widget.schoolClass.name,
+      l10n: context.l10n,
     );
+    _didInit = true;
   }
 
   @override

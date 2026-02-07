@@ -22,6 +22,7 @@ import 'package:sharezone/onboarding/sign_up/widgets/easter_egg_clock.dart';
 import 'package:sharezone/widgets/animation/color_fade_in.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:user/user.dart';
 
 part 'pages/advantages.dart';
@@ -226,7 +227,11 @@ class _SignUpButtonState extends State<_SignUpButton> {
                 } catch (e, s) {
                   setState(() => isLoading = false);
                   showSnackSec(
-                    text: handleErrorMessage(e.toString(), s),
+                    text: handleErrorMessage(
+                      l10n: context.l10n,
+                      error: e,
+                      stackTrace: s,
+                    ),
                     context: context,
                   );
                 }

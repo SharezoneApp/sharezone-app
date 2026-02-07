@@ -17,8 +17,10 @@ import 'package:sharezone/auth/email_and_password_link_bloc.dart';
 import 'package:sharezone/account/profile/user_edit/user_edit_bloc.dart';
 import 'package:sharezone/auth/auth.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:user/user.dart';
 
+import 'authentification_localization_mapper.dart';
 import 'login_page.dart';
 
 Future<void> handleEmailAndPasswordLinkSubmit(BuildContext context) async {
@@ -56,6 +58,7 @@ class EmailAndPasswordLinkPage extends StatefulWidget {
 
 class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
   late EmailAndPasswordLinkBloc bloc;
+  bool _didInit = false;
 
   final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -64,7 +67,9 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
   final passwordFocusNode = FocusNode();
 
   @override
-  void initState() {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didInit) return;
     final api = BlocProvider.of<SharezoneContext>(context).api;
     final analytics = AnalyticsProvider.ofOrNullObject(context);
     bloc = EmailAndPasswordLinkBloc(
@@ -72,10 +77,11 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
       UserEditBlocGateway(api.user, widget.user),
       widget.user.name,
       scaffoldKey,
+      context.l10n,
       analytics,
     );
     delayKeyboard(context: context, focusNode: emailFocusNode);
-    super.initState();
+    _didInit = true;
   }
 
   @override
@@ -234,7 +240,10 @@ class NameField extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Nickname',
                 icon: withIcon ? const Icon(Icons.person) : null,
-                errorText: snapshot.error?.toString(),
+                errorText: mapAuthentificationValidationErrorMessage(
+                  context,
+                  snapshot.error,
+                ),
                 border: const OutlineInputBorder(),
               ),
               textCapitalization: TextCapitalization.sentences,

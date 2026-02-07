@@ -34,7 +34,11 @@ class TeacherAndParentHomeworkTile extends StatelessWidget {
       courseName: homework.subject,
       courseAbbreviation: homework.abbreviation,
       courseColor: Color(homework.subjectColor.value),
-      todoDate: homework.todoDate,
+      todoDate: formatHomeworkTodoDate(
+        context,
+        homework.todoDate,
+        homework.withSubmissions,
+      ),
       todoDateColor:
           homework.colorDate
               ? Colors.redAccent

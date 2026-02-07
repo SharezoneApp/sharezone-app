@@ -17,6 +17,7 @@ import 'package:sharezone/groups/src/pages/course/create/pages/course_create_pag
 import 'package:sharezone/groups/src/pages/school_class/card/school_class_card.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class CourseTemplatePage extends StatefulWidget {
   const CourseTemplatePage({super.key, this.schoolClassId});
@@ -31,13 +32,16 @@ class CourseTemplatePage extends StatefulWidget {
 
 class _CourseTemplatePageState extends State<CourseTemplatePage> {
   late CourseCreateBloc bloc;
+  bool _didInit = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didInit) return;
     bloc = BlocProvider.of<CourseCreateBlocFactory>(
       context,
-    ).create(schoolClassId: widget.schoolClassId);
+    ).create(l10n: context.l10n, schoolClassId: widget.schoolClassId);
+    _didInit = true;
   }
 
   @override
@@ -79,15 +83,18 @@ class CourseTemplatePageBody extends StatefulWidget {
 
 class _CourseTemplatePageBodyState extends State<CourseTemplatePageBody> {
   late CourseCreateBloc bloc;
+  bool _didInit = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didInit) return;
     bloc =
         widget.bloc ??
         BlocProvider.of<CourseCreateBlocFactory>(
           context,
-        ).create(schoolClassId: widget.schoolClassId);
+        ).create(l10n: context.l10n, schoolClassId: widget.schoolClassId);
+    _didInit = true;
   }
 
   @override
@@ -367,7 +374,10 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
       showDeletedCourseSnackBar();
     } catch (e, s) {
       if (!mounted) return;
-      showSnackSec(context: context, text: handleErrorMessage(e.toString(), s));
+      showSnackSec(
+        context: context,
+        text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
+      );
       setCourseAsCreated();
     }
   }
@@ -413,7 +423,10 @@ class _CourseTemplateTileState extends State<_CourseTemplateTile> {
       _showCourseCreatedSnackBar(course);
     } catch (e, s) {
       if (!mounted) return;
-      showSnackSec(context: context, text: handleErrorMessage(e.toString(), s));
+      showSnackSec(
+        context: context,
+        text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
+      );
       setCourseAsNotCreated();
     }
   }

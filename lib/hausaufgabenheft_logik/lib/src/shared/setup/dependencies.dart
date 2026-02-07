@@ -8,21 +8,17 @@
 
 import 'package:hausaufgabenheft_logik/src/shared/homework_page_api.dart';
 import 'package:key_value_store/key_value_store.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class HausaufgabenheftDependencies {
   final HomeworkPageApi api;
 
   final KeyValueStore keyValueStore;
 
-  final SharezoneLocalizations localizations;
-
   final DateTime Function()? getCurrentDateTime;
 
   HausaufgabenheftDependencies({
     required this.api,
     required this.keyValueStore,
-    required this.localizations,
     this.getCurrentDateTime,
   });
 }
