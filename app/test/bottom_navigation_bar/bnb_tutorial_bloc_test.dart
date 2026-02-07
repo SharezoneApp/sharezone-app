@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_bloc.dart';
 import 'package:sharezone/navigation/scaffold/portable/bottom_navigation_bar/tutorial/bnb_tutorial_cache.dart';

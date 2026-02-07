@@ -10,7 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sharezone/navigation/analytics/navigation_analytics.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
