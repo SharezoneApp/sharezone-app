@@ -1,229 +1,0 @@
-Resolving dependencies...
-Downloading packages...
-  _fe_analyzer_shared 85.0.0 (94.0.0 available)
-  _flutterfire_internals 1.3.62 (1.3.66 available)
-  analyzer 7.7.1 (10.0.2 available)
-  animations 2.0.11 (2.1.1 available)
-  app_links 6.4.1 (7.0.0 available)
-  args 2.6.0 (2.7.0 available)
-  asn1lib 1.5.9 (1.6.5 available)
-  bloc 9.0.0 (9.2.0 available)
-  bloc_presentation 1.1.0 (1.1.2 available)
-  build 3.1.0 (4.0.4 available)
-  build_daemon 4.0.4 (4.1.1 available)
-  build_resolvers 3.0.3 (3.0.4 available)
-  build_runner 2.7.1 (2.10.5 available)
-  build_runner_core 9.3.1 (9.3.2 available)
-  built_value 8.11.2 (8.12.3 available)
-  built_value_generator 8.11.1 (8.12.3 available)
-  chalkdart 2.3.2 (3.0.5 available)
-  characters 1.4.0 (1.4.1 available)
-  checked_yaml 2.0.3 (2.0.4 available)
-  chewie 1.10.0 (1.13.0 available)
-  cloud_firestore 6.0.2 (6.1.2 available)
-  cloud_firestore_platform_interface 7.0.2 (7.0.6 available)
-  cloud_firestore_web 5.0.2 (5.1.2 available)
-  cloud_functions 6.0.2 (6.0.6 available)
-  cloud_functions_platform_interface 5.8.5 (5.8.9 available)
-  cloud_functions_web 5.0.2 (5.1.2 available)
-  code_builder 4.10.1 (4.11.1 available)
-  coverage 1.11.1 (1.15.0 available)
-  cross_file 0.3.4+2 (0.3.5+2 available)
-  crypto 3.0.6 (3.0.7 available)
-  dart_style 3.1.1 (3.1.5 available)
-  device_info_plus 10.1.2 (12.3.0 available)
-  device_info_plus_platform_interface 7.0.2 (7.0.3 available)
-  dio 5.8.0+1 (5.9.1 available)
-  dio_web_adapter 2.1.0 (2.1.1 available)
-  equatable 2.0.7 (2.0.8 available)
-  extension 0.6.0 (1.0.0 available)
-  fast_immutable_collections 11.0.4 (11.1.0 available)
-  fast_rsa 3.8.5 (3.8.6 available)
-  ffi 2.1.4 (2.1.5 available)
-  file_picker 10.3.3 (10.3.10 available)
-  file_selector_linux 0.9.3+2 (0.9.4 available)
-  file_selector_macos 0.9.4+2 (0.9.5 available)
-  file_selector_platform_interface 2.6.2 (2.7.0 available)
-  file_selector_windows 0.9.3+4 (0.9.3+5 available)
-  firebase_analytics 12.0.2 (12.1.1 available)
-  firebase_analytics_platform_interface 5.0.2 (5.0.6 available)
-  firebase_analytics_web 0.6.0+2 (0.6.1+2 available)
-  firebase_auth 6.1.0 (6.1.4 available)
-  firebase_auth_platform_interface 8.1.2 (8.1.6 available)
-  firebase_auth_web 6.0.3 (6.1.2 available)
-  firebase_core 4.1.1 (4.4.0 available)
-  firebase_core_platform_interface 6.0.1 (6.0.2 available)
-  firebase_core_web 3.1.1 (3.4.0 available)
-  firebase_crashlytics 5.0.2 (5.0.7 available)
-  firebase_crashlytics_platform_interface 3.8.13 (3.8.17 available)
-  firebase_messaging 16.0.2 (16.1.1 available)
-  firebase_messaging_platform_interface 4.7.2 (4.7.6 available)
-  firebase_messaging_web 4.0.2 (4.1.2 available)
-  firebase_performance 0.11.1 (0.11.1+4 available)
-  firebase_performance_platform_interface 0.1.6 (0.1.6+4 available)
-  firebase_performance_web 0.1.7+19 (0.1.8+2 available)
-  firebase_remote_config 6.0.2 (6.1.4 available)
-  firebase_remote_config_platform_interface 2.0.3 (2.0.7 available)
-  firebase_remote_config_web 1.8.12 (1.10.3 available)
-  firebase_storage 13.0.2 (13.0.6 available)
-  firebase_storage_platform_interface 5.2.13 (5.2.17 available)
-  firebase_storage_web 3.10.20 (3.11.2 available)
-! flare_flutter 3.0.2 from git https://github.com/mbfakourii/Flare-Flutter.git at d915c8 in flare_flutter (overridden)
-  flat_buffers 23.5.26 (25.9.23 available)
-  flutter_bloc 9.0.0 (9.1.1 available)
-  flutter_lints 5.0.0 (6.0.0 available)
-  flutter_plugin_android_lifecycle 2.0.24 (2.0.33 available)
-  flutter_slidable 4.0.0 (4.0.3 available)
-  flutter_svg 2.2.1 (2.2.3 available)
-  flutter_timezone 4.1.1 (5.0.1 available)
-  font_awesome_flutter 10.8.0 (10.12.0 available)
-  freezed_annotation 2.4.4 (3.1.0 available)
-  gcloud 0.8.18 (0.9.0 available)
-  git 2.3.1 (2.3.2 available)
-  go_router 14.8.0 (17.1.0 available)
-  google_identity_services_web 0.3.3 (0.3.3+1 available)
-  google_mobile_ads 5.3.1 (7.0.0 available)
-  google_sign_in 6.2.2 (7.2.0 available)
-  google_sign_in_android 6.1.35 (7.2.7 available)
-  google_sign_in_ios 5.8.0 (6.2.5 available)
-  google_sign_in_platform_interface 2.4.5 (3.1.0 available)
-  google_sign_in_web 0.12.4+3 (1.1.0 available)
-  googleapis 13.2.0 (15.0.0 available)
-  googleapis_auth 1.6.0 (2.0.0 available)
-  html 0.15.5 (0.15.6 available)
-  http 1.4.0 (1.6.0 available)
-  image 4.5.4 (4.7.2 available)
-  image_picker_android 0.8.13+10 (0.8.13+13 available)
-  image_picker_ios 0.8.13+3 (0.8.13+6 available)
-  in_app_review 2.0.10 (2.0.11 available)
-  json_annotation 4.9.0 (4.10.0 available)
-  leak_tracker 11.0.1 (11.0.2 available)
-  lints 5.1.1 (6.1.0 available)
-  matcher 0.12.17 (0.12.18 available)
-  material_color_utilities 0.11.1 (0.13.0 available)
-  material_symbols_icons 4.2805.1 (4.2906.0 available)
-  meta 1.16.0 (1.18.1 available)
-  mobile_scanner 7.0.1 (7.1.4 available)
-  mockito 5.5.0 (5.6.3 available)
-! open_file_plus 3.4.1+1 from git https://github.com/postflow/open_file_plus.git at b29351 (overridden)
-  package_config 2.1.1 (2.2.0 available)
-  package_info_plus 8.3.0 (9.0.0 available)
-  package_info_plus_platform_interface 3.2.0 (3.2.1 available)
-  path_provider_android 2.2.15 (2.2.22 available)
-  path_provider_foundation 2.4.1 (2.6.0 available)
-  patrol 3.15.2 (4.1.0 available)
-  patrol_finders 2.7.2 (3.0.0 available)
-  patrol_log 0.3.0 (0.6.0 available)
-  pdfx 2.8.0 (2.9.2 available)
-  permission_handler 11.3.1 (12.0.1 available)
-  permission_handler_android 12.0.13 (13.0.1 available)
-  permission_handler_apple 9.4.5 (9.4.7 available)
-  permission_handler_platform_interface 4.2.3 (4.3.0 available)
-  petitparser 6.1.0 (7.0.1 available)
-  pointycastle 3.9.1 (4.0.0 available)
-  pool 1.5.1 (1.5.2 available)
-  process_runner 4.2.0 (4.2.4 available)
-  provider 6.1.2 (6.1.5+1 available)
-  pub_semver 2.1.5 (2.2.0 available)
-  purchases_flutter 8.7.5 (9.10.8 available)
-  share_plus 10.1.4 (12.0.1 available)
-  share_plus_platform_interface 5.0.2 (6.1.0 available)
-  shared_preferences 2.5.2 (2.5.4 available)
-  shared_preferences_android 2.4.6 (2.4.20 available)
-  shared_preferences_foundation 2.5.4 (2.5.6 available)
-  showcaseview 4.0.1 (5.0.1 available)
-  source_gen 3.1.0 (4.2.0 available)
-  sqflite_android 2.4.1 (2.4.2+2 available)
-  sqflite_common 2.5.5 (2.5.6 available)
-  synchronized 3.3.1 (3.4.0 available)
-  test 1.26.2 (1.29.0 available)
-  test_api 0.7.6 (0.7.9 available)
-  test_core 0.6.11 (0.6.15 available)
-  url_launcher 6.3.1 (6.3.2 available)
-  url_launcher_android 6.3.14 (6.3.28 available)
-  url_launcher_ios 6.3.2 (6.3.6 available)
-  url_launcher_linux 3.2.1 (3.2.2 available)
-  url_launcher_macos 3.2.2 (3.2.5 available)
-  url_launcher_web 2.4.0 (2.4.2 available)
-  url_launcher_windows 3.1.4 (3.1.5 available)
-  uuid 4.5.1 (4.5.2 available)
-  vector_graphics 1.1.18 (1.1.19 available)
-  vector_graphics_compiler 1.1.16 (1.1.20 available)
-  video_player 2.9.2 (2.10.1 available)
-  video_player_android 2.7.17 (2.9.1 available)
-  video_player_avfoundation 2.7.0 (2.9.0 available)
-  video_player_platform_interface 6.3.0 (6.6.0 available)
-  video_player_web 2.3.4 (2.4.0 available)
-  vm_service 15.0.0 (15.0.2 available)
-  wakelock_plus 1.2.10 (1.4.0 available)
-  wakelock_plus_platform_interface 1.2.2 (1.3.0 available)
-  watcher 1.1.1 (1.2.1 available)
-  web_socket 0.1.6 (1.0.1 available)
-  web_socket_channel 3.0.2 (3.0.3 available)
-  webview_flutter 4.10.0 (4.13.1 available)
-  webview_flutter_android 4.3.2 (4.10.11 available)
-  webview_flutter_platform_interface 2.10.0 (2.14.0 available)
-  webview_flutter_wkwebview 3.18.1 (3.23.5 available)
-  win32 5.10.1 (5.15.0 available)
-  win32_registry 1.1.5 (2.1.0 available)
-  xml 6.5.0 (6.6.1 available)
-Got dependencies!
-165 packages have newer versions incompatible with dependency constraints.
-Try `flutter pub outdated` for more information.
-00:00 +0: loading /app/app/test/homework/homework_dialog_bloc_test.dart                                                                                                                                00:01 +0: loading /app/app/test/homework/homework_dialog_bloc_test.dart                                                                                                                                00:02 +0: loading /app/app/test/homework/homework_dialog_bloc_test.dart                                                                                                                                00:03 +0: loading /app/app/test/homework/homework_dialog_bloc_test.dart                                                                                                                                00:04 +0: loading /app/app/test/homework/homework_dialog_bloc_test.dart                                                                                                                                00:04 +0: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc If no next lesson date is found the next weekday will be taken                                                     00:04 +1: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc If no next lesson date is found the next weekday will be taken                                                     00:04 +1: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Shows error if title is not filled out when creating a new homework and Save is called                             00:05 +2: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Shows error if title is not filled out when creating a new homework and Save is called                             00:05 +2: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Removes error if title is changed to a valid value                                                                 00:05 +3: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Removes error if title is changed to a valid value                                                                 00:05 +3: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Shows error and emits presentation event if title is set to blank when editing a homework and Save is called       00:05 +4: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Shows error and emits presentation event if title is set to blank when editing a homework and Save is called       00:05 +4: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Removes error if title is changed to a valid value (editing homework)                                              00:05 +5: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Removes error if title is changed to a valid value (editing homework)                                              00:05 +5: /app/app/test/homework/homework_dialog_bloc_test.dart: ... Shows error and emits presentation event if course is not selected out when creating a new homework and Save is called            00:05 +6: /app/app/test/homework/homework_dialog_bloc_test.dart: ... Shows error and emits presentation event if course is not selected out when creating a new homework and Save is called            00:05 +6: /app/app/test/homework/homework_dialog_bloc_test.dart: ... Shows error and emits presentation event if due date is not selected when creating a new homework and Save is called              00:05 +7: /app/app/test/homework/homework_dialog_bloc_test.dart: ... Shows error and emits presentation event if due date is not selected when creating a new homework and Save is called              00:05 +7: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc if a date has been manually set it wont be overridden by next lesson date                                          00:05 +8: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc if a date has been manually set it wont be overridden by next lesson date                                          00:05 +8: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Removes error if due date is changed to a valid value                                                              00:05 +9: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Removes error if due date is changed to a valid value                                                              00:05 +9: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Picks the next lesson as due date when a course is selected                                                        00:05 +10: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Picks the next lesson as due date when a course is selected                                                       00:05 +10: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Returns empty dialog when called for creating a new homework                                                      00:05 +11: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Returns empty dialog when called for creating a new homework                                                      00:05 +11: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc emits presentation event if saving the homework fails                                                             00:05 +12: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc emits presentation event if saving the homework fails                                                             00:05 +12: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc emits presentation event if saving an edited homework fails                                                       00:05 +13: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc emits presentation event if saving an edited homework fails                                                       00:05 +13: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Sucessfully add private homework with files                                                                       00:05 +14: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Sucessfully add private homework with files                                                                       00:05 +14: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Sucessfully add homework with submissions                                                                         00:05 +15: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Sucessfully add homework with submissions                                                                         00:05 +15: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Returns loading state when called for an existing homework                                                        00:05 +16: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Returns loading state when called for an existing homework                                                        00:05 +16: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc when submissions are toggled 23:59 is used as the default value                                                   00:05 +17: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc when submissions are toggled 23:59 is used as the default value                                                   00:05 +17: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Regression Test: Sets submission time to null when submission is disabled                                         00:05 +18: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Regression Test: Sets submission time to null when submission is disabled                                         00:05 +18: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Regression test: When choosing due date then the submission time should not reset to 00:00                        00:05 +19: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Regression test: When choosing due date then the submission time should not reset to 00:00                        00:05 +19: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc regression test: No due date is automatically set when starting to change data                                    00:05 +20: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc regression test: No due date is automatically set when starting to change data                                    00:05 +20: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc emits started saving uploading attachments presentation event when adding homework                                00:05 +21: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc emits started saving uploading attachments presentation event when adding homework                                00:05 +21: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc does not emit uploading attachments presentation event when adding homework without attachment                    00:05 +22: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc does not emit uploading attachments presentation event when adding homework without attachment                    00:05 +22: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc emits started saving uploading attachments presentation event when editing homework                               00:05 +23: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc emits started saving uploading attachments presentation event when editing homework                               00:05 +23: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc does not emit started saving uploading attachments presentation event when editing homework without new attachment00:05 +24: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc does not emit started saving uploading attachments presentation event when editing homework without new attachment00:05 +24: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Analytics is called when a homework is successfully added                                                         00:05 +25: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Analytics is called when a homework is successfully added                                                         00:05 +25: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Analytics is called when a homework is successfully edited                                                        00:05 +26: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Analytics is called when a homework is successfully edited                                                        00:05 +26: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Sucessfully displays and edits existing homework                                                                  00:05 +27: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Sucessfully displays and edits existing homework                                                                  00:05 +27: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Sucessfully displays and edits existing homework 2                                                                00:05 +28: /app/app/test/homework/homework_dialog_bloc_test.dart: HomeworkDialogBloc Sucessfully displays and edits existing homework 2                                                                00:05 +28: loading /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart                                                                                                    00:05 +28: /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart: TeacherAndParentHomeworkPage placeholder is shown on open homework page when no homeworks are to do       00:06 +28: /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart: TeacherAndParentHomeworkPage placeholder is shown on open homework page when no homeworks are to do       00:06 +29: /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart: TeacherAndParentHomeworkPage placeholder is shown on open homework page when no homeworks are to do       00:06 +29: /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart: TeacherAndParentHomeworkPage placeholder is shown in archived homework page when no homework is archived  00:06 +30: /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart: TeacherAndParentHomeworkPage placeholder is shown in archived homework page when no homework is archived  00:06 +30: /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart: TeacherAndParentHomeworkPage shows open homeworks with section titles in given order                      00:07 +30: /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart: TeacherAndParentHomeworkPage shows open homeworks with section titles in given order                      00:07 +31: /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart: TeacherAndParentHomeworkPage shows open homeworks with section titles in given order                      00:07 +31: /app/app/test/homework/teacher/teacher_and_parent_homework_page_widget_test.dart: TeacherAndParentHomeworkPage shows curent sorting text inside of sort button                              00:07 +32: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:08 +32: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:08 +33: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:08 +34: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:09 +34: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:09 +35: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:09 +36: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:09 +37: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:09 +38: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:09 +39: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:09 +40: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog edits homework correctly                                                                                                   00:09 +40: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog wants to create the correct homework                                                                                       00:10 +40: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog wants to create the correct homework                                                                                       00:10 +41: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog wants to create the correct homework                                                                                       00:10 +41: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog should display an empty dialog when no homework is passed                                                                  00:11 +41: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog should display an empty dialog when no homework is passed                                                                  00:11 +41: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog should display an empty dialog when no homework is passed
-══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
-The following TestFailure was thrown running a test:
-Expected: exactly one matching candidate
-  Actual: _TextWidgetFinder:<Found 0 widgets with text "Keinen Kurs ausgewählt": []>
-   Which: means none were found but one was expected
-
-When the exception was thrown, this was the stack:
-#4      main.<anonymous closure>.<anonymous closure> (file:///app/app/test/homework/homework_dialog_test.dart:587:7)
-<asynchronous suspension>
-#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
-<asynchronous suspension>
-#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
-<asynchronous suspension>
-<asynchronous suspension>
-(elided one frame from package:stack_trace)
-
-This was caught by the test expectation on the following line:
-  file:///app/app/test/homework/homework_dialog_test.dart line 587
-The test description was:
-  should display an empty dialog when no homework is passed
-════════════════════════════════════════════════════════════════════════════════════════════════════
-00:11 +41 -1: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog should display an empty dialog when no homework is passed [E]
-  Test failed. See exception logs above.
-  The test description was: should display an empty dialog when no homework is passed
-
-
-To run this test again: /home/jules/fvm/versions/3.35.3/bin/cache/dart-sdk/bin/dart test /app/app/test/homework/homework_dialog_test.dart -p vm --plain-name 'HomeworkDialog should display an empty dialog when no homework is passed'
-00:11 +41 -1: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog should display a prefilled dialog if homework is passed                                                                 00:11 +41 -1: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog should display a prefilled dialog if homework is passed
-══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
-The following TestFailure was thrown running a test:
-Expected: exactly one matching candidate
-  Actual: _TextWidgetFinder:<Found 0 widgets with text "16:30": []>
-   Which: means none were found but one was expected
-
-When the exception was thrown, this was the stack:
-#4      main.<anonymous closure>.<anonymous closure> (file:///app/app/test/homework/homework_dialog_test.dart:650:7)
-<asynchronous suspension>
-#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
-<asynchronous suspension>
-#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
-<asynchronous suspension>
-<asynchronous suspension>
-(elided one frame from package:stack_trace)
-
-This was caught by the test expectation on the following line:
-  file:///app/app/test/homework/homework_dialog_test.dart line 650
-The test description was:
-  should display a prefilled dialog if homework is passed
-════════════════════════════════════════════════════════════════════════════════════════════════════
-00:11 +41 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog should display a prefilled dialog if homework is passed [E]
-  Test failed. See exception logs above.
-  The test description was: should display a prefilled dialog if homework is passed
-
-
-To run this test again: /home/jules/fvm/versions/3.35.3/bin/cache/dart-sdk/bin/dart test /app/app/test/homework/homework_dialog_test.dart -p vm --plain-name 'HomeworkDialog should display a prefilled dialog if homework is passed'
-00:11 +41 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog homework lesson chips are visible if the function is activated                                                          00:12 +41 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog homework lesson chips are visible if the function is activated                                                          00:12 +42 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog homework lesson chips are visible if the function is activated                                                          00:12 +42 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog homework lesson chips are not visible if the function is deactivated                                                    00:12 +43 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog homework lesson chips are not visible if the function is deactivated                                                    00:12 +43 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog homework lesson chips are not visible in edit mode                                                                      00:12 +44 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog homework lesson chips are not visible in edit mode                                                                      00:12 +44 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when pressing "Nächste Stunde" the next lesson will be selected                                                         00:12 +45 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when pressing "Nächste Stunde" the next lesson will be selected                                                         00:12 +45 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when pressing "Übernächste Stunde" the lesson after next lesson will be selected                                        00:13 +45 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when pressing "Übernächste Stunde" the lesson after next lesson will be selected                                        00:13 +46 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when pressing "Übernächste Stunde" the lesson after next lesson will be selected                                        00:13 +46 -2: /app/app/test/homework/homework_dialog_test.dart: ... test: When creating a "in 2 lesson" custom chip the "übernächste Stunde" chip will be selected and no custom chip will be created  00:13 +47 -2: /app/app/test/homework/homework_dialog_test.dart: ... test: When creating a "in 2 lesson" custom chip the "übernächste Stunde" chip will be selected and no custom chip will be created  00:13 +47 -2: /app/app/test/homework/homework_dialog_test.dart: ... test: When creating a "in 1 lesson" custom chip the "Nächste Stunde" chip will be selected and no custom chip will be created      00:14 +47 -2: /app/app/test/homework/homework_dialog_test.dart: ... test: When creating a "in 1 lesson" custom chip the "Nächste Stunde" chip will be selected and no custom chip will be created      00:14 +48 -2: /app/app/test/homework/homework_dialog_test.dart: ... test: When creating a "in 1 lesson" custom chip the "Nächste Stunde" chip will be selected and no custom chip will be created      00:14 +48 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog regression test: when trying to create a custom "in 0 lessons" chip no chip will be added                               00:14 +49 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog regression test: when trying to create a custom "in 0 lessons" chip no chip will be added                               00:14 +49 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when creating a "in 5 lessons" custom chip it will be selected and the correct date will be selected                    00:15 +49 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when creating a "in 5 lessons" custom chip it will be selected and the correct date will be selected                    00:15 +50 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when creating a "in 5 lessons" custom chip it will be selected and the correct date will be selected                    00:15 +50 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when pressing the "next schoolday" chip the next schoolday will be selected                                             00:15 +51 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when pressing the "next schoolday" chip the next schoolday will be selected                                             00:15 +51 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog custom schooldays get accounted for                                                                                     00:15 +52 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog custom schooldays get accounted for                                                                                     00:15 +52 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog if user has schooldays set to empty, tomorrow will be returned for the next school day                                  00:15 +53 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog if user has schooldays set to empty, tomorrow will be returned for the next school day                                  00:15 +53 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when no course is selected then the lesson chips are disabled                                                           00:16 +53 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when no course is selected then the lesson chips are disabled                                                           00:16 +54 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when no course is selected then the lesson chips are disabled                                                           00:16 +54 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when the date is manually selected that equals the date of a lesson chip then the lesson chip will NOT be selected      00:16 +55 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when the date is manually selected that equals the date of a lesson chip then the lesson chip will NOT be selected      00:16 +55 -2: /app/app/test/homework/homework_dialog_test.dart: ... when the date is manually selected that equals the date of the next schoolday then the corresponding chip will be selected         00:16 +56 -2: /app/app/test/homework/homework_dialog_test.dart: ... when the date is manually selected that equals the date of the next schoolday then the corresponding chip will be selected         00:16 +56 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when no course is chosen then no chip should be selected                                                                00:16 +57 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when no course is chosen then no chip should be selected                                                                00:16 +57 -2: /app/app/test/homework/homework_dialog_test.dart: ... next lesson for a course and changing to a course without any lessons the date should stay but the lesson chip should be deselected00:17 +57 -2: /app/app/test/homework/homework_dialog_test.dart: ... next lesson for a course and changing to a course without any lessons the date should stay but the lesson chip should be deselected00:17 +58 -2: /app/app/test/homework/homework_dialog_test.dart: ... next lesson for a course and changing to a course without any lessons the date should stay but the lesson chip should be deselected00:17 +58 -2: /app/app/test/homework/homework_dialog_test.dart: ... chip for a course with lessons and then changing to a course without lessons should display the custom chip as not selectable      00:17 +59 -2: /app/app/test/homework/homework_dialog_test.dart: ... chip for a course with lessons and then changing to a course without lessons should display the custom chip as not selectable      00:17 +59 -2: /app/app/test/homework/homework_dialog_test.dart: ... when selecting "Nächster Schultag", then selecting a course with lessons, the old "Nächster Schultag" selection should be kept     00:18 +59 -2: /app/app/test/homework/homework_dialog_test.dart: ... when selecting "Nächster Schultag", then selecting a course with lessons, the old "Nächster Schultag" selection should be kept     00:18 +60 -2: /app/app/test/homework/homework_dialog_test.dart: ... when selecting "Nächster Schultag", then selecting a course with lessons, the old "Nächster Schultag" selection should be kept     00:18 +60 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when a course without lessons is selected then "Nächster Schultag" should be automatically selected                     00:18 +61 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when a course without lessons is selected then "Nächster Schultag" should be automatically selected                     00:18 +61 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when first selecting a course with lessons then the "Nächste Stunde" chip will be selected                              00:18 +62 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when first selecting a course with lessons then the "Nächste Stunde" chip will be selected                              00:18 +62 -2: /app/app/test/homework/homework_dialog_test.dart: ... chip and then selecting another course with also lessons then the lesson chip should be kept active but the date should be updated 00:19 +63 -2: /app/app/test/homework/homework_dialog_test.dart: ... chip and then selecting another course with also lessons then the lesson chip should be kept active but the date should be updated 00:19 +63 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when choosing and then deleting a custom lesson chip then the date will stay the same when selecting another course     00:19 +64 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog when choosing and then deleting a custom lesson chip then the date will stay the same when selecting another course     00:19 +64 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog shows hint when presses disabled course tile                                                                            00:19 +65 -2: /app/app/test/homework/homework_dialog_test.dart: HomeworkDialog shows hint when presses disabled course tile                                                                            00:19 +65 -2: Some tests failed.
