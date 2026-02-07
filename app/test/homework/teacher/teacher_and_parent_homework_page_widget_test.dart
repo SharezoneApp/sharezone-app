@@ -29,6 +29,7 @@ import 'package:sharezone/homework/teacher_and_parent/src/teacher_and_parent_hom
 import 'package:sharezone/homework/teacher_and_parent/src/teacher_and_parent_open_homework_list.dart';
 import 'package:sharezone/homework/teacher_and_parent/teacher_and_parent_homework_page.dart';
 import 'package:sharezone/navigation/logic/navigation_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:test_randomness/test_randomness.dart';
 import 'package:user/user.dart';
 
@@ -87,6 +88,8 @@ Future<void> pumpHomeworkPage(
   /// https://gitlab.com/codingbrain/sharezone/sharezone-app/-/issues/1458
   await tester.pumpWidget(
     MaterialApp(
+      localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+      supportedLocales: SharezoneLocalizations.supportedLocales,
       home: Provider<TypeOfUser>.value(
         value: TypeOfUser.teacher,
         child: AnalyticsProvider(
@@ -215,13 +218,13 @@ void main() {
       final state = Success(
         TeacherAndParentOpenHomeworkListView(
           IList([
-            HomeworkSectionView(
+            HomeworkSectionView.custom(
               'Section 1',
               IListConst([
                 randomHomeworkViewWith(title: 'HW in first Section'),
               ]),
             ),
-            HomeworkSectionView(
+            HomeworkSectionView.custom(
               'Section 2',
               IList([randomHomeworkViewWith(title: 'HW in second Section')]),
             ),
@@ -556,7 +559,7 @@ void main() {
       homeworkPageBloc.emitNewState(
         Success(
           TeacherAndParentOpenHomeworkListView(
-            IList([HomeworkSectionView('Section 1', views.toIList())]),
+            IList([HomeworkSectionView.custom('Section 1', views.toIList())]),
             sorting: HomeworkSort.subjectSmallestDateAndTitleSort,
           ),
           LazyLoadingHomeworkListView<TeacherAndParentHomeworkView>(
@@ -692,7 +695,7 @@ TeacherAndParentHomeworkView randomHomeworkViewWith({
     nrOfStudentsCompletedOrSubmitted: nrOfStudentsCompletedOrSubmitted ?? 2,
     subject: 'Englisch',
     subjectColor: const Color.fromARGB(200, 200, 200, 255),
-    todoDate: '03.04.2021',
+    todoDate: DateTime(2021, 4, 3),
     withSubmissions: withSubmissions ?? _randomBool(),
     canViewCompletionOrSubmissionList: _randomBool(),
     canDeleteForEveryone: _randomBool(),
@@ -704,7 +707,7 @@ Success _openHomeworksWith(HomeworkSort sort) {
   return Success(
     TeacherAndParentOpenHomeworkListView(
       IList([
-        HomeworkSectionView(
+        HomeworkSectionView.custom(
           'Heute',
           IList([
             randomHomeworkViewWith(title: 'S. 32'),

@@ -8,17 +8,20 @@
 
 import 'dart:async';
 
-import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/validators.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 mixin SchoolClassValidators {
-  final validateName = StreamTransformer<String, String>.fromHandlers(
-    handleData: (name, sink) {
-      if (NotEmptyOrNullValidator(name).isValid()) {
-        sink.add(name);
-      } else {
-        sink.addError(EmptyNameException().toString());
-      }
-    },
-  );
+  SharezoneLocalizations get l10n;
+
+  late final StreamTransformer<String, String> validateName =
+      StreamTransformer<String, String>.fromHandlers(
+        handleData: (name, sink) {
+          if (NotEmptyOrNullValidator(name).isValid()) {
+            sink.add(name);
+          } else {
+            sink.addError(l10n.commonErrorNameMissing);
+          }
+        },
+      );
 }

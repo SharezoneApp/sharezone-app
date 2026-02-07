@@ -184,10 +184,15 @@ jobs:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
-      - uses: futureware-tech/simulator-action@f6578e3385c735885cf408020b6fb455721dc57b
+      - uses: futureware-tech/simulator-action@6a2cef2c27540a25595e53c969fd85988700d451
         id: simulator
         with:
           model: "iPhone 17"
+          # `wait_for_boot` & `boot_retires` are required to avoid boot issues,
+          # like https://github.com/futureware-tech/simulator-action/issues/548.
+          wait_for_boot: true
+          boot_retries: "3"
+          boot_timeout_seconds: "300"
 
       - name: Run integration tests
         working-directory: app

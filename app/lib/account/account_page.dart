@@ -23,6 +23,7 @@ import 'package:sharezone/settings/src/subpages/web_app.dart';
 import 'package:sharezone/widgets/avatar_card.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
+import 'package:user/user.dart';
 
 import 'account_page_bloc_factory.dart';
 
@@ -38,12 +39,15 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
   late AccountPageBloc bloc;
+  bool _didInit = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_didInit) return;
     final blocFactory = BlocProvider.of<AccountPageBlocFactory>(context);
-    bloc = blocFactory.create(scaffoldKey);
+    bloc = blocFactory.create(scaffoldKey, context.l10n);
+    _didInit = true;
   }
 
   @override
@@ -231,13 +235,13 @@ class _EmailText extends StatelessWidget {
 class _TypeOfUserText extends StatelessWidget {
   const _TypeOfUserText({required this.uid, required this.userType});
 
-  final String userType;
+  final TypeOfUser userType;
   final String uid;
 
   @override
   Widget build(BuildContext context) {
     return SelectableText(
-      userType,
+      userType.toLocalizedString(context),
       style: const TextStyle(fontSize: 14, color: Colors.grey),
     );
   }

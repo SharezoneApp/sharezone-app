@@ -24,6 +24,7 @@ import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart'
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeGradesService_0 extends _i1.SmartFake implements _i2.GradesService {
   _FakeGradesService_0(Object parent, Invocation parentInvocation)
@@ -66,8 +67,8 @@ class MockGradesPageController extends _i1.Mock
           as _i2.GradesService);
 
   @override
-  set state(_i3.GradesPageState? _state) => super.noSuchMethod(
-    Invocation.setter(#state, _state),
+  set state(_i3.GradesPageState? value) => super.noSuchMethod(
+    Invocation.setter(#state, value),
     returnValueForMissingStub: null,
   );
 

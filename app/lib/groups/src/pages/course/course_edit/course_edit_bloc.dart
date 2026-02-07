@@ -15,8 +15,12 @@ import 'package:sharezone/util/api/course_gateway.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_common/course_validators.dart';
 import 'package:helper_functions/helper_functions.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class CourseEditPageBloc extends BlocBase with CourseValidators {
+  @override
+  final SharezoneLocalizations l10n;
+
   final _subjectSubject = BehaviorSubject<String>();
   final _abbreviationSubject = BehaviorSubject<String>();
   final _courseNameSubject = BehaviorSubject<String>();
@@ -30,6 +34,7 @@ class CourseEditPageBloc extends BlocBase with CourseValidators {
     required String abbreviation,
     required String courseName,
     required Design design,
+    required this.l10n,
   }) : _gateway = gateway {
     _subjectSubject.sink.add(subject);
     _abbreviationSubject.sink.add(abbreviation);

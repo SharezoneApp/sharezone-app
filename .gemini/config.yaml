@@ -18,6 +18,8 @@ ignore_patterns:
   # Ignore generated files
   - "*.g.dart"
   - "*.gen.dart"
+  - "*.mocks.dart"
+  - "GeneratedPluginRegistrant.swift"
   # Dependencies
   - "pubspec.lock"
   - "*.lock"
