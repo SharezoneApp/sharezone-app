@@ -6,14 +6,13 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-// @dart=2.14
 import 'dart:async';
 
 import 'package:key_value_store/key_value_store.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// A Flutter implementation of a multiplatform key-value store.
+/// A Flutter implementation of a multi-platform key-value store.
 ///
 /// To use, pass it [SharedPreferences] from the `shared_preferences` Flutter
 /// plugin package.
