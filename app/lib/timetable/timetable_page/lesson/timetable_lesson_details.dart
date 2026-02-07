@@ -16,6 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/groups/src/pages/course/course_edit/design/course_edit_design.dart';
 import 'package:sharezone/main/application_bloc.dart';
+import 'package:sharezone/homework/homework_dialog/open_homework_dialog.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/src/sign_out_and_delete_anonymous_user.dart';
 import 'package:sharezone/report/page/report_page.dart';
 import 'package:sharezone/report/report_item.dart';
@@ -37,6 +38,7 @@ enum _LessonDialogAction {
   edit,
   delete,
   design,
+  addHomework,
   cancelLesson,
   addRoomSubstitution,
   updateRoomSubstitution,
@@ -211,6 +213,9 @@ Future<void> showLessonModelSheet(
     case _LessonDialogAction.cancelLesson:
       _cancelLesson(context, lesson, date);
       break;
+    case _LessonDialogAction.addHomework:
+      _openHomeworkForLesson(context, lesson, date);
+      break;
     case _LessonDialogAction.addRoomSubstitution:
       _addRoomSubstitution(context, lesson, date);
       break;
@@ -309,6 +314,20 @@ Future<void> _openTimetableEditPage(BuildContext context, Lesson lesson) async {
   }
 }
 
+Future<void> _openHomeworkForLesson(
+  BuildContext context,
+  Lesson lesson,
+  Date date,
+) async {
+  await waitingForBottomModelSheetClosing();
+  if (!context.mounted) return;
+  await openHomeworkDialogAndShowConfirmationIfSuccessful(
+    context,
+    initialCourseId: CourseId(lesson.groupID),
+    initialDueDate: date,
+  );
+}
+
 Color? getIconGrey(BuildContext context) =>
     Theme.of(context).isDarkTheme ? Colors.grey : Colors.grey[600];
 
@@ -337,6 +356,14 @@ class _TimetableLessonBottomModelSheet extends StatelessWidget {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.note_add),
+                tooltip: 'Hausaufgabe hinzufügen',
+                color: getIconGrey(context),
+                onPressed:
+                    () =>
+                        Navigator.pop(context, _LessonDialogAction.addHomework),
+              ),
               const _ChangeColorIcon(),
               if (hasPermissionsToManageLessons) ...const [
                 _EditIcon(),

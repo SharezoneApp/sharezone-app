@@ -24,6 +24,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik.dart' hide Date;
 import 'package:holidays/holidays.dart';
+import 'package:intl/intl.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -329,6 +330,8 @@ void main() {
     Future<void> pumpAndSettleHomeworkDialog(
       WidgetTester tester, {
       bool showDueDateSelectionChips = false,
+      CourseId? initialCourseId,
+      Date? initialDueDate,
     }) async {
       when(sharezoneGateway.course).thenReturn(courseGateway);
       when(sharezoneContext.api).thenReturn(sharezoneGateway);
@@ -393,6 +396,8 @@ void main() {
                                 ? HomeworkId(homework!.id)
                                 : null,
                         showDueDateSelectionChips: showDueDateSelectionChips,
+                        initialCourseId: initialCourseId,
+                        initialDueDate: initialDueDate,
                       ),
                     ),
                   ),
@@ -571,6 +576,42 @@ void main() {
       expect(analyticsBackend.loggedEvents, [
         {'homework_add': {}},
       ]);
+    });
+
+    testWidgets('prefills course and due date from initial values', (
+      tester,
+    ) async {
+      Intl.defaultLocale = 'de_DE';
+      homework = null;
+
+      final fooCourse = courseWith(
+        id: 'foo_course',
+        name: 'Foo course',
+        subject: 'Foo subject',
+      );
+
+      addCourse(fooCourse);
+
+      final initialDueDate = Date('2024-02-10');
+      await pumpAndSettleHomeworkDialog(
+        tester,
+        initialCourseId: CourseId(fooCourse.id),
+        initialDueDate: initialDueDate,
+      );
+
+      expect(
+        find.descendant(
+          of: find.byKey(HwDialogKeys.courseTile),
+          matching: find.text('Foo course'),
+        ),
+        findsOneWidget,
+      );
+
+      final expectedDateText = DateFormat(
+        'E, MMM d, yy',
+        Intl.defaultLocale,
+      ).format(initialDueDate.toDateTime);
+      expect(find.text(expectedDateText), findsOneWidget);
     });
 
     testWidgets('should display an empty dialog when no homework is passed', (
