@@ -23,6 +23,7 @@ import 'package:sharezone/account/change_data_bloc.dart';
 import 'package:sharezone/account/profile/user_edit/user_edit_page.dart';
 import 'package:sharezone/account/select_state_dialog.dart';
 import 'package:sharezone/activation_code/activation_code_page.dart';
+import 'package:sharezone/auth/authentification_localization_mapper.dart';
 import 'package:sharezone/groups/src/widgets/danger_section.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/navigation/drawer/sign_out_dialogs/sign_out_dialogs.dart';
@@ -35,6 +36,7 @@ import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
+import 'package:user/user.dart';
 
 import 'user_view.dart';
 
@@ -160,15 +162,15 @@ class _EmailTile extends StatelessWidget {
 }
 
 class _TypeOfUserTile extends StatelessWidget {
-  const _TypeOfUserTile({this.user});
+  const _TypeOfUserTile({required this.user});
 
-  final UserView? user;
+  final UserView user;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(context.l10n.myProfileEmailAccountTypeTitle),
-      subtitle: Text(user!.typeOfUser),
+      subtitle: Text(user.typeOfUser.toLocalizedString(context)),
       leading: const Icon(Icons.accessibility),
       onTap: () => Navigator.pushNamed(context, ChangeTypeOfUserPage.tag),
     );
@@ -233,7 +235,7 @@ class _ProviderTile extends StatelessWidget {
     return ListTile(
       leading: const Icon(Icons.lock),
       title: Text(context.l10n.myProfileSignInMethodTile),
-      subtitle: Text(providerToUiString(provider)),
+      subtitle: Text(mapAuthProviderName(context, provider)),
       onTap: () {
         if (provider == Provider.anonymous) {
           Navigator.pushNamed(context, AccountPage.tag);
@@ -451,7 +453,7 @@ class _DeleteAccountDialogContentState
     } on Exception catch (e, s) {
       setState(() {
         isLoading = false;
-        error = handleErrorMessage(e.toString(), s);
+        error = handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s);
       });
     }
   }

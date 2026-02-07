@@ -30,7 +30,6 @@ import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_lehrer.dart';
 import 'package:hausaufgabenheft_logik/hausaufgabenheft_logik_setup.dart';
 import 'package:holidays/holidays.dart' hide State;
 import 'package:http/http.dart' as http;
-import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -72,6 +71,7 @@ import 'package:sharezone/grades/pages/grades_dialog/grades_dialog_controller_fa
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page_controller_factory.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
+import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller_factory.dart';
 import 'package:sharezone/groups/analytics/group_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/analytics/course_create_analytics.dart';
 import 'package:sharezone/groups/src/pages/course/create/bloc/course_create_bloc_factory.dart';
@@ -125,7 +125,6 @@ import 'package:sharezone/timetable/timetable_page/lesson/substitution_controlle
 import 'package:sharezone/timetable/timetable_page/school_class_filter/school_class_filter_analytics.dart';
 import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/connections_gateway.dart';
-import 'package:sharezone/util/cache/key_value_store.dart';
 import 'package:sharezone/util/cache/streaming_key_value_store.dart';
 import 'package:sharezone/util/firebase_auth_token_retreiver_impl.dart';
 import 'package:sharezone/util/navigation_service.dart';
@@ -516,6 +515,13 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       Provider(
         create:
             (context) => TermSettingsPageControllerFactory(
+              gradesService: gradesService,
+              coursesStream: () => api.course.streamCourses(),
+            ),
+      ),
+      Provider(
+        create:
+            (context) => SubjectsPageControllerFactory(
               gradesService: gradesService,
               coursesStream: () => api.course.streamCourses(),
             ),

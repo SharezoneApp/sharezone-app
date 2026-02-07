@@ -16,7 +16,7 @@ import 'package:meta/meta.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 
 import 'helper.dart';
 

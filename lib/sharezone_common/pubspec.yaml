@@ -24,6 +24,8 @@ dependencies:
     path: ../crash_analytics
   sharezone_utils:
     path: ../sharezone_utils
+  sharezone_localizations:
+    path: ../sharezone_localizations
   cloud_firestore: ^6.0.2
   firebase_auth: ^6.1.0
   helper_functions:

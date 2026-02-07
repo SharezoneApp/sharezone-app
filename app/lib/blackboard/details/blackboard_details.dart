@@ -10,6 +10,8 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:key_value_store/key_value_store.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/blackboard/blackboard_dialog.dart';
 import 'package:sharezone/blackboard/blackboard_item.dart';
 import 'package:sharezone/blackboard/blackboard_view.dart';
@@ -20,7 +22,6 @@ import 'package:sharezone/filesharing/dialog/attachment_list.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/report/report_icon.dart';
 import 'package:sharezone/report/report_item.dart';
-import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/widgets/material/bottom_action_bar.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -438,7 +439,13 @@ class _Text extends StatelessWidget {
       //       color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black),
       //   a: linkStyle(context, 15),
       // ),
-      onTapLink: (url, _, _) => launchURL(url, context: context),
+      onTapLink:
+          (text, href, _) => launchMarkdownLinkWithWarning(
+            href: href ?? text,
+            text: text,
+            keyValueStore: context.read<KeyValueStore>(),
+            context: context,
+          ),
     );
   }
 }

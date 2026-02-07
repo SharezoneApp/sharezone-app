@@ -33,6 +33,7 @@ import 'package:user/user.dart' as _i9;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeStreamingKeyValueStore_0 extends _i1.SmartFake
     implements _i2.StreamingKeyValueStore {
@@ -182,12 +183,11 @@ class MockSubscriptionService extends _i1.Mock
           as _i6.Stream<_i9.SharezonePlusStatus?>);
 
   @override
-  set sharezonePlusStatusStream(
-    _i6.Stream<_i9.SharezonePlusStatus?>? _sharezonePlusStatusStream,
-  ) => super.noSuchMethod(
-    Invocation.setter(#sharezonePlusStatusStream, _sharezonePlusStatusStream),
-    returnValueForMissingStub: null,
-  );
+  set sharezonePlusStatusStream(_i6.Stream<_i9.SharezonePlusStatus?>? value) =>
+      super.noSuchMethod(
+        Invocation.setter(#sharezonePlusStatusStream, value),
+        returnValueForMissingStub: null,
+      );
 
   @override
   bool isSubscriptionActive([_i9.AppUser? appUser]) =>

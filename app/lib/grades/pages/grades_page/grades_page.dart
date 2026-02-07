@@ -12,10 +12,12 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/grades_dialog/grades_dialog.dart';
 import 'package:sharezone/grades/pages/grades_page/grades_page_controller.dart';
+import 'package:sharezone/grades/pages/grades_settings_page/grades_settings_page.dart';
 import 'package:sharezone/grades/pages/grades_view.dart';
 import 'package:sharezone/grades/pages/shared/subject_avatar.dart';
 import 'package:sharezone/grades/pages/shared/term_tile.dart';
 import 'package:sharezone/grades/pages/term_details_page/term_details_page.dart';
+import 'package:sharezone/navigation/scaffold/app_bar_configuration.dart';
 import 'package:sharezone/navigation/models/navigation_item.dart';
 import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/support/support_page.dart';
@@ -30,6 +32,7 @@ class GradesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SharezoneMainScaffold(
       navigationItem: NavigationItem.grades,
+      appBarConfiguration: AppBarConfiguration(actions: [_SettingsIcon()]),
       body: GradesPageBody(),
       floatingActionButton: _FAB(),
     );
@@ -63,6 +66,19 @@ class GradesPageBody extends StatelessWidget {
         GradesPageLoaded() => _Loaded(state: state),
         GradesPageError() => _Error(state: state),
       },
+    );
+  }
+}
+
+class _SettingsIcon extends StatelessWidget {
+  const _SettingsIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: 'Einstellungen',
+      icon: const Icon(Icons.settings),
+      onPressed: () => Navigator.pushNamed(context, GradesSettingsPage.tag),
     );
   }
 }

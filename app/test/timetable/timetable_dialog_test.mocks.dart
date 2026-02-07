@@ -24,6 +24,7 @@ import 'package:sharezone/timetable/timetable_add_event/src/timetable_add_event_
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeCourse_0 extends _i1.SmartFake implements _i2.Course {
   _FakeCourse_0(Object parent, Invocation parentInvocation)

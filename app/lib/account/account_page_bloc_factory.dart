@@ -11,6 +11,7 @@ import 'package:bloc_base/bloc_base.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/account/account_page_bloc.dart';
 import 'package:sharezone/util/api/user_api.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class AccountPageBlocFactory extends BlocBase {
   final UserGateway _userGateway;
@@ -19,11 +20,13 @@ class AccountPageBlocFactory extends BlocBase {
 
   AccountPageBloc create(
     GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey,
+    SharezoneLocalizations l10n,
   ) {
     return AccountPageBloc(
       globalKey: scaffoldMessengerKey,
       linkProviderGateway: LinkProviderGateway(_userGateway),
       userGateway: _userGateway,
+      l10n: l10n,
     );
   }
 

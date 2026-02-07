@@ -32,6 +32,7 @@ import 'package:sharezone/widgets/fade_switch_between_index_with_tab_controller.
 import 'package:sharezone/widgets/tabs.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -279,7 +280,11 @@ class _FinishButton extends StatelessWidget {
           log('$e', error: e, stackTrace: s);
 
           showSnackSec(
-            text: handleErrorMessage(e.toString(), s),
+            text: handleErrorMessage(
+              l10n: context.l10n,
+              error: e,
+              stackTrace: s,
+            ),
             context: context,
           );
         }
