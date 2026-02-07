@@ -14,9 +14,7 @@ class _DashboardPageFAB extends StatelessWidget {
   const _DashboardPageFAB();
 
   Future<void> openDashboardFabSheet(BuildContext context) async {
-    final analytics = DashboardAnalytics(
-      AnalyticsProvider.ofOrNullObject(context),
-    );
+    final analytics = DashboardAnalytics(context.read<Analytics>());
     analytics.logOpenFabSheet();
 
     final fabResult = await showModalBottomSheet<_DashboardFabResult>(
