@@ -325,12 +325,12 @@ PushHandlerInvocationResult handlePushNotification(
 class ShowErrorDialogInvocation implements Exception {
   final PushNotification notification;
   final NotificationHandlerErrorReason errorReason;
-  final dynamic error;
+  final dynamic errorOrNull;
 
   ShowErrorDialogInvocation(
     this.notification,
     this.errorReason,
-    this.error,
+    this.errorOrNull,
   );
 }
 
