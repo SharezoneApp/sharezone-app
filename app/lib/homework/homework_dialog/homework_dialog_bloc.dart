@@ -935,6 +935,8 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
     required Date? initialDueDate,
   }) async {
     Course? course;
+    Date? newLessonDate;
+
     if (initialCourseId != null) {
       course = await api.loadCourse(initialCourseId);
       _homework = _homework.copyWith(
@@ -942,7 +944,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         courseName: course.name,
       );
 
-      final newLessonDate = await nextLessonCalculator.tryCalculateXNextLesson(
+      newLessonDate = await nextLessonCalculator.tryCalculateXNextLesson(
         course.id,
         inLessons: 1,
       );
@@ -955,7 +957,7 @@ class HomeworkDialogBloc extends Bloc<HomeworkDialogEvent, HomeworkDialogState>
         dueDateSelection: DateDueDateSelection(initialDueDate),
       );
     } else if (course != null) {
-      final newLessonDate = await nextLessonCalculator.tryCalculateXNextLesson(
+      newLessonDate ??= await nextLessonCalculator.tryCalculateXNextLesson(
         course.id,
         inLessons: 1,
       );
