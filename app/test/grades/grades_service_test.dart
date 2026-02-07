@@ -44,41 +44,67 @@ void main() {
     });
 
     test('deleteSubject removes subject and grades from all terms', () {
-      const termId = TermId('term-1');
-      const subjectId = SubjectId('subject-1');
-      const gradeId = GradeId('grade-1');
+      const term1Id = TermId('term-1');
+      const term2Id = TermId('term-2');
+      const subject1Id = SubjectId('subject-1');
+      const subjectDoNotDeleteId = SubjectId('subject-do-not-delete');
+      const grade1Id = GradeId('grade-1');
+      const grade2Id = GradeId('grade-2');
+      const grade3Id = GradeId('grade-3');
 
-      testController.createTerm(
-        termWith(
-          id: termId,
-          subjects: [
-            subjectWith(
-              id: subjectId,
-              name: 'Mathematik',
-              grades: [gradeWith(id: gradeId, title: 'Klausur')],
-            ),
-          ],
-        ),
+      testController.addSubject(
+        subjectWith(id: subject1Id, name: 'Mathematik'),
+      );
+      testController.addSubject(
+        subjectWith(id: subjectDoNotDeleteId, name: 'Physik'),
+      );
+      testController.createTerm(termWith(id: term1Id));
+      testController.createTerm(termWith(id: term2Id));
+      testController.addGrade(
+        subjectId: subject1Id,
+        termId: term1Id,
+        value: gradeWith(id: grade1Id, title: 'Klausur 1'),
+      );
+      testController.addGrade(
+        subjectId: subject1Id,
+        termId: term2Id,
+        value: gradeWith(id: grade2Id, title: 'Klausur 2'),
+      );
+      testController.addGrade(
+        subjectId: subjectDoNotDeleteId,
+        termId: term1Id,
+        value: gradeWith(id: grade3Id, title: 'Klausur 3'),
       );
 
       expect(
-        service.getSubjects().any((subject) => subject.id == subjectId),
+        service.getSubjects().any((subject) => subject.id == subject1Id),
         isTrue,
       );
 
-      service.deleteSubject(subjectId);
+      service.deleteSubject(subject1Id);
 
       expect(
-        service.getSubjects().any((subject) => subject.id == subjectId),
+        service.getSubjects().any((subject) => subject.id == subject1Id),
         isFalse,
       );
 
-      final term = service.terms.value.singleWhere((t) => t.id == termId);
-      expect(term.subjects.any((s) => s.id == subjectId), isFalse);
+      expect(testController.term(term1Id).subjects.map((s) => s.id), [
+        // Subject 'subject-do-not-delete' should not be deleted and should
+        // still be part of term 1
+        subjectDoNotDeleteId,
+      ]);
+      expect(testController.term(term2Id).subjects, isEmpty);
       expect(
-        () => service.grade(gradeId),
+        () => service.grade(grade1Id),
         throwsA(isA<GradeNotFoundException>()),
       );
+      expect(
+        () => service.grade(grade2Id),
+        throwsA(isA<GradeNotFoundException>()),
+      );
+      // Grade 3 should not be deleted because it's part of subject
+      // 'subject-do-not-delete'
+      expect(service.grade(grade3Id).get(), isNotNull);
     });
 
     test('deleteSubject succeeds even if subject not part of any term', () {
