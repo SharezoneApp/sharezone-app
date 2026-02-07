@@ -2847,6 +2847,30 @@ abstract class SharezoneLocalizations {
   /// **'Erscheinungsbild'**
   String get themeTitle;
 
+  /// Countdown label for the delete action in the delete all lessons dialog.
+  ///
+  /// In de, this message translates to:
+  /// **'Löschen ({seconds})'**
+  String timetableDeleteAllDialogDeleteCountdown(int seconds);
+
+  /// Overlay action to open timetable settings.
+  ///
+  /// In de, this message translates to:
+  /// **'Stundenplan löschen'**
+  String get timetableDeleteAllSuggestionAction;
+
+  /// Overlay body suggesting the delete all lessons feature.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du deinen gesamten Stundenplan löschen? Klicke hier, um die Funktion zu nutzen.'**
+  String get timetableDeleteAllSuggestionBody;
+
+  /// Overlay title suggesting deleting the entire timetable.
+  ///
+  /// In de, this message translates to:
+  /// **'Gesamten Stundenplan löschen?'**
+  String get timetableDeleteAllSuggestionTitle;
+
   /// Error message shown when the end time is before the next lesson's start time.
   ///
   /// In de, this message translates to:
@@ -2918,6 +2942,30 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'A-Wochen sind gerade Kalenderwochen'**
   String get timetableSettingsAWeeksAreEvenSwitch;
+
+  /// Snackbar confirmation after deleting all lessons.
+  ///
+  /// In de, this message translates to:
+  /// **'Stunden wurden gelöscht.'**
+  String get timetableSettingsDeleteAllLessonsConfirmation;
+
+  /// Confirmation dialog body for deleting all lessons.
+  ///
+  /// In de, this message translates to:
+  /// **'Damit werden {count} Stunden aus Gruppen gelöscht, für die du Schreibrechte hast. Diese Stunden werden auch für deine Gruppenmitglieder gelöscht. Das kann nicht rückgängig gemacht werden.'**
+  String timetableSettingsDeleteAllLessonsDialogBody(int count);
+
+  /// Confirmation dialog title for deleting all lessons.
+  ///
+  /// In de, this message translates to:
+  /// **'Alle Stunden löschen?'**
+  String get timetableSettingsDeleteAllLessonsDialogTitle;
+
+  /// Subtitle when the user cannot delete any lessons.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Stunden mit Schreibrechten.'**
+  String get timetableSettingsDeleteAllLessonsSubtitleNoAccess;
 
   /// No description provided for @timetableSettingsEnabledWeekDaysTileTitle.
   ///
@@ -3019,7 +3067,7 @@ abstract class SharezoneLocalizations {
     String is_a_week_even,
   );
 
-  /// No description provided for @timetableSettingsTitle.
+  /// Title of the timetable settings page.
   ///
   /// In de, this message translates to:
   /// **'Stundenplan'**

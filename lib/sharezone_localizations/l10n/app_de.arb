@@ -955,6 +955,28 @@
   "themeRateOurAppCardTitle": "Gefällt dir Sharezone?",
   "themeSystemMode": "System",
   "themeTitle": "Erscheinungsbild",
+  "timetableDeleteAllDialogDeleteCountdown": "Löschen ({seconds})",
+  "@timetableDeleteAllDialogDeleteCountdown": {
+    "description": "Countdown label for the delete action in the delete all lessons dialog.",
+    "placeholders": {
+      "seconds": {
+        "example": "9",
+        "type": "int"
+      }
+    }
+  },
+  "timetableDeleteAllSuggestionAction": "Stundenplan löschen",
+  "@timetableDeleteAllSuggestionAction": {
+    "description": "Overlay action to open timetable settings."
+  },
+  "timetableDeleteAllSuggestionBody": "Möchtest du deinen gesamten Stundenplan löschen? Klicke hier, um die Funktion zu nutzen.",
+  "@timetableDeleteAllSuggestionBody": {
+    "description": "Overlay body suggesting the delete all lessons feature."
+  },
+  "timetableDeleteAllSuggestionTitle": "Gesamten Stundenplan löschen?",
+  "@timetableDeleteAllSuggestionTitle": {
+    "description": "Overlay title suggesting deleting the entire timetable."
+  },
   "timetableErrorEndTimeBeforeNextLessonStart": "Die Endzeit ist vor der Startzeit der nächsten Stunde!",
   "@timetableErrorEndTimeBeforeNextLessonStart": {
     "description": "Error message shown when the end time is before the next lesson's start time."
@@ -997,6 +1019,28 @@
   },
   "timetableSettingsABWeekTileTitle": "A/B Wochen",
   "timetableSettingsAWeeksAreEvenSwitch": "A-Wochen sind gerade Kalenderwochen",
+  "timetableSettingsDeleteAllLessonsConfirmation": "Stunden wurden gelöscht.",
+  "@timetableSettingsDeleteAllLessonsConfirmation": {
+    "description": "Snackbar confirmation after deleting all lessons."
+  },
+  "timetableSettingsDeleteAllLessonsDialogBody": "Damit werden {count} Stunden aus Gruppen gelöscht, für die du Schreibrechte hast. Diese Stunden werden auch für deine Gruppenmitglieder gelöscht. Das kann nicht rückgängig gemacht werden.",
+  "@timetableSettingsDeleteAllLessonsDialogBody": {
+    "description": "Confirmation dialog body for deleting all lessons.",
+    "placeholders": {
+      "count": {
+        "example": "12",
+        "type": "int"
+      }
+    }
+  },
+  "timetableSettingsDeleteAllLessonsDialogTitle": "Alle Stunden löschen?",
+  "@timetableSettingsDeleteAllLessonsDialogTitle": {
+    "description": "Confirmation dialog title for deleting all lessons."
+  },
+  "timetableSettingsDeleteAllLessonsSubtitleNoAccess": "Keine Stunden mit Schreibrechten.",
+  "@timetableSettingsDeleteAllLessonsSubtitleNoAccess": {
+    "description": "Subtitle when the user cannot delete any lessons."
+  },
   "timetableSettingsEnabledWeekDaysTileTitle": "Aktivierte Wochentage",
   "timetableSettingsIcalLinksPlusDialogContent": "Mit einem iCal-Link kannst du deinen Stundenplan und deine Termine in andere Kalender-Apps (wie z.B. Google Kalender, Apple Kalender) einbinden. Sobald sich dein Stundenplan oder deine Termine ändern, werden diese auch in deinen anderen Kalender Apps aktualisiert.\n\nAnders als beim \"Zum Kalender hinzufügen\" Button, musst du dich nicht darum kümmern, den Termin in deiner Kalender App zu aktualisieren, wenn sich etwas in Sharezone ändert.\n\niCal-Links ist nur für dich sichtbar und können nicht von anderen Personen eingesehen werden.\n\nBitte beachte, dass aktuell nur Termine und Prüfungen exportiert werden können. Die Schulstunden können noch nicht exportiert werden.",
   "timetableSettingsIcalLinksTitleSubtitle": "Synchronisierung mit Google Kalender, Apple Kalender usw.",
@@ -1040,6 +1084,9 @@
     }
   },
   "timetableSettingsTitle": "Stundenplan",
+  "@timetableSettingsTitle": {
+    "description": "Title of the timetable settings page."
+  },
   "typeOfUserParent": "Elternteil",
   "@typeOfUserParent": {
     "description": "Label for the type of user parent."

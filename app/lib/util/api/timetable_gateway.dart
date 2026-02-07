@@ -6,6 +6,8 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date/date.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
@@ -40,6 +42,16 @@ class TimetableGateway {
 
   Future<bool> deleteLesson(Lesson lesson) {
     return references.lessons.doc(lesson.lessonID).delete().then((_) => true);
+  }
+
+  void deleteLessons(List<Lesson> lessons) {
+    for (final lesson in lessons) {
+      final lessonId = lesson.lessonID;
+      if (lessonId == null) continue;
+
+      // To support offline deletion, we don't await the deletion.
+      unawaited(references.lessons.doc(lessonId).delete());
+    }
   }
 
   Future<bool> createEvent(CalendricalEvent event) {

@@ -1600,6 +1600,22 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   String get themeTitle => 'Erscheinungsbild';
 
   @override
+  String timetableDeleteAllDialogDeleteCountdown(int seconds) {
+    return 'Löschen ($seconds)';
+  }
+
+  @override
+  String get timetableDeleteAllSuggestionAction => 'Stundenplan löschen';
+
+  @override
+  String get timetableDeleteAllSuggestionBody =>
+      'Möchtest du deinen gesamten Stundenplan löschen? Klicke hier, um die Funktion zu nutzen.';
+
+  @override
+  String get timetableDeleteAllSuggestionTitle =>
+      'Gesamten Stundenplan löschen?';
+
+  @override
   String get timetableErrorEndTimeBeforeNextLessonStart =>
       'Die Endzeit ist vor der Startzeit der nächsten Stunde!';
 
@@ -1642,6 +1658,23 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
   @override
   String get timetableSettingsAWeeksAreEvenSwitch =>
       'A-Wochen sind gerade Kalenderwochen';
+
+  @override
+  String get timetableSettingsDeleteAllLessonsConfirmation =>
+      'Stunden wurden gelöscht.';
+
+  @override
+  String timetableSettingsDeleteAllLessonsDialogBody(int count) {
+    return 'Damit werden $count Stunden aus Gruppen gelöscht, für die du Schreibrechte hast. Diese Stunden werden auch für deine Gruppenmitglieder gelöscht. Das kann nicht rückgängig gemacht werden.';
+  }
+
+  @override
+  String get timetableSettingsDeleteAllLessonsDialogTitle =>
+      'Alle Stunden löschen?';
+
+  @override
+  String get timetableSettingsDeleteAllLessonsSubtitleNoAccess =>
+      'Keine Stunden mit Schreibrechten.';
 
   @override
   String get timetableSettingsEnabledWeekDaysTileTitle =>
