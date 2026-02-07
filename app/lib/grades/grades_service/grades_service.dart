@@ -146,6 +146,14 @@ class GradesService {
   Subject? getSubject(SubjectId id) {
     return _service.getSubject(id);
   }
+
+  /// Deletes a subjects and all of its grades.
+  ///
+  /// Throws [SubjectNotFoundException] if the subject with the given [id]
+  /// does not exist.
+  void deleteSubject(SubjectId id) {
+    _service.deleteSubject(id);
+  }
 }
 
 class TermRef {
