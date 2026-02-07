@@ -8,7 +8,7 @@
 
 import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone/feedback/src/cache/feedback_cache.dart';
 
 void main() {

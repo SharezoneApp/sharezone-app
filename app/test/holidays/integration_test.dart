@@ -11,7 +11,7 @@ import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:async/async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holidays/holidays.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
