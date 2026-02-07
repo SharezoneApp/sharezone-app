@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:common_domain_models/common_domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -13,9 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page.dart';
 import 'package:sharezone/grades/pages/subjects_page/subjects_page_controller_factory.dart';
-import 'package:sharezone_widgets/sharezone_widgets.dart';
-import 'package:common_domain_models/common_domain_models.dart';
 import 'package:sharezone_localizations/sharezone_localizations.dart';
+import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import '../../grades_test_common.dart';
 
@@ -66,12 +66,7 @@ void main() {
             gradesService: service,
             coursesStream: () => Stream.value([]),
           ),
-          child: const MaterialApp(
-            home: SubjectsPage(),
-            supportedLocales: [Locale('de')],
-            localizationsDelegates:
-                SharezoneLocalizations.localizationsDelegates,
-          ),
+          child: const _App(),
         ),
       );
 
@@ -121,7 +116,7 @@ void main() {
       await tester.pumpWidget(
         Provider<SubjectsPageControllerFactory>.value(
           value: factory,
-          child: const MaterialApp(home: SubjectsPage()),
+          child: const _App(),
         ),
       );
 
@@ -155,7 +150,7 @@ void main() {
       await tester.pumpWidget(
         Provider<SubjectsPageControllerFactory>.value(
           value: factory,
-          child: const MaterialApp(home: SubjectsPage()),
+          child: const _App(),
         ),
       );
 
@@ -175,6 +170,19 @@ Course _course({required String id, required String subject, String? name}) {
         subject.isNotEmpty ? subject.substring(0, 1).toUpperCase() : 'C',
     myRole: MemberRole.admin,
   );
+}
+
+class _App extends StatelessWidget {
+  const _App();
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: SubjectsPage(),
+      supportedLocales: [Locale('de')],
+      localizationsDelegates: SharezoneLocalizations.localizationsDelegates,
+    );
+  }
 }
 
 extension on Course {
