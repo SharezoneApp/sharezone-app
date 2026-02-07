@@ -9,8 +9,6 @@
 import 'package:abgabe_client_lib/abgabe_client_lib.dart';
 import 'package:abgabe_http_api/api.dart';
 import 'package:analytics/analytics.dart';
-import 'package:analytics/null_analytics_backend.dart'
-    show NullAnalyticsBackend;
 import 'package:authentification_base/authentification.dart' as auth;
 import 'package:bloc_base/bloc_base.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -22,7 +20,6 @@ import 'package:dio/dio.dart';
 import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:filesharing_logic/file_uploader.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:group_domain_implementation/group_domain_accessors_implementation.dart';
 import 'package:group_domain_models/group_domain_models.dart';
@@ -170,13 +167,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
   void initState() {
     super.initState();
 
-    final analyticsBackend =
-        kDebugMode
-            ?
-            // LoggingAnalyticsBackend()
-            NullAnalyticsBackend()
-            : getBackend();
-    analytics = Analytics(analyticsBackend);
+    analytics = widget.blocDependencies.analytics;
 
     // Muss in die initState, weil ansonsten der Bloc die Daten resettet,
     // wenn das Handy gedreht wird und dadurch die build Methode dieses Widgets
@@ -288,7 +279,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
       SchoolClassFilterAnalytics(analytics),
     );
 
-    final markdownAnalytics = MarkdownAnalytics(Analytics(getBackend()));
+    final markdownAnalytics = MarkdownAnalytics(analytics);
 
     var abgabenGateway = FirestoreAbgabeGateway(
       firestore: firestore,
@@ -608,7 +599,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
         ),
       ),
       BlocProvider<AccountPageBlocFactory>(
-        bloc: AccountPageBlocFactory(api.user),
+        bloc: AccountPageBlocFactory(api.user, analytics),
       ),
       BlocProvider<BlackboardAnalytics>(bloc: BlackboardAnalytics(analytics)),
       BlocProvider<NavigationExperimentCache>(
@@ -726,7 +717,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
           CommentsGateway(api.references.firestore),
           api.user.userStream,
           CommentViewFactory(courseGateway: api.course, uid: api.uID),
-          CommentsAnalytics(Analytics(getBackend())),
+          CommentsAnalytics(analytics),
         ),
       ),
       BlocProvider<HomeworkDetailsViewFactory>(
@@ -764,7 +755,7 @@ class _SharezoneBlocProvidersState extends State<SharezoneBlocProviders> {
             api.schoolClassGateway,
             api.connectionsGateway,
           ),
-          CourseCreateAnalytics(Analytics(getBackend())),
+          CourseCreateAnalytics(analytics),
         ),
       ),
     ];

@@ -53,6 +53,7 @@ void main() {
         dynamicLinkBloc: dependencies.dynamicLinkBloc,
         flavor: Flavor.dev,
         isIntegrationTest: true,
+        analytics: dependencies.blocDependencies.analytics,
       ),
     );
   }

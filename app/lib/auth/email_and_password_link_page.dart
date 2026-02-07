@@ -6,6 +6,7 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'package:analytics/analytics.dart';
 import 'package:authentification_base/authentification.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -70,12 +71,14 @@ class _EmailAndPasswordLinkPageState extends State<EmailAndPasswordLinkPage> {
     super.didChangeDependencies();
     if (_didInit) return;
     final api = BlocProvider.of<SharezoneContext>(context).api;
+    final analytics = AnalyticsProvider.ofOrNullObject(context);
     bloc = EmailAndPasswordLinkBloc(
-      LinkProviderGateway(api.user),
+      LinkProviderGateway(api.user, analytics: analytics),
       UserEditBlocGateway(api.user, widget.user),
       widget.user.name,
       scaffoldKey,
       context.l10n,
+      analytics,
     );
     delayKeyboard(context: context, focusNode: emailFocusNode);
     _didInit = true;

@@ -27,8 +27,7 @@ class AccountPageBloc extends BlocBase {
   final GlobalKey<ScaffoldMessengerState> globalKey;
   final LinkProviderGateway linkProviderGateway;
   final UserGateway userGateway;
-
-  final _analytics = LinkProviderAnalytics(Analytics(getBackend()));
+  final LinkProviderAnalytics _analytics;
 
   late Stream<UserView> userViewStream;
 
@@ -36,8 +35,9 @@ class AccountPageBloc extends BlocBase {
     required this.userGateway,
     required this.linkProviderGateway,
     required this.globalKey,
+    required Analytics analytics,
     required this.l10n,
-  }) {
+  }) : _analytics = LinkProviderAnalytics(analytics) {
     final userStream = userGateway.userStream;
     final authUserStream = userGateway.authUserStream;
 

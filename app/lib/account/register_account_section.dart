@@ -11,6 +11,7 @@ import 'package:authentification_base/authentification_analytics.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:sharezone/account/use_account_on_multiple_devices_instruction.dart';
 import 'package:sharezone/auth/email_and_password_link_page.dart';
 import 'package:sharezone/main/application_bloc.dart';
@@ -287,9 +288,7 @@ Future<void> showCredentialAlreadyInUseDialog(BuildContext context) async {
   );
 
   if (showInstruction != null && showInstruction && context.mounted) {
-    final LinkProviderAnalytics analytics = LinkProviderAnalytics(
-      Analytics(getBackend()),
-    );
+    final analytics = LinkProviderAnalytics(context.read<Analytics>());
     analytics.logShowedUseMultipleDevicesInstruction();
     Navigator.pushNamed(context, UseAccountOnMultipleDevicesInstructions.tag);
   }

@@ -32,10 +32,7 @@ typedef AnonymousUserNameBuilder = String Function();
 class RegistrationGateway extends BlocBase {
   final CollectionReference userCollection;
   final FirebaseAuth _auth;
-  final RegistrationAnalytics _analytics =
-      RegistrationAnalyticsAnalyticsWithInternalFirebaseEvents(
-        Analytics(getBackend()),
-      );
+  final RegistrationAnalytics _analytics;
   final AnonymousUserNameBuilder _anonymousUserNameBuilder;
 
   final _registrationEventController =
@@ -46,8 +43,12 @@ class RegistrationGateway extends BlocBase {
   RegistrationGateway(
     this.userCollection,
     this._auth, {
+    required Analytics analytics,
     required AnonymousUserNameBuilder anonymousUserNameBuilder,
-  }) : _anonymousUserNameBuilder = anonymousUserNameBuilder;
+  }) : _analytics = RegistrationAnalyticsAnalyticsWithInternalFirebaseEvents(
+         analytics,
+       ),
+       _anonymousUserNameBuilder = anonymousUserNameBuilder;
 
   void _addUserToFirestore(AppUser user) {
     final data = user.toEditJson();
