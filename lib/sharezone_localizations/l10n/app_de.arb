@@ -1016,6 +1016,8 @@
       }
     }
   },
+  "timetableSettingsOpenUpcomingWeekOnNonSchoolDaysSubtitle": "Wenn in dieser Woche keine aktivierten Wochentage mehr übrig sind, öffnet der Stundenplan die kommende Woche.",
+  "timetableSettingsOpenUpcomingWeekOnNonSchoolDaysTitle": "Kommende Woche an schulfreien Tagen öffnen",
   "timetableSettingsPeriodsFieldTileSubtitle": "Stundenplanbeginn, Stundenlänge, etc.",
   "timetableSettingsPeriodsFieldTileTitle": "Stundenzeiten",
   "timetableSettingsShowLessonsAbbreviation": "Kürzel im Stundenplan anzeigen",

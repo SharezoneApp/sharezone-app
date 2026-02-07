@@ -6,13 +6,15 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
+import 'dart:math';
+
 import 'package:date/date.dart';
 import 'package:user/user.dart';
 
 class TimetableDateHelper {
-  static Date dateBeginThisWeek() {
-    Date today = Date.today();
-    Date startOfThisWeek = today.addDays(-(today.weekDay - 1));
+  static Date dateBeginThisWeek({Date? today}) {
+    final currentDate = today ?? Date.today();
+    Date startOfThisWeek = currentDate.addDays(-(currentDate.weekDay - 1));
     return startOfThisWeek;
   }
 
@@ -22,6 +24,28 @@ class TimetableDateHelper {
 
   static Date dateAddWeeks(Date date, int weeks) {
     return dateAddDays(date, weeks * 7);
+  }
+
+  static bool shouldOpenUpcomingWeek({
+    required Date today,
+    required EnabledWeekDays enabledWeekDays,
+    required bool isFeatureEnabled,
+    required Iterable<Date> eventDatesInCurrentWeek,
+  }) {
+    if (!isFeatureEnabled) return false;
+    final enabledDays = enabledWeekDays.getEnabledWeekDaysList();
+    if (enabledDays.isEmpty) return false;
+    final lastEnabledIndex = enabledDays.map((day) => day.index).reduce(max);
+    if (today.weekDayEnum.index <= lastEnabledIndex) return false;
+    final hasUpcomingEventOnNonEnabledDay = eventDatesInCurrentWeek.any((
+      eventDate,
+    ) {
+      final isEnabledDay =
+          enabledWeekDays.getValue(eventDate.weekDayEnum) ?? false;
+      if (isEnabledDay) return false;
+      return !eventDate.isBefore(today);
+    });
+    return !hasUpcomingEventOnNonEnabledDay;
   }
 
   // THERE ARE MORE OPTIMAL CALCULATION METHODES, BUT I LIKE THIS DESIGN :)

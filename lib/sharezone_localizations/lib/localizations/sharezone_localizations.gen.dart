@@ -2979,6 +2979,18 @@ abstract class SharezoneLocalizations {
   /// **'{length} Min.'**
   String timetableSettingsLessonLengthTileTrailing(int length);
 
+  /// No description provided for @timetableSettingsOpenUpcomingWeekOnNonSchoolDaysSubtitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Wenn in dieser Woche keine aktivierten Wochentage mehr übrig sind, öffnet der Stundenplan die kommende Woche.'**
+  String get timetableSettingsOpenUpcomingWeekOnNonSchoolDaysSubtitle;
+
+  /// No description provided for @timetableSettingsOpenUpcomingWeekOnNonSchoolDaysTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Kommende Woche an schulfreien Tagen öffnen'**
+  String get timetableSettingsOpenUpcomingWeekOnNonSchoolDaysTitle;
+
   /// No description provided for @timetableSettingsPeriodsFieldTileSubtitle.
   ///
   /// In de, this message translates to:

@@ -58,6 +58,8 @@ class TimetableSettingsPage extends StatelessWidget {
                   const Divider(),
                   _TimetableEnabledWeekDaysField(),
                   const Divider(),
+                  _OpenUpcomingWeekOnNonSchoolDays(),
+                  const Divider(),
                   const _ICalLinks(),
                   // We only show the time picker settings on iOS because on
                   // other platforms we use the different time picker where we
@@ -236,6 +238,38 @@ class _TimetableEnabledWeekDaysField extends StatelessWidget {
     return ListTile(
       title: Text(context.l10n.timetableSettingsEnabledWeekDaysTileTitle),
       onTap: () => openWeekDaysEditPage(context),
+    );
+  }
+}
+
+class _OpenUpcomingWeekOnNonSchoolDays extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<UserSettingsBloc>(context);
+    return StreamBuilder<UserSettings>(
+      stream: bloc.streamUserSettings(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const SizedBox.shrink();
+        final userSettings = snapshot.data!;
+        return SwitchListTile.adaptive(
+          title: Text(
+            context.l10n.timetableSettingsOpenUpcomingWeekOnNonSchoolDaysTitle,
+          ),
+          subtitle: Text(
+            context
+                .l10n
+                .timetableSettingsOpenUpcomingWeekOnNonSchoolDaysSubtitle,
+          ),
+          value: userSettings.openUpcomingWeekOnNonSchoolDays,
+          onChanged: (newValue) {
+            bloc.updateSettings(
+              userSettings.copyWith(
+                openUpcomingWeekOnNonSchoolDays: newValue,
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
