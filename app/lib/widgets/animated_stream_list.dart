@@ -45,20 +45,32 @@ class SharezoneAnimatedStreamList<E> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<E>>(
+    return StreamBuilder<List<E>>(
+      stream: listStream,
       initialData: initialList,
-      future: listStream.first,
-      builder: (context, future) {
-        if (!future.hasData) return emptyListWidget;
+      builder: (context, listSnap) {
+        if (listSnap.hasError) {
+          return Text(
+            '${listSnap.error}',
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          );
+        }
+
+        final list = listSnap.data;
+
+        // If you prefer "loading" instead of empty while waiting for first data:
+        if (list == null) return emptyListWidget;
+
         return StreamBuilder<bool>(
           stream: isListEmptyStream,
-          builder: (context, snapshot) {
-            final streamListEmpty = snapshot.data ?? true;
-            if (streamListEmpty) return emptyListWidget;
+          builder: (context, emptySnap) {
+            final isEmpty = emptySnap.data ?? list.isEmpty;
+            if (isEmpty) return emptyListWidget;
+
             return SizedBox(
               height: height,
               child: AnimatedStreamList<E>(
-                initialList: future.data,
+                initialList: list,
                 padding: padding,
                 streamList: listStream,
                 scrollDirection: scrollDirection,
