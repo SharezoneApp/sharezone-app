@@ -263,9 +263,7 @@ class _OpenUpcomingWeekOnNonSchoolDays extends StatelessWidget {
           value: userSettings.openUpcomingWeekOnNonSchoolDays,
           onChanged: (newValue) {
             bloc.updateSettings(
-              userSettings.copyWith(
-                openUpcomingWeekOnNonSchoolDays: newValue,
-              ),
+              userSettings.copyWith(openUpcomingWeekOnNonSchoolDays: newValue),
             );
           },
         );
