@@ -219,13 +219,13 @@ class _TypeOfUserTileNew extends StatelessWidget {
       if (hasExtremplyLowWidth) {
         return Padding(
           padding: const EdgeInsets.all(4),
-          child: PlatformSvg.asset(iconSvgPath, width: 45, height: 45),
+          child: SvgPicture.asset(iconSvgPath, width: 45, height: 45),
         );
       } else {
         return ListTile(
-          leading: PlatformSvg.asset(iconSvgPath, width: 45, height: 45),
+          leading: SvgPicture.asset(iconSvgPath, width: 45, height: 45),
           title: Text(
-            typeOfUser.toReadableString(),
+            typeOfUser.toLocalizedString(context),
             textAlign: TextAlign.center,
           ),
         );
@@ -233,10 +233,10 @@ class _TypeOfUserTileNew extends StatelessWidget {
     } else {
       return Column(
         children: <Widget>[
-          PlatformSvg.asset(iconSvgPath, width: 60, height: 60),
+          SvgPicture.asset(iconSvgPath, width: 60, height: 60),
           const SizedBox(height: 8),
           Text(
-            typeOfUser.toReadableString(),
+            typeOfUser.toLocalizedString(context),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 16),
           ),

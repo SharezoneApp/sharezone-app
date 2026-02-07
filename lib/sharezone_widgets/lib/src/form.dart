@@ -9,6 +9,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 // Like the VoidCallback, but as a Future
@@ -30,8 +31,8 @@ Future<void> showDeleteDialog({
         title: title,
         content: description,
         defaultValue: false,
-        left: AdaptiveDialogAction.cancel,
-        right: AdaptiveDialogAction.delete,
+        left: AdaptiveDialogAction.cancel(context),
+        right: AdaptiveDialogAction.delete(context),
       ))!;
 
   if (result) {
@@ -47,20 +48,20 @@ class LeaveEditedFormAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Eingabe verlassen?"),
+      title: Text(context.l10n.sharezoneWidgetsLeaveFormTitle),
       content: Text.rich(
         TextSpan(
-          text: 'Möchtest du die Eingabe wirklich beenden? Die Daten werden ',
+          text: context.l10n.sharezoneWidgetsLeaveFormPromptPrefix,
           style: TextStyle(
             color: Theme.of(context).isDarkTheme ? Colors.white : Colors.black,
             fontSize: 16.0,
           ),
-          children: const <TextSpan>[
+          children: <TextSpan>[
             TextSpan(
-              text: 'nicht',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              text: context.l10n.sharezoneWidgetsLeaveFormPromptNot,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            TextSpan(text: ' gespeichert!'),
+            TextSpan(text: context.l10n.sharezoneWidgetsLeaveFormPromptSuffix),
           ],
         ),
       ),
@@ -69,14 +70,14 @@ class LeaveEditedFormAlert extends StatelessWidget {
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: const Text('NEIN!'),
+          child: Text(context.l10n.sharezoneWidgetsLeaveFormStay),
           onPressed: () => Navigator.of(context).pop(false),
         ),
         TextButton(
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).primaryColor,
           ),
-          child: const Text('JA, VERLASSEN!'),
+          child: Text(context.l10n.sharezoneWidgetsLeaveFormConfirm),
           onPressed: () => Navigator.of(context).pop(true),
         ),
       ],
@@ -165,7 +166,7 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
             foregroundColor: Theme.of(context).primaryColor,
           ),
           onPressed: () => Navigator.pop(context),
-          child: const Text("ABBRECHEN"),
+          child: Text(context.l10n.commonActionsCancelUppercase),
         ),
         TextButton(
           style: TextButton.styleFrom(
@@ -176,7 +177,8 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
             final isNullOrEmpty = name == null || name!.isEmpty;
             if (!widget.isEmptyAllowed && isNullOrEmpty) {
               setState(() {
-                errorText = 'Das Textfeld darf nicht leer sein!';
+                errorText =
+                    context.l10n.sharezoneWidgetsTextFieldCannotBeEmptyError;
               });
               return;
             }
@@ -188,7 +190,11 @@ class _OneTextFieldDialogState extends State<OneTextFieldDialog> {
                 widget.onTap(name);
               } else {
                 setState(
-                  () => errorText = "Folgende Zeichen sind nicht erlaubt: / ",
+                  () =>
+                      errorText = context.l10n
+                          .sharezoneWidgetsNotAllowedCharactersError(
+                            widget.notAllowedChars!,
+                          ),
                 );
               }
             }

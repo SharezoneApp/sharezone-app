@@ -16,6 +16,7 @@ import 'package:sharezone/timetable/src/models/lesson_length/lesson_length_cache
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_common/api_errors.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:time/time.dart';
 import 'package:user/user.dart';
 
@@ -53,7 +54,7 @@ Future<void> _submit(
     showSnackSec(
       context: context,
       key: scaffoldKey,
-      text: handleErrorMessage(e.toString(), s),
+      text: handleErrorMessage(l10n: context.l10n, error: e, stackTrace: s),
       seconds: 4,
       behavior: SnackBarBehavior.fixed,
     );
@@ -198,7 +199,7 @@ class _TimetableStart extends StatelessWidget {
         final time = snapshot.data ?? Time(hour: 7, minute: 30);
         return ListTile(
           title: const Text("Stundenplanbeginn"),
-          subtitle: Text(time.toString()),
+          subtitle: Text(time.format(context)),
           onTap: () async {
             final newTime = await selectTime(
               context,
@@ -268,7 +269,7 @@ class _PeriodTile extends StatelessWidget {
                             }
                           },
                           child: Text(
-                            period.startTime.toString(),
+                            period.startTime.format(context),
                             style: style,
                           ),
                         ),
@@ -283,7 +284,10 @@ class _PeriodTile extends StatelessWidget {
                               bloc.editPeriodEndTime(period.number, newTime);
                             }
                           },
-                          child: Text(period.endTime.toString(), style: style),
+                          child: Text(
+                            period.endTime.format(context),
+                            style: style,
+                          ),
                         ),
                       ],
                     ),

@@ -1,0 +1,25 @@
+# Copyright (c) 2025 Sharezone UG (haftungsbeschränkt)
+# Licensed under the EUPL-1.2-or-later.
+#
+# You may obtain a copy of the Licence at:
+# https://joinup.ec.europa.eu/software/page/eupl
+#
+# SPDX-License-Identifier: EUPL-1.2
+
+# Documentation for this file:
+# https://developers.google.com/gemini-code-assist/docs/customize-gemini-behavior-github#config.yaml-schema
+
+code_review:
+  pull_request_opened:
+    # We think that the summary is too verbose and doesn't add much value.
+    # Therefore, we disable it.
+    summary: false
+ignore_patterns:
+  # Ignore generated files
+  - "*.g.dart"
+  - "*.gen.dart"
+  - "*.mocks.dart"
+  - "GeneratedPluginRegistrant.swift"
+  # Dependencies
+  - "pubspec.lock"
+  - "*.lock"

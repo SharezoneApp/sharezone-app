@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:sharezone/filesharing/widgets/cloud_file_icon.dart';
 import 'package:sharezone/sharezone_plus/sharezone_plus_feature_guard.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 import 'meme_placeholder.dart';
@@ -47,7 +48,10 @@ class _HomeworkUserSubmissionsPageState
     return SharezonePlusFeatureGuard(
       feature: SharezonePlusFeature.submissionsList,
       child: Scaffold(
-        appBar: AppBar(title: const Text('Abgaben'), centerTitle: true),
+        appBar: AppBar(
+          title: Text(context.l10n.submissionsListTitle),
+          centerTitle: true,
+        ),
         body: StreamBuilder<CreatedSubmissionsPageView>(
           stream: bloc.pageView,
           builder: (context, snapshot) {
@@ -89,18 +93,24 @@ class _Abgabenbody extends StatelessWidget {
           ],
           const SizedBox(height: 10),
           if (pageView!.afterDeadlineSubmissions.isNotEmpty)
-            const DividerWithText(
-              text: 'Zu spät abgegeben 🕐',
-              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            DividerWithText(
+              text: context.l10n.submissionsListAfterDeadlineSection,
+              textStyle: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ...[
             for (final view in pageView!.afterDeadlineSubmissions)
               _UserSubmissionTile(view: view),
           ],
           if (pageView!.missingSubmissions.isNotEmpty)
-            const DividerWithText(
-              text: 'Nicht abgegeben 😭',
-              textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            DividerWithText(
+              text: context.l10n.submissionsListMissingSection,
+              textStyle: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ...[
             for (final view in pageView!.missingSubmissions)
@@ -159,9 +169,9 @@ class _LoadingPlaceholder extends StatelessWidget {
 class _NoMembersPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MemePlaceholder(
+    return MemePlaceholder(
       url: 'https://sharezone.net/meme-no-members-for-submissions',
-      text: 'Vergessen Teilnehmer in den Kurs einzuladen?',
+      text: context.l10n.submissionsListNoMembersPlaceholder,
     );
   }
 }
@@ -176,7 +186,9 @@ class _UserSubmissionTile extends StatelessWidget {
     String subtitle = DateFormat(
       'dd.MM.yyyy HH:mm',
     ).format(view.lastActionDateTime.toLocal());
-    if (view.wasEditedAfterwards) subtitle += ' (nachträglich bearbeitet)';
+    if (view.wasEditedAfterwards) {
+      subtitle += context.l10n.submissionsListEditedSuffix;
+    }
 
     return ExpansionTile(
       leading: CircleAvatar(child: Text(view.abbreviation)),

@@ -11,7 +11,7 @@ import 'package:app_functions/sharezone_app_functions.dart';
 import 'package:async/async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:holidays/holidays.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sharezone/holidays/holiday_bloc.dart';
@@ -43,6 +43,7 @@ void main() {
     verify(
       szAppFunctions.loadHolidays(
         stateCode: anyNamed('stateCode'),
+        countryIsoCode: anyNamed('countryIsoCode'),
         year: anyNamed('year'),
       ),
     ).called(4); // For each State 2018 and 2019
@@ -57,6 +58,7 @@ void main() {
     verifyNever(
       szAppFunctions.loadHolidays(
         stateCode: anyNamed('stateCode'),
+        countryIsoCode: anyNamed('countryIsoCode'),
         year: anyNamed('year'),
       ),
     ); // No calls added
@@ -122,7 +124,11 @@ void setCfResponse(
   String jsonResponse,
 ) {
   when(
-    szAppFunctions.loadHolidays(stateCode: stateCode, year: year),
+    szAppFunctions.loadHolidays(
+      stateCode: stateCode,
+      countryIsoCode: "DE",
+      year: year,
+    ),
   ).thenAnswer(
     (_) => Future.value(
       AppFunctionsResult<Map<String, dynamic>>.data({

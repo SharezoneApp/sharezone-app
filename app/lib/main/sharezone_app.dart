@@ -51,7 +51,6 @@ import 'package:sharezone/settings/src/subpages/imprint/page/imprint_page.dart';
 import 'package:sharezone/settings/src/subpages/language/language_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_email.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_password.dart';
-import 'package:sharezone/settings/src/subpages/my_profile/change_state.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/change_type_of_user/change_type_of_user_page.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/my_profile_page.dart';
 import 'package:sharezone/settings/src/subpages/notification.dart';
@@ -184,7 +183,6 @@ class _SharezoneAppState extends State<SharezoneApp>
                 SupportPage.tag: (context) => const SupportPage(),
                 ChangeEmailPage.tag: (context) => const ChangeEmailPage(),
                 ChangePasswordPage.tag: (context) => const ChangePasswordPage(),
-                ChangeStatePage.tag: (context) => const ChangeStatePage(),
                 FileSharingPage.tag: (context) => const FileSharingPage(),
                 ThemePage.tag: (context) => const ThemePage(),
                 TimetableSettingsPage.tag:

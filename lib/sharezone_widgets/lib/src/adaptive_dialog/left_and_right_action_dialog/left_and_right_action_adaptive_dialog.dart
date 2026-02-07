@@ -10,18 +10,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:helper_functions/helper_functions.dart';
 import 'package:platform_check/platform_check.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 Future<T?> showLeftRightAdaptiveDialog<T>({
   required BuildContext context,
   String? title,
   Widget? content,
-  AdaptiveDialogAction? left = AdaptiveDialogAction.cancel,
+  AdaptiveDialogAction? left,
   AdaptiveDialogAction? right,
   bool withCancelButtonOnIOS = false,
   T? defaultValue,
   Key? key,
 }) async {
+  final resolvedLeft = left ?? AdaptiveDialogAction.cancel(context);
   final T? result;
   if (PlatformCheck.isIOS) {
     result = await showCupertinoDialog<T>(
@@ -31,7 +33,7 @@ Future<T?> showLeftRightAdaptiveDialog<T>({
             key: key,
             title: title,
             content: content,
-            left: left,
+            left: resolvedLeft,
             right: right,
             withCancelButtonOnIOS: withCancelButtonOnIOS,
           ),
@@ -44,7 +46,7 @@ Future<T?> showLeftRightAdaptiveDialog<T>({
             key: key,
             title: title,
             content: content,
-            left: left,
+            left: resolvedLeft,
             right: right,
           ),
     );
@@ -61,7 +63,7 @@ class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
 
   const LeftAndRightAdaptiveDialog({
     super.key,
-    this.left = AdaptiveDialogAction.cancel,
+    this.left,
     this.right,
     this.title,
     this.content,
@@ -70,9 +72,10 @@ class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final resolvedLeft = left ?? AdaptiveDialogAction.cancel(context);
     if (ThemePlatform.isCupertino) {
       return _ActionAndCancelDialogCupertino(
-        left: left,
+        left: resolvedLeft,
         right: right,
         content: content,
         title: title,
@@ -82,7 +85,7 @@ class LeftAndRightAdaptiveDialog<T> extends StatelessWidget {
     return _ActionAndCancelDialogMaterial<T>(
       content: content,
       title: title,
-      left: left as AdaptiveDialogAction<T>?,
+      left: resolvedLeft as AdaptiveDialogAction<T>?,
       right: right as AdaptiveDialogAction<T>?,
     );
   }
@@ -183,7 +186,7 @@ class _ActionAndCancelDialogCupertino extends StatelessWidget {
           CupertinoDialogAction(
             onPressed: () => Navigator.pop(context),
             isDestructiveAction: true,
-            child: const Text("Abbrechen"),
+            child: Text(context.l10n.commonActionsCancel),
           ),
       ],
     );

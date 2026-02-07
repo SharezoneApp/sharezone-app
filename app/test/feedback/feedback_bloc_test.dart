@@ -8,7 +8,6 @@
 
 import 'package:feedback_shared_implementation/feedback_shared_implementation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
 import 'package:key_value_store/key_value_store.dart';
 import 'package:sharezone/feedback/src/analytics/feedback_analytics.dart';
 import 'package:sharezone/feedback/src/bloc/feedback_bloc.dart';

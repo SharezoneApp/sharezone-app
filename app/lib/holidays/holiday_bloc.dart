@@ -153,6 +153,76 @@ State toStateOrThrow(StateEnum? stateEnum) {
       return const SchleswigHolstein();
     case StateEnum.thueringen:
       return const Thueringen();
+    case StateEnum.burgenland:
+      return const Burgenland();
+    case StateEnum.kaernten:
+      return const Kaernten();
+    case StateEnum.niederoesterreich:
+      return const Niederoesterreich();
+    case StateEnum.oberoesterreich:
+      return const Oberoesterreich();
+    case StateEnum.salzburg:
+      return const Salzburg();
+    case StateEnum.steiermark:
+      return const Steiermark();
+    case StateEnum.tirol:
+      return const Tirol();
+    case StateEnum.vorarlberg:
+      return const Vorarlberg();
+    case StateEnum.wien:
+      return const Wien();
+    case StateEnum.aargau:
+      return const Aargau();
+    case StateEnum.appenzellAusserrhoden:
+      return const AppenzellAusserrhoden();
+    case StateEnum.appenzellInnerrhoden:
+      return const AppenzellInnerrhoden();
+    case StateEnum.baselLandschaft:
+      return const BaselLandschaft();
+    case StateEnum.baselStadt:
+      return const BaselStadt();
+    case StateEnum.bern:
+      return const Bern();
+    case StateEnum.fribourg:
+      return const Fribourg();
+    case StateEnum.geneva:
+      return const Geneva();
+    case StateEnum.glarus:
+      return const Glarus();
+    case StateEnum.graubuenden:
+      return const Graubuenden();
+    case StateEnum.jura:
+      return const Jura();
+    case StateEnum.luzern:
+      return const Luzern();
+    case StateEnum.neuchatel:
+      return const Neuchatel();
+    case StateEnum.nidwalden:
+      return const Nidwalden();
+    case StateEnum.obwalden:
+      return const Obwalden();
+    case StateEnum.schaffhausen:
+      return const Schaffhausen();
+    case StateEnum.schwyz:
+      return const Schwyz();
+    case StateEnum.solothurn:
+      return const Solothurn();
+    case StateEnum.stGallen:
+      return const StGallen();
+    case StateEnum.thurgau:
+      return const Thurgau();
+    case StateEnum.ticino:
+      return const Ticino();
+    case StateEnum.uri:
+      return const Uri();
+    case StateEnum.valais:
+      return const Valais();
+    case StateEnum.vaud:
+      return const Vaud();
+    case StateEnum.zug:
+      return const Zug();
+    case StateEnum.zurich:
+      return const Zurich();
     case StateEnum.notFromGermany:
       throw UnsupportedStateException(
         "Holidays are not available for selected State",

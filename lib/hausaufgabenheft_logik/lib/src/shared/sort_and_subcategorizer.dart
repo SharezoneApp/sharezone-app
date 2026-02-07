@@ -23,6 +23,7 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
     return switch (sort) {
       SmallestDateSubjectAndTitleSort() => _subcategorizeByDate(sorted),
       SubjectSmallestDateAndTitleSort() => _subcategorizeBySubject(sorted),
+      WeekdayDateSubjectAndTitleSort() => _subcategorizeByWeekday(sorted),
     };
   }
 
@@ -48,11 +49,26 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
             .where((h) => Date.fromDateTime(h.todoDate) > in2Days)
             .toIList();
 
-    final overdueSec = HomeworkSectionView('Überfällig', overdueHomework);
-    final todaySec = HomeworkSectionView('Heute', todayHomework);
-    final tomorrowSec = HomeworkSectionView('Morgen', tomorrowHomework);
-    final inTwoDaysSec = HomeworkSectionView('Übermorgen', in2DaysHomework);
-    final afterTwoDaysSec = HomeworkSectionView('Später', futureHomework);
+    final overdueSec = HomeworkSectionView.date(
+      HomeworkDateSection.overdue,
+      overdueHomework,
+    );
+    final todaySec = HomeworkSectionView.date(
+      HomeworkDateSection.today,
+      todayHomework,
+    );
+    final tomorrowSec = HomeworkSectionView.date(
+      HomeworkDateSection.tomorrow,
+      tomorrowHomework,
+    );
+    final inTwoDaysSec = HomeworkSectionView.date(
+      HomeworkDateSection.dayAfterTomorrow,
+      in2DaysHomework,
+    );
+    final afterTwoDaysSec = HomeworkSectionView.date(
+      HomeworkDateSection.later,
+      futureHomework,
+    );
 
     final sections = [
       overdueSec,
@@ -73,9 +89,24 @@ class HomeworkSortAndSubcategorizer<T extends BaseHomeworkReadModel> {
           homeworks.where((h) => h.subject == subject).toIList();
 
       homeworkSections = homeworkSections.add(
-        HomeworkSectionView(subject.name, homeworksWithSubject),
+        HomeworkSectionView.subject(subject.name, homeworksWithSubject),
       );
     }
     return homeworkSections;
+  }
+
+  IList<HomeworkSectionView<T>> _subcategorizeByWeekday(IList<T> homeworks) {
+    final Map<int, List<T>> map = {for (var i = 1; i <= 7; i++) i: <T>[]};
+    for (final hw in homeworks) {
+      map[hw.todoDate.weekday]!.add(hw);
+    }
+    final sections = <HomeworkSectionView<T>>[];
+    for (var i = 1; i <= 7; i++) {
+      final list = map[i]!;
+      if (list.isNotEmpty) {
+        sections.add(HomeworkSectionView.weekday(i, list.toIList()));
+      }
+    }
+    return sections.toIList();
   }
 }

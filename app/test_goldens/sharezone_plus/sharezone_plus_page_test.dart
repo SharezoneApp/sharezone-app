@@ -11,7 +11,7 @@ import 'package:bloc_provider/multi_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,9 @@ import 'package:sharezone/util/api.dart';
 import 'package:sharezone/util/api/user_api.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../flutter_test_config.dart';
 import 'sharezone_plus_page_test.mocks.dart';
 
 @GenerateNiceMocks([
@@ -132,7 +134,11 @@ void main() {
             child: (context) => const SharezonePlusPage(),
           ),
         ),
-        wrapper: materialAppWrapper(theme: theme),
+        wrapper: materialAppWrapper(
+          theme: theme,
+          localeOverrides: defaultLocales,
+          localizations: SharezoneLocalizations.localizationsDelegates,
+        ),
       );
     }
 

@@ -13,6 +13,7 @@ import 'package:design/design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:platform_check/platform_check.dart';
 import 'package:provider/provider.dart';
 import 'package:sharezone/calendrical_events/models/calendrical_event.dart';
@@ -24,7 +25,6 @@ import 'package:sharezone/sharezone_plus/page/sharezone_plus_page.dart';
 import 'package:sharezone/sharezone_plus/subscription_service/subscription_service.dart';
 import 'package:sharezone/timetable/timetable_edit/event/timetable_event_edit_page.dart';
 import 'package:sharezone/timetable/timetable_permissions.dart';
-import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone/util/navigation_service.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
@@ -34,7 +34,7 @@ Future<bool?> showDeleteEventConfirmationDialog(BuildContext context) async {
   return await showLeftRightAdaptiveDialog<bool>(
     defaultValue: false,
     context: context,
-    right: AdaptiveDialogAction.delete,
+    right: AdaptiveDialogAction.delete(context),
     content:
         !ThemePlatform.isCupertino
             ? const Text("Möchtest du wirklich diesen Termin löschen?")
@@ -210,7 +210,12 @@ class _TimetableEventDetailsPage extends StatelessWidget {
                           "${isExam ? "Themen der Prüfung" : "Details"}:\n${event.detail}",
                       selectable: true,
                       onTapLink:
-                          (url, _, _) => launchURL(url, context: context),
+                          (text, href, _) => launchMarkdownLinkWithWarning(
+                            href: href ?? text,
+                            text: text,
+                            keyValueStore: context.read<KeyValueStore>(),
+                            context: context,
+                          ),
                       softLineBreak: true,
                       styleSheet: MarkdownStyleSheet.fromTheme(
                         theme.copyWith(

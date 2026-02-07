@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class LocationBase extends StatelessWidget {
@@ -38,8 +39,8 @@ class LocationBase extends StatelessWidget {
                 maxLines: null,
                 scrollPadding: const EdgeInsets.all(16.0),
                 keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  hintText: "Ort/Raum",
+                decoration: InputDecoration(
+                  hintText: context.l10n.sharezoneWidgetsLocationHint,
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,

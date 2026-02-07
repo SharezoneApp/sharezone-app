@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class CourseTileBase extends StatelessWidget {
@@ -50,9 +51,11 @@ class CourseTileBase extends StatelessWidget {
               : () => showDisabledNoteDialog(context),
       child: ListTile(
         leading: const Icon(Icons.book),
-        title: const Text("Kurs"),
+        title: Text(context.l10n.sharezoneWidgetsCourseTileTitle),
         subtitle: Text(
-          errorText ?? courseName ?? "Keinen Kurs ausgewählt",
+          errorText ??
+              courseName ??
+              context.l10n.sharezoneWidgetsCourseTileNoCourseSelected,
           style: errorText != null ? const TextStyle(color: Colors.red) : null,
         ),
         trailing: const Icon(Icons.keyboard_arrow_down),
@@ -73,12 +76,12 @@ class DisabledNoteDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text("Hinweis"),
+        title: Text(context.l10n.commonTitleNote),
         content: Text(text),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text("OK"),
+            child: Text(context.l10n.commonActionsOk),
           ),
         ],
       ),

@@ -17,12 +17,14 @@ class StyledMarkdownText extends StatelessWidget {
     this.alignment = WrapAlignment.center,
     this.onPressedTermsOfService,
     this.onPressedPrivacyPolicy,
+    this.onPressedLink,
   });
 
   final String text;
   final WrapAlignment alignment;
   final VoidCallback? onPressedTermsOfService;
   final VoidCallback? onPressedPrivacyPolicy;
+  final ValueChanged<(String, String?, String?)>? onPressedLink;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,11 @@ class StyledMarkdownText extends StatelessWidget {
           return;
         }
 
-        await launchUrl(Uri.parse(href));
+        if (onPressedLink == null) {
+          await launchUrl(Uri.parse(href));
+        } else {
+          onPressedLink!((href, text, title));
+        }
       },
     );
   }

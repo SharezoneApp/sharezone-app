@@ -48,6 +48,9 @@ export 'src/form.dart';
 // list_tile_with_description
 export 'src/list_tile_with_description.dart';
 
+// link
+export 'src/launch_markdown_link_with_warning.dart';
+
 // placeholder
 export 'src/placeholder.dart';
 
@@ -77,9 +80,6 @@ export 'src/state_sheet/simple/simple_content_dialog.dart';
 export 'src/state_sheet/simple/simple_content_sheet.dart';
 export 'src/state_sheet/simple/simple_state_dialog.dart';
 export 'src/state_sheet/simple/simple_state_sheet.dart';
-
-// svg
-export 'src/svg.dart';
 
 // theme
 export 'src/theme/theme.dart';

@@ -9,6 +9,7 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:legal/legal.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class TermsOfServicePage extends StatelessWidget {
   // Be careful when changing the tag since it breaks the links to our terms of
@@ -19,9 +20,11 @@ class TermsOfServicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return PrivacyPolicyPage(
       privacyPolicy: termsOfServicePolicy,
-      headingText: 'Allgemeine Nutzungsbedingungen',
+      headingText: l10n.legalTermsOfServiceTitle,
     );
   }
 }

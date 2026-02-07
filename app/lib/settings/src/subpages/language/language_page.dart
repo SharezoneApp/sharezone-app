@@ -20,7 +20,7 @@ class LanguagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final localeProvider = context.watch<AppLocaleProvider>();
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.languagePageTitle)),
+      appBar: AppBar(title: Text(context.l10n.languageTitle)),
       body: RadioGroup(
         groupValue: localeProvider.locale,
         onChanged: (value) {

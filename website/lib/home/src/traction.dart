@@ -11,6 +11,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:number_slide_animation/number_slide_animation.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_website/widgets/column_spacing.dart';
 import 'package:sharezone_website/widgets/transparent_button.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
@@ -79,9 +80,9 @@ class _PlayStoreRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _StoreReview(
+    return _StoreReview(
       rating: 4.8,
-      storeName: "PlayStore",
+      storeName: context.l10n.websiteStorePlayStoreName,
       storeLink: "https://sharezone.net/android",
     );
   }
@@ -92,9 +93,9 @@ class _AppStoreRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _StoreReview(
+    return _StoreReview(
       rating: 4.7,
-      storeName: "AppStore",
+      storeName: context.l10n.websiteStoreAppStoreName,
       storeLink: "https://sharezone.net/ios",
     );
   }
@@ -121,7 +122,7 @@ class __UserCounterState extends State<_UserCounter> {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: 'user counter',
+      label: context.l10n.websiteUserCounterSemanticLabel,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -149,9 +150,9 @@ class __UserCounterState extends State<_UserCounter> {
             ),
           ),
           const SizedBox(height: 3),
-          const Text(
-            "registrierte Nutzer",
-            style: TextStyle(color: Colors.white70, fontSize: 18),
+          Text(
+            context.l10n.websiteUserCounterLabel,
+            style: const TextStyle(color: Colors.white70, fontSize: 18),
           ),
         ],
       ),

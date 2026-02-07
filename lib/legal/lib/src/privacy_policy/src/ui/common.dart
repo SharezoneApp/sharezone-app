@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,10 +19,7 @@ import '../privacy_policy_src.dart';
 import 'ui.dart';
 
 class PrivacyPolicyHeading extends StatelessWidget {
-  const PrivacyPolicyHeading({
-    super.key,
-    this.headingText = 'Datenschutzerklärung',
-  });
+  const PrivacyPolicyHeading({super.key, required this.headingText});
 
   final String headingText;
 
@@ -48,19 +46,30 @@ class PrivacyPolicySubheading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(
-        text: 'Diese aktualisierte Datenschutzerklärung tritt am',
-        children: [
-          TextSpan(
-            text: ' ${DateFormat('dd.MM.yyyy').format(entersIntoForceOn!)} ',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const TextSpan(text: 'in Kraft.'),
-        ],
-      ),
-      textAlign: TextAlign.center,
-    );
+    final dateText = DateFormat.yMd(
+      Localizations.localeOf(context).toString(),
+    ).format(entersIntoForceOn!);
+    final l10n = context.l10n;
+    final message = l10n.legalPrivacyPolicyEffectiveDate(dateText);
+    final messageParts = message.split(dateText);
+
+    if (messageParts.length == 2) {
+      return Text.rich(
+        TextSpan(
+          text: messageParts.first,
+          children: [
+            TextSpan(
+              text: dateText,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextSpan(text: messageParts.last),
+          ],
+        ),
+        textAlign: TextAlign.center,
+      );
+    }
+
+    return Text(message, textAlign: TextAlign.center);
   }
 }
 
@@ -69,12 +78,14 @@ class ChangeAppearanceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return TextButton.icon(
       onPressed: () {
         showDisplaySettingsDialog(context);
       },
       icon: const Icon(Icons.display_settings),
-      label: const Text('Darstellung ändern'),
+      label: Text(l10n.legalChangeAppearance),
     );
   }
 }
@@ -109,6 +120,8 @@ class DownloadAsPDFButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return _isIconButton
         ? IconButton(
           onPressed: enabled ? () => downloadPdf(context) : null,
@@ -117,7 +130,7 @@ class DownloadAsPDFButton extends StatelessWidget {
         : TextButton.icon(
           onPressed: enabled ? () => downloadPdf(context) : null,
           icon: const Icon(Icons.download),
-          label: const Text('Als PDF herunterladen'),
+          label: Text(l10n.legalDownloadAsPdf),
         );
   }
 }
@@ -283,6 +296,8 @@ class OpenTocBottomSheetButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return SafeArea(
       child: TextButton(
         onPressed:
@@ -291,10 +306,13 @@ class OpenTocBottomSheetButton extends StatelessWidget {
                   showTableOfContentsBottomSheet(context);
                 }
                 : null,
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          children: [Text('Inhaltsverzeichnis'), Icon(Icons.expand_less)],
+          children: [
+            Text(l10n.legalTableOfContents),
+            const Icon(Icons.expand_less),
+          ],
         ),
       ),
     );

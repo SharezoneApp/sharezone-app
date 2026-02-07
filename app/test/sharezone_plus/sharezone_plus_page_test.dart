@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:key_value_store/in_memory_key_value_store.dart';
+import 'package:key_value_store/key_value_store.dart';
 import 'package:mockito/annotations.dart';
 import 'package:provider/provider.dart';
 import 'package:remote_configuration/remote_configuration.dart';
@@ -19,6 +19,7 @@ import 'package:sharezone/sharezone_plus/subscription_service/subscription_servi
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 import 'sharezone_plus_page_test.mocks.dart';
 
@@ -126,6 +127,10 @@ void main() {
             ),
           ],
           child: const MaterialApp(
+            locale: Locale('de'),
+            localizationsDelegates:
+                SharezoneLocalizations.localizationsDelegates,
+            supportedLocales: SharezoneLocalizations.supportedLocales,
             home: Scaffold(body: SharezonePlusPageMain()),
           ),
         ),

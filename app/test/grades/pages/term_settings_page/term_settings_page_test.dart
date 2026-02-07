@@ -15,7 +15,9 @@ import 'package:sharezone/grades/grades_service/grades_service.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller.dart';
 import 'package:sharezone/grades/pages/term_settings_page/term_settings_page_controller_factory.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
+import '../../../../test_goldens/flutter_test_config.dart';
 import '../../../../test_goldens/grades/pages/term_settings_page/term_settings_page_test.dart';
 import '../../../../test_goldens/grades/pages/term_settings_page/term_settings_page_test.mocks.dart';
 
@@ -52,7 +54,10 @@ void main() {
           ],
           child: const TermSettingsPage(termId: termId),
         ),
-        wrapper: materialAppWrapper(),
+        wrapper: materialAppWrapper(
+          localizations: SharezoneLocalizations.localizationsDelegates,
+          localeOverrides: defaultLocales,
+        ),
       );
     }
 

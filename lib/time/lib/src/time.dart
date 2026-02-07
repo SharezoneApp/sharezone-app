@@ -7,28 +7,12 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Time {
   final String _time;
 
   factory Time({required int hour, int minute = 0}) {
-    final numberFormat = NumberFormat(
-      "00",
-      // We need to set the locale to "de_DE", otherwise the number formatter
-      // will use the device's locale, which can cause problems if the number
-      // formatter does not work as we expect, e.g. if the device is set to
-      // Arabic.
-      //
-      // If we go international with Sharezone, we should probably remove this
-      // and instead use a number formatter that is locale independent.
-      //
-      // See: https://github.com/SharezoneApp/sharezone-app/issues/903
-      "de_DE",
-    );
-    return Time._(
-      "${numberFormat.format(hour)}:${numberFormat.format(minute)}",
-    );
+    return Time._(_formatTime(hour: hour, minute: minute));
   }
 
   const Time._(this._time);
@@ -40,10 +24,7 @@ class Time {
   const factory Time.parse(String timeString) = Time._;
 
   factory Time.fromTimeOfDay(TimeOfDay timeOfDay) {
-    final numberFormat = NumberFormat("00");
-    return Time._(
-      "${numberFormat.format(timeOfDay.hour)}:${numberFormat.format(timeOfDay.minute)}",
-    );
+    return Time._(_formatTime(hour: timeOfDay.hour, minute: timeOfDay.minute));
   }
 
   factory Time.fromDateTime(DateTime dateTime) {
@@ -61,6 +42,11 @@ class Time {
   int get hour => int.parse(_time.split(":")[0]);
 
   int get minute => int.parse(_time.split(":")[1]);
+
+  /// Returns a localized time string using the current [BuildContext].
+  String format(BuildContext context) {
+    return toTimeOfDay().format(context);
+  }
 
   TimeOfDay toTimeOfDay() {
     return TimeOfDay(
@@ -125,6 +111,12 @@ class Time {
   String toString() {
     return _time;
   }
+
+  static String _formatTime({required int hour, required int minute}) {
+    return '${_pad2(hour)}:${_pad2(minute)}';
+  }
+
+  static String _pad2(int value) => value.toString().padLeft(2, '0');
 }
 
 extension DateTimeToTime on DateTime {

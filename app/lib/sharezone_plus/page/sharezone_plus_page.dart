@@ -22,6 +22,7 @@ import 'package:sharezone/navigation/scaffold/sharezone_main_scaffold.dart';
 import 'package:sharezone/sharezone_plus/page/sharezone_plus_page_controller.dart';
 import 'package:sharezone/support/support_page.dart';
 import 'package:sharezone_plus_page_ui/sharezone_plus_page_ui.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_utils/launch_link.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:user/user.dart';
@@ -163,17 +164,17 @@ class _UnsubscribeText extends StatelessWidget {
 
   final bool hasLifetime;
 
-  String getText(bool hasLifetime) {
+  String getText(BuildContext context, bool hasLifetime) {
     if (hasLifetime) {
-      return 'Du hast Sharezone-Plus auf Lebenszeit. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen!';
+      return context.l10n.sharezonePlusUnsubscribeLifetimeText;
     }
-    return 'Du hast aktuell das Sharezone-Plus Abo. Solltest du nicht zufrieden sein, würden wir uns über ein [Feedback](#feedback) freuen! Natürlich kannst du dich jederzeit dafür entscheiden, das Abo zu kündigen.';
+    return context.l10n.sharezonePlusUnsubscribeActiveText;
   }
 
   @override
   Widget build(BuildContext context) {
     return MarkdownBody(
-      data: getText(hasLifetime),
+      data: getText(context, hasLifetime),
       styleSheet: MarkdownStyleSheet(
         a: TextStyle(
           color: Theme.of(context).primaryColor,
@@ -224,7 +225,7 @@ class _UnsubscribeButton extends StatelessWidget {
           );
         }
       },
-      text: const Text('Kündigen'),
+      text: Text(context.l10n.sharezonePlusCancelAction),
       backgroundColor: flatRed,
     );
   }
@@ -240,20 +241,18 @@ class _UnsubscribeFailure extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text('Kündigung fehlgeschlagen'),
+        title: Text(context.l10n.sharezonePlusCancelFailedTitle),
         content: SingleChildScrollView(
-          child: Text(
-            'Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.\n\nFehler: $error',
-          ),
+          child: Text(context.l10n.sharezonePlusCancelFailedContent(error)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(context.l10n.commonActionsOk),
           ),
           FilledButton(
             onPressed: () => Navigator.pushNamed(context, SupportPage.tag),
-            child: const Text('Support kontaktieren'),
+            child: Text(context.l10n.commonActionsContactSupport),
           ),
         ],
       ),
@@ -269,19 +268,17 @@ class _UnsubscribeNoteDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 400,
       child: AlertDialog(
-        title: const Text('Bist du dir sicher?'),
-        content: const Text(
-          'Wenn du dein Sharezone-Plus Abo kündigst, verlierst du den Zugriff auf alle Plus-Funktionen.\n\nBist du sicher, dass du kündigen möchtest?',
-        ),
+        title: Text(context.l10n.sharezonePlusCancelConfirmationTitle),
+        content: Text(context.l10n.sharezonePlusCancelConfirmationContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen'),
+            child: Text(context.l10n.commonActionsCancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Kündigen'),
+            child: Text(context.l10n.sharezonePlusCancelConfirmAction),
           ),
         ],
       ),
@@ -304,8 +301,8 @@ class _PurchaseSection extends StatelessWidget {
       showDialog(
         context: context,
         builder:
-            (context) => const BuyingFailedDialog(
-              error: 'Der Token für den Link konnte nicht geladen werden.',
+            (context) => BuyingFailedDialog(
+              error: context.l10n.sharezonePlusLinkTokenLoadFailed,
             ),
       );
       return;
@@ -322,7 +319,7 @@ class _PurchaseSection extends StatelessWidget {
         Clipboard.setData(ClipboardData(text: url));
         showSnackSec(
           context: context,
-          text: 'Link in die Zwischenablage kopiert.',
+          text: context.l10n.sharezonePlusLinkCopiedToClipboard,
         );
       } else {
         final box = context.findRenderObject() as RenderBox?;
@@ -415,16 +412,14 @@ class _ShowTestFlightDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: AlertDialog(
-        title: const Text('TestFlight'),
-        content: const SingleChildScrollView(
-          child: Text(
-            'Du hast Sharezone über TestFlight installiert. Apple erlaubt keine In-App-Käufe über TestFlight.\n\nUm Sharezone-Plus zu kaufen, lade bitte die App aus dem App Store herunter. Dort kannst du Sharezone-Plus kaufen.\n\nDanach kannst du die App wieder über TestFlight installieren.',
-          ),
+        title: Text(context.l10n.sharezonePlusTestFlightTitle),
+        content: SingleChildScrollView(
+          child: Text(context.l10n.sharezonePlusTestFlightContent),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(context.l10n.commonActionsOk),
           ),
         ],
       ),
@@ -440,20 +435,18 @@ class _ShareLetParentsBuyLinkDialog extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 450,
       child: AlertDialog(
-        title: const Text('Eltern bezahlen lassen'),
-        content: const SingleChildScrollView(
-          child: Text(
-            'Du kannst deinen Eltern einen Link schicken, damit sie Sharezone-Plus für dich kaufen können.\n\nDer Link ist nur für dich gültig und enthält die Verbindung zu deinem Account.',
-          ),
+        title: Text(context.l10n.sharezonePlusLetParentsBuyTitle),
+        content: SingleChildScrollView(
+          child: Text(context.l10n.sharezonePlusLetParentsBuyContent),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen'),
+            child: Text(context.l10n.commonActionsCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Link teilen'),
+            child: Text(context.l10n.sharezonePlusShareLinkAction),
           ),
         ],
       ),
@@ -469,7 +462,7 @@ class _CanceledSubscriptionNote extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Text(
-        'Du hast dein Sharezone-Plus Abo gekündigt. Du kannst deine Vorteile noch bis zum Ende des aktuellen Abrechnungszeitraums nutzen. Solltest du es dir anders überlegen, kannst du es jederzeit wieder erneut Sharezone-Plus abonnieren.',
+        context.l10n.sharezonePlusCanceledSubscriptionNote,
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
