@@ -19,8 +19,8 @@ import 'package:sharezone/filesharing/dialog/course_tile.dart';
 import 'package:sharezone/homework/homework_dialog/homework_dialog.dart';
 import 'package:sharezone/main/application_bloc.dart';
 import 'package:sharezone/markdown/markdown_analytics.dart';
-import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/widgets/material/save_button.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 import 'package:time/time.dart';
 
@@ -390,7 +390,7 @@ class _CourseTile extends StatelessWidget {
           key: EventDialogKeys.courseTile,
           courseName:
               controller.course?.name ??
-              context.l10n.timetableEventDialogEmptyCourseError,
+              context.l10n.timetableEventDialogEmptyCourse,
           errorText:
               controller.showEmptyCourseError
                   ? context.l10n.timetableEventDialogEmptyCourseError

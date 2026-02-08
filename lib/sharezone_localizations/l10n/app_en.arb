@@ -1376,6 +1376,7 @@
   "timetableEventDetailsLabel": "Details",
   "timetableEventDetailsReport": "Report {itemType}",
   "timetableEventDetailsRoom": "Room: {room}",
+  "timetableEventDialogCourseTile": "No course selected",
   "timetableEventDialogDateSelectionNotPossible": "Timetable Event Dialog Date Selection Not Possible",
   "timetableEventDialogDateSelectionNotPossibleContent": "It is currently not possible to create an event or exam spanning multiple days.",
   "timetableEventDialogDescriptionHintEvent": "Timetable Event Dialog Description Hint Event",

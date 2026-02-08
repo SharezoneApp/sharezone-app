@@ -2055,6 +2055,7 @@
   "timetableEventDialogDateSelectionNotPossibleContent": "Aktuell ist nicht möglich, einen Termin oder eine Klausur über mehrere Tage hinweg zu haben.",
   "timetableEventDialogDescriptionHintEvent": "Zusatzinformationen",
   "timetableEventDialogDescriptionHintExam": "Themen der Prüfung",
+  "timetableEventDialogEmptyCourse": "Keinen Kurs ausgewählt",
   "timetableEventDialogEmptyCourseError": "Bitte wähle einen Kurs aus.",
   "@timetableEventDialogEmptyCourseError": {
     "description": "Error message shown when no course is selected in the add event dialog."

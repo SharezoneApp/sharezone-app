@@ -4300,6 +4300,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'Timetable Event Dialog Description Hint Exam';
 
   @override
+  String get timetableEventDialogEmptyCourse => 'Keinen Kurs ausgewählt';
+
+  @override
   String get timetableEventDialogEmptyCourseError => 'Please choose a course.';
 
   @override

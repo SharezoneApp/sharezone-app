@@ -7477,6 +7477,12 @@ abstract class SharezoneLocalizations {
   /// **'Themen der Prüfung'**
   String get timetableEventDialogDescriptionHintExam;
 
+  /// No description provided for @timetableEventDialogEmptyCourse.
+  ///
+  /// In de, this message translates to:
+  /// **'Keinen Kurs ausgewählt'**
+  String get timetableEventDialogEmptyCourse;
+
   /// Error message shown when no course is selected in the add event dialog.
   ///
   /// In de, this message translates to:
