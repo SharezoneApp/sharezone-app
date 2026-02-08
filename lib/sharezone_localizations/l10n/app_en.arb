@@ -240,13 +240,6 @@
   "courseCreateSubjectRequiredLabel": "Course subject (required)",
   "courseCreateTitle": "Create course",
   "courseDeleteDialogDescription": "Do you really want to permanently delete the course \"{courseName}\"?\n\nAll lessons \u0026 events in the timetable, homework and blackboard entries will be deleted.\n\nNobody will be able to access this course anymore!",
-  "@courseDeleteDialogDescription": {
-    "placeholders": {
-      "courseName": {
-        "type": "String"
-      }
-    }
-  },
   "courseDeleteDialogTitle": "Delete course?",
   "courseDeleteSuccess": "You successfully deleted the course.",
   "courseDesignColorChangeFailed": "Color could not be changed.",
@@ -268,77 +261,29 @@
   "courseJoinNotificationGroupNotFound": "Group not found",
   "courseJoinNotificationJoinForbidden": "Joining is forbidden. Contact the group admin.",
   "courseJoinNotificationJoinedClass": "You joined class \"{groupName}\"",
-  "@courseJoinNotificationJoinedClass": {
-    "placeholders": {
-      "groupName": {}
-    }
-  },
   "courseJoinNotificationJoinedCourse": "You joined course \"{groupName}\"",
-  "@courseJoinNotificationJoinedCourse": {
-    "placeholders": {
-      "groupName": {}
-    }
-  },
   "courseJoinNotificationLoading": "Joining {sharecode}...",
-  "@courseJoinNotificationLoading": {
-    "placeholders": {
-      "sharecode": {}
-    }
-  },
   "courseJoinNotificationNoInternet": "No internet connection",
   "courseJoinNotificationUnknownError": "An error occurred. Please contact support.",
   "courseJoinNotificationUnknownErrorWithReason": "An error occurred: {reason}. Please contact support.",
-  "@courseJoinNotificationUnknownErrorWithReason": {
-    "placeholders": {
-      "reason": {}
-    }
-  },
   "courseLeaveAndDeleteDialogDescription": "Do you really want to leave the course? Since you are the last member, the course will be deleted.",
   "courseLeaveAndDeleteDialogTitle": "Leave and delete course?",
   "courseLeaveDialogDescription": "Do you really want to leave the course?",
   "courseLeaveDialogTitle": "Leave course?",
   "courseLeaveSuccess": "You successfully left the course.",
   "courseLongPressTitle": "Course: {courseName}",
-  "@courseLongPressTitle": {
-    "placeholders": {
-      "courseName": {
-        "type": "String"
-      }
-    }
-  },
   "courseMemberOptionsAloneHint": "Since you are the only one in this course, you cannot edit your role.",
   "courseMemberOptionsOnlyAdminHint": "You are the only admin in this course. Therefore, you cannot remove your own rights.",
   "courseSelectColorsTooltip": "Select colors",
   "courseTemplateAlreadyExistsDescription": "You already created a course for the subject {subject}. Do you want to create another one?",
-  "@courseTemplateAlreadyExistsDescription": {
-    "placeholders": {
-      "subject": {
-        "type": "String"
-      }
-    }
-  },
   "courseTemplateAlreadyExistsTitle": "Course already exists",
   "courseTemplateCourseCreated": "Course \"{courseName}\" was created.",
-  "@courseTemplateCourseCreated": {
-    "placeholders": {
-      "courseName": {
-        "type": "String"
-      }
-    }
-  },
   "courseTemplateCreateCustomCourseUppercase": "CREATE CUSTOM COURSE",
   "courseTemplateCustomCourseMissingPrompt": "Your course is missing?",
   "courseTemplateDeletedCourse": "Course was deleted.",
   "courseTemplateDeletingCourse": "Course is being deleted again...",
   "courseTemplateSchoolClassSelectionDescription": "You are admin of one or more school classes. Select one to link newly created courses to that school class.",
   "courseTemplateSchoolClassSelectionInfo": "Courses created from now on will be linked to school class \"{name}\".",
-  "@courseTemplateSchoolClassSelectionInfo": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "courseTemplateSchoolClassSelectionNoneInfo": "Courses created from now on will not be linked to any school class.",
   "courseTemplateSchoolClassSelectionNoneOption": "Do not link to any school class",
   "courseTemplateSchoolClassSelectionTitle": "Select school class",
@@ -427,19 +372,7 @@
   "drawerOpenSemanticsLabel": "Open navigation",
   "drawerProfileTooltip": "Profile",
   "dynamicLinksNewLinkNotification": "New dynamic link:\n{link}",
-  "@dynamicLinksNewLinkNotification": {
-    "placeholders": {
-      "link": {}
-    }
-  },
   "feedbackBoxCooldownError": "Error! Your cool down ({coolDown}) has not expired yet.",
-  "@feedbackBoxCooldownError": {
-    "placeholders": {
-      "coolDown": {
-        "type": "Object"
-      }
-    }
-  },
   "feedbackBoxDislikeLabel": "What do you dislike?",
   "feedbackBoxEmptyError": "Please enter some text 😉",
   "feedbackBoxGeneralRatingLabel": "Overall rating:",
@@ -499,13 +432,6 @@
   "filesAddAttachment": "Add attachment",
   "filesCreator": "by {value}",
   "filesDeleteDialogDescription": "Do you really want to delete the file named \"{fileName}\"?",
-  "@filesDeleteDialogDescription": {
-    "placeholders": {
-      "fileName": {
-        "type": "String"
-      }
-    }
-  },
   "filesDeleteDialogTitle": "Delete file?",
   "filesDisplayErrorTitle": "Display error",
   "filesDownloadBrokenFileError": "The file is corrupted and cannot be downloaded.",
@@ -521,17 +447,7 @@
   "filesSelectCourseTitle": "Select a course",
   "filesSizeMegabytes": "Size: {size} MB",
   "filesUploadError": "An error occurred: {error}",
-  "@filesUploadError": {
-    "placeholders": {
-      "error": {}
-    }
-  },
   "filesUploadProgress": "Uploading file to server: {progress}/100",
-  "@filesUploadProgress": {
-    "placeholders": {
-      "progress": {}
-    }
-  },
   "filesUploadedOn": "Uploaded on: {date}",
   "gradesCommonName": "Name",
   "gradesCreateTermCurrentTerm": "Current term",
@@ -673,13 +589,6 @@
   "groupJoinCourseSelectionStudentHint": "If you take electives (e.g. French), you should deselect these courses.",
   "groupJoinCourseSelectionTeacherHint": "Select the courses you teach.",
   "groupJoinCourseSelectionTitle": "Courses to join from {groupName}",
-  "@groupJoinCourseSelectionTitle": {
-    "placeholders": {
-      "groupName": {
-        "type": "String"
-      }
-    }
-  },
   "groupJoinErrorAlreadyMemberDescription": "You are already a member of this group, so you do not need to join it again.",
   "groupJoinErrorAlreadyMemberTitle": "An error occurred: Already a member 🤨",
   "groupJoinErrorNoInternetDescription": "We could not try to join the group because no internet connection could be established. Please check your Wi-Fi or mobile data.",
@@ -691,23 +600,9 @@
   "groupJoinErrorUnknownDescription": "This might be due to your internet connection. Please check it.",
   "groupJoinErrorUnknownTitle": "An unknown error occurred 😭",
   "groupJoinPasteSharecodeDescription": "Do you want to use the sharecode \"{sharecode}\" from your clipboard?",
-  "@groupJoinPasteSharecodeDescription": {
-    "placeholders": {
-      "sharecode": {
-        "type": "String"
-      }
-    }
-  },
   "groupJoinPasteSharecodeTitle": "Paste sharecode",
   "groupJoinRequireCourseSelectionDescription": "To join, you need to select the courses you are in.",
   "groupJoinRequireCourseSelectionTitle": "Class found: {groupName}",
-  "@groupJoinRequireCourseSelectionTitle": {
-    "placeholders": {
-      "groupName": {
-        "type": "String"
-      }
-    }
-  },
   "groupJoinResultJoinMoreAction": "Join more",
   "groupJoinResultRetryAction": "Try again",
   "groupJoinResultSelectCoursesAction": "Select courses",
@@ -716,13 +611,6 @@
   "groupJoinSharecodeHint": "e.g. Qb32vF",
   "groupJoinSharecodeLabel": "Sharecode",
   "groupJoinSuccessDescription": "{groupName} was added successfully. You are now a member.",
-  "@groupJoinSuccessDescription": {
-    "placeholders": {
-      "groupName": {
-        "type": "String"
-      }
-    }
-  },
   "groupJoinSuccessTitle": "Joined successfully 🎉",
   "groupOnboardingCreateCoursesTitleOther": "Which courses should be linked to the class?",
   "groupOnboardingCreateCoursesTitleTeacher": "Which courses do you teach?",
@@ -779,38 +667,10 @@
   "groupsSharecodeCopiedToClipboard": "Sharecode copied to clipboard.",
   "groupsSharecodeLoading": "Loading sharecode...",
   "groupsSharecodeLowercaseCharacter": "lowercase {character}",
-  "@groupsSharecodeLowercaseCharacter": {
-    "placeholders": {
-      "character": {
-        "type": "String"
-      }
-    }
-  },
   "groupsSharecodePrefix": "Sharecode: ",
   "groupsSharecodeSemanticsLabel": "Sharecode: {sharecode}",
-  "@groupsSharecodeSemanticsLabel": {
-    "placeholders": {
-      "sharecode": {
-        "type": "String"
-      }
-    }
-  },
   "groupsSharecodeText": "Sharecode: {sharecode}",
-  "@groupsSharecodeText": {
-    "placeholders": {
-      "sharecode": {
-        "type": "String"
-      }
-    }
-  },
   "groupsSharecodeUppercaseCharacter": "uppercase {character}",
-  "@groupsSharecodeUppercaseCharacter": {
-    "placeholders": {
-      "character": {
-        "type": "String"
-      }
-    }
-  },
   "groupsWritePermissionsEveryoneDescription": "Everyone gets the role \"active member (read and write permissions)\"",
   "groupsWritePermissionsExplanation": "Use this setting to control which user groups receive write permissions.",
   "groupsWritePermissionsOnlyAdminsDescription": "Everyone except admins gets the role \"passive member (read-only permissions)\"",
@@ -883,13 +743,6 @@
   "homeworkEmptyGameControllerTitle": "Now it's time for the really important things in life! 🤘💪",
   "homeworkFabNewHomeworkTooltip": "New homework",
   "homeworkLongPressTitle": "Homework: {homeworkTitle}",
-  "@homeworkLongPressTitle": {
-    "placeholders": {
-      "homeworkTitle": {
-        "type": "String"
-      }
-    }
-  },
   "homeworkMarkOverdueAction": "Check off overdue homework",
   "homeworkMarkOverduePromptTitle": "Check off all overdue homework?",
   "homeworkSectionDayAfterTomorrow": "Day after tomorrow",
@@ -934,34 +787,10 @@
   "legalChangeAppearance": "Change appearance",
   "legalDownloadAsPdf": "Download as PDF",
   "legalMetadataLastUpdated": "Last updated: {date}",
-  "@legalMetadataLastUpdated": {
-    "description": "Label for the last updated date in legal documents.",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "legalMetadataTitle": "Metadata",
   "legalMetadataVersion": "Version: v{version}",
-  "@legalMetadataVersion": {
-    "description": "Label for the metadata version in legal documents.",
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
   "legalMoreOptions": "More options",
   "legalPrivacyPolicyEffectiveDate": "This updated privacy policy takes effect on {date}.",
-  "@legalPrivacyPolicyEffectiveDate": {
-    "description": "Shown under the privacy policy heading with the effective date.",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "legalPrivacyPolicyTitle": "Privacy Policy",
   "legalTableOfContents": "Table of contents",
   "legalTermsOfServiceTitle": "Terms of Service",
@@ -1148,13 +977,6 @@
   "schoolClassLeaveDialogTitle": "Leave class",
   "schoolClassLoadError": "An error occurred while loading...",
   "schoolClassLongPressTitle": "Class: {schoolClassName}",
-  "@schoolClassLongPressTitle": {
-    "placeholders": {
-      "schoolClassName": {
-        "type": "String"
-      }
-    }
-  },
   "schoolClassMemberOptionsAloneHint": "Since you are the only one in the school class, you cannot edit your role.",
   "schoolClassMemberOptionsOnlyAdminHint": "You are the only admin in this school class. Therefore, you cannot remove your own rights.",
   "schoolClassWritePermissionsAnnotation": "This setting is directly applied to all courses linked to the school class.",
@@ -1281,14 +1103,6 @@
   "sharezoneWidgetsMarkdownSupportLabel": "Markdown: ",
   "sharezoneWidgetsMarkdownSupportSeparator": ", ",
   "sharezoneWidgetsNotAllowedCharactersError": "The following characters are not allowed: {characters}",
-  "@sharezoneWidgetsNotAllowedCharactersError": {
-    "placeholders": {
-      "characters": {
-        "example": "/",
-        "type": "String"
-      }
-    }
-  },
   "sharezoneWidgetsOverlayCardCloseSemantics": "Close the card",
   "sharezoneWidgetsSnackbarComingSoon": "This feature will be available soon! 😊",
   "sharezoneWidgetsSnackbarDataArrivalConfirmed": "Data arrival confirmed",
@@ -1441,16 +1255,6 @@
   "themeNavigationExperimentSectionContent": "We are currently testing a new navigation. Please give us a short feedback via the feedback box or our Discord server on how you like the respective options.",
   "themeNavigationExperimentSectionTitle": "Experiment: New Navigation",
   "themeNavigationOptionTitle": "Option {number}: {optionName}",
-  "@themeNavigationOptionTitle": {
-    "placeholders": {
-      "number": {
-        "type": "int"
-      },
-      "optionName": {
-        "type": "String"
-      }
-    }
-  },
   "themeRateOurAppCardContent": "If you like Sharezone, we would really appreciate a rating! 🙏 Don't like something? Just contact support 👍",
   "themeRateOurAppCardRateButton": "Rate",
   "themeRateOurAppCardRatingsNotAvailableOnWebDialogContent": "The app cannot be rated via the web app. Just use your phone 👍",
@@ -1605,13 +1409,6 @@
   "timetableSubstitutionEditRoomTooltip": "Edit room",
   "timetableSubstitutionEditTeacherTooltip": "Edit teacher",
   "timetableSubstitutionEnteredBy": "Entered by: {name}",
-  "@timetableSubstitutionEnteredBy": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "timetableSubstitutionNewRoomHint": "e.g. D203",
   "timetableSubstitutionNewRoomLabel": "New room",
   "timetableSubstitutionNoPermissionSubtitle": "Please contact your course administrator.",
