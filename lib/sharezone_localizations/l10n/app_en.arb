@@ -367,6 +367,33 @@
   "dateWeekdayTuesday": "Tuesday",
   "dateWeekdayWednesday": "Wednesday",
   "dateYesterday": "Yesterday",
+  "downloadAppTipActionText": "Download for {platform}",
+  "@downloadAppTipActionText": {
+    "placeholders": {
+      "platform": {
+        "example": "Android",
+        "type": "String"
+      }
+    }
+  },
+  "downloadAppTipDescription": "Install Sharezone as a {platform} app. It runs more stable and faster than the web app.",
+  "@downloadAppTipDescription": {
+    "placeholders": {
+      "platform": {
+        "example": "Android",
+        "type": "String"
+      }
+    }
+  },
+  "downloadAppTipTitle": "Download for {platform}",
+  "@downloadAppTipTitle": {
+    "placeholders": {
+      "platform": {
+        "example": "Android",
+        "type": "String"
+      }
+    }
+  },
   "drawerAboutTooltip": "About us",
   "drawerNavigationTooltip": "Navigation",
   "drawerOpenSemanticsLabel": "Open navigation",
@@ -426,6 +453,7 @@
   "fileSharingNoFilesFoundDescription": "Just upload a file now to share it with your course 👍",
   "fileSharingNoFilesFoundTitle": "No files found 😶",
   "fileSharingNoFoldersFoundTitle": "No folders found! 😬",
+  "fileSharingPageHeaderTitleOverview": "Course folder",
   "fileSharingPreparingDownloadMessage": "The file is being beamed to your device...",
   "fileSharingRenameActionUppercase": "RENAME",
   "fileSharingRenameFolderTitle": "Rename folder",
@@ -822,6 +850,8 @@
   "loginWithAppleButton": "Sign in with Apple",
   "loginWithGoogleButton": "Sign in with Google",
   "loginWithQrCodeButton": "Sign in with QR code",
+  "macOsTipActionText": "Download for Mac",
+  "macOsTipTitle": "Download for Mac",
   "memberRoleAdmin": "Admin",
   "memberRoleCreator": "Active Member (Write and read permissions)",
   "memberRoleNone": "None",
@@ -1343,6 +1373,8 @@
   "timetableEventDialogDateSelectionNotPossibleContent": "It is currently not possible to create an event or exam spanning multiple days.",
   "timetableEventDialogDescriptionHintEvent": "Additional information",
   "timetableEventDialogDescriptionHintExam": "Exam topics",
+  "timetableEventDialogEmptyCourse": "No course selected",
+  "groupsQrCodeHelpText": "What do I need to do?\nNow your classmate or teacher needs to scan the QR code by clicking \"Join Course\" on the \"My Courses\" page.",
   "timetableEventDialogEmptyCourseError": "Please choose a course.",
   "timetableEventDialogEmptyTitleError": "Please enter a title.",
   "timetableEventDialogEndTimeAfterStartTimeError": "The end time must be after the start time.",

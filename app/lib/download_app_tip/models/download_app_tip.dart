@@ -6,17 +6,20 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 const baseUrl = "https://sharezone.net";
 
 abstract class DownloadAppTip {
-  String get title => "Download for ${platform.getName()}";
+  String title(BuildContext context) =>
+      context.l10n.downloadAppTipTitle(platform.getName());
 
-  String get description =>
-      "Install Sharezone as a ${platform.getName()} app. It runs more stable and faster than the web app.";
+  String description(BuildContext context) =>
+      context.l10n.downloadAppTipDescription(platform.getName());
 
-  String get actionText => "Download for ${platform.getName()}";
+  String actionText(BuildContext context) =>
+      context.l10n.downloadAppTipActionText(platform.getName());
 
   String get actionLink => "$baseUrl/${platform.getName().toUpperCase()}";
 
@@ -42,10 +45,10 @@ class MacOsTip extends DownloadAppTip {
   String get actionLink => "$baseUrl/macos-direct";
 
   @override
-  String get actionText => "Download for Mac";
+  String actionText(BuildContext context) => context.l10n.macOsTipActionText;
 
   @override
-  String get title => "Download for Mac";
+  String title(BuildContext context) => context.l10n.macOsTipTitle;
 }
 
 class IOsTip extends DownloadAppTip {

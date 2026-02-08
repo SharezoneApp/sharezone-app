@@ -240,7 +240,8 @@ class _WeekDayField extends StatelessWidget {
             padding: EdgeInsets.only(left: 6),
             child: Icon(Icons.today),
           ),
-          title: weekDay == null ? null : Text(getWeekDayText(weekDay)),
+          title:
+              weekDay == null ? null : Text(weekDay.toLocalizedString(context)),
           onTap: () async {
             final newWeekDay = await selectWeekDay(context, selected: weekDay);
             if (newWeekDay != null) {

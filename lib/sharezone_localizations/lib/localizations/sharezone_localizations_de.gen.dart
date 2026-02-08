@@ -1299,6 +1299,21 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
       'Ja, ich möchte mein Konto löschen.';
 
   @override
+  String downloadAppTipActionText(String platform) {
+    return 'Download für $platform';
+  }
+
+  @override
+  String downloadAppTipDescription(String platform) {
+    return 'Installiere jetzt Sharezone als $platform-App. Die $platform-App läuft deutlicher stabiler & schneller als die Web-App.';
+  }
+
+  @override
+  String downloadAppTipTitle(String platform) {
+    return 'Download für $platform';
+  }
+
+  @override
   String get drawerAboutTooltip => 'Über uns';
 
   @override
@@ -1495,6 +1510,9 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get fileSharingNoFoldersFoundTitle => 'Keine Ordner gefunden! 😬';
+
+  @override
+  String get fileSharingPageHeaderTitleOverview => 'Kursordner';
 
   @override
   String get fileSharingPreparingDownloadMessage =>
@@ -2984,6 +3002,12 @@ class SharezoneLocalizationsDe extends SharezoneLocalizations {
 
   @override
   String get loginWithQrCodeButton => 'Über einen QR-Code einloggen';
+
+  @override
+  String get macOsTipActionText => 'Download für Mac';
+
+  @override
+  String get macOsTipTitle => 'Download für Mac';
 
   @override
   String get memberRoleAdmin => 'Admin';

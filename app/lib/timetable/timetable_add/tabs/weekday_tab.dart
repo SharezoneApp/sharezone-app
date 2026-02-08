@@ -82,7 +82,10 @@ class _WeekDayTile extends StatelessWidget {
           alpha: 0.20,
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        child: ListTile(title: Text(getWeekDayText(weekDay)), onTap: onTap),
+        child: ListTile(
+          title: Text(weekDay.toLocalizedString(context)),
+          onTap: onTap,
+        ),
       ),
     );
   }

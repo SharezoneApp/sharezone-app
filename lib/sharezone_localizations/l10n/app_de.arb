@@ -731,6 +731,33 @@
     "description": "Label for yesterday in fuzzy date strings."
   },
   "deleteAccountConfirmationCheckbox": "Ja, ich möchte mein Konto löschen.",
+  "downloadAppTipActionText": "Download für {platform}",
+  "@downloadAppTipActionText": {
+    "placeholders": {
+      "platform": {
+        "example": "Android",
+        "type": "String"
+      }
+    }
+  },
+  "downloadAppTipDescription": "Installiere jetzt Sharezone als {platform}-App. Die {platform}-App läuft deutlicher stabiler \u0026 schneller als die Web-App.",
+  "@downloadAppTipDescription": {
+    "placeholders": {
+      "platform": {
+        "example": "Android",
+        "type": "String"
+      }
+    }
+  },
+  "downloadAppTipTitle": "Download für {platform}",
+  "@downloadAppTipTitle": {
+    "placeholders": {
+      "platform": {
+        "example": "Android",
+        "type": "String"
+      }
+    }
+  },
   "drawerAboutTooltip": "Über uns",
   "drawerNavigationTooltip": "Navigation",
   "drawerOpenSemanticsLabel": "Navigation öffnen",
@@ -809,6 +836,7 @@
   "fileSharingNoFilesFoundDescription": "Lade jetzt einfach eine Datei hoch, um diese mit deinem Kurs zu teilen 👍",
   "fileSharingNoFilesFoundTitle": "Keine Dateien gefunden 😶",
   "fileSharingNoFoldersFoundTitle": "Keine Ordner gefunden! 😬",
+  "fileSharingPageHeaderTitleOverview": "Kursordner",
   "fileSharingPreparingDownloadMessage": "Die Datei wird auf dein Gerät gebeamt...",
   "fileSharingRenameActionUppercase": "UMBENENNEN",
   "fileSharingRenameFolderTitle": "Ordner umbenennen",
@@ -1437,6 +1465,8 @@
   "loginWithAppleButton": "Über Apple anmelden",
   "loginWithGoogleButton": "Über Google einloggen",
   "loginWithQrCodeButton": "Über einen QR-Code einloggen",
+  "macOsTipActionText": "Download für Mac",
+  "macOsTipTitle": "Download für Mac",
   "memberRoleAdmin": "Admin",
   "memberRoleCreator": "Aktives Mitglied (Schreib- und Leserechte)",
   "memberRoleNone": "Nichts",

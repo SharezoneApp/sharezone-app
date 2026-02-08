@@ -1287,6 +1287,21 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'Ja, ich möchte mein Konto löschen.';
 
   @override
+  String downloadAppTipActionText(String platform) {
+    return 'Download for $platform';
+  }
+
+  @override
+  String downloadAppTipDescription(String platform) {
+    return 'Install Sharezone as a $platform app. It runs more stable and faster than the web app.';
+  }
+
+  @override
+  String downloadAppTipTitle(String platform) {
+    return 'Download for $platform';
+  }
+
+  @override
   String get drawerAboutTooltip => 'About us';
 
   @override
@@ -1479,6 +1494,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get fileSharingNoFoldersFoundTitle => 'No folders found! 😬';
+
+  @override
+  String get fileSharingPageHeaderTitleOverview => 'Course folder';
 
   @override
   String get fileSharingPreparingDownloadMessage =>
@@ -2962,6 +2980,12 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get loginWithQrCodeButton => 'Sign in with QR code';
+
+  @override
+  String get macOsTipActionText => 'Download for Mac';
+
+  @override
+  String get macOsTipTitle => 'Download for Mac';
 
   @override
   String get memberRoleAdmin => 'Admin';
@@ -4778,7 +4802,7 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get timetableEventDialogDescriptionHintExam => 'Exam topics';
 
   @override
-  String get timetableEventDialogEmptyCourse => 'Keinen Kurs ausgewählt';
+  String get timetableEventDialogEmptyCourse => 'No course selected';
 
   @override
   String get timetableEventDialogEmptyCourseError => 'Please choose a course.';

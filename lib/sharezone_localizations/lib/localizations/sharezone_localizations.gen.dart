@@ -2323,6 +2323,24 @@ abstract class SharezoneLocalizations {
   /// **'Ja, ich möchte mein Konto löschen.'**
   String get deleteAccountConfirmationCheckbox;
 
+  /// No description provided for @downloadAppTipActionText.
+  ///
+  /// In de, this message translates to:
+  /// **'Download für {platform}'**
+  String downloadAppTipActionText(String platform);
+
+  /// No description provided for @downloadAppTipDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Installiere jetzt Sharezone als {platform}-App. Die {platform}-App läuft deutlicher stabiler & schneller als die Web-App.'**
+  String downloadAppTipDescription(String platform);
+
+  /// No description provided for @downloadAppTipTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Download für {platform}'**
+  String downloadAppTipTitle(String platform);
+
   /// No description provided for @drawerAboutTooltip.
   ///
   /// In de, this message translates to:
@@ -2676,6 +2694,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Keine Ordner gefunden! 😬'**
   String get fileSharingNoFoldersFoundTitle;
+
+  /// No description provided for @fileSharingPageHeaderTitleOverview.
+  ///
+  /// In de, this message translates to:
+  /// **'Kursordner'**
+  String get fileSharingPageHeaderTitleOverview;
 
   /// No description provided for @fileSharingPreparingDownloadMessage.
   ///
@@ -5190,6 +5214,18 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Über einen QR-Code einloggen'**
   String get loginWithQrCodeButton;
+
+  /// No description provided for @macOsTipActionText.
+  ///
+  /// In de, this message translates to:
+  /// **'Download für Mac'**
+  String get macOsTipActionText;
+
+  /// No description provided for @macOsTipTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Download für Mac'**
+  String get macOsTipTitle;
 
   /// No description provided for @memberRoleAdmin.
   ///
