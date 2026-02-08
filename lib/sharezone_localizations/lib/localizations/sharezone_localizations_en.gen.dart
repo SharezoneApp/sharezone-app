@@ -2431,7 +2431,7 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get groupsQrCodeHelpText =>
-      'Was muss ich machen?\nNun muss dein Mitschüler oder dein Lehrer den QR-Code abscannen, indem er auf der \"Meine Kurse\" Seite auf \"Kurs beitreten\" klickt.';
+      'What do I need to do?\nNow your classmate or teacher needs to scan the QR code by clicking \"Join Course\" on the \"My Courses\" page.';
 
   @override
   String get groupsQrCodeSubtitle => 'show';
