@@ -29,7 +29,7 @@ class GradesDialogControllerTranslations {
 
   String? gradeTypeDisplayName(PredefinedGradeTypes? type) {
     if (type == null) return null;
-    return type.toUiString(context);
+    return type.toLocalizedString(context);
   }
 
   String get enterGradeError => context.l10n.gradesDialogEnterGradeError;
@@ -688,7 +688,7 @@ enum GradingDialogFields {
   term,
   title;
 
-  String toUiString(BuildContext context) {
+  String toLocalizedString(BuildContext context) {
     return switch (this) {
       gradeValue => context.l10n.gradingDialogFieldsGradeValue,
       title => context.l10n.gradingDialogFieldsTitle,

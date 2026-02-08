@@ -105,7 +105,9 @@ class _SaveButton extends StatelessWidget {
       };
     }
     final fields = e.invalidFields;
-    final fieldMessages = fields.map((f) => f.toUiString(context)).join(', ');
+    final fieldMessages = fields
+        .map((f) => f.toLocalizedString(context))
+        .join(', ');
     return context.l10n.gradesDialogInvalidFieldsCombined(fieldMessages);
   }
 

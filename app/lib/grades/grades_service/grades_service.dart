@@ -443,7 +443,7 @@ enum PredefinedGradeTypes {
   presentation,
   other;
 
-  String toUiString(BuildContext context) {
+  String toLocalizedString(BuildContext context) {
     return switch (this) {
       PredefinedGradeTypes.schoolReportGrade =>
         context.l10n.predefinedGradeTypesSchoolReportGrade,

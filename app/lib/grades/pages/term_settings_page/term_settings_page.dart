@@ -599,7 +599,7 @@ class _FinalGradeType extends StatelessWidget {
           view.finalGradeType.predefinedType?.getIcon() ??
           const Icon(Icons.help),
       displayName:
-          view.finalGradeType.predefinedType?.toUiString(context) ?? '?',
+          view.finalGradeType.predefinedType?.toLocalizedString(context) ?? '?',
       selectableGradingTypes: view.selectableGradingTypes,
       onSetFinalGradeType: (type) {
         final controller = context.read<TermSettingsPageController>();

@@ -278,7 +278,7 @@ class _GradingType extends StatelessWidget {
     return _GradeDetailsTile(
       leading: SavedGradeIcons.gradingType,
       title: Text(context.l10n.gradesDialogGradeTypeLabel),
-      subtitle: Text(gradeType.toUiString(context)),
+      subtitle: Text(gradeType.toLocalizedString(context)),
     );
   }
 }

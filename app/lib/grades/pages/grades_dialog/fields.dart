@@ -371,7 +371,7 @@ class _GradingType extends StatelessWidget {
       leading: SavedGradeIcons.gradingType,
       title: Text(context.l10n.gradesDialogGradeTypeLabel),
       subtitle: Text(
-        view.selectedGradingType.predefinedType?.toUiString(context) ??
+        view.selectedGradingType.predefinedType?.toLocalizedString(context) ??
             context.l10n.gradesDialogCustomGradeType,
       ),
       onTap: () async {

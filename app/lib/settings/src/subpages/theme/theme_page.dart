@@ -309,7 +309,7 @@ class _NavigationRadioTile extends StatelessWidget {
         title: Text(
           context.l10n.themeNavigationOptionTitle(
             number ?? 0,
-            option.getDisplayName(context),
+            option.toLocalizedString(context),
           ),
         ),
         onTap: () => onTap(option),

@@ -133,7 +133,7 @@ class _SecondaryInformationCard extends StatelessWidget {
             ListTile(
               onTap: () => showStateSelectionDialog(context),
               title: Text(context.l10n.accountStateTitle),
-              subtitle: Text(user.state.getDisplayName(context)),
+              subtitle: Text(user.state.toLocalizedString(context)),
             ),
           ],
         ),

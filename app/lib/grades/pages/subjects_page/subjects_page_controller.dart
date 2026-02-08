@@ -43,7 +43,7 @@ class SubjectsPageControllerTranslations {
   const SubjectsPageControllerTranslations(this.context);
 
   String? predefinedTypeDisplayName(PredefinedGradeTypes? type) =>
-      type?.toUiString(context);
+      type?.toLocalizedString(context);
 }
 
 class SubjectsPageController extends ChangeNotifier {
@@ -119,7 +119,7 @@ class SubjectsPageController extends ChangeNotifier {
               translations.predefinedTypeDisplayName(
                 gradeType.predefinedType,
               ) ??
-              'Unbekannt';
+              'Unknown';
 
           return MapEntry(gradeType.id, gradeTypeDisplayName);
         }).toMap();
@@ -177,7 +177,7 @@ class SubjectsPageController extends ChangeNotifier {
             displayValue: _formatGradeValue(grade.value),
             termName: term.name,
             date: grade.date,
-            gradeTypeName: gradeTypeNames[grade.gradeTypeId] ?? 'Unbekannt',
+            gradeTypeName: gradeTypeNames[grade.gradeTypeId] ?? 'Unknown',
           ),
         );
       }
