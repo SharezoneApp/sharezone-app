@@ -72,8 +72,7 @@ class _OnboardingChangeNameState extends State<_OnboardingChangeNameLoaded> {
       bloc: userEditPageBloc,
       child: GroupOnboardingPageTemplate(
         top: Container(),
-        title:
-            'Welcher Name soll anderen Schülern, Lehrkräften und Eltern angezeigt werden?',
+        title: context.l10n.groupOnboardingChooseNameTitle,
         children: [_TextFieldSubmitButton(initialName: widget.user!.name)],
       ),
     );

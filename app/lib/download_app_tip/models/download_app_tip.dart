@@ -11,12 +11,12 @@ import 'package:flutter/foundation.dart';
 const baseUrl = "https://sharezone.net";
 
 abstract class DownloadAppTip {
-  String get title => "Download für ${platform.getName()}";
+  String get title => "Download for ${platform.getName()}";
 
   String get description =>
-      "Installiere jetzt Sharezone als ${platform.getName()}-App. Die ${platform.getName()}-App läuft deutlicher stabiler & schneller als die Web-App.";
+      "Install Sharezone as a ${platform.getName()} app. It runs more stable and faster than the web app.";
 
-  String get actionText => "Download für ${platform.getName()}";
+  String get actionText => "Download for ${platform.getName()}";
 
   String get actionLink => "$baseUrl/${platform.getName().toUpperCase()}";
 
@@ -42,10 +42,10 @@ class MacOsTip extends DownloadAppTip {
   String get actionLink => "$baseUrl/macos-direct";
 
   @override
-  String get actionText => "Download für Mac";
+  String get actionText => "Download for Mac";
 
   @override
-  String get title => "Download für Mac";
+  String get title => "Download for Mac";
 }
 
 class IOsTip extends DownloadAppTip {

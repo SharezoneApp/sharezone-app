@@ -36,7 +36,7 @@ class ChooseTypeOfUser extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            "Ich bin...",
+                            context.l10n.signUpChooseTypeTitle,
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           const SizedBox(height: 12),
@@ -112,8 +112,7 @@ class _LegalText extends StatelessWidget {
     return MaxWidthConstraintBox(
       maxWidth: 500,
       child: MarkdownBody(
-        data:
-            'Mit Nutzung unserer Plattform stimmst du den [ANBs](https://sharezone.net/terms-of-service) zu. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy).',
+        data: context.l10n.signUpLegalConsentMarkdown,
         onTapLink: (text, href, title) {
           if (href == "https://sharezone.net/terms-of-service") {
             Navigator.pushNamed(context, TermsOfServicePage.tag);
@@ -258,10 +257,10 @@ class _LoginButton extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(foregroundColor: Colors.grey),
         onPressed: () => Navigator.pushNamed(context, LoginPage.tag),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 4),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
           child: Text(
-            "Du hast bereits ein Konto? Klicke hier, um dich einzuloggen.",
+            context.l10n.signUpAlreadyHaveAccount,
             textAlign: TextAlign.center,
           ),
         ),

@@ -10,6 +10,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:filesharing_logic/filesharing_logic_models.dart';
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/logic/move_file_bloc.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
 class MoveFilePageHeader extends StatelessWidget
@@ -34,8 +35,7 @@ class MoveFilePageHeader extends StatelessWidget
           if (currentPath == FolderPath.root) {
             showSnackSec(
               context: context,
-              text:
-                  'Ein Verschieben zu einem anderen Kurs ist aktuell noch nicht möglich.',
+              text: context.l10n.filesMoveAcrossCoursesNotSupported,
             );
           } else {
             final moveFileBloc = BlocProvider.of<MoveFileBloc>(context);

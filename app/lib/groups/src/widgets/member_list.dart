@@ -91,7 +91,7 @@ class LoadingMemberList extends StatelessWidget {
     final placeholderUser = [
       MemberData.create(
         id: "bernd77",
-        user: AppUser.create(id: "bernd77").copyWith(name: "Bernd das Brot"),
+        user: AppUser.create(id: "bernd77").copyWith(name: "Bob Bread"),
         role: MemberRole.admin,
       ),
       MemberData.create(

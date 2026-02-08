@@ -137,16 +137,16 @@ extension GradeSystemToName on GradingSystem {
   String get displayName {
     return switch (this) {
       GradingSystem.oneToSixWithPlusAndMinus => '1 - 6 (+-)',
-      GradingSystem.oneToSixWithDecimals => '1 - 6 (mit Kommazahlen)',
-      GradingSystem.sixToOneWithDecimals => '6 - 1 (mit Kommazahlen)',
-      GradingSystem.oneToFiveWithDecimals => '1 - 5 (mit Kommazahlen)',
-      GradingSystem.zeroToFifteenPoints => '15 - 0 Punkte',
+      GradingSystem.oneToSixWithDecimals => '1 - 6 (with decimals)',
+      GradingSystem.sixToOneWithDecimals => '6 - 1 (with decimals)',
+      GradingSystem.oneToFiveWithDecimals => '1 - 5 (with decimals)',
+      GradingSystem.zeroToFifteenPoints => '15 - 0 points',
       GradingSystem.zeroToFifteenPointsWithDecimals =>
-        '15 - 0 Punkte (mit Kommazahlen)',
+        '15 - 0 points (with decimals)',
       GradingSystem.zeroToHundredPercentWithDecimals =>
-        '100% - 0% (mit Kommazahlen)',
+        '100% - 0% (with decimals)',
       GradingSystem.austrianBehaviouralGrades =>
-        'Österreichische Verhaltensnoten',
+        'Austrian behavioural grades',
     };
   }
 }

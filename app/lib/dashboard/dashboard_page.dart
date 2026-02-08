@@ -213,7 +213,7 @@ class _AppBarTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      NavigationItem.overview.getName(),
+      NavigationItem.overview.getName(context),
       style: Theme.of(
         context,
       ).textTheme.titleLarge!.copyWith(color: Colors.white),

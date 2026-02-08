@@ -285,7 +285,7 @@ class _EmailField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 38),
           child: Text(
-            "Die E-Mail ist für niemanden sichtbar und dient nur zur Anmeldung.",
+            context.l10n.changeEmailAddressWhyWeNeedTheEmailInfoContent,
             style: _hintTextStyle(context),
           ),
         ),
@@ -299,7 +299,7 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SubmitButton(
       onPressed: () => handleEmailAndPasswordLinkSubmit(context),
-      titel: "Verknüpfen",
+      titel: context.l10n.authEmailAndPasswordLinkSubmitAction,
       color: Theme.of(context).primaryColor,
       textColor: Colors.white,
     );

@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sharezone/filesharing/models/file_sharing_page_state.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class ViewModeToggle extends StatefulWidget {
   const ViewModeToggle({
@@ -54,8 +55,8 @@ class _ViewModeToggleState extends State<ViewModeToggle>
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: switch (widget.viewMode) {
-        FileSharingViewMode.list => 'Auf Kacheln umschalten',
-        FileSharingViewMode.grid => 'Auf Liste umschalten',
+        FileSharingViewMode.list => context.l10n.calendricalEventsSwitchToGrid,
+        FileSharingViewMode.grid => context.l10n.calendricalEventsSwitchToList,
       },
       onPressed: () {
         widget.onViewModeChanged(switch (widget.viewMode) {

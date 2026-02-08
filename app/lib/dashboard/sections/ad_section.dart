@@ -113,7 +113,7 @@ class _DashboardAdsState extends State<DashboardAds> {
               child: Text.rich(
                 TextSpan(
                   text:
-                      'Dank dieser Anzeige ist Sharezone kostenlos. Falls du die Anzeige nicht sehen möchtest, kannst du ',
+                      context.l10n.dashboardAdSectionPrefix,
                   style: const TextStyle(fontSize: 10, color: Colors.grey),
                   children: [
                     TextSpan(

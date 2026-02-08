@@ -259,7 +259,7 @@ class GradesDialogController extends ChangeNotifier {
   bool _validateGrade() {
     final isEmpty = _grade == null || _grade!.isEmpty;
     if (isEmpty) {
-      _gradeErrorText = 'Bitte eine Note eingeben.';
+      _gradeErrorText = 'Please enter a grade.';
       _isGradeMissing = true;
       notifyListeners();
       return false;
@@ -274,7 +274,7 @@ class GradesDialogController extends ChangeNotifier {
     }
 
     final isParsable = _isGradeParsable();
-    _gradeErrorText = isParsable ? null : 'Die Eingabe ist keine gültige Zahl.';
+    _gradeErrorText = isParsable ? null : 'The input is not a valid number.';
     _isGradeMissing = false;
     notifyListeners();
     return isParsable;
@@ -417,7 +417,7 @@ class GradesDialogController extends ChangeNotifier {
 
   bool _validateTitle() {
     final isValid = _isTitleValid();
-    _titleErrorText = isValid ? null : 'Bitte einen Titel eingeben.';
+    _titleErrorText = isValid ? null : 'Please enter a title.';
     notifyListeners();
     return isValid;
   }
@@ -540,7 +540,7 @@ class GradesDialogController extends ChangeNotifier {
       }
     } catch (e, s) {
       if (e is InvalidGradeValueException) {
-        _gradeErrorText = 'Die Note ist ungültig.';
+        _gradeErrorText = 'The grade is invalid.';
         notifyListeners();
         throw const InvalidFieldsSaveGradeException(
           ISetConst({GradingDialogFields.gradeValue}),

@@ -49,10 +49,10 @@ BehaviorSubject<Beitrittsversuch?> runBeitrittsVersuche() {
       BehaviorSubject<Beitrittsversuch?>.seeded(null);
 
   beitrittsversuche.listen(
-    (beitrittsversuch) => log("Neuer beitrittsversuch: $beitrittsversuch"),
+    (beitrittsversuch) => log("New join attempt: $beitrittsversuch"),
     onError:
         (e, s) => log(
-          "Error beim Beitreten über Dynamic Link: $e $s",
+          "Error while joining via dynamic link: $e $s",
           error: e,
           stackTrace: s,
         ),
@@ -68,7 +68,7 @@ DynamicLinkBloc runDynamicLinkBloc(
   dynamicLinkBloc.initialisere();
 
   dynamicLinkBloc.einkommendeLinks.listen(
-    (einkommenderLink) => log("Neuer einkommender Link: $einkommenderLink"),
+    (einkommenderLink) => log("New incoming link: $einkommenderLink"),
   );
 
   return dynamicLinkBloc;
@@ -111,8 +111,7 @@ If you encounter any issues please report them at https://github.com/SharezoneAp
 }
 
 Future<AppDependencies> initializeDependencies({required Flavor flavor}) async {
-  // Damit die z.B. 'vor weniger als 1 Minute' Kommentar-Texte auch auf Deutsch
-  // sein können
+  // Register German relative-time messages (e.g. "vor weniger als 1 Minute").
   timeago.setLocaleMessages('de', timeago.DeMessages());
   WidgetsFlutterBinding.ensureInitialized();
 

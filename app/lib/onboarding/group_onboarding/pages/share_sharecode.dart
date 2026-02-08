@@ -69,12 +69,12 @@ class _Title extends StatelessWidget {
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
     switch (bloc.typeOfUser) {
       case TypeOfUser.teacher:
-        return 'Lade jetzt deine Schüler und Schülerinnen ein!';
+        return context.l10n.groupOnboardingSharecodeInviteStudents;
       case TypeOfUser.parent:
-        return 'Lade jetzt andere Schüler, Eltern oder Lehrkräfte ein!';
+        return context.l10n.groupOnboardingSharecodeInviteMixed;
       case TypeOfUser.student:
       default:
-        return 'Lade jetzt deine Mitschüler und deinen Lehrer / deine Lehrerin ein!';
+        return context.l10n.groupOnboardingSharecodeInviteClassmatesAndTeacher;
     }
   }
 }
@@ -156,7 +156,10 @@ class _SharecodeBox extends StatelessWidget {
             children: [
               const SizedBox(height: 12),
               Text(
-                "Zum Beitreten ${getGroupType()} (${groupInfo.name}):",
+                context.l10n.groupOnboardingSharecodeJoinLabel(
+                  getGroupType(context),
+                  groupInfo.name,
+                ),
                 style: const TextStyle(color: Colors.grey),
               ),
               SharecodeText(
@@ -182,12 +185,12 @@ class _SharecodeBox extends StatelessWidget {
     );
   }
 
-  String getGroupType() {
+  String getGroupType(BuildContext context) {
     switch (groupInfo.groupType) {
       case GroupType.course:
-        return 'des Kurses';
+        return context.l10n.groupOnboardingSharecodeGroupTypeCourse;
       case GroupType.schoolclass:
-        return 'der Schulklasse';
+        return context.l10n.groupOnboardingSharecodeGroupTypeSchoolClass;
     }
   }
 }
@@ -195,8 +198,8 @@ class _SharecodeBox extends StatelessWidget {
 class _JoinHint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'Mitschüler, Lehrer und Eltern können über den Sharecode der Klasse beitreten. Dadurch können Infozettel, Hausausgaben, Termine, Dateien und der Stundenplan gemeinsam organisiert werden.',
+    return Text(
+      context.l10n.groupOnboardingSharecodeJoinHint,
       style: TextStyle(color: Colors.grey),
       textAlign: TextAlign.center,
     );

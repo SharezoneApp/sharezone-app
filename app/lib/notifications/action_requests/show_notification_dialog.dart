@@ -133,9 +133,9 @@ class ShowNotificationDialogExecutor
       if (confirmed) {
         UrlLauncherExtended().tryLaunchMailOrThrow(
           "support@sharezone.net",
-          subject: 'Rückmeldung zur Support-Notification',
+          subject: 'Feedback on support notification',
           body:
-              'Liebes Sharezone-Team,\n\nihr habt folgende Nachricht geschrieben:\n${actionRequest.title}; ${actionRequest.body}\n\nMein Anliegen:\n_',
+              'Dear Sharezone team,\n\nyou sent the following message:\n${actionRequest.title}; ${actionRequest.body}\n\nMy request:\n_',
         );
       }
     });

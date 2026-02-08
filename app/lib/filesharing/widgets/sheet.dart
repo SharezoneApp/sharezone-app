@@ -160,17 +160,23 @@ class FileSheet extends StatelessWidget {
                         ),
                         if (createdOn != null)
                           Text(
-                            "Hochgeladen am: ${DateFormat('dd.MM.yyyy HH:mm').format(createdOn!)}",
+                            context.l10n.filesUploadedOn(
+                              DateFormat('dd.MM.yyyy HH:mm').format(createdOn!),
+                            ),
                             style: greyTextStyle,
                           ),
                         if (isPrivate == true)
                           Text(
-                            'Privat (nur für dich sichtbar)',
+                            context.l10n.filesPrivateVisibleOnlyToYou,
                             style: greyTextStyle,
                           ),
                         sizeBytes != null
                             ? Text(
-                              "Größe: ${KiloByteSize(bytes: sizeBytes!).inMegabytes.toStringAsFixed(2)} MB",
+                              context.l10n.filesSizeMegabytes(
+                                KiloByteSize(
+                                  bytes: sizeBytes!,
+                                ).inMegabytes.toStringAsFixed(2),
+                              ),
                               style: greyTextStyle,
                             )
                             : Container(),

@@ -39,7 +39,7 @@ class CreateTermPageController extends ChangeNotifier {
 
   void _validateName() {
     if (view.name == null || view.name!.isEmpty) {
-      view = view.copyWith(nameErrorText: () => 'Bitte gib einen Namen ein.');
+      view = view.copyWith(nameErrorText: () => 'Please enter a name.');
     } else {
       view = view.copyWith(nameErrorText: () => null);
     }

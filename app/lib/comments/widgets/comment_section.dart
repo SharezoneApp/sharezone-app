@@ -46,7 +46,7 @@ class CommentSection extends StatelessWidget {
       children: <Widget>[
         _CommentSectionTitle(numberOfComments: comments?.length ?? 0),
         UserCommentField(
-          textFieldMessage: "Stell eine Rückfrage...",
+          textFieldMessage: context.l10n.commentSectionReplyPrompt,
           userAbbreviation: userAbbreviation,
         ),
         Column(children: _getChildren(context)),

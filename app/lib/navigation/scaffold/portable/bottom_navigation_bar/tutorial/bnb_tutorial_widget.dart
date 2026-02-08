@@ -61,8 +61,7 @@ class _BnbTutorialState extends State<_BnbTutorial> {
                             (widget.animationController.value * 140) +
                             context.mediaQueryViewPadding.bottom);
                     return Semantics(
-                      label:
-                          'Schaubild: Wie die Navigationsleiste nach oben gezogen wird, um weitere Navigationselemente zu zeigen.',
+                      label: context.l10n.bnbTutorialSemanticsLabel,
                       child: Stack(
                         children: [
                           Container(

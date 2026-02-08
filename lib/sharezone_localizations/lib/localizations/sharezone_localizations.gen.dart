@@ -295,6 +295,18 @@ abstract class SharezoneLocalizations {
   /// **'Aktivierungscode'**
   String get activationCodeFieldLabel;
 
+  /// No description provided for @activationCodeInfoDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit dem Aktivierungscode können Features, die noch in der Entwicklung sind, freigeschaltet und bereits getestet werden. Der Aktivierungscode wird von uns bereitgestellt und ist nur für Testzwecke gedacht.\n\nFalls du einen Sharecode hast und einer Gruppe beitreten willst, musst du diesen über die Seite \"Gruppen\" eingeben.'**
+  String get activationCodeInfoDescription;
+
+  /// No description provided for @activationCodeInfoTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Was ist der Aktivierungscode?'**
+  String get activationCodeInfoTitle;
+
   /// No description provided for @activationCodeResultDoneAction.
   ///
   /// In de, this message translates to:
@@ -390,6 +402,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Nickname'**
   String get authEmailAndPasswordLinkNicknameLabel;
+
+  /// No description provided for @authEmailAndPasswordLinkSubmitAction.
+  ///
+  /// In de, this message translates to:
+  /// **'Verknüpfen'**
+  String get authEmailAndPasswordLinkSubmitAction;
 
   /// No description provided for @authProviderAnonymous.
   ///
@@ -553,6 +571,30 @@ abstract class SharezoneLocalizations {
   /// **'Neuen Infozettel'**
   String get blackboardPageFabTooltip;
 
+  /// No description provided for @blackboardReadByInfoVisibleForRole.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Information ist für dich als {role} sichtbar.'**
+  String blackboardReadByInfoVisibleForRole(String role);
+
+  /// No description provided for @blackboardReadByPercent.
+  ///
+  /// In de, this message translates to:
+  /// **'Gelesen von: {percent}%'**
+  String blackboardReadByPercent(int percent);
+
+  /// No description provided for @blackboardReadByRoleAdmin.
+  ///
+  /// In de, this message translates to:
+  /// **'Admin'**
+  String get blackboardReadByRoleAdmin;
+
+  /// No description provided for @blackboardReadByRoleAuthor.
+  ///
+  /// In de, this message translates to:
+  /// **'Autor'**
+  String get blackboardReadByRoleAuthor;
+
   /// No description provided for @blackboardReadByUsersPlusDescription.
   ///
   /// In de, this message translates to:
@@ -588,6 +630,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Ziehe die untere Navigationsleiste nach oben, um auf weitere Funktionen zuzugreifen.'**
   String get bnbTutorialDescription;
+
+  /// No description provided for @bnbTutorialSemanticsLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Schaubild: Wie die Navigationsleiste nach oben gezogen wird, um weitere Navigationselemente zu zeigen.'**
+  String get bnbTutorialSemanticsLabel;
 
   /// No description provided for @calendricalEventsAddEvent.
   ///
@@ -672,6 +720,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Passwort'**
   String get changeEmailAddressPasswordTextfieldLabel;
+
+  /// No description provided for @changeEmailAddressSubmitSnackbar.
+  ///
+  /// In de, this message translates to:
+  /// **'Neue E-Mail-Adresse wird an die Zentrale geschickt...'**
+  String get changeEmailAddressSubmitSnackbar;
 
   /// No description provided for @changeEmailAddressTitle.
   ///
@@ -921,11 +975,23 @@ abstract class SharezoneLocalizations {
   /// **'Kommentar melden'**
   String get commentActionsReport;
 
+  /// No description provided for @commentDeletePrompt.
+  ///
+  /// In de, this message translates to:
+  /// **'Möchtest du wirklich den Kommentar für alle löschen?'**
+  String get commentDeletePrompt;
+
   /// No description provided for @commentDeletedConfirmation.
   ///
   /// In de, this message translates to:
   /// **'Kommentar wurde gelöscht.'**
   String get commentDeletedConfirmation;
+
+  /// No description provided for @commentSectionReplyPrompt.
+  ///
+  /// In de, this message translates to:
+  /// **'Stell eine Rückfrage...'**
+  String get commentSectionReplyPrompt;
 
   /// No description provided for @commentsSectionTitle.
   ///
@@ -1587,6 +1653,60 @@ abstract class SharezoneLocalizations {
   /// **'Fach'**
   String get courseFieldsSubjectLabel;
 
+  /// No description provided for @courseJoinNotificationAlreadyMember.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist der Gruppe bereits beigetreten'**
+  String get courseJoinNotificationAlreadyMember;
+
+  /// No description provided for @courseJoinNotificationGroupNotFound.
+  ///
+  /// In de, this message translates to:
+  /// **'Gruppe nicht gefunden'**
+  String get courseJoinNotificationGroupNotFound;
+
+  /// No description provided for @courseJoinNotificationJoinForbidden.
+  ///
+  /// In de, this message translates to:
+  /// **'Beitreten verboten. Kontaktiere den Admin der Gruppe.'**
+  String get courseJoinNotificationJoinForbidden;
+
+  /// No description provided for @courseJoinNotificationJoinedClass.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist der Klasse \"{groupName}\" beigetreten'**
+  String courseJoinNotificationJoinedClass(Object groupName);
+
+  /// No description provided for @courseJoinNotificationJoinedCourse.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist dem Kurs \"{groupName}\" beigetreten'**
+  String courseJoinNotificationJoinedCourse(Object groupName);
+
+  /// No description provided for @courseJoinNotificationLoading.
+  ///
+  /// In de, this message translates to:
+  /// **'{sharecode} beitreten...'**
+  String courseJoinNotificationLoading(Object sharecode);
+
+  /// No description provided for @courseJoinNotificationNoInternet.
+  ///
+  /// In de, this message translates to:
+  /// **'Keine Internetverbindung'**
+  String get courseJoinNotificationNoInternet;
+
+  /// No description provided for @courseJoinNotificationUnknownError.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fehler ist aufgetreten. Bitte kontaktiere den Support.'**
+  String get courseJoinNotificationUnknownError;
+
+  /// No description provided for @courseJoinNotificationUnknownErrorWithReason.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Fehler ist aufgetreten: {reason}. Bitte kontaktiere den Support.'**
+  String courseJoinNotificationUnknownErrorWithReason(Object reason);
+
   /// No description provided for @courseLeaveAndDeleteDialogDescription.
   ///
   /// In de, this message translates to:
@@ -1713,6 +1833,180 @@ abstract class SharezoneLocalizations {
   /// **'Schulklasse auswählen'**
   String get courseTemplateSchoolClassSelectionTitle;
 
+  /// No description provided for @courseTemplateSubjectArt.
+  ///
+  /// In de, this message translates to:
+  /// **'Kunst'**
+  String get courseTemplateSubjectArt;
+
+  /// No description provided for @courseTemplateSubjectBiology.
+  ///
+  /// In de, this message translates to:
+  /// **'Biologie'**
+  String get courseTemplateSubjectBiology;
+
+  /// No description provided for @courseTemplateSubjectCatholicReligion.
+  ///
+  /// In de, this message translates to:
+  /// **'Katholische Religion'**
+  String get courseTemplateSubjectCatholicReligion;
+
+  /// No description provided for @courseTemplateSubjectChemistry.
+  ///
+  /// In de, this message translates to:
+  /// **'Chemie'**
+  String get courseTemplateSubjectChemistry;
+
+  /// No description provided for @courseTemplateSubjectComputerScience.
+  ///
+  /// In de, this message translates to:
+  /// **'Informatik'**
+  String get courseTemplateSubjectComputerScience;
+
+  /// No description provided for @courseTemplateSubjectEconomics.
+  ///
+  /// In de, this message translates to:
+  /// **'Wirtschaft'**
+  String get courseTemplateSubjectEconomics;
+
+  /// No description provided for @courseTemplateSubjectEnglish.
+  ///
+  /// In de, this message translates to:
+  /// **'Englisch'**
+  String get courseTemplateSubjectEnglish;
+
+  /// No description provided for @courseTemplateSubjectEthics.
+  ///
+  /// In de, this message translates to:
+  /// **'Ethik'**
+  String get courseTemplateSubjectEthics;
+
+  /// No description provided for @courseTemplateSubjectFrench.
+  ///
+  /// In de, this message translates to:
+  /// **'Französisch'**
+  String get courseTemplateSubjectFrench;
+
+  /// No description provided for @courseTemplateSubjectGeography.
+  ///
+  /// In de, this message translates to:
+  /// **'Geografie'**
+  String get courseTemplateSubjectGeography;
+
+  /// No description provided for @courseTemplateSubjectGeographyErdkunde.
+  ///
+  /// In de, this message translates to:
+  /// **'Erdkunde'**
+  String get courseTemplateSubjectGeographyErdkunde;
+
+  /// No description provided for @courseTemplateSubjectGerman.
+  ///
+  /// In de, this message translates to:
+  /// **'Deutsch'**
+  String get courseTemplateSubjectGerman;
+
+  /// No description provided for @courseTemplateSubjectHistory.
+  ///
+  /// In de, this message translates to:
+  /// **'Geschichte'**
+  String get courseTemplateSubjectHistory;
+
+  /// No description provided for @courseTemplateSubjectHomeEconomics.
+  ///
+  /// In de, this message translates to:
+  /// **'Hauswirtschaftslehre'**
+  String get courseTemplateSubjectHomeEconomics;
+
+  /// No description provided for @courseTemplateSubjectLatin.
+  ///
+  /// In de, this message translates to:
+  /// **'Latein'**
+  String get courseTemplateSubjectLatin;
+
+  /// No description provided for @courseTemplateSubjectMath.
+  ///
+  /// In de, this message translates to:
+  /// **'Mathematik'**
+  String get courseTemplateSubjectMath;
+
+  /// No description provided for @courseTemplateSubjectMusic.
+  ///
+  /// In de, this message translates to:
+  /// **'Musik'**
+  String get courseTemplateSubjectMusic;
+
+  /// No description provided for @courseTemplateSubjectNaturalSciences.
+  ///
+  /// In de, this message translates to:
+  /// **'Naturwissenschaften'**
+  String get courseTemplateSubjectNaturalSciences;
+
+  /// No description provided for @courseTemplateSubjectPedagogy.
+  ///
+  /// In de, this message translates to:
+  /// **'Pädagogik'**
+  String get courseTemplateSubjectPedagogy;
+
+  /// No description provided for @courseTemplateSubjectPhilosophy.
+  ///
+  /// In de, this message translates to:
+  /// **'Philosophie'**
+  String get courseTemplateSubjectPhilosophy;
+
+  /// No description provided for @courseTemplateSubjectPhysics.
+  ///
+  /// In de, this message translates to:
+  /// **'Physik'**
+  String get courseTemplateSubjectPhysics;
+
+  /// No description provided for @courseTemplateSubjectPolitics.
+  ///
+  /// In de, this message translates to:
+  /// **'Politik'**
+  String get courseTemplateSubjectPolitics;
+
+  /// No description provided for @courseTemplateSubjectPracticalPhilosophy.
+  ///
+  /// In de, this message translates to:
+  /// **'Praktische Philosophie'**
+  String get courseTemplateSubjectPracticalPhilosophy;
+
+  /// No description provided for @courseTemplateSubjectProtestantReligion.
+  ///
+  /// In de, this message translates to:
+  /// **'Evangelische Religion'**
+  String get courseTemplateSubjectProtestantReligion;
+
+  /// No description provided for @courseTemplateSubjectSocialStudies.
+  ///
+  /// In de, this message translates to:
+  /// **'Gesellschaftslehre'**
+  String get courseTemplateSubjectSocialStudies;
+
+  /// No description provided for @courseTemplateSubjectSpanish.
+  ///
+  /// In de, this message translates to:
+  /// **'Spanisch'**
+  String get courseTemplateSubjectSpanish;
+
+  /// No description provided for @courseTemplateSubjectSport.
+  ///
+  /// In de, this message translates to:
+  /// **'Sport'**
+  String get courseTemplateSubjectSport;
+
+  /// No description provided for @courseTemplateSubjectTechnology.
+  ///
+  /// In de, this message translates to:
+  /// **'Technik'**
+  String get courseTemplateSubjectTechnology;
+
+  /// No description provided for @courseTemplateSubjectWorkEducation.
+  ///
+  /// In de, this message translates to:
+  /// **'Arbeitslehre'**
+  String get courseTemplateSubjectWorkEducation;
+
   /// No description provided for @courseTemplateTitle.
   ///
   /// In de, this message translates to:
@@ -1730,6 +2024,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **' erwerben.'**
   String get dashboardAdSectionAcquireSuffix;
+
+  /// No description provided for @dashboardAdSectionPrefix.
+  ///
+  /// In de, this message translates to:
+  /// **'Dank dieser Anzeige ist Sharezone kostenlos. Falls du die Anzeige nicht sehen möchtest, kannst du '**
+  String get dashboardAdSectionPrefix;
 
   /// No description provided for @dashboardAdSectionSharezonePlusLabel.
   ///
@@ -1867,6 +2167,24 @@ abstract class SharezoneLocalizations {
   /// **'Ferien konnten für dein Bundesland nicht angezeigt werden'**
   String get dashboardHolidayCountdownUnsupportedStateShortError;
 
+  /// No description provided for @dashboardNoLessonsToday.
+  ///
+  /// In de, this message translates to:
+  /// **'Yeah! Heute stehen keine Schulstunden an! 😍'**
+  String get dashboardNoLessonsToday;
+
+  /// No description provided for @dashboardNoUpcomingEventsInNext14Days.
+  ///
+  /// In de, this message translates to:
+  /// **'In den nächsten 14 Tagen stehen keine Termine an! 👻'**
+  String get dashboardNoUpcomingEventsInNext14Days;
+
+  /// No description provided for @dashboardNoUrgentHomework.
+  ///
+  /// In de, this message translates to:
+  /// **'Es stehen keine dringenden Hausaufgaben an 😅\nJetzt ist Zeit für die wichtigen Dinge! 😉'**
+  String get dashboardNoUrgentHomework;
+
   /// No description provided for @dashboardRateOurAppActionTitle.
   ///
   /// In de, this message translates to:
@@ -1885,11 +2203,53 @@ abstract class SharezoneLocalizations {
   /// **'Gefällt dir Sharezone?'**
   String get dashboardRateOurAppTitle;
 
+  /// No description provided for @dashboardSchoolIsOver.
+  ///
+  /// In de, this message translates to:
+  /// **'Endlich Schulschluss! 😍'**
+  String get dashboardSchoolIsOver;
+
   /// No description provided for @dashboardSelectStateButton.
   ///
   /// In de, this message translates to:
   /// **'Bundesland / Kanton auswählen'**
   String get dashboardSelectStateButton;
+
+  /// No description provided for @dashboardUnreadBlackboardTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungelesene Infozettel'**
+  String get dashboardUnreadBlackboardTitle;
+
+  /// No description provided for @dashboardUnreadBlackboardTitleWithCount.
+  ///
+  /// In de, this message translates to:
+  /// **'Ungelesene Infozettel ({count})'**
+  String dashboardUnreadBlackboardTitleWithCount(int count);
+
+  /// No description provided for @dashboardUpcomingEventsTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Anstehende Termine'**
+  String get dashboardUpcomingEventsTitle;
+
+  /// No description provided for @dashboardUpcomingEventsTitleWithCount.
+  ///
+  /// In de, this message translates to:
+  /// **'Anstehende Termine ({count})'**
+  String dashboardUpcomingEventsTitleWithCount(int count);
+
+  /// No description provided for @dashboardUrgentHomeworkTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Dringende Hausaufgaben'**
+  String get dashboardUrgentHomeworkTitle;
+
+  /// No description provided for @dashboardUrgentHomeworkTitleWithCount.
+  ///
+  /// In de, this message translates to:
+  /// **'Dringende Hausaufgaben ({count})'**
+  String dashboardUrgentHomeworkTitleWithCount(int count);
 
   /// Week type for lessons that occur on week A.
   ///
@@ -1957,6 +2317,12 @@ abstract class SharezoneLocalizations {
   /// **'Gestern'**
   String get dateYesterday;
 
+  /// No description provided for @deleteAccountConfirmationCheckbox.
+  ///
+  /// In de, this message translates to:
+  /// **'Ja, ich möchte mein Konto löschen.'**
+  String get deleteAccountConfirmationCheckbox;
+
   /// No description provided for @drawerAboutTooltip.
   ///
   /// In de, this message translates to:
@@ -1980,6 +2346,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Profile'**
   String get drawerProfileTooltip;
+
+  /// No description provided for @dynamicLinksNewLinkNotification.
+  ///
+  /// In de, this message translates to:
+  /// **'Neuer Dynamic Link:\n{link}'**
+  String dynamicLinksNewLinkNotification(Object link);
 
   /// No description provided for @feedbackBoxCooldownError.
   ///
@@ -2371,6 +2743,12 @@ abstract class SharezoneLocalizations {
   /// **'Laden...'**
   String get filesLoading;
 
+  /// No description provided for @filesMoveAcrossCoursesNotSupported.
+  ///
+  /// In de, this message translates to:
+  /// **'Ein Verschieben zu einem anderen Kurs ist aktuell noch nicht möglich.'**
+  String get filesMoveAcrossCoursesNotSupported;
+
   /// No description provided for @filesMoveTo.
   ///
   /// In de, this message translates to:
@@ -2382,6 +2760,18 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'VERSCHIEBEN'**
   String get filesMoveUppercase;
+
+  /// No description provided for @filesNoCourseMembershipHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist noch kein Mitglied eines Kurses 😔\nErstelle oder tritt einem Kurs bei 😃'**
+  String get filesNoCourseMembershipHint;
+
+  /// No description provided for @filesPrivateVisibleOnlyToYou.
+  ///
+  /// In de, this message translates to:
+  /// **'Privat (nur für dich sichtbar)'**
+  String get filesPrivateVisibleOnlyToYou;
 
   /// No description provided for @filesRenameDialogHint.
   ///
@@ -2400,6 +2790,30 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Wähle einen Kurs aus'**
   String get filesSelectCourseTitle;
+
+  /// No description provided for @filesSizeMegabytes.
+  ///
+  /// In de, this message translates to:
+  /// **'Größe: {size} MB'**
+  String filesSizeMegabytes(String size);
+
+  /// No description provided for @filesUploadError.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gab einen Fehler: {error}'**
+  String filesUploadError(Object error);
+
+  /// No description provided for @filesUploadProgress.
+  ///
+  /// In de, this message translates to:
+  /// **'Die Datei wird auf den Server hochgeladen: {progress}/100'**
+  String filesUploadProgress(Object progress);
+
+  /// No description provided for @filesUploadedOn.
+  ///
+  /// In de, this message translates to:
+  /// **'Hochgeladen am: {date}'**
+  String filesUploadedOn(String date);
 
   /// No description provided for @gradesCommonName.
   ///
@@ -3127,6 +3541,18 @@ abstract class SharezoneLocalizations {
   /// **'Berechnung der Fachnote'**
   String get gradesWeightSettingsTitle;
 
+  /// No description provided for @groupCourseDetailsLoadError.
+  ///
+  /// In de, this message translates to:
+  /// **'Es gab einen Fehler beim Laden des Kurses.\n\nMöglicherweise bist du nicht mehr ein Teilnehmer dieses Kurses.'**
+  String get groupCourseDetailsLoadError;
+
+  /// No description provided for @groupDesignSelectBaseColorTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Grundfarbe auswählen'**
+  String get groupDesignSelectBaseColorTitle;
+
   /// No description provided for @groupHelpDifferenceDescription.
   ///
   /// In de, this message translates to:
@@ -3379,11 +3805,47 @@ abstract class SharezoneLocalizations {
   /// **'Erfolgreich beigetreten 🎉'**
   String get groupJoinSuccessTitle;
 
+  /// No description provided for @groupOnboardingChooseNameTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Welcher Name soll anderen Schülern, Lehrkräften und Eltern angezeigt werden?'**
+  String get groupOnboardingChooseNameTitle;
+
+  /// No description provided for @groupOnboardingCreateCoursesTitleOther.
+  ///
+  /// In de, this message translates to:
+  /// **'Welche Kurse sollen mit der Klasse verbunden werden?'**
+  String get groupOnboardingCreateCoursesTitleOther;
+
+  /// No description provided for @groupOnboardingCreateCoursesTitleTeacher.
+  ///
+  /// In de, this message translates to:
+  /// **'Welche Kurse unterrichtest du?'**
+  String get groupOnboardingCreateCoursesTitleTeacher;
+
   /// No description provided for @groupOnboardingCreateNewGroupsAction.
   ///
   /// In de, this message translates to:
   /// **'Nein, ich möchte neue Gruppen erstellen'**
   String get groupOnboardingCreateNewGroupsAction;
+
+  /// No description provided for @groupOnboardingCreateSchoolClassTitleParent.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie heißt die Klasse deines Kindes?'**
+  String get groupOnboardingCreateSchoolClassTitleParent;
+
+  /// No description provided for @groupOnboardingCreateSchoolClassTitleStudent.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie heißt deine Klasse / Stufe?'**
+  String get groupOnboardingCreateSchoolClassTitleStudent;
+
+  /// No description provided for @groupOnboardingCreateSchoolClassTitleTeacher.
+  ///
+  /// In de, this message translates to:
+  /// **'Wie heißt die Klasse?'**
+  String get groupOnboardingCreateSchoolClassTitleTeacher;
 
   /// No description provided for @groupOnboardingFirstPersonHint.
   ///
@@ -3445,11 +3907,101 @@ abstract class SharezoneLocalizations {
   /// **'z.B. 10A'**
   String get groupOnboardingSchoolClassHint;
 
+  /// No description provided for @groupOnboardingSharecodeGroupTypeCourse.
+  ///
+  /// In de, this message translates to:
+  /// **'des Kurses'**
+  String get groupOnboardingSharecodeGroupTypeCourse;
+
+  /// No description provided for @groupOnboardingSharecodeGroupTypeSchoolClass.
+  ///
+  /// In de, this message translates to:
+  /// **'der Schulklasse'**
+  String get groupOnboardingSharecodeGroupTypeSchoolClass;
+
+  /// No description provided for @groupOnboardingSharecodeInviteClassmatesAndTeacher.
+  ///
+  /// In de, this message translates to:
+  /// **'Lade jetzt deine Mitschüler und deinen Lehrer / deine Lehrerin ein!'**
+  String get groupOnboardingSharecodeInviteClassmatesAndTeacher;
+
+  /// No description provided for @groupOnboardingSharecodeInviteMixed.
+  ///
+  /// In de, this message translates to:
+  /// **'Lade jetzt andere Schüler, Eltern oder Lehrkräfte ein!'**
+  String get groupOnboardingSharecodeInviteMixed;
+
+  /// No description provided for @groupOnboardingSharecodeInviteStudents.
+  ///
+  /// In de, this message translates to:
+  /// **'Lade jetzt deine Schüler und Schülerinnen ein!'**
+  String get groupOnboardingSharecodeInviteStudents;
+
+  /// No description provided for @groupOnboardingSharecodeJoinHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Mitschüler, Lehrer und Eltern können über den Sharecode der Klasse beitreten. Dadurch können Infozettel, Hausausgaben, Termine, Dateien und der Stundenplan gemeinsam organisiert werden.'**
+  String get groupOnboardingSharecodeJoinHint;
+
+  /// No description provided for @groupOnboardingSharecodeJoinLabel.
+  ///
+  /// In de, this message translates to:
+  /// **'Zum Beitreten {groupType} ({groupName}):'**
+  String groupOnboardingSharecodeJoinLabel(String groupName, String groupType);
+
   /// No description provided for @groupParticipantsEmpty.
   ///
   /// In de, this message translates to:
   /// **'Es befinden sich keine Teilnehmer in dieser Gruppe 😭'**
   String get groupParticipantsEmpty;
+
+  /// No description provided for @groupShareActionCopy.
+  ///
+  /// In de, this message translates to:
+  /// **'kopieren'**
+  String get groupShareActionCopy;
+
+  /// No description provided for @groupShareActionShare.
+  ///
+  /// In de, this message translates to:
+  /// **'verschicken'**
+  String get groupShareActionShare;
+
+  /// No description provided for @groupShareInviteDescription.
+  ///
+  /// In de, this message translates to:
+  /// **'Verschicke einfach den Link zum Beitreten über eine beliebige App oder zeige den QR-Code an, damit deine Mitschüler & Lehrer diesen abscannen können 👍🚀'**
+  String get groupShareInviteDescription;
+
+  /// No description provided for @groupShareInviteTargetClass.
+  ///
+  /// In de, this message translates to:
+  /// **'diese Klasse'**
+  String get groupShareInviteTargetClass;
+
+  /// No description provided for @groupShareInviteTargetGroup.
+  ///
+  /// In de, this message translates to:
+  /// **'diese Gruppe'**
+  String get groupShareInviteTargetGroup;
+
+  /// No description provided for @groupShareInviteTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Lade deine Mitschüler & Lehrer in {target} ein!'**
+  String groupShareInviteTitle(String target);
+
+  /// No description provided for @groupShareLinkButtonTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Link'**
+  String get groupShareLinkButtonTitle;
+
+  /// No description provided for @groupShareSharecodeButtonTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharecode'**
+  String get groupShareSharecodeButtonTitle;
 
   /// No description provided for @groupsAllowJoinTitle.
   ///
@@ -3594,6 +4146,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Gruppen'**
   String get groupsPageTitle;
+
+  /// No description provided for @groupsQrCodeHelpText.
+  ///
+  /// In de, this message translates to:
+  /// **'Was muss ich machen?\nNun muss dein Mitschüler oder dein Lehrer den QR-Code abscannen, indem er auf der \"Meine Kurse\" Seite auf \"Kurs beitreten\" klickt.'**
+  String get groupsQrCodeHelpText;
 
   /// No description provided for @groupsQrCodeSubtitle.
   ///
@@ -4207,6 +4765,12 @@ abstract class SharezoneLocalizations {
   /// **'Der Export wurde erfolgreich erstellt.'**
   String get icalLinksDialogExportCreated;
 
+  /// No description provided for @icalLinksDialogLessonsComingSoon.
+  ///
+  /// In de, this message translates to:
+  /// **'Diese Option ist demnächst verfügbar.'**
+  String get icalLinksDialogLessonsComingSoon;
+
   /// No description provided for @icalLinksDialogNameHint.
   ///
   /// In de, this message translates to:
@@ -4740,6 +5304,102 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Neue Navigation - Mit Mehr-Button'**
   String get navigationExperimentOptionExtendableBnbWithMoreButton;
+
+  /// No description provided for @navigationExtendableBnbSemantics.
+  ///
+  /// In de, this message translates to:
+  /// **'{action} die erweiterte Navigationsleiste'**
+  String navigationExtendableBnbSemantics(String action);
+
+  /// No description provided for @navigationItemAccountPage.
+  ///
+  /// In de, this message translates to:
+  /// **'Profil'**
+  String get navigationItemAccountPage;
+
+  /// No description provided for @navigationItemBlackboard.
+  ///
+  /// In de, this message translates to:
+  /// **'Infozettel'**
+  String get navigationItemBlackboard;
+
+  /// No description provided for @navigationItemEvents.
+  ///
+  /// In de, this message translates to:
+  /// **'Termine'**
+  String get navigationItemEvents;
+
+  /// No description provided for @navigationItemFeedbackBox.
+  ///
+  /// In de, this message translates to:
+  /// **'Feedback'**
+  String get navigationItemFeedbackBox;
+
+  /// No description provided for @navigationItemFilesharing.
+  ///
+  /// In de, this message translates to:
+  /// **'Dateien'**
+  String get navigationItemFilesharing;
+
+  /// No description provided for @navigationItemGrades.
+  ///
+  /// In de, this message translates to:
+  /// **'Noten'**
+  String get navigationItemGrades;
+
+  /// No description provided for @navigationItemGroup.
+  ///
+  /// In de, this message translates to:
+  /// **'Gruppen'**
+  String get navigationItemGroup;
+
+  /// No description provided for @navigationItemHomework.
+  ///
+  /// In de, this message translates to:
+  /// **'Hausaufgaben'**
+  String get navigationItemHomework;
+
+  /// No description provided for @navigationItemMore.
+  ///
+  /// In de, this message translates to:
+  /// **'Mehr'**
+  String get navigationItemMore;
+
+  /// No description provided for @navigationItemOverview.
+  ///
+  /// In de, this message translates to:
+  /// **'Übersicht'**
+  String get navigationItemOverview;
+
+  /// No description provided for @navigationItemSettings.
+  ///
+  /// In de, this message translates to:
+  /// **'Einstellungen'**
+  String get navigationItemSettings;
+
+  /// No description provided for @navigationItemSharezonePlus.
+  ///
+  /// In de, this message translates to:
+  /// **'Sharezone Plus'**
+  String get navigationItemSharezonePlus;
+
+  /// No description provided for @navigationItemTimetable.
+  ///
+  /// In de, this message translates to:
+  /// **'Stundenplan'**
+  String get navigationItemTimetable;
+
+  /// No description provided for @navigationSemanticsClose.
+  ///
+  /// In de, this message translates to:
+  /// **'Schließt'**
+  String get navigationSemanticsClose;
+
+  /// No description provided for @navigationSemanticsOpen.
+  ///
+  /// In de, this message translates to:
+  /// **'Öffnet'**
+  String get navigationSemanticsOpen;
 
   /// No description provided for @notificationPageBlackboardDescription.
   ///
@@ -6355,6 +7015,18 @@ abstract class SharezoneLocalizations {
   /// **'Vorteile von Sharezone'**
   String get signUpAdvantagesTitle;
 
+  /// No description provided for @signUpAlreadyHaveAccount.
+  ///
+  /// In de, this message translates to:
+  /// **'Du hast bereits ein Konto? Klicke hier, um dich einzuloggen.'**
+  String get signUpAlreadyHaveAccount;
+
+  /// No description provided for @signUpChooseTypeTitle.
+  ///
+  /// In de, this message translates to:
+  /// **'Ich bin...'**
+  String get signUpChooseTypeTitle;
+
   /// No description provided for @signUpDataProtectionAesTitle.
   ///
   /// In de, this message translates to:
@@ -6420,6 +7092,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'TLS-Verschlüsselung bei der Übertragung'**
   String get signUpDataProtectionTlsTitle;
+
+  /// No description provided for @signUpLegalConsentMarkdown.
+  ///
+  /// In de, this message translates to:
+  /// **'Mit Nutzung unserer Plattform stimmst du den [ANBs](https://sharezone.net/terms-of-service) zu. Wir verarbeiten deine Daten gemäß unserer [Datenschutzerklärung](https://sharezone.net/privacy-policy).'**
+  String get signUpLegalConsentMarkdown;
 
   /// No description provided for @socialDiscord.
   ///
@@ -7195,11 +7873,35 @@ abstract class SharezoneLocalizations {
   /// **' aktivieren.'**
   String get timetableAddAbWeeksSuffix;
 
+  /// No description provided for @timetableAddAlternativeSelectPeriod.
+  ///
+  /// In de, this message translates to:
+  /// **'Alternativ kannst du auch eine Stunde auswählen'**
+  String get timetableAddAlternativeSelectPeriod;
+
+  /// No description provided for @timetableAddAlternativeSetIndividualTime.
+  ///
+  /// In de, this message translates to:
+  /// **'Alternativ kannst du auch individuell die Uhrzeit festlegen'**
+  String get timetableAddAlternativeSetIndividualTime;
+
   /// No description provided for @timetableAddAutoRecurringInfo.
   ///
   /// In de, this message translates to:
   /// **'Schulstunden werden automatisch auch für die nächsten Wochen eingetragen.'**
   String get timetableAddAutoRecurringInfo;
+
+  /// No description provided for @timetableAddChangeTimesInSettingsInfo.
+  ///
+  /// In de, this message translates to:
+  /// **'Du kannst die Stundenzeiten in den Einstellungen vom Stundenplan ändern.'**
+  String get timetableAddChangeTimesInSettingsInfo;
+
+  /// No description provided for @timetableAddEarlyStartTimeHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Bitte bedenke, dass erst die Schulstunden ab 7 Uhr angezeigt werden.'**
+  String get timetableAddEarlyStartTimeHint;
 
   /// No description provided for @timetableAddJoinCourseAction.
   ///
@@ -7213,6 +7915,12 @@ abstract class SharezoneLocalizations {
   /// **'Schulstunde hinzufügen'**
   String get timetableAddLessonTitle;
 
+  /// No description provided for @timetableAddNoCourseMembershipHint.
+  ///
+  /// In de, this message translates to:
+  /// **'Du bist noch in keinem Kurs Mitglied 😔\nErstelle einen neuen Kurs oder tritt einem bei 😃'**
+  String get timetableAddNoCourseMembershipHint;
+
   /// No description provided for @timetableAddRoomAndTeacherOptionalTitle.
   ///
   /// In de, this message translates to:
@@ -7224,6 +7932,12 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Wähle einen Kurs aus'**
   String get timetableAddSelectCourseTitle;
+
+  /// No description provided for @timetableAddSelectPeriodQuestion.
+  ///
+  /// In de, this message translates to:
+  /// **'In der wievielten Stunde findet die neue Schulstunde statt?'**
+  String get timetableAddSelectPeriodQuestion;
 
   /// No description provided for @timetableAddSelectWeekTypeTitle.
   ///
@@ -7302,6 +8016,18 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'{number}. Stunde'**
   String timetableEditPeriodSelected(int number);
+
+  /// No description provided for @timetableEditSelectTime.
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle eine Uhrzeit'**
+  String get timetableEditSelectTime;
+
+  /// No description provided for @timetableEditSelectTimeForPeriod.
+  ///
+  /// In de, this message translates to:
+  /// **'Wähle eine Uhrzeit ({number}. Stunde)'**
+  String timetableEditSelectTimeForPeriod(int number);
 
   /// No description provided for @timetableEditStartTime.
   ///
@@ -7518,6 +8244,30 @@ abstract class SharezoneLocalizations {
   /// In de, this message translates to:
   /// **'Kursmitglieder benachrichtigen'**
   String get timetableEventDialogNotifyCourseMembersTitle;
+
+  /// No description provided for @timetableEventDialogSaveEventTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Termin speichern'**
+  String get timetableEventDialogSaveEventTooltip;
+
+  /// No description provided for @timetableEventDialogSaveExamTooltip.
+  ///
+  /// In de, this message translates to:
+  /// **'Klausur speichern'**
+  String get timetableEventDialogSaveExamTooltip;
+
+  /// No description provided for @timetableEventDialogTitleHintEvent.
+  ///
+  /// In de, this message translates to:
+  /// **'Titel eingeben (z.B. Sportfest)'**
+  String get timetableEventDialogTitleHintEvent;
+
+  /// No description provided for @timetableEventDialogTitleHintExam.
+  ///
+  /// In de, this message translates to:
+  /// **'Titel (z.B. Statistik-Klausur)'**
+  String get timetableEventDialogTitleHintExam;
 
   /// No description provided for @timetableFabAddTooltip.
   ///

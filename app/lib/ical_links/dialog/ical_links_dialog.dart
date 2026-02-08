@@ -227,8 +227,8 @@ class _Sources extends StatelessWidget {
               title: Text(source.getUiName()),
               subtitle:
                   source == ICalLinkSource.lessons
-                      ? const Text(
-                        'Diese Option ist demnächst verfügbar.',
+                      ? Text(
+                        context.l10n.icalLinksDialogLessonsComingSoon,
                         style: TextStyle(color: Colors.grey, fontSize: 12),
                       )
                       : null,

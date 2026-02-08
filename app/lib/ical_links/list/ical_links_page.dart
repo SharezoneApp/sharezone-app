@@ -79,7 +79,7 @@ class _Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     final view = ICalLinkView(
       id: const ICalLinkId('1'),
-      name: 'Mein Stundenplan',
+      name: 'My timetable',
       sources: [],
       status: ICalLinkStatus.available,
       url: Uri.parse('https://ical.sharezone.net/...'),

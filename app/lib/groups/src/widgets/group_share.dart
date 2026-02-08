@@ -41,10 +41,16 @@ class LinkSharingButton extends StatelessWidget {
             icon: const Icon(Icons.link, color: color),
             // Courses with an old course structure do not have a JoinLink,
             // which is why the sharecode should be used there.
-            title: hasJoinLink ? "Link" : "Sharecode",
+            title:
+                hasJoinLink
+                    ? context.l10n.groupShareLinkButtonTitle
+                    : context.l10n.groupShareSharecodeButtonTitle,
             // On the web/macOS there are no share options like on Android & iOS, so
             // the link can only be copied.
-            subtitle: PlatformCheck.isMobile ? "verschicken" : "kopieren",
+            subtitle:
+                PlatformCheck.isMobile
+                    ? context.l10n.groupShareActionShare
+                    : context.l10n.groupShareActionCopy,
             color: color,
             onTap: () async {
               _showShareJoinLinkBox(
@@ -161,7 +167,11 @@ class ShareGroupSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Text(
-            "Lade deine Mitschüler & Lehrer in ${groupInfo.groupType == GroupType.course ? "diese Gruppe" : "diese Klasse"} ein!",
+            context.l10n.groupShareInviteTitle(
+              groupInfo.groupType == GroupType.course
+                  ? context.l10n.groupShareInviteTargetGroup
+                  : context.l10n.groupShareInviteTargetClass,
+            ),
             style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
           ),
@@ -170,7 +180,7 @@ class ShareGroupSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
-            "Verschicke einfach den Link zum Beitreten über eine beliebige App oder zeige den QR-Code an, damit deine Mitschüler & Lehrer diesen abscannen können 👍🚀",
+            context.l10n.groupShareInviteDescription,
             style: TextStyle(
               fontSize: 16,
               color:

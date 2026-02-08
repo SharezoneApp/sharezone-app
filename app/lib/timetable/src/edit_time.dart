@@ -93,7 +93,7 @@ Future<Time?> selectTime(
   BuildContext context, {
   Time? initialTime,
   int? minutesInterval,
-  String title = "Wähle eine Uhrzeit",
+  String? title,
 }) async {
   final cache = BlocProvider.of<TimePickerSettingsCache>(context);
   final isFiveMinutesIntervalActive =
@@ -114,7 +114,7 @@ Future<Time?> selectTime(
           (context) => CupertinoTimerPickerWithTimeOfDay(
             initialTime: initialTime?.toTimeOfDay(),
             minutesInterval: minutesInterval!,
-            title: title,
+            title: title ?? context.l10n.timetableEditSelectTime,
           ),
     ).then((timeOfDay) {
       if (timeOfDay == null) return null;

@@ -119,20 +119,20 @@ class _FreeUsersLockScreen extends StatelessWidget {
     final dummyUsers = [
       _createMockView(1, 'Zottel Zappelfritz'),
       _createMockView(2, 'Quassel Trudel'),
-      _createMockView(3, 'Pünktchen Schmunzler', hasRead: true),
+      _createMockView(3, 'Dot Cheerful', hasRead: true),
       _createMockView(4, 'Kicher Karla'),
       _createMockView(5, 'Hoppla Heidi'),
       _createMockView(6, 'Fussel Frieda', hasRead: true),
       _createMockView(7, 'Wuschel Waltraud'),
       _createMockView(8, 'Pumpernickel Peter'),
-      _createMockView(9, 'Tapsi Töne'),
+      _createMockView(9, 'Tap Tunes'),
       _createMockView(10, 'Knuddel Kuno', hasRead: true),
       _createMockView(11, 'Wunder Willi'),
       _createMockView(12, 'Muffel Maxim'),
       _createMockView(13, 'Schnuffel Sina', hasRead: true),
       _createMockView(14, 'Gurken Greta'),
-      _createMockView(15, 'Träumchen Tino', hasRead: true),
-      _createMockView(16, 'Rübchen Rudi'),
+      _createMockView(15, 'Dreamy Tino', hasRead: true),
+      _createMockView(16, 'Rooty Rudi'),
     ];
 
     return Stack(

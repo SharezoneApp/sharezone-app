@@ -115,9 +115,8 @@ class _QRCodeBottomSheet extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               horizontal: 12,
             ).add(const EdgeInsets.only(bottom: 20)),
-            child: const Text(
-              "Was muss ich machen?\n"
-              "Nun muss dein Mitschüler oder dein Lehrer den QR-Code abscannen, indem er auf der \"Meine Kurse\" Seite auf \"Kurs beitreten\" klickt.",
+            child: Text(
+              context.l10n.groupsQrCodeHelpText,
               style: TextStyle(color: Colors.grey),
               textAlign: TextAlign.center,
             ),

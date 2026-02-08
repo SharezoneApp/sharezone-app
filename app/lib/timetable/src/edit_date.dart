@@ -9,6 +9,7 @@
 import 'package:clock/clock.dart';
 import 'package:date/date.dart';
 import 'package:flutter/material.dart';
+import 'package:sharezone_localizations/sharezone_localizations.dart';
 
 class EditDateField extends StatelessWidget {
   final Date? date;
@@ -37,7 +38,7 @@ class EditDateField extends StatelessWidget {
               isEmpty: date == null,
               isFocused: value,
               decoration: InputDecoration(
-                labelText: label ?? "Datum auswählen",
+                labelText: label ?? context.l10n.sharezoneWidgetsDatePickerSelectDate,
                 icon: Icon(iconData ?? Icons.today),
                 border: const OutlineInputBorder(),
               ),

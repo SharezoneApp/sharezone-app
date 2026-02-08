@@ -37,10 +37,10 @@ class RateOurAppTip implements DashboardTip {
 
   @override
   String get text =>
-      "Wir wären dir unglaublich dankbar, wenn du uns eine Bewertung im ${PlatformCheck.isMacOsOrIOS ? "App" : "Play"}Store hinterlassen könntest 🐵";
+      "We'd really appreciate it if you leave us a rating in the ${PlatformCheck.isMacOsOrIOS ? "App" : "Play"} Store 🐵";
 
   @override
-  String get title => "Gefällt dir Sharezone?";
+  String get title => "Do you like Sharezone?";
 
   @override
   Stream<bool> shouldShown() {

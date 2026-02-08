@@ -127,6 +127,13 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get activationCodeFieldLabel => 'Activation code';
 
   @override
+  String get activationCodeInfoDescription =>
+      'With the activation code, features that are still in development can be enabled and tested early. The activation code is provided by us and is intended for testing purposes only.\n\nIf you have a sharecode and want to join a group, enter it on the \"Groups\" page.';
+
+  @override
+  String get activationCodeInfoTitle => 'What is the activation code?';
+
+  @override
   String get activationCodeResultDoneAction =>
       'Activation Code Result Done Action';
 
@@ -185,6 +192,9 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get authEmailAndPasswordLinkNicknameLabel =>
       'Auth Email And Password Link Nickname Label';
+
+  @override
+  String get authEmailAndPasswordLinkSubmitAction => 'Link';
 
   @override
   String get authProviderAnonymous => 'Anonymous sign in';
@@ -277,6 +287,22 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get blackboardPageFabTooltip => 'New notice';
 
   @override
+  String blackboardReadByInfoVisibleForRole(String role) {
+    return 'This information is visible to you as $role.';
+  }
+
+  @override
+  String blackboardReadByPercent(int percent) {
+    return 'Read by: $percent%';
+  }
+
+  @override
+  String get blackboardReadByRoleAdmin => 'Admin';
+
+  @override
+  String get blackboardReadByRoleAuthor => 'Author';
+
+  @override
   String get blackboardReadByUsersPlusDescription =>
       'Get Sharezone Plus to see who has already read the notice.';
 
@@ -296,6 +322,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get bnbTutorialDescription =>
       'Drag the bottom navigation bar upwards to access more features.';
+
+  @override
+  String get bnbTutorialSemanticsLabel =>
+      'Diagram: How the navigation bar is pulled up to show more navigation items.';
 
   @override
   String get calendricalEventsAddEvent => 'Add event';
@@ -340,6 +370,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get changeEmailAddressPasswordTextfieldLabel => 'Password';
+
+  @override
+  String get changeEmailAddressSubmitSnackbar =>
+      'New email address is being sent to headquarters...';
 
   @override
   String get changeEmailAddressTitle => 'Change Email';
@@ -499,7 +533,14 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get commentActionsReport => 'Report comment';
 
   @override
+  String get commentDeletePrompt =>
+      'Do you really want to delete the comment for everyone?';
+
+  @override
   String get commentDeletedConfirmation => 'Comment Deleted Confirmation';
+
+  @override
+  String get commentSectionReplyPrompt => 'Ask a follow-up question...';
 
   @override
   String commentsSectionTitle(Object value) {
@@ -862,6 +903,44 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get courseFieldsSubjectLabel => 'Subject';
 
   @override
+  String get courseJoinNotificationAlreadyMember =>
+      'You already joined this group';
+
+  @override
+  String get courseJoinNotificationGroupNotFound => 'Group not found';
+
+  @override
+  String get courseJoinNotificationJoinForbidden =>
+      'Joining is forbidden. Contact the group admin.';
+
+  @override
+  String courseJoinNotificationJoinedClass(Object groupName) {
+    return 'You joined class \"$groupName\"';
+  }
+
+  @override
+  String courseJoinNotificationJoinedCourse(Object groupName) {
+    return 'You joined course \"$groupName\"';
+  }
+
+  @override
+  String courseJoinNotificationLoading(Object sharecode) {
+    return 'Joining $sharecode...';
+  }
+
+  @override
+  String get courseJoinNotificationNoInternet => 'No internet connection';
+
+  @override
+  String get courseJoinNotificationUnknownError =>
+      'An error occurred. Please contact support.';
+
+  @override
+  String courseJoinNotificationUnknownErrorWithReason(Object reason) {
+    return 'An error occurred: $reason. Please contact support.';
+  }
+
+  @override
   String get courseLeaveAndDeleteDialogDescription =>
       'Do you really want to leave the course? Since you are the last member, the course will be deleted.';
 
@@ -942,6 +1021,93 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get courseTemplateSchoolClassSelectionTitle => 'Select school class';
 
   @override
+  String get courseTemplateSubjectArt => 'Art';
+
+  @override
+  String get courseTemplateSubjectBiology => 'Biology';
+
+  @override
+  String get courseTemplateSubjectCatholicReligion => 'Catholic religion';
+
+  @override
+  String get courseTemplateSubjectChemistry => 'Chemistry';
+
+  @override
+  String get courseTemplateSubjectComputerScience => 'Computer science';
+
+  @override
+  String get courseTemplateSubjectEconomics => 'Economics';
+
+  @override
+  String get courseTemplateSubjectEnglish => 'English';
+
+  @override
+  String get courseTemplateSubjectEthics => 'Ethics';
+
+  @override
+  String get courseTemplateSubjectFrench => 'French';
+
+  @override
+  String get courseTemplateSubjectGeography => 'Geography';
+
+  @override
+  String get courseTemplateSubjectGeographyErdkunde => 'Geography';
+
+  @override
+  String get courseTemplateSubjectGerman => 'German';
+
+  @override
+  String get courseTemplateSubjectHistory => 'History';
+
+  @override
+  String get courseTemplateSubjectHomeEconomics => 'Home economics';
+
+  @override
+  String get courseTemplateSubjectLatin => 'Latin';
+
+  @override
+  String get courseTemplateSubjectMath => 'Math';
+
+  @override
+  String get courseTemplateSubjectMusic => 'Music';
+
+  @override
+  String get courseTemplateSubjectNaturalSciences => 'Natural sciences';
+
+  @override
+  String get courseTemplateSubjectPedagogy => 'Pedagogy';
+
+  @override
+  String get courseTemplateSubjectPhilosophy => 'Philosophy';
+
+  @override
+  String get courseTemplateSubjectPhysics => 'Physics';
+
+  @override
+  String get courseTemplateSubjectPolitics => 'Politics';
+
+  @override
+  String get courseTemplateSubjectPracticalPhilosophy => 'Practical philosophy';
+
+  @override
+  String get courseTemplateSubjectProtestantReligion => 'Protestant religion';
+
+  @override
+  String get courseTemplateSubjectSocialStudies => 'Social studies';
+
+  @override
+  String get courseTemplateSubjectSpanish => 'Spanish';
+
+  @override
+  String get courseTemplateSubjectSport => 'Sport';
+
+  @override
+  String get courseTemplateSubjectTechnology => 'Technology';
+
+  @override
+  String get courseTemplateSubjectWorkEducation => 'Work education';
+
+  @override
   String get courseTemplateTitle => 'Templates';
 
   @override
@@ -950,6 +1116,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get dashboardAdSectionAcquireSuffix =>
       'Dashboard Ad Section Acquire Suffix';
+
+  @override
+  String get dashboardAdSectionPrefix =>
+      'Sharezone is free thanks to this ad. If you don\'t want to see ads, you can ';
 
   @override
   String get dashboardAdSectionSharezonePlusLabel =>
@@ -1036,6 +1206,17 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'Holidays could not be shown for your state';
 
   @override
+  String get dashboardNoLessonsToday => 'Yeah! There are no lessons today! 😍';
+
+  @override
+  String get dashboardNoUpcomingEventsInNext14Days =>
+      'No events in the next 14 days! 👻';
+
+  @override
+  String get dashboardNoUrgentHomework =>
+      'No urgent homework 😅\nNow it\'s time for the important things! 😉';
+
+  @override
   String get dashboardRateOurAppActionTitle =>
       'Dashboard Rate Our App Action Title';
 
@@ -1046,7 +1227,34 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get dashboardRateOurAppTitle => 'Dashboard Rate Our App Title';
 
   @override
+  String get dashboardSchoolIsOver => 'Finally, school is over! 😍';
+
+  @override
   String get dashboardSelectStateButton => 'Select state / canton';
+
+  @override
+  String get dashboardUnreadBlackboardTitle => 'Unread notices';
+
+  @override
+  String dashboardUnreadBlackboardTitleWithCount(int count) {
+    return 'Unread notices ($count)';
+  }
+
+  @override
+  String get dashboardUpcomingEventsTitle => 'Upcoming events';
+
+  @override
+  String dashboardUpcomingEventsTitleWithCount(int count) {
+    return 'Upcoming events ($count)';
+  }
+
+  @override
+  String get dashboardUrgentHomeworkTitle => 'Urgent homework';
+
+  @override
+  String dashboardUrgentHomeworkTitleWithCount(int count) {
+    return 'Urgent homework ($count)';
+  }
 
   @override
   String get dateWeekTypeA => 'Week A';
@@ -1082,6 +1290,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get dateYesterday => 'Yesterday';
 
   @override
+  String get deleteAccountConfirmationCheckbox =>
+      'Ja, ich möchte mein Konto löschen.';
+
+  @override
   String get drawerAboutTooltip => 'Drawer About Tooltip';
 
   @override
@@ -1092,6 +1304,11 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get drawerProfileTooltip => 'Drawer Profile Tooltip';
+
+  @override
+  String dynamicLinksNewLinkNotification(Object link) {
+    return 'New dynamic link:\n$link';
+  }
 
   @override
   String feedbackBoxCooldownError(Object coolDown) {
@@ -1316,12 +1533,23 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get filesLoading => 'Files Loading';
 
   @override
+  String get filesMoveAcrossCoursesNotSupported =>
+      'Moving to another course is currently not supported.';
+
+  @override
   String filesMoveTo(Object value) {
     return 'Move to $value';
   }
 
   @override
   String get filesMoveUppercase => 'Files Move Uppercase';
+
+  @override
+  String get filesNoCourseMembershipHint =>
+      'You are not a member of any course yet 😔\nCreate or join a course 😃';
+
+  @override
+  String get filesPrivateVisibleOnlyToYou => 'Private (visible only to you)';
 
   @override
   String get filesRenameDialogHint => 'New name';
@@ -1331,6 +1559,26 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get filesSelectCourseTitle => 'Files Select Course Title';
+
+  @override
+  String filesSizeMegabytes(String size) {
+    return 'Size: $size MB';
+  }
+
+  @override
+  String filesUploadError(Object error) {
+    return 'An error occurred: $error';
+  }
+
+  @override
+  String filesUploadProgress(Object progress) {
+    return 'Uploading file to server: $progress/100';
+  }
+
+  @override
+  String filesUploadedOn(String date) {
+    return 'Uploaded on: $date';
+  }
 
   @override
   String get gradesCommonName => 'Name';
@@ -1751,6 +1999,13 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get gradesWeightSettingsTitle => 'Subject grade calculation';
 
   @override
+  String get groupCourseDetailsLoadError =>
+      'Es gab einen Fehler beim Laden des Kurses.\n\nMöglicherweise bist du nicht mehr ein Teilnehmer dieses Kurses.';
+
+  @override
+  String get groupDesignSelectBaseColorTitle => 'Grundfarbe auswählen';
+
+  @override
   String get groupHelpDifferenceDescription =>
       'Course: Represents a school subject.\n\nSchool class: Consists of multiple courses and allows joining all of them with one sharecode.\n\nGroup: The umbrella term for a course and a school class.';
 
@@ -1909,8 +2164,32 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get groupJoinSuccessTitle => 'Joined successfully 🎉';
 
   @override
+  String get groupOnboardingChooseNameTitle =>
+      'Welcher Name soll anderen Schülern, Lehrkräften und Eltern angezeigt werden?';
+
+  @override
+  String get groupOnboardingCreateCoursesTitleOther =>
+      'Which courses should be linked to the class?';
+
+  @override
+  String get groupOnboardingCreateCoursesTitleTeacher =>
+      'Which courses do you teach?';
+
+  @override
   String get groupOnboardingCreateNewGroupsAction =>
       'Group Onboarding Create New Groups Action';
+
+  @override
+  String get groupOnboardingCreateSchoolClassTitleParent =>
+      'Wie heißt die Klasse deines Kindes?';
+
+  @override
+  String get groupOnboardingCreateSchoolClassTitleStudent =>
+      'Wie heißt deine Klasse / Stufe?';
+
+  @override
+  String get groupOnboardingCreateSchoolClassTitleTeacher =>
+      'Wie heißt die Klasse?';
 
   @override
   String get groupOnboardingFirstPersonHint =>
@@ -1953,8 +2232,62 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
       'Group Onboarding School Class Hint';
 
   @override
+  String get groupOnboardingSharecodeGroupTypeCourse => 'des Kurses';
+
+  @override
+  String get groupOnboardingSharecodeGroupTypeSchoolClass => 'der Schulklasse';
+
+  @override
+  String get groupOnboardingSharecodeInviteClassmatesAndTeacher =>
+      'Lade jetzt deine Mitschüler und deinen Lehrer / deine Lehrerin ein!';
+
+  @override
+  String get groupOnboardingSharecodeInviteMixed =>
+      'Lade jetzt andere Schüler, Eltern oder Lehrkräfte ein!';
+
+  @override
+  String get groupOnboardingSharecodeInviteStudents =>
+      'Lade jetzt deine Schüler und Schülerinnen ein!';
+
+  @override
+  String get groupOnboardingSharecodeJoinHint =>
+      'Mitschüler, Lehrer und Eltern können über den Sharecode der Klasse beitreten. Dadurch können Infozettel, Hausausgaben, Termine, Dateien und der Stundenplan gemeinsam organisiert werden.';
+
+  @override
+  String groupOnboardingSharecodeJoinLabel(String groupName, String groupType) {
+    return 'Zum Beitreten $groupType ($groupName):';
+  }
+
+  @override
   String get groupParticipantsEmpty =>
       'There are no participants in this group 😭';
+
+  @override
+  String get groupShareActionCopy => 'copy';
+
+  @override
+  String get groupShareActionShare => 'share';
+
+  @override
+  String get groupShareInviteDescription =>
+      'Simply send the join link via any app or show the QR code so your classmates and teachers can scan it 👍🚀';
+
+  @override
+  String get groupShareInviteTargetClass => 'this class';
+
+  @override
+  String get groupShareInviteTargetGroup => 'this group';
+
+  @override
+  String groupShareInviteTitle(String target) {
+    return 'Invite your classmates & teachers to $target!';
+  }
+
+  @override
+  String get groupShareLinkButtonTitle => 'Link';
+
+  @override
+  String get groupShareSharecodeButtonTitle => 'Sharecode';
 
   @override
   String get groupsAllowJoinTitle => 'Allow joining';
@@ -2035,6 +2368,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
 
   @override
   String get groupsPageTitle => 'Groups';
+
+  @override
+  String get groupsQrCodeHelpText =>
+      'Was muss ich machen?\nNun muss dein Mitschüler oder dein Lehrer den QR-Code abscannen, indem er auf der \"Meine Kurse\" Seite auf \"Kurs beitreten\" klickt.';
 
   @override
   String get groupsQrCodeSubtitle => 'Groups Qr Code Subtitle';
@@ -2403,6 +2740,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get icalLinksDialogExportCreated => 'Ical Links Dialog Export Created';
 
   @override
+  String get icalLinksDialogLessonsComingSoon =>
+      'Diese Option ist demnächst verfügbar.';
+
+  @override
   String get icalLinksDialogNameHint => 'Ical Links Dialog Name Hint';
 
   @override
@@ -2702,6 +3043,56 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get navigationExperimentOptionExtendableBnbWithMoreButton =>
       'New Navigation - With More Button';
+
+  @override
+  String navigationExtendableBnbSemantics(String action) {
+    return '$action die erweiterte Navigationsleiste';
+  }
+
+  @override
+  String get navigationItemAccountPage => 'Profile';
+
+  @override
+  String get navigationItemBlackboard => 'Blackboard';
+
+  @override
+  String get navigationItemEvents => 'Events';
+
+  @override
+  String get navigationItemFeedbackBox => 'Feedback';
+
+  @override
+  String get navigationItemFilesharing => 'Files';
+
+  @override
+  String get navigationItemGrades => 'Grades';
+
+  @override
+  String get navigationItemGroup => 'Groups';
+
+  @override
+  String get navigationItemHomework => 'Homework';
+
+  @override
+  String get navigationItemMore => 'More';
+
+  @override
+  String get navigationItemOverview => 'Overview';
+
+  @override
+  String get navigationItemSettings => 'Settings';
+
+  @override
+  String get navigationItemSharezonePlus => 'Sharezone Plus';
+
+  @override
+  String get navigationItemTimetable => 'Timetable';
+
+  @override
+  String get navigationSemanticsClose => 'Schließt';
+
+  @override
+  String get navigationSemanticsOpen => 'Öffnet';
 
   @override
   String get notificationPageBlackboardDescription =>
@@ -3659,6 +4050,13 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get signUpAdvantagesTitle => 'Benefits of Sharezone';
 
   @override
+  String get signUpAlreadyHaveAccount =>
+      'Du hast bereits ein Konto? Klicke hier, um dich einzuloggen.';
+
+  @override
+  String get signUpChooseTypeTitle => 'I am...';
+
+  @override
   String get signUpDataProtectionAesTitle =>
       'AES 256-bit server-side encryption';
 
@@ -3698,6 +4096,10 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get signUpDataProtectionTlsTitle =>
       'TLS encryption during transmission';
+
+  @override
+  String get signUpLegalConsentMarkdown =>
+      'By using our platform, you agree to the [Terms of Service](https://sharezone.net/terms-of-service). We process your data according to our [Privacy Policy](https://sharezone.net/privacy-policy).';
 
   @override
   String get socialDiscord => 'Discord';
@@ -4123,8 +4525,24 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get timetableAddAbWeeksSuffix => '.';
 
   @override
+  String get timetableAddAlternativeSelectPeriod =>
+      'Alternatively, you can select a period';
+
+  @override
+  String get timetableAddAlternativeSetIndividualTime =>
+      'Alternatively, you can set the time manually';
+
+  @override
   String get timetableAddAutoRecurringInfo =>
       'Lessons are automatically added for upcoming weeks as well.';
+
+  @override
+  String get timetableAddChangeTimesInSettingsInfo =>
+      'You can change lesson times in timetable settings.';
+
+  @override
+  String get timetableAddEarlyStartTimeHint =>
+      'Please note that lessons are only shown starting at 7 AM.';
 
   @override
   String get timetableAddJoinCourseAction => 'Timetable Add Join Course Action';
@@ -4133,12 +4551,20 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   String get timetableAddLessonTitle => 'Add lesson';
 
   @override
+  String get timetableAddNoCourseMembershipHint =>
+      'You are not a member of any course yet 😔\nCreate a new course or join one 😃';
+
+  @override
   String get timetableAddRoomAndTeacherOptionalTitle =>
       'Timetable Add Room And Teacher Optional Title';
 
   @override
   String get timetableAddSelectCourseTitle =>
       'Timetable Add Select Course Title';
+
+  @override
+  String get timetableAddSelectPeriodQuestion =>
+      'In which period does the new lesson take place?';
 
   @override
   String get timetableAddSelectWeekTypeTitle =>
@@ -4187,6 +4613,14 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String timetableEditPeriodSelected(int number) {
     return 'Lesson $number';
+  }
+
+  @override
+  String get timetableEditSelectTime => 'Choose a time';
+
+  @override
+  String timetableEditSelectTimeForPeriod(int number) {
+    return 'Wähle eine Uhrzeit ($number. Stunde)';
   }
 
   @override
@@ -4323,6 +4757,20 @@ class SharezoneLocalizationsEn extends SharezoneLocalizations {
   @override
   String get timetableEventDialogNotifyCourseMembersTitle =>
       'Timetable Event Dialog Notify Course Members Title';
+
+  @override
+  String get timetableEventDialogSaveEventTooltip => 'Save event';
+
+  @override
+  String get timetableEventDialogSaveExamTooltip => 'Save exam';
+
+  @override
+  String get timetableEventDialogTitleHintEvent =>
+      'Enter title (e.g. sports festival)';
+
+  @override
+  String get timetableEventDialogTitleHintExam =>
+      'Title (e.g. statistics exam)';
 
   @override
   String get timetableFabAddTooltip => 'Add lesson/event';

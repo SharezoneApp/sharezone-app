@@ -159,7 +159,7 @@ class _StudentDialogState extends State<_StudentDialog> {
                     visible: (controller.page ?? 0) > 0,
                     child: TextButton(
                       child: Text(
-                        'Zurück',
+                        'Back',
                         style: TextStyle(
                           color:
                               context.isDarkThemeEnabled ? null : primaryColor,
@@ -276,14 +276,13 @@ class _OtherChanges extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (isStudent)
-              const _JustText(markdownText: '## Weitere Änderungen'),
+            if (isStudent) const _JustText(markdownText: '## More changes'),
             if (!isStudent) ...[
-              const _JustText(markdownText: '## Wichtige Änderungen'),
+              const _JustText(markdownText: '## Important changes'),
               const SizedBox(height: 10),
               const _JustText(
                 markdownText: '''
-Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, die wir dir gerne mitteilen möchten.  
+Hello from the Sharezone team :) We have a few important updates we would like to share.  
 ''',
               ),
             ],
@@ -294,7 +293,7 @@ Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, d
               ),
               body: const MarkdownBody(
                 data:
-                    'Sharezone läuft nun nicht mehr unter der "Sander, Jonas; Reichardt, Nils; Weuthen, Felix „Sharezone“ GbR", sondern unter der “Sharezone UG (haftungsbeschränkt)”.',
+                    'Sharezone is no longer operated under "Sander, Jonas; Reichardt, Nils; Weuthen, Felix Sharezone GbR", but under "Sharezone UG (limited liability)".',
               ),
             ),
             const SizedBox(height: 12),
@@ -304,7 +303,7 @@ Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, d
               ),
               body: MarkdownBody(
                 data:
-                    'Wir haben die [Datenschutzerklärung](privacy-policy) einmal ganz neu überarbeitet und detailliert beschrieben, wie deine Daten verarbeitet und geschützt werden.${isStudent ? ' Für Sharezone Plus mussten wir außerdem neue externe Dienste einbinden (z.B. für die Zahlungsabwicklung oder verschicken von Emails).' : ''}',
+                    'We have revised the [privacy policy](privacy-policy) and documented in detail how your data is processed and protected.${isStudent ? ' For Sharezone Plus, we also had to integrate additional external services (for example payment handling and sending emails).' : ''}',
                 onTapLink: (text, href, title) {
                   Navigator.of(context).pushNamed(PrivacyPolicyPage.tag);
                 },
@@ -315,7 +314,7 @@ Hallo, hier ist das Sharezone Team :) Wir haben ein paar wichtige Änderungen, d
               header: Text(context.l10n.sharezoneV2DialogTermsHeader),
               body: MarkdownBody(
                 data:
-                    'Wir haben neue [allgemeine Nutzungsbedingungen (“ANB”)](terms-of-service), die für die zukünftige Nutzung von Sharezone akzeptiert werden müssen.',
+                    'We have new [terms of service](terms-of-service) that must be accepted for future use of Sharezone.',
                 onTapLink: (text, href, title) {
                   Navigator.of(context).pushNamed(TermsOfServicePage.tag);
                 },
@@ -398,14 +397,14 @@ class _FinalPageState extends State<_FinalPage>
           children: [
             _JustText(
               markdownText: '''
-**Das war's!**
+**That is all!**
     
-Damit du weitermachen kannst, brauchen wir noch deine Zustimmung zu den unten aufgeführten Punkten.
+To continue, we still need your consent to the points listed below.
     
-Falls du keine Einstimmung geben willst, dann kannst du [hier](other-options) den Support kontaktieren.
-${widget.isStudent ? '\n\nWir danken dir, uns bis hierhin begleitet zu haben.' : ''}
+If you do not want to give consent, you can contact support [here](other-options).
+${widget.isStudent ? '\n\nThanks for supporting us this far.' : ''}
         
-  Euer Sharezone-Team 💙''',
+  Your Sharezone team 💙''',
               onLinkTap: (text, href, title) {
                 if (href == 'other-options') {
                   // ignore: use_build_context_synchronously
@@ -431,7 +430,7 @@ ${widget.isStudent ? '\n\nWir danken dir, uns bis hierhin begleitet zu haben.' :
             ),
             _Checkbox(
               text:
-                  'Ich habe zur Kenntnis genommen, dass die "Sharezone UG (haftungsbeschränkt)" Sharezone betreibt.',
+                  'I acknowledge that "Sharezone UG (limited liability)" operates Sharezone.',
               value: _box2Checked,
               onChanged: (newVal) {
                 setState(() {
@@ -443,8 +442,8 @@ ${widget.isStudent ? '\n\nWir danken dir, uns bis hierhin begleitet zu haben.' :
             const SizedBox(height: 30),
             _JustText(
               markdownText:
-                  'Deine personenbezogenen Daten werden gemäß unserer aktualisierten '
-                  '[Datenschutzerklärung](https://sharezone.net/datenschutz) verarbeitet.',
+                  'Your personal data is processed according to our updated '
+                  '[privacy policy](https://sharezone.net/privacy-policy).',
               onLinkTap: (text, href, title) {
                 Navigator.of(context).pushNamed(PrivacyPolicyPage.tag);
               },
@@ -497,26 +496,26 @@ class _Checkbox extends StatelessWidget {
 }
 
 const _markdownText1 = '''
-Hey du, schön dich hier zu haben! :)
+Great to have you here! :)
 
-Wir haben Sharezone bis jetzt mit Herz, Blut und Tränen kostenlos für euch betrieben, weil wir vor allem anderen erstmal eine geile Schulapp machen wollten.  
+Until now, we have run Sharezone for free with a lot of effort because we first wanted to build a great school app.  
 
-Wir freuen uns sehr, dass es so gut bei euch ankommt und ihr es so fleißig nutzt 💙🫶  
+We are very happy that it is so well received and that you use it so actively 💙🫶  
 
-Jetzt ist der Zeitpunkt gekommen, dass Sharezone sich selbst finanziert und es dadurch langfristig weiterlaufen kann 🏁🏃  
+Now the time has come for Sharezone to finance itself so it can keep running long-term 🏁🏃  
 
-Wie genau, das verraten wir dir, wenn du auf "Weiter" klickst ;)
+How exactly? Click "Continue" and we will show you.
 
 ''';
 
 const _markdownText2 = '''
 ## Sharezone Plus
 
-Sharezone Plus bietet dir die Möglichkeit “Plus-Features” zu erwerben.
+Sharezone Plus gives you access to optional premium features.
 
-Damit kannst du zum Beispiel deine Noten verwalten oder hast mehr Speicherplatz in der Dateiablage.  
+For example, you can manage your grades or get more file storage.  
 
-Du kannst die App auch ohne Sharezone Plus weiterhin kostenlos nutzen, mit ein paar kleinen Einschränkungen.  
+You can still use the app for free without Sharezone Plus, with a few small limitations.  
 
-Per Bezahl-Link kannst du Sharezone Plus auch ganz einfach online von z.B. deinen Eltern kaufen lassen.
+Using a payment link, Sharezone Plus can also be purchased online by, for example, your parents.
 ''';

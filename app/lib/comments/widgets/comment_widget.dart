@@ -200,9 +200,7 @@ class Comment extends StatelessWidget {
       context: context,
       right: AdaptiveDialogAction.delete(context),
       defaultValue: false,
-      content: const Text(
-        "Möchtest du wirklich den Kommentar für alle löschen?",
-      ),
+      content: Text(context.l10n.commentDeletePrompt),
     );
 
     if (result == true && context.mounted) {

@@ -16,7 +16,6 @@ import 'package:sharezone_localizations/sharezone_localizations.dart';
 import 'package:sharezone/settings/src/subpages/my_profile/submit_method.dart';
 import 'package:sharezone_widgets/sharezone_widgets.dart';
 
-const snackBarText = 'Neue E-Mail Adresse wird an die Zentrale geschickt...';
 const changeType = ChangeType.email;
 
 void openChangeEmailPage(BuildContext context, String email) {
@@ -50,7 +49,12 @@ class ChangeEmailFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => submit(context, snackBarText, changeType),
+      onPressed:
+          () => submit(
+            context,
+            context.l10n.changeEmailAddressSubmitSnackbar,
+            changeType,
+          ),
       tooltip: context.l10n.commonActionsSave,
       child: const Icon(Icons.check),
     );
@@ -85,7 +89,11 @@ class ChangeEmailPageBody extends StatelessWidget {
                     context.l10n.changeEmailAddressPasswordTextfieldLabel,
                 focusNode: passwordNode,
                 onEditComplete:
-                    () async => await submit(context, snackBarText, changeType),
+                    () async => await submit(
+                      context,
+                      context.l10n.changeEmailAddressSubmitSnackbar,
+                      changeType,
+                    ),
               ),
               const SizedBox(height: 16),
               Text(

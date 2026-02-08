@@ -366,7 +366,7 @@ class _EmptyCourseList extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              "Du bist noch in keinem Kurs Mitglied 😔\nErstelle einen neuen Kurs oder tritt einem bei 😃",
+              context.l10n.timetableAddNoCourseMembershipHint,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey[700]),
             ),

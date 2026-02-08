@@ -78,12 +78,12 @@ class _GroupOnboardingCreateSchoolClassState
     final bloc = BlocProvider.of<GroupOnboardingBloc>(context);
     switch (bloc.typeOfUser) {
       case TypeOfUser.teacher:
-        return 'Wie heißt die Klasse?';
+        return context.l10n.groupOnboardingCreateSchoolClassTitleTeacher;
       case TypeOfUser.parent:
-        return 'Wie heißt die Klasse deines Kindes?';
+        return context.l10n.groupOnboardingCreateSchoolClassTitleParent;
       case TypeOfUser.student:
       default:
-        return 'Wie heißt deine Klasse / Stufe?';
+        return context.l10n.groupOnboardingCreateSchoolClassTitleStudent;
     }
   }
 }

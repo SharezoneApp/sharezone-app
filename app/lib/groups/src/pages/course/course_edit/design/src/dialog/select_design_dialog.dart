@@ -249,9 +249,9 @@ class _PlusBaseColors extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Center(
+        Center(
           child: Text(
-            'Grundfarbe auswählen',
+            context.l10n.groupDesignSelectBaseColorTitle,
             style: TextStyle(fontSize: 20),
             textAlign: TextAlign.center,
           ),

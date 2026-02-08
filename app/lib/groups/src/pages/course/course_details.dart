@@ -131,7 +131,7 @@ class _CourseDetailsPage extends StatelessWidget {
                     Icon(Icons.warning, color: Colors.deepOrange, size: 84),
                     SizedBox(height: 16),
                     Text(
-                      "Es gab einen Fehler beim Laden des Kurses.\n\nMöglicherweise bist du nicht mehr ein Teilnehmer dieses Kurses.",
+                      context.l10n.groupCourseDetailsLoadError,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 17,

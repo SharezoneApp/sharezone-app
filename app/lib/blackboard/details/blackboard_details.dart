@@ -353,14 +353,20 @@ class __UserReadTileState extends State<_UserReadTile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Diese Information ist für dich als ${widget.view.isAuthor ? "Autor" : "Admin"} sichtbar.",
+                        context.l10n.blackboardReadByInfoVisibleForRole(
+                          widget.view.isAuthor
+                              ? context.l10n.blackboardReadByRoleAuthor
+                              : context.l10n.blackboardReadByRoleAdmin,
+                        ),
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 10,
                         ),
                       ),
                       Text(
-                        "Gelesen von: ${widget.view.readPercent}%",
+                        context.l10n.blackboardReadByPercent(
+                          widget.view.readPercent,
+                        ),
                         style: TextStyle(color: widget.view.readPercentColor),
                       ),
                     ],

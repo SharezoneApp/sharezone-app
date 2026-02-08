@@ -444,12 +444,12 @@ enum PredefinedGradeTypes {
 
   String toUiString() {
     return switch (this) {
-      PredefinedGradeTypes.schoolReportGrade => 'Zeugnisnote',
-      PredefinedGradeTypes.writtenExam => 'Schriftliche Prüfung',
-      PredefinedGradeTypes.oralParticipation => 'Mündliche Beteiligung',
-      PredefinedGradeTypes.vocabularyTest => 'Vokabeltest',
-      PredefinedGradeTypes.presentation => 'Präsentation',
-      PredefinedGradeTypes.other => 'Sonstiges',
+      PredefinedGradeTypes.schoolReportGrade => 'Report grade',
+      PredefinedGradeTypes.writtenExam => 'Written exam',
+      PredefinedGradeTypes.oralParticipation => 'Oral participation',
+      PredefinedGradeTypes.vocabularyTest => 'Vocabulary test',
+      PredefinedGradeTypes.presentation => 'Presentation',
+      PredefinedGradeTypes.other => 'Other',
     };
   }
 

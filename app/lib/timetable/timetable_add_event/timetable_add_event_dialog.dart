@@ -247,8 +247,7 @@ class _SaveButton extends StatelessWidget {
       log("Exception when submitting: $e", error: e);
       if (context.mounted) {
         showSnackSec(
-          text:
-              "Es gab einen unbekannten Fehler (${e.toString()}) 😖 Bitte kontaktiere den Support!",
+          text: context.l10n.timetableAddUnknownError,
           context: context,
           seconds: 5,
         );
@@ -265,7 +264,10 @@ class _SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SaveButton(
       key: EventDialogKeys.saveButton,
-      tooltip: isExam ? "Klausur speichern" : "Termin speichern",
+      tooltip:
+          isExam
+              ? context.l10n.timetableEventDialogSaveExamTooltip
+              : context.l10n.timetableEventDialogSaveEventTooltip,
       onPressed: () => onPressed(context),
     );
   }
@@ -290,8 +292,8 @@ class _TitleField extends StatelessWidget {
         },
         hintText:
             isExam
-                ? 'Titel (z.B. Statistik-Klausur)'
-                : 'Titel eingeben (z.B. Sportfest)',
+                ? context.l10n.timetableEventDialogTitleHintExam
+                : context.l10n.timetableEventDialogTitleHintEvent,
         errorText:
             controller.showEmptyTitleError
                 ? context.l10n.timetableEventDialogEmptyTitleError

@@ -152,41 +152,41 @@ class _CourseTemplateListState extends State<CourseTemplateList> {
   late List<CourseTemplate> sortedCourseTemplates;
 
   @override
-  void initState() {
-    super.initState();
-
-    const unsortedCourseTemplates = [
-      CourseTemplate("Deutsch", "D"),
-      CourseTemplate("Englisch", "E"),
-      CourseTemplate("Französisch", "F"),
-      CourseTemplate("Spanisch", "S"),
-      CourseTemplate("Latein", "L"),
-      CourseTemplate("Mathematik", "M"),
-      CourseTemplate("Biologie", "BI"),
-      CourseTemplate("Chemie", "CH"),
-      CourseTemplate("Physik", "PH"),
-      CourseTemplate("Ethik", "ETH"),
-      CourseTemplate("Informatik", "IF"),
-      CourseTemplate("Naturwissenschaften", "NW"),
-      CourseTemplate("Technik", "TK"),
-      CourseTemplate("Gesellschaftslehre", "GL"),
-      CourseTemplate("Politik", "PO"),
-      CourseTemplate("Geschichte", "GE"),
-      CourseTemplate("Wirtschaft", "W"),
-      CourseTemplate("Pädagogik", "PA"),
-      CourseTemplate("Sport", "SP"),
-      CourseTemplate("Evangelische Religion", "ER"),
-      CourseTemplate("Katholische Religion", "KR"),
-      CourseTemplate("Philosophie", "PL"),
-      CourseTemplate("Praktische Philosophie", "PP"),
-      CourseTemplate("Kunst", "KU"),
-      CourseTemplate("Musik", "MU"),
-      CourseTemplate("Erdkunde", "EK"),
-      CourseTemplate("Geografie", "GEO"),
-      CourseTemplate("Hauswirtschaftslehre", "HW"),
-      CourseTemplate("Arbeitslehre", "AL"),
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final l10n = context.l10n;
+    final unsortedCourseTemplates = [
+      CourseTemplate(l10n.courseTemplateSubjectGerman, "D"),
+      CourseTemplate(l10n.courseTemplateSubjectEnglish, "E"),
+      CourseTemplate(l10n.courseTemplateSubjectFrench, "F"),
+      CourseTemplate(l10n.courseTemplateSubjectSpanish, "S"),
+      CourseTemplate(l10n.courseTemplateSubjectLatin, "L"),
+      CourseTemplate(l10n.courseTemplateSubjectMath, "M"),
+      CourseTemplate(l10n.courseTemplateSubjectBiology, "BI"),
+      CourseTemplate(l10n.courseTemplateSubjectChemistry, "CH"),
+      CourseTemplate(l10n.courseTemplateSubjectPhysics, "PH"),
+      CourseTemplate(l10n.courseTemplateSubjectEthics, "ETH"),
+      CourseTemplate(l10n.courseTemplateSubjectComputerScience, "IF"),
+      CourseTemplate(l10n.courseTemplateSubjectNaturalSciences, "NW"),
+      CourseTemplate(l10n.courseTemplateSubjectTechnology, "TK"),
+      CourseTemplate(l10n.courseTemplateSubjectSocialStudies, "GL"),
+      CourseTemplate(l10n.courseTemplateSubjectPolitics, "PO"),
+      CourseTemplate(l10n.courseTemplateSubjectHistory, "GE"),
+      CourseTemplate(l10n.courseTemplateSubjectEconomics, "W"),
+      CourseTemplate(l10n.courseTemplateSubjectPedagogy, "PA"),
+      CourseTemplate(l10n.courseTemplateSubjectSport, "SP"),
+      CourseTemplate(l10n.courseTemplateSubjectProtestantReligion, "ER"),
+      CourseTemplate(l10n.courseTemplateSubjectCatholicReligion, "KR"),
+      CourseTemplate(l10n.courseTemplateSubjectPhilosophy, "PL"),
+      CourseTemplate(l10n.courseTemplateSubjectPracticalPhilosophy, "PP"),
+      CourseTemplate(l10n.courseTemplateSubjectArt, "KU"),
+      CourseTemplate(l10n.courseTemplateSubjectMusic, "MU"),
+      CourseTemplate(l10n.courseTemplateSubjectGeographyErdkunde, "EK"),
+      CourseTemplate(l10n.courseTemplateSubjectGeography, "GEO"),
+      CourseTemplate(l10n.courseTemplateSubjectHomeEconomics, "HW"),
+      CourseTemplate(l10n.courseTemplateSubjectWorkEducation, "AL"),
     ];
-    sortedCourseTemplates = List<CourseTemplate>.from(unsortedCourseTemplates)
+    sortedCourseTemplates = unsortedCourseTemplates
       ..sortBySubject();
   }
 

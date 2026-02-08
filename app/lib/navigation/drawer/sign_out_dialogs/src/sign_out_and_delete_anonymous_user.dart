@@ -64,8 +64,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
       log("User has no internet access!");
       setState(() {
         isLoading = false;
-        errorTextForUser =
-            "Dein Gerät hat leider keinen Zugang zum Internet...";
+        errorTextForUser = context.l10n.commonErrorNoInternetAccess;
       });
     } on Exception catch (e, s) {
       log("$e $s", error: e, stackTrace: s);
@@ -78,7 +77,7 @@ Bitte stell dabei sicher, dass dein Gerät eine Verbindung zum Internet hat.
 
   @override
   Widget build(BuildContext context) {
-    const text = "Ja, ich möchte mein Konto löschen.";
+    final text = context.l10n.deleteAccountConfirmationCheckbox;
     if (ThemePlatform.isCupertino) {
       return CupertinoAlertDialog(
         title: const _SignOutAndDeleteAnonymousDialogTitle(),
