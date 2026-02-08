@@ -688,12 +688,12 @@ enum GradingDialogFields {
   term,
   title;
 
-  String toUiString() {
+  String toUiString(BuildContext context) {
     return switch (this) {
-      gradeValue => 'Note',
-      title => 'Titel',
-      subject => 'Fach',
-      term => 'Halbjahr',
+      gradeValue => context.l10n.gradingDialogFieldsGradeValue,
+      title => context.l10n.gradingDialogFieldsTitle,
+      subject => context.l10n.gradingDialogFieldsSubject,
+      term => context.l10n.gradingDialogFieldsTerm,
     };
   }
 }

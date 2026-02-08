@@ -77,7 +77,7 @@ class _SaveButton extends StatelessWidget {
       message = switch (e) {
         InvalidFieldsSaveGradeException() => _getInvalidFieldsMessage(
           e,
-          l10n: l10n,
+          context: context,
         ),
         UnknownSaveGradeException() => unknownErrorMessage,
       };
@@ -90,21 +90,23 @@ class _SaveButton extends StatelessWidget {
 
   String _getInvalidFieldsMessage(
     InvalidFieldsSaveGradeException e, {
-    required SharezoneLocalizations l10n,
+    required BuildContext context,
   }) {
     assert(e.invalidFields.isNotEmpty);
 
     if (e.invalidFields.length == 1) {
       return switch (e.invalidFields.first) {
-        GradingDialogFields.gradeValue => l10n.gradesDialogInvalidGradeField,
-        GradingDialogFields.title => l10n.gradesDialogInvalidTitleField,
-        GradingDialogFields.subject => l10n.gradesDialogInvalidSubjectField,
-        GradingDialogFields.term => l10n.gradesDialogInvalidTermField,
+        GradingDialogFields.gradeValue =>
+          context.l10n.gradesDialogInvalidGradeField,
+        GradingDialogFields.title => context.l10n.gradesDialogInvalidTitleField,
+        GradingDialogFields.subject =>
+          context.l10n.gradesDialogInvalidSubjectField,
+        GradingDialogFields.term => context.l10n.gradesDialogInvalidTermField,
       };
     }
     final fields = e.invalidFields;
-    final fieldMessages = fields.map((f) => f.toUiString()).join(', ');
-    return l10n.gradesDialogInvalidFieldsCombined(fieldMessages);
+    final fieldMessages = fields.map((f) => f.toUiString(context)).join(', ');
+    return context.l10n.gradesDialogInvalidFieldsCombined(fieldMessages);
   }
 
   @override
